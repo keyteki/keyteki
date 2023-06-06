@@ -12,6 +12,6 @@ class ConductorJarroya extends Card {
     }
 }
 
-ConductorJarroya.id = 'conductor-jarroya';
+ConductorJarroya.id = 'conductor-jărroyă';
 
 module.exports = ConductorJarroya;

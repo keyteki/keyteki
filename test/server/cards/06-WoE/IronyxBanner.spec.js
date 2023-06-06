@@ -44,7 +44,7 @@ describe('Ironyx Banner', function () {
                         'tunk',
                         'collector-worm',
                         'yxl-the-iron-captain',
-                        'ironyx-vatminder'
+                        'ironyx-rebel'
                     ]
                 },
                 player2: {
@@ -62,8 +62,8 @@ describe('Ironyx Banner', function () {
             expect(this.collectorWorm.power).toBe(2);
             expect(this.yxlTheIronCaptain.armor).toBe(2);
             expect(this.yxlTheIronCaptain.power).toBe(5);
-            expect(this.ironyxVatminder.armor).toBe(2);
-            expect(this.ironyxVatminder.power).toBe(4);
+            expect(this.ironyxRebel.armor).toBe(1);
+            expect(this.ironyxRebel.power).toBe(3);
 
             expect(this.alaka.armor).toBe(0);
             expect(this.alaka.power).toBe(4);

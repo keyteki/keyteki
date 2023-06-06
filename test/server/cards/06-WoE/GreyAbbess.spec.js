@@ -1,12 +1,12 @@
-describe('Grey Abess', function () {
-    describe("Grey Abess's ability", function () {
+describe('Grey Abbess', function () {
+    describe("Grey Abbess's ability", function () {
         beforeEach(function () {
             this.setupTest({
                 player1: {
                     house: 'sanctum',
                     amber: 5,
                     token: 'cleric',
-                    hand: ['grey-abess', 'shorty'],
+                    hand: ['grey-abbess', 'shorty'],
                     inPlay: ['troll']
                 },
                 player2: {
@@ -21,7 +21,7 @@ describe('Grey Abess', function () {
         });
 
         it('should make a token creature and give 1 armor to friendly tokens', function () {
-            this.player1.play(this.greyAbess);
+            this.player1.play(this.greyAbbess);
             this.player1.clickPrompt('Left');
             expect(this.shorty.location).toBe('play area');
             expect(this.shorty.name).toBe('Cleric');
@@ -30,7 +30,7 @@ describe('Grey Abess', function () {
         });
 
         it('should not boost the armor of enemy tokens', function () {
-            this.player1.play(this.greyAbess);
+            this.player1.play(this.greyAbbess);
             this.player1.clickPrompt('Left');
             expect(this.player2.player.creaturesInPlay[0].armor).toBe(0);
             this.player1.endTurn();

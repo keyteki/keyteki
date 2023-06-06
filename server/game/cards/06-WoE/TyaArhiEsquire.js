@@ -13,6 +13,6 @@ class TyaArhiEsquire extends Card {
     }
 }
 
-TyaArhiEsquire.id = 'tya-arhi-esquire';
+TyaArhiEsquire.id = 'tya-arhĭ-esquire';
 
 module.exports = TyaArhiEsquire;

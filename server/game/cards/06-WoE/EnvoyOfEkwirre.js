@@ -17,6 +17,6 @@ class EnvoyOfEkwirre extends Card {
     }
 }
 
-EnvoyOfEkwirre.id = 'envoy-of-ekwirre';
+EnvoyOfEkwirre.id = 'envoy-of-ekwirrĕ';
 
 module.exports = EnvoyOfEkwirre;

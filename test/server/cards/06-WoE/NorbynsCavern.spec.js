@@ -6,7 +6,7 @@ describe("Norbyn's Cavern", function () {
                     amber: 5,
                     house: 'staralliance',
                     token: 'æmberling',
-                    inPlay: ['æmberling:pelf', 'norbyn&#039;s-cavern']
+                    inPlay: ['æmberling:pelf', 'norbyn-s-cavern']
                 },
                 player2: {
                     amber: 1,
