@@ -16,7 +16,7 @@ class CurseOfForgetfulness extends Card {
 
         this.interrupt({
             when: {
-                onBeginRound: (_, context) => context.player === this.game.activePlayer
+                onRoundEnded: (_, context) => context.player === this.game.activePlayer
             },
             gameAction: ability.actions.purge((context) => ({
                 target: context.player.discard[0]
