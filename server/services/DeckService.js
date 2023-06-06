@@ -405,6 +405,9 @@ class DeckService {
         }
 
         let newDeck = this.parseDeckResponse(deck.username, deckResponse);
+        if (!newDeck) {
+            throw new Error('There was a problem importing your deck, please try again later.');
+        }
 
         let validExpansion = await this.checkValidDeckExpansion(newDeck);
         if (!validExpansion) {
@@ -786,7 +789,11 @@ class DeckService {
             (card) =>
                 !card.id
                     .split('')
-                    .every((char) => 'æabcdefghijklmnoöpqrstuvwxyz0123456789-[]'.includes(char))
+                    .every((char) =>
+                        'æaăàáãǎbcdeĕèéěfghĭìíǐijklmnoöǑŏòóõǒpqrstuŭùúǔvwxyz0123456789-[]*'.includes(
+                            char
+                        )
+                    )
         );
         if (anyIllegalCards) {
             logger.error(
