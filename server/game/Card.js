@@ -163,6 +163,14 @@ class Card extends EffectSource {
         if (this.isBlankFight() && !ignoreBlank) {
             reactions = reactions.filter((reaction) => !reaction.properties.fight);
         }
+
+        if (
+            this.type === 'action' &&
+            !this.controller.checkRestrictions('resolveActionPlayEffects')
+        ) {
+            reactions = reactions.filter((reaction) => !reaction.properties.play);
+        }
+
         return reactions;
     }
 
