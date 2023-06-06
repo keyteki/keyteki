@@ -1,6 +1,6 @@
 const Card = require('../../Card.js');
 
-class IkwikiOutpost extends Card {
+class IkwijiOutpost extends Card {
     setupCardAbilities(ability) {
         this.action({
             target: {
@@ -15,6 +15,6 @@ class IkwikiOutpost extends Card {
     }
 }
 
-IkwikiOutpost.id = 'ikwiki-outpost';
+IkwijiOutpost.id = 'ikwijĭ-outpost';
 
-module.exports = IkwikiOutpost;
+module.exports = IkwijiOutpost;

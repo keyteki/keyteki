@@ -6,17 +6,17 @@ describe('Shĭzyokŭ Buggy', function () {
                     amber: 4,
                     house: 'ekwidon',
                     token: 'warrior',
-                    hand: ['pelf', 'antiquities-dealer', 'conductor-jarroya'],
-                    inPlay: ['shizyoku-buggy']
+                    hand: ['pelf', 'antiquities-dealer', 'conductor-jărroyă'],
+                    inPlay: ['shĭzyokŭ-buggy']
                 }
             });
         });
 
         it('it should reveal and discard two cards', function () {
-            this.player1.useAction(this.shizyokuBuggy);
+            this.player1.useAction(this.shĭzyokŭBuggy);
             expect(this.player1).toBeAbleToSelect(this.pelf);
             expect(this.player1).toBeAbleToSelect(this.antiquitiesDealer);
-            expect(this.player1).toBeAbleToSelect(this.conductorJarroya);
+            expect(this.player1).toBeAbleToSelect(this.conductorJărroyă);
             this.player1.clickCard(this.pelf);
             this.player1.clickCard(this.antiquitiesDealer);
             this.player1.clickPrompt('Done');

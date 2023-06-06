@@ -16,6 +16,6 @@ class HoplitesDory extends Card {
     }
 }
 
-HoplitesDory.id = 'hoplite&#039;s-dory';
+HoplitesDory.id = 'hoplite-s-dory';
 
 module.exports = HoplitesDory;

@@ -40,7 +40,7 @@ describe('Scholar', function () {
                     house: 'untamed',
                     token: 'trader',
                     amber: 1,
-                    inPlay: ['trader:trimble', 'shisnyasi-buggy', 'pismire'],
+                    inPlay: ['trader:trimble', 'shĭsnyasĭ-buggy', 'pismire'],
                     hand: ['piranha-monkeys']
                 },
                 player2: {
@@ -62,7 +62,7 @@ describe('Scholar', function () {
             expect(this.trader.id).toBe('trimble');
             expect(this.trader.name).toBe('Trader');
             expect(this.trader.hasKeyword('skirmish')).toBe(false);
-            expect(this.shisnyasiBuggy.hasKeyword('skirmish')).toBe(false);
+            expect(this.shĭsnyasĭBuggy.hasKeyword('skirmish')).toBe(false);
             expect(this.pismire.hasKeyword('skirmish')).toBe(false);
         });
 

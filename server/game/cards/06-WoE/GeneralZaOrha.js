@@ -11,6 +11,6 @@ class GeneralZaOrha extends Card {
     }
 }
 
-GeneralZaOrha.id = 'general-za-orha';
+GeneralZaOrha.id = 'general-ză-orhă';
 
 module.exports = GeneralZaOrha;

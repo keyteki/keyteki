@@ -1,11 +1,11 @@
-describe('TyaArhiEsquire', function () {
-    describe("TyaArhiEsquire's ability", function () {
+describe('Tya Arhi Esquire', function () {
+    describe("Tya Arhi Esquire's ability", function () {
         beforeEach(function () {
             this.setupTest({
                 player1: {
                     house: 'ekwidon',
                     token: 'grunt',
-                    inPlay: ['antiquities-dealer', 'grunt:sandhopper', 'tya-arhi-esquire'],
+                    inPlay: ['antiquities-dealer', 'grunt:sandhopper', 'tya-arhĭ-esquire'],
                     hand: ['mass-buyout']
                 },
                 player2: {
@@ -21,9 +21,9 @@ describe('TyaArhiEsquire', function () {
             expect(this.antiquitiesDealer.location).toBe('discard');
             expect(this.player1.player.creaturesInPlay.length).toBe(3);
 
-            this.player1.fightWith(this.tyaArhiEsquire, this.bumpsy);
+            this.player1.fightWith(this.tyaArhĭEsquire, this.bumpsy);
             this.player1.clickPrompt('Right');
-            expect(this.tyaArhiEsquire.location).toBe('discard');
+            expect(this.tyaArhĭEsquire.location).toBe('discard');
             expect(this.bumpsy.location).toBe('discard');
             expect(this.player1.player.creaturesInPlay.length).toBe(3);
             expect(this.player2.player.creaturesInPlay.length).toBe(1);
@@ -37,7 +37,7 @@ describe('TyaArhiEsquire', function () {
             this.player1.clickPrompt('Right');
             expect(this.antiquitiesDealer.location).toBe('discard');
             expect(this.grunt.location).toBe('discard');
-            expect(this.tyaArhiEsquire.location).toBe('discard');
+            expect(this.tyaArhĭEsquire.location).toBe('discard');
             expect(this.raider.location).toBe('discard');
             expect(this.bumpsy.location).toBe('discard');
             expect(this.player1.player.creaturesInPlay.length).toBe(2);

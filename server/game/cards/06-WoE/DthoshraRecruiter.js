@@ -9,6 +9,6 @@ class DthoshraRecruiter extends Card {
     }
 }
 
-DthoshraRecruiter.id = 'dthoshra-recruiter';
+DthoshraRecruiter.id = 'dthoshră-recruiter';
 
 module.exports = DthoshraRecruiter;

@@ -69,7 +69,7 @@ describe('Temporal Purge', function () {
                     house: 'staralliance',
                     token: 'trader',
                     amber: 1,
-                    inPlay: ['trader:trimble', 'shisnyasi-buggy', 'pismire'],
+                    inPlay: ['trader:trimble', 'shĭsnyasĭ-buggy', 'pismire'],
                     hand: ['temporal-purge']
                 },
                 player2: {

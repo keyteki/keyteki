@@ -4,7 +4,7 @@ describe('Hoplites Dory', function () {
             this.setupTest({
                 player1: {
                     house: 'saurian',
-                    hand: ['hoplite&#039;s-dory', 'questor-jarta', 'brutodon-auxiliary'],
+                    hand: ['hoplite-s-dory', 'questor-jarta', 'brutodon-auxiliary'],
                     inPlay: ['aquilia-lone-hero', 'orator-hissaro']
                 },
                 player2: {
@@ -12,11 +12,11 @@ describe('Hoplites Dory', function () {
                 }
             });
 
-            this.hoplitesDory = this.player1.hand[0];
+            this.hopliteSDory = this.player1.hand[0];
         });
 
         it('gives +2 power for each exhausted creature to the left', function () {
-            this.player1.playUpgrade(this.hoplitesDory, this.oratorHissaro);
+            this.player1.playUpgrade(this.hopliteSDory, this.oratorHissaro);
             expect(this.oratorHissaro.power).toBe(3);
             this.player1.reap(this.aquiliaLoneHero);
             expect(this.oratorHissaro.power).toBe(5);
@@ -29,7 +29,7 @@ describe('Hoplites Dory', function () {
         });
 
         it('gives +2 power to enemy creatures asll', function () {
-            this.player1.playUpgrade(this.hoplitesDory, this.murkens);
+            this.player1.playUpgrade(this.hopliteSDory, this.murkens);
             this.player1.endTurn();
             this.player2.clickPrompt('shadows');
             expect(this.murkens.power).toBe(2);

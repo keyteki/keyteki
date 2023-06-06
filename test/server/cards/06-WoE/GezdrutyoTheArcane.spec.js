@@ -7,7 +7,7 @@ describe('Gĕzdrutyŏ the Arcane', function () {
                     amber: 1,
                     token: 'scholar',
                     hand: ['senator-shrix'],
-                    inPlay: ['gezdrutyo-the-arcane']
+                    inPlay: ['gĕzdrutyŏ-the-arcane']
                 },
                 player2: {
                     amber: 5,
@@ -15,13 +15,13 @@ describe('Gĕzdrutyŏ the Arcane', function () {
                 }
             });
 
-            this.player1.useAction(this.gezdrutyoTheArcane);
+            this.player1.useAction(this.gĕzdrutyŏTheArcane);
         });
 
         it('should steal 2A and flip', function () {
             expect(this.player1.amber).toBe(3);
             expect(this.player1.amber).toBe(3);
-            expect(this.gezdrutyoTheArcane.name).toBe('Scholar');
+            expect(this.gĕzdrutyŏTheArcane.name).toBe('Scholar');
         });
 
         describe('after becoming Scholar', function () {
@@ -33,7 +33,7 @@ describe('Gĕzdrutyŏ the Arcane', function () {
             });
 
             it('should not be able to use action as Gezdrutyo', function () {
-                this.player1.clickCard(this.gezdrutyoTheArcane);
+                this.player1.clickCard(this.gĕzdrutyŏTheArcane);
                 expect(this.player1).toHavePromptButton('Reap with this creature');
                 expect(this.player1).toHavePromptButton('Fight with this creature');
                 expect(this.player1).not.toHavePromptButton("Use this card's Action ability");
@@ -41,7 +41,7 @@ describe('Gĕzdrutyŏ the Arcane', function () {
 
             it('should draw a card after reap as Scholar', function () {
                 expect(this.player1.hand.length).toBe(6);
-                this.player1.reap(this.gezdrutyoTheArcane);
+                this.player1.reap(this.gĕzdrutyŏTheArcane);
                 expect(this.player1.amber).toBe(4);
                 expect(this.player1.hand.length).toBe(7);
                 this.player1.endTurn();
