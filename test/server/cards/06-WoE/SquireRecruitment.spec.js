@@ -33,15 +33,19 @@ describe('Squire Recruitment', function () {
             this.player1.clickPrompt('Left');
 
             expect(this.player1.amber).toBe(3);
+            expect(this.player1.inPlay.length).toBe(5);
             expect(this.shorty.location).toBe('play area');
             expect(this.chelonia.location).toBe('play area');
             expect(this.shorty.name).toBe('Cleric');
+            expect(this.shorty.isToken()).toBe(true);
             expect(this.chelonia.name).toBe('Cleric');
+            expect(this.chelonia.isToken()).toBe(true);
         });
 
         it('should not make a token for each friendly knight if there are none', function () {
             this.player1.play(this.squireRecruitment);
 
+            expect(this.player1.inPlay.length).toBe(1);
             expect(this.player1.amber).toBe(3);
             expect(this.shorty.location).toBe('deck');
             expect(this.chelonia.location).toBe('deck');
