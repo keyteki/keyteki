@@ -53,7 +53,8 @@ describe('Offering to Kiligog', function () {
 
             this.player1.clickCard(this.offeringToKiligog);
             this.player1.clickPrompt("Use this card's Omni ability", 1);
-            this.player1.clickPrompt('Right');
+            this.player1.clickCard(this.pelf);
+            this.player1.clickPrompt('Right'); // skullback
             expect(this.player1.player.creaturesInPlay.length).toBe(2);
             expect(this.pelf.location).toBe('play area');
             expect(this.pelf.name).toBe('Grumpus');
