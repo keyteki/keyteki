@@ -13,7 +13,6 @@ class SunkCost extends Card {
             },
             effect: 'make a token creature if {1} randomly discards a card matching {2}',
             effectArgs: (context) => [context.player.opponent, context.house],
-            effectAlert: true,
             gameAction: ability.actions.discardAtRandom(),
             then: (preThenContext) => ({
                 gameAction: ability.actions.makeTokenCreature((context) => ({
