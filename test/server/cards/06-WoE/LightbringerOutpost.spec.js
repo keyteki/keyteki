@@ -63,26 +63,26 @@ describe('Lightbringer Outpost', function () {
                 expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
             });
         });
-    });
-    describe('with only one friendly creatures in play', function () {
-        beforeEach(function () {
-            this.flaxia.moveTo('discard');
-        });
+        describe('with only one friendly creatures in play', function () {
+            beforeEach(function () {
+                this.flaxia.moveTo('discard');
+            });
 
-        it('should move creature to bottom of deck', function () {
-            this.player1.useAction(this.lightbringerOutpost);
-            this.player1.clickCard(this.chelonia);
+            it('should move creature to bottom of deck', function () {
+                this.player1.useAction(this.lightbringerOutpost);
+                this.player1.clickCard(this.chelonia);
 
-            expect(this.player1.player.deck[this.player1.player.deck.length - 1]).toBe(
-                this.chelonia
-            );
-        });
+                expect(this.player1.player.deck[this.player1.player.deck.length - 1]).toBe(
+                    this.chelonia
+                );
+            });
 
-        it('should not prompt to capture', function () {
-            this.player1.useAction(this.lightbringerOutpost);
-            this.player1.clickCard(this.chelonia);
+            it('should not prompt to capture', function () {
+                this.player1.useAction(this.lightbringerOutpost);
+                this.player1.clickCard(this.chelonia);
 
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+                expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            });
         });
     });
 });
