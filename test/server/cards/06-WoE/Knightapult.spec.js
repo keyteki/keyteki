@@ -5,7 +5,7 @@ describe('Knightapult', function () {
                 player1: {
                     house: 'sanctum',
                     amber: 3,
-                    inPlay: ['chelonia', 'knightapult'],
+                    inPlay: ['chelonia', 'flaxia', 'knightapult'],
                     hand: ['holdfast', 'berinon']
                 },
                 player2: {
@@ -21,8 +21,7 @@ describe('Knightapult', function () {
                 this.player1.play(this.holdfast);
             });
 
-            it('to have deploy', function () {
-                expect(this.holdfast.hasKeyword('deploy')).toBe(true);
+            it('to be deployable', function () {
                 expect(this.player1).toHavePrompt('Deploy Left');
                 expect(this.player1).toHavePrompt('Deploy Right');
             });
