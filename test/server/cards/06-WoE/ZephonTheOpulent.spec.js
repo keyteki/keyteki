@@ -61,11 +61,12 @@ describe('Zephon the Opulent', function () {
                     house: 'sanctum',
                     token: 'cleric',
                     amber: 3,
-                    hand: ['zephon-the-opulent'],
+                    inPlay: ['zephon-the-opulent'],
                     deck: ['chelonia', 'toad']
                 },
                 player2: {
-                    inPlay: ['troll', 'gub']
+                    token: 'diplomat',
+                    inPlay: ['diplomat:troll', 'diplomat:gub']
                 }
             });
         });
