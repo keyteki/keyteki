@@ -19,6 +19,7 @@ describe('Lightbringer Outpost', function () {
         it('should offer friendly creatures as selections for use', function () {
             this.player1.useAction(this.lightbringerOutpost);
 
+            expect(this.player1).toHavePrompt('Choose a creature to return to deck');
             expect(this.player1).toBeAbleToSelect(this.chelonia);
             expect(this.player1).toBeAbleToSelect(this.flaxia);
             expect(this.player1).not.toBeAbleToSelect(this.urchin);
@@ -37,6 +38,7 @@ describe('Lightbringer Outpost', function () {
             this.player1.useAction(this.lightbringerOutpost);
             this.player1.clickCard(this.chelonia);
 
+            expect(this.player1).toHavePrompt('Choose a creature to capture amber');
             expect(this.player1).toBeAbleToSelect(this.flaxia);
             expect(this.player1).not.toBeAbleToSelect(this.chelonia);
             expect(this.player1).not.toBeAbleToSelect(this.urchin);
