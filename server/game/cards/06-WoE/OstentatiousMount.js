@@ -5,6 +5,8 @@ class OstentatiousMount extends Card {
     // This creature gains taunt.
     setupCardAbilities(ability) {
         this.play({
+            effect: 'move {1} and give it taunt',
+            effectArgs: (context) => context.source.parent,
             gameAction: ability.actions.moveOnBattleline((context) => ({
                 target: context.source.parent,
                 player: context.source.parent.controller
