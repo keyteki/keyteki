@@ -33,4 +33,8 @@ describe('Knightapult', function () {
 
         it('should only apply to the first creature played');
     });
+
+    it("should cause Gebuk's replacement to be deployable and ready");
+
+    it('should cause token creatures to be deployable and ready');
 });
