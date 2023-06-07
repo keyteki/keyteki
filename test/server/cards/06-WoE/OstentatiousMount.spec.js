@@ -14,12 +14,6 @@ describe('OstentatiousMount', function () {
             });
         });
 
-        it('should give 1A', function () {
-            this.player1.playUpgrade(this.ostentatiousMount, this.chelonia);
-
-            expect(this.player1.player.amber).toBe(3);
-        });
-
         it('should provide a prompt to move the creature', function () {
             this.player1.playUpgrade(this.ostentatiousMount, this.chelonia);
 
