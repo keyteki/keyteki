@@ -47,6 +47,7 @@ describe('Blorb Hive', function () {
             expect(this.player1).toBeAbleToSelect(this.pelf);
             expect(this.player1).not.toBeAbleToSelect(this.umbra);
             this.player1.clickCard(this.pelf);
+            this.player1.clickPrompt('Left');
             expect(this.pelf.location).toBe('discard');
             expect(this.player1.player.creaturesInPlay.length).toBe(2);
             expect(this.player1.player.creaturesInPlay[0].name).toBe('Blorb');

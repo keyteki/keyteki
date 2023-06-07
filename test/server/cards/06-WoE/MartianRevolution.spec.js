@@ -17,6 +17,7 @@ describe('Martian Revolution', function () {
 
         it('should make 1 token creature for each friendly creature destroyed', function () {
             this.player1.play(this.martianRevolution);
+            this.player1.clickPrompt('Left');
             expect(this.emberImp.location).toBe('discard');
             expect(this.rotgrub.location).toBe('discard');
             expect(this.bloodshardImp.location).toBe('play area');
@@ -48,6 +49,7 @@ describe('Martian Revolution', function () {
             this.player1.clickPrompt('mars');
             this.player1.play(this.martianRevolution);
             this.player1.clickCard(this.bloodshardImp);
+            this.player1.clickPrompt('Left');
             expect(this.emberImp.location).toBe('discard');
             expect(this.rotgrub.location).toBe('discard');
             expect(this.bloodshardImp.location).toBe('discard');
