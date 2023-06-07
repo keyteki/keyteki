@@ -12,15 +12,11 @@ class SpaceInvaders extends Card {
                 controller: 'self',
                 location: 'hand',
                 cardType: 'creature',
-                gameAction: ability.actions.sequentialForEach((context) => ({
-                    forEach: context.target,
-                    action: (card) =>
-                        ability.actions.makeTokenCreature({
-                            target: context.player,
-                            amount: 1,
-                            cards: [card],
-                            cardLocation: 'hand'
-                        })
+                gameAction: ability.actions.makeTokenCreature((context) => ({
+                    target: context.player,
+                    amount: context.target.length,
+                    cards: context.target,
+                    cardLocation: 'hand'
                 }))
             },
             effect: 'reveal and tokenize {1}{2} {0}',

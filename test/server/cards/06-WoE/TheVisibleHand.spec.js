@@ -13,6 +13,7 @@ describe('The Visible Hand', function () {
 
         it('makes 2 token creatures', function () {
             this.player1.play(this.theVisibleHand);
+            this.player1.clickPrompt('Left');
             expect(this.player1.player.creaturesInPlay.length).toBe(2);
             expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
         });
