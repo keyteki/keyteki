@@ -10,6 +10,10 @@ class OstentatiousMount extends Card {
                 player: context.player
             }))
         });
+
+        this.whileAttached({
+            effect: ability.effects.addKeyword({ taunt: 1 })
+        });
     }
 }
 

@@ -28,5 +28,13 @@ describe('OstentatiousMount', function () {
             expect(this.player1.player.cardsInPlay[1]).toBe(this.chelonia);
             expect(this.player1.player.cardsInPlay[2]).toBe(this.gub);
         });
+
+        it('should give taunt', function () {
+            this.player1.playUpgrade(this.ostentatiousMount, this.chelonia);
+            this.player1.clickCard(this.gub);
+            this.player1.clickPrompt('Left');
+
+            expect(this.chelonia.hasKeyword('taunt')).toBe(true);
+        });
     });
 });
