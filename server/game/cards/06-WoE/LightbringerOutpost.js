@@ -8,7 +8,7 @@ class LightbringerOutpost extends Card {
             target: {
                 cardType: 'creature',
                 controller: 'self',
-                activePromptTitle: 'Choose a creature to return to deck',
+                activePromptTitle: 'Choose a card to move to bottom of deck',
                 gameAction: ability.actions.returnToDeck({ bottom: true })
             },
             then: {
