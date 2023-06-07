@@ -22,9 +22,9 @@ describe('Knightapult', function () {
             });
 
             it('to have deploy', function () {
+                expect(this.holdfast.hasKeyword('deploy')).toBe(true);
                 expect(this.player1).toHavePrompt('Deploy Left');
                 expect(this.player1).toHavePrompt('Deploy Right');
-                expect(this.holdfast.hasKeyword('deploy')).toBe(true);
             });
 
             it('to be ready', function () {
