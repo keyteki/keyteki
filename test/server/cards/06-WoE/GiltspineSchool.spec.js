@@ -63,7 +63,7 @@ describe('Giltspine School', function () {
             this.player2.clickPrompt('brobnar');
             this.player2.play(this.pressGang);
             this.player2.clickPrompt('Left');
-            let grumpus = this.player1.inPlay[0];
+            let grumpus = this.player2.inPlay[0];
             this.player2.endTurn();
             expect(priest1.exhausted).toBe(true);
             expect(priest2.exhausted).toBe(true);

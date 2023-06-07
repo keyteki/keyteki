@@ -11,7 +11,7 @@ class GiltspineSchool extends Card {
         });
 
         this.persistentEffect({
-            controller: 'any',
+            targetController: 'any',
             match: (card) => card.isToken(),
             effect: ability.effects.doesNotReady()
         });
