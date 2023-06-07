@@ -14,11 +14,10 @@ class SibylWaimare extends Card {
                 target: context.player.opponent.deck[0]
             })),
             then: {
-                gameAction: ability.actions.sequentialForEach((context) => ({
-                    forEach: context.game.creaturesInPlay.filter((card) =>
+                gameAction: ability.actions.exhaust((context) => ({
+                    target: context.game.creaturesInPlay.filter((card) =>
                         context.preThenEvent.card.getHouses().some((house) => card.hasHouse(house))
-                    ),
-                    action: ability.actions.exhaust()
+                    )
                 }))
             }
         });
