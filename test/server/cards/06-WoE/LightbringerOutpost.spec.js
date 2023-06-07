@@ -1,5 +1,5 @@
 describe('Lightbringer Outpost', function () {
-    describe("Lightbringer Outpost's effect", function () {
+    describe('Lightbringer Outpost effect', function () {
         beforeEach(function () {
             this.setupTest({
                 player1: {
