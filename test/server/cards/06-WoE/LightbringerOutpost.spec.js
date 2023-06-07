@@ -32,5 +32,23 @@ describe('Lightbringer Outpost', function () {
                 this.chelonia
             );
         });
+
+        it('should offer friendly creatures to capture onto', function () {
+            this.player1.useAction(this.lightbringerOutpost);
+            this.player1.clickCard(this.chelonia);
+
+            expect(this.player1).toBeAbleToSelect(this.flaxia);
+            expect(this.player1).not.toBeAbleToSelect(this.chelonia);
+            expect(this.player1).not.toBeAbleToSelect(this.urchin);
+        });
+
+        it('should capture 3 amber', function () {
+            this.player1.useAction(this.lightbringerOutpost);
+            this.player1.clickCard(this.chelonia);
+            this.player1.clickCard(this.flaxia);
+
+            expect(this.flaxia.tokens.amber).toBe(3);
+            expect(this.player2.player.amber).toBe(2);
+        });
     });
 });

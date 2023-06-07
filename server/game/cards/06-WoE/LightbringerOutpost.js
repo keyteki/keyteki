@@ -9,6 +9,13 @@ class LightbringerOutpost extends Card {
                 cardType: 'creature',
                 controller: 'self',
                 gameAction: ability.actions.returnToDeck({ bottom: true })
+            },
+            then: {
+                target: {
+                    cardType: 'creature',
+                    controller: 'self',
+                    gameAction: ability.actions.capture({ amount: 3 })
+                }
             }
         });
     }
