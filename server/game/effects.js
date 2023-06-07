@@ -38,6 +38,8 @@ const Effects = {
         EffectBuilder.card.static('entersPlayReady', new ConditionValue(condition)),
     entersPlayStunned: (condition) =>
         EffectBuilder.card.static('entersPlayStunned', new ConditionValue(condition)),
+    entersPlayAnywhere: (condition) =>
+        EffectBuilder.card.static('entersPlayAnywhere', new ConditionValue(condition)),
     flipToken: () => EffectBuilder.card.static('flipToken'),
     visbileIn: (location) => EffectBuilder.card.static('visbileIn', location),
     gainAbility: (type, properties) =>
