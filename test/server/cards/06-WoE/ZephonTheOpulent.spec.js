@@ -28,6 +28,7 @@ describe('Zephon the Opulent', function () {
             expect(creatures[2].isToken()).toBe(true);
         });
     });
+
     describe("'s reap effect", function () {
         beforeEach(function () {
             this.setupTest({
@@ -51,11 +52,25 @@ describe('Zephon the Opulent', function () {
 
             expect(this.player1.amber).toBe(initial_amber + AMBER_GAIN);
         });
+    });
 
-        it('should be disabled if there are less than 2 friendly token creatures in play', function () {
-            this.player1.moveCard(this.chelonia, 'discard');
-            this.player1.moveCard(this.toad, 'discard');
+    describe('if there are less than 2 friendly token creatures in play', function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'sanctum',
+                    token: 'cleric',
+                    amber: 3,
+                    hand: ['zephon-the-opulent'],
+                    deck: ['chelonia', 'toad']
+                },
+                player2: {
+                    inPlay: ['troll', 'gub']
+                }
+            });
+        });
 
+        it('should not be usable', function () {
             this.player1.clickCard(this.zephonTheOpulent);
 
             expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
