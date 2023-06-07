@@ -15,7 +15,17 @@ describe('Zephon the Opulent', function () {
             });
         });
 
-        it('should make 2 token creatures');
+        it('should make 2 token creatures', function () {
+            this.player1.playCreature(this.zephonTheOpulent);
+            this.player1.clickPrompt('Left');
+            this.player1.clickPrompt('Left');
+
+            expect(this.player1.player.creaturesInPlay.length).toBe(3);
+            expect(this.chelonia.location).toBe('play area');
+            expect(this.toad.location).toBe('play area');
+            expect(this.chelonia.isToken()).toBe(true);
+            expect(this.toad.isToken()).toBe(true);
+        });
     });
     describe("'s reap effect", function () {
         beforeEach(function () {
