@@ -43,7 +43,13 @@ describe('Zephon the Opulent', function () {
             });
         });
 
-        it('should gain 2 amber');
+        it('should gain 3 amber', function () {
+            let initial_amber = this.player1.amber;
+
+            this.player1.reap(this.zephonTheOpulent);
+
+            expect(this.player1.amber).toBe(initial_amber + 3);
+        });
 
         it('should be disabled if there are less than 2 friendly token creatures in play');
     });
