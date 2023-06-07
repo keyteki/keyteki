@@ -18,7 +18,7 @@ class Knightapult extends Card {
                     ability.actions.cardLastingEffect((context) => ({
                         targetLocation: 'play area',
                         target: context.event.card,
-                        effect: ability.effects.addKeyword('deploy')
+                        effect: ability.effects.addKeyword({ deploy: 1 })
                     })),
                     ability.actions.cardLastingEffect((context) => ({
                         target: context.event.card,
