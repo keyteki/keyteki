@@ -12,16 +12,17 @@ class Friendship extends Card {
             gameAction: ability.actions.changeEvent((context) => ({
                 event: context.event,
                 cancel: true,
-                postHandler: (event) => {
+                postHandler: () => {
                     let neighbors = context.source.parent.neighbors;
                     let damage = context.event.amount;
                     let damagePerNeighbor = Math.floor(damage / neighbors.length);
                     let remainder = damage % neighbors.length;
 
+                    // Add the evenly-split damage.
                     ability.actions
-                        .applyDamage({
-                            amount: damagePerNeighbor,
-                            damageSource: event.damageSource
+                        .addDamageToken({
+                            noGameStateCheck: true,
+                            amount: damagePerNeighbor
                         })
                         .resolve(neighbors, context);
 
@@ -32,10 +33,9 @@ class Friendship extends Card {
                             source: context.source,
                             cardCondition: (card) => neighbors.includes(card),
                             onSelect: (player, card) => {
-                                context.game.actions
-                                    .applyDamage({
-                                        amount: remainder,
-                                        damageSource: event.damageSource
+                                ability.actions
+                                    .addDamageToken({
+                                        amount: damagePerNeighbor
                                     })
                                     .resolve(card, context);
                                 return true;

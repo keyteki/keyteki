@@ -58,6 +58,17 @@ describe('Friendship', function () {
             });
         });
 
+        describe('five damage is distributed among two creatures', function () {
+            it('can destroy a creature, including warded creatures', function () {
+                this.player1.fightWith(this.reveredMonk, this.mother);
+                expect(this.player1).toHavePrompt('Friendship');
+                this.player1.clickCard(this.chancellorDexterus);
+                expect(this.reveredMonk.tokens.damage).toBe(undefined);
+                expect(this.paraguardian.tokens.damage).toBe(2);
+                expect(this.chancellorDexterus.location).toBe('discard');
+            });
+        });
+
         it('applies damage after armor', function () {
             this.player1.playCreature(this.challeTheSafeguard, true, true);
             this.player1.clickCard(this.chancellorDexterus);
