@@ -44,13 +44,21 @@ describe('Zephon the Opulent', function () {
         });
 
         it('should gain 3 amber', function () {
+            let AMBER_GAIN = 3;
             let initial_amber = this.player1.amber;
 
             this.player1.reap(this.zephonTheOpulent);
 
-            expect(this.player1.amber).toBe(initial_amber + 3);
+            expect(this.player1.amber).toBe(initial_amber + AMBER_GAIN);
         });
 
-        it('should be disabled if there are less than 2 friendly token creatures in play');
+        it('should be disabled if there are less than 2 friendly token creatures in play', function () {
+            this.player1.moveCard(this.chelonia, 'discard');
+            this.player1.moveCard(this.toad, 'discard');
+
+            this.player1.clickCard(this.zephonTheOpulent);
+
+            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+        });
     });
 });
