@@ -55,7 +55,7 @@ describe('OstentatiousMount', function () {
                 expect(this.player1).not.toBeAbleToSelect(this.chelonia);
             });
 
-            it('should move and give taunt to enemy', function () {
+            it('should move and give taunt to enemy creature', function () {
                 this.player1.playUpgrade(this.ostentatiousMount, this.urchin);
                 this.player1.clickCard(this.floomf);
                 this.player1.clickPrompt('Left');
