@@ -59,6 +59,7 @@ These are not messages but are helpful to remember:
 optional: bool
   Whether the effect is optional
   (AbilityTargetSelect.js#107, triggeredability.js#44)
+```
 
 You should at least set `properties.effect`. Examples:
 
