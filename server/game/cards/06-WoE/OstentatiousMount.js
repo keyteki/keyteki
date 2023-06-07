@@ -7,7 +7,7 @@ class OstentatiousMount extends Card {
         this.play({
             gameAction: ability.actions.moveOnBattleline((context) => ({
                 target: context.source.parent,
-                player: context.player
+                player: context.source.parent.controller
             }))
         });
 

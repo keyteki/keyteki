@@ -43,5 +43,17 @@ describe('OstentatiousMount', function () {
 
             expect(this.chelonia.hasKeyword('taunt')).toBe(true);
         });
+
+        it('should be playable on enemy creatures', function () {
+            this.player1.playUpgrade(this.ostentatiousMount, this.urchin);
+            this.player1.clickCard(this.radpenny);
+            this.player1.clickPrompt('Left');
+
+            expect(this.player1.player.amber).toBe(3);
+            expect(this.urchin.hasKeyword('taunt')).toBe(true);
+            expect(this.player2.player.cardsInPlay[0]).toBe(this.badpenny);
+            expect(this.player2.player.cardsInPlay[1]).toBe(this.urchin);
+            expect(this.player2.player.cardsInPlay[2]).toBe(this.radpenny);
+        });
     });
 });
