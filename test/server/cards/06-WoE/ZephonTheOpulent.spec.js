@@ -33,6 +33,7 @@ describe('Zephon the Opulent', function () {
             this.setupTest({
                 player1: {
                     house: 'sanctum',
+                    token: 'cleric',
                     amber: 3,
                     inPlay: ['zephon-the-opulent', 'cleric:chelonia', 'cleric:toad']
                 },
