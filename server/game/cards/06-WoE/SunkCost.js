@@ -16,12 +16,13 @@ class SunkCost extends Card {
             effectAlert: true,
             gameAction: ability.actions.discardAtRandom(),
             then: (preThenContext) => ({
-                gameAction: ability.actions.conditional({
-                    condition: (context) =>
+                gameAction: ability.actions.makeTokenCreature((context) => ({
+                    amount:
                         context.preThenEvent.cards.length > 0 &&
-                        context.preThenEvent.cards[0].hasHouse(preThenContext.house),
-                    trueGameAction: ability.actions.makeTokenCreature()
-                })
+                        context.preThenEvent.cards[0].hasHouse(preThenContext.house)
+                            ? 1
+                            : 0
+                }))
             })
         });
     }
