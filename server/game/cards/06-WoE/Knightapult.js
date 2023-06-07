@@ -22,7 +22,7 @@ class Knightapult extends Card {
                     })),
                     ability.actions.cardLastingEffect((context) => ({
                         target: context.event.card,
-                        targetLocation: 'any',
+                        targetLocation: 'play area',
                         effect: ability.effects.entersPlayReady()
                     }))
                 ]
