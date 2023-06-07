@@ -11,6 +11,11 @@ class ZephonTheOpulent extends Card {
                 amount: 2
             })
         });
+
+        this.reap({
+            effect: 'gain 2 amber',
+            gameAction: ability.actions.gainAmber({ amount: 2 })
+        });
     }
 }
 
