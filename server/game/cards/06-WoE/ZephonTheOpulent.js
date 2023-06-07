@@ -12,6 +12,12 @@ class ZephonTheOpulent extends Card {
             })
         });
 
+        this.persistentEffect({
+            condition: (context) =>
+                context.player.creaturesInPlay.filter((card) => card.isToken()).length < 2,
+            effect: ability.effects.cardCannot('use')
+        });
+
         this.reap({
             effect: 'gain 2 amber',
             gameAction: ability.actions.gainAmber({ amount: 2 })
