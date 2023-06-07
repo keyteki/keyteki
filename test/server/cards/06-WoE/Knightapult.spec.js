@@ -27,7 +27,9 @@ describe('Knightapult', function () {
                 expect(this.holdfast.hasKeyword('deploy')).toBe(true);
             });
 
-            it('to be ready');
+            it('to be ready', function () {
+                expect(this.holdfast.exhausted).toBe(false);
+            });
         });
 
         it('should only apply to the first creature played');

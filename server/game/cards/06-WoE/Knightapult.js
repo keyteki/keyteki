@@ -13,11 +13,19 @@ class Knightapult extends Card {
                 effect: 'have {1} enter play anywhere in their battleline, ready',
                 effectArgs: (event) => [event.card],
                 multipleTrigger: false,
-                gameAction: ability.actions.cardLastingEffect((context) => ({
-                    targetLocation: 'play area',
-                    target: context.event.card,
-                    effect: ability.effects.addKeyword('deploy')
-                }))
+                triggeredAbilityType: 'interrupt',
+                gameAction: [
+                    ability.actions.cardLastingEffect((context) => ({
+                        targetLocation: 'play area',
+                        target: context.event.card,
+                        effect: ability.effects.addKeyword('deploy')
+                    })),
+                    ability.actions.cardLastingEffect((context) => ({
+                        target: context.event.card,
+                        targetLocation: 'any',
+                        effect: ability.effects.entersPlayReady()
+                    }))
+                ]
             }))
         });
     }
