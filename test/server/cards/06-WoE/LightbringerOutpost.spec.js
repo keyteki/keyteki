@@ -50,5 +50,18 @@ describe('Lightbringer Outpost', function () {
             expect(this.flaxia.tokens.amber).toBe(3);
             expect(this.player2.player.amber).toBe(2);
         });
+
+        describe('with no friendly creatures in play', function () {
+            beforeEach(function () {
+                this.chelonia.moveTo('discard');
+                this.flaxia.moveTo('discard');
+            });
+
+            it('should not prompt to use the ability', function () {
+                this.player1.useAction(this.lightbringerOutpost);
+
+                expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            });
+        });
     });
 });
