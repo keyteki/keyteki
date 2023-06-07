@@ -4,6 +4,7 @@ describe('OstentatiousMount', function () {
             this.setupTest({
                 player1: {
                     house: 'sanctum',
+                    amber: 2,
                     inPlay: ['chelonia', 'flaxia', 'gub'],
                     hand: ['ostentatious-mount']
                 },
@@ -11,6 +12,12 @@ describe('OstentatiousMount', function () {
                     inPlay: ['urchin', 'bad-penny', 'rad-penny']
                 }
             });
+        });
+
+        it('should give 1A', function () {
+            this.player1.playUpgrade(this.ostentatiousMount, this.chelonia);
+
+            expect(this.player1.player.amber).toBe(3);
         });
 
         it('should provide a prompt to move the creature', function () {
