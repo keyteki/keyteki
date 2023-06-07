@@ -156,6 +156,16 @@ Examples:
   - [Battle Fleet](../server/game/cards/01-Core/BattleFleet.js)
   - [Dreadbone Decimus](../server/game/cards/04-MM/DreadboneDecimus.js)
 
+## Locales
+
+Messages used should be in the locale files in [`public/locales`](../public/locales/). Otherwise, tests may fail.
+
+- `properties.may`
+- `properties.gameAction.promptForSelect.activePromptTitle`
+- `properties.gameAction.promptWithHandlerMenu.activePromptTitle`
+- `properties.target.activePromptTitle`
+- `properties.target.choices`
+
 ## Line numbers
 
 All file line numbers and examples given above are based on commit db04e05ffe5725119f2dffda16ccca87814c55b6
