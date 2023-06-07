@@ -8,6 +8,7 @@ describe('Watch Your Step', function () {
                     hand: ['watch-your-step']
                 },
                 player2: {
+                    token: 'warrior',
                     inPlay: ['doc-bookton', 'pit-demon', 'troll']
                 }
             });
@@ -32,6 +33,7 @@ describe('Watch Your Step', function () {
             this.player1.endTurn();
             this.player2.clickPrompt('brobnar');
             this.player2.clickPrompt('Right');
+            expect(this.player2.player.creaturesInPlay.length).toBe(3);
             expect(this.player1.player.creaturesInPlay.length).toBe(2);
             expect(this.player1.player.creaturesInPlay[0].exhausted).toBe(false);
             expect(this.player1.player.creaturesInPlay[1].exhausted).toBe(false);

@@ -6,7 +6,6 @@ class MakeTokenCreatureAction extends PlayerAction {
         this.deployIndex = undefined;
         this.cards = null;
         this.cardLocation = 'deck';
-        this.ready = false;
     }
 
     setup() {
@@ -35,6 +34,7 @@ class MakeTokenCreatureAction extends PlayerAction {
                     event.cards = this.cards;
                 } else {
                     event.cards = player.deck.slice(0, event.amount);
+                    this.cards = event.cards;
                 }
 
                 context.game.actions
@@ -55,8 +55,7 @@ class MakeTokenCreatureAction extends PlayerAction {
                                     }),
                                     context.game.actions.putIntoPlay({
                                         target: card,
-                                        deployIndex: this.deployIndex,
-                                        ready: this.ready
+                                        deployIndex: this.deployIndex
                                     })
                                 ])
                         };

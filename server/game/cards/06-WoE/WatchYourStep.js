@@ -21,11 +21,21 @@ class WatchYourStep extends Card {
                     onChooseActiveHouse: (event) =>
                         event.player !== context.player && event.house !== context.house
                 },
-                gameAction: ability.actions.makeTokenCreature({
-                    target: context.player,
-                    amount: 2,
-                    ready: true
-                })
+                message: '{0} uses {1} to make and ready 2 token creatures for {2}',
+                messageArgs: (context) => [
+                    context.player,
+                    context.source,
+                    context.source.controller
+                ],
+                gameAction: ability.actions.sequential([
+                    ability.actions.makeTokenCreature((context) => ({
+                        target: context.player.opponent,
+                        amount: 2
+                    })),
+                    ability.actions.ready((context) => ({
+                        target: context.ability.gameAction[0].gameActions[0].cards
+                    }))
+                ])
             }))
         });
     }
