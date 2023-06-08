@@ -10,8 +10,6 @@ class Knightapult extends Card {
                     onCardPlayed: (event) =>
                         event.player === context.player && event.card.type === 'creature'
                 },
-                effect: 'have {1} enter play anywhere in their battleline, ready',
-                effectArgs: (event) => [event.card],
                 multipleTrigger: false,
                 triggeredAbilityType: 'interrupt',
                 gameAction: ability.actions.cardLastingEffect((context) => ({
@@ -21,7 +19,9 @@ class Knightapult extends Card {
                         ability.effects.entersPlayAnywhere(),
                         ability.effects.entersPlayReady()
                     ]
-                }))
+                })),
+                effect: 'have {1} enter play anywhere in their battleline, ready',
+                effectArgs: (event) => [event.card]
             }))
         });
     }
