@@ -11,6 +11,7 @@ class PrimordialVault extends Card {
             when: {
                 onBeginRound: (_, context) =>
                     context.player === this.game.activePlayer &&
+                    !!context.player.tokenCard &&
                     context.player.tokenCard.name === 'Cultist'
             },
             gameAction: ability.actions.makeTokenCreature()
