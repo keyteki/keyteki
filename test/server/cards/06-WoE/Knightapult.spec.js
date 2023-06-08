@@ -18,12 +18,15 @@ describe('Knightapult', function () {
 
         describe('should cause the next creature played', function () {
             beforeEach(function () {
-                this.player1.play(this.holdfast);
+                this.player1.clickCard(this.holdfast);
+                this.player1.clickPrompt('Play this creature');
             });
 
             it('to be deployable', function () {
-                expect(this.player1).toHavePrompt('Deploy Left');
-                expect(this.player1).toHavePrompt('Deploy Right');
+                expect(this.player1).toHavePromptButton('Left');
+                expect(this.player1).toHavePromptButton('Right');
+                expect(this.player1).toHavePromptButton('Deploy Left');
+                expect(this.player1).toHavePromptButton('Deploy Right');
             });
 
             it('to be ready', function () {
