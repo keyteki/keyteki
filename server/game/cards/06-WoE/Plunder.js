@@ -1,5 +1,6 @@
 const _ = require('underscore');
 const Card = require('../../Card.js');
+const EventRegistrar = require('../../eventregistrar.js');
 
 class Plunder extends Card {
     // Play: Reveal a random unrevealed card from your opponent's
@@ -7,6 +8,9 @@ class Plunder extends Card {
     // discards the last revealed card.
     setupCardAbilities(ability) {
         this.revealedCards = [];
+
+        this.tracker = new EventRegistrar(this.game, this);
+        this.tracker.register(['onCardPlayed']);
 
         this.play({
             condition: (context) =>
@@ -43,6 +47,12 @@ class Plunder extends Card {
                 }
             })
         });
+    }
+
+    onCardPlayed(event) {
+        if (event.card === this) {
+            this.revealedCards = [];
+        }
     }
 }
 

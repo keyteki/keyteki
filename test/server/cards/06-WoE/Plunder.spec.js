@@ -45,5 +45,15 @@ describe('Plunder', function () {
             expect(this.troll.location).toBe('hand');
             expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
         });
+
+        it('should be playable twice to discard both cards', function () {
+            this.player1.play(this.plunder);
+            this.player1.clickPrompt('Repeat this effect');
+            this.player1.clickPrompt('Discard this card');
+            this.player1.moveCard(this.plunder, 'hand');
+            this.player1.play(this.plunder);
+            this.player1.clickPrompt('Discard this card');
+            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+        });
     });
 });
