@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class LifeForALife extends Card {
+    // Play: Sacrifice a creature to deal 6D to a creature.
     setupCardAbilities(ability) {
         this.play({
             target: {

@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class FirstOfficerFrane extends Card {
+    // Play/Fight/Reap: A friendly creature captures 1A.
     setupCardAbilities(ability) {
         this.play({
             fight: true,

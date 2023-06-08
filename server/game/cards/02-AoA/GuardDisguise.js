@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class GuardDisguise extends Card {
+    // Action: Sacrifice Guard Disguise. If your opponent has 3A or fewer, steal 3A.
     setupCardAbilities(ability) {
         this.action({
             condition: (context) => context.player.opponent,

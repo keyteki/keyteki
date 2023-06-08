@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class FyreBreath extends Card {
+    // This creature gets +3 power and gains, Before Fight: Deal 2D to each neighbor of the creature this creature fights.
     setupCardAbilities(ability) {
         this.whileAttached({
             effect: [

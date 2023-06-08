@@ -1,6 +1,8 @@
 const Card = require('../../Card.js');
 
 class RhetorGallim extends Card {
+    // Play: Your opponents keys cost +3A during their next turn.
+    // Reap: You may exalt Rhetor Gallim. If you do, your opponents keys cost +3A during their next turn.
     setupCardAbilities(ability) {
         this.play({
             effect: "increase {1}'s key cost by 3 during their next turn",

@@ -1,6 +1,8 @@
 const Card = require('../../Card.js');
 
 class XanthyxHarvester extends Card {
+    // Xanthyx Harvester cannot be used while it has a non-Mars neighbor.
+    // Reap: Gain 1A.
     setupCardAbilities(ability) {
         this.persistentEffect({
             condition: (context) =>

@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class GiantGnawbill extends Card {
+    // After a player chooses an active house, that player destroys an artifact of that house.
     setupCardAbilities(ability) {
         this.reaction({
             when: {

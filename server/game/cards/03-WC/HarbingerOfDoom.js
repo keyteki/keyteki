@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class HarbingerOfDoom extends Card {
+    // Destroyed: Destroy each creature.
     setupCardAbilities(ability) {
         this.destroyed({
             optional: false,

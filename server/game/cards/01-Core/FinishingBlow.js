@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class FinishingBlow extends Card {
+    // Play: Destroy a damaged creature. If you do, steal 1<A>.
     setupCardAbilities(ability) {
         this.play({
             target: {

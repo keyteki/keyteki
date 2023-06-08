@@ -1,6 +1,8 @@
 const Card = require('../../Card.js');
 
 class DinoBot extends Card {
+    // Play: You may exalt Dino-Bot. If you do, deal 3D to a creature.
+    // Reap: Discard a card from your hand. If you do, draw a card.
     setupCardAbilities(ability) {
         this.play({
             optional: true,

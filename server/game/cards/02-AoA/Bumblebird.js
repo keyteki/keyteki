@@ -1,6 +1,8 @@
 const Card = require('../../Card.js');
 
 class Bumblebird extends Card {
+    // Alpha. (You can only play this card before doing anything else this step.)
+    // Play: Put two +1 power counters on each other friendly Untamed creature.
     setupCardAbilities(ability) {
         this.play({
             effect: 'add 1 power counter to each other friendly untamed creature',

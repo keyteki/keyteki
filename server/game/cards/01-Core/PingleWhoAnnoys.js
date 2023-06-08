@@ -1,6 +1,8 @@
 const Card = require('../../Card.js');
 
 class PingleWhoAnnoys extends Card {
+    // Elusive. (The first time this creature is attacked each turn, no damage is dealt.)
+    // Deal 1<D> to each enemy creature after it enters play.
     setupCardAbilities(ability) {
         this.reaction({
             when: {

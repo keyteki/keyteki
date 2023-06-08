@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class TroopCall extends Card {
+    // Play: Return each friendly Niffle creature from your discard pile and from play to your hand.
     setupCardAbilities(ability) {
         this.play({
             effect: 'return all friendly Niffle creatures from play and discard to hand',

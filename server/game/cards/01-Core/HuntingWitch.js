@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class HuntingWitch extends Card {
+    // Each time you play another creature, gain 1<A>.
     setupCardAbilities(ability) {
         this.reaction({
             when: {

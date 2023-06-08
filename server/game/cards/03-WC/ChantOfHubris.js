@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class ChantOfHubris extends Card {
+    // Play: Move 1A from a creature to another creature.
     setupCardAbilities(ability) {
         this.play({
             condition: (context) => context.game.creaturesInPlay.length > 1,

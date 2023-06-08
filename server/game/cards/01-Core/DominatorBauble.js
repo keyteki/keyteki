@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class DominatorBauble extends Card {
+    // Action: Use a friendly creature.
     setupCardAbilities(ability) {
         this.action({
             target: {

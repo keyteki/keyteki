@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class Drummernaut extends Card {
+    // Play/Fight/Reap: Return another friendly Giant creature to your hand.
     setupCardAbilities(ability) {
         this.play({
             fight: true,

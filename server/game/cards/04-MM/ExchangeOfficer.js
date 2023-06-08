@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class ExchangeOfficer extends Card {
+    // Play/Fight/Reap: Use a friendly Star Alliance card.
     setupCardAbilities(ability) {
         this.play({
             reap: true,

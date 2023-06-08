@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class EyeOfJudgement extends Card {
+    // Action: Purge a creature from a discard pile.
     setupCardAbilities(ability) {
         this.action({
             target: {

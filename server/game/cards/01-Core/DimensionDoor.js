@@ -2,6 +2,7 @@ const Card = require('../../Card.js');
 const EventRegistrar = require('../../eventregistrar.js');
 
 class DimensionDoor extends Card {
+    // Play: For the remainder of the turn, any <A> you would gain from reaping is stolen from your opponent instead.
     setupCardAbilities(ability) {
         this.enabledForPlayers = {};
         this.tracker = new EventRegistrar(this.game, this);

@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class InvasionPortal extends Card {
+    // Action: Discard cards from the top of your deck until you discard a Mars creature or run out of cards. If you discard a Mars creature this way, put it into your hand.
     setupCardAbilities(ability) {
         this.action({
             gameAction: ability.actions.discard((context) => {

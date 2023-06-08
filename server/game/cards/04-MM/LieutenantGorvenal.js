@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class LieutenantGorvenal extends Card {
+    // After you fight with a creature, Lieutenant Gorvenal captures 1A.
     setupCardAbilities(ability) {
         this.reaction({
             when: {

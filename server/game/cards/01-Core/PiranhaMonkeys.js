@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class PiranhaMonkeys extends Card {
+    // Play/Reap: Deal 2D to each other creature.
     setupCardAbilities(ability) {
         this.play({
             reap: true,

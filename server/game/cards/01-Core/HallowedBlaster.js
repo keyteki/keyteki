@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class HallowedBlaster extends Card {
+    // Action: Heal 3 damage from a creature.
     setupCardAbilities(ability) {
         this.action({
             target: {

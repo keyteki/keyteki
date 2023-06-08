@@ -1,6 +1,9 @@
 const Card = require('../../Card.js');
 
 class RelentlessAssault extends Card {
+    // Play: Ready and fight with up
+    // to 3different friendly creatures,
+    // one at a time.
     setupCardAbilities(ability) {
         this.play({
             target: {

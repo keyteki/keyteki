@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class PhoenixHeart extends Card {
+    // This creature gains, Destroyed: Return this creature to its owners hand and deal 3D to each creature in play.
     setupCardAbilities(ability) {
         this.whileAttached({
             effect: ability.effects.gainAbility('destroyed', {

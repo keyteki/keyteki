@@ -1,6 +1,8 @@
 const Card = require('../../Card.js');
 
 class MusthicMurmook extends Card {
+    // Each players keys cost +1A.
+    // Play: Deal 4D to a creature.
     setupCardAbilities(ability) {
         this.persistentEffect({
             targetController: 'any',

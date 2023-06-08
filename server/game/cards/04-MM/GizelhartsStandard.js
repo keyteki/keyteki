@@ -1,6 +1,8 @@
 const Card = require('../../Card.js');
 
 class GizelhartsStandard extends Card {
+    // Each friendly creature with A on it gets +1 armor.
+    // Play: Exalt a friendly creature.
     setupCardAbilities(ability) {
         this.persistentEffect({
             targetController: 'current',

@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class SciOfficerMorpheus extends Card {
+    // After you play a creature with a play effect, trigger its play effect an additional time.
     setupCardAbilities(ability) {
         this.reaction({
             when: {

@@ -1,6 +1,8 @@
 const Card = require('../../Card.js');
 
 class Bigtwig extends Card {
+    // Bigtwig can only fight stunned creatures.
+    // Reap: Stun and exhaust a creature.
     setupCardAbilities(ability) {
         this.persistentEffect({
             targetController: 'opponent',

@@ -1,6 +1,8 @@
 const Card = require('../../Card.js');
 
 class Whisper extends Card {
+    // Elusive.
+    // Action: Lose 1. If you do, destroy a creature.
     setupCardAbilities(ability) {
         this.action({
             gameAction: ability.actions.loseAmber((context) => ({ target: context.player })),

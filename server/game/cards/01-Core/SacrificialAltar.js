@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class SacrificialAltar extends Card {
+    // Action: Purge a friendly Human creature from play. If you do, play a creature from your discard pile.
     setupCardAbilities(ability) {
         this.action({
             target: {

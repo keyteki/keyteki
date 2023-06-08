@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class SicSemperTyrannosaurus extends Card {
+    // Play: Move each A from the most powerful creature to your pool and destroy that creature.
     setupCardAbilities(ability) {
         this.play({
             target: {

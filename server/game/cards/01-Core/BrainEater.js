@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class BrainEater extends Card {
+    // After a creature is destroyed fighting Brain Eater, draw a card.
     setupCardAbilities(ability) {
         this.reaction({
             when: {

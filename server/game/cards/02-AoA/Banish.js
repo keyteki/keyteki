@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class Banish extends Card {
+    // Play: Put an enemy creature into your opponents archives.
     setupCardAbilities(ability) {
         this.play({
             target: {

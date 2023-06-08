@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class AVinda extends Card {
+    // Reap: Deal 1D to a creature. If this damage destroys that creature, your opponent discards a random card from their hand.
     setupCardAbilities(ability) {
         this.reap({
             target: {

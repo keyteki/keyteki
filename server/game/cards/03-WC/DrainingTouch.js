@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class DrainingTouch extends Card {
+    // Play: Destroy a creature with no A on it.
     setupCardAbilities(ability) {
         this.play({
             condition: (context) => context.game.creaturesInPlay.length > 0,

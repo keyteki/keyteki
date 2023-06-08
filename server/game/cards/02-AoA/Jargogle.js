@@ -1,6 +1,9 @@
 const Card = require('../../Card.js');
 
 class Jargogle extends Card {
+    // Elusive.
+    // Play: Put a card from your hand facedown under Jargogle.
+    // Destroyed: If it is your turn, play the card under Jargogle; otherwise, archive that card.
     setupCardAbilities(ability) {
         this.play({
             target: {

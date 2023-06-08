@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class PawnSacrifice extends Card {
+    // Play: Sacrifice a friendly creature. If you do, deal 3<D> each to 2 creatures.
     setupCardAbilities(ability) {
         this.play({
             target: {

@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class FesteringTouch extends Card {
+    // Play: Choose up to 2 creatures. Deal 1D to each chosen creature. If that creature was already damaged, deal 3D instead.
     setupCardAbilities(ability) {
         this.play({
             target: {

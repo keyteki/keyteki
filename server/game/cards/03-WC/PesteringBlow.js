@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class PesteringBlow extends Card {
+    // Play: Deal 1D to a creature and enrage it.
     setupCardAbilities(ability) {
         this.play({
             target: {

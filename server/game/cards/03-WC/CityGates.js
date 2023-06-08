@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class CityGates extends Card {
+    // Action: A friendly creature captures 1A. If that creature is a Dinosaur, it captures 2A instead.
     setupCardAbilities(ability) {
         this.action({
             target: {

@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class Fogbank extends Card {
+    // Play: Your opponent cannot use creatures to fight on their next turn.
     setupCardAbilities(ability) {
         this.play({
             condition: (context) => !!context.player.opponent,

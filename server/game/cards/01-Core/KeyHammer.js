@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class KeyHammer extends Card {
+    // Play: If your opponent forged a key on their previous turn, unforge it. Your opponent gains 6<A>.
     setupCardAbilities(ability) {
         this.play({
             condition: (context) => !!context.player.opponent,

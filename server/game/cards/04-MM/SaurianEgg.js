@@ -1,6 +1,8 @@
 const Card = require('../../Card.js');
 
 class SaurianEgg extends Card {
+    // Saurian Egg cannot fight or reap.
+    // Omni: Discard the top 2 cards of your deck. If you discard any Saurian creatures this way, put them into play ready, give them three +1 power counters, and destroy Saurian Egg.
     setupCardAbilities(ability) {
         this.persistentEffect({
             effect: [ability.effects.cardCannot('reap'), ability.effects.cardCannot('fight')]

@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class Brabble extends Card {
+    // Destroyed: Your opponent loses 1A. If it is not your turn, your opponent loses 3A instead.
     setupCardAbilities(ability) {
         this.destroyed({
             gameAction: ability.actions.loseAmber((context) => ({

@@ -1,6 +1,8 @@
 const Card = require('../../Card.js');
 
 class EnsignElSamra extends Card {
+    // Enhance RRR.
+    // Action: Reveal a card from your hand. Resolve its bonus icons as if you had played it.
     setupCardAbilities(ability) {
         this.action({
             target: {

@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class MegaGangerChieftain extends Card {
+    // Play: You may ready and fight with a neighboring creature.
     setupCardAbilities(ability) {
         this.play({
             optional: true,
