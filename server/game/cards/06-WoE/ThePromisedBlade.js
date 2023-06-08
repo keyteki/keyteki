@@ -17,7 +17,7 @@ class ThePromisedBlade extends Card {
             when: {
                 onBeginRound: (_, context) =>
                     !!context.source.controller.opponent &&
-                    context.source.controller.creaturesInPlay.length ==
+                    context.source.controller.creaturesInPlay.length ===
                         context.source.controller.opponent.creaturesInPlay.length
             },
             targets: {
@@ -33,7 +33,7 @@ class ThePromisedBlade extends Card {
                     gameAction: ability.actions.cardLastingEffect((context) => ({
                         duration: 'lastingEffect',
                         effect: ability.effects.takeControl(
-                            context.selects.select.choice == 'Me'
+                            context.selects.select.choice === 'Me'
                                 ? context.game.activePlayer
                                 : context.game.activePlayer.opponent
                         )
