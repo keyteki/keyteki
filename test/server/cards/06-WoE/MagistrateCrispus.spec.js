@@ -57,7 +57,9 @@ describe('Magistrate Crispus', function () {
             expect(this.player1.player.creaturesInPlay).toContain(this.urchin);
             expect(this.player2.player.creaturesInPlay).toContain(this.talentScout);
             this.player1.endTurn();
-            this.player1.clickPrompt('Right'); // Talent Scout
+            this.player1.clickCard(this.urchin);
+            this.player1.clickPrompt('Right');
+            this.player1.clickPrompt('Right');
             expect(this.player1.player.creaturesInPlay).toContain(this.talentScout);
             expect(this.player2.player.creaturesInPlay).toContain(this.urchin);
             this.player2.clickPrompt('mars');

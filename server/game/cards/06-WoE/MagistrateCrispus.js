@@ -8,28 +8,21 @@ class MagistrateCrispus extends Card {
             when: {
                 onRoundEnded: (event, context) => context.player === this.game.activePlayer
             },
-            gameAction: [
-                ability.actions.sequentialCardLastingEffect((context) => ({
-                    forEach: context.game.cardsInPlay.filter(
+            gameAction: ability.actions.sequentialCardLastingEffect((context) => ({
+                forEach: context.game.cardsInPlay.filter(
+                    (card) =>
+                        (card.type === 'creature' || card.type === 'artifact') &&
+                        card.controller !== card.owner
+                ),
+                duration: 'lastingEffect',
+                effectForEach: context.game.cardsInPlay
+                    .filter(
                         (card) =>
                             (card.type === 'creature' || card.type === 'artifact') &&
-                            card.controller !== card.owner &&
-                            card.owner === context.game.activePlayer
-                    ),
-                    duration: 'lastingEffect',
-                    effect: ability.effects.takeControl(context.game.activePlayer)
-                })),
-                ability.actions.sequentialCardLastingEffect((context) => ({
-                    forEach: context.game.cardsInPlay.filter(
-                        (card) =>
-                            (card.type === 'creature' || card.type === 'artifact') &&
-                            card.controller !== card.owner &&
-                            card.owner === context.game.activePlayer.opponent
-                    ),
-                    duration: 'lastingEffect',
-                    effect: ability.effects.takeControl(context.game.activePlayer.opponent)
-                }))
-            ]
+                            card.controller !== card.owner
+                    )
+                    .map((card) => ability.effects.takeControl(card.owner))
+            }))
         });
     }
 }

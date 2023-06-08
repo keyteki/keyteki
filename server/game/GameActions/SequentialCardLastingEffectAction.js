@@ -6,7 +6,7 @@ class SequentialCardLastingEffectAction extends GameAction {
         this.duration = 'untilEndOfRound';
         this.condition = null;
         this.until = null;
-        this.effect = [];
+        this.effectForEach = [];
         this.targetLocation = null;
     }
 
@@ -21,19 +21,19 @@ class SequentialCardLastingEffectAction extends GameAction {
 
     hasLegalTarget(context) {
         this.update(context);
-        return this.forEach.length > 0;
+        return this.forEach.length > 0 && this.forEach.length === this.effectForEach.length;
     }
 
     canAffect() {
         return true;
     }
 
-    queueActionSteps(context, element) {
+    queueActionSteps(context, element, effect) {
         let action = context.game.actions.cardLastingEffect({
             duration: this.duration,
             condition: this.condition,
             until: this.until,
-            effect: this.effect,
+            effect: effect,
             targetLocation: this.targetLocation
         });
 
@@ -47,32 +47,35 @@ class SequentialCardLastingEffectAction extends GameAction {
         );
     }
 
-    filterAndApplyAction(context, forEach) {
+    filterAndApplyAction(context, forEach, effectForEach) {
         if (forEach.length > 1) {
             context.game.promptForSelect(context.game.activePlayer, {
                 activePromptTitle: 'Choose a card',
                 selector: new CardListSelector(forEach),
                 source: context.source,
                 onSelect: (player, card) => {
-                    this.queueActionSteps(context, card);
+                    let i = forEach.indexOf(card);
+                    let effect = effectForEach[i];
+                    this.queueActionSteps(context, card, effect);
                     context.game.queueSimpleStep(() => {
                         this.filterAndApplyAction(
                             context,
-                            forEach.filter((c) => c !== card)
+                            forEach.filter((c) => c !== card),
+                            effectForEach.filter((e) => e != effect)
                         );
                     });
                     return true;
                 }
             });
         } else if (forEach.length === 1) {
-            this.queueActionSteps(context, forEach[0]);
+            this.queueActionSteps(context, forEach[0], effectForEach[0]);
         }
     }
 
     getEventArray(context) {
         return [
             super.createEvent('unnamedEvent', {}, () => {
-                this.filterAndApplyAction(context, this.forEach);
+                this.filterAndApplyAction(context, this.forEach, this.effectForEach);
             })
         ];
     }
