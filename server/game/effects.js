@@ -39,7 +39,7 @@ const Effects = {
     entersPlayStunned: (condition) =>
         EffectBuilder.card.static('entersPlayStunned', new ConditionValue(condition)),
     flipToken: () => EffectBuilder.card.static('flipToken'),
-    visbileIn: (location) => EffectBuilder.card.static('visbileIn', location),
+    visibleIn: (location) => EffectBuilder.card.static('visibleIn', location),
     gainAbility: (type, properties) =>
         EffectBuilder.card.static('gainAbility', new GainAbility(type, properties)),
     fightAbilitiesAddReap: () => EffectBuilder.card.static('fightAbilitiesAddReap'),

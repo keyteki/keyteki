@@ -4,7 +4,7 @@ class TheArchivist extends Card {
     setupCardAbilities(ability) {
         this.persistentEffect({
             location: 'any',
-            effect: ability.effects.visbileIn('archives')
+            effect: ability.effects.visibleIn('archives')
         });
         this.persistentEffect({
             condition: (context) =>
