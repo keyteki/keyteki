@@ -1,11 +1,13 @@
 const CardListSelector = require('./CardListSelector');
 const GameAction = require('./GameAction');
 
-class SequentialPutIntoPlayAction extends GameAction {
+class SequentialCardLastingEffectAction extends GameAction {
     setDefaultProperties() {
-        this.revealList = [];
-        this.ready = false;
-        this.forEach = [];
+        this.duration = 'untilEndOfRound';
+        this.condition = null;
+        this.until = null;
+        this.effect = [];
+        this.targetLocation = null;
     }
 
     setup() {
@@ -27,7 +29,13 @@ class SequentialPutIntoPlayAction extends GameAction {
     }
 
     queueActionSteps(context, element) {
-        let action = context.game.actions.putIntoPlay({ ready: this.ready });
+        let action = context.game.actions.cardLastingEffect({
+            duration: this.duration,
+            condition: this.condition,
+            until: this.until,
+            effect: this.effect,
+            targetLocation: this.targetLocation
+        });
 
         context.game.queueSimpleStep(() => {
             action.setDefaultTarget(() => element);
@@ -40,31 +48,24 @@ class SequentialPutIntoPlayAction extends GameAction {
     }
 
     filterAndApplyAction(context, forEach) {
-        let filteredForEach = forEach.filter(
-            (card) => !card.gigantic || forEach.some((part) => part.id === card.compositeId)
-        );
-
-        if (filteredForEach.length > 1) {
+        if (forEach.length > 1) {
             context.game.promptForSelect(context.game.activePlayer, {
-                activePromptTitle: 'Choose a creature to put into play',
-                selector: new CardListSelector(filteredForEach, this.revealList),
+                activePromptTitle: 'Choose a card',
+                selector: new CardListSelector(forEach),
                 source: context.source,
-                revealTargets: this.revealList.length > 0,
                 onSelect: (player, card) => {
                     this.queueActionSteps(context, card);
                     context.game.queueSimpleStep(() => {
                         this.filterAndApplyAction(
                             context,
-                            filteredForEach.filter((c) => {
-                                return c !== card && c !== card.composedPart;
-                            })
+                            forEach.filter((c) => c !== card)
                         );
                     });
                     return true;
                 }
             });
-        } else if (filteredForEach.length === 1) {
-            this.queueActionSteps(context, filteredForEach[0]);
+        } else if (forEach.length === 1) {
+            this.queueActionSteps(context, forEach[0]);
         }
     }
 
@@ -77,4 +78,4 @@ class SequentialPutIntoPlayAction extends GameAction {
     }
 }
 
-module.exports = SequentialPutIntoPlayAction;
+module.exports = SequentialCardLastingEffectAction;

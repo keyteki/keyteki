@@ -143,6 +143,8 @@ const Actions = {
     conditional: (propertyFactory) => new GameActions.ConditionalAction(propertyFactory),
     jointAction: (gameActions) => new GameActions.JointGameAction(gameActions), // takes an array of gameActions, not a propertyFactory
     sequential: (gameActions) => new GameActions.SequentialAction(gameActions), // takes an array of gameActions, not a propertyFactory
+    sequentialCardLastingEffect: (propertyFactory) =>
+        new GameActions.SequentialCardLastingEffectAction(propertyFactory),
     sequentialForEach: (propertyFactory) =>
         new GameActions.SequentialForEachAction(propertyFactory),
     sequentialPutIntoPlay: (propertyFactory) =>
