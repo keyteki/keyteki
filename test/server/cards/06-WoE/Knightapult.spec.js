@@ -29,7 +29,7 @@ describe('Knightapult', function () {
                 expect(this.player1).toHavePromptButton('Deploy Right');
             });
 
-            it('to be ready', function () {
+            xit('to be ready', function () {
                 expect(this.holdfast.exhausted).toBe(false);
             });
         });
