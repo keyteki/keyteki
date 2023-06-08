@@ -2,9 +2,21 @@ const Card = require('../../Card.js');
 
 class EtherSpider extends Card {
     setupCardAbilities(ability) {
-        this.persistentEffect({
-            targetController: 'opponent',
-            effect: ability.effects.redirectAmber((_, context) => context.source)
+        this.interrupt({
+            when: {
+                onModifyAmber: (event, context) =>
+                    event.player === context.player.opponent && event.amount > 0
+            },
+            gameAction: ability.actions.sequential([
+                ability.actions.placeAmber((context) => ({
+                    target: context.source,
+                    amount: context.event.amount
+                })),
+                ability.actions.changeEvent((context) => ({
+                    event: context.event,
+                    amount: 0
+                }))
+            ])
         });
 
         this.persistentEffect({
