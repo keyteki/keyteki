@@ -28,7 +28,15 @@ class CardVisibility {
     }
 
     isEffectRule(card) {
-        return card.getEffects('visbileIn').some((effect) => effect === card.location);
+        if (card.getEffects('visbileIn').some((effect) => effect === card.location)) {
+            return true;
+        }
+
+        return (
+            card.location === 'deck' &&
+            card.controller.deck[0] === card &&
+            card.controller.isTopCardOfDeckVisible()
+        );
     }
 
     isControllerRule(card, player) {

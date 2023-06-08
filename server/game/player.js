@@ -195,6 +195,13 @@ class Player extends GameObject {
     shuffleDeck() {
         this.game.emitEvent('onDeckShuffled', { player: this });
         this.deck = _.shuffle(this.deck);
+        if (this.isTopCardOfDeckVisible() && this.deck.length > 0) {
+            this.deck[0].facedown = false;
+            this.deck.slice(1).forEach((card) => {
+                card.facedown = true;
+            });
+            this.game.addMessage('{0} reveals {1} on top of their deck', this, this.deck[0]);
+        }
     }
 
     /**
@@ -476,6 +483,7 @@ class Player extends GameObject {
             return;
         }
 
+        let oldTopOfDeck = this.deck[0];
         this.removeCardFromPile(card);
         let location = card.location;
 
@@ -560,6 +568,19 @@ class Player extends GameObject {
                 from: location,
                 to: targetLocation
             });
+        }
+
+        if (this.isTopCardOfDeckVisible() && this.deck.length > 0) {
+            this.deck[0].facedown = false;
+
+            // In case a new card was added on top of the deck.
+            if (this.deck.length > 1) {
+                this.deck[1].facedown = true;
+            }
+
+            if (oldTopOfDeck != this.deck[0]) {
+                this.game.addMessage('{0} reveals {1} on top of their deck', this, this.deck[0]);
+            }
         }
     }
 
@@ -943,6 +964,10 @@ class Player extends GameObject {
         return this.getEffects('additionalCost')
             .reduce((array, costFactory) => array.concat(costFactory(context)), [])
             .filter((cost) => !!cost);
+    }
+
+    isTopCardOfDeckVisible() {
+        return this.getEffects('topCardOfDeckVisible').length > 0;
     }
 
     setWins(wins) {
