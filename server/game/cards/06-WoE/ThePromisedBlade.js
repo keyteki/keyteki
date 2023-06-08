@@ -34,8 +34,8 @@ class ThePromisedBlade extends Card {
                         duration: 'lastingEffect',
                         effect: ability.effects.takeControl(
                             context.selects.select.choice == 'Me'
-                                ? context.player
-                                : context.player.opponent
+                                ? context.game.activePlayer
+                                : context.game.activePlayer.opponent
                         )
                     }))
                 }
