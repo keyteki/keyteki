@@ -51,19 +51,41 @@ const Navigation = (props) => {
     );
 
     /**
+     * @param {MenuItem} menuItem The menu item
+     * @param {User} user The logged in user
+     * @returns {boolean} Whether or not the user can see this menu item
+     */
+    const userCanSeeMenu = (menuItem, user) => {
+        return !menuItem.permission || (!!user && user.permissions[menuItem.permission]);
+    };
+
+    /**
      * Filter a list of menu items to what the logged in user can see
      * @param {MenuItem[]} menuItems The list of menu items
      * @param {User} user The logged in user
      * @returns {MenuItem[]} The filtered menu items
      */
-    const filterMenuItems = (menuItems, user) =>
-        menuItems.filter(
-            (item) =>
-                ((user && !item.showOnlyWhenLoggedOut) ||
-                    (!user && item.showOnlyWhenLoggedIn) ||
-                    (item.permission && user && user.permissions[item.permission])) &&
-                (item.path || item.childItems)
-        );
+    const filterMenuItems = (menuItems, user) => {
+        const returnedItems = [];
+
+        for (const menuItem of menuItems) {
+            if (user && menuItem.showOnlyWhenLoggedOut) {
+                continue;
+            }
+
+            if (!user && menuItem.showOnlyWhenLoggedIn) {
+                continue;
+            }
+
+            if (!userCanSeeMenu(menuItem, user)) {
+                continue;
+            }
+
+            returnedItems.push(menuItem);
+        }
+
+        return returnedItems;
+    };
 
     /**
      * Render a list of menu items to react components
@@ -102,7 +124,7 @@ const Navigation = (props) => {
     };
 
     const numGames = games && (
-        <div className={'navbar-item'}>{`${t(`${games.length} Games`)}`}</div>
+        <div className='navbar-item mr-1'>{`${t(`${games.length} Games`)}`}</div>
     );
 
     return (
