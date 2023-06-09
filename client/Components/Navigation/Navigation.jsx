@@ -83,23 +83,19 @@ const Navigation = (props) => {
                 >
                     {children.map((childItem) =>
                         childItem.path ? (
-                            <Link
-                                key={childItem.path}
-                                href={childItem.path}
-                                classname={'navbar-item interactable dropdown-child'}
-                            >
-                                {t(childItem.title)}
+                            <Link key={childItem.path} href={childItem.path}>
+                                <NavDropdown.Item
+                                    className={'navbar-item interactable dropdown-child'}
+                                >
+                                    {t(childItem.title)}
+                                </NavDropdown.Item>
                             </Link>
                         ) : null
                     )}
                 </NavDropdown>
             ) : (
-                <Link
-                    key={menuItem.title}
-                    href={menuItem.path}
-                    classname={'navbar-item interactable'}
-                >
-                    {t(menuItem.title)}
+                <Link key={menuItem.title} href={menuItem.path}>
+                    <Nav.Link className={'navbar-item interactable'}>{t(menuItem.title)}</Nav.Link>
                 </Link>
             );
         });

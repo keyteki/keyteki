@@ -13,22 +13,21 @@
 }
 
 .navbar-item {
-    margin: 0.5rem;
     width: auto;
     font-family: 'PoppinsMedium', serif;
     font-size: 16px;
     transition: all 0.4s ease-in-out;
     text-decoration: none;
-    color: #ffffff;
+    color: #ffffff !important;
     &:hover {
         cursor: default;
     }
 }
 
 .navbar-item.interactable {
-    color: #d44887;
+    color: #d44887 !important;
     &:hover {
-        color: #ffffff;
+        color: #ffffff !important;
         cursor: pointer;
         background-size: 100% 0.1em;
     }
@@ -66,6 +65,8 @@
 }
 
 .dropdown-child {
+    margin: 0.5rem;
+    padding: 0;
     display: block;
     &:hover {
         background: none !important;

@@ -30,12 +30,10 @@ const ProfileMenu = ({ menu, user }) => {
         <NavDropdown id={'nav-Profile'} title={title}>
             {menu.map((menuItem) =>
                 menuItem.path ? (
-                    <Link
-                        classname={'navbar-item interactable dropdown-child'}
-                        key={menuItem.path}
-                        href={menuItem.path}
-                    >
-                        {t(menuItem.title)}
+                    <Link key={menuItem.path} href={menuItem.path}>
+                        <NavDropdown.Item className={'navbar-item interactable dropdown-child'}>
+                            {t(menuItem.title)}
+                        </NavDropdown.Item>
                     </Link>
                 ) : null
             )}
