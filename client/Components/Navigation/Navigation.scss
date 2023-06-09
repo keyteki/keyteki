@@ -4,15 +4,102 @@
 @import '~bootstrap/scss/variables';
 @import '~bootstrap/scss/mixins';
 
-a.navbar-brand {
-    color: gray('500');
+.navbar-color {
+    background-color: rgb(0, 0, 0, 0.9);
+}
 
+.navbar-nav {
+    align-items: center;
+}
+
+.navbar-item {
+    width: auto;
+    font-family: 'PoppinsMedium', serif;
+    font-size: 16px;
+    transition: all 0.4s ease-in-out;
+    text-decoration: none;
+    color: #ffffff !important;
+    &:hover {
+        cursor: default;
+    }
+}
+
+.navbar-item.interactable {
+    color: #d44887 !important;
+    &:hover {
+        color: #ffffff !important;
+        cursor: pointer;
+        background-size: 100% 0.1em;
+    }
+}
+
+.dropdown {
+    color: #d44887;
+    font-family: 'PoppinsMedium', serif;
+    font-size: 16px;
+    transition: all 0.4s ease-in-out;
+    &:hover {
+        color: #ffffff;
+        cursor: pointer;
+        background-size: 100% 0.1em;
+    }
+}
+
+.dropdown-toggle {
+    color: #d44887 !important;
+    font-family: 'PoppinsMedium', serif;
+    font-size: 16px;
+    transition: all 0.4s ease-in-out;
+    &:hover {
+        color: #ffffff !important;
+        cursor: pointer;
+        background-size: 100% 0.1em;
+    }
+}
+
+.dropdown-menu {
+    background: rgba(0,0,0,0.9);
+    border-bottom-left-radius: 0.5rem;
+    border-bottom-right-radius: 0.5rem;
+    transition: all 0.4s ease-in-out;
+}
+
+.dropdown-child {
+    margin: 0.5rem;
+    padding: 0;
+    display: block;
+    &:hover {
+        background: none !important;
+    }
+}
+
+.navbar-brand {
+    color: gray('500');
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
     background-image: url('~assets/img/header_icon.png');
     background-repeat: no-repeat;
     background-position: center;
     background-origin: content-box;
+    margin: 0;
     width: 72px;
     height: 100%;
+}
+
+@media (min-width:1450px) {
+    .navbar-brand {
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+        background-image: url('~assets/img/main_header_logo.png');
+        background-repeat: no-repeat;
+        background-position: center;
+        background-origin: content-box;
+        height: 100%;
+        width: 503px;
+    }
 }
 
 .navbar-sm {
