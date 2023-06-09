@@ -3,89 +3,54 @@ describe('ColonelMariana', function () {
         beforeEach(function () {
             this.setupTest({
                 player1: {
-                    house: 'untamed',
+                    house: 'sanctum',
                     amber: 1,
-                    hand: ['bubbles'],
-                    inPlay: ['flaxia']
+                    hand: ['colonel-mariana', 'ardent-hero'],
+                    inPlay: ['flaxia', 'badgemagus', 'almsmaster']
                 },
                 player2: {
-                    amber: 1,
+                    amber: 3,
                     inPlay: ['gub', 'krump']
                 }
             });
         });
 
-        it('should have tests', function () {
-            // TODO write your code here
-        });
+        it('should capture 3 ameber when there are 3 knights in play including Colonel Mariana', function () {
+            expect(this.player2.amber).toBe(3);
+            this.player1.playCreature(this.colonelMariana);
 
-        // examples repo (clean bellow after use)
-        /*
-        it('turn ending test', function () {
+            expect(this.colonelMariana.tokens.amber).toBe(1);
+            expect(this.badgemagus.tokens.amber).toBe(1);
+            expect(this.almsmaster.tokens.amber).toBe(1);
+
+            expect(this.player2.amber).toBe(0);
+
             this.player1.endTurn();
-            this.player2.clickPrompt('untamed');
-            this.player2.endTurn();
-            this.player1.forgeKey('Red');
-            this.player1.clickPrompt('untamed');
         });
 
-        it('creature token', function () {
-            expect(this.mookling.tokens.power).toBeUndefined();
-            this.mookling.addToken('power');
-            expect(this.mookling.tokens.power).toBe(1);
-            
-            expect(this.mookling.tokens.damage).toBeUndefined();
-            this.mookling.addToken('damage');
-            expect(this.mookling.tokens.damage).toBe(1);
-            
-            expect(this.mookling.tokens.amber).toBeUndefined();
-            this.mookling.addToken('amber');
-            expect(this.mookling.tokens.amber).toBe(1);
-        });
+        it('should prmopt for capture when there is more creatures than ameber to capture', function () {
+            this.player1.playCreature(this.ardentHero);
 
-        it('creature amber test', function () {
-            this.urchin.tokens.amber = 1;
-        });
+            this.player1.playCreature(this.colonelMariana);
 
-        it('location tests', function () {
-            expect(this.mother.location).toBe('discard');
-            expect(this.mother.location).toBe('hand');
-            expect(this.mother.location).toBe('deck');
-            expect(this.mother.location).toBe('play area');
-        });
+            expect(this.player1).not.toBeAbleToSelect(this.flaxia);
+            expect(this.player1).toBeAbleToSelect(this.badgemagus);
+            expect(this.player1).toBeAbleToSelect(this.almsmaster);
+            expect(this.player1).toBeAbleToSelect(this.colonelMariana);
+            expect(this.player1).toBeAbleToSelect(this.ardentHero);
 
-        it('game interation selection', function () {
-            expect(this.player1).not.toBeAbleToSelect(this.gub);
-            expect(this.player1).toBeAbleToSelect(this.flaxia);
+            this.player1.clickCard(this.colonelMariana);
+            this.player1.clickCard(this.badgemagus);
+            this.player1.clickCard(this.ardentHero);
             this.player1.clickPrompt('Done');
-            this.player1.clickCard(this.larva);
-            expect(this.player1).toHavePromptButton('Done');
-            expect(this.player1).not.toHavePromptButton('Done');
-        });
 
-        it('basic actions tests', function () {
-            this.player1.play(this.cocoon);
-            this.player1.useAction(this.cocoon);
-            this.player1.reap(this.cocoon);
-            this.player1.fight(this.cocoon);
-        });
+            expect(this.colonelMariana.tokens.amber).toBe(1);
+            expect(this.badgemagus.tokens.amber).toBe(1);
+            expect(this.ardentHero.tokens.amber).toBe(1);
 
-        it('player amber test', function () {
-            this.player1.amber = 2
-            expect(this.player1.amber).toBe(2);
-        });
+            expect(this.player2.amber).toBe(0);
 
-        it('tide test', function () {
-            this.player1.lowerTide();
-            expect(this.player1.isTideHigh()).toBe(false);
-            this.player1.raiseTide();
+            this.player1.endTurn();
         });
-
-        it('moving cards test', function () {
-            this.player1.moveCard(this.butterfly, 'play area');
-            this.player1.moveCard(this.butterfly, 'discard');
-            this.player1.moveCard(this.butterfly, 'hand');
-        });
-        */
     });
 });
