@@ -63,6 +63,7 @@ module.exports = {
     RevealAction: require('./RevealAction'),
     SearchAction: require('./SearchAction'),
     SequentialAction: require('./SequentialAction'),
+    SequentialCardLastingEffectAction: require('./SequentialCardLastingEffectAction'),
     SequentialForEachAction: require('./SequentialForEachAction'),
     SequentialPutIntoPlayAction: require('./SequentialPutIntoPlayAction'),
     ShuffleDeckAction: require('./ShuffleDeckAction'),
