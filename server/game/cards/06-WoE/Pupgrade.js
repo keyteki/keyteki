@@ -2,6 +2,10 @@ const Card = require('../../Card.js');
 const Effects = require('../../effects');
 
 class Pupgrade extends Card {
+    // Pupgrade may be played as an upgrade instead of a creature,
+    // with the text: "This creature gets +3 power and gains,
+    // 'Destroyed: Put Pupgrade on the right flank of your battleline
+    // as a creature, ready.'"
     setupCardAbilities(ability) {
         this.persistentEffect({
             location: 'any',
