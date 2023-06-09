@@ -6,6 +6,7 @@ class BaseCardSelector {
         this.location = this.buildLocation(properties.location);
         this.controller = properties.controller || 'any';
         this.checkTarget = properties.targets;
+        this.uniqueCardNames = properties.uniqueCardNames;
 
         if (!Array.isArray(properties.cardType)) {
             this.cardType = [properties.cardType];
@@ -138,6 +139,20 @@ class BaseCardSelector {
 
     formatSelectParam(cards) {
         return cards;
+    }
+
+    canAddCardToSelection(selectedCards, possibleCardToSelect) {
+        if (this.uniqueCardNames === true) {
+            let found = selectedCards.find((card) => card.name === possibleCardToSelect.name);
+
+            if (found === undefined) {
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            return true;
+        }
     }
 }
 
