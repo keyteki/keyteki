@@ -12,6 +12,8 @@ import './Navigation.scss';
 import Link from './Link';
 import { Nav, Navbar, NavDropdown } from 'react-bootstrap';
 
+import HeaderIcon from '../../assets/img/main_header_logo.png';
+
 /**
  * @typedef { import('../../menus').MenuItem } MenuItem
  */
@@ -97,63 +99,98 @@ const Navigation = (props) => {
             const children =
                 menuItem.childItems && filterMenuItems(menuItem.childItems, props.user);
 
-            return children && children.length > 0 ? (
-                <NavDropdown
-                    key={menuItem.title}
-                    id={`nav-${menuItem.title}`}
-                    title={t(menuItem.title)}
-                >
-                    {children.map((childItem) =>
-                        childItem.path ? (
-                            <Link key={childItem.path} href={childItem.path}>
+            if (children && children.length > 0) {
+                return (
+                    <NavDropdown
+                        key={menuItem.title}
+                        id={`nav-${menuItem.title}`}
+                        title={t(menuItem.title)}
+                    >
+                        {children.map((childItem) =>
+                            childItem.path ? (
                                 <NavDropdown.Item
-                                    className={'navbar-item interactable dropdown-child'}
+                                    as={Link}
+                                    href={childItem.path}
+                                    className='navbar-item interactable dropdown-child'
                                 >
                                     {t(childItem.title)}
                                 </NavDropdown.Item>
-                            </Link>
-                        ) : null
-                    )}
-                </NavDropdown>
-            ) : (
-                <Link key={menuItem.title} href={menuItem.path}>
-                    <Nav.Link className={'navbar-item interactable'}>{t(menuItem.title)}</Nav.Link>
-                </Link>
+                            ) : null
+                        )}
+                    </NavDropdown>
+                );
+            }
+
+            if (!menuItem.path) {
+                return <></>;
+            }
+            return (
+                <li key={menuItem.title}>
+                    <Nav.Link className='navbar-item interactable' as={Link} href={menuItem.path}>
+                        {t(menuItem.title)}
+                    </Nav.Link>
+                </li>
             );
         });
     };
 
     const numGames = games && (
-        <div className='navbar-item mr-1'>{`${t(`${games.length} Games`)}`}</div>
+        <li className='navbar-item'>
+            <span>{`${t(`${games.length} Games`)}`}</span>
+        </li>
     );
 
     return (
-        <Navbar className='navbar-sm navbar-color' fixed='top'>
-            <Nav>{renderMenuItems(LeftMenu)}</Nav>
-            <Link href={'/'}>
-                <Navbar.Brand />
-            </Link>
-            <Navbar.Collapse id='navbar' className='justify-content-end'>
-                <GameContextMenu />
-                {numGames}
-                {currentGame?.started ? (
-                    <ServerStatus
-                        connected={gameConnected}
-                        connecting={gameConnecting}
-                        serverType='Game server'
-                        responseTime={gameResponse}
+        <Navbar bg='dark' variant='dark' className='navbar-sm' fixed='top' expand='lg'>
+            <Navbar.Brand
+                className='navbar-brand bg-dark ml-auto mr-auto d-lg-none'
+                as={Link}
+                href='/'
+            >
+                <img
+                    src={HeaderIcon}
+                    height='32'
+                    className='d-inline-block align-top'
+                    alt='TCO Logo'
+                />
+            </Navbar.Brand>
+            <Navbar.Toggle aria-controls='navbar' />
+            <Navbar.Collapse id='navbar'>
+                <Nav className='me-auto mb-2 mb-lg-0 bg-dark'>{renderMenuItems(LeftMenu)}</Nav>
+                <Navbar.Brand
+                    className='navbar-brand bg-dark ml-auto mr-auto d-none d-lg-block'
+                    as={Link}
+                    href='/'
+                >
+                    <img
+                        src={HeaderIcon}
+                        height='32'
+                        className='d-inline-block align-top'
+                        alt='TCO Logo'
                     />
-                ) : (
-                    <ServerStatus
-                        connected={lobbySocketConnected}
-                        connecting={lobbySocketConnecting}
-                        serverType='Lobby'
-                        responseTime={lobbyResponse}
-                    />
-                )}
-                {renderMenuItems(RightMenu)}
-                <ProfileDropdown menu={ProfileMenu} user={props.user} />
-                <LanguageSelector />
+                </Navbar.Brand>
+                <Nav className='pr-md-5 bg-dark'>
+                    <GameContextMenu />
+                    {numGames}
+                    {currentGame?.started ? (
+                        <ServerStatus
+                            connected={gameConnected}
+                            connecting={gameConnecting}
+                            serverType='Game server'
+                            responseTime={gameResponse}
+                        />
+                    ) : (
+                        <ServerStatus
+                            connected={lobbySocketConnected}
+                            connecting={lobbySocketConnecting}
+                            serverType='Lobby'
+                            responseTime={lobbyResponse}
+                        />
+                    )}
+                    {renderMenuItems(RightMenu)}
+                    <ProfileDropdown menu={ProfileMenu} user={props.user} />
+                    <LanguageSelector />
+                </Nav>
             </Navbar.Collapse>
         </Navbar>
     );

@@ -29,11 +29,15 @@ const ProfileMenu = ({ menu, user }) => {
     );
 
     return (
-        <NavDropdown id={'nav-Profile'} title={title}>
+        <NavDropdown id='nav-Profile' title={title} className='d-flex align-items-center'>
             {menu.map((menuItem) =>
                 menuItem.path ? (
                     <Link key={menuItem.path} href={menuItem.path}>
-                        <NavDropdown.Item className={'navbar-item interactable dropdown-child'}>
+                        <NavDropdown.Item
+                            className='navbar-item interactable dropdown-child'
+                            as={Link}
+                            href={menuItem.path}
+                        >
                             {t(menuItem.title)}
                         </NavDropdown.Item>
                     </Link>

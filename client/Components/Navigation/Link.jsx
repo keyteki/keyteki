@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
 import { navigate } from '../../redux/actions';
 
-const Link = ({ children, classname, href }) => {
+const Link = ({ children, className, href }) => {
     const dispatch = useDispatch();
 
     const onClick = (event) => {
@@ -12,7 +12,7 @@ const Link = ({ children, classname, href }) => {
     };
 
     return (
-        <a href={href} className={classname} onClick={onClick}>
+        <a href={href} className={className} onClick={onClick}>
             {children}
         </a>
     );

@@ -64,6 +64,7 @@ const LanguageSelector = () => {
     return (
         <NavDropdown
             drop='left'
+            className='d-flex align-items-center'
             id='nav-Lang'
             onSelect={(lang) => {
                 i18n.changeLanguage(lang.value);

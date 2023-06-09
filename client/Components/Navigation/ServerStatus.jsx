@@ -28,12 +28,12 @@ const ServerStatus = (props) => {
             : 'danger'
     }`;
 
-    const pingText2 = `${serverType}: ${
-        connected ? (responseTime ? `${responseTime}ms` : 'Waiting for ping') : connectionStatus
+    const pingText2 = `${serverType[0]}: ${
+        connected ? (responseTime ? `${responseTime}ms` : 'Waiting') : connectionStatus
     }`;
 
     return (
-        <div className={'navbar-item'}>
+        <div className='navbar-item'>
             <span className={pingLevel}>
                 {pingText2} <FontAwesomeIcon icon={connectionIcon} title={t(toolTip)} />
             </span>

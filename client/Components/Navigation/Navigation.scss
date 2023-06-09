@@ -4,14 +4,6 @@
 @import '~bootstrap/scss/variables';
 @import '~bootstrap/scss/mixins';
 
-.navbar-color {
-    background-color: rgb(0, 0, 0, 0.9);
-}
-
-.navbar-nav {
-    align-items: center;
-}
-
 .navbar-item {
     width: auto;
     font-family: 'PoppinsMedium', serif;
@@ -58,7 +50,7 @@
 }
 
 .dropdown-menu {
-    background: rgba(0,0,0,0.9);
+    background: rgba(0, 0, 0, 0.9);
     border-bottom-left-radius: 0.5rem;
     border-bottom-right-radius: 0.5rem;
     transition: all 0.4s ease-in-out;
@@ -73,35 +65,6 @@
     }
 }
 
-.navbar-brand {
-    color: gray('500');
-    position: absolute;
-    top: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    background-image: url('~assets/img/header_icon.png');
-    background-repeat: no-repeat;
-    background-position: center;
-    background-origin: content-box;
-    margin: 0;
-    width: 72px;
-    height: 100%;
-}
-
-@media (min-width:1450px) {
-    .navbar-brand {
-        position: absolute;
-        left: 50%;
-        transform: translateX(-50%);
-        background-image: url('~assets/img/main_header_logo.png');
-        background-repeat: no-repeat;
-        background-position: center;
-        background-origin: content-box;
-        height: 100%;
-        width: 503px;
-    }
-}
-
 .navbar-sm {
     min-height: $navbar-height;
     height: $navbar-height;
@@ -109,5 +72,20 @@
 
 .navbar-sm .navbar-nav > li > span {
     padding: 0 15px;
-    line-height: 36px;
+    line-height: $navbar-height;
+}
+
+.navbar-sm .navbar-nav > li > a {
+    padding: 0 15px;
+    line-height: $navbar-height;
+}
+
+.navbar-sm .navbar-item > span {
+    padding: 0 15px;
+    line-height: $navbar-height;
+}
+
+.navbar-sm .nav-item > a {
+    padding: 0 15px;
+    line-height: $navbar-height;
 }
