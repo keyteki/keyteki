@@ -1,6 +1,9 @@
 const Card = require('../../Card.js');
 
 class Gargantodon extends Card {
+    // Gargantodon enters play stunned.
+    // Gargantodon only deals 4D when fighting.
+    // Each A that would be stolen is captured by a creature controlled by the active player instead.
     setupCardAbilities(ability) {
         this.persistentEffect({
             location: 'any',

@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class MasterOf2 extends Card {
+    // Reap: You may destroy a creature with 2 power.
     setupCardAbilities(ability) {
         this.reap({
             optional: true,

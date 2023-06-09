@@ -1,6 +1,8 @@
 const Card = require('../../Card.js');
 
 class ShatterStorm extends Card {
+    // Play: Lose all your A. Then, your opponent loses triple the amount
+    // of A you lost this way.
     setupCardAbilities(ability) {
         this.play({
             gameAction: ability.actions.loseAmber((context) => ({

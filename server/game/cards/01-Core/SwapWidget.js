@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class SwapWidget extends Card {
+    // Action: Return a ready friendly Mars creature to your hand. If you do, put a Mars creature with a different name from your hand into play, then ready it.
     setupCardAbilities(ability) {
         this.action({
             target: {

@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class Fandangle extends Card {
+    // While you have 4A or more, your non-Untamed creatures enter play ready.
     setupCardAbilities(ability) {
         this.persistentEffect({
             location: 'any',

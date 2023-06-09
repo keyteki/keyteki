@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class Quadracorder extends Card {
+    // Your opponents keys cost +1A for each house represented among friendly creatures (to a maximum of3).
     setupCardAbilities(ability) {
         this.persistentEffect({
             targetController: 'opponent',

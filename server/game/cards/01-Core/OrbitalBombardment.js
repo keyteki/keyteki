@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class OrbitalBombardment extends Card {
+    // Play: Reveal any number of Mars cards from your hand. For each card revealed this way, deal 2D to a creature. (You may choose a different creature each time.)
     setupCardAbilities(ability) {
         this.play({
             target: {

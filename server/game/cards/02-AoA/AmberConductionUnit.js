@@ -2,6 +2,7 @@ const Card = require('../../Card.js');
 const EventRegistrar = require('../../eventregistrar.js');
 
 class AmberConductionUnit extends Card {
+    // After an enemy creature reaps, if it is the first time a creature has reaped this turn, stun it.
     setupCardAbilities(ability) {
         this.creaturesReaped = 0;
         this.tracker = new EventRegistrar(this.game, this);

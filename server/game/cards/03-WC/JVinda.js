@@ -1,6 +1,8 @@
 const Card = require('../../Card.js');
 
 class JVinda extends Card {
+    // Elusive. (The first time this creature is attacked each turn, no damage is dealt.)
+    // Reap: Deal 1D to a creature. If this damage destroys that creature, steal 1A.
     setupCardAbilities(ability) {
         this.reap({
             target: {

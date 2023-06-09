@@ -1,6 +1,9 @@
 const Card = require('../../Card.js');
 
 class ForgiveOrForget extends Card {
+    // Play: Choose one:
+    //  Archive 2 cards of different types from your discard pile.
+    //  Purge up to 2 cards from each discard pile.
     reduceTargets(context) {
         let targets = context.targets
             ? Object.values(context.targets).reduce((acc, target) => acc.concat(target), [])

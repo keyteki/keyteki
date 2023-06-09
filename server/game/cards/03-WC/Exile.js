@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class Exile extends Card {
+    // Play: Give control of a friendly creature to your opponent.
     setupCardAbilities(ability) {
         this.play({
             condition: (context) => context.player.opponent,

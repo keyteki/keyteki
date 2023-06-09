@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class Squawker extends Card {
+    // Play: Ready a Mars creature or stun a non-Mars creature.
     setupCardAbilities(ability) {
         this.play({
             target: {

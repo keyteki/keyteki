@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class LibraryOfPolliasaurus extends Card {
+    // Action: Move 1A from a friendly creature to your pool.
     setupCardAbilities(ability) {
         this.action({
             target: {

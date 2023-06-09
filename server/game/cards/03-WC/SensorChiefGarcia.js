@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class SensorChiefGarcia extends Card {
+    // Play/Fight/Reap: Keys cost +2A during your opponents next turn.
     setupCardAbilities(ability) {
         this.play({
             fight: true,

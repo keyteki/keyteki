@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class Hapsis extends Card {
+    // After an enemy creature is destroyed fighting Hapsis, ward Hapsis and draw a card.
     setupCardAbilities(ability) {
         this.reaction({
             when: {

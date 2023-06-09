@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class ZParticleTracker extends Card {
+    // This creature gains, "Fight: Search your deck for an upgrade and put it into your hand. Shuffle your deck."
     setupCardAbilities(ability) {
         this.whileAttached({
             effect: ability.effects.gainAbility('fight', {

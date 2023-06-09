@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class GeneralOrder24 extends Card {
+    // At the start of each players turn, they must choose a creature they control and destroy each creature of the chosen creatures house. If that player has no creatures in play, destroy General Order 24 instead.
     setupCardAbilities(ability) {
         this.reaction({
             when: {

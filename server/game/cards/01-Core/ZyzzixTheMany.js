@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class ZyzzixTheMany extends Card {
+    // Fight/Reap: You may reveal a creature from your hand. If you do, archive it and Zyzzix the Many gets three +1 power counters.
     setupCardAbilities(ability) {
         this.fight({
             reap: true,

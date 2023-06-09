@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class Mug extends Card {
+    // Play: Move 1 from a creature to your pool. Deal 2 to that creature.
     setupCardAbilities(ability) {
         this.play({
             target: {

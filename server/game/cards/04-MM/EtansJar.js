@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class EtansJar extends Card {
+    // Play: Name a card. Until Etans Jar leaves play, cards with that name cannot be played.
     setupCardAbilities(ability) {
         this.play({
             target: {

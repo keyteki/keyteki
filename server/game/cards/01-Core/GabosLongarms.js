@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class GabosLongarms extends Card {
+    // Before Fight: Choose a creature. Gabos Longarms deals damage to that creature rather than the one it is fighting.
     setupCardAbilities(ability) {
         this.beforeFight({
             target: {

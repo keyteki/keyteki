@@ -2,6 +2,7 @@ const Card = require('../../Card.js');
 const EventRegistrar = require('../../eventregistrar.js');
 
 class Overrun extends Card {
+    // Play: If 3 or more enemy creatures have been destroyed this turn, your opponent loses 2A.
     setupCardAbilities(ability) {
         this.creaturesDestroyed = {};
         this.creaturesDestroyed[this.owner.uuid] = 0;

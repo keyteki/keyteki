@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class RoutineJob extends Card {
+    // Play: Steal 1A. Then, steal 1A for each copy of Routine Job in your discard pile.
     setupCardAbilities(ability) {
         this.play({
             gameAction: ability.actions.steal(),

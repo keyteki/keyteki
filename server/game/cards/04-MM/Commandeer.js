@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class Commandeer extends Card {
+    // Play: For the remainder of the turn, after you play another card, a friendly creature captures 1A.
     setupCardAbilities(ability) {
         this.play({
             effect: 'capture an amber after playing a card for the remainder of the turn',

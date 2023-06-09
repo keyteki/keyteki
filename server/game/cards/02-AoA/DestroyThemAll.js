@@ -1,6 +1,8 @@
 const Card = require('../../Card.js');
 
 class DestroyThemAll extends Card {
+    // Play: Destroy an artifact, a creature,
+    // and an upgrade.
     setupCardAbilities(ability) {
         this.play({
             fight: true,

@@ -1,6 +1,8 @@
 const Card = require('../../Card.js');
 
 class PeaceAccord extends Card {
+    // Play: Each player gains 2A.
+    // After a player fights with a creature, they lose 4A. Destroy Peace Accord.
     setupCardAbilities(ability) {
         this.play({
             gameAction: [

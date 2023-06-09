@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class StrangeGizmo extends Card {
+    // After you forge a key, destroy each creature and artifact.
     setupCardAbilities(ability) {
         this.reaction({
             when: {

@@ -1,6 +1,8 @@
 const Card = require('../../Card.js');
 
 class SeraphicArmor extends Card {
+    // This creature gets +1 armor.
+    // Play: Fully heal this creature.
     setupCardAbilities(ability) {
         this.play({
             gameAction: ability.actions.heal((context) => ({

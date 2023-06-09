@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class Imperium extends Card {
+    // Play: Ward 2 friendly creatures.
     setupCardAbilities(ability) {
         this.play({
             target: {

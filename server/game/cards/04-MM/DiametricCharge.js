@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class DiametricCharge extends Card {
+    // Play: Deal 1D to a creature, with 2D splash.
     setupCardAbilities(ability) {
         this.play({
             target: {

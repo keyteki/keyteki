@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class HarlandMindlock extends Card {
+    // Play: Take control of an enemy flank creature until Harland Mindlock leaves play.
     setupCardAbilities(ability) {
         this.play({
             target: {

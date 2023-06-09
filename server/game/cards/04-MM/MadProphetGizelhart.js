@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class MadProphetGizelhart extends Card {
+    // While Mad Prophet Gizelhart is in the center of your battleline, it gains, "Action: Fully heal each non-Mutant creature. Gain 1 for each creature healed this way."
     setupCardAbilities(ability) {
         this.persistentEffect({
             condition: (context) => context.source.isInCenter(),

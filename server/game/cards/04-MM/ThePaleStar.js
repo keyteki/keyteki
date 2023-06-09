@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class ThePaleStar extends Card {
+    // Omni: Destroy The Pale Star. For the remainder of the turn, each creature is considered to have 1 power and 0 armor.
     setupCardAbilities(ability) {
         this.omni({
             effect: 'make each creature to be 1 power and 0 amor',

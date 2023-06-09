@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class ShardOfPain extends Card {
+    // Action: Deal 1D to an enemy creature for each friendly Shard.
     setupCardAbilities(ability) {
         this.action({
             effect: 'deal 1 damage to a creature for each friendly shard',

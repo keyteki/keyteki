@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class InterdimensionalGraft extends Card {
+    // Play: If an opponent forges a key on their next turn, they must give you their remaining A.
     setupCardAbilities(ability) {
         this.play({
             condition: (context) => context.player.opponent,

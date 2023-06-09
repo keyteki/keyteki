@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class SongOfTheWild extends Card {
+    // Play: For the remainder of the turn, each friendly creature gains, Reap: Gain 1A.
     setupCardAbilities(ability) {
         this.play({
             effect:

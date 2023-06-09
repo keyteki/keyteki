@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class LostInTheWoods extends Card {
+    // Play: Choose 2 friendly creatures and 2 enemy creatures. Shuffle each chosen creature into its owners deck.
     setupCardAbilities(ability) {
         this.play({
             targets: {

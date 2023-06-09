@@ -1,6 +1,8 @@
 const Card = require('../../Card.js');
 
 class WailOfTheDamned extends Card {
+    // Enhance PT. (These icons have already been added to cards in your deck.)
+    // Play: Destroy a creature with no bonus icons.
     setupCardAbilities(ability) {
         this.play({
             target: {

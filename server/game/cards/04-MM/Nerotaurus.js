@@ -1,6 +1,8 @@
 const Card = require('../../Card.js');
 
 class Nerotaurus extends Card {
+    // Fight: Enemy creatures cannot reap during your opponents next turn.
+    // Reap: Enemy creatures cannot fight during your opponents next turn.
     setupCardAbilities(ability) {
         this.fight({
             condition: (context) => !!context.player.opponent,

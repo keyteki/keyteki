@@ -1,6 +1,9 @@
 const GiganticCard = require('../../GiganticCard.js');
 
 class NiffleKong extends GiganticCard {
+    // (Play only with the other half of Niffle Kong.)
+    // Play: Search your deck and discard pile for any number of Niffle creatures, reveal them, and put them into your hand. Shuffle your deck.
+    // Fight/Reap: You may destroy a friendly Niffle creature. If you do, deal 3D to a creature, steal 1A, and destroy an enemy artifact.
     constructor(owner, cardData) {
         super(owner, cardData);
     }

@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class Eyegor extends Card {
+    // Play: Look at the top 3cards of your deck. Add 1to your hand and discard the others.
     setupCardAbilities(ability) {
         this.play({
             effect: 'to look at the top 3 cards of their deck',

@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class DeepProbe extends Card {
+    // Play: Choose a house. Reveal your opponent's hand. Discard each creature of that house revealed this way.
     setupCardAbilities(ability) {
         this.play({
             condition: (context) =>

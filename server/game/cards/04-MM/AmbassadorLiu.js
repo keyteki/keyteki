@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class AmbassadorLiu extends Card {
+    // Action: Discard a card from your hand. If it is a Dis or Shadows card, steal 1A. If it is a Logos or Untamed card, gain 2A. If it is a Sanctum or Saurian card, capture 3A.
     setupCardAbilities(ability) {
         this.action({
             target: {

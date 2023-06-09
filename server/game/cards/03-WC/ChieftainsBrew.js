@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class ChieftainsBrew extends Card {
+    // Play: Give a creature two +1 power counters.
     setupCardAbilities(ability) {
         this.play({
             target: {

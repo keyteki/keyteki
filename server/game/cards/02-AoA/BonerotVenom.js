@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class BonerotVenom extends Card {
+    // After this creature is used, deal 2D to it.
     setupCardAbilities(ability) {
         this.reaction({
             when: {

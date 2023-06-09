@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class Dysania extends Card {
+    // Play: Your opponent discards each of their archived cards. You gain 1A for each card discarded this way.
     setupCardAbilities(ability) {
         this.play({
             condition: (context) => !!context.player.opponent,

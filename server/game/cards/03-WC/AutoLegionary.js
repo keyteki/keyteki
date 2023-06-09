@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class AutoLegionary extends Card {
+    // Action: Put Auto-Legionary on a flank of your battleline. While in the battleline, it is considered a creature with 5 power and belongs to all houses.
     setupCardAbilities(ability) {
         this.action({
             condition: (context) => context.source.controller === context.game.activePlayer,

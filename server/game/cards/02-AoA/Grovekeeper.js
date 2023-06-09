@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class Grovekeeper extends Card {
+    // At the end of your turn, give each neighboring creature a +1power counter.
     setupCardAbilities(ability) {
         this.interrupt({
             when: {

@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class MightyLance extends Card {
+    // Play: Deal 3D to a creature and 3D to a neighbor of that creature.
     setupCardAbilities(ability) {
         this.play({
             targets: {

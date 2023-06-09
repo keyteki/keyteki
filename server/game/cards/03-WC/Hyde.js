@@ -1,6 +1,8 @@
 const Card = require('../../Card.js');
 
 class Hyde extends Card {
+    // Reap: Draw a card. If you control Velum, draw 2 cards instead.
+    // Destroyed: Archive Velum from your discard pile. If you do, archive Hyde.
     setupCardAbilities(ability) {
         this.reap({
             gameAction: ability.actions.draw((context) => ({

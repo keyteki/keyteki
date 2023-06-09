@@ -1,6 +1,9 @@
 const Card = require('../../Card.js');
 
 class Weasand extends Card {
+    // Deploy. Elusive.
+    // If Weasand is on a flank, destroy it.
+    // After a player forges a key, gain 2A.
     setupCardAbilities(ability) {
         this.interrupt({
             condition: (context) => !!context.player.opponent,

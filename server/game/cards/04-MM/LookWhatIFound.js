@@ -1,6 +1,8 @@
 const Card = require('../../Card.js');
 
 class LookWhatIFound extends Card {
+    // Omega.
+    // Play: Return 1 card of each type (action, artifact, creature, upgrade) from your discard pile to your hand.
     setupCardAbilities(ability) {
         this.play({
             targets: {

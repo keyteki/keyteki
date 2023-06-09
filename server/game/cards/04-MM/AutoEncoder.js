@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class AutoEncoder extends Card {
+    // After a card is discarded from your hand, archive the top card of your deck.
     setupCardAbilities(ability) {
         this.reaction({
             when: {

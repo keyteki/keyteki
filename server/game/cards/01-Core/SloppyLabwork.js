@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class SloppyLabwork extends Card {
+    // Play: Archive a card. Discard a card.
     setupCardAbilities(ability) {
         this.play({
             targets: {

@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class Barehanded extends Card {
+    // Play: Put each artifact on top of its owners deck.
     setupCardAbilities(ability) {
         this.play({
             gameAction: ability.actions.returnToDeck((context) => ({

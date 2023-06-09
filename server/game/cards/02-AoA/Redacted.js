@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class Redacted extends Card {
+    // After you choose Logos as your active house, place 1A from the common supply on [REDACTED]. When there are 4or more A on [REDACTED], sacrifice it and forge a key at no cost.
     setupCardAbilities(ability) {
         this.reaction({
             when: {
