@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class MegaMogghunter extends Card {
+    // Fight: Deal 2D to a flank creature.
     setupCardAbilities(ability) {
         this.fight({
             target: {

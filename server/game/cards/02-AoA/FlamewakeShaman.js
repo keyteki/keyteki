@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class FlamewakeShaman extends Card {
+    // Play: Deal 2D to a creature.
     setupCardAbilities(ability) {
         this.play({
             target: {

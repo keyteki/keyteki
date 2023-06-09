@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class Anger extends Card {
+    // Play: Ready and fight with a friendly creature.
     setupCardAbilities(ability) {
         this.play({
             target: {

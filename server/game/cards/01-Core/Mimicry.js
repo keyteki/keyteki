@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class Mimicry extends Card {
+    // When you play this card, treat it as a copy of an action card in your opponents discard pile.
     setupCardAbilities(ability) {
         this.reaction({
             when: {

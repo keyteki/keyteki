@@ -1,6 +1,8 @@
 const Card = require('../../Card.js');
 
 class TechnoFiend extends Card {
+    // Reap: Discard a card from your hand. If you do, draw a card.
+    // Destroyed: Steal 1A.
     setupCardAbilities(ability) {
         this.reap({
             target: {

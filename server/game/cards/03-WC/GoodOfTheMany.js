@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class GoodOfTheMany extends Card {
+    // Play: Destroy each creature that does not share a trait with another creature in its controllers battleline.
     setupCardAbilities(ability) {
         this.play({
             gameAction: ability.actions.destroy((context) => ({

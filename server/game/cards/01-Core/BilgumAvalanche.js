@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class BilgumAvalanche extends Card {
+    // After you forge a key, deal 2D to each enemy creature.
     setupCardAbilities(ability) {
         this.reaction({
             when: {

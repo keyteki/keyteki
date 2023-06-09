@@ -1,6 +1,8 @@
 const Card = require('../../Card.js');
 
 class Buzzle extends Card {
+    // Skirmish. (When you use this creature to fight, it is dealt no damage in return.)
+    // Play/Fight: You may purge one of Buzzles neighbors. If you do, ready Buzzle.
     setupCardAbilities(ability) {
         this.play({
             fight: true,

@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class ProfessorTerato extends Card {
+    // Each Mutant creature gains, Reap: Draw a card.
     setupCardAbilities(ability) {
         this.persistentEffect({
             match: (card) => card.hasTrait('mutant'),

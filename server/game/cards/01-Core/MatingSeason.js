@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class MatingSeason extends Card {
+    // Play: Shuffle each Mars creature into its owners deck. Each player gains 1<A> for each creature shuffled into their deck this way.
     setupCardAbilities(ability) {
         this.play({
             effect:

@@ -1,6 +1,8 @@
 const Card = require('../../Card.js');
 
 class BookOfMalefaction extends Card {
+    // After your A is stolen, put a warrant counter on Book of Malefaction for each A stolen.
+    // Omni: Remove a warrant counter from Book of Malefaction. If you do, purge a creature.
     setupCardAbilities(ability) {
         this.reaction({
             when: {

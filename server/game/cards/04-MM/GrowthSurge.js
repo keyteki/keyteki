@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class GrowthSurge extends Card {
+    // Play: Give a flank creature three +1 power counters. Give its neighbor two +1 power counters. Give the second creature's other neighbor a +1 power counter.
     setupCardAbilities(ability) {
         this.play({
             targets: {

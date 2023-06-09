@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class BookOfLeQ extends Card {
+    // Action: Reveal the top card of your deck. If it is a non-Star Alliance card, its house becomes your active house. Otherwise, end your turn.
     setupCardAbilities(ability) {
         this.action({
             gameAction: [

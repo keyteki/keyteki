@@ -1,6 +1,8 @@
 const Card = require('../../Card.js');
 
 class Ghosthawk extends Card {
+    // Deploy. (This creature can enter play anywhere in your battleline.)
+    // Play: You may reap with each neighboring creature, one at a time.
     setupCardAbilities(ability) {
         this.play({
             effect: 'reap with each of its neighbors in turn',

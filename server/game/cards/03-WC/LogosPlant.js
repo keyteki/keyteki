@@ -1,6 +1,8 @@
 const Card = require('../../Card.js');
 
 class LogosPlant extends Card {
+    // Elusive.
+    // After a player chooses Logos as their active house, gain 1A.
     setupCardAbilities(ability) {
         this.reaction({
             when: {

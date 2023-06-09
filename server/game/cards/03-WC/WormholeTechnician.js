@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class WormholeTechnician extends Card {
+    // Reap: Reveal the top card of your deck. If it is a Logos card, play it. Otherwise, archive it.
     setupCardAbilities(ability) {
         this.reap({
             condition: (context) => context.player.deck.length > 0,

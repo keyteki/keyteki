@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class BattleFleet extends Card {
+    // Play: Reveal any number of Mars cards from your hand. For each card revealed this way, draw 1 card.
     setupCardAbilities(ability) {
         this.play({
             target: {

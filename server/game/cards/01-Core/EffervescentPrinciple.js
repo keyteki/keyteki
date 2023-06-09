@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class EffervescentPrinciple extends Card {
+    // Play: Each player loses half their <A> (rounding down the loss). Gain 1 chain.
     setupCardAbilities(ability) {
         this.play({
             effect: 'gain a chain and make both players lose half their amber',

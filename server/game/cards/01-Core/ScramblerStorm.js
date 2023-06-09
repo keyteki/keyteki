@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class ScramblerStorm extends Card {
+    // Play: Your opponent cannot play action cards on their next turn.
     setupCardAbilities(ability) {
         this.play({
             condition: (context) => !!context.player.opponent,

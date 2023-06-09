@@ -1,6 +1,8 @@
 const Card = require('../../Card.js');
 
 class XenoBot extends Card {
+    // Fight: Look at the top 3 cards of your deck. Put 1 into your hand and 1 on the bottom of your deck.
+    // Reap: Discard a card from your hand. If you do, draw a card.
     setupCardAbilities(ability) {
         this.reap({
             target: {

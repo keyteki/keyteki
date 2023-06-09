@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class Turnkey extends Card {
+    // Play: Unforge an opponents key. If you do, when Turnkey leaves play, your opponent forges a key at no cost.
     setupCardAbilities(ability) {
         this.play({
             condition: (context) =>

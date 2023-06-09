@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class Memolith extends Card {
+    // Action: Graft an action card from your hand onto Memolith (place it faceup under this card), or trigger the play effect of an action card grafted onto Memolith.
     setupCardAbilities(ability) {
         this.action({
             target: {

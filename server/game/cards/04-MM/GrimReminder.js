@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class GrimReminder extends Card {
+    // Play: Choose a house. Archive each creature of that house from your discard pile. Gain 1 chain.
     setupCardAbilities(ability) {
         this.play({
             target: {

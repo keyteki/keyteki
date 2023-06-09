@@ -1,6 +1,8 @@
 const Card = require('../../Card.js');
 
 class Masterplan extends Card {
+    // Play: Put a card from your hand facedown beneath Masterplan.
+    // Omni: Play the card beneath Masterplan. Sacrifice Masterplan.
     setupCardAbilities(ability) {
         this.play({
             target: {

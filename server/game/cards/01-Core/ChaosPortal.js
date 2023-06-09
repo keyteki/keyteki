@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class ChaosPortal extends Card {
+    // Action: Choose a house. Reveal the top card of your deck. If it is of that house, play it.
     setupCardAbilities(ability) {
         this.action({
             target: {

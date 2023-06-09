@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class NaturesCall extends Card {
+    // Play: Return up to 3creatures to their owners hands.
     setupCardAbilities(ability) {
         this.play({
             target: {

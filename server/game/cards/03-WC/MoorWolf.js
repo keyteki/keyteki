@@ -1,6 +1,8 @@
 const Card = require('../../Card.js');
 
 class MoorWolf extends Card {
+    // Skirmish.
+    // Play: Ready each other Wolf creature.
     setupCardAbilities(ability) {
         this.play({
             effect: 'ready each other Wolf creature.',

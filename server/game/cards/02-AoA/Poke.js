@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class Poke extends Card {
+    // Play: Deal 1D to an enemy creature. If this damage destroys that creature, draw a card.
     setupCardAbilities(ability) {
         this.play({
             target: {

@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class NepetaGigantica extends Card {
+    // Action: Stun a creature with power 5 or higher, or stun a Giant creature.
     setupCardAbilities(ability) {
         this.action({
             target: {

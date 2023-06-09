@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class KeyAbduction extends Card {
+    // Play: Return each Mars creature to its owners hand. Then, you may forge a key at +9A current cost, reduced by 1A for each card in your hand.
     setupCardAbilities(ability) {
         this.play({
             effect: "return all mars creatures to their owner's hand",

@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class ReverseTime extends Card {
+    // Play: Swap your deck and your discard pile. Then, shuffle your deck.
     setupCardAbilities(ability) {
         this.play({
             effect: 'swap their deck and discard pile, and shuffle their deck',

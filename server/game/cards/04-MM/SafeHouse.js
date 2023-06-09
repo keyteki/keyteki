@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class SafeHouse extends Card {
+    // Action: Archive a friendly creature from play.
     setupCardAbilities(ability) {
         this.action({
             target: {

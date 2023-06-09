@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class UnsuspectingPrey extends Card {
+    // Play: Deal 2D to up to 3undamaged creatures.
     setupCardAbilities(ability) {
         this.play({
             target: {

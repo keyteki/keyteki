@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class SauryAboutThat extends Card {
+    // Play: Destroy a creature. Its controller gains 1.
     setupCardAbilities(ability) {
         this.play({
             effect: 'destroy {0} and have {1} gaining 1 amber',

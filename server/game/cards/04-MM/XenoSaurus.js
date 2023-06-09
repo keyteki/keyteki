@@ -1,6 +1,8 @@
 const Card = require('../../Card.js');
 
 class XenoSaurus extends Card {
+    // Play: You may exalt Xeno-Saurus. If you do, deal 3D to a creature.
+    // Fight: Look at the top 3 cards of your deck. Put 1 into your hand and 1 on the bottom of your deck.
     setupCardAbilities(ability) {
         this.play({
             optional: true,

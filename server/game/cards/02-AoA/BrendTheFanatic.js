@@ -1,6 +1,9 @@
 const Card = require('../../Card.js');
 
 class BrendTheFanatic extends Card {
+    // Skirmish.
+    // Play: Your opponent gains 1A.
+    // Destroyed: Steal 3A.
     setupCardAbilities(ability) {
         this.play({
             condition: (context) => !!context.player.opponent,

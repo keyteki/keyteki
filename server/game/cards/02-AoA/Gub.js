@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class Gub extends Card {
+    // While Gub is not on a flank, it gets +5power and gains taunt.
     setupCardAbilities(ability) {
         this.persistentEffect({
             condition: (context) => !context.source.isOnFlank(),

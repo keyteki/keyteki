@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class MaruckTheMarked extends Card {
+    // After Maruck the Marked prevents damage with its armor, capture 1A for each damage just prevented.
     setupCardAbilities(ability) {
         this.reaction({
             when: {

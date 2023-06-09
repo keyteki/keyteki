@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class SkippyTimehog extends Card {
+    // Play: Your opponent cannot use any cards next turn. (Cards can still be played and discarded.)
     setupCardAbilities(ability) {
         this.play({
             condition: (context) => !!context.player.opponent,

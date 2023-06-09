@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class ReclaimedByNature extends Card {
+    // Play: Purge an artifact. Resolve its bonus icons as if you had played it.
     setupCardAbilities(ability) {
         this.play({
             target: {

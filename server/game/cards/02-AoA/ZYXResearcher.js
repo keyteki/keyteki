@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class ZYXResearcher extends Card {
+    // Play: Archive the top card of your deck or the top card of your discard pile.
     setupCardAbilities(ability) {
         this.play({
             target: {

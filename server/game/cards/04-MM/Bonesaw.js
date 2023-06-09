@@ -2,6 +2,7 @@ const Card = require('../../Card.js');
 const EventRegistrar = require('../../eventregistrar.js');
 
 class Bonesaw extends Card {
+    // If a friendly creature was destroyed this turn, Bonesaw enters play ready.
     setupCardAbilities(ability) {
         this.creatureDestroyedControllerUuid = {};
         this.tracker = new EventRegistrar(this.game, this);

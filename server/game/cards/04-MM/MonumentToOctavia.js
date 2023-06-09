@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class MonumentToOctavia extends Card {
+    // Action: A friendly creature captures 1A. If Cornicen Octavia is in your discard pile, that creature captures 2A instead.
     setupCardAbilities(ability) {
         this.action({
             target: {

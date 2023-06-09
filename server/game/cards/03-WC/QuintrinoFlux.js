@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class QuintrinoFlux extends Card {
+    // Play: Choose a friendly creature and an enemy creature. Destroy the chosen creatures and each creature with the same power as either of the chosen creatures.
     setupCardAbilities(ability) {
         this.play({
             targets: {

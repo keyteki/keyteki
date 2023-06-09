@@ -1,6 +1,8 @@
 const BlasterCard = require('./BlasterCard.js');
 
 class IngramsBlaster extends BlasterCard {
+    // This creature gains, Fight/Reap: You may deal 2D to a creature, or attach Ingrams Blaster to Medic Ingram.
+    // After you attach Ingrams Blaster to Medic Ingram, fully heal a creature.
     setupCardAbilities(ability) {
         this.reaction({
             when: {

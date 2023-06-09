@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class ImperialScutum extends Card {
+    // This creature gets +2 armor and gains, Destroyed: Move each A on this creature to the common supply.
     setupCardAbilities(ability) {
         this.whileAttached({
             effect: [

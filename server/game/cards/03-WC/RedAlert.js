@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class RedAlert extends Card {
+    // Play: If there are more enemy creatures than friendly creatures, deal damage to each enemy creature equal to the difference.
     setupCardAbilities(ability) {
         this.play({
             condition: (context) =>

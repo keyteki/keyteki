@@ -1,6 +1,10 @@
 const Card = require('../../Card.js');
 
 class Corrode extends Card {
+    // Play: Choose one:
+    //  Destroy an artifact.
+    //  Destroy an upgrade.
+    //  Destroy a creature with armor.
     reduceTargets(context) {
         let targets = context.targets
             ? Object.values(context.targets).reduce((acc, target) => acc.concat(target), [])

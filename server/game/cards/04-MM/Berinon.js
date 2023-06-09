@@ -1,6 +1,8 @@
 const Card = require('../../Card.js');
 
 class Berinon extends Card {
+    // After a Mutant creature enters play, enrage Berinon.
+    // Reap: Capture 2A.
     setupCardAbilities(ability) {
         this.reaction({
             when: {
