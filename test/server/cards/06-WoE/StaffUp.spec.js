@@ -7,7 +7,7 @@ describe('Staff Up', function () {
                     house: 'ekwidon',
                     token: 'grumpus',
                     inPlay: ['antiquities-dealer', 'transitory-philosopher'],
-                    hand: ['staff-up']
+                    hand: ['staff-up', 'insurance-policy']
                 },
                 player2: {
                     amber: 4,
@@ -78,6 +78,14 @@ describe('Staff Up', function () {
             expect(this.etherSpider.tokens.amber).toBe(1);
             expect(this.player1.player.creaturesInPlay.length).toBe(2);
             expect(this.player1.amber).toBe(1);
+            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+        });
+
+        it('should not cause tokens to be made when losing amber', function () {
+            this.player1.play(this.staffUp);
+            this.player1.playUpgrade(this.insurancePolicy, this.antiquitiesDealer);
+            expect(this.player1.player.creaturesInPlay.length).toBe(2);
+            expect(this.player1.amber).toBe(0);
             expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
         });
     });

@@ -8,7 +8,7 @@ class StaffUp extends Card {
             gameAction: ability.actions.forRemainderOfTurn({
                 when: {
                     onModifyAmber: (event, context) =>
-                        event.player === context.player && event.amount > 0
+                        event.player === context.player && event.amount > 0 && !event.loseAmber
                 },
                 triggeredAbilityType: 'interrupt',
                 gameAction: ability.actions.sequential([
