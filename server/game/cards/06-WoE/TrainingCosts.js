@@ -20,7 +20,7 @@ class TrainingCosts extends Card {
             }),
             then: {
                 alwaysTriggers: true,
-                condition: (context) => context.preThenEvent.amount < 2,
+                condition: (context) => context.preThenEvent.amount > -2,
                 gameAction: ability.actions.returnToDeck({ shuffle: true }),
                 message: '{0} uses {1} to shuffle it back into their deck'
             }
