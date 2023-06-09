@@ -17,7 +17,9 @@ import Link from './Link';
 const ProfileMenu = ({ menu, user }) => {
     const { t } = useTranslation();
 
-    if (!user) return null;
+    if (!user) {
+        return null;
+    }
 
     const title = (
         <span>
