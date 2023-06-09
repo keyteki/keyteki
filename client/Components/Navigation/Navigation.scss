@@ -4,26 +4,11 @@
 @import '~bootstrap/scss/variables';
 @import '~bootstrap/scss/mixins';
 
-.top-navbar {
-    padding: 12px;
-    position: fixed;
-    display: flex;
-    width: 100%;
-    height: $navbar-height;
-    top: 0;
-    left: 0;
+.navbar-color {
     background-color: rgb(0, 0, 0, 0.9);
-    z-index: 3333;
-    flex-flow: row nowrap;
-    justify-content: flex-start;
-    align-items: center;
 }
 
-.navbar-right {
-    display: flex;
-    justify-content: flex-end;
-    flex-basis: 100%;
-    flex-grow: 1;
+.navbar-nav {
     align-items: center;
 }
 
@@ -35,23 +20,12 @@
     transition: all 0.4s ease-in-out;
     text-decoration: none;
     color: #ffffff;
-    background-image: linear-gradient(#d44887, #d44887);
-    background-size: 0 0.1em;
-    background-position-y: 100%;
-    background-position-x: 0;
-    background-repeat: no-repeat;
-
     &:hover {
         cursor: default;
-        @for $i from 1 through 10 {
-            .navbar-dropdown.link-#{$i} {
-                height: $i * 24 + 14px;
-            }
-        }
     }
 }
 
-.navbar-item.navbar-link {
+.navbar-item.interactable {
     color: #d44887;
     &:hover {
         color: #ffffff;
@@ -60,28 +34,48 @@
     }
 }
 
-.navbar-dropdown {
-    height: 0;
-    background-color: rgb(0, 0, 0, 0.9);
+.dropdown {
+    color: #d44887;
+    font-family: 'PoppinsMedium', serif;
+    font-size: 16px;
+    transition: all 0.4s ease-in-out;
+    &:hover {
+        color: #ffffff;
+        cursor: pointer;
+        background-size: 100% 0.1em;
+    }
+}
+
+.dropdown-toggle {
+    color: #d44887 !important;
+    font-family: 'PoppinsMedium', serif;
+    font-size: 16px;
+    transition: all 0.4s ease-in-out;
+    &:hover {
+        color: #ffffff !important;
+        cursor: pointer;
+        background-size: 100% 0.1em;
+    }
+}
+
+.dropdown-menu {
+    background: rgba(0,0,0,0.9);
     border-bottom-left-radius: 0.5rem;
     border-bottom-right-radius: 0.5rem;
-    overflow: hidden;
-    position: absolute;
-    top: $navbar-height - 13;
     transition: all 0.4s ease-in-out;
 }
 
-.navbar-dropdown-right {
-    right: 0;
-}
-
-.navbar-dropdown-padding {
-    height: 10px;
+.dropdown-child {
+    display: block;
+    &:hover {
+        background: none !important;
+    }
 }
 
 .navbar-brand {
     color: gray('500');
     position: absolute;
+    top: 0;
     left: 50%;
     transform: translateX(-50%);
     background-image: url('~assets/img/header_icon.png');
@@ -93,7 +87,7 @@
     height: 100%;
 }
 
-@media (min-width:1200px) {
+@media (min-width:1450px) {
     .navbar-brand {
         position: absolute;
         left: 50%;

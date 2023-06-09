@@ -2,7 +2,6 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 
-import NavbarItem from './NavbarItem';
 import { RightMenu, ProfileMenu, LeftMenu } from '../../menus';
 import LanguageSelector from './LanguageSelector';
 import ProfileDropdown from './ProfileDropdown';
@@ -11,6 +10,7 @@ import GameContextMenu from './GameContextMenu';
 
 import './Navigation.scss';
 import Link from './Link';
+import { Nav, Navbar, NavDropdown } from 'react-bootstrap';
 
 /**
  * @typedef { import('../../menus').MenuItem } MenuItem
@@ -59,9 +59,10 @@ const Navigation = (props) => {
     const filterMenuItems = (menuItems, user) =>
         menuItems.filter(
             (item) =>
-                (user && !item.showOnlyWhenLoggedOut) ||
-                (!user && item.showOnlyWhenLoggedIn) ||
-                (item.permission && user && user.permissions[item.permission])
+                ((user && !item.showOnlyWhenLoggedOut) ||
+                    (!user && item.showOnlyWhenLoggedIn) ||
+                    (item.permission && user && user.permissions[item.permission])) &&
+                (item.path || item.childItems)
         );
 
     /**
@@ -73,33 +74,48 @@ const Navigation = (props) => {
         return filterMenuItems(menuItems, props.user).map((menuItem) => {
             const children =
                 menuItem.childItems && filterMenuItems(menuItem.childItems, props.user);
-            if (children && children.length > 0) {
-                return (
-                    <NavbarItem
-                        key={menuItem.title}
-                        title={t(menuItem.title)}
-                        childLinks={children}
-                    />
-                );
-            }
 
-            if (!menuItem.path) {
-                return <></>;
-            }
-
-            return (
-                <NavbarItem key={menuItem.title} href={menuItem.path} title={t(menuItem.title)} />
+            return children && children.length > 0 ? (
+                <NavDropdown
+                    key={menuItem.title}
+                    id={`nav-${menuItem.title}`}
+                    title={t(menuItem.title)}
+                >
+                    {children.map((childItem) =>
+                        childItem.path ? (
+                            <Link
+                                key={childItem.path}
+                                href={childItem.path}
+                                classname={'navbar-item interactable dropdown-child'}
+                            >
+                                {t(childItem.title)}
+                            </Link>
+                        ) : null
+                    )}
+                </NavDropdown>
+            ) : (
+                <Link
+                    key={menuItem.title}
+                    href={menuItem.path}
+                    classname={'navbar-item interactable'}
+                >
+                    {t(menuItem.title)}
+                </Link>
             );
         });
     };
 
-    const numGames = games && <NavbarItem title={`${t(`${games.length} Games`)}`} />;
+    const numGames = games && (
+        <div className={'navbar-item'}>{`${t(`${games.length} Games`)}`}</div>
+    );
 
     return (
-        <div className={'top-navbar'}>
-            {renderMenuItems(LeftMenu)}
-            <Link href={'/'} classname={'navbar-brand'} />
-            <div className={'navbar-right'}>
+        <Navbar className='navbar-sm navbar-color' fixed='top'>
+            <Nav>{renderMenuItems(LeftMenu)}</Nav>
+            <Link href={'/'}>
+                <Navbar.Brand />
+            </Link>
+            <Navbar.Collapse id='navbar' className='justify-content-end'>
                 <GameContextMenu />
                 {numGames}
                 {currentGame?.started ? (
@@ -120,8 +136,8 @@ const Navigation = (props) => {
                 {renderMenuItems(RightMenu)}
                 <ProfileDropdown menu={ProfileMenu} user={props.user} />
                 <LanguageSelector />
-            </div>
-        </div>
+            </Navbar.Collapse>
+        </Navbar>
     );
 };
 

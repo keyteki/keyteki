@@ -5,7 +5,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheckCircle, faTimesCircle, faBan } from '@fortawesome/free-solid-svg-icons';
 
 import './ServerStatus.scss';
-import NavbarItem from './NavbarItem';
 
 const ServerStatus = (props) => {
     const { connecting, connected, responseTime, serverType } = props;
@@ -19,14 +18,14 @@ const ServerStatus = (props) => {
 
     const toolTip = `${serverType} is ${connectionStatus}`;
 
-    const pingLevel = `ping-${
+    const pingLevel = `text-${
         connected
             ? responseTime
-                ? (responseTime < 150 && 'good') || (responseTime < 300 && 'mid') || 'bad'
+                ? (responseTime < 150 && 'success') || (responseTime < 300 && 'warning') || 'danger'
                 : 'neutral'
             : connecting
-            ? 'mid'
-            : 'bad'
+            ? 'warning'
+            : 'danger'
     }`;
 
     const pingText2 = `${serverType}: ${
@@ -34,11 +33,11 @@ const ServerStatus = (props) => {
     }`;
 
     return (
-        <NavbarItem>
+        <div className={'navbar-item'}>
             <span className={pingLevel}>
                 {pingText2} <FontAwesomeIcon icon={connectionIcon} title={t(toolTip)} />
             </span>
-        </NavbarItem>
+        </div>
     );
 };
 

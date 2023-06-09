@@ -1,6 +1,7 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useEffect } from 'react';
+import { NavDropdown } from 'react-bootstrap';
 
 const languages = [
     {
@@ -61,26 +62,24 @@ const LanguageSelector = () => {
     }, [i18n]);
 
     return (
-        <div className={'navbar-item navbar-link'}>
-            {i18n.language}
-            <div className={`navbar-dropdown navbar-dropdown-right link-${languages.length}`}>
-                <div className={'navbar-dropdown-padding'} />
-                {languages.map((lang) => (
-                    <div key={lang.name}>
-                        <a
-                            className={'navbar-item navbar-link'}
-                            key={lang.name}
-                            onClick={(e) => {
-                                e.preventDefault();
-                                i18n.changeLanguage(lang.value);
-                            }}
-                        >
-                            {lang.name}
-                        </a>
-                    </div>
-                ))}
-            </div>
-        </div>
+        <NavDropdown
+            drop={'left'}
+            id={`nav-Lang`}
+            onSelect={(lang) => {
+                i18n.changeLanguage(lang.value);
+            }}
+            title={i18n.language}
+        >
+            {languages.map((lang) => (
+                <NavDropdown.Item
+                    className={'navbar-item interactable dropdown-child'}
+                    key={lang.name}
+                    eventKey={lang.name}
+                >
+                    {lang.name}
+                </NavDropdown.Item>
+            ))}
+        </NavDropdown>
     );
 };
 
