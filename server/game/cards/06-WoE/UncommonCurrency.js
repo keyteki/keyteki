@@ -1,7 +1,7 @@
 const Card = require('../../Card.js');
 
 class UncommonCurrency extends Card {
-    // Swap control of Uncommon Currency and an enemy artifact.
+    // Action: Swap control of Uncommon Currency and an enemy artifact.
     setupCardAbilities(ability) {
         this.action({
             target: {
