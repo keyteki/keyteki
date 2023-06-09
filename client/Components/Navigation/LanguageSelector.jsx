@@ -63,8 +63,8 @@ const LanguageSelector = () => {
 
     return (
         <NavDropdown
-            drop={'left'}
-            id={`nav-Lang`}
+            drop='left'
+            id='nav-Lang'
             onSelect={(lang) => {
                 i18n.changeLanguage(lang.value);
             }}
@@ -72,7 +72,7 @@ const LanguageSelector = () => {
         >
             {languages.map((lang) => (
                 <NavDropdown.Item
-                    className={'navbar-item interactable dropdown-child'}
+                    className='navbar-item interactable dropdown-child'
                     key={lang.name}
                     eventKey={lang.name}
                 >
