@@ -21,7 +21,7 @@ class AmberfinSharkEvilTwin extends Card {
                 alwaysTriggers: true,
                 gameAction: ability.actions.addPowerCounter((context) => ({
                     amount: context.preThenEvents.reduce(
-                        (total, event) => total + (!event.cancelled ? -event.amount : 0),
+                        (total, event) => total + (!event.cancelled ? event.amount : 0),
                         0
                     )
                 }))

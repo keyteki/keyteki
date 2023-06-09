@@ -5,7 +5,7 @@ class EtherSpider extends Card {
         this.interrupt({
             when: {
                 onModifyAmber: (event, context) =>
-                    event.player === context.player.opponent && event.amount > 0
+                    event.player === context.player.opponent && !event.loseAmber
             },
             gameAction: ability.actions.sequential([
                 ability.actions.placeAmber((context) => ({
