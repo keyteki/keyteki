@@ -63,6 +63,8 @@ const Effects = {
     setPower: (amount) => EffectBuilder.card.flexible('setPower', amount),
     takeControl: (player) => EffectBuilder.card.flexible('takeControl', player),
     takeControlOn: (position) => EffectBuilder.card.static('takeControlOn', position),
+    takeControlOnLeft: () => EffectBuilder.card.static('takeControlOnLeft'),
+    takeControlOnRight: () => EffectBuilder.card.static('takeControlOnRight'),
     entersPlayUnderOpponentsControl: () =>
         EffectBuilder.card.static('entersPlayUnderOpponentsControl'),
     terminalCondition: (properties) =>

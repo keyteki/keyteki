@@ -19,7 +19,7 @@ class Whirlpool extends Card {
                     target: context.game.activePlayer.creaturesInPlay.slice(
                         -Math.min(context.game.activePlayer.creaturesInPlay.length, 1)
                     ),
-                    effect: ability.effects.takeControlOn(-1) // left
+                    effect: ability.effects.takeControlOnLeft()
                 }))
             ]
         });

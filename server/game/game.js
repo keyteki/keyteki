@@ -1001,10 +1001,19 @@ class Game extends EventEmitter {
         card.controller = player;
 
         if (card.anyEffect('takeControlOn')) {
-            this.finalizeTakeControl(player, card, card.mostRecentEffect('takeControlOn'));
+            this.finalizeTakeControl(
+                player,
+                card,
+                undefined,
+                card.mostRecentEffect('takeControlOn')
+            );
+        } else if (card.anyEffect('takeControlOnLeft')) {
+            this.finalizeTakeControl(player, card, true);
+        } else if (card.anyEffect('takeControlOnRight')) {
+            this.finalizeTakeControl(player, card);
         } else if (card.type === 'creature' && player.creaturesInPlay.length > 0) {
             let handlers = [
-                () => this.finalizeTakeControl(player, card, -1), // left
+                () => this.finalizeTakeControl(player, card, true), // left
                 () => this.finalizeTakeControl(player, card) // right
             ];
             this.promptWithHandlerMenu(
@@ -1025,13 +1034,15 @@ class Game extends EventEmitter {
         }
     }
 
-    finalizeTakeControl(player, card, position = Number.MAX_SAFE_INTEGER) {
-        if (position === -1) {
+    finalizeTakeControl(player, card, left = false, position = -1) {
+        if (position >= 0) {
+            if (player.cardsInPlay.length > position) {
+                player.cardsInPlay.splice(position, 0, card);
+            }
+        } else if (left) {
             player.cardsInPlay.unshift(card);
-        } else if (position === Number.MAX_SAFE_INTEGER) {
+        } else {
             player.cardsInPlay.push(card);
-        } else if (player.cardsInPlay.length > position) {
-            player.cardsInPlay.splice(position, 0, card);
         }
         card.updateEffectContexts();
         this.emitEvent('onTakeControl', { player, card });
