@@ -7,11 +7,16 @@ class BigMagnet extends Card {
             target: {
                 controller: 'self',
                 cardType: 'creature',
-                gameAction: ability.actions.attach((context) => ({
-                    target: context.target,
-                    upgrade: context.game.creaturesInPlay
+
+                gameAction: ability.actions.sequentialForEach((context) => ({
+                    forEach: context.game.creaturesInPlay
                         .filter((card) => card !== context.target && card.upgrades.length > 0)
-                        .flatMap((card) => card.upgrades || [])
+                        .flatMap((card) => card.upgrades || []),
+                    action: (upgrade) =>
+                        ability.actions.attach((context) => ({
+                            target: context.target,
+                            upgrade: upgrade
+                        }))
                 }))
             },
             effect: 'take control of each upgrade in play and move it to {0}'
