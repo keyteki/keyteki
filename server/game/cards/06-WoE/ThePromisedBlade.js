@@ -1,6 +1,8 @@
 const Card = require('../../Card.js');
 
 class ThePromisedBlade extends Card {
+    // At the start of each player's turn, the player with the fewest creatures in play takes control of The Promised Blade.
+    // Omni: A friendly creature captures 1 amber.
     setupCardAbilities(ability) {
         this.omni({
             target: {
