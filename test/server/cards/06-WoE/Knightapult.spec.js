@@ -29,12 +29,24 @@ describe('Knightapult', function () {
                 expect(this.player1).toHavePromptButton('Deploy Right');
             });
 
-            xit('to be ready', function () {
+            it('to be ready', function () {
+                this.player1.clickPrompt('Deploy Left');
+                this.player1.clickCard(this.flaxia);
                 expect(this.holdfast.exhausted).toBe(false);
             });
-        });
 
-        it('should only apply to the first creature played');
+            it('should only apply to the first creature played', function () {
+                this.player1.clickPrompt('Deploy Left');
+                this.player1.clickCard(this.flaxia);
+
+                this.player1.clickCard(this.berinon);
+                this.player1.clickPrompt('Play this creature');
+                expect(this.player1).toHavePromptButton('Left');
+                expect(this.player1).toHavePromptButton('Right');
+                expect(this.player1).not.toHavePromptButton('Deploy Left');
+                expect(this.player1).not.toHavePromptButton('Deploy Right');
+            });
+        });
     });
 
     it("should cause Gebuk's replacement to be deployable and ready");
