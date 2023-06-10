@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class RelentlessWhispers extends Card {
+    // Play: Deal 2<D> to a creature. If this damage destroys that creature, steal 1<A>.
     setupCardAbilities(ability) {
         this.play({
             target: {

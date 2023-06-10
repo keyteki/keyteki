@@ -1,6 +1,8 @@
 const Card = require('../../Card.js');
 
 class DinoThief extends Card {
+    // Elusive. (The first time this creature is attacked each turn, no damage is dealt.)
+    // Play: You may exalt Dino-Thief. If you do, deal 3D to a creature.
     setupCardAbilities(ability) {
         this.play({
             optional: true,

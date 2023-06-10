@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class ShardOfKnowledge extends Card {
+    // Action: Draw a card for each friendly Shard.
     setupCardAbilities(ability) {
         this.action({
             gameAction: ability.actions.draw((context) => ({

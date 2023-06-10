@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class SirenHorn extends Card {
+    // This creature gains, "Before Fight: Move 1 from this creature to the creature it fights."
     setupCardAbilities(ability) {
         this.whileAttached({
             effect: ability.effects.gainAbility('beforeFight', {

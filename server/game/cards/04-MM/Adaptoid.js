@@ -1,6 +1,8 @@
 const Card = require('../../Card.js');
 
 class Adaptoid extends Card {
+    // Enhance PTDR.
+    // After you play a card with a bonus icon, for the remainder of the turn, Adaptoid gains (choose one): +2 armor, assault 2, or Fight: Steal 1A.
     setupCardAbilities(ability) {
         this.reaction({
             when: {

@@ -1,6 +1,8 @@
 const Card = require('../../Card.js');
 
 class LavaBall extends Card {
+    // Play: Deal 4D to a creature,
+    // with 2D splash.
     setupCardAbilities(ability) {
         this.play({
             target: {

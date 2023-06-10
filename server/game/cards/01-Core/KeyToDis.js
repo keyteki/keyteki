@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class KeyToDis extends Card {
+    // Omni: Sacrifice Key to Dis. Destroy each creature.
     setupCardAbilities(ability) {
         this.omni({
             gameAction: [

@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class OrtannusBinding extends Card {
+    // Play: Deal 2D to a friendly creature.
     setupCardAbilities(ability) {
         this.play({
             target: {

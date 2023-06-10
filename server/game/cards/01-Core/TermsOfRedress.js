@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class TermsOfRedress extends Card {
+    // Play: Choose a friendly creature to capture 2<A>.
     setupCardAbilities(ability) {
         this.play({
             target: {

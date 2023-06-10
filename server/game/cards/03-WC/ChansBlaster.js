@@ -1,6 +1,8 @@
 const BlasterCard = require('./BlasterCard.js');
 
 class ChansBlaster extends BlasterCard {
+    // This creature gains, Fight/Reap: You may deal 2D to a creature, or attach Chans Blaster to Commander Chan.
+    // After you attach Chans Blaster to Commander Chan, you may use another friendly creature.
     setupCardAbilities(ability) {
         this.reaction({
             when: {

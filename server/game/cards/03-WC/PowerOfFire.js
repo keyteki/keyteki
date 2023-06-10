@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class PowerOfFire extends Card {
+    // Play: Sacrifice a friendly creature. If you do, each player loses A equal to half that creatures power (rounding down the loss). Gain 1 chain.
     setupCardAbilities(ability) {
         this.play({
             target: {

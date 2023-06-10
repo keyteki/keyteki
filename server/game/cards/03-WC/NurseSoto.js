@@ -1,6 +1,8 @@
 const Card = require('../../Card.js');
 
 class NurseSoto extends Card {
+    // Deploy. (This creature can enter play anywhere in your battleline.)
+    // Play/Fight/Reap: Heal 3 damage from each of Nurse Sotos neighbors.
     setupCardAbilities(ability) {
         this.play({
             fight: true,

@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class Snudge extends Card {
+    // Fight/Reap: Return an artifact or flank creature to its owners hand.
     setupCardAbilities(ability) {
         this.fight({
             reap: true,

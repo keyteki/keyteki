@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class Extinction extends Card {
+    // Play: Choose a creature. Destroy that creature and each creature that shares a trait with it. Gain 1 chain.
     setupCardAbilities(ability) {
         this.play({
             target: {

@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class MassAbduction extends Card {
+    // Play: Put up to 3 damaged enemy creatures into your archives. If any of these creatures leave your archives, they are put into their owners hand instead.
     setupCardAbilities(ability) {
         this.play({
             target: {

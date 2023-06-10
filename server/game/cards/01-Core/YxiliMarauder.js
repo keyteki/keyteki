@@ -1,6 +1,8 @@
 const Card = require('../../Card.js');
 
 class YxiliMarauder extends Card {
+    // Yxili Marauder gets +1 power for each <A> on it.
+    // Play: Capture 1<A> for each friendly ready Mars creature.
     setupCardAbilities(ability) {
         this.persistentEffect({
             effect: ability.effects.modifyPower((card) => card.amber)

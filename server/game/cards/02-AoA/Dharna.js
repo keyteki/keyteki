@@ -1,6 +1,8 @@
 const Card = require('../../Card.js');
 
 class Dharna extends Card {
+    // Play: Gain 1A for each damaged friendly creature.
+    // Reap: Heal 2 damage from a friendly creature.
     setupCardAbilities(ability) {
         this.play({
             gameAction: ability.actions.gainAmber((context) => ({

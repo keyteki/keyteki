@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class HunterOrHunted extends Card {
+    // Play: Ward a creature, or move a ward from a creature to another creature.
     setupCardAbilities(ability) {
         this.play({
             targets: {

@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class Timequake extends Card {
+    // Play: Shuffle each friendly card in play into your deck. Draw a card for each card shuffled into your deck this way.
     setupCardAbilities(ability) {
         this.play({
             gameAction: ability.actions.returnToDeck((context) => ({

@@ -1,6 +1,8 @@
 const Card = require('../../Card.js');
 
 class KelifiDragon extends Card {
+    // Kelifi Dragon cannot be played unless you have 7<A> or more.
+    // Fight/Reap: Gain 1<A>. Deal 5<D> to a creature.
     setupCardAbilities(ability) {
         this.persistentEffect({
             location: 'any',

@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class Poltergeist extends Card {
+    // Play: Use an artifact controlled by any player as if it were yours. Destroy that artifact.
     setupCardAbilities(ability) {
         this.play({
             target: {

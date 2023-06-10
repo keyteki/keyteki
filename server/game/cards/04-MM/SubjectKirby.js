@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class SubjectKirby extends Card {
+    // Play/Fight/Reap: You may play a non-Star Alliance creature this turn.
     setupCardAbilities(ability) {
         this.play({
             fight: true,

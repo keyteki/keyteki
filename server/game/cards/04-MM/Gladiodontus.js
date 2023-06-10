@@ -1,6 +1,9 @@
 const Card = require('../../Card.js');
 
 class Gladiodontus extends Card {
+    // Gladiodontus enters play stunned.
+    // Gladiodontus only deals 5 when fighting.
+    // Fight/Reap: If this is the first time Gladiodontus has been used this turn, ready and enrage it.
     setupCardAbilities(ability) {
         this.persistentEffect({
             location: 'any',

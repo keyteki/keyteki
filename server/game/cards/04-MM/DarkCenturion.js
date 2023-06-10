@@ -1,6 +1,8 @@
 const Card = require('../../Card.js');
 
 class DarkCenturion extends Card {
+    // Enhance PTPT.
+    // Action: Move 1A from a creature to the common supply. If you do, ward that creature.
     setupCardAbilities(ability) {
         this.action({
             target: {

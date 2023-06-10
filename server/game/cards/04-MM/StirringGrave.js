@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class StirringGrave extends Card {
+    // Play: Archive a creature from your discard pile.
     setupCardAbilities(ability) {
         this.play({
             target: {

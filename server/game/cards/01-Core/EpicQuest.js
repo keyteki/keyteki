@@ -1,6 +1,8 @@
 const Card = require('../../Card.js');
 
 class EpicQuest extends Card {
+    // Play: Archive each friendly Knight creature in play.
+    // Omni: If you have played 7or more Sanctum cards this turn, sacrifice Epic Quest and forge a key at no cost.
     setupCardAbilities(ability) {
         this.play({
             effect: 'archive each friendly Knight creature',

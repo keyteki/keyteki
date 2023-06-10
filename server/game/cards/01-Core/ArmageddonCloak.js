@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class ArmageddonCloak extends Card {
+    // This creature gains hazardous 2 and, Destroyed: Fully heal this creature and destroy Armageddon Cloak instead.
     setupCardAbilities(ability) {
         this.whileAttached({
             effect: [

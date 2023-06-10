@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class LibraryOfTheDamned extends Card {
+    // Action: Archive a card.
     setupCardAbilities(ability) {
         this.action({
             target: {

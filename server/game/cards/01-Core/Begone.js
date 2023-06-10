@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class Begone extends Card {
+    // Play: Choose one: destroy each Dis creature, or gain 1A.
     setupCardAbilities(ability) {
         this.play({
             target: {

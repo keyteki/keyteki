@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class HelmsmanSpears extends Card {
+    // Fight/Reap: Discard any number of cards from your hand. Draw a card for each card discarded this way.
     setupCardAbilities(ability) {
         this.fight({
             reap: true,

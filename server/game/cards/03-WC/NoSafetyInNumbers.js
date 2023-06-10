@@ -2,6 +2,7 @@ const Constants = require('../../../constants.js');
 const Card = require('../../Card.js');
 
 class NoSafetyInNumbers extends Card {
+    // Play: Deal 3D to each creature that belongs to a house that has 3 or more creatures in play.
     setupCardAbilities(ability) {
         this.play({
             gameAction: ability.actions.dealDamage((context) => {

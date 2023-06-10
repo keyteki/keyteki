@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class TheroCenturion extends Card {
+    // Play/Fight: Capture 1A.
     setupCardAbilities(ability) {
         this.play({
             fight: true,

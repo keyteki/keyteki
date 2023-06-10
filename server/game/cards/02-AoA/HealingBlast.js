@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class HealingBlast extends Card {
+    // Play: Fully heal a creature. If you healed 4 or more damage this way, gain 2A.
     setupCardAbilities(ability) {
         this.play({
             target: {

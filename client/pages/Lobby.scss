@@ -2,21 +2,6 @@
 @import '~bootstrap/scss/functions';
 @import '~bootstrap/scss/variables';
 
-.main-header {
-    height: 100%;
-    vertical-align: center;
-    margin-bottom: 5px;
-    padding-top: 5px;
-    padding-bottom: 5px;
-    border-radius: 4px;
-    background-color: rgba(0, 0, 0, 0.8);
-    background-image: url('~assets/img/main_header_logo.png');
-    height: 60px;
-    background-repeat: no-repeat;
-    background-position-x: center;
-    background-origin: content-box;
-}
-
 .event-banner {
     padding-top: 0px;
     margin-top: 0px;

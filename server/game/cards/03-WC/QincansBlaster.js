@@ -1,6 +1,8 @@
 const BlasterCard = require('./BlasterCard.js');
 
 class QincansBlaster extends BlasterCard {
+    // This creature gains, Fight/Reap: You may deal 2D to a creature, or attach Qincans Blaster to Sci. Officer Qincan.
+    // After you attach Qincans Blaster to Sci. Officer Qincan, you may archive a creature in play.
     setupCardAbilities(ability) {
         this.reaction({
             when: {

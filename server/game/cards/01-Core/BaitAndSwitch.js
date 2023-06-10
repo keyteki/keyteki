@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class BaitAndSwitch extends Card {
+    // Play: If your opponent has more <A> than you, steal 1<A>. Repeat this card's effect if your opponent still has more <A> than you.
     setupCardAbilities(ability) {
         this.play({
             condition: (context) =>

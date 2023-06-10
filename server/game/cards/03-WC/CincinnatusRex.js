@@ -1,6 +1,8 @@
 const Card = require('../../Card.js');
 
 class CincinnatusRex extends Card {
+    // If there are no enemy creatures, destroy Cincinnatus Rex.
+    // Fight: You may exalt Cincinnatus Rex. If you do, ready each other friendly card.
     setupCardAbilities(ability) {
         this.persistentEffect({
             effect: ability.effects.terminalCondition({

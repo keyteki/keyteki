@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class GuardianDemon extends Card {
+    // Play/Fight/Reap: Heal up to 2 damage from a creature. Deal that amount of damage to another creature.
     setupCardAbilities(ability) {
         this.play({
             fight: true,

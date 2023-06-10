@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class BorrNitsTouch extends Card {
+    // Play: Reveal the top 5 cards of a players deck. Purge a card revealed this way. Shuffle the other revealed cards into that deck.
     setupCardAbilities(ability) {
         this.play({
             target: {

@@ -2,6 +2,7 @@ const _ = require('underscore');
 const Card = require('../../Card.js');
 
 class Keyforgery extends Card {
+    // When your opponent would forge a key, that player names a house. Reveal a random card from your hand. If that card is not of the named house, destroy Keyforgery and they do not forge that key (no A is spent).
     setupCardAbilities(ability) {
         this.interrupt({
             when: {

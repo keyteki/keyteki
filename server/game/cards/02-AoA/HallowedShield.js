@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class HallowedShield extends Card {
+    // Action: Choose a creature. For the remainder of the turn, the chosen creature cannot be dealt damage.
     setupCardAbilities(ability) {
         this.action({
             target: {

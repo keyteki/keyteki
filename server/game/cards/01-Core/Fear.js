@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class Fear extends Card {
+    // Play: Return an enemy creature to its owners hand.
     setupCardAbilities(ability) {
         this.play({
             target: {

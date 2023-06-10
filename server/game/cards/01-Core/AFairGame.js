@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class AFairGame extends Card {
+    // Play: Discard the top card of your opponents deck and reveal their hand. You gain 1A for each card of the discarded cards house revealed this way. Your opponent repeats the preceding effect on you.
     setupCardAbilities(ability) {
         this.play({
             condition: (context) => !!context.player.opponent,

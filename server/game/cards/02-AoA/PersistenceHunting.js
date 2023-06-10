@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class PersistenceHunting extends Card {
+    // Play: Choose a house. Exhaust each enemy creature of the chosen house.
     setupCardAbilities(ability) {
         this.play({
             target: {

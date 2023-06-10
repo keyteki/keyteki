@@ -1,6 +1,8 @@
 const Card = require('../../Card.js');
 
 class AbondTheArmorsmith extends Card {
+    // Other friendly creatures get +1armor.
+    // Action: For the remainder of the turn, other friendly creatures get +1armor.
     setupCardAbilities(ability) {
         this.persistentEffect({
             targetController: 'current',

@@ -1,6 +1,8 @@
 const Card = require('../../Card.js');
 
 class Maleficorn extends Card {
+    // Enhance DDDD.
+    // After an enemy creature is dealt damage by a D bonus icon, deal 1D to that creature.
     setupCardAbilities(ability) {
         this.reaction({
             when: {

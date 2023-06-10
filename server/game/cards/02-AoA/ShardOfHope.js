@@ -1,6 +1,8 @@
 const Card = require('../../Card.js');
 
 class ShardOfHope extends Card {
+    // Action: A friendly creature captures
+    // 1A for each friendly Shard.
     setupCardAbilities(ability) {
         this.action({
             condition: (context) => !!context.player.opponent,

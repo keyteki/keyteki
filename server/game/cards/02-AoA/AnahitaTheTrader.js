@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class AnahitaTheTrader extends Card {
+    // Reap: Give control of a friendly artifact to your opponent. If you do, they must give you 2A.
     setupCardAbilities(ability) {
         this.reap({
             condition: (context) => context.player.opponent,

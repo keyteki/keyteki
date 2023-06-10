@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class NotFinishedWithYou extends Card {
+    // Play: Shuffle any number of creatures from your discard pile into your deck.
     setupCardAbilities(ability) {
         this.play({
             target: {

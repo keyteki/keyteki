@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class BellowingPatrizate extends Card {
+    // While Bellowing Patrizate is ready, each creature takes 1D after it enters play.
     setupCardAbilities(ability) {
         this.reaction({
             when: {

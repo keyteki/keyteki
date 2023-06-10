@@ -10,64 +10,34 @@ const ServerStatus = (props) => {
     const { connecting, connected, responseTime, serverType } = props;
     const { t } = useTranslation();
 
-    let className = '';
-    let toolTip = `${serverType} is`;
-    let pingText;
-    let icon = faCheckCircle;
+    const connectionStatus = t(
+        (connected && 'Connected') || (connecting && 'Connecting') || 'Disconnected'
+    );
 
-    if (connected) {
-        className += ' text-success';
-        toolTip += ' connected';
+    const connectionIcon = (connected && faCheckCircle) || (connecting && faTimesCircle) || faBan;
 
-        let pingClass;
+    const toolTip = `${serverType} is ${connectionStatus}`;
 
-        if (responseTime === undefined) {
-            pingText = <span>{t('Waiting for ping')}</span>;
-        } else {
-            if (responseTime < 150) {
-                pingClass = 'text-success';
-            } else if (responseTime < 300) {
-                pingClass = 'text-warning';
-            } else {
-                pingClass = 'text-danger';
-            }
+    const pingLevel = `text-${
+        connected
+            ? responseTime
+                ? (responseTime < 150 && 'success') || (responseTime < 300 && 'warning') || 'danger'
+                : 'neutral'
+            : connecting
+            ? 'warning'
+            : 'danger'
+    }`;
 
-            pingText = (
-                <React.Fragment>
-                    <span>{serverType}: </span>
-                    <span className={pingClass}>{responseTime}ms</span>
-                </React.Fragment>
-            );
-        }
-    } else if (connecting) {
-        className += ' text-warning';
-        icon = faTimesCircle;
-        toolTip += ' connecting';
-        pingText = (
-            <React.Fragment>
-                <span>{serverType}: </span>
-                <span className='text-warning'>{t('Connecting')}</span>
-            </React.Fragment>
-        );
-    } else {
-        className += ' text-danger';
-        icon = faBan;
-        toolTip += ' disconnected';
-        pingText = (
-            <React.Fragment>
-                <span>{serverType}: </span>
-                <span className='text-danger'>{t('Disconnected')}</span>
-            </React.Fragment>
-        );
-    }
+    const pingText2 = `${serverType[0]}: ${
+        connected ? (responseTime ? `${responseTime}ms` : 'Waiting') : connectionStatus
+    }`;
 
     return (
-        <li className='server-status'>
-            {pingText}
-            <span className={className}>
-                <FontAwesomeIcon icon={icon} title={t(toolTip)} />
+        <div className='navbar-item'>
+            <span className={pingLevel}>
+                {pingText2} <FontAwesomeIcon icon={connectionIcon} title={t(toolTip)} />
             </span>
-        </li>
+        </div>
     );
 };
 

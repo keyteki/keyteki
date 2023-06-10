@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class CommanderChan extends Card {
+    // Fight/Reap: Use another friendly creature.
     setupCardAbilities(ability) {
         this.fight({
             reap: true,

@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class DracoPraeco extends Card {
+    // Reap: You may exalt Draco Praeco. If you do, choose a house. Enrage each creature of that house.
     setupCardAbilities(ability) {
         this.reap({
             optional: true,

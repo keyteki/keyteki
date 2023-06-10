@@ -1,6 +1,8 @@
 const Card = require('../../Card.js');
 
 class FaustTheGreat extends Card {
+    // Your opponent's keys cost +1 for each friendly creature with  on it.
+    // Play: You may exalt a friendly creature.
     setupCardAbilities(ability) {
         this.play({
             target: {

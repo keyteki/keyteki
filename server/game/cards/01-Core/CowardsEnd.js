@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class CowardsEnd extends Card {
+    // Play: Destroy each undamaged creature. Gain 3chains.
     setupCardAbilities(ability) {
         this.play({
             effect: 'destroy each undamaged creature',

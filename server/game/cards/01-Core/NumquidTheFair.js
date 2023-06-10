@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class NumquidTheFair extends Card {
+    // Play: Destroy an enemy creature. Repeat this cards effect if your opponent still controls more creatures than you.
     setupCardAbilities(ability) {
         this.play({
             condition: (context) => context.player.opponent,
