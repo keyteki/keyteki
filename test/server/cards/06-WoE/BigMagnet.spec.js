@@ -64,6 +64,8 @@ describe('Big Magnet', function () {
             });
 
             it('should not do anything', function () {
+                this.player1.clickCard(this.troll);
+
                 expect(this.troll.upgrades).toEqual([]);
                 expect(this.zorg.upgrades).toEqual([]);
             });
