@@ -58,7 +58,42 @@ describe('Knightapult', function () {
         });
     });
 
-    it("should cause Gebuk's replacement to be deployable and ready");
+    describe("action with Gebuk's replacement", function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'sanctum',
+                    amber: 3,
+                    inPlay: ['chelonia', 'gebuk', 'flaxia', 'knightapult', 'sequis'],
+                    hand: ['holdfast', 'berinon', 'smite']
+                },
+                player2: {
+                    inPlay: ['troll', 'gub']
+                }
+            });
+            this.player1.moveCard(this.sequis, 'deck');
+            this.player1.useAction(this.knightapult);
+        });
+        describe('when Gebuk dies,', function () {
+            beforeEach(function () {
+                this.player1.play(this.smite);
+                this.player1.clickCard(this.gebuk);
+                this.player1.clickCard(this.troll);
+            });
+
+            it('should place the replacement where Gebuk was, with no prompt', function () {
+                expect(this.player1.inPlay[1]).toBe(this.sequis);
+                expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+                expect(this.player1).not.toHavePrompt(
+                    'Which flank do you want to place this creature on?'
+                );
+            });
+
+            it('the replacement creature should be ready', function () {
+                expect(this.sequis.exhausted).toBe(false);
+            });
+        });
+    });
 
     it('should cause token creatures to be deployable and ready');
 });
