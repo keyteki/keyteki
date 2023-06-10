@@ -1,6 +1,8 @@
 const Card = require('../../Card.js');
 
 class Velum extends Card {
+    // Reap: Archive a card. If you control Hyde, archive 2 cards instead.
+    // Destroyed: Archive Hyde from your discard pile. If you do, archive Velum.
     setupCardAbilities(ability) {
         this.reap({
             preferActionPromptMessage: true,

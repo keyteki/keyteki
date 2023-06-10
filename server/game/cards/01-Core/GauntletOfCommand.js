@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class GauntletOfCommand extends Card {
+    // Action: Ready and fight with a friendly creature.
     setupCardAbilities(ability) {
         this.action({
             target: {

@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class Animator extends Card {
+    // Action: Move an artifact to a flank of its controllers battleline. For the remainder of the turn, it is a creature with 3 power that belongs to the active house. (It leaves the battleline when its no longer a creature.)
     setupCardAbilities(ability) {
         this.action({
             target: {

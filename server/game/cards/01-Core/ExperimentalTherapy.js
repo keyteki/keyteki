@@ -1,6 +1,8 @@
 const Card = require('../../Card.js');
 
 class ExperimentalTherapy extends Card {
+    // This creature belongs to all houses.
+    // Play: Stun and exhaust this creature.
     setupCardAbilities(ability) {
         this.whileAttached({
             effect: ability.effects.gainAbility('persistentEffect', {

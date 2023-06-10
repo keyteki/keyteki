@@ -1,6 +1,8 @@
 const Card = require('../../Card.js');
 
 class OneTwoPunch extends Card {
+    // Play: Stun an enemy creature.
+    // If that creature was already stunned, destroy it instead.
     setupCardAbilities(ability) {
         this.play({
             target: {

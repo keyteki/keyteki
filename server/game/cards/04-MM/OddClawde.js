@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class OddClawde extends Card {
+    // Action: If your opponent has an odd amount of A, steal 1A.
     setupCardAbilities(ability) {
         this.action({
             gameAction: ability.actions.steal((context) => ({

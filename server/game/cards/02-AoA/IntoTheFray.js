@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class IntoTheFray extends Card {
+    // Play: For the remainder of the turn, a friendly Brobnar creature gains, Fight:Ready this creature.
     setupCardAbilities(ability) {
         this.play({
             target: {

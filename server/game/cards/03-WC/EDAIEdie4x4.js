@@ -1,6 +1,8 @@
 const Card = require('../../Card.js');
 
 class EdaiEdie4x4 extends Card {
+    // Play: Archive a card.
+    // Your opponents keys cost +1 for each card in your archives.
     setupCardAbilities(ability) {
         this.play({
             target: {

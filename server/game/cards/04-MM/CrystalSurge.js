@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class CrystalSurge extends Card {
+    // Play: Exalt each Mutant creature.
     setupCardAbilities(ability) {
         this.play({
             gameAction: ability.actions.exalt((context) => ({

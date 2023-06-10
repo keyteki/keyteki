@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class ThrowingStars extends Card {
+    // Play: Deal 1D to up to 3 creatures. Gain 1A for each creature destroyed this way.
     setupCardAbilities(ability) {
         this.play({
             target: {

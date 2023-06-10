@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class ForumOfGiants extends Card {
+    // At the start of your turn, the player who controls the most powerful creature gains 1A.
     setupCardAbilities(ability) {
         this.reaction({
             when: {

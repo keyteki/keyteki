@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class Restringuntus extends Card {
+    // Play: Choose a house. Your opponent cannot choose that house as their active house until Restringuntus leaves play.
     setupCardAbilities(ability) {
         this.play({
             condition: (context) => !!context.player.opponent,

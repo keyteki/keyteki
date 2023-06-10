@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class Tentacus extends Card {
+    // Your opponent must pay you 1A in order to use an artifact.
     setupCardAbilities(ability) {
         this.persistentEffect({
             targetController: 'opponent',

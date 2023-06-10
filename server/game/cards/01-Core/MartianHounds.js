@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class MartianHounds extends Card {
+    // Play: Choose a creature. For each damaged creature, give the chosen creature two +1power counters.
     setupCardAbilities(ability) {
         this.play({
             target: {

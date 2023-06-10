@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class ImperialTraitor extends Card {
+    // Play: Look at your opponents hand. You may choose and purge a Sanctum card in it.
     setupCardAbilities(ability) {
         this.play({
             condition: (context) => !!context.player.opponent,

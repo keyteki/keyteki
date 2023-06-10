@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class ScoutPete extends Card {
+    // Play/Fight/Reap: Look at the top card of your deck. You may discard that card.
     setupCardAbilities(ability) {
         this.play({
             fight: true,

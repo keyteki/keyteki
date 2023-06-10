@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class Proclamation346E extends Card {
+    // While your opponent does not control creatures from 3different houses, their keys cost +2A.
     setupCardAbilities(ability) {
         this.persistentEffect({
             condition: (context) =>

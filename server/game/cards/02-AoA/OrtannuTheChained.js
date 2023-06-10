@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class OrtannuTheChained extends Card {
+    // Reap: Return each copy of Ortannus Binding from your discard pile to your hand. For each one returned this way, deal 2D to a creature, with 2D splash.
     setupCardAbilities(ability) {
         this.reap({
             effect:

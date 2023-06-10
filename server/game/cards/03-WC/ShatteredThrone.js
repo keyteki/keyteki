@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class ShatteredThrone extends Card {
+    // After a creature is used to fight, it captures 1A.
     setupCardAbilities(ability) {
         this.reaction({
             when: {

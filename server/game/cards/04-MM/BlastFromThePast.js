@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class BlastFromThePast extends Card {
+    // Play: Exalt a friendly creature. Archive a Saurian creature from your discard pile. Deal damage equal to the archived creatures power to an enemy creature.
     setupCardAbilities(ability) {
         this.play({
             target: {

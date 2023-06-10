@@ -1,6 +1,8 @@
 const Card = require('../../Card.js');
 
 class TeleporterChiefTink extends Card {
+    // Elusive. (The first time this creature is attacked each turn, no damage is dealt.)
+    // Action: Swap Teleporter Chief Tink with another friendly creature in the battleline. You may use that other creature this turn.
     setupCardAbilities(ability) {
         this.action({
             condition: (context) => context.player.creaturesInPlay.length > 1,

@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class MobiusScroll extends Card {
+    // Action: Archive Mobius Scroll and up to 2 cards from your hand.
     setupCardAbilities(ability) {
         this.action({
             target: {

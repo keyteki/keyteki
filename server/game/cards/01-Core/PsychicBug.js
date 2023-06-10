@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class PsychicBug extends Card {
+    // Play/Reap: Look at your opponents hand.
     setupCardAbilities(ability) {
         this.play({
             reap: true,

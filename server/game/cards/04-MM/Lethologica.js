@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class Lethologica extends Card {
+    // Play: Discard cards from the top of your deck until you discard a Logos card or run out of cards. If you discard a Logos card this way, put it into your hand.
     setupCardAbilities(ability) {
         this.play({
             gameAction: ability.actions.discard((context) => {

@@ -1,6 +1,9 @@
 const Card = require('../../Card.js');
 
 class Infomancer extends Card {
+    // Elusive.
+    // Play: Graft an action card from your hand onto Infomancer. (Place it faceup under this card.)
+    // Reap: Trigger the play effect of an action card grafted onto Infomancer.
     setupCardAbilities(ability) {
         this.play({
             target: {

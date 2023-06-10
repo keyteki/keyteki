@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class CauldronBoil extends Card {
+    // Play: Deal damage to each creature equal to the amount of damage on that creature.
     setupCardAbilities(ability) {
         this.play({
             condition: (context) => !!context.player.opponent,

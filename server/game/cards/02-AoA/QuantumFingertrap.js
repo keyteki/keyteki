@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class QuantumFingertrap extends Card {
+    // Action: Swap the positions of two creatures in a battleline.
     setupCardAbilities(ability) {
         this.action({
             targets: {

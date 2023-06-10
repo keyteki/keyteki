@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class SavageClash extends Card {
+    // Play: Destroy each creature except the most powerful enemy creature and the least powerful friendly creature.
     setupCardAbilities(ability) {
         this.play({
             targets: {

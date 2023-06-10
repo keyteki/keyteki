@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class Brammo extends Card {
+    // Play: Deal 2D to each enemy flank creature.
     setupCardAbilities(ability) {
         this.play({
             condition: (context) => !!context.player.opponent,

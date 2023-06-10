@@ -1,6 +1,8 @@
 const Card = require('../../Card.js');
 
 class TheQuietAnvil extends Card {
+    // Keys cost 2A.
+    // After a player forges a key, destroy The Quiet Anvil.
     setupCardAbilities(ability) {
         this.reaction({
             when: {

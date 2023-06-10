@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class ForgemasterOg extends Card {
+    // After a player forges a key, they lose all of their remaining A.
     setupCardAbilities(ability) {
         this.reaction({
             when: {

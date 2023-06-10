@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class CullTheWeak extends Card {
+    // Play: Destroy the least powerful enemy creature.
     setupCardAbilities(ability) {
         this.play({
             target: {

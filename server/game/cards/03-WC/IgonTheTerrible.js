@@ -1,6 +1,8 @@
 const Card = require('../../Card.js');
 
 class IgonTheTerrible extends Card {
+    // Play: If Igon the Green has not been purged, destroy Igon the Terrible.
+    // Fight: Steal 1A.
     setupCardAbilities(ability) {
         this.play({
             condition: (context) =>

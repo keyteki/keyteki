@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class SpeedSigil extends Card {
+    // The first creature played each turn enters play ready.
     setupCardAbilities(ability) {
         this.interrupt({
             when: {

@@ -2,6 +2,7 @@ const Card = require('../../Card.js');
 const EventRegistrar = require('../../eventregistrar.js');
 
 class Ragwarg extends Card {
+    // After a creature reaps, if it is the first time a creature has reaped this turn, deal 2D to it.
     setupCardAbilities(ability) {
         this.creaturesReaped = 0;
         this.tracker = new EventRegistrar(this.game, this);

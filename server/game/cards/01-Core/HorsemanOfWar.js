@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class HorsemanOfWar extends Card {
+    // Play: For the remainder of the turn, each friendly creature can be used as if they were in the active house, but can only fight.
     setupCardAbilities(ability) {
         this.play({
             effect: 'allow all friendly creatures to only fight this turn',

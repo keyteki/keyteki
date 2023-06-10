@@ -1,6 +1,9 @@
 const Card = require('../../Card.js');
 
 class DisruptionField extends Card {
+    // Your opponents keys cost +1A for each disruption counter on Disruption Field.
+    // This creature gains Fight/Reap: Put a disruption counter on Disruption Field.
+    //
     setupCardAbilities(ability) {
         this.whileAttached({
             effect: ability.effects.gainAbility('reap', {

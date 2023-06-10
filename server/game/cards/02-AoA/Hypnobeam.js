@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class Hypnobeam extends Card {
+    // Play: Gain control of an enemy creature.
     setupCardAbilities(ability) {
         this.play({
             target: {

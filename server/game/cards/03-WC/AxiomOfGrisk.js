@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class AxiomOfGrisk extends Card {
+    // Play: Ward a creature. Destroy each creature with no A on it. Gain 2 chains.
     setupCardAbilities(ability) {
         this.play({
             target: {

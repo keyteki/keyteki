@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class LayOfTheLand extends Card {
+    // Play: Look at the top 3 cards of your deck and put them back in any order. Draw a card.
     setupCardAbilities(ability) {
         this.play({
             effect:

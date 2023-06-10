@@ -1,6 +1,8 @@
 const Card = require('../../Card.js');
 
 class SoulSnatcher extends Card {
+    // Each time a creature is destroyed,
+    // its owner gains 1A.
     setupCardAbilities(ability) {
         this.reaction({
             when: {

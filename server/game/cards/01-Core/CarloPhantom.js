@@ -1,6 +1,8 @@
 const Card = require('../../Card.js');
 
 class CarloPhantom extends Card {
+    // Elusive. Skirmish.
+    // Each time you play an artifact, steal 1<A>.
     setupCardAbilities(ability) {
         this.reaction({
             when: {

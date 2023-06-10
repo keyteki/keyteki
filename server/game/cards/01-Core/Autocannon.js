@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class Autocannon extends Card {
+    // Deal 1<D> to each creature after it enters play.
     setupCardAbilities(ability) {
         this.reaction({
             when: {

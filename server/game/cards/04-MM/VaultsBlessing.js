@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class VaultsBlessing extends Card {
+    // Play: Each player gains 1A for each Mutant creature they control.
     setupCardAbilities(ability) {
         this.play({
             effect: 'give each player 1A for each mutant creature they control',

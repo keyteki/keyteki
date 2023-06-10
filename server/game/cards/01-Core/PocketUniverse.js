@@ -1,6 +1,8 @@
 const Card = require('../../Card.js');
 
 class PocketUniverse extends Card {
+    // You may spend A on Pocket Universe when forging keys.
+    // Action: Move 1A from your pool to Pocket Universe.
     setupCardAbilities(ability) {
         this.persistentEffect({
             effect: ability.effects.keyAmber()

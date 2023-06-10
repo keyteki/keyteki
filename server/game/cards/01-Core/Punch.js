@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class Punch extends Card {
+    // Play: Deal 3<D> to a creature.
     setupCardAbilities(ability) {
         this.play({
             target: {

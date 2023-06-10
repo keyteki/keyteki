@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class OneLastJob extends Card {
+    // Play: Purge each friendly Shadows creature. Steal 1<A> for each creature purged this way.
     setupCardAbilities(ability) {
         this.play({
             effect: 'purge each friendly shadows creature and steal that much amber from {1}',

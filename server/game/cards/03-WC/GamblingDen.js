@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class GamblingDen extends Card {
+    // At the start of each players turn, that player may choose a house. If they do, reveal the top card of their deck. If it is of the named house, they gain 2A. Otherwise, they lose 2A.
     setupCardAbilities(ability) {
         this.reaction({
             when: {

@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class VezymaThinkdrone extends Card {
+    // Reap: You may archive a friendly creature or artifact from play.
     setupCardAbilities(ability) {
         this.reap({
             target: {

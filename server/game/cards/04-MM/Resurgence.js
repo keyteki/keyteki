@@ -1,6 +1,8 @@
 const Card = require('../../Card.js');
 
 class Resurgence extends Card {
+    // Enhance R. (These icons have already been added to cards in your deck.)
+    // Play: Return a creature from your discard pile to your hand. If that creature is a Mutant, return another creature from your discard pile to your hand.
     setupCardAbilities(ability) {
         this.play({
             target: {

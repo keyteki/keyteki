@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class Ransack extends Card {
+    // Play: Steal 1. Discard the top card of your deck. If that card is a Shadows card, trigger this effect again.
     setupCardAbilities(ability) {
         this.play({
             gameAction: [

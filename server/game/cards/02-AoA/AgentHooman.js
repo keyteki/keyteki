@@ -1,6 +1,8 @@
 const Card = require('../../Card.js');
 
 class AgentHooman extends Card {
+    // Elusive.(The first time this creature is attacked each turn, no damage is dealt.)
+    // Reap: Choose a friendly non-Mars creature and an enemy non-Mars creature. Stun the chosen creatures.
     setupCardAbilities(ability) {
         this.reap({
             targets: {

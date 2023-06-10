@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class SampleCollection extends Card {
+    // Play: Put an enemy creature into your archives for each key your opponent has forged. If any of these creatures leave your archives, they are put into their owners hand instead.
     setupCardAbilities(ability) {
         this.play({
             condition: (context) =>

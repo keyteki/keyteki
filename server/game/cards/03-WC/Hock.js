@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class Hock extends Card {
+    // Play: Destroy an artifact. If you do, gain 1A.
     setupCardAbilities(ability) {
         this.play({
             target: {

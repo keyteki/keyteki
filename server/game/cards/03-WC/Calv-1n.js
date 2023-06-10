@@ -1,6 +1,8 @@
 const Card = require('../../Card.js');
 
 class Calv1N extends Card {
+    // Fight/Reap: Draw a card.
+    // CALV-1N may be played as an upgrade instead of a creature, with the text: This creature gains, Fight/Reap: Draw a card.
     setupCardAbilities(ability) {
         this.fight({
             reap: true,

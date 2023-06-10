@@ -1,6 +1,8 @@
 const Card = require('../../Card.js');
 
 class TheRedBaron extends Card {
+    // While your red key is forged, The Red Baron gains, Reap: Steal 1A.
+    // While your opponents red key is forged, The Red Baron gains elusive.
     setupCardAbilities(ability) {
         this.persistentEffect({
             match: (card, context) => card === context.source && card.controller.keys.red,

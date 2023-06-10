@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class Scout extends Card {
+    // Play: For the remainder of the turn, up to 2 friendly creatures gain skirmish. Then, fight with those creatures one at a time.
     setupCardAbilities(ability) {
         this.play({
             target: {

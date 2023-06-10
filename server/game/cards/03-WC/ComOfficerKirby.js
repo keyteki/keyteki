@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class ComOfficerKirby extends Card {
+    // Play/Fight/Reap: You may play a non-Star Alliance artifact, upgrade, or action card this turn.
     setupCardAbilities(ability) {
         this.play({
             fight: true,
