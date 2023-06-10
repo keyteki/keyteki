@@ -52,8 +52,7 @@ class PutIntoPlayAction extends CardGameAction {
                 context.ability.isCardPlayed() &&
                 (this.deploy ||
                     card.hasKeyword('deploy') ||
-                    card.checkConditions('entersPlayAnywhere', context) ||
-                    player.anyEffect('creaturesEnterPlayAnywhereAndReady')) &&
+                    card.checkConditions('entersPlayAnywhere', context)) &&
                 player.creaturesInPlay.length > 1
             ) {
                 choices.push('Deploy Left');
@@ -188,11 +187,7 @@ class PutIntoPlayAction extends CardGameAction {
                     card.updateEffectContexts();
                 }
 
-                if (
-                    !this.ready &&
-                    !card.checkConditions('entersPlayReady', context) &&
-                    !player.anyEffect('creaturesEnterPlayAnywhereAndReady')
-                ) {
+                if (!this.ready && !card.checkConditions('entersPlayReady', context)) {
                     card.exhaust();
                 }
 

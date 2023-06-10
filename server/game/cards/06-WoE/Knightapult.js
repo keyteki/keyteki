@@ -10,7 +10,7 @@ class Knightapult extends Card {
                     onCardEntersPlay: (event) => event.card.type === 'creature'
                 },
                 targetController: 'self',
-                effect: ability.effects.creaturesEnterPlayAnywhereAndReady()
+                effect: [ability.effects.entersPlayAnywhere(), ability.effects.entersPlayReady()]
             })
         });
     }

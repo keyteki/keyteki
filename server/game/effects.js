@@ -133,9 +133,7 @@ const Effects = {
     stopHouseChoice: (house) => EffectBuilder.player.flexible('stopHouseChoice', house),
     skipStep: (step) => EffectBuilder.player.static('skipStep', step),
     opponentCardsCannotLeaveArchives: (card) =>
-        EffectBuilder.player.static('opponentCardsCannotLeaveArchives', card),
-    creaturesEnterPlayAnywhereAndReady: () =>
-        EffectBuilder.player.static('creaturesEnterPlayAnywhereAndReady')
+        EffectBuilder.player.static('opponentCardsCannotLeaveArchives', card)
 };
 
 module.exports = Effects;
