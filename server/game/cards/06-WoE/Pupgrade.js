@@ -17,14 +17,25 @@ class Pupgrade extends Card {
                 ability.effects.modifyPower(3),
                 ability.effects.gainAbility('destroyed', {
                     gameAction: [
+                        ability.actions.conditional((context) => ({
+                            condition: context.source.controller !== this.controller,
+                            trueGameAction: ability.actions.cardLastingEffect((context) => ({
+                                duration: 'lastingEffect',
+                                target: this,
+                                effect: [
+                                    ability.effects.takeControl(context.source.controller),
+                                    ability.effects.takeControlOnRight()
+                                ]
+                            }))
+                        })),
                         ability.actions.cardLastingEffect({
                             duration: 'lastingEffect',
                             target: this,
                             effect: Effects.changeType('creature')
                         }),
-                        ability.actions.putIntoPlay(() => ({
+                        ability.actions.putIntoPlay((context) => ({
                             target: this,
-                            deployIndex: this.controller.creaturesInPlay.length,
+                            deployIndex: context.source.controller.creaturesInPlay.length,
                             ready: true,
                             upgradeAllowed: true
                         }))
