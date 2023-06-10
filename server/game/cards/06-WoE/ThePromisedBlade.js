@@ -23,7 +23,7 @@ class ThePromisedBlade extends Card {
             targets: {
                 select: {
                     mode: 'select',
-                    activePromptTitle: 'Choose which player takes control of The Promised Blade',
+                    activePromptTitle: 'Select a player to take control of this card',
                     choices: {
                         Me: () => true,
                         Opponent: () => true
