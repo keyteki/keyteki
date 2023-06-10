@@ -32,19 +32,28 @@ describe('Knightapult', function () {
             it('to be ready', function () {
                 this.player1.clickPrompt('Deploy Left');
                 this.player1.clickCard(this.flaxia);
+
                 expect(this.holdfast.exhausted).toBe(false);
             });
-
-            it('should only apply to the first creature played', function () {
-                this.player1.clickPrompt('Deploy Left');
-                this.player1.clickCard(this.flaxia);
-
+        });
+        describe('should cause the 2nd next creature played', function () {
+            beforeEach(function () {
+                this.player1.play(this.holdfast);
                 this.player1.clickCard(this.berinon);
                 this.player1.clickPrompt('Play this creature');
+            });
+
+            it('not to be deployable', function () {
                 expect(this.player1).toHavePromptButton('Left');
                 expect(this.player1).toHavePromptButton('Right');
                 expect(this.player1).not.toHavePromptButton('Deploy Left');
                 expect(this.player1).not.toHavePromptButton('Deploy Right');
+            });
+
+            it('not to be ready', function () {
+                this.player1.clickPrompt('Left');
+
+                expect(this.berinon.exhausted).toBe(true);
             });
         });
     });
