@@ -200,7 +200,7 @@ class Player extends GameObject {
             this.deck.slice(1).forEach((card) => {
                 card.facedown = true;
             });
-            this.game.addMessage('{0} reveals {1} on top of their deck', this, this.deck[0]);
+            this.addTopCardOfDeckVisibleMessage();
         }
     }
 
@@ -579,7 +579,7 @@ class Player extends GameObject {
             }
 
             if (oldTopOfDeck != this.deck[0]) {
-                this.game.addMessage('{0} reveals {1} on top of their deck', this, this.deck[0]);
+                this.addTopCardOfDeckVisibleMessage();
             }
         }
     }
@@ -968,6 +968,15 @@ class Player extends GameObject {
 
     isTopCardOfDeckVisible() {
         return this.getEffects('topCardOfDeckVisible').length > 0;
+    }
+
+    addTopCardOfDeckVisibleMessage() {
+        this.game.addMessage(
+            '{0} uses {1} to reveal {2} on top of their deck',
+            this,
+            this.mostRecentEffect('topCardOfDeckVisible'),
+            this.deck[0]
+        );
     }
 
     setWins(wins) {
