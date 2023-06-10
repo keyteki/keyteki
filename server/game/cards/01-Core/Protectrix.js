@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class Protectrix extends Card {
+    // Reap: You may fully heal a creature. If you do, that creature cannot be dealt damage for the remainder of the turn.
     setupCardAbilities(ability) {
         this.reap({
             target: {

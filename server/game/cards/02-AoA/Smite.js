@@ -4,6 +4,7 @@ const AbilityResolver = require('../../gamesteps/abilityresolver');
 const SimpleStep = require('../../gamesteps/simplestep');
 
 class SmiteAbilityResolver extends AbilityResolver {
+    // Play: Ready and fight with a friendly creature. Deal 2D to the attacked creatures neighbors.
     initialise() {
         this.pipeline.initialise([
             new SimpleStep(this.game, () => this.createSnapshot()),

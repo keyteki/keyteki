@@ -1,6 +1,8 @@
 const Card = require('../../Card.js');
 
 class GrumpBuggy extends Card {
+    // Your opponents keys cost +1A for each friendly creature with power 5or higher.
+    // Your keys cost +1A for each enemy creature with power 5or higher.
     setupCardAbilities(ability) {
         this.persistentEffect({
             targetController: 'opponent',

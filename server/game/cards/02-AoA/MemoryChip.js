@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class MemoryChip extends Card {
+    // After you choose Logos as your active house, archive a card.
     setupCardAbilities(ability) {
         this.reaction({
             when: {

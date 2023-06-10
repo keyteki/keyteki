@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class CustomVirus extends Card {
+    // Omni: Sacrifice Custom Virus. Purge a creature from your hand. Destroy each creature that shares a trait with the purged creature.
     setupCardAbilities(ability) {
         this.omni({
             target: {

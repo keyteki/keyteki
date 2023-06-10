@@ -1,6 +1,8 @@
 const Card = require('../../Card.js');
 
 class SmilingRuth extends Card {
+    // Elusive. (The first time this creature is attacked each turn, no damage is dealt.)
+    // Reap: If you forged a key this turn, take control of an enemy flank creature.
     setupCardAbilities(ability) {
         this.reap({
             condition: (context) => context.player.keysForgedThisRound.length > 0,

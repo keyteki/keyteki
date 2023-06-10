@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class Smaaash extends Card {
+    // Play: Stun a creature.
     setupCardAbilities(ability) {
         this.play({
             target: {

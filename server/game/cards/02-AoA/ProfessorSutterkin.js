@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class ProfessorSutterkin extends Card {
+    // Reap: Draw a card for each friendly Logos creature.
     setupCardAbilities(ability) {
         this.reap({
             gameAction: ability.actions.draw((context) => ({

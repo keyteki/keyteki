@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class SoftLanding extends Card {
+    // Play: The next creature or artifact you play this turn enters play ready.
     setupCardAbilities(ability) {
         this.play({
             effect: 'make the next creature/artifact played this turn enter play ready',

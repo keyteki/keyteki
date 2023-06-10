@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class TheFittest extends Card {
+    // Play: Give each friendly creature a +1 power counter.
     setupCardAbilities(ability) {
         this.play({
             gameAction: ability.actions.addPowerCounter((context) => ({

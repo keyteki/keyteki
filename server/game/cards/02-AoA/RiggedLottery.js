@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class RiggedLottery extends Card {
+    // Play: Each player discards the top 5cards of their deck. For each Shadows card discarded, its owner gains 1A.
     setupCardAbilities(ability) {
         this.play({
             gameAction: [

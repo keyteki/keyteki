@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class Blypyp extends Card {
+    // Reap: The next Mars creature you play this turn enters play ready.
     setupCardAbilities(ability) {
         this.reap({
             effect: 'make the next Mars creature played this turn enter play ready',

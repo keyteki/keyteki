@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class OneStoodAgainstMany extends Card {
+    // Play: Ready and fight with a friendly creature 3times, each time against a different enemy creature. Resolve these fights one at a time.
     setupCardAbilities(ability) {
         this.chosenTargets = [];
 

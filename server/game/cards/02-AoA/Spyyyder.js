@@ -1,6 +1,8 @@
 const Card = require('../../Card.js');
 
 class Spyyyder extends Card {
+    // Skirmish.(When you use this creature to fight, it is dealt no damage in return.)
+    // Spyyyder gains poison while attacking an enemy flank creature.
     setupCardAbilities(ability) {
         this.interrupt({
             when: {

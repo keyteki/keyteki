@@ -1,6 +1,8 @@
 const Card = require('../../Card.js');
 
 class BlastShielding extends Card {
+    // This creature gets +2 armor.
+    // After this creature is used, its controller may attach Blast Shielding to one of this creatures neighbors.
     setupCardAbilities(ability) {
         this.whileAttached({
             effect: ability.effects.modifyArmor(2)

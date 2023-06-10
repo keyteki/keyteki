@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class RapidEvolution extends Card {
+    // Play: Choose a creature. Give it a +1 power counter for each A you have.
     setupCardAbilities(ability) {
         this.play({
             target: {

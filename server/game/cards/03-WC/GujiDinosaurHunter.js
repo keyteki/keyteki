@@ -1,6 +1,8 @@
 const Card = require('../../Card.js');
 
 class GujiDinosaurHunter extends Card {
+    // Elusive.
+    // Action: Deal 2D to a creature. Deal 6D instead if it is a Dinosaur creature or has A on it.
     setupCardAbilities(ability) {
         this.action({
             target: {

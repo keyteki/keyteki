@@ -1,6 +1,8 @@
 const Card = require('../../Card.js');
 
 class GrabberJammer extends Card {
+    // Your opponents keys cost +1<A>.
+    // Fight/Reap: Capture 1<A>.
     setupCardAbilities(ability) {
         this.persistentEffect({
             targetController: 'opponent',

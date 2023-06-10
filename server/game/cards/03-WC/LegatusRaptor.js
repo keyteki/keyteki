@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class LegatusRaptor extends Card {
+    // Fight: You may exalt Legatus Raptor. If you do, ready and use another friendly creature.
     setupCardAbilities(ability) {
         this.fight({
             target: {

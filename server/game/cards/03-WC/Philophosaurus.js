@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class Philophosaurus extends Card {
+    // Reap: You may look at the top 3 cards of your deck. Archive 1, add 1 to your hand, and discard 1.
     setupCardAbilities(ability) {
         this.reap({
             condition: (context) => context.player.deck.length > 0,

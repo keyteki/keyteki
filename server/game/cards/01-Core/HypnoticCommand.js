@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class HypnoticCommand extends Card {
+    // Play: For each friendly Mars creature, choose an enemy creature to capture 1A from their own side.
     setupCardAbilities(ability) {
         this.play({
             effect: 'force a enemy creature to capture 1 amber for each mars creature they control',

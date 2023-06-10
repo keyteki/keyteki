@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class ThreeFates extends Card {
+    // Play: Destroy the 3most powerful creatures.
     setupCardAbilities(ability) {
         this.play({
             target: {

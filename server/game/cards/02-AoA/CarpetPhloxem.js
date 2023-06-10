@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class CarpetPhloxem extends Card {
+    // Play: If there are no friendly creatures in play, deal 4D to each creature.
     setupCardAbilities(ability) {
         this.play({
             effect: 'deal 4 damage to each creature.',

@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class FinchCloak extends Card {
+    // Fight/Reap: If you have less  than your opponent, steal 1. Otherwise, each player gains 1.
     setupCardAbilities(ability) {
         this.fight({
             reap: true,

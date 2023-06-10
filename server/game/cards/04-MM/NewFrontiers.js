@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class NewFrontiers extends Card {
+    // Play: Choose a house. Reveal the top 3 cards of your deck. Archive each card of the chosen house and discard the others.
     setupCardAbilities(ability) {
         this.play({
             target: {

@@ -1,6 +1,8 @@
 const Card = require('../../Card.js');
 
 class CybergiantRig extends Card {
+    // This creature gains, At the end of your turn, this creature loses a +1power counter.
+    // Play: Fully heal this creature and give it a +1power counter for each damage healed.
     setupCardAbilities(ability) {
         this.whileAttached({
             effect: ability.effects.gainAbility('interrupt', {

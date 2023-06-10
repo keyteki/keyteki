@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class TheGoldenSpiral extends Card {
+    // Action: Exalt a friendly creature. Ready and use that creature.
     setupCardAbilities(ability) {
         this.action({
             target: {

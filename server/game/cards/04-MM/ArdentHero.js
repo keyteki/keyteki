@@ -1,6 +1,8 @@
 const Card = require('../../Card.js');
 
 class ArdentHero extends Card {
+    // Taunt. (This creatures neighbors cannot be attacked unless they have taunt.)
+    // Ardent Hero cannot be dealt damage by Mutant creatures or creatures with power 5 or higher.
     setupCardAbilities(ability) {
         this.persistentEffect({
             effect: ability.effects.cardCannot('damage', (context, effectContext, event) => {

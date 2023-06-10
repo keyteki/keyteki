@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class TendrilsOfPain extends Card {
+    // Play: Deal 1<D> to each creature. Deal an additional 3<D> to each creature if your opponent forged a key on their previous turn.
     setupCardAbilities(ability) {
         this.play({
             effect: 'deal {1} damage to all creatures',

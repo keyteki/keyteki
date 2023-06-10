@@ -1,6 +1,8 @@
 const Card = require('../../Card.js');
 
 class BurningGlare extends Card {
+    // Enhance D. (These icons have already been added to cards in your deck.)
+    // Play: Stun an enemy creature, or stun each enemy Mutant creature.
     setupCardAbilities(ability) {
         this.play({
             condition: (context) => context.game.creaturesInPlay.length > 0,

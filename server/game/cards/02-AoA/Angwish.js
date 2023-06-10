@@ -1,6 +1,8 @@
 const Card = require('../../Card.js');
 
 class Angwish extends Card {
+    // For each damage on Angwish,
+    // your opponents keys cost +1A.
     setupCardAbilities(ability) {
         this.persistentEffect({
             targetController: 'opponent',

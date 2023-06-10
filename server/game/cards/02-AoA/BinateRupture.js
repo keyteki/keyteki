@@ -1,6 +1,9 @@
 const Card = require('../../Card.js');
 
 class BinateRupture extends Card {
+    // Alpha. (You can only play this card before doing anything else this step.)
+    // Play: Each player gains A equal to
+    // the A in their pool.
     setupCardAbilities(ability) {
         this.play({
             effect: 'make both players gain amber equal to the amber in their pool',

@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class SaurusRex extends Card {
+    // Fight/Reap: If Saurus Rex is in the center of your battleline, you may exalt it. If you do, search your deck for a Saurian card, reveal it, and put it into your hand. Shuffle your deck.
     setupCardAbilities(ability) {
         this.fight({
             reap: true,

@@ -1,6 +1,8 @@
 const Card = require('../../Card.js');
 
 class CodeMonkey extends Card {
+    // Deploy. (This creature can enter play anywhere in your battleline.)
+    // Play: Archive each neighboring creature. If those creatures share a house, gain 2A.
     setupCardAbilities(ability) {
         this.play({
             gameAction: [

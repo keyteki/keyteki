@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class Tunk extends Card {
+    // After you play another Mars creature, fully heal Tunk.
     setupCardAbilities(ability) {
         this.reaction({
             when: {

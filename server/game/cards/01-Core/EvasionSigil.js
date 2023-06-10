@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class EvasionSigil extends Card {
+    // Before a creature fights, discard the top card of its controller's deck. If the discarded card is of the active house, exhaust that creature with no effect.
     setupCardAbilities(ability) {
         this.interrupt({
             when: {

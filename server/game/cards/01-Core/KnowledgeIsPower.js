@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class KnowledgeIsPower extends Card {
+    // Play: Choose one: Archive a card, or, for each archived card you have, gain 1A.
     setupCardAbilities(ability) {
         this.play({
             target: {

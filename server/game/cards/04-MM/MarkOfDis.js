@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class MarkOfDis extends Card {
+    // Play: Deal 2D to a creature. If it is not destroyed, its controller must choose that creatures house as their active house on their next turn.
     setupCardAbilities(ability) {
         this.play({
             target: {

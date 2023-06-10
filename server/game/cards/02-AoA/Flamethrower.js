@@ -1,6 +1,8 @@
 const Card = require('../../Card.js');
 
 class Flamethrower extends Card {
+    // Action: Deal 1D to a creature,
+    // with 1D splash.
     setupCardAbilities(ability) {
         this.action({
             target: {

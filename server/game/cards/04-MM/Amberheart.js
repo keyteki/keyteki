@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class Amberheart extends Card {
+    // Action: Exalt, ward, and fully heal a friendly creature.
     setupCardAbilities(ability) {
         this.action({
             target: {

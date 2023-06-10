@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class Regrowth extends Card {
+    // Play: Return a creature from your discard pile to your hand.
     setupCardAbilities(ability) {
         this.play({
             target: {

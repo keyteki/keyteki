@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class TheCommonCold extends Card {
+    // Play: Deal 1D to each creature. You may destroy all Mars creatures.
     setupCardAbilities(ability) {
         this.play({
             effect: 'deal 1 damage to all creatures',

@@ -1,6 +1,8 @@
 const Card = require('../../Card.js');
 
 class BringLow extends Card {
+    // Enhance . (These icons have already been added to cards in your deck.)
+    // Play: Capture all but 5 of your opponents , distributed among any number of friendly creatures.
     setupCardAbilities(ability) {
         this.play({
             effect: 'have friendly creatures capture {1} amber from {2}',

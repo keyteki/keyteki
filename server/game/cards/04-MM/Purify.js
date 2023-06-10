@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class Purify extends Card {
+    // Play: Purge a Mutant creature. If you do, discard cards from the top of its controllers deck until you discard a non-Mutant creature or run out of cards. If you discard a non-Mutant creature this way, put it into play under its owners control.
     setupCardAbilities(ability) {
         this.play({
             condition: (context) =>

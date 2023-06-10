@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class SignalFire extends Card {
+    // Omni: Sacrifice Signal Fire. For the remainder of the turn, friendly Brobnar creatures may fight as though they belonged to the active house.
     setupCardAbilities(ability) {
         this.omni({
             effect: 'allow all friendly brobnar creatures to only fight this turn',

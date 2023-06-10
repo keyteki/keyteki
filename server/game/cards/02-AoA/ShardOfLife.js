@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class ShardOfLife extends Card {
+    // Action: Shuffle a card from your discard pile into your deck for each friendly Shard.
     setupCardAbilities(ability) {
         this.action({
             target: {

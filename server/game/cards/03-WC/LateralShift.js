@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class LateralShift extends Card {
+    // Play: Look at your opponents hand. Play a card from that hand as if it were yours.
     setupCardAbilities(ability) {
         this.play({
             target: {

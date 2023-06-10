@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class SpoilsOfBattle extends Card {
+    // Play: A friendly creature captures 1. Each creature with  on it captures 1 from its opponent.
     setupCardAbilities(ability) {
         this.play({
             target: {

@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class SpectralTunneler extends Card {
+    // Action: Choose a creature. For the remainder of the turn, that creature is considered a flank creature and gains, Reap: Draw a card.
     setupCardAbilities(ability) {
         this.action({
             target: {

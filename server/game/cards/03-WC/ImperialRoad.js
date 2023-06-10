@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class ImperialRoad extends Card {
+    // Omni: Play a Saurian creature. That creature enters play stunned.
     setupCardAbilities(ability) {
         this.omni({
             target: {

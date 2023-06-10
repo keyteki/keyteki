@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class CuriaSuarus extends Card {
+    // Each creature with A on it gains, Destroyed: Move 1A from this creature to the most powerful enemy creature.
     setupCardAbilities(ability) {
         this.persistentEffect({
             targetController: 'any',

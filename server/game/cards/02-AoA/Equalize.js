@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class Equalize extends Card {
+    // Play: Redistribute the A on friendly creatures among friendly creatures. Then, redistribute the A on enemy creatures among enemy creatures.
     setupCardAbilities(ability) {
         this.play({
             effect: "redistribute {1} amber on both player's creatures",

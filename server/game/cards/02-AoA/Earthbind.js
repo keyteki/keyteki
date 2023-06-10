@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class Earthbind extends Card {
+    // This creature cannot be used unless its controller has discarded a card this turn.
     setupCardAbilities(ability) {
         this.whileAttached({
             condition: (context) =>

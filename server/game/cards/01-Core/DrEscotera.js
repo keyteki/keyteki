@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class DrEscotera extends Card {
+    // Play: Gain 1<A> for each forged key your opponent has.
     setupCardAbilities(ability) {
         this.play({
             gameAction: ability.actions.gainAmber((context) => ({

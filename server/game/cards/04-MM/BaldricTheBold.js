@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class BaldricTheBold extends Card {
+    // Before Fight: If the creature Baldric the Bold fights is the most powerful enemy creature, gain 2A.
     setupCardAbilities(ability) {
         this.beforeFight({
             gameAction: ability.actions.gainAmber((context) => ({
