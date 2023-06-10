@@ -7,7 +7,8 @@ class Knightapult extends Card {
             effect: 'have the next friendly creature enter play anywhere in your battleline, ready',
             gameAction: ability.actions.forRemainderOfTurn({
                 until: {
-                    onCardEntersPlay: (event) => event.card.type === 'creature'
+                    onCardEntersPlay: (event) =>
+                        event.player === this.controller && event.card.type === 'creature'
                 },
                 targetController: 'self',
                 effect: [ability.effects.entersPlayAnywhere(), ability.effects.entersPlayReady()]
