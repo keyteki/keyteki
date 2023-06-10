@@ -31,9 +31,14 @@ describe('Recorded History', function () {
             expect(this.player1).toBeAbleToSelect(this.labwork);
             expect(this.player1).toBeAbleToSelect(this.pelf);
             expect(this.player1).toBeAbleToSelect(this.bumpsy);
-            expect(this.player1).not.toBeAbleToSelect(this.layOfTheLand);
+
+            // You can select Lay of the Land but it won't get added
+            // to the archives.
+            this.player1.clickCard(this.layOfTheLand);
+
             this.player1.clickPrompt('Done');
             expect(this.helmsmanSpears.location).toBe('archives');
+            expect(this.layOfTheLand.location).toBe('hand');
             expect(this.player1.player.archives.length).toBe(1);
             expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
         });
@@ -44,11 +49,15 @@ describe('Recorded History', function () {
             this.player1.clickCard(this.labwork);
             expect(this.player1).toBeAbleToSelect(this.pelf);
             expect(this.player1).toBeAbleToSelect(this.bumpsy);
-            expect(this.player1).not.toBeAbleToSelect(this.batdrone);
-            expect(this.player1).not.toBeAbleToSelect(this.layOfTheLand);
+
+            // You can select Batdrone but it won't get added
+            // to the archives.
+            this.player1.clickCard(this.batdrone);
+
             this.player1.clickPrompt('Done');
             expect(this.helmsmanSpears.location).toBe('archives');
             expect(this.labwork.location).toBe('archives');
+            expect(this.batdrone.location).toBe('hand');
             expect(this.player1.player.archives.length).toBe(2);
             expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
         });
@@ -58,6 +67,7 @@ describe('Recorded History', function () {
             this.player1.clickCard(this.helmsmanSpears);
             this.player1.clickCard(this.labwork);
             this.player1.clickCard(this.pelf);
+            this.player1.clickPrompt('Done');
             expect(this.helmsmanSpears.location).toBe('archives');
             expect(this.labwork.location).toBe('archives');
             expect(this.pelf.location).toBe('archives');
