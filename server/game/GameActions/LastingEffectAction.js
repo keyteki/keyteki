@@ -17,6 +17,7 @@ class LastingEffectAction extends GameAction {
         // lasting ability trigger properties
         this.when = null;
         this.gameAction = null;
+        this.then = null;
         this.message = null;
         this.messageArgs = [];
         this.match = null;
@@ -42,6 +43,7 @@ class LastingEffectAction extends GameAction {
                 Effects.lastingAbilityTrigger({
                     when: this.when,
                     gameAction: this.gameAction,
+                    then: this.then,
                     message: this.message,
                     messageArgs: this.messageArgs,
                     preferActionPromptMessage: this.preferActionPromptMessage,
