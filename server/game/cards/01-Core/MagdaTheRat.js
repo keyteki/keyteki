@@ -1,6 +1,9 @@
 const Card = require('../../Card.js');
 
 class MagdaTheRat extends Card {
+    // Elusive. (The first time this creature is attacked each turn, no damage is dealt.)
+    // Play: Steal 2<A>.
+    // Leaves Play: Your opponent steals 2<A>.
     setupCardAbilities(ability) {
         this.play({
             effect: 'steal 2 amber',

@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class TreasureMap extends Card {
+    // Play: If you have not played any other cards this turn, gain 3A. For the remainder of the turn, you cannot play cards.
     setupCardAbilities(ability) {
         this.play({
             effect: 'make themselves unable to play any more cards this turn{1}',

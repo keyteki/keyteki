@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class ZWaveEmitter extends Card {
+    // At the start of your turn, ward this creature.
     setupCardAbilities(ability) {
         this.whileAttached({
             effect: ability.effects.gainAbility('reaction', {

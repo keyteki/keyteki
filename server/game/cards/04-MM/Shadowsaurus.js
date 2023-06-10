@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class Shadowsaurus extends Card {
+    // Action: Move each A from an enemy creature to your opponents pool. If there was at least 1A on that creature, take control of it. While under your control, it belongs to house Shadows.
     setupCardAbilities(ability) {
         this.action({
             effect: "return all amber from {1} to {2}'s pool{3}{4}",

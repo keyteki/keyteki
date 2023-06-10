@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class DefenseInitiative extends Card {
+    // Play: Ward a creature. You may exalt that creature. If you exalt it, ward each of its neighbors.
     setupCardAbilities(ability) {
         this.play({
             target: {

@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class SoldiersToFlowers extends Card {
+    // Play: Purge each Untamed creature from each players discard pile. For each card purged this way, its owner gains 1A.
     setupCardAbilities(ability) {
         this.play({
             condition: (context) => !!context.player.opponent,

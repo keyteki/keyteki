@@ -1,6 +1,8 @@
 const Card = require('../../Card.js');
 
 class JohnSmyth extends Card {
+    // Elusive. (The first time this creature is attacked each turn, no damage is dealt.)
+    // Fight/Reap: Ready a non-Agent Mars creature.
     setupCardAbilities(ability) {
         this.fight({
             reap: true,

@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class SoundTheHorns extends Card {
+    // Play: Discard cards from the top of your deck until you either discard a Brobnar creature or run out of cards. If you discarded a Brobnar creature this way, put it into your hand.
     setupCardAbilities(ability) {
         this.play({
             gameAction: ability.actions.discard((context) => {

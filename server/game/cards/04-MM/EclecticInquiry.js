@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class EclecticInquiry extends Card {
+    // Play: Archive the top 2 cards of your deck.
     setupCardAbilities(ability) {
         this.play({
             effect: 'archive the top two cards of their deck',

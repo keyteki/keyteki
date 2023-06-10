@@ -2,6 +2,7 @@ const Card = require('../../Card.js');
 const EventRegistrar = require('../../eventregistrar.js');
 
 class Alaka extends Card {
+    // If you have used a creature to fight this turn, Alaka enters play ready.
     setupCardAbilities(ability) {
         this.creaturesFoughtByPlayer = {};
         this.tracker = new EventRegistrar(this.game, this);

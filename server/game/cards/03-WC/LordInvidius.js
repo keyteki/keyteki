@@ -1,6 +1,8 @@
 const Card = require('../../Card.js');
 
 class LordInvidius extends Card {
+    // Elusive.
+    // While Lord Invidius is in the center of your battleline, it gains, Reap: Take control of an enemy flank creature and exhaust it. While under your control, it belongs to house Dis.
     setupCardAbilities(ability) {
         this.persistentEffect({
             condition: (context) => context.source.isInCenter(),

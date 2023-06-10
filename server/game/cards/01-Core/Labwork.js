@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class Labwork extends Card {
+    // Play: Archive a card.
     setupCardAbilities(ability) {
         this.play({
             target: {

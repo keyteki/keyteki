@@ -1,6 +1,8 @@
 const Card = require('../../Card.js');
 
 class GreaterOxtet extends Card {
+    // Taunt.
+    // At the end of your ready cards step, purge a card from your hand. If you do, give Greater Oxtet two +1 power counters.
     setupCardAbilities(ability) {
         this.interrupt({
             when: {

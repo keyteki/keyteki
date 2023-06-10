@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class FuzzyGruen extends Card {
+    // Play: Your opponent gains 1A.
     setupCardAbilities(ability) {
         this.play({
             condition: (context) => !!context.player.opponent,

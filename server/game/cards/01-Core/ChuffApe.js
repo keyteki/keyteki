@@ -1,6 +1,9 @@
 const Card = require('../../Card.js');
 
 class ChuffApe extends Card {
+    // Taunt. (This creatures neighbors cannot be attacked unless they have taunt.)
+    // Chuff Ape enters play stunned.
+    // Fight/Reap: You may sacrifice another friendly creature. If you do, fully heal Chuff Ape.
     setupCardAbilities(ability) {
         this.persistentEffect({
             location: 'any',

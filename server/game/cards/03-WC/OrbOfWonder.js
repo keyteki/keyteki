@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class OrbOfWonder extends Card {
+    // Omni: Destroy Orb of Wonder. If you do, search your deck for a card and put it into your hand. Shuffle your deck.
     setupCardAbilities(ability) {
         this.omni({
             gameAction: ability.actions.sacrifice(),

@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class Commpod extends Card {
+    // Action: Reveal any number of Mars cards from your hand. For each card revealed this way, you may ready one Mars creature.
     setupCardAbilities(ability) {
         this.action({
             target: {

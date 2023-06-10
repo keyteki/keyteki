@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class Tertiate extends Card {
+    // Play: Destroy one third of all enemy creatures and one third of all friendly creatures (rounding up each time).
     setupCardAbilities(ability) {
         this.play({
             targets: {

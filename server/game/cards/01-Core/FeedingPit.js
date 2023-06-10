@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class FeedingPit extends Card {
+    // Action: Discard a creature from your hand. If you do, gain 1<A>.
     setupCardAbilities(ability) {
         this.action({
             target: {

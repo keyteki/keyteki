@@ -1,6 +1,8 @@
 const Card = require('../../Card.js');
 
 class EtherSpider extends Card {
+    // Ether Spider deals no damage when fighting.
+    // Each <A> that would be added to your opponents pool is captured by Ether Spider instead.
     setupCardAbilities(ability) {
         this.interrupt({
             when: {

@@ -1,6 +1,8 @@
 const Card = require('../../Card.js');
 
 class Faygin extends Card {
+    // Elusive. (The first time this creature is attacked each turn, no damage is dealt.)
+    // Reap: Return an Urchin from play or from your discard pile to your hand.
     setupCardAbilities(ability) {
         this.reap({
             target: {

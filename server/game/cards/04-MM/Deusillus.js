@@ -1,6 +1,9 @@
 const GiganticCard = require('../../GiganticCard.js');
 
 class Deusillus extends GiganticCard {
+    // (Play only with the other half of Deusillus.)
+    // Play: Capture all of your opponents A. Deal 5D to an enemy creature.
+    // Fight/Reap: Move 1A from Deusillus to the common supply. Deal 2D to each enemy creature.
     constructor(owner, cardData) {
         super(owner, cardData);
     }

@@ -1,6 +1,8 @@
 const Card = require('../../Card.js');
 
 class Skoll extends Card {
+    // Assault 3. (Before this creature attacks, deal 3D to the attacked enemy.)
+    // After an enemy creature is destroyed by Sklls assault damage, give a friendly creature a +1power counter.
     setupCardAbilities(ability) {
         this.reaction({
             when: {

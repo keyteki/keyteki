@@ -1,6 +1,8 @@
 const Card = require('../../Card.js');
 
 class Manchego extends Card {
+    // Play: If you have 5 or fewer cards in your deck, steal 2A.
+    // Fight/Reap: You may shuffle Manchego into your deck.
     setupCardAbilities(ability) {
         this.play({
             condition: (context) => context.player.deck.length <= 5,

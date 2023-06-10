@@ -1,6 +1,8 @@
 const Card = require('../../Card.js');
 
 class ConsulPrimus extends Card {
+    // Enhance . (These icons have already been added to cards in your deck.)
+    // Reap: Move 1 from a creature to another creature.
     setupCardAbilities(ability) {
         this.reap({
             condition: (context) => context.game.creaturesInPlay.length > 1,

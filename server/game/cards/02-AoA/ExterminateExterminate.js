@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class ExterminateExterminate extends Card {
+    // Play: For each friendly Mars creature you control, destroy a non-Mars creature with lower power.
     setupCardAbilities(ability) {
         this.play({
             effect: 'destroy a non-Mars creature for each Mars creature they control',

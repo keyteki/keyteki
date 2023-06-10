@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class SirMarrows extends Card {
+    // After your opponent gains A by reaping, Sir Marrows captures it.
     setupCardAbilities(ability) {
         this.reaction({
             when: {

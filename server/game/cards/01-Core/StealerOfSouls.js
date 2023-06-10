@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class StealerOfSouls extends Card {
+    // After an enemy creature is destroyed fighting Stealer of Souls, purge that creature and gain 1<A>.
     setupCardAbilities(ability) {
         this.reaction({
             message: '{0} uses {1} to purge {2} and gain 1 amber',

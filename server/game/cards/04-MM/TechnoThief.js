@@ -1,6 +1,8 @@
 const Card = require('../../Card.js');
 
 class TechnoThief extends Card {
+    // Elusive. (The first time this creature is attacked each turn, no damage is dealt.)
+    // Reap: Discard a card from your hand. If you do, draw a card.
     setupCardAbilities(ability) {
         this.reap({
             target: {

@@ -1,6 +1,9 @@
 const Card = require('../../Card.js');
 
 class VineappleTree extends Card {
+    // Keys cost +1A for each growth counter on Vineapple Tree.
+    // After a key is forged, remove each growth counter from Vineapple Tree.
+    // Action: Put a growth counter on Vineapple Tree.
     setupCardAbilities(ability) {
         this.action({
             gameAction: ability.actions.addGrowthCounter()

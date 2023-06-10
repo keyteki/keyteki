@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class CrazyKillingMachine extends Card {
+    // Action: Discard the top card of each players deck. For each of those cards, destroy a creature or artifact of that cards house, if able. If 2 cards are not destroyed as a result of this, destroy Crazy Killing Machine.
     setupCardAbilities(ability) {
         this.action({
             gameAction: ability.actions.discard((context) => ({

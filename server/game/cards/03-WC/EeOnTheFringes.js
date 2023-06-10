@@ -1,6 +1,8 @@
 const Card = require('../../Card.js');
 
 class EeOnTheFringes extends Card {
+    // Elusive.
+    // During your turn, after you discard a Dis card from your hand, you may purge a Dis card from a discard pile. If you do, steal 1A.
     setupCardAbilities(ability) {
         this.reaction({
             when: {

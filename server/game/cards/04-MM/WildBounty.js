@@ -1,6 +1,8 @@
 const Card = require('../../Card.js');
 
 class WildBounty extends Card {
+    // Enhance AA.
+    // Play: The next time you play a card this turn, resolve each of its bonus icons an additional time.
     setupCardAbilities(ability) {
         this.play({
             gameAction: ability.actions.forRemainderOfTurn((context) => ({

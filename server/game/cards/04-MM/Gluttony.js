@@ -1,6 +1,8 @@
 const Card = require('../../Card.js');
 
 class Gluttony extends Card {
+    // Play: Exalt Gluttony once for each friendly Sin creature.
+    // Reap: Move each A from friendly creatures to your pool.
     setupCardAbilities(ability) {
         this.play({
             effect: 'exalt {0} once for each friendly sin creature in play',

@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class PhosphorusStars extends Card {
+    // Play: Stun each non-Mars creature. Gain 2 chains.
     setupCardAbilities(ability) {
         this.play({
             effect: 'stun each non-Mars creature and gain 2 chains',

@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class ForgeCompiler extends Card {
+    // After your opponent forges a key, destroy Forge Compiler and ward each friendly creature.
     setupCardAbilities(ability) {
         this.reaction({
             when: {

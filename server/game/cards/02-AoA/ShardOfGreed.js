@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class ShardOfGreed extends Card {
+    // Action: Gain 1A for each friendly Shard.
     setupCardAbilities(ability) {
         this.action({
             gameAction: ability.actions.gainAmber((context) => ({

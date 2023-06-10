@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class LibraryCard extends Card {
+    // Action: Purge Library Card. If you do, for the remainder of the turn, after you play a card, draw a card.
     setupCardAbilities(ability) {
         this.action({
             effect:

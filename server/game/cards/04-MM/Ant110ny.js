@@ -1,6 +1,8 @@
 const Card = require('../../Card.js');
 
 class Ant110ny extends Card {
+    // Play: Capture all of your opponents A.
+    // At the end of your turn, move 1A from ANT1-10NY to your opponents pool.
     setupCardAbilities(ability) {
         this.play({
             gameAction: ability.actions.capture((context) => ({

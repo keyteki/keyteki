@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class ChampionsChallenge extends Card {
+    // Play: Destroy each enemy creature except the most powerful enemy creature. Destroy each friendly creature except the most powerful friendly creature. Ready and fight with your remaining creature.
     setupCardAbilities(ability) {
         this.play({
             targets: {

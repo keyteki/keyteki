@@ -1,6 +1,8 @@
 const Card = require('../../Card.js');
 
 class Commune extends Card {
+    // Omega. (After you play this card, end this step.)
+    // Play: Lose all of your A. Gain 4A.
     setupCardAbilities(ability) {
         this.play({
             message: '{0} uses {1} to lose all their amber and gain 4 amber',

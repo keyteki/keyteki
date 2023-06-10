@@ -1,6 +1,8 @@
 const Card = require('../../Card.js');
 
 class UniversalKeylock extends Card {
+    // Keys cost +3.
+    // After a player forges a key, destroy Universal Keylock.
     setupCardAbilities(ability) {
         this.persistentEffect({
             targetController: 'any',

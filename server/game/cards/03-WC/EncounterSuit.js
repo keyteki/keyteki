@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class EncounterSuit extends Card {
+    // After an action card is played, but before resolving its play effect, ward this creature.
     setupCardAbilities(ability) {
         this.interrupt({
             when: {

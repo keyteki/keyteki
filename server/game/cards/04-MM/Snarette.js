@@ -1,6 +1,8 @@
 const Card = require('../../Card.js');
 
 class Snarette extends Card {
+    // At the end of your turn, capture 1A.
+    // Action: Move each A from Snarette to the common supply.
     setupCardAbilities(ability) {
         this.interrupt({
             when: {

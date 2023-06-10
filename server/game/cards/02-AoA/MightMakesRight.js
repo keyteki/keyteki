@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class MightMakesRight extends Card {
+    // Play: You may sacrifice any number of creatures with total power of 25or more. If you do, forge a key at no cost.
     setupCardAbilities(ability) {
         this.play({
             condition: (context) =>

@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class Stomp extends Card {
+    // Play: Deal 5D to a creature. If this damage destroys that creature, exalt a friendly creature.
     setupCardAbilities(ability) {
         this.play({
             target: {

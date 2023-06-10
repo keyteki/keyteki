@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class DrMilli extends Card {
+    // Play: For each creature your opponent controls in excess of you, not counting Dr. Milli, archive a card.
     setupCardAbilities(ability) {
         this.play({
             condition: (context) =>

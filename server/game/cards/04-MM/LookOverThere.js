@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class LookOverThere extends Card {
+    // Play: Deal 2D to a creature. If it is not destroyed, steal 1A.
     setupCardAbilities(ability) {
         this.play({
             target: {

@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class Hecatomb extends Card {
+    // Play: Destroy each Dis creature. Each player gains 1A for each creature they controlled that was destroyed this way.
     setupCardAbilities(ability) {
         this.play({
             effect:

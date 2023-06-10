@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class SacroSaurus extends Card {
+    // Play: You may exalt Sacro-Saurus. If you do, deal 3D to a creature.
     setupCardAbilities(ability) {
         this.play({
             optional: true,

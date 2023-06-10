@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class OpalKnight extends Card {
+    // Play: Destroy each creature with even power.
     setupCardAbilities(ability) {
         this.play({
             gameAction: ability.actions.destroy((context) => ({

@@ -2,6 +2,7 @@ const Card = require('../../Card.js');
 const EventRegistrar = require('../../eventregistrar.js');
 
 class TheWarchest extends Card {
+    // Action: Gain 1A for each enemy creature that was destroyed in a fight this turn.
     setupCardAbilities(ability) {
         this.creaturesDestroyed = [];
         this.tracker = new EventRegistrar(this.game, this);

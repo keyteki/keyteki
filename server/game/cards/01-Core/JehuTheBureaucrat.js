@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class JehuTheBureaucrat extends Card {
+    // After you choose Sanctum as your active house, gain 2<A>.
     setupCardAbilities(ability) {
         this.reaction({
             when: {

@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class TheCurator extends Card {
+    // Friendly artifacts enter play ready.
     setupCardAbilities(ability) {
         this.persistentEffect({
             targetLocation: 'any',

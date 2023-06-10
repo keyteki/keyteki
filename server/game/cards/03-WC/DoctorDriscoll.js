@@ -1,6 +1,8 @@
 const Card = require('../../Card.js');
 
 class DoctorDriscoll extends Card {
+    // Elusive.
+    // Action: Heal 2 damage from a creature. Gain 1 for each damage healed this way.
     setupCardAbilities(ability) {
         this.action({
             target: {

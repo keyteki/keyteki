@@ -2,6 +2,7 @@ const Card = require('../../Card.js');
 const EventRegistrar = require('../../eventregistrar.js');
 
 class FontOfTheEye extends Card {
+    // Omni: If an enemy creature was destroyed this turn, a friendly creature captures 1A.
     setupCardAbilities(ability) {
         this.creatureDestroyedControllerUuid = {};
         this.tracker = new EventRegistrar(this.game, this);

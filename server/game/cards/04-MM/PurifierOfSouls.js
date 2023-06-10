@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class PurifierOfSouls extends Card {
+    // Destroyed effects cannot trigger.
     setupCardAbilities(ability) {
         this.persistentEffect({
             targetController: 'any',

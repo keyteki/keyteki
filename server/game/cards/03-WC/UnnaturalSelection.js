@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class UnnaturalSelection extends Card {
+    // Play: Choose 3 friendly creatures and 3enemy creatures. Destroy each other creature.
     setupCardAbilities(ability) {
         this.play({
             targets: {
