@@ -1,7 +1,7 @@
 const Card = require('../../Card.js');
 
 class TouristTrap extends Card {
-    //  Play: Make a token creature.
+    // Play: Make a token creature.
     //
     // Action: Choose a friendly token creature and an enemy
     // creature. If you do, swap control of those creatures.
@@ -13,6 +13,7 @@ class TouristTrap extends Card {
         this.action({
             condition: (context) =>
                 context.player.creaturesInPlay.length > 0 &&
+                context.player.opponent &&
                 context.player.opponent.creaturesInPlay.length > 0,
             targets: {
                 first: {
@@ -24,9 +25,32 @@ class TouristTrap extends Card {
                     dependsOn: 'first',
                     cardType: 'creature',
                     controller: 'opponent',
-                    gameAction: ability.actions.swap((context) => ({
-                        origin: context.targets.first
-                    }))
+                    gameAction: [
+                        ability.actions.cardLastingEffect((context) => ({
+                            target: context.targets.first,
+                            duration: 'lastingEffect',
+                            effect: ability.effects.takeControl(context.game.activePlayer.opponent)
+                        })),
+                        ability.actions.cardLastingEffect((context) => ({
+                            target: context.targets.first,
+                            effect: ability.effects.takeControlOn(
+                                context.game.activePlayer.opponent.cardsInPlay.indexOf(
+                                    context.targets.second
+                                )
+                            )
+                        })),
+                        ability.actions.cardLastingEffect((context) => ({
+                            target: context.targets.second,
+                            duration: 'lastingEffect',
+                            effect: ability.effects.takeControl(context.game.activePlayer)
+                        })),
+                        ability.actions.cardLastingEffect((context) => ({
+                            target: context.targets.second,
+                            effect: ability.effects.takeControlOn(
+                                context.game.activePlayer.cardsInPlay.indexOf(context.targets.first)
+                            )
+                        }))
+                    ]
                 }
             }
         });

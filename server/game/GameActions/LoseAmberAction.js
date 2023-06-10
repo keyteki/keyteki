@@ -22,7 +22,12 @@ class LoseAmberAction extends PlayerAction {
     getEvent(player, context) {
         return super.createEvent(
             'onModifyAmber',
-            { player: player, amount: Math.min(player.amber, this.amount), context: context },
+            {
+                player: player,
+                amount: Math.min(player.amber, this.amount),
+                context: context,
+                loseAmber: true
+            },
             (event) => event.player.modifyAmber(-event.amount)
         );
     }

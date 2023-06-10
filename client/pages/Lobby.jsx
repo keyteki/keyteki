@@ -93,7 +93,6 @@ const Lobby = () => {
             </SideBar>
             <div>
                 <Col sm={{ span: 10, offset: 1 }}>
-                    <div className='main-header' />
                     <Carousel
                         autoPlay={true}
                         infiniteLoop={true}
