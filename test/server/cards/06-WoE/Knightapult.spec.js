@@ -95,5 +95,68 @@ describe('Knightapult', function () {
         });
     });
 
-    it('should cause token creatures to be deployable and ready');
+    describe('action with token creatures', function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'sanctum',
+                    amber: 3,
+                    token: 'cleric',
+                    inPlay: ['chelonia', 'flaxia', 'berinon', 'knightapult'],
+                    hand: ['holdfast', 'muster'],
+                    deck: ['sequis', 'musthic-murmook']
+                },
+                player2: {
+                    inPlay: ['troll', 'gub']
+                }
+            });
+            this.player1.useAction(this.knightapult);
+        });
+
+        describe('should cause the next token', function () {
+            beforeEach(function () {
+                this.player1.play(this.muster);
+            });
+
+            it('to be deployable', function () {
+                expect(this.player1).toHavePromptButton('Left');
+                expect(this.player1).toHavePromptButton('Right');
+                expect(this.player1).toHavePromptButton('Deploy Left');
+                expect(this.player1).toHavePromptButton('Deploy Right');
+            });
+
+            it('to be ready', function () {
+                this.player1.clickPrompt('Left');
+                this.player1.clickCard(this.flaxia);
+
+                let tokenCreature = this.player1.inPlay[0];
+                expect(tokenCreature.isToken()).toBe(true);
+                expect(tokenCreature.exhausted).toBe(false);
+            });
+        });
+
+        describe('should cause the 2nd next token', function () {
+            beforeEach(function () {
+                this.player1.play(this.muster);
+                this.player1.clickPrompt('Left');
+                this.player1.moveCard(this.muster, 'hand');
+                this.player1.play(this.muster);
+            });
+
+            it('not to be deployable', function () {
+                expect(this.player1).toHavePromptButton('Left');
+                expect(this.player1).toHavePromptButton('Right');
+                expect(this.player1).not.toHavePromptButton('Deploy Left');
+                expect(this.player1).not.toHavePromptButton('Deploy Right');
+            });
+
+            it('not to be ready', function () {
+                this.player1.clickPrompt('Left');
+
+                let tokenCreature = this.player1.inPlay[0];
+                expect(tokenCreature.isToken()).toBe(true);
+                expect(tokenCreature.exhausted).toBe(true);
+            });
+        });
+    });
 });
