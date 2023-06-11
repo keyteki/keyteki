@@ -7,6 +7,7 @@ class BaseCardSelector {
         this.controller = properties.controller || 'any';
         this.checkTarget = properties.targets;
         this.uniqueCardNames = properties.uniqueCardNames;
+        this.uniqueCardHouses = properties.uniqueCardHouses;
 
         if (!Array.isArray(properties.cardType)) {
             this.cardType = [properties.cardType];
@@ -142,17 +143,23 @@ class BaseCardSelector {
     }
 
     canAddCardToSelection(selectedCards, possibleCardToSelect) {
-        if (this.uniqueCardNames === true) {
-            let found = selectedCards.find((card) => card.name === possibleCardToSelect.name);
-
-            if (found === undefined) {
-                return true;
-            } else {
+        if (this.uniqueCardNames) {
+            if (selectedCards.some((card) => card.name === possibleCardToSelect.name)) {
                 return false;
             }
-        } else {
-            return true;
         }
+
+        if (this.uniqueCardHouses) {
+            if (
+                selectedCards.some((card) =>
+                    card.getHouses().some((house) => possibleCardToSelect.hasHouse(house))
+                )
+            ) {
+                return false;
+            }
+        }
+
+        return true;
     }
 }
 
