@@ -1036,7 +1036,7 @@ class Game extends EventEmitter {
 
     finalizeTakeControl(player, card, left = false, position = -1) {
         if (position >= 0) {
-            if (player.cardsInPlay.length > position) {
+            if (player.cardsInPlay.length >= position) {
                 player.cardsInPlay.splice(position, 0, card);
             }
         } else if (left) {
