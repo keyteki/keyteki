@@ -10,7 +10,7 @@ class BigMagnet extends Card {
 
                 gameAction: ability.actions.sequentialForEach((context) => ({
                     forEach: context.game.creaturesInPlay
-                        .filter((card) => card !== context.target && card.upgrades.length > 0)
+                        .filter((card) => card.upgrades.length > 0)
                         .flatMap((card) => card.upgrades || []),
                     action: (upgrade) =>
                         ability.actions.attach((context) => ({

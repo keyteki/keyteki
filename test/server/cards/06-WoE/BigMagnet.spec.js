@@ -284,4 +284,38 @@ describe('Big Magnet', function () {
             });
         });
     });
+
+    describe('with upgrades that do not move,', function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    amber: 1,
+                    house: 'brobnar',
+                    inPlay: ['commander-dhrxgar'],
+                    hand: ['big-magnet', 'blood-of-titans']
+                },
+                player2: {
+                    inPlay: ['batdrone'],
+                    hand: ['reckless-experimentation']
+                }
+            });
+
+            this.player1.playUpgrade(this.bloodOfTitans, this.commanderDhrxgar);
+            this.player1.endTurn();
+            this.player2.clickPrompt('logos');
+            this.player2.playUpgrade(this.recklessExperimentation, this.batdrone);
+            this.player2.endTurn();
+            this.player1.clickPrompt('mars');
+            expect(this.player1.amber).toBe(3);
+            this.player1.play(this.bigMagnet);
+            this.player1.clickCard(this.commanderDhrxgar);
+        });
+
+        it('attachment effects should not trigger', function () {
+            // One for Big Magnet, and one for Reckless on Dhrxgar,
+            // but not one for Blood of Titans which was already
+            // attached.
+            expect(this.player1.amber).toBe(5);
+        });
+    });
 });
