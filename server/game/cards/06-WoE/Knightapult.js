@@ -5,20 +5,28 @@ class Knightapult extends Card {
     setupCardAbilities(ability) {
         this.action({
             effect: 'have the next friendly creature enter play anywhere in your battleline, ready',
-            gameAction: ability.actions.forRemainderOfTurn({
-                until: {
-                    onCardEntersPlay: (event) =>
-                        event.card.type === 'creature' &&
-                        event.context.game.activePlayer === event.card.controller
-                },
-                multipleTrigger: false,
-                targetController: 'self',
-                match: (player, context) => player === context.game.activePlayer,
-                effect: [
-                    ability.effects.creaturesEnterPlayAnywhere(this),
-                    ability.effects.creaturesEnterPlayReady(this)
-                ]
-            })
+            gameAction: [
+                ability.actions.forRemainderOfTurn({
+                    until: {
+                        onCardEntersPlay: (event) =>
+                            event.card.type === 'creature' &&
+                            event.context.game.activePlayer === event.card.controller
+                    },
+                    multipleTrigger: false,
+                    targetController: 'self',
+                    match: (player, context) => player === context.game.activePlayer,
+                    effect: ability.effects.creaturesEnterPlayAnywhere(this)
+                }),
+                ability.actions.forRemainderOfTurn({
+                    until: {
+                        onCardEntersPlay: (event) =>
+                            event.card.type === 'creature' &&
+                            event.context.game.activePlayer === event.card.controller
+                    },
+                    multipleTrigger: false,
+                    effect: ability.effects.entersPlayReady()
+                })
+            ]
         });
     }
 }
