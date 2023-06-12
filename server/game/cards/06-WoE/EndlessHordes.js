@@ -8,13 +8,6 @@ class EndlessHordes extends Card {
     // Note the FAQ entry states that all the tokens are created first,
     // then all readied, then fight targets are chosen one at a time and
     // the fights are fully resolved.
-    //
-    // Unofficial ruling from blinkingline is that only enemy
-    // creatures that were present at the beginning of resolution can
-    // be targeted for later fighting.  If multiple creatures are
-    // killed during one fight, then the leftover tokens just end up
-    // ready (even if new creatures were created during earlier
-    // fights).
     setupCardAbilities(ability) {
         this.validTargets = [];
         this.newTokens = [];
@@ -27,11 +20,10 @@ class EndlessHordes extends Card {
                 };
             }),
             then: {
-                gameAction: ability.actions.sequentialForEach((context) => {
+                gameAction: ability.actions.ready((context) => {
                     this.newTokens = context.preThenEvent.cards;
                     return {
-                        forEach: this.newTokens,
-                        action: ability.actions.ready()
+                        target: this.newTokens
                     };
                 }),
                 then: {
@@ -48,7 +40,7 @@ class EndlessHordes extends Card {
                                 }
 
                                 const index = this.validTargets.findIndex(
-                                    (card) => card.name == action.target[0].name
+                                    (card) => card.name === action.target[0].name
                                 );
                                 if (index > -1) {
                                     this.validTargets.splice(index, 1);
