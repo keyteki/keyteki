@@ -888,7 +888,7 @@ class Card extends EffectSource {
         return actions;
     }
 
-    getFightAction(cardCondition = null, postHandler = null) {
+    getFightAction(cardCondition = null, postHandler = null, ignoreTaunt = false) {
         return this.action({
             title: 'Fight with this creature',
             fight: true,
@@ -902,7 +902,8 @@ class Card extends EffectSource {
                 cardCondition: cardCondition,
                 gameAction: new ResolveFightAction({
                     attacker: this,
-                    postHandler: postHandler
+                    postHandler: postHandler,
+                    ignoreTaunt: ignoreTaunt
                 })
             }
         });
@@ -1053,12 +1054,7 @@ class Card extends EffectSource {
     }
 
     ignores(trait) {
-        let ignoreEffects = this.getEffects('ignores').filter((t) => t == trait).length;
-        if (ignoreEffects === 0) {
-            return false;
-        }
-        let cancelIgnoreEffects = this.getEffects('cancelIgnores').filter((t) => t == trait).length;
-        return ignoreEffects > cancelIgnoreEffects;
+        return this.getEffects('ignores').includes(trait);
     }
 
     getShortSummary() {

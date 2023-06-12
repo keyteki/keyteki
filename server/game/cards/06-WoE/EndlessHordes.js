@@ -27,25 +27,18 @@ class EndlessHordes extends Card {
                 };
             }),
             then: {
-                gameAction: ability.actions.sequential([
-                    ability.actions.sequentialForEach((context) => {
-                        this.newTokens = context.preThenEvent.cards;
-                        return {
-                            forEach: this.newTokens,
-                            action: ability.actions.ready()
-                        };
-                    }),
-                    ability.actions.sequentialForEach(() => ({
+                gameAction: ability.actions.sequentialForEach((context) => {
+                    this.newTokens = context.preThenEvent.cards;
+                    return {
                         forEach: this.newTokens,
-                        action: ability.actions.cardLastingEffect({
-                            effect: ability.effects.ignores('taunt')
-                        })
-                    }))
-                ]),
+                        action: ability.actions.ready()
+                    };
+                }),
                 then: {
                     gameAction: ability.actions.sequentialForEach(() => ({
                         forEach: this.newTokens,
                         action: ability.actions.fight({
+                            ignoreTaunt: true,
                             fightCardCondition: (card) => {
                                 return this.validTargets.includes(card);
                             },
@@ -62,16 +55,7 @@ class EndlessHordes extends Card {
                                 }
                             }
                         })
-                    })),
-                    then: {
-                        alwaysTriggers: true,
-                        gameAction: ability.actions.sequentialForEach(() => ({
-                            forEach: this.newTokens,
-                            action: ability.actions.cardLastingEffect({
-                                effect: ability.effects.cancelIgnores('taunt')
-                            })
-                        }))
-                    }
+                    }))
                 }
             }
         });
