@@ -159,4 +159,44 @@ describe('Knightapult', function () {
             });
         });
     });
+
+    xdescribe('action with causing opponent to play', function () {
+        describe('a creature with Trojan Sauropod', function () {
+            beforeEach(function () {
+                this.setupTest({
+                    player1: {
+                        house: 'sanctum',
+                        amber: 3,
+                        inPlay: ['chelonia', 'flaxia', 'knightapult'],
+                        hand: ['holdfast', 'berinon']
+                    },
+                    player2: {
+                        inPlay: ['troll', 'gub'],
+                        hand: ['troll', 'gub']
+                    }
+                });
+
+                this.player1.useAction(this.knightapult);
+            });
+        });
+
+        describe('a token creature with Kamalani', function () {
+            beforeEach(function () {
+                this.setupTest({
+                    player1: {
+                        house: 'sanctum',
+                        amber: 3,
+                        inPlay: ['chelonia', 'flaxia', 'knightapult'],
+                        hand: ['holdfast', 'muster']
+                    },
+                    player2: {
+                        inPlay: ['troll', 'gub'],
+                        hand: ['troll', 'gub']
+                    }
+                });
+
+                this.player1.useAction(this.knightapult);
+            });
+        });
+    });
 });
