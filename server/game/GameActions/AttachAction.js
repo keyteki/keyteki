@@ -39,9 +39,23 @@ class AttachAction extends CardGameAction {
     }
 
     getEvent(card, context) {
+        let eventName = 'onCardAttached';
+        if (!!this.upgrade.parent && this.upgrade.parent === card) {
+            // If the parent stays the same, we don't want to fire any
+            // attachment triggers, but we still want to run the event
+            // handler logic below to possibly change control of the
+            // upgrade.
+            eventName = 'onCardAttachedToSameParent';
+        }
         return super.createEvent(
-            'onCardAttached',
-            { card: this.upgrade, parent: card, player: context.player, context: context },
+            eventName,
+            {
+                card: this.upgrade,
+                parent: card,
+                player: context.player,
+                context: context,
+                oldParent: this.upgrade.parent
+            },
             (event) => {
                 if (event.card.location === 'play area') {
                     event.card.parent.removeAttachment(event.card);
