@@ -13,6 +13,7 @@ import Link from './Link';
 import { Nav, Navbar, NavDropdown } from 'react-bootstrap';
 
 import HeaderIcon from '../../assets/img/main_header_logo.png';
+import SmallHeaderIcon from '../../assets/img/header_icon.png';
 
 /**
  * @typedef { import('../../menus').MenuItem } MenuItem
@@ -148,7 +149,7 @@ const Navigation = (props) => {
                 href='/'
             >
                 <img
-                    src={HeaderIcon}
+                    src={SmallHeaderIcon}
                     height='32'
                     className='d-inline-block align-top'
                     alt='TCO Logo'
@@ -163,15 +164,15 @@ const Navigation = (props) => {
                     href='/'
                 >
                     <img
-                        src={HeaderIcon}
+                        src={currentGame?.started ? SmallHeaderIcon : HeaderIcon}
                         height='32'
                         className='d-inline-block align-top'
                         alt='TCO Logo'
                     />
                 </Navbar.Brand>
-                <Nav className='pr-md-5 bg-dark'>
+                <Nav className='pr-xl-5 bg-dark'>
                     <GameContextMenu />
-                    {numGames}
+                    {!currentGame?.started && numGames}
                     {currentGame?.started ? (
                         <ServerStatus
                             connected={gameConnected}
