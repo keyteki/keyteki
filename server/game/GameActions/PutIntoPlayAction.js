@@ -48,11 +48,11 @@ class PutIntoPlayAction extends CardGameAction {
             let choices = ['Left', 'Right'];
 
             if (
-                context.ability &&
-                context.ability.isCardPlayed() &&
+                ((context.ability && context.ability.isCardPlayed()) ||
+                    player.anyEffect('creaturesEnterPlayAnywhere', context)) &&
                 (this.deploy ||
                     card.hasKeyword('deploy') ||
-                    card.checkConditions('entersPlayAnywhere', context)) &&
+                    player.anyEffect('creaturesEnterPlayAnywhere', context)) &&
                 player.creaturesInPlay.length > 1
             ) {
                 choices.push('Deploy Left');
@@ -187,7 +187,11 @@ class PutIntoPlayAction extends CardGameAction {
                     card.updateEffectContexts();
                 }
 
-                if (!this.ready && !card.checkConditions('entersPlayReady', context)) {
+                if (
+                    !this.ready &&
+                    !card.checkConditions('entersPlayReady', context) &&
+                    !player.anyEffect('creaturesEnterPlayReady')
+                ) {
                     card.exhaust();
                 }
 
