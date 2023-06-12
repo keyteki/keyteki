@@ -1000,15 +1000,7 @@ class Game extends EventEmitter {
         card.controller.removeCardFromPile(card);
         card.controller = player;
 
-        console.log('TAKE CONTROL', card.name, player.name);
-
         if (card.anyEffect('takeControlOn')) {
-            console.log(
-                'TAKE CONTROL ON',
-                card.name,
-                player.name,
-                card.mostRecentEffect('takeControlOn')
-            );
             this.finalizeTakeControl(
                 player,
                 card,
