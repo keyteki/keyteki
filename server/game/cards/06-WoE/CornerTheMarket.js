@@ -42,7 +42,7 @@ class CornerTheMarket extends Card {
                             condition: (context) => !context.event.doNotCancelDiscard,
                             trueGameAction: ability.actions.changeEvent((context) => ({
                                 event: context.event,
-                                card: []
+                                cancel: true
                             }))
                         })
                     ])
