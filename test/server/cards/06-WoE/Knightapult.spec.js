@@ -160,8 +160,8 @@ describe('Knightapult', function () {
         });
     });
 
-    xdescribe('action with causing opponent to play', function () {
-        describe('a creature with Trojan Sauropod', function () {
+    describe('action, causing opponent to play', function () {
+        describe('a creature with Trojan Sauropod,', function () {
             beforeEach(function () {
                 this.setupTest({
                     player1: {
@@ -171,12 +171,61 @@ describe('Knightapult', function () {
                         hand: ['holdfast', 'berinon']
                     },
                     player2: {
-                        inPlay: ['troll', 'gub'],
-                        hand: ['troll', 'gub']
+                        inPlay: ['senator-shrix'],
+                        hand: [
+                            'trojan-sauropod',
+                            'gub',
+                            'anger',
+                            'anger',
+                            'anger',
+                            'anger',
+                            'anger'
+                        ]
                     }
                 });
 
+                this.player1.endTurn();
+                this.player2.clickPrompt('saurian');
+                this.player2.play(this.trojanSauropod);
+                this.player2.endTurn();
+                this.player1.clickPrompt('sanctum');
+                // ready sauropod
+                this.player1.endTurn();
+                this.player2.clickPrompt('saurian');
+                this.player2.endTurn();
+                this.player1.clickPrompt('sanctum');
+
                 this.player1.useAction(this.knightapult);
+                this.player1.useAction(this.trojanSauropod, true);
+            });
+
+            it('should not give deploy to incoming enemy creatures', function () {
+                expect(this.player1).toHavePromptButton('Left');
+                expect(this.player1).toHavePromptButton('Right');
+                expect(this.player1).not.toHavePromptButton('Deploy Left');
+                expect(this.player1).not.toHavePromptButton('Deploy Right');
+            });
+
+            describe('should still give next friendly creature', function () {
+                beforeEach(function () {
+                    this.player1.clickPrompt('Left'); // gub
+
+                    this.player1.clickCard(this.berinon);
+                    this.player1.clickPrompt('Play this creature');
+                });
+
+                it('deploy', function () {
+                    expect(this.player1).toHavePromptButton('Left');
+                    expect(this.player1).toHavePromptButton('Right');
+                    expect(this.player1).toHavePromptButton('Deploy Left');
+                    expect(this.player1).toHavePromptButton('Deploy Right');
+                });
+
+                it('ready', function () {
+                    this.player1.clickPrompt('Left');
+
+                    expect(this.berinon.exhausted).toBe(false);
+                });
             });
         });
 
