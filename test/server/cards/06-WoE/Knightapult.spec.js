@@ -171,7 +171,7 @@ describe('Knightapult', function () {
                         hand: ['holdfast', 'berinon']
                     },
                     player2: {
-                        inPlay: ['senator-shrix'],
+                        inPlay: ['senator-shrix', 'rhetor-gallim'],
                         hand: [
                             'trojan-sauropod',
                             'gub',
@@ -279,8 +279,8 @@ describe('Knightapult', function () {
                 it('deploy', function () {
                     expect(this.player1).toHavePromptButton('Left');
                     expect(this.player1).toHavePromptButton('Right');
-                    expect(this.player1).not.toHavePromptButton('Deploy Left');
-                    expect(this.player1).not.toHavePromptButton('Deploy Right');
+                    expect(this.player1).toHavePromptButton('Deploy Left');
+                    expect(this.player1).toHavePromptButton('Deploy Right');
                 });
 
                 it('ready', function () {
