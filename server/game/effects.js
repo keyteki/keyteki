@@ -133,7 +133,6 @@ const Effects = {
     skipStep: (step) => EffectBuilder.player.static('skipStep', step),
     opponentCardsCannotLeaveArchives: (card) =>
         EffectBuilder.player.static('opponentCardsCannotLeaveArchives', card),
-    creaturesEnterPlayReady: () => EffectBuilder.player.static('creaturesEnterPlayReady'),
     creaturesEnterPlayAnywhere: () => EffectBuilder.player.static('creaturesEnterPlayAnywhere')
 };
 
