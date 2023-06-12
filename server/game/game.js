@@ -1000,7 +1000,15 @@ class Game extends EventEmitter {
         card.controller.removeCardFromPile(card);
         card.controller = player;
 
+        console.log('TAKE CONTROL', card.name, player.name);
+
         if (card.anyEffect('takeControlOn')) {
+            console.log(
+                'TAKE CONTROL ON',
+                card.name,
+                player.name,
+                card.mostRecentEffect('takeControlOn')
+            );
             this.finalizeTakeControl(
                 player,
                 card,
@@ -1036,7 +1044,7 @@ class Game extends EventEmitter {
 
     finalizeTakeControl(player, card, left = false, position = -1) {
         if (position >= 0) {
-            if (player.cardsInPlay.length > position) {
+            if (player.cardsInPlay.length >= position) {
                 player.cardsInPlay.splice(position, 0, card);
             }
         } else if (left) {

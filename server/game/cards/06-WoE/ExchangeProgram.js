@@ -19,9 +19,30 @@ class ExchangeProgram extends Card {
                     cardType: 'creature',
                     controller: 'opponent',
                     cardCondition: (card) => card.isOnFlank(),
-                    gameAction: ability.actions.swap((context) => ({
-                        origin: context.targets.first
-                    }))
+                    gameAction: [
+                        ability.actions.cardLastingEffect((context) => ({
+                            target: context.targets.second,
+                            duration: 'lastingEffect',
+                            effect: ability.effects.takeControl(context.player)
+                        })),
+                        ability.actions.cardLastingEffect((context) => ({
+                            target: context.targets.second,
+                            effect: ability.effects.takeControlOn(
+                                context.player.cardsInPlay.indexOf(context.targets.first)
+                            )
+                        })),
+                        ability.actions.cardLastingEffect((context) => ({
+                            target: context.targets.first,
+                            duration: 'lastingEffect',
+                            effect: ability.effects.takeControl(context.player.opponent)
+                        })),
+                        ability.actions.cardLastingEffect((context) => ({
+                            target: context.targets.first,
+                            effect: ability.effects.takeControlOn(
+                                context.player.opponent.cardsInPlay.indexOf(context.targets.second)
+                            )
+                        }))
+                    ]
                 }
             }
         });

@@ -5,7 +5,7 @@ describe('Exchange Program', function () {
                 player1: {
                     house: 'ekwidon',
                     inPlay: ['antiquities-dealer'],
-                    hand: ['exchange-program', 'conductor-jarroya']
+                    hand: ['exchange-program']
                 },
                 player2: {
                     inPlay: ['selwyn-the-fence', 'flaxia', 'bumpsy']
@@ -29,6 +29,7 @@ describe('Exchange Program', function () {
             expect(this.player1.player.cardsInPlay).not.toContain(this.antiquitiesDealer);
             expect(this.player2.player.cardsInPlay).not.toContain(this.bumpsy);
             expect(this.player2.player.cardsInPlay).toContain(this.antiquitiesDealer);
+            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
         });
 
         it('does nothing if no creatures in play one side', function () {
@@ -38,7 +39,7 @@ describe('Exchange Program', function () {
             expect(this.player1).not.toBeAbleToSelect(this.selwynTheFence);
             expect(this.player1).not.toBeAbleToSelect(this.flaxia);
             expect(this.player1).not.toBeAbleToSelect(this.bumpsy);
-            this.player1.play(this.conductorJarroya);
+            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
         });
     });
 });
