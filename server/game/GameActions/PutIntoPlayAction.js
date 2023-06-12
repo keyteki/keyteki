@@ -187,7 +187,11 @@ class PutIntoPlayAction extends CardGameAction {
                     card.updateEffectContexts();
                 }
 
-                if (!this.ready && !card.checkConditions('entersPlayReady', context)) {
+                if (
+                    !this.ready &&
+                    !card.checkConditions('entersPlayReady', context) &&
+                    !player.anyEffect('creaturesEnterPlayReady', context)
+                ) {
                     card.exhaust();
                 }
 
