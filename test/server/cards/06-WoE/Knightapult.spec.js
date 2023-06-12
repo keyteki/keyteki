@@ -229,22 +229,65 @@ describe('Knightapult', function () {
             });
         });
 
-        describe('a token creature with Kamalani', function () {
+        describe('a token creature with Kamalani,', function () {
             beforeEach(function () {
                 this.setupTest({
                     player1: {
                         house: 'sanctum',
                         amber: 3,
                         inPlay: ['chelonia', 'flaxia', 'knightapult'],
-                        hand: ['holdfast', 'muster']
+                        hand: ['holdfast', 'hammer-gram']
                     },
                     player2: {
-                        inPlay: ['troll', 'gub'],
-                        hand: ['troll', 'gub']
+                        token: 'warrior',
+                        inPlay: ['troll', 'gub', 'kamalani'],
+                        deck: ['anger', 'alaka']
                     }
                 });
 
+                this.kamalani.tokens.damage = 2;
                 this.player1.useAction(this.knightapult);
+                this.player1.play(this.hammerGram);
+                this.player1.clickCard(this.kamalani);
+            });
+
+            it('should not give the new tokens deploy', function () {
+                expect(this.player1).toHavePromptButton('Left');
+                expect(this.player1).toHavePromptButton('Right');
+                expect(this.player1).not.toHavePromptButton('Deploy Left');
+                expect(this.player1).not.toHavePromptButton('Deploy Right');
+            });
+
+            it('should not give the new tokens ready', function () {
+                this.player1.clickPrompt('Left');
+                this.player1.clickPrompt('Left');
+
+                let alakaToken = this.player2.inPlay[0];
+                expect(alakaToken.isToken()).toBe(true);
+                expect(alakaToken.exhausted).toBe(true);
+            });
+
+            describe('should give the next friendly creature', function () {
+                beforeEach(function () {
+                    this.player1.clickPrompt('Left');
+                    this.player1.clickPrompt('Left');
+
+                    this.player1.clickCard(this.holdfast);
+                    this.player1.clickPrompt('Play this creature');
+                });
+
+                it('deploy', function () {
+                    expect(this.player1).toHavePromptButton('Left');
+                    expect(this.player1).toHavePromptButton('Right');
+                    expect(this.player1).not.toHavePromptButton('Deploy Left');
+                    expect(this.player1).not.toHavePromptButton('Deploy Right');
+                });
+
+                it('ready', function () {
+                    this.player1.clickPrompt('Left');
+
+                    expect(this.holdfast.exhausted).toBe(false);
+                });
             });
         });
     });
