@@ -888,7 +888,7 @@ class Card extends EffectSource {
         return actions;
     }
 
-    getFightAction(cardCondition = null, postHandler = null) {
+    getFightAction(cardCondition = null, postHandler = null, ignoreTaunt = false) {
         return this.action({
             title: 'Fight with this creature',
             fight: true,
@@ -902,7 +902,8 @@ class Card extends EffectSource {
                 cardCondition: cardCondition,
                 gameAction: new ResolveFightAction({
                     attacker: this,
-                    postHandler: postHandler
+                    postHandler: postHandler,
+                    ignoreTaunt: ignoreTaunt
                 })
             }
         });
