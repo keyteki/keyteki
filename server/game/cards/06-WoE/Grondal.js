@@ -14,8 +14,12 @@ class Grondal extends Card {
                 onBeginRound: (_, context) => context.player === this.game.activePlayer
             },
             target: {
-                activePromptTitle: 'Choose a creature',
+                mode: 'mostStat',
                 cardType: 'creature',
+                controller: 'any',
+                numCards: 1,
+                cardStat: (card) => -card.power,
+                activePromptTitle: 'Choose a creature',
                 gameAction: ability.actions.destroy()
             }
         });
