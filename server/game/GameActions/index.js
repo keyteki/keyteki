@@ -34,6 +34,7 @@ module.exports = {
     MoveOnBattlelineAction: require('./MoveOnBattlelineAction'),
     MoveToBottomAction: require('./MoveToBottomAction'),
     MoveToFlankAction: require('./MoveToFlankAction'),
+    MoveUpgrade: require('./MoveUpgrade'),
     MulliganAction: require('./MulliganAction'),
     ResetTideAction: require('./ResetTideAction'),
     PlaceUnderAction: require('./PlaceUnderAction'),
