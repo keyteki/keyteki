@@ -3,6 +3,7 @@ const AddTokenAction = require('./AddTokenAction');
 class ExaltAction extends AddTokenAction {
     setDefaultProperties() {
         this.amount = 1;
+        this.player = false;
     }
 
     setup() {
@@ -16,7 +17,7 @@ class ExaltAction extends AddTokenAction {
     }
 
     getEvent(card, context) {
-        let player = this.player || context.player.opponent;
+        let player = this.player || context.player;
         return super.createEvent(
             'onExalt',
             { card: card, context: context, amount: this.amount },
