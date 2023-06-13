@@ -35,6 +35,7 @@ module.exports = {
     MoveToBottomAction: require('./MoveToBottomAction'),
     MoveToFlankAction: require('./MoveToFlankAction'),
     MoveUpgrade: require('./MoveUpgrade'),
+    MoveUpgradeToFlank: require('./MoveUpgradeToFlank'),
     MulliganAction: require('./MulliganAction'),
     ResetTideAction: require('./ResetTideAction'),
     PlaceUnderAction: require('./PlaceUnderAction'),
