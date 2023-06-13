@@ -3,9 +3,9 @@ describe('ForcedRetirement', function () {
         beforeEach(function () {
             this.setupTest({
                 player1: {
-                    house: 'untamed',
+                    house: 'ekwidon',
                     amber: 1,
-                    hand: ['bubbles'],
+                    hand: ['bubbles', 'forced-retirement'],
                     inPlay: ['flaxia']
                 },
                 player2: {
@@ -15,77 +15,36 @@ describe('ForcedRetirement', function () {
             });
         });
 
-        it('should have tests', function () {
-            // TODO write your code here
-        });
-
-        // examples repo (clean bellow after use)
-        /*
-        it('turn ending test', function () {
-            this.player1.endTurn();
-            this.player2.clickPrompt('untamed');
-            this.player2.endTurn();
-            this.player1.forgeKey('Red');
-            this.player1.clickPrompt('untamed');
-        });
-
-        it('creature token', function () {
-            expect(this.mookling.tokens.power).toBeUndefined();
-            this.mookling.addToken('power');
-            expect(this.mookling.tokens.power).toBe(1);
-            
-            expect(this.mookling.tokens.damage).toBeUndefined();
-            this.mookling.addToken('damage');
-            expect(this.mookling.tokens.damage).toBe(1);
-            
-            expect(this.mookling.tokens.amber).toBeUndefined();
-            this.mookling.addToken('amber');
-            expect(this.mookling.tokens.amber).toBe(1);
-        });
-
-        it('creature amber test', function () {
-            this.urchin.tokens.amber = 1;
-        });
-
-        it('location tests', function () {
-            expect(this.mother.location).toBe('discard');
-            expect(this.mother.location).toBe('hand');
-            expect(this.mother.location).toBe('deck');
-            expect(this.mother.location).toBe('play area');
-        });
-
-        it('game interation selection', function () {
-            expect(this.player1).not.toBeAbleToSelect(this.gub);
+        it('should allow killing of friendly creture to gain one', function () {
+            expect(this.player1.amber).toBe(1);
+            this.player1.play(this.forcedRetirement);
             expect(this.player1).toBeAbleToSelect(this.flaxia);
-            this.player1.clickPrompt('Done');
-            this.player1.clickCard(this.larva);
-            expect(this.player1).toHavePromptButton('Done');
-            expect(this.player1).not.toHavePromptButton('Done');
-        });
-
-        it('basic actions tests', function () {
-            this.player1.play(this.cocoon);
-            this.player1.useAction(this.cocoon);
-            this.player1.reap(this.cocoon);
-            this.player1.fight(this.cocoon);
-        });
-
-        it('player amber test', function () {
-            this.player1.amber = 2
+            expect(this.player1).toBeAbleToSelect(this.gub);
+            expect(this.player1).toBeAbleToSelect(this.krump);
+            this.player1.clickCard(this.flaxia);
             expect(this.player1.amber).toBe(2);
+
+            expect(this.flaxia.location).toBe('discard');
+            expect(this.gub.location).toBe('play area');
+            expect(this.krump.location).toBe('play area');
+
+            this.player1.endTurn();
         });
 
-        it('tide test', function () {
-            this.player1.lowerTide();
-            expect(this.player1.isTideHigh()).toBe(false);
-            this.player1.raiseTide();
-        });
+        it('should allow killing of opponent creture to have opponent gain one', function () {
+            expect(this.player2.amber).toBe(1);
+            this.player1.play(this.forcedRetirement);
+            expect(this.player1).toBeAbleToSelect(this.flaxia);
+            expect(this.player1).toBeAbleToSelect(this.gub);
+            expect(this.player1).toBeAbleToSelect(this.krump);
+            this.player1.clickCard(this.gub);
+            expect(this.player2.amber).toBe(2);
 
-        it('moving cards test', function () {
-            this.player1.moveCard(this.butterfly, 'play area');
-            this.player1.moveCard(this.butterfly, 'discard');
-            this.player1.moveCard(this.butterfly, 'hand');
+            expect(this.gub.location).toBe('discard');
+            expect(this.flaxia.location).toBe('play area');
+            expect(this.krump.location).toBe('play area');
+
+            this.player1.endTurn();
         });
-        */
     });
 });
