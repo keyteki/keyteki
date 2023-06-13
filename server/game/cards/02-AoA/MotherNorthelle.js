@@ -1,6 +1,8 @@
 const Card = require('../../Card.js');
 
 class MotherNorthelle extends Card {
+    // Elusive.(The first time this creature is attacked each turn, no damage is dealt.)
+    // Reap: Move 1A from a friendly creature to your pool.
     setupCardAbilities(ability) {
         this.reap({
             target: {

@@ -1,7 +1,7 @@
 const Card = require('../../Card.js');
 
 class YxlTheIronCaptain extends Card {
-    // Play: Each friendly Ironyx creature captures 2Aember.
+    // Play: Each friendly Ironyx creature captures 2A.
     setupCardAbilities(ability) {
         this.play({
             effect: 'make each friendly Ironyx creature capture 2 amber',

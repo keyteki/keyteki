@@ -1,6 +1,8 @@
 const Card = require('../../Card.js');
 
 class Drecker extends Card {
+    // Damage dealt to Dreckers neighbors during fights is also dealt to Drecker.
+    // Reap: Steal 1A.
     setupCardAbilities(ability) {
         this.interrupt({
             when: {

@@ -1,6 +1,8 @@
 const Card = require('../../Card.js');
 
 class CandleUnit extends Card {
+    // After an enemy creature reaps, draw a card.
+    // Action: Capture 1A.
     setupCardAbilities(ability) {
         this.reaction({
             when: {

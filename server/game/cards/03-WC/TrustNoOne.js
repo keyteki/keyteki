@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class TrustNoOne extends Card {
+    // Play: Steal 1A. If there are no friendly creatures in play, instead steal 1A for each house represented among enemy creatures (to a maximum of 3).
     setupCardAbilities(ability) {
         this.play({
             gameAction: ability.actions.steal((context) => ({

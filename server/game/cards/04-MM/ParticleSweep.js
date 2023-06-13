@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class ParticleSweep extends Card {
+    // Play: Deal 2D to a creature. If it is a Mutant creature, destroy it instead.
     setupCardAbilities(ability) {
         this.play({
             target: {

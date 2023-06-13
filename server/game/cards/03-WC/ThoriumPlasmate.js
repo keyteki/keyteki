@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class ThoriumPlasmate extends Card {
+    // Play: Move an enemy creature anywhere in its controllers battleline. Deal 2D to that creature for each of its neighbors that shares a house with it.
     setupCardAbilities(ability) {
         this.play({
             effect:

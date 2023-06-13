@@ -62,7 +62,9 @@ const Effects = {
     setArmor: (amount) => EffectBuilder.card.flexible('setArmor', amount),
     setPower: (amount) => EffectBuilder.card.flexible('setPower', amount),
     takeControl: (player) => EffectBuilder.card.flexible('takeControl', player),
-    takeControlOnLeft: () => EffectBuilder.card.flexible('takeControlOnLeft'),
+    takeControlOn: (position) => EffectBuilder.card.static('takeControlOn', position),
+    takeControlOnLeft: () => EffectBuilder.card.static('takeControlOnLeft'),
+    takeControlOnRight: () => EffectBuilder.card.static('takeControlOnRight'),
     entersPlayUnderOpponentsControl: () =>
         EffectBuilder.card.static('entersPlayUnderOpponentsControl'),
     terminalCondition: (properties) =>
@@ -122,7 +124,6 @@ const Effects = {
     noActiveHouseForPlay: () => EffectBuilder.player.static('noActiveHouseForPlay'),
     playerCannot: (type, condition) =>
         EffectBuilder.player.static('abilityRestrictions', new CannotRestriction(type, condition)),
-    redirectAmber: (recepient) => EffectBuilder.player.flexible('redirectAmber', recepient),
     restrictHouseChoice: (house) => EffectBuilder.player.static('restrictHouseChoice', house),
     stealFromPool: () => EffectBuilder.player.static('stealFromPool'),
     captureFromPool: () => EffectBuilder.player.static('captureFromPool'),

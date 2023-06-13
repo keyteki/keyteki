@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class KymoorEclipse extends Card {
+    // Play: Shuffle each flank creature into its owners deck.
     setupCardAbilities(ability) {
         this.play({
             gameAction: ability.actions.returnToDeck((context) => ({

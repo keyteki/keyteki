@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class TachyonPulse extends Card {
+    // Play: Destroy each artifact. Exhaust each creature with an upgrade.
     setupCardAbilities(ability) {
         this.play({
             effectStyle: 'all',

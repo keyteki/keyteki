@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class HandOfDis extends Card {
+    // Play: Destroy a creature that is not on a flank.
     setupCardAbilities(ability) {
         this.play({
             target: {

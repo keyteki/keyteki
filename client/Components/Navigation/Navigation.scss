@@ -4,15 +4,65 @@
 @import '~bootstrap/scss/variables';
 @import '~bootstrap/scss/mixins';
 
-a.navbar-brand {
-    color: gray('500');
+.navbar-item {
+    width: auto;
+    font-family: 'PoppinsMedium', serif;
+    font-size: 16px;
+    transition: all 0.4s ease-in-out;
+    text-decoration: none;
+    color: #ffffff !important;
+    &:hover {
+        cursor: default;
+    }
+}
 
-    background-image: url('~assets/img/header_icon.png');
-    background-repeat: no-repeat;
-    background-position: center;
-    background-origin: content-box;
-    width: 72px;
-    height: 100%;
+.navbar-item.interactable {
+    color: #d44887 !important;
+    &:hover {
+        color: #ffffff !important;
+        cursor: pointer;
+        background-size: 100% 0.1em;
+    }
+}
+
+.dropdown {
+    color: #d44887;
+    font-family: 'PoppinsMedium', serif;
+    font-size: 16px;
+    transition: all 0.4s ease-in-out;
+    &:hover {
+        color: #ffffff;
+        cursor: pointer;
+        background-size: 100% 0.1em;
+    }
+}
+
+.dropdown-toggle {
+    color: #d44887 !important;
+    font-family: 'PoppinsMedium', serif;
+    font-size: 16px;
+    transition: all 0.4s ease-in-out;
+    &:hover {
+        color: #ffffff !important;
+        cursor: pointer;
+        background-size: 100% 0.1em;
+    }
+}
+
+.dropdown-menu {
+    background: rgba(0, 0, 0, 0.9);
+    border-bottom-left-radius: 0.5rem;
+    border-bottom-right-radius: 0.5rem;
+    transition: all 0.4s ease-in-out;
+}
+
+.dropdown-child {
+    margin: 0.5rem;
+    padding: 0;
+    display: block;
+    &:hover {
+        background: none !important;
+    }
 }
 
 .navbar-sm {
@@ -22,5 +72,20 @@ a.navbar-brand {
 
 .navbar-sm .navbar-nav > li > span {
     padding: 0 15px;
-    line-height: 36px;
+    line-height: $navbar-height;
+}
+
+.navbar-sm .navbar-nav > li > a {
+    padding: 0 15px;
+    line-height: $navbar-height;
+}
+
+.navbar-sm .navbar-item > span {
+    padding: 0 15px;
+    line-height: $navbar-height;
+}
+
+.navbar-sm .nav-item > a {
+    padding: 0 15px;
+    line-height: $navbar-height;
 }

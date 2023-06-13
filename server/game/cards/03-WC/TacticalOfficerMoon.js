@@ -1,6 +1,8 @@
 const Card = require('../../Card.js');
 
 class TacticalOfficerMoon extends Card {
+    // Assault 2. (Before this creature attacks, deal 2D to the attacked enemy.)
+    // Play: You may rearrange the creatures in a players battleline.
     setupCardAbilities(ability) {
         this.play({
             target: {

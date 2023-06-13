@@ -1,6 +1,8 @@
 const Card = require('../../Card.js');
 
 class Spartasaur extends Card {
+    // After a friendly creature is destroyed, destroy each non-Dinosaur creature.
+    // Fight: Gain 2A.
     setupCardAbilities(ability) {
         this.reaction({
             when: {

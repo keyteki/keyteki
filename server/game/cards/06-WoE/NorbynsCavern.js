@@ -11,6 +11,6 @@ class NorbynsCavern extends Card {
     }
 }
 
-NorbynsCavern.id = 'norbyn&#039;s-cavern';
+NorbynsCavern.id = 'norbyn-s-cavern';
 
 module.exports = NorbynsCavern;

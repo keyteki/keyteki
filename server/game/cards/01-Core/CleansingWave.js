@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class CleansingWave extends Card {
+    // Play: Heal 1 damage from each creature. Gain 1<A> for each creature healed this way.
     setupCardAbilities(ability) {
         this.play({
             effect: 'heal 1 damage from all creatures',

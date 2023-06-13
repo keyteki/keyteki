@@ -1,6 +1,8 @@
 const Card = require('../../Card.js');
 
 class ChainGang extends Card {
+    // After you play Subtle Chain, ready Chain Gang.
+    // Action: Steal 1A. Shuffle a Subtle Chain from your discard pile into your deck.
     setupCardAbilities(ability) {
         this.reaction({
             when: {

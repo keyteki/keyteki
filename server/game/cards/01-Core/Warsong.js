@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class Warsong extends Card {
+    // Play: For the remainder of the turn, gain 1<A> each time a friendly creature fights.
     setupCardAbilities(ability) {
         // eslint-disable-line no-unused-vars
         this.play({

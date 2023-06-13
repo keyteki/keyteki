@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class Ballcano extends Card {
+    // Play: Deal 4D to each creature. Gain 2 chains.
     setupCardAbilities(ability) {
         this.play({
             effect: 'deal 4 damage to all creatures, gaining 2 chains',

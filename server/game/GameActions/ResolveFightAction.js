@@ -3,6 +3,7 @@ const CardGameAction = require('./CardGameAction');
 class ResolveFightAction extends CardGameAction {
     setDefaultProperties() {
         this.attacker = null;
+        this.ignoreTaunt = false;
     }
 
     setup() {
@@ -26,6 +27,7 @@ class ResolveFightAction extends CardGameAction {
             return false;
         } else if (
             !card.checkRestrictions('attackDueToTaunt') &&
+            !this.ignoreTaunt &&
             !this.attacker.ignores('taunt') &&
             context.stage !== 'effect'
         ) {

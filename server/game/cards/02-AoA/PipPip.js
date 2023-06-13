@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class PipPip extends Card {
+    // After an enemy creature reaps, stun it.
     setupCardAbilities(ability) {
         this.reaction({
             when: {

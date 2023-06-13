@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class PositronBolt extends Card {
+    // Play: Deal 3<D> to a flank creature. Deal 2<D> to its neighbor. Deal 1<D> to the second creatures other neighbor.
     setupCardAbilities(ability) {
         this.play({
             targets: {

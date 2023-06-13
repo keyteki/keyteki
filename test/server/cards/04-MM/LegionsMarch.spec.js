@@ -37,7 +37,7 @@ describe('Legions March', function () {
             this.player1.play(this.legionSMarch);
             this.player1.reap(this.praefectusLudo);
 
-            this.player1.clickPrompt("Legion's March");
+            this.player1.clickPrompt(this.legionSMarch.name);
 
             expect(this.praefectusLudo.tokens.damage).toBe(undefined);
             expect(this.consulPrimus.tokens.damage).toBe(undefined);

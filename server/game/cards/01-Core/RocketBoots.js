@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class RocketBoots extends Card {
+    // This creature gains, Fight/Reap: If this is the first time this creature was used this turn, ready it.
     setupCardAbilities(ability) {
         this.whileAttached({
             effect: [

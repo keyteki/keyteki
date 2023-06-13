@@ -24,6 +24,6 @@ class ShizyokuBuggy extends Card {
     }
 }
 
-ShizyokuBuggy.id = 'shizyoku-buggy';
+ShizyokuBuggy.id = 'shĭzyokŭ-buggy';
 
 module.exports = ShizyokuBuggy;

@@ -1,6 +1,8 @@
 const Card = require('../../Card.js');
 
 class LadyMaxena extends Card {
+    // Play: Stun a creature.
+    // Action: Return Lady Maxena to its owners hand.
     setupCardAbilities(ability) {
         this.play({
             target: {

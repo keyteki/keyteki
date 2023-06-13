@@ -1,6 +1,8 @@
 const Card = require('../../Card.js');
 
 class HeistNight extends Card {
+    // Alpha. (You can only play this card before doing anything else this step.)
+    // Play: Steal 1A for each friendly Thief creature.
     setupCardAbilities(ability) {
         this.play({
             gameAction: ability.actions.steal((context) => ({

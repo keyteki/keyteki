@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class HorsemanOfFamine extends Card {
+    // Play/Fight/Reap: Destroy the least powerful creature.
     setupCardAbilities(ability) {
         this.play({
             fight: true,

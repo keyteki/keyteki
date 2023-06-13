@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class DreadboneDecimus extends Card {
+    // Play/Fight: You may exalt Dreadbone Decimus. If you do, destroy a creature with lower power than Dreadbone Decimus.
     setupCardAbilities(ability) {
         this.play({
             fight: true,

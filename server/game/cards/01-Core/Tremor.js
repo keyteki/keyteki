@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class Tremor extends Card {
+    // Play: Stun a creature and each of its neighbors.
     setupCardAbilities(ability) {
         this.play({
             target: {

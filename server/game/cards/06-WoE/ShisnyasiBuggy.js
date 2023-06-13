@@ -15,6 +15,6 @@ class ShisnyasiBuggy extends Card {
     }
 }
 
-ShisnyasiBuggy.id = 'shisnyasi-buggy';
+ShisnyasiBuggy.id = 'shĭsnyasĭ-buggy';
 
 module.exports = ShisnyasiBuggy;

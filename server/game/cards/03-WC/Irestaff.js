@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class Irestaff extends Card {
+    // Action: Enrage a creature. Give that creature a +1 power counter.
     setupCardAbilities(ability) {
         this.action({
             target: {

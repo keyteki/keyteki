@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class CommanderRemiel extends Card {
+    // Reap: Use a friendly non-Sanctum creature.
     setupCardAbilities(ability) {
         this.reap({
             target: {

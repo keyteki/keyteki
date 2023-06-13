@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class LightsOut extends Card {
+    // Play: Return 2enemy creatures to their owners hand.
     setupCardAbilities(ability) {
         this.play({
             target: {

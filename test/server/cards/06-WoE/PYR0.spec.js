@@ -1,5 +1,5 @@
-describe('PYR-0', function () {
-    describe("PYR-0's creature ability", function () {
+describe('PYR*0', function () {
+    describe("PYR*0's creature ability", function () {
         beforeEach(function () {
             this.setupTest({
                 player1: {

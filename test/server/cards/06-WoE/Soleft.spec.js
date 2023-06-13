@@ -3,10 +3,10 @@ describe('Soleft', function () {
         beforeEach(function () {
             this.setupTest({
                 player1: {
-                    house: 'unfathomable',
+                    house: 'dis',
                     amber: 4,
-                    hand: ['soleft'],
-                    inPlay: ['seabringer-kekoa', 'nexus']
+                    hand: ['draining-touch'],
+                    inPlay: ['seabringer-kekoa', 'nexus', 'soleft']
                 },
                 player2: {
                     amber: 2,
@@ -17,7 +17,8 @@ describe('Soleft', function () {
         });
 
         it('should destroy the left creature', function () {
-            this.player1.play(this.soleft);
+            this.player1.play(this.drainingTouch);
+            this.player1.clickCard(this.soleft);
             expect(this.seabringerKekoa.location).toBe('play area');
             expect(this.nexus.location).toBe('play area');
             expect(this.trader.location).toBe('discard');
@@ -31,10 +32,10 @@ describe('Soleft', function () {
         beforeEach(function () {
             this.setupTest({
                 player1: {
-                    house: 'unfathomable',
+                    house: 'dis',
                     amber: 4,
-                    hand: ['soleft'],
-                    inPlay: ['seabringer-kekoa', 'nexus']
+                    hand: ['draining-touch'],
+                    inPlay: ['seabringer-kekoa', 'nexus', 'soleft']
                 },
                 player2: {
                     amber: 6,
@@ -44,7 +45,10 @@ describe('Soleft', function () {
         });
 
         it('should do nothing with no opponent creatures', function () {
-            this.player1.play(this.soleft);
+            this.player1.play(this.drainingTouch);
+            this.player1.clickCard(this.soleft);
+            expect(this.seabringerKekoa.location).toBe('play area');
+            expect(this.nexus.location).toBe('play area');
             expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
         });
     });

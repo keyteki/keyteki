@@ -39,6 +39,8 @@ class Deck {
                 result.card.enhancements = card.enhancements;
             }
 
+            result.card.isNonDeck = card.isNonDeck;
+
             return result;
         });
 
@@ -53,17 +55,25 @@ class Deck {
 
         result.houses = this.data.houses;
 
-        this.eachRepeatedCard(this.data.cards, (cardData) => {
-            let card = this.createCard(player, cardData);
-            if (card) {
-                card.setupAbilities();
-                card.location = 'deck';
-                result.cards.push(card);
+        this.eachRepeatedCard(
+            this.data.cards.filter((c) => !c.card.isNonDeck),
+            (cardData) => {
+                let card = this.createCard(player, cardData);
+                if (card) {
+                    card.setupAbilities();
+                    card.location = 'deck';
+                    result.cards.push(card);
+                }
             }
-        });
+        );
 
-        if (this.data.tokenCard) {
-            result.tokenCard = this.createCard(player, this.data.tokenCard.card);
+        let tokenCard = this.data.cards.find(
+            (c) => c.card.isNonDeck && c.card.type === 'token creature'
+        );
+
+        if (tokenCard) {
+            tokenCard.type = 'creature';
+            result.tokenCard = this.createCard(player, tokenCard.card);
             result.tokenCard.setupAbilities();
         }
 

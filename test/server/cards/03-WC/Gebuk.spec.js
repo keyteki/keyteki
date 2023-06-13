@@ -52,9 +52,10 @@ describe('Gebuk', function () {
                 this.player1.fightWith(this.gebuk, this.troll);
             });
 
-            it('should put that creature into play in the same position as gebuk was', function () {
+            it('should put that creature into play in the same position as gebuk was, exhausted', function () {
                 expect(this.player1.inPlay.length).toBe(3);
                 expect(this.player1.inPlay[1]).toBe(this.niffleApe);
+                expect(this.player1.inPlay[1].exhausted).toBe(true);
             });
         });
 

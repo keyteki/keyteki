@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class Pismire extends Card {
+    // While there are more friendly Mutant creatures than enemy Mutant creatures, your opponents keys cost +2A.
     setupCardAbilities(ability) {
         this.persistentEffect({
             targetController: 'opponent',

@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class MegaCowfyne extends Card {
+    // Before Fight: Deal 2D to each neighbor of the creature Mega Cowfyne fights.
     setupCardAbilities(ability) {
         this.beforeFight({
             effect: 'deal 2 damage to each neighbor of the creature being fought',

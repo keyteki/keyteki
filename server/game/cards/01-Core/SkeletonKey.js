@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class SkeletonKey extends Card {
+    // Action: A friendly creature captures 1A.
     setupCardAbilities(ability) {
         this.action({
             target: {

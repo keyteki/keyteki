@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class BloodshardImp extends Card {
+    // After a creature reaps, its controller must sacrifice it.
     setupCardAbilities(ability) {
         this.reaction({
             when: {

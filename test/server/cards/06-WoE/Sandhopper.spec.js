@@ -5,7 +5,7 @@ describe('Sandhopper', function () {
                 player1: {
                     house: 'ekwidon',
                     inPlay: ['antiquities-dealer', 'umbra', 'sandhopper'],
-                    hand: ['pelf', 'vow-of-blood', 'conductor-jarroya']
+                    hand: ['pelf', 'vow-of-blood', 'conductor-jărroyă']
                 }
             });
         });
@@ -16,7 +16,7 @@ describe('Sandhopper', function () {
             expect(this.antiquitiesDealer.location).toBe('hand');
             expect(this.player1).toBeAbleToSelect(this.pelf);
             expect(this.player1).not.toBeAbleToSelect(this.vowOfBlood);
-            expect(this.player1).not.toBeAbleToSelect(this.conductorJarroya);
+            expect(this.player1).not.toBeAbleToSelect(this.conductorJărroyă);
             this.player1.clickCard(this.pelf);
             this.player1.clickPrompt('Left');
             expect(this.pelf.location).toBe('play area');
@@ -45,7 +45,7 @@ describe('Sandhopper', function () {
             expect(this.antiquitiesDealer.location).toBe('hand');
             expect(this.player1).not.toBeAbleToSelect(this.pelf);
             expect(this.player1).not.toBeAbleToSelect(this.vowOfBlood);
-            expect(this.player1).not.toBeAbleToSelect(this.conductorJarroya);
+            expect(this.player1).not.toBeAbleToSelect(this.conductorJărroyă);
             expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
         });
     });

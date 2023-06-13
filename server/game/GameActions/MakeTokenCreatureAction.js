@@ -35,27 +35,31 @@ class MakeTokenCreatureAction extends PlayerAction {
                 } else {
                     event.cards = player.deck.slice(0, event.amount);
                 }
-                event.cards.forEach((card) => {
-                    context.game.actions
-                        .cardLastingEffect({
-                            target: card,
-                            targetLocation: this.cardLocation,
-                            duration: 'lastingEffect',
-                            effect: [
-                                context.game.effects.flipToken(),
-                                context.game.effects.changeType('creature'),
-                                context.game.effects.copyCard(player.tokenCard, false)
-                            ]
-                        })
-                        .resolve(card, context);
 
-                    context.game.actions
-                        .putIntoPlay({
-                            target: card,
-                            deployIndex: this.deployIndex
-                        })
-                        .resolve(card, context);
-                });
+                context.game.actions
+                    .sequentialForEach((context) => {
+                        return {
+                            forEach: event.cards,
+                            action: (card) =>
+                                context.game.actions.sequential([
+                                    context.game.actions.cardLastingEffect({
+                                        target: card,
+                                        targetLocation: this.cardLocation,
+                                        duration: 'lastingEffect',
+                                        effect: [
+                                            context.game.effects.flipToken(),
+                                            context.game.effects.changeType('creature'),
+                                            context.game.effects.copyCard(player.tokenCard, false)
+                                        ]
+                                    }),
+                                    context.game.actions.putIntoPlay({
+                                        target: card,
+                                        deployIndex: this.deployIndex
+                                    })
+                                ])
+                        };
+                    })
+                    .resolve(context.source, context);
             }
         );
     }

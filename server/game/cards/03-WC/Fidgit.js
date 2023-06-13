@@ -1,6 +1,8 @@
 const Card = require('../../Card.js');
 
 class Fidgit extends Card {
+    // Elusive.
+    // Reap: Discard a random card from your opponents archives or the top card of their deck. If that card is an action, play it as if it were yours.
     setupCardAbilities(ability) {
         this.reap({
             condition: (context) =>

@@ -15,7 +15,8 @@ class BlorbHive extends Card {
             then: {
                 gameAction: ability.actions.sequential([
                     ability.actions.conditional({
-                        condition: (context) => context.player.tokenCard.name === 'Blorb',
+                        condition: (context) =>
+                            !!context.player.tokenCard && context.player.tokenCard.name === 'Blorb',
                         trueGameAction: ability.actions.makeTokenCreature({ amount: 2 })
                     }),
                     ability.actions.conditional({

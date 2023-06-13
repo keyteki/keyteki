@@ -1,6 +1,8 @@
 const Card = require('../../Card.js');
 
 class DeipnoSpymaster extends Card {
+    // Elusive. (The first time this creature is attacked each turn, no damage is dealt.)
+    // Omni: Choose a friendly creature. You may use that creature this turn.
     setupCardAbilities(ability) {
         this.omni({
             target: {

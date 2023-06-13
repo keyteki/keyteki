@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class Kangaphant extends Card {
+    // Each creature gains, Reap: Destroy this creature.
     setupCardAbilities(ability) {
         this.persistentEffect({
             targetController: 'any',

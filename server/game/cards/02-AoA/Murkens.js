@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class Murkens extends Card {
+    // Play: Choose a random card in your opponents archives or the top card of your opponents deck. Play that card as if it were yours.
     setupCardAbilities(ability) {
         this.play({
             condition: (context) =>

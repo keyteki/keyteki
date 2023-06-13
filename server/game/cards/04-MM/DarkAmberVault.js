@@ -1,6 +1,8 @@
 const Card = require('../../Card.js');
 
 class DarkAmberVault extends Card {
+    // After you play a Mutant creature, draw a card.
+    // Each friendly Mutant creature gets +2 power.
     setupCardAbilities(ability) {
         this.reaction({
             when: {

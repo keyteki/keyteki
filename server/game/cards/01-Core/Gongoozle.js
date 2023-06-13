@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class Gongoozle extends Card {
+    // Play: Deal 3D to a creature. If it is not destroyed, its owner discards a random card from their hand.
     setupCardAbilities(ability) {
         this.play({
             target: {

@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class PerilousWild extends Card {
+    // Play: Destroy each elusive creature.
     setupCardAbilities(ability) {
         this.play({
             effect: 'destroy each elusive creature',

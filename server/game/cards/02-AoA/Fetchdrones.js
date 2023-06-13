@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class Fetchdrones extends Card {
+    // Action: Discard the top 2cards of your deck. For each Logos card discarded this way, a friendly creature captures 2A.
     setupCardAbilities(ability) {
         this.action({
             gameAction: ability.actions.discard((context) => ({

@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class CityStateInterest extends Card {
+    // Play: Each friendly creature captures 1.
     setupCardAbilities(ability) {
         this.play({
             gameAction: ability.actions.capture((context) => ({

@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class PhalanxStrike extends Card {
+    // Play: Choose a creature. Deal 1D to it for each friendly creature. You may exalt a friendly creature to repeat the preceding effect.
     setupCardAbilities(ability) {
         this.play({
             target: {

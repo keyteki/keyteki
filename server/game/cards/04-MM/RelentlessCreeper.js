@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class RelentlessCreeper extends Card {
+    // After you choose Dis as your active house, you may return Relentless Creeper from your discard pile to your hand.
     setupCardAbilities(ability) {
         this.reaction({
             when: {

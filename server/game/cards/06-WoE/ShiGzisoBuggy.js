@@ -1,6 +1,6 @@
 const Card = require('../../Card.js');
 
-class ShĭGzisŏBuggy extends Card {
+class ShiGzisoBuggy extends Card {
     //Action: Destroy a friendly creature. If you do, gain 2A.
     setupCardAbilities(ability) {
         this.action({
@@ -16,6 +16,6 @@ class ShĭGzisŏBuggy extends Card {
     }
 }
 
-ShĭGzisŏBuggy.id = 'shigziso-buggy';
+ShiGzisoBuggy.id = 'shĭgzisŏ-buggy';
 
-module.exports = ShĭGzisŏBuggy;
+module.exports = ShiGzisoBuggy;

@@ -163,6 +163,14 @@ class Card extends EffectSource {
         if (this.isBlankFight() && !ignoreBlank) {
             reactions = reactions.filter((reaction) => !reaction.properties.fight);
         }
+
+        if (
+            this.type === 'action' &&
+            !this.controller.checkRestrictions('resolveActionPlayEffects')
+        ) {
+            reactions = reactions.filter((reaction) => !reaction.properties.play);
+        }
+
         return reactions;
     }
 
@@ -880,7 +888,7 @@ class Card extends EffectSource {
         return actions;
     }
 
-    getFightAction(cardCondition = null, postHandler = null) {
+    getFightAction(cardCondition = null, postHandler = null, ignoreTaunt = false) {
         return this.action({
             title: 'Fight with this creature',
             fight: true,
@@ -894,7 +902,8 @@ class Card extends EffectSource {
                 cardCondition: cardCondition,
                 gameAction: new ResolveFightAction({
                     attacker: this,
-                    postHandler: postHandler
+                    postHandler: postHandler,
+                    ignoreTaunt: ignoreTaunt
                 })
             }
         });

@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class RitualOfTognath extends Card {
+    // Play: Destroy 2 friendly creatures.
     setupCardAbilities(ability) {
         this.play({
             target: {

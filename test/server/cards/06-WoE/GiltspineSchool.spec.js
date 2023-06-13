@@ -11,7 +11,9 @@ describe('Giltspine School', function () {
                 },
                 player2: {
                     amber: 4,
-                    inPlay: ['lamindra']
+                    token: 'grumpus',
+                    inPlay: ['lamindra'],
+                    hand: ['press-gang']
                 }
             });
 
@@ -42,6 +44,31 @@ describe('Giltspine School', function () {
             expect(priest2.exhausted).toBe(true);
             expect(priest3.exhausted).toBe(true);
             this.player1.endTurn();
+        });
+
+        it('tokens do not ready', function () {
+            this.player1.play(this.giltspineSchool);
+            this.player1.clickPrompt('Left');
+            this.player1.clickPrompt('Left');
+            this.player1.clickPrompt('Left');
+            expect(this.giltspineSchool.location).toBe('play area');
+            let priest1 = this.player1.inPlay[2];
+            let priest2 = this.player1.inPlay[1];
+            let priest3 = this.player1.inPlay[0];
+            this.player1.endTurn();
+            expect(priest1.exhausted).toBe(true);
+            expect(priest2.exhausted).toBe(true);
+            expect(priest3.exhausted).toBe(true);
+
+            this.player2.clickPrompt('brobnar');
+            this.player2.play(this.pressGang);
+            this.player2.clickPrompt('Left');
+            let grumpus = this.player2.inPlay[0];
+            this.player2.endTurn();
+            expect(priest1.exhausted).toBe(true);
+            expect(priest2.exhausted).toBe(true);
+            expect(priest3.exhausted).toBe(true);
+            expect(grumpus.exhausted).toBe(true);
         });
     });
 });

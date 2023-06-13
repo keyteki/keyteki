@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class Triumph extends Card {
+    // Play: If there are no enemy creatures, exalt each friendly creature. If you do and there are 6 or more friendly creatures, forge a key at no cost.
     setupCardAbilities(ability) {
         this.play({
             condition: (context) =>

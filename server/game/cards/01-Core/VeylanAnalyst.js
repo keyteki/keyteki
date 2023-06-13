@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class VeylanAnalyst extends Card {
+    // Each time you use an artifact, gain 1<A>.
     setupCardAbilities(ability) {
         this.reaction({
             when: {

@@ -1,6 +1,8 @@
 const Card = require('../../Card.js');
 
 class FissionBloom extends Card {
+    // Enhance R. (These icons have already been added to cards in your deck.)
+    // Action: The next time you play a card this turn, resolve each of its bonus icons an additional time.
     setupCardAbilities(ability) {
         this.action({
             effect: 'resolve the bonus icons of the next card played an additional time',

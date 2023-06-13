@@ -1,6 +1,8 @@
 const Card = require('../../Card.js');
 
 class Gamgee extends Card {
+    // Elusive.(The first time this creature is attacked each turn, no damage is dealt.)
+    // Reap: If your opponent has more A than you, steal 1A.
     setupCardAbilities(ability) {
         this.reap({
             condition: (context) =>

@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class MightyTiger extends Card {
+    // Play: Deal 4D to an enemy creature.
     setupCardAbilities(ability) {
         this.play({
             target: {

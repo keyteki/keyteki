@@ -12,8 +12,7 @@ describe('Space Invaders', function () {
                         'pelf',
                         'bumpsy',
                         'vow-of-blood'
-                    ],
-                    deck: ['pelf', 'pelf', 'pelf', 'pelf', 'pelf']
+                    ]
                 },
                 player2: {
                     inPlay: ['troll', 'snufflegator']
@@ -42,7 +41,9 @@ describe('Space Invaders', function () {
             this.player1.play(this.spaceInvaders);
             this.player1.clickCard(this.zorg);
             this.player1.clickCard(this.pelf);
+            expect(this.player1).toBeAbleToSelect(this.bumpsy);
             this.player1.clickPrompt('Done');
+            this.player1.clickPrompt('Right');
             expect(this.player1.player.creaturesInPlay.length).toBe(2);
             expect(this.zorg.location).toBe('play area');
             expect(this.zorg.name).toBe('Grumpus');

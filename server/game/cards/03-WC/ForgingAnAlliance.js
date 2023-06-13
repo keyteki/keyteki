@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class ForgingAnAlliance extends Card {
+    // Play: Forge a key at +7 current cost, reduced by 1 (to a maximum of 6) for each house represented among cards in play.
     setupCardAbilities(ability) {
         this.play({
             effect:

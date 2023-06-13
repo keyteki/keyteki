@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class MightyJavelin extends Card {
+    // Omni: Sacrifice Mighty Javelin. Deal 4<D> to a creature.
     setupCardAbilities(ability) {
         this.omni({
             target: {

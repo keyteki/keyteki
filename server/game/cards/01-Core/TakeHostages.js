@@ -1,6 +1,8 @@
 const Card = require('../../Card.js');
 
 class TakeHostages extends Card {
+    // Play: For the remainder of the turn, each time a friendly creature fights,
+    // it captures 1A.
     setupCardAbilities(ability) {
         this.play({
             effect: 'capture amber after fighting with a creature until the end of the turn',

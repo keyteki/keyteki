@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class OverlordGreking extends Card {
+    // After an enemy creature is destroyed fighting Overlord Greking, put that creature into play under your control.
     setupCardAbilities(ability) {
         this.reaction({
             when: {

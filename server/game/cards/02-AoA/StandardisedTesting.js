@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class StandardizedTesting extends Card {
+    // Play: Destroy each creature with the lowest power and each creature with the highest power.
     setupCardAbilities(ability) {
         this.play({
             gameAction: ability.actions.destroy((context) => {

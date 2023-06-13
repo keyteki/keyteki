@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class ContainmentField extends Card {
+    // After this creature is used, destroy it.
     setupCardAbilities(ability) {
         this.reaction({
             when: {

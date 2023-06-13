@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class BrothersInBattle extends Card {
+    // Play: Choose a house. For the remainder of the turn, each friendly creature of that house may fight.
     setupCardAbilities(ability) {
         this.play({
             target: {

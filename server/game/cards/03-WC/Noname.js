@@ -1,6 +1,8 @@
 const Card = require('../../Card.js');
 
 class Noname extends Card {
+    // Noname gets +1 power for each purged card.
+    // Play/Fight/Reap: Purge a card in a discard pile.
     setupCardAbilities(ability) {
         this.persistentEffect({
             effect: ability.effects.modifyPower(
