@@ -7,6 +7,7 @@ class ExchangeProgram extends Card {
         this.play({
             condition: (context) =>
                 context.player.creaturesInPlay.length > 0 &&
+                !!context.player.opponent &&
                 context.player.opponent.creaturesInPlay.length > 0,
             targets: {
                 first: {
