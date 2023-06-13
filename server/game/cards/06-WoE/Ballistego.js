@@ -5,10 +5,8 @@ class Ballistego extends Card {
     //While Ballistego has A on it, it gains splash-attack 3.
     setupCardAbilities(ability) {
         this.play({
-            target: {
-                optional: true,
-                gameAction: ability.actions.exalt()
-            }
+            optional: true,
+            gameAction: ability.actions.exalt()
         });
         this.persistentEffect({
             condition: (context) => context.source.amber > 0,
