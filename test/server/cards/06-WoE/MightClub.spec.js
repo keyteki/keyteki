@@ -1,91 +1,39 @@
-describe('MightClub', function () {
-    describe("MightClub's ability", function () {
+describe('MightClub,', function () {
+    describe('when action used with exhausted creature,', function () {
         beforeEach(function () {
             this.setupTest({
                 player1: {
-                    house: 'untamed',
+                    house: 'brobnar',
                     amber: 1,
-                    hand: ['bubbles'],
-                    inPlay: ['flaxia']
+                    inPlay: ['troll', 'krump', 'might-club']
                 },
                 player2: {
                     amber: 1,
-                    inPlay: ['gub', 'krump']
+                    inPlay: ['flaxia']
                 }
             });
+
+            this.player1.reap(this.troll);
+            expect(this.troll.exhausted).toBe(true);
+            this.player1.useAction(this.mightClub);
         });
 
-        it('should have tests', function () {
-            // TODO write your code here
-        });
-
-        // examples repo (clean bellow after use)
-        /*
-        it('turn ending test', function () {
-            this.player1.endTurn();
-            this.player2.clickPrompt('untamed');
-            this.player2.endTurn();
-            this.player1.forgeKey('Red');
-            this.player1.clickPrompt('untamed');
-        });
-
-        it('creature token', function () {
-            expect(this.mookling.tokens.power).toBeUndefined();
-            this.mookling.addToken('power');
-            expect(this.mookling.tokens.power).toBe(1);
-            
-            expect(this.mookling.tokens.damage).toBeUndefined();
-            this.mookling.addToken('damage');
-            expect(this.mookling.tokens.damage).toBe(1);
-            
-            expect(this.mookling.tokens.amber).toBeUndefined();
-            this.mookling.addToken('amber');
-            expect(this.mookling.tokens.amber).toBe(1);
-        });
-
-        it('creature amber test', function () {
-            this.urchin.tokens.amber = 1;
-        });
-
-        it('location tests', function () {
-            expect(this.mother.location).toBe('discard');
-            expect(this.mother.location).toBe('hand');
-            expect(this.mother.location).toBe('deck');
-            expect(this.mother.location).toBe('play area');
-        });
-
-        it('game interation selection', function () {
-            expect(this.player1).not.toBeAbleToSelect(this.gub);
+        it('should offer any creature to select', function () {
+            expect(this.player1).toHavePrompt('Might Club');
+            expect(this.player1).toBeAbleToSelect(this.troll);
+            expect(this.player1).toBeAbleToSelect(this.krump);
             expect(this.player1).toBeAbleToSelect(this.flaxia);
-            this.player1.clickPrompt('Done');
-            this.player1.clickCard(this.larva);
-            expect(this.player1).toHavePromptButton('Done');
-            expect(this.player1).not.toHavePromptButton('Done');
         });
 
-        it('basic actions tests', function () {
-            this.player1.play(this.cocoon);
-            this.player1.useAction(this.cocoon);
-            this.player1.reap(this.cocoon);
-            this.player1.fight(this.cocoon);
-        });
+        describe('and creature selected,', function () {
+            beforeEach(function () {
+                this.player1.clickCard(this.troll);
+            });
 
-        it('player amber test', function () {
-            this.player1.amber = 2
-            expect(this.player1.amber).toBe(2);
+            it('should ready and enrage creature', function () {
+                expect(this.troll.exhausted).toBe(false);
+                expect(this.troll.enraged).toBe(true);
+            });
         });
-
-        it('tide test', function () {
-            this.player1.lowerTide();
-            expect(this.player1.isTideHigh()).toBe(false);
-            this.player1.raiseTide();
-        });
-
-        it('moving cards test', function () {
-            this.player1.moveCard(this.butterfly, 'play area');
-            this.player1.moveCard(this.butterfly, 'discard');
-            this.player1.moveCard(this.butterfly, 'hand');
-        });
-        */
     });
 });
