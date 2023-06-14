@@ -15,7 +15,7 @@ describe('Way Of The Pixie', function () {
             });
         });
 
-        it('should have tests', function () {
+        it('should give extra amber on reap', function () {
             this.player1.playUpgrade(this.wayOfThePixie, this.flaxia);
             expect(this.player1.amber).toBe(1);
             this.player1.reap(this.flaxia);
