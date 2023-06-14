@@ -1,6 +1,8 @@
 const Card = require('../../Card.js');
 
 class Ragnarok extends Card {
+    // Alpha.
+    // Play: For the remainder of the turn, creatures cannot reap and you gain 1A whenever a friendly creature fights. At the end of the turn, destroy each creature.
     setupCardAbilities(ability) {
         this.play({
             gameAction: [

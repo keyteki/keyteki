@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class FavorOfRex extends Card {
+    // Play: Trigger the play effect of a creature as if you had just played it.
     setupCardAbilities(ability) {
         this.play({
             target: {

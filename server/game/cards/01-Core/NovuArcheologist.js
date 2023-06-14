@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class NovuArcheologist extends Card {
+    // Action: Archive a card from your discard pile.
     setupCardAbilities(ability) {
         this.action({
             target: {

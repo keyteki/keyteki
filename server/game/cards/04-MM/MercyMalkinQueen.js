@@ -1,6 +1,9 @@
 const Card = require('../../Card.js');
 
 class MercyMalkinQueen extends Card {
+    // Skirmish.
+    // After a friendly Cat creature enters play, ward it.
+    // Fight: Ready a friendly Beast creature.
     setupCardAbilities(ability) {
         this.reaction({
             when: {

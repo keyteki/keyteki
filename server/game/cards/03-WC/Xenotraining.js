@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class Xenotraining extends Card {
+    // Play: For each house represented among friendly creatures, a friendly creature captures 1.
     setupCardAbilities(ability) {
         this.play({
             condition: (context) => !!context.player.opponent && context.player.opponent.amber > 0,

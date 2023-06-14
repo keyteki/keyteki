@@ -1,6 +1,8 @@
 const Card = require('../../Card.js');
 
 class Harmonia extends Card {
+    // Elusive. (The first time this creature is attacked each turn, no damage is dealt.)
+    // After you play a creature, if there are more enemy creatures than friendly creatures, gain 1A.
     setupCardAbilities(ability) {
         this.reaction({
             when: {

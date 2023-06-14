@@ -1,9 +1,7 @@
 import React from 'react';
-import { Navbar, Nav, NavDropdown } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 
-import Link from './Link';
 import { RightMenu, ProfileMenu, LeftMenu } from '../../menus';
 import LanguageSelector from './LanguageSelector';
 import ProfileDropdown from './ProfileDropdown';
@@ -11,6 +9,11 @@ import ServerStatus from './ServerStatus';
 import GameContextMenu from './GameContextMenu';
 
 import './Navigation.scss';
+import Link from './Link';
+import { Nav, Navbar, NavDropdown } from 'react-bootstrap';
+
+import HeaderIcon from '../../assets/img/main_header_logo.png';
+import SmallHeaderIcon from '../../assets/img/header_icon.png';
 
 /**
  * @typedef { import('../../menus').MenuItem } MenuItem
@@ -28,23 +31,27 @@ import './Navigation.scss';
 const Navigation = (props) => {
     const { t } = useTranslation();
     const {
+        gameConnected,
+        gameConnecting,
+        gameResponse,
         games,
         currentGame,
         lobbyResponse,
         lobbySocketConnected,
         lobbySocketConnecting
-    } = useSelector((state) => ({
-        games: state.lobby.games,
-        currentGame: state.lobby.currentGame,
-        lobbyResponse: state.lobby.responseTime,
-        lobbySocketConnected: state.lobby.connected,
-        lobbySocketConnecting: state.lobby.connecting
-    }));
-    const { gameConnected, gameConnecting, gameResponse } = useSelector((state) => ({
-        gameConnected: state.games.connected,
-        gameConnecting: state.games.connecting,
-        gameResponse: state.games.responseTime
-    }));
+    } = useSelector(
+        (state) => ({
+            gameConnected: state.games.connected,
+            gameConnecting: state.games.connecting,
+            gameResponse: state.games.responseTime,
+            games: state.lobby.games,
+            currentGame: state.lobby.currentGame,
+            lobbyResponse: state.lobby.responseTime,
+            lobbySocketConnected: state.lobby.connected,
+            lobbySocketConnecting: state.lobby.connecting
+        }),
+        null
+    );
 
     /**
      * @param {MenuItem} menuItem The menu item
@@ -92,24 +99,25 @@ const Navigation = (props) => {
         return filterMenuItems(menuItems, props.user).map((menuItem) => {
             const children =
                 menuItem.childItems && filterMenuItems(menuItem.childItems, props.user);
+
             if (children && children.length > 0) {
                 return (
                     <NavDropdown
                         key={menuItem.title}
-                        title={t(menuItem.title)}
                         id={`nav-${menuItem.title}`}
+                        title={t(menuItem.title)}
                     >
-                        {children.map((menuItem) => {
-                            if (!menuItem.path) {
-                                return <></>;
-                            }
-
-                            return (
-                                <Link key={menuItem.path} href={menuItem.path}>
-                                    <NavDropdown.Item>{t(menuItem.title)}</NavDropdown.Item>
-                                </Link>
-                            );
-                        })}
+                        {children.map((childItem) =>
+                            childItem.path ? (
+                                <NavDropdown.Item
+                                    as={Link}
+                                    href={childItem.path}
+                                    className='navbar-item interactable dropdown-child'
+                                >
+                                    {t(childItem.title)}
+                                </NavDropdown.Item>
+                            ) : null
+                        )}
                     </NavDropdown>
                 );
             }
@@ -117,46 +125,67 @@ const Navigation = (props) => {
             if (!menuItem.path) {
                 return <></>;
             }
-
             return (
-                <Link key={menuItem.path || menuItem.title} href={menuItem.path}>
-                    <Nav.Link>{t(menuItem.title)}</Nav.Link>
-                </Link>
+                <li key={menuItem.title}>
+                    <Nav.Link className='navbar-item interactable' as={Link} href={menuItem.path}>
+                        {t(menuItem.title)}
+                    </Nav.Link>
+                </li>
             );
         });
     };
 
-    let numGames = (
-        <li>
-            <span>{t('{{gameLength}} Games', { gameLength: games?.length })}</span>
+    const numGames = games && (
+        <li className='navbar-item'>
+            <span>{`${t(`${games.length} Games`)}`}</span>
         </li>
     );
 
     return (
-        <Navbar bg='dark' variant='dark' className='navbar-sm' fixed='top'>
-            <Link className='navbar-brand' href='/'>
-                <Navbar.Brand></Navbar.Brand>
-            </Link>
+        <Navbar bg='dark' variant='dark' className='navbar-sm' fixed='top' expand='lg'>
+            <Navbar.Brand
+                className='navbar-brand bg-dark ml-auto mr-auto d-lg-none'
+                as={Link}
+                href='/'
+            >
+                <img
+                    src={SmallHeaderIcon}
+                    height='32'
+                    className='d-inline-block align-top'
+                    alt='TCO Logo'
+                />
+            </Navbar.Brand>
             <Navbar.Toggle aria-controls='navbar' />
-            <Nav>{renderMenuItems(LeftMenu)}</Nav>
-            <Navbar.Collapse id='navbar' className='justify-content-end'>
-                <Nav className='ml-auto pr-md-5'>
+            <Navbar.Collapse id='navbar'>
+                <Nav className='me-auto mb-2 mb-lg-0 bg-dark'>{renderMenuItems(LeftMenu)}</Nav>
+                <Navbar.Brand
+                    className='navbar-brand bg-dark ml-auto mr-auto d-none d-lg-block'
+                    as={Link}
+                    href='/'
+                >
+                    <img
+                        src={currentGame?.started ? SmallHeaderIcon : HeaderIcon}
+                        height='32'
+                        className='d-inline-block align-top'
+                        alt='TCO Logo'
+                    />
+                </Navbar.Brand>
+                <Nav className='pr-xl-5 bg-dark'>
                     <GameContextMenu />
-                    {numGames}
-                    {!currentGame && (
-                        <ServerStatus
-                            connected={lobbySocketConnected}
-                            connecting={lobbySocketConnecting}
-                            serverType='Lobby'
-                            responseTime={lobbyResponse}
-                        />
-                    )}
-                    {currentGame?.started && (
+                    {!currentGame?.started && numGames}
+                    {currentGame?.started ? (
                         <ServerStatus
                             connected={gameConnected}
                             connecting={gameConnecting}
                             serverType='Game server'
                             responseTime={gameResponse}
+                        />
+                    ) : (
+                        <ServerStatus
+                            connected={lobbySocketConnected}
+                            connecting={lobbySocketConnecting}
+                            serverType='Lobby'
+                            responseTime={lobbyResponse}
                         />
                     )}
                     {renderMenuItems(RightMenu)}

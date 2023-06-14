@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class NocturnalManeuver extends Card {
+    // Play: Exhaust up to 3 creatures.
     setupCardAbilities(ability) {
         this.play({
             target: {

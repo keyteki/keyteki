@@ -1,6 +1,8 @@
 const Card = require('../../Card.js');
 
 class Picaroon extends Card {
+    // Deploy. (This creature can enter play anywhere in your battleline.)
+    // X is the combined power of Picaroons non-Changeling neighbors.
     setupCardAbilities(ability) {
         this.persistentEffect({
             effect: ability.effects.modifyPower((card) =>

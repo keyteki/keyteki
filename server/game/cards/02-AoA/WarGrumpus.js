@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class WarGrumpus extends Card {
+    // Fight/Reap: Ready and fight with a neighboring Giant.
     setupCardAbilities(ability) {
         this.fight({
             reap: true,

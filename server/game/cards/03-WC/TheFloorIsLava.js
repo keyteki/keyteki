@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class TheFloorIsLava extends Card {
+    // At the start of your turn, deal 1D to a friendly creature and 1D to an enemy creature.
     setupCardAbilities(ability) {
         this.reaction({
             when: {

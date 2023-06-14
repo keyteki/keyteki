@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class RandomAccessArchives extends Card {
+    // Play: Archive the top card of your deck.
     setupCardAbilities(ability) {
         this.play({
             effect: 'archive the top card of their deck',

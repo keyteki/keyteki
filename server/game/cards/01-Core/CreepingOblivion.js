@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class CreepingOblivion extends Card {
+    // Play: Purge up to 2cards from a discard pile.
     setupCardAbilities(ability) {
         this.play({
             targets: {

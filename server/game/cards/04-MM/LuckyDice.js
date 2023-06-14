@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class LuckyDice extends Card {
+    // Omni: Destroy Lucky Dice. During your opponents next turn, friendly creatures cannot be dealt damage.
     setupCardAbilities(ability) {
         this.omni({
             effect:

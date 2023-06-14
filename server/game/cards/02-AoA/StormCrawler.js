@@ -1,6 +1,8 @@
 const Card = require('../../Card.js');
 
 class StormCrawler extends Card {
+    // Storm Crawler only deals 1D when fighting.
+    // After an enemy creature reaps, stun it.
     setupCardAbilities(ability) {
         this.persistentEffect({
             effect: ability.effects.limitFightDamage(1)

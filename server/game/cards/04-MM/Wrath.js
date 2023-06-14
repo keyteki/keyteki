@@ -1,6 +1,8 @@
 const Card = require('../../Card.js');
 
 class Wrath extends Card {
+    // Taunt. Poison. Skirmish.
+    // Fight: For each friendly Sin creature, enrage an enemy creature.
     setupCardAbilities(ability) {
         this.fight({
             target: {

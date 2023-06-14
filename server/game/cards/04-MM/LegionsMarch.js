@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class LegionsMarch extends Card {
+    // Play: For the remainder of the turn, after you use a Dinosaur creature, deal 1D to each non-Dinosaur creature.
     setupCardAbilities(ability) {
         this.play({
             effect:

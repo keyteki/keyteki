@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class TautauVapors extends Card {
+    // Play: Draw 2 cards. Archive a card.
     setupCardAbilities(ability) {
         this.play({
             effect: 'draw 2 cards and archive 1 card',

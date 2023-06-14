@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class Wardrummer extends Card {
+    // Play: Return each other friendly Brobnar creature to your hand.
     setupCardAbilities(ability) {
         this.play({
             effect: 'return each other Brobnar creature to hand',

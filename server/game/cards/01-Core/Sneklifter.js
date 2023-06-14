@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class Sneklifter extends Card {
+    // Play: Take control of an enemy artifact. While under your control, if it does not belong to one of your 3 houses, it is considered to be of house Shadows.
     setupCardAbilities(ability) {
         this.play({
             target: {

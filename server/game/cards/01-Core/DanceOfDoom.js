@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class DanceOfDoom extends Card {
+    // Play: Choose a number. Destroy each creature with power equal to that number.
     setupCardAbilities(ability) {
         this.play({
             target: {

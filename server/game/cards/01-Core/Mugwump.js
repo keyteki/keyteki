@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class Mugwump extends Card {
+    // After an enemy creature is destroyed fighting Mugwump, fully heal Mugwump and give it a +1power counter.
     setupCardAbilities(ability) {
         this.reaction({
             when: {

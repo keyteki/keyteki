@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class DuskChronicles extends Card {
+    // Play: If your opponent has more A than you, draw a card. If you have more A than your opponent, archive a card.
     setupCardAbilities(ability) {
         this.play({
             condition: (context) =>

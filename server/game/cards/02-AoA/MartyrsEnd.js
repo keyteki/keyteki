@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class MartyrsEnd extends Card {
+    // Play: Destroy any number of friendly creatures. Gain 1A for each creature destroyed this way.
     setupCardAbilities(ability) {
         this.creaturesMartyrd = 0;
         this.play({

@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class Soulkeeper extends Card {
+    // This creature gains, Destroyed: Destroy the most powerful enemy creature.
     setupCardAbilities(ability) {
         this.whileAttached({
             effect: ability.effects.gainAbility('destroyed', {

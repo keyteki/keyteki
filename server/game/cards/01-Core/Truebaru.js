@@ -1,6 +1,9 @@
 const Card = require('../../Card.js');
 
 class Truebaru extends Card {
+    // You must lose 3<A> in order to play Truebaru.
+    // Taunt. (This creatures neighbors cannot be attacked unless they have taunt.)
+    // Destroyed: Gain 5<A>.
     setupCardAbilities(ability) {
         this.persistentEffect({
             targetController: 'any',

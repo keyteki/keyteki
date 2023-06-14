@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class IgonTheGreen extends Card {
+    // Destroyed: Purge Igon the Green. Return an Igon the Terrible from your discard pile to your hand.
     setupCardAbilities(ability) {
         this.destroyed({
             effectStyle: 'append',

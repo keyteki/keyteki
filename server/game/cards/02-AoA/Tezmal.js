@@ -1,6 +1,8 @@
 const Card = require('../../Card.js');
 
 class Tezmal extends Card {
+    // Elusive.(The first time this creature is attacked each turn, no damage is dealt.)
+    // Reap: Choose a house. Your opponent cannot choose that house as their active house on their next turn.
     setupCardAbilities(ability) {
         this.reap({
             condition: (context) => !!context.player.opponent,

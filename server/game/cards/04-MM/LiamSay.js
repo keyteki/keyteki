@@ -1,6 +1,8 @@
 const Card = require('../../Card.js');
 
 class LiamSay extends Card {
+    // Elusive.
+    // At the start of your turn, you may deal 1D to a creature.
     setupCardAbilities(ability) {
         this.reaction({
             when: {

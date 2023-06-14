@@ -1,6 +1,8 @@
 const Card = require('../../Card.js');
 
 class Crassosaurus extends Card {
+    // Elusive.
+    // Play: Capture 10 from any combination of players. Then, if Crassosaurus has fewer than 10 on it, purge Crassosaurus.
     calculateOwnAmber(context) {
         return context.option && context.option.value < 10
             ? Math.min(context.player.amber, 10 - context.option.value)

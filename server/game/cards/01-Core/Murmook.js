@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class Murmook extends Card {
+    // Your opponents keys cost +1<A>.
     setupCardAbilities(ability) {
         this.persistentEffect({
             targetController: 'opponent',

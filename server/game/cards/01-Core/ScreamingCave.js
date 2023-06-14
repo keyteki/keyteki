@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class ScreamingCave extends Card {
+    // Action: Shuffle your hand and discard pile into your deck.
     setupCardAbilities(ability) {
         this.action({
             effect: 'shuffle their hand and discard pile into their deck',

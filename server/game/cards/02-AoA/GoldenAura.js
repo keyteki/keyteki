@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class GoldenAura extends Card {
+    // Play: Choose a creature. Fully heal the chosen creature. For the remainder of the turn, the chosen creature is considered to be in house Sanctum and cannot be dealt damage.
     setupCardAbilities(ability) {
         this.play({
             target: {

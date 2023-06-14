@@ -1,6 +1,8 @@
 const Card = require('../../Card.js');
 
 class AubadeTheGrim extends Card {
+    // Play: Capture 3A.
+    // Reap: Discard 1A from Aubade the Grim.
     setupCardAbilities(ability) {
         this.play({
             gameAction: ability.actions.capture({ amount: 3 })

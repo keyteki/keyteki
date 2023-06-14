@@ -1,6 +1,8 @@
 const Card = require('../../Card.js');
 
 class Amberlution extends Card {
+    // Omega.
+    // Play: Destroy each creature. Each player reveals their hand and puts each creature from their hand into play ready.
     setupCardAbilities(ability) {
         this.play({
             effect:

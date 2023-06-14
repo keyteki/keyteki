@@ -1,6 +1,8 @@
 const BlasterCard = require('./BlasterCard.js');
 
 class WallsBlaster extends BlasterCard {
+    // This creature gains, Fight/Reap: You may deal 2D to a creature, or attach Walls Blaster to Chief Engineer Walls.
+    // After you attach Walls Blaster to Chief Engineer Walls, stun a creature for each upgrade on Chief Engineer Walls.
     setupCardAbilities(ability) {
         this.reaction({
             when: {

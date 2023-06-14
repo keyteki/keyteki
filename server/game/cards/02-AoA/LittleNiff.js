@@ -1,6 +1,8 @@
 const Card = require('../../Card.js');
 
 class LittleNiff extends Card {
+    // Omega. Deploy. Elusive.
+    // After a neighbor of Little Niff is used to fight, steal 1A.
     setupCardAbilities(ability) {
         this.reaction({
             when: {

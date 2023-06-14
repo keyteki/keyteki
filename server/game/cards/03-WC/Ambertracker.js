@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class Ambertracker extends Card {
+    // Play: Deal 2D to each enemy creature with A on it. This damage cannot be prevented by armor.
     setupCardAbilities(ability) {
         this.play({
             condition: (context) => !!context.player.opponent,

@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class BouncingDeathquark extends Card {
+    // Play: Destroy an enemy creature and a friendly creature. You may repeat this effect as many times as you like, as long as it is possible to repeat the entire effect.
     setupCardAbilities(ability) {
         this.play({
             targets: {

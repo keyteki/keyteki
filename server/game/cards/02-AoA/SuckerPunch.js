@@ -1,6 +1,9 @@
 const Card = require('../../Card.js');
 
 class SuckerPunch extends Card {
+    // Alpha. (You can only play this card before doing anything else this step.)
+    // Play: Deal 2D to an enemy creature.
+    // If that creature is destroyed by this effect, archive Sucker Punch.
     setupCardAbilities(ability) {
         this.play({
             target: {

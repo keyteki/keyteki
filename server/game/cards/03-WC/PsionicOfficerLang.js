@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class PsionicOfficerLang extends Card {
+    // After an enemy creature reaps, archive the top card of your deck.
     setupCardAbilities(ability) {
         this.reaction({
             when: {

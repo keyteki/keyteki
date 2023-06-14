@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class BarristerJoya extends Card {
+    // Enemy creatures cannot reap.
     setupCardAbilities(ability) {
         this.persistentEffect({
             targetController: 'opponent',

@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class FangtoothCavern extends Card {
+    // At the end of your turn, destroy the least powerful creature.
     setupCardAbilities(ability) {
         this.interrupt({
             when: {

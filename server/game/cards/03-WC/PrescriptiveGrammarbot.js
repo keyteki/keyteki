@@ -1,6 +1,8 @@
 const Card = require('../../Card.js');
 
 class PrescriptiveGrammarbot extends Card {
+    // Taunt. Hazardous 3.
+    // Reap: Enrage a creature.
     setupCardAbilities(ability) {
         this.reap({
             target: {

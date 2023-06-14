@@ -2,6 +2,7 @@ const Card = require('../../Card.js');
 const EventRegistrar = require('../../eventregistrar.js');
 
 class InformationExchange extends Card {
+    // Play: Steal 1. If your opponent stole  from you on their previous turn, steal 2 instead.
     setupCardAbilities(ability) {
         this.amberStolenControllerUuid = {};
         this.activePlayerStoleAmber = false;

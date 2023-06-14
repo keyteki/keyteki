@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class Pandemonium extends Card {
+    // Play: Each undamaged creature captures 1A from its opponent.
     setupCardAbilities(ability) {
         this.play({
             effect: 'cause each undamaged creature to capture 1 amber from their opponent',

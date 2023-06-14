@@ -1,6 +1,8 @@
 const Card = require('../../Card.js');
 
 class TribunePompitus extends Card {
+    // Each friendly creature gets +2 power for each A on it.
+    // Before Fight: You may exalt Tribune Pompitus.
     setupCardAbilities(ability) {
         this.persistentEffect({
             targetController: 'current',

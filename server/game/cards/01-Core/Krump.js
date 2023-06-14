@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class Krump extends Card {
+    // After an enemy creature is destroyed fighting Krump, its controller loses 1<A>.
     setupCardAbilities(ability) {
         this.reaction({
             when: {

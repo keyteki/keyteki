@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class Tribute extends Card {
+    // Play: The most powerful friendly creature captures 2A. You may exalt that creature to repeat the preceding effect.
     setupCardAbilities(ability) {
         this.play({
             target: {

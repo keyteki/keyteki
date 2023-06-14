@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class IronObelisk extends Card {
+    // Your opponents keys cost +1A for each friendly damaged Brobnar creature.
     setupCardAbilities(ability) {
         this.persistentEffect({
             targetController: 'opponent',

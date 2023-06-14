@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class DinoKnight extends Card {
+    // Play: You may exalt Dino-Knight. If you do, deal 3D to a creature.
     setupCardAbilities(ability) {
         this.play({
             optional: true,

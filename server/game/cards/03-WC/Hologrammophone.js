@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class Hologrammophone extends Card {
+    // Action: Ward a creature.
     setupCardAbilities(ability) {
         this.action({
             target: {

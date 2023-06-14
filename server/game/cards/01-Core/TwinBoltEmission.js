@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class TwinBoltEmission extends Card {
+    // Play: Deal 2<D> to a creature and deal 2<D> to a different creature.
     setupCardAbilities(ability) {
         this.play({
             target: {
