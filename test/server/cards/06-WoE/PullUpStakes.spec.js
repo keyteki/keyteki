@@ -34,7 +34,6 @@ describe('PullUpStakes,', function () {
             beforeEach(function () {
                 this.player1.clickCard(this.flaxia);
                 this.player1.clickCard(this.chelonia);
-                this.player1.clickPrompt('Done');
             });
 
             it("should shuffle the chosen creatures into their owners' decks", function () {
@@ -61,7 +60,6 @@ describe('PullUpStakes,', function () {
                     this.player1.clickCard(this.krump);
                     this.player1.clickCard(this.dendrix);
                     this.player1.clickCard(this.infurnace);
-                    this.player1.clickPrompt('Done');
                 });
 
                 it("should return the chosen creatures to their owners' hands", function () {
