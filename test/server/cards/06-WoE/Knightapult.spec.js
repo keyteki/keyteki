@@ -1,5 +1,4 @@
-// eslint-disable-next-line jasmine/no-focused-tests
-fdescribe('Knightapult', function () {
+describe('Knightapult', function () {
     describe('action', function () {
         beforeEach(function () {
             this.setupTest({
