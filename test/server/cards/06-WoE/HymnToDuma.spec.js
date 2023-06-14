@@ -35,7 +35,9 @@ describe('HymnToDuma,', function () {
         it('should not give omni to opponent creatures', function () {
             this.player1.endTurn();
             this.player2.clickPrompt('dis');
-            expect(this.player1).not.toHavePromptButton("Use this card's Omni ability");
+            this.player2.clickCard(this.gub);
+            expect(this.player2).toHavePromptButton('Reap with this creature');
+            expect(this.player2).not.toHavePromptButton("Use this card's Omni ability");
         });
 
         describe("and creature's omni is used", function () {
