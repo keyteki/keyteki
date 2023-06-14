@@ -1,12 +1,12 @@
 describe('KelpingHands', function () {
-    describe("KelpingHands's ability", function () {
+    describe('in play', function () {
         beforeEach(function () {
             this.setupTest({
                 player1: {
                     house: 'untamed',
                     amber: 1,
                     hand: ['bubbles'],
-                    inPlay: ['flaxia']
+                    inPlay: ['flaxia', 'chelonia', 'kelping-hands']
                 },
                 player2: {
                     amber: 1,
@@ -15,77 +15,38 @@ describe('KelpingHands', function () {
             });
         });
 
-        it('should have tests', function () {
-            // TODO write your code here
+        describe('before used,', function () {
+            it('creatures should not have poison', function () {
+                expect(this.flaxia.hasKeyword('poison')).toBe(false);
+                expect(this.chelonia.hasKeyword('poison')).toBe(false);
+            });
+
+            it('creatures should not kill trolls', function () {
+                this.player1.fightWith(this.chelonia, this.krump);
+                expect(this.chelonia.location).toBe('discard');
+                expect(this.krump.location).toBe('play area');
+            });
         });
 
-        // examples repo (clean bellow after use)
-        /*
-        it('turn ending test', function () {
-            this.player1.endTurn();
-            this.player2.clickPrompt('untamed');
-            this.player2.endTurn();
-            this.player1.forgeKey('Red');
-            this.player1.clickPrompt('untamed');
-        });
+        describe('after omni used,', function () {
+            beforeEach(function () {
+                this.player1.useAction(this.kelpingHands, true);
+            });
 
-        it('creature token', function () {
-            expect(this.mookling.tokens.power).toBeUndefined();
-            this.mookling.addToken('power');
-            expect(this.mookling.tokens.power).toBe(1);
-            
-            expect(this.mookling.tokens.damage).toBeUndefined();
-            this.mookling.addToken('damage');
-            expect(this.mookling.tokens.damage).toBe(1);
-            
-            expect(this.mookling.tokens.amber).toBeUndefined();
-            this.mookling.addToken('amber');
-            expect(this.mookling.tokens.amber).toBe(1);
-        });
+            it('Kelping Hands should be destroyed', function () {
+                expect(this.kelpingHands.location).toBe('discard');
+            });
 
-        it('creature amber test', function () {
-            this.urchin.tokens.amber = 1;
-        });
+            it('creatures should have poison', function () {
+                expect(this.flaxia.hasKeyword('poison')).toBe(true);
+                expect(this.chelonia.hasKeyword('poison')).toBe(true);
+            });
 
-        it('location tests', function () {
-            expect(this.mother.location).toBe('discard');
-            expect(this.mother.location).toBe('hand');
-            expect(this.mother.location).toBe('deck');
-            expect(this.mother.location).toBe('play area');
+            it('creatures should kill trolls', function () {
+                this.player1.fightWith(this.chelonia, this.krump);
+                expect(this.chelonia.location).toBe('discard');
+                expect(this.krump.location).toBe('discard');
+            });
         });
-
-        it('game interation selection', function () {
-            expect(this.player1).not.toBeAbleToSelect(this.gub);
-            expect(this.player1).toBeAbleToSelect(this.flaxia);
-            this.player1.clickPrompt('Done');
-            this.player1.clickCard(this.larva);
-            expect(this.player1).toHavePromptButton('Done');
-            expect(this.player1).not.toHavePromptButton('Done');
-        });
-
-        it('basic actions tests', function () {
-            this.player1.play(this.cocoon);
-            this.player1.useAction(this.cocoon);
-            this.player1.reap(this.cocoon);
-            this.player1.fight(this.cocoon);
-        });
-
-        it('player amber test', function () {
-            this.player1.amber = 2
-            expect(this.player1.amber).toBe(2);
-        });
-
-        it('tide test', function () {
-            this.player1.lowerTide();
-            expect(this.player1.isTideHigh()).toBe(false);
-            this.player1.raiseTide();
-        });
-
-        it('moving cards test', function () {
-            this.player1.moveCard(this.butterfly, 'play area');
-            this.player1.moveCard(this.butterfly, 'discard');
-            this.player1.moveCard(this.butterfly, 'hand');
-        });
-        */
     });
 });
