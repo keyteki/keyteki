@@ -42,7 +42,7 @@ describe('HymnToDuma,', function () {
             });
 
             it('should prompt to select a friendly creature', function () {
-                expect(this.player1).toHavePrompt('Choose a friendly creature to capture 2 amber');
+                expect(this.player1).toHavePrompt('Choose a creature');
                 expect(this.player1).toBeAbleToSelect(this.flaxia);
                 expect(this.player1).not.toBeAbleToSelect(this.gub);
             });
