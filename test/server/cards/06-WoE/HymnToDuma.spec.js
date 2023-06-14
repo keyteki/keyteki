@@ -32,10 +32,9 @@ describe('HymnToDuma,', function () {
             expect(this.player1).not.toHavePromptButton("Use this card's Omni ability");
         });
 
-        describe('and omni is used', function () {
+        describe("and creature's omni is used", function () {
             beforeEach(function () {
-                this.player1.clickCard(this.chelonia);
-                this.player1.clickPrompt("Use this card's Omni ability");
+                this.player1.useAction(this.chelonia, true);
             });
 
             it('should destroy the creature', function () {
