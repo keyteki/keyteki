@@ -58,5 +58,28 @@ describe('HymnToDuma,', function () {
                 });
             });
         });
+
+        describe("and creature's omni is used with ward,", function () {
+            beforeEach(function () {
+                this.chelonia.ward();
+                this.player1.useAction(this.chelonia, true);
+            });
+
+            it('should destroy the ward only', function () {
+                expect(this.chelonia.warded).toBe(false);
+                expect(this.chelonia.location).toBe('play area');
+            });
+
+            describe('and creature is selected', function () {
+                beforeEach(function () {
+                    this.player1.clickCard(this.flaxia);
+                });
+
+                it('should still capture 2 amber', function () {
+                    expect(this.flaxia.tokens.amber).toBe(2);
+                    expect(this.player2.amber).toBe(1);
+                });
+            });
+        });
     });
 });
