@@ -32,6 +32,7 @@ const Effects = {
         EffectBuilder.card.static('copyCard', new CopyCard(card, cascadeEffects)),
     customDetachedCard: (properties) => EffectBuilder.card.detached('customEffect', properties),
     doesNotReady: () => EffectBuilder.card.static('doesNotReady'),
+    enterPlayAnywhere: () => EffectBuilder.card.static('enterPlayAnywhere'),
     entersPlayEnraged: (condition) =>
         EffectBuilder.card.static('entersPlayEnraged', new ConditionValue(condition)),
     entersPlayReady: (condition) =>
