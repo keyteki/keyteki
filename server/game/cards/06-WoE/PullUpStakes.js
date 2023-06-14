@@ -5,7 +5,8 @@ class PullUpStakes extends Card {
     setupCardAbilities(ability) {
         this.play({
             target: {
-                numCards: '2',
+                numCards: 2,
+                mode: 'exactly',
                 cardType: 'creature',
                 controller: 'self',
                 gameAction: ability.actions.returnToDeck()
@@ -13,7 +14,8 @@ class PullUpStakes extends Card {
             then: {
                 alwaysTriggers: true,
                 target: {
-                    numCards: '4',
+                    numCards: 4,
+                    mode: 'exactly',
                     cardType: 'creature',
                     controller: 'opponent',
                     gameAction: ability.actions.returnToHand()
