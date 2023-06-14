@@ -6,12 +6,7 @@ describe('HymnToDuma,', function () {
                     house: 'untamed',
                     amber: 1,
                     hand: ['bubbles'],
-                    inPlay: [
-                        'chelonia',
-                        'flaxia',
-                        'haedroth-s-wall'
-                        // 'hymn-to-duma',
-                    ]
+                    inPlay: ['chelonia', 'flaxia', 'haedroth-s-wall', 'hymn-to-duma']
                 },
                 player2: {
                     amber: 3,
