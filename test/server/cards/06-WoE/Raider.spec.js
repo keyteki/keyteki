@@ -1,5 +1,4 @@
-// eslint-disable-next-line jasmine/no-focused-tests
-fdescribe('Raider', function () {
+describe('Raider', function () {
     describe("Raider's ability", function () {
         beforeEach(function () {
             this.setupTest({
