@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Col, Form } from 'react-bootstrap';
+import { Button, Col, Form } from 'react-bootstrap';
 import moment from 'moment';
 import BootstrapTable from 'react-bootstrap-table-next';
 import paginationFactory from 'react-bootstrap-table2-paginator';
@@ -7,11 +7,11 @@ import filterFactory, { textFilter, multiSelectFilter } from 'react-bootstrap-ta
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import Select from 'react-select';
-import debounce from 'lodash.debounce';
+// import debounce from 'lodash.debounce';
 import $ from 'jquery';
 
 import CardBack from './CardBack';
-import { loadDecks, selectDeck, loadStandaloneDecks } from '../../redux/actions';
+import { loadDecks, selectDeck, loadStandaloneDecks, fetchAllDecks } from '../../redux/actions';
 
 import './DeckList.scss';
 import { Constants } from '../../constants';
@@ -85,7 +85,12 @@ import { faCheck } from '@fortawesome/free-solid-svg-icons';
 /**
  * @param {DeckListProps} props
  */
-const DeckList = ({ deckFilter, onDeckSelected, standaloneDecks = false }) => {
+const DeckList = ({
+    deckFilter,
+    onDeckSelected,
+    standaloneDecks = false,
+    showDownloadButton = true
+}) => {
     const { t } = useTranslation();
     const [pagingDetails, setPagingDetails] = useState({
         pageSize: 10,
@@ -141,6 +146,10 @@ const DeckList = ({ deckFilter, onDeckSelected, standaloneDecks = false }) => {
                 dispatch(selectDeck(deck));
             }
         }
+    };
+
+    const handleButtonClick = () => {
+        dispatch(fetchAllDecks());
     };
 
     const rowEvents = {
@@ -297,9 +306,121 @@ const DeckList = ({ deckFilter, onDeckSelected, standaloneDecks = false }) => {
         }
     ];
 
+    /*     const decksToCsv = (decks) => {
+        if (decks.length === 0) {
+            return '';
+        }
+
+        const expansionMapping = {
+            496: 'Dark Tidings',
+            479: 'Mass Mutation',
+            452: 'Worlds Collide',
+            435: 'Age of Ascension',
+            341: 'Call of the Archons'
+        };
+
+        const headers = ['expansion', 'name', 'losses', 'wins', 'winRate', 'games'];
+
+        const filteredDecks = decks.filter((deck) => deck.isAlliance !== true);
+
+        const subtotalsByExpansion = new Map();
+
+        let csvRows = [];
+
+        filteredDecks.forEach((deck) => {
+            const expansion = expansionMapping[deck.expansion] || deck.expansion;
+
+            if (!subtotalsByExpansion.has(expansion)) {
+                subtotalsByExpansion.set(expansion, { wins: 0, losses: 0 });
+            }
+
+            const stats = subtotalsByExpansion.get(expansion);
+            const wins = parseInt(deck.wins, 10);
+            const losses = parseInt(deck.losses, 10);
+
+            stats.wins += wins;
+            stats.losses += losses;
+
+            csvRows.push(
+                headers.map((header) => {
+                    let value;
+
+                    if (header === 'expansion') {
+                        value = expansion;
+                    } else if (header === 'games') {
+                        value = wins + losses;
+                    } else {
+                        value = deck[header];
+                    }
+
+                    if (typeof value === 'string') {
+                        const escapedValue = value.replace(/"/g, '""');
+                        return `"${escapedValue}"`;
+                    }
+
+                    return value;
+                })
+            );
+        });
+
+        let totalWins = 0;
+        let totalLosses = 0;
+
+        let subtotalRows = [];
+
+        for (let [expansion, stats] of subtotalsByExpansion.entries()) {
+            const games = stats.wins + stats.losses;
+            const winRate = games > 0 ? (stats.wins / games) * 100 : 0;
+
+            subtotalRows.push([
+                expansion,
+                'Subtotals',
+                stats.losses,
+                stats.wins,
+                `${winRate.toFixed(2)}%`,
+                games
+            ]);
+
+            totalWins += stats.wins;
+            totalLosses += stats.losses;
+        }
+
+        const totalGames = totalWins + totalLosses;
+        const totalWinRate = totalGames > 0 ? (totalWins / totalGames) * 100 : 0;
+
+        const summaryRow = [
+            'Totals', // Expansion
+            'Totals', // Name
+            totalLosses,
+            totalWins,
+            `${totalWinRate.toFixed(2)}%`,
+            totalGames
+        ];
+
+        csvRows = [...csvRows, ...subtotalRows, summaryRow];
+
+        const csvContent = [headers, ...csvRows].map((row) => row.join(',')).join('\n');
+
+        return csvContent;
+    };
+
+    const downloadCsv = (csvContent, fileName) => {
+        const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+        const link = document.createElement('a');
+        const url = URL.createObjectURL(blob);
+
+        link.setAttribute('href', url);
+        link.setAttribute('download', fileName);
+        link.style.visibility = 'hidden';
+
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    };
+
     let onNameChange = debounce((event) => {
         nameFilter.current(event.target.value.toLowerCase());
-    }, 500);
+    }, 500); */
 
     return (
         <div className='deck-list'>
@@ -314,10 +435,27 @@ const DeckList = ({ deckFilter, onDeckSelected, standaloneDecks = false }) => {
                                     type='text'
                                     onChange={(event) => {
                                         event.persist();
-                                        onNameChange(event);
+                                        // onNameChange(event);
                                     }}
                                     placeholder={t('Filter by name')}
                                 />
+                                {showDownloadButton && decks.length > 0 && (
+                                    <Button onClick={handleButtonClick}>
+                                        Download Deck Data CSV
+                                    </Button>
+                                    /*  <Button
+                                        className='mt-2'
+                                        onClick={() => {
+                                            const csvContent = decksToCsv(decks);
+                                            if (csvContent != '') {
+                                                const fileName = 'decks-win-loss.csv';
+                                                downloadCsv(csvContent, fileName);
+                                            }
+                                        }}
+                                    >
+                                        {t('Download Deck Data CSV')}
+                                    </Button> */
+                                )}
                             </Form.Group>
                             <Form.Group as={Col} lg='6' controlId='formGridExpansion'>
                                 <Form.Label>{t('Expansion')}</Form.Label>

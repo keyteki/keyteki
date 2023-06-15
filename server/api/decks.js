@@ -93,6 +93,15 @@ module.exports.init = function (server) {
         })
     );
 
+    server.get(
+        '/api/decks/all',
+        passport.authenticate('jwt', { session: false }),
+        wrapAsync(async function (req, res) {
+            let decks = await deckService.findAllForUser(req.user);
+            res.send({ success: true, decks: decks });
+        })
+    );
+
     server.post(
         '/api/decks',
         passport.authenticate('jwt', { session: false }),
