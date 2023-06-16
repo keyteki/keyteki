@@ -403,6 +403,12 @@ class Card extends EffectSource {
         return ability;
     }
 
+    removeAbility(ability) {
+        this.abilities.reactions = this.abilities.reactions.filter(
+            (reaction) => reaction !== ability
+        );
+    }
+
     reaction(properties) {
         if (properties.play || properties.fight || properties.reap) {
             properties.when = {
