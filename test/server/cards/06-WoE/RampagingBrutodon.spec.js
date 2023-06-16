@@ -1,4 +1,27 @@
 describe('Rampaging Brutodon', function () {
+    describe("Rampaging Brutodon's play ability", function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    amber: 1,
+                    house: 'saurian',
+                    token: 'grumpus',
+                    hand: ['rampaging-brutodon']
+                },
+                player2: {
+                    inPlay: ['umbra']
+                }
+            });
+        });
+
+        it('should make a token creature on play', function () {
+            this.player1.playCreature(this.rampagingBrutodon);
+            this.player1.clickPrompt('Right');
+            expect(this.player1.player.creaturesInPlay.length).toBe(2);
+            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+        });
+    });
+
     describe("Rampaging Brutodon's ability", function () {
         beforeEach(function () {
             this.setupTest({
