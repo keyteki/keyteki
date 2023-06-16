@@ -27,6 +27,7 @@ const Card = ({
     size,
     source,
     style,
+    tokenCard,
     wrapped
 }) => {
     const { i18n } = useTranslation();
@@ -219,7 +220,12 @@ const Card = ({
         });
         let image = card ? (
             <div className={imageClass}>
-                <CardImage card={card} cardBack={cardBack} size={size} halfSize={halfSize} />
+                <CardImage
+                    card={tokenCard || card}
+                    cardBack={cardBack}
+                    size={size}
+                    halfSize={halfSize}
+                />
             </div>
         ) : null;
         return (
@@ -229,12 +235,15 @@ const Card = ({
                 <div
                     className={cardClass}
                     onMouseOver={
-                        !disableMouseOver && !isFacedown() && onMouseOver
+                        !disableMouseOver && (card.tokenCard || !isFacedown()) && onMouseOver
                             ? () =>
                                   onMouseOver({
                                       image: (
                                           <CardImage
-                                              card={{ ...card, location: 'zoom' }}
+                                              card={{
+                                                  ...(isFacedown() ? card.tokenCard : card),
+                                                  location: 'zoom'
+                                              }}
                                               cardBack={cardBack}
                                           />
                                       ),
@@ -242,7 +251,11 @@ const Card = ({
                                   })
                             : undefined
                     }
-                    onMouseOut={!disableMouseOver && !isFacedown() ? onMouseOut : undefined}
+                    onMouseOut={
+                        !disableMouseOver && (card.tokenCard || !isFacedown())
+                            ? onMouseOut
+                            : undefined
+                    }
                     onClick={(event) => onCardClicked(event, card)}
                 >
                     <div>

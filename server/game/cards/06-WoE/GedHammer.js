@@ -5,8 +5,24 @@ class GedHammer extends Card {
     setupCardAbilities(ability) {
         this.destroyed({
             gameAction: ability.actions.sequential([
-                ability.actions.ready(),
-                ability.actions.enrage()
+                ability.actions.ready((context) => ({
+                    target: context.player.creaturesInPlay.filter(
+                        (card) =>
+                            card !== context.source &&
+                            card.hasHouse('brobnar') &&
+                            card.controller === context.source.controller &&
+                            card.type === 'creature'
+                    )
+                })),
+                ability.actions.enrage((context) => ({
+                    target: context.player.creaturesInPlay.filter(
+                        (card) =>
+                            card !== context.source &&
+                            card.hasHouse('brobnar') &&
+                            card.controller === context.source.controller &&
+                            card.type === 'creature'
+                    )
+                }))
             ])
         });
     }

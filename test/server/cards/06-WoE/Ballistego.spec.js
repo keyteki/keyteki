@@ -4,7 +4,8 @@ describe('Ballistego', function () {
             this.setupTest({
                 player1: {
                     house: 'saurian',
-                    hand: ['ballistego']
+                    hand: ['ballistego'],
+                    inPlay: ['ether-spider']
                 },
                 player2: {
                     inPlay: []
@@ -14,6 +15,8 @@ describe('Ballistego', function () {
 
         it('should have splash attack with amber', function () {
             this.player1.play(this.ballistego);
+            expect(this.player1).toBeAbleToSelect(this.ballistego);
+            expect(this.player1).not.toBeAbleToSelect(this.etherSpider);
             this.player1.clickCard(this.ballistego);
             expect(this.ballistego.tokens.amber).toBe(1);
             expect(this.ballistego.getKeywordValue('splash-attack')).toBe(3);

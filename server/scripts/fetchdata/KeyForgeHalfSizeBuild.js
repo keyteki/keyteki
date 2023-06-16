@@ -9,6 +9,7 @@ const parameters = {
     artifact: { top: 0, height: 250, width: 297.5 },
     creature: { top: 0, height: 490, width: 297.5 },
     ['token creature']: { top: 0, height: 490, width: 297.5 },
+    ['the tide']: { top: 0, height: 490, width: 297.5 },
     creature1: { top: -5, height: 380, width: 417.5 },
     upgrade: { top: -140, height: 225, width: 297.5 }
 };

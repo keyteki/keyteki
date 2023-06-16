@@ -1,91 +1,102 @@
 describe('Prospector', function () {
-    describe("Prospector's ability", function () {
+    describe('when entering play,', function () {
         beforeEach(function () {
             this.setupTest({
                 player1: {
-                    house: 'untamed',
+                    house: 'ekwidon',
                     amber: 1,
-                    hand: ['bubbles'],
-                    inPlay: ['flaxia']
+                    token: 'prospector',
+                    hand: ['hire-on', 'faust-the-great'],
+                    inPlay: ['flaxia', 'the-old-tinker']
                 },
                 player2: {
                     amber: 1,
                     inPlay: ['gub', 'krump']
                 }
             });
+
+            this.prospector = this.faustTheGreat;
+            this.player1.moveCard(this.faustTheGreat, 'deck');
+            this.player1.play(this.hireOn);
         });
 
-        it('should have tests', function () {
-            // TODO write your code here
+        it('should show correct prompt title', function () {
+            expect(this.prospector.id).toBe('faust-the-great');
+            expect(this.prospector.name).toBe('Prospector');
+            expect(this.player1).toHavePrompt('Prospector');
+            expect(this.player1).toHavePrompt('Which flank do you want to place this creature on?');
+            expect(this.player1).toHavePromptButton('Left');
+            expect(this.player1).toHavePromptButton('Right');
         });
 
-        // examples repo (clean bellow after use)
-        /*
-        it('turn ending test', function () {
-            this.player1.endTurn();
-            this.player2.clickPrompt('untamed');
-            this.player2.endTurn();
-            this.player1.forgeKey('Red');
-            this.player1.clickPrompt('untamed');
-        });
+        describe('when destroyed,', function () {
+            beforeEach(function () {
+                this.player1.clickPrompt('Right');
+                this.prospector.exhausted = false;
+                this.initialCards = this.player1.hand.length;
+                this.player1.fightWith(this.prospector, this.krump);
+            });
 
-        it('creature token', function () {
-            expect(this.mookling.tokens.power).toBeUndefined();
-            this.mookling.addToken('power');
-            expect(this.mookling.tokens.power).toBe(1);
-            
-            expect(this.mookling.tokens.damage).toBeUndefined();
-            this.mookling.addToken('damage');
-            expect(this.mookling.tokens.damage).toBe(1);
-            
-            expect(this.mookling.tokens.amber).toBeUndefined();
-            this.mookling.addToken('amber');
-            expect(this.mookling.tokens.amber).toBe(1);
-        });
+            it('should draw a card', function () {
+                expect(this.krump.location).toBe('play area');
+                expect(this.prospector.location).toBe('discard');
+                expect(this.player1.hand.length).toBe(this.initialCards + 1);
+            });
 
-        it('creature amber test', function () {
-            this.urchin.tokens.amber = 1;
-        });
+            describe('when back to hand,', function () {
+                beforeEach(function () {
+                    this.player1.endTurn();
+                    this.player2.clickPrompt('brobnar');
+                    this.player2.endTurn();
+                    this.player1.clickPrompt('saurian');
+                    this.player1.moveCard(this.faustTheGreat, 'hand');
+                });
 
-        it('location tests', function () {
-            expect(this.mother.location).toBe('discard');
-            expect(this.mother.location).toBe('hand');
-            expect(this.mother.location).toBe('deck');
-            expect(this.mother.location).toBe('play area');
-        });
+                it('should be Faust', function () {
+                    expect(this.faustTheGreat.name).toBe('Faust the Great');
+                });
 
-        it('game interation selection', function () {
-            expect(this.player1).not.toBeAbleToSelect(this.gub);
-            expect(this.player1).toBeAbleToSelect(this.flaxia);
-            this.player1.clickPrompt('Done');
-            this.player1.clickCard(this.larva);
-            expect(this.player1).toHavePromptButton('Done');
-            expect(this.player1).not.toHavePromptButton('Done');
-        });
+                describe('when played as Faust,', function () {
+                    beforeEach(function () {
+                        this.player1.clickCard(this.faustTheGreat);
+                        this.player1.clickPrompt('Play this creature');
+                    });
 
-        it('basic actions tests', function () {
-            this.player1.play(this.cocoon);
-            this.player1.useAction(this.cocoon);
-            this.player1.reap(this.cocoon);
-            this.player1.fight(this.cocoon);
-        });
+                    it('should show correct prompt title', function () {
+                        expect(this.faustTheGreat.id).toBe('faust-the-great');
+                        expect(this.faustTheGreat.name).toBe('Faust the Great');
+                        expect(this.player1).toHavePrompt('Faust the Great');
+                        expect(this.player1).toHavePrompt(
+                            'Which flank do you want to place this creature on?'
+                        );
+                        expect(this.player1).toHavePromptButton('Left');
+                        expect(this.player1).toHavePromptButton('Right');
+                    });
 
-        it('player amber test', function () {
-            this.player1.amber = 2
-            expect(this.player1.amber).toBe(2);
-        });
+                    it('should increase key cost', function () {
+                        expect(this.player2.player.getCurrentKeyCost()).toBe(6);
+                        this.player1.clickPrompt('Right');
+                        this.player1.clickCard(this.faustTheGreat);
+                        expect(this.player2.player.getCurrentKeyCost()).toBe(7);
+                    });
 
-        it('tide test', function () {
-            this.player1.lowerTide();
-            expect(this.player1.isTideHigh()).toBe(false);
-            this.player1.raiseTide();
-        });
+                    describe('when destroyed,', function () {
+                        beforeEach(function () {
+                            this.player1.clickPrompt('Right');
+                            this.player1.clickCard(this.faustTheGreat);
+                            this.faustTheGreat.exhausted = false;
+                            this.initialCards = this.player1.hand.length;
+                            this.player1.fightWith(this.faustTheGreat, this.krump);
+                        });
 
-        it('moving cards test', function () {
-            this.player1.moveCard(this.butterfly, 'play area');
-            this.player1.moveCard(this.butterfly, 'discard');
-            this.player1.moveCard(this.butterfly, 'hand');
+                        it('should not draw a card', function () {
+                            expect(this.krump.location).toBe('play area');
+                            expect(this.faustTheGreat.location).toBe('discard');
+                            expect(this.player1.hand.length).toBe(this.initialCards);
+                        });
+                    });
+                });
+            });
         });
-        */
     });
 });

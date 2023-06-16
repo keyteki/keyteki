@@ -58,6 +58,8 @@ const Actions = {
     moveOnBattleline: (propertyFactory) => new GameActions.MoveOnBattlelineAction(propertyFactory),
     moveToBottom: (propertyFactory) => new GameActions.MoveToBottomAction(propertyFactory),
     moveToFlank: (propertyFactory) => new GameActions.MoveToFlankAction(propertyFactory),
+    moveUpgrade: (propertyFactory) => new GameActions.MoveUpgrade(propertyFactory),
+    moveUpgradeToFlank: (propertyFactory) => new GameActions.MoveUpgradeToFlank(propertyFactory),
     placeAmber: (propertyFactory) => new GameActions.AddTokenAction(propertyFactory, 'amber'), // amount = 1
     placeUnder: (propertyFactory) => new GameActions.PlaceUnderAction(propertyFactory), // parent
     playCard: (propertyFactory) => new GameActions.PlayCardAction(propertyFactory), // resetOnCancel = false, postHandler

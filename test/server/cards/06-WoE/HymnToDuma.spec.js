@@ -1,91 +1,93 @@
-describe('HymnToDuma', function () {
-    describe("HymnToDuma's ability", function () {
+describe('HymnToDuma,', function () {
+    describe('when in play,', function () {
         beforeEach(function () {
             this.setupTest({
                 player1: {
                     house: 'untamed',
                     amber: 1,
                     hand: ['bubbles'],
-                    inPlay: ['flaxia']
+                    inPlay: ['chelonia', 'flaxia', 'haedroth-s-wall', 'hymn-to-duma']
                 },
                 player2: {
-                    amber: 1,
+                    amber: 3,
                     inPlay: ['gub', 'krump']
                 }
             });
         });
 
-        it('should have tests', function () {
-            // TODO write your code here
+        describe('should give omni option to', function () {
+            it('creature 1', function () {
+                this.player1.clickCard(this.chelonia);
+                expect(this.player1).toHavePromptButton("Use this card's Omni ability");
+            });
+
+            it('creature 2', function () {
+                this.player1.clickCard(this.flaxia);
+                expect(this.player1).toHavePromptButton("Use this card's Omni ability");
+            });
         });
 
-        // examples repo (clean bellow after use)
-        /*
-        it('turn ending test', function () {
+        it('should not give omni to artifacts', function () {
+            this.player1.clickCard(this.haedrothSWall);
+            expect(this.player1).not.toHavePromptButton("Use this card's Omni ability");
+        });
+
+        it('should not give omni to opponent creatures', function () {
             this.player1.endTurn();
-            this.player2.clickPrompt('untamed');
-            this.player2.endTurn();
-            this.player1.forgeKey('Red');
-            this.player1.clickPrompt('untamed');
+            this.player2.clickPrompt('dis');
+            this.player2.clickCard(this.gub);
+            expect(this.player2).toHavePromptButton('Reap with this creature');
+            expect(this.player2).not.toHavePromptButton("Use this card's Omni ability");
         });
 
-        it('creature token', function () {
-            expect(this.mookling.tokens.power).toBeUndefined();
-            this.mookling.addToken('power');
-            expect(this.mookling.tokens.power).toBe(1);
-            
-            expect(this.mookling.tokens.damage).toBeUndefined();
-            this.mookling.addToken('damage');
-            expect(this.mookling.tokens.damage).toBe(1);
-            
-            expect(this.mookling.tokens.amber).toBeUndefined();
-            this.mookling.addToken('amber');
-            expect(this.mookling.tokens.amber).toBe(1);
+        describe("and creature's omni is used", function () {
+            beforeEach(function () {
+                this.player1.useAction(this.chelonia, true);
+            });
+
+            it('should destroy the creature', function () {
+                expect(this.chelonia.location).toBe('discard');
+            });
+
+            it('should prompt to select a friendly creature', function () {
+                expect(this.player1).toHavePrompt('Choose a creature');
+                expect(this.player1).toBeAbleToSelect(this.flaxia);
+                expect(this.player1).not.toBeAbleToSelect(this.gub);
+            });
+
+            describe('and creature is selected', function () {
+                beforeEach(function () {
+                    this.player1.clickCard(this.flaxia);
+                });
+
+                it('should capture 2 amber', function () {
+                    expect(this.flaxia.tokens.amber).toBe(2);
+                    expect(this.player2.amber).toBe(1);
+                });
+            });
         });
 
-        it('creature amber test', function () {
-            this.urchin.tokens.amber = 1;
-        });
+        describe("and creature's omni is used with ward,", function () {
+            beforeEach(function () {
+                this.chelonia.ward();
+                this.player1.useAction(this.chelonia, true);
+            });
 
-        it('location tests', function () {
-            expect(this.mother.location).toBe('discard');
-            expect(this.mother.location).toBe('hand');
-            expect(this.mother.location).toBe('deck');
-            expect(this.mother.location).toBe('play area');
-        });
+            it('should destroy the ward only', function () {
+                expect(this.chelonia.warded).toBe(false);
+                expect(this.chelonia.location).toBe('play area');
+            });
 
-        it('game interation selection', function () {
-            expect(this.player1).not.toBeAbleToSelect(this.gub);
-            expect(this.player1).toBeAbleToSelect(this.flaxia);
-            this.player1.clickPrompt('Done');
-            this.player1.clickCard(this.larva);
-            expect(this.player1).toHavePromptButton('Done');
-            expect(this.player1).not.toHavePromptButton('Done');
-        });
+            describe('and creature is selected', function () {
+                beforeEach(function () {
+                    this.player1.clickCard(this.flaxia);
+                });
 
-        it('basic actions tests', function () {
-            this.player1.play(this.cocoon);
-            this.player1.useAction(this.cocoon);
-            this.player1.reap(this.cocoon);
-            this.player1.fight(this.cocoon);
+                it('should still capture 2 amber', function () {
+                    expect(this.flaxia.tokens.amber).toBe(2);
+                    expect(this.player2.amber).toBe(1);
+                });
+            });
         });
-
-        it('player amber test', function () {
-            this.player1.amber = 2
-            expect(this.player1.amber).toBe(2);
-        });
-
-        it('tide test', function () {
-            this.player1.lowerTide();
-            expect(this.player1.isTideHigh()).toBe(false);
-            this.player1.raiseTide();
-        });
-
-        it('moving cards test', function () {
-            this.player1.moveCard(this.butterfly, 'play area');
-            this.player1.moveCard(this.butterfly, 'discard');
-            this.player1.moveCard(this.butterfly, 'hand');
-        });
-        */
     });
 });

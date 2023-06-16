@@ -56,7 +56,7 @@ class Deck {
         result.houses = this.data.houses;
 
         this.eachRepeatedCard(
-            this.data.cards.filter((c) => !c.card.isNonDeck),
+            this.data.cards.filter((c) => c.card && !c.card.isNonDeck),
             (cardData) => {
                 let card = this.createCard(player, cardData);
                 if (card) {
@@ -68,7 +68,7 @@ class Deck {
         );
 
         let tokenCard = this.data.cards.find(
-            (c) => c.card.isNonDeck && c.card.type === 'token creature'
+            (c) => c.card && c.card.isNonDeck && c.card.type === 'token creature'
         );
 
         if (tokenCard) {

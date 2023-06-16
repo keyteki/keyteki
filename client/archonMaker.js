@@ -192,7 +192,8 @@ export const buildDeckList = async (canvas, deck, language, translate, size) => 
         Uncommon: UncommonIcon,
         Rare: RareIcon,
         Special: SpecialIcon,
-        'Evil Twin': EvilTwinIcon
+        'Evil Twin': EvilTwinIcon,
+        Token: RareIcon
     };
     const line1 = new fabric.Line([55, 157, 295, 157], lineStyle);
     const line2 = new fabric.Line([55, 535, 295, 535], lineStyle);
@@ -291,7 +292,12 @@ export const buildDeckList = async (canvas, deck, language, translate, size) => 
             top: y
         });
 
-        const typeIcon = new fabric.Image(CardTypesIcons[card.type].toCanvasElement(), imgOptions);
+        const typeIcon = new fabric.Image(
+            CardTypesIcons[
+                card.type === 'token creature' ? 'creature' : card.type
+            ].toCanvasElement(),
+            imgOptions
+        );
         typeIcon
             .set({
                 left: x + rarity.getScaledWidth() + number.getScaledWidth() + 2,

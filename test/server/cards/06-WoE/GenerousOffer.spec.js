@@ -1,91 +1,67 @@
-describe('GenerousOffer', function () {
-    describe("GenerousOffer's ability", function () {
+describe('GenerousOffer,', function () {
+    describe('on play with a friendly creature,', function () {
         beforeEach(function () {
             this.setupTest({
                 player1: {
-                    house: 'untamed',
+                    house: 'ekwidon',
                     amber: 1,
-                    hand: ['bubbles'],
+                    hand: ['bubbles', 'generous-offer'],
                     inPlay: ['flaxia']
                 },
                 player2: {
-                    amber: 1,
+                    amber: 3,
                     inPlay: ['gub', 'krump']
                 }
             });
+
+            this.player1.play(this.generousOffer);
         });
 
-        it('should have tests', function () {
-            // TODO write your code here
-        });
-
-        // examples repo (clean bellow after use)
-        /*
-        it('turn ending test', function () {
-            this.player1.endTurn();
-            this.player2.clickPrompt('untamed');
-            this.player2.endTurn();
-            this.player1.forgeKey('Red');
-            this.player1.clickPrompt('untamed');
-        });
-
-        it('creature token', function () {
-            expect(this.mookling.tokens.power).toBeUndefined();
-            this.mookling.addToken('power');
-            expect(this.mookling.tokens.power).toBe(1);
-            
-            expect(this.mookling.tokens.damage).toBeUndefined();
-            this.mookling.addToken('damage');
-            expect(this.mookling.tokens.damage).toBe(1);
-            
-            expect(this.mookling.tokens.amber).toBeUndefined();
-            this.mookling.addToken('amber');
-            expect(this.mookling.tokens.amber).toBe(1);
-        });
-
-        it('creature amber test', function () {
-            this.urchin.tokens.amber = 1;
-        });
-
-        it('location tests', function () {
-            expect(this.mother.location).toBe('discard');
-            expect(this.mother.location).toBe('hand');
-            expect(this.mother.location).toBe('deck');
-            expect(this.mother.location).toBe('play area');
-        });
-
-        it('game interation selection', function () {
-            expect(this.player1).not.toBeAbleToSelect(this.gub);
+        it('should prompt to destroy a friendly creature', function () {
+            expect(this.player1).toHavePrompt('Generous Offer');
             expect(this.player1).toBeAbleToSelect(this.flaxia);
-            this.player1.clickPrompt('Done');
-            this.player1.clickCard(this.larva);
-            expect(this.player1).toHavePromptButton('Done');
-            expect(this.player1).not.toHavePromptButton('Done');
+            expect(this.player1).not.toBeAbleToSelect(this.gub);
         });
 
-        it('basic actions tests', function () {
-            this.player1.play(this.cocoon);
-            this.player1.useAction(this.cocoon);
-            this.player1.reap(this.cocoon);
-            this.player1.fight(this.cocoon);
+        describe('when a creature is selected,', function () {
+            beforeEach(function () {
+                this.player1.clickCard(this.flaxia);
+            });
+
+            it('should destroy it', function () {
+                this.player1.clickCard(this.flaxia);
+                expect(this.flaxia.location).toBe('discard');
+            });
+
+            it('should steal 2 amber', function () {
+                expect(this.player1.amber).toBe(3);
+                expect(this.player2.amber).toBe(1);
+            });
+        });
+    });
+
+    describe('on play without a friendly creature,', function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'ekwidon',
+                    amber: 1,
+                    hand: ['bubbles', 'generous-offer'],
+                    inPlay: []
+                },
+                player2: {
+                    amber: 3,
+                    inPlay: ['gub', 'krump']
+                }
+            });
+
+            this.player1.play(this.generousOffer);
         });
 
-        it('player amber test', function () {
-            this.player1.amber = 2
-            expect(this.player1.amber).toBe(2);
+        it('should do nothing', function () {
+            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1.amber).toBe(1);
+            expect(this.player2.amber).toBe(3);
         });
-
-        it('tide test', function () {
-            this.player1.lowerTide();
-            expect(this.player1.isTideHigh()).toBe(false);
-            this.player1.raiseTide();
-        });
-
-        it('moving cards test', function () {
-            this.player1.moveCard(this.butterfly, 'play area');
-            this.player1.moveCard(this.butterfly, 'discard');
-            this.player1.moveCard(this.butterfly, 'hand');
-        });
-        */
     });
 });

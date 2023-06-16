@@ -1,91 +1,224 @@
-describe('PullUpStakes', function () {
-    describe("PullUpStakes's ability", function () {
+describe('PullUpStakes,', function () {
+    describe('on play with friendly creatures,', function () {
         beforeEach(function () {
             this.setupTest({
                 player1: {
-                    house: 'untamed',
+                    house: 'ekwidon',
                     amber: 1,
-                    hand: ['bubbles'],
+                    hand: ['bubbles', 'pull-up-stakes'],
+                    inPlay: ['flaxia', 'chelonia', 'floomf', 'myliobe']
+                },
+                player2: {
+                    amber: 1,
+                    inPlay: ['gub', 'krump', 'dendrix', 'infurnace', 'snag']
+                }
+            });
+
+            this.player1.play(this.pullUpStakes);
+        });
+
+        it('should offer friendly creatures', function () {
+            expect(this.player1).toHavePrompt('Pull Up Stakes');
+            expect(this.player1).toBeAbleToSelect(this.flaxia);
+            expect(this.player1).toBeAbleToSelect(this.chelonia);
+            expect(this.player1).not.toBeAbleToSelect(this.gub);
+            expect(this.player1).not.toBeAbleToSelect(this.krump);
+        });
+
+        it('should not allow selecting only one friendly creature', function () {
+            this.player1.clickCard(this.flaxia);
+            expect(this.player1).not.toHavePromptButton('Done');
+        });
+
+        describe('and choosing two friendly creatures,', function () {
+            beforeEach(function () {
+                this.player1.clickCard(this.flaxia);
+                this.player1.clickCard(this.chelonia);
+                this.player1.clickPrompt('Done');
+            });
+
+            it("should shuffle the chosen creatures into their owners' decks", function () {
+                expect(this.flaxia.location).toBe('deck');
+                expect(this.chelonia.location).toBe('deck');
+            });
+
+            it('should offer enemy creatures', function () {
+                expect(this.player1).toHavePrompt('Pull Up Stakes');
+                expect(this.player1).not.toBeAbleToSelect(this.floomf);
+                expect(this.player1).not.toBeAbleToSelect(this.myliobe);
+                expect(this.player1).toBeAbleToSelect(this.gub);
+                expect(this.player1).toBeAbleToSelect(this.krump);
+            });
+
+            it('should not allow selecting only one enemy creature', function () {
+                this.player1.clickCard(this.gub);
+                expect(this.player1).not.toHavePromptButton('Done');
+            });
+
+            describe('and choosing four enemy creatures,', function () {
+                beforeEach(function () {
+                    this.player1.clickCard(this.gub);
+                    this.player1.clickCard(this.krump);
+                    this.player1.clickCard(this.dendrix);
+                    this.player1.clickCard(this.infurnace);
+                    this.player1.clickPrompt('Done');
+                });
+
+                it("should return the chosen creatures to their owners' hands", function () {
+                    expect(this.gub.location).toBe('hand');
+                    expect(this.krump.location).toBe('hand');
+                    expect(this.dendrix.location).toBe('hand');
+                    expect(this.infurnace.location).toBe('hand');
+                    expect(this.player2.inPlay.length).toBe(1);
+                });
+            });
+        });
+    });
+
+    describe('on play with no friendly creatures,', function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'ekwidon',
+                    amber: 1,
+                    hand: ['bubbles', 'pull-up-stakes'],
+                    inPlay: []
+                },
+                player2: {
+                    amber: 1,
+                    inPlay: ['gub', 'krump', 'dendrix', 'infurnace', 'snag']
+                }
+            });
+
+            this.player1.play(this.pullUpStakes);
+        });
+
+        describe('should still work and skip to the 2nd action, and', function () {
+            it('should offer enemy creatures,', function () {
+                expect(this.player1).toHavePrompt('Pull Up Stakes');
+                expect(this.player1).toBeAbleToSelect(this.gub);
+                expect(this.player1).toBeAbleToSelect(this.krump);
+                expect(this.player1).toBeAbleToSelect(this.dendrix);
+                expect(this.player1).toBeAbleToSelect(this.infurnace);
+            });
+
+            describe('on choosing four enemy creatures,', function () {
+                beforeEach(function () {
+                    this.player1.clickCard(this.gub);
+                    this.player1.clickCard(this.krump);
+                    this.player1.clickCard(this.dendrix);
+                    this.player1.clickCard(this.infurnace);
+                    this.player1.clickPrompt('Done');
+                });
+
+                it("should return the chosen creatures to their owners' hands", function () {
+                    expect(this.gub.location).toBe('hand');
+                    expect(this.krump.location).toBe('hand');
+                    expect(this.dendrix.location).toBe('hand');
+                    expect(this.infurnace.location).toBe('hand');
+                    expect(this.player2.inPlay.length).toBe(1);
+                });
+            });
+        });
+    });
+
+    describe('on play with friendly creatures but no enemy creatures,', function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'ekwidon',
+                    amber: 1,
+                    hand: ['bubbles', 'pull-up-stakes'],
+                    inPlay: ['flaxia', 'chelonia', 'floomf', 'myliobe']
+                },
+                player2: {
+                    amber: 1,
+                    inPlay: []
+                }
+            });
+
+            this.player1.play(this.pullUpStakes);
+        });
+
+        describe('should still work, and', function () {
+            it('should offer friendly creatures,', function () {
+                expect(this.player1).toHavePrompt('Pull Up Stakes');
+                expect(this.player1).toBeAbleToSelect(this.flaxia);
+                expect(this.player1).toBeAbleToSelect(this.chelonia);
+                expect(this.player1).toBeAbleToSelect(this.floomf);
+                expect(this.player1).toBeAbleToSelect(this.myliobe);
+            });
+
+            describe('on choosing two friendly creatures,', function () {
+                beforeEach(function () {
+                    this.player1.clickCard(this.flaxia);
+                    this.player1.clickCard(this.chelonia);
+                    this.player1.clickPrompt('Done');
+                });
+
+                it("should shuffle the chosen creatures into their owners' decks", function () {
+                    expect(this.flaxia.location).toBe('deck');
+                    expect(this.chelonia.location).toBe('deck');
+                });
+
+                it('should be the end of the effect', function () {
+                    expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+                });
+            });
+        });
+    });
+
+    describe('on play with only one creature on each side,', function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'ekwidon',
+                    amber: 1,
+                    hand: ['bubbles', 'pull-up-stakes'],
                     inPlay: ['flaxia']
                 },
                 player2: {
                     amber: 1,
-                    inPlay: ['gub', 'krump']
+                    inPlay: ['gub']
                 }
             });
+
+            this.player1.play(this.pullUpStakes);
         });
 
-        it('should have tests', function () {
-            // TODO write your code here
-        });
+        describe('should still work, and', function () {
+            it('should offer friendly creatures,', function () {
+                expect(this.player1).toHavePrompt('Pull Up Stakes');
+                expect(this.player1).toBeAbleToSelect(this.flaxia);
+                expect(this.player1).not.toBeAbleToSelect(this.gub);
+            });
 
-        // examples repo (clean bellow after use)
-        /*
-        it('turn ending test', function () {
-            this.player1.endTurn();
-            this.player2.clickPrompt('untamed');
-            this.player2.endTurn();
-            this.player1.forgeKey('Red');
-            this.player1.clickPrompt('untamed');
-        });
+            describe('on choosing a friendly creature,', function () {
+                beforeEach(function () {
+                    this.player1.clickCard(this.flaxia);
+                    this.player1.clickPrompt('Done');
+                });
 
-        it('creature token', function () {
-            expect(this.mookling.tokens.power).toBeUndefined();
-            this.mookling.addToken('power');
-            expect(this.mookling.tokens.power).toBe(1);
-            
-            expect(this.mookling.tokens.damage).toBeUndefined();
-            this.mookling.addToken('damage');
-            expect(this.mookling.tokens.damage).toBe(1);
-            
-            expect(this.mookling.tokens.amber).toBeUndefined();
-            this.mookling.addToken('amber');
-            expect(this.mookling.tokens.amber).toBe(1);
-        });
+                it("should shuffle the chosen creature into its owner's deck", function () {
+                    expect(this.flaxia.location).toBe('deck');
+                });
 
-        it('creature amber test', function () {
-            this.urchin.tokens.amber = 1;
-        });
+                it('should offer enemy creatures,', function () {
+                    expect(this.player1).toHavePrompt('Pull Up Stakes');
+                    expect(this.player1).toBeAbleToSelect(this.gub);
+                });
 
-        it('location tests', function () {
-            expect(this.mother.location).toBe('discard');
-            expect(this.mother.location).toBe('hand');
-            expect(this.mother.location).toBe('deck');
-            expect(this.mother.location).toBe('play area');
-        });
+                describe('on choosing an enemy creature,', function () {
+                    beforeEach(function () {
+                        this.player1.clickCard(this.gub);
+                        this.player1.clickPrompt('Done');
+                    });
 
-        it('game interation selection', function () {
-            expect(this.player1).not.toBeAbleToSelect(this.gub);
-            expect(this.player1).toBeAbleToSelect(this.flaxia);
-            this.player1.clickPrompt('Done');
-            this.player1.clickCard(this.larva);
-            expect(this.player1).toHavePromptButton('Done');
-            expect(this.player1).not.toHavePromptButton('Done');
+                    it("should return the chosen creature to its owner's hand", function () {
+                        expect(this.gub.location).toBe('hand');
+                    });
+                });
+            });
         });
-
-        it('basic actions tests', function () {
-            this.player1.play(this.cocoon);
-            this.player1.useAction(this.cocoon);
-            this.player1.reap(this.cocoon);
-            this.player1.fight(this.cocoon);
-        });
-
-        it('player amber test', function () {
-            this.player1.amber = 2
-            expect(this.player1.amber).toBe(2);
-        });
-
-        it('tide test', function () {
-            this.player1.lowerTide();
-            expect(this.player1.isTideHigh()).toBe(false);
-            this.player1.raiseTide();
-        });
-
-        it('moving cards test', function () {
-            this.player1.moveCard(this.butterfly, 'play area');
-            this.player1.moveCard(this.butterfly, 'discard');
-            this.player1.moveCard(this.butterfly, 'hand');
-        });
-        */
     });
 });

@@ -5,7 +5,7 @@ describe('Raider', function () {
                 player1: {
                     house: 'unfathomable',
                     amber: 1,
-                    hand: ['rustmiser'],
+                    hand: ['rustmiser', 'initiation'],
                     inPlay: ['raider:flaxia', 'bubbles'],
                     token: 'raider'
                 },
@@ -58,14 +58,53 @@ describe('Raider', function () {
             this.player2.endTurn();
         });
 
-        it('should gain poison on the turn played', function () {
-            this.player1.moveCard(this.raider, 'discard');
-            this.player1.moveCard(this.bubbles, 'discard');
-            expect(this.player1.player.creaturesInPlay.length).toBe(0);
-            this.player1.makeTokenCreature();
-            expect(this.player1.player.creaturesInPlay.length).toBe(1);
-            expect(this.player1.player.creaturesInPlay[0].hasKeyword('poison')).toBe(true);
-            this.player1.endTurn();
+        describe('on the turn played', function () {
+            beforeEach(function () {
+                this.player1.moveCard(this.rustmiser, 'deck');
+                this.newRaider = this.rustmiser;
+                this.player1.play(this.initiation);
+                this.player1.clickPrompt('Left');
+            });
+
+            it('should gain poison', function () {
+                expect(this.player1.player.creaturesInPlay.length).toBe(3);
+                expect(this.newRaider.hasKeyword('poison')).toBe(true);
+                this.player1.endTurn();
+            });
+
+            describe('and after destroyed', function () {
+                beforeEach(function () {
+                    this.player1.endTurn();
+                    this.player2.clickPrompt('brobnar');
+                    this.player2.fightWith(this.krump, this.newRaider);
+                });
+
+                it('should lose poison', function () {
+                    expect(this.player1.player.creaturesInPlay.length).toBe(2);
+                    expect(this.newRaider.location).toBe('discard');
+                    expect(this.newRaider.hasKeyword('poison')).toBe(false);
+                    expect(this.newRaider.name).toBe('Rustmiser');
+                    this.player2.endTurn();
+                });
+
+                describe('and after being played again as original card', function () {
+                    beforeEach(function () {
+                        this.player2.endTurn();
+                        this.player1.moveCard(this.initiation, 'hand');
+                        this.player1.moveCard(this.rustmiser, 'hand');
+                        this.player1.clickPrompt('unfathomable');
+                        this.player1.play(this.rustmiser);
+                    });
+
+                    it('should not gain poison', function () {
+                        expect(this.player1.player.creaturesInPlay.length).toBe(3);
+                        expect(this.rustmiser.location).toBe('play area');
+                        expect(this.rustmiser.hasKeyword('poison')).toBe(false);
+                        expect(this.rustmiser.name).toBe('Rustmiser');
+                        this.player1.endTurn();
+                    });
+                });
+            });
         });
     });
 });

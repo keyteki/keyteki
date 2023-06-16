@@ -48,6 +48,7 @@ class CopyCard extends EffectValue {
 
     unapply(target) {
         for (const value of this.abilitiesForTargets[target.uuid].reactions) {
+            target.removeAbility(value);
             value.unregisterEvents();
         }
 

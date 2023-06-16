@@ -403,6 +403,12 @@ class Card extends EffectSource {
         return ability;
     }
 
+    removeAbility(ability) {
+        this.abilities.reactions = this.abilities.reactions.filter(
+            (reaction) => reaction !== ability
+        );
+    }
+
     reaction(properties) {
         if (properties.play || properties.fight || properties.reap) {
             properties.when = {
@@ -1081,6 +1087,10 @@ class Card extends EffectSource {
                 facedown: true,
                 uuid: this.uuid,
                 tokens: this.tokens,
+                tokenCard:
+                    this.isToken() &&
+                    this.owner.tokenCard?.getSummary(activePlayer, hideWhenFaceup),
+                type: this.location === 'play area' && this.getType(),
                 ...selectionState
             };
         }
@@ -1118,6 +1128,8 @@ class Card extends EffectSource {
             modifiedPower: this.getPower(),
             stunned: this.stunned,
             taunt: this.getType() === 'creature' && !!this.getKeywordValue('taunt'),
+            tokenCard:
+                this.isToken() && this.owner.tokenCard?.getSummary(activePlayer, hideWhenFaceup),
             tokens: this.tokens,
             type: this.getType(),
             gigantic: this.gigantic,
