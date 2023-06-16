@@ -5,7 +5,7 @@ class IronyxRebel extends Card {
     setupCardAbilities(ability) {
         this.play({
             gameAction: ability.actions.ready((context) => ({
-                target: context.source.neighbors
+                target: context.source.neighbors.filter((card) => card.hasHouse('mars'))
             }))
         });
     }
