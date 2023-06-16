@@ -31,5 +31,31 @@ describe('Talent Scout', function () {
             expect(this.player2.player.cardsInPlay).not.toContain(this.bumpsy);
             expect(this.player2.player.cardsInPlay).toContain(this.talentScout);
         });
+
+        describe("after ability resolved, on opponnent's turn", function () {
+            beforeEach(function () {
+                this.player1.playCreature(this.talentScout);
+                this.player1.clickCard(this.bumpsy);
+                this.player1.clickPrompt('Left');
+                this.player1.endTurn();
+
+                // repeat to remove exhaust
+                this.player2.clickPrompt('shadows');
+                this.player2.endTurn();
+
+                this.player1.clickPrompt('ekwidon');
+                this.player1.endTurn();
+
+                this.player2.clickPrompt('shadows');
+            });
+
+            it('opponent should be able to use Talent Scout as any house', function () {
+                let initialAmber = this.player2.amber;
+
+                this.player2.reap(this.talentScout);
+
+                expect(this.player2.amber).toBe(initialAmber + 1);
+            });
+        });
     });
 });
