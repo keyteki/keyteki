@@ -28,7 +28,7 @@ describe('Token', function () {
             this.player1.clickPrompt('Left');
         });
 
-        xit('should lose token abilities after destroyed', function () {
+        it('should lose token abilities after destroyed', function () {
             let token = this.antiquitiesDealer;
             this.player1.moveCard(token, 'deck');
             this.player1.play(this.hireOn, true);
