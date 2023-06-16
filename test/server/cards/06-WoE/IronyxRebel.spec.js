@@ -6,7 +6,7 @@ describe('Ironyx Rebel', function () {
                     amber: 4,
                     house: 'mars',
                     token: 'rebel',
-                    inPlay: ['yxl-the-iron-captain', 'collector-worm'],
+                    inPlay: ['yxl-the-iron-captain', 'collector-worm', 'chelonia', 'flaxia'],
                     hand: ['ironyx-rebel']
                 },
                 player2: {
@@ -25,6 +25,15 @@ describe('Ironyx Rebel', function () {
             expect(this.yxlTheIronCaptain.exhausted).toBe(false);
             expect(this.collectorWorm.exhausted).toBe(false);
             this.player1.endTurn();
+        });
+
+        it('should not ready non-mars neighbors', function () {
+            this.chelonia.exhausted = true;
+            this.flaxia.exhausted = true;
+            this.player1.playCreature(this.ironyxRebel, true, true);
+            this.player1.clickCard(this.flaxia);
+            expect(this.chelonia.exhausted).toBe(true);
+            expect(this.flaxia.exhausted).toBe(true);
         });
     });
 });
