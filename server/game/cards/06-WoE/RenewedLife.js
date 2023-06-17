@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class RenewedLife extends Card {
+    // Play: Fully heal a creature. Make a token creature for each damage healed this way.
     setupCardAbilities(ability) {
         // Play: Fully heal a creature. Make a token creature for each damage healed this way.
         this.play({

@@ -1,6 +1,8 @@
 const Card = require('../../Card.js');
 
 class VowOfBlood extends Card {
+    // Enhance . (These icons have already been added to cards in your deck.)
+    // Play: Deal 2 to each damaged enemy creature.
     setupCardAbilities(ability) {
         this.play({
             effect: 'deal 2 damage to each damaged enemy creature',

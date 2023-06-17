@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class SarielTheSteadfast extends Card {
+    // While it is not your turn, your creatures cannot become exhausted.
     setupCardAbilities(ability) {
         this.persistentEffect({
             condition: (context) => context.game.activePlayer != context.player,

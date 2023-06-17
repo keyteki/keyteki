@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class Sandhopper extends Card {
+    // Action: Return a friendly creature to its owners hand. If you do, you may play a nonEkwidon creature from your hand.
     setupCardAbilities(ability) {
         this.action({
             target: {

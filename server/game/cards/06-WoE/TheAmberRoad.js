@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class TheAmberRoad extends Card {
+    // Omni: Put 1 trade counter on The mber Road, then gain 1 for each trade counter on it. Give control of Thember Road to your opponent.
     setupCardAbilities(ability) {
         this.omni({
             effect: 'to put a trade counter on {0}, gain {1} amber, and give control to {2}',

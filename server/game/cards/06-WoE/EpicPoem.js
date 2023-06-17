@@ -1,5 +1,6 @@
 const Card = require('../../Card.js');
 class EpicPoem extends Card {
+    // Play: Exalt a friendly creature. Gain 1 for each  on that creature.
     setupCardAbilities(ability) {
         this.play({
             target: {

@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class BrokenAxeOutpost extends Card {
+    // Action: Put a friendly creature on the bottom of its owners deck. If you do, deal 6 to an enemy creature.
     setupCardAbilities(ability) {
         this.action({
             target: {
