@@ -45,7 +45,13 @@ class CornerTheMarket extends Card {
                                 cancel: true
                             }))
                         })
-                    ])
+                    ]),
+                    message: '{0} uses {1} to allow archival of {2} instead of discard',
+                    messageArgs: (context) => [
+                        context.player.opponent,
+                        context.source,
+                        context.event.card
+                    ]
                 })
             ]
         });
