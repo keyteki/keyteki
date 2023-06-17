@@ -18,7 +18,8 @@ class EtherSpider extends Card {
                     event: context.event,
                     amount: 0
                 }))
-            ])
+            ]),
+            effect: "capture amber instead of adding it to opponent's pool"
         });
 
         this.persistentEffect({
