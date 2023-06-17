@@ -1,6 +1,8 @@
 const Card = require('../../Card.js');
 
 class TalentScout extends Card {
+    // Talent Scout may be used as if it belonged to the active house.
+    // Play: Look at your opponent's hand and play a creature from it as if it were yours. Your opponent takes control of Talent Scout.
     setupCardAbilities(ability) {
         this.play({
             target: {
