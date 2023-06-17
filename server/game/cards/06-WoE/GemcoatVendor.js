@@ -9,7 +9,8 @@ class GemcoatVendor extends Card {
                 ability.actions.dealDamage((context) => ({
                     target: context.source
                 }))
-            ])
+            ]),
+            effect: 'Steal 1 amber and deal 1 damage to {0}'
         });
     }
 }

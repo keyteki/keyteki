@@ -13,7 +13,8 @@ class CelestialGorm extends Card {
                         (card) => card.type === 'artifact' && card !== context.source
                     )
                 }))
-            ])
+            ]),
+            effect: "destroy {0} and return each other artifact to its owner's hand"
         });
     }
 }

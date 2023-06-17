@@ -22,7 +22,8 @@ class MagistrateCrispus extends Card {
                             card.controller !== card.owner
                     )
                     .map((card) => ability.effects.takeControl(card.owner))
-            }))
+            })),
+            effect: 'return control of each creature and artifact to their owners'
         });
     }
 }

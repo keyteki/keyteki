@@ -14,7 +14,10 @@ class KelpingHands extends Card {
                         poison: 1
                     })
                 })
-            ])
+            ]),
+            effect:
+                'destroy {0}. For the remainder of the turn, each friendly creature gains poison',
+            effectAlert: true
         });
     }
 }
