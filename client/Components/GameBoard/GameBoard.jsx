@@ -207,8 +207,8 @@ export class GameBoard extends React.Component {
         if (
             thisPlayer.stats.tideRequired ||
             (otherPlayer && otherPlayer.stats.tideRequired) ||
-            thisPlayer.stats.isUsingToken ||
-            (otherPlayer && otherPlayer.stats.isUsingToken)
+            thisPlayer.stats.tokenCardName ||
+            (otherPlayer && otherPlayer.stats.tokenCardName)
         ) {
             return (
                 <div className='side-pane'>
@@ -221,28 +221,30 @@ export class GameBoard extends React.Component {
     }
 
     renderToken(player, id) {
-        return (
-            <img
-                key={`token-example-${id}`}
-                className={`img-fluid normal token-example-card`}
-                src={`/img/cards/${
-                    this.props.i18n.language === 'en' ? '' : this.props.i18n.language
-                }/${player.stats.tokenCardName}.png`}
-                onMouseOver={() => {
-                    this.onMouseOver({
-                        image: (
-                            <img
-                                src={`/img/cards/${player.stats.tokenCardName}.png`}
-                                className='card-zoom normal'
-                            />
-                        ),
-                        size: 'normal'
-                    });
-                }}
-                onMouseOut={this.onMouseOut}
-                title={this.props.t(`${player.stats.tokenCardName}`)}
-            />
-        );
+        if (player.stats.tokenCardName) {
+            return (
+                <img
+                    key={`token-example-${id}`}
+                    className={`img-fluid normal token-example-card`}
+                    src={`/img/cards/${
+                        this.props.i18n.language === 'en' ? '' : this.props.i18n.language
+                    }/${player.stats.tokenCardName}.png`}
+                    onMouseOver={() => {
+                        this.onMouseOver({
+                            image: (
+                                <img
+                                    src={`/img/cards/${player.stats.tokenCardName}.png`}
+                                    className='card-zoom normal'
+                                />
+                            ),
+                            size: 'normal'
+                        });
+                    }}
+                    onMouseOut={this.onMouseOut}
+                    title={this.props.t(`${player.stats.tokenCardName}`)}
+                />
+            );
+        }
     }
 
     renderTide(thisPlayer, otherPlayer) {
