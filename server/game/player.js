@@ -964,6 +964,7 @@ class Player extends GameObject {
             houses: this.houses,
             keyCost: this.getCurrentKeyCost(),
             tideRequired: this.isTideRequired(),
+            tokenCardName: this.tokenCard.name,
             tide: this.isTideHigh()
                 ? Constants.Tide.HIGH
                 : this.isTideLow()
