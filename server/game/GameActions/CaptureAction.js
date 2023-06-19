@@ -58,11 +58,16 @@ class CaptureAction extends CardAction {
             amount: Math.min(this.amount, player.amber)
         };
         return super.createEvent('onCapture', params, (event) => {
+            event.card.addToken('amber', event.amount);
             if (!player.anyEffect('captureFromPool')) {
                 player.modifyAmber(-event.amount);
+                context.game.addAnimation(
+                    player === context.player ? 'player-to-center' : 'opponent-to-center',
+                    event.amount
+                );
+            } else {
+                context.game.addAnimation('supply-to-center', event.amount);
             }
-
-            event.card.addToken('amber', event.amount);
         });
     }
 }

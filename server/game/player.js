@@ -741,6 +741,7 @@ class Player extends GameObject {
                     source
                 );
                 source.removeToken('amber', max);
+                this.game.addAnimation('center-to-supply', max);
                 this.chooseAmberSource(
                     amberSources,
                     totalAvailable - max,
@@ -765,6 +766,7 @@ class Player extends GameObject {
                             this.game.activePlayer,
                             source
                         );
+                        this.game.addAnimation('center-to-supply', choice);
                     }
                     this.chooseAmberSource(
                         amberSources,
@@ -787,13 +789,15 @@ class Player extends GameObject {
                 choiceHandler: (key) => {
                     this.game.queueSimpleStep(() => {
                         this.finalizeForge(key.value, modifiedCost, initialCost);
+                        this.game.addAnimation('player-to-supply', modifiedCost);
                     });
                 }
             });
         } else {
-            this.game.queueSimpleStep(() =>
-                this.finalizeForge(unforgedKeys.shift().value, modifiedCost, initialCost)
-            );
+            this.game.queueSimpleStep(() => {
+                this.finalizeForge(unforgedKeys.shift().value, modifiedCost, initialCost);
+                this.game.addAnimation('player-to-supply', modifiedCost);
+            });
         }
     }
 

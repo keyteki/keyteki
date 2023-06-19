@@ -30,9 +30,8 @@ class StealAction extends PlayerAction {
             if (!event.player.anyEffect('stealFromPool')) {
                 event.player.modifyAmber(-event.amount);
             }
-
             context.game.actions
-                .gainAmber({ amount: event.amount })
+                .gainAmber({ amount: event.amount, stolen: true })
                 .resolve(event.player.opponent, context);
         });
     }
