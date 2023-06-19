@@ -24,7 +24,10 @@ class TalentScout extends Card {
                         effect: ability.effects.takeControl(context.player.opponent)
                     }))
                 ])
-            }
+            },
+            effect:
+                "look at opponent's hand and play a creature, and give control of {1} to opponent",
+            effectArgs: (context) => context.source
         });
     }
 }

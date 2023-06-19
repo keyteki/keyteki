@@ -7,7 +7,8 @@ class Trader extends Card {
             gameAction: ability.actions.sequential([
                 ability.actions.steal(),
                 ability.actions.destroy()
-            ])
+            ]),
+            effect: 'steal 1 amber and destroy {0}'
         });
     }
 }

@@ -12,7 +12,12 @@ class Muster extends Card {
                         context.player.opponent.amber > context.player.amber,
                     trueGameAction: ability.actions.archive()
                 })
-            ])
+            ]),
+            effect: 'make a token creature{1}',
+            effectArgs: (context) =>
+                context.player.opponent && context.player.opponent.amber > context.player.amber
+                    ? ' and archive Muster'
+                    : ''
         });
     }
 }

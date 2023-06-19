@@ -48,7 +48,8 @@ class EndlessHordes extends Card {
                             }
                         })
                     }))
-                }
+                },
+                message: '{0} uses {1} to ready and fight with all tokens'
             }
         });
     }

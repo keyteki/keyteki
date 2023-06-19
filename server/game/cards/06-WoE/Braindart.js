@@ -14,7 +14,8 @@ class Braindart extends Card {
                         player: context.player.opponent
                     }))
                 ])
-            }
+            },
+            effect: 'enrage {0} and make it capture 1 amber from its own side'
         });
     }
 }

@@ -16,6 +16,7 @@ class Symposium extends Card {
                     ability.actions.use()
                 ])
             },
+            effect: 'exalt, ready, and use {0}',
             then: (preThenContext) => ({
                 condition: () => preThenContext.target.isToken(),
                 target: {
@@ -28,7 +29,8 @@ class Symposium extends Card {
                         ability.actions.ready(),
                         ability.actions.use()
                     ])
-                }
+                },
+                message: 'exalt, ready, and use {2}'
             })
         });
     }

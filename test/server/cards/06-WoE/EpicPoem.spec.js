@@ -15,7 +15,7 @@ describe('Epic Poem', function () {
             });
         });
 
-        it('should exalt and gain ameber', function () {
+        it('should exalt and gain amber', function () {
             expect(this.player1.amber).toBe(1);
 
             this.flaxia.addToken('amber', 2);

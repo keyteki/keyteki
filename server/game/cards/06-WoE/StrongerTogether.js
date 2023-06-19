@@ -17,7 +17,9 @@ class StrongerTogether extends Card {
                             .some((house) => !card.neighbors[1].hasHouse(house))
                 ),
                 action: ability.actions.ready()
-            }))
+            })),
+            effect:
+                'ready each Star Alliance creature that has 2 non-Star Alliance neighbors of different houses'
         });
     }
 }
