@@ -211,7 +211,7 @@ export class GameBoard extends React.Component {
             (otherPlayer && otherPlayer.tokenCard)
         ) {
             return (
-                <div className='side-pane'>
+                <div className='reference-card-pane'>
                     {this.renderToken(otherPlayer)}
                     {this.renderTide(thisPlayer, otherPlayer)}
                     {this.renderToken(thisPlayer)}
