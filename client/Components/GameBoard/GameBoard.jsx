@@ -224,8 +224,8 @@ export class GameBoard extends React.Component {
         if (player.stats.tokenCardName) {
             return (
                 <img
-                    key={`${player.stats.tokenCardName}`}
-                    className={`img-fluid normal token-example-card`}
+                    key={`${player.id}-token-reference-card`}
+                    className={`img-fluid normal token-reference-card`}
                     src={`/img/cards/${
                         this.props.i18n.language === 'en' ? '' : this.props.i18n.language
                     }/${player.stats.tokenCardName}.png`}
