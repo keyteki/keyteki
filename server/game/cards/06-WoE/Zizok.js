@@ -7,6 +7,7 @@ class Zizok extends Card {
         this.reaction({
             when: {
                 onCardDestroyed: (event, context) =>
+                    !!event.damageEvent &&
                     event.damageEvent.damageType === 'splash-attack' &&
                     event.damageEvent.damageSource === context.source
             },
