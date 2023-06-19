@@ -224,7 +224,7 @@ export class GameBoard extends React.Component {
         if (player.tokenCard) {
             return (
                 <img
-                    className={`img-fluid normal token-reference-card`}
+                    className={`img-fluid normal reference-card`}
                     src={`/img/cards/${
                         this.props.i18n.language === 'en' ? '' : this.props.i18n.language
                     }/${player.tokenCard.name}.png`}
@@ -254,9 +254,10 @@ export class GameBoard extends React.Component {
                 : Constants.TideImages.card['en'];
             return (
                 <img
-                    key='tide-card'
                     onClick={this.onClickTide}
-                    className={`img-fluid normal tide-card tide-${thisPlayer.stats.tide}
+                    className={`img-fluid normal reference-card tide-card tide-${
+                        thisPlayer.stats.tide
+                    }
                         ${
                             thisPlayer.activeHouse && thisPlayer.canRaiseTide
                                 ? 'can-raise-tide'

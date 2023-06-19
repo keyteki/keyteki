@@ -147,18 +147,13 @@
     margin-right: 5px;
 }
 
-.token-reference-card {
+.reference-card {
     margin: auto auto 75px auto;
-    margin-left: 75px;
     width: 60px;
     height: 84px;
 }
 
 .tide-card {
-    margin: auto auto 75px auto;
-    width: 60px;
-    height: 84px;
-
     &.tide-neutral {
         transform: rotate(90deg);
     }
