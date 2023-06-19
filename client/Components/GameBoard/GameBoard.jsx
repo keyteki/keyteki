@@ -222,20 +222,15 @@ export class GameBoard extends React.Component {
 
     renderToken(player) {
         if (player.tokenCard) {
+            let locale = this.props.i18n.language;
+            let img = `/img/cards/${locale === 'en' ? '' : locale}/${player.tokenCard.name}.png`;
             return (
                 <img
                     className={`img-fluid normal reference-card`}
-                    src={`/img/cards/${
-                        this.props.i18n.language === 'en' ? '' : this.props.i18n.language
-                    }/${player.tokenCard.name}.png`}
+                    src={img}
                     onMouseOver={() => {
                         this.onMouseOver({
-                            image: (
-                                <img
-                                    src={`/img/cards/${player.tokenCard.name}.png`}
-                                    className='card-zoom normal'
-                                />
-                            ),
+                            image: <img src={img} className='card-zoom normal' />,
                             size: 'normal'
                         });
                     }}
