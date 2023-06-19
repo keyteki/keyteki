@@ -23,7 +23,8 @@ class GedHammer extends Card {
                             card.type === 'creature'
                     )
                 }))
-            ])
+            ]),
+            effect: 'ready and enrage each other friendly Brobnar creature'
         });
     }
 }

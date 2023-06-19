@@ -10,7 +10,8 @@ class MightClub extends Card {
                     ability.actions.ready(),
                     ability.actions.enrage()
                 ])
-            }
+            },
+            effect: 'ready and enrage {0}'
         });
     }
 }

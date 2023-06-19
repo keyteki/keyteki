@@ -5,8 +5,7 @@ class Initiation extends Card {
     setupCardAbilities(ability) {
         this.play({
             effect: 'make a token creature{1}',
-            effectArgs: (context) =>
-                context.player.hand.length < 4 ? ' and archive this card' : '',
+            effectArgs: (context) => (context.player.hand.length < 4 ? ' and archive itself' : ''),
             gameAction: ability.actions.sequential([
                 ability.actions.makeTokenCreature(),
                 ability.actions.conditional({

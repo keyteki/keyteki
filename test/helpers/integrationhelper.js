@@ -33,6 +33,29 @@ var customMatchers = {
             }
         };
     },
+    toHavePromptImage: function () {
+        return {
+            compare: function (actual, expected) {
+                var result = {};
+                var currentPrompt = actual.currentPrompt();
+                var currentImage =
+                    !!currentPrompt &&
+                    currentPrompt.controls.length > 0 &&
+                    !!currentPrompt.controls[0].source
+                        ? currentPrompt.controls[0].source.image
+                        : 'none';
+                result.pass = actual.hasPromptImage(expected);
+
+                if (result.pass) {
+                    result.message = `Expected ${actual.name} not to have prompt image "${expected}" but it did.`;
+                } else {
+                    result.message = `Expected ${actual.name} to have prompt image "${expected}" but it had "${currentImage}".`;
+                }
+
+                return result;
+            }
+        };
+    },
     toHavePromptButton: function (util, customEqualityMatchers) {
         return {
             compare: function (actual, expected) {
