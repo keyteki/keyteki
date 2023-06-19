@@ -207,8 +207,8 @@ export class GameBoard extends React.Component {
         if (
             thisPlayer.stats.tideRequired ||
             (otherPlayer && otherPlayer.stats.tideRequired) ||
-            thisPlayer.stats.tokenCardName ||
-            (otherPlayer && otherPlayer.stats.tokenCardName)
+            thisPlayer.tokenCard ||
+            (otherPlayer && otherPlayer.tokenCard)
         ) {
             return (
                 <div className='side-pane'>
@@ -221,18 +221,18 @@ export class GameBoard extends React.Component {
     }
 
     renderToken(player) {
-        if (player.stats.tokenCardName) {
+        if (player.tokenCard) {
             return (
                 <img
                     className={`img-fluid normal token-reference-card`}
                     src={`/img/cards/${
                         this.props.i18n.language === 'en' ? '' : this.props.i18n.language
-                    }/${player.stats.tokenCardName}.png`}
+                    }/${player.tokenCard.name}.png`}
                     onMouseOver={() => {
                         this.onMouseOver({
                             image: (
                                 <img
-                                    src={`/img/cards/${player.stats.tokenCardName}.png`}
+                                    src={`/img/cards/${player.tokenCard.name}.png`}
                                     className='card-zoom normal'
                                 />
                             ),
@@ -240,7 +240,7 @@ export class GameBoard extends React.Component {
                         });
                     }}
                     onMouseOut={this.onMouseOut}
-                    title={this.props.t(`${player.stats.tokenCardName}`)}
+                    title={this.props.t(`${player.tokenCard.name}`)}
                 />
             );
         }

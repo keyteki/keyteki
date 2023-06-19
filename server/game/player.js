@@ -964,7 +964,6 @@ class Player extends GameObject {
             houses: this.houses,
             keyCost: this.getCurrentKeyCost(),
             tideRequired: this.isTideRequired(),
-            tokenCardName: this.tokenCard ? this.tokenCard.name : undefined,
             tide: this.isTideHigh()
                 ? Constants.Tide.HIGH
                 : this.isTideLow()
@@ -1022,6 +1021,7 @@ class Player extends GameObject {
                 avatar: this.user.avatar
             },
             deckData: this.deckData,
+            tokenCard: this.tokenCard && this.tokenCard.getSummary(activePlayer),
             wins: this.wins
         };
 
