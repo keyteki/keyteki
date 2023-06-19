@@ -15,16 +15,15 @@ class Recruit extends Card {
         this.tracker.register(['onExalt', 'onPhaseStarted']);
 
         this.play({
-            gameAction: [
+            gameAction: ability.actions.sequential([
                 ability.actions.makeTokenCreature(),
                 ability.actions.conditional({
-                    condition: (context) =>
-                        context.player.opponent && this.creaturesExalted[context.player.uuid] >= 1,
+                    condition: (context) => this.creaturesExalted[context.player.uuid] >= 1,
                     trueGameAction: ability.actions.archive((context) => ({
                         target: context.source
                     }))
                 })
-            ],
+            ]),
             effect: 'make a token creature{1}{2}',
             effectArgs: (context) =>
                 this.creaturesExalted[context.player.uuid] >= 1

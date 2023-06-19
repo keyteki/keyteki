@@ -5,7 +5,7 @@ class HireOn extends Card {
     // Aember or more between both players' pools, archive Hire On.
     setupCardAbilities(ability) {
         this.play({
-            gameAction: [
+            gameAction: ability.actions.sequential([
                 ability.actions.makeTokenCreature(),
                 ability.actions.conditional({
                     condition: (context) =>
@@ -17,7 +17,7 @@ class HireOn extends Card {
                         target: context.source
                     }))
                 })
-            ],
+            ]),
             effect: 'make a token creature{1}{2}',
             effectArgs: (context) =>
                 context.player.amber +
