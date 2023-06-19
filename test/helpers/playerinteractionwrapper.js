@@ -383,6 +383,15 @@ class PlayerInteractionWrapper {
         );
     }
 
+    hasPromptImage(imageID) {
+        var currentPrompt = this.currentPrompt();
+        return (
+            !!currentPrompt &&
+            currentPrompt.controls &&
+            currentPrompt.controls.some((c) => c.source.image === imageID)
+        );
+    }
+
     selectDeck(deck) {
         this.game.selectDeck(this.player.name, deck);
     }

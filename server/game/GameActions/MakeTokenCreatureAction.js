@@ -54,7 +54,8 @@ class MakeTokenCreatureAction extends PlayerAction {
                                     }),
                                     context.game.actions.putIntoPlay({
                                         target: card,
-                                        deployIndex: this.deployIndex
+                                        deployIndex: this.deployIndex,
+                                        promptSource: player.tokenCard
                                     })
                                 ])
                         };
