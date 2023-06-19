@@ -8,14 +8,14 @@ class Muster extends Card {
                 ability.actions.makeTokenCreature(),
                 ability.actions.conditional({
                     condition: (context) =>
-                        !!context.player.opponent &&
+                        context.player.opponent &&
                         context.player.opponent.amber > context.player.amber,
                     trueGameAction: ability.actions.archive()
                 })
             ]),
             effect: 'make a token creature{1}',
             effectArgs: (context) =>
-                !!context.player.opponent && context.player.opponent.amber > context.player.amber
+                context.player.opponent && context.player.opponent.amber > context.player.amber
                     ? ' and archive Muster'
                     : ''
         });

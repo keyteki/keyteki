@@ -19,7 +19,7 @@ class PressGang extends Card {
                 ability.actions.makeTokenCreature(),
                 ability.actions.conditional({
                     condition: (context) =>
-                        !!context.player.opponent &&
+                        context.player.opponent &&
                         this.creaturesDestroyed[context.player.opponent.uuid] >= 1,
                     trueGameAction: ability.actions.archive((context) => ({
                         target: context.source
@@ -28,7 +28,7 @@ class PressGang extends Card {
             ]),
             effect: 'make a token creature{1}{2}',
             effectArgs: (context) =>
-                !!context.player.opponent &&
+                context.player.opponent &&
                 this.creaturesDestroyed[context.player.opponent.uuid] >= 1
                     ? [' and archive ', context.source]
                     : ['', '']
