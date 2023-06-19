@@ -15,20 +15,20 @@ class PressGang extends Card {
         this.tracker.register(['onCardDestroyed', 'onPhaseStarted']);
 
         this.play({
-            gameAction: [
+            gameAction: ability.actions.sequential([
                 ability.actions.makeTokenCreature(),
                 ability.actions.conditional({
                     condition: (context) =>
-                        context.player.opponent &&
+                        !!context.player.opponent &&
                         this.creaturesDestroyed[context.player.opponent.uuid] >= 1,
                     trueGameAction: ability.actions.archive((context) => ({
                         target: context.source
                     }))
                 })
-            ],
+            ]),
             effect: 'make a token creature{1}{2}',
             effectArgs: (context) =>
-                context.player.opponent &&
+                !!context.player.opponent &&
                 this.creaturesDestroyed[context.player.opponent.uuid] >= 1
                     ? [' and archive ', context.source]
                     : ['', '']
