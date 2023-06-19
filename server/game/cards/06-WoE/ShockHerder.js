@@ -1,6 +1,8 @@
 const Card = require('../../Card.js');
 
 class ShockHerder extends Card {
+    // Deploy. (This creature can enter play anywhere in your battleline.)
+    // Play: Ready and fight with a neighboring creature.
     setupCardAbilities(ability) {
         this.play({
             target: {

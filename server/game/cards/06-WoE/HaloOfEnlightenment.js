@@ -1,6 +1,8 @@
 const Card = require('../../Card.js');
 
 class HaloOfEnlightenment extends Card {
+    // This creature cannot be attacked while its controller controls a token creature.
+    // Play: Make a token creature.
     setupCardAbilities(ability) {
         // Play: Make a token creature
         this.play({

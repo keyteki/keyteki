@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class Bryozoarch extends Card {
+    // When your opponent plays an action card, instead of resolving its play effect, destroy the creature on your left flank.
     setupCardAbilities(ability) {
         this.persistentEffect({
             targetController: 'opponent',

@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class NifflePaw extends Card {
+    // This creature gains, After Reap: Destroy this creature and attach Niffle Paw to another creature.
     setupCardAbilities(ability) {
         this.reaction({
             when: {

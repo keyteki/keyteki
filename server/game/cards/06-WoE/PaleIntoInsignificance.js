@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class PaleIntoInsignificance extends Card {
+    // Play: Destroy each creature with the lowest power.
     setupCardAbilities(ability) {
         this.play({
             gameAction: ability.actions.destroy((context) => {

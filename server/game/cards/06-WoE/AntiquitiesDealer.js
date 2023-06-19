@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class AntiquitiesDealer extends Card {
+    // Action: Gain 2 if you control at least one artifact.
     setupCardAbilities(ability) {
         this.action({
             gameAction: ability.actions.gainAmber((context) => ({

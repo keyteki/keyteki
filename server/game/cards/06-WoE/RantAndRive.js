@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class RantAndRive extends Card {
+    // Play: If your opponent has 8 or more, they lose half their  (rounding down the loss).
     setupCardAbilities(ability) {
         this.play({
             condition: (context) => context.player.opponent && context.player.opponent.amber >= 8,

@@ -2,7 +2,7 @@ const _ = require('underscore');
 const Card = require('../../Card.js');
 
 class FleaMarket extends Card {
-    // Action: Look at a random card in your opponent's hand. You may give your opponent 1 Aember icon. If you do, play that card as if it were yours.
+    // Action: Look at a random card in your opponent's hand. You may give your opponent 1 Aember. If you do, play that card as if it were yours.
     setupCardAbilities(ability) {
         this.action({
             effect: "reveal a random card from {1}'s hand and optionally lose 1 amber to play it",

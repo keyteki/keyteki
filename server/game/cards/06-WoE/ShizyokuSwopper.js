@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class ShizyokuSwopper extends Card {
+    // After Fight: Swap control of this creature and the creature it fights. (Both creatures must survive the fight.)
     setupCardAbilities(ability) {
         this.fight({
             condition: (context) => context.event.card.location === 'play area',

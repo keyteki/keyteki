@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class EnvoyOfEkwirre extends Card {
+    // After Reap: Swap Envoy of Ekwirr with one of its neighbors. Also swap all , damage, counters, and upgrades on these creatures.
     setupCardAbilities(ability) {
         this.reap({
             condition: (context) => context.player.creaturesInPlay.length > 1,
