@@ -212,19 +212,19 @@ export class GameBoard extends React.Component {
         ) {
             return (
                 <div className='side-pane'>
-                    {this.renderToken(otherPlayer, '1')}
+                    {this.renderToken(otherPlayer)}
                     {this.renderTide(thisPlayer, otherPlayer)}
-                    {this.renderToken(thisPlayer, '2')}
+                    {this.renderToken(thisPlayer)}
                 </div>
             );
         }
     }
 
-    renderToken(player, id) {
+    renderToken(player) {
         if (player.stats.tokenCardName) {
             return (
                 <img
-                    key={`token-example-${id}`}
+                    key={`${player.stats.tokenCardName}`}
                     className={`img-fluid normal token-example-card`}
                     src={`/img/cards/${
                         this.props.i18n.language === 'en' ? '' : this.props.i18n.language
