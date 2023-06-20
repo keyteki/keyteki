@@ -867,6 +867,7 @@ class Game extends EventEmitter {
     beginRound() {
         this.raiseEvent('onBeginRound', { player: this.activePlayer });
         this.activePlayer.beginRound();
+        this.queueStep(new SimpleStep(this, () => this.finalizeBeginRound(0)));
         this.queueStep(new KeyPhase(this));
         this.queueStep(new HousePhase(this));
         this.queueStep(new MainPhase(this));
@@ -874,6 +875,28 @@ class Game extends EventEmitter {
         this.queueStep(new DrawPhase(this));
         this.queueStep(new SimpleStep(this, () => this.raiseEndRoundEvent()));
         this.queueStep(new SimpleStep(this, () => this.beginRound()));
+    }
+
+    /*
+     * Raises `onFinalizeBeginRound` events in a loop until the finalization
+     * phase coalesces (i.e., nothing changes after the event is raised).
+     * This allows effects that can loop arbitrarily during the beginning of
+     * a round.
+     */
+    finalizeBeginRound(count) {
+        if (count >= 100) {
+            // Infinite loop protection.
+            return;
+        }
+        this.raiseEvent(
+            'onFinalizeBeginRound',
+            { player: this.activePlayer, somethingChanged: false },
+            (event) => {
+                if (event.somethingChanged) {
+                    this.queueStep(new SimpleStep(this, () => this.finalizeBeginRound(count + 1)));
+                }
+            }
+        );
     }
 
     /*
