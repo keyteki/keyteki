@@ -6,7 +6,7 @@ describe('Extrematode Infection', function () {
                     house: 'unfathomable',
                     amber: 4,
                     token: 'grumpus',
-                    inPlay: ['earthshaker'],
+                    inPlay: ['earthshaker', 'brammo'],
                     hand: ['seabringer-kekoa', 'initiation', 'ged-hammer', 'extrematode-infection']
                 },
                 player2: {
@@ -59,18 +59,14 @@ describe('Extrematode Infection', function () {
                         this.player2.endTurn();
                     });
 
-                    it('should destroy upgrade and make 3 token creatures', function () {
-                        expect(this.player1).toHavePromptButton('Left');
-                        expect(this.player1).toHavePromptButton('Right');
-                    });
-
-                    it('should destroy upgrade and make 3 token creatures', function () {
+                    it('should destroy the creature and make 3 token creatures', function () {
                         this.player1.clickPrompt('Right');
                         this.player1.clickPrompt('Right');
                         this.player1.clickPrompt('Right');
                         this.player1.clickPrompt('unfathomable');
 
                         expect(this.extrematodeInfection.location).toBe('discard');
+                        expect(this.earthshaker.location).toBe('discard');
                         expect(this.seabringerKekoa.location).toBe('play area');
                         expect(this.seabringerKekoa.name).toBe('Grumpus');
                         expect(this.gedHammer.location).toBe('play area');
