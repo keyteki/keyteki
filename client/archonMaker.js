@@ -292,12 +292,7 @@ export const buildDeckList = async (canvas, deck, language, translate, size) => 
             top: y
         });
 
-        const typeIcon = new fabric.Image(
-            CardTypesIcons[
-                card.type === 'token creature' ? 'creature' : card.type
-            ].toCanvasElement(),
-            imgOptions
-        );
+        const typeIcon = new fabric.Image(CardTypesIcons[card.type].toCanvasElement(), imgOptions);
         typeIcon
             .set({
                 left: x + rarity.getScaledWidth() + number.getScaledWidth() + 2,

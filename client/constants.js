@@ -39,7 +39,7 @@ export const Constants = {
         { value: '496', label: 'DT', tideRequired: true },
         { value: '600', label: 'WoE', tideRequired: false }
     ],
-    CardTypes: ['action', 'artifact', 'creature', 'upgrade'],
+    CardTypes: ['action', 'artifact', 'creature', 'upgrade', 'token creature'],
     SetIconPaths: {},
     DeckIconPaths: {},
     HouseIconPaths: {},
