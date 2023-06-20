@@ -40,7 +40,7 @@ const Effects = {
     entersPlayStunned: (condition) =>
         EffectBuilder.card.static('entersPlayStunned', new ConditionValue(condition)),
     flipToken: () => EffectBuilder.card.static('flipToken'),
-    visbileIn: (location) => EffectBuilder.card.static('visbileIn', location),
+    visibleIn: (location) => EffectBuilder.card.static('visibleIn', location),
     gainAbility: (type, properties) =>
         EffectBuilder.card.static('gainAbility', new GainAbility(type, properties)),
     fightAbilitiesAddReap: () => EffectBuilder.card.static('fightAbilitiesAddReap'),
@@ -133,7 +133,8 @@ const Effects = {
     stopHouseChoice: (house) => EffectBuilder.player.flexible('stopHouseChoice', house),
     skipStep: (step) => EffectBuilder.player.static('skipStep', step),
     opponentCardsCannotLeaveArchives: (card) =>
-        EffectBuilder.player.static('opponentCardsCannotLeaveArchives', card)
+        EffectBuilder.player.static('opponentCardsCannotLeaveArchives', card),
+    topCardOfDeckVisible: (card) => EffectBuilder.player.static('topCardOfDeckVisible', card)
 };
 
 module.exports = Effects;
