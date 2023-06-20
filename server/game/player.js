@@ -1021,6 +1021,7 @@ class Player extends GameObject {
                 avatar: this.user.avatar
             },
             deckData: this.deckData,
+            tokenCard: this.tokenCard && this.tokenCard.getSummary(activePlayer),
             wins: this.wins
         };
 
