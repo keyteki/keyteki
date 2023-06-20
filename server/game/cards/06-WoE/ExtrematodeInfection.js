@@ -21,14 +21,14 @@ class ExtrematodeInfection extends Card {
                 target: this
             })),
             then: {
-                gameAction: [
+                gameAction: ability.actions.sequential([
                     ability.actions.destroy(() => ({
-                        target: !this.hasToken('hatch') ? this : []
+                        target: !this.hasToken('hatch') ? this.parent : []
                     })),
                     ability.actions.makeTokenCreature(() => ({
                         amount: !this.hasToken('hatch') ? 3 : 0
                     }))
-                ]
+                ])
             }
         });
     }
