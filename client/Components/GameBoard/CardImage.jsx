@@ -15,7 +15,7 @@ import './CardImage.scss';
  *
  * @param {CardImageProps} props
  */
-const CardImage = ({ card, cardBack, size, halfSize, onMouseOver, onMouseOut }) => {
+const CardImage = ({ card, cardBack, size, tokenCard, halfSize, onMouseOver, onMouseOut }) => {
     let [cardImage, setCardImage] = useState(null);
     const { i18n } = useTranslation();
     const fabricRef = useRef();
@@ -37,7 +37,8 @@ const CardImage = ({ card, cardBack, size, halfSize, onMouseOver, onMouseOut }) 
                         halfSize,
                         url: `/img/${halfSize ? 'halfSize' : 'cards'}/${
                             i18n.language === 'en' ? '' : i18n.language
-                        }/${card.image}.${halfSize ? 'jpg' : 'png'}`
+                        }/${(tokenCard || card).image}.${halfSize ? 'jpg' : 'png'}`,
+                        image: (tokenCard || card).image
                     });
                 }
             }
@@ -91,7 +92,7 @@ const CardImage = ({ card, cardBack, size, halfSize, onMouseOver, onMouseOut }) 
                                   onMouseOver({
                                       image: (
                                           <CardImage
-                                              card={{ ...card, location: 'zoom' }}
+                                              card={{ ...(tokenCard || card), location: 'zoom' }}
                                               cardBack={cardBack}
                                           />
                                       ),

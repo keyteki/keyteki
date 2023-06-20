@@ -221,9 +221,10 @@ const Card = ({
         let image = card ? (
             <div className={imageClass}>
                 <CardImage
-                    card={tokenCard || card}
+                    card={card}
                     cardBack={cardBack}
                     size={size}
+                    tokenCard={tokenCard}
                     halfSize={halfSize}
                 />
             </div>
