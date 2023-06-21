@@ -1144,6 +1144,7 @@ class Card extends EffectSource {
             state.name = this.owner.tokenCard.name;
             state.image = this.owner.tokenCard.image;
             state.facedown = false;
+            state.enhancements = [];
         }
 
         return Object.assign(state, selectionState);
