@@ -26,7 +26,11 @@ class DiscardAction extends BaseAbility {
             return 'house';
         } else if (
             !this.card.checkRestrictions('discard', context) ||
-            !context.player.checkRestrictions('discard', context)
+            !context.player.checkRestrictions('discard', context) ||
+            !this.card.checkRestrictions('discardExceptCardAbilities', context) ||
+            !context.player.checkRestrictions('discardExceptCardAbilities', context) ||
+            !this.card.checkRestrictions('selfChooseDiscard', context) ||
+            !context.player.checkRestrictions('selfChooseDiscard', context)
         ) {
             return 'cannotTrigger';
         } else if (

@@ -8,7 +8,7 @@ class TrainingCosts extends Card {
     setupCardAbilities(ability) {
         this.persistentEffect({
             location: 'any',
-            effect: [ability.effects.cardCannot('discard')]
+            effect: [ability.effects.cardCannot('selfChooseDiscard')]
         });
 
         this.play({
