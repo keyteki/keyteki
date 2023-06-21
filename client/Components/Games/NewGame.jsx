@@ -71,7 +71,7 @@ const NewGame = ({
         gameFormat: 'normal',
         gameType: defaultGameType || 'casual',
         useGameTimeLimit: !!defaultTimeLimit,
-        gameTimeLimit: defaultTimeLimit || 35,
+        gameTimeLimit: defaultTimeLimit || 45,
         gamePrivate: defaultPrivate,
         dt: true
     };

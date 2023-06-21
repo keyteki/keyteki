@@ -303,7 +303,7 @@ const TournamentLobby = () => {
                     onClosed={() => setMatchesToCreate([])}
                     defaultGameType='competitive'
                     defaultPrivate
-                    defaultTimeLimit={35}
+                    defaultTimeLimit={45}
                     getParticipantName={getParticipantName}
                     matches={matchesToCreate}
                     tournament={tournament}
