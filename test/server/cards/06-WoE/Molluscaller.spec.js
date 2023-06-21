@@ -35,7 +35,8 @@ describe('Molluscaller', function () {
             this.player1.clickPrompt('Fight with this creature');
             this.player1.clickCard(this.batdrone);
             expect(this.strangeShell2.exhausted).toBe(true);
-            expect(this.strangeShell2.tokens.damage).toBe(2);
+            expect(this.strangeShell2.armorUsed).toBe(2);
+            expect(this.strangeShell2.tokens.damage).toBeUndefined();
         });
     });
 });
