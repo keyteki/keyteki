@@ -5,7 +5,6 @@ class Researcher extends Card {
     setupCardAbilities(ability) {
         this.omni({
             target: {
-                cardType: 'creature',
                 controller: 'self',
                 location: 'hand',
                 cardCondition: (card) => card.hasHouse('mars'),
