@@ -24,4 +24,29 @@ describe('Strange Shell', function () {
             expect(this.player1.player.creaturesInPlay[0].name).toBe('Antiquities Dealer');
         });
     });
+
+    describe('as artifact, returned to hand and played,', function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'ekwidon',
+                    token: 'strange-shell',
+                    inPlay: ['strange-shell:puzzling-trinket']
+                }
+            });
+
+            this.player1.useAction(this.strangeShell);
+            this.puzzlingTrinket = this.player1.player.hand[0];
+
+            this.player1.play(this.puzzlingTrinket);
+            this.puzzlingTrinket.exhausted = false;
+        });
+
+        it('artifact should not have abilities', function () {
+            this.player1.clickCard(this.puzzlingTrinket);
+
+            expect(this.player1).not.toHavePrompt('Puzzling Trinket');
+            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+        });
+    });
 });
