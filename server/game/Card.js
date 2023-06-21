@@ -1064,7 +1064,9 @@ class Card extends EffectSource {
     }
 
     getShortSummary() {
-        let result = super.getShortSummary();
+        let result = this.isToken()
+            ? this.owner.tokenCard.getShortSummary()
+            : super.getShortSummary();
 
         // Include card specific information useful for UI rendering
         result.maverick = this.maverick;
