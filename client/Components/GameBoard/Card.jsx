@@ -286,6 +286,8 @@ const Card = ({
             return 'selected';
         } else if (card.selectable) {
             return 'selectable';
+        } else if (card.tokenCard) {
+            return 'token';
         } else if (card.new) {
             return 'new';
         }
