@@ -12,6 +12,7 @@ class FeatsOfStrength extends Card {
                     onCardDestroyed: (event) =>
                         event.clone.type === 'creature' &&
                         event.clone.controller !== context.player &&
+                        !!event.damageEvent &&
                         !!event.damageEvent.fightEvent
                 },
                 gameAction: ability.actions.makeTokenCreature({ target: context.player })
