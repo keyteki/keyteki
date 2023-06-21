@@ -219,4 +219,49 @@ describe('keywords', function () {
             expect(this.inkaTheSpider.location).toBe('discard');
         });
     });
+
+    describe('Splash Attack', function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'brobnar',
+                    inPlay: ['crogg-the-clumsy']
+                },
+                player2: {
+                    inPlay: [
+                        'drecker',
+                        'alaka',
+                        'lollop-the-titanic',
+                        'mega-alaka',
+                        'pitlord',
+                        'ardent-hero'
+                    ]
+                }
+            });
+        });
+
+        it('should deal damage to neighbors', function () {
+            this.player1.fightWith(this.croggTheClumsy, this.lollopTheTitanic);
+            expect(this.croggTheClumsy.location).toBe('play area');
+            expect(this.lollopTheTitanic.tokens.damage).toBe(7);
+            expect(this.alaka.tokens.damage).toBe(2);
+            expect(this.megaAlaka.tokens.damage).toBe(2);
+        });
+
+        it('should be considered damage from source and not hit Ardent Hero', function () {
+            this.player1.fightWith(this.croggTheClumsy, this.pitlord);
+            expect(this.croggTheClumsy.location).toBe('discard');
+            expect(this.pitlord.tokens.damage).toBe(7);
+            expect(this.ardentHero.tokens.damage).toBeUndefined();
+            expect(this.megaAlaka.tokens.damage).toBe(2);
+        });
+
+        it('should hit Drecker if 2 away', function () {
+            this.player1.fightWith(this.croggTheClumsy, this.lollopTheTitanic);
+            expect(this.drecker.tokens.damage).toBe(2);
+            expect(this.alaka.tokens.damage).toBe(2);
+            expect(this.lollopTheTitanic.tokens.damage).toBe(7);
+            expect(this.megaAlaka.tokens.damage).toBe(2);
+        });
+    });
 });

@@ -17,7 +17,7 @@
 }
 
 .navbar-item.interactable {
-    color: #d44887 !important;
+    color: theme-color('emphasis') !important;
     &:hover {
         color: #ffffff !important;
         cursor: pointer;
@@ -26,7 +26,7 @@
 }
 
 .dropdown {
-    color: #d44887;
+    color: theme-color('emphasis');
     font-family: 'PoppinsMedium', serif;
     font-size: 16px;
     transition: all 0.4s ease-in-out;
@@ -38,7 +38,7 @@
 }
 
 .dropdown-toggle {
-    color: #d44887 !important;
+    color: theme-color('emphasis') !important;
     font-family: 'PoppinsMedium', serif;
     font-size: 16px;
     transition: all 0.4s ease-in-out;

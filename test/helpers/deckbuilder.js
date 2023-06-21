@@ -9,6 +9,7 @@ const PathToSubModulePacks = path.join(__dirname, '../../keyteki-json-data/packs
 const defaultFiller = {
     brobnar: 'anger',
     dis: 'hand-of-dis',
+    ekwidon: 'corner-the-market',
     logos: 'foggify',
     mars: 'ammonia-clouds',
     sanctum: 'champion-anaphiel',
@@ -51,7 +52,12 @@ class DeckBuilder {
 
         for (let zone of ['deck', 'hand', 'inPlay', 'discard', 'archives']) {
             if (Array.isArray(player[zone])) {
-                deck = deck.concat(player[zone]);
+                if (player[zone]) {
+                    // Token cards are defined as 'token name:card name'
+                    deck = deck.concat(
+                        player[zone].map((c) => (c.includes(':') ? c.split(':')[1] : c))
+                    );
+                }
             }
         }
 
@@ -74,13 +80,13 @@ class DeckBuilder {
             deck = deck.concat(defaultFiller[houses[0]]);
         }
 
-        return this.buildDeck(houses, deck);
+        return this.buildDeck(houses, player.token, deck);
     }
 
-    buildDeck(houses, cardLabels) {
-        var cardCounts = {};
+    buildDeck(houses, token, cardLabels) {
+        let cardCounts = {};
         _.each(cardLabels, (label) => {
-            var cardData = this.getCard(label);
+            let cardData = this.getCard(label);
             if (cardCounts[cardData.id]) {
                 cardCounts[cardData.id].count++;
             } else {
@@ -91,6 +97,20 @@ class DeckBuilder {
                 };
             }
         });
+
+        if (token) {
+            let cardData = this.getCard(token);
+            if (cardData.type === 'token creature') {
+                cardCounts[cardData.id] = {
+                    count: 1,
+                    card: cardData,
+                    id: cardData.id,
+                    isNonDeck: true
+                };
+            } else {
+                throw `Not a token creature: ${cardData.id}`;
+            }
+        }
 
         return {
             houses: houses,
@@ -103,14 +123,14 @@ class DeckBuilder {
             return this.cards[idOrLabelOrName];
         }
 
-        var cardsByName = _.filter(this.cards, matchCardByNameAndPack(idOrLabelOrName));
+        let cardsByName = _.filter(this.cards, matchCardByNameAndPack(idOrLabelOrName));
 
         if (cardsByName.length === 0) {
             throw new Error(`Unable to find any card matching ${idOrLabelOrName}`);
         }
 
         if (cardsByName.length > 1) {
-            var matchingLabels = _.map(
+            let matchingLabels = _.map(
                 cardsByName,
                 (card) => `${card.name} (${card.pack_code})`
             ).join('\n');

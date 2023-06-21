@@ -27,6 +27,7 @@ class Player extends GameObject {
         this.tieBreakHouse = null;
 
         this.deckData = {};
+        this.tokenCard = null;
         this.takenMulligan = false;
 
         this.chains = 0;
@@ -194,6 +195,13 @@ class Player extends GameObject {
     shuffleDeck() {
         this.game.emitEvent('onDeckShuffled', { player: this });
         this.deck = _.shuffle(this.deck);
+        if (this.isTopCardOfDeckVisible() && this.deck.length > 0) {
+            this.deck[0].facedown = false;
+            this.deck.slice(1).forEach((card) => {
+                card.facedown = true;
+            });
+            this.addTopCardOfDeckVisibleMessage();
+        }
     }
 
     /**
@@ -217,6 +225,7 @@ class Player extends GameObject {
     prepareDecks() {
         let deck = new Deck(this.deckData);
         let preparedDeck = deck.prepare(this);
+        this.tokenCard = preparedDeck.tokenCard;
         this.houses = preparedDeck.houses;
         this.deck = preparedDeck.cards;
         this.allCards = preparedDeck.cards;
@@ -466,11 +475,15 @@ class Player extends GameObject {
 
         if (
             !this.isLegalLocationForCard(card, targetLocation) ||
-            (targetPile && targetPile.includes(card))
+            (targetPile && targetPile.includes(card)) ||
+            (card.controller.anyEffect('opponentCardsCannotLeaveArchives') &&
+                card.location === 'archives' &&
+                card.owner != card.controller)
         ) {
             return;
         }
 
+        let oldTopOfDeck = this.deck[0];
         this.removeCardFromPile(card);
         let location = card.location;
 
@@ -555,6 +568,19 @@ class Player extends GameObject {
                 from: location,
                 to: targetLocation
             });
+        }
+
+        if (this.isTopCardOfDeckVisible() && this.deck.length > 0) {
+            this.deck[0].facedown = false;
+
+            // In case a new card was added on top of the deck.
+            if (this.deck.length > 1) {
+                this.deck[1].facedown = true;
+            }
+
+            if (oldTopOfDeck != this.deck[0]) {
+                this.addTopCardOfDeckVisibleMessage();
+            }
         }
     }
 
@@ -690,6 +716,10 @@ class Player extends GameObject {
             );
     }
 
+    getCardAmberInPoolSources() {
+        return this.cardsInPlay.filter((card) => card.anyEffect('isAmberInPool'));
+    }
+
     canForgeKey(modifier = 0) {
         if (!this.checkRestrictions('forge', this.game.getFrameworkContext(this))) {
             return false;
@@ -699,10 +729,9 @@ class Player extends GameObject {
             return false;
         }
 
-        let alternativeSources = this.getAmberSources().reduce(
-            (total, source) => total + source.tokens.amber,
-            0
-        );
+        let alternativeSources =
+            this.getAmberSources().reduce((total, source) => total + source.tokens.amber, 0) +
+            this.getCardAmberInPoolSources().length;
         return this.amber + alternativeSources >= this.getCurrentKeyCost() + modifier;
     }
 
@@ -717,32 +746,91 @@ class Player extends GameObject {
     forgeKey(modifier) {
         let cost = Math.max(0, this.getCurrentKeyCost() + modifier);
         let amberSources = this.getAmberSources();
-        let totalAvailable = amberSources.reduce((total, source) => total + source.tokens.amber, 0);
-        this.chooseAmberSource(amberSources, totalAvailable, cost, cost);
+        let selfAmberSources = this.getCardAmberInPoolSources();
+        let totalAvailable =
+            amberSources.reduce((total, source) => total + source.tokens.amber, 0) +
+            selfAmberSources.length;
+        this.chooseAmberSource(amberSources, selfAmberSources, totalAvailable, cost, cost);
         return cost;
     }
 
-    chooseAmberSource(amberSources, totalAvailable, modifiedCost, initialCost) {
-        if (amberSources.length === 0) {
+    chooseAmberSource(amberSources, selfAmberSources, totalAvailable, modifiedCost, initialCost) {
+        if (amberSources.length === 0 && selfAmberSources.length === 0) {
             this.chooseKeyToForge(modifiedCost, initialCost);
             return;
         }
 
-        let source = amberSources[0];
-        amberSources.shift();
+        if (amberSources.length > 0) {
+            // Spending amber on cards for a key.
+            let source = amberSources[0];
+            amberSources.shift();
+            this.game.queueSimpleStep(() => {
+                let sourceAmber = source.tokens.amber;
+                let max = Math.min(modifiedCost, sourceAmber);
+                let min = Math.max(0, modifiedCost - this.amber - totalAvailable + sourceAmber);
+                if (max === min) {
+                    this.game.addMessage(
+                        `{0} uses ${max} amber from {1} to forge a key`,
+                        this.game.activePlayer,
+                        source
+                    );
+                    source.removeToken('amber', max);
+                    this.chooseAmberSource(
+                        amberSources,
+                        selfAmberSources,
+                        totalAvailable - max,
+                        modifiedCost - max,
+                        initialCost
+                    );
+                    return;
+                }
+
+                this.game.promptWithHandlerMenu(this, {
+                    activePromptTitle: {
+                        text: 'How much amber do you want to use from {{card}}?',
+                        values: { card: source.name }
+                    },
+                    source: source,
+                    choices: _.range(min, max + 1),
+                    choiceHandler: (choice) => {
+                        if (choice) {
+                            source.removeToken('amber', choice);
+                            this.game.addMessage(
+                                `{0} uses ${choice} amber from {1} to forge a key`,
+                                this.game.activePlayer,
+                                source
+                            );
+                        }
+                        this.chooseAmberSource(
+                            amberSources,
+                            selfAmberSources,
+                            totalAvailable - sourceAmber,
+                            modifiedCost - choice,
+                            initialCost
+                        );
+                    }
+                });
+            });
+            return;
+        }
+
+        // Spending a card itself as one amber towards a key.
+        let source = selfAmberSources[0];
+        selfAmberSources.shift();
         this.game.queueSimpleStep(() => {
-            let sourceAmber = source.tokens.amber;
-            let max = Math.min(modifiedCost, sourceAmber);
-            let min = Math.max(0, modifiedCost - this.amber - totalAvailable + sourceAmber);
+            let max = 1;
+            let min = Math.max(0, modifiedCost - this.amber - totalAvailable + 1);
             if (max === min) {
                 this.game.addMessage(
-                    `{0} uses ${max} amber from {1} to forge a key`,
+                    `{0} spends {1} to forge a key`,
                     this.game.activePlayer,
                     source
                 );
-                source.removeToken('amber', max);
+                source.removeToken('ward', source.tokens.ward);
+                this.moveCard(source, 'discard');
                 this.chooseAmberSource(
                     amberSources,
+                    selfAmberSources,
                     totalAvailable - max,
                     modifiedCost - max,
                     initialCost
@@ -752,27 +840,40 @@ class Player extends GameObject {
 
             this.game.promptWithHandlerMenu(this, {
                 activePromptTitle: {
-                    text: 'How much amber do you want to use from {{card}}?',
+                    text: 'Do you want to spend {{card}} to forge a key?',
                     values: { card: source.name }
                 },
                 source: source,
-                choices: _.range(min, max + 1),
-                choiceHandler: (choice) => {
-                    if (choice) {
-                        source.removeToken('amber', choice);
+                choices: ['Yes', 'No'],
+                handlers: [
+                    () => {
+                        source.removeToken('ward', source.tokens.ward);
+                        this.moveCard(source, 'discard');
                         this.game.addMessage(
-                            `{0} uses ${choice} amber from {1} to forge a key`,
+                            `{0} spends {1} to forge a key`,
                             this.game.activePlayer,
                             source
                         );
+                        this.chooseAmberSource(
+                            amberSources,
+                            selfAmberSources,
+                            totalAvailable - 1,
+                            modifiedCost - 1,
+                            initialCost
+                        );
+                        return true;
+                    },
+                    () => {
+                        this.chooseAmberSource(
+                            amberSources,
+                            selfAmberSources,
+                            totalAvailable,
+                            modifiedCost,
+                            initialCost
+                        );
+                        return true;
                     }
-                    this.chooseAmberSource(
-                        amberSources,
-                        totalAvailable - sourceAmber,
-                        modifiedCost - choice,
-                        initialCost
-                    );
-                }
+                ]
             });
         });
     }
@@ -865,6 +966,19 @@ class Player extends GameObject {
             .filter((cost) => !!cost);
     }
 
+    isTopCardOfDeckVisible() {
+        return this.getEffects('topCardOfDeckVisible').length > 0;
+    }
+
+    addTopCardOfDeckVisibleMessage() {
+        this.game.addMessage(
+            '{0} uses {1} to reveal {2} on top of their deck',
+            this,
+            this.mostRecentEffect('topCardOfDeckVisible'),
+            this.deck[0]
+        );
+    }
+
     setWins(wins) {
         this.wins = wins;
     }
@@ -941,6 +1055,7 @@ class Player extends GameObject {
                 avatar: this.user.avatar
             },
             deckData: this.deckData,
+            tokenCard: this.tokenCard && this.tokenCard.getSummary(activePlayer),
             wins: this.wins
         };
 

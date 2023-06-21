@@ -33,6 +33,29 @@ var customMatchers = {
             }
         };
     },
+    toHavePromptImage: function () {
+        return {
+            compare: function (actual, expected) {
+                var result = {};
+                var currentPrompt = actual.currentPrompt();
+                var currentImage =
+                    !!currentPrompt &&
+                    currentPrompt.controls.length > 0 &&
+                    !!currentPrompt.controls[0].source
+                        ? currentPrompt.controls[0].source.image
+                        : 'none';
+                result.pass = actual.hasPromptImage(expected);
+
+                if (result.pass) {
+                    result.message = `Expected ${actual.name} not to have prompt image "${expected}" but it did.`;
+                } else {
+                    result.message = `Expected ${actual.name} to have prompt image "${expected}" but it had "${currentImage}".`;
+                }
+
+                return result;
+            }
+        };
+    },
     toHavePromptButton: function (util, customEqualityMatchers) {
         return {
             compare: function (actual, expected) {
@@ -194,6 +217,18 @@ beforeEach(function () {
         return deckBuilder.buildDeck(faction, cards);
     };
 
+    this.cardCamel = function (card) {
+        let split = card.id.split('-');
+        for (let i = 1; i < split.length; i++) {
+            split[i] = split[i].slice(0, 1).toUpperCase() + split[i].slice(1);
+            // TODO Enable this and fix the tests it breaks
+            // if (split[i].length === 1) {
+            //     split[i] = split[i].toLowerCase();
+            // }
+        }
+        return split.join('');
+    };
+
     /**
      * Factory method. Creates a new simulation of a game.
      * @param {Object} [options = {}] - specifies the state of the game
@@ -234,6 +269,9 @@ beforeEach(function () {
         this.player2.keys = options.player2.keys;
         this.player1.chains = options.player1.chains;
         this.player2.chains = options.player2.chains;
+        //Token card
+        this.player1.token = options.player1.token;
+        this.player2.token = options.player2.token;
         //Field
         this.player1.hand = [];
         this.player2.hand = [];
@@ -253,16 +291,8 @@ beforeEach(function () {
                 []
             );
             for (let card of cards) {
-                let split = card.id.split('-');
-                for (let i = 1; i < split.length; i++) {
-                    split[i] = split[i].slice(0, 1).toUpperCase() + split[i].slice(1);
-                    // TODO Enable this and fix the tests it breaks
-                    // if (split[i].length === 1) {
-                    //     split[i] = split[i].toLowerCase();
-                    // }
-                }
-
-                let camel = split.join('');
+                // still allow access by token card name
+                let camel = this.cardCamel(card.isToken() ? player.player.tokenCard : card);
                 if (!this[camel]) {
                     this[camel] = card;
                 }

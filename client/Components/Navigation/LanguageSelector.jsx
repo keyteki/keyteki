@@ -67,15 +67,15 @@ const LanguageSelector = () => {
             className='d-flex align-items-center'
             id='nav-Lang'
             onSelect={(lang) => {
-                i18n.changeLanguage(lang.value);
+                i18n.changeLanguage(lang);
             }}
             title={i18n.language}
         >
             {languages.map((lang) => (
                 <NavDropdown.Item
                     className='navbar-item interactable dropdown-child'
-                    key={lang.name}
-                    eventKey={lang.name}
+                    key={lang.value}
+                    eventKey={lang.value}
                 >
                     {lang.name}
                 </NavDropdown.Item>

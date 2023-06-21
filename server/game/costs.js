@@ -1,3 +1,6 @@
+const ThenAbility = require('./ThenAbility');
+const DestroyAction = require('./GameActions/DestroyAction');
+
 const HouseUseEffects = ['canUseHouse', 'canPlayOrUseHouse'];
 const NonHouseUseEffects = ['canPlayOrUseNonHouse'];
 const HousePlayEffects = ['canPlayHouse', 'canPlayOrUseHouse'];
@@ -226,6 +229,38 @@ const Costs = {
         },
         payEvent: (context) =>
             context.game.actions.loseAmber({ amount: amount }).getEvent(context.player, context)
+    }),
+    destroyFriendlyCreature: () => ({
+        // If the destroy fails, the whole pipline should fail
+        // (e.g. including exhausting the creature being used).
+        canFail: true,
+        canPay: (context) => context.game.activePlayer.creaturesInPlay.length > 0,
+        payEvent: (context) => {
+            let event = context.game.getEvent('unnamedEvent', {});
+
+            let t = new ThenAbility(context.game, context.source, {
+                target: {
+                    controller: 'self',
+                    type: 'creature',
+                    gameAction: new DestroyAction({})
+                },
+                then: {
+                    alwaysTriggers: true,
+                    condition: (context) => {
+                        // This is just a hacky way of propagating the
+                        // cancellation back to the cost event itself.
+                        event.cancelled = context.preThenEvent.cancelled;
+                        return false;
+                    }
+                }
+            });
+
+            event.handler = () => {
+                context.game.queueSimpleStep(() => t.resolveTargets(context));
+                context.game.queueSimpleStep(() => t.executeHandler(context));
+            };
+            return event;
+        }
     })
 };
 

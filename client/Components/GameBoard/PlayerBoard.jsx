@@ -60,7 +60,7 @@ class PlayerBoard extends React.Component {
                 cardBack={this.props.cardBack}
                 canDrag={this.props.manualMode}
                 card={card}
-                disableMouseOver={card.facedown && !card.code}
+                disableMouseOver={!card.tokenCard && card.facedown && !card.code}
                 halfSize={this.props.user.settings.optionSettings.useHalfSizedCards}
                 isSpectating={this.props.isSpectating}
                 onClick={this.props.onCardClick}
@@ -69,6 +69,7 @@ class PlayerBoard extends React.Component {
                 onMouseOver={this.props.onMouseOver}
                 size={this.props.user.settings.cardSize}
                 source='play area'
+                tokenCard={card.tokenCard}
             />
         ));
     }

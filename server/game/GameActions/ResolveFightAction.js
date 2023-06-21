@@ -3,6 +3,7 @@ const CardGameAction = require('./CardGameAction');
 class ResolveFightAction extends CardGameAction {
     setDefaultProperties() {
         this.attacker = null;
+        this.ignoreTaunt = false;
     }
 
     setup() {
@@ -26,6 +27,7 @@ class ResolveFightAction extends CardGameAction {
             return false;
         } else if (
             !card.checkRestrictions('attackDueToTaunt') &&
+            !this.ignoreTaunt &&
             !this.attacker.ignores('taunt') &&
             context.stage !== 'effect'
         ) {
@@ -103,16 +105,30 @@ class ResolveFightAction extends CardGameAction {
                 }
 
                 if (event.attacker.checkRestrictions('dealFightDamage')) {
+                    let attackerDamageEvent = context.game.actions
+                        .dealDamage(attackerParams)
+                        .getEvent(event.attackerTarget, context);
+
                     if (damageEvent) {
-                        damageEvent.addChildEvent(
-                            context.game.actions
-                                .dealDamage(attackerParams)
-                                .getEvent(event.attackerTarget, context)
-                        );
+                        damageEvent.addChildEvent(attackerDamageEvent);
                     } else {
-                        damageEvent = context.game.actions
-                            .dealDamage(attackerParams)
-                            .getEvent(event.attackerTarget, context);
+                        damageEvent = attackerDamageEvent;
+                    }
+
+                    let splashAttackAmount = event.attacker.getKeywordValue('splash-attack');
+
+                    if (splashAttackAmount > 0) {
+                        let splashParams = Object.assign({}, attackerParams, {
+                            amount: splashAttackAmount,
+                            damageType: 'splash-attack'
+                        });
+                        event.attackerTarget.neighbors.forEach((neighbor) => {
+                            damageEvent.addChildEvent(
+                                context.game.actions
+                                    .dealDamage(splashParams)
+                                    .getEvent(neighbor, context)
+                            );
+                        });
                     }
                 }
             } else if (

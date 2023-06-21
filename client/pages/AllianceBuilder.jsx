@@ -125,10 +125,6 @@ const AllianceBuilderPage = () => {
                                 <Button
                                     disabled={selectedPods.length !== 3 || !deckName}
                                     onClick={() => {
-                                        console.info(dispatch, saveAllianceDeck, {
-                                            name: deckName,
-                                            pods: selectedPods
-                                        });
                                         dispatch(
                                             saveAllianceDeck({ name: deckName, pods: selectedPods })
                                         );

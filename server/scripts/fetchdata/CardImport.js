@@ -59,12 +59,10 @@ class CardImport {
             496: { 'orb-of-wonder': true, valoocanth: true }
         };
 
-        let ignoreCards = ['the-tide'];
-
         const gigantic = ['deusillus', 'ultra-gravitron', 'niffle-kong'];
 
         for (let card of cards) {
-            let imagePath = path.join(imageLangDir, card.id + '.png');
+            let imagePath = path.join(imageLangDir, card.id + '.png').replace('*', '_');
             let halfSizePath;
 
             let imageUrl = card.image
@@ -82,11 +80,7 @@ class CardImport {
             halfSizePath = imagePath
                 .replace(`${path.sep}cards`, `${path.sep}halfSize`)
                 .replace('.png', '.jpg');
-            if (
-                !fs.existsSync(halfSizePath) &&
-                !gigantic.some((x) => card.id.includes(x)) &&
-                !ignoreCards.includes(card.id)
-            ) {
+            if (!fs.existsSync(halfSizePath) && !gigantic.some((x) => card.id.includes(x))) {
                 await this.buildHalfSize(card, card.image, halfSizePath, this.language);
             }
         }
