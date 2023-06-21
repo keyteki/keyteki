@@ -61,7 +61,7 @@ describe('Stratosmack', function () {
             expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
         });
 
-        it('should make a token when killing an exchanged creature', function () {
+        it('should make a token when killing an exchanged token creature', function () {
             this.player1.endTurn();
             this.player2.clickPrompt('brobnar');
             this.player2.endTurn();
@@ -79,6 +79,27 @@ describe('Stratosmack', function () {
             this.player1.clickPrompt('Right');
             expect(this.player1.player.creaturesInPlay.length).toBe(3);
             expect(this.grumpus.location).toBe('discard');
+            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+        });
+
+        it('should make a token when killing an exchanged creature', function () {
+            this.player1.endTurn();
+            this.player2.clickPrompt('brobnar');
+            this.player2.endTurn();
+            this.player1.clickPrompt('ekwidon');
+            this.player1.play(this.exchangeProgram);
+            this.player1.clickCard(this.pelf);
+            this.player1.clickCard(this.troll);
+            this.player1.endTurn();
+            this.player2.clickPrompt('brobnar');
+            this.player2.endTurn();
+            this.player1.clickPrompt('brobnar');
+
+            this.player1.play(this.stratosmack);
+            this.player1.clickCard(this.pelf);
+            this.player1.clickPrompt('Right');
+            expect(this.player1.player.creaturesInPlay.length).toBe(3);
+            expect(this.pelf.location).toBe('discard');
             expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
         });
     });
