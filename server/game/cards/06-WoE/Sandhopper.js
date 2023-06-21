@@ -13,6 +13,7 @@ class Sandhopper extends Card {
                 target: {
                     cardType: 'creature',
                     location: 'hand',
+                    controller: 'self',
                     cardCondition: (card) => !card.hasHouse('ekwidon'),
                     gameAction: ability.actions.playCard()
                 }
