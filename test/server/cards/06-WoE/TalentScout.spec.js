@@ -6,7 +6,7 @@ describe('Talent Scout', function () {
                     amber: 2,
                     house: 'ekwidon',
                     inPlay: ['pelf'],
-                    hand: ['talent-scout']
+                    hand: ['talent-scout', 'bubbles']
                 },
                 player2: {
                     amber: 2,
@@ -30,6 +30,23 @@ describe('Talent Scout', function () {
             expect(this.player1.player.cardsInPlay).not.toContain(this.talentScout);
             expect(this.player2.player.cardsInPlay).not.toContain(this.bumpsy);
             expect(this.player2.player.cardsInPlay).toContain(this.talentScout);
+        });
+
+        it('allows player to return to own deck with Bubbles', function () {
+            this.player1.playCreature(this.talentScout);
+            expect(this.player1.amber).toBe(3);
+            this.player1.clickCard(this.bumpsy);
+            this.player1.clickPrompt('Left');
+            expect(this.player2.amber).toBe(1);
+            this.player1.endTurn();
+            this.player2.clickPrompt('shadows');
+            this.player2.endTurn();
+            this.player1.clickPrompt('unfathomable');
+            this.player1.playCreature(this.bubbles);
+            this.player1.clickCard(this.talentScout);
+            expect(this.talentScout.location).toBe('deck');
+            this.player1.endTurn();
+            expect(this.talentScout.location).toBe('hand');
         });
 
         describe("after ability resolved, on opponnent's turn", function () {
