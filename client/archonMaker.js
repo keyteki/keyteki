@@ -556,6 +556,10 @@ export const buildCard = async (
                 let left = 10;
                 let top = 220;
 
+                if (card.tokenCard) {
+                    top += 27;
+                }
+
                 if (halfSize) {
                     top -= 25;
                 } else if (image.includes('-complete')) {
@@ -581,6 +585,10 @@ export const buildCard = async (
                 );
                 let left = 230;
                 let top = 220;
+
+                if (card.tokenCard) {
+                    top += 27;
+                }
 
                 if (halfSize) {
                     top -= 25;

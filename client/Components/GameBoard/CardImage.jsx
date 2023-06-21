@@ -20,7 +20,6 @@ const CardImage = ({ card, cardBack, size, tokenCard, halfSize, onMouseOver, onM
     const { i18n } = useTranslation();
     const fabricRef = useRef();
 
-    console.info(card, tokenCard);
     const ref = useCallback(
         async (node) => {
             if (node && card) {
@@ -39,7 +38,8 @@ const CardImage = ({ card, cardBack, size, tokenCard, halfSize, onMouseOver, onM
                         url: `/img/${halfSize ? 'halfSize' : 'cards'}/${
                             i18n.language === 'en' ? '' : i18n.language
                         }/${(tokenCard || card).image}.${halfSize ? 'jpg' : 'png'}`,
-                        image: (tokenCard || card).image
+                        image: (tokenCard || card).image,
+                        enhancements: tokenCard ? [] : card.enhancements
                     });
                 }
             }

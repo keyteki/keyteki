@@ -1064,7 +1064,9 @@ class Card extends EffectSource {
     }
 
     getShortSummary() {
-        let result = super.getShortSummary();
+        let result = this.isToken()
+            ? this.owner.tokenCard.getShortSummary()
+            : super.getShortSummary();
 
         // Include card specific information useful for UI rendering
         result.maverick = this.maverick;
@@ -1144,6 +1146,7 @@ class Card extends EffectSource {
             state.name = this.owner.tokenCard.name;
             state.image = this.owner.tokenCard.image;
             state.facedown = false;
+            state.enhancements = [];
         }
 
         return Object.assign(state, selectionState);
