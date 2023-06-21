@@ -14,6 +14,7 @@ class WatchYourStep extends Card {
             effect:
                 'make and ready 2 token creatures if {1} does not choose {2} as their active house next turn',
             effectArgs: (context) => [context.player.opponent, context.house],
+            effectAlert: true,
             gameAction: ability.actions.nextRoundEffect((context) => ({
                 targetController: 'opponent',
                 when: {
