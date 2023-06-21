@@ -30,7 +30,7 @@ class Symposium extends Card {
                         ability.actions.use()
                     ])
                 },
-                message: 'exalt, ready, and use {2}'
+                message: '{0} uses {1} to exalt, ready, and use {2}'
             })
         });
     }
