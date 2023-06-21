@@ -13,7 +13,12 @@ class RampagingBrutodon extends Card {
         this.persistentEffect({
             targetController: 'self',
             effect: ability.effects.additionalCost((context) => {
-                if (context.source === this && context.ability.properties.name !== 'Play') {
+                if (
+                    context.source === this &&
+                    (!context.ability ||
+                        !context.ability.properties ||
+                        context.ability.properties.name !== 'Play')
+                ) {
                     return ability.costs.destroyFriendlyCreature();
                 }
             })
