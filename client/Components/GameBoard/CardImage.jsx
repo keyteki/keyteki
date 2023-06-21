@@ -20,6 +20,7 @@ const CardImage = ({ card, cardBack, size, tokenCard, halfSize, onMouseOver, onM
     const { i18n } = useTranslation();
     const fabricRef = useRef();
 
+    console.info(card, tokenCard);
     const ref = useCallback(
         async (node) => {
             if (node && card) {
@@ -81,7 +82,7 @@ const CardImage = ({ card, cardBack, size, tokenCard, halfSize, onMouseOver, onM
     );
 
     useEffect(() => {
-        if (card.facedown) {
+        if (card.facedown && !card.tokenCard) {
             setCardImage(cardBack);
         } else {
             setCardImage(

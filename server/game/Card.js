@@ -1079,7 +1079,7 @@ class Card extends EffectSource {
         let isController = activePlayer === this.controller;
         let selectionState = activePlayer.getCardSelectionState(this);
 
-        if (!this.game.isCardVisible(this, activePlayer)) {
+        if (!this.game.isCardVisible(this, activePlayer) && !this.isToken()) {
             return {
                 cardback: this.owner.deckData.cardback,
                 controller: this.controller.name,
@@ -1138,6 +1138,13 @@ class Card extends EffectSource {
             }),
             uuid: this.uuid
         };
+
+        if (this.isToken() && !this.game.isCardVisible(this, activePlayer)) {
+            state.id = this.owner.tokenCard.id;
+            state.name = this.owner.tokenCard.name;
+            state.image = this.owner.tokenCard.image;
+            state.facedown = false;
+        }
 
         return Object.assign(state, selectionState);
     }
