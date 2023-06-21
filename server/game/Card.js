@@ -114,6 +114,10 @@ class Card extends EffectSource {
         return this.mostRecentEffect('changeType') || this.printedType;
     }
 
+    isToken() {
+        return this.sumEffects('flipToken') % 2 === 1;
+    }
+
     get actions() {
         if (this.isBlank()) {
             return [];
@@ -154,7 +158,20 @@ class Card extends EffectSource {
         let effectReactions = this.getEffects('gainAbility').filter((ability) =>
             TriggeredAbilityTypes.includes(ability.abilityType)
         );
-        return reactions.concat(this.abilities.keywordReactions, effectReactions);
+        reactions = reactions.concat(this.abilities.keywordReactions, effectReactions);
+
+        if (this.isBlankFight() && !ignoreBlank) {
+            reactions = reactions.filter((reaction) => !reaction.properties.fight);
+        }
+
+        if (
+            this.type === 'action' &&
+            !this.controller.checkRestrictions('resolveActionPlayEffects')
+        ) {
+            reactions = reactions.filter((reaction) => !reaction.properties.play);
+        }
+
+        return reactions;
     }
 
     get persistentEffects() {
@@ -177,10 +194,13 @@ class Card extends EffectSource {
         let gainedPersistentEffects = this.getEffects('gainAbility').filter(
             (ability) => ability.abilityType === 'persistentEffect'
         );
-        return persistentEffects.concat(
+
+        let result = persistentEffects.concat(
             this.abilities.keywordPersistentEffects,
             gainedPersistentEffects
         );
+
+        return result;
     }
 
     get bonusIcons() {
@@ -383,6 +403,12 @@ class Card extends EffectSource {
         return ability;
     }
 
+    removeAbility(ability) {
+        this.abilities.reactions = this.abilities.reactions.filter(
+            (reaction) => reaction !== ability
+        );
+    }
+
     reaction(properties) {
         if (properties.play || properties.fight || properties.reap) {
             properties.when = {
@@ -528,7 +554,9 @@ class Card extends EffectSource {
                 if (to === 'play area' && from !== 'play area') {
                     effect.ref = this.addEffectToEngine(effect);
                 } else if (to !== 'play area' && from === 'play area') {
-                    this.removeEffectFromEngine(effect.ref);
+                    if (effect.ref) {
+                        this.removeEffectFromEngine(effect.ref);
+                    }
                     effect.ref = [];
                 }
             }
@@ -641,6 +669,10 @@ class Card extends EffectSource {
 
     isBlank() {
         return this.anyEffect('blank');
+    }
+
+    isBlankFight() {
+        return this.anyEffect('blankFight');
     }
 
     hasKeyword(keyword) {
@@ -862,7 +894,7 @@ class Card extends EffectSource {
         return actions;
     }
 
-    getFightAction(cardCondition = null, postHandler = null) {
+    getFightAction(cardCondition = null, postHandler = null, ignoreTaunt = false) {
         return this.action({
             title: 'Fight with this creature',
             fight: true,
@@ -876,7 +908,8 @@ class Card extends EffectSource {
                 cardCondition: cardCondition,
                 gameAction: new ResolveFightAction({
                     attacker: this,
-                    postHandler: postHandler
+                    postHandler: postHandler,
+                    ignoreTaunt: ignoreTaunt
                 })
             }
         });
@@ -1046,7 +1079,7 @@ class Card extends EffectSource {
         let isController = activePlayer === this.controller;
         let selectionState = activePlayer.getCardSelectionState(this);
 
-        if (!this.game.isCardVisible(this, activePlayer)) {
+        if (!this.game.isCardVisible(this, activePlayer) && !this.isToken()) {
             return {
                 cardback: this.owner.deckData.cardback,
                 controller: this.controller.name,
@@ -1054,6 +1087,10 @@ class Card extends EffectSource {
                 facedown: true,
                 uuid: this.uuid,
                 tokens: this.tokens,
+                tokenCard:
+                    this.isToken() &&
+                    this.owner.tokenCard?.getSummary(activePlayer, hideWhenFaceup),
+                type: this.location === 'play area' && this.getType(),
                 ...selectionState
             };
         }
@@ -1091,6 +1128,8 @@ class Card extends EffectSource {
             modifiedPower: this.getPower(),
             stunned: this.stunned,
             taunt: this.getType() === 'creature' && !!this.getKeywordValue('taunt'),
+            tokenCard:
+                this.isToken() && this.owner.tokenCard?.getSummary(activePlayer, hideWhenFaceup),
             tokens: this.tokens,
             type: this.getType(),
             gigantic: this.gigantic,
@@ -1099,6 +1138,13 @@ class Card extends EffectSource {
             }),
             uuid: this.uuid
         };
+
+        if (this.isToken() && !this.game.isCardVisible(this, activePlayer)) {
+            state.id = this.owner.tokenCard.id;
+            state.name = this.owner.tokenCard.name;
+            state.image = this.owner.tokenCard.image;
+            state.facedown = false;
+        }
 
         return Object.assign(state, selectionState);
     }

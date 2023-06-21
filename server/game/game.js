@@ -24,6 +24,7 @@ const OptionsMenuPrompt = require('./gamesteps/OptionsMenuPrompt');
 const GameWonPrompt = require('./gamesteps/GameWonPrompt');
 const HouseTieBreakPrompt = require('./gamesteps/HouseTieBreakPrompt');
 const GameActions = require('./GameActions');
+const Effects = require('./effects.js');
 const Event = require('./Events/Event');
 const EventWindow = require('./Events/EventWindow');
 const AbilityResolver = require('./gamesteps/abilityresolver');
@@ -279,6 +280,10 @@ class Game extends EventEmitter {
 
     get actions() {
         return GameActions;
+    }
+
+    get effects() {
+        return Effects;
     }
 
     stopClocks() {
@@ -862,6 +867,7 @@ class Game extends EventEmitter {
     beginRound() {
         this.raiseEvent('onBeginRound', { player: this.activePlayer });
         this.activePlayer.beginRound();
+        this.queueStep(new SimpleStep(this, () => this.finalizeBeginRound(0)));
         this.queueStep(new KeyPhase(this));
         this.queueStep(new HousePhase(this));
         this.queueStep(new MainPhase(this));
@@ -869,6 +875,28 @@ class Game extends EventEmitter {
         this.queueStep(new DrawPhase(this));
         this.queueStep(new SimpleStep(this, () => this.raiseEndRoundEvent()));
         this.queueStep(new SimpleStep(this, () => this.beginRound()));
+    }
+
+    /*
+     * Raises `onFinalizeBeginRound` events in a loop until the finalization
+     * phase coalesces (i.e., nothing changes after the event is raised).
+     * This allows effects that can loop arbitrarily during the beginning of
+     * a round.
+     */
+    finalizeBeginRound(count) {
+        if (count >= 100) {
+            // Infinite loop protection.
+            return;
+        }
+        this.raiseEvent(
+            'onFinalizeBeginRound',
+            { player: this.activePlayer, somethingChanged: false },
+            (event) => {
+                if (event.somethingChanged) {
+                    this.queueStep(new SimpleStep(this, () => this.finalizeBeginRound(count + 1)));
+                }
+            }
+        );
     }
 
     /*
@@ -995,12 +1023,21 @@ class Game extends EventEmitter {
         card.controller.removeCardFromPile(card);
         card.controller = player;
 
-        if (card.anyEffect('takeControlOnLeft')) {
+        if (card.anyEffect('takeControlOn')) {
+            this.finalizeTakeControl(
+                player,
+                card,
+                undefined,
+                card.mostRecentEffect('takeControlOn')
+            );
+        } else if (card.anyEffect('takeControlOnLeft')) {
             this.finalizeTakeControl(player, card, true);
+        } else if (card.anyEffect('takeControlOnRight')) {
+            this.finalizeTakeControl(player, card);
         } else if (card.type === 'creature' && player.creaturesInPlay.length > 0) {
             let handlers = [
-                () => this.finalizeTakeControl(player, card, true),
-                () => this.finalizeTakeControl(player, card)
+                () => this.finalizeTakeControl(player, card, true), // left
+                () => this.finalizeTakeControl(player, card) // right
             ];
             this.promptWithHandlerMenu(
                 modifiedByPlayer || this.activePlayer,
@@ -1020,8 +1057,12 @@ class Game extends EventEmitter {
         }
     }
 
-    finalizeTakeControl(player, card, left = false) {
-        if (left) {
+    finalizeTakeControl(player, card, left = false, position = -1) {
+        if (position >= 0) {
+            if (player.cardsInPlay.length >= position) {
+                player.cardsInPlay.splice(position, 0, card);
+            }
+        } else if (left) {
             player.cardsInPlay.unshift(card);
         } else {
             player.cardsInPlay.push(card);
@@ -1170,6 +1211,18 @@ class Game extends EventEmitter {
         this.jsonForUsers[player.name] = undefined;
 
         this.addAlert('info', '{0} has reconnected', player);
+    }
+
+    makeTokenCreature(player, deployIndex = null) {
+        let card = player.deck[0];
+        this.actions
+            .makeTokenCreature({
+                amount: 1,
+                deployIndex: deployIndex
+            })
+            .resolve(player, this.getFrameworkContext(player));
+        this.continue();
+        return card;
     }
 
     checkGameState(hasChanged = false, modifiedByPlayer) {

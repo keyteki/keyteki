@@ -401,7 +401,7 @@ describe('Mimic Gel', function () {
                     hand: ['mimic-gel']
                 },
                 player2: {
-                    hand: ['lost-in-the-woods', 'perilous-wild']
+                    hand: ['lost-in-the-woods', 'perilous-wild', 'champion-tabris']
                 }
             });
 
@@ -439,6 +439,44 @@ describe('Mimic Gel', function () {
             expect(this.hapsis.location).toBe('play area');
             expect(this.daughter.location).toBe('discard');
             expect(this.player2.amber).toBe(7);
+        });
+    });
+
+    describe('Mimic Gel and gained reap ability', function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'logos',
+                    inPlay: ['hapsis', 'daughter', 'creed-of-nurture'],
+                    hand: ['mimic-gel']
+                },
+                player2: {
+                    amber: 3,
+                    inPlay: ['umbra', 'sequis']
+                }
+            });
+
+            this.player1.clickCard(this.mimicGel);
+            this.player1.clickPrompt('Play this creature');
+            this.player1.clickCard(this.sequis);
+            this.player1.clickPrompt('Left');
+            this.mimicGel.exhausted = false;
+        });
+
+        it('MG should capture 1A after reap', function () {
+            this.player1.reap(this.mimicGel);
+            expect(this.mimicGel.amber).toBe(1);
+            expect(this.player2.amber).toBe(2);
+        });
+
+        it('MG should lose its gained ability after leaving play', function () {
+            this.player1.moveCard(this.mimicGel, 'hand');
+            this.player1.useAction(this.creedOfNurture, true);
+            this.player1.clickCard(this.mimicGel);
+            this.player1.clickCard(this.daughter);
+            this.player1.reap(this.daughter);
+            expect(this.daughter.amber).toBe(0);
+            expect(this.player2.amber).toBe(3);
         });
     });
 

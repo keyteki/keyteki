@@ -4,6 +4,7 @@ class FightGameAction extends CardGameAction {
     setDefaultProperties() {
         this.fightCardCondition = null;
         this.resolveFightPostHandler = null;
+        this.ignoreTaunt = false;
     }
 
     setup() {
@@ -48,7 +49,8 @@ class FightGameAction extends CardGameAction {
             } else {
                 let fightAction = card.getFightAction(
                     this.fightCardCondition,
-                    this.resolveFightPostHandler
+                    this.resolveFightPostHandler,
+                    this.ignoreTaunt
                 );
                 newContext = fightAction.createContext(context.player);
             }

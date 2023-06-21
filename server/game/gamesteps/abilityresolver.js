@@ -14,6 +14,7 @@ class AbilityResolver extends BaseStepWithPipeline {
     initialise() {
         this.pipeline.initialise([
             new SimpleStep(this.game, () => this.createSnapshot()),
+            new SimpleStep(this.game, () => this.payCostsThatCanFail()),
             new SimpleStep(this.game, () => this.payCosts()),
             new SimpleStep(this.game, () => this.resolveTargets()),
             new SimpleStep(this.game, () => this.initiateAbility()),
@@ -44,9 +45,29 @@ class AbilityResolver extends BaseStepWithPipeline {
         this.cancelled = this.targetResults.cancelled;
     }
 
+    payCostsThatCanFail() {
+        if (this.cancelled) {
+            return;
+        }
+
+        this.costEventsThatCanFail = this.context.ability.payCostsThatCanFail(this.context);
+        if (this.costEventsThatCanFail.length > 0) {
+            this.game.openEventWindow(this.costEventsThatCanFail);
+        }
+    }
+
     payCosts() {
         if (this.cancelled) {
             return;
+        }
+
+        if (this.costEventsThatCanFail) {
+            for (let e of this.costEventsThatCanFail) {
+                if (e.cancelled) {
+                    this.cancelled = true;
+                    return;
+                }
+            }
         }
 
         this.costEvents = this.context.ability.payCosts(this.context);

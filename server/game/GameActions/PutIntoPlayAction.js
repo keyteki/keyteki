@@ -9,6 +9,7 @@ class PutIntoPlayAction extends CardGameAction {
         this.deploy = false;
         this.playedOnLeftFlank = false;
         this.playedOnRightFlank = false;
+        this.promptSource = false;
     }
 
     setup() {
@@ -48,9 +49,10 @@ class PutIntoPlayAction extends CardGameAction {
             let choices = ['Left', 'Right'];
 
             if (
-                context.ability &&
-                context.ability.isCardPlayed() &&
-                (this.deploy || card.hasKeyword('deploy')) &&
+                (card.anyEffect('enterPlayAnywhere', context) ||
+                    (context.ability &&
+                        context.ability.isCardPlayed() &&
+                        (this.deploy || card.hasKeyword('deploy')))) &&
                 player.creaturesInPlay.length > 1
             ) {
                 choices.push('Deploy Left');
@@ -60,7 +62,8 @@ class PutIntoPlayAction extends CardGameAction {
             context.game.promptWithHandlerMenu(context.player, {
                 activePromptTitle: 'Which flank do you want to place this creature on?',
                 context: context,
-                source: this.target.length > 0 ? this.target[0] : context.source,
+                source:
+                    this.promptSource || (this.target.length > 0 ? this.target[0] : context.source),
                 choices: choices,
                 choiceHandler: (choice) => {
                     let deploy;

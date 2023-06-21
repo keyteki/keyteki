@@ -142,10 +142,24 @@ class BaseAbility {
     }
 
     /**
+     * Pays all costs for the ability simultaneously that can fail and
+     * cancel the rest of the ability (and thus stop later costs from being
+     * paid).
+     */
+    payCostsThatCanFail(context) {
+        let cost = this.cost
+            .concat(context.player.getAdditionalCosts(context))
+            .filter((cost) => cost.canFail);
+        return cost.map((cost) => cost.payEvent(context));
+    }
+
+    /**
      * Pays all costs for the ability simultaneously.
      */
     payCosts(context) {
-        let cost = this.cost.concat(context.player.getAdditionalCosts(context));
+        let cost = this.cost
+            .concat(context.player.getAdditionalCosts(context))
+            .filter((cost) => !cost.canFail);
         return cost.map((cost) => cost.payEvent(context));
     }
 

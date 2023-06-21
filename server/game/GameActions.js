@@ -14,16 +14,23 @@ const Actions = {
     addGloryCounter: (propertyFactory) => new GameActions.AddTokenAction(propertyFactory, 'glory'),
     addGrowthCounter: (propertyFactory) =>
         new GameActions.AddTokenAction(propertyFactory, 'growth'),
+    addHatchCounter: (propertyFactory) => new GameActions.AddTokenAction(propertyFactory, 'hatch'),
     addIgnoranceCounter: (propertyFactory) =>
         new GameActions.AddTokenAction(propertyFactory, 'ignorance'),
     addKnowledgeCounter: (propertyFactory) =>
         new GameActions.AddTokenAction(propertyFactory, 'knowledge'),
+    addNayCounter: (propertyFactory) => new GameActions.AddTokenAction(propertyFactory, 'nay'),
+    addPaintCounter: (propertyFactory) => new GameActions.AddTokenAction(propertyFactory, 'paint'),
     addSchemeCounter: (propertyFactory) =>
         new GameActions.AddTokenAction(propertyFactory, 'scheme'),
     addTimeCounter: (propertyFactory) => new GameActions.AddTokenAction(propertyFactory, 'time'),
+    addTradeCounter: (propertyFactory) => new GameActions.AddTokenAction(propertyFactory, 'trade'),
     addWardToken: (propertyFactory) => new GameActions.AddTokenAction(propertyFactory, 'ward'),
     addWarrantCounter: (propertyFactory) =>
         new GameActions.AddTokenAction(propertyFactory, 'warrant'),
+    addWisdomCounter: (propertyFactory) =>
+        new GameActions.AddTokenAction(propertyFactory, 'wisdom'),
+    addYeaCounter: (propertyFactory) => new GameActions.AddTokenAction(propertyFactory, 'yea'),
     applyDamage: (propertyFactory) => new GameActions.ApplyDamageAction(propertyFactory),
     archive: (propertyFactory) => new GameActions.ArchiveAction(propertyFactory),
     attach: (propertyFactory) => new GameActions.AttachAction(propertyFactory), // upgrade
@@ -44,12 +51,15 @@ const Actions = {
     exalt: (propertyFactory) => new GameActions.ExaltAction(propertyFactory), // amount = 1
     exhaust: (propertyFactory) => new GameActions.ExhaustAction(propertyFactory),
     fight: (propertyFactory) => new GameActions.FightGameAction(propertyFactory),
+    flip: (propertyFactory) => new GameActions.FlipAction(propertyFactory),
     graft: (propertyFactory) => new GameActions.PlaceUnderAction(propertyFactory, true),
     heal: (propertyFactory) => new GameActions.HealAction(propertyFactory),
     moveCard: (propertyFactory) => new GameActions.MoveCardAction(propertyFactory), // destination, switch = false, shuffle = false
     moveOnBattleline: (propertyFactory) => new GameActions.MoveOnBattlelineAction(propertyFactory),
     moveToBottom: (propertyFactory) => new GameActions.MoveToBottomAction(propertyFactory),
     moveToFlank: (propertyFactory) => new GameActions.MoveToFlankAction(propertyFactory),
+    moveUpgrade: (propertyFactory) => new GameActions.MoveUpgrade(propertyFactory),
+    moveUpgradeToFlank: (propertyFactory) => new GameActions.MoveUpgradeToFlank(propertyFactory),
     placeAmber: (propertyFactory) => new GameActions.AddTokenAction(propertyFactory, 'amber'), // amount = 1
     placeUnder: (propertyFactory) => new GameActions.PlaceUnderAction(propertyFactory), // parent
     playCard: (propertyFactory) => new GameActions.PlayCardAction(propertyFactory), // resetOnCancel = false, postHandler
@@ -66,6 +76,8 @@ const Actions = {
         new GameActions.RemoveTokenAction(propertyFactory, 'depth'),
     removeIgnoranceCounter: (propertyFactory) =>
         new GameActions.RemoveTokenAction(propertyFactory, 'ignorance'),
+    removeHatchCounter: (propertyFactory) =>
+        new GameActions.RemoveTokenAction(propertyFactory, 'hatch'),
     removeKnowledgeCounter: (propertyFactory) =>
         new GameActions.RemoveTokenAction(propertyFactory, 'knowledge'),
     removePowerCounter: (propertyFactory) => new GameActions.RemoveTokenAction(propertyFactory),
@@ -90,6 +102,8 @@ const Actions = {
     sacrifice: (propertyFactory) => new GameActions.DestroyAction(propertyFactory, true),
     stun: (propertyFactory) => new GameActions.StunAction(propertyFactory),
     swap: (propertyFactory) => new GameActions.SwapAction(propertyFactory), // origin
+    swapDiscardWithHand: (propertyFactory) =>
+        new GameActions.SwapDiscardWithHandAction(propertyFactory), // discardCard
     use: (propertyFactory) => new GameActions.UseAction(propertyFactory),
     ward: (propertyFactory) => new GameActions.WardAction(propertyFactory),
     // player actions
@@ -97,6 +111,8 @@ const Actions = {
     chosenDiscard: (propertyFactory) => new GameActions.ChosenDiscardAction(propertyFactory), // amount = 1
     discardAtRandom: (propertyFactory) => new GameActions.RandomDiscardAction(propertyFactory), // amount = 1, location = hand
     discardTopOfDeck: (propertyFactory) => new GameActions.DiscardTopOfDeckAction(propertyFactory), // amount = 1
+    makeTokenCreature: (propertyFactory) =>
+        new GameActions.MakeTokenCreatureAction(propertyFactory), // amount = 1, cards = null, cardLocation = 'deck'
     playAtRandom: (propertyFactory) => new GameActions.RandomPlayCardAction(propertyFactory), // amount = 1, location = deck
     purgeAtRandom: (propertyFactory) => new GameActions.RandomPurgeAction(propertyFactory), // amount = 1, location = hand
     draw: (propertyFactory) => new GameActions.DrawAction(propertyFactory), // amount = 1
@@ -129,10 +145,14 @@ const Actions = {
     conditional: (propertyFactory) => new GameActions.ConditionalAction(propertyFactory),
     jointAction: (gameActions) => new GameActions.JointGameAction(gameActions), // takes an array of gameActions, not a propertyFactory
     sequential: (gameActions) => new GameActions.SequentialAction(gameActions), // takes an array of gameActions, not a propertyFactory
+    sequentialCardLastingEffect: (propertyFactory) =>
+        new GameActions.SequentialCardLastingEffectAction(propertyFactory),
     sequentialForEach: (propertyFactory) =>
         new GameActions.SequentialForEachAction(propertyFactory),
     sequentialPutIntoPlay: (propertyFactory) =>
-        new GameActions.SequentialPutIntoPlayAction(propertyFactory)
+        new GameActions.SequentialPutIntoPlayAction(propertyFactory),
+    sequentialMakeTokenCreature: (propertyFactory) =>
+        new GameActions.SequentialMakeTokenCreatureAction(propertyFactory)
 };
 
 module.exports = Actions;

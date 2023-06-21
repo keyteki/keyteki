@@ -139,7 +139,7 @@
     flex-direction: column;
 }
 
-.tide-pane {
+.reference-card-pane {
     display: flex;
     flex-direction: column;
     width: 210px;
@@ -147,11 +147,13 @@
     margin-right: 5px;
 }
 
-.tide-card {
-    margin-left: 75px;
+.reference-card {
+    margin: auto auto 75px 75px;
     width: 60px;
     height: 84px;
+}
 
+.tide-card {
     &.tide-neutral {
         transform: rotate(90deg);
     }

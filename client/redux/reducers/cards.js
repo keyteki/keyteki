@@ -28,7 +28,8 @@ function processDecks(decks, state) {
                 house: card.house,
                 image: card.image,
                 enhancements: card.enhancements,
-                dbId: card.dbId
+                dbId: card.dbId,
+                isNonDeck: card.isNonDeck
             };
             result.card.image = card.image || card.id;
             if (card.maverick) {

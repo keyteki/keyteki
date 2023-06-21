@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Col, Row } from 'react-bootstrap';
 import { sortBy } from 'underscore';
-import { useTranslation } from 'react-i18next';
+import { useTranslation, Trans } from 'react-i18next';
 
 import { Constants } from '../../constants';
 import CardBack from './CardBack';
@@ -24,7 +24,7 @@ const DeckSummary = ({ deck }) => {
     for (const house of deck.houses.sort()) {
         cardsByHouse[house] = [];
         const filteredCards = sortBy(
-            deck.cards.filter((c) => c.card.house === house),
+            deck.cards.filter((c) => c.card.house === house && !c.isNonDeck),
             (c) => c.card.name
         );
 
@@ -70,6 +70,39 @@ const DeckSummary = ({ deck }) => {
             }
         }
     }
+
+    let nonDeckCards = deck.cards
+        .filter((c) => c.isNonDeck)
+        .map((card, i) => {
+            return (
+                <div
+                    key={`${card.dbId}${i}`}
+                    className='deck-card-link'
+                    onMouseOver={() => setZoomCard(card.card)}
+                    onMouseMove={(event) => {
+                        let y = event.clientY;
+                        let yPlusHeight = y + 420;
+
+                        if (yPlusHeight >= window.innerHeight) {
+                            y -= yPlusHeight - window.innerHeight;
+                        }
+
+                        setMousePosition({ x: event.clientX, y: y });
+                    }}
+                    onMouseOut={() => setZoomCard(null)}
+                >
+                    {card.card.locale && card.card.locale[i18n.language]
+                        ? card.card.locale[i18n.language].name
+                        : card.card.name}
+                    {card.card.maverick && (
+                        <img className='small-card-icon' src={Constants.MaverickIcon} />
+                    )}
+                    {card.card.anomaly && (
+                        <img className='small-card-icon' src={Constants.AnomalyIcon} />
+                    )}
+                </div>
+            );
+        });
 
     return (
         <Col xs='12' className='deck-summary'>
@@ -163,6 +196,15 @@ const DeckSummary = ({ deck }) => {
                         </Col>
                     );
                 })}
+            </Row>
+
+            <Row className='deck-houses'>
+                <Col xs='12'>
+                    <Trans>Non-Deck Cards</Trans>
+                </Col>
+            </Row>
+            <Row className='deck-cards'>
+                <Col sm='4'>{nonDeckCards}</Col>
             </Row>
         </Col>
     );

@@ -39,6 +39,8 @@ class Deck {
                 result.card.enhancements = card.enhancements;
             }
 
+            result.card.isNonDeck = card.isNonDeck;
+
             return result;
         });
 
@@ -46,28 +48,41 @@ class Deck {
     }
 
     prepare(player) {
-        var result = {
+        const result = {
             houses: [],
             cards: []
         };
 
         result.houses = this.data.houses;
 
-        this.eachRepeatedCard(this.data.cards, (cardData) => {
-            let card = this.createCard(player, cardData);
-            if (card) {
-                card.setupAbilities();
-                card.location = 'deck';
-                result.cards.push(card);
+        this.eachRepeatedCard(
+            this.data.cards.filter((c) => c.card && !c.card.isNonDeck),
+            (cardData) => {
+                let card = this.createCard(player, cardData);
+                if (card) {
+                    card.setupAbilities();
+                    card.location = 'deck';
+                    result.cards.push(card);
+                }
             }
-        });
+        );
+
+        let tokenCard = this.data.cards.find(
+            (c) => c.card && c.card.isNonDeck && c.card.type === 'token creature'
+        );
+
+        if (tokenCard) {
+            tokenCard.type = 'creature';
+            result.tokenCard = this.createCard(player, tokenCard.card);
+            result.tokenCard.setupAbilities();
+        }
 
         return result;
     }
 
     eachRepeatedCard(cards, func) {
         _.each(cards, (cardEntry) => {
-            for (var i = 0; i < cardEntry.count; i++) {
+            for (let i = 0; i < cardEntry.count; i++) {
                 func(cardEntry.card);
             }
         });

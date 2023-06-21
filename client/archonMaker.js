@@ -192,7 +192,8 @@ export const buildDeckList = async (canvas, deck, language, translate, size) => 
         Uncommon: UncommonIcon,
         Rare: RareIcon,
         Special: SpecialIcon,
-        'Evil Twin': EvilTwinIcon
+        'Evil Twin': EvilTwinIcon,
+        Token: RareIcon
     };
     const line1 = new fabric.Line([55, 157, 295, 157], lineStyle);
     const line2 = new fabric.Line([55, 535, 295, 535], lineStyle);
@@ -766,7 +767,13 @@ const getCountersForCard = (card) => {
         'knowledge',
         'scheme',
         'time',
-        'warrant'
+        'warrant',
+        'yea',
+        'nay',
+        'wisdom',
+        'hatch',
+        'paint',
+        'trade'
     ];
     let counters = [];
 

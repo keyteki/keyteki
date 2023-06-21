@@ -6,6 +6,8 @@ class BaseCardSelector {
         this.location = this.buildLocation(properties.location);
         this.controller = properties.controller || 'any';
         this.checkTarget = properties.targets;
+        this.uniqueCardNames = properties.uniqueCardNames;
+        this.uniqueCardHouses = properties.uniqueCardHouses;
 
         if (!Array.isArray(properties.cardType)) {
             this.cardType = [properties.cardType];
@@ -138,6 +140,26 @@ class BaseCardSelector {
 
     formatSelectParam(cards) {
         return cards;
+    }
+
+    canAddCardToSelection(selectedCards, possibleCardToSelect) {
+        if (this.uniqueCardNames) {
+            if (selectedCards.some((card) => card.name === possibleCardToSelect.name)) {
+                return false;
+            }
+        }
+
+        if (this.uniqueCardHouses) {
+            if (
+                selectedCards.some((card) =>
+                    card.getHouses().some((house) => possibleCardToSelect.hasHouse(house))
+                )
+            ) {
+                return false;
+            }
+        }
+
+        return true;
     }
 }
 

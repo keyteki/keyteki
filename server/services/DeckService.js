@@ -361,6 +361,7 @@ class DeckService {
             anomaly: card.Anomaly || undefined,
             image: card.ImageUrl || undefined,
             house: card.House || undefined,
+            isNonDeck: card.IsNonDeck,
             enhancements: card.Enhancements
                 ? card.Enhancements.replace(/[[{}"\]]/gi, '')
                       .split(',')
@@ -405,6 +406,9 @@ class DeckService {
         }
 
         let newDeck = this.parseDeckResponse(deck.username, deckResponse);
+        if (!newDeck) {
+            throw new Error('There was a problem importing your deck, please try again later.');
+        }
 
         let validExpansion = await this.checkValidDeckExpansion(newDeck);
         if (!validExpansion) {
@@ -544,6 +548,7 @@ class DeckService {
                 params.push(card.image);
                 params.push(await this.getHouseIdFromName(card.house));
                 params.push(card.enhancements ? JSON.stringify(card.enhancements) : undefined);
+                params.push(card.isNonDeck);
             }
 
             params.push(deck.id);
@@ -555,9 +560,9 @@ class DeckService {
         try {
             if (user) {
                 await db.query(
-                    `INSERT INTO "DeckCards" ("CardId", "Count", "Maverick", "Anomaly", "ImageUrl", "HouseId", "Enhancements", "DeckId") VALUES ${expand(
+                    `INSERT INTO "DeckCards" ("CardId", "Count", "Maverick", "Anomaly", "ImageUrl", "HouseId", "Enhancements", "IsNonDeck", "DeckId") VALUES ${expand(
                         deck.cards.length,
-                        8
+                        9
                     )}`,
                     params
                 );
@@ -693,7 +698,7 @@ class DeckService {
             valoocanth: { anomalySet: 453, house: 'unfathomable' }
         };
 
-        let deckCards = deckResponse._linked.cards.filter((c) => !c.is_non_deck);
+        let deckCards = deckResponse._linked.cards;
 
         let enhancementsByCardId = {};
 
@@ -759,6 +764,8 @@ class DeckService {
                 retCard.image = `${retCard.id}-${retCard.house}`;
             }
 
+            retCard.isNonDeck = card.is_non_deck;
+
             return retCard;
         });
 
@@ -786,7 +793,11 @@ class DeckService {
             (card) =>
                 !card.id
                     .split('')
-                    .every((char) => 'æabcdefghijklmnoöpqrstuvwxyz0123456789-[]'.includes(char))
+                    .every((char) =>
+                        'æaăàáãǎbcdeĕèéěfghĭìíǐijklmnoöǑŏòóõǒpqrstuŭùúǔvwxyz0123456789-[]*'.includes(
+                            char
+                        )
+                    )
         );
         if (anyIllegalCards) {
             logger.error(
