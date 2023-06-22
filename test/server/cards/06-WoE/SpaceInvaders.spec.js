@@ -62,5 +62,16 @@ describe('Space Invaders', function () {
             expect(this.zorg.name).toBe('Grumpus');
             expect(this.pelf.location).toBe('hand');
         });
+
+        it('should work with an empty deck', function () {
+            this.player1.player.deck = [];
+            this.player1.play(this.spaceInvaders);
+            this.player1.clickCard(this.zorg);
+            this.player1.clickPrompt('Done');
+            expect(this.player1.player.creaturesInPlay.length).toBe(1);
+            expect(this.zorg.location).toBe('play area');
+            expect(this.zorg.name).toBe('Grumpus');
+            expect(this.pelf.location).toBe('hand');
+        });
     });
 });
