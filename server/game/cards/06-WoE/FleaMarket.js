@@ -5,7 +5,7 @@ class FleaMarket extends Card {
     // Action: Look at a random card in your opponent's hand. You may give your opponent 1 Aember. If you do, play that card as if it were yours.
     setupCardAbilities(ability) {
         this.action({
-            effect: "reveal a random card from {1}'s hand and optionally lose 1 amber to play it",
+            effect: "reveal a random card from {1}'s hand and optionally pay 1 amber to play it",
             effectArgs: (context) => context.player.opponent,
             gameAction: ability.actions.reveal((context) => ({
                 location: 'hand',
@@ -16,12 +16,12 @@ class FleaMarket extends Card {
                 preThenContext,
                 revealedCard = preThenContext.ability.gameAction[0].target[0]
             ) => ({
-                may: 'lose one amber to play this card',
+                may: 'pay opponent one amber to play this card',
                 condition: (context) => {
                     return context.player.amber >= 1;
                 },
                 gameAction: ability.actions.sequential([
-                    ability.actions.loseAmber((context) => ({
+                    ability.actions.transferAmber((context) => ({
                         target: context.player,
                         amount: 1
                     })),
