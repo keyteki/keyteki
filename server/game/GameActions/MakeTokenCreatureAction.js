@@ -6,6 +6,7 @@ class MakeTokenCreatureAction extends PlayerAction {
         this.deployIndex = undefined;
         this.cards = null;
         this.cardLocation = 'deck';
+        this.alwaysSucceed = false;
     }
 
     setup() {
@@ -20,7 +21,9 @@ class MakeTokenCreatureAction extends PlayerAction {
     }
 
     canAffect(player, context) {
-        return this.amount === 0 || !player.tokenCard || player.deck.length === 0
+        return this.amount === 0 ||
+            !player.tokenCard ||
+            (player.deck.length === 0 && !this.alwaysSucceed)
             ? false
             : super.canAffect(player, context);
     }
