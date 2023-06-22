@@ -95,6 +95,8 @@ class Deck {
         }
 
         cardData.image = cardData.cardImage || cardData.id;
+        cardData.image = cardData.image.replace('*', '_');
+
         if (cardData.maverick) {
             cardData.house = cardData.maverick;
         } else if (cardData.anomaly) {
