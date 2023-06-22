@@ -7,7 +7,10 @@ class CursedRelic extends Card {
     setupCardAbilities(ability) {
         this.persistentEffect({
             location: 'any',
-            effect: [ability.effects.cardCannot('play'), ability.effects.cardCannot('discard')]
+            effect: [
+                ability.effects.cardCannot('play'),
+                ability.effects.cardCannot('discardExceptCardAbilities')
+            ]
         });
     }
 }
