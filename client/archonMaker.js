@@ -23,6 +23,7 @@ let SpecialIcon;
 let TCOIcon;
 let UncommonIcon;
 let EvilTwinIcon;
+let TideIcon;
 let DefaultCard;
 let MaverickCornerImage;
 let Tokens = {};
@@ -135,6 +136,7 @@ async function cacheImages() {
     SpecialIcon = await loadImage(require('./assets/img/idbacks/Special.png'));
     UncommonIcon = await loadImage(require('./assets/img/idbacks/Uncommon.png'));
     EvilTwinIcon = await loadImage(require('./assets/img/idbacks/evil-twin.png'));
+    TideIcon = await loadImage(require('./assets/img/idbacks/tide.png'));
     MaverickIcon = await loadImage(Constants.MaverickIcon);
     AnomalyIcon = await loadImage(Constants.AnomalyIcon);
     DefaultCard = await loadImage(Constants.DefaultCard);
@@ -193,7 +195,8 @@ export const buildDeckList = async (canvas, deck, language, translate, size) => 
         Rare: RareIcon,
         Special: SpecialIcon,
         'Evil Twin': EvilTwinIcon,
-        Token: RareIcon
+        Token: RareIcon,
+        'The Tide': TideIcon
     };
     const line1 = new fabric.Line([55, 157, 295, 157], lineStyle);
     const line2 = new fabric.Line([55, 535, 295, 535], lineStyle);
