@@ -198,7 +198,7 @@ export const buildDeckList = async (canvas, deck, language, translate, size) => 
     const line1 = new fabric.Line([55, 157, 295, 157], lineStyle);
     const line2 = new fabric.Line([55, 535, 295, 535], lineStyle);
     const line3 = new fabric.Line([310, 252, 550, 252], lineStyle);
-    const text = new fabric.Text('DECK LIST', { ...fontProps, fontWeight: 200 });
+    const text = new fabric.Text('DECK LIST', { ...fontProps, fontWeight: 200 }); // TEST PR
 
     QRCodeIcon.set({ left: 332, top: 612 }).scaleToWidth(150);
     expansion.set({ left: 232, top: 97 }).scaleToWidth(20);
