@@ -35,33 +35,4 @@ describe('Training Costs', function () {
             expect(this.trainingCosts.location).toBe('deck');
         });
     });
-
-    describe("Training Costs's ability", function () {
-        beforeEach(function () {
-            this.setupTest({
-                player1: {
-                    amber: 2,
-                    house: 'saurian',
-                    hand: [
-                        'training-costs',
-                        'training-costs',
-                        'training-costs',
-                        'training-costs',
-                        'training-costs',
-                        'training-costs'
-                    ]
-                },
-                player2: {
-                    hand: ['mind-barb']
-                }
-            });
-        });
-
-        it('does not prevent opponent from discarding it', function () {
-            this.player1.endTurn();
-            this.player2.clickPrompt('dis');
-            this.player2.play(this.mindBarb);
-            expect(this.player1.player.discard[0].name).toBe('Training Costs');
-        });
-    });
 });

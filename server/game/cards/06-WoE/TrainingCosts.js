@@ -1,14 +1,15 @@
 const Card = require('../../Card.js');
 
 class TrainingCosts extends Card {
-    // You cannot choose to discard Training Costs from your hand.
+    // Training Costs cannot be discarded from your hand except
+    // through card abilities.
     //
     // Play: Lose 2Aember. If you do not, shuffle Training Costs into
     // your deck.
     setupCardAbilities(ability) {
         this.persistentEffect({
             location: 'any',
-            effect: [ability.effects.cardCannot('selfChooseDiscard')]
+            effect: [ability.effects.cardCannot('discardExceptCardAbilities')]
         });
 
         this.play({
