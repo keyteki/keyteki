@@ -114,22 +114,6 @@ class ResolveFightAction extends CardGameAction {
                     } else {
                         damageEvent = attackerDamageEvent;
                     }
-
-                    let splashAttackAmount = event.attacker.getKeywordValue('splash-attack');
-
-                    if (splashAttackAmount > 0) {
-                        let splashParams = Object.assign({}, attackerParams, {
-                            amount: splashAttackAmount,
-                            damageType: 'splash-attack'
-                        });
-                        event.attackerTarget.neighbors.forEach((neighbor) => {
-                            damageEvent.addChildEvent(
-                                context.game.actions
-                                    .dealDamage(splashParams)
-                                    .getEvent(neighbor, context)
-                            );
-                        });
-                    }
                 }
             } else if (
                 event.attackerTarget !== event.card &&
@@ -138,6 +122,27 @@ class ResolveFightAction extends CardGameAction {
                 damageEvent = context.game.actions
                     .dealDamage(attackerParams)
                     .getEvent(event.attackerTarget, context);
+            }
+
+            // Splash damage resolves regardless of elusive.
+            let splashAttackAmount = event.attacker.getKeywordValue('splash-attack');
+            if (splashAttackAmount > 0) {
+                let splashParams = Object.assign({}, attackerParams, {
+                    amount: splashAttackAmount,
+                    damageType: 'splash-attack'
+                });
+                let neighborStart = 0;
+                if (!damageEvent && event.attackerTarget.neighbors.length > 0) {
+                    damageEvent = context.game.actions
+                        .dealDamage(splashParams)
+                        .getEvent(event.attackerTarget.neighbors[0], context);
+                    neighborStart = 1;
+                }
+                event.attackerTarget.neighbors.slice(neighborStart).forEach((neighbor) => {
+                    damageEvent.addChildEvent(
+                        context.game.actions.dealDamage(splashParams).getEvent(neighbor, context)
+                    );
+                });
             }
 
             if (damageEvent) {
