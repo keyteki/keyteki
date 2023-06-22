@@ -14,9 +14,8 @@ const Costs = {
     use: () => ({
         canPay: (context) => {
             if (
-                context.game.cardsUsed
-                    .concat(context.game.cardsPlayed)
-                    .filter((card) => card.name === context.source.name).length >= 6
+                context.game.cardNamesPlayedOrUsed.filter((name) => name === context.source.name)
+                    .length >= 6
             ) {
                 return false;
             } else if (
