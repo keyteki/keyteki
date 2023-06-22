@@ -12,7 +12,7 @@ class RecordedHistory extends Card {
                 controller: 'self',
                 location: 'hand',
                 uniqueCardHouses: true,
-                gameAction: ability.actions.archive()
+                gameAction: ability.actions.archive({ reveal: true })
             }
         });
     }
