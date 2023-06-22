@@ -17,5 +17,12 @@ describe('The Visible Hand', function () {
             expect(this.player1.player.creaturesInPlay.length).toBe(2);
             expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
         });
+
+        it('works with no deck', function () {
+            this.player1.player.deck = [];
+            this.player1.play(this.theVisibleHand);
+            expect(this.player1.player.creaturesInPlay.length).toBe(0);
+            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+        });
     });
 });

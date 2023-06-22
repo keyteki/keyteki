@@ -6,7 +6,10 @@ class TheVisibleHand extends Card {
         this.play({
             effect: 'make 2 token creatures and reveal their hand: {1}',
             effectArgs: (context) => [context.player.hand.map((card) => card).sort()],
-            gameAction: ability.actions.makeTokenCreature({ amount: 2 })
+            gameAction: ability.actions.makeTokenCreature({
+                amount: 2,
+                alwaysSucceed: true
+            })
         });
     }
 }
