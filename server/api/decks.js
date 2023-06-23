@@ -143,7 +143,8 @@ module.exports.init = function (server) {
                     name: req.body.name,
                     uuid: uuid.v1(),
                     username: req.user.username,
-                    pods: req.body.pods
+                    pods: req.body.pods,
+                    tokenCard: req.body.token
                 }
             );
             let savedDeck;
