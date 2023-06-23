@@ -20,6 +20,7 @@ describe('Flea Market', function () {
             expect(this.player1).toHavePromptButton('No');
             this.player1.clickPrompt('Yes');
             expect(this.player1.amber).toBe(1);
+            expect(this.player2.amber).toBe(3);
             expect(this.selwynTheFence.location).toBe('play area');
             expect(this.player1.player.cardsInPlay).toContain(this.selwynTheFence);
             expect(this.player2.player.cardsInPlay).not.toContain(this.selwynTheFence);
