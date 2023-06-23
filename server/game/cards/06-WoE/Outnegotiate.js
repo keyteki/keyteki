@@ -1,7 +1,9 @@
 const Card = require('../../Card.js');
 
 class Outnegotiate extends Card {
-    // Play: Choose a card in your opponents discard pile. Steal  equal to the number of  bonus icons on that card and put that card on the bottom of its owners deck.
+    // Play: Choose a card in your opponent's discard pile. Steal
+    // Aember equal to the number of Aember bonus icons on it and put
+    // that card on the bottom of its owner's deck.
     setupCardAbilities(ability) {
         this.play({
             effectStyle: `all`,
@@ -11,7 +13,7 @@ class Outnegotiate extends Card {
                 gameAction: [
                     ability.actions.steal((context) => ({
                         target: context.target.owner,
-                        amount: context.target.bonusIcons.length
+                        amount: context.target.bonusIcons.filter((icon) => icon === 'amber').length
                     })),
                     ability.actions.returnToDeck({ bottom: true })
                 ]

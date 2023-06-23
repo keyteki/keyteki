@@ -8,7 +8,8 @@ describe('Pupgrade', function () {
                     inPlay: ['helmsman-spears', 'pelf', 'bumpsy']
                 },
                 player2: {
-                    inPlay: ['gub', 'headhunter']
+                    inPlay: ['gub', 'headhunter', 'gladiodontus'],
+                    hand: ['phalanx-strike']
                 }
             });
         });
@@ -45,13 +46,28 @@ describe('Pupgrade', function () {
             expect(this.gub.power).toBe(4);
             this.player2.fightWith(this.gub, this.bumpsy);
             expect(this.player1.player.creaturesInPlay.length).toBe(3);
-            expect(this.player2.player.creaturesInPlay.length).toBe(2);
+            expect(this.player2.player.creaturesInPlay.length).toBe(3);
             expect(this.gub.location).toBe('discard');
             expect(this.pupgrade.location).toBe('play area');
             expect(this.pupgrade.controller.name).toBe('player2');
             expect(this.pupgrade.type).toBe('creature');
-            expect(this.player2.player.creaturesInPlay[1].name).toBe('Pupgrade');
+            expect(this.player2.player.creaturesInPlay[2].name).toBe('Pupgrade');
             expect(this.pupgrade.exhausted).toBe(false);
+            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+        });
+
+        it('should be destroyable', function () {
+            this.player1.playUpgrade(this.pupgrade, this.helmsmanSpears);
+            this.player1.endTurn();
+            this.player2.clickPrompt('saurian');
+            this.player2.fightWith(this.gladiodontus, this.helmsmanSpears);
+            expect(this.helmsmanSpears.location).toBe('discard');
+            expect(this.pupgrade.location).toBe('play area');
+            this.player2.play(this.phalanxStrike);
+            this.player2.clickCard(this.pupgrade);
+            expect(this.pupgrade.location).toBe('discard');
+            expect(this.player1.player.creaturesInPlay.length).toBe(2);
+            this.player2.clickPrompt('Done');
             expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
         });
     });
