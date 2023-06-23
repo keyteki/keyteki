@@ -11,8 +11,7 @@ class NearFutureLens extends Card {
         this.play({
             gameAction: ability.actions.reveal((context) => ({
                 target: context.player.deck[0],
-                location: 'deck',
-                facedown: false
+                location: 'deck'
             }))
         });
 
