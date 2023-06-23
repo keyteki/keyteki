@@ -43,7 +43,6 @@ describe('Space Invaders', function () {
             this.player1.clickCard(this.pelf);
             expect(this.player1).toBeAbleToSelect(this.bumpsy);
             this.player1.clickPrompt('Done');
-            this.player1.clickCard(this.zorg);
             this.player1.clickPrompt('Right');
             expect(this.player1.player.creaturesInPlay.length).toBe(2);
             expect(this.zorg.location).toBe('play area');
@@ -61,6 +60,24 @@ describe('Space Invaders', function () {
             expect(this.zorg.location).toBe('play area');
             expect(this.zorg.name).toBe('Grumpus');
             expect(this.pelf.location).toBe('hand');
+        });
+
+        it('should work with an empty deck', function () {
+            this.player1.player.deck = [];
+            this.player1.play(this.spaceInvaders);
+            this.player1.clickCard(this.zorg);
+            this.player1.clickPrompt('Done');
+            expect(this.player1.player.creaturesInPlay.length).toBe(1);
+            expect(this.zorg.location).toBe('play area');
+            expect(this.zorg.name).toBe('Grumpus');
+            expect(this.pelf.location).toBe('hand');
+        });
+
+        it('should do nothing is hand is empty', function () {
+            this.player1.player.hand = [this.spaceInvaders];
+            this.player1.play(this.spaceInvaders);
+            this.player1.clickPrompt('Done');
+            this.player1.endTurn();
         });
     });
 });

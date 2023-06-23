@@ -7,7 +7,7 @@ class ArmThePlebeians extends Card {
             gameAction: ability.actions.makeTokenCreature(),
             then: {
                 gameAction: ability.actions.ward((context) => ({
-                    target: context.preThenEvent.cards
+                    target: context.preThenEvent.card
                 }))
             }
         });

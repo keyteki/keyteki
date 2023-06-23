@@ -9,7 +9,7 @@ class FOFTransponder extends Card {
                 gameAction: ability.actions.makeTokenCreature(),
                 then: {
                     gameAction: ability.actions.attach((context) => ({
-                        target: context.preThenEvent.cards[0],
+                        target: context.preThenEvent.card,
                         // Note: using "this" here to get a pointer to the blaster
                         upgrade: this
                     }))
