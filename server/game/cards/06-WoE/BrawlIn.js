@@ -9,7 +9,7 @@ class BrawlIn extends Card {
             }),
             then: {
                 gameAction: ability.actions.enrage((context) => ({
-                    target: context.preThenEvent.cards
+                    target: context.preThenEvents.map((event) => event.card)
                 }))
             }
         });

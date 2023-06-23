@@ -22,7 +22,7 @@ class EndlessHordes extends Card {
             }),
             then: {
                 gameAction: ability.actions.ready((context) => {
-                    this.newTokens = context.preThenEvent.cards;
+                    this.newTokens = context.preThenEvents.map((event) => event.card);
                     return {
                         target: this.newTokens
                     };
