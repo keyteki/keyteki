@@ -126,19 +126,18 @@ class ResolveFightAction extends CardGameAction {
 
             // Splash damage resolves regardless of elusive.
             let splashAttackAmount = event.attacker.getKeywordValue('splash-attack');
-            if (splashAttackAmount > 0) {
+            if (splashAttackAmount > 0 && event.attackerTarget.neighbors.length > 0) {
+                if (!damageEvent) {
+                    attackerParams.amount = 0;
+                    damageEvent = context.game.actions
+                        .dealDamage(attackerParams)
+                        .getEvent(event.attackerTarget, context);
+                }
                 let splashParams = Object.assign({}, attackerParams, {
                     amount: splashAttackAmount,
                     damageType: 'splash-attack'
                 });
-                let neighborStart = 0;
-                if (!damageEvent && event.attackerTarget.neighbors.length > 0) {
-                    damageEvent = context.game.actions
-                        .dealDamage(splashParams)
-                        .getEvent(event.attackerTarget.neighbors[0], context);
-                    neighborStart = 1;
-                }
-                event.attackerTarget.neighbors.slice(neighborStart).forEach((neighbor) => {
+                event.attackerTarget.neighbors.forEach((neighbor) => {
                     damageEvent.addChildEvent(
                         context.game.actions.dealDamage(splashParams).getEvent(neighbor, context)
                     );
