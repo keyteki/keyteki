@@ -16,8 +16,7 @@ class SpaceInvaders extends Card {
                     target: context.player,
                     amount: context.target.length,
                     cards: context.target,
-                    cardLocation: 'hand',
-                    alwaysSucceed: true
+                    cardLocation: 'hand'
                 }))
             },
             effect: 'reveal and tokenize {1}{2} {0}',
