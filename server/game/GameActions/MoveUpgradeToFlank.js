@@ -50,6 +50,7 @@ class MoveUpgradeToFlankAction extends CardGameAction {
             }
 
             event.card.parent.removeAttachment(event.card);
+            event.card.parent = null;
 
             if (this.left) {
                 card.controller.cardsInPlay.unshift(card);

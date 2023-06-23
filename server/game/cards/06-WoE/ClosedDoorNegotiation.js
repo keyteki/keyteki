@@ -15,7 +15,6 @@ class ClosedDoorNegotiation extends Card {
             ],
             then: (preThenContext) => ({
                 condition: (context) => context.player.amber < context.player.opponent.amber,
-                alwaysTriggers: true,
                 gameAction: ability.actions.resolveAbility({ ability: preThenContext.ability })
             })
         });

@@ -13,6 +13,7 @@ class EndlessHordes extends Card {
         this.newTokens = [];
 
         this.play({
+            condition: (context) => !!context.player.opponent,
             gameAction: ability.actions.makeTokenCreature((context) => {
                 this.validTargets = context.player.opponent.creaturesInPlay.slice();
                 return {

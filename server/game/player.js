@@ -755,7 +755,7 @@ class Player extends GameObject {
     }
 
     chooseAmberSource(amberSources, selfAmberSources, totalAvailable, modifiedCost, initialCost) {
-        if (amberSources.length === 0 && selfAmberSources.length === 0) {
+        if (modifiedCost === 0 || (amberSources.length === 0 && selfAmberSources.length === 0)) {
             this.chooseKeyToForge(modifiedCost, initialCost);
             return;
         }
@@ -867,7 +867,7 @@ class Player extends GameObject {
                         this.chooseAmberSource(
                             amberSources,
                             selfAmberSources,
-                            totalAvailable,
+                            totalAvailable - 1,
                             modifiedCost,
                             initialCost
                         );
