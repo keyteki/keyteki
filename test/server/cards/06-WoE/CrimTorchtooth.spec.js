@@ -7,7 +7,7 @@ describe('CrimTorchtooth', function () {
                     inPlay: ['pelf', 'crim-torchtooth', 'bumpsy', 'umbra']
                 },
                 player2: {
-                    inPlay: ['toad', 'gladiodontus', 'bubbles', 'fandangle']
+                    inPlay: ['toad', 'gladiodontus', 'bubbles', 'fandangle', 'harmonia']
                 }
             });
         });
@@ -19,6 +19,12 @@ describe('CrimTorchtooth', function () {
             expect(this.bubbles.tokens.damage).toBe(4);
             expect(this.fandangle.tokens.damage).toBe(undefined);
             this.player1.endTurn();
+        });
+
+        it('should do splash attack even when fighting an elusive creature', function () {
+            this.player1.fightWith(this.crimTorchtooth, this.harmonia);
+            expect(this.harmonia.location).toBe('play area');
+            expect(this.fandangle.location).toBe('discard');
         });
 
         it('should enrage neighbors', function () {
