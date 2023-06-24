@@ -1,6 +1,9 @@
 const Card = require('../../Card.js');
 
 class MackTheKnife extends Card {
+    // Elusive.
+    // You may use Mack the Knife as if it belonged to the active house.
+    // Action: Deal 1D to a creature. If this damage destroys that creature, gain 1A.
     setupCardAbilities(ability) {
         this.persistentEffect({
             effect: ability.effects.canUse(

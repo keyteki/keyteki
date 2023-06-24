@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class Infurnace extends Card {
+    // Play: Purge up to 2 cards from a discard pile. Your opponent loses A equal to the number of A bonus icons on the purged cards.
     setupCardAbilities(ability) {
         this.play({
             effectStyle: 'all',

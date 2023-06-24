@@ -9,6 +9,7 @@ class PutIntoPlayAction extends CardGameAction {
         this.deploy = false;
         this.playedOnLeftFlank = false;
         this.playedOnRightFlank = false;
+        this.promptSource = false;
     }
 
     setup() {
@@ -48,9 +49,10 @@ class PutIntoPlayAction extends CardGameAction {
             let choices = ['Left', 'Right'];
 
             if (
-                context.ability &&
-                context.ability.isCardPlayed() &&
-                (this.deploy || card.hasKeyword('deploy')) &&
+                (card.anyEffect('enterPlayAnywhere', context) ||
+                    (context.ability &&
+                        context.ability.isCardPlayed() &&
+                        (this.deploy || card.hasKeyword('deploy')))) &&
                 player.creaturesInPlay.length > 1
             ) {
                 choices.push('Deploy Left');
@@ -60,7 +62,8 @@ class PutIntoPlayAction extends CardGameAction {
             context.game.promptWithHandlerMenu(context.player, {
                 activePromptTitle: 'Which flank do you want to place this creature on?',
                 context: context,
-                source: this.target.length > 0 ? this.target[0] : context.source,
+                source:
+                    this.promptSource || (this.target.length > 0 ? this.target[0] : context.source),
                 choices: choices,
                 choiceHandler: (choice) => {
                     let deploy;
@@ -134,10 +137,6 @@ class PutIntoPlayAction extends CardGameAction {
         }
     }
 
-    matchEntersPlayEffects(card, context, effect) {
-        return card.getEffects(effect).some((condition) => condition.match(context));
-    }
-
     getEvent(card, context) {
         return super.createEvent(
             'onCardEntersPlay',
@@ -185,19 +184,19 @@ class PutIntoPlayAction extends CardGameAction {
                     myControl: control
                 });
 
-                if (this.myControl) {
+                if (control) {
                     card.updateEffectContexts();
                 }
 
-                if (!this.ready && !this.matchEntersPlayEffects(card, context, 'entersPlayReady')) {
+                if (!this.ready && !card.checkConditions('entersPlayReady', context)) {
                     card.exhaust();
                 }
 
-                if (this.matchEntersPlayEffects(card, context, 'entersPlayStunned')) {
+                if (card.checkConditions('entersPlayStunned', context)) {
                     card.stun();
                 }
 
-                if (this.matchEntersPlayEffects(card, context, 'entersPlayEnraged')) {
+                if (card.checkConditions('entersPlayEnraged', context)) {
                     card.enrage();
                 }
             }

@@ -1,6 +1,8 @@
 const Card = require('../../Card.js');
 
 class Survey extends Card {
+    // Enhance R. (These icons have already been added to cards in your deck.)
+    // Play: Look at the top 2 cards of your deck. Discard 1 of them.
     setupCardAbilities(ability) {
         this.play({
             preferActionPromptMessage: true,

@@ -11,11 +11,12 @@ import { Constants } from '../constants';
 import { loadDecks } from '../redux/actions';
 import AlertPanel from '../Components/Site/AlertPanel';
 import DeckSummary from '../Components/Decks/DeckSummary';
+import CardImage from '../Components/GameBoard/CardImage';
 
 import './AllianceBuilder.scss';
 
 const AllianceBuilderPage = () => {
-    const { t } = useTranslation();
+    const { i18n, t } = useTranslation();
     const dispatch = useDispatch();
     const apiState = useSelector((state) => {
         const retState = state.api[Decks.SaveAllianceDeck];
@@ -38,6 +39,50 @@ const AllianceBuilderPage = () => {
     const [currentDeck, setCurrentDeck] = useState();
     const [selectedPods, setSelectedPods] = useState([]);
     const [deckName, setDeckName] = useState();
+    const [selectedToken, setSelectedToken] = useState();
+    let [zoomCard, setZoomCard] = useState(null);
+    let [mousePos, setMousePosition] = useState({ x: 0, y: 0 });
+
+    const renderToken = (deck) => {
+        if (!deck.cards.some((d) => d.isNonDeck && d.id !== 'the-tide')) {
+            return null;
+        }
+
+        let tokenCard = deck.cards.find((d) => d.isNonDeck);
+        return (
+            <div className='mt-2'>
+                <div
+                    className={`deck-card-link${tokenCard === selectedToken ? ' selected' : ''}`}
+                    onMouseOver={() => setZoomCard(tokenCard.card)}
+                    onMouseMove={(event) => {
+                        let y = event.clientY;
+                        let yPlusHeight = y + 420;
+
+                        if (yPlusHeight >= window.innerHeight) {
+                            y -= yPlusHeight - window.innerHeight;
+                        }
+
+                        setMousePosition({ x: event.clientX, y: y });
+                    }}
+                    onMouseOut={() => setZoomCard(null)}
+                    onClick={() => setSelectedToken(tokenCard)}
+                >
+                    {tokenCard.card.locale && tokenCard.card.locale[i18n.language]
+                        ? tokenCard.card.locale[i18n.language].name
+                        : tokenCard.card.name}
+                </div>
+            </div>
+        );
+    };
+
+    const isSaveDisabled = () => {
+        const selectedDecks = selectedPods.map((key) => decksByUuid[key.split(':')[0]]);
+        const needsToken = selectedDecks.some((d) =>
+            d.cards.some((c) => c.isNonDeck && c.id !== 'the-tide')
+        );
+
+        return selectedPods.length !== 3 || !deckName || (needsToken && !selectedToken);
+    };
 
     useEffect(() => {
         dispatch(
@@ -55,6 +100,17 @@ const AllianceBuilderPage = () => {
     let decks = useMemo(() => {
         return dbDecks ? dbDecks.filter((d) => d.expansion == selectedExpansion) : [];
     }, [dbDecks, selectedExpansion]);
+
+    let decksByUuid = useMemo(() => {
+        if (!dbDecks) {
+            return [];
+        }
+
+        return dbDecks.reduce((acc, cur) => {
+            acc[cur.uuid] = cur;
+            return acc;
+        }, {});
+    }, [dbDecks]);
 
     let decksList;
 
@@ -107,6 +163,7 @@ const AllianceBuilderPage = () => {
                         );
                     })}
                 </div>
+                {renderToken(d)}
             </div>
         ));
     }
@@ -123,14 +180,14 @@ const AllianceBuilderPage = () => {
                         <Row>
                             <Col sm={12}>
                                 <Button
-                                    disabled={selectedPods.length !== 3 || !deckName}
+                                    disabled={isSaveDisabled()}
                                     onClick={() => {
-                                        console.info(dispatch, saveAllianceDeck, {
-                                            name: deckName,
-                                            pods: selectedPods
-                                        });
                                         dispatch(
-                                            saveAllianceDeck({ name: deckName, pods: selectedPods })
+                                            saveAllianceDeck({
+                                                name: deckName,
+                                                pods: selectedPods,
+                                                token: selectedToken
+                                            })
                                         );
                                     }}
                                 >
@@ -167,8 +224,13 @@ const AllianceBuilderPage = () => {
                                         ))}
                                     </Form.Control>
                                 </Form.Group>
+                                <Form.Group>
+                                    <Form.Label>
+                                        <Trans>Decks</Trans>
+                                    </Form.Label>
 
-                                <div className='mt-2'>{decksList}</div>
+                                    <div className='mt-2'>{decksList}</div>
+                                </Form.Group>
                             </Col>
                         </Row>
                     </Panel>
@@ -181,6 +243,14 @@ const AllianceBuilderPage = () => {
                     )}
                 </Col>
             </Row>
+            {zoomCard && (
+                <div
+                    className='decklist-card-zoom'
+                    style={{ left: mousePos.x + 5 + 'px', top: mousePos.y + 'px' }}
+                >
+                    <CardImage card={Object.assign({}, zoomCard)} />
+                </div>
+            )}
         </div>
     );
 };

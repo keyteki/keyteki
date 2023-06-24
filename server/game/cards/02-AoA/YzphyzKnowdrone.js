@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class YzphyzKnowdrone extends Card {
+    // Play: Archive a card. You may purge an archived card to stun a creature.
     setupCardAbilities(ability) {
         this.play({
             target: {

@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class XenoKnight extends Card {
+    // Fight: Look at the top 3 cards of your deck. Put 1 into your hand and 1 on the bottom of your deck.
     setupCardAbilities(ability) {
         this.fight({
             effect: 'to look at the top 3 cards of their deck',

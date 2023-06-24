@@ -32,7 +32,6 @@ class StaticEffect {
 
     setContext(context) {
         this.context = context;
-        this.value.setContext(context);
     }
 
     getDebugInfo() {

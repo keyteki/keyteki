@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class QuixxleStone extends Card {
+    // If a player has more creatures in play than their opponent, they cannot play creatures.
     setupCardAbilities(ability) {
         this.persistentEffect({
             condition: () => {
@@ -17,7 +18,7 @@ class QuixxleStone extends Card {
             targetController: 'any',
             effect: ability.effects.playerCannot(
                 'play',
-                (context) => context.source.type === 'creature'
+                (context) => context.ability.title === 'Play this creature'
             )
         });
     }

@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class CausalLoop extends Card {
+    // Play: Archive a card. Archive Causal Loop.
     setupCardAbilities(ability) {
         this.play({
             target: {

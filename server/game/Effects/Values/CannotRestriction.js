@@ -11,7 +11,7 @@ class CannotRestriction extends EffectValue {
         return this;
     }
 
-    match(type, abilityContext, event) {
+    checkRestriction(type, abilityContext, event, effectContext) {
         if (this.type !== type) {
             return false;
         }
@@ -21,7 +21,7 @@ class CannotRestriction extends EffectValue {
         if (!abilityContext) {
             return false;
         }
-        return this.condition(abilityContext, this.effectContext, event);
+        return this.condition(abilityContext, effectContext, event);
     }
 }
 

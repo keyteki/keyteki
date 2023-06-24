@@ -9,6 +9,10 @@ class GainAbility extends EffectValue {
         } else {
             this.properties = Object.assign({}, properties, { printedAbility, ref: [] });
         }
+        if (this.type === 'omni') {
+            this.type = 'action';
+            this.properties.omni = true;
+        }
     }
 
     getValue(target, state) {

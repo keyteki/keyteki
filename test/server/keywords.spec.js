@@ -100,6 +100,36 @@ describe('keywords', function () {
         });
     });
 
+    describe('Elusive/Hazardous', function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'mars',
+                    inPlay: ['bulwark', 'chuff-ape', 'bulwark', 'blypyp']
+                },
+                player2: {
+                    inPlay: ['xenos-bloodshadow']
+                }
+            });
+            this.chuffApe.ward();
+        });
+
+        it('Hazardous kill should remove elusive', function () {
+            this.player1.fightWith(this.blypyp, this.xenosBloodshadow);
+            expect(this.blypyp.location).toBe('discard');
+            expect(this.xenosBloodshadow.location).toBe('play area');
+            expect(this.xenosBloodshadow.tokens.damage).toBeUndefined();
+            expect(this.xenosBloodshadow.elusiveUsed).toBe(true);
+            this.player1.fightWith(this.chuffApe, this.xenosBloodshadow);
+            expect(this.chuffApe.tokens.armor).toBeUndefined();
+            expect(this.chuffApe.warded).toBe(false);
+            expect(this.chuffApe.location).toBe('play area');
+            expect(this.xenosBloodshadow.location).toBe('discard');
+            this.player1.clickPrompt('Done');
+            this.player1.endTurn();
+        });
+    });
+
     describe('Skirmish/Elusive/Poison', function () {
         beforeEach(function () {
             this.setupTest({
@@ -187,6 +217,51 @@ describe('keywords', function () {
             this.player1.fightWith(this.inkaTheSpider, this.sinder);
             expect(this.sinder.location).toBe('play area');
             expect(this.inkaTheSpider.location).toBe('discard');
+        });
+    });
+
+    describe('Splash Attack', function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'brobnar',
+                    inPlay: ['crogg-the-clumsy']
+                },
+                player2: {
+                    inPlay: [
+                        'drecker',
+                        'alaka',
+                        'lollop-the-titanic',
+                        'mega-alaka',
+                        'pitlord',
+                        'ardent-hero'
+                    ]
+                }
+            });
+        });
+
+        it('should deal damage to neighbors', function () {
+            this.player1.fightWith(this.croggTheClumsy, this.lollopTheTitanic);
+            expect(this.croggTheClumsy.location).toBe('play area');
+            expect(this.lollopTheTitanic.tokens.damage).toBe(7);
+            expect(this.alaka.tokens.damage).toBe(2);
+            expect(this.megaAlaka.tokens.damage).toBe(2);
+        });
+
+        it('should be considered damage from source and not hit Ardent Hero', function () {
+            this.player1.fightWith(this.croggTheClumsy, this.pitlord);
+            expect(this.croggTheClumsy.location).toBe('discard');
+            expect(this.pitlord.tokens.damage).toBe(7);
+            expect(this.ardentHero.tokens.damage).toBeUndefined();
+            expect(this.megaAlaka.tokens.damage).toBe(2);
+        });
+
+        it('should hit Drecker if 2 away', function () {
+            this.player1.fightWith(this.croggTheClumsy, this.lollopTheTitanic);
+            expect(this.drecker.tokens.damage).toBe(2);
+            expect(this.alaka.tokens.damage).toBe(2);
+            expect(this.lollopTheTitanic.tokens.damage).toBe(7);
+            expect(this.megaAlaka.tokens.damage).toBe(2);
         });
     });
 });

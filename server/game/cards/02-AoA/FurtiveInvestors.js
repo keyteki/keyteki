@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class FurtiveInvestors extends Card {
+    // Play: If your opponent has more A than you, gain 1A for each key your opponent has forged.
     setupCardAbilities(ability) {
         this.play({
             condition: (context) =>

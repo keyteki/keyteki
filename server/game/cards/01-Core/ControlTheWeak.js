@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class ControlTheWeak extends Card {
+    // Play: Choose a house on your opponents identity card. Your opponent must choose that house as their active house on their next turn.
     setupCardAbilities(ability) {
         this.play({
             condition: (context) => !!context.player.opponent,

@@ -70,4 +70,50 @@ describe('Veylan Analyst', function () {
             expect(this.player1.amber).toBe(0);
         });
     });
+
+    describe('Veylan Analyst and Epic Quest', function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'sanctum',
+                    inPlay: ['veylan-analyst', 'angry-mob', 'epic-quest', 'poltergeist'],
+                    hand: [
+                        'ardent-hero',
+                        'cleansing-wave',
+                        'call-to-action',
+                        'free-markets',
+                        'shield-of-justice',
+                        'bulwark',
+                        'clear-mind',
+                        'poltergeist'
+                    ]
+                },
+                player2: {
+                    inPlay: ['lamindra', 'shard-of-greed']
+                }
+            });
+        });
+
+        it('should trigger when Epic Quest applies and destroys itself', function () {
+            this.player1.play(this.cleansingWave);
+            this.player1.play(this.ardentHero);
+            this.player1.play(this.callToAction);
+            this.player1.play(this.freeMarkets);
+            this.player1.play(this.shieldOfJustice);
+            this.player1.play(this.bulwark);
+            this.player1.play(this.clearMind);
+            expect(this.player1.amber).toBe(4);
+            this.player1.useAction(this.epicQuest, true);
+            this.player1.clickPrompt('red');
+            expect(this.player1.amber).toBe(5);
+            expect(this.epicQuest.location).toBe('discard');
+        });
+
+        it('should trigger when Epic Quest has no effect', function () {
+            expect(this.player1.amber).toBe(0);
+            this.player1.useAction(this.epicQuest, true);
+            expect(this.player1.amber).toBe(1);
+            expect(this.epicQuest.location).toBe('play area');
+        });
+    });
 });

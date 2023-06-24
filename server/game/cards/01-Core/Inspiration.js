@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class Inspiration extends Card {
+    // Play: Ready and use a friendly creature.
     setupCardAbilities(ability) {
         this.play({
             target: {

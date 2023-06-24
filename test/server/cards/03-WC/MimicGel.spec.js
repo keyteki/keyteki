@@ -401,7 +401,7 @@ describe('Mimic Gel', function () {
                     hand: ['mimic-gel']
                 },
                 player2: {
-                    hand: ['lost-in-the-woods', 'perilous-wild']
+                    hand: ['lost-in-the-woods', 'perilous-wild', 'champion-tabris']
                 }
             });
 
@@ -439,6 +439,44 @@ describe('Mimic Gel', function () {
             expect(this.hapsis.location).toBe('play area');
             expect(this.daughter.location).toBe('discard');
             expect(this.player2.amber).toBe(7);
+        });
+    });
+
+    describe('Mimic Gel and gained reap ability', function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'logos',
+                    inPlay: ['hapsis', 'daughter', 'creed-of-nurture'],
+                    hand: ['mimic-gel']
+                },
+                player2: {
+                    amber: 3,
+                    inPlay: ['umbra', 'sequis']
+                }
+            });
+
+            this.player1.clickCard(this.mimicGel);
+            this.player1.clickPrompt('Play this creature');
+            this.player1.clickCard(this.sequis);
+            this.player1.clickPrompt('Left');
+            this.mimicGel.exhausted = false;
+        });
+
+        it('MG should capture 1A after reap', function () {
+            this.player1.reap(this.mimicGel);
+            expect(this.mimicGel.amber).toBe(1);
+            expect(this.player2.amber).toBe(2);
+        });
+
+        it('MG should lose its gained ability after leaving play', function () {
+            this.player1.moveCard(this.mimicGel, 'hand');
+            this.player1.useAction(this.creedOfNurture, true);
+            this.player1.clickCard(this.mimicGel);
+            this.player1.clickCard(this.daughter);
+            this.player1.reap(this.daughter);
+            expect(this.daughter.amber).toBe(0);
+            expect(this.player2.amber).toBe(3);
         });
     });
 
@@ -631,6 +669,53 @@ describe('Mimic Gel', function () {
             this.player1.clickCard(this.huntingWitch);
             expect(this.mimicGel.exhausted).toBe(true);
             expect(this.huntingWitch.location).toBe('discard');
+        });
+    });
+
+    describe("Scowly Caper's effect and Mimic Gel", function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'shadows',
+                    amber: 1,
+                    hand: ['scowly-caper'],
+                    inPlay: ['stilt-kin', 'groggins']
+                },
+                player2: {
+                    amber: 2,
+                    hand: ['mimic-gel']
+                }
+            });
+
+            this.player1.play(this.scowlyCaper);
+            this.player1.endTurn();
+            this.player2.clickPrompt('logos');
+        });
+
+        it('should enter play under opponent control', function () {
+            this.player2.clickCard(this.mimicGel);
+            this.player2.clickPrompt('Play this creature');
+            this.player2.clickCard(this.scowlyCaper);
+            this.player2.clickPrompt('Left');
+            expect(this.mimicGel.controller).toBe(this.player1.player);
+        });
+
+        it('should be used as belonging to any house', function () {
+            this.player2.clickCard(this.mimicGel);
+            this.player2.clickPrompt('Play this creature');
+            this.player2.clickCard(this.scowlyCaper);
+            this.player2.clickPrompt('Left');
+            this.player2.endTurn();
+            this.player1.clickPrompt('shadows');
+            this.mimicGel.ready();
+            this.player1.fightWith(this.mimicGel, this.scowlyCaper);
+            expect(this.mimicGel.location).toBe('play area');
+            expect(this.scowlyCaper.location).toBe('discard');
+            this.mimicGel.ready();
+            this.player1.reap(this.mimicGel);
+            expect(this.player1.amber).toBe(2);
+            this.player1.endTurn();
+            this.player1.clickCard(this.stiltKin);
         });
     });
 });

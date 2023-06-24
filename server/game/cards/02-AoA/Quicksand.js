@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class Quicksand extends Card {
+    // Play: Destroy the most powerful creature controlled by each player who does not control a ready Untamed creature.
     setupCardAbilities(ability) {
         this.play({
             targets: {

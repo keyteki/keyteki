@@ -1,6 +1,8 @@
 const Card = require('../../Card.js');
 
 class SackOfCoins extends Card {
+    // Play: Deal 1D to a creature for each
+    // A in your pool.
     setupCardAbilities(ability) {
         this.play({
             effect: 'deal 1 damage to a creature for each amber in their pool',

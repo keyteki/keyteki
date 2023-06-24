@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class SpikeTrap extends Card {
+    // Omni: Destroy Spike Trap. If you do, deal 3D to each flank creature.
     setupCardAbilities(ability) {
         this.omni({
             gameAction: ability.actions.sacrifice(),

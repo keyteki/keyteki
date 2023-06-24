@@ -11,7 +11,7 @@ class CanUse extends ConditionValue {
         return this;
     }
 
-    match(abilityContext) {
+    checkCondition(abilityContext, effectContext) {
         if (!this.condition) {
             return true;
         }
@@ -23,7 +23,7 @@ class CanUse extends ConditionValue {
             return (
                 (abilityContext.ability.title === 'Fight with this creature' ||
                     abilityContext.ability.title === "Remove this creature's stun") &&
-                this.condition(abilityContext.source, abilityContext, this.effectContext)
+                this.condition(abilityContext.source, abilityContext, effectContext)
             );
         }
 
@@ -31,11 +31,11 @@ class CanUse extends ConditionValue {
             return (
                 (abilityContext.ability.title === 'Reap with this creature' ||
                     abilityContext.ability.title === "Remove this creature's stun") &&
-                this.condition(abilityContext.source, abilityContext, this.effectContext)
+                this.condition(abilityContext.source, abilityContext, effectContext)
             );
         }
 
-        return this.condition(abilityContext.source, abilityContext, this.effectContext);
+        return this.condition(abilityContext.source, abilityContext, effectContext);
     }
 }
 

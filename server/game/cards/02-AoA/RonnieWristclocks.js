@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class RonnieWristclocks extends Card {
+    // Play: Steal 1A. If your opponent has 7A or more, steal 2A instead.
     setupCardAbilities(ability) {
         this.play({
             gameAction: ability.actions.steal((context) => ({

@@ -1,6 +1,8 @@
 const Card = require('../../Card.js');
 
 class IxxyxliFixfinger extends Card {
+    // Elusive.(The first time this creature is attacked each turn, no damage is dealt.)
+    // Each other Martian creature gets +1armor.
     setupCardAbilities(ability) {
         this.persistentEffect({
             targetController: 'any',

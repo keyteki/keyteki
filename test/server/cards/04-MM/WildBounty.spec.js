@@ -4,7 +4,13 @@ describe('Wild Bounty', function () {
             this.setupTest({
                 player1: {
                     house: 'untamed',
-                    hand: ['fertility-chant', 'dust-pixie', 'wild-bounty']
+                    hand: [
+                        'fertility-chant',
+                        'dust-pixie',
+                        'wild-bounty',
+                        'reclaimed-by-nature',
+                        'niffle-grounds'
+                    ]
                 },
                 player2: {
                     inPlay: ['troll', 'flaxia'],
@@ -66,9 +72,19 @@ describe('Wild Bounty', function () {
             this.player1.clickCard(this.troll);
             expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
             expect(this.player1.amber).toBe(6);
-            expect(this.player1.player.hand.length).toBe(3);
+            expect(this.player1.player.hand.length).toBe(5);
             expect(this.troll.tokens.damage).toBe(2);
             expect(this.player2.amber).toBe(2);
+        });
+
+        it('should not trigger twice if resolving the same card bonus icons due to another effect', function () {
+            this.player1.play(this.wildBounty);
+            expect(this.player1.amber).toBe(0);
+            this.player1.play(this.niffleGrounds);
+            expect(this.player1.amber).toBe(2);
+            this.player1.play(this.reclaimedByNature);
+            this.player1.clickCard(this.niffleGrounds);
+            expect(this.player1.amber).toBe(4);
         });
     });
 

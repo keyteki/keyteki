@@ -8,6 +8,9 @@ class ReadyAction extends CardGameAction {
     }
 
     canAffect(card, context) {
+        if (card.game.currentPhase === 'ready' && !card.readiesDuringReadyPhase()) {
+            return false;
+        }
         return (
             card.location === 'play area' &&
             card.checkRestrictions('ready', context) &&

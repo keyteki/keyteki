@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class EaterOfTheDead extends Card {
+    // Fight/Reap: Purge a creature from a discard pile. If you do, put a +1power counter on Eater of the Dead.
     setupCardAbilities(ability) {
         this.fight({
             reap: true,

@@ -2,6 +2,7 @@ const Card = require('../../Card.js');
 const Houses = require('../../../constants').Houses;
 
 class GleefulMayhem extends Card {
+    // Play: For each house, deal 5D to a creature of that house.
     setupCardAbilities(ability) {
         const targets = {};
         for (const house of Houses) {

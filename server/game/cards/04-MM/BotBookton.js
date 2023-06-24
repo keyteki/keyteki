@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class BotBookton extends Card {
+    // Reap: Play the top card of your deck.
     setupCardAbilities(ability) {
         this.reap({
             gameAction: ability.actions.playCard((context) => ({

@@ -81,13 +81,8 @@ const Lobby = () => {
 
     const banners = [
         {
-            img: '/banner/NKFL-s18-1.png',
-            link:
-                'https://docs.google.com/forms/d/e/1FAIpQLScdV0qp2V81XMbyw_ore6IyiN1nNRlpf4rpRyCpDNujFLOSZw/viewform'
-        },
-        {
-            img: '/banner/average-joes.png',
-            link: 'https://discord.gg/bxSGTcSH5W'
+            img: '/banner/happygee-v3.png',
+            link: 'https://geeb.us/bpptco'
         }
     ];
 
@@ -98,7 +93,6 @@ const Lobby = () => {
             </SideBar>
             <div>
                 <Col sm={{ span: 10, offset: 1 }}>
-                    <div className='main-header' />
                     <Carousel
                         autoPlay={true}
                         infiniteLoop={true}

@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class Zap extends Card {
+    // Play: Deal 1 to a creature for each house represented among creatures in play.
     setupCardAbilities(ability) {
         this.play({
             effect:

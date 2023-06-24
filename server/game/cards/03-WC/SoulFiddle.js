@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class SoulFiddle extends Card {
+    // Action: Enrage a creature.
     setupCardAbilities(ability) {
         this.action({
             condition: (context) => context.game.creaturesInPlay.length > 0,

@@ -1,6 +1,8 @@
 const Card = require('../../Card.js');
 
 class VespilonTheorist extends Card {
+    // Elusive. (The first time this creature is attacked each turn, no damage is dealt.)
+    // Reap: Choose a house. Reveal the top card of your deck. If it is of that house, archive it and gain 1<A>. Otherwise, discard it.
     setupCardAbilities(ability) {
         this.reap({
             condition: (context) => context.player.deck.length > 0,

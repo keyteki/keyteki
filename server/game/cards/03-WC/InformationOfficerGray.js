@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class InformationOfficerGray extends Card {
+    // Play/Fight/Reap: You may reveal a non-Star Alliance card from your hand. If you do, archive it.
     setupCardAbilities(ability) {
         this.play({
             fight: true,

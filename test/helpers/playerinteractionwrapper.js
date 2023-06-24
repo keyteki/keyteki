@@ -84,10 +84,25 @@ class PlayerInteractionWrapper {
         // Set up each of the cards
         _.each(newState, (card) => {
             if (_.isString(card)) {
-                card = this.findCardByName(card, 'deck');
+                if (card === this.token || card.startsWith(this.token + ':')) {
+                    if (!card.includes(':')) {
+                        throw new Error(
+                            `Token "${card}" missing its versus card id as "token:versus"`
+                        );
+                    }
+                    const versusCard = this.deck.find((c) => c.id === card.split(':')[1]);
+                    this.player.deck = [versusCard].concat(
+                        this.deck.filter((c) => c !== versusCard)
+                    );
+                    card = this.makeTokenCreature();
+                    if (!card.isToken()) {
+                        throw new Error(`Card "${card.id}" did not become a token`);
+                    }
+                } else {
+                    card = this.findCardByName(card, 'deck');
+                    this.moveCard(card, 'play area');
+                }
             }
-
-            this.moveCard(card, 'play area');
             card.exhausted = false;
         });
     }
@@ -344,6 +359,17 @@ class PlayerInteractionWrapper {
         return card;
     }
 
+    hasPlayCreaturePrompt(menuTitle, creatureName) {
+        var currentPrompt = this.currentPrompt();
+        return (
+            !!currentPrompt &&
+            currentPrompt.menuTitle &&
+            currentPrompt.menuTitle.toLowerCase() === menuTitle.toLowerCase() &&
+            currentPrompt.promptTitle &&
+            currentPrompt.promptTitle.toLowerCase() === creatureName.toLowerCase()
+        );
+    }
+
     hasPrompt(title) {
         var currentPrompt = this.currentPrompt();
         return (
@@ -355,20 +381,29 @@ class PlayerInteractionWrapper {
         );
     }
 
+    hasPromptImage(imageID) {
+        var currentPrompt = this.currentPrompt();
+        return (
+            !!currentPrompt &&
+            currentPrompt.controls &&
+            currentPrompt.controls.some((c) => c.source.image === imageID)
+        );
+    }
+
     selectDeck(deck) {
         this.game.selectDeck(this.player.name, deck);
     }
 
-    clickPrompt(text) {
+    clickPrompt(text, num = 0) {
         text = text.toString();
         var currentPrompt = this.player.currentPrompt();
-        var promptButton = _.find(
+        var promptButtons = _.filter(
             currentPrompt.buttons,
             (button) =>
                 this.replaceLocalizedValues(button).toString().toLowerCase() === text.toLowerCase()
         );
 
-        if (!promptButton) {
+        if (!promptButtons || promptButtons.length <= num || !promptButtons[num]) {
             throw new Error(
                 `Couldn't click on "${text}" for ${
                     this.player.name
@@ -378,9 +413,9 @@ class PlayerInteractionWrapper {
 
         this.game.menuButton(
             this.player.name,
-            promptButton.arg,
-            promptButton.uuid,
-            promptButton.method
+            promptButtons[num].arg,
+            promptButtons[num].uuid,
+            promptButtons[num].method
         );
         this.game.continue();
         this.checkUnserializableGameState();
@@ -579,7 +614,12 @@ class PlayerInteractionWrapper {
 
         this.clickCard(card, 'hand');
         this.clickPrompt('Play this creature');
-        if (this.hasPrompt('Which flank do you want to place this creature on?')) {
+        if (
+            this.hasPlayCreaturePrompt(
+                'Which flank do you want to place this creature on?',
+                card.name
+            )
+        ) {
             if (left && deploy) {
                 this.clickPrompt('Deploy Left');
             } else if (left && !deploy) {
@@ -652,6 +692,21 @@ class PlayerInteractionWrapper {
 
     getForgedKeys() {
         return this.player.getForgedKeys();
+    }
+
+    makeTokenCreature() {
+        let card = this.player.deck[0];
+        this.game.actions
+            .makeTokenCreature({
+                target: card,
+                deployIndex: this.inPlay.length
+            })
+            .resolve(card, this.game.getFrameworkContext(this.player));
+
+        this.game.continue();
+        this.checkUnserializableGameState();
+
+        return card;
     }
 }
 

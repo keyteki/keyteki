@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class Curiosity extends Card {
+    // Play: Destroy each Scientist creature.
     setupCardAbilities(ability) {
         this.play({
             effect: 'destroy all Scientist creatures',

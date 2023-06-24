@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class BlindingLight extends Card {
+    // Play: Choose a house. Stun each creature of that house.
     setupCardAbilities(ability) {
         this.play({
             target: {

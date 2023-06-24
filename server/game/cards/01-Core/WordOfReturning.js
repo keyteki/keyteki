@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class WordOfReturning extends Card {
+    // Play: Deal 1<D> to each enemy creature for each <A> on it. Return all <A> from those creatures to your pool.
     setupCardAbilities(ability) {
         this.play({
             condition: (context) => !!context.player.opponent,

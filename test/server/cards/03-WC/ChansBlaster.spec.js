@@ -219,7 +219,7 @@ describe('Chan’s Blaster', function () {
             this.commanderChan2 = this.player1.player.creaturesInPlay[2];
         });
 
-        it('should allow moving upgrade between officers of same name', function () {
+        it('should not allow moving upgrade between officers of same name', function () {
             this.player1.playUpgrade(this.chanSBlaster, this.commanderChan1);
             this.player1.clickCard(this.gub);
             this.player1.clickPrompt('Reap with this creature');
@@ -228,15 +228,12 @@ describe('Chan’s Blaster', function () {
 
             this.player1.clickPrompt('Chan’s Blaster');
             this.player1.clickPrompt('Move Chan’s Blaster');
-            expect(this.player1).not.toBeAbleToSelect(this.commanderChan1);
-            expect(this.player1).toBeAbleToSelect(this.commanderChan2);
-            this.player1.clickCard(this.commanderChan2);
+            // There are no valid targets. Move to resolving Chan's ability.
             this.player1.clickCard(this.shooler);
             this.player1.clickPrompt('Reap with this creature');
             expect(this.player1.amber).toBe(4);
 
-            expect(this.commanderChan1.upgrades).not.toContain(this.chanSBlaster);
-            expect(this.commanderChan2.upgrades).toContain(this.chanSBlaster);
+            expect(this.commanderChan1.upgrades).toContain(this.chanSBlaster);
         });
     });
 });

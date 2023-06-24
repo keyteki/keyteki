@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class Gebuk extends Card {
+    // Destroyed: Discard the top card of your deck. If it is a creature, after Gebuk leaves play, put that creature into play in Gebuks position in the battleline.
     setupCardAbilities(ability) {
         this.destroyed({
             gameAction: ability.actions.discard((context) => ({

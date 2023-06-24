@@ -9,10 +9,7 @@ class StormSurge extends Card {
             effectAlert: true,
             gameAction: ability.actions.nextRoundEffect({
                 targetController: 'opponent',
-                effect: ability.effects.playerCannot(
-                    'ready',
-                    (context) => context.game.currentPhase === 'ready'
-                )
+                effect: ability.effects.doesNotReady()
             })
         });
     }

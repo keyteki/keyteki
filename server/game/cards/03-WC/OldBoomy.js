@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class OldBoomy extends Card {
+    // Reap: Reveal cards from the top of your deck until you reveal a Brobnar card or choose to stop. Deal 2D to Old Boomy if a Brobnar card was revealed. Archive each card revealed this way.
     setupCardAbilities(ability) {
         this.reap({
             gameAction: ability.actions.reveal((context) => ({

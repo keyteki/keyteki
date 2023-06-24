@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class PrinceDerricUnifier extends Card {
+    // Play: Gain 3A if you control creatures from 3different houses.
     setupCardAbilities(ability) {
         this.play({
             condition: (context) =>

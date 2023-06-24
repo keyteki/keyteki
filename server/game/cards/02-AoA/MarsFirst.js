@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class MarsFirst extends Card {
+    // Play: Ready and use a friendly Mars creature.
     setupCardAbilities(ability) {
         this.play({
             target: {

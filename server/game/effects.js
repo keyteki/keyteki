@@ -19,6 +19,7 @@ const Effects = {
     addKeyword: (keyword) => EffectBuilder.card.static('addKeyword', keyword),
     addTrait: (trait) => EffectBuilder.card.static('addTrait', trait),
     blank: () => EffectBuilder.card.static('blank'),
+    blankFight: () => EffectBuilder.card.static('blankFight'),
     bonusDamage: (bonus) => EffectBuilder.card.static('bonusDamage', bonus),
     bonusFightDamage: (match) => EffectBuilder.card.static('bonusFightDamage', match),
     canPlayAsUpgrade: () => EffectBuilder.card.static('canPlayAsUpgrade'),
@@ -27,22 +28,26 @@ const Effects = {
     changeHouse: (house) => EffectBuilder.card.static('changeHouse', house),
     changeType: (type) => EffectBuilder.card.static('changeType', type),
     consideredAsFlank: () => EffectBuilder.card.static('consideredAsFlank'),
-    copyCard: (card) => EffectBuilder.card.static('copyCard', new CopyCard(card)),
+    copyCard: (card, cascadeEffects = true) =>
+        EffectBuilder.card.static('copyCard', new CopyCard(card, cascadeEffects)),
     customDetachedCard: (properties) => EffectBuilder.card.detached('customEffect', properties),
     doesNotReady: () => EffectBuilder.card.static('doesNotReady'),
+    enterPlayAnywhere: () => EffectBuilder.card.static('enterPlayAnywhere'),
     entersPlayEnraged: (condition) =>
         EffectBuilder.card.static('entersPlayEnraged', new ConditionValue(condition)),
     entersPlayReady: (condition) =>
         EffectBuilder.card.static('entersPlayReady', new ConditionValue(condition)),
     entersPlayStunned: (condition) =>
         EffectBuilder.card.static('entersPlayStunned', new ConditionValue(condition)),
-    visbileIn: (location) => EffectBuilder.card.static('visbileIn', location),
+    flipToken: () => EffectBuilder.card.static('flipToken'),
+    visibleIn: (location) => EffectBuilder.card.static('visibleIn', location),
     gainAbility: (type, properties) =>
         EffectBuilder.card.static('gainAbility', new GainAbility(type, properties)),
     fightAbilitiesAddReap: () => EffectBuilder.card.static('fightAbilitiesAddReap'),
     ignores: (trait) => EffectBuilder.card.static('ignores', trait),
     keyAmber: () => EffectBuilder.card.static('keyAmber'),
     keyAmberOpponent: () => EffectBuilder.card.static('keyAmberOpponent'),
+    isAmberInPool: () => EffectBuilder.card.static('isAmberInPool'),
     limitFightDamage: (amount) => EffectBuilder.card.flexible('limitFightDamage', amount),
     modifyArmor: (amount) => EffectBuilder.card.flexible('modifyArmor', amount),
     modifyBonusIcons: (icons) => EffectBuilder.card.flexible('modifyBonusIcons', icons),
@@ -58,7 +63,9 @@ const Effects = {
     setArmor: (amount) => EffectBuilder.card.flexible('setArmor', amount),
     setPower: (amount) => EffectBuilder.card.flexible('setPower', amount),
     takeControl: (player) => EffectBuilder.card.flexible('takeControl', player),
-    takeControlOnLeft: () => EffectBuilder.card.flexible('takeControlOnLeft'),
+    takeControlOn: (position) => EffectBuilder.card.static('takeControlOn', position),
+    takeControlOnLeft: () => EffectBuilder.card.static('takeControlOnLeft'),
+    takeControlOnRight: () => EffectBuilder.card.static('takeControlOnRight'),
     entersPlayUnderOpponentsControl: () =>
         EffectBuilder.card.static('entersPlayUnderOpponentsControl'),
     terminalCondition: (properties) =>
@@ -118,12 +125,16 @@ const Effects = {
     noActiveHouseForPlay: () => EffectBuilder.player.static('noActiveHouseForPlay'),
     playerCannot: (type, condition) =>
         EffectBuilder.player.static('abilityRestrictions', new CannotRestriction(type, condition)),
-    redirectAmber: (recepient) => EffectBuilder.player.flexible('redirectAmber', recepient),
     restrictHouseChoice: (house) => EffectBuilder.player.static('restrictHouseChoice', house),
     stealFromPool: () => EffectBuilder.player.static('stealFromPool'),
     captureFromPool: () => EffectBuilder.player.static('captureFromPool'),
+    captureMoreFromPool: (amount) => EffectBuilder.player.static('captureMoreFromPool', amount),
+    exaltMoreFromPool: (amount) => EffectBuilder.player.static('exaltMoreFromPool', amount),
     stopHouseChoice: (house) => EffectBuilder.player.flexible('stopHouseChoice', house),
-    skipStep: (step) => EffectBuilder.player.static('skipStep', step)
+    skipStep: (step) => EffectBuilder.player.static('skipStep', step),
+    opponentCardsCannotLeaveArchives: (card) =>
+        EffectBuilder.player.static('opponentCardsCannotLeaveArchives', card),
+    topCardOfDeckVisible: (card) => EffectBuilder.player.static('topCardOfDeckVisible', card)
 };
 
 module.exports = Effects;

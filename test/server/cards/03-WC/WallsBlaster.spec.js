@@ -233,22 +233,16 @@ describe('Walls’ Blaster', function () {
             this.chiefEngineerWalls2 = this.player1.player.creaturesInPlay[2];
         });
 
-        it('should allow moving upgrade between officers of same name', function () {
+        it('should not allow moving upgrade between officers of same name', function () {
             this.player1.playUpgrade(this.wallsBlaster, this.chiefEngineerWalls1);
             this.player1.clickCard(this.techivorePulpate);
             this.player1.reap(this.chiefEngineerWalls1);
             this.player1.clickCard(this.chiefEngineerWalls1);
 
             this.player1.clickPrompt('Move Walls’ Blaster');
-            expect(this.player1).not.toBeAbleToSelect(this.chiefEngineerWalls1);
-            expect(this.player1).toBeAbleToSelect(this.chiefEngineerWalls2);
-            this.player1.clickCard(this.chiefEngineerWalls2);
-            expect(this.player1).toHavePrompt('Choose a creature');
-            this.player1.clickCard(this.lamindra);
-            expect(this.lamindra.stunned).toBe(true);
-
-            expect(this.chiefEngineerWalls1.upgrades).not.toContain(this.wallsBlaster);
-            expect(this.chiefEngineerWalls2.upgrades).toContain(this.wallsBlaster);
+            // There are no valid targets.
+            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.chiefEngineerWalls1.upgrades).toContain(this.wallsBlaster);
         });
     });
 });

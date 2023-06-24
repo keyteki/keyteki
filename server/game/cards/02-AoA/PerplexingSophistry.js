@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class PerplexingSophistry extends Card {
+    // Play: If you have more A than your opponent, they discard a random card from their hand and you draw a card.
     setupCardAbilities(ability) {
         this.play({
             condition: (context) =>

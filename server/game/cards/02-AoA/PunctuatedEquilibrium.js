@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class PunctuatedEquilibrium extends Card {
+    // Play: Each player discards their hand, then refills their hand as if it were the end of their turn.
     setupCardAbilities(ability) {
         this.play({
             condition: (context) => !!context.player.opponent,

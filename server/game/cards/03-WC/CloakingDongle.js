@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class CloakingDongle extends Card {
+    // This creature and each of its neighbors gains elusive. (The first time this creature is attacked each turn, no damage is dealt.)
     setupCardAbilities(ability) {
         this.whileAttached({
             effect: [

@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class MasterTheTheory extends Card {
+    // Play: If there are no friendly creatures in play, you may archive a card for each enemy creature.
     setupCardAbilities(ability) {
         this.play({
             condition: () => this.controller.creaturesInPlay.length === 0,

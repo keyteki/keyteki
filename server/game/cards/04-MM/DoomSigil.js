@@ -1,6 +1,8 @@
 const Card = require('../../Card.js');
 
 class DoomSigil extends Card {
+    // Each creature gains poison.
+    // If there are no creatures in play, destroy Doom Sigil.
     setupCardAbilities(ability) {
         this.persistentEffect({
             targetController: 'any',

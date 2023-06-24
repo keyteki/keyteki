@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class TechivorePulpate extends Card {
+    // After a player chooses an active house, destroy each artifact of that house.
     setupCardAbilities(ability) {
         this.reaction({
             when: {

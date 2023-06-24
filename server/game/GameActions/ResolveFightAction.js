@@ -3,6 +3,7 @@ const CardGameAction = require('./CardGameAction');
 class ResolveFightAction extends CardGameAction {
     setDefaultProperties() {
         this.attacker = null;
+        this.ignoreTaunt = false;
     }
 
     setup() {
@@ -26,6 +27,7 @@ class ResolveFightAction extends CardGameAction {
             return false;
         } else if (
             !card.checkRestrictions('attackDueToTaunt') &&
+            !this.ignoreTaunt &&
             !this.attacker.ignores('taunt') &&
             context.stage !== 'effect'
         ) {
@@ -52,7 +54,6 @@ class ResolveFightAction extends CardGameAction {
         };
         let fightEvent = super.createEvent('onFight', params, (event) => {
             if (!this.canAffect(event.card, event.context)) {
-                event.card.elusiveUsed = true;
                 return;
             }
 
@@ -104,16 +105,14 @@ class ResolveFightAction extends CardGameAction {
                 }
 
                 if (event.attacker.checkRestrictions('dealFightDamage')) {
+                    let attackerDamageEvent = context.game.actions
+                        .dealDamage(attackerParams)
+                        .getEvent(event.attackerTarget, context);
+
                     if (damageEvent) {
-                        damageEvent.addChildEvent(
-                            context.game.actions
-                                .dealDamage(attackerParams)
-                                .getEvent(event.attackerTarget, context)
-                        );
+                        damageEvent.addChildEvent(attackerDamageEvent);
                     } else {
-                        damageEvent = context.game.actions
-                            .dealDamage(attackerParams)
-                            .getEvent(event.attackerTarget, context);
+                        damageEvent = attackerDamageEvent;
                     }
                 }
             } else if (
@@ -125,7 +124,26 @@ class ResolveFightAction extends CardGameAction {
                     .getEvent(event.attackerTarget, context);
             }
 
-            event.card.elusiveUsed = true;
+            // Splash damage resolves regardless of elusive.
+            let splashAttackAmount = event.attacker.getKeywordValue('splash-attack');
+            if (splashAttackAmount > 0 && event.attackerTarget.neighbors.length > 0) {
+                if (!damageEvent) {
+                    attackerParams.amount = 0;
+                    damageEvent = context.game.actions
+                        .dealDamage(attackerParams)
+                        .getEvent(event.attackerTarget, context);
+                }
+                let splashParams = Object.assign({}, attackerParams, {
+                    amount: splashAttackAmount,
+                    damageType: 'splash-attack'
+                });
+                event.attackerTarget.neighbors.forEach((neighbor) => {
+                    damageEvent.addChildEvent(
+                        context.game.actions.dealDamage(splashParams).getEvent(neighbor, context)
+                    );
+                });
+            }
+
             if (damageEvent) {
                 event.card.isFighting = true;
                 event.attacker.isFighting = true;
@@ -147,7 +165,10 @@ class ResolveFightAction extends CardGameAction {
                     context: context,
                     fight: true
                 },
-                (event) => event.card.unenrage()
+                (event) => {
+                    event.fightEvent.card.elusiveUsed = true;
+                    event.card.unenrage();
+                }
             )
         );
 

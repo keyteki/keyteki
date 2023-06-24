@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class Cannon extends Card {
+    // Action: Deal 2<D> to a creature.
     setupCardAbilities(ability) {
         this.action({
             target: {

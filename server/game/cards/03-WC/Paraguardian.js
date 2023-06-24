@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class Paraguardian extends Card {
+    // Reap: You may exalt Paraguardian. If you do, ward each of its neighbors.
     setupCardAbilities(ability) {
         this.reap({
             optional: true,

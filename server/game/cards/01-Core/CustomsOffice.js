@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class CustomsOffice extends Card {
+    // Your opponent must pay you 1A in order to play an artifact.
     setupCardAbilities(ability) {
         this.persistentEffect({
             targetController: 'opponent',

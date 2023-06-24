@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class TitanEngineer extends Card {
+    // While Titan Engineer is not on a flank, keys cost +1 A.
     setupCardAbilities(ability) {
         this.persistentEffect({
             targetController: 'any',

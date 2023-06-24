@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class MarsNeedsAmber extends Card {
+    // Play: Each damaged enemy non-Mars creature captures 1A from their own side.
     setupCardAbilities(ability) {
         this.play({
             condition: (context) => !!context.player.opponent,

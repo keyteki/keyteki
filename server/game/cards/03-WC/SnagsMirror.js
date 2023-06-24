@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class SnagsMirror extends Card {
+    // After a player chooses an active house, their opponent cannot choose the same house as their active house on their next turn.
     setupCardAbilities(ability) {
         this.reaction({
             when: {

@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class SacroBot extends Card {
+    // Reap: Discard a card from your hand. If you do, draw a card.
     setupCardAbilities(ability) {
         this.reap({
             target: {

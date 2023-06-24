@@ -13,7 +13,7 @@ describe('Phase Shift', function () {
             this.player1.play(this.phaseShift);
         });
 
-        it('should allow playing a non-logos card', function () {
+        it('should allow playing a single non-logos card', function () {
             expect(this.player1.amber).toBe(0);
             expect(this.player1).toBeAbleToPlay(this.virtuousWorks);
             this.player1.play(this.virtuousWorks);

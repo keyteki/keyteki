@@ -1,6 +1,8 @@
 const Card = require('../../Card.js');
 
 class SaurianPlant extends Card {
+    // Elusive.
+    // After a player chooses Saurian as their active house, gain 1A.
     setupCardAbilities(ability) {
         this.reaction({
             when: {

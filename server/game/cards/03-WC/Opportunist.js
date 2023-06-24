@@ -1,6 +1,8 @@
 const Card = require('../../Card.js');
 
 class Opportunist extends Card {
+    // This creature gains elusive. (The first time this creature is attacked each turn, no damage is dealt.)
+    // Play: This creature captures 1A from its opponent.
     setupCardAbilities(ability) {
         this.play({
             gameAction: ability.actions.capture((context) => ({

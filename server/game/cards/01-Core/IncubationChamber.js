@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class IncubationChamber extends Card {
+    // Omni: Reveal a Mars creature from your hand. If you do, archive it.
     setupCardAbilities(ability) {
         this.omni({
             target: {

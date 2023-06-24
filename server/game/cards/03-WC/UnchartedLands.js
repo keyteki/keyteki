@@ -1,6 +1,8 @@
 const Card = require('../../Card.js');
 
 class UnchartedLands extends Card {
+    // Play: Place 6A from the common supply on Uncharted Lands.
+    // Each Star Alliance creature gains, Reap: Move 1A from Uncharted Lands to your pool.
     setupCardAbilities(ability) {
         this.play({
             gameAction: ability.actions.placeAmber({

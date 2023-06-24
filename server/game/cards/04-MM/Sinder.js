@@ -1,6 +1,8 @@
 const Card = require('../../Card.js');
 
 class Sinder extends Card {
+    // Taunt. (This creatures neighbors cannot be attacked unless they have taunt.)
+    // Reap: Destroy a friendly creature.
     setupCardAbilities(ability) {
         this.reap({
             target: {

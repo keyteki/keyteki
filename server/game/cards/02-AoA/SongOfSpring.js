@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class SongOfSpring extends Card {
+    // Play: Shuffle any number of friendly Untamed creatures from your hand, discard pile, or battleline back into your deck.
     setupCardAbilities(ability) {
         this.play({
             target: {

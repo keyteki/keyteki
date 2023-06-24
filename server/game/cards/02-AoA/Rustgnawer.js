@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class Rustgnawer extends Card {
+    // Fight: Destroy an artifact. If that artifact had an mber bonus, you gain that much A.
     setupCardAbilities(ability) {
         this.fight({
             target: {

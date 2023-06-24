@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class MasterOfTheGrey extends Card {
+    // Your opponent cannot resolve bonus icons on cards they play.
     setupCardAbilities(ability) {
         this.persistentEffect({
             targetController: 'opponent',

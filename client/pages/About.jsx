@@ -26,7 +26,7 @@ class About extends React.Component {
 
                         <p>
                             This site was setup to allow you to play Keyforge, a Unique Deck Game
-                            from Fantasy Flight Games (FFG) in your browser.
+                            from Ghost Galaxy in your browser.
                         </p>
                     </Trans>
                     <Trans i18nKey='about.cool'>
@@ -159,8 +159,8 @@ class About extends React.Component {
                             copyright Fantasy Flight Games and I make no claims of ownership or
                             otherwise of any of the artwork or trademarks. This site exists for
                             passionate fans to play a game they enjoy and augment, rather than
-                            replace, the in person LCG. FFG does not endorse, support, and is not
-                            involved with, this site in any way.
+                            replace, the in person LCG. Ghost Galaxy does not endorse, support, and
+                            is not involved with, this site in any way.
                         </p>
                     </Trans>
                 </Panel>

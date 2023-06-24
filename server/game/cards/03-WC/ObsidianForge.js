@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class ObsidianForge extends Card {
+    // Action: Destroy any number of friendly creatures. You may forge a key at +6A current cost, reduced by 1A for each creature destroyed this way. If you forge a key this way, destroy Obsidian Forge.
     setupCardAbilities(ability) {
         this.action({
             target: {

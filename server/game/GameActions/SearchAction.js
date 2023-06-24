@@ -6,6 +6,7 @@ class SearchAction extends PlayerAction {
         this.location = ['deck', 'discard'];
         this.reveal = true;
         this.cardName = null;
+        this.uniqueCardNames = false;
     }
 
     setup() {
@@ -27,18 +28,21 @@ class SearchAction extends PlayerAction {
         return super.createEvent(
             'onSearch',
             { player: player, context: context, location: this.location },
-            () => {
+            (event) => {
                 context.game.promptForSelect(context.game.activePlayer, {
                     location: this.location,
                     controller: 'self',
                     context: context,
                     numCards: this.amount,
+                    uniqueCardNames: this.uniqueCardNames,
                     cardCondition: (card) =>
                         this.cardCondition
                             ? this.cardCondition(card)
                             : !this.cardName || card.name === this.cardName,
                     mode: this.amount > 0 ? 'upTo' : 'unlimited',
                     onSelect: (player, cards) => {
+                        event.searchedCards = cards;
+
                         if (cards.length > 0) {
                             let cardMessageInfo = '{1}';
                             if (!this.reveal) {

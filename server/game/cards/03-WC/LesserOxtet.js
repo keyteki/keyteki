@@ -1,6 +1,9 @@
 const Card = require('../../Card.js');
 
 class LesserOxtet extends Card {
+    // Elusive.
+    // Play: Purge each card in your hand.
+    // Reap: Keys cost +3A during your opponents next turn.
     setupCardAbilities(ability) {
         this.play({
             gameAction: ability.actions.purge((context) => ({

@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class NyzykResonator extends Card {
+    // For each neighbor Nyzyk Resonator has, your opponents keys cost +2A.
     setupCardAbilities(ability) {
         this.persistentEffect({
             targetController: 'opponent',

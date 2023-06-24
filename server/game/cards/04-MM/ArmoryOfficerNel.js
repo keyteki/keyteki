@@ -1,6 +1,8 @@
 const Card = require('../../Card.js');
 
 class ArmoryOfficerNel extends Card {
+    // Enhance R. (These icons have already been added to cards in your deck.)
+    // After an upgrade enters play, draw a card.
     setupCardAbilities(ability) {
         this.reaction({
             when: {

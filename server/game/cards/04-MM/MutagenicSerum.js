@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class MutagenicSerum extends Card {
+    // Omni: Destroy Mutagenic Serum. You may use friendly Mutant creatures this turn.
     setupCardAbilities(ability) {
         this.omni({
             gameAction: [

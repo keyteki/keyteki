@@ -90,7 +90,7 @@ describe('Scowly Caper', function () {
             expect(this.player2.archives).not.toContain(this.scowlyCaper);
         });
 
-        it("should return to its owner's opponent play area after Spangler is destroyed", function () {
+        it("should return to its owner's opponent play area after Spangler is destroyed and not lose skirmish", function () {
             this.player1.playCreature(this.scowlyCaper);
             this.player1.endTurn();
 
@@ -120,6 +120,7 @@ describe('Scowly Caper', function () {
             expect(this.player2).toHavePrompt('Scowly Caper');
             this.player2.clickPrompt('Left');
             expect(this.scowlyCaper.location).toBe('play area');
+            expect(this.scowlyCaper.hasKeyword('skirmish')).toBe(true);
 
             expect(this.scowlyCaper.controller).toBe(this.player2.player);
             expect(this.player1.player.cardsInPlay).not.toContain(this.scowlyCaper);

@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class Dexus extends Card {
+    // After your opponent plays a creature on their right flank, they lose 1A.
     setupCardAbilities(ability) {
         this.reaction({
             when: {

@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class BaronMengevin extends Card {
+    // After you discard a Sanctum card from your hand, Baron Mengevin captures 1A.
     setupCardAbilities(ability) {
         this.reaction({
             when: {

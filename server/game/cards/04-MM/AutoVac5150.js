@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class AutoVac5150 extends Card {
+    // Action: You may discard a card from your archives. If you do, keys cost +3A during your opponents next turn. Otherwise, archive a card.
     setupCardAbilities(ability) {
         this.action({
             target: {

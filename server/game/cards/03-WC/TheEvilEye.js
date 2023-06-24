@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class TheEvilEye extends Card {
+    // Play: Keys cost +3A during your opponents next turn.
     setupCardAbilities(ability) {
         this.play({
             effect: "increase key cost by 3 during {1}'s next turn",

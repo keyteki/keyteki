@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class DarkHarbinger extends Card {
+    // After you play an Untamed action card, ready Dark Harbinger.
     setupCardAbilities(ability) {
         this.reaction({
             when: {

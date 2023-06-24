@@ -15,7 +15,7 @@ import './CardImage.scss';
  *
  * @param {CardImageProps} props
  */
-const CardImage = ({ card, cardBack, size, halfSize, onMouseOver, onMouseOut }) => {
+const CardImage = ({ card, cardBack, size, tokenCard, halfSize, onMouseOver, onMouseOut }) => {
     let [cardImage, setCardImage] = useState(null);
     const { i18n } = useTranslation();
     const fabricRef = useRef();
@@ -37,7 +37,11 @@ const CardImage = ({ card, cardBack, size, halfSize, onMouseOver, onMouseOut }) 
                         halfSize,
                         url: `/img/${halfSize ? 'halfSize' : 'cards'}/${
                             i18n.language === 'en' ? '' : i18n.language
-                        }/${card.image}.${halfSize ? 'jpg' : 'png'}`
+                        }/${(tokenCard || card).image.replace('*', '_')}.${
+                            halfSize ? 'jpg' : 'png'
+                        }`,
+                        image: (tokenCard || card).image,
+                        enhancements: tokenCard ? [] : card.enhancements
                     });
                 }
             }
@@ -65,6 +69,12 @@ const CardImage = ({ card, cardBack, size, halfSize, onMouseOver, onMouseOut }) 
             card.tokens && card.tokens.time,
             card.tokens && card.tokens.ward,
             card.tokens && card.tokens.warrant,
+            card.tokens && card.tokens.yea,
+            card.tokens && card.tokens.nay,
+            card.tokens && card.tokens.wisdom,
+            card.tokens && card.tokens.hatch,
+            card.tokens && card.tokens.paint,
+            card.tokens && card.tokens.trade,
             card.stunned,
             card.pseudoDamage,
             card.wardBroken,
@@ -74,7 +84,7 @@ const CardImage = ({ card, cardBack, size, halfSize, onMouseOver, onMouseOut }) 
     );
 
     useEffect(() => {
-        if (card.facedown) {
+        if (card.facedown && !card.tokenCard) {
             setCardImage(cardBack);
         } else {
             setCardImage(
@@ -85,7 +95,7 @@ const CardImage = ({ card, cardBack, size, halfSize, onMouseOver, onMouseOut }) 
                                   onMouseOver({
                                       image: (
                                           <CardImage
-                                              card={{ ...card, location: 'zoom' }}
+                                              card={{ ...(tokenCard || card), location: 'zoom' }}
                                               cardBack={cardBack}
                                           />
                                       ),

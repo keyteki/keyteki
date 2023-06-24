@@ -1,43 +1,27 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import * as actions from '../../redux/actions';
+import { useDispatch } from 'react-redux';
+import { navigate } from '../../redux/actions';
 
-const mapStateToProps = (state, ownProps) => {
-    return {
-        href: ownProps.href
-    };
-};
+const Link = ({ children, className, href }) => {
+    const dispatch = useDispatch();
 
-class InnerLink extends React.Component {
-    constructor() {
-        super();
-
-        this.onClick = this.onClick.bind(this);
-    }
-
-    onClick(event) {
+    const onClick = (event) => {
         event.preventDefault();
-        this.props.navigate(this.props.href);
-    }
+        dispatch(navigate(href));
+    };
 
-    render() {
-        return (
-            <a className={this.props.className} href={this.props.href} onClick={this.onClick}>
-                {this.props.children}
-            </a>
-        );
-    }
-}
-
-InnerLink.displayName = 'Link';
-InnerLink.propTypes = {
-    children: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
-    className: PropTypes.string,
-    href: PropTypes.string,
-    navigate: PropTypes.func
+    return (
+        <a href={href} className={className} onClick={onClick}>
+            {children}
+        </a>
+    );
 };
 
-const Link = connect(mapStateToProps, actions)(InnerLink);
+Link.propTypes = {
+    children: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
+    classname: PropTypes.string,
+    href: PropTypes.string
+};
 
 export default Link;

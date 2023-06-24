@@ -12,9 +12,10 @@ describe('Reclaimed by Nature', function () {
                     amber: 2
                 }
             });
+            this.evasionSigil.enhancements = ['amber', 'draw', 'damage'];
         });
 
-        it('should purge an artifact and resolve no bonus office since card has no bonus', function () {
+        it('should purge an artifact and resolve no bonus icon since card has no bonus', function () {
             this.player1.play(this.reclaimedByNature);
             expect(this.player1).toBeAbleToSelect(this.vineappleTree);
             expect(this.player1).toBeAbleToSelect(this.customsOffice);
@@ -27,7 +28,7 @@ describe('Reclaimed by Nature', function () {
             expect(this.player1.amber).toBe(1);
         });
 
-        it('should reveal a card and apply default card bonus icon', function () {
+        it('should purge an artifact and apply default card bonus icon', function () {
             this.player1.play(this.reclaimedByNature);
             expect(this.player1).toBeAbleToSelect(this.vineappleTree);
             expect(this.player1).toBeAbleToSelect(this.customsOffice);
@@ -40,8 +41,7 @@ describe('Reclaimed by Nature', function () {
             expect(this.player1.amber).toBe(2);
         });
 
-        it('should reveal a card and apply enhanced bonus icons', function () {
-            this.evasionSigil.enhancements = ['amber', 'draw', 'damage'];
+        it('should purge an artifact and apply enhanced bonus icons', function () {
             this.player1.play(this.reclaimedByNature);
             expect(this.player1).toBeAbleToSelect(this.vineappleTree);
             expect(this.player1).toBeAbleToSelect(this.customsOffice);

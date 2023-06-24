@@ -1,6 +1,8 @@
 const Card = require('../../Card.js');
 
 class LittleRapscal extends Card {
+    // Elusive.(The first time this creature is attacked each turn, no damage is dealt.)
+    // Creatures must fight when used, if able.
     setupCardAbilities(ability) {
         this.persistentEffect({
             targetController: 'any',

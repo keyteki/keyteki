@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class Yurk extends Card {
+    // Play: Choose and discard a card from your hand.
     setupCardAbilities(ability) {
         this.play({
             target: {
