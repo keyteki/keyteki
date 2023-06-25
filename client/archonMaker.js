@@ -130,7 +130,7 @@ async function cacheImages() {
     }
 
     TCOIcon = await loadImage(require('./assets/img/idbacks/tco.png'));
-    DeckListIcon = await loadImage(require('./assets/img/idbacks/decklist.png'));
+    DeckListIcon = await loadImage(require('./assets/img/idbacks/decklist-h.png'));
     CommonIcon = await loadImage(require('./assets/img/idbacks/Common.png'));
     RareIcon = await loadImage(require('./assets/img/idbacks/Rare.png'));
     SpecialIcon = await loadImage(require('./assets/img/idbacks/Special.png'));
@@ -149,8 +149,8 @@ export const buildDeckList = async (canvas, deck, language, translate, size) => 
     if (!cacheLoaded) {
         await cacheImages();
     }
-    const width = 600;
-    const height = 840;
+    const width = 840;
+    const height = 600;
     const order = ['action', 'artifact', 'creature', 'upgrade'];
 
     const fontProps = {
@@ -172,13 +172,13 @@ export const buildDeckList = async (canvas, deck, language, translate, size) => 
 
     const houseData = {
         size: 35,
-        0: { x: 55, y: 124 },
-        1: { x: 55, y: 502 },
-        2: { x: 310, y: 219 }
+        0: { x: 50, y: 101 },
+        1: { x: 306, y: 101 },
+        2: { x: 562, y: 101 }
     };
     const cardData = {
         size: 20,
-        start: { x: 54, y: 165 }
+        start: { x: 56, y: 148 }
     };
     const qrCode = await QRCode.toCanvas(
         fabric.util.createCanvasElement(),
@@ -198,25 +198,34 @@ export const buildDeckList = async (canvas, deck, language, translate, size) => 
         Token: RareIcon,
         'The Tide': TideIcon
     };
-    const line1 = new fabric.Line([55, 157, 295, 157], lineStyle);
-    const line2 = new fabric.Line([55, 535, 295, 535], lineStyle);
-    const line3 = new fabric.Line([310, 252, 550, 252], lineStyle);
-    const text = new fabric.Text('DECK LIST', { ...fontProps, fontWeight: 200 }); // TEST PR
+    const line1 = new fabric.Line([80, 136, 288, 136], lineStyle);
+    const line2 = new fabric.Line([336, 136, 544, 136], lineStyle);
+    const line3 = new fabric.Line([592, 136, 800, 136], lineStyle);
+    const text = new fabric.Text('DECK LIST', { ...fontProps, fontWeight: 200 });
 
-    QRCodeIcon.set({ left: 332, top: 612 }).scaleToWidth(150);
-    expansion.set({ left: 232, top: 97 }).scaleToWidth(20);
-    TCO.set({ left: 505, top: 769, angle: -90 }).scaleToWidth(30);
-    text.set({ left: 255, top: 100 });
+    QRCodeIcon.set({ left: 737, top: 13 }).scaleToWidth(90);
+    expansion.set({ left: 185, top: 72 }).scaleToWidth(20);
+    TCO.set({ left: 757, top: 507 }).scaleToWidth(40);
+    text.set({ left: 210, top: 72 });
     canvas.add(DeckListIcon, line1, line2, line3, QRCodeIcon, expansion, text, TCO);
 
     let name;
     try {
-        name = getCircularText(deck.name, width, height, 1800);
+        name = new fabric.Textbox(deck.name, {
+            width: 380,
+            left: 60,
+            top: 29,
+            textAlign: 'center',
+            fontFamily: 'Keyforge',
+            fontSize: 20,
+            fontWeight: 300,
+            fill: '#fff',
+            shadow: 'rgba(0,0,0,0.3) 5px 5px 5px'
+        });
     } catch (err) {
         name = false;
     }
     if (name) {
-        name.set({ top: 40 });
         canvas.add(name);
     }
 
@@ -267,18 +276,21 @@ export const buildDeckList = async (canvas, deck, language, translate, size) => 
     for (const [index, card] of cardList.entries()) {
         let x = cardData.start.x,
             y = cardData.start.y + index * 28;
-        const name = card.locale && card.locale[language] ? card.locale[language].name : card.name;
-        if (index > 11) {
-            y = y + 45;
-        }
 
-        if (index > 20) {
-            x = 300;
-            y = cardData.start.y + (index - 22.1) * 28;
+        const name = card.locale && card.locale[language] ? card.locale[language].name : card.name;
+
+        // Co ordinates for Tide
+        //     x = cardData.start.x;
+        //     y = 538;
+
+        if (index > 11) {
+            x = 312;
+            y = cardData.start.y - 336 + index * 28;
         }
 
         if (index > 23) {
-            y = y + 44;
+            x = 568;
+            y = cardData.start.y - 672 + index * 28;
         }
 
         const rarity = new fabric.Image(Rarities[card.rarity].toCanvasElement(), imgOptions);
@@ -292,7 +304,8 @@ export const buildDeckList = async (canvas, deck, language, translate, size) => 
 
         const number = new fabric.Text(card.number.toString(), fontProps).set({
             left: x + rarity.getScaledWidth() + 2,
-            top: y
+            top: y,
+            fontSize: 17
         });
 
         const typeIcon = new fabric.Image(CardTypesIcons[card.type].toCanvasElement(), imgOptions);
@@ -307,9 +320,10 @@ export const buildDeckList = async (canvas, deck, language, translate, size) => 
         const title = new fabric.Text(name, {
             ...fontProps,
             fontWeight: 300,
+            fontSize: 17,
             fill: card.enhancements ? '#0081ad' : 'black'
         }).set({
-            left: x + rarity.getScaledWidth() + 32 + typeIcon.getScaledWidth() + 2,
+            left: x + rarity.getScaledWidth() + 32 + typeIcon.getScaledWidth(),
             top: y
         });
         canvas.add(number, title, rarity, typeIcon);
@@ -337,6 +351,7 @@ export const buildDeckList = async (canvas, deck, language, translate, size) => 
                 .scaleToHeight(cardData.size);
             canvas.add(anomalyImage);
         }
+
         canvas.renderAll();
     }
 
