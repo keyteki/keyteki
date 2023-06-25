@@ -28,12 +28,12 @@ class WatchYourStep extends Card {
                     context.source.controller
                 ],
                 gameAction: ability.actions.makeTokenCreature((context) => ({
-                    target: context.player.opponent,
+                    player: context.player.opponent,
                     amount: 2
                 })),
                 then: {
                     gameAction: ability.actions.ready((context) => ({
-                        target: context.preThenEvent.cards
+                        target: context.preThenEvents.map((event) => event.card)
                     }))
                 }
             }))

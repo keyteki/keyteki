@@ -7,12 +7,11 @@ class BrawlIn extends Card {
             gameAction: ability.actions.makeTokenCreature({
                 amount: 2
             }),
-            then: (preThenContext) => ({
-                alwaysTriggers: true,
-                gameAction: ability.actions.enrage({
-                    target: preThenContext.target
-                })
-            })
+            then: {
+                gameAction: ability.actions.enrage((context) => ({
+                    target: context.preThenEvents.map((event) => event.card)
+                }))
+            }
         });
     }
 }

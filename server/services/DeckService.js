@@ -466,7 +466,15 @@ class DeckService {
             deck.houses.push(house);
 
             for (let card of dbDeck.cards) {
-                if (card.house === house || card.maverick === house || card.anomaly === house) {
+                if (card.id === deck.tokenCard?.id) {
+                    podCards.push(card);
+                } else if (card.isNonDeck) {
+                    continue;
+                } else if (
+                    card.house === house ||
+                    card.maverick === house ||
+                    card.anomaly === house
+                ) {
                     podCards.push(card);
                 } else if (cardsById[card.id] && cardsById[card.id].house === house) {
                     podCards.push(card);

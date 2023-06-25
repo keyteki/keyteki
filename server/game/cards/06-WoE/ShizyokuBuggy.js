@@ -14,7 +14,7 @@ class ShizyokuBuggy extends Card {
                 gameAction: [
                     ability.actions.discard(),
                     ability.actions.makeTokenCreature((context) => ({
-                        target: context.player
+                        target: context.player.deck[0]
                     }))
                 ]
             },

@@ -1,6 +1,5 @@
 const Card = require('../../Card.js');
 
-//  This creature gains, "Action: Make a token creature for each of this creature`s non-Star Alliance neighbors"
 class Uplink extends Card {
     // This creature gains, Action: Make a token creature for each of this creatures nonStar Alliance neighbors.
     setupCardAbilities(ability) {

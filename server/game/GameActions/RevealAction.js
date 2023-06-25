@@ -4,7 +4,6 @@ class RevealAction extends CardGameAction {
     setDefaultProperties() {
         this.chatMessage = false;
         this.location = ['hand'];
-        this.facedown = true;
     }
 
     setup() {
@@ -26,7 +25,6 @@ class RevealAction extends CardGameAction {
             if (this.chatMessage) {
                 context.game.addMessage('{0} reveals {1}', context.source, card);
             }
-            card.facedown = this.facedown;
         });
     }
 }

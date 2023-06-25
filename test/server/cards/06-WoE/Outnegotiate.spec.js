@@ -43,14 +43,14 @@ describe('Outnegotiate', function () {
             expect(this.mabTheMad.location).toBe('deck');
         });
 
-        it('should steal if the card has enhancements', function () {
+        it('should steal only for bonus amber if the card multiple enhancement types', function () {
             this.lamindra.enhancements = ['amber', 'draw', 'draw'];
             this.player1.play(this.outnegotiate);
             expect(this.player1).toBeAbleToSelect(this.lamindra);
             expect(this.player1).toBeAbleToSelect(this.mabTheMad);
             this.player1.clickCard(this.lamindra);
-            expect(this.player1.amber).toBe(7);
-            expect(this.player2.amber).toBe(3);
+            expect(this.player1.amber).toBe(5);
+            expect(this.player2.amber).toBe(5);
             expect(this.lamindra.location).toBe('deck');
         });
     });
