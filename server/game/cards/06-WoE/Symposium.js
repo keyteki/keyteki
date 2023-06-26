@@ -5,20 +5,25 @@ class Symposium extends Card {
     // token creature, you may exalt, ready and use another friendly
     // creature.
     setupCardAbilities(ability) {
+        this.wasToken = false;
+
         this.play({
             condition: (context) => context.game.creaturesInPlay.length > 0,
             target: {
                 controller: 'self',
                 cardType: 'creature',
                 gameAction: ability.actions.sequential([
-                    ability.actions.exalt(),
+                    ability.actions.exalt((context) => {
+                        this.wasToken = context.target.isToken();
+                        return {};
+                    }),
                     ability.actions.ready(),
                     ability.actions.use()
                 ])
             },
             effect: 'exalt, ready, and use {0}',
             then: (preThenContext) => ({
-                condition: () => preThenContext.target.isToken(),
+                condition: () => this.wasToken,
                 target: {
                     optional: true,
                     controller: 'self',
