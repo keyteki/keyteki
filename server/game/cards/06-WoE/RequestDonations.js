@@ -7,7 +7,7 @@ class RequestDonations extends Card {
             gameAction: ability.actions.makeTokenCreature(),
             then: {
                 gameAction: ability.actions.capture((context) => ({
-                    target: context.preThenEvent.cards,
+                    target: context.preThenEvent.card,
                     amount: 2
                 }))
             }

@@ -15,7 +15,7 @@ class FeatsOfStrength extends Card {
                         !!event.damageEvent &&
                         !!event.damageEvent.fightEvent
                 },
-                gameAction: ability.actions.makeTokenCreature({ target: context.player })
+                gameAction: ability.actions.makeTokenCreature()
             }))
         });
     }
