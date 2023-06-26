@@ -41,7 +41,7 @@ class EndlessHordes extends Card {
                                 }
 
                                 const index = this.validTargets.findIndex(
-                                    (card) => card.name === action.target[0].name
+                                    (card) => card === action.target[0]
                                 );
                                 if (index > -1) {
                                     this.validTargets.splice(index, 1);
