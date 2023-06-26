@@ -183,7 +183,7 @@ class Player extends GameObject {
     deckRanOutOfCards() {
         this.game.addMessage("{0}'s deck has run out of cards, so they shuffle", this);
         for (let card of this.discard) {
-            this.moveCard(card, 'deck');
+            this.moveCard(card, 'deck', { aboutToShuffle: true });
         }
 
         this.shuffleDeck();
@@ -570,7 +570,7 @@ class Player extends GameObject {
             });
         }
 
-        if (this.isTopCardOfDeckVisible() && this.deck.length > 0) {
+        if (!options.aboutToShuffle && this.isTopCardOfDeckVisible() && this.deck.length > 0) {
             this.deck[0].facedown = false;
 
             // In case a new card was added on top of the deck.
