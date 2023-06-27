@@ -132,7 +132,7 @@ async function cacheImages() {
     Rarities.Special = await loadImage(require('./assets/img/idbacks/Special.png'));
     Rarities.Uncommon = await loadImage(require('./assets/img/idbacks/Uncommon.png'));
     Rarities.EvilTwin = await loadImage(require('./assets/img/idbacks/evil-twin.png'));
-    Rarities.Tide = await loadImage(require('./assets/img/idbacks/tide.png'));
+    Rarities['The Tide'] = await loadImage(require('./assets/img/idbacks/tide.png'));
     MaverickIcon = await loadImage(Constants.MaverickIcon);
     AnomalyIcon = await loadImage(Constants.AnomalyIcon);
     DefaultCard = await loadImage(Constants.DefaultCard);
@@ -149,7 +149,6 @@ const cardData = {
 const placeCard = (canvas, card, language, x, y) => {
     const name = card.locale && card.locale[language] ? card.locale[language].name : card.name;
 
-    console.info(card.rarity, Rarities[card.rarity]);
     const rarity = new fabric.Image(Rarities[card.rarity].toCanvasElement(), imgOptions);
     rarity
         .set({
@@ -161,7 +160,7 @@ const placeCard = (canvas, card, language, x, y) => {
 
     const number = new fabric.Text(card.number.toString(), fontProps).set({
         left: x + rarity.getScaledWidth() + 2,
-        top: y,
+        top: y + 2,
         fontSize: 17
     });
 
@@ -181,7 +180,7 @@ const placeCard = (canvas, card, language, x, y) => {
         fill: card.enhancements ? '#0081ad' : 'black'
     }).set({
         left: x + rarity.getScaledWidth() + 32 + typeIcon.getScaledWidth(),
-        top: y
+        top: y + 2
     });
     canvas.add(number, title, rarity, typeIcon);
     let iconX =
@@ -202,6 +201,26 @@ const placeCard = (canvas, card, language, x, y) => {
             .set({ left: iconX, top: y, shadow: new fabric.Shadow(shadowProps) })
             .scaleToHeight(cardData.size);
         canvas.add(anomalyImage);
+    }
+
+    if (card.rarity == 'Token') {
+        console.log('we got us a token house - ' + card.house);
+        console.log('./assets/img/idbacks/idback_houses/' + card.house + '.png');
+
+        const tokenHouseImage = new fabric.Image(
+            HouseIcons[card.house].toCanvasElement(),
+            imgOptions
+        );
+
+        tokenHouseImage
+            .set({
+                left: iconX,
+                top: y,
+                shadow: new fabric.Shadow(shadowProps)
+            })
+            .scaleToWidth(20)
+            .scaleToHeight(20);
+        canvas.add(tokenHouseImage);
     }
 };
 
