@@ -23,6 +23,10 @@
         height: $keyteki-card-height * 5;
     }
     &.x-large {
+        &.horizontal {
+            width: $keyteki-card-height * 7;
+            height: $keyteki-card-width * 7;
+        }
         width: $keyteki-card-width * 6;
         height: $keyteki-card-height * 6;
     }

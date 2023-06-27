@@ -15,19 +15,15 @@ const MaverickHouseImages = {};
 const MaverickHouseAmberImages = {};
 const EnhancementPipImages = {};
 let AnomalyIcon;
-let CommonIcon;
 let DeckListIcon;
 let MaverickIcon;
-let RareIcon;
-let SpecialIcon;
 let TCOIcon;
-let UncommonIcon;
-let EvilTwinIcon;
-let TideIcon;
 let DefaultCard;
 let MaverickCornerImage;
 let Tokens = {};
 let cacheLoaded = false;
+let Rarities = {};
+
 const imgOptions = {
     selectable: false,
     hasControls: false,
@@ -130,13 +126,13 @@ async function cacheImages() {
     }
 
     TCOIcon = await loadImage(require('./assets/img/idbacks/tco.png'));
-    DeckListIcon = await loadImage(require('./assets/img/idbacks/decklist.png'));
-    CommonIcon = await loadImage(require('./assets/img/idbacks/Common.png'));
-    RareIcon = await loadImage(require('./assets/img/idbacks/Rare.png'));
-    SpecialIcon = await loadImage(require('./assets/img/idbacks/Special.png'));
-    UncommonIcon = await loadImage(require('./assets/img/idbacks/Uncommon.png'));
-    EvilTwinIcon = await loadImage(require('./assets/img/idbacks/evil-twin.png'));
-    TideIcon = await loadImage(require('./assets/img/idbacks/tide.png'));
+    DeckListIcon = await loadImage(require('./assets/img/idbacks/decklist-h.png'));
+    Rarities.Common = await loadImage(require('./assets/img/idbacks/Common.png'));
+    Rarities.Token = Rarities.Rare = await loadImage(require('./assets/img/idbacks/Rare.png'));
+    Rarities.Special = await loadImage(require('./assets/img/idbacks/Special.png'));
+    Rarities.Uncommon = await loadImage(require('./assets/img/idbacks/Uncommon.png'));
+    Rarities.EvilTwin = await loadImage(require('./assets/img/idbacks/evil-twin.png'));
+    Rarities['The Tide'] = await loadImage(require('./assets/img/idbacks/tide.png'));
     MaverickIcon = await loadImage(Constants.MaverickIcon);
     AnomalyIcon = await loadImage(Constants.AnomalyIcon);
     DefaultCard = await loadImage(Constants.DefaultCard);
@@ -145,12 +141,92 @@ async function cacheImages() {
     cacheLoaded = true;
 }
 
+const cardData = {
+    size: 20,
+    start: { x: 56, y: 148 }
+};
+
+const placeCard = (canvas, card, language, x, y) => {
+    const name = card.locale && card.locale[language] ? card.locale[language].name : card.name;
+
+    const rarity = new fabric.Image(Rarities[card.rarity].toCanvasElement(), imgOptions);
+    rarity
+        .set({
+            left: x,
+            top: y,
+            shadow: new fabric.Shadow({ ...shadowProps, offsetX: 1, offsetY: 1, blur: 1 })
+        })
+        .scaleToWidth(cardData.size);
+
+    const number = new fabric.Text(card.number.toString(), fontProps).set({
+        left: x + rarity.getScaledWidth() + 2,
+        top: y + 2,
+        fontSize: 17
+    });
+
+    const typeIcon = new fabric.Image(CardTypesIcons[card.type].toCanvasElement(), imgOptions);
+    typeIcon
+        .set({
+            left: x + rarity.getScaledWidth() + number.getScaledWidth() + 2,
+            top: y,
+            shadow: new fabric.Shadow({ ...shadowProps, offsetX: 1, offsetY: 1, blur: 1 })
+        })
+        .scaleToWidth(cardData.size);
+
+    const title = new fabric.Text(name, {
+        ...fontProps,
+        fontWeight: 300,
+        fontSize: 17,
+        fill: card.enhancements ? '#0081ad' : 'black'
+    }).set({
+        left: x + rarity.getScaledWidth() + 32 + typeIcon.getScaledWidth(),
+        top: y + 2
+    });
+    canvas.add(number, title, rarity, typeIcon);
+    let iconX =
+        x + rarity.getScaledWidth() + 32 + typeIcon.getScaledWidth() + title.getScaledWidth() + 2;
+
+    if (card.is_maverick) {
+        const maverickImage = new fabric.Image(MaverickIcon.toCanvasElement(), imgOptions);
+        maverickImage
+            .set({ left: iconX, top: y, shadow: new fabric.Shadow(shadowProps) })
+            .scaleToHeight(cardData.size);
+        canvas.add(maverickImage);
+        iconX = iconX + 20;
+    }
+
+    if (card.is_anomaly) {
+        const anomalyImage = new fabric.Image(AnomalyIcon.toCanvasElement(), imgOptions);
+        anomalyImage
+            .set({ left: iconX, top: y, shadow: new fabric.Shadow(shadowProps) })
+            .scaleToHeight(cardData.size);
+        canvas.add(anomalyImage);
+    }
+
+    if (card.rarity == 'Token') {
+        const tokenHouseImage = new fabric.Image(
+            HouseIcons[card.house].toCanvasElement(),
+            imgOptions
+        );
+
+        tokenHouseImage
+            .set({
+                left: iconX,
+                top: y,
+                shadow: new fabric.Shadow(shadowProps)
+            })
+            .scaleToWidth(20)
+            .scaleToHeight(20);
+        canvas.add(tokenHouseImage);
+    }
+};
+
 export const buildDeckList = async (canvas, deck, language, translate, size) => {
     if (!cacheLoaded) {
         await cacheImages();
     }
-    const width = 600;
-    const height = 840;
+    const width = 840;
+    const height = 600;
     const order = ['action', 'artifact', 'creature', 'upgrade'];
 
     const fontProps = {
@@ -172,13 +248,9 @@ export const buildDeckList = async (canvas, deck, language, translate, size) => 
 
     const houseData = {
         size: 35,
-        0: { x: 55, y: 124 },
-        1: { x: 55, y: 502 },
-        2: { x: 310, y: 219 }
-    };
-    const cardData = {
-        size: 20,
-        start: { x: 54, y: 165 }
+        0: { x: 50, y: 101 },
+        1: { x: 306, y: 101 },
+        2: { x: 562, y: 101 }
     };
     const qrCode = await QRCode.toCanvas(
         fabric.util.createCanvasElement(),
@@ -189,34 +261,35 @@ export const buildDeckList = async (canvas, deck, language, translate, size) => 
     const QRCodeIcon = new fabric.Image(qrCode, imgOptions);
     const expansion = new fabric.Image(SetIcons[deck.expansion].toCanvasElement(), imgOptions);
     const TCO = new fabric.Image(TCOIcon.toCanvasElement(), imgOptions);
-    const Rarities = {
-        Common: CommonIcon,
-        Uncommon: UncommonIcon,
-        Rare: RareIcon,
-        Special: SpecialIcon,
-        'Evil Twin': EvilTwinIcon,
-        Token: RareIcon,
-        'The Tide': TideIcon
-    };
-    const line1 = new fabric.Line([55, 157, 295, 157], lineStyle);
-    const line2 = new fabric.Line([55, 535, 295, 535], lineStyle);
-    const line3 = new fabric.Line([310, 252, 550, 252], lineStyle);
+
+    const line1 = new fabric.Line([80, 136, 288, 136], lineStyle);
+    const line2 = new fabric.Line([336, 136, 544, 136], lineStyle);
+    const line3 = new fabric.Line([592, 136, 800, 136], lineStyle);
     const text = new fabric.Text('DECK LIST', { ...fontProps, fontWeight: 200 });
 
-    QRCodeIcon.set({ left: 332, top: 612 }).scaleToWidth(150);
-    expansion.set({ left: 232, top: 97 }).scaleToWidth(20);
-    TCO.set({ left: 505, top: 769, angle: -90 }).scaleToWidth(30);
-    text.set({ left: 255, top: 100 });
+    QRCodeIcon.set({ left: 737, top: 13 }).scaleToWidth(90);
+    expansion.set({ left: 185, top: 72 }).scaleToWidth(20);
+    TCO.set({ left: 757, top: 507 }).scaleToWidth(40);
+    text.set({ left: 210, top: 72 });
     canvas.add(DeckListIcon, line1, line2, line3, QRCodeIcon, expansion, text, TCO);
 
     let name;
     try {
-        name = getCircularText(deck.name, width, height, 1800);
+        name = new fabric.Textbox(deck.name, {
+            width: 380,
+            left: 60,
+            top: 29,
+            textAlign: 'center',
+            fontFamily: 'Keyforge',
+            fontSize: 20,
+            fontWeight: 300,
+            fill: '#fff',
+            shadow: 'rgba(0,0,0,0.3) 5px 5px 5px'
+        });
     } catch (err) {
         name = false;
     }
     if (name) {
-        name.set({ top: 40 });
         canvas.add(name);
     }
 
@@ -242,9 +315,11 @@ export const buildDeckList = async (canvas, deck, language, translate, size) => 
         canvas.add(houseText).add(houseImage);
     }
     let cardList = [];
+    let nonDeckCards = [];
 
     for (const { count, card } of deck.cards) {
-        if (!card) {
+        if (!card || card.isNonDeck) {
+            nonDeckCards.push(card);
             continue;
         }
 
@@ -260,6 +335,14 @@ export const buildDeckList = async (canvas, deck, language, translate, size) => 
             });
         }
     }
+
+    for (const card of nonDeckCards) {
+        const x = cardData.start.x;
+        const y = 538;
+
+        placeCard(canvas, card, language, x, y);
+    }
+
     cardList
         .sort((a, b) => +a.number - +b.number)
         .sort((a, b) => order.indexOf(a.type) - order.indexOf(b.type))
@@ -267,76 +350,19 @@ export const buildDeckList = async (canvas, deck, language, translate, size) => 
     for (const [index, card] of cardList.entries()) {
         let x = cardData.start.x,
             y = cardData.start.y + index * 28;
-        const name = card.locale && card.locale[language] ? card.locale[language].name : card.name;
-        if (index > 11) {
-            y = y + 45;
-        }
 
-        if (index > 20) {
-            x = 300;
-            y = cardData.start.y + (index - 22.1) * 28;
+        if (index > 11) {
+            x = 312;
+            y = cardData.start.y - 336 + index * 28;
         }
 
         if (index > 23) {
-            y = y + 44;
+            x = 568;
+            y = cardData.start.y - 672 + index * 28;
         }
 
-        const rarity = new fabric.Image(Rarities[card.rarity].toCanvasElement(), imgOptions);
-        rarity
-            .set({
-                left: x,
-                top: y,
-                shadow: new fabric.Shadow({ ...shadowProps, offsetX: 1, offsetY: 1, blur: 1 })
-            })
-            .scaleToWidth(cardData.size);
+        placeCard(canvas, card, language, x, y);
 
-        const number = new fabric.Text(card.number.toString(), fontProps).set({
-            left: x + rarity.getScaledWidth() + 2,
-            top: y
-        });
-
-        const typeIcon = new fabric.Image(CardTypesIcons[card.type].toCanvasElement(), imgOptions);
-        typeIcon
-            .set({
-                left: x + rarity.getScaledWidth() + number.getScaledWidth() + 2,
-                top: y,
-                shadow: new fabric.Shadow({ ...shadowProps, offsetX: 1, offsetY: 1, blur: 1 })
-            })
-            .scaleToWidth(cardData.size);
-
-        const title = new fabric.Text(name, {
-            ...fontProps,
-            fontWeight: 300,
-            fill: card.enhancements ? '#0081ad' : 'black'
-        }).set({
-            left: x + rarity.getScaledWidth() + 32 + typeIcon.getScaledWidth() + 2,
-            top: y
-        });
-        canvas.add(number, title, rarity, typeIcon);
-        let iconX =
-            x +
-            rarity.getScaledWidth() +
-            32 +
-            typeIcon.getScaledWidth() +
-            title.getScaledWidth() +
-            2;
-
-        if (card.is_maverick) {
-            const maverickImage = new fabric.Image(MaverickIcon.toCanvasElement(), imgOptions);
-            maverickImage
-                .set({ left: iconX, top: y, shadow: new fabric.Shadow(shadowProps) })
-                .scaleToHeight(cardData.size);
-            canvas.add(maverickImage);
-            iconX = iconX + 20;
-        }
-
-        if (card.is_anomaly) {
-            const anomalyImage = new fabric.Image(AnomalyIcon.toCanvasElement(), imgOptions);
-            anomalyImage
-                .set({ left: iconX, top: y, shadow: new fabric.Shadow(shadowProps) })
-                .scaleToHeight(cardData.size);
-            canvas.add(anomalyImage);
-        }
         canvas.renderAll();
     }
 
