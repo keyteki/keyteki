@@ -204,9 +204,6 @@ const placeCard = (canvas, card, language, x, y) => {
     }
 
     if (card.rarity == 'Token') {
-        console.log('we got us a token house - ' + card.house);
-        console.log('./assets/img/idbacks/idback_houses/' + card.house + '.png');
-
         const tokenHouseImage = new fabric.Image(
             HouseIcons[card.house].toCanvasElement(),
             imgOptions
