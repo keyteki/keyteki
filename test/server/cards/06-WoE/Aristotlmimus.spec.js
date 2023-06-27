@@ -55,5 +55,26 @@ describe('Aristotlmimus', function () {
             expect(this.player2.amber).toBe(0);
             expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
         });
+
+        it('can play the card it archives that turn', function () {
+            this.player1.reap(this.socraterosaurus);
+            this.player1.clickCard(this.platopelta);
+            this.player1.reap(this.platopelta);
+            this.player1.clickCard(this.curseOfVanity);
+            this.player1.clickCard(this.aristotlmimus);
+
+            this.player1.reap(this.aristotlmimus);
+            this.player1.clickCard(this.tribute);
+            this.player1.clickCard(this.tribute);
+            this.player1.clickCard(this.platopelta);
+            this.player1.clickPrompt('No'); // tribute exalt
+
+            expect(this.player1.hand.length).toBe(3); // Draws from all three
+            expect(this.player1.archives.length).toBe(4);
+            expect(this.player1.player.creaturesInPlay.length).toBe(3);
+            expect(this.player2.amber).toBe(0);
+            expect(this.platopelta.amber).toBe(1);
+            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+        });
     });
 });
