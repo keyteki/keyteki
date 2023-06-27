@@ -15,7 +15,8 @@ const IdentityCard = ({ deck, showDeckName, onMouseOut, onMouseOver }) => {
             onMouseOver={() =>
                 onMouseOver({
                     image: <IdentityCardImage deck={deck} />,
-                    size: 'x-large'
+                    size: 'x-large',
+                    orientation: 'horizontal'
                 })
             }
             onMouseOut={onMouseOut}
