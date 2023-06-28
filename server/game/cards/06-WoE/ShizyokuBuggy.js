@@ -11,15 +11,34 @@ class ShizyokuBuggy extends Card {
                 numCards: 2,
                 controller: 'self',
                 location: 'hand',
-                gameAction: [
-                    ability.actions.discard(),
-                    ability.actions.makeTokenCreature((context) => ({
-                        target: context.player.deck[0]
-                    }))
-                ]
+                gameAction: ability.actions.conditional({
+                    condition: (context) =>
+                        context.target &&
+                        context.target.length == 2 &&
+                        context.target[0]
+                            .getHouses()
+                            .some((house) => context.target[1].hasHouse(house)),
+                    trueGameAction: [
+                        ability.actions.discard(),
+                        ability.actions.makeTokenCreature((context) => ({
+                            target: context.player.deck[0]
+                        }))
+                    ]
+                })
             },
-            effect: 'reveal and discard {0} to make a token creature',
-            effectArgs: (context) => context.target.length
+            effect: 'reveal {1}{0} {2}',
+            effectArgs: (context) => [
+                context.target &&
+                context.target.length == 2 &&
+                context.target[0].getHouses().some((house) => context.target[1].hasHouse(house))
+                    ? 'and discard '
+                    : '',
+                context.target &&
+                context.target.length == 2 &&
+                context.target[0].getHouses().some((house) => context.target[1].hasHouse(house))
+                    ? 'to make a token creature'
+                    : ''
+            ]
         });
     }
 }
