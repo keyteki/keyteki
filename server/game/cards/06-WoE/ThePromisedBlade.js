@@ -32,6 +32,12 @@ class ThePromisedBlade extends Card {
                     }
                 }
             },
+            effect: 'give control of {0} to {1}',
+            effectArgs: (context) => [
+                !!context.selects.select && context.selects.select.choice === 'Me'
+                    ? context.game.activePlayer
+                    : context.game.activePlayer.opponent
+            ],
             then: (preThenContext) => ({
                 alwaysTriggers: true,
                 gameAction: ability.actions.cardLastingEffect((context) => ({
