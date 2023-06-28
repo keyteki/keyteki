@@ -30,18 +30,20 @@ class ThePromisedBlade extends Card {
                         Me: () => true,
                         Opponent: () => true
                     }
-                },
-                then: {
-                    gameAction: ability.actions.cardLastingEffect((context) => ({
-                        duration: 'lastingEffect',
-                        effect: ability.effects.takeControl(
-                            context.selects.select.choice === 'Me'
-                                ? context.game.activePlayer
-                                : context.game.activePlayer.opponent
-                        )
-                    }))
                 }
-            }
+            },
+            then: (preThenContext) => ({
+                alwaysTriggers: true,
+                gameAction: ability.actions.cardLastingEffect((context) => ({
+                    duration: 'lastingEffect',
+                    target: context.source,
+                    effect: ability.effects.takeControl(
+                        preThenContext.selects.select.choice === 'Me'
+                            ? context.game.activePlayer
+                            : context.game.activePlayer.opponent
+                    )
+                }))
+            })
         });
 
         // Uneven creature count, automatic
@@ -54,6 +56,7 @@ class ThePromisedBlade extends Card {
             },
             gameAction: ability.actions.cardLastingEffect((context) => ({
                 duration: 'lastingEffect',
+                target: context.source,
                 effect: ability.effects.takeControl(context.source.controller.opponent)
             }))
         });
