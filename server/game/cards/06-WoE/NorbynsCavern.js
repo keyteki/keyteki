@@ -4,7 +4,7 @@ class NorbynsCavern extends Card {
     // Each friendly Æmberling gets +3 power and gains skirmish.
     setupCardAbilities(ability) {
         this.persistentEffect({
-            targetController: 'self',
+            targetController: 'current',
             match: (card) => card.name === 'Æmberling',
             effect: [ability.effects.modifyPower(3), ability.effects.addKeyword({ skirmish: 1 })]
         });
