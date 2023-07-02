@@ -194,4 +194,48 @@ describe('Cyber-Clone', function () {
             expect(this.niffleKong2.location).toBe('purged');
         });
     });
+
+    describe("Cyber Clone and Gigantic's ability", function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'logos',
+                    token: 'defender',
+                    inPlay: ['defender:foggify'],
+                    hand: ['cyber-clone', 'badgemagus']
+                },
+                player2: {
+                    token: 'grunt',
+                    inPlay: ['grunt:collector-worm'],
+                    hand: ['ether-spider']
+                }
+            });
+        });
+
+        it('should allow purging own token creature', function () {
+            this.player1.play(this.cyberClone);
+            this.player1.clickCard(this.defender);
+            expect(this.cyberClone.location).toBe('play area');
+            expect(this.cyberClone.power).toBe(2);
+            expect(this.cyberClone.armor).toBe(1);
+            expect(this.cyberClone.hasTrait('human')).toBe(true);
+            expect(this.cyberClone.hasTrait('knight')).toBe(true);
+            expect(this.cyberClone.getEffects('addKeyword').length).toBe(0);
+            expect(this.cyberClone.getEffects('removeKeyword').length).toBe(0);
+            expect(this.defender.location).toBe('purged');
+        });
+
+        it("should allow purging opponent's token creature", function () {
+            this.player1.play(this.cyberClone);
+            this.player1.clickCard(this.grunt);
+            expect(this.cyberClone.location).toBe('play area');
+            expect(this.cyberClone.power).toBe(3);
+            expect(this.cyberClone.armor).toBe(0);
+            expect(this.cyberClone.hasTrait('martian')).toBe(true);
+            expect(this.cyberClone.hasTrait('soldier')).toBe(true);
+            expect(this.cyberClone.getEffects('addKeyword').length).toBe(0);
+            expect(this.cyberClone.getEffects('removeKeyword').length).toBe(0);
+            expect(this.grunt.location).toBe('purged');
+        });
+    });
 });

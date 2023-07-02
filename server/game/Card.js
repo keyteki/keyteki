@@ -64,6 +64,7 @@ class Card extends EffectSource {
         this.purgedBy = null;
         this.childCards = [];
         this.purgedCards = [];
+        this.clonedType = null;
         this.clonedNeighbors = null;
         this.clonedPurgedCards = null;
 
@@ -111,11 +112,15 @@ class Card extends EffectSource {
     }
 
     get type() {
-        return this.mostRecentEffect('changeType') || this.printedType;
+        return this.mostRecentEffect('changeType') || this.clonedType || this.printedType;
     }
 
     isToken() {
         return this.sumEffects('flipToken') % 2 === 1;
+    }
+
+    tokenCard() {
+        return this.game.getPlayers().find((player) => player.tokenCard && player.tokenCard.name === this.name)?.tokenCard;
     }
 
     get actions() {
@@ -692,8 +697,9 @@ class Card extends EffectSource {
     }
 
     createSnapshot() {
-        let clone = new Card(this.owner, this.cardData);
-
+        let clone = new Card(this.owner, this.isToken() ? this.tokenCard().cardData : this.cardData);
+        
+        clone.clonedType = clone.type;
         clone.upgrades = this.upgrades.map((upgrade) => upgrade.createSnapshot());
         clone.effects = _.clone(this.effects);
         clone.tokens = _.clone(this.tokens);
@@ -1065,7 +1071,7 @@ class Card extends EffectSource {
 
     getShortSummary() {
         let result = this.isToken()
-            ? this.owner.tokenCard.getShortSummary()
+            ? this.tokenCard().getShortSummary()
             : super.getShortSummary();
 
         // Include card specific information useful for UI rendering
@@ -1091,7 +1097,7 @@ class Card extends EffectSource {
                 tokens: this.tokens,
                 tokenCard:
                     this.isToken() &&
-                    this.owner.tokenCard?.getSummary(activePlayer, hideWhenFaceup),
+                    this.tokenCard().getSummary(activePlayer, hideWhenFaceup),
                 type: this.location === 'play area' && this.getType(),
                 ...selectionState
             };
@@ -1130,8 +1136,7 @@ class Card extends EffectSource {
             modifiedPower: this.getPower(),
             stunned: this.stunned,
             taunt: this.getType() === 'creature' && !!this.getKeywordValue('taunt'),
-            tokenCard:
-                this.isToken() && this.owner.tokenCard?.getSummary(activePlayer, hideWhenFaceup),
+            tokenCard: this.isToken() && this.tokenCard().getSummary(activePlayer, hideWhenFaceup),
             tokens: this.tokens,
             type: this.getType(),
             gigantic: this.gigantic,
@@ -1142,9 +1147,9 @@ class Card extends EffectSource {
         };
 
         if (this.isToken() && !this.game.isCardVisible(this, activePlayer)) {
-            state.id = this.owner.tokenCard.id;
-            state.name = this.owner.tokenCard.name;
-            state.image = this.owner.tokenCard.image;
+            state.id = this.tokenCard().id;
+            state.name = this.tokenCard().name;
+            state.image = this.tokenCard().image;
             state.facedown = false;
             state.enhancements = [];
         }

@@ -7,9 +7,8 @@ class CardVisibility {
             (card) => this.isPublicRule(card),
             (card) => this.isEffectRule(card),
             (card, player) => this.isControllerRule(card, player),
-            (card, player) => this.isSpectatorRule(card, player),
-            (card) => this.isTokenCreatureRule(card)
-        ];
+            (card, player) => this.isSpectatorRule(card, player)
+        ]
     }
 
     isVisible(card, player) {
@@ -22,10 +21,6 @@ class CardVisibility {
 
     removeRule(rule) {
         this.rules = this.rules.filter((r) => r !== rule);
-    }
-
-    isTokenCreatureRule(card) {
-        return card.type === 'token creature';
     }
 
     isPublicRule(card, player) {
