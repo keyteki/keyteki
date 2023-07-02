@@ -47,7 +47,12 @@ describe('The Promised Blade', function () {
                         ]
                     },
                     player2: {
-                        inPlay: ['tyxl-beambuckler', 'myx-the-tallminded', 'xanthyx-harvester'],
+                        inPlay: [
+                            'tyxl-beambuckler',
+                            'myx-the-tallminded',
+                            'xanthyx-harvester',
+                            'sv3-lander'
+                        ],
                         hand: []
                     }
                 });
@@ -58,8 +63,10 @@ describe('The Promised Blade', function () {
                 expect(this.thePromisedBlade.controller).toBe(this.player1.player);
                 expect(this.player2).toHavePrompt('The Promised Blade');
                 this.player2.clickPrompt('Me');
-                this.player2.clickCard(this.thePromisedBlade);
                 expect(this.thePromisedBlade.controller).toBe(this.player2.player);
+                expect(this.player2).toHavePrompt(
+                    'Choose which house you want to activate this turn'
+                );
             });
         });
     });
