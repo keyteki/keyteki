@@ -8,7 +8,8 @@ class FriendlyGuide extends Card {
             when: {
                 onUseCard: (event, context) =>
                     context.game.activePlayer === context.source.controller &&
-                    event.card.neighbors.includes(context.source)
+                    !!event.clone &&
+                    event.clone.neighbors.includes(context.source)
             },
             optional: true,
             gameAction: ability.actions.use()
