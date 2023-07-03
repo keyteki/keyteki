@@ -21,6 +21,7 @@ class ExtrematodeInfection extends Card {
                 target: this
             })),
             then: {
+                alwaysTriggers: true,
                 gameAction: ability.actions.sequential([
                     ability.actions.destroy(() => ({
                         target: !this.hasToken('hatch') ? this.parent : []
