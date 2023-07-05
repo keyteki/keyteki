@@ -37,7 +37,8 @@ export const Constants = {
         { value: '452', label: 'WC', tideRequired: false },
         { value: '479', label: 'MM', tideRequired: false },
         { value: '496', label: 'DT', tideRequired: true },
-        { value: '600', label: 'WoE', tideRequired: false }
+        { value: '600', label: 'WoE', tideRequired: false },
+        { value: '601', label: 'UC2022', tideRequired: false }
     ],
     CardTypes: ['action', 'artifact', 'creature', 'upgrade', 'token creature', 'the tide'],
     SetIconPaths: {},
