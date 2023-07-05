@@ -117,8 +117,6 @@ const PendingGame = () => {
 
     deckFilter.expansion = expansions;
 
-    console.info(expansions);
-
     const canClickStart = () => {
         if (!user || !currentGame || currentGame.owner !== user.username || connecting) {
             return false;
