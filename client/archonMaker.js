@@ -131,7 +131,7 @@ async function cacheImages() {
     Rarities.Token = Rarities.Rare = await loadImage(require('./assets/img/idbacks/Rare.png'));
     Rarities.Special = await loadImage(require('./assets/img/idbacks/Special.png'));
     Rarities.Uncommon = await loadImage(require('./assets/img/idbacks/Uncommon.png'));
-    Rarities.EvilTwin = await loadImage(require('./assets/img/idbacks/evil-twin.png'));
+    Rarities['Evil Twin'] = await loadImage(require('./assets/img/idbacks/evil-twin.png'));
     Rarities['The Tide'] = await loadImage(require('./assets/img/idbacks/tide.png'));
     MaverickIcon = await loadImage(Constants.MaverickIcon);
     AnomalyIcon = await loadImage(Constants.AnomalyIcon);
