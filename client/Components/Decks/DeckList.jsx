@@ -80,12 +80,18 @@ import { faCheck } from '@fortawesome/free-solid-svg-icons';
  * @property {string} sortField
  * @property {string} sortOrder
  * @property {{ [key: string]: { filterVal: string; }; }} filters
+ * @property {Expansion[]} expansions
  */
 
 /**
  * @param {DeckListProps} props
  */
-const DeckList = ({ deckFilter, onDeckSelected, standaloneDecks = false }) => {
+const DeckList = ({
+    deckFilter,
+    onDeckSelected,
+    standaloneDecks = false,
+    expansions = Constants.Expansions
+}) => {
     const { t } = useTranslation();
     const [pagingDetails, setPagingDetails] = useState({
         pageSize: 10,
@@ -122,8 +128,8 @@ const DeckList = ({ deckFilter, onDeckSelected, standaloneDecks = false }) => {
         return (
             <Select
                 isMulti
-                options={Constants.Expansions}
-                defaultValue={Constants.Expansions}
+                options={expansions}
+                defaultValue={expansions}
                 value={pagingDetails.filter.find((f) => f.name === 'expansion')?.value}
                 onChange={(values) => expansionFilter.current(values.map((v) => v))}
             />
@@ -188,6 +194,7 @@ const DeckList = ({ deckFilter, onDeckSelected, standaloneDecks = false }) => {
                 //filter comming from elsewhere than the table change
                 if (deckFilter) {
                     newPageData.filter.push({ name: 'isAlliance', value: deckFilter.isAlliance });
+                    newPageData.filter.push({ name: 'expansion', value: deckFilter.expansion });
                 }
 
                 break;
