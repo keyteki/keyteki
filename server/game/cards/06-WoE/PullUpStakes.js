@@ -9,7 +9,9 @@ class PullUpStakes extends Card {
                 mode: 'exactly',
                 cardType: 'creature',
                 controller: 'self',
-                gameAction: ability.actions.returnToDeck()
+                gameAction: ability.actions.returnToDeck({
+                    shuffle: true
+                })
             },
             then: {
                 alwaysTriggers: true,
