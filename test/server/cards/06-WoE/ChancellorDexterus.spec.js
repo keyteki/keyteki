@@ -23,6 +23,18 @@ describe('Chancellor Dexterus', function () {
             this.player1.reap(this.pelf);
         });
 
+        it('wears off at the end of the turn', function () {
+            this.player1.reap(this.chancellorDexterus);
+            this.player1.clickCard(this.pelf);
+            expect(this.pelf.amber).toBe(1);
+            this.player1.reap(this.pelf);
+            this.player1.endTurn();
+            this.player2.clickPrompt('brobnar');
+            this.player2.endTurn();
+            this.player1.clickPrompt('saurian');
+            expect(this.player1).not.toBeAbleToSelect(this.pelf);
+        });
+
         it('optionally does nothing', function () {
             this.player1.reap(this.chancellorDexterus);
             this.player1.clickPrompt('Done');
@@ -37,6 +49,18 @@ describe('Chancellor Dexterus', function () {
             this.player1.clickCard(this.bumpsy);
             this.player1.reap(this.chancellorDexterus);
             expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+        });
+
+        it('works correctly with no left neighbor', function () {
+            this.player1.play(this.stomp);
+            this.player1.clickCard(this.bumpsy);
+            this.player1.clickCard(this.pelf);
+            this.player1.reap(this.chancellorDexterus);
+            expect(this.player1).toBeAbleToSelect(this.pelf);
+            expect(this.player1).not.toBeAbleToSelect(this.troll);
+            this.player1.clickCard(this.pelf);
+            expect(this.pelf.amber).toBe(2);
+            this.player1.reap(this.pelf);
         });
 
         it('handles more creatures to the right', function () {

@@ -9,6 +9,7 @@ const GameFormats = ({ formProps }) => {
 
     const formats = [
         { name: 'normal', label: t('Normal') },
+        { name: 'unchained', label: t('Unchained') },
         { name: 'sealed', label: t('Sealed') },
         { name: 'reversal', label: t('Reversal') },
         { name: 'adaptive-bo1', label: t('Adaptive - Best of 1') },

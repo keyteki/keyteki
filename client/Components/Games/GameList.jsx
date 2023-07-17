@@ -18,6 +18,7 @@ import SealedIcon from '../../assets/img/sealed.png';
 import ReversalIcon from '../../assets/img/reversal.png';
 import AdaptiveIcon from '../../assets/img/adaptive.png';
 import AllianceIcon from '../../assets/img/alliance.png';
+import UnchainedIcon from '../../assets/img/601.png';
 
 import './GameList.scss';
 
@@ -258,6 +259,14 @@ class GameList extends React.Component {
                                         className='game-list-icon'
                                         alt={t('Adaptive (Best of 1) game format')}
                                         title={t('Adaptive (Best of 1) game format')}
+                                    />
+                                )}
+                                {game.gameFormat === 'unchained' && (
+                                    <img
+                                        src={UnchainedIcon}
+                                        className='game-list-icon'
+                                        alt={t('Unchained game format')}
+                                        title={t('Unchained game format')}
                                     />
                                 )}
                             </span>

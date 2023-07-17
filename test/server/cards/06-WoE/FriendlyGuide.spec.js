@@ -22,7 +22,14 @@ describe('Friendly Guide', function () {
         });
 
         it('should allow use on fight', function () {
-            this.player1.reap(this.darkFaerie);
+            this.player1.fightWith(this.darkFaerie, this.huntingWitch);
+            expect(this.player1).toHavePrompt('Triggered Abilities');
+            this.player1.clickCard(this.friendlyGuide);
+            this.player1.clickPrompt('Reap with this creature');
+        });
+
+        it('should allow use on fight where attacker dies', function () {
+            this.player1.fightWith(this.niffleApe, this.dextre);
             expect(this.player1).toHavePrompt('Triggered Abilities');
             this.player1.clickCard(this.friendlyGuide);
             this.player1.clickPrompt('Reap with this creature');

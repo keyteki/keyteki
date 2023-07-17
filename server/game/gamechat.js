@@ -87,7 +87,7 @@ class GameChat {
                     if (Array.isArray(arg)) {
                         returnedFraments.push(this.formatArray(arg));
                     } else if (arg instanceof Card) {
-                        if (arg.isToken()) {
+                        if (arg.isToken() && arg.tokenCard()) {
                             arg = arg.tokenCard();
                         }
 

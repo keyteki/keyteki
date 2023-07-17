@@ -75,6 +75,48 @@ describe('Extrematode Infection', function () {
                         expect(this.initiation.name).toBe('Grumpus');
                     });
                 });
+
+                describe('work with wards', function () {
+                    beforeEach(function () {
+                        this.player1.endTurn();
+
+                        this.player1.moveCard(this.seabringerKekoa, 'deck');
+                        this.player1.moveCard(this.initiation, 'deck');
+                        this.player1.moveCard(this.gedHammer, 'deck');
+
+                        this.player2.clickPrompt('logos');
+                        this.earthshaker.tokens.ward = 1;
+                        this.player2.endTurn();
+                    });
+
+                    it('should make 3 tokens but not destroy the creature', function () {
+                        this.player1.clickPrompt('Right');
+                        this.player1.clickPrompt('Right');
+                        this.player1.clickPrompt('Right');
+                        this.player1.clickPrompt('unfathomable');
+
+                        expect(this.extrematodeInfection.location).toBe('play area');
+                        expect(this.earthshaker.location).toBe('play area');
+                        expect(this.earthshaker.tokens.ward).toBe(undefined);
+                    });
+
+                    it('should do it again next turn', function () {
+                        this.player1.clickPrompt('Right');
+                        this.player1.clickPrompt('Right');
+                        this.player1.clickPrompt('Right');
+                        this.player1.clickPrompt('unfathomable');
+                        this.player1.endTurn();
+                        this.player2.clickPrompt('logos');
+                        this.player2.endTurn();
+
+                        this.player1.clickPrompt('Right');
+                        this.player1.clickPrompt('Right');
+                        this.player1.clickPrompt('Right');
+                        this.player1.clickPrompt('unfathomable');
+                        expect(this.extrematodeInfection.location).toBe('discard');
+                        expect(this.earthshaker.location).toBe('discard');
+                    });
+                });
             });
         });
     });
