@@ -120,7 +120,9 @@ class Card extends EffectSource {
     }
 
     tokenCard() {
-        return this.game.getPlayers().find((player) => player.tokenCard && player.tokenCard.name === this.name)?.tokenCard;
+        return this.game
+            .getPlayers()
+            .find((player) => player.tokenCard && player.tokenCard.name === this.name)?.tokenCard;
     }
 
     get actions() {
@@ -697,8 +699,11 @@ class Card extends EffectSource {
     }
 
     createSnapshot() {
-        let clone = new Card(this.owner, this.isToken() ? this.tokenCard().cardData : this.cardData);
-        
+        let clone = new Card(
+            this.owner,
+            this.isToken() ? this.tokenCard().cardData : this.cardData
+        );
+
         clone.clonedType = clone.type;
         clone.upgrades = this.upgrades.map((upgrade) => upgrade.createSnapshot());
         clone.effects = _.clone(this.effects);
@@ -1070,9 +1075,7 @@ class Card extends EffectSource {
     }
 
     getShortSummary() {
-        let result = this.isToken()
-            ? this.tokenCard().getShortSummary()
-            : super.getShortSummary();
+        let result = this.isToken() ? this.tokenCard().getShortSummary() : super.getShortSummary();
 
         // Include card specific information useful for UI rendering
         result.maverick = this.maverick;
@@ -1096,8 +1099,7 @@ class Card extends EffectSource {
                 uuid: this.uuid,
                 tokens: this.tokens,
                 tokenCard:
-                    this.isToken() &&
-                    this.tokenCard().getSummary(activePlayer, hideWhenFaceup),
+                    this.isToken() && this.tokenCard().getSummary(activePlayer, hideWhenFaceup),
                 type: this.location === 'play area' && this.getType(),
                 ...selectionState
             };
@@ -1136,8 +1138,8 @@ class Card extends EffectSource {
             modifiedPower: this.getPower(),
             stunned: this.stunned,
             taunt: this.getType() === 'creature' && !!this.getKeywordValue('taunt'),
-            tokenCard: this.isToken() && this.tokenCard().getSummary(activePlayer, hideWhenFaceup),
             tokens: this.tokens,
+            tokenCard: this.isToken() && this.tokenCard().getSummary(activePlayer, hideWhenFaceup),
             type: this.getType(),
             gigantic: this.gigantic,
             upgrades: this.upgrades.map((upgrade) => {
