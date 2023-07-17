@@ -81,6 +81,14 @@ const Lobby = () => {
 
     const banners = [
         {
+            img: 'banner/happyzach-v1.png',
+            link: 'https://bit.ly/keyforgepublicradio'
+        },
+        {
+            img: 'banner/LAINUSU-TCO.png',
+            link: 'https://bit.ly/LainusuKeyForgeExperience'
+        },
+        {
             img: '/banner/happygee-v3.png',
             link: 'https://geeb.us/bpptco'
         }
