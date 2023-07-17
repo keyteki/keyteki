@@ -701,7 +701,7 @@ class Card extends EffectSource {
     createSnapshot() {
         let clone = new Card(
             this.owner,
-            this.isToken() ? this.tokenCard().cardData : this.cardData
+            this.isToken() && this.tokenCard() ? this.tokenCard().cardData : this.cardData
         );
 
         clone.clonedType = clone.type;
