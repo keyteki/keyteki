@@ -26,6 +26,15 @@ describe('Sandhopper', function () {
             expect(this.pelf.location).toBe('play area');
         });
 
+        it('be optional to play a non-ekwidon creature', function () {
+            this.player1.useAction(this.sandhopper);
+            this.player1.clickCard(this.antiquitiesDealer);
+            this.player1.clickPrompt('Done');
+            expect(this.antiquitiesDealer.location).toBe('hand');
+            expect(this.pelf.location).toBe('hand');
+            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+        });
+
         it('should fizzle with no creatures in play', function () {
             this.antiquitiesDealer.location = 'discard';
             this.umbra.location = 'discard';
