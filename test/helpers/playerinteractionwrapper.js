@@ -84,8 +84,8 @@ class PlayerInteractionWrapper {
         // Set up each of the cards
         _.each(newState, (card) => {
             if (_.isString(card)) {
-                if (card === this.token || card.startsWith(this.token + ':')) {
-                    if (!card.includes(':')) {
+                if (card.includes(':')) {
+                    if (!card.startsWith(this.token + ':')) {
                         throw new Error(
                             `Token "${card}" missing its versus card id as "token:versus"`
                         );

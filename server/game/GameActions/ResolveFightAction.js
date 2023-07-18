@@ -48,6 +48,7 @@ class ResolveFightAction extends CardGameAction {
             attacker: this.attacker,
             attackerClone: this.attacker.createSnapshot(),
             attackerTarget: card,
+            attackerTargetClone: card.createSnapshot(),
             defenderTarget: this.attacker,
             destroyed: [],
             cancelFight: false

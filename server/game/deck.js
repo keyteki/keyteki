@@ -72,7 +72,6 @@ class Deck {
         );
 
         if (tokenCard) {
-            tokenCard.type = 'creature';
             result.tokenCard = this.createCard(player, tokenCard.card);
             result.tokenCard.setupAbilities();
         }
