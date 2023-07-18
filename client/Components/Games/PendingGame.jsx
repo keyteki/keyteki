@@ -10,11 +10,12 @@ import Messages from '../GameBoard/Messages';
 import SelectDeckModal from './SelectDeckModal';
 import { startGame, leaveGame, sendSocketMessage } from '../../redux/actions';
 import PendingGamePlayers from './PendingGamePlayers';
+import GameTypeInfo from './GameTypeInfo';
+import { Constants } from '../../constants';
+
 import ChargeMp3 from '../../assets/sound/charge.mp3';
 import ChargeOgg from '../../assets/sound/charge.ogg';
-
 import './PendingGame.scss';
-import GameTypeInfo from './GameTypeInfo';
 
 function showNotification(notification) {
     if (window.Notification && Notification.permission === 'granted') {
@@ -101,10 +102,20 @@ const PendingGame = () => {
         return null;
     }
 
-    let allianceFilter = {};
+    let deckFilter = {};
+    let expansions = [];
+
     if (currentGame.gameFormat !== 'alliance') {
-        allianceFilter = { isAlliance: false };
+        deckFilter.isAlliance = false;
     }
+
+    if (currentGame.gameFormat === 'unchained') {
+        expansions = Constants.Expansions.filter((e) => e.value === '601');
+    } else {
+        expansions = Constants.Expansions.filter((e) => e.value !== '601');
+    }
+
+    deckFilter.expansion = expansions;
 
     const canClickStart = () => {
         if (!user || !currentGame || currentGame.owner !== user.username || connecting) {
@@ -261,7 +272,8 @@ const PendingGame = () => {
             </Panel>
             {showModal && (
                 <SelectDeckModal
-                    deckFilter={allianceFilter}
+                    expansions={expansions}
+                    deckFilter={deckFilter}
                     onClose={() => setShowModal(false)}
                     onDeckSelected={(deck) => {
                         setShowModal(false);

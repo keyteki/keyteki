@@ -47,9 +47,7 @@ describe('Uplink', function () {
         it('should make no tokens if all neighbors are star alliance', function () {
             expect(this.player1.player.creaturesInPlay.length).toBe(6);
             this.player1.playUpgrade(this.uplink, this.awayTeam);
-            this.player1.clickCard(this.awayTeam);
-            expect(this.player1).not.toHavePromptButton("Use this card's Action ability");
-            this.player1.clickPrompt('Reap with this creature');
+            this.player1.useAction(this.awayTeam);
             expect(this.player1.player.creaturesInPlay.length).toBe(6);
             this.player1.endTurn();
         });

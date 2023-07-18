@@ -4,7 +4,7 @@ describe('Brawl-In', function () {
             this.setupTest({
                 player1: {
                     house: 'brobnar',
-                    token: 'berserker',
+                    token: 'grumpus',
                     amber: 2,
                     inPlay: ['armsmaster-molina'],
                     hand: ['red-alert', 'krump', 'brammo', 'brawl-in']
@@ -22,9 +22,9 @@ describe('Brawl-In', function () {
             this.player1.play(this.brawlIn);
             this.player1.clickPrompt('Left');
             this.player1.clickPrompt('Left');
-            expect(this.redAlert.name).toBe('Berserker');
+            expect(this.redAlert.name).toBe('Grumpus');
             expect(this.redAlert.enraged).toBe(true);
-            expect(this.brammo.name).toBe('Berserker');
+            expect(this.brammo.name).toBe('Grumpus');
             expect(this.brammo.enraged).toBe(true);
             this.player1.endTurn();
         });
@@ -34,7 +34,7 @@ describe('Brawl-In', function () {
             this.player1.moveCard(this.brammo, 'deck');
             this.player1.play(this.brawlIn);
             this.player1.clickPrompt('Left');
-            expect(this.brammo.name).toBe('Berserker');
+            expect(this.brammo.name).toBe('Grumpus');
             expect(this.brammo.enraged).toBe(true);
             this.player1.endTurn();
         });

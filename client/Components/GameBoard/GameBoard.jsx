@@ -223,7 +223,7 @@ export class GameBoard extends React.Component {
     renderToken(player) {
         if (player.tokenCard) {
             let locale = this.props.i18n.language;
-            let img = `/img/cards/${locale === 'en' ? '' : locale}/${player.tokenCard.name}.png`;
+            let img = `/img/cards/${locale === 'en' ? '' : locale}/${player.tokenCard.image}.png`;
             return (
                 <img
                     className={`img-fluid normal reference-card`}

@@ -6,8 +6,14 @@ import { Modal } from 'react-bootstrap';
 import DeckList from '../Decks/DeckList.jsx';
 
 import './SelectDeckModal.scss';
+import { Constants } from '../../constants.js';
 
-const SelectDeckModal = ({ deckFilter, onClose, onDeckSelected }) => {
+const SelectDeckModal = ({
+    deckFilter,
+    onClose,
+    onDeckSelected,
+    expansions = Constants.Expansions
+}) => {
     const standaloneDecks = useSelector((state) => state.cards.standaloneDecks);
     const { t } = useTranslation();
 
@@ -19,7 +25,11 @@ const SelectDeckModal = ({ deckFilter, onClose, onDeckSelected }) => {
                 </Modal.Header>
                 <Modal.Body>
                     <div>
-                        <DeckList deckFilter={deckFilter} onDeckSelected={onDeckSelected} />
+                        <DeckList
+                            deckFilter={deckFilter}
+                            onDeckSelected={onDeckSelected}
+                            expansions={expansions}
+                        />
                         {standaloneDecks && standaloneDecks.length !== 0 && (
                             <div>
                                 <h4 className='deck-list-header'>

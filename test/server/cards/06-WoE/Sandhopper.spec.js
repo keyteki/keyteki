@@ -6,6 +6,9 @@ describe('Sandhopper', function () {
                     house: 'ekwidon',
                     inPlay: ['antiquities-dealer', 'umbra', 'sandhopper'],
                     hand: ['pelf', 'vow-of-blood', 'conductor-jărroyă']
+                },
+                player2: {
+                    hand: ['urchin']
                 }
             });
         });
@@ -17,6 +20,7 @@ describe('Sandhopper', function () {
             expect(this.player1).toBeAbleToSelect(this.pelf);
             expect(this.player1).not.toBeAbleToSelect(this.vowOfBlood);
             expect(this.player1).not.toBeAbleToSelect(this.conductorJărroyă);
+            expect(this.player1).not.toBeAbleToSelect(this.urchin);
             this.player1.clickCard(this.pelf);
             this.player1.clickPrompt('Left');
             expect(this.pelf.location).toBe('play area');

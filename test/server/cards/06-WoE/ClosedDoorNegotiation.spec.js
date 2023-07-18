@@ -9,7 +9,8 @@ describe('Closed-Door Negotiation', function () {
                 },
                 player2: {
                     amber: 1,
-                    discard: ['ancient-bear', 'flaxia', 'dust-pixie', 'bumpsy', 'silvertooth']
+                    discard: ['ancient-bear'],
+                    hand: ['odoac-the-patrician']
                 }
             });
         });
@@ -22,25 +23,34 @@ describe('Closed-Door Negotiation', function () {
             expect(this.player2.amber).toBe(0);
             expect(this.ancientBear.location).toBe('hand');
             expect(this.player2.deck.length).toBe(deckSize - 1);
+            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
         });
 
         it('should always steal and draw until player has more amber', function () {
-            this.player2.moveCard(this.ancientBear, 'deck');
-            this.player2.moveCard(this.flaxia, 'deck');
-            this.player2.moveCard(this.dustPixie, 'deck');
-            this.player2.moveCard(this.bumpsy, 'deck');
-            this.player2.moveCard(this.silvertooth, 'deck');
             this.player2.amber = 11;
             let deckSize = this.player2.deck.length;
             this.player1.play(this.closedDoorNegotiation);
             expect(this.player1.amber).toBe(7);
             expect(this.player2.amber).toBe(6);
-            expect(this.ancientBear.location).toBe('hand');
-            expect(this.flaxia.location).toBe('hand');
-            expect(this.dustPixie.location).toBe('hand');
-            expect(this.bumpsy.location).toBe('hand');
-            expect(this.silvertooth.location).toBe('hand');
             expect(this.player2.deck.length).toBe(deckSize - 5);
+            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+        });
+
+        it('should stop after one draw if stealing is not allowed', function () {
+            this.player1.endTurn();
+            this.player2.clickPrompt('saurian');
+            this.player2.playCreature(this.odoacThePatrician);
+            this.player2.endTurn();
+            this.player2.amber = 11;
+            this.player1.clickPrompt('ekwidon');
+            this.player2.moveCard(this.ancientBear, 'deck');
+            let deckSize = this.player2.deck.length;
+            this.player1.play(this.closedDoorNegotiation);
+            expect(this.player1.amber).toBe(1); // 1 captured on odoac
+            expect(this.player2.amber).toBe(11);
+            expect(this.ancientBear.location).toBe('hand');
+            expect(this.player2.deck.length).toBe(deckSize - 1);
+            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
         });
     });
 });

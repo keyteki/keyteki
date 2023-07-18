@@ -198,11 +198,13 @@ const DeckSummary = ({ deck }) => {
                 })}
             </Row>
 
-            <Row className='deck-houses'>
-                <Col xs='12'>
-                    <Trans>Non-Deck Cards</Trans>
-                </Col>
-            </Row>
+            {deck.cards.some((c) => c.isNonDeck) && (
+                <Row className='deck-houses'>
+                    <Col xs='12'>
+                        <Trans>Non-Deck Cards</Trans>
+                    </Col>
+                </Row>
+            )}
             <Row className='deck-cards'>
                 <Col sm='4'>{nonDeckCards}</Col>
             </Row>

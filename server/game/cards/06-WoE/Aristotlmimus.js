@@ -17,14 +17,15 @@ class Aristotlmimus extends Card {
             })),
             then: (preThenContext) => ({
                 alwaysTriggers: true,
-                targets: {
-                    archive: {
-                        cardCondition: (_, context) => context.source.hasToken('wisdom'),
-                        location: 'hand',
-                        controller: 'self',
-                        gameAction: ability.actions.archive()
-                    },
-                    play: {
+                target: {
+                    cardCondition: (_, context) => context.source.hasToken('wisdom'),
+                    location: 'hand',
+                    controller: 'self',
+                    gameAction: ability.actions.archive()
+                },
+                then: {
+                    alwaysTriggers: true,
+                    target: {
                         optional: !preThenContext.source.hasToken('wisdom'),
                         controller: 'self',
                         location: 'archives',

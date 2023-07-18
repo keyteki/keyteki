@@ -61,4 +61,91 @@ describe('Endless Hordes', function () {
             expect(this.player1).toBeAbleToSelect(this.championAnaphiel);
         });
     });
+
+    describe("Endless Hordes's ability", function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'brobnar',
+                    token: 'grunt',
+                    hand: ['endless-hordes', 'anger']
+                },
+                player2: {
+                    inPlay: [
+                        'bumpsy',
+                        'dust-pixie',
+                        'urchin',
+                        'hunting-witch',
+                        'dodger',
+                        'groke',
+                        'witch-of-the-eye'
+                    ]
+                }
+            });
+        });
+
+        it('should obey the rule of 6', function () {
+            this.player1.play(this.endlessHordes);
+            this.player1.clickPrompt('Right');
+            this.player1.clickPrompt('Right');
+            this.player1.clickPrompt('Right');
+            this.player1.clickPrompt('Right');
+            this.player1.clickPrompt('Right');
+            this.player1.clickPrompt('Right');
+            this.player1.clickCard(this.bumpsy);
+            this.player1.clickCard(this.dustPixie);
+            this.player1.clickCard(this.urchin);
+            this.player1.clickCard(this.huntingWitch);
+            this.player1.clickCard(this.dodger);
+            this.player1.clickCard(this.groke);
+            expect(
+                this.player1.player.creaturesInPlay[this.player1.player.creaturesInPlay.length - 1]
+                    .exhausted
+            ).toBe(false);
+            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+        });
+    });
+
+    describe("Endless Hordes's ability", function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'brobnar',
+                    token: 'skirmisher',
+                    hand: ['endless-hordes']
+                },
+                player2: {
+                    inPlay: [
+                        'eyegor',
+                        'com-officer-kirby',
+                        'titan-guardian',
+                        'com-officer-kirby',
+                        'eyegor'
+                    ]
+                }
+            });
+
+            this.kirby2 = this.player2.player.creaturesInPlay[3];
+            this.eyegor2 = this.player2.player.creaturesInPlay[4];
+        });
+
+        it('should not care about names', function () {
+            this.player1.play(this.endlessHordes);
+            this.player1.clickPrompt('Right');
+            this.player1.clickPrompt('Right');
+            this.player1.clickPrompt('Right');
+            this.player1.clickPrompt('Right');
+            this.player1.clickCard(this.eyegor2);
+            this.player1.clickCard(this.kirby2);
+            this.player1.clickCard(this.titanGuardian);
+            this.player1.clickCard(this.comOfficerKirby);
+            this.player1.clickCard(this.eyegor);
+            expect(this.eyegor.location).toBe('discard');
+            expect(this.eyegor2.location).toBe('discard');
+            expect(this.comOfficerKirby.tokens.damage).toBe(2);
+            expect(this.kirby2.tokens.damage).toBe(2);
+            expect(this.titanGuardian.tokens.damage).toBe(1);
+            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+        });
+    });
 });

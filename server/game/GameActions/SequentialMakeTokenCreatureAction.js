@@ -6,7 +6,6 @@ class SequentialMakeTokenCreatureAction extends GameAction {
         this.revealList = [];
         this.ready = false;
         this.forEach = [];
-        this.cardLocation = '';
     }
 
     setup() {
@@ -27,13 +26,8 @@ class SequentialMakeTokenCreatureAction extends GameAction {
         return true;
     }
 
-    queueActionSteps(context, element, cardLocation) {
-        let action = context.game.actions.makeTokenCreature({
-            target: context.player,
-            cards: [element],
-            amount: 1,
-            cardLocation: cardLocation
-        });
+    queueActionSteps(context, element) {
+        let action = context.game.actions.makeTokenCreature();
 
         context.game.queueSimpleStep(() => {
             action.setDefaultTarget(() => element);
@@ -45,7 +39,7 @@ class SequentialMakeTokenCreatureAction extends GameAction {
         );
     }
 
-    filterAndApplyAction(context, forEach, cardLocation) {
+    filterAndApplyAction(context, forEach) {
         let filteredForEach = forEach.filter(
             (card) => !card.gigantic || forEach.some((part) => part.id === card.compositeId)
         );
@@ -57,28 +51,27 @@ class SequentialMakeTokenCreatureAction extends GameAction {
                 source: context.source,
                 revealTargets: this.revealList.length > 0,
                 onSelect: (player, card) => {
-                    this.queueActionSteps(context, card, cardLocation);
+                    this.queueActionSteps(context, card);
                     context.game.queueSimpleStep(() => {
                         this.filterAndApplyAction(
                             context,
                             filteredForEach.filter((c) => {
                                 return c !== card && c !== card.composedPart;
-                            }),
-                            cardLocation
+                            })
                         );
                     });
                     return true;
                 }
             });
         } else if (filteredForEach.length === 1) {
-            this.queueActionSteps(context, filteredForEach[0], cardLocation);
+            this.queueActionSteps(context, filteredForEach[0]);
         }
     }
 
     getEventArray(context) {
         return [
             super.createEvent('unnamedEvent', {}, () => {
-                this.filterAndApplyAction(context, this.forEach, this.cardLocation);
+                this.filterAndApplyAction(context, this.forEach);
             })
         ];
     }
