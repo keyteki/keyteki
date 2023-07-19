@@ -80,10 +80,10 @@ class DeckBuilder {
             deck = deck.concat(defaultFiller[houses[0]]);
         }
 
-        return this.buildDeck(houses, player.token, deck);
+        return this.buildDeck(houses, player.token, deck, player.name + "'s deck");
     }
 
-    buildDeck(houses, token, cardLabels) {
+    buildDeck(houses, token, cardLabels, name) {
         let cardCounts = {};
         _.each(cardLabels, (label) => {
             let cardData = this.getCard(label);
@@ -114,7 +114,8 @@ class DeckBuilder {
 
         return {
             houses: houses,
-            cards: Object.values(cardCounts)
+            cards: Object.values(cardCounts),
+            name: name
         };
     }
 

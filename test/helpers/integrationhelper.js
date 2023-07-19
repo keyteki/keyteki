@@ -243,6 +243,10 @@ beforeEach(function () {
             options.player2 = {};
         }
 
+        if (options.gameFormat) {
+            this.game.gameFormat = options.gameFormat;
+        }
+
         //Build decks
         this.player1.selectDeck(deckBuilder.customDeck(options.player1));
         this.player2.selectDeck(deckBuilder.customDeck(options.player2));
