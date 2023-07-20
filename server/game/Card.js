@@ -1156,10 +1156,11 @@ class Card extends EffectSource {
             uuid: this.uuid
         };
 
-        if (this.isToken() && !this.game.isCardVisible(this, activePlayer)) {
-            state.id = this.tokenCard().id;
-            state.name = this.tokenCard().name;
-            state.image = this.tokenCard().image;
+        if (this.isToken() && this.tokenCard() && !this.game.isCardVisible(this, activePlayer)) {
+            const tokenCard = this.tokenCard();
+            state.id = tokenCard.id;
+            state.name = tokenCard.name;
+            state.image = tokenCard.image;
             state.facedown = false;
             state.enhancements = [];
         }
