@@ -40,6 +40,7 @@ class Deck {
             }
 
             result.card.isNonDeck = card.isNonDeck;
+            result.isNonDeck = card.isNonDeck;
 
             return result;
         });
