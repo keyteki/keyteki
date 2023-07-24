@@ -89,8 +89,8 @@ const Lobby = () => {
             link: 'https://bit.ly/LainusuKeyForgeExperience'
         },
         {
-            img: '/banner/happygee-v3.png',
-            link: 'https://geeb.us/bpptco'
+            img: 'banner/BANNER_TCO_vt.png',
+            link: 'https://www.azcardtrading.it/pages/keyforge-vault-tour-firenze-2023'
         }
     ];
 
