@@ -32,16 +32,14 @@ const CardImage = ({ card, cardBack, size, tokenCard, halfSize, onMouseOver, onM
 
                 if (canvas) {
                     fabricRef.current = await buildCard(canvas, {
-                        ...card,
+                        ...(tokenCard || card),
                         size,
                         halfSize,
                         url: `/img/${halfSize ? 'halfSize' : 'cards'}/${
                             i18n.language === 'en' ? '' : i18n.language
                         }/${(tokenCard || card).image.replace('*', '_')}.${
                             halfSize ? 'jpg' : 'png'
-                        }`,
-                        image: (tokenCard || card).image,
-                        enhancements: tokenCard ? [] : card.enhancements
+                        }`
                     });
                 }
             }
