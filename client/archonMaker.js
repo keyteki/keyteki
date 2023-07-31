@@ -585,16 +585,15 @@ export const buildCard = async (
                 let left = 10;
                 let top = 220;
 
-                if (card.tokenCard) {
-                    top += 27;
-                }
-
                 if (halfSize) {
                     top -= 25;
                 } else if (image.includes('-complete')) {
                     top += 30;
                     left -= 5;
+                } else if (card.tokenCard) {
+                    top += 27;
                 }
+
                 modifiedPowerToken.scaleToWidth(60);
                 modifiedPowerToken.set({ left, top: top });
                 canvas.add(modifiedPowerToken);

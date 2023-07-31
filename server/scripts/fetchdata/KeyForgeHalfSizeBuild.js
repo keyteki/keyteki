@@ -129,6 +129,7 @@ const buildHalfSize = async (card, imgPath, filename, language) => {
             break;
         case 'creature':
         case 'creature1':
+        case 'token creature':
             bar = await loadImage(
                 `file://${
                     assetsPath +
