@@ -16,35 +16,31 @@ class FlipAction extends CardGameAction {
     }
 
     getEvent(card, context) {
-        return super.createEvent(
-            'onFlipToken',
-            { card, player: context.player, context },
-            (event) => {
-                if (card.isToken() && card.printedType !== 'creature') {
-                    context.game.actions
-                        .discard({
-                            target: card
-                        })
-                        .resolve(card, context);
-                } else {
-                    context.game.actions
-                        .cardLastingEffect({
-                            target: card,
-                            targetLocation: 'play area',
-                            duration: 'lastingEffect',
-                            effect: [
-                                context.game.effects.flipToken(),
-                                context.game.effects.changeType(card.printedType),
-                                context.game.effects.copyCard(
-                                    card.isToken() ? card : event.player.tokenCard,
-                                    false
-                                )
-                            ]
-                        })
-                        .resolve(card, context);
-                }
+        return super.createEvent('onFlipToken', { card, player: context.player, context }, () => {
+            if (card.isToken() && card.printedType !== 'creature') {
+                context.game.actions
+                    .discard({
+                        target: card
+                    })
+                    .resolve(card, context);
+            } else {
+                context.game.actions
+                    .cardLastingEffect({
+                        target: card,
+                        targetLocation: 'play area',
+                        duration: 'lastingEffect',
+                        effect: [
+                            context.game.effects.flipToken(),
+                            context.game.effects.changeType('creature'),
+                            context.game.effects.copyCard(
+                                card.isToken() ? card : card.owner.tokenCard,
+                                false
+                            )
+                        ]
+                    })
+                    .resolve(card, context);
             }
-        );
+        });
     }
 }
 

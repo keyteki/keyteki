@@ -27,7 +27,6 @@ const Card = ({
     size,
     source,
     style,
-    tokenCard,
     wrapped
 }) => {
     const { i18n } = useTranslation();
@@ -220,13 +219,7 @@ const Card = ({
         });
         let image = card ? (
             <div className={imageClass}>
-                <CardImage
-                    card={card}
-                    cardBack={cardBack}
-                    size={size}
-                    tokenCard={tokenCard}
-                    halfSize={halfSize}
-                />
+                <CardImage card={card} cardBack={cardBack} size={size} halfSize={halfSize} />
             </div>
         ) : null;
         return (
@@ -236,13 +229,13 @@ const Card = ({
                 <div
                     className={cardClass}
                     onMouseOver={
-                        !disableMouseOver && (card.tokenCard || !isFacedown()) && onMouseOver
+                        !disableMouseOver && !isFacedown() && onMouseOver
                             ? () =>
                                   onMouseOver({
                                       image: (
                                           <CardImage
                                               card={{
-                                                  ...(isFacedown() ? card.tokenCard : card),
+                                                  ...(card.versusCard || card),
                                                   location: 'zoom'
                                               }}
                                               cardBack={cardBack}
@@ -252,11 +245,7 @@ const Card = ({
                                   })
                             : undefined
                     }
-                    onMouseOut={
-                        !disableMouseOver && (card.tokenCard || !isFacedown())
-                            ? onMouseOut
-                            : undefined
-                    }
+                    onMouseOut={!disableMouseOver && !isFacedown() ? onMouseOut : undefined}
                     onClick={(event) => onCardClicked(event, card)}
                 >
                     <div>
@@ -286,8 +275,6 @@ const Card = ({
             return 'selected';
         } else if (card.selectable) {
             return 'selectable';
-        } else if (card.tokenCard) {
-            return 'token';
         } else if (card.new) {
             return 'new';
         }
