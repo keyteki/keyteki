@@ -52,6 +52,11 @@ class CopyCard extends EffectValue {
             value.unregisterEvents();
         }
 
+        for (const value of this.abilitiesForTargets[target.uuid].actions) {
+            target.removeAbility(value);
+            value.unregisterEvents();
+        }
+
         for (const effect of this.persistentEffects) {
             if (effect.ref) {
                 target.removeEffectFromEngine(effect.ref);
