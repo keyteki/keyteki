@@ -4,6 +4,7 @@ class GainAbility extends EffectValue {
     constructor(type, properties, printedAbility = false) {
         super();
         this.type = type;
+        this.printedAbility = printedAbility;
         if (properties.properties) {
             this.properties = Object.assign({}, properties.properties, { printedAbility });
         } else {
@@ -20,30 +21,27 @@ class GainAbility extends EffectValue {
     }
 
     apply(target, state) {
-        state[target.uuid] = target[this.type](this.properties);
-
+        const value = (state[target.uuid] = target[this.type](this.properties));
         if (this.type === 'persistentEffect') {
-            const value = state[target.uuid];
             if (value.location === 'any' || value.location === target.location) {
                 value.ref = target.addEffectToEngine(value);
             }
-
-            return;
-        } else if (this.type === 'action') {
-            return;
+        } else if (this.type !== 'action') {
+            value.registerEvents();
         }
-
-        state[target.uuid].registerEvents();
     }
 
     unapply(target, state) {
+        const value = state[target.uuid];
         if (this.type === 'persistentEffect') {
-            const value = state[target.uuid];
             if (value.ref) {
                 target.removeEffectFromEngine(value.ref);
             }
         } else if (this.type !== 'action') {
-            state[target.uuid].unregisterEvents();
+            value.unregisterEvents();
+        }
+        if (this.printedAbility) {
+            target.removeAbility(value);
         }
 
         delete state[target.uuid];
