@@ -42,4 +42,35 @@ describe('Exchange Program', function () {
             expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
         });
     });
+
+    describe("Exchange Program's ability", function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'ekwidon',
+                    token: 'grumpus',
+                    inPlay: ['antiquities-dealer', 'grumpus:flaxia'],
+                    hand: ['exchange-program', 'chelonia']
+                },
+                player2: {
+                    inPlay: ['urchin', 'collector-worm', 'gub']
+                }
+            });
+        });
+
+        it('allows token house to be selectable', function () {
+            this.player1.play(this.exchangeProgram);
+            this.player1.clickCard(this.grumpus);
+            this.player1.clickCard(this.gub);
+            expect(this.player1.player.cardsInPlay).toContain(this.gub);
+            expect(this.player2.player.cardsInPlay).toContain(this.grumpus);
+            this.player1.endTurn();
+            expect(this.player2).toHavePromptButton('shadows');
+            expect(this.player2).toHavePromptButton('mars');
+            expect(this.player2).toHavePromptButton('dis');
+            expect(this.player2).toHavePromptButton('brobnar');
+            this.player2.clickPrompt('brobnar');
+            this.player2.reap(this.grumpus);
+        });
+    });
 });
