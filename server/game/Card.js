@@ -411,8 +411,10 @@ class Card extends EffectSource {
     }
 
     removeAbility(ability) {
-        this.abilities.reactions = this.abilities.reactions.filter(
-            (reaction) => reaction !== ability
+        this.abilities.reactions = this.abilities.reactions.filter((it) => it !== ability);
+        this.abilities.actions = this.abilities.actions.filter((it) => it !== ability);
+        this.abilities.persistentEffects = this.abilities.persistentEffects.filter(
+            (it) => it !== ability
         );
     }
 
