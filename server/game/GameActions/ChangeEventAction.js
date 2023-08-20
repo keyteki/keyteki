@@ -21,7 +21,7 @@ class ChangeEventAction extends GameAction {
                         properties.processEvent(properties.event, context);
                     } else {
                         for (let param of Object.keys(properties).filter(
-                            (key) => key !== 'event' && key !== 'processEvent'
+                            (key) => key !== 'event'
                         )) {
                             properties.event[param] = properties[param];
                         }
