@@ -18,9 +18,11 @@ class Hallafest extends Card {
                 alwaysTriggers: true,
                 gameAction: ability.actions.gainChains((context) => ({
                     amount:
-                        context.preThenEvents && context.preThenEvents.length == 0
-                            ? 0
-                            : context.preThenEvents[0].searchedCards.length
+                        context.preThenEvents &&
+                        context.preThenEvents.length > 0 &&
+                        context.preThenEvents[0].searchedCards
+                            ? context.preThenEvents[0].searchedCards.length
+                            : 0
                 }))
             }
         });
