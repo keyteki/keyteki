@@ -13,7 +13,6 @@ class Hallafest extends Card {
                 amount: 4,
                 uniqueCardNames: true
             }),
-
             then: {
                 alwaysTriggers: true,
                 gameAction: ability.actions.gainChains((context) => ({

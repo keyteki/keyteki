@@ -97,4 +97,96 @@ describe('Friendship', function () {
             });
         });
     });
+
+    describe("Friendship's ability and splash damage", function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'sanctum',
+                    amber: 4,
+                    token: 'defender',
+                    inPlay: [
+                        'mother-northelle',
+                        'batdrone',
+                        'dr-escotera',
+                        'daughter',
+                        'the-grey-rider'
+                    ],
+                    hand: ['challe-the-safeguard', 'friendship']
+                },
+                player2: {
+                    amber: 3,
+                    inPlay: ['crogg-the-clumsy']
+                }
+            });
+
+            this.player1.playUpgrade(this.friendship, this.drEscotera);
+            this.player1.endTurn();
+            this.player2.clickPrompt('brobnar');
+        });
+
+        it('splash should be dealt simultaneously with even distribution', function () {
+            this.croggTheClumsy.tokens.power = 1;
+            this.player2.fightWith(this.croggTheClumsy, this.drEscotera);
+            expect(this.motherNorthelle.location).toBe('play area');
+            expect(this.daughter.location).toBe('discard');
+            expect(this.batdrone.location).toBe('discard');
+            expect(this.theGreyRider.location).toBe('play area');
+            expect(this.drEscotera.location).toBe('play area');
+            expect(this.croggTheClumsy.location).toBe('play area');
+            expect(this.croggTheClumsy.tokens.damage).toBe(4);
+            this.player2.endTurn();
+        });
+
+        it('splash should be dealt simultaneously with odd distribution', function () {
+            this.player2.fightWith(this.croggTheClumsy, this.drEscotera);
+            expect(this.player2).toHavePrompt('Select a neighbor to receive extra damage');
+            expect(this.player2).toBeAbleToSelect(this.batdrone);
+            expect(this.player2).toBeAbleToSelect(this.daughter);
+            this.player2.clickCard(this.daughter);
+            expect(this.motherNorthelle.location).toBe('play area');
+            expect(this.daughter.location).toBe('discard');
+            expect(this.batdrone.location).toBe('discard');
+            expect(this.theGreyRider.location).toBe('play area');
+            expect(this.drEscotera.location).toBe('play area');
+            expect(this.croggTheClumsy.location).toBe('play area');
+            expect(this.croggTheClumsy.tokens.damage).toBe(4);
+            this.player2.endTurn();
+        });
+
+        describe('when neighbors are warded', function () {
+            it('splash should be dealt simultaneously with even distribution', function () {
+                this.croggTheClumsy.tokens.power = 1;
+                this.batdrone.tokens.ward = 1;
+                this.daughter.tokens.ward = 1;
+                this.player2.fightWith(this.croggTheClumsy, this.drEscotera);
+                expect(this.motherNorthelle.location).toBe('play area');
+                expect(this.daughter.location).toBe('discard');
+                expect(this.batdrone.location).toBe('discard');
+                expect(this.theGreyRider.location).toBe('play area');
+                expect(this.drEscotera.location).toBe('play area');
+                expect(this.croggTheClumsy.location).toBe('play area');
+                expect(this.croggTheClumsy.tokens.damage).toBe(4);
+                this.player2.endTurn();
+            });
+
+            it('splash should be dealt simultaneously with odd distribution', function () {
+                this.batdrone.tokens.ward = 1;
+                this.daughter.tokens.ward = 1;
+                this.player2.fightWith(this.croggTheClumsy, this.drEscotera);
+                expect(this.player2).toHavePrompt('Select a neighbor to receive extra damage');
+                expect(this.player2).toBeAbleToSelect(this.batdrone);
+                expect(this.player2).toBeAbleToSelect(this.daughter);
+                this.player2.clickCard(this.daughter);
+                expect(this.motherNorthelle.location).toBe('play area');
+                expect(this.daughter.location).toBe('discard');
+                expect(this.batdrone.location).toBe('discard');
+                expect(this.theGreyRider.location).toBe('play area');
+                expect(this.drEscotera.location).toBe('play area');
+                expect(this.croggTheClumsy.location).toBe('play area');
+                expect(this.croggTheClumsy.tokens.damage).toBe(4);
+                this.player2.endTurn();
+            });
+        });
+    });
 });

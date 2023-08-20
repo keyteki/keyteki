@@ -17,8 +17,14 @@ class ChangeEventAction extends GameAction {
                 if (properties.cancel) {
                     properties.event.cancel();
                 } else {
-                    for (let param of Object.keys(properties).filter((key) => key !== 'event')) {
-                        properties.event[param] = properties[param];
+                    if (properties.processEvent) {
+                        properties.processEvent(properties.event, context);
+                    } else {
+                        for (let param of Object.keys(properties).filter(
+                            (key) => key !== 'event'
+                        )) {
+                            properties.event[param] = properties[param];
+                        }
                     }
                 }
             })

@@ -3,47 +3,86 @@ const Card = require('../../Card.js');
 class Friendship extends Card {
     setupCardAbilities(ability) {
         this.interrupt({
+            // even distribution or single neighbor
             when: {
                 onDamageApplied: (event, context) =>
+                    event.damageDealtEvent &&
+                    event.amount > 0 &&
                     event.card === context.source.parent &&
                     context.source.parent.neighbors.length > 0 &&
-                    event.amount > 0
+                    (event.amount % 2 === 0 || context.source.parent.neighbors.length == 1)
             },
             gameAction: ability.actions.changeEvent((context) => ({
                 event: context.event,
-                cancel: true,
-                postHandler: () => {
+                processEvent: (event, context) => {
                     let neighbors = context.source.parent.neighbors;
-                    let damage = context.event.amount;
-                    let damagePerNeighbor = Math.floor(damage / neighbors.length);
-                    let remainder = damage % neighbors.length;
-
-                    // Add the evenly-split damage.
-                    ability.actions
-                        .addDamageToken({
-                            noGameStateCheck: true,
-                            amount: damagePerNeighbor
-                        })
-                        .resolve(neighbors, context);
-
-                    if (remainder > 0) {
-                        // Ask the player which neighbor should receive the extra damage
-                        context.game.promptForSelect(context.game.activePlayer, {
-                            activePromptTitle: 'Select a neighbor to receive extra damage',
-                            source: context.source,
-                            cardCondition: (card) => neighbors.includes(card),
-                            onSelect: (player, card) => {
-                                ability.actions
-                                    .addDamageToken({
-                                        amount: damagePerNeighbor
-                                    })
-                                    .resolve(card, context);
-                                return true;
-                            }
-                        });
+                    let damagePerNeighbor = event.amount / neighbors.length;
+                    if (neighbors[0]) {
+                        event.addChildEvent(
+                            ability.actions
+                                .addDamageToken({
+                                    amount: damagePerNeighbor
+                                })
+                                .getEvent(neighbors[0], context.game.getFrameworkContext())
+                        );
                     }
+                    if (neighbors[1]) {
+                        event.addChildEvent(
+                            ability.actions
+                                .addDamageToken({
+                                    amount: damagePerNeighbor
+                                })
+                                .getEvent(neighbors[1], context.game.getFrameworkContext())
+                        );
+                    }
+                    event.amount = 0;
                 }
             }))
+        });
+
+        this.interrupt({
+            // uneven distribution or single neighbor
+            when: {
+                onDamageApplied: (event, context) =>
+                    event.damageDealtEvent &&
+                    event.amount > 0 &&
+                    event.card === context.source.parent &&
+                    context.source.parent.neighbors.length === 2 &&
+                    event.amount % 2 === 1
+            },
+            target: {
+                activePromptTitle: 'Select a neighbor to receive extra damage',
+                cardType: 'creature',
+                controller: 'any',
+                cardCondition: (card, context) =>
+                    context.source.parent.neighbors.some((c) => c === card),
+                gameAction: ability.actions.changeEvent((context) => ({
+                    event: context.event,
+                    processEvent: (event, context) => {
+                        let neighbors = context.source.parent.neighbors;
+                        let damagePerNeighbor = Math.floor(event.amount / 2);
+                        event.addChildEvent(
+                            ability.actions
+                                .addDamageToken({
+                                    amount:
+                                        damagePerNeighbor +
+                                        (context.target === neighbors[0] ? 1 : 0)
+                                })
+                                .getEvent(neighbors[0], context.game.getFrameworkContext())
+                        );
+                        event.addChildEvent(
+                            ability.actions
+                                .addDamageToken({
+                                    amount:
+                                        damagePerNeighbor +
+                                        (context.target === neighbors[1] ? 1 : 0)
+                                })
+                                .getEvent(neighbors[1], context.game.getFrameworkContext())
+                        );
+                        event.amount = 0;
+                    }
+                }))
+            }
         });
     }
 }
