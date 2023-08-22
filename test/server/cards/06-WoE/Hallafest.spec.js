@@ -14,12 +14,12 @@ describe('Hallafest', function () {
                     inPlay: ['gub', 'krump']
                 }
             });
+
+            this.vulka1 = this.player1.player.creaturesInPlay[0];
+            this.vulka2 = this.player1.player.creaturesInPlay[1];
         });
 
         it('should 4 Bräkken creatures to be selected from deck, and not allow more than 1 of same name to be selected', function () {
-            this.vulka1 = this.player1.player.creaturesInPlay[0];
-            this.vulka2 = this.player1.player.creaturesInPlay[1];
-
             this.player1.moveCard(this.vulka1, 'deck');
             this.player1.moveCard(this.vulka2, 'deck');
             this.player1.moveCard(this.brikkNastee, 'deck');
@@ -59,10 +59,7 @@ describe('Hallafest', function () {
             this.player1.endTurn();
         });
 
-        it('should allow less than 1 Bräkken creatures to be selected from deck, and only give 1 chain', function () {
-            this.vulka1 = this.player1.player.creaturesInPlay[0];
-            this.vulka2 = this.player1.player.creaturesInPlay[1];
-
+        it('should allow less than 4 Bräkken creatures to be selected from deck, and only give 1 chain', function () {
             this.player1.moveCard(this.vulka1, 'deck');
             this.player1.moveCard(this.vulka2, 'deck');
             this.player1.moveCard(this.brikkNastee, 'deck');
@@ -80,6 +77,35 @@ describe('Hallafest', function () {
             expect(this.gedHammer.location).toBe('deck');
 
             expect(this.player1.chains).toBe(1);
+
+            this.player1.endTurn();
+        });
+
+        it('should allow no creature to be selected from deck, and give no chains', function () {
+            this.player1.moveCard(this.vulka1, 'deck');
+            this.player1.moveCard(this.vulka2, 'deck');
+            this.player1.moveCard(this.brikkNastee, 'deck');
+            this.player1.moveCard(this.harmalAtoon, 'deck');
+            this.player1.moveCard(this.gedHammer, 'deck');
+
+            this.player1.play(this.hallafest);
+            this.player1.clickPrompt('Done');
+
+            expect(this.vulka1.location).toBe('deck');
+            expect(this.vulka2.location).toBe('deck');
+            expect(this.brikkNastee.location).toBe('deck');
+            expect(this.harmalAtoon.location).toBe('deck');
+            expect(this.gedHammer.location).toBe('deck');
+
+            expect(this.player1.chains).toBe(0);
+
+            this.player1.endTurn();
+        });
+
+        it('should fizzle when no Brakken in deck, and give no chains', function () {
+            this.player1.play(this.hallafest);
+            this.player1.clickPrompt('Done');
+            expect(this.player1.chains).toBe(0);
 
             this.player1.endTurn();
         });
