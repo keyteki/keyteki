@@ -555,7 +555,7 @@
     "Added": "Adic.",
     "Win %": "Vit %",
     "Filter by name": "Filtrar por nome",
-    "Choose a top part to play": "Eschola uma parte superior para jogar",
+    "Choose a top part to play": "Escolha uma parte superior para jogar",
     "Introduction": "Introdução",
     "Use half sized card images": "Usar cartas com metade do tamanho",
     "Challonge API Subdomain": "Subdomínio da API Challonge",
@@ -629,11 +629,12 @@
     "Name the first card": "Nome da primeira carta",
     "Name the second card": "Nome da segunda carta",
     "Name a card": "Nome da carta",
-    "Choose a half for the middle enemy creature": "Choose a half for the middle enemy creature",
-    "Choose a half for the middle friendly creature": "Choose a half for the middle friendly creature",
-    "Choose an enemy half to destroy": "Choose an enemy half to destroy",
-    "Choose a friendly half to destroy": "Choose a friendly half to destroy",
-    "Make a token creature": "Make a token creature",
-    "Draw a card": "Draw a card",
-    "Choose which cards to reveal and discard": "Choose which cards to reveal and discard"
+    "Choose a half for the middle enemy creature": "Escolha o lado para a criatura inimiga do meio",
+    "Choose a half for the middle friendly creature": "Escolha o lado para a criatura amiga do meio",
+    "Choose an enemy half to destroy": "Escolha o lado inimigo para destruir",
+    "Choose a friendly half to destroy": "Escolha o lado amigo para destruir",
+    "Make a token creature": "Faça uma criatura token",
+    "Draw a card": "Compre uma carta",
+    "Choose which cards to reveal and discard": "Escolha quais cartas revelar e descartar",
+    "Select a neighbor to receive extra damage": "Selecione o vizinho para receber o dano restante"
 }
