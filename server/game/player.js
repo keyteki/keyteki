@@ -680,7 +680,8 @@ class Player extends GameObject {
 
     getAvailableHouses() {
         let availableHouses = this.hand.concat(this.cardsInPlay).reduce((houses, card) => {
-            let cardHouse = card.printedHouse;
+            let cardHouse = (card.isToken() && card.tokenCard() ? card.tokenCard() : card)
+                .printedHouse;
 
             if (card.anyEffect('changeHouse')) {
                 cardHouse = card.getEffects('changeHouse');
