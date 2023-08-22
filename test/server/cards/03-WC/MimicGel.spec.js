@@ -480,6 +480,43 @@ describe('Mimic Gel', function () {
         });
     });
 
+    describe('Mimic Gel and gained action ability', function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'logos',
+                    inPlay: ['hapsis', 'daughter', 'creed-of-nurture'],
+                    hand: ['mimic-gel']
+                },
+                player2: {
+                    amber: 3,
+                    inPlay: ['umbra', 'bordan-the-redeemed']
+                }
+            });
+
+            this.player1.clickCard(this.mimicGel);
+            this.player1.clickPrompt('Play this creature');
+            this.player1.clickCard(this.bordanTheRedeemed);
+            this.player1.clickPrompt('Left');
+            this.mimicGel.exhausted = false;
+        });
+
+        it('MG should capture 1A after reap', function () {
+            this.player1.useAction(this.mimicGel);
+            expect(this.mimicGel.amber).toBe(2);
+            expect(this.player2.amber).toBe(1);
+        });
+
+        it('MG should lose its gained ability after leaving play', function () {
+            this.player1.moveCard(this.mimicGel, 'hand');
+            this.player1.useAction(this.creedOfNurture, true);
+            this.player1.clickCard(this.mimicGel);
+            this.player1.clickCard(this.daughter);
+            this.player1.clickCard(this.daughter);
+            expect(this.player1).not.toHavePromptButton("Use this card's Action ability");
+        });
+    });
+
     describe('Two Mimic Gels and gained ability', function () {
         beforeEach(function () {
             this.setupTest({

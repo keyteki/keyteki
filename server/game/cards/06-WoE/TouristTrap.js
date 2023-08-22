@@ -12,7 +12,7 @@ class TouristTrap extends Card {
 
         this.action({
             condition: (context) =>
-                context.player.creaturesInPlay.length > 0 &&
+                context.player.creaturesInPlay.some((card) => card.isToken()) &&
                 context.player.opponent &&
                 context.player.opponent.creaturesInPlay.length > 0,
             targets: {

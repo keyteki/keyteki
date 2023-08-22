@@ -1,11 +1,11 @@
-describe('KelpingHands', function () {
+describe('Kelping Hands', function () {
     describe('in play', function () {
         beforeEach(function () {
             this.setupTest({
                 player1: {
-                    house: 'untamed',
+                    house: 'staralliance',
                     amber: 1,
-                    hand: ['bubbles'],
+                    hand: ['pyr*0'],
                     inPlay: ['flaxia', 'chelonia', 'kelping-hands']
                 },
                 player2: {
@@ -13,6 +13,12 @@ describe('KelpingHands', function () {
                     inPlay: ['gub', 'krump']
                 }
             });
+
+            this.player1.playUpgrade(this['pyr*0'], this.chelonia);
+            this.player1.endTurn();
+            this.player2.clickPrompt('dis');
+            this.player2.endTurn();
+            this.player1.clickPrompt('untamed');
         });
 
         describe('before used,', function () {
@@ -21,7 +27,7 @@ describe('KelpingHands', function () {
                 expect(this.chelonia.hasKeyword('poison')).toBe(false);
             });
 
-            it('creatures should not kill trolls', function () {
+            it('creatures should not kill Krump', function () {
                 this.player1.fightWith(this.chelonia, this.krump);
                 expect(this.chelonia.location).toBe('discard');
                 expect(this.krump.location).toBe('play area');
@@ -42,10 +48,26 @@ describe('KelpingHands', function () {
                 expect(this.chelonia.hasKeyword('poison')).toBe(true);
             });
 
-            it('creatures should kill trolls', function () {
+            it('creatures should kill Krump', function () {
                 this.player1.fightWith(this.chelonia, this.krump);
                 expect(this.chelonia.location).toBe('discard');
                 expect(this.krump.location).toBe('discard');
+            });
+
+            it('should not apply to enemy creatures', function () {
+                this.player1.fightWith(this.flaxia, this.gub);
+                expect(this.flaxia.location).toBe('play area');
+                expect(this.flaxia.tokens.damage).toBe(1);
+                expect(this.gub.location).toBe('discard');
+            });
+
+            it('should not apply to splash damage', function () {
+                this.player1.fightWith(this.chelonia, this.gub);
+                expect(this.chelonia.location).toBe('play area');
+                expect(this.chelonia.tokens.damage).toBe(1);
+                expect(this.gub.location).toBe('discard');
+                expect(this.krump.location).toBe('play area');
+                expect(this.krump.tokens.damage).toBe(3);
             });
         });
     });
