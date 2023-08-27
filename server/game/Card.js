@@ -1114,9 +1114,9 @@ class Card extends EffectSource {
         const tokenCard = this.isToken() && this.tokenCard();
         const tokenCardOrThis = tokenCard ? tokenCard : this;
         const state = {
+            id: tokenCardOrThis.id,
             anomaly: tokenCardOrThis.anomaly,
-            enhancements: this.enhancements,
-            id: this.id,
+            enhancements: tokenCardOrThis.enhancements,
             image: tokenCardOrThis.image,
             canPlay: !!(
                 activePlayer === this.game.activePlayer &&
@@ -1148,7 +1148,7 @@ class Card extends EffectSource {
             upgrades: this.upgrades.map((upgrade) => {
                 return upgrade.getSummary(activePlayer, hideWhenFaceup);
             }),
-            uuid: this.uuid,
+            uuid: tokenCard && isController ? this.uuid : tokenCardOrThis.uuid,
             isToken: !!tokenCard
         };
 
