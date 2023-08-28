@@ -1077,10 +1077,10 @@ class Card extends EffectSource {
     }
 
     getShortSummary() {
-        let result =
-            this.isToken() && this.tokenCard()
-                ? this.tokenCard().getShortSummary()
-                : super.getShortSummary();
+        if (this.isToken() && this.tokenCard()) {
+            return this.tokenCard().getShortSummary();
+        }
+        let result = super.getShortSummary();
 
         // Include card specific information useful for UI rendering
         result.maverick = this.maverick;
@@ -1092,10 +1092,10 @@ class Card extends EffectSource {
     }
 
     getSummary(activePlayer, hideWhenFaceup) {
-        let isController = activePlayer === this.controller;
-        let selectionState = activePlayer.getCardSelectionState(this);
+        const isController = activePlayer === this.controller;
+        const selectionState = activePlayer.getCardSelectionState(this);
 
-        if (!this.game.isCardVisible(this, activePlayer) && !this.isToken()) {
+        if (!this.game.isCardVisible(this, activePlayer)) {
             return {
                 cardback: this.owner.deckData.cardback,
                 controller: this.controller.name,
@@ -1103,24 +1103,21 @@ class Card extends EffectSource {
                 facedown: true,
                 uuid: this.uuid,
                 tokens: this.tokens,
-                tokenCard:
-                    this.isToken() && this.tokenCard()
-                        ? this.tokenCard().getSummary(activePlayer, hideWhenFaceup)
-                        : null,
-                type: this.location === 'play area' && this.getType(),
                 ...selectionState
             };
         }
 
-        let childCards = this.childCards
+        const childCards = this.childCards
             .map((card) => card.getSummary(activePlayer, hideWhenFaceup))
             .concat(this.purgedCards.map((card) => card.getSummary(activePlayer, hideWhenFaceup)));
 
-        let state = {
-            anomaly: this.anomaly,
-            enhancements: this.enhancements,
-            id: this.id,
-            image: this.image,
+        const tokenCard = this.isToken() && this.tokenCard();
+        const tokenCardOrThis = tokenCard ? tokenCard : this;
+        const state = {
+            id: tokenCardOrThis.id,
+            anomaly: tokenCardOrThis.anomaly,
+            enhancements: tokenCardOrThis.enhancements,
+            image: tokenCardOrThis.image,
             canPlay: !!(
                 activePlayer === this.game.activePlayer &&
                 this.game.activePlayer.activeHouse &&
@@ -1137,34 +1134,41 @@ class Card extends EffectSource {
             menu: this.getMenu(),
             name: this.name,
             new: this.new,
-            printedHouse: this.printedHouse,
-            maverick: this.maverick,
-            cardPrintedAmber: this.cardPrintedAmber,
-            printedPower: this.printedPower,
-            printedArmor: this.printedArmor,
+            printedHouse: tokenCardOrThis.printedHouse,
+            maverick: tokenCardOrThis.maverick,
+            cardPrintedAmber: tokenCardOrThis.cardPrintedAmber,
+            printedPower: tokenCardOrThis.printedPower,
+            printedArmor: tokenCardOrThis.printedArmor,
             modifiedPower: this.getPower(),
             stunned: this.stunned,
             taunt: this.getType() === 'creature' && !!this.getKeywordValue('taunt'),
             tokens: this.tokens,
-            tokenCard:
-                this.isToken() && this.tokenCard()
-                    ? this.tokenCard().getSummary(activePlayer, hideWhenFaceup)
-                    : null,
             type: this.getType(),
             gigantic: this.gigantic,
             upgrades: this.upgrades.map((upgrade) => {
                 return upgrade.getSummary(activePlayer, hideWhenFaceup);
             }),
-            uuid: this.uuid
+            uuid: tokenCard && isController ? this.uuid : tokenCardOrThis.uuid,
+            isToken: !!tokenCard
         };
 
-        if (this.isToken() && this.tokenCard() && !this.game.isCardVisible(this, activePlayer)) {
-            const tokenCard = this.tokenCard();
-            state.id = tokenCard.id;
-            state.name = tokenCard.name;
-            state.image = tokenCard.image;
-            state.facedown = false;
-            state.enhancements = [];
+        if (tokenCard && isController) {
+            state.versusCard = {
+                anomaly: this.anomaly,
+                enhancements: this.enhancements,
+                id: this.id,
+                image: this.image,
+                locale: this.locale,
+                name: this.name,
+                printedHouse: this.printedHouse,
+                maverick: this.maverick,
+                cardPrintedAmber: this.cardPrintedAmber,
+                printedPower: this.printedPower,
+                printedArmor: this.printedArmor,
+                type: this.printedType,
+                gigantic: this.gigantic,
+                uuid: this.uuid
+            };
         }
 
         return Object.assign(state, selectionState);

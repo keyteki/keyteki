@@ -590,7 +590,7 @@ export const buildCard = async (
                 } else if (image.includes('-complete')) {
                     top += 30;
                     left -= 5;
-                } else if (card.tokenCard) {
+                } else if (card.isToken) {
                     top += 27;
                 }
 
@@ -614,7 +614,7 @@ export const buildCard = async (
                 let left = 230;
                 let top = 220;
 
-                if (card.tokenCard) {
+                if (card.isToken) {
                     top += 27;
                 }
 
