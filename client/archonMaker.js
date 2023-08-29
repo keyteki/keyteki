@@ -614,16 +614,15 @@ export const buildCard = async (
                 let left = 230;
                 let top = 220;
 
-                if (card.isToken) {
-                    top += 27;
-                }
-
                 if (halfSize) {
                     top -= 25;
                 } else if (image.includes('-complete')) {
                     top += 30;
                     left += 5;
+                } else if (card.isToken) {
+                    top += 27;
                 }
+
                 modifiedArmorToken.scaleToWidth(60);
                 modifiedArmorToken.set({ left, top });
                 canvas.add(modifiedArmorToken);
