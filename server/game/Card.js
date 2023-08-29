@@ -1148,7 +1148,7 @@ class Card extends EffectSource {
             upgrades: this.upgrades.map((upgrade) => {
                 return upgrade.getSummary(activePlayer, hideWhenFaceup);
             }),
-            uuid: tokenCard && isController ? this.uuid : tokenCardOrThis.uuid,
+            uuid: this.uuid, // TODO - fix vulnerability with token cards
             isToken: !!tokenCard
         };
 
