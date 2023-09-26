@@ -11,14 +11,19 @@ class Symposium extends Card {
                 controller: 'self',
                 cardType: 'creature',
                 gameAction: ability.actions.sequential([
-                    ability.actions.exalt(),
+                    ability.actions.exalt((context) => {
+                        context.event.targetClone = context.target.getBottomCard().createSnapshot();
+                        return {
+                            context: context.target
+                        };
+                    }),
                     ability.actions.ready(),
                     ability.actions.use()
                 ])
             },
             effect: 'exalt, ready, and use {0}',
             then: (preThenContext) => ({
-                condition: () => preThenContext.target.isToken(),
+                condition: () => preThenContext.event?.targetClone?.isToken(),
                 target: {
                     optional: true,
                     controller: 'self',
