@@ -45,4 +45,37 @@ describe('Symposium', function () {
             expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
         });
     });
+
+    describe("Symposium's ability", function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    amber: 1,
+                    house: 'saurian',
+                    token: 'cultist',
+                    inPlay: ['pelf', 'cultist:press-gang'],
+                    hand: ['symposium']
+                },
+                player2: {
+                    amber: 1,
+                    inPlay: ['troll']
+                }
+            });
+        });
+
+        it('should exalt, ready, and use a friendly creature after token is destroyed', function () {
+            this.player1.play(this.symposium);
+            this.player1.clickCard(this.cultist);
+            this.player1.clickPrompt("Use this card's action ability");
+            this.player1.clickCard(this.pelf);
+            expect(this.cultist.location).toBe('discard');
+            expect(this.pelf.tokens.ward).toBe(1);
+            expect(this.player2.amber).toBe(2);
+            this.player1.clickCard(this.pelf);
+            this.player1.clickPrompt('Reap with this creature');
+            expect(this.pelf.amber).toBe(1);
+            expect(this.player1.amber).toBe(2);
+            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+        });
+    });
 });
