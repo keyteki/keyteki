@@ -13,7 +13,9 @@ class RagnarokPrep extends Card {
                         context.player.opponent.creaturesInPlay.length,
                 gameAction: ability.actions.loseAmber({
                     amount: 2
-                })
+                }),
+                message: '{0} uses {1} to make {3} lose 2 amber',
+                messageArgs: (context) => [context.player.opponent]
             }
         });
     }
