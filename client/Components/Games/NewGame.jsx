@@ -102,7 +102,8 @@ const NewGame = ({
                                         cota: values.cota,
                                         wc: values.wc,
                                         mm: values.mm,
-                                        dt: values.dt
+                                        dt: values.dt,
+                                        woe: values.woe
                                     },
                                     name: `${getParticipantName(
                                         match.player1_id
@@ -120,7 +121,8 @@ const NewGame = ({
                             cota: values.cota,
                             wc: values.wc,
                             mm: values.mm,
-                            dt: values.dt
+                            dt: values.dt,
+                            woe: values.woe
                         };
                         values.quickJoin = quickJoin;
 
