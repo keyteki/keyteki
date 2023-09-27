@@ -40,6 +40,7 @@ class ApplyDamageAction extends CardGameAction {
                 !event.card.moribund &&
                 (event.card.tokens.damage >= event.card.power ||
                     (event.fightEvent &&
+                        event.damageType === 'card effect' &&
                         event.damageSource &&
                         event.damageSource.getKeywordValue('poison')))
             ) {

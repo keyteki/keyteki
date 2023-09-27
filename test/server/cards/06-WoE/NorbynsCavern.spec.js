@@ -10,9 +10,12 @@ describe("Norbyn's Cavern", function () {
                 },
                 player2: {
                     amber: 1,
-                    inPlay: ['bumpsy']
+                    token: 'æmberling',
+                    inPlay: ['bumpsy', 'æmberling:groke']
                 }
             });
+
+            this.æmberling2 = this.player2.player.creaturesInPlay[1];
         });
 
         it('gives power and skirmish', function () {
@@ -21,6 +24,10 @@ describe("Norbyn's Cavern", function () {
             expect(this.æmberling.location).toBe('play area');
             expect(this.bumpsy.tokens.damage).toBe(4);
             expect(this.æmberling.tokens.damage).toBe(undefined);
+        });
+
+        it('does not give power to enemy', function () {
+            expect(this.æmberling2.power).toBe(1);
         });
     });
 });

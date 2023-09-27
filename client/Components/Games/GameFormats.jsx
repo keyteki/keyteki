@@ -9,6 +9,7 @@ const GameFormats = ({ formProps }) => {
 
     const formats = [
         { name: 'normal', label: t('Normal') },
+        { name: 'unchained', label: t('Unchained') },
         { name: 'sealed', label: t('Sealed') },
         { name: 'reversal', label: t('Reversal') },
         { name: 'adaptive-bo1', label: t('Adaptive - Best of 1') },
@@ -20,7 +21,8 @@ const GameFormats = ({ formProps }) => {
         { name: 'aoa', label: t('Age of Ascension') },
         { name: 'wc', label: t('Worlds Collide') },
         { name: 'mm', label: t('Mass Mutation') },
-        { name: 'dt', label: t('Dark Tidings') }
+        { name: 'dt', label: t('Dark Tidings') },
+        { name: 'woe', label: t('Winds of Exchange') }
     ];
 
     return (

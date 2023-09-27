@@ -9,7 +9,7 @@ class ChancellorDexterus extends Card {
             target: {
                 controller: 'self',
                 cardType: 'creature',
-                cardCondition: (card, context) => card === context.source.neighbors[1],
+                cardCondition: (card, context) => card === context.source.rightNeighbor(),
                 optional: true
             },
             gameAction: [

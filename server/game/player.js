@@ -183,7 +183,7 @@ class Player extends GameObject {
     deckRanOutOfCards() {
         this.game.addMessage("{0}'s deck has run out of cards, so they shuffle", this);
         for (let card of this.discard) {
-            this.moveCard(card, 'deck');
+            this.moveCard(card, 'deck', { aboutToShuffle: true });
         }
 
         this.shuffleDeck();
@@ -561,16 +561,22 @@ class Player extends GameObject {
             card.image = card.id;
         }
 
-        this.game.raiseEvent('onCardPlaced', { card: card, from: location, to: targetLocation });
+        this.game.raiseEvent('onCardPlaced', {
+            card: card,
+            clone: card.createSnapshot(),
+            from: location,
+            to: targetLocation
+        });
         if (composedPart) {
             this.game.raiseEvent('onCardPlaced', {
                 card: composedPart,
+                clone: composedPart,
                 from: location,
                 to: targetLocation
             });
         }
 
-        if (this.isTopCardOfDeckVisible() && this.deck.length > 0) {
+        if (!options.aboutToShuffle && this.isTopCardOfDeckVisible() && this.deck.length > 0) {
             this.deck[0].facedown = false;
 
             // In case a new card was added on top of the deck.
@@ -680,7 +686,8 @@ class Player extends GameObject {
 
     getAvailableHouses() {
         let availableHouses = this.hand.concat(this.cardsInPlay).reduce((houses, card) => {
-            let cardHouse = card.printedHouse;
+            let cardHouse = (card.isToken() && card.tokenCard() ? card.tokenCard() : card)
+                .printedHouse;
 
             if (card.anyEffect('changeHouse')) {
                 cardHouse = card.getEffects('changeHouse');
@@ -755,7 +762,7 @@ class Player extends GameObject {
     }
 
     chooseAmberSource(amberSources, selfAmberSources, totalAvailable, modifiedCost, initialCost) {
-        if (amberSources.length === 0 && selfAmberSources.length === 0) {
+        if (modifiedCost === 0 || (amberSources.length === 0 && selfAmberSources.length === 0)) {
             this.chooseKeyToForge(modifiedCost, initialCost);
             return;
         }
@@ -867,7 +874,7 @@ class Player extends GameObject {
                         this.chooseAmberSource(
                             amberSources,
                             selfAmberSources,
-                            totalAvailable,
+                            totalAvailable - 1,
                             modifiedCost,
                             initialCost
                         );
@@ -1055,7 +1062,7 @@ class Player extends GameObject {
                 avatar: this.user.avatar
             },
             deckData: this.deckData,
-            tokenCard: this.tokenCard && this.tokenCard.getSummary(activePlayer),
+            tokenCard: this.tokenCard && this.tokenCard.getShortSummary(),
             wins: this.wins
         };
 

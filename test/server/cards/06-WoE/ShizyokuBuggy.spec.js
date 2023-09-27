@@ -12,7 +12,21 @@ describe('Shĭzyokŭ Buggy', function () {
             });
         });
 
-        it('it should reveal and discard two cards', function () {
+        it('it should reveal and discard two cards if they share a house', function () {
+            this.player1.useAction(this.shĭzyokŭBuggy);
+            expect(this.player1).toBeAbleToSelect(this.pelf);
+            expect(this.player1).toBeAbleToSelect(this.antiquitiesDealer);
+            expect(this.player1).toBeAbleToSelect(this.conductorJărroyă);
+            this.player1.clickCard(this.conductorJărroyă);
+            this.player1.clickCard(this.antiquitiesDealer);
+            this.player1.clickPrompt('Done');
+            expect(this.conductorJărroyă.location).toBe('discard');
+            expect(this.antiquitiesDealer.location).toBe('discard');
+            expect(this.player1.player.creaturesInPlay.length).toBe(1);
+            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+        });
+
+        it('it should do nothing if the revealed cards do not share a house', function () {
             this.player1.useAction(this.shĭzyokŭBuggy);
             expect(this.player1).toBeAbleToSelect(this.pelf);
             expect(this.player1).toBeAbleToSelect(this.antiquitiesDealer);
@@ -20,9 +34,9 @@ describe('Shĭzyokŭ Buggy', function () {
             this.player1.clickCard(this.pelf);
             this.player1.clickCard(this.antiquitiesDealer);
             this.player1.clickPrompt('Done');
-            expect(this.pelf.location).toBe('discard');
-            expect(this.antiquitiesDealer.location).toBe('discard');
-            expect(this.player1.player.creaturesInPlay.length).toBe(1);
+            expect(this.pelf.location).toBe('hand');
+            expect(this.antiquitiesDealer.location).toBe('hand');
+            expect(this.player1.player.creaturesInPlay.length).toBe(0);
             expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
         });
     });

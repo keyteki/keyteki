@@ -74,6 +74,7 @@ class Game extends EventEmitter {
         this.useGameTimeLimit = details.useGameTimeLimit;
         this.startingHandsDrawn = false;
 
+        this.cardNamesPlayedOrUsed = [];
         this.cardsUsed = [];
         this.omegaCard = null;
         this.cardsPlayed = [];
@@ -1213,18 +1214,6 @@ class Game extends EventEmitter {
         this.addAlert('info', '{0} has reconnected', player);
     }
 
-    makeTokenCreature(player, deployIndex = null) {
-        let card = player.deck[0];
-        this.actions
-            .makeTokenCreature({
-                amount: 1,
-                deployIndex: deployIndex
-            })
-            .resolve(player, this.getFrameworkContext(player));
-        this.continue();
-        return card;
-    }
-
     checkGameState(hasChanged = false, modifiedByPlayer) {
         // check for a game state change (recalculating conflict skill if necessary)
         if (this.effectEngine.checkEffects(hasChanged) || hasChanged) {
@@ -1299,6 +1288,7 @@ class Game extends EventEmitter {
         }
 
         this.activePlayer.endRound();
+        this.cardNamesPlayedOrUsed = [];
         this.cardsUsed = [];
         this.omegaCard = null;
         this.cardsPlayed = [];
@@ -1397,11 +1387,13 @@ class Game extends EventEmitter {
     cardPlayed(card) {
         this.cardsPlayed.push(card);
         this.cardsPlayedThisPhase.push(card);
+        this.cardNamesPlayedOrUsed.push(card.name);
     }
 
     cardUsed(card) {
         this.cardsUsed.push(card);
         this.cardsUsedThisPhase.push(card);
+        this.cardNamesPlayedOrUsed.push(card.name);
     }
 
     continue() {

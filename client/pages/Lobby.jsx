@@ -81,8 +81,16 @@ const Lobby = () => {
 
     const banners = [
         {
-            img: '/banner/happygee-v3.png',
-            link: 'https://geeb.us/bpptco'
+            img: 'banner/happyzach-v1.png',
+            link: 'https://bit.ly/keyforgepublicradio'
+        },
+        {
+            img: 'banner/LAINUSU-TCO.png',
+            link: 'https://bit.ly/LainusuKeyForgeExperience'
+        },
+        {
+            img: 'banner/BANNER_TCO_vt.png',
+            link: 'https://www.azcardtrading.it/pages/keyforge-vault-tour-firenze-2023'
         }
     ];
 

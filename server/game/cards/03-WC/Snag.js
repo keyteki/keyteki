@@ -7,7 +7,7 @@ class Snag extends Card {
             gameAction: ability.actions.nextRoundEffect((context) => ({
                 targetController: 'opponent',
                 effect: ability.effects.restrictHouseChoice(
-                    context.event.attackerTarget.getHouses()
+                    context.event.attackerTargetClone.getHouses()
                 )
             }))
         });

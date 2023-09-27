@@ -7,7 +7,8 @@ describe('Snag', function () {
                     inPlay: ['snag']
                 },
                 player2: {
-                    inPlay: ['urchin', 'dextre', 'troll'],
+                    inPlay: ['urchin', 'dextre', 'grumpus:archimedes', 'troll'],
+                    token: 'grumpus',
                     hand: ['academy-training', 'experimental-therapy']
                 }
             });
@@ -16,7 +17,6 @@ describe('Snag', function () {
         describe('when snag fights a "plain" creature', function () {
             beforeEach(function () {
                 this.player1.fightWith(this.snag, this.urchin);
-
                 this.player1.endTurn();
             });
 
@@ -61,6 +61,19 @@ describe('Snag', function () {
                 expect(this.player2).toHavePromptButton('logos');
                 expect(this.player2).not.toHavePromptButton('shadows');
                 expect(this.player2).not.toHavePromptButton('brobnar');
+            });
+        });
+
+        describe('when fighting a token creature', function () {
+            beforeEach(function () {
+                this.player1.fightWith(this.snag, this.grumpus);
+                this.player1.endTurn();
+            });
+
+            it('should restrict the house choice to the overridden house of the fought creature', function () {
+                expect(this.player2).not.toHavePromptButton('logos');
+                expect(this.player2).not.toHavePromptButton('shadows');
+                expect(this.player2).toHavePromptButton('brobnar');
             });
         });
     });

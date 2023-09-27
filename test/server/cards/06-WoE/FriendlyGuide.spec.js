@@ -7,7 +7,7 @@ describe('Friendly Guide', function () {
                     inPlay: ['niffle-ape', 'friendly-guide', 'dark-faerie', 'rustgnawer']
                 },
                 player2: {
-                    inPlay: ['dextre', 'hunting-witch']
+                    inPlay: ['dextre', 'hunting-witch', 'shĭzyokŭ-swopper']
                 }
             });
         });
@@ -22,7 +22,14 @@ describe('Friendly Guide', function () {
         });
 
         it('should allow use on fight', function () {
-            this.player1.reap(this.darkFaerie);
+            this.player1.fightWith(this.darkFaerie, this.huntingWitch);
+            expect(this.player1).toHavePrompt('Triggered Abilities');
+            this.player1.clickCard(this.friendlyGuide);
+            this.player1.clickPrompt('Reap with this creature');
+        });
+
+        it('should allow use on fight where attacker dies', function () {
+            this.player1.fightWith(this.niffleApe, this.dextre);
             expect(this.player1).toHavePrompt('Triggered Abilities');
             this.player1.clickCard(this.friendlyGuide);
             this.player1.clickPrompt('Reap with this creature');
@@ -31,6 +38,13 @@ describe('Friendly Guide', function () {
         it('should only work on neighboring creatures', function () {
             this.player1.reap(this.rustgnawer);
             expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+        });
+
+        it('should not work for opponent after a swap', function () {
+            this.player1.endTurn();
+            this.player2.clickPrompt('ekwidon');
+            this.player2.fightWith(this.shĭzyokŭSwopper, this.niffleApe);
+            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
         });
     });
 });

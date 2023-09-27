@@ -243,6 +243,10 @@ beforeEach(function () {
             options.player2 = {};
         }
 
+        if (options.gameFormat) {
+            this.game.gameFormat = options.gameFormat;
+        }
+
         //Build decks
         this.player1.selectDeck(deckBuilder.customDeck(options.player1));
         this.player2.selectDeck(deckBuilder.customDeck(options.player2));
@@ -291,8 +295,8 @@ beforeEach(function () {
                 []
             );
             for (let card of cards) {
-                // still allow access by token card name
-                let camel = this.cardCamel(card.isToken() ? player.player.tokenCard : card);
+                // still allow access by token's name
+                let camel = this.cardCamel(card.isToken() ? card.tokenCard() : card);
                 if (!this[camel]) {
                     this[camel] = card;
                 }

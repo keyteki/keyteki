@@ -64,6 +64,7 @@ class Card extends EffectSource {
         this.purgedBy = null;
         this.childCards = [];
         this.purgedCards = [];
+        this.clonedType = null;
         this.clonedNeighbors = null;
         this.clonedPurgedCards = null;
 
@@ -111,11 +112,17 @@ class Card extends EffectSource {
     }
 
     get type() {
-        return this.mostRecentEffect('changeType') || this.printedType;
+        return this.mostRecentEffect('changeType') || this.clonedType || this.printedType;
     }
 
     isToken() {
         return this.sumEffects('flipToken') % 2 === 1;
+    }
+
+    tokenCard() {
+        return this.game
+            .getPlayers()
+            .find((player) => player.tokenCard && player.tokenCard.name === this.name)?.tokenCard;
     }
 
     get actions() {
@@ -404,8 +411,10 @@ class Card extends EffectSource {
     }
 
     removeAbility(ability) {
-        this.abilities.reactions = this.abilities.reactions.filter(
-            (reaction) => reaction !== ability
+        this.abilities.reactions = this.abilities.reactions.filter((it) => it !== ability);
+        this.abilities.actions = this.abilities.actions.filter((it) => it !== ability);
+        this.abilities.persistentEffects = this.abilities.persistentEffects.filter(
+            (it) => it !== ability
         );
     }
 
@@ -692,8 +701,12 @@ class Card extends EffectSource {
     }
 
     createSnapshot() {
-        let clone = new Card(this.owner, this.cardData);
+        let clone = new Card(
+            this.owner,
+            this.isToken() && this.tokenCard() ? this.tokenCard().cardData : this.cardData
+        );
 
+        clone.clonedType = clone.type;
         clone.upgrades = this.upgrades.map((upgrade) => upgrade.createSnapshot());
         clone.effects = _.clone(this.effects);
         clone.tokens = _.clone(this.tokens);
@@ -1064,9 +1077,10 @@ class Card extends EffectSource {
     }
 
     getShortSummary() {
-        let result = this.isToken()
-            ? this.owner.tokenCard.getShortSummary()
-            : super.getShortSummary();
+        if (this.isToken() && this.tokenCard()) {
+            return this.tokenCard().getShortSummary();
+        }
+        let result = super.getShortSummary();
 
         // Include card specific information useful for UI rendering
         result.maverick = this.maverick;
@@ -1078,10 +1092,10 @@ class Card extends EffectSource {
     }
 
     getSummary(activePlayer, hideWhenFaceup) {
-        let isController = activePlayer === this.controller;
-        let selectionState = activePlayer.getCardSelectionState(this);
+        const isController = activePlayer === this.controller;
+        const selectionState = activePlayer.getCardSelectionState(this);
 
-        if (!this.game.isCardVisible(this, activePlayer) && !this.isToken()) {
+        if (!this.game.isCardVisible(this, activePlayer)) {
             return {
                 cardback: this.owner.deckData.cardback,
                 controller: this.controller.name,
@@ -1089,23 +1103,21 @@ class Card extends EffectSource {
                 facedown: true,
                 uuid: this.uuid,
                 tokens: this.tokens,
-                tokenCard:
-                    this.isToken() &&
-                    this.owner.tokenCard?.getSummary(activePlayer, hideWhenFaceup),
-                type: this.location === 'play area' && this.getType(),
                 ...selectionState
             };
         }
 
-        let childCards = this.childCards
+        const childCards = this.childCards
             .map((card) => card.getSummary(activePlayer, hideWhenFaceup))
             .concat(this.purgedCards.map((card) => card.getSummary(activePlayer, hideWhenFaceup)));
 
-        let state = {
-            anomaly: this.anomaly,
-            enhancements: this.enhancements,
-            id: this.id,
-            image: this.image,
+        const tokenCard = this.isToken() && this.tokenCard();
+        const tokenCardOrThis = tokenCard ? tokenCard : this;
+        const state = {
+            id: tokenCardOrThis.id,
+            anomaly: tokenCardOrThis.anomaly,
+            enhancements: tokenCardOrThis.enhancements,
+            image: tokenCardOrThis.image,
             canPlay: !!(
                 activePlayer === this.game.activePlayer &&
                 this.game.activePlayer.activeHouse &&
@@ -1122,31 +1134,41 @@ class Card extends EffectSource {
             menu: this.getMenu(),
             name: this.name,
             new: this.new,
-            printedHouse: this.printedHouse,
-            maverick: this.maverick,
-            cardPrintedAmber: this.cardPrintedAmber,
-            printedPower: this.printedPower,
-            printedArmor: this.printedArmor,
+            printedHouse: tokenCardOrThis.printedHouse,
+            maverick: tokenCardOrThis.maverick,
+            cardPrintedAmber: tokenCardOrThis.cardPrintedAmber,
+            printedPower: tokenCardOrThis.printedPower,
+            printedArmor: tokenCardOrThis.printedArmor,
             modifiedPower: this.getPower(),
             stunned: this.stunned,
             taunt: this.getType() === 'creature' && !!this.getKeywordValue('taunt'),
-            tokenCard:
-                this.isToken() && this.owner.tokenCard?.getSummary(activePlayer, hideWhenFaceup),
             tokens: this.tokens,
             type: this.getType(),
             gigantic: this.gigantic,
             upgrades: this.upgrades.map((upgrade) => {
                 return upgrade.getSummary(activePlayer, hideWhenFaceup);
             }),
-            uuid: this.uuid
+            uuid: this.uuid, // TODO - fix vulnerability with token cards
+            isToken: !!tokenCard
         };
 
-        if (this.isToken() && !this.game.isCardVisible(this, activePlayer)) {
-            state.id = this.owner.tokenCard.id;
-            state.name = this.owner.tokenCard.name;
-            state.image = this.owner.tokenCard.image;
-            state.facedown = false;
-            state.enhancements = [];
+        if (tokenCard && isController) {
+            state.versusCard = {
+                anomaly: this.anomaly,
+                enhancements: this.enhancements,
+                id: this.id,
+                image: this.image,
+                locale: this.locale,
+                name: this.name,
+                printedHouse: this.printedHouse,
+                maverick: this.maverick,
+                cardPrintedAmber: this.cardPrintedAmber,
+                printedPower: this.printedPower,
+                printedArmor: this.printedArmor,
+                type: this.printedType,
+                gigantic: this.gigantic,
+                uuid: this.uuid
+            };
         }
 
         return Object.assign(state, selectionState);

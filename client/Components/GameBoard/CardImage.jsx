@@ -15,7 +15,7 @@ import './CardImage.scss';
  *
  * @param {CardImageProps} props
  */
-const CardImage = ({ card, cardBack, size, tokenCard, halfSize, onMouseOver, onMouseOut }) => {
+const CardImage = ({ card, cardBack, size, halfSize, onMouseOver, onMouseOut }) => {
     let [cardImage, setCardImage] = useState(null);
     const { i18n } = useTranslation();
     const fabricRef = useRef();
@@ -37,9 +37,7 @@ const CardImage = ({ card, cardBack, size, tokenCard, halfSize, onMouseOver, onM
                         halfSize,
                         url: `/img/${halfSize ? 'halfSize' : 'cards'}/${
                             i18n.language === 'en' ? '' : i18n.language
-                        }/${(tokenCard || card).image}.${halfSize ? 'jpg' : 'png'}`,
-                        image: (tokenCard || card).image,
-                        enhancements: tokenCard ? [] : card.enhancements
+                        }/${card.image.replace(/\*/g, '_')}.${halfSize ? 'jpg' : 'png'}`
                     });
                 }
             }
@@ -82,7 +80,7 @@ const CardImage = ({ card, cardBack, size, tokenCard, halfSize, onMouseOver, onM
     );
 
     useEffect(() => {
-        if (card.facedown && !card.tokenCard) {
+        if (card.facedown) {
             setCardImage(cardBack);
         } else {
             setCardImage(
@@ -93,7 +91,7 @@ const CardImage = ({ card, cardBack, size, tokenCard, halfSize, onMouseOver, onM
                                   onMouseOver({
                                       image: (
                                           <CardImage
-                                              card={{ ...(tokenCard || card), location: 'zoom' }}
+                                              card={{ ...card, location: 'zoom' }}
                                               cardBack={cardBack}
                                           />
                                       ),

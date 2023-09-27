@@ -13,6 +13,7 @@ class EndlessHordes extends Card {
         this.newTokens = [];
 
         this.play({
+            condition: (context) => !!context.player.opponent,
             gameAction: ability.actions.makeTokenCreature((context) => {
                 this.validTargets = context.player.opponent.creaturesInPlay.slice();
                 return {
@@ -21,7 +22,7 @@ class EndlessHordes extends Card {
             }),
             then: {
                 gameAction: ability.actions.ready((context) => {
-                    this.newTokens = context.preThenEvent.cards;
+                    this.newTokens = context.preThenEvents.map((event) => event.card);
                     return {
                         target: this.newTokens
                     };
@@ -40,7 +41,7 @@ class EndlessHordes extends Card {
                                 }
 
                                 const index = this.validTargets.findIndex(
-                                    (card) => card.name === action.target[0].name
+                                    (card) => card === action.target[0]
                                 );
                                 if (index > -1) {
                                     this.validTargets.splice(index, 1);

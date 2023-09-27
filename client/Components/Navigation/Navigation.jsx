@@ -143,23 +143,27 @@ const Navigation = (props) => {
 
     return (
         <Navbar bg='dark' variant='dark' className='navbar-sm' fixed='top' expand='lg'>
-            <Navbar.Brand
-                className='navbar-brand bg-dark ml-auto mr-auto d-lg-none'
-                as={Link}
-                href='/'
-            >
-                <img
-                    src={SmallHeaderIcon}
-                    height='32'
-                    className='d-inline-block align-top'
-                    alt='TCO Logo'
-                />
-            </Navbar.Brand>
-            <Navbar.Toggle aria-controls='navbar' />
-            <Navbar.Collapse id='navbar'>
-                <Nav className='me-auto mb-2 mb-lg-0 bg-dark'>{renderMenuItems(LeftMenu)}</Nav>
+            <div className='d-flex justify-content-between flex-grow-1 d-lg-none'>
+                <div className='flex-basis-0 flex-grow-1'></div>
+                <Navbar.Brand className='navbar-brand bg-dark  mr-0' as={Link} href='/'>
+                    <img
+                        src={SmallHeaderIcon}
+                        height='32'
+                        className='d-inline-block align-top'
+                        alt='TCO Logo'
+                    />
+                </Navbar.Brand>
+                <div className='flex-grow-1 flex-basis-0 d-flex justify-content-end'>
+                    <Navbar.Toggle aria-controls='navbar' />
+                </div>
+            </div>
+
+            <Navbar.Collapse id='navbar' className='flex-grow-1 justify-content-between'>
+                <Nav className='mb-2 mb-lg-0 bg-dark flex-grow-1 flex-basis-0'>
+                    {renderMenuItems(LeftMenu)}
+                </Nav>
                 <Navbar.Brand
-                    className='navbar-brand bg-dark ml-auto mr-auto d-none d-lg-block'
+                    className='navbar-brand bg-dark d-none d-lg-block mr-0'
                     as={Link}
                     href='/'
                 >
@@ -170,7 +174,7 @@ const Navigation = (props) => {
                         alt='TCO Logo'
                     />
                 </Navbar.Brand>
-                <Nav className='pr-xl-5 bg-dark'>
+                <Nav className='bg-dark flex-grow-1 flex-basis-0 d-flex justify-content-end text-nowrap'>
                     <GameContextMenu />
                     {!currentGame?.started && numGames}
                     {currentGame?.started ? (

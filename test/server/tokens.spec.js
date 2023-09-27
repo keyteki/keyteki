@@ -57,3 +57,28 @@ describe('Token', function () {
         });
     });
 });
+
+describe('Token', function () {
+    describe("'s ability for adaptive", function () {
+        beforeEach(function () {
+            this.setupTest({
+                gameFormat: 'adaptive-bo1',
+                player1: {
+                    name: 'player1',
+                    house: 'untamed',
+                    token: 'prospector'
+                },
+                player2: {
+                    name: 'player2',
+                    hand: []
+                }
+            });
+        });
+
+        it('should swap the token during adaptive', function () {
+            expect(this.player1.player.chains).toBe(1);
+            expect(this.player1.player.tokenCard).toBe(undefined);
+            expect(this.player2.player.tokenCard.name).toBe('Prospector');
+        });
+    });
+});

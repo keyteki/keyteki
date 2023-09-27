@@ -36,4 +36,25 @@ describe('Shopping Spree', function () {
             expect(this.ikwijĭOutpost.location).toBe('play area');
         });
     });
+
+    describe("Shopping Spree's ability", function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'ekwidon',
+                    amber: 1,
+                    hand: ['shopping-spree', 'pelf', 'bumpsy', 'antiquities-dealer', 'cursed-relic']
+                }
+            });
+        });
+
+        it('should allow discarding Cursed Relic', function () {
+            this.player1.play(this.shoppingSpree);
+            expect(this.player1.hand.length).toBe(4);
+            expect(this.pelf.location).toBe('discard');
+            expect(this.bumpsy.location).toBe('discard');
+            expect(this.antiquitiesDealer.location).toBe('discard');
+            expect(this.cursedRelic.location).toBe('discard');
+        });
+    });
 });

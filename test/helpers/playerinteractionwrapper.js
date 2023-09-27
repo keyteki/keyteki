@@ -84,8 +84,8 @@ class PlayerInteractionWrapper {
         // Set up each of the cards
         _.each(newState, (card) => {
             if (_.isString(card)) {
-                if (card === this.token || card.startsWith(this.token + ':')) {
-                    if (!card.includes(':')) {
+                if (card.includes(':')) {
+                    if (!card.startsWith(this.token + ':')) {
                         throw new Error(
                             `Token "${card}" missing its versus card id as "token:versus"`
                         );
@@ -94,9 +94,7 @@ class PlayerInteractionWrapper {
                     this.player.deck = [versusCard].concat(
                         this.deck.filter((c) => c !== versusCard)
                     );
-                    card = this.game.makeTokenCreature(this.player, this.inPlay.length);
-                    this.game.continue();
-                    this.checkUnserializableGameState();
+                    card = this.makeTokenCreature();
                     if (!card.isToken()) {
                         throw new Error(`Card "${card.id}" did not become a token`);
                     }
@@ -697,7 +695,18 @@ class PlayerInteractionWrapper {
     }
 
     makeTokenCreature() {
-        this.game.makeTokenCreature(this.player, this.inPlay.length);
+        let card = this.player.deck[0];
+        this.game.actions
+            .makeTokenCreature({
+                target: card,
+                deployIndex: this.inPlay.length
+            })
+            .resolve(card, this.game.getFrameworkContext(this.player));
+
+        this.game.continue();
+        this.checkUnserializableGameState();
+
+        return card;
     }
 }
 

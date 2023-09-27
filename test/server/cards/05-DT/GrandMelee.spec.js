@@ -56,4 +56,37 @@ describe('GrandMelee', function () {
             });
         });
     });
+
+    describe('Action test with Badge of Unity', function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'staralliance',
+                    inPlay: ['bulwark', 'the-grey-rider'],
+                    hand: ['grand-melee', 'badge-of-unity']
+                },
+                player2: {
+                    inPlay: ['bumpsy'],
+                    amber: 2
+                }
+            });
+        });
+
+        describe('plays card with Badge of Unity in play', function () {
+            beforeEach(function () {
+                this.player1.playUpgrade(this.badgeOfUnity, this.bulwark);
+                this.player1.endTurn();
+                this.player2.clickPrompt('brobnar');
+                this.player2.endTurn();
+                this.player1.clickPrompt('sanctum');
+                this.player1.play(this.grandMelee);
+            });
+
+            it('destroys card that dont have neighbors', function () {
+                expect(this.bulwark.location).toBe('play area');
+                expect(this.theGreyRider.location).toBe('play area');
+                expect(this.bumpsy.location).toBe('discard');
+            });
+        });
+    });
 });

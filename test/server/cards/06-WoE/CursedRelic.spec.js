@@ -5,7 +5,8 @@ describe('Cursed Relic', function () {
                 player1: {
                     amber: 1,
                     house: 'ekwidon',
-                    hand: ['cursed-relic']
+                    hand: ['cursed-relic'],
+                    inPlay: ['the-old-tinker']
                 },
                 player2: {
                     inPlay: ['troll'],
@@ -29,6 +30,13 @@ describe('Cursed Relic', function () {
             this.player1.clickCard(this.cursedRelic);
             expect(this.player1).not.toHavePrompt('Play this artifact');
             expect(this.player1).not.toHavePrompt('Discard');
+        });
+
+        it('can be discarded through card abilitis', function () {
+            this.player1.reap(this.theOldTinker);
+            this.player1.clickCard(this.cursedRelic);
+            expect(this.cursedRelic.location).toBe('discard');
+            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
         });
     });
 });

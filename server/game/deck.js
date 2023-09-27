@@ -40,6 +40,7 @@ class Deck {
             }
 
             result.card.isNonDeck = card.isNonDeck;
+            result.isNonDeck = card.isNonDeck;
 
             return result;
         });
@@ -72,7 +73,6 @@ class Deck {
         );
 
         if (tokenCard) {
-            tokenCard.type = 'creature';
             result.tokenCard = this.createCard(player, tokenCard.card);
             result.tokenCard.setupAbilities();
         }
@@ -94,7 +94,8 @@ class Deck {
             return;
         }
 
-        cardData.image = cardData.cardImage || cardData.id;
+        cardData.image = (cardData.cardImage || cardData.id).replace(/\*/g, '_');
+
         if (cardData.maverick) {
             cardData.house = cardData.maverick;
         } else if (cardData.anomaly) {

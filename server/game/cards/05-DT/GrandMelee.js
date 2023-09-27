@@ -9,10 +9,10 @@ class GrandMelee extends Card {
                 target: context.game.creaturesInPlay.filter(
                     (card) =>
                         card.neighbors.length === 0 ||
-                        Constants.Houses.some(
+                        !Constants.Houses.some(
                             (house) =>
                                 card.hasHouse(house) &&
-                                !card.neighbors.some((neighbor) => neighbor.hasHouse(house))
+                                card.neighbors.some((neighbor) => neighbor.hasHouse(house))
                         )
                 )
             }))

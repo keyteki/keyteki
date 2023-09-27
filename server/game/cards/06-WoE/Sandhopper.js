@@ -11,6 +11,7 @@ class Sandhopper extends Card {
             },
             then: {
                 target: {
+                    optional: true,
                     cardType: 'creature',
                     location: 'hand',
                     controller: 'self',

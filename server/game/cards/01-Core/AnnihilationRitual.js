@@ -7,7 +7,7 @@ class AnnihilationRitual extends Card {
         this.reaction({
             when: {
                 onCardPlaced: (event) =>
-                    event.card.type === 'creature' &&
+                    event.clone.type === 'creature' &&
                     event.to === 'discard' &&
                     event.from === 'play area'
             },

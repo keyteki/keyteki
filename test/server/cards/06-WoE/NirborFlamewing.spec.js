@@ -86,7 +86,6 @@ describe('Nirbor Flamewing', function () {
             this.player1.endTurn();
 
             this.player2.clickPrompt('brobnar');
-            console.log('ABOUT TO END TURN');
             this.player2.endTurn();
 
             this.player1.clickCard(this.nirborFlamewing); // Resurrect

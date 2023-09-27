@@ -87,20 +87,10 @@ class GameChat {
                     if (Array.isArray(arg)) {
                         returnedFraments.push(this.formatArray(arg));
                     } else if (arg instanceof Card) {
-                        if (arg.isToken()) {
-                            arg = arg.owner.tokenCard;
-                        }
-
+                        let summary = arg.getShortSummary();
                         returnedFraments.push({
-                            name: arg.name,
-                            image: arg.image,
-                            label: arg.name,
-                            type: arg.getType(),
-                            maverick: arg.maverick,
-                            anomaly: arg.anomaly,
-                            cardPrintedAmber: arg.cardPrintedAmber,
-                            enhancements: arg.enhancements,
-                            argType: 'card'
+                            argType: 'card',
+                            ...summary
                         });
                     } else if (arg instanceof Spectator || arg instanceof Player) {
                         returnedFraments.push({
