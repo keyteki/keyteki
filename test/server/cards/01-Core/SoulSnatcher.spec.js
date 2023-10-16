@@ -10,7 +10,8 @@ describe('Soul Snatcher', function () {
                 },
                 player2: {
                     amber: 0,
-                    inPlay: ['mighty-tiger', 'hunting-witch', 'bloodshard-imp']
+                    token: 'rebel',
+                    inPlay: ['mighty-tiger', 'hunting-witch', 'bloodshard-imp', 'rebel:r-evolution']
                 }
             });
         });
@@ -28,6 +29,13 @@ describe('Soul Snatcher', function () {
         });
 
         it('should award 1 amber to both players when both have cards destroyed at same time', function () {
+            this.player1.fightWith(this.emberImp, this.rebel);
+            this.player1.clickCard(this.soulSnatcher);
+            expect(this.player1.player.amber).toBe(0);
+            expect(this.player2.player.amber).toBe(1);
+        });
+
+        it('should award 1 amber if creature was a token', function () {
             this.player1.fightWith(this.emberImp, this.bloodshardImp);
             this.player1.clickCard(this.soulSnatcher);
             this.player1.clickCard(this.emberImp);
@@ -41,7 +49,7 @@ describe('Soul Snatcher', function () {
             this.player1.clickCard(this.soulSnatcher);
             this.player1.clickPrompt('Autoresolve');
             expect(this.player1.player.amber).toBe(4);
-            expect(this.player2.player.amber).toBe(3);
+            expect(this.player2.player.amber).toBe(4);
         });
     });
 });
