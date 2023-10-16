@@ -40,6 +40,7 @@ describe('Rampaging Brutodon', function () {
             this.player1.clickCard(this.rampagingBrutodon);
             this.player1.clickPrompt('Reap with this creature');
             expect(this.player1).toBeAbleToSelect(this.pelf);
+            expect(this.player1).not.toBeAbleToSelect(this.brokenAxeOutpost);
             this.player1.clickCard(this.pelf);
             expect(this.player1.amber).toBe(2);
             expect(this.pelf.location).toBe('discard');
