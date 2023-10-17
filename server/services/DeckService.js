@@ -468,22 +468,27 @@ class DeckService {
             let dbDeck = decksByUuid[deckId];
 
             deck.houses.push(house);
-
             for (let card of dbDeck.cards) {
                 if (card.id === deck.tokenCard?.id) {
                     podCards.push(card);
                 } else if (card.isNonDeck) {
                     continue;
-                } else if (
-                    card.house === house ||
-                    card.maverick === house ||
-                    card.anomaly === house
-                ) {
-                    podCards.push(card);
-                } else if (cardsById[card.id] && cardsById[card.id].house === house) {
-                    podCards.push(card);
-                } else if (allCardsById[card.id].house === house) {
-                    podCards.push(card);
+                } else {
+                    if (card.maverick) {
+                        if (card.maverick === house) {
+                            podCards.push(card);
+                        }
+                    } else if (card.anomaly) {
+                        if (card.anomaly === house) {
+                            podCards.push(card);
+                        }
+                    } else if (card.house === house) {
+                        podCards.push(card);
+                    } else if (cardsById[card.id] && cardsById[card.id].house === house) {
+                        podCards.push(card);
+                    } else if (allCardsById[card.id].house === house) {
+                        podCards.push(card);
+                    }
                 }
             }
         }

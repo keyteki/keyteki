@@ -240,7 +240,7 @@ const Costs = {
             let t = new ThenAbility(context.game, context.source, {
                 target: {
                     controller: 'self',
-                    type: 'creature',
+                    cardType: 'creature',
                     gameAction: new DestroyAction({})
                 },
                 then: {
