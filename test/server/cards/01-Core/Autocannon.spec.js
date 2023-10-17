@@ -8,15 +8,24 @@ describe('Autocannon', function () {
                 },
                 player2: {
                     amber: 1,
-                    inPlay: ['autocannon']
+                    inPlay: ['autocannon'],
+                    hand: ['pingle-who-annoys']
                 }
             });
         });
 
-        it('should deal 1 damage to creatures when they enter play', function () {
+        it('should deal 1 damage to enemy creature when it enters play', function () {
             this.player1.play(this.nexus);
             expect(this.nexus.location).toBe('play area');
             expect(this.nexus.tokens.damage).toBe(1);
+        });
+
+        it('should deal 1 damage to own creature when it enters play', function () {
+            this.player1.endTurn();
+            this.player2.clickPrompt('brobnar');
+            this.player2.play(this.pingleWhoAnnoys);
+            expect(this.pingleWhoAnnoys.location).toBe('play area');
+            expect(this.pingleWhoAnnoys.tokens.damage).toBe(1);
         });
 
         it('should prompt the player whether to trigger Urchin or Autocannon first', function () {
