@@ -7,7 +7,7 @@ class PingleWhoAnnoys extends Card {
         this.reaction({
             when: {
                 onCardEntersPlay: (event, context) =>
-                    event.card.type === 'creature' && event.context.player !== context.player
+                    event.card.type === 'creature' && event.card.controller !== context.player
             },
             gameAction: ability.actions.dealDamage((context) => ({
                 amount: 1,
