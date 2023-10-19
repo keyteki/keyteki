@@ -473,16 +473,18 @@ class DeckService {
                     podCards.push(card);
                 } else if (card.isNonDeck) {
                     continue;
-                } else if (card.maverick === house) {
+                } else if (
+                    card.maverick === house ||
+                    card.anomaly === house ||
+                    card.house === house
+                ) {
                     podCards.push(card);
-                } else if (card.anomaly === house) {
-                    podCards.push(card);
-                } else if (card.house === house) {
-                    podCards.push(card);
-                } else if (cardsById[card.id] && cardsById[card.id].house === house) {
-                    podCards.push(card);
-                } else if (allCardsById[card.id].house === house) {
-                    podCards.push(card);
+                } else if (!card.maverick && !card.anomaly && !card.house) {
+                    if (cardsById[card.id] && cardsById[card.id].house === house) {
+                        podCards.push(card);
+                    } else if (allCardsById[card.id].house === house) {
+                        podCards.push(card);
+                    }
                 }
             }
         }
