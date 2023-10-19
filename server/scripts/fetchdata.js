@@ -29,7 +29,7 @@ const db = require('../db');
 // #6 Fetch specific set, forcing overwrite of existing images, in all languages
 // node server/scripts/fetchdata --code WoE --language all --force
 //
-// #7 Fetch all sets, forcing downloading of all images, in all languages
+// #7 Fetch all sets, forcing download and overwrite of all images, in all languages
 // node server/scripts/fetchdata --language all --force
 //
 const optionsDefinition = [
