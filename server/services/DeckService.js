@@ -482,8 +482,10 @@ class DeckService {
                         if (card.anomaly === house) {
                             podCards.push(card);
                         }
-                    } else if (card.house === house) {
-                        podCards.push(card);
+                    } else if (card.house) {
+                        if (card.house === house) {
+                            podCards.push(card);
+                        }
                     } else if (cardsById[card.id] && cardsById[card.id].house === house) {
                         podCards.push(card);
                     } else if (allCardsById[card.id].house === house) {
