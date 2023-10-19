@@ -20,7 +20,7 @@ describe('Sunk Cost', function () {
             expect(this.player1).toHavePromptButton('dis');
             expect(this.player1).toHavePromptButton('logos');
             expect(this.player1).toHavePromptButton('brobnar');
-            expect(this.player1).not.toHavePromptButton('mars');
+            expect(this.player1).toHavePromptButton('mars');
             this.player1.clickPrompt('logos');
             expect(this.player2.player.hand.length).toBe(2);
             expect(this.player1.player.creaturesInPlay.length).toBe(0);

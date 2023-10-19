@@ -8,8 +8,7 @@ class SunkCost extends Card {
         this.play({
             condition: (context) => !!context.player.opponent,
             target: {
-                mode: 'house',
-                houses: (context) => context.player.opponent.houses
+                mode: 'house'
             },
             effect: 'make a token creature if {1} randomly discards a card matching {2}',
             effectArgs: (context) => [context.player.opponent, context.house],
