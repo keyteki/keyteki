@@ -79,11 +79,7 @@ const Lobby = () => {
         ? 'Enter a message...'
         : 'You must be logged in to send lobby chat messages';
 
-    const banners = [
-        {
-            img: 'banner/Happy-Birthday-Jonas.png'
-        }
-    ];
+    const banners = [];
 
     return (
         <div className='flex-container'>
