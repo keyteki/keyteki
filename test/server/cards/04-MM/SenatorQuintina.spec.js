@@ -21,7 +21,6 @@ describe('Senator Quintina', function () {
             expect(this.citizenShrix.tokens.amber).toBe(2);
 
             this.player1.reap(this.senatorQuintina);
-            this.player1.clickCard(this.senatorQuintina);
             expect(this.senatorQuintina.tokens.amber).toBe(1);
         });
 
