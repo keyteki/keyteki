@@ -1,12 +1,10 @@
 bower_components
 node_modules
-public/*
 !public/banner
 dist
 typings
 coverage
 *.log
-*.json
 server/events.txt
 .DS_Store
 config/local*
