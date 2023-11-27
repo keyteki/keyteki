@@ -13,6 +13,7 @@ import localePl from '../public/locales/pl.json';
 import localeTh from '../public/locales/th.json';
 import localeZhHans from '../public/locales/zhhans.json';
 import localeZhHant from '../public/locales/zhhant.json';
+import localeVi from '../public/locales/vi.json';
 
 const resources = {
     de: {
@@ -47,6 +48,9 @@ const resources = {
     },
     zhhant: {
         translation: localeZhHant
+    },
+    vi: {
+        translation: localeVi
     }
 };
 
