@@ -79,20 +79,7 @@ const Lobby = () => {
         ? 'Enter a message...'
         : 'You must be logged in to send lobby chat messages';
 
-    const banners = [
-        {
-            img: 'banner/happyzach-v1.png',
-            link: 'https://bit.ly/keyforgepublicradio'
-        },
-        {
-            img: 'banner/LAINUSU-TCO.png',
-            link: 'https://bit.ly/LainusuKeyForgeExperience'
-        },
-        {
-            img: 'banner/BANNER_TCO_vt.png',
-            link: 'https://www.azcardtrading.it/pages/keyforge-vault-tour-firenze-2023'
-        }
-    ];
+    const banners = [];
 
     return (
         <div className='flex-container'>
@@ -116,7 +103,7 @@ const Lobby = () => {
                                     key={banner.img}
                                     target='_blank'
                                     rel='noreferrer'
-                                    href={banner.link}
+                                    href={banner.link || '#'}
                                 >
                                     <div className='banner'>
                                         <img src={banner.img} />
