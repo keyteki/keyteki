@@ -47,6 +47,10 @@ const languages = [
     {
         name: '한국어',
         value: 'ko'
+    },
+    {
+        name: 'Tiếng Việt',
+        value: 'vi'
     }
 ];
 
