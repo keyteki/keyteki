@@ -16,18 +16,29 @@ class TalentScout extends Card {
                 controller: 'opponent',
                 revealTargets: true,
                 location: 'hand',
-                gameAction: ability.actions.sequential([
-                    ability.actions.playCard(),
+                gameAction: ability.actions.playCard(),
+                effect:
+                    "look at opponent's hand and play a creature, and give control of {1} to opponent",
+                effectArgs: (context) => context.source
+            },
+            then: {
+                alwaysTriggers: true,
+                gameAction: [
+                    ability.actions.conditional({
+                        condition: (context) =>
+                            !!context.player.opponent && context.preThenEvents.length === 0,
+                        trueGameAction: ability.actions.reveal((context) => ({
+                            target: context.player.opponent.hand,
+                            chatMessage: true
+                        }))
+                    }),
                     ability.actions.cardLastingEffect((context) => ({
                         duration: 'lastingEffect',
                         target: this,
                         effect: ability.effects.takeControl(context.player.opponent)
                     }))
-                ])
-            },
-            effect:
-                "look at opponent's hand and play a creature, and give control of {1} to opponent",
-            effectArgs: (context) => context.source
+                ]
+            }
         });
     }
 }
