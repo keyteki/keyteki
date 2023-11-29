@@ -11,7 +11,7 @@ class RampagingBrutodon extends Card {
         });
 
         this.persistentEffect({
-            targetController: 'self',
+            targetController: 'current',
             effect: ability.effects.additionalCost((context) => {
                 if (
                     context.source === this &&

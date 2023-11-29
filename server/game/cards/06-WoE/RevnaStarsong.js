@@ -4,7 +4,7 @@ class RevnaStarsong extends Card {
     // Each friendly Berserker loses all fight effects.
     setupCardAbilities(ability) {
         this.persistentEffect({
-            targetController: 'self',
+            targetController: 'current',
             match: (card) => card.name === 'Berserker',
             effect: ability.effects.blankFight()
         });
