@@ -7,7 +7,7 @@ class ShakedownSullivan extends Card {
     setupCardAbilities(ability) {
         this.reap({
             target: {
-                type: 'creature',
+                cardType: 'creature',
                 location: 'play area',
                 gameAction: ability.actions.discard((context) => ({
                     target: context.target.controller.deck.length
