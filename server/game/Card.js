@@ -1091,7 +1091,7 @@ class Card extends EffectSource {
         return result;
     }
 
-    getSummary(activePlayer, hideWhenFaceup) {
+    getSummary(activePlayer) {
         const isController = activePlayer === this.controller;
         const selectionState = activePlayer.getCardSelectionState(this);
 
@@ -1108,8 +1108,8 @@ class Card extends EffectSource {
         }
 
         const childCards = this.childCards
-            .map((card) => card.getSummary(activePlayer, hideWhenFaceup))
-            .concat(this.purgedCards.map((card) => card.getSummary(activePlayer, hideWhenFaceup)));
+            .map((card) => card.getSummary(activePlayer))
+            .concat(this.purgedCards.map((card) => card.getSummary(activePlayer)));
 
         const tokenCard = this.isToken() && this.tokenCard();
         const tokenCardOrThis = tokenCard ? tokenCard : this;
@@ -1145,9 +1145,7 @@ class Card extends EffectSource {
             tokens: this.tokens,
             type: this.getType(),
             gigantic: this.gigantic,
-            upgrades: this.upgrades.map((upgrade) => {
-                return upgrade.getSummary(activePlayer, hideWhenFaceup);
-            }),
+            upgrades: this.upgrades.map((upgrade) => upgrade.getSummary(activePlayer)),
             uuid: this.uuid, // TODO - fix vulnerability with token cards
             isToken: !!tokenCard
         };
