@@ -55,6 +55,7 @@ module.exports = {
     ReduceArmorAction: require('./ReduceArmorAction'),
     RemoveStunAction: require('./RemoveStunAction'),
     RemoveTokenAction: require('./RemoveTokenAction'),
+    RemoveAllTokensAction: require('./RemoveAllTokensAction'),
     RemoveWardAction: require('./RemoveWardAction'),
     ResolveAbilityAction: require('./ResolveAbilityAction'),
     ResolveBonusIconsAction: require('./ResolveBonusIconsAction'),
