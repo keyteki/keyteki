@@ -65,11 +65,11 @@ INSERT INTO public."Users" ("Id", "Password", "Registered", "Username", "Email",
 -- Add default test users - password matches username (NOT FOR PRODUCTION)
 INSERT INTO public."Users" ("Id", "Password", "Registered", "Username", "Email", "Settings_Background", "Settings_CardSize",
     "Settings_OrderAbilities", "Settings_ConfirmOneClick", "Settings_UseHalfSizedCards", "Verified", "Disabled", "RegisterIp") VALUES
-    (2, '$2b$10$hiql7MnxvNuq4MYHrZ6C/Ou2lF8hL8LVWp4w13GYckjYGhbAPCyd6', NOW(), 'testtest0', 'test0@gmail.com', 'none', 'x-large', True, True, False, True,
+    (2, '$2b$10$T7eqHoi26C3ADmTDbGOYseTbsrPdCoNFkMKmgh21T4Y6i9NVylgxG', NOW(), 'test0', 'test0@gmail.com', 'none', 'x-large', True, True, False, True,
      False, '127.0.0.1');
 INSERT INTO public."Users" ("Id", "Password", "Registered", "Username", "Email", "Settings_Background", "Settings_CardSize",
     "Settings_OrderAbilities", "Settings_ConfirmOneClick", "Settings_UseHalfSizedCards", "Verified", "Disabled", "RegisterIp") VALUES
-    (3, '$2b$10$hiql7MnxvNuq4MYHrZ6C/Ou2lF8hL8LVWp4w13GYckjYGhbAPCyd6', NOW(), 'testtest1', 'test1@gmail.com', 'Dis', 'x-large', True, True, False, True,
+    (3, '$2b$10$T7eqHoi26C3ADmTDbGOYseTbsrPdCoNFkMKmgh21T4Y6i9NVylgxG', NOW(), 'test1', 'test1@gmail.com', 'Dis', 'x-large', True, True, False, True,
      False, '127.0.0.1');
 
 SELECT pg_catalog.setval('public."Users_Id_seq"', 11, true);
