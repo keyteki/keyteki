@@ -136,7 +136,7 @@ PORT={port} SERVER={node-name} node server/gamenode
 
 ### Running and Testing
 
-The game server should be accessible by browsing to [localhost:4000](https://localhost:4000).
+The game server should be accessible by browsing to [localhost:4000](http://localhost:4000).
 
 The docker setup creates a default 'admin' user with the password of 'password'.
 
