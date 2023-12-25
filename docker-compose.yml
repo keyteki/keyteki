@@ -2,10 +2,7 @@ version: '3.5'
 services:
     lobby:
         restart: always
-        build:
-            context: '.'
-            platforms:
-                - 'linux/amd64'
+        build: .
         image: keyteki
         ports:
             - '4000:4000'
@@ -25,10 +22,7 @@ services:
             - '.'
     node:
         restart: always
-        build:
-            context: '.'
-            platforms:
-                - 'linux/amd64'
+        build: .
         ports:
             - '9500:9500'
             - '9339:9339'
