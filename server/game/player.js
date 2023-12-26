@@ -186,13 +186,13 @@ class Player extends GameObject {
             this.moveCard(card, 'deck', { aboutToShuffle: true });
         }
 
-        this.shuffleDeck();
+        this.shuffleDeck(true);
     }
 
     /**
      * Shuffles the deck, emitting an event and displaying a message in chat
      */
-    shuffleDeck() {
+    shuffleDeck(shuffledDiscardIntoDeck = false) {
         this.game.emitEvent('onDeckShuffled', { player: this });
         this.deck = _.shuffle(this.deck);
         if (this.isTopCardOfDeckVisible() && this.deck.length > 0) {
@@ -201,6 +201,9 @@ class Player extends GameObject {
                 card.facedown = true;
             });
             this.addTopCardOfDeckVisibleMessage();
+        }
+        if (shuffledDiscardIntoDeck) {
+            this.game.raiseEvent('onDiscardShuffledIntoDeck', { player: this });
         }
     }
 

@@ -4,6 +4,7 @@ class ReturnToDeckAction extends CardGameAction {
     setDefaultProperties() {
         this.bottom = false;
         this.shuffle = false;
+        this.shuffleDiscardIntoDeck = false;
     }
 
     setup() {
@@ -34,7 +35,7 @@ class ReturnToDeckAction extends CardGameAction {
                     this.shuffle &&
                     cardsByOwner.findIndex((c) => c === card) === cardsByOwner.length - 1
                 ) {
-                    card.owner.shuffleDeck();
+                    card.owner.shuffleDeck(this.shuffleDiscardIntoDeck);
                 }
             }
         );
