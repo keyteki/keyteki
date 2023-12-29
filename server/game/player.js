@@ -168,7 +168,7 @@ class Player extends GameObject {
         }
 
         for (let card of this.deck.slice(0, numCards)) {
-            this.moveCard(card, 'hand');
+            this.moveCard(card, 'hand', { drawn: true });
         }
 
         if (remainingCards > 0 && this.discard.length > 0) {
@@ -564,13 +564,15 @@ class Player extends GameObject {
         this.game.raiseEvent('onCardPlaced', {
             card: card,
             from: location,
-            to: targetLocation
+            to: targetLocation,
+            drawn: options.drawn
         });
         if (composedPart) {
             this.game.raiseEvent('onCardPlaced', {
                 card: composedPart,
                 from: location,
-                to: targetLocation
+                to: targetLocation,
+                drawn: options.drawn
             });
         }
 
