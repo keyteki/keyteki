@@ -138,7 +138,7 @@ PORT={port} SERVER={node-name} node server/gamenode
 
 The game server should be accessible by browsing to [localhost:4000](http://localhost:4000).
 
-The docker setup creates a default 'admin' user, and test users 'test0' and 'test1', with the password set to 'password'.
+The docker setup creates a default 'admin' user, and test users 'test0' and 'test1', with the passwords set to 'password'.
 
 You can register 2 or more users, to play against yourself.
 They can have fake email addresses.
