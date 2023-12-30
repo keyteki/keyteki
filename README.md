@@ -168,6 +168,12 @@ Then, to run the tests:
 npm test
 ```
 
+To run a specific test, you can specify the file. To see game logs, set `DEBUG_TEST=1`:
+
+```
+DEBUG_TEST=1 npm test -- test/server/cards/01-Core/AFairGame.spec.js
+```
+
 ### Coding Guidelines
 
 All JavaScript code included in Keyteki should pass (no errors, no warnings)
