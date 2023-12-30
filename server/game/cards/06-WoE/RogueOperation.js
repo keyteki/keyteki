@@ -2,6 +2,7 @@ const Card = require('../../Card.js');
 
 class RogueOperation extends Card {
     // Play: Discard the top 2 cards of your deck. Steal 1 Aember for each house represented among the discarded cards.
+
     setupCardAbilities(ability) {
         this.play({
             gameAction: ability.actions.discard((context) => ({
@@ -20,7 +21,16 @@ class RogueOperation extends Card {
                             .map((event) => event.card)
                             .filter((card) => card.location === 'discard')
                     ).length
-                }))
+                })),
+                message: '{0} uses {1} to steal {3} amber from {4}',
+                messageArgs: (context) => [
+                    context.game.getHousesInPlay(
+                        context.preThenEvents
+                            .map((event) => event.card)
+                            .filter((card) => card.location === 'discard')
+                    ).length,
+                    context.player.opponent
+                ]
             }
         });
     }
