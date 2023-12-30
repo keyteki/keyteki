@@ -2,7 +2,6 @@ const Card = require('../../Card.js');
 
 class RogueOperation extends Card {
     // Play: Discard the top 2 cards of your deck. Steal 1 Aember for each house represented among the discarded cards.
-
     setupCardAbilities(ability) {
         this.play({
             gameAction: ability.actions.discard((context) => ({
