@@ -48,13 +48,13 @@ describe('Corner the Market', function () {
             expect(this.gauntletOfCommand.location).toBe('play area');
         });
 
-        it('allows opponent to archive instead of discard', function () {
+        it('allows opponent to archive from discard', function () {
             this.player1.play(this.cornerTheMarket);
             this.player1.endTurn();
             this.player2.clickPrompt('brobnar');
             this.player2.clickCard(this.gauntletOfCommand);
             this.player2.clickPrompt('Discard this card');
-            expect(this.player2).toHavePrompt('Archive instead?');
+            expect(this.player2).toHavePrompt('Archive card?');
             expect(this.player2).toHavePromptCardButton(this.gauntletOfCommand);
             expect(this.player2).toHavePromptButton('Discard');
             this.player2.clickPrompt('gauntlet of command');
@@ -67,11 +67,81 @@ describe('Corner the Market', function () {
             this.player2.clickPrompt('brobnar');
             this.player2.clickCard(this.gauntletOfCommand);
             this.player2.clickPrompt('Discard this card');
-            expect(this.player2).toHavePrompt('Archive instead?');
+            expect(this.player2).toHavePrompt('Archive card?');
             expect(this.player2).toHavePromptCardButton(this.gauntletOfCommand);
             expect(this.player2).toHavePromptButton('Discard');
             this.player2.clickPrompt('Discard');
             expect(this.gauntletOfCommand.location).toBe('discard');
+        });
+    });
+
+    describe('is not a replacement effect', function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    amber: 1,
+                    house: 'ekwidon',
+                    hand: ['corner-the-market', 'antiquities-dealer']
+                },
+                player2: {
+                    inPlay: ['auto-encoder'],
+                    hand: ['gauntlet-of-command', 'bumpsy']
+                }
+            });
+        });
+
+        it('auto-encodes before ctm archive', function () {
+            this.player1.play(this.cornerTheMarket);
+            this.player1.endTurn();
+            this.player2.clickPrompt('brobnar');
+            this.player2.moveCard(this.bumpsy, 'deck');
+            this.player2.clickCard(this.gauntletOfCommand);
+            this.player2.clickPrompt('Discard this card');
+            expect(this.player2).toHavePrompt('Triggered Abilities');
+            expect(this.player2).toBeAbleToSelect(this.autoEncoder);
+            expect(this.player2).toHavePromptCardButton(this.cornerTheMarket);
+            this.player2.clickPrompt('Corner the Market');
+            expect(this.player2).toHavePrompt('Archive card?');
+            expect(this.player2).toHavePromptCardButton(this.gauntletOfCommand);
+            expect(this.player2).toHavePromptButton('Discard');
+            this.player2.clickPrompt('gauntlet of command');
+            expect(this.gauntletOfCommand.location).toBe('archives');
+            expect(this.bumpsy.location).toBe('archives');
+        });
+
+        it('auto-encodes after ctm archive', function () {
+            this.player1.play(this.cornerTheMarket);
+            this.player1.endTurn();
+            this.player2.clickPrompt('brobnar');
+            this.player2.moveCard(this.bumpsy, 'deck');
+            this.player2.clickCard(this.gauntletOfCommand);
+            this.player2.clickPrompt('Discard this card');
+            expect(this.player2).toHavePrompt('Triggered Abilities');
+            expect(this.player2).toBeAbleToSelect(this.autoEncoder);
+            expect(this.player2).toHavePromptCardButton(this.cornerTheMarket);
+            this.player2.clickCard('Auto-Encoder');
+            expect(this.player2).toHavePrompt('Archive card?');
+            expect(this.player2).toHavePromptCardButton(this.gauntletOfCommand);
+            expect(this.player2).toHavePromptButton('Discard');
+            this.player2.clickPrompt('gauntlet of command');
+            expect(this.gauntletOfCommand.location).toBe('archives');
+            expect(this.bumpsy.location).toBe('archives');
+        });
+
+        it('auto-encodes after ctm discard', function () {
+            this.player1.play(this.cornerTheMarket);
+            this.player1.endTurn();
+            this.player2.clickPrompt('brobnar');
+            this.player2.moveCard(this.bumpsy, 'deck');
+            this.player2.clickCard(this.gauntletOfCommand);
+            this.player2.clickPrompt('Discard this card');
+            this.player2.clickPrompt('Corner the Market');
+            expect(this.player2).toHavePrompt('Archive card?');
+            expect(this.player2).toHavePromptCardButton(this.gauntletOfCommand);
+            expect(this.player2).toHavePromptButton('Discard');
+            this.player2.clickPrompt('Discard');
+            expect(this.gauntletOfCommand.location).toBe('discard');
+            expect(this.bumpsy.location).toBe('archives');
         });
     });
 });
