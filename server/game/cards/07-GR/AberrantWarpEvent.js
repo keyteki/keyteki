@@ -1,5 +1,15 @@
 const Card = require('../../Card.js');
 
+function discard(deck) {
+    // let deck = context.player.deck;
+    let index = deck.findIndex((card) => card.type === 'creature');
+    if (index > -1) {
+        return { target: deck.slice(0, index + 1) };
+    }
+
+    return { target: deck };
+}
+
 class AberrantWarpEvent extends Card {
     // Play: Discard cards from the top of your deck until you discard a
     // creature or run out of cards. If you discard a creature this way, put it
@@ -8,13 +18,14 @@ class AberrantWarpEvent extends Card {
     setupCardAbilities(ability) {
         this.play({
             gameAction: ability.actions.discard((context) => {
-                let deck = context.player.deck;
-                let index = deck.findIndex((card) => card.type === 'creature');
-                if (index > -1) {
-                    return { target: deck.slice(0, index + 1) };
-                }
+                return discard(context.player.deck);
+                // let deck = context.player.deck;
+                // let index = deck.findIndex((card) => card.type === 'creature');
+                // if (index > -1) {
+                //     return { target: deck.slice(0, index + 1) };
+                // }
 
-                return { target: deck };
+                // return { target: deck };
             }),
             then: (context) => {
                 let card = context.player.deck.find((card) => card.type === 'creature');
