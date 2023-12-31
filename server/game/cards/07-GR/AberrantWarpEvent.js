@@ -31,14 +31,11 @@ class AberrantWarpEvent extends Card {
                         then: () => ({
                             alwaysTriggers: true,
                             message: '{0} uses {1} to destroy {2}',
-                            target: {
-                                cardType: 'creature',
-                                location: 'play area',
-                                controller: 'self',
-                                cardCondition: (card) =>
-                                    card.neighbors.includes(context.playedCard),
-                                gameAction: ability.actions.destroy()
-                            }
+                            gameAction: ability.actions.destroy((context) => ({
+                                target: context.game.creaturesInPlay.filter((card) =>
+                                    card.neighbors.includes(context.playedCard)
+                                )
+                            }))
                         })
                     };
                 }
