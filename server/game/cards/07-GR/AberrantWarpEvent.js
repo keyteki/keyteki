@@ -1,8 +1,7 @@
 const Card = require('../../Card.js');
 
 function discard(deck) {
-    // let deck = context.player.deck;
-    let index = deck.findIndex((card) => card.type === 'creature');
+    const index = deck.findIndex((card) => card.type === 'creature');
     if (index > -1) {
         return { target: deck.slice(0, index + 1) };
     }
@@ -17,32 +16,27 @@ class AberrantWarpEvent extends Card {
     // on your opponent.
     setupCardAbilities(ability) {
         this.play({
-            gameAction: ability.actions.discard((context) => {
-                return discard(context.player.deck);
-                // let deck = context.player.deck;
-                // let index = deck.findIndex((card) => card.type === 'creature');
-                // if (index > -1) {
-                //     return { target: deck.slice(0, index + 1) };
-                // }
-
-                // return { target: deck };
-            }),
+            gameAction: ability.actions.discard((context) => discard(context.player.deck)),
             then: (context) => {
-                let card = context.player.deck.find((card) => card.type === 'creature');
+                const card = context.player.deck.find((card) => card.type === 'creature');
                 if (card) {
-                    context.selfPlay = card;
+                    context.playedCard = card;
                     return {
                         alwaysTriggers: true,
-                        message: '{0} puts {3} into play',
+                        message: '{0} uses {1} to put {3} into play',
                         messageArgs: card,
                         gameAction: ability.actions.putIntoPlay({
                             target: card
                         }),
                         then: () => ({
                             alwaysTriggers: true,
+                            message: '{0} uses {1} to destroy {2}',
                             target: {
                                 cardType: 'creature',
-                                cardCondition: (card) => card.neighbors.includes(context.selfPlay),
+                                location: 'play area',
+                                controller: 'self',
+                                cardCondition: (card) =>
+                                    card.neighbors.includes(context.playedCard),
                                 gameAction: ability.actions.destroy()
                             }
                         })

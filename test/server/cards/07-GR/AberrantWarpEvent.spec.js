@@ -31,9 +31,9 @@ describe('AberrantWarpEvent', function () {
             // expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
             expect(this.player1).toHavePrompt('Which flank do you want to place this creature on?');
             this.player1.clickPrompt('Left');
-            expect(this.player1).toHavePrompt('Choose a creature');
+            expect(this.player1).toHavePrompt('Choose a creaturex');
             expect(this.player1).not.toBeAbleToSelect(this.gangerChieftain);
-            expect(this.player1).toBeAbleToSelect(this.dodger);
+            expect(this.player1).not.toBeAbleToSelect(this.dodger);
             this.player1.clickCard(this.dodger);
             expect(this.gangerChieftain.location).toBe('play area');
             expect(this.shadowSelf.location).toBe('deck');
