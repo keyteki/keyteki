@@ -84,6 +84,8 @@ describe('AberrantWarpEvent', function () {
             expect(this.dodger.location).toBe('play area');
 
             // Opponent
+            expect(this.player1).toHavePrompt('Which flank do you want to place this creature on?');
+            this.player1.clickPrompt('Left');
             expect(this.gub.location).toBe('deck');
             expect(this.causalLoop.location).toBe('discard');
             expect(this.staticCharge.location).toBe('discard');
