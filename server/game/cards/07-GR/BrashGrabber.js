@@ -13,7 +13,7 @@ class BrashGrabber extends Card {
 
         this.omni({
             target: {
-                activePromptTitle: 'Choose a captured amber to move to your pool',
+                activePromptTitle: 'Choose a captured amber to move to your pool.',
                 cardCondition: (card) => card.hasToken('amber'),
                 cardType: 'creature',
                 gameAction: ability.actions.returnAmber((context) => ({
