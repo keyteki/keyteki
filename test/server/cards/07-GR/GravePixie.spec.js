@@ -6,17 +6,7 @@ describe('Grave Pixie', function () {
                     house: 'untamed',
                     hand: ['the-common-cold', 'fertility-chant'],
                     inPlay: ['grave-pixie'],
-                    discard: [
-                        'poke', // not yet haunted
-                        'poke',
-                        'poke',
-                        'poke',
-                        'poke',
-                        'poke',
-                        'poke',
-                        'poke',
-                        'poke'
-                    ]
+                    discard: new Array(9).fill('poke') // not yet haunted
                 },
                 player2: {
                     inPlay: ['troll']

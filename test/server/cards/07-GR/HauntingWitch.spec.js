@@ -6,17 +6,7 @@ describe('Haunting Witch', function () {
                     amber: 1,
                     house: 'untamed',
                     hand: ['haunting-witch', 'tantadlin', 'fertility-chant'],
-                    discard: [
-                        'poke', // not yet haunted
-                        'poke',
-                        'poke',
-                        'poke',
-                        'poke',
-                        'poke',
-                        'poke',
-                        'poke',
-                        'poke'
-                    ]
+                    discard: new Array(9).fill('poke') // not yet haunted
                 },
                 player2: {
                     amber: 1,

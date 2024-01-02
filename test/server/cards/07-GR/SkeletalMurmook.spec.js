@@ -6,17 +6,7 @@ describe('Skeletal Murmook', function () {
                     house: 'untamed',
                     hand: ['the-common-cold'],
                     inPlay: ['skeletal-murmook'],
-                    discard: [
-                        'poke', // not yet haunted
-                        'poke',
-                        'poke',
-                        'poke',
-                        'poke',
-                        'poke',
-                        'poke',
-                        'poke',
-                        'poke'
-                    ]
+                    discard: new Array(9).fill('poke') // not yet haunted
                 },
                 player2: {
                     amber: 7,

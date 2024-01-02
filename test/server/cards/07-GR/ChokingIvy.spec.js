@@ -7,17 +7,7 @@ describe('Choking Ivy', function () {
                     amber: 1,
                     hand: ['fertility-chant', 'choking-ivy'],
                     inPlay: ['flaxia', 'mab-the-mad'],
-                    discard: [
-                        'poke',
-                        'poke',
-                        'poke',
-                        'poke',
-                        'poke',
-                        'poke',
-                        'poke',
-                        'poke',
-                        'poke'
-                    ]
+                    discard: new Array(9).fill('poke') // not yet haunted
                 },
                 player2: {
                     amber: 1,
