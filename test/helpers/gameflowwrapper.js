@@ -54,6 +54,16 @@ class GameFlowWrapper {
 
     startGame() {
         this.game.initialise();
+        if (this.game.gameFormat === 'adaptive-bo1') {
+            // For now just always swap decks after bidding two chains.
+            // TODO: make this more customizable.
+            this.player1.clickPrompt(this.player2.name + "'s deck");
+            this.player2.clickPrompt(this.player2.name + "'s deck");
+
+            this.player1.clickPrompt('2');
+            this.player2.clickPrompt('Pass');
+        }
+
         this.game.activePlayer = this.player1.player;
         this.player1.clickPrompt('Start the Game');
         this.player2.clickPrompt('Start the Game');

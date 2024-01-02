@@ -80,7 +80,7 @@ class AdaptiveDeckSelectionPrompt extends AllPlayerPrompt {
                     argType: 'link',
                     label: deck.name
                 };
-                this.game.addMessage('{0} has selected  {1} as their Archon', player.name, link);
+                this.game.addMessage('{0} has selected {1} as their Archon', player.name, link);
             });
             if (player1.owner !== player1.player) {
                 this.game.reInitialisePlayers(true);

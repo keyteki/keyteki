@@ -830,13 +830,10 @@ class Game extends EventEmitter {
             if (player2) {
                 const deckData = players[player1].deckData;
                 const houses = players[player1].houses;
-                const tokenCard = players[player1].tokenCard;
                 players[player1].deckData = players[player2].deckData;
                 players[player1].houses = players[player2].houses;
-                players[player1].tokenCard = players[player2].tokenCard;
                 players[player2].houses = houses;
                 players[player2].deckData = deckData;
-                players[player2].tokenCard = tokenCard;
             }
         }
 

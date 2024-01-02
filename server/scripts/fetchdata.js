@@ -6,9 +6,32 @@ const CardImport = require('./fetchdata/CardImport');
 const KeyforgeImageSource = require('./fetchdata/KeyforgeImageSource');
 const JsonCardSource = require('./fetchdata/JsonCardSource');
 const NoImageSource = require('./fetchdata/NoImageSource');
-const KeyForgeHalfSizeBuild = require('./fetchdata/KeyForgeHalfSizeBuild');
 const db = require('../db');
 
+//
+// Sample Commands
+//
+// #1 Fetch all images, skipping existing images, in English
+// node server/scripts/fetchdata
+//
+// #2 Fetch all images, skipping existing images, in a specific language
+// node server/scripts/fetchdata --language pt
+//
+// #3 Fetch all images, skipping existing images, in a all languages
+// node server/scripts/fetchdata --language all
+//
+// #4 Fetch specific set, skipping existing images, in English
+// node server/scripts/fetchdata --code WoE
+//
+// #5 Fetch specific set and card, skipping existing images, in English
+// node server/scripts/fetchdata --code WoE --id pupgrade
+//
+// #6 Fetch specific set, forcing overwrite of existing images, in all languages
+// node server/scripts/fetchdata --code WoE --language all --force
+//
+// #7 Fetch all sets, forcing download and overwrite of all images, in all languages
+// node server/scripts/fetchdata --language all --force
+//
 const optionsDefinition = [
     { name: 'card-source', type: String, defaultValue: 'json' },
     {
@@ -16,6 +39,10 @@ const optionsDefinition = [
         type: String,
         defaultValue: path.join(__dirname, '..', '..', 'keyteki-json-data')
     },
+    { name: 'code', type: String, defaultValue: '' },
+    { name: 'id', type: String, defaultValue: '' },
+    { name: 'skip-replace', type: Boolean, defaultValue: false },
+    { name: 'force', type: Boolean, defaultValue: false },
     { name: 'image-source', type: String, defaultValue: 'keyforge' },
     {
         name: 'image-dir',
@@ -27,9 +54,11 @@ const optionsDefinition = [
 ];
 
 function createDataSource(options) {
+    let codes = options['code'].split(',').filter(Boolean);
+    let ids = options['id'].split(',').filter(Boolean);
     switch (options['card-source']) {
         case 'json':
-            return new JsonCardSource(options['card-dir']);
+            return new JsonCardSource(options['card-dir'], codes, ids);
     }
 
     throw new Error(`Unknown card source '${options['card-source']}'`);
@@ -60,7 +89,8 @@ let cardImport = new CardImport(
     imageSource,
     options['image-dir'],
     options['language'],
-    KeyForgeHalfSizeBuild
+    options['force'],
+    options['skip-replace']
 );
 
 const doImport = async () => {

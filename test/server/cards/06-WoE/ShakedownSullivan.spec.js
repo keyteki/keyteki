@@ -5,7 +5,7 @@ describe('Shakedown Sullivan', function () {
                 player1: {
                     amber: 1,
                     house: 'staralliance',
-                    inPlay: ['shakedown-sullivan', 'bumpsy'],
+                    inPlay: ['shakedown-sullivan', 'bumpsy', 'uncharted-lands'],
                     hand: ['pelf']
                 },
                 player2: {
@@ -19,6 +19,7 @@ describe('Shakedown Sullivan', function () {
         it('should gain an amber on friendly house match', function () {
             this.player1.moveCard(this.pelf, 'deck');
             this.player1.reap(this.shakedownSullivan);
+            expect(this.player1).not.toBeAbleToSelect(this.unchartedLands);
             this.player1.clickCard(this.bumpsy);
             expect(this.player1.amber).toBe(3);
             expect(this.bumpsy.location).toBe('play area');

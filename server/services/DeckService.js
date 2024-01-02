@@ -209,6 +209,10 @@ class DeckService {
             dbExpansions.push(496);
         }
 
+        if (expansions.woe) {
+            dbExpansions.push(600);
+        }
+
         let deck;
         let expansionStr = dbExpansions.join(',');
         try {
@@ -464,22 +468,23 @@ class DeckService {
             let dbDeck = decksByUuid[deckId];
 
             deck.houses.push(house);
-
             for (let card of dbDeck.cards) {
                 if (card.id === deck.tokenCard?.id) {
                     podCards.push(card);
                 } else if (card.isNonDeck) {
                     continue;
                 } else if (
-                    card.house === house ||
                     card.maverick === house ||
-                    card.anomaly === house
+                    card.anomaly === house ||
+                    card.house === house
                 ) {
                     podCards.push(card);
-                } else if (cardsById[card.id] && cardsById[card.id].house === house) {
-                    podCards.push(card);
-                } else if (allCardsById[card.id].house === house) {
-                    podCards.push(card);
+                } else if (!card.maverick && !card.anomaly && !card.house) {
+                    if (cardsById[card.id] && cardsById[card.id].house === house) {
+                        podCards.push(card);
+                    } else if (allCardsById[card.id].house === house) {
+                        podCards.push(card);
+                    }
                 }
             }
         }

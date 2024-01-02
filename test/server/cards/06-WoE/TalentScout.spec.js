@@ -32,6 +32,20 @@ describe('Talent Scout', function () {
             expect(this.player2.player.cardsInPlay).toContain(this.talentScout);
         });
 
+        it('still reveals hand when there are no creatures', function () {
+            this.selwynTheFence.location = 'discard';
+            this.bumpsy.location = 'discard';
+
+            this.player1.playCreature(this.talentScout);
+            expect(this.player1.amber).toBe(3);
+            expect(this.player2.amber).toBe(2);
+            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1.player.cardsInPlay).not.toContain(this.talentScout);
+            expect(this.player2.player.cardsInPlay).toContain(this.talentScout);
+            expect(this).toHaveRecentChatMessage('Talent Scout reveals Too Much to Protect', 2);
+            expect(this).toHaveRecentChatMessage('Talent Scout reveals Ring of Invisibility', 2);
+        });
+
         it('allows player to return to own deck with Bubbles', function () {
             this.player1.playCreature(this.talentScout);
             expect(this.player1.amber).toBe(3);
@@ -49,7 +63,7 @@ describe('Talent Scout', function () {
             expect(this.talentScout.location).toBe('hand');
         });
 
-        describe("after ability resolved, on opponnent's turn", function () {
+        describe("after ability resolved, on opponent's turn", function () {
             beforeEach(function () {
                 this.player1.playCreature(this.talentScout);
                 this.player1.clickCard(this.bumpsy);

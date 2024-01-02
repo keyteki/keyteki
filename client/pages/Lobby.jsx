@@ -81,16 +81,24 @@ const Lobby = () => {
 
     const banners = [
         {
-            img: 'banner/happyzach-v1.png',
-            link: 'https://bit.ly/keyforgepublicradio'
+            img: 'banner/nfcc-banner.png',
+            link: 'https://www.facebook.com/NewFrontiersCardClub'
         },
         {
-            img: 'banner/LAINUSU-TCO.png',
-            link: 'https://bit.ly/LainusuKeyForgeExperience'
+            img: 'banner/tco-youtube-phloxemall.png',
+            link: 'https://bit.ly/46NfNaG'
         },
         {
-            img: '/banner/happygee-v3.png',
-            link: 'https://geeb.us/bpptco'
+            img: 'banner/tco-youtube-captains-deck.png',
+            link: 'https://bit.ly/3sVmLNf'
+        },
+        {
+            img: 'banner/tco-website-portugal.png',
+            link: 'https://bit.ly/47HirAl'
+        },
+        {
+            img: 'banner/tco-podcast-warcastreforged.png',
+            link: 'https://bit.ly/417Jn9U'
         }
     ];
 
@@ -116,7 +124,7 @@ const Lobby = () => {
                                     key={banner.img}
                                     target='_blank'
                                     rel='noreferrer'
-                                    href={banner.link}
+                                    href={banner.link || '#'}
                                 >
                                     <div className='banner'>
                                         <img src={banner.img} />
