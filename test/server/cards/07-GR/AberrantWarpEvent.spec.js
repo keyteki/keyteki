@@ -34,7 +34,7 @@ describe('AberrantWarpEvent', function () {
             expect(this.player1).toHavePrompt('Choose a creaturex');
             expect(this.player1).not.toBeAbleToSelect(this.gangerChieftain);
             expect(this.player1).not.toBeAbleToSelect(this.dodger);
-            this.player1.clickCard(this.dodger);
+            // this.player1.clickCard(this.dodger);
             expect(this.gangerChieftain.location).toBe('play area');
             expect(this.shadowSelf.location).toBe('deck');
             expect(this.seekerNeedle.location).toBe('discard');

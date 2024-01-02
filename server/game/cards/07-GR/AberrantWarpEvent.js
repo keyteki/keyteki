@@ -30,9 +30,13 @@ class AberrantWarpEvent extends Card {
                         }),
                         then: () => ({
                             alwaysTriggers: true,
-                            message: '{0} uses {1} to destroy {2}',
-                            gameAction: ability.actions.destroy((context) => ({
-                                target: context.game.creaturesInPlay.filter((card) =>
+                            message: '{0} uses {1} to destroy 2{2}3{3}4{4}', // {3} is empty
+                            messageArgs: (ctx) => {
+                                console.log(ctx.targets);
+                                return [ctx.targets, ['this', 'that'], 'bla'];
+                            },
+                            gameAction: ability.actions.destroy(() => ({
+                                target: card.controller.creaturesInPlay.filter((card) =>
                                     card.neighbors.includes(context.playedCard)
                                 )
                             }))
