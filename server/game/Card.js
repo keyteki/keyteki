@@ -672,6 +672,13 @@ class Card extends EffectSource {
         return !!this.tokens[type];
     }
 
+    sumTokens() {
+        if (!this.tokens) {
+            return 0;
+        }
+        return Object.values(this.tokens).reduce((a, b) => a + b, 0);
+    }
+
     removeToken(type, number = this.tokens[type]) {
         if (!this.tokens[type]) {
             return;

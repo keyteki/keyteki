@@ -70,6 +70,7 @@ const Actions = {
     rearrangeBattleline: (propertyFactory) =>
         new GameActions.RearrangeBattlelineAction(propertyFactory),
     reduceArmor: (propertyFactory) => new GameActions.ReduceArmorAction(propertyFactory),
+    removeAllTokens: (propertyFactory) => new GameActions.RemoveAllTokensAction(propertyFactory),
     removeAmber: (propertyFactory) => new GameActions.RemoveTokenAction(propertyFactory, 'amber'),
     removeDamage: (propertyFactory) => new GameActions.RemoveTokenAction(propertyFactory, 'damage'),
     removeDepthCounter: (propertyFactory) =>
