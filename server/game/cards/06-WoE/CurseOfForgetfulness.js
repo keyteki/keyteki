@@ -8,7 +8,10 @@ class CurseOfForgetfulness extends Card {
         this.persistentEffect({
             location: 'any',
             targetController: 'any',
-            effect: [ability.effects.entersPlayUnderOpponentsControl()]
+            effect: [
+                ability.effects.entersPlayUnderOpponentsControl(),
+                ability.effects.entersPlayReady()
+            ]
         });
 
         this.interrupt({
