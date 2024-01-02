@@ -361,6 +361,28 @@ class Card extends EffectSource {
         return this.reaction(Object.assign({ reap: true, name: 'Reap' }, properties));
     }
 
+    scrap(properties) {
+        return this.reaction(
+            Object.assign(
+                {
+                    when: {
+                        onCardDiscarded: (event, context) => {
+                            return (
+                                event.location === 'hand' &&
+                                event.card.controller === context.game.activePlayer &&
+                                event.card === context.source
+                            );
+                        }
+                    },
+                    location: 'any',
+                    scrap: true,
+                    name: 'Scrap'
+                },
+                properties
+            )
+        );
+    }
+
     destroyed(properties) {
         return this.interrupt(
             Object.assign(
