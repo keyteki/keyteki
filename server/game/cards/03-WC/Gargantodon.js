@@ -18,6 +18,7 @@ class Gargantodon extends Card {
             when: {
                 onStealAmber: () => true
             },
+            effect: 'capture amber instead of stealing it',
             gameAction: ability.actions.changeEvent((context) => ({
                 event: context.event,
                 cancel: true

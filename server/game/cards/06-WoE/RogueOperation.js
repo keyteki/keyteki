@@ -20,7 +20,16 @@ class RogueOperation extends Card {
                             .map((event) => event.card)
                             .filter((card) => card.location === 'discard')
                     ).length
-                }))
+                })),
+                message: '{0} uses {1} to steal {3} amber from {4}',
+                messageArgs: (context) => [
+                    context.game.getHousesInPlay(
+                        context.preThenEvents
+                            .map((event) => event.card)
+                            .filter((card) => card.location === 'discard')
+                    ).length,
+                    context.player.opponent
+                ]
             }
         });
     }
