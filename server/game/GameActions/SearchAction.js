@@ -13,7 +13,7 @@ class SearchAction extends PlayerAction {
         super.setup();
 
         this.name = 'search';
-        this.effectMsg = 'search their deck and discard for ' + this.cardName;
+        this.effectMsg = 'search their ' + this.location.join(' and ') + ' for ' + this.cardName;
     }
 
     canAffect(player, context) {
