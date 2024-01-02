@@ -149,6 +149,7 @@ const Actions = {
         new GameActions.SequentialCardLastingEffectAction(propertyFactory),
     sequentialForEach: (propertyFactory) =>
         new GameActions.SequentialForEachAction(propertyFactory),
+    sequentialPlay: (propertyFactory) => new GameActions.SequentialPlayAction(propertyFactory),
     sequentialPutIntoPlay: (propertyFactory) =>
         new GameActions.SequentialPutIntoPlayAction(propertyFactory),
     sequentialMakeTokenCreature: (propertyFactory) =>
