@@ -6,7 +6,7 @@ class SoulSnatcher extends Card {
     setupCardAbilities(ability) {
         this.reaction({
             when: {
-                onCardDestroyed: (event) => event.card.type === 'creature'
+                onCardDestroyed: (event) => event.clone.type === 'creature'
             },
             effect: 'make {1} gain 1 amber due to {2} being destroyed',
             effectArgs: (context) => [context.event.card.owner, context.event.card],

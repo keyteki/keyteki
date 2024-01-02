@@ -563,14 +563,12 @@ class Player extends GameObject {
 
         this.game.raiseEvent('onCardPlaced', {
             card: card,
-            clone: card.createSnapshot(),
             from: location,
             to: targetLocation
         });
         if (composedPart) {
             this.game.raiseEvent('onCardPlaced', {
                 card: composedPart,
-                clone: composedPart,
                 from: location,
                 to: targetLocation
             });

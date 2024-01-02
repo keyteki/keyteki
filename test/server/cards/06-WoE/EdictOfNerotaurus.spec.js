@@ -3,16 +3,22 @@ describe('Edict of Nerotaurus', function () {
         beforeEach(function () {
             this.setupTest({
                 player1: {
+                    amber: 1,
                     house: 'saurian',
+                    token: 'trader',
                     inPlay: [
                         'edict-of-nerotaurus',
                         'scylla',
                         'brutodon-auxiliary',
                         'cornicen-octavia',
-                        'saurian-egg'
+                        'saurian-egg',
+                        'antiquities-dealer',
+                        'trader:faust-the-great',
+                        'shrewd-investor'
                     ]
                 },
                 player2: {
+                    amber: 1,
                     inPlay: ['umbra', 'dodger', 'mack-the-knife']
                 }
             });
@@ -66,6 +72,21 @@ describe('Edict of Nerotaurus', function () {
             this.player2.useAction(this.mackTheKnife);
             this.player2.clickCard(this.scylla);
             this.player2.reap(this.dodger);
+        });
+
+        it('should allow another reap after an action that destroys the creatures', function () {
+            this.player1.endTurn();
+            this.player2.clickPrompt('shadows');
+            this.player2.endTurn();
+            this.player1.clickPrompt('ekwidon');
+            this.player1.reap(this.antiquitiesDealer);
+            this.player1.useAction(this.trader);
+            expect(this.trader.location).toBe('discard');
+            expect(this.player1.amber).toBe(3);
+            expect(this.player2.amber).toBe(0);
+            this.player1.reap(this.shrewdInvestor);
+            expect(this.player1.amber).toBe(4);
+            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
         });
     });
 });
