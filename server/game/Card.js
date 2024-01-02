@@ -361,6 +361,28 @@ class Card extends EffectSource {
         return this.reaction(Object.assign({ reap: true, name: 'Reap' }, properties));
     }
 
+    scrap(properties) {
+        return this.reaction(
+            Object.assign(
+                {
+                    when: {
+                        onCardDiscarded: (event, context) => {
+                            return (
+                                event.location === 'hand' &&
+                                event.card.controller === context.game.activePlayer &&
+                                event.card === context.source
+                            );
+                        }
+                    },
+                    location: 'any',
+                    scrap: true,
+                    name: 'Scrap'
+                },
+                properties
+            )
+        );
+    }
+
     destroyed(properties) {
         return this.interrupt(
             Object.assign(
@@ -648,6 +670,13 @@ class Card extends EffectSource {
 
     hasToken(type) {
         return !!this.tokens[type];
+    }
+
+    sumTokens() {
+        if (!this.tokens) {
+            return 0;
+        }
+        return Object.values(this.tokens).reduce((a, b) => a + b, 0);
     }
 
     removeToken(type, number = this.tokens[type]) {
