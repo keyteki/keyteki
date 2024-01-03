@@ -63,6 +63,8 @@ const Actions = {
     placeAmber: (propertyFactory) => new GameActions.AddTokenAction(propertyFactory, 'amber'), // amount = 1
     placeUnder: (propertyFactory) => new GameActions.PlaceUnderAction(propertyFactory), // parent
     playCard: (propertyFactory) => new GameActions.PlayCardAction(propertyFactory), // resetOnCancel = false, postHandler
+    playUpgradeOnParent: (propertyFactory) =>
+        new GameActions.PlayUpgradeOnParentAction(propertyFactory),
     purge: (propertyFactory) => new GameActions.PurgeAction(propertyFactory),
     putIntoPlay: (propertyFactory) => new GameActions.PutIntoPlayAction(propertyFactory),
     ready: (propertyFactory) => new GameActions.ReadyAction(propertyFactory),
