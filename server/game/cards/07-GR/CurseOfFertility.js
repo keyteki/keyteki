@@ -6,12 +6,6 @@ class CurseOfFertility extends Card {
     // At the end of your turn, if you did not play a creature this
     // turn, your opponent gains 1.
     setupCardAbilities(ability) {
-        this.persistentEffect({
-            location: 'any',
-            targetController: 'any',
-            effect: [ability.effects.entersPlayUnderOpponentsControl()]
-        });
-
         this.interrupt({
             when: {
                 onRoundEnded: (_, context) =>
