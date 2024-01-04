@@ -15,7 +15,6 @@ class TillTheEarth extends Card {
                     condition: !!context.player.opponent,
                     trueGameAction: ability.actions.returnToDeck((context) => ({
                         shuffle: true,
-                        shuffleDiscardIntoDeck: true,
                         target: context.player.opponent.discard
                     }))
                 }))

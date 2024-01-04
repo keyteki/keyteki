@@ -12,7 +12,6 @@ class HelpFromFutureSelf extends Card {
                 }),
                 ability.actions.returnToDeck((context) => ({
                     shuffle: true,
-                    shuffleDiscardIntoDeck: true,
                     target: context.player.discard
                 }))
             ])

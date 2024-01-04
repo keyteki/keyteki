@@ -5,9 +5,8 @@ class SabiraTheMedium extends Card {
     setupCardAbilities(ability) {
         this.reaction({
             when: {
-                onDiscardShuffledIntoDeck: (event, context) => {
-                    return event.player === context.player;
-                }
+                onDeckShuffled: (event, context) =>
+                    event.player === context.player && event.shuffledDiscardIntoDeck
             },
             gameAction: ability.actions.gainAmber({ amount: 3 })
         });

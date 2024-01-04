@@ -13,7 +13,6 @@ class SpooKeyCharge extends Card {
                 alwaysTriggers: true,
                 gameAction: ability.actions.returnToDeck((context) => ({
                     shuffle: true,
-                    shuffleDiscardIntoDeck: true,
                     target: context.player.discard
                 }))
             }

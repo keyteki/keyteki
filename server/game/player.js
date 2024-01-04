@@ -193,7 +193,6 @@ class Player extends GameObject {
      * Shuffles the deck, emitting an event and displaying a message in chat
      */
     shuffleDeck(shuffledDiscardIntoDeck = false) {
-        this.game.emitEvent('onDeckShuffled', { player: this });
         this.deck = _.shuffle(this.deck);
         if (this.isTopCardOfDeckVisible() && this.deck.length > 0) {
             this.deck[0].facedown = false;
@@ -202,9 +201,10 @@ class Player extends GameObject {
             });
             this.addTopCardOfDeckVisibleMessage();
         }
-        if (shuffledDiscardIntoDeck) {
-            this.game.raiseEvent('onDiscardShuffledIntoDeck', { player: this });
-        }
+        this.game.raiseEvent('onDeckShuffled', {
+            player: this,
+            shuffledDiscardIntoDeck: shuffledDiscardIntoDeck
+        });
     }
 
     /**

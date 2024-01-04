@@ -18,6 +18,21 @@ class ReturnToDeckAction extends CardGameAction {
         }
     }
 
+    setTarget(target) {
+        if (this.shuffle && !this.shuffleDiscardIntoDeck) {
+            // Figure out if the entire discard has been shuffled into the
+            // deck for a single owner.
+            if (
+                this.target.length > 0 &&
+                this.target.every((c) => c.owner === this.target[0].owner)
+            ) {
+                this.shuffleDiscardIntoDeck = this.target[0].owner.discard === this.target;
+            }
+        }
+
+        super.setTarget(target);
+    }
+
     getEvent(card, context) {
         let eventName = card.location === 'play area' ? 'onCardLeavesPlay' : 'onMoveCard';
         let deckLength = card.owner.getSourceList('deck').length;

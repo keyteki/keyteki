@@ -31,12 +31,7 @@ class BearFlute extends Card {
                         (card) => card.name === 'Ancient Bear'
                     )
                         ? context.player.discard
-                        : [],
-                    shuffleDiscardIntoDeck: !context.game.creaturesInPlay.some(
-                        (card) => card.name === 'Ancient Bear'
-                    )
-                        ? true
-                        : false
+                        : []
                 }))
             }
         });
