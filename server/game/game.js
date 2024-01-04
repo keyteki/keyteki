@@ -1277,7 +1277,7 @@ class Game extends EventEmitter {
     }
 
     raiseEndRoundEvent() {
-        this.raiseEvent('onRoundEnded', {}, () => {
+        this.raiseEvent('onRoundEnded', { player: this.activePlayer }, () => {
             this.endRound();
         });
     }
