@@ -104,6 +104,7 @@ const Effects = {
     canPlayNonHouse: (house) => EffectBuilder.player.flexible('canPlayNonHouse', house),
     canPlayOrUseHouse: (house) => EffectBuilder.player.static('canPlayOrUseHouse', house),
     canPlayOrUseNonHouse: (house) => EffectBuilder.player.static('canPlayOrUseNonHouse', house),
+    canUseNonHouse: (house) => EffectBuilder.player.static('canUseNonHouse', house),
     canUse: (match) => EffectBuilder.player.static('canUse', new CanUse(match)),
     canUseHouse: (house) => EffectBuilder.player.static('canUseHouse', house),
     chooseCardsFromArchives: (card) => EffectBuilder.player.static('chooseCardsFromArchives', card),
