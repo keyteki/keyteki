@@ -7,34 +7,12 @@ describe('Awful Atoll', function () {
                     house: 'unfathomable',
                     hand: ['awful-atoll', 'crushing-deep'],
                     inPlay: ['bubbles'],
-                    discard: [
-                        'poke', // not yet haunted
-                        'poke',
-                        'poke',
-                        'poke',
-                        'poke',
-                        'poke',
-                        'poke',
-                        'poke',
-                        'poke'
-                    ]
+                    discard: new Array(9).fill('poke') // not yet haunted
                 },
                 player2: {
                     hand: ['gateway-to-dis'],
                     inPlay: ['troll', 'batdrone', 'gron-nine-toes', 'flamethrower'],
-                    discard: [
-                        'poke', // already haunted
-                        'poke',
-                        'poke',
-                        'poke',
-                        'poke',
-                        'poke',
-                        'poke',
-                        'poke',
-                        'poke',
-                        'poke',
-                        'poke'
-                    ]
+                    discard: new Array(10).fill('poke') // already haunted
                 }
             });
         });
