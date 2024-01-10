@@ -24,7 +24,7 @@ describe('Iron Heidy', function () {
             expect(this.gemcoatVendor.armor).toBe(0);
         });
 
-        it('does nothing when not haunted', function () {
+        it('grants armor when haunted', function () {
             this.player1.play(this.hireOn);
             expect(this.medicIngram.armor).toBe(2);
             expect(this.ironHeidy.armor).toBe(2);
