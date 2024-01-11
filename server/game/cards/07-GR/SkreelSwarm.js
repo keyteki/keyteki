@@ -16,6 +16,7 @@ class SkreelSwarm extends Card {
         });
 
         this.scrap({
+            optional: true,
             gameAction: ability.actions.archive((context) => ({
                 target: context.source
             }))
