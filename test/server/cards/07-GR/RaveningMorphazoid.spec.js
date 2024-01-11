@@ -38,7 +38,7 @@ describe('Ravening Morphazoid', function () {
             expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
         });
 
-        it('should not give poison and skirmish when haunted', function () {
+        it('should give poison and skirmish when haunted', function () {
             this.player1.play(this.auctionOff);
             this.player1.fightWith(this.raveningMorphazoid, this.troll);
             expect(this.raveningMorphazoid.location).toBe('play area');
