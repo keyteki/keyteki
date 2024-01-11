@@ -5,19 +5,20 @@ class MarketFluctuation extends Card {
     // not haunted discards 3 random cards from their hand.
     setupCardAbilities(ability) {
         this.play({
-            gameAction: ability.actions.draw((context) => ({
-                target: [context.player, context.player.opponent].filter((p) => p && p.isHaunted()),
-                amount: 3
-            })),
-            then: {
-                alwaysTriggers: true,
-                gameAction: ability.actions.discardAtRandom((context) => ({
+            gameAction: ability.actions.sequential([
+                ability.actions.draw((context) => ({
+                    target: [context.player, context.player.opponent].filter(
+                        (p) => p && p.isHaunted()
+                    ),
+                    amount: 3
+                })),
+                ability.actions.discardAtRandom((context) => ({
                     target: [context.player, context.player.opponent].filter(
                         (p) => p && !p.isHaunted()
                     ),
                     amount: 3
                 }))
-            }
+            ])
         });
     }
 }
