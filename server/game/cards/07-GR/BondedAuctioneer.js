@@ -11,7 +11,7 @@ class BondedAuctioneer extends Card {
             target: {
                 cardType: 'artifact',
                 location: 'play area',
-                gameAction: [ability.actions.destroy()]
+                gameAction: ability.actions.destroy()
             },
             then: {
                 gameAction: ability.actions.gainAmber((context) => ({
@@ -21,12 +21,10 @@ class BondedAuctioneer extends Card {
         });
 
         this.scrap({
-            effect: "return {0} to its owner's hand",
-            effectArgs: (context) => [context.target],
             target: {
                 cardType: 'artifact',
                 location: 'play area',
-                gameAction: [ability.actions.returnToHand()]
+                gameAction: ability.actions.returnToHand()
             }
         });
     }
