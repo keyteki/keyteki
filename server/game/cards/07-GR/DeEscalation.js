@@ -13,7 +13,7 @@ class DeEscalation extends Card {
                       ' archive the top 3 cards of their deck'
                     : ''
             ],
-            gameAction: [
+            gameAction: ability.actions.sequential([
                 ability.actions.destroy((context) => ({ target: context.game.creaturesInPlay })),
                 ability.actions.conditional((context) => ({
                     condition: context.player.opponent && context.player.opponent.deck.length > 0,
@@ -24,7 +24,7 @@ class DeEscalation extends Card {
                         )
                     })
                 }))
-            ]
+            ])
         });
     }
 }
