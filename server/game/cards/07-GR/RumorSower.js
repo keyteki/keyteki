@@ -16,7 +16,8 @@ class RumorSower extends Card {
                 target: {
                     cardCondition: (card, context) =>
                         context.preThenEvent.card.getHouses().some((h) => card.hasHouse(h)),
-                    cardType: 'creature'
+                    cardType: 'creature',
+                    controller: 'opponent'
                 },
                 gameAction: ability.actions.stun((context) => ({
                     target: context.target

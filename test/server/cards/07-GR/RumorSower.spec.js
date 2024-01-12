@@ -27,16 +27,17 @@ describe('Rumor-sower', function () {
             expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
         });
 
-        it('allows stunning a friendly creature', function () {
+        it('does not allow stunning a friendly creature', function () {
             this.player2.moveCard(this.stealthMode, 'deck');
             this.player1.reap(this.rumorSower);
             expect(this.stealthMode.location).toBe('discard');
             expect(this.player1).not.toBeAbleToSelect(this.batdrone);
             expect(this.player1).toBeAbleToSelect(this.cpoZytar);
             expect(this.player1).not.toBeAbleToSelect(this.rumorSower);
-            expect(this.player1).toBeAbleToSelect(this.medicIngram);
-            this.player1.clickCard(this.medicIngram);
-            expect(this.medicIngram.stunned).toBe(true);
+            expect(this.player1).not.toBeAbleToSelect(this.medicIngram);
+            this.player1.clickCard(this.cpoZytar);
+            expect(this.cpoZytar.stunned).toBe(true);
+            expect(this.medicIngram.stunned).toBe(false);
             expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
         });
 
