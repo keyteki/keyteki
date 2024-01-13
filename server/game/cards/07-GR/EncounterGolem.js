@@ -10,6 +10,7 @@ class EncounterGolem extends Card {
             when: {
                 onCardPlaced: (event, context) =>
                     context.game.activePlayer === context.player &&
+                    event.card.controller === context.player &&
                     event.card.type === 'action' &&
                     event.from === 'being played' &&
                     event.to === 'discard'

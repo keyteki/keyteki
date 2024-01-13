@@ -5,13 +5,14 @@ describe('Encounter Golem', function () {
                 player1: {
                     amber: 1,
                     house: 'staralliance',
-                    hand: ['stealth-mode', 'cpo-zytar'],
+                    hand: ['stealth-mode', 'cpo-zytar', 'mimicry'],
                     inPlay: ['encounter-golem'],
                     discard: new Array(9).fill('poke') // not yet haunted
                 },
                 player2: {
                     hand: ['press-gang'],
-                    inPlay: ['troll']
+                    inPlay: ['troll'],
+                    discard: ['burn-the-stockpile']
                 }
             });
         });
@@ -38,6 +39,18 @@ describe('Encounter Golem', function () {
             this.player2.play(this.pressGang);
             expect(this.pressGang.location).toBe('discard');
             expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+        });
+
+        it('does not do anything for opponent cards played by you', function () {
+            this.player1.endTurn();
+            this.player2.clickPrompt('brobnar');
+            this.player2.endTurn();
+            this.player1.clickPrompt('untamed');
+            this.player1.play(this.mimicry);
+            this.player1.clickCard(this.burnTheStockpile);
+            expect(this.burnTheStockpile.location).toBe('discard');
+            expect(this.mimicry.location).toBe('deck');
+            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
         });
 
         it('does not archive on destroy if not haunted', function () {
