@@ -1,5 +1,3 @@
-const _ = require('underscore');
-
 const StaticEffect = require('./StaticEffect');
 
 class DynamicEffect extends StaticEffect {
@@ -17,7 +15,7 @@ class DynamicEffect extends StaticEffect {
     recalculate(target) {
         let oldValue = this.getValue(target);
         this.values[target.uuid] = this.calculate(target, this.context);
-        return !_.isEqual(oldValue, this.values[target.uuid]);
+        return oldValue !== this.values[target.uuid];
     }
 
     getValue(target) {
