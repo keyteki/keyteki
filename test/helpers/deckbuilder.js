@@ -10,6 +10,7 @@ const defaultFiller = {
     brobnar: 'anger',
     dis: 'hand-of-dis',
     ekwidon: 'corner-the-market',
+    geistoid: 'echofly',
     logos: 'foggify',
     mars: 'ammonia-clouds',
     sanctum: 'champion-anaphiel',
