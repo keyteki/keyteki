@@ -9,6 +9,9 @@ class AttachAction extends CardGameAction {
     setup() {
         this.name = 'attach';
         this.targetType = ['creature'];
+        if (this.upgrade && this.upgrade.anyEffect('canAttachToArtifacts')) {
+            this.targetType = this.targetType.concat(['artifact']);
+        }
         this.effectMsg = 'attach {1} to {0}';
         this.effectArgs = () => {
             return this.upgrade;
