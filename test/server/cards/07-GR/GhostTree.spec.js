@@ -5,18 +5,7 @@ describe('Ghost Tree', function () {
                 player1: {
                     house: 'untamed',
                     hand: ['ghost-tree', 'fertility-chant'],
-                    discard: [
-                        // not yet haunted
-                        'poke',
-                        'poke',
-                        'poke',
-                        'poke',
-                        'poke',
-                        'poke',
-                        'poke',
-                        'poke',
-                        'poke'
-                    ],
+                    discard: new Array(9).fill('poke'), // not yet haunted
                     deck: ['poke', 'poke', 'poke', 'poke', 'poke']
                 },
                 player2: {

@@ -7,35 +7,12 @@ describe('Dark Heart of the Forest', function () {
                     house: 'untamed',
                     hand: ['fertility-chant', 'poke', 'poke', 'poke', 'poke', 'poke', 'poke'],
                     inPlay: ['dark-heart-of-the-forest'],
-                    discard: [
-                        // not yet haunted
-                        'poke',
-                        'poke',
-                        'poke',
-                        'poke',
-                        'poke',
-                        'poke',
-                        'poke',
-                        'poke',
-                        'poke'
-                    ]
+                    discard: new Array(9).fill('poke') // not yet haunted
                 },
                 player2: {
                     amber: 7,
                     hand: ['key-charge'],
-                    discard: [
-                        // haunted
-                        'poke',
-                        'poke',
-                        'poke',
-                        'poke',
-                        'poke',
-                        'poke',
-                        'poke',
-                        'poke',
-                        'poke',
-                        'poke'
-                    ]
+                    discard: new Array(10).fill('poke') // already haunted
                 }
             });
         });
