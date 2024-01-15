@@ -66,11 +66,11 @@ INSERT INTO public."Users" ("Id", "Password", "Registered", "Username", "Email",
 
 INSERT INTO public."Users" ("Id", "Password", "Registered", "Username", "Email", "Settings_Background", "Settings_CardSize",
     "Settings_OrderAbilities", "Settings_ConfirmOneClick", "Settings_UseHalfSizedCards", "Verified", "Disabled", "RegisterIp") VALUES
-    (2, '$2b$10$T7eqHoi26C3ADmTDbGOYseTbsrPdCoNFkMKmgh21T4Y6i9NVylgxG', NOW(), 'test0', 'test0@gmail.com', 'none', 'normal', True, True, False, True,
+    (2, '$2b$10$T7eqHoi26C3ADmTDbGOYseTbsrPdCoNFkMKmgh21T4Y6i9NVylgxG', NOW(), 'test0', 'test0@example.com', 'none', 'normal', True, True, False, True,
      False, '127.0.0.1');
 INSERT INTO public."Users" ("Id", "Password", "Registered", "Username", "Email", "Settings_Background", "Settings_CardSize",
     "Settings_OrderAbilities", "Settings_ConfirmOneClick", "Settings_UseHalfSizedCards", "Verified", "Disabled", "RegisterIp") VALUES
-    (3, '$2b$10$T7eqHoi26C3ADmTDbGOYseTbsrPdCoNFkMKmgh21T4Y6i9NVylgxG', NOW(), 'test1', 'test1@gmail.com', 'Dis', 'normal', True, True, False, True,
+    (3, '$2b$10$T7eqHoi26C3ADmTDbGOYseTbsrPdCoNFkMKmgh21T4Y6i9NVylgxG', NOW(), 'test1', 'test1@example.com', 'Dis', 'normal', True, True, False, True,
      False, '127.0.0.1');
 
 SELECT pg_catalog.setval('public."Users_Id_seq"', 11, true);
