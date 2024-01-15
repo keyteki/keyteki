@@ -5,12 +5,6 @@ class CurseOfSpontaneity extends Card {
     //
     // At the start of your "draw cards" step, discard your hand.
     setupCardAbilities(ability) {
-        this.persistentEffect({
-            location: 'any',
-            targetController: 'any',
-            effect: [ability.effects.entersPlayUnderOpponentsControl()]
-        });
-
         this.interrupt({
             when: {
                 onPhaseStarted: (event, context) =>
