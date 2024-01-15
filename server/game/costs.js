@@ -20,7 +20,6 @@ const Costs = {
                 return false;
             } else if (
                 context.source.hasHouse(context.player.activeHouse) ||
-                context.source.hasKeyword('versatile') ||
                 context.ability.omni
             ) {
                 return true;
@@ -43,8 +42,6 @@ const Costs = {
                 if (context.ignoreHouse || context.player.checkConditions('canUse', context)) {
                     return true;
                 } else if (context.source.hasHouse(context.player.activeHouse)) {
-                    return true;
-                } else if (context.source.hasKeyword('versatile')) {
                     return true;
                 }
 

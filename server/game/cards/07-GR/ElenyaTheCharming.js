@@ -12,10 +12,7 @@ class ElenyaTheCharming extends Card {
             },
             effect: 'give control of {1} to {2}',
             effectArgs: (context) => [context.target, context.player.opponent],
-            condition: (context) => {
-                console.log('HERE');
-                return !!context.player.opponent;
-            },
+            condition: (context) => !!context.player.opponent,
             target: {
                 cardType: 'creature',
                 mode: 'mostStat',

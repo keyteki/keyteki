@@ -39,10 +39,7 @@ class PutIntoPlayAction extends CardGameAction {
             return;
         }
 
-        if (
-            (card.anyEffect('entersPlayUnderOpponentsControl') || card.hasKeyword('treachery')) &&
-            card.owner.opponent
-        ) {
+        if (card.anyEffect('entersPlayUnderOpponentsControl') && card.owner.opponent) {
             player = card.owner.opponent;
         } else {
             player = this.myControl ? context.player : card.controller;
@@ -153,11 +150,7 @@ class PutIntoPlayAction extends CardGameAction {
 
                 let player;
                 let control;
-                if (
-                    (card.anyEffect('entersPlayUnderOpponentsControl') ||
-                        card.hasKeyword('treachery')) &&
-                    card.owner.opponent
-                ) {
+                if (card.anyEffect('entersPlayUnderOpponentsControl') && card.owner.opponent) {
                     player = card.owner.opponent;
                     control = true;
                 } else {
