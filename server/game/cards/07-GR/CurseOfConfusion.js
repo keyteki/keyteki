@@ -6,15 +6,6 @@ class CurseOfConfusion extends Card {
     // At the end of your turn, exhaust each friendly creature of the
     // active house.
     setupCardAbilities(ability) {
-        this.persistentEffect({
-            location: 'any',
-            targetController: 'any',
-            effect: [
-                ability.effects.entersPlayUnderOpponentsControl(),
-                ability.effects.entersPlayReady()
-            ]
-        });
-
         this.interrupt({
             when: {
                 onRoundEnded: (_, context) => context.player === this.game.activePlayer
