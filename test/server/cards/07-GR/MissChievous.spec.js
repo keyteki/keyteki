@@ -26,7 +26,7 @@ describe('Miss Chievous', function () {
             this.player2.moveCard(this.initiation, 'deck');
         });
 
-        it('purges discards top 2 cards for each player when a friendly Geistoid enters play', function () {
+        it('discards top 2 cards for each player when a friendly Geistoid enters play', function () {
             this.player1.playCreature(this.echofly);
             expect(this.gub.location).toBe('discard');
             expect(this.keyToDis.location).toBe('discard');
