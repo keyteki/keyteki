@@ -33,8 +33,7 @@ describe('Distant Void Prober', function () {
 
         it("should prompt for an opponent's creature and have it capture it's controller's amber", function () {
             this.player1.moveCard(this.distantVoidProber, 'hand');
-            this.player1.clickCard(this.distantVoidProber);
-            this.player1.clickPrompt('Discard this card');
+            this.player1.scrap(this.distantVoidProber);
             expect(this.player1).toHavePrompt('Distant Void Prober');
             expect(this.player1).not.toBeAbleToSelect(this.mindwarper);
             expect(this.player1).toBeAbleToSelect(this.urchin);

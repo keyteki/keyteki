@@ -32,8 +32,7 @@ describe('Lieutenant Halasta', function () {
         });
 
         it('can stun the most powerful enemy creature on scrap', function () {
-            this.player1.clickCard(this.lieutenantHalasta);
-            this.player1.clickPrompt('Discard this card');
+            this.player1.scrap(this.lieutenantHalasta);
             expect(this.player1).not.toBeAbleToSelect(this.charette);
             expect(this.player1).not.toBeAbleToSelect(this.cpoZytar);
             expect(this.player1).toBeAbleToSelect(this.flaxia);

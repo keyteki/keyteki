@@ -41,8 +41,7 @@ describe('Rorag Screamer', function () {
         });
 
         it('can make a creature lose armor for the turn', function () {
-            this.player1.clickCard(this.roragScreamer);
-            this.player1.clickPrompt('Discard this card');
+            this.player1.scrap(this.roragScreamer);
             this.player1.clickCard(this.cornicenOctavia);
             this.player1.fightWith(this.alaka, this.cornicenOctavia);
             expect(this.cornicenOctavia.tokens.damage).toBe(4);

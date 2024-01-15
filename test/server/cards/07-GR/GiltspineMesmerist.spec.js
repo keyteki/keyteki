@@ -41,15 +41,13 @@ describe('Giltspine Mesmerist', function () {
         });
 
         it('can discard from controller deck on scrap', function () {
-            this.player1.clickCard(this.giltspineMesmerist);
-            this.player1.clickPrompt('Discard this card');
+            this.player1.scrap(this.giltspineMesmerist);
             this.player1.clickPrompt('Mine');
             expect(this.player1.player.discard.length).toBe(4);
         });
 
         it('can discard from opponent deck on scrap', function () {
-            this.player1.clickCard(this.giltspineMesmerist);
-            this.player1.clickPrompt('Discard this card');
+            this.player1.scrap(this.giltspineMesmerist);
             this.player1.clickPrompt("Opponent's");
             expect(this.player2.player.discard.length).toBe(3);
         });

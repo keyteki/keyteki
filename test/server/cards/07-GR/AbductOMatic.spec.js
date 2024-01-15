@@ -45,8 +45,7 @@ describe('Abduct-o-matic', function () {
         });
 
         it('captures onto least powerful friendly creature', function () {
-            this.player1.clickCard(this.abductOMatic);
-            this.player1.clickPrompt('Discard this card');
+            this.player1.scrap(this.abductOMatic);
             expect(this.player1).toHavePrompt('Choose a creature');
             expect(this.player1).not.toBeAbleToSelect(this.chuffApe);
             expect(this.player1).toBeAbleToSelect(this.blypyp);
@@ -58,8 +57,7 @@ describe('Abduct-o-matic', function () {
             expect(this.urchin.amber).toBe(0);
 
             this.abductomatic2 = this.player1.findCardByName('abduct-o-matic', 'hand');
-            this.player1.clickCard(this.abductomatic2);
-            this.player1.clickPrompt('Discard this card');
+            this.player1.scrap(this.abductomatic2);
             expect(this.player1).toHavePrompt('Choose a creature');
             this.player1.clickCard('Mindwarper');
             expect(this.player2.amber).toBe(0);

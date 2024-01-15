@@ -74,8 +74,7 @@ describe('Hukaru Icefin', function () {
         });
 
         it('should exhaust a creature on scrap', function () {
-            this.player1.clickCard(this.hukaruIcefin);
-            this.player1.clickPrompt('Discard this card');
+            this.player1.scrap(this.hukaruIcefin);
             expect(this.player1).toBeAbleToSelect(this.ancientBear);
             expect(this.player1).toBeAbleToSelect(this.cpoZytar);
             expect(this.player1).toBeAbleToSelect(this.mindwarper);

@@ -36,8 +36,7 @@ describe('Staff Sergeant Rhea', function () {
         });
 
         it('can ready and use a friendly creature on scrap', function () {
-            this.player1.clickCard(this.staffSergeantRhea);
-            this.player1.clickPrompt('Discard this card');
+            this.player1.scrap(this.staffSergeantRhea);
             this.player1.clickCard(this.charette);
             this.player1.clickPrompt('Reap with this creature');
             expect(this.player1.amber).toBe(2);

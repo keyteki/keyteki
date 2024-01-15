@@ -28,8 +28,7 @@ describe('Essence Entangler', function () {
 
         it('can move an amber on scrap', function () {
             this.charette.tokens.amber = 2;
-            this.player1.clickCard(this.essenceEntangler);
-            this.player1.clickPrompt('Discard this card');
+            this.player1.scrap(this.essenceEntangler);
             this.player1.clickCard(this.charette);
             this.player1.clickCard(this.senatorShrix);
             expect(this.charette.amber).toBe(1);

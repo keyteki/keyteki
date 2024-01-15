@@ -75,8 +75,7 @@ describe('Tutor Bin-Rillo', function () {
         });
 
         it('can draw one for each player scrap', function () {
-            this.player1.clickCard(this.tutorBinRillo);
-            this.player1.clickPrompt('Discard this card');
+            this.player1.scrap(this.tutorBinRillo);
             expect(this.player1.player.hand.length).toBe(5);
             expect(this.player2.player.hand.length).toBe(2);
             expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
