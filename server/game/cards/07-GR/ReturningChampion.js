@@ -17,7 +17,7 @@ class ReturningChampion extends Card {
             condition: (context) =>
                 context.source.controller.isHaunted() && context.source.hasToken('damage'),
             target: {
-                activePromptTitle: 'Choose a creature to deal damage to',
+                activePromptTitle: 'Choose a creature to move damage to',
                 cardCondition: (card, context) => card !== context.source,
                 cardType: 'creature',
                 gameAction: [
@@ -25,7 +25,7 @@ class ReturningChampion extends Card {
                         target: context.target,
                         amount: context.source.tokens.damage
                     })),
-                    ability.actions.heal((context) => ({
+                    ability.actions.removeDamage((context) => ({
                         target: context.source,
                         amount: context.source.tokens.damage
                     }))
