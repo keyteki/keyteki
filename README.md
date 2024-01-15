@@ -59,12 +59,14 @@ In another terminal, run the following command:
 docker-compose exec lobby node server/scripts/fetchdata
 ```
 
+Fetchdata takes a while to run, and some images may error out due to API rate limits. If that happens, run it again - it will be faster the second time. Once finished, restart the server.
+
 ### Non Docker
 
 #### Required Software
 
 -   Git
--   Node.js 8
+-   Node.js 16
 -   PostgreSQL
 -   Redis
 
@@ -134,9 +136,9 @@ PORT={port} SERVER={node-name} node server/gamenode
 
 ### Running and Testing
 
-The game server should be accessible by browsing to localhost:4000.
+The game server should be accessible by browsing to [localhost:4000](http://localhost:4000).
 
-The docker setup creates a default 'admin' user with the password of 'password'.
+The docker setup creates a default 'admin' user, and test users 'test0' and 'test1', with the passwords set to 'password'.
 
 You can register 2 or more users, to play against yourself.
 They can have fake email addresses.
@@ -164,6 +166,12 @@ Then, to run the tests:
 
 ```
 npm test
+```
+
+To run a specific test, you can specify the file. To see game logs, set `DEBUG_TEST=1`:
+
+```
+DEBUG_TEST=1 npm test -- test/server/cards/01-Core/AFairGame.spec.js
 ```
 
 ### Coding Guidelines
