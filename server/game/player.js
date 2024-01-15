@@ -680,6 +680,9 @@ class Player extends GameObject {
     }
 
     isHaunted() {
+        if (this.anyEffect('countPurgedForHaunted')) {
+            return this.discard.length + this.purged.length >= 10;
+        }
         return this.discard.length >= 10;
     }
 

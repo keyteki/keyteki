@@ -108,6 +108,7 @@ const Effects = {
     canUse: (match) => EffectBuilder.player.static('canUse', new CanUse(match)),
     canUseHouse: (house) => EffectBuilder.player.static('canUseHouse', house),
     chooseCardsFromArchives: (card) => EffectBuilder.player.static('chooseCardsFromArchives', card),
+    countPurgedForHaunted: () => EffectBuilder.player.static('countPurgedForHaunted'),
     customDetachedPlayer: (properties) => EffectBuilder.player.detached('customEffect', properties),
     delayedEffect: (properties) =>
         EffectBuilder.player.detached('delayedEffect', {
