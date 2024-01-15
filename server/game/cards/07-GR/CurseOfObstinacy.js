@@ -6,15 +6,6 @@ class CurseOfObstinacy extends Card {
     // At the end of your turn, stun each friendly non-flank creature
     // that shares a house with one of its neighbors.
     setupCardAbilities(ability) {
-        this.persistentEffect({
-            location: 'any',
-            targetController: 'any',
-            effect: [
-                ability.effects.entersPlayUnderOpponentsControl(),
-                ability.effects.entersPlayReady()
-            ]
-        });
-
         this.interrupt({
             when: {
                 onRoundEnded: (_, context) => context.player === this.game.activePlayer
