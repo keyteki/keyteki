@@ -4,11 +4,10 @@ class PhantomDrummernaut extends Card {
     // Play/After Fight: Return a creature from your discard pile to
     // your hand.
     //
-    // Destroyed: If you are haunted, archive Encounter Golem.
+    // Destroyed: If you are haunted, archive Phantom Drummernaut.
     setupCardAbilities(ability) {
         this.play({
             fight: true,
-            reap: true,
             target: {
                 cardType: 'creature',
                 controller: 'self',

@@ -40,13 +40,6 @@ describe('Phantom Drummernaut', function () {
                 expect(this.troll.location).toBe('discard');
             });
 
-            it('on reap brings a creature from your discard to your hand', function () {
-                this.player1.reap(this.phantomDrummernaut);
-                this.player1.clickCard(this.troll);
-                expect(this.troll.location).toBe('hand');
-                expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
-            });
-
             it('on fight brings a creature from your discard to your hand', function () {
                 this.player1.fightWith(this.phantomDrummernaut, this.huntingWitch);
                 this.player1.clickCard(this.troll);
