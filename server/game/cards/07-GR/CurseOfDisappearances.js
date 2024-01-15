@@ -7,12 +7,6 @@ class CurseOfDisappearances extends Card {
     // archives. If that card leaves their archives, put it into its owner's
     // hand instead.
     setupCardAbilities(ability) {
-        this.persistentEffect({
-            location: 'any',
-            targetController: 'any',
-            effect: [ability.effects.entersPlayUnderOpponentsControl()]
-        });
-
         this.interrupt({
             when: {
                 onRoundEnded: (_, context) => context.player === this.game.activePlayer
