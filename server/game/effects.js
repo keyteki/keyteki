@@ -61,6 +61,8 @@ const Effects = {
         EffectBuilder.card.static('replaceDamage', { action, targetFunc }),
     resolveBonusIconsAdditionalTime: () =>
         EffectBuilder.card.static('resolveBonusIconsAdditionalTime'),
+    returnToHandFromDiscardAnytime: () =>
+        EffectBuilder.card.static('returnToHandFromDiscardAnytime'),
     setArmor: (amount) => EffectBuilder.card.flexible('setArmor', amount),
     setPower: (amount) => EffectBuilder.card.flexible('setPower', amount),
     takeControl: (player) => EffectBuilder.card.flexible('takeControl', player),
