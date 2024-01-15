@@ -15,14 +15,8 @@ class DeEscalation extends Card {
             ],
             gameAction: ability.actions.sequential([
                 ability.actions.destroy((context) => ({ target: context.game.creaturesInPlay })),
-                ability.actions.conditional((context) => ({
-                    condition: context.player.opponent && context.player.opponent.deck.length > 0,
-                    trueGameAction: ability.actions.archive({
-                        target: context.player.opponent.deck.slice(
-                            0,
-                            Math.min(context.player.deck.length, 3)
-                        )
-                    })
+                ability.actions.archive((context) => ({
+                    target: context.player.opponent ? context.player.opponent.deck.slice(0, 3) : []
                 }))
             ])
         });
