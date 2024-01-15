@@ -33,8 +33,7 @@ describe('Immersioneer', function () {
         });
 
         it('should shuffle bottom 3 of discard into deck on scrap', function () {
-            this.player1.clickCard(this.immersioneer);
-            this.player1.clickPrompt('Discard this card');
+            this.player1.scrap(this.immersioneer);
             expect(this.player1.player.discard.length).toBe(2);
             expect(this.immersioneer.location).toBe('discard');
             expect(this.crushingDeep.location).toBe('discard');
@@ -47,8 +46,7 @@ describe('Immersioneer', function () {
             this.player1.moveCard(this.crushingDeep, 'hand');
             this.player1.moveCard(this.ancientBear, 'hand');
             this.player1.moveCard(this.cpoZytar, 'hand');
-            this.player1.clickCard(this.immersioneer);
-            this.player1.clickPrompt('Discard this card');
+            this.player1.scrap(this.immersioneer);
             expect(this.player1.player.discard.length).toBe(0);
             expect(this.immersioneer.location).toBe('deck');
             expect(this.crushingDeep.location).toBe('hand');

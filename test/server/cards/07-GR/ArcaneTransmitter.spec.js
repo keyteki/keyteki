@@ -78,8 +78,7 @@ describe('Arcane Transmitter', function () {
         it('can shuffle your discard pile into your deck on scrap', function () {
             let shuffled = null;
             this.player1.player.game.on('onDeckShuffled', (event) => (shuffled = event.player));
-            this.player1.clickCard(this.arcaneTransmitter);
-            this.player1.clickPrompt('Discard this card');
+            this.player1.scrap(this.arcaneTransmitter);
             expect(this.player1.player.discard.length).toBe(0);
             expect(shuffled).toBe(this.player1.player);
             expect(this.crushingDeep.location).toBe('deck');

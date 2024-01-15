@@ -38,8 +38,7 @@ describe('Missile Officer Myers', function () {
         });
 
         it('can discard a card and resolve its play ability on scrap', function () {
-            this.player1.clickCard(this.missileOfficerMyers);
-            this.player1.clickPrompt('Discard this card');
+            this.player1.scrap(this.missileOfficerMyers);
             this.player1.clickCard(this.exhume);
             this.player1.clickCard(this.gub);
             this.player1.clickPrompt('Left');
