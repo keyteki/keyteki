@@ -5,6 +5,7 @@ describe('Kaspara', function () {
                 player1: {
                     amber: 3,
                     house: 'geistoid',
+                    hand: ['shadys'],
                     inPlay: ['kaspara', 'echofly']
                 },
                 player2: {
@@ -19,6 +20,12 @@ describe('Kaspara', function () {
             expect(this.kaspara.power).toBe(5);
             this.player1.reap(this.kaspara);
             expect(this.kaspara.power).toBe(6);
+        });
+
+        it('gives friendly geistoid creatures a play effect', function () {
+            this.player1.playCreature(this.shadys);
+            expect(this.player1.amber).toBe(4);
+            expect(this.player2.amber).toBe(3);
         });
 
         it('gives friendly geistoid creatures a destroyed effect', function () {
