@@ -8,6 +8,7 @@ class AutoEncoder extends Card {
                 onCardDiscarded: (event, context) =>
                     event.location === 'hand' && event.card.controller === context.player
             },
+            effect: 'archive the top card of their deck',
             gameAction: ability.actions.archive((context) => ({
                 target: context.player.deck.length > 0 ? context.player.deck[0] : []
             }))
