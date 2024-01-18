@@ -26,7 +26,8 @@ const player = {
     checkRestrictions: () => true,
     getForgedKeys: () => 0,
     isTideHigh: () => true,
-    isTideLow: () => false
+    isTideLow: () => false,
+    isHaunted: () => true
 };
 player.opponent = player;
 card.controller = player;
