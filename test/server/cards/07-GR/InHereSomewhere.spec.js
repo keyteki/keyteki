@@ -29,7 +29,7 @@ describe('In Here Somewhere...', function () {
             expect(this.player1).toBeAbleToSelect(this.shadys);
             expect(this.player1).toBeAbleToSelect(this.purseAPhone);
             this.player1.clickCard(this.shadys);
-            expect(this.player1).not.toHavePrompt('Done');
+            expect(this.player1).not.toHavePromptButton('Done');
             this.player1.clickCard(this.purseAPhone);
             this.player1.clickPrompt('Done');
             expect(this.shadys.location).toBe('archives');
