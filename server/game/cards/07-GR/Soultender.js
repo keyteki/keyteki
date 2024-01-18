@@ -15,7 +15,7 @@ class Soultender extends Card {
                 gameAction: [
                     ability.actions.heal((context) => ({
                         target: context.game.creaturesInPlay.filter((c) => c.hasTrait('specter')),
-                        fully: 3
+                        fully: true
                     })),
                     ability.actions.ward((context) => ({
                         target: context.game.creaturesInPlay.filter((c) => c.hasTrait('specter'))
