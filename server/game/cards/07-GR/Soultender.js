@@ -12,10 +12,16 @@ class Soultender extends Card {
             })),
             then: {
                 alwaysTriggers: true,
-                gameAction: ability.actions.ward((context) => ({
-                    target: context.game.creaturesInPlay.filter((c) => c.hasTrait('specter'))
-                })),
-                message: '{0} uses {1} to ward {3}',
+                gameAction: [
+                    ability.actions.heal((context) => ({
+                        target: context.game.creaturesInPlay.filter((c) => c.hasTrait('specter')),
+                        fully: 3
+                    })),
+                    ability.actions.ward((context) => ({
+                        target: context.game.creaturesInPlay.filter((c) => c.hasTrait('specter'))
+                    }))
+                ],
+                message: '{0} uses {1} to heal and ward {3}',
                 messageArgs: (context) => [
                     context.game.creaturesInPlay.filter((c) => c.hasTrait('specter'))
                 ]

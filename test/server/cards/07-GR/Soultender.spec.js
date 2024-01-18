@@ -19,6 +19,7 @@ describe('Soultender', function () {
             this.soultender2.amber = 1;
             this.shadowSelf.amber = 1;
             this.flaxia.amber = 4;
+            this.shadowSelf.tokens.damage = 5;
         });
 
         it('removes amber from each Specter on play', function () {
@@ -31,7 +32,7 @@ describe('Soultender', function () {
             expect(this.flaxia.amber).toBe(4);
         });
 
-        it('wards each Specter on play', function () {
+        it('heals and wards each Specter on play', function () {
             this.player1.playCreature(this.soultender2);
             expect(this.charette.warded).toBe(false);
             expect(this.theGrimReaper.warded).toBe(true);
@@ -39,6 +40,7 @@ describe('Soultender', function () {
             expect(this.soultender2.warded).toBe(true);
             expect(this.shadowSelf.warded).toBe(true);
             expect(this.flaxia.warded).toBe(false);
+            expect(this.shadowSelf.tokens.damage).toBe(undefined);
         });
 
         it('also removes amber and wards on reap', function () {
@@ -53,6 +55,7 @@ describe('Soultender', function () {
             expect(this.soultender.warded).toBe(true);
             expect(this.shadowSelf.warded).toBe(true);
             expect(this.flaxia.warded).toBe(false);
+            expect(this.shadowSelf.tokens.damage).toBe(undefined);
         });
     });
 });
