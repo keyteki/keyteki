@@ -13,13 +13,13 @@ describe('Reaver', function () {
                     inPlay: ['thing-from-the-deep']
                 }
             });
+            this.charette.amber = 3;
         });
 
         it('on reap moves 1 amber to your pool and discards a card', function () {
-            this.charette.amber = 3;
             this.player1.reap(this.reaver);
             expect(this.player1).toBeAbleToSelect(this.charette);
-            expect(this.player1).not.toBeAbleToSelect(this.reaver);
+            expect(this.player1).toBeAbleToSelect(this.reaver);
             expect(this.player1).not.toBeAbleToSelect(this.thingFromTheDeep);
             this.player1.clickCard(this.charette);
             expect(this.charette.amber).toBe(2);
@@ -34,6 +34,7 @@ describe('Reaver', function () {
 
         it('does nothing when there is no amber to move', function () {
             this.player1.reap(this.reaver);
+            this.player1.clickCard(this.reaver);
             expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
         });
     });

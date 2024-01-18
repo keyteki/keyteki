@@ -7,7 +7,7 @@ class Reaver extends Card {
         this.reap({
             target: {
                 activePromptTitle: 'Choose a captured amber to move to your pool.',
-                cardCondition: (card) => card.hasToken('amber'),
+                cardType: 'creature',
                 controller: 'self',
                 gameAction: ability.actions.removeAmber()
             },
