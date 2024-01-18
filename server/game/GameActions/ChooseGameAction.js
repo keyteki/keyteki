@@ -45,8 +45,10 @@ class ChooseGameAction extends GameAction {
         super.preEventHandler(context);
         let activePromptTitle = this.activePromptTitle;
         let choices = Object.keys(this.choices);
-        choices = choices.filter((key) =>
-            this.choices[key].some((action) => action.hasLegalTarget(context))
+        choices = choices.filter(
+            (key) =>
+                this.choices[key].some((action) => action.hasLegalTarget(context)) ||
+                this.choices[key].length === 0
         );
         let handlers = choices.map((choice) => {
             return () => {
