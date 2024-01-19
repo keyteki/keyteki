@@ -28,8 +28,10 @@ class ConditionalAction extends GameAction {
         }
 
         let gameAction = condition ? this.trueGameAction : this.falseGameAction;
-        for (let action of gameAction) {
-            action.preEventHandler(context);
+        if (gameAction) {
+            for (let action of gameAction) {
+                action.preEventHandler(context);
+            }
         }
     }
 
