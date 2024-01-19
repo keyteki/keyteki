@@ -30,7 +30,7 @@ describe('The Red Death', function () {
             expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
         });
 
-        it('does ready at end of turn if haunted', function () {
+        it('ready at end of turn if haunted', function () {
             this.player1.play(this.cloneHome);
             this.player1.endTurn();
             this.player2.clickPrompt('brobnar');
