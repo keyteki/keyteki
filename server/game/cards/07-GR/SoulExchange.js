@@ -1,9 +1,9 @@
 const Card = require('../../Card.js');
 
 function firstCreatureInDiscard(context) {
-    return !context.select || context.select === 'Mine'
-        ? context.player.discard.find((c) => c.type === 'creature')
-        : context.player.opponent.discard.find((c) => c.type === 'creature');
+    const player =
+        !context.select || context.select === 'Mine' ? context.player : context.player.opponent;
+    return player.discard.find((c) => c.type === 'creature');
 }
 
 class SoulExchange extends Card {
