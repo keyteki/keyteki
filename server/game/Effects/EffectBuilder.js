@@ -4,7 +4,6 @@ const CardEffect = require('./CardEffect');
 const PlayerEffect = require('./PlayerEffect');
 const StaticEffect = require('./StaticEffect');
 const DynamicEffect = require('./DynamicEffect');
-const DynamicPropertiesEffect = require('./DynamicPropertiesEffect');
 const DetachedEffect = require('./DetachedEffect');
 
 const EffectBuilder = {
@@ -13,8 +12,6 @@ const EffectBuilder = {
             new CardEffect(game, source, props, new StaticEffect(type, value)),
         dynamic: (type, value) => (game, source, props) =>
             new CardEffect(game, source, props, new DynamicEffect(type, value)),
-        dynamicProperties: (type, value) => (game, source, props) =>
-            new CardEffect(game, source, props, new DynamicPropertiesEffect(type, value)),
         detached: (type, value) => (game, source, props) =>
             new CardEffect(
                 game,
@@ -25,10 +22,6 @@ const EffectBuilder = {
         flexible: (type, value) =>
             _.isFunction(value)
                 ? EffectBuilder.card.dynamic(type, value)
-                : EffectBuilder.card.static(type, value),
-        flexibleProperties: (type, value) =>
-            _.isFunction(value)
-                ? EffectBuilder.card.dynamicProperties(type, value)
                 : EffectBuilder.card.static(type, value)
     },
     player: {
