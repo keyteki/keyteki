@@ -13,14 +13,13 @@ class Technorachnophobia extends Card {
                     context.preThenEvents &&
                     context.preThenEvents
                         .flatMap((event) => event.card.getHouses())
-                        .filter((h, i, a) => a.indexOf(h) === i) // get the list of unique houses
-                        .some(
-                            (h) =>
-                                context.preThenEvents.reduce(
-                                    (total, x) => total + (x.card.hasHouse(h) ? 1 : 0),
-                                    0
-                                ) >= 5
-                        ), // does any house match 5 or more cards?
+                        .reduce((obj, str) => {
+                            if (obj === true) {
+                                return true;
+                            }
+                            obj[str] = (obj[str] || 0) + 1;
+                            return obj[str] >= 5 ? true : obj;
+                        }, {}) === true,
                 gameAction: ability.actions.steal({
                     amount: 2
                 })
