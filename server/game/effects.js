@@ -16,7 +16,7 @@ const Effects = {
     actionCardLocationAfterPlay: (location) =>
         EffectBuilder.card.static('actionCardLocationAfterPlay', location),
     addHouse: (house) => EffectBuilder.card.static('addHouse', house),
-    addKeyword: (keyword) => EffectBuilder.card.static('addKeyword', keyword),
+    addKeyword: (keyword) => EffectBuilder.card.flexible('addKeyword', keyword),
     addTrait: (trait) => EffectBuilder.card.static('addTrait', trait),
     blank: () => EffectBuilder.card.static('blank'),
     blankFight: () => EffectBuilder.card.static('blankFight'),
