@@ -39,8 +39,7 @@ describe('Squallmaster', function () {
         });
 
         it('should exhaust an enemy creature on scrap', function () {
-            this.player1.clickCard(this.squallmaster);
-            this.player1.clickPrompt('Discard this card');
+            this.player1.scrap(this.squallmaster);
             expect(this.player1).not.toBeAbleToSelect(this.ancientBear);
             expect(this.player1).not.toBeAbleToSelect(this.cpoZytar);
             expect(this.player1).toBeAbleToSelect(this.mindwarper);

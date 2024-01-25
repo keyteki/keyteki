@@ -1302,7 +1302,7 @@ class Game extends EventEmitter {
 
         this.activePlayer.activeHouse = null;
 
-        if (this.activePlayer.opponent) {
+        if (this.activePlayer.opponent && !this.activePlayer.anyEffect('anotherTurn')) {
             this.activePlayer = this.activePlayer.opponent;
         }
 

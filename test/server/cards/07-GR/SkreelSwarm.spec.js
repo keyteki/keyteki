@@ -22,15 +22,13 @@ describe('Skreel Swarm', function () {
         });
 
         it('may archive itself on scrap', function () {
-            this.player1.clickCard(this.skreelSwarm);
-            this.player1.clickPrompt('Discard this card');
+            this.player1.scrap(this.skreelSwarm);
             this.player1.clickCard(this.skreelSwarm);
             expect(this.skreelSwarm.location).toBe('archives');
         });
 
         it('may not archive itself on scrap', function () {
-            this.player1.clickCard(this.skreelSwarm);
-            this.player1.clickPrompt('Discard this card');
+            this.player1.scrap(this.skreelSwarm);
             this.player1.clickPrompt('Done');
             expect(this.skreelSwarm.location).toBe('discard');
         });

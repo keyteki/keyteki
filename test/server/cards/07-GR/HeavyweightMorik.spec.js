@@ -27,8 +27,7 @@ describe('Heavyweight Morik', function () {
         });
 
         it('can deal damage on scrap', function () {
-            this.player1.clickCard(this.heavyweightMorik);
-            this.player1.clickPrompt('Discard this card');
+            this.player1.scrap(this.heavyweightMorik);
             expect(this.player1).toBeAbleToSelect(this.oldBruno);
             expect(this.player1).toBeAbleToSelect(this.flaxia);
             expect(this.player1).toBeAbleToSelect(this.dustPixie);

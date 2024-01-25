@@ -14,8 +14,7 @@ describe('Ornar Skullface', function () {
         });
 
         it('can deal 3 damage to a creature on scrap', function () {
-            this.player1.clickCard(this.ornarSkullface);
-            this.player1.clickPrompt('Discard this card');
+            this.player1.scrap(this.ornarSkullface);
             expect(this.player1).toBeAbleToSelect(this.troll);
             expect(this.player1).toBeAbleToSelect(this.flaxia);
             this.player1.clickCard(this.flaxia);

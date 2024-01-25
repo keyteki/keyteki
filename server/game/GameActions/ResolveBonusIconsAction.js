@@ -91,6 +91,27 @@ class ResolveBonusIconsAction extends CardGameAction {
                     });
                 }
                 break;
+            case 'discard':
+                if (context.player.hand.length > 0) {
+                    context.game.promptForSelect(context.game.activePlayer, {
+                        activePromptTitle: 'Choose a card to discard due to bonus icon',
+                        source: event.card,
+                        location: 'hand',
+                        onSelect: (player, card) => {
+                            context.game.actions
+                                .discard()
+                                .resolve(card, context.game.getFrameworkContext(player));
+                            context.game.addMessage(
+                                "{0} discards {1} due to {2}'s bonus icon",
+                                player,
+                                card,
+                                event.card
+                            );
+                            return true;
+                        }
+                    });
+                }
+                break;
         }
     }
 

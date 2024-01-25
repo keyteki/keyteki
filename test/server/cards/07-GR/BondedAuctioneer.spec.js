@@ -60,8 +60,7 @@ describe('Bonded Auctioneer', function () {
         });
 
         it('can return own artifact to hand on scrap', function () {
-            this.player1.clickCard(this.bondedAuctioneer);
-            this.player1.clickPrompt('Discard this card');
+            this.player1.scrap(this.bondedAuctioneer);
             expect(this.player1).not.toBeAbleToSelect(this.ornateTalkingTray);
             expect(this.player1).toBeAbleToSelect(this.seekerNeedle);
             expect(this.player1).toBeAbleToSelect(this.uncommonCurrency);
@@ -73,8 +72,7 @@ describe('Bonded Auctioneer', function () {
         });
 
         it('can return opponent artifact to hand on scrap', function () {
-            this.player1.clickCard(this.bondedAuctioneer);
-            this.player1.clickPrompt('Discard this card');
+            this.player1.scrap(this.bondedAuctioneer);
             this.player1.clickCard(this.quixxleStone);
             expect(this.quixxleStone.location).toBe('hand');
             expect(this.player2.player.hand).toContain(this.quixxleStone);
@@ -84,8 +82,7 @@ describe('Bonded Auctioneer', function () {
         it('can return stolen artifact to hand on scrap', function () {
             this.player1.useAction(this.uncommonCurrency);
             this.player1.clickCard(this.quixxleStone);
-            this.player1.clickCard(this.bondedAuctioneer);
-            this.player1.clickPrompt('Discard this card');
+            this.player1.scrap(this.bondedAuctioneer);
             this.player1.clickCard(this.quixxleStone);
             expect(this.quixxleStone.location).toBe('hand');
             expect(this.player2.player.hand).toContain(this.quixxleStone);

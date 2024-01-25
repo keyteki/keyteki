@@ -15,8 +15,7 @@ describe('Witch of the Spore', function () {
         });
 
         it('deals damage to enemy creature when discarded', function () {
-            this.player1.clickCard(this.witchOfTheSpore);
-            this.player1.clickPrompt('Discard this card');
+            this.player1.scrap(this.witchOfTheSpore);
             expect(this.player1).toBeAbleToSelect(this.troll);
             expect(this.player1).not.toBeAbleToSelect(this.dustPixie);
             this.player1.clickCard(this.troll);
@@ -26,8 +25,7 @@ describe('Witch of the Spore', function () {
 
         it('does nothing on discard with no enemy creatures', function () {
             this.player2.moveCard(this.troll, 'discard');
-            this.player1.clickCard(this.witchOfTheSpore);
-            this.player1.clickPrompt('Discard this card');
+            this.player1.scrap(this.witchOfTheSpore);
             expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
         });
     });
