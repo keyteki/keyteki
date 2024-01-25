@@ -22,7 +22,15 @@ function playLastDiscardedCardAndDestroyNeighbors(ability) {
             target: context.preThenEvents[context.preThenEvents.length - 1].card
         })),
         ability.actions.destroy((context) => ({
-            target: context.preThenEvents[context.preThenEvents.length - 1].card.neighbors
+            promptForSelect: {
+                activePromptTitle: 'Choose a creature to destroy',
+                cardCondition: (c) =>
+                    context.preThenEvents[context.preThenEvents.length - 1].card.neighbors.includes(
+                        c
+                    ),
+                message: '{0} uses {1} to destroy {2}',
+                messageArgs: (card) => [context.player, context.source, card]
+            }
         }))
     ]);
 }
@@ -33,8 +41,7 @@ function putIntoPlayMessageArgs(context, player) {
             ? 'put ' +
               context.preThenEvents[context.preThenEvents.length - 1].card.name +
               ' into play for ' +
-              player.name +
-              ' and destroy its neighbor'
+              player.name
             : 'do nothing for ' + player.name
     ];
 }
