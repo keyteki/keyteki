@@ -44,8 +44,7 @@ describe('Forgotten Guardian', function () {
 
         it('can return a purged card on scrap', function () {
             expect(this.cursedRelic.location).toBe('purged');
-            this.player1.clickCard(this.forgottenGuardian);
-            this.player1.clickPrompt('Discard this card');
+            this.player1.scrap(this.forgottenGuardian);
             expect(this.player1).toBeAbleToSelect(this.cursedRelic);
             this.player1.clickCard(this.cursedRelic);
             expect(this.player1).toHavePrompt('Choose a card to play, discard or use');

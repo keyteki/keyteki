@@ -37,8 +37,7 @@ describe('Jervi', function () {
 
         it('can archive a card from discard on scrap', function () {
             this.player1.play(this.fertilityChant);
-            this.player1.clickCard(this.jervi);
-            this.player1.clickPrompt('Discard this card');
+            this.player1.scrap(this.jervi);
             expect(this.player1).toBeAbleToSelect(this.dustPixie);
             expect(this.player1).toBeAbleToSelect(this.fertilityChant);
             expect(this.player1).toBeAbleToSelect(this.jervi);
@@ -51,8 +50,7 @@ describe('Jervi', function () {
         });
 
         it('can archive itself on scrap', function () {
-            this.player1.clickCard(this.jervi);
-            this.player1.clickPrompt('Discard this card');
+            this.player1.scrap(this.jervi);
             this.player1.clickCard(this.jervi);
             expect(this.jervi.location).toBe('archives');
             expect(this.player1.player.archives).toContain(this.jervi);

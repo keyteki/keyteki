@@ -5,18 +5,7 @@ describe('Ghost Tree', function () {
                 player1: {
                     house: 'untamed',
                     hand: ['ghost-tree', 'fertility-chant'],
-                    discard: [
-                        // not yet haunted
-                        'poke',
-                        'poke',
-                        'poke',
-                        'poke',
-                        'poke',
-                        'poke',
-                        'poke',
-                        'poke',
-                        'poke'
-                    ],
+                    discard: new Array(9).fill('poke'), // not yet haunted
                     deck: ['poke', 'poke', 'poke', 'poke', 'poke']
                 },
                 player2: {
@@ -46,8 +35,7 @@ describe('Ghost Tree', function () {
 
         it('discards 5 cards from deck on scrap', function () {
             expect(this.player1.player.discard.length).toBe(9);
-            this.player1.clickCard(this.ghostTree);
-            this.player1.clickPrompt('Discard this card');
+            this.player1.scrap(this.ghostTree);
             expect(this.player1.player.discard.length).toBe(15);
         });
     });

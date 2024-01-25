@@ -168,7 +168,7 @@ class Player extends GameObject {
         }
 
         for (let card of this.deck.slice(0, numCards)) {
-            this.moveCard(card, 'hand');
+            this.moveCard(card, 'hand', { drawn: true });
         }
 
         if (remainingCards > 0 && this.discard.length > 0) {
@@ -186,14 +186,13 @@ class Player extends GameObject {
             this.moveCard(card, 'deck', { aboutToShuffle: true });
         }
 
-        this.shuffleDeck();
+        this.shuffleDeck(true);
     }
 
     /**
      * Shuffles the deck, emitting an event and displaying a message in chat
      */
-    shuffleDeck() {
-        this.game.emitEvent('onDeckShuffled', { player: this });
+    shuffleDeck(shuffledDiscardIntoDeck = false) {
         this.deck = _.shuffle(this.deck);
         if (this.isTopCardOfDeckVisible() && this.deck.length > 0) {
             this.deck[0].facedown = false;
@@ -202,6 +201,10 @@ class Player extends GameObject {
             });
             this.addTopCardOfDeckVisibleMessage();
         }
+        this.game.raiseEvent('onDeckShuffled', {
+            player: this,
+            shuffledDiscardIntoDeck: shuffledDiscardIntoDeck
+        });
     }
 
     /**
@@ -564,13 +567,15 @@ class Player extends GameObject {
         this.game.raiseEvent('onCardPlaced', {
             card: card,
             from: location,
-            to: targetLocation
+            to: targetLocation,
+            drawn: options.drawn
         });
         if (composedPart) {
             this.game.raiseEvent('onCardPlaced', {
                 card: composedPart,
                 from: location,
-                to: targetLocation
+                to: targetLocation,
+                drawn: options.drawn
             });
         }
 
@@ -675,6 +680,9 @@ class Player extends GameObject {
     }
 
     isHaunted() {
+        if (this.anyEffect('countPurgedForHaunted')) {
+            return this.discard.length + this.purged.length >= 10;
+        }
         return this.discard.length >= 10;
     }
 

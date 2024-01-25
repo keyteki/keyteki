@@ -19,6 +19,22 @@ class ConditionalAction extends GameAction {
         }
     }
 
+    preEventHandler(context) {
+        this.update(context);
+
+        let condition = this.condition;
+        if (typeof condition === 'function') {
+            condition = condition(context);
+        }
+
+        let gameAction = condition ? this.trueGameAction : this.falseGameAction;
+        if (gameAction) {
+            for (let action of gameAction) {
+                action.preEventHandler(context);
+            }
+        }
+    }
+
     setTarget(target) {
         if (this.trueGameAction && !Array.isArray(this.trueGameAction)) {
             this.trueGameAction = [this.trueGameAction];

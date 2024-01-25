@@ -6,17 +6,7 @@ describe('Lost in the Wild', function () {
                     house: 'untamed',
                     hand: ['lost-in-the-wild', 'fertility-chant'],
                     inPlay: ['hunting-witch', 'flaxia', 'fandangle', 'dust-pixie', 'chelonia'],
-                    discard: [
-                        'poke', // not yet haunted
-                        'poke',
-                        'poke',
-                        'poke',
-                        'poke',
-                        'poke',
-                        'poke',
-                        'poke',
-                        'poke'
-                    ]
+                    discard: new Array(9).fill('poke') // not yet haunted
                 },
                 player2: {
                     inPlay: ['dextre', 'roxador', 'francis-the-economist']

@@ -7,32 +7,12 @@ describe('The Circle of Life', function () {
                     house: 'untamed',
                     hand: ['the-circle-of-life'],
                     inPlay: ['dust-pixie', 'roxador'],
-                    discard: [
-                        'poke', // not yet haunted
-                        'poke',
-                        'poke',
-                        'poke',
-                        'poke',
-                        'poke',
-                        'poke',
-                        'poke',
-                        'poke'
-                    ]
+                    discard: new Array(9).fill('poke') // not yet haunted
                 },
                 player2: {
                     amber: 1,
                     inPlay: ['gloriana-s-attendant', 'troll'],
-                    discard: [
-                        'poke', // not yet haunted
-                        'poke',
-                        'poke',
-                        'poke',
-                        'poke',
-                        'poke',
-                        'poke',
-                        'poke',
-                        'poke'
-                    ]
+                    discard: new Array(9).fill('poke') // not yet haunted
                 }
             });
         });
