@@ -150,6 +150,7 @@ const Actions = {
         new GameActions.SequentialCardLastingEffectAction(propertyFactory),
     sequentialForEach: (propertyFactory) =>
         new GameActions.SequentialForEachAction(propertyFactory),
+    sequentialFight: (propertyFactory) => new GameActions.SequentialFightAction(propertyFactory),
     sequentialPlay: (propertyFactory) => new GameActions.SequentialPlayAction(propertyFactory),
     sequentialPutIntoPlay: (propertyFactory) =>
         new GameActions.SequentialPutIntoPlayAction(propertyFactory),
