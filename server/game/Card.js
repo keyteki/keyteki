@@ -331,6 +331,30 @@ class Card extends EffectSource {
                 ]
             })
         );
+
+        // Treachery
+        this.abilities.keywordPersistentEffects.push(
+            this.persistentEffect({
+                printedAbility: false,
+                condition: () => this.hasKeyword('treachery'),
+                match: this,
+                location: 'any',
+                targetController: 'any',
+                effect: ability.effects.entersPlayUnderOpponentsControl()
+            })
+        );
+
+        // Versatile
+        this.abilities.keywordPersistentEffects.push(
+            this.persistentEffect({
+                condition: () => this.hasKeyword('versatile'),
+                printedAbility: false,
+                match: this,
+                effect: ability.effects.canUse(
+                    (card, _, effectContext) => card === effectContext.source
+                )
+            })
+        );
     }
 
     /**

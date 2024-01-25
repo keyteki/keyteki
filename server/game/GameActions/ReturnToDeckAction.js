@@ -4,6 +4,7 @@ class ReturnToDeckAction extends CardGameAction {
     setDefaultProperties() {
         this.bottom = false;
         this.shuffle = false;
+        this.shuffleDiscardIntoDeck = false;
     }
 
     setup() {
@@ -15,6 +16,21 @@ class ReturnToDeckAction extends CardGameAction {
             this.effectMsg =
                 'return {0} to the ' + (this.bottom ? 'bottom' : 'top') + " of their owner's deck";
         }
+    }
+
+    setTarget(target) {
+        if (this.shuffle && !this.shuffleDiscardIntoDeck) {
+            // Figure out if the entire discard has been shuffled into the
+            // deck for a single owner.
+            if (
+                this.target.length > 0 &&
+                this.target.every((c) => c.owner === this.target[0].owner)
+            ) {
+                this.shuffleDiscardIntoDeck = this.target[0].owner.discard === this.target;
+            }
+        }
+
+        super.setTarget(target);
     }
 
     getEvent(card, context) {
@@ -34,7 +50,7 @@ class ReturnToDeckAction extends CardGameAction {
                     this.shuffle &&
                     cardsByOwner.findIndex((c) => c === card) === cardsByOwner.length - 1
                 ) {
-                    card.owner.shuffleDeck();
+                    card.owner.shuffleDeck(this.shuffleDiscardIntoDeck);
                 }
             }
         );

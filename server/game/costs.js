@@ -2,7 +2,7 @@ const ThenAbility = require('./ThenAbility');
 const DestroyAction = require('./GameActions/DestroyAction');
 
 const HouseUseEffects = ['canUseHouse', 'canPlayOrUseHouse'];
-const NonHouseUseEffects = ['canPlayOrUseNonHouse'];
+const NonHouseUseEffects = ['canPlayOrUseNonHouse', 'canUseNonHouse'];
 const HousePlayEffects = ['canPlayHouse', 'canPlayOrUseHouse'];
 const NonHousePlayEffects = ['canPlayNonHouse', 'canPlayOrUseNonHouse'];
 

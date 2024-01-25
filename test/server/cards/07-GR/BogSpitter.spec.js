@@ -45,8 +45,7 @@ describe('Bog Spitter', function () {
         });
 
         it('can steal 1 on scrap', function () {
-            this.player1.clickCard(this.bogSpitter);
-            this.player1.clickPrompt('Discard this card');
+            this.player1.scrap(this.bogSpitter);
             expect(this.player1.amber).toBe(2);
             expect(this.player2.amber).toBe(5);
             expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
@@ -56,8 +55,7 @@ describe('Bog Spitter', function () {
             this.player1.useAction(this.ritualOfBalance);
             expect(this.player1.amber).toBe(2);
             expect(this.player2.amber).toBe(5);
-            this.player1.clickCard(this.bogSpitter);
-            this.player1.clickPrompt('Discard this card');
+            this.player1.scrap(this.bogSpitter);
             expect(this.player1.amber).toBe(2);
             expect(this.player2.amber).toBe(5);
             expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
