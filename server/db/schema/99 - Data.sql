@@ -9,7 +9,7 @@ INSERT INTO public."Houses" ("Id", "Code", "Name") VALUES (8, 'dis', 'Dis');
 INSERT INTO public."Houses" ("Id", "Code", "Name") VALUES (9, 'brobnar', 'Brobnar');
 INSERT INTO public."Houses" ("Id", "Code", "Name") VALUES (10, 'unfathomable', 'Unfathomable');
 INSERT INTO public."Houses" ("Id", "Code", "Name") VALUES (11, 'ekwidon', 'Ekwidon');
-INSERT INTO public."Houses" ("Id", "Code", "Name") VALUES (12, 'geistoids', 'Geistoids');
+INSERT INTO public."Houses" ("Id", "Code", "Name") VALUES (12, 'geistoid', 'Geistoid');
 INSERT INTO public."Houses" ("Id", "Code", "Name") VALUES (999, 'thetide', 'The Tide'); -- Leave this last
 
 --
