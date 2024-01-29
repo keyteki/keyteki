@@ -8,6 +8,7 @@ export const Constants = {
         'brobnar',
         'dis',
         'ekwidon',
+        'geistoids',
         'logos',
         'mars',
         'sanctum',
@@ -21,6 +22,7 @@ export const Constants = {
         'Brobnar',
         'Dis',
         'Ekwidon',
+        'Geistoids',
         'Logos',
         'Mars',
         'Sanctum',
@@ -39,7 +41,8 @@ export const Constants = {
         { value: '496', label: 'DT', tideRequired: true },
         { value: '600', label: 'WoE', tideRequired: false },
         { value: '601', label: 'UC2022', tideRequired: false },
-        { value: '609', label: 'VM2023', tideRequired: false }
+        { value: '609', label: 'VM2023', tideRequired: false },
+        { value: '700', label: 'GR', tideRequired: false }
     ],
     CardTypes: ['action', 'artifact', 'creature', 'upgrade', 'token creature', 'the tide'],
     SetIconPaths: {},

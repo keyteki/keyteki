@@ -9,6 +9,7 @@ INSERT INTO public."Houses" ("Id", "Code", "Name") VALUES (8, 'dis', 'Dis');
 INSERT INTO public."Houses" ("Id", "Code", "Name") VALUES (9, 'brobnar', 'Brobnar');
 INSERT INTO public."Houses" ("Id", "Code", "Name") VALUES (10, 'unfathomable', 'Unfathomable');
 INSERT INTO public."Houses" ("Id", "Code", "Name") VALUES (11, 'ekwidon', 'Ekwidon');
+INSERT INTO public."Houses" ("Id", "Code", "Name") VALUES (12, 'geistoids', 'Geistoids');
 INSERT INTO public."Houses" ("Id", "Code", "Name") VALUES (999, 'thetide', 'The Tide'); -- Leave this last
 
 --
@@ -25,7 +26,7 @@ INSERT INTO public."Expansions" ("Id", "ExpansionId", "Code", "Name") VALUES (5,
 INSERT INTO public."Expansions" ("Id", "ExpansionId", "Code", "Name") VALUES (6, 496, 'DT', 'Dark Tidings');
 INSERT INTO public."Expansions" ("Id", "ExpansionId", "Code", "Name") VALUES (7, 600, 'WoE', 'Winds of Exchange');
 INSERT INTO public."Expansions" ("Id", "ExpansionId", "Code", "Name") VALUES (8, 601, 'UC2022', 'Unchained 2022');
-
+INSERT INTO public."Expansions" ("Id", "ExpansionId", "Code", "Name") VALUES (9, 600, 'GR', 'Grim Reminders');
 --
 -- Name: Expansions_Id_seq; Type: SEQUENCE SET; Schema: public; Owner: keyteki
 --
