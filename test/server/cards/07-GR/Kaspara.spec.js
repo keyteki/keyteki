@@ -36,5 +36,12 @@ describe('Kaspara', function () {
             expect(this.player1.amber).toBe(4);
             expect(this.player2.amber).toBe(3);
         });
+
+        it('does not give play effects from the archive', function () {
+            this.player1.moveCard(this.kaspara, 'archives');
+            this.player1.playCreature(this.shadys);
+            expect(this.player1.amber).toBe(3);
+            expect(this.player2.amber).toBe(2);
+        });
     });
 });
