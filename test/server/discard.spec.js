@@ -8,6 +8,7 @@ describe('Discard', function () {
                     inPlay: ['echofly']
                 },
                 player2: {
+                    hand: ['open-the-seal'],
                     inPlay: ['thing-from-the-deep']
                 }
             });
@@ -21,6 +22,7 @@ describe('Discard', function () {
             expect(this.player1).not.toBeAbleToSelect(this.echofly);
             expect(this.player1).not.toBeAbleToSelect(this.newFrontiers);
             expect(this.player1).not.toBeAbleToSelect(this.thingFromTheDeep);
+            expect(this.player1).not.toBeAbleToSelect(this.openTheSeal);
             this.player1.clickCard(this.boiler);
             expect(this.boiler.location).toBe('discard');
             expect(this.thingFromTheDeep.tokens.damage).toBe(1);

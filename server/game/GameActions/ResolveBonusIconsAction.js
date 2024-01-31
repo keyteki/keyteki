@@ -97,6 +97,7 @@ class ResolveBonusIconsAction extends CardGameAction {
                         activePromptTitle: 'Choose a card to discard due to bonus icon',
                         source: event.card,
                         location: 'hand',
+                        controller: 'self',
                         onSelect: (player, card) => {
                             context.game.actions
                                 .discard()
