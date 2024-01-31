@@ -81,7 +81,7 @@ const Lobby = () => {
 
     const banners = [
         {
-            img: 'banner/DBC_GR_Banner',
+            img: 'banners/DBC_GR_Banner',
             link: 'https://drawbetter.cards/'
         }
     ];
