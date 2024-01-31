@@ -11,8 +11,7 @@ class ShrinkRayTechnician extends Card {
             target: {
                 controller: 'opponent',
                 cardType: 'creature',
-                gameAction: ability.actions.forRemainderOfTurn({
-                    targetController: 'opponent',
+                gameAction: ability.actions.cardLastingEffect({
                     effect: ability.effects.modifyPower(-2)
                 })
             },
