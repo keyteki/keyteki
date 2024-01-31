@@ -509,7 +509,7 @@ class DeckService {
                 deck.expansion
             ]);
         } catch (err) {
-            logger.error('Failed to check expansion', err);
+            logger.error('Failed to check expansion', err, deck.expansion, deck.uuid);
 
             return false;
         }
@@ -811,17 +811,13 @@ class DeckService {
                 !card.id
                     .split('')
                     .every((char) =>
-                        'æaăàáãǎbcdeĕèéěfghĭìíǐijklmnoöǑŏòóõǒpqrstuŭùúǔvwxyz0123456789-[]*'.includes(
+                        'æaăàáãǎbcdeĕèéěfghĭìíǐijklmnoöǑŏòóõǒpqrstuŭùúǔvwxyz0123456789-[]*…'.includes(
                             char
                         )
                     )
         );
         if (anyIllegalCards) {
-            logger.error(
-                `DECK IMPORT ERROR: ${anyIllegalCards.id
-                    .split('')
-                    .map((char) => char.charCodeAt(0))}`
-            );
+            logger.error(`DECK IMPORT ERROR: ${anyIllegalCards.id}`);
 
             return undefined;
         }
