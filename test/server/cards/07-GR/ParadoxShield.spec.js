@@ -55,13 +55,13 @@ describe('Paradox Shield', function () {
         });
 
         it('does nothing if not enough cards in deck', function () {
-            this.player1.player.deck = [];
+            this.player1.player.deck = this.player1.player.deck.slice(0, 3);
             this.player1.fightWith(this.cpoZytar, this.troll);
             expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
             expect(this.cpoZytar.location).toBe('discard');
             expect(this.paradoxShield.location).toBe('discard');
             expect(this.troll.tokens.damage).toBe(4);
-            expect(this.player1.player.discard.length).toBe(2);
+            expect(this.player1.player.discard.length).toBe(3 + 2);
         });
     });
 });

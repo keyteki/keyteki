@@ -8,8 +8,6 @@ class ParadoxShield extends Card {
         this.whileAttached({
             effect: [
                 ability.effects.gainAbility('destroyed', {
-                    condition: (context) =>
-                        context.source.controller.deck.length >= context.source.power,
                     effect:
                         'discard {2} cards from their deck to heal all damage from {0} and destroy {1} instead',
                     effectArgs: (context) => [this, context.source.power],
@@ -17,6 +15,9 @@ class ParadoxShield extends Card {
                         target: context.source.controller.deck.slice(0, context.source.power)
                     })),
                     then: (preThenContext) => ({
+                        alwaysTriggers: true,
+                        condition: (context) =>
+                            context.preThenEvents.length === preThenContext.source.power,
                         gameAction: [
                             ability.actions.heal({ fully: true }),
                             ability.actions.changeEvent({
