@@ -3,6 +3,7 @@ const CardGameAction = require('./CardGameAction');
 class ArchiveAction extends CardGameAction {
     setDefaultProperties() {
         this.owner = true;
+        this.opponent = false;
         this.reveal = false;
     }
 
@@ -23,7 +24,11 @@ class ArchiveAction extends CardGameAction {
 
     getEvent(card, context) {
         return super.createEvent('onCardArchived', { card: card, context: context }, () => {
-            let player = this.owner ? card.owner : context.player;
+            let player = this.owner
+                ? card.owner
+                : this.opponent
+                ? context.player.opponent
+                : context.player;
             if (card.location === 'play area') {
                 context.game.raiseEvent('onCardLeavesPlay', { card, context }, () =>
                     player.moveCard(card, 'archives')

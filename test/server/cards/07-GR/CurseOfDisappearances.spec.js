@@ -39,12 +39,14 @@ describe('Curse Of Disappearances', function () {
 
                 it("should archive one of opponent's creature", function () {
                     expect(this.johnSmyth.location).toBe('archives');
+                    expect(this.player1.player.archives).toContain(this.johnSmyth);
                     expect(this.mindwarper.location).toBe('play area');
                 });
 
                 describe('at the end of self turn', function () {
                     it('should not archive friendly creature', function () {
                         this.player1.clickPrompt('mars');
+                        this.player1.clickPrompt('No');
                         this.player1.endTurn();
                         expect(this.brammo.location).toBe('play area');
                     });
