@@ -32,7 +32,10 @@ describe('Shrink-Ray Technician', function () {
                 this.player1.clickCard(this.firespitter);
                 expect(this.firespitter.power).toBe(3);
                 expect(this.firespitter.armor).toBe(1);
+                expect(this.foozle.power).toBe(5);
                 expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+                this.player1.endTurn();
+                expect(this.firespitter.power).toBe(5);
             });
 
             it('destroy an enemy creature with 2 or less power', function () {
