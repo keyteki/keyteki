@@ -20,6 +20,8 @@ describe('Plan 10', function () {
         it('puts each non-Mars creature under it on play', function () {
             this.player1.play(this.plan10);
             expect(this.echofly.location).toBe('under');
+            expect(this.game.isCardVisible(this.echofly, this.player1.player)).toBe(true);
+            expect(this.game.isCardVisible(this.echofly, this.player2.player)).toBe(true);
             expect(this.ritualOfBalance.location).toBe('under');
             expect(this.thingFromTheDeep.location).toBe('under');
             expect(this.johnSmyth.location).toBe('play area');
