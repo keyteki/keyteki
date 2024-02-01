@@ -1,4 +1,4 @@
-const OpenInformationLocations = ['play area', 'purged', 'grafted', 'discard'];
+const OpenInformationLocations = ['play area', 'purged', 'grafted', 'discard', 'under'];
 
 class CardVisibility {
     constructor(game) {
