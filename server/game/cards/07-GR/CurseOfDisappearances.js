@@ -16,7 +16,9 @@ class CurseOfDisappearances extends Card {
                     activePromptTitle: 'Choose a creature to archive',
                     cardType: 'creature',
                     controller: 'self'
-                }
+                },
+                owner: false,
+                opponent: true
             })
         });
     }
