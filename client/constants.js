@@ -60,7 +60,8 @@ export const Constants = {
         amber: require('./assets/img/enhancements/amber.png'),
         capture: require('./assets/img/enhancements/capture.png'),
         draw: require('./assets/img/enhancements/draw.png'),
-        damage: require('./assets/img/enhancements/damage.png')
+        damage: require('./assets/img/enhancements/damage.png'),
+        discard: require('./assets/img/enhancements/discard.png')
     },
     TideImages: {
         neutral: require('./assets/img/tide/tide-neutral.png'),

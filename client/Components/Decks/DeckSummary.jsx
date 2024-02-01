@@ -11,6 +11,7 @@ import AmberImage from '../../assets/img/enhancements/amberui.png';
 import CaptureImage from '../../assets/img/enhancements/captureui.png';
 import DrawImage from '../../assets/img/enhancements/drawui.png';
 import DamageImage from '../../assets/img/enhancements/damageui.png';
+import DiscardImage from '../../assets/img/enhancements/discardui.png';
 
 import './DeckSummary.scss';
 
@@ -137,28 +138,34 @@ const DeckSummary = ({ deck }) => {
                     </Row>
                     {Object.keys(enhancements).length > 0 ? (
                         <Row className='deck-enhancements'>
-                            <Col xs='3' className='deck-enhancement'>
+                            <Col xs='2' className='deck-enhancement'>
                                 <img src={AmberImage} className='deck-img-enhancement' />
                                 <span className='deck-text-enhancement'>
                                     {enhancements.amber || 0}
                                 </span>
                             </Col>
-                            <Col xs='3' className='deck-enhancement'>
+                            <Col xs='2' className='deck-enhancement'>
                                 <img src={CaptureImage} className='deck-img-enhancement' />
                                 <span className='deck-text-enhancement'>
                                     {enhancements.capture || 0}
                                 </span>
                             </Col>
-                            <Col xs='3' className='deck-enhancement'>
+                            <Col xs='2' className='deck-enhancement'>
                                 <img src={DrawImage} className='deck-img-enhancement' />
                                 <span className='deck-text-enhancement'>
                                     {enhancements.draw || 0}
                                 </span>
                             </Col>
-                            <Col xs='3' className='deck-enhancement'>
+                            <Col xs='2' className='deck-enhancement'>
                                 <img src={DamageImage} className='deck-img-enhancement' />
                                 <span className='deck-text-enhancement'>
                                     {enhancements.damage || 0}
+                                </span>
+                            </Col>
+                            <Col xs='2' className='deck-enhancement'>
+                                <img src={DiscardImage} className='deck-img-enhancement' />
+                                <span className='deck-text-enhancement'>
+                                    {enhancements.discard || 0}
                                 </span>
                             </Col>
                         </Row>
