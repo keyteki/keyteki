@@ -16,7 +16,7 @@ class Kaspara extends Card {
 
         this.persistentEffect({
             match: (card) => card.type === 'creature' && card.hasHouse('geistoid'),
-            location: 'any',
+            targetLocation: 'any',
             effect: [
                 ability.effects.gainAbility('play', {
                     gameAction: [
