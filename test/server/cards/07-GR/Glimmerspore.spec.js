@@ -9,6 +9,7 @@ describe('Glimmerspore', function () {
                     inPlay: ['flaxia', 'quixxle-stone']
                 },
                 player2: {
+                    hand: ['curse-of-fertility'],
                     inPlay: ['dust-pixie', 'ritual-of-balance']
                 }
             });
@@ -45,6 +46,19 @@ describe('Glimmerspore', function () {
             this.player1.clickPrompt('Yes');
             expect(this.ritualOfBalance.location).toBe('hand');
             expect(this.player2.player.hand).toContain(this.ritualOfBalance);
+            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+        });
+
+        it('can put a self-controlled, opponent-owned artifact into archives', function () {
+            this.player1.endTurn();
+            this.player2.clickPrompt('untamed');
+            this.player2.play(this.curseOfFertility);
+            this.player2.endTurn();
+            this.player1.clickPrompt('mars');
+            this.player1.play(this.glimmerspore);
+            this.player1.clickCard(this.curseOfFertility);
+            expect(this.curseOfFertility.location).toBe('archives');
+            expect(this.player1.player.archives).toContain(this.curseOfFertility);
             expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
         });
     });
