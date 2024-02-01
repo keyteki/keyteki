@@ -5,7 +5,7 @@ describe('Plan 10', function () {
                 player1: {
                     amber: 1,
                     house: 'mars',
-                    hand: ['plan-10'],
+                    hand: ['plan-10', 'hypnobeam'],
                     inPlay: ['echofly', 'john-smyth']
                 },
                 player2: {
@@ -65,6 +65,21 @@ describe('Plan 10', function () {
             expect(this.player2.player.hand).toContain(this.thingFromTheDeep);
 
             expect(this.plan10.location).toBe('discard');
+        });
+
+        it('works correctly for non-owned creatures', function () {
+            this.player1.play(this.hypnobeam);
+            this.player1.clickCard(this.thingFromTheDeep);
+            this.player1.clickPrompt('Right');
+            this.player1.play(this.plan10);
+            expect(this.thingFromTheDeep.location).toBe('under');
+            expect(this.player1.player.creaturesInPlay).not.toContain(this.thingFromTheDeep);
+            expect(this.player2.player.creaturesInPlay).not.toContain(this.thingFromTheDeep);
+            this.player1.endTurn();
+            this.player1.clickCard(this.thingFromTheDeep);
+            expect(this.plan10.childCards).not.toContain(this.thingFromTheDeep);
+            expect(this.thingFromTheDeep.location).toBe('hand');
+            expect(this.player2.player.hand).toContain(this.thingFromTheDeep);
         });
     });
 });

@@ -31,11 +31,11 @@ class PlaceUnderAction extends CardGameAction {
             this.isGraft ? 'onCardGrafted' : 'onPlaceUnder',
             { card, context },
             () => {
+                card.controller.removeCardFromPile(card);
                 if (card.location === 'play area') {
                     card.onLeavesPlay();
                 }
-                card.controller.removeCardFromPile(card);
-                card.controller = card.owner;
+                card.controller = this.parent.controller;
                 card.parent = this.parent;
                 card.moveTo(this.isGraft ? 'grafted' : 'under');
                 card.facedown = this.facedown;
