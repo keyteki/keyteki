@@ -23,6 +23,7 @@ const Effects = {
     bonusDamage: (bonus) => EffectBuilder.card.static('bonusDamage', bonus),
     bonusFightDamage: (match) => EffectBuilder.card.static('bonusFightDamage', match),
     canPlayAsUpgrade: () => EffectBuilder.card.static('canPlayAsUpgrade'),
+    canAttachToArtifacts: () => EffectBuilder.card.static('canAttachToArtifacts'),
     cardCannot: (type, condition) =>
         EffectBuilder.card.static('abilityRestrictions', new CannotRestriction(type, condition)),
     changeHouse: (house) => EffectBuilder.card.static('changeHouse', house),

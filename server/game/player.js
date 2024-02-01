@@ -402,12 +402,18 @@ class Player extends GameObject {
                     this
                 );
             } else if (card.type === 'upgrade') {
+                let title = `Select a creature`;
+                let cardType = ['creature'];
+                if (card.anyEffect('canAttachToArtifacts')) {
+                    title = 'Select a card';
+                    cardType = cardType.concat(['artifact']);
+                }
                 if (this.game.creaturesInPlay.length > 0) {
                     this.game.promptForSelect(this, {
                         source: card,
-                        activePromptTitle: `Select a creature`,
+                        activePromptTitle: title,
                         cardCondition: (card) =>
-                            card.location === 'play area' && card.type === 'creature',
+                            card.location === 'play area' && cardType.includes(card.type),
                         onSelect: (p, parent) => {
                             this.removeCardFromPile(card);
                             card.new = true;

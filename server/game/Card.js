@@ -1060,7 +1060,9 @@ class Card extends EffectSource {
     checkForIllegalAttachments() {
         if (this.type === 'artifact' && this.upgrades.length > 0) {
             this.upgrades.forEach((upgrade) => {
-                upgrade.owner.moveCard(upgrade, 'discard');
+                if (!upgrade.anyEffect('canAttachToArtifacts')) {
+                    upgrade.owner.moveCard(upgrade, 'discard');
+                }
             });
         }
     }
