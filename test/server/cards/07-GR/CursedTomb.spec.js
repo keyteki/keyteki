@@ -43,14 +43,14 @@ describe('Cursed Tomb', function () {
             expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
         });
 
-        it('destroys itself when there are no creatures in play', function () {
+        it('purges itself when there are no creatures in play', function () {
             this.player1.endTurn();
             this.player2.clickPrompt('brobnar');
             this.player2.play(this.cowardSEnd);
             this.player2.clickPrompt('Autoresolve');
-            expect(this.player1.player.purged.length).toBe(3);
+            expect(this.player1.player.purged.length).toBe(4);
             expect(this.player2.player.purged.length).toBe(2);
-            expect(this.cursedTomb.location).toBe('discard');
+            expect(this.cursedTomb.location).toBe('purged');
             expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
         });
     });
