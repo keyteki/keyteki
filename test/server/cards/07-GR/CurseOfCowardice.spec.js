@@ -53,11 +53,21 @@ describe('Curse Of Cowardice', function () {
                     expect(this.player1.amber).toBe(1);
                 });
 
-                it('should be destroyed when no friendly creatures', function () {
+                it('should be destroyed when no friendly creatures at end of turn', function () {
                     this.player2.fightWith(this.troll, this.thingFromTheDeep);
-                    expect(this.curseOfCowardice.location).toBe('discard');
+                    expect(this.curseOfCowardice.location).toBe('play area');
                     this.player2.endTurn();
+                    expect(this.curseOfCowardice.location).toBe('discard');
                     expect(this.player2.amber).toBe(5);
+                    expect(this.player1.amber).toBe(1);
+                });
+
+                it('should be destroyed when no friendly creatures after amber loss', function () {
+                    this.player2.moveCard(this.troll, 'discard');
+                    expect(this.curseOfCowardice.location).toBe('play area');
+                    this.player2.endTurn();
+                    expect(this.curseOfCowardice.location).toBe('discard');
+                    expect(this.player2.amber).toBe(3);
                     expect(this.player1.amber).toBe(1);
                 });
             });
