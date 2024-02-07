@@ -585,6 +585,21 @@ class Card extends EffectSource {
         this.endRound();
     }
 
+    clearDependentCards() {
+        for (let upgrade of this.upgrades) {
+            upgrade.onLeavesPlay();
+            upgrade.owner.moveCard(upgrade, 'discard');
+        }
+
+        for (let child of this.childCards) {
+            child.onLeavesPlay();
+            child.owner.moveCard(child, 'discard');
+        }
+
+        this.purgedCards.forEach((c) => (c.purgedBy = null));
+        this.purgedCards = [];
+    }
+
     endRound() {
         this.armorUsed = 0;
         this.elusiveUsed = false;
