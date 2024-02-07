@@ -34,6 +34,10 @@ class PlaceUnderAction extends CardGameAction {
                 card.controller.removeCardFromPile(card);
                 if (card.location === 'play area') {
                     card.onLeavesPlay();
+                    for (let upgrade of card.upgrades) {
+                        upgrade.onLeavesPlay();
+                        upgrade.owner.moveCard(upgrade, 'discard');
+                    }
                 }
                 card.controller = this.parent.controller;
                 card.parent = this.parent;
