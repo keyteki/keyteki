@@ -9,6 +9,7 @@ class DownToSize extends Card {
             effectArgs: (context) => context.target,
             target: {
                 cardType: 'creature',
+                controller: 'opponent',
                 gameAction: ability.actions.cardLastingEffect({
                     effect: [ability.effects.setPower(1), ability.effects.setArmor(0)]
                 })
