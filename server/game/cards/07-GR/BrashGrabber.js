@@ -16,6 +16,7 @@ class BrashGrabber extends Card {
                 activePromptTitle: 'Choose a captured amber to move to your pool.',
                 cardCondition: (card) => card.hasToken('amber'),
                 cardType: 'creature',
+                controller: 'opponent',
                 gameAction: ability.actions.returnAmber((context) => ({
                     amount: 1,
                     recipient: context.player
