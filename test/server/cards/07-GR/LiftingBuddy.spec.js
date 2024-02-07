@@ -20,6 +20,7 @@ describe('Lifting Buddy', function () {
                 expect(this.player1).toBeAbleToSelect(this.cpoZytar);
                 expect(this.player1).toBeAbleToSelect(this.groke);
                 expect(this.player1).not.toBeAbleToSelect(this.batdrone);
+                expect(this.player1).not.toBeAbleToSelect(this.liftingBuddy);
                 this.player1.clickCard(this.groke);
             });
 
