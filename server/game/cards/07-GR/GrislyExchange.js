@@ -14,10 +14,12 @@ class GrislyExchange extends Card {
                         context.player.opponent && context.player.opponent.discard.length > 0,
                     trueGameAction: ability.actions.returnToDeck({
                         bottom: true,
-                        target: context.player.opponent.discard.slice(
-                            0,
-                            Math.min(5, context.player.opponent.discard.length)
-                        )
+                        target: context.player.opponent
+                            ? context.player.opponent.discard.slice(
+                                  0,
+                                  Math.min(5, context.player.opponent.discard.length)
+                              )
+                            : []
                     })
                 })),
                 ability.actions.discard((context) => ({
