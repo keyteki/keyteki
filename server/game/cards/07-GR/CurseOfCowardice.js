@@ -14,21 +14,18 @@ class CurseOfCowardice extends Card {
 
         this.interrupt({
             when: {
-                onRoundEnded: (_, context) =>
-                    context.player === this.game.activePlayer && this.fights === 0
+                onRoundEnded: (_, context) => context.player === this.game.activePlayer
             },
             gameAction: ability.actions.loseAmber((context) => ({
                 target: context.player,
-                amount: 2
-            }))
-        });
-
-        this.persistentEffect({
-            effect: ability.effects.terminalCondition({
+                amount: this.fights === 0 ? 2 : 0
+            })),
+            then: {
+                alwaysTriggers: true,
                 condition: (context) => context.player.creaturesInPlay.length === 0,
-                message: '{0} is destroyed as there are no friendly creatures in play',
-                gameAction: ability.actions.destroy()
-            })
+                gameAction: ability.actions.destroy(),
+                message: '{1} is destroyed as there are no friendly creatures in play'
+            }
         });
     }
 
