@@ -21,17 +21,17 @@ describe("Don't Believe Your Eyes", function () {
                 this.player1.play(this.donTBelieveYourEyes);
             });
 
-            it('should be able to select friendly creature and capture 1 from self', function () {
+            it('should be able to select friendly creature and capture 1 from opponent', function () {
                 this.player1.clickCard(this.flaxia);
-                expect(this.player1.amber).toBe(1);
-                expect(this.player2.amber).toBe(2);
+                expect(this.player1.amber).toBe(2);
+                expect(this.player2.amber).toBe(1);
                 expect(this.flaxia.amber).toBe(1);
             });
 
-            it('should be able to select enemy creature and capture 1 from opponent', function () {
+            it('should be able to select enemy creature and capture 1 from self', function () {
                 this.player1.clickCard(this.gub);
-                expect(this.player1.amber).toBe(2);
-                expect(this.player2.amber).toBe(1);
+                expect(this.player1.amber).toBe(1);
+                expect(this.player2.amber).toBe(2);
                 expect(this.gub.amber).toBe(1);
             });
         });

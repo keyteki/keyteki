@@ -9,7 +9,9 @@ class DontBelieveYourEyes extends Card {
                 cardType: 'creature',
                 gameAction: ability.actions.capture((context) => ({
                     amount: context.player.isHaunted() ? 2 : 1,
-                    player: context.target.controller
+                    player: context.player.isHaunted()
+                        ? context.target.controller
+                        : context.target.controller.opponent
                 }))
             }
         });
