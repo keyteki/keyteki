@@ -596,7 +596,9 @@ class Card extends EffectSource {
             child.owner.moveCard(child, 'discard');
         }
 
-        this.purgedCards.forEach((c) => (c.purgedBy = null));
+        for (let card of this.purgedCards) {
+            card.purgedBy = null;
+        }
         this.purgedCards = [];
     }
 
