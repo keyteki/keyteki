@@ -12,6 +12,7 @@ const PlayArtifactAction = require('./BaseActions/PlayArtifactAction');
 const PlayUpgradeAction = require('./BaseActions/PlayUpgradeAction');
 const ResolveFightAction = require('./GameActions/ResolveFightAction');
 const ResolveReapAction = require('./GameActions/ResolveReapAction');
+const ReturnToHandAction = require('./GameActions/ReturnToHandAction');
 const RemoveStun = require('./BaseActions/RemoveStun');
 
 class Card extends EffectSource {
@@ -485,7 +486,7 @@ class Card extends EffectSource {
      * is both in play and not blank.
      */
     persistentEffect(properties) {
-        const allowedLocations = ['any', 'play area'];
+        const allowedLocations = ['any', 'play area', 'discard'];
         let location = properties.location || 'play area';
         if (!allowedLocations.includes(location)) {
             throw new Error(`'${location}' is not a supported effect location.`);
@@ -606,9 +607,9 @@ class Card extends EffectSource {
 
         _.each(this.getPersistentEffects(true), (effect) => {
             if (effect.location !== 'any') {
-                if (to === 'play area' && from !== 'play area') {
+                if (to === effect.location && from !== effect.location) {
                     effect.ref = this.addEffectToEngine(effect);
-                } else if (to !== 'play area' && from === 'play area') {
+                } else if (to !== effect.location && from === effect.location) {
                     if (effect.ref) {
                         this.removeEffectFromEngine(effect.ref);
                     }
@@ -956,7 +957,6 @@ class Card extends EffectSource {
         if (this.getEffects('mustFightIfAble').length > 0 && canFight) {
             actions = actions.filter((action) => action.title === 'Fight with this creature');
         }
-
         return actions;
     }
 
@@ -999,6 +999,15 @@ class Card extends EffectSource {
         return removeStun;
     }
 
+    getReturnToHandAction() {
+        return this.action({
+            title: 'Return this card to hand',
+            printedAbility: false,
+            gameAction: new ReturnToHandAction({ location: 'discard' }),
+            location: 'discard'
+        });
+    }
+
     getActions(location = this.location) {
         let actions = [];
         if (location === 'hand') {
@@ -1019,6 +1028,11 @@ class Card extends EffectSource {
             actions.push(this.getFightAction());
             actions.push(this.getReapAction());
             actions.push(this.getRemoveStunAction());
+        } else if (
+            location === 'discard' &&
+            this.mostRecentEffect('returnToHandFromDiscardAnytime')
+        ) {
+            actions.push(this.getReturnToHandAction());
         }
 
         return actions.concat(this.actions.slice());
