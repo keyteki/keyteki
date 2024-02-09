@@ -31,14 +31,18 @@ const CardImage = ({ card, cardBack, size, halfSize, onMouseOver, onMouseOut }) 
                 }
 
                 if (canvas) {
-                    fabricRef.current = await buildCard(canvas, {
-                        ...card,
-                        size,
-                        halfSize,
-                        url: `/img/${halfSize ? 'halfSize' : 'cards'}/${
-                            i18n.language === 'en' ? '' : i18n.language
-                        }/${card.image.replace(/\*/g, '_')}.${halfSize ? 'jpg' : 'png'}`
-                    });
+                    try {
+                        fabricRef.current = await buildCard(canvas, {
+                            ...card,
+                            size,
+                            halfSize,
+                            url: `/img/${halfSize ? 'halfSize' : 'cards'}/${
+                                i18n.language === 'en' ? '' : i18n.language
+                            }/${card.image.replace(/\*/g, '_')}.${halfSize ? 'jpg' : 'png'}`
+                        });
+                    } catch {
+                        fabricRef.current = null;
+                    }
                 }
             }
         },
