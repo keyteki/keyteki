@@ -4,29 +4,36 @@ class Webstur extends Card {
     // After Fight: For each damage on Webstur, you may discard the top card
     // of each player's deck.
     setupCardAbilities(ability) {
+        this.discards = 0;
+
         this.fight({
-            gameAction: ability.actions.sequentialForEach((context) => ({
-                num: context.source.tokens.damage,
-                action: ability.actions.chooseAction({
-                    activePromptTitle: 'Discard',
-                    choices: {
-                        Yes: ability.actions.discard((context) => ({
-                            target: context.player.deck
-                                .slice(0, 1)
-                                .concat(
-                                    context.player.opponent
-                                        ? context.player.opponent.deck.slice(0, 1)
-                                        : []
-                                )
-                        })),
-                        No: []
+            condition: (context) => {
+                this.discards = 0;
+                return this.discards < context.source.tokens.damage;
+            },
+            effect:
+                "choose whether to discard cards from each player's deck for each damage on {0}",
+            then: {
+                alwaysTriggers: true,
+                condition: (context) => this.discards < context.source.tokens.damage,
+                may: "discard the top card from each player's deck",
+                gameAction: ability.actions.discard((context) => ({
+                    target: context.player.deck
+                        .slice(0, 1)
+                        .concat(
+                            context.player.opponent ? context.player.opponent.deck.slice(0, 1) : []
+                        )
+                })),
+                then: (context) => ({
+                    condition: () => {
+                        this.discards++;
+                        return true;
                     },
-                    messages: {
-                        Yes: "{0} chooses to discard the top card of each player's deck",
-                        No: "{0} chooses not to discard the top card of each player's deck"
-                    }
+                    message: '{0} uses {1} to discard {3}',
+                    messageArgs: (context) => [context.preThenEvents.map((e) => e.card)],
+                    gameAction: ability.actions.resolveAbility({ ability: context.ability })
                 })
-            }))
+            }
         });
     }
 }

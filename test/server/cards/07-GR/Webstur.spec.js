@@ -20,6 +20,21 @@ describe('Webstur', function () {
             this.player1.moveCard(this.glimmer, 'deck');
         });
 
+        it('allows player to do nothing', function () {
+            this.player1.fightWith(this.webstur, this.dustPixie);
+            this.player1.clickPrompt('No');
+            expect(this.huntingWitch.location).toBe('deck');
+            expect(this.fullMoon.location).toBe('deck');
+            expect(this.flaxia.location).toBe('deck');
+            expect(this.glimmer.location).toBe('deck');
+            expect(this.groke.location).toBe('deck');
+            expect(this.ballcano.location).toBe('deck');
+            expect(this.player1.player.discard.length).toBe(0);
+            expect(this.player2.player.discard.length).toBe(1);
+            expect(this.webstur.tokens.damage).toBe(1);
+            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+        });
+
         it('allows player to discard the top card of each deck when it has one damage', function () {
             this.player1.fightWith(this.webstur, this.dustPixie);
             this.player1.clickPrompt('Yes');
@@ -35,15 +50,30 @@ describe('Webstur', function () {
             expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
         });
 
+        it('resets between uses', function () {
+            this.player1.fightWith(this.webstur, this.dustPixie);
+            this.player1.clickPrompt('Yes');
+            this.webstur.ready();
+            this.player1.fightWith(this.webstur, this.dewFaerie);
+            this.player1.clickPrompt('Yes');
+            expect(this.huntingWitch.location).toBe('discard');
+            expect(this.fullMoon.location).toBe('discard');
+            expect(this.flaxia.location).toBe('deck');
+            expect(this.glimmer.location).toBe('discard');
+            expect(this.groke.location).toBe('discard');
+            expect(this.ballcano.location).toBe('deck');
+            expect(this.player1.player.discard.length).toBe(2);
+            expect(this.player2.player.discard.length).toBe(3);
+            expect(this.webstur.tokens.damage).toBe(1);
+            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+        });
+
         it('allows player to sometimes discard the top card of each deck when it has multiple damage', function () {
             this.player1.fightWith(this.webstur, this.croggTheClumsy);
-            this.player1.clickPrompt('No');
+            this.player1.clickPrompt('Yes');
+            this.player1.clickPrompt('Yes');
             this.player1.clickPrompt('Yes');
             this.player1.clickPrompt('No');
-            this.player1.clickPrompt('No');
-            this.player1.clickPrompt('Yes');
-            this.player1.clickPrompt('No');
-            this.player1.clickPrompt('Yes');
             expect(this.huntingWitch.location).toBe('discard');
             expect(this.fullMoon.location).toBe('discard');
             expect(this.flaxia.location).toBe('discard');
@@ -59,13 +89,10 @@ describe('Webstur', function () {
         it('works if only one player has a deck', function () {
             this.player1.player.deck = [];
             this.player1.fightWith(this.webstur, this.croggTheClumsy);
-            this.player1.clickPrompt('No');
+            this.player1.clickPrompt('Yes');
+            this.player1.clickPrompt('Yes');
             this.player1.clickPrompt('Yes');
             this.player1.clickPrompt('No');
-            this.player1.clickPrompt('No');
-            this.player1.clickPrompt('Yes');
-            this.player1.clickPrompt('No');
-            this.player1.clickPrompt('Yes');
             expect(this.glimmer.location).toBe('discard');
             expect(this.groke.location).toBe('discard');
             expect(this.ballcano.location).toBe('discard');
