@@ -27,10 +27,12 @@ class MissChievous extends Card {
                     condition: (context) =>
                         !!context.player.opponent && context.player.opponent.deck.length > 0,
                     trueGameAction: ability.actions.discard((context) => ({
-                        target: context.player.opponent.deck.slice(
-                            0,
-                            Math.min(2, context.player.deck.length)
-                        )
+                        target: context.player.opponent
+                            ? context.player.opponent.deck.slice(
+                                  0,
+                                  Math.min(2, context.player.deck.length)
+                              )
+                            : []
                     }))
                 })
             ],
