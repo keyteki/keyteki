@@ -13,7 +13,7 @@ class PsychicHaze extends Card {
         });
 
         this.persistentEffect({
-            targetController: 'self',
+            targetController: 'current',
             match: (card) => card.type === 'creature' && card.hasHouse('mars'),
             effect: ability.effects.cardCannot('attack', (context) => context.source.enraged)
         });
