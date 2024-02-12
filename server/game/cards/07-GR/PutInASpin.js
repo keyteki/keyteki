@@ -16,7 +16,7 @@ class PutInASpin extends Card {
                     mode: 'house'
                 },
                 gameAction: ability.actions.discard((context) => ({
-                    target: context.player.opponent.deck[0]
+                    target: context.player.opponent ? context.player.opponent.deck[0] : []
                 })),
                 then: (preThenContext) => ({
                     condition: (context) =>
