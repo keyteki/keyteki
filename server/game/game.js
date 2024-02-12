@@ -1069,7 +1069,7 @@ class Game extends EventEmitter {
             player.cardsInPlay.push(card);
         }
         card.updateEffectContexts();
-        this.emitEvent('onTakeControl', { player, card });
+        this.raiseEvent('onTakeControl', { player, card });
     }
 
     watch(socketId, user) {

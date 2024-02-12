@@ -467,6 +467,21 @@ class Player extends GameObject {
         this.houses = deckData.houses;
     }
 
+    checkDeckAfterCardMove(oldTopOfDeck) {
+        if (this.isTopCardOfDeckVisible() && this.deck.length > 0) {
+            this.deck[0].facedown = false;
+
+            // In case a new card was added on top of the deck.
+            if (this.deck.length > 1) {
+                this.deck[1].facedown = true;
+            }
+
+            if (oldTopOfDeck != this.deck[0]) {
+                this.addTopCardOfDeckVisibleMessage();
+            }
+        }
+    }
+
     /**
      * Moves a card from one location to another. This involves removing in from the list it's currently in, calling DrawCard.move (which changes
      * its location property), and then adding it to the list it should now be in
@@ -574,17 +589,8 @@ class Player extends GameObject {
             });
         }
 
-        if (!options.aboutToShuffle && this.isTopCardOfDeckVisible() && this.deck.length > 0) {
-            this.deck[0].facedown = false;
-
-            // In case a new card was added on top of the deck.
-            if (this.deck.length > 1) {
-                this.deck[1].facedown = true;
-            }
-
-            if (oldTopOfDeck != this.deck[0]) {
-                this.addTopCardOfDeckVisibleMessage();
-            }
+        if (!options.aboutToShuffle) {
+            this.checkDeckAfterCardMove(oldTopOfDeck);
         }
     }
 
