@@ -19,7 +19,8 @@ class UncommonCurrency extends Card {
                     }))
                 ]
             },
-            effect: 'swap control of {0} and {1}'
+            effect: 'swap control of {0} and {1}',
+            effectArgs: (context) => [context.source]
         });
     }
 }
