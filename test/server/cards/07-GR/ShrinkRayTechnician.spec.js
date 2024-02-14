@@ -54,6 +54,9 @@ describe('Shrink-Ray Technician', function () {
             this.player1.clickCard(this.firespitter);
             expect(this.firespitter.power).toBe(1);
             expect(this.firespitter.armor).toBe(0);
+            expect(this.foozle.power).toBe(5);
+            expect(this.dustPixie.power).toBe(1);
+            expect(this.dustPixie.location).toBe('play area');
             expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
         });
     });

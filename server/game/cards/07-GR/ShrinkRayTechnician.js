@@ -25,8 +25,7 @@ class ShrinkRayTechnician extends Card {
                 mode: 'mostStat',
                 numCards: 1,
                 cardStat: (card) => card.power,
-                gameAction: ability.actions.forRemainderOfTurn({
-                    targetController: 'opponent',
+                gameAction: ability.actions.cardLastingEffect({
                     effect: [ability.effects.setPower(1), ability.effects.setArmor(0)]
                 })
             },
