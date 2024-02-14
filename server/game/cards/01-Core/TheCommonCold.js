@@ -10,6 +10,7 @@ class TheCommonCold extends Card {
                 target: context.game.creaturesInPlay
             })),
             then: {
+                alwaysTriggers: true,
                 may: 'destroy all Mars creatures',
                 gameAction: ability.actions.destroy((context) => ({
                     target: context.game.creaturesInPlay.filter((card) => card.hasHouse('mars'))
