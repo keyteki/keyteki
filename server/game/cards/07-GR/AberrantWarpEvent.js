@@ -68,7 +68,7 @@ class AberrantWarpEvent extends Card {
                     condition: (context) =>
                         !!context.player.opponent && context.player.opponent.deck.length > 0,
                     gameAction: ability.actions.discard((context) =>
-                        discard(context.player.opponent.deck)
+                        discard(context.player.opponent ? context.player.opponent.deck : [])
                     ),
                     then: {
                         condition: wasCreatureDiscarded,
