@@ -605,11 +605,21 @@ class Card extends EffectSource {
             this.removeLastingEffects();
         }
 
+        let effectLocations = ['play area', 'discard'];
+
         _.each(this.getPersistentEffects(true), (effect) => {
             if (effect.location !== 'any') {
-                if (to === effect.location && from !== effect.location) {
+                if (
+                    effectLocations.includes(effect.location) &&
+                    to === effect.location &&
+                    from !== effect.location
+                ) {
                     effect.ref = this.addEffectToEngine(effect);
-                } else if (to !== effect.location && from === effect.location) {
+                } else if (
+                    effectLocations.includes(effect.location) &&
+                    to !== effect.location &&
+                    from === effect.location
+                ) {
                     if (effect.ref) {
                         this.removeEffectFromEngine(effect.ref);
                     }
