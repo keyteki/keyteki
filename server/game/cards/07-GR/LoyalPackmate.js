@@ -5,7 +5,7 @@ class LoyalPackmate extends Card {
     // unless the friendly creature has taunt.
     setupCardAbilities(ability) {
         this.persistentEffect({
-            targetController: 'self',
+            targetController: 'current',
             match: (card) => card.type === 'creature' && !card.getKeywordValue('taunt'),
             effect: ability.effects.cardCannot('attack')
         });
