@@ -196,10 +196,6 @@ class Player extends GameObject {
         this.game.emitEvent('onDeckShuffled', { player: this });
         this.deck = _.shuffle(this.deck);
         if (this.isTopCardOfDeckVisible() && this.deck.length > 0) {
-            this.deck[0].facedown = false;
-            this.deck.slice(1).forEach((card) => {
-                card.facedown = true;
-            });
             this.addTopCardOfDeckVisibleMessage();
         }
     }
