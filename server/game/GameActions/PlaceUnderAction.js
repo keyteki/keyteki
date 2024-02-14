@@ -26,20 +26,31 @@ class PlaceUnderAction extends CardGameAction {
         return this.parent && super.canAffect(card, context);
     }
 
+    placeUnder(card) {
+        card.controller.removeCardFromPile(card);
+        if (card.location === 'play area') {
+            card.clearDependentCards();
+            card.onLeavesPlay();
+        }
+        card.controller = this.parent.controller;
+        card.parent = this.parent;
+        card.moveTo(this.isGraft ? 'grafted' : 'under');
+        card.facedown = this.facedown;
+        this.parent.childCards.push(card);
+    }
+
     getEvent(card, context) {
         return super.createEvent(
             this.isGraft ? 'onCardGrafted' : 'onPlaceUnder',
             { card, context },
             () => {
-                card.controller.removeCardFromPile(card);
                 if (card.location === 'play area') {
-                    card.onLeavesPlay();
+                    context.game.raiseEvent('onCardLeavesPlay', { card, context }, () =>
+                        this.placeUnder(card)
+                    );
+                } else {
+                    this.placeUnder(card);
                 }
-                card.controller = this.parent.controller;
-                card.parent = this.parent;
-                card.moveTo(this.isGraft ? 'grafted' : 'under');
-                card.facedown = this.facedown;
-                this.parent.childCards.push(card);
             }
         );
     }

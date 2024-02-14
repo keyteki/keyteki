@@ -507,18 +507,7 @@ class Player extends GameObject {
                 return;
             }
 
-            for (let upgrade of card.upgrades) {
-                upgrade.onLeavesPlay();
-                upgrade.owner.moveCard(upgrade, 'discard');
-            }
-
-            for (let child of card.childCards) {
-                child.onLeavesPlay();
-                child.owner.moveCard(child, 'discard');
-            }
-
-            card.purgedCards.forEach((c) => (c.purgedBy = null));
-            card.purgedCards = [];
+            card.clearDependentCards();
 
             card.onLeavesPlay();
             card.controller = this;

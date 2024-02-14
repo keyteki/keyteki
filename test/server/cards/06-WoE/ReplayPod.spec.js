@@ -4,7 +4,7 @@ describe('Replay Pod', function () {
             this.setupTest({
                 player1: {
                     house: 'mars',
-                    hand: ['ammonia-clouds', 'ether-spider'],
+                    hand: ['ammonia-clouds', 'ether-spider', 'jammer-pack'],
                     inPlay: ['replay-pod', 'yxilo-bolter', 'john-smyth', 'blypyp', 'pelf']
                 },
                 player2: {
@@ -24,6 +24,16 @@ describe('Replay Pod', function () {
             expect(this.replayPod.childCards).toContain(this.blypyp);
             expect(this.pelf.location).toBe('discard');
             expect(this.yxiliMarauder.location).toBe('discard');
+            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+        });
+
+        it('should cause upgrades to fall off', function () {
+            this.player1.playUpgrade(this.jammerPack, this.johnSmyth);
+            this.player1.play(this.ammoniaClouds);
+            this.player1.clickCard(this.yxiloBolter);
+            this.player1.clickCard(this.johnSmyth);
+            expect(this.jammerPack.location).toBe('discard');
+            expect(this.jammerPack.parent).toBe(null);
             expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
         });
 
