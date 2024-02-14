@@ -4,7 +4,7 @@ const CardLastingEffectAction = require('../GameActions/CardLastingEffectAction'
 const Effects = require('../effects');
 
 class PlayUpgradeAction extends BasePlayAction {
-    constructor(card) {
+    constructor(card, parent) {
         let title = 'Choose a creature to attach this upgrade to';
         let cardType = 'creature';
         if (card.anyEffect('canAttachToArtifacts')) {
@@ -17,6 +17,14 @@ class PlayUpgradeAction extends BasePlayAction {
             gameAction: new AttachAction((context) => ({ upgrade: context.source }))
         });
         this.title = 'Play this upgrade';
+        this.parent = parent;
+    }
+
+    // Create a new copy of this action with a forced parent, since we can't
+    // use the constructor directly in a GameAction without causing a
+    // dependency cycle.
+    newWithParent(parent) {
+        return new PlayUpgradeAction(this.card, parent);
     }
 
     displayMessage(context) {
@@ -34,6 +42,18 @@ class PlayUpgradeAction extends BasePlayAction {
                 context.source
             );
         }
+    }
+
+    resolveTargets(context) {
+        if (this.parent) {
+            context.target = this.parent;
+            return {
+                cancelled: false,
+                payCostsFirst: false,
+                delayTargeting: null
+            };
+        }
+        return super.resolveTargets(context);
     }
 
     meetsRequirements(context = this.createContext(), ignoredRequirements = []) {
