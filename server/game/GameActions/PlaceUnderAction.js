@@ -27,6 +27,8 @@ class PlaceUnderAction extends CardGameAction {
     }
 
     placeUnder(card) {
+        let controller = card.controller;
+        let oldTopOfDeck = controller.deck[0];
         card.controller.removeCardFromPile(card);
         if (card.location === 'play area') {
             card.clearDependentCards();
@@ -37,6 +39,7 @@ class PlaceUnderAction extends CardGameAction {
         card.moveTo(this.isGraft ? 'grafted' : 'under');
         card.facedown = this.facedown;
         this.parent.childCards.push(card);
+        controller.checkDeckAfterCardMove(oldTopOfDeck);
     }
 
     getEvent(card, context) {
