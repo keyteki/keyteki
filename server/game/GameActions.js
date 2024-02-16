@@ -63,6 +63,8 @@ const Actions = {
     placeAmber: (propertyFactory) => new GameActions.AddTokenAction(propertyFactory, 'amber'), // amount = 1
     placeUnder: (propertyFactory) => new GameActions.PlaceUnderAction(propertyFactory), // parent
     playCard: (propertyFactory) => new GameActions.PlayCardAction(propertyFactory), // resetOnCancel = false, postHandler
+    playUpgradeOnParent: (propertyFactory) =>
+        new GameActions.PlayUpgradeOnParentAction(propertyFactory),
     purge: (propertyFactory) => new GameActions.PurgeAction(propertyFactory),
     putIntoPlay: (propertyFactory) => new GameActions.PutIntoPlayAction(propertyFactory),
     ready: (propertyFactory) => new GameActions.ReadyAction(propertyFactory),
@@ -70,6 +72,7 @@ const Actions = {
     rearrangeBattleline: (propertyFactory) =>
         new GameActions.RearrangeBattlelineAction(propertyFactory),
     reduceArmor: (propertyFactory) => new GameActions.ReduceArmorAction(propertyFactory),
+    removeAllTokens: (propertyFactory) => new GameActions.RemoveAllTokensAction(propertyFactory),
     removeAmber: (propertyFactory) => new GameActions.RemoveTokenAction(propertyFactory, 'amber'),
     removeDamage: (propertyFactory) => new GameActions.RemoveTokenAction(propertyFactory, 'damage'),
     removeDepthCounter: (propertyFactory) =>
@@ -149,6 +152,8 @@ const Actions = {
         new GameActions.SequentialCardLastingEffectAction(propertyFactory),
     sequentialForEach: (propertyFactory) =>
         new GameActions.SequentialForEachAction(propertyFactory),
+    sequentialFight: (propertyFactory) => new GameActions.SequentialFightAction(propertyFactory),
+    sequentialPlay: (propertyFactory) => new GameActions.SequentialPlayAction(propertyFactory),
     sequentialPutIntoPlay: (propertyFactory) =>
         new GameActions.SequentialPutIntoPlayAction(propertyFactory),
     sequentialMakeTokenCreature: (propertyFactory) =>

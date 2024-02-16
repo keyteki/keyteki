@@ -73,7 +73,7 @@ const NewGame = ({
         useGameTimeLimit: !!defaultTimeLimit,
         gameTimeLimit: defaultTimeLimit || 45,
         gamePrivate: defaultPrivate,
-        woe: true
+        gr: true
     };
 
     if (!lobbySocket) {
@@ -103,7 +103,8 @@ const NewGame = ({
                                         wc: values.wc,
                                         mm: values.mm,
                                         dt: values.dt,
-                                        woe: values.woe
+                                        woe: values.woe,
+                                        gr: values.gr
                                     },
                                     name: `${getParticipantName(
                                         match.player1_id
@@ -122,7 +123,8 @@ const NewGame = ({
                             wc: values.wc,
                             mm: values.mm,
                             dt: values.dt,
-                            woe: values.woe
+                            woe: values.woe,
+                            gr: values.gr
                         };
                         values.quickJoin = quickJoin;
 
@@ -143,7 +145,8 @@ const NewGame = ({
                                 !formProps.values.wc &&
                                 !formProps.values.mm &&
                                 !formProps.values.dt &&
-                                !formProps.values.woe
+                                !formProps.values.woe &&
+                                !formProps.values.gr
                             ) {
                                 formProps.setFieldError(
                                     'gameFormat',

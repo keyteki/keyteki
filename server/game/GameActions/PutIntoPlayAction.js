@@ -40,7 +40,14 @@ class PutIntoPlayAction extends CardGameAction {
         }
 
         if (card.anyEffect('entersPlayUnderOpponentsControl') && card.owner.opponent) {
-            player = card.owner.opponent;
+            if (this.myControl) {
+                // If we are putting this card into play as if we
+                // owned it, then our opponent gets the card, not the
+                // card's owner's opponent.
+                player = context.player.opponent;
+            } else {
+                player = card.owner.opponent;
+            }
         } else {
             player = this.myControl ? context.player : card.controller;
         }
@@ -151,7 +158,14 @@ class PutIntoPlayAction extends CardGameAction {
                 let player;
                 let control;
                 if (card.anyEffect('entersPlayUnderOpponentsControl') && card.owner.opponent) {
-                    player = card.owner.opponent;
+                    if (this.myControl) {
+                        // If we are putting this card into play as if
+                        // we owned it, then our opponent gets the
+                        // card, not the card's owner's opponent.
+                        player = context.player.opponent;
+                    } else {
+                        player = card.owner.opponent;
+                    }
                     control = true;
                 } else {
                     player = this.myControl ? context.player : card.controller;
@@ -176,6 +190,21 @@ class PutIntoPlayAction extends CardGameAction {
                     }
 
                     card.image = card.compositeImageId || card.id;
+                }
+
+                // If we took control, we need to update the effect
+                // contexts AND update the game state to reflect the
+                // new controller, since it could affect the
+                // 'entersPlay' properties below.  But it must be done
+                // before the location of the card is moved to 'play
+                // area', since that could incorrectly affect the
+                // 'entersPlay' effect.
+                if (control && card.controller != player) {
+                    let prevController = card.controller;
+                    card.controller = player;
+                    card.updateEffectContexts();
+                    context.game.checkGameState(true);
+                    card.controller = prevController;
                 }
 
                 player.moveCard(card, 'play area', {

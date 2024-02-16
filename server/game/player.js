@@ -168,7 +168,7 @@ class Player extends GameObject {
         }
 
         for (let card of this.deck.slice(0, numCards)) {
-            this.moveCard(card, 'hand');
+            this.moveCard(card, 'hand', { drawn: true });
         }
 
         if (remainingCards > 0 && this.discard.length > 0) {
@@ -186,22 +186,21 @@ class Player extends GameObject {
             this.moveCard(card, 'deck', { aboutToShuffle: true });
         }
 
-        this.shuffleDeck();
+        this.shuffleDeck(true);
     }
 
     /**
      * Shuffles the deck, emitting an event and displaying a message in chat
      */
-    shuffleDeck() {
-        this.game.emitEvent('onDeckShuffled', { player: this });
+    shuffleDeck(shuffledDiscardIntoDeck = false) {
         this.deck = _.shuffle(this.deck);
         if (this.isTopCardOfDeckVisible() && this.deck.length > 0) {
-            this.deck[0].facedown = false;
-            this.deck.slice(1).forEach((card) => {
-                card.facedown = true;
-            });
             this.addTopCardOfDeckVisibleMessage();
         }
+        this.game.raiseEvent('onDeckShuffled', {
+            player: this,
+            shuffledDiscardIntoDeck: shuffledDiscardIntoDeck
+        });
     }
 
     /**
@@ -399,12 +398,18 @@ class Player extends GameObject {
                     this
                 );
             } else if (card.type === 'upgrade') {
+                let title = `Select a creature`;
+                let cardType = ['creature'];
+                if (card.anyEffect('canAttachToArtifacts')) {
+                    title = 'Select a card';
+                    cardType = cardType.concat(['artifact']);
+                }
                 if (this.game.creaturesInPlay.length > 0) {
                     this.game.promptForSelect(this, {
                         source: card,
-                        activePromptTitle: `Select a creature`,
+                        activePromptTitle: title,
                         cardCondition: (card) =>
-                            card.location === 'play area' && card.type === 'creature',
+                            card.location === 'play area' && cardType.includes(card.type),
                         onSelect: (p, parent) => {
                             this.removeCardFromPile(card);
                             card.new = true;
@@ -458,6 +463,21 @@ class Player extends GameObject {
         this.houses = deckData.houses;
     }
 
+    checkDeckAfterCardMove(oldTopOfDeck) {
+        if (this.isTopCardOfDeckVisible() && this.deck.length > 0) {
+            this.deck[0].facedown = false;
+
+            // In case a new card was added on top of the deck.
+            if (this.deck.length > 1) {
+                this.deck[1].facedown = true;
+            }
+
+            if (oldTopOfDeck != this.deck[0]) {
+                this.addTopCardOfDeckVisibleMessage();
+            }
+        }
+    }
+
     /**
      * Moves a card from one location to another. This involves removing in from the list it's currently in, calling DrawCard.move (which changes
      * its location property), and then adding it to the list it should now be in
@@ -498,18 +518,7 @@ class Player extends GameObject {
                 return;
             }
 
-            for (let upgrade of card.upgrades) {
-                upgrade.onLeavesPlay();
-                upgrade.owner.moveCard(upgrade, 'discard');
-            }
-
-            for (let child of card.childCards) {
-                child.onLeavesPlay();
-                child.owner.moveCard(child, 'discard');
-            }
-
-            card.purgedCards.forEach((c) => (c.purgedBy = null));
-            card.purgedCards = [];
+            card.clearDependentCards();
 
             card.onLeavesPlay();
             card.controller = this;
@@ -564,27 +573,20 @@ class Player extends GameObject {
         this.game.raiseEvent('onCardPlaced', {
             card: card,
             from: location,
-            to: targetLocation
+            to: targetLocation,
+            drawn: options.drawn
         });
         if (composedPart) {
             this.game.raiseEvent('onCardPlaced', {
                 card: composedPart,
                 from: location,
-                to: targetLocation
+                to: targetLocation,
+                drawn: options.drawn
             });
         }
 
-        if (!options.aboutToShuffle && this.isTopCardOfDeckVisible() && this.deck.length > 0) {
-            this.deck[0].facedown = false;
-
-            // In case a new card was added on top of the deck.
-            if (this.deck.length > 1) {
-                this.deck[1].facedown = true;
-            }
-
-            if (oldTopOfDeck != this.deck[0]) {
-                this.addTopCardOfDeckVisibleMessage();
-            }
+        if (!options.aboutToShuffle) {
+            this.checkDeckAfterCardMove(oldTopOfDeck);
         }
     }
 
@@ -675,6 +677,9 @@ class Player extends GameObject {
     }
 
     isHaunted() {
+        if (this.anyEffect('countPurgedForHaunted')) {
+            return this.discard.length + this.purged.length >= 10;
+        }
         return this.discard.length >= 10;
     }
 

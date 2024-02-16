@@ -634,6 +634,11 @@ class PlayerInteractionWrapper {
         return card;
     }
 
+    scrap(card) {
+        this.clickCard(card);
+        this.clickPrompt('Discard this card');
+    }
+
     /**
      * Converts a mixed list of card objects and card names to a list of card objects
      * @param {(DrawCard|String)[]} mixed - mixed list of cards and names or ids

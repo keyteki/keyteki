@@ -16,13 +16,14 @@ const Effects = {
     actionCardLocationAfterPlay: (location) =>
         EffectBuilder.card.static('actionCardLocationAfterPlay', location),
     addHouse: (house) => EffectBuilder.card.static('addHouse', house),
-    addKeyword: (keyword) => EffectBuilder.card.static('addKeyword', keyword),
+    addKeyword: (keyword) => EffectBuilder.card.flexible('addKeyword', keyword),
     addTrait: (trait) => EffectBuilder.card.static('addTrait', trait),
     blank: () => EffectBuilder.card.static('blank'),
     blankFight: () => EffectBuilder.card.static('blankFight'),
     bonusDamage: (bonus) => EffectBuilder.card.static('bonusDamage', bonus),
     bonusFightDamage: (match) => EffectBuilder.card.static('bonusFightDamage', match),
     canPlayAsUpgrade: () => EffectBuilder.card.static('canPlayAsUpgrade'),
+    canAttachToArtifacts: () => EffectBuilder.card.static('canAttachToArtifacts'),
     cardCannot: (type, condition) =>
         EffectBuilder.card.static('abilityRestrictions', new CannotRestriction(type, condition)),
     changeHouse: (house) => EffectBuilder.card.static('changeHouse', house),
@@ -60,6 +61,8 @@ const Effects = {
         EffectBuilder.card.static('replaceDamage', { action, targetFunc }),
     resolveBonusIconsAdditionalTime: () =>
         EffectBuilder.card.static('resolveBonusIconsAdditionalTime'),
+    returnToHandFromDiscardAnytime: () =>
+        EffectBuilder.card.static('returnToHandFromDiscardAnytime'),
     setArmor: (amount) => EffectBuilder.card.flexible('setArmor', amount),
     setPower: (amount) => EffectBuilder.card.flexible('setPower', amount),
     takeControl: (player) => EffectBuilder.card.flexible('takeControl', player),
@@ -93,6 +96,7 @@ const Effects = {
             unapply: (player, context, ability) => ability.unregisterEvents()
         }),
     additionalCost: (costFactory) => EffectBuilder.player.static('additionalCost', costFactory),
+    anotherTurn: () => EffectBuilder.player.static('anotherTurn'),
     canFight: (match) => EffectBuilder.player.static('canUse', new CanUse(match, true)),
     canPlay: (match) => EffectBuilder.player.static('canPlay', match),
     canPlayFromOwn: (location) =>
@@ -104,9 +108,11 @@ const Effects = {
     canPlayNonHouse: (house) => EffectBuilder.player.flexible('canPlayNonHouse', house),
     canPlayOrUseHouse: (house) => EffectBuilder.player.static('canPlayOrUseHouse', house),
     canPlayOrUseNonHouse: (house) => EffectBuilder.player.static('canPlayOrUseNonHouse', house),
+    canUseNonHouse: (house) => EffectBuilder.player.static('canUseNonHouse', house),
     canUse: (match) => EffectBuilder.player.static('canUse', new CanUse(match)),
     canUseHouse: (house) => EffectBuilder.player.static('canUseHouse', house),
     chooseCardsFromArchives: (card) => EffectBuilder.player.static('chooseCardsFromArchives', card),
+    countPurgedForHaunted: () => EffectBuilder.player.static('countPurgedForHaunted'),
     customDetachedPlayer: (properties) => EffectBuilder.player.detached('customEffect', properties),
     delayedEffect: (properties) =>
         EffectBuilder.player.detached('delayedEffect', {
@@ -117,6 +123,7 @@ const Effects = {
             unapply: (player, context, effect) =>
                 context.game.effectEngine.removeDelayedEffect(effect)
         }),
+    drawOneAtATimeDuringTurn: () => EffectBuilder.player.static('drawOneAtATimeDuringTurn'),
     mayResolveBonusIconsAs: (newIcon, icon = 'any') =>
         EffectBuilder.player.static('mayResolveBonusIconsAs', { newIcon: newIcon, icon: icon }),
     modifyKeyCost: (amount) => EffectBuilder.player.flexible('modifyKeyCost', amount),

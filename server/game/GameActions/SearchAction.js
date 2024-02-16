@@ -4,6 +4,7 @@ class SearchAction extends PlayerAction {
     setDefaultProperties() {
         this.amount = null;
         this.location = ['deck', 'discard'];
+        this.discard = false;
         this.reveal = true;
         this.cardName = null;
         this.uniqueCardNames = false;
@@ -13,7 +14,7 @@ class SearchAction extends PlayerAction {
         super.setup();
 
         this.name = 'search';
-        this.effectMsg = 'search their deck and discard for ' + this.cardName;
+        this.effectMsg = 'search their ' + this.location.join(' and ') + ' for ' + this.cardName;
     }
 
     canAffect(player, context) {
@@ -49,14 +50,27 @@ class SearchAction extends PlayerAction {
                                 cardMessageInfo = cards.length === 1 ? 'a card' : '{2} cards';
                             }
 
-                            context.game.addMessage(
-                                `{0} takes ${cardMessageInfo} into their hand`,
-                                player,
-                                cards,
-                                cards.length
-                            );
+                            if (this.discard) {
+                                context.game.addMessage(
+                                    `{0} discards ${cardMessageInfo}`,
+                                    player,
+                                    cards,
+                                    cards.length
+                                );
+                            } else {
+                                context.game.addMessage(
+                                    `{0} takes ${cardMessageInfo} into their hand`,
+                                    player,
+                                    cards,
+                                    cards.length
+                                );
+                            }
                             for (let card of cards) {
-                                player.moveCard(card, 'hand');
+                                if (this.discard) {
+                                    context.game.actions.discard().resolve(card, context);
+                                } else {
+                                    player.moveCard(card, 'hand');
+                                }
                             }
                         } else {
                             context.game.addMessage("{0} doesn't take anything", player);

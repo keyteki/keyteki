@@ -6,6 +6,7 @@ describe('Ecto-Charge', function () {
                     house: 'brobnar',
                     amber: 9,
                     hand: ['ecto-charge'],
+                    inPlay: Array(10).fill('brammo'),
                     discard: Array(25).fill('brammo')
                 },
                 player2: {
@@ -17,11 +18,23 @@ describe('Ecto-Charge', function () {
             this.johnSmyth.amber = 1;
         });
 
-        it('should forge a key paying 6 amber', function () {
-            // cost is 8 => 8 + 20 - 25 = 3 (minimum is 6)
+        it('should forge a key paying 3 amber', function () {
+            // cost is 8 => 8 + 20 - 25 = 3
             this.player1.play(this.ectoCharge);
             this.player1.clickPrompt('red');
-            expect(this.player1.amber).toBe(4);
+            expect(this.player1.amber).toBe(7);
+            expect(this.ectoCharge.location).toBe('purged');
+            this.player1.endTurn();
+        });
+
+        it('can should forge a key for 0 amber', function () {
+            for (let c of this.player1.player.creaturesInPlay) {
+                this.player1.moveCard(c, 'discard');
+            }
+            // cost is 8 => 8 + 20 - 35 = -7
+            this.player1.play(this.ectoCharge);
+            this.player1.clickPrompt('red');
+            expect(this.player1.amber).toBe(10);
             expect(this.ectoCharge.location).toBe('purged');
             this.player1.endTurn();
         });
