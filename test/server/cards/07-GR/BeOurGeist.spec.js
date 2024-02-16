@@ -12,7 +12,9 @@ describe('Be Our Geist', function () {
                 player2: {
                     amber: 4,
                     inPlay: ['dust-pixie'],
-                    discard: new Array(8).fill('poke').concat(['bot-bookton']) // not yet haunted
+                    discard: new Array(6)
+                        .fill('poke')
+                        .concat(['bot-bookton', 'ælbia-stray', 'infiltrator']) // not yet haunted
                 }
             });
         });
@@ -29,6 +31,8 @@ describe('Be Our Geist', function () {
             expect(this.player1).not.toBeAbleToSelect(this.libraryOfBabble);
             expect(this.player1).not.toBeAbleToSelect(this.poke);
             expect(this.player1).not.toBeAbleToSelect(this.botBookton);
+            expect(this.player1).not.toBeAbleToSelect(this.ælbiaStray);
+            expect(this.player1).not.toBeAbleToSelect(this.infiltrator);
             expect(this.player1).not.toBeAbleToSelect(this.dustPixie);
             expect(this.player1).not.toBeAbleToSelect(this.missChievous);
             this.player1.clickCard(this.charette);
@@ -49,12 +53,32 @@ describe('Be Our Geist', function () {
             expect(this.player1).not.toBeAbleToSelect(this.poke);
             expect(this.player1).toBeAbleToSelect(this.botBookton);
             expect(this.player1).toBeAbleToSelect(this.dustPixie);
+            expect(this.player1).toBeAbleToSelect(this.ælbiaStray);
+            expect(this.player1).toBeAbleToSelect(this.infiltrator);
             expect(this.player1).not.toBeAbleToSelect(this.missChievous);
             this.player1.clickCard(this.dustPixie);
             this.player1.clickPrompt('Right');
             expect(this.dustPixie.location).toBe('play area');
             expect(this.player1.amber).toBe(4);
             expect(this.player1.player.creaturesInPlay).toContain(this.dustPixie);
+            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+        });
+
+        it('cannot play Aelbia Stray ready when not haunted', function () {
+            this.player1.fightWith(this.missChievous, this.dustPixie);
+            this.player1.play(this.beOurGeist);
+            this.player1.clickCard(this.ælbiaStray);
+            this.player1.clickPrompt('Right');
+            expect(this.ælbiaStray.exhausted).toBe(true);
+            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+        });
+
+        it('respects treachery', function () {
+            this.player1.fightWith(this.missChievous, this.dustPixie);
+            this.player1.play(this.beOurGeist);
+            this.player1.clickCard(this.infiltrator);
+            expect(this.infiltrator.location).toBe('play area');
+            expect(this.player2.player.creaturesInPlay).toContain(this.infiltrator);
             expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
         });
     });
