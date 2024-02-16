@@ -156,6 +156,7 @@ class DealDamageAction extends CardGameAction {
             }
 
             let amountApplied = damageDealtEvent.amount - armorUsed;
+            damageDealtEvent.amountApplied = amountApplied;
 
             let damageAppliedParams = {
                 card: damageDealtEvent.card,

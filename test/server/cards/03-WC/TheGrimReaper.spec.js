@@ -5,33 +5,12 @@ describe('The Grim Reaper(WC)', function () {
                 player1: {
                     house: 'brobnar',
                     hand: ['the-grim-reaper', 'anger'],
-                    discard: [
-                        'poke',
-                        'poke',
-                        'poke',
-                        'poke',
-                        'poke',
-                        'poke',
-                        'poke',
-                        'poke',
-                        'poke'
-                    ]
+                    discard: new Array(9).fill('poke') // not haunted
                 },
                 player2: {
                     house: 'brobnar',
                     hand: ['poke'],
-                    discard: [
-                        'poke',
-                        'poke',
-                        'poke',
-                        'poke',
-                        'poke',
-                        'poke',
-                        'poke',
-                        'poke',
-                        'poke',
-                        'poke'
-                    ]
+                    discard: new Array(10).fill('poke') // haunted
                 }
             });
         });

@@ -213,6 +213,10 @@ class DeckService {
             dbExpansions.push(600);
         }
 
+        if (expansions.gr) {
+            dbExpansions.push(700);
+        }
+
         let deck;
         let expansionStr = dbExpansions.join(',');
         try {
@@ -409,6 +413,16 @@ class DeckService {
             throw new Error('Invalid response from Api. Please try again later.');
         }
 
+        if (
+            deckResponse._linked.cards.some((c) => {
+                return c.card_number[0] === 'R';
+            })
+        ) {
+            throw new Error(
+                'There is currently a bug in the Master Vault with revenant decks, they cannot be imported'
+            );
+        }
+
         let newDeck = this.parseDeckResponse(deck.username, deckResponse);
         if (!newDeck) {
             throw new Error('There was a problem importing your deck, please try again later.');
@@ -505,7 +519,7 @@ class DeckService {
                 deck.expansion
             ]);
         } catch (err) {
-            logger.error('Failed to check expansion', err);
+            logger.error('Failed to check expansion', err, deck.expansion, deck.uuid);
 
             return false;
         }
@@ -807,17 +821,13 @@ class DeckService {
                 !card.id
                     .split('')
                     .every((char) =>
-                        'æaăàáãǎbcdeĕèéěfghĭìíǐijklmnoöǑŏòóõǒpqrstuŭùúǔvwxyz0123456789-[]*'.includes(
+                        'æaăàáãǎbcdeĕèéěfghĭìíǐijklmnoöǑŏòóõǒpqrstuŭùúǔvwxyz0123456789-[]*…'.includes(
                             char
                         )
                     )
         );
         if (anyIllegalCards) {
-            logger.error(
-                `DECK IMPORT ERROR: ${anyIllegalCards.id
-                    .split('')
-                    .map((char) => char.charCodeAt(0))}`
-            );
+            logger.error(`DECK IMPORT ERROR: ${anyIllegalCards.id}`);
 
             return undefined;
         }

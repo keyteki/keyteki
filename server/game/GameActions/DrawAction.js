@@ -21,7 +21,7 @@ class DrawAction extends PlayerAction {
         return context.player;
     }
 
-    getEvent(player, context) {
+    getAmountAndShedChains(player) {
         let shedChains = false;
         let amount = 0;
         if (this.refill) {
@@ -33,17 +33,10 @@ class DrawAction extends PlayerAction {
         } else {
             amount = this.amount;
         }
+        return [amount, shedChains];
+    }
 
-        if (!this.bonus && amount > 0) {
-            context.game.addMessage(
-                '{0} draws {1} card{2}{3}',
-                player,
-                amount,
-                amount > 1 ? 's' : '',
-                this.refill ? ` to their maximum of ${player.maxHandSize}` : ''
-            );
-        }
-
+    getEventWithAmount(player, context, amount, refill, shedChains) {
         return super.createEvent(
             'onDrawCards',
             {
@@ -54,6 +47,16 @@ class DrawAction extends PlayerAction {
                 context: context
             },
             (event) => {
+                if (!this.bonus && event.amount > 0) {
+                    context.game.addMessage(
+                        '{0} draws {1} card{2}{3}',
+                        player,
+                        amount,
+                        amount > 1 ? 's' : '',
+                        refill ? ` to their maximum of ${player.maxHandSize}` : ''
+                    );
+                }
+
                 if (event.amount > 0) {
                     event.player.drawCardsToHand(amount);
                 }
@@ -68,6 +71,49 @@ class DrawAction extends PlayerAction {
                 }
             }
         );
+    }
+
+    getEventArray(context) {
+        // If any player has to draw one at a time during their turn,
+        // split them up and make individual events for each draw.
+        let oneAtATimeTargets = this.target.filter(
+            (p) => p.anyEffect('drawOneAtATimeDuringTurn') && context.game.activePlayer === p
+        );
+        let events = this.target
+            .filter((p) => !oneAtATimeTargets.includes(p))
+            .filter((target) => this.canAffect(target, context))
+            .map((target) => this.getEvent(target, context));
+
+        for (let player of oneAtATimeTargets) {
+            let [amount, shedChains] = this.getAmountAndShedChains(player);
+            let event = null;
+            let prevEvent = null;
+            for (let i = 0; i < amount; i++) {
+                let nextDrawEvent = this.getEventWithAmount(
+                    player,
+                    context,
+                    1,
+                    i === amount - 1 ? this.refill : false,
+                    i === amount - 1 ? shedChains : false
+                );
+                if (event === null) {
+                    event = nextDrawEvent;
+                } else {
+                    prevEvent.addSubEvent(nextDrawEvent);
+                }
+                prevEvent = nextDrawEvent;
+            }
+            if (event !== null) {
+                events = events.concat(event);
+            }
+        }
+
+        return events;
+    }
+
+    getEvent(player, context) {
+        let [amount, shedChains] = this.getAmountAndShedChains(player);
+        return this.getEventWithAmount(player, context, amount, this.refill, shedChains);
     }
 }
 

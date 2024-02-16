@@ -12,6 +12,7 @@ const PlayArtifactAction = require('./BaseActions/PlayArtifactAction');
 const PlayUpgradeAction = require('./BaseActions/PlayUpgradeAction');
 const ResolveFightAction = require('./GameActions/ResolveFightAction');
 const ResolveReapAction = require('./GameActions/ResolveReapAction');
+const ReturnToHandAction = require('./GameActions/ReturnToHandAction');
 const RemoveStun = require('./BaseActions/RemoveStun');
 
 class Card extends EffectSource {
@@ -331,6 +332,30 @@ class Card extends EffectSource {
                 ]
             })
         );
+
+        // Treachery
+        this.abilities.keywordPersistentEffects.push(
+            this.persistentEffect({
+                printedAbility: false,
+                condition: () => this.hasKeyword('treachery'),
+                match: this,
+                location: 'any',
+                targetController: 'any',
+                effect: ability.effects.entersPlayUnderOpponentsControl()
+            })
+        );
+
+        // Versatile
+        this.abilities.keywordPersistentEffects.push(
+            this.persistentEffect({
+                condition: () => this.hasKeyword('versatile'),
+                printedAbility: false,
+                match: this,
+                effect: ability.effects.canUse(
+                    (card, _, effectContext) => card === effectContext.source
+                )
+            })
+        );
     }
 
     /**
@@ -359,6 +384,28 @@ class Card extends EffectSource {
 
     reap(properties) {
         return this.reaction(Object.assign({ reap: true, name: 'Reap' }, properties));
+    }
+
+    scrap(properties) {
+        return this.reaction(
+            Object.assign(
+                {
+                    when: {
+                        onCardDiscarded: (event, context) => {
+                            return (
+                                event.location === 'hand' &&
+                                event.card.controller === context.game.activePlayer &&
+                                event.card === context.source
+                            );
+                        }
+                    },
+                    location: 'any',
+                    scrap: true,
+                    name: 'Scrap'
+                },
+                properties
+            )
+        );
     }
 
     destroyed(properties) {
@@ -439,7 +486,7 @@ class Card extends EffectSource {
      * is both in play and not blank.
      */
     persistentEffect(properties) {
-        const allowedLocations = ['any', 'play area'];
+        const allowedLocations = ['any', 'play area', 'discard'];
         let location = properties.location || 'play area';
         if (!allowedLocations.includes(location)) {
             throw new Error(`'${location}' is not a supported effect location.`);
@@ -538,6 +585,23 @@ class Card extends EffectSource {
         this.endRound();
     }
 
+    clearDependentCards() {
+        for (let upgrade of this.upgrades) {
+            upgrade.onLeavesPlay();
+            upgrade.owner.moveCard(upgrade, 'discard');
+        }
+
+        for (let child of this.childCards) {
+            child.onLeavesPlay();
+            child.owner.moveCard(child, 'discard');
+        }
+
+        for (let card of this.purgedCards) {
+            card.purgedBy = null;
+        }
+        this.purgedCards = [];
+    }
+
     endRound() {
         this.armorUsed = 0;
         this.elusiveUsed = false;
@@ -558,11 +622,21 @@ class Card extends EffectSource {
             this.removeLastingEffects();
         }
 
+        let effectLocations = ['play area', 'discard'];
+
         _.each(this.getPersistentEffects(true), (effect) => {
             if (effect.location !== 'any') {
-                if (to === 'play area' && from !== 'play area') {
+                if (
+                    effectLocations.includes(effect.location) &&
+                    to === effect.location &&
+                    from !== effect.location
+                ) {
                     effect.ref = this.addEffectToEngine(effect);
-                } else if (to !== 'play area' && from === 'play area') {
+                } else if (
+                    effectLocations.includes(effect.location) &&
+                    to !== effect.location &&
+                    from === effect.location
+                ) {
                     if (effect.ref) {
                         this.removeEffectFromEngine(effect.ref);
                     }
@@ -648,6 +722,13 @@ class Card extends EffectSource {
 
     hasToken(type) {
         return !!this.tokens[type];
+    }
+
+    sumTokens() {
+        if (!this.tokens) {
+            return 0;
+        }
+        return Object.values(this.tokens).reduce((a, b) => a + b, 0);
     }
 
     removeToken(type, number = this.tokens[type]) {
@@ -903,7 +984,6 @@ class Card extends EffectSource {
         if (this.getEffects('mustFightIfAble').length > 0 && canFight) {
             actions = actions.filter((action) => action.title === 'Fight with this creature');
         }
-
         return actions;
     }
 
@@ -946,6 +1026,15 @@ class Card extends EffectSource {
         return removeStun;
     }
 
+    getReturnToHandAction() {
+        return this.action({
+            title: 'Return this card to hand',
+            printedAbility: false,
+            gameAction: new ReturnToHandAction({ location: 'discard' }),
+            location: 'discard'
+        });
+    }
+
     getActions(location = this.location) {
         let actions = [];
         if (location === 'hand') {
@@ -966,6 +1055,11 @@ class Card extends EffectSource {
             actions.push(this.getFightAction());
             actions.push(this.getReapAction());
             actions.push(this.getRemoveStunAction());
+        } else if (
+            location === 'discard' &&
+            this.mostRecentEffect('returnToHandFromDiscardAnytime')
+        ) {
+            actions.push(this.getReturnToHandAction());
         }
 
         return actions.concat(this.actions.slice());
@@ -1007,7 +1101,9 @@ class Card extends EffectSource {
     checkForIllegalAttachments() {
         if (this.type === 'artifact' && this.upgrades.length > 0) {
             this.upgrades.forEach((upgrade) => {
-                upgrade.owner.moveCard(upgrade, 'discard');
+                if (!upgrade.anyEffect('canAttachToArtifacts')) {
+                    upgrade.owner.moveCard(upgrade, 'discard');
+                }
             });
         }
     }

@@ -1069,7 +1069,7 @@ class Game extends EventEmitter {
             player.cardsInPlay.push(card);
         }
         card.updateEffectContexts();
-        this.emitEvent('onTakeControl', { player, card });
+        this.raiseEvent('onTakeControl', { player, card });
     }
 
     watch(socketId, user) {
@@ -1277,7 +1277,7 @@ class Game extends EventEmitter {
     }
 
     raiseEndRoundEvent() {
-        this.raiseEvent('onRoundEnded', {}, () => {
+        this.raiseEvent('onRoundEnded', { player: this.activePlayer }, () => {
             this.endRound();
         });
     }
@@ -1302,7 +1302,7 @@ class Game extends EventEmitter {
 
         this.activePlayer.activeHouse = null;
 
-        if (this.activePlayer.opponent) {
+        if (this.activePlayer.opponent && !this.activePlayer.anyEffect('anotherTurn')) {
             this.activePlayer = this.activePlayer.opponent;
         }
 
