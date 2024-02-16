@@ -6,7 +6,7 @@ describe('Cauldron', function () {
                     amber: 1,
                     house: 'untamed',
                     hand: ['dust-pixie'],
-                    inPlay: ['cauldron'],
+                    inPlay: ['cauldron', 'near-future-lens'],
                     discard: ['witch-of-the-eye', 'ganger-chieftain', 'smith']
                 },
                 player2: {
@@ -66,6 +66,13 @@ describe('Cauldron', function () {
             this.player1.clickPrompt('Done');
             expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
             expect(this.player1.amber).toBe(2);
+        });
+
+        it('trigger Near-Future Lens message', function () {
+            this.player1.useAction(this.cauldron, true);
+            expect(this).toHaveRecentChatMessage(
+                'player1 uses Near-Future Lens to reveal Ganger Chieftain'
+            );
         });
     });
 });
