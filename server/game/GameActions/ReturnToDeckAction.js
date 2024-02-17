@@ -19,18 +19,39 @@ class ReturnToDeckAction extends CardGameAction {
     }
 
     setTarget(target) {
+        this.originalTarget = target;
+        super.setTarget(target);
+    }
+
+    getEventArray(context) {
+        let shufflePlayer = context.player;
         if (this.shuffle && !this.shuffleDiscardIntoDeck) {
             // Figure out if the entire discard has been shuffled into the
-            // deck for a single owner.
+            // deck for either player.
             if (
-                this.target.length > 0 &&
-                this.target.every((c) => c.owner === this.target[0].owner)
+                this.target.length === context.player.discard.length &&
+                this.target.every((c) => context.player.discard.includes(c))
             ) {
-                this.shuffleDiscardIntoDeck = this.target[0].owner.discard === this.target;
+                this.shuffleDiscardIntoDeck = context.player.discard === this.originalTarget;
+            }
+
+            if (
+                !this.shuffleDiscardIntoDeck &&
+                context.player.opponent &&
+                this.target.length === context.player.opponent.discard.length &&
+                this.target.every((c) => context.player.opponent.discard.includes(c))
+            ) {
+                this.shuffleDiscardIntoDeck =
+                    context.player.opponent.discard === this.originalTarget;
+                shufflePlayer = context.player.opponent;
             }
         }
 
-        super.setTarget(target);
+        if (this.target.length === 0 && this.shuffle) {
+            shufflePlayer.shuffleDeck(this.shuffleDiscardIntoDeck);
+        }
+
+        return super.getEventArray(context);
     }
 
     getEvent(card, context) {

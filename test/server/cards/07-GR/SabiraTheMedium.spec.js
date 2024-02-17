@@ -11,7 +11,7 @@ describe('Sabira the Medium', function () {
                 },
                 player2: {
                     amber: 1,
-                    hand: ['collar-of-subordination'],
+                    hand: ['collar-of-subordination', 'till-the-earth'],
                     inPlay: ['screaming-cave'],
                     discard: ['flaxia']
                 }
@@ -52,6 +52,31 @@ describe('Sabira the Medium', function () {
             this.player2.endTurn();
             expect(this.player1.amber).toBe(1);
             expect(this.player2.amber).toBe(4);
+        });
+
+        it('does trigger on empty discard pile', function () {
+            this.player1.player.discard = [];
+            this.player1.play(this.helpFromFutureSelf);
+            this.player1.clickPrompt('Done');
+            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1.amber).toBe(5);
+        });
+
+        it('does trigger when opponent causes the shuffle', function () {
+            this.player1.endTurn();
+            this.player2.clickPrompt('untamed');
+            this.player2.play(this.tillTheEarth);
+            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1.amber).toBe(4);
+        });
+
+        it('does trigger when opponent causes the shuffle on empty discard pile', function () {
+            this.player1.endTurn();
+            this.player1.discard = [];
+            this.player2.clickPrompt('untamed');
+            this.player2.play(this.tillTheEarth);
+            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1.amber).toBe(4);
         });
     });
 });
