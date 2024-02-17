@@ -43,7 +43,9 @@ class MultiDimensionalRescue extends Card {
                 }),
                 then: {
                     alwaysTriggers: true,
-                    gameAction: ability.actions.moveCard({ destination: 'purged' })
+                    gameAction: ability.actions.purge((context) => ({
+                        target: context.source
+                    }))
                 }
             }
         });
