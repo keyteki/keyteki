@@ -1024,6 +1024,29 @@ class Player extends GameObject {
         return this.game.highTide ? this.game.highTide !== this : false;
     }
 
+    getDiscardSlice(n = 1) {
+        if (this.discard.length <= Math.abs(n)) {
+            // Return the exact discard array if we are including
+            // everything; that way, we can trigger effects that (for
+            // example) depend on shuffling the full discard into the deck.
+            return this.discard;
+        } else if (n < 0) {
+            return this.discard.slice(n);
+        }
+        return this.discard.slice(0, n);
+    }
+
+    getDiscardWithCondition(condition = () => true) {
+        let res = this.discard.filter(condition);
+        if (res.length === this.discard.length) {
+            // Return the exact discard array if we are including
+            // everything; that way, we can trigger effects that (for
+            // example) depend on shuffling the full discard into the deck.
+            return this.discard;
+        }
+        return res;
+    }
+
     /**
      * This information is passed to the UI
      * @param {Player} activePlayer
