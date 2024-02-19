@@ -1,5 +1,7 @@
 const CardGameAction = require('./CardGameAction');
 
+const locationsHiddenFromPurge = ['hand', 'archives'];
+
 class PurgeAction extends CardGameAction {
     setup() {
         super.setup();
@@ -9,6 +11,13 @@ class PurgeAction extends CardGameAction {
 
     setDefaultProperties() {
         this.purgedBy = null;
+    }
+
+    canAffect(target, context) {
+        if (context.source === target && locationsHiddenFromPurge.includes(target.location)) {
+            return false;
+        }
+        return this.targetType.includes(target.type);
     }
 
     purge(card) {
