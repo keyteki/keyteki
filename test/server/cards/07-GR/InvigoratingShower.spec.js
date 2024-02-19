@@ -44,7 +44,7 @@ describe('Invigorating Shower', function () {
             this.player1.player.game.on('onDeckShuffled', (event) => (shuffled = event.player));
             this.player1.play(this.invigoratingShower);
             this.player1.clickPrompt('ekwidon');
-            expect(shuffled).toBe(null); // pending a ruling
+            expect(shuffled).toBe(this.player1.player);
             expect(this.poke.location).toBe('discard');
             expect(this.dustPixie.location).toBe('discard');
             expect(this.fertilityChant.location).toBe('discard');
