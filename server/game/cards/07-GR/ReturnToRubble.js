@@ -7,11 +7,7 @@ class ReturnToRubble extends Card {
         this.play({
             gameAction: ability.actions.returnToDeck((context) => ({
                 shuffle: true,
-                // Avoid getting a slice if possible, to trigger things like Sabira the Medium.
-                target:
-                    context.player.discard.length > 10
-                        ? context.player.discard.slice(0, 10)
-                        : context.player.discard
+                target: context.player.getDiscardSlice(10)
             })),
             then: {
                 condition: (context) => context.preThenEvents.length === 10,

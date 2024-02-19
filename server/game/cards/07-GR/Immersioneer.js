@@ -41,7 +41,7 @@ class Immersioneer extends Card {
             condition: (context) => context.player.discard.length > 0,
             gameAction: ability.actions.returnToDeck((context) => ({
                 shuffle: true,
-                target: context.player.discard.slice(-3)
+                target: context.player.getDiscardSlice(-3)
             }))
         });
     }

@@ -9,7 +9,9 @@ class InvigoratingShower extends Card {
                 mode: 'house'
             },
             gameAction: ability.actions.returnToDeck((context) => ({
-                target: context.player.discard.filter((card) => card.hasHouse(context.house)),
+                target: context.player.getDiscardWithCondition((card) =>
+                    card.hasHouse(context.house)
+                ),
                 shuffle: true
             }))
         });
