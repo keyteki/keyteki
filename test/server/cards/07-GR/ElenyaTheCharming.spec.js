@@ -6,7 +6,7 @@ describe('Elenya the Charming', function () {
                     amber: 1,
                     house: 'ekwidon',
                     hand: ['elenya-the-charming'],
-                    inPlay: ['the-old-tinker']
+                    inPlay: ['the-old-tinker', 'transitory-philosopher']
                 },
                 player2: {
                     amber: 6,
@@ -30,6 +30,7 @@ describe('Elenya the Charming', function () {
             expect(this.player2).not.toBeAbleToSelect(this.dustPixie);
             expect(this.player2).not.toBeAbleToSelect(this.elenyaTheCharming);
             expect(this.player2).not.toBeAbleToSelect(this.theOldTinker);
+            expect(this.player2).not.toBeAbleToSelect(this.transitoryPhilosopher);
             this.player2.clickCard(this.foozle);
             this.player2.clickPrompt('Right');
             expect(this.player1.player.cardsInPlay).toContain(this.foozle);
