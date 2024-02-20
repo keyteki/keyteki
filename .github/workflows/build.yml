@@ -1,7 +1,7 @@
 # This workflow will do a clean installation of node dependencies, cache/restore them, build the source code and run tests across different versions of node
 # For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-nodejs
 
-name: Check successful build and test
+name: Build, test and package
 
 on:
   push:
@@ -34,9 +34,8 @@ jobs:
     - run: npm test
    
   package:
+    if: github.repository == 'keyteki/keyteki' && github.ref == 'refs/heads/master'
     runs-on: ubuntu-latest
-    needs: build
-    if: github.ref == 'refs/heads/master'
     steps:
     - name: Checkout source and submodules
       uses: actions/checkout@v3
@@ -64,12 +63,14 @@ jobs:
       uses: gittools/actions/gitversion/execute@v0.9.14
       with:
         additionalArguments: /overrideconfig mode=Mainline
-    - name: Install Octopus Deploy CLI
-      uses: OctopusDeploy/install-octopus-cli-action@v1
-      with:
-        version: latest
-    - name: Build and push
+    - name: Build and push lobby
       uses: docker/build-push-action@v3
       with:
         push: true
-        tags: cryogen/keyteki:lobby-${{ steps.determine_version.outputs.semVer }}    
+        tags: cryogen/keyteki-lobby:latest, cryogen/keyteki-lobby:${{ steps.determine_version.outputs.semVer }}   
+    - name: Build and push node
+      uses: docker/build-push-action@v3
+      with:
+        push: true
+        file: server/gamenode/Dockerfile
+        tags: cryogen/keyteki-node:latest, cryogen/keyteki-node:${{ steps.determine_version.outputs.semVer }} 
