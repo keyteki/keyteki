@@ -15,6 +15,7 @@ class ElenyaTheCharming extends Card {
             condition: (context) => !!context.player.opponent,
             target: {
                 cardType: 'creature',
+                controller: 'self',
                 mode: 'mostStat',
                 numCards: 1,
                 cardStat: (card) => card.power,
