@@ -10,4 +10,4 @@ RUN npm install
 COPY . /app/node
 EXPOSE 9500
 
-CMD [ "npm", "run", "gamenode" ]
+CMD [ "npm", "run", "game" ]
