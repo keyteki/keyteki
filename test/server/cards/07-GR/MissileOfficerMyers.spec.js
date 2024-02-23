@@ -5,7 +5,7 @@ describe('Missile Officer Myers', function () {
                 player1: {
                     amber: 1,
                     house: 'staralliance',
-                    hand: ['missile-officer-myers', 'exhume'],
+                    hand: ['missile-officer-myers', 'exhume', 'legerdemain'],
                     inPlay: ['charette', 'medic-ingram'],
                     discard: ['gub']
                 },
@@ -47,6 +47,12 @@ describe('Missile Officer Myers', function () {
             expect(this.missileOfficerMyers.location).toBe('discard');
             expect(this.exhume.location).toBe('discard');
             expect(this.gub.location).toBe('play area');
+            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+        });
+
+        it('can discard Legerdemain without crashing when there is no target', function () {
+            this.player1.scrap(this.missileOfficerMyers);
+            this.player1.clickCard(this.legerdemain);
             expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
         });
     });
