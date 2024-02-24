@@ -13,6 +13,6 @@ jobs:
         - name: Pull latest lobby image
           run: docker pull cryogen/keyteki-lobby
         - name: Stop and remove lobby image
-          run: docker stop $LobbyContainerName && rm $LobbyContainerName
+          run: docker stop ${{ vars.LOBBY_CONTAINER_NAME }} && docker rm ${{ vars.LOBBY_CONTAINER_NAME }}
         - name: Run new lobby image
           run: docker run  docker run -d -p $LobbyPort:80 --network $NetworkName -v $AvatarPath:/usr/src/app/public/img/avatar -v $LobbyLogPath:/usr/src/app/server/logs --name $ContainerName --env NODE_CONFIG='{"env":"production","sentryDsn":"${{ secrets.SentryDsn }}","captchaKey":"${{ secrets.CaptchaKey }}","minLobbyChatTime":3600,"dbUser":"${{ secrets.DbUser }}","dbHost":"host.docker.internal","dbDatabase":"${{ secrets.DbName }}","dbPassword":"${{ secrets.DbPassword }}","dbPort":${{ secrets.DbPort }},"redisUrl":"${{ secrets.RedisUrl }}","secret":"${{ secrets.secret }}","lobby":{"port":80,"emailKey":"${{ secrets.EmailKey }}","hmacSecret":"${{ secrets.Hmac }}","requireActivation":false,"lowerDeckThreshold":5,"middleDeckThreshold":20,"upperDeckThreshold":50}}' cryogen/keyteki-lobby
