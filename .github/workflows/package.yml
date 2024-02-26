@@ -1,7 +1,7 @@
 name: Package
 on:
     workflow_run:
-        workflows: ['Build and test']
+        workflows: ['Build, test and package']
         branches: master
         types: completed
 
