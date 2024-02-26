@@ -8,12 +8,13 @@ on:
     inputs:
      environment:
         type: environment
-        description: Select the environment  
+        description: Select the environment 
+        default: Development
 jobs:
   deploy:
     if: github.repository == 'keyteki/keyteki' && ${{ github.event.workflow_run.conclusion == 'success' }}
     runs-on: self-hosted
-    environment: Development
+    environment: ${{ inputs.environment }}
     steps:
         - name: Pull latest lobby image
           run: docker pull cryogen/keyteki-lobby
