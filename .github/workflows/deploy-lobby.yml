@@ -1,9 +1,5 @@
 name: Deploy Lobby
 on:
-  workflow_run:
-    workflows: Package
-    branches: master
-    types: completed
   workflow_dispatch:
     inputs:
      environment:
@@ -12,7 +8,6 @@ on:
         default: Production
 jobs:
   deploy:
-    if: github.repository == 'keyteki/keyteki' && ${{ github.event.workflow_run.conclusion == 'success' }}
     runs-on: self-hosted
     environment: ${{ inputs.environment }}
     steps:
