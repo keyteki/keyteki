@@ -465,13 +465,6 @@ class Player extends GameObject {
 
     checkDeckAfterCardMove(oldTopOfDeck) {
         if (this.isTopCardOfDeckVisible() && this.deck.length > 0) {
-            this.deck[0].facedown = false;
-
-            // In case a new card was added on top of the deck.
-            if (this.deck.length > 1) {
-                this.deck[1].facedown = true;
-            }
-
             if (oldTopOfDeck != this.deck[0]) {
                 this.addTopCardOfDeckVisibleMessage();
             }
