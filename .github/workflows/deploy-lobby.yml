@@ -5,7 +5,10 @@ on:
     branches: master
     types: completed
   workflow_dispatch:
-  
+    inputs:
+     environment:
+        type: environment
+        description: Select the environment  
 jobs:
   deploy:
     if: github.repository == 'keyteki/keyteki' && ${{ github.event.workflow_run.conclusion == 'success' }}
