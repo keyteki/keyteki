@@ -9,7 +9,7 @@ describe('Well of Memory', function () {
                     discard: ['ritual-of-balance', 'charette', 'full-moon']
                 },
                 player2: {
-                    discard: ['crushing-deep', 'hunting-witch']
+                    discard: ['crushing-deep', 'dust-pixie']
                 }
             });
         });
@@ -32,13 +32,15 @@ describe('Well of Memory', function () {
             expect(this.player1).toBeAbleToSelect(this.ritualOfBalance);
             expect(this.player1).toBeAbleToSelect(this.charette);
             expect(this.player1).toBeAbleToSelect(this.fullMoon);
+            expect(this.player1).not.toBeAbleToSelect(this.dustPixie);
+            expect(this.player1).not.toBeAbleToSelect(this.crushingDeep);
             expect(this.player1).not.toHavePrompt('Done');
             this.player1.clickCard(this.charette);
             expect(this.charette.location).toBe('hand');
             expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
         });
 
-        it('can purge all card from hand to return 1 from discard', function () {
+        it('can purge all card from hand to return 1 from discard for each', function () {
             this.player1.play(this.wellOfMemory);
             this.player1.clickCard(this.flaxia);
             this.player1.clickCard(this.huntingWitch);
