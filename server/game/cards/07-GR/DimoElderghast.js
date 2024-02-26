@@ -5,7 +5,8 @@ class DimoElderghast extends Card {
     // are haunted, gain 1 A for each A on this creature.”
     setupCardAbilities(ability) {
         this.persistentEffect({
-            match: (card) => card.type === 'creature' && card.amber > 0,
+            match: (card) =>
+                card.type === 'creature' && card.amber > 0 && card.controller.isHaunted(),
             effect: ability.effects.gainAbility('destroyed', {
                 gameAction: ability.actions.gainAmber((context) => ({
                     target: context.source.controller,
