@@ -18,7 +18,9 @@ class PlowSword extends Card {
                     gameAction: ability.actions.dealDamage({
                         amount: 3
                     })
-                }
+                },
+                message: '{0} uses {1} to deal 3 damage to {2}',
+                messageArgs: (context) => [context.source]
             }
         });
     }

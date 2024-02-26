@@ -13,7 +13,8 @@ class XypTheImplanter extends Card {
                     effect: ability.effects.takeControl(context.player)
                 }))
             },
-            effect: 'take control of {0}',
+            effect: 'take control of {1}',
+            effectArgs: (context) => [context.target ? context.target : 'nothing'],
             then: {
                 alwaysTriggers: true,
                 target: {

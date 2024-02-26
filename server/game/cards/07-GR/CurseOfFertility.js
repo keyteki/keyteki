@@ -15,7 +15,9 @@ class CurseOfFertility extends Card {
             },
             gameAction: ability.actions.gainAmber((context) => ({
                 target: context.player.opponent
-            }))
+            })),
+            effect: 'make {1} gain 1 amber',
+            effectArgs: (context) => [context.player.opponent]
         });
     }
 }

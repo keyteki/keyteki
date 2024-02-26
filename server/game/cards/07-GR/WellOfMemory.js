@@ -18,6 +18,7 @@ class WellOfMemory extends Card {
                 target: {
                     numCards: preThenContext.target.length,
                     location: 'discard',
+                    controller: 'self',
                     gameAction: ability.actions.returnToHand({
                         location: 'discard'
                     })
