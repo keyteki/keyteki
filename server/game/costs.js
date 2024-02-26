@@ -3,6 +3,7 @@ const DestroyAction = require('./GameActions/DestroyAction');
 
 const HouseUseEffects = ['canUseHouse', 'canPlayOrUseHouse'];
 const NonHouseUseEffects = ['canPlayOrUseNonHouse', 'canUseNonHouse'];
+const NonHouseCreatureUseEffects = ['canPlayOrUseNonHouseCreature', 'canUseNonHouseCreature'];
 const HousePlayEffects = ['canPlayHouse', 'canPlayOrUseHouse'];
 const NonHousePlayEffects = ['canPlayNonHouse', 'canPlayOrUseNonHouse'];
 
@@ -32,6 +33,9 @@ const Costs = {
                     ((HouseUseEffects.includes(effect.type) &&
                         context.source.hasHouse(effect.getValue(context.player))) ||
                         (NonHouseUseEffects.includes(effect.type) &&
+                            !context.source.hasHouse(effect.getValue(context.player))) ||
+                        (NonHouseCreatureUseEffects.includes(effect.type) &&
+                            context.source.type === 'creature' &&
                             !context.source.hasHouse(effect.getValue(context.player)))) &&
                     !context.game.effectsUsed.includes(effect)
             );
@@ -48,7 +52,8 @@ const Costs = {
                 let houseEffects = context.player.effects.filter(
                     (effect) =>
                         (HouseUseEffects.includes(effect.type) ||
-                            NonHouseUseEffects.includes(effect.type)) &&
+                            NonHouseUseEffects.includes(effect.type) ||
+                            NonHouseCreatureUseEffects.includes(effect.type)) &&
                         !context.game.effectsUsed.includes(effect)
                 );
                 let effect = houseEffects.find(
@@ -56,6 +61,9 @@ const Costs = {
                         (HouseUseEffects.includes(effect.type) &&
                             context.source.hasHouse(effect.getValue(context.player))) ||
                         (NonHouseUseEffects.includes(effect.type) &&
+                            !context.source.hasHouse(effect.getValue(context.player))) ||
+                        (NonHouseCreatureUseEffects.includes(effect.type) &&
+                            context.source.type === 'creature' &&
                             !context.source.hasHouse(effect.getValue(context.player)))
                 );
 
