@@ -14,9 +14,14 @@ name: "CodeQL"
 on:
   push:
     branches: [ master ]
+    paths-ignore:
+      - ".github/workflows/**"
+
   pull_request:
     # The branches below must be a subset of the branches above
     branches: [ master ]
+    paths-ignore:
+      - ".github/workflows/**"
   schedule:
     - cron: '34 20 * * 1'
 
