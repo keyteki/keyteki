@@ -1,0 +1,21 @@
+name: Deploy Node
+on:
+  workflow_dispatch:
+    inputs:
+     environment:
+        type: environment
+        description: Select the environment 
+        default: ProductionNode1
+jobs:
+  deploy:
+    if: github.repository == 'keyteki/keyteki' && ${{ github.event.workflow_run.conclusion == 'success' }}
+    runs-on: self-hosted
+    environment: ${{ inputs.environment }}
+    steps:
+        - name: Pull latest node image
+          run: docker pull cryogen/keyteki-node
+        - name: Stop and remove node image
+          continue-on-error: true
+          run: docker stop ${{ vars.CONTAINER_NAME }} && docker rm ${{ vars.CONTAINER_NAME }}
+        - name: Run new node image
+          run: docker run --restart unless-stopped -d -p ${{ vars.PORT }}:80 --network ${{ vars.NETWORK_NAME }} -v ${{ vars.LOG_PATH }}:/app/node/server/logs --name ${{ vars.CONTAINER_NAME }} --env NODE_CONFIG='{"env":"production","sentryDsn":"${{ secrets.SENTRY_DSN }}","redisUrl":"${{ secrets.REDIS_URL }}","secret":"${{ secrets.SECRET }}","gameNode":{"name":"${{ vars.NODE_NAME }}","socketioPort":80,"host":"${{ vars.HOSTNAME }}","origin":"http://${{ vars.HOSTNAME }}:* https://${{ vars.HOSTNAME }}:*"}}' cryogen/keyteki-node:latest

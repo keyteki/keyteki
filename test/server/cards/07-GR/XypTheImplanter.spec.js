@@ -38,5 +38,15 @@ describe('Xyp the Implanter', function () {
             expect(this.flaxia.location).toBe('discard');
             expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
         });
+
+        it('destroys a friendly creature without taking an enemy creature', function () {
+            this.player2.moveCard(this.zizok, 'discard');
+            this.player2.moveCard(this.troll, 'discard');
+            this.player2.moveCard(this.groggins, 'discard');
+            this.player1.reap(this.xypTheImplanter);
+            this.player1.clickCard(this.flaxia);
+            expect(this.flaxia.location).toBe('discard');
+            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+        });
     });
 });
