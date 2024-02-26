@@ -1,7 +1,7 @@
 name: Package
 on:
     workflow_run:
-        workflows: Build, test and package
+        workflows: ['Build and test']
         branches: master
         types: completed
 
@@ -9,7 +9,7 @@ jobs:
     package:
         # `if` required because a workflow run is triggered regardless of
         # the result of the previous workflow (see the documentation page)
-        if: github.repository == 'keyteki/keyteki' && ${{ github.event.workflow_run.conclusion == 'success' }}
+        if: ${{ github.event.workflow_run.conclusion == 'success' }}
         runs-on: ubuntu-latest
         steps:
             - name: Checkout source and submodules
