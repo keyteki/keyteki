@@ -9,7 +9,7 @@ on:
      environment:
         type: environment
         description: Select the environment 
-        default: Development
+        default: Production
 jobs:
   deploy:
     if: github.repository == 'keyteki/keyteki' && ${{ github.event.workflow_run.conclusion == 'success' }}
