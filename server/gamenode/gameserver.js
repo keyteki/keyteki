@@ -16,7 +16,6 @@ const GameSocket = require('./gamesocket');
 const Game = require('../game/game');
 const Socket = require('../socket');
 const ConfigService = require('../services/ConfigService');
-const version = require('../../version');
 
 class GameServer {
     constructor() {
@@ -24,7 +23,7 @@ class GameServer {
         const sentryDsn = this.configService.getValue('sentryDsn');
 
         if (sentryDsn) {
-            Sentry.init({ dsn: sentryDsn, release: version.build });
+            Sentry.init({ dsn: sentryDsn, release: process.env.VERSION || 'Local build' });
         }
 
         this.games = {};
@@ -47,7 +46,7 @@ class GameServer {
             this.configService,
             this.host,
             this.protocol,
-            version.build
+            process.env.VERSION || 'Local build'
         );
         this.gameSocket.on('onStartGame', this.onStartGame.bind(this));
         this.gameSocket.on('onSpectator', this.onSpectator.bind(this));
