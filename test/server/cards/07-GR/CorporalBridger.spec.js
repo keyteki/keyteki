@@ -6,7 +6,7 @@ describe('Corporal Bridger', function () {
                     amber: 1,
                     house: 'staralliance',
                     hand: ['corporal-bridger', 'batdrone'],
-                    inPlay: ['dust-pixie', 'flaxia']
+                    inPlay: ['dust-pixie', 'flaxia', 'library-of-babble']
                 },
                 player2: {
                     inPlay: ['timetraveller']
@@ -21,6 +21,13 @@ describe('Corporal Bridger', function () {
             this.player1.reap(this.dustPixie);
             expect(this.player1.amber).toBe(2);
             this.player1.clickCard(this.flaxia);
+            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+        });
+
+        it('should not allow artifact use on play', function () {
+            this.player1.play(this.corporalBridger);
+            this.player1.clickCard(this.libraryOfBabble);
+            expect(this.player1.hand.length).toBe(1);
             expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
         });
 
