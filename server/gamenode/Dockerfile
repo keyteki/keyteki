@@ -6,8 +6,11 @@ WORKDIR /app/node
 COPY package.json /app/node/
 COPY package-lock.json /app/node/
 
+ARG VERSION
+ENV VERSION ${VERSION}
+
 RUN npm install
 COPY . /app/node
 EXPOSE 9500
 
-CMD [ "npm", "run", "gamenode" ]
+CMD [ "npm", "run", "game" ]

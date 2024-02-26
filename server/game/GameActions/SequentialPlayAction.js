@@ -6,6 +6,7 @@ class SequentialPlayAction extends GameAction {
         this.revealList = [];
         this.ready = false;
         this.forEach = [];
+        this.num = 0;
     }
 
     setup() {
@@ -40,11 +41,16 @@ class SequentialPlayAction extends GameAction {
     }
 
     filterAndApplyAction(context, forEach) {
+        if (this.num !== 0 && this.played >= this.num) {
+            return;
+        }
+
         let filteredForEach = forEach.filter(
             (card) => !card.gigantic || forEach.some((part) => part.id === card.compositeId)
         );
 
         if (filteredForEach.length > 1) {
+            this.played++;
             context.game.promptForSelect(context.game.activePlayer, {
                 activePromptTitle: 'Choose a card to play',
                 selector: new CardListSelector(filteredForEach, this.revealList),
@@ -64,11 +70,13 @@ class SequentialPlayAction extends GameAction {
                 }
             });
         } else if (filteredForEach.length === 1) {
+            this.played++;
             this.queueActionSteps(context, filteredForEach[0]);
         }
     }
 
     getEventArray(context) {
+        this.played = 0;
         return [
             super.createEvent('unnamedEvent', {}, () => {
                 this.filterAndApplyAction(context, this.forEach);
