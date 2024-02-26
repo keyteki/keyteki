@@ -13,7 +13,7 @@ class Legerdemain extends Card {
             then: (preThenContext) => ({
                 gameAction: ability.actions.gainAmber({
                     amount: 1,
-                    target: preThenContext.target.controller
+                    target: preThenContext.target ? preThenContext.target.controller : []
                 })
             })
         });
