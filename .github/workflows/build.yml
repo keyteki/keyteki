@@ -3,7 +3,6 @@
 
 name: Build, test and package
 on:
-    workflow_dispatch:
     push:
         branches: ['master']
         paths-ignore:
