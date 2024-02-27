@@ -2,6 +2,7 @@ const logger = require('../log');
 const util = require('../util');
 const db = require('../db');
 const { expand, flatten } = require('../Array');
+const BonusOrder = ['amber', 'capture', 'damage', 'draw', 'discard'];
 
 class DeckService {
     constructor(configService, cardService) {
@@ -374,7 +375,7 @@ class DeckService {
                 ? card.Enhancements.replace(/[[{}"\]]/gi, '')
                       .split(',')
                       .filter((c) => c.length > 0)
-                      .sort()
+                      .sort((a, b) => BonusOrder.indexOf(a) - BonusOrder.indexOf(b))
                 : undefined
         }));
 
