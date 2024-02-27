@@ -36,7 +36,7 @@ const CardImage = ({ card, cardBack, size, halfSize, onMouseOver, onMouseOut }) 
                             ...card,
                             size,
                             halfSize,
-                            url: `/img/${halfSize ? 'halfSize' : 'cards'}/${
+                            url: `/img/cards/${halfSize ? 'halfSize/' : ''}${
                                 i18n.language === 'en' ? '' : i18n.language
                             }/${card.image.replace(/\*/g, '_')}.${halfSize ? 'jpg' : 'png'}`
                         });
