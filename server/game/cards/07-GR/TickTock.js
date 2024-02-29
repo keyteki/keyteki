@@ -25,7 +25,9 @@ class TickTock extends Card {
                         controller: 'self',
                         location: ['discard', 'hand'],
                         gameAction: ability.actions.archive()
-                    }
+                    },
+                    message: '{0} uses {1} to archive {2}',
+                    messageArgs: (context) => [context.target]
                 }
             }
         });

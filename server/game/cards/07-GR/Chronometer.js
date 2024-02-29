@@ -22,7 +22,9 @@ class Chronometer extends Card {
                         controller: 'any',
                         location: 'discard',
                         gameAction: ability.actions.purge()
-                    }
+                    },
+                    message: '{0} uses {1} to purge {2}',
+                    messageArgs: (context) => [context.target]
                 }
             }
         });
