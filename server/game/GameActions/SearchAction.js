@@ -14,7 +14,15 @@ class SearchAction extends PlayerAction {
         super.setup();
 
         this.name = 'search';
-        this.effectMsg = 'search their ' + this.location.join(' and ') + ' for ' + this.cardName;
+        this.effectMsg =
+            'search their ' +
+            this.location.join(' and ') +
+            ' for ' +
+            (this.cardName
+                ? this.cardName
+                : !this.amount || this.amount === 1
+                ? 'a card'
+                : 'up to ' + this.amount + ' cards');
     }
 
     canAffect(player, context) {
