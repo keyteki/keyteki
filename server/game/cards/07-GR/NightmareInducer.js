@@ -6,6 +6,7 @@ class NightmareInducer extends Card {
     // that card on the bottom of your opponent’s deck.
     setupCardAbilities(ability) {
         this.action({
+            effectStyle: 'all',
             condition: (context) =>
                 !!context.player.opponent && context.player.opponent.discard.length > 0,
             target: {
