@@ -18,7 +18,10 @@ function anachronometerAbility(ability) {
                 trueGameAction: ability.actions.discard((context) => ({
                     target: context.player.deck.slice(
                         0,
-                        Math.min(context.player.opponent.discard.length, context.player.deck.length)
+                        Math.min(
+                            context.player.opponent ? context.player.opponent.discard.length : 0,
+                            context.player.deck.length
+                        )
                     )
                 }))
             })
