@@ -82,7 +82,6 @@
         "event-source-polyfill": "^1.0.12",
         "eventsource": "^1.1.1",
         "express": "^4.17.3",
-        "express-session": "^1.17.0",
         "fabric": "^5.3.0",
         "formik": "^2.1.4",
         "helmet": "^3.22.0",
