@@ -9,11 +9,16 @@ class FlyingBroomstick extends Card {
             effect: [
                 ability.effects.addKeyword({ elusive: 1 }),
                 ability.effects.gainAbility('reap', {
-                    gameAction: [
-                        ability.actions.heal({ fully: true }),
-                        ability.actions.removeAmber({ all: true }),
-                        ability.actions.removeAllTokens()
-                    ]
+                    target: {
+                        cardType: 'creature',
+                        gameAction: [
+                            ability.actions.heal({ fully: true }),
+                            ability.actions.removeAmber({ all: true }),
+                            ability.actions.removeAllTokens()
+                        ]
+                    },
+                    effect: 'heal and remove all amber and counters from {1}',
+                    effectArgs: (context) => [context.target]
                 })
             ]
         });
