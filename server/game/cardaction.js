@@ -44,7 +44,9 @@ class CardAction extends CardAbility {
         this.reap = properties.reap;
         this.fight = properties.fight;
         this.omni = !!properties.omni;
-        this.cost = this.cost.concat(Costs.exhaust(), Costs.use());
+        if (!properties.skipCardActionCosts) {
+            this.cost = this.cost.concat(Costs.exhaust(), Costs.use());
+        }
     }
 
     meetsRequirements(context = this.createContext(), ignoredRequirements = []) {
