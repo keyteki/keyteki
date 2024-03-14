@@ -138,5 +138,25 @@ describe('AberrantWarpEvent', function () {
             expect(this.mother.location).toBe('discard');
             expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
         });
+
+        it('plays with no cards in own deck', function () {
+            this.player1.player.deck = [];
+
+            this.player2.moveCard(this.gub, 'deck');
+            this.player2.moveCard(this.daughter, 'deck');
+            this.player2.moveCard(this.crazyKillingMachine, 'deck');
+            this.player2.moveCard(this.staticCharge, 'deck');
+            this.player2.moveCard(this.causalLoop, 'deck');
+
+            // Self
+            this.player1.play(this.aberrantWarpEvent);
+            // Opponent
+            expect(this.player1).toHavePrompt('Which flank do you want to place this creature on?');
+            this.player1.clickPrompt('Left');
+            this.player1.clickCard(this.mother);
+            expect(this.daughter.location).toBe('play area');
+            expect(this.mother.location).toBe('discard');
+            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+        });
     });
 });
