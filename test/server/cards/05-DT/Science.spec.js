@@ -31,6 +31,7 @@ describe('Science!', function () {
             this.player1.play(this.oppositionResearch);
             this.player1.clickPrompt('Science!');
             this.player1.play(this.dataForge);
+            this.player1.clickPrompt('Science!');
             expect(this.player1.amber).toBe(4);
         });
 

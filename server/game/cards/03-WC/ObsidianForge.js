@@ -11,9 +11,9 @@ class ObsidianForge extends Card {
                 gameAction: ability.actions.sacrifice()
             },
             then: {
-                may: 'forge a key',
                 alwaysTriggers: true,
                 gameAction: ability.actions.forgeKey((context) => ({
+                    may: true,
                     modifier: 6 - context.preThenEvents.filter((event) => !event.cancelled).length
                 })),
                 then: {
