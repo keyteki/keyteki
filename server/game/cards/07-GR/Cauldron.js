@@ -2,8 +2,8 @@ const Card = require('../../Card.js');
 
 class Cauldron extends Card {
     // Omni: Put the top card of your deck faceup under Cauldron. If
-    // there are 3 cards under Cauldron, play them one at a time as if
-    // they were in your hand.
+    // there are 3 or more cards under Cauldron, play them one at a
+    // time as if they were in your hand.
     setupCardAbilities(ability) {
         this.omni({
             condition: (context) => context.player.deck.length > 0,
@@ -15,8 +15,7 @@ class Cauldron extends Card {
                 alwaysTriggers: true,
                 condition: (context) => context.source.childCards.length >= 3,
                 gameAction: ability.actions.sequentialPlay((context) => ({
-                    forEach: context.source.childCards,
-                    num: 3
+                    forEach: context.source.childCards
                 }))
             }
         });
