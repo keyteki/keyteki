@@ -18,23 +18,11 @@ describe('Ecto-Charge', function () {
             this.johnSmyth.amber = 1;
         });
 
-        it('should forge a key paying 3 amber', function () {
-            // cost is 8 => 8 + 20 - 25 = 3
+        it('should forge a key paying 8 amber', function () {
+            // cost is 8 => 8 + 20 - 25 = 3 (minimum is 6)
             this.player1.play(this.ectoCharge);
             this.player1.clickPrompt('red');
-            expect(this.player1.amber).toBe(7);
-            expect(this.ectoCharge.location).toBe('purged');
-            this.player1.endTurn();
-        });
-
-        it('can should forge a key for 0 amber', function () {
-            for (let c of this.player1.player.creaturesInPlay) {
-                this.player1.moveCard(c, 'discard');
-            }
-            // cost is 8 => 8 + 20 - 35 = -7
-            this.player1.play(this.ectoCharge);
-            this.player1.clickPrompt('red');
-            expect(this.player1.amber).toBe(10);
+            expect(this.player1.amber).toBe(4);
             expect(this.ectoCharge.location).toBe('purged');
             this.player1.endTurn();
         });
@@ -49,7 +37,7 @@ describe('Ecto-Charge', function () {
             this.player1.endTurn();
         });
 
-        it('should not forge a key if cost is 11, and not discard Ecto-Charge', function () {
+        it('should not forge a key if cost is 11, and not purge Ecto-Charge', function () {
             // cost is 8 => 8 + 20 - 17 = 11
             this.player1.player.discard = this.player1.player.discard.slice(0, 17);
             this.player1.play(this.ectoCharge);
