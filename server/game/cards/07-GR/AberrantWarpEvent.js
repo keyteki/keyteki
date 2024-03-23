@@ -19,7 +19,10 @@ function wasCreatureDiscarded(context) {
 function playLastDiscardedCardAndDestroyNeighbors(ability) {
     return ability.actions.sequential([
         ability.actions.putIntoPlay((context) => ({
-            target: context.preThenEvents[context.preThenEvents.length - 1].card
+            target:
+                context.preThenEvents.length > 0
+                    ? context.preThenEvents[context.preThenEvents.length - 1].card
+                    : []
         })),
         ability.actions.destroy((context) => ({
             promptForSelect: {

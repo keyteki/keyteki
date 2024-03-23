@@ -7,9 +7,10 @@ class IhakaOfTheDepths extends Card {
         this.reaction({
             when: {
                 onCardPlaced: (event, context) =>
-                    context.player === this.game.activePlayer &&
                     event.drawn &&
-                    context.player.discard.length > 0
+                    context.source.controller === event.card.controller &&
+                    context.source.controller === context.game.activePlayer &&
+                    context.source.controller.discard.length > 0
             },
             optional: true,
             gameAction: ability.actions.returnToDeck((context) => ({
