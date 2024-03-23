@@ -2,7 +2,8 @@ const Card = require('../../Card.js');
 
 class IntoTheWarp extends Card {
     // Play: Each player discards the top card of their deck. Destroy
-    // each creature that shares a house with the discarded card.
+    // each creature that shares a house with at least one of the
+    // discarded cards.
     setupCardAbilities(ability) {
         this.play({
             condition: (context) =>

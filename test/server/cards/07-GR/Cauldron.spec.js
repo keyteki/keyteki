@@ -105,13 +105,15 @@ describe('Cauldron', function () {
                 this.player1.clickPrompt('Right');
                 this.player1.clickPrompt('Done');
                 this.player1.clickCard(this.smith);
+                this.player1.clickCard(this.umbra); // Poke
                 expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
-                expect(this.player1.amber).toBe(4);
-                expect(this.cauldron.childCards.length).toBe(1);
+                expect(this.player1.amber).toBe(5);
+                expect(this.cauldron.childCards.length).toBe(0);
                 expect(this.witchOfTheEye.location).toBe('play area');
                 expect(this.gangerChieftain.location).toBe('play area');
                 expect(this.smith.location).toBe('discard');
-                expect(this.poke.location).toBe('under');
+                expect(this.poke.location).toBe('discard');
+                expect(this.umbra.tokens.damage).toBe(1);
                 expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
             });
         });
