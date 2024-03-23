@@ -3,13 +3,15 @@ describe('Ihaka of the Depths', function () {
         beforeEach(function () {
             this.setupTest({
                 player1: {
+                    amber: 1,
                     house: 'logos',
-                    hand: ['hallafest'],
+                    hand: ['hallafest', 'standardized-testing'],
                     discard: ['vulka', 'poke', 'bubbles', 'troll'],
                     inPlay: ['ihaka-of-the-depths', 'doc-bookton']
                 },
                 player2: {
-                    hand: ['punctuated-equilibrium']
+                    hand: ['punctuated-equilibrium'],
+                    inPlay: ['thoughtcatcher']
                 }
             });
             this.player1.moveCard(this.vulka, 'deck');
@@ -65,6 +67,16 @@ describe('Ihaka of the Depths', function () {
             this.player2.clickPrompt('untamed');
             this.player2.play(this.punctuatedEquilibrium);
             expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+        });
+
+        it('should not trigger when opponent draws during our turn', function () {
+            let p2len = this.player2.player.hand.length;
+            this.thoughtcatcher.amber = 1;
+            this.player1.play(this.standardizedTesting);
+            expect(this.thoughtcatcher.location).toBe('discard');
+            expect(this.player1.amber).toBe(2);
+            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player2.player.hand.length).toBe(p2len + 1);
         });
     });
 });
