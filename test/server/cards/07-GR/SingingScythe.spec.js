@@ -107,5 +107,15 @@ describe('Singing Scythe', function () {
             this.player1.reap(this.echofly);
             expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
         });
+
+        it('is not affected by rule of 6 when returning to hand', function () {
+            for (let i = 0; i < 8; i++) {
+                this.player1.scrap(this.singingScythe);
+                this.player1.clickCard(this.singingScythe);
+                this.player1.clickPrompt('Return this card to hand');
+                expect(this.singingScythe.location).toBe('hand');
+                expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            }
+        });
     });
 });

@@ -1031,7 +1031,8 @@ class Card extends EffectSource {
             title: 'Return this card to hand',
             printedAbility: false,
             gameAction: new ReturnToHandAction({ location: 'discard' }),
-            location: 'discard'
+            location: 'discard',
+            skipCardActionCosts: true
         });
     }
 
