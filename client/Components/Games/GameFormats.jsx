@@ -22,8 +22,8 @@ const GameFormats = ({ formProps }) => {
         { name: 'wc', label: t('Worlds Collide') },
         { name: 'mm', label: t('Mass Mutation') },
         { name: 'dt', label: t('Dark Tidings') },
-        { name: 'woe', label: t('Winds of Exchange') }
-        //    { name: 'gr', label: t('Grim Reminders') }
+        { name: 'woe', label: t('Winds of Exchange') },
+        { name: 'gr', label: t('Grim Reminders') }
     ];
 
     return (
