@@ -147,7 +147,7 @@
         "uuid": "^3.4.0",
         "webpack": "^4.42.1",
         "webpack-cli": "^3.3.11",
-        "webpack-dev-middleware": "^3.7.2",
+        "webpack-dev-middleware": "^5.3.4",
         "webpack-merge": "^4.2.2",
         "winston": "^3.2.1",
         "winston-daily-rotate-file": "^4.4.2",
