@@ -414,7 +414,7 @@ class DeckService {
             throw new Error('Invalid response from Api. Please try again later.');
         }
 
-        let newDeck = this.parseDeckResponse(deck.username, deckResponse);
+        let newDeck = await this.parseDeckResponse(deck.username, deckResponse);
         if (!newDeck) {
             throw new Error('There was a problem importing your deck, please try again later.');
         }
@@ -706,7 +706,9 @@ class DeckService {
         }
     }
 
-    parseDeckResponse(username, deckResponse) {
+    async parseDeckResponse(username, deckResponse) {
+        const allCards = await this.cardService.getAllCards();
+
         let specialCards = {
             479: { 'dark-æmber-vault': true, 'it-s-coming': true }
         };
@@ -768,6 +770,11 @@ class DeckService {
 
             if (card.card_type === 'Creature2') {
                 retCard.id += '2';
+            }
+
+            if (card.house.toLowerCase().replace(' ', '') !== allCards[retCard.id].house) {
+                retCard.house = card.house.toLowerCase().replace(' ', '');
+                retCard.image = `${retCard.id}-${retCard.house}`;
             }
 
             // If this is one of the cards that has an entry for every house, get the correct house image
