@@ -37,11 +37,42 @@ class BlasterCard extends Card {
         return result;
     }
 
+    getDefaultAbility(ability) {
+        let choices = {
+            'Deal 2 damage': () => true
+        };
+
+        let result = {
+            optional: true,
+            targets: {
+                action: {
+                    mode: 'select',
+                    choices: choices
+                },
+                'Deal 2 damage': {
+                    dependsOn: 'action',
+                    cardType: 'creature',
+                    gameAction: ability.actions.dealDamage({ amount: 2 })
+                }
+            }
+        };
+
+        return result;
+    }
+
     setupBlasterCardAbilities(ability, creatureName) {
         this.whileAttached({
+            match: (card) => card.name !== creatureName,
             effect: [
                 ability.effects.gainAbility('reap', this.getAttachedAbility(ability, creatureName)),
                 ability.effects.gainAbility('fight', this.getAttachedAbility(ability, creatureName))
+            ]
+        });
+        this.whileAttached({
+            match: (card) => card.name === creatureName,
+            effect: [
+                ability.effects.gainAbility('reap', this.getDefaultAbility(ability)),
+                ability.effects.gainAbility('fight', this.getDefaultAbility(ability))
             ]
         });
     }
