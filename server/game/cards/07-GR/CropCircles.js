@@ -11,7 +11,8 @@ class CropCircles extends Card {
                 cardCondition: (c) => !c.hasHouse('mars'),
                 gameAction: ability.actions.capture((context) => ({
                     amount: 1,
-                    player: context.target.controller
+                    player: context.target.controller,
+                    allowNoAmber: true
                 }))
             },
             then: (preThenContext) => ({

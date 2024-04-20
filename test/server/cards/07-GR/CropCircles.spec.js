@@ -99,5 +99,14 @@ describe('Crop Circles', function () {
             expect(this.player2.amber).toBe(2);
             expect(this.urchin.tokens.amber).toBe(1);
         });
+
+        it('should work when opponent has no amber', function () {
+            this.player2.amber = 0;
+            this.player1.play(this.cropCircles);
+            this.player1.clickCard(this.urchin);
+            this.player1.clickPrompt('Done');
+            expect(this.urchin.tokens.amber).toBe(undefined);
+            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+        });
     });
 });
