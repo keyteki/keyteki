@@ -27,6 +27,7 @@ class Plan10 extends Card {
                 })
             },
             then: {
+                alwaysTriggers: true,
                 condition: (context) => context.source.childCards.length === 0,
                 message: '{0} is destroyed as there are no cards under it',
                 gameAction: ability.actions.destroy()

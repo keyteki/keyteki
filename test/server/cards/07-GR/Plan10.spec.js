@@ -5,7 +5,7 @@ describe('Plan 10', function () {
                 player1: {
                     amber: 3,
                     house: 'mars',
-                    hand: ['plan-10', 'hypnobeam'],
+                    hand: ['plan-10', 'hypnobeam', 'war-of-the-worlds'],
                     inPlay: ['echofly', 'john-smyth']
                 },
                 player2: {
@@ -95,6 +95,13 @@ describe('Plan 10', function () {
             expect(this.plan10.childCards).not.toContain(this.umbra);
             expect(this.umbra.location).toBe('hand');
             expect(this.player2.player.hand).toContain(this.umbra);
+        });
+
+        it('is destroyed if no creatures go under it', function () {
+            this.player1.play(this.warOfTheWorlds);
+            this.player1.play(this.plan10);
+            this.player1.endTurn();
+            expect(this.plan10.location).toBe('discard');
         });
     });
 });
