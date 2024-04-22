@@ -45,16 +45,30 @@ class BasePlayAction extends BaseAbility {
     }
 
     addSubEvent(event, context) {
-        event.addSubEvent(
-            context.game.getEvent('unnamedEvent', {}, () => {
-                context.game.checkGameState(true);
-                // update game state to consider effects
-                if (context.source.hasKeyword('omega')) {
-                    context.game.omegaCard = context.source;
+        let bonusEvent = context.game.getEvent('unnamedEvent', {}, () => {
+            context.game.checkGameState(true);
+            // update game state to consider effects
+            if (context.source.hasKeyword('omega')) {
+                context.game.omegaCard = context.source;
+            }
+            context.game.actions.resolveBonusIcons().resolve(context.source, context);
+        });
+        bonusEvent.addSubEvent(
+            context.game.getEvent(
+                'onCardPlayedAfterBonusIcons',
+                {
+                    player: context.player,
+                    card: context.source
+                },
+                () => {
+                    // Resolving the bonus icons might change the
+                    // ability events possible from this card, so
+                    // re-evaluate them here.
+                    context.source.updateAbilityEvents('hand', 'being played');
                 }
-                context.game.actions.resolveBonusIcons().resolve(context.source, context);
-            })
+            )
         );
+        event.addSubEvent(bonusEvent);
     }
 
     executeHandler(context) {
