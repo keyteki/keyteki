@@ -53,7 +53,8 @@ class CardImport {
         // Add cards that were once anomaly and now are printed in a set (or sets)
         let specialCards = {
             479: { 'dark-æmber-vault': true, 'it-s-coming': true, 'orb-of-wonder': true },
-            496: { 'orb-of-wonder': true, valoocanth: true }
+            496: { 'orb-of-wonder': true, valoocanth: true },
+            700: { 'ecto-charge': true, 'near-future-lens': true }
         };
 
         const gigantic = ['deusillus', 'ultra-gravitron', 'niffle-kong'];

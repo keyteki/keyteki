@@ -775,9 +775,9 @@ class DeckService {
                 retCard.id += '2';
             }
 
+            // Revenants can be in any house, their real house is set on the deck itself
             if (card.house.toLowerCase().replace(' ', '') !== allCards[retCard.id].house) {
                 retCard.house = card.house.toLowerCase().replace(' ', '');
-                retCard.image = `${retCard.id}-${retCard.house}`;
             }
 
             // If this is one of the cards that has an entry for every house, get the correct house image

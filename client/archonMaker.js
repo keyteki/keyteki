@@ -462,6 +462,7 @@ export const buildCard = async (
     {
         maverick,
         anomaly,
+        number,
         enhancements,
         image,
         url,
@@ -510,7 +511,7 @@ export const buildCard = async (
     const bonusIcons = amber > 0 || (enhancements && enhancements.length > 0);
 
     //house overlay
-    if (maverick || anomaly) {
+    if (maverick || anomaly || number[0] === 'R') {
         let house;
         if (maverick) {
             if (!MaverickCornerImage) {
@@ -519,8 +520,10 @@ export const buildCard = async (
             MaverickCornerImage.set({ left: 210 });
             canvas.add(MaverickCornerImage);
             house = maverick;
-        } else {
+        } else if (anomaly) {
             house = anomaly;
+        } else if (number[0] === 'R') {
+            house = card.house;
         }
 
         if (bonusIcons) {
