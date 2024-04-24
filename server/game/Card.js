@@ -1227,6 +1227,7 @@ class Card extends EffectSource {
             facedown: this.facedown,
             location: this.location,
             locale: this.locale,
+            number: tokenCardOrThis.cardData.number,
             menu: this.getMenu(),
             name: this.name,
             new: this.new,
