@@ -28,6 +28,7 @@ INSERT INTO public."Expansions" ("Id", "ExpansionId", "Code", "Name") VALUES (7,
 INSERT INTO public."Expansions" ("Id", "ExpansionId", "Code", "Name") VALUES (8, 601, 'UC2022', 'Unchained 2022');
 INSERT INTO public."Expansions" ("Id", "ExpansionId", "Code", "Name") VALUES (9, 609, 'VM2023', 'Vault Masters 2023')
 INSERT INTO public."Expansions" ("Id", "ExpansionId", "Code", "Name") VALUES (10, 700, 'GR', 'Grim Reminders');
+INSERT INTO public."Expansions" ("Id", "ExpansionId", "Code", "Name") VALUES (11, 737, 'VM2024', 'Vault Masters 2024')
 --
 -- Name: Expansions_Id_seq; Type: SEQUENCE SET; Schema: public; Owner: keyteki
 --
