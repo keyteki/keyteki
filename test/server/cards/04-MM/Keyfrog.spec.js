@@ -163,4 +163,67 @@ describe('Keyfrog', function () {
             expect(this.player2.player.getForgedKeys()).toBe(0);
         });
     });
+
+    describe('Keyfrog', function () {
+        describe("Keyfrog's ability versus stealing", function () {
+            beforeEach(function () {
+                this.setupTest({
+                    player1: {
+                        amber: 4,
+                        house: 'untamed',
+                        hand: ['savage-clash'],
+                        inPlay: ['keyfrog', 'dæmo-bot', 'dæmo-knight', 'dæmo-beast', 'squire-alys']
+                    },
+                    player2: {
+                        amber: 4,
+                        inPlay: ['timetraveller']
+                    }
+                });
+
+                this.player1.play(this.savageClash);
+                this.player1.clickCard(this.timetraveller);
+                this.player1.clickCard(this.squireAlys);
+            });
+
+            it('should allow triggering its ability before stealing and not forge', function () {
+                expect(this.player1).toBeAbleToSelect(this.keyfrog);
+                expect(this.player1).toBeAbleToSelect(this.dæmoBot);
+                expect(this.player1).toBeAbleToSelect(this.dæmoKnight);
+                expect(this.player1).toBeAbleToSelect(this.dæmoBeast);
+                this.player1.clickCard(this.keyfrog);
+                this.player1.clickCard(this.dæmoBot);
+                this.player1.clickCard(this.dæmoKnight);
+                this.player1.clickCard(this.dæmoBeast);
+                expect(this.keyfrog.location).toBe('discard');
+                expect(this.dæmoBot.location).toBe('discard');
+                expect(this.dæmoKnight.location).toBe('discard');
+                expect(this.dæmoBeast.location).toBe('discard');
+                expect(this.player1.amber).toBe(7);
+                expect(this.player2.amber).toBe(1);
+                expect(this.player1).not.toHavePrompt('Which key would you like to forge?');
+                this.player1.endTurn();
+            });
+
+            it('should allow triggering its ability after stealing and forge', function () {
+                expect(this.player1).toBeAbleToSelect(this.keyfrog);
+                expect(this.player1).toBeAbleToSelect(this.dæmoBot);
+                expect(this.player1).toBeAbleToSelect(this.dæmoKnight);
+                expect(this.player1).toBeAbleToSelect(this.dæmoBeast);
+                this.player1.clickCard(this.dæmoBot);
+                this.player1.clickCard(this.dæmoKnight);
+                this.player1.clickCard(this.dæmoBeast);
+                this.player1.clickCard(this.keyfrog);
+                expect(this.player1).toHavePrompt('Which key would you like to forge?');
+                this.player1.clickPrompt('red');
+                expect(this.keyfrog.location).toBe('discard');
+                expect(this.dæmoBot.location).toBe('discard');
+                expect(this.dæmoKnight.location).toBe('discard');
+                expect(this.dæmoBeast.location).toBe('discard');
+                expect(this.player1.player.getForgedKeys()).toBe(1);
+                expect(this.player1.amber).toBe(1);
+                expect(this.player2.amber).toBe(1);
+                this.player1.endTurn();
+            });
+        });
+    });
 });

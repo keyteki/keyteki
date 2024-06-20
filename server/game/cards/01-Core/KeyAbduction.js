@@ -9,9 +9,9 @@ class KeyAbduction extends Card {
                 target: context.game.creaturesInPlay.filter((card) => card.hasHouse('mars'))
             })),
             then: {
-                may: 'forge a key',
                 alwaysTriggers: true,
                 gameAction: ability.actions.forgeKey((context) => ({
+                    may: true,
                     modifier: 9 - context.player.hand.length
                 }))
             }
