@@ -9,6 +9,7 @@
     width: 36px;
     position: absolute;
     opacity: 0;
+    z-index: $layer-player-board-our-side + 1;
 }
 
 .delay-0 {
