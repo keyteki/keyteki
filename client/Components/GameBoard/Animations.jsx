@@ -3,7 +3,7 @@ import Amber from './Amber';
 
 import './Animations.scss';
 
-const Animations = ({ animations, activePlayer }) => {
+const Animations = ({ animations = [], activePlayer }) => {
     return (
         <div className='animations'>
             {animations.map((animation, index) => {

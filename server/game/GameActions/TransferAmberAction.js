@@ -26,7 +26,6 @@ class TransferAmberAction extends PlayerAction {
             player: player,
             amount: Math.min(this.amount, player.amber)
         };
-        // TODO: give more info to gainAmber for animation
         return super.createEvent('onTransferAmber', params, (event) => {
             event.player.modifyAmber(-event.amount);
             context.game.actions

@@ -120,15 +120,8 @@ class Game extends EventEmitter {
         this.highTide = null;
     }
 
-    addAnimation(name, amount = 1) {
-        if (amount < 1) return;
-        if (amount == 1) {
-            this.animations.push(name);
-        } else {
-            for (let i = 0; i < amount; i++) {
-                this.animations.push({ name, delay: i });
-            }
-        }
+    addAnimation() {
+        return;
     }
 
     /*
