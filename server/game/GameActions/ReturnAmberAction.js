@@ -35,8 +35,7 @@ class ReturnAmberAction extends CardGameAction {
             context.game.actions
                 .gainAmber({
                     amount: event.amount,
-                    target: this.recipient || card.controller.opponent,
-                    returned: true
+                    target: this.recipient || card.controller.opponent
                 })
                 .resolve(context.player, context);
         });

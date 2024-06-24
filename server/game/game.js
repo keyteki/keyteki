@@ -120,10 +120,6 @@ class Game extends EventEmitter {
         this.highTide = null;
     }
 
-    addAnimation() {
-        return;
-    }
-
     /*
      * Reports errors from the game engine back to the router
      * @param {type} e

@@ -19,10 +19,7 @@ class ExaltAction extends AddTokenAction {
         return super.createEvent(
             'onExalt',
             { card: card, context: context, amount: this.amount },
-            () => {
-                card.addToken('amber', this.amount);
-                context.game.addAnimation('supply-to-center', this.amount);
-            }
+            () => card.addToken('amber', this.amount)
         );
     }
 }
