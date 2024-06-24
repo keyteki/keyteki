@@ -17,7 +17,10 @@ const Animations = ({ animations = [], activePlayer }) => {
                 }
                 // Flip the perspective of the animation if this isn't the
                 // active player.
-                if (!activePlayer) {
+                if (
+                    (!activePlayer && !animation.fromLastTurn) ||
+                    (activePlayer && animation.fromLastTurn)
+                ) {
                     animationName = animationName
                         .split('-')
                         .map((s) => (s == 'player' ? 'opponent' : s == 'opponent' ? 'player' : s))

@@ -194,16 +194,13 @@ export function connectGameSocket(url, name) {
                     );
                     amber.reapCount = searchMessageDiffForString(diff, 'reap with ');
                     let playersDiff = Object.entries(diff.players);
-                    // let isActivePlayerChanging = Array.isArray(playersDiff[0][1].activePlayer);
                     amber.player = getPlayerAmberDiff(
-                        state.lobby.currentGame.players[playersDiff[0][0]]
-                            .activePlayer /*  && !isActivePlayerChanging */
+                        state.lobby.currentGame.players[playersDiff[0][0]].activePlayer
                             ? playersDiff[0][1]
                             : playersDiff[1][1]
                     );
                     amber.opponent = getPlayerAmberDiff(
-                        state.lobby.currentGame.players[playersDiff[1][0]]
-                            .activePlayer /*  && !isActivePlayerChanging */
+                        state.lobby.currentGame.players[playersDiff[1][0]].activePlayer
                             ? playersDiff[0][1]
                             : playersDiff[1][1]
                     );
@@ -211,18 +208,21 @@ export function connectGameSocket(url, name) {
                     amber.center += getPlayerCardsInPlayAmberTokenDiff(playersDiff[1][1]);
                     console.log('patching game state', diff, amber);
 
-                    let animations = [];
+                    let closedAnimations = [];
 
-                    pushAnimation(animations, 'supply-to-player', amber.resolvedAmberBonusCount);
+                    for (let i = 0; i < amber.resolvedAmberBonusCount; i++) {
+                        closedAnimations.push('supply-to-player');
+                    }
                     amber.player -= amber.resolvedAmberBonusCount;
                     amber.resolvedAmberBonusCount = 0;
 
-                    pushAnimation(animations, 'supply-to-player-bounce', amber.reapCount);
+                    for (let i = 0; i < amber.reapCount; i++) {
+                        closedAnimations.push('supply-to-player-bounce');
+                    }
                     amber.player -= amber.reapCount;
                     amber.reapCount = 0;
 
                     let openAnimations = [];
-                    let closedAnimations = [];
                     Object.entries(amber).forEach((e) => {
                         for (let i = 0; i > e[1]; i--) {
                             openAnimations.push(e[0] + '-to-');
@@ -247,9 +247,26 @@ export function connectGameSocket(url, name) {
                             closedAnimationCounts[closedAnimations[i]] = 1;
                         }
                     }
+
+                    let animations = [];
                     Object.entries(closedAnimationCounts).forEach((entry) => {
                         pushAnimation(animations, entry[0], entry[1]);
                     });
+
+                    let isActivePlayerChanging = Array.isArray(playersDiff[0][1].activePlayer[1]);
+                    console.log(
+                        'trying to determine if the active player has changed',
+                        playersDiff[0][1].activePlayer,
+                        playersDiff[1][1].activePlayer,
+                        'yes if',
+                        isActivePlayerChanging
+                    );
+                    if (isActivePlayerChanging) {
+                        for (let i = 0; i < animations.length; i++) {
+                            if (typeof animations[i] == 'object') animations[i].fromLastTurn = true;
+                            else animations[i] = { name: animations[i], fromLastTurn: true };
+                        }
+                    }
 
                     console.log(
                         'From these counts',
@@ -370,7 +387,7 @@ function getPlayerCardsInPlayAmberTokenDiff(player) {
                     if (k.substring(0, 1) == '_') cardsInPlayAmberDiff -= amber;
                     // the card was removed from play
                     else cardsInPlayAmberDiff += amber; // the card was put in play
-                } else if (Array.isArray(amber) && amber.length == 2) {
+                } else if (Array.isArray(amber) && amber.length > 1) {
                     cardsInPlayAmberDiff += amber[1] - amber[0]; // the tokens on the card changed
                 } else if (Array.isArray(amber) && amber.length == 1) {
                     cardsInPlayAmberDiff += amber[0];
