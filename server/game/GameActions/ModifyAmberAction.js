@@ -21,13 +21,7 @@ class ModifyAmberAction extends PlayerAction {
     }
 
     getEvent(player, context) {
-        let params = {
-            player: player,
-            amount: this.amount,
-            reap: this.reap,
-            target: this.target,
-            context: context
-        };
+        let params = { player: player, amount: this.amount, reap: this.reap, context: context };
 
         if (player.anyEffect('redirectAmber')) {
             return super.createEvent('onRedirectAmber', params, (event) => {
