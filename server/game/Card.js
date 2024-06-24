@@ -571,7 +571,7 @@ class Card extends EffectSource {
     onLeavesPlay() {
         if (this.type === 'creature' && this.hasToken('amber') && this.controller.opponent) {
             this.game.actions
-                .gainAmber({ amount: this.tokens.amber, returned: true })
+                .gainAmber({ amount: this.tokens.amber })
                 .resolve(this.controller.opponent, this.game.getFrameworkContext());
         }
 

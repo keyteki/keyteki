@@ -119,10 +119,6 @@ class Game extends EventEmitter {
         this.lastManualMode = null;
     }
 
-    addAnimation() {
-        return;
-    }
-
     /*
      * Reports errors from the game engine back to the router
      * @param {type} e

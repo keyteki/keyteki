@@ -65,16 +65,10 @@ class RemoveTokenAction extends CardGameAction {
                                 context.source
                             );
                             card.removeToken(event.type, event.amount);
-                            if (event.type == 'amber') {
-                                context.game.addAnimation('center-to-supply', event.amount);
-                            }
                         }
                     });
                 } else {
                     card.removeToken(event.type, event.amount);
-                    if (event.type == 'amber') {
-                        context.game.addAnimation('center-to-supply', event.amount);
-                    }
                 }
             }
         );

@@ -29,7 +29,7 @@ class TransferAmberAction extends PlayerAction {
         return super.createEvent('onTransferAmber', params, (event) => {
             event.player.modifyAmber(-event.amount);
             context.game.actions
-                .gainAmber({ amount: event.amount, transferred: true })
+                .gainAmber({ amount: event.amount })
                 .resolve(event.player.opponent, context);
         });
     }
