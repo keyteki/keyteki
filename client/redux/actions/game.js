@@ -1,5 +1,6 @@
 import io from 'socket.io-client';
 import * as jsondiffpatch from 'jsondiffpatch';
+import { uniqueId } from 'underscore';
 
 const patcher = jsondiffpatch.create({
     objectHash: (obj, index) => {
@@ -193,7 +194,16 @@ export function connectGameSocket(url, name) {
                         ' gains an amber due to '
                     );
                     amber.reapCount = searchMessageDiffForString(diff, 'reap with ');
+
                     let playersDiff = Object.entries(diff.players);
+                    let activePlayerUsername = state.lobby.currentGame.players[playersDiff[0][0]]
+                        .activePlayer
+                        ? state.lobby.currentGame.players[playersDiff[0][0]].user.username
+                        : state.lobby.currentGame.players[playersDiff[1][0]].user.username;
+                    let opponentUsername = state.lobby.currentGame.players[playersDiff[1][0]]
+                        .activePlayer
+                        ? state.lobby.currentGame.players[playersDiff[0][0]].user.username
+                        : state.lobby.currentGame.players[playersDiff[1][0]].user.username;
                     amber.player = getPlayerAmberDiff(
                         state.lobby.currentGame.players[playersDiff[0][0]].activePlayer
                             ? playersDiff[0][1]
@@ -206,18 +216,18 @@ export function connectGameSocket(url, name) {
                     );
                     amber.center = getPlayerCardsInPlayAmberTokenDiff(playersDiff[0][1]);
                     amber.center += getPlayerCardsInPlayAmberTokenDiff(playersDiff[1][1]);
-                    console.log('patching game state', diff, amber);
+                    console.log('patching game state', game, 'with resulting diff', diff);
 
-                    let closedAnimations = [];
+                    let closedAnimations = {};
 
                     for (let i = 0; i < amber.resolvedAmberBonusCount; i++) {
-                        closedAnimations.push('supply-to-player');
+                        count(closedAnimations, 'supply-to-player');
                     }
                     amber.player -= amber.resolvedAmberBonusCount;
                     amber.resolvedAmberBonusCount = 0;
 
                     for (let i = 0; i < amber.reapCount; i++) {
-                        closedAnimations.push('supply-to-player-bounce');
+                        count(closedAnimations, 'supply-to-player-bounce');
                     }
                     amber.player -= amber.reapCount;
                     amber.reapCount = 0;
@@ -231,69 +241,76 @@ export function connectGameSocket(url, name) {
                     Object.entries(amber).forEach((e) => {
                         for (let i = 0; i < e[1]; i++) {
                             let a = openAnimations.pop();
-                            if (a) closedAnimations.push(a + e[0]);
-                            else closedAnimations.push('supply-to-' + e[0]);
+                            if (a) count(closedAnimations, a + e[0]);
+                            else count(closedAnimations, 'supply-to-' + e[0]);
                         }
                     });
-                    openAnimations.forEach((a) => {
-                        closedAnimations.push(a + 'supply');
-                    });
+                    openAnimations.forEach((a) => count(closedAnimations, a + 'supply'));
 
-                    let closedAnimationCounts = {};
-                    for (let i = 0; i < closedAnimations.length; i++) {
-                        if (closedAnimationCounts[closedAnimations[i]]) {
-                            closedAnimationCounts[closedAnimations[i]]++;
-                        } else {
-                            closedAnimationCounts[closedAnimations[i]] = 1;
-                        }
-                    }
-
-                    let animations = [];
-                    Object.entries(closedAnimationCounts).forEach((entry) => {
-                        pushAnimation(animations, entry[0], entry[1]);
-                    });
-
-                    let isActivePlayerChanging = Array.isArray(playersDiff[0][1].activePlayer[1]);
+                    // if the player is changing the diff looks like [true, [true, false]], otherwise [true, 0, 0]
+                    let isActivePlayerChanging =
+                        !!playersDiff[0][1].activePlayer &&
+                        Array.isArray(playersDiff[0][1].activePlayer[1]);
                     console.log(
                         'trying to determine if the active player has changed',
                         playersDiff[0][1].activePlayer,
-                        playersDiff[1][1].activePlayer,
-                        'yes if',
-                        isActivePlayerChanging
+                        playersDiff[1][1].activePlayer
                     );
-                    if (isActivePlayerChanging) {
-                        for (let i = 0; i < animations.length; i++) {
-                            if (typeof animations[i] == 'object') animations[i].fromLastTurn = true;
-                            else animations[i] = { name: animations[i], fromLastTurn: true };
+
+                    let animations = [];
+                    Object.entries(closedAnimations).forEach((closedAnimation) => {
+                        let amount = closedAnimation[1] == undefined ? 1 : closedAnimation[1];
+                        for (let i = 0; i < amount; i++) {
+                            animations.push({
+                                id: uniqueId(),
+                                name: closedAnimation[0],
+                                delay: i,
+                                username: activePlayerUsername,
+                                fromLastTurn: isActivePlayerChanging
+                            });
                         }
-                    }
+                    });
 
                     console.log(
-                        'From these counts',
-                        closedAnimationCounts,
+                        // 'From these counts',
+                        // closedAnimationCounts,
                         'I recommend these animations:',
                         animations,
                         'to add to',
                         state.lobby.currentGame.animations
                     );
-                    // if (Array.isArray(state.lobby.currentGame.animations)) {
-                    //     state.lobby.currentGame.animations = state.lobby.currentGame.animations.concat(animations);
-                    // } else {
-                    state.lobby.currentGame.animations = animations;
-                    // }
-                    console.log('the complete animations are now', game.animations);
+                    // bypass patching (because the game does not have an animations key? regardless, putting this stuff in 'game' and relying on patch didn't work)
+                    if (Array.isArray(state.lobby.currentGame.animations)) {
+                        let oldAnimations = state.lobby.currentGame.animations;
+                        if (isActivePlayerChanging) {
+                            console.log(
+                                'active player is detected to have changed, removing',
+                                oldAnimations.filter((a) => a.username == opponentUsername),
+                                'from',
+                                oldAnimations
+                            );
+                            // Clear a player's animations only until the turn is passed back to them.
+                            // Otherwise, a player can end the turn quickly to delete animations and potentially gain an advantage.
+                            oldAnimations = oldAnimations.filter(
+                                (a) => a.username != opponentUsername
+                            );
+                        }
+                        state.lobby.currentGame.animations = oldAnimations.concat(animations);
+                    } else {
+                        state.lobby.currentGame.animations = animations;
+                    }
                 }
                 gameState = patcher.patch(state.lobby.currentGame, game);
                 console.log(
                     'these are the current animations',
-                    gameState.animations,
+                    // gameState.animations,
                     state.lobby.currentGame.animations
                 );
             } else {
-                console.log(
-                    'we are just setting the gamestate, not calculating animations, is it undefined though?',
-                    game.animations
-                );
+                // console.log(
+                //     'we are just setting the gamestate, not calculating animations, is it undefined though?',
+                //     game.animations
+                // );
                 gameState = game;
                 dispatch(setRootState(game));
             }
@@ -309,15 +326,9 @@ export function connectGameSocket(url, name) {
     };
 }
 
-function pushAnimation(animationsArray, name, amount) {
-    if (amount == undefined) {
-        animationsArray.push(name);
-    } else {
-        for (let i = 0; i < amount; i++) {
-            if (i == 0) pushAnimation(animationsArray, name);
-            else animationsArray.push({ name, delay: i });
-        }
-    }
+function count(obj, thing) {
+    if (obj[thing]) obj[thing] = obj[thing] + 1;
+    else obj[thing] = 1;
 }
 
 function searchMessageDiffForString(diff, string) {
