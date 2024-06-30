@@ -877,7 +877,6 @@ class Game extends EventEmitter {
         this.queueStep(new ReadyPhase(this));
         this.queueStep(new DrawPhase(this));
         this.queueStep(new SimpleStep(this, () => this.raiseEndRoundEvent()));
-        this.queueStep(new SimpleStep(this, () => (this.animations = [])));
         this.queueStep(new SimpleStep(this, () => this.beginRound()));
     }
 
@@ -1487,8 +1486,7 @@ class Game extends EventEmitter {
                 started: this.started,
                 swap: this.swap,
                 useGameTimeLimit: this.useGameTimeLimit,
-                winner: this.winner ? this.winner.name : undefined,
-                animations: this.animations
+                winner: this.winner ? this.winner.name : undefined
             };
         }
 

@@ -296,10 +296,7 @@ export class GameBoard extends React.Component {
                             tide={otherPlayer?.stats?.tide}
                             user={this.props.user}
                         />
-                        <Animations
-                            animations={this.props.currentGame.animations}
-                            activePlayer={thisPlayer.activePlayer}
-                        />
+                        <Animations animations={this.props.currentGame.animations} />
                         <PlayerBoard
                             cardBack={
                                 <CardBack

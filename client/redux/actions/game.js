@@ -180,57 +180,63 @@ export function connectGameSocket(url, name) {
                 let diff = patcher.diff(state.lobby.currentGame, game);
                 if (
                     state.lobby.currentGame &&
-                    Object.keys(state.lobby.currentGame.players).length == 2
+                    Object.keys(state.lobby.currentGame.players).length == 2 &&
+                    Object.values(diff.players).every((playerDiff) => !playerDiff.length) // duck-typing for arrays, which signify the players themselves are being added/removed
                 ) {
+                    let thisPlayerUsername;
+                    let thisPlayer;
+                    if (
+                        state.auth.user &&
+                        state.auth.user.username &&
+                        state.lobby.currentGame.players[state.auth.user.username]
+                    ) {
+                        // get the player that belongs to the client's perspective
+                        thisPlayerUsername = state.auth.user.username;
+                        thisPlayer = state.lobby.currentGame.players[thisPlayerUsername];
+                    } else {
+                        // default value in case we're a spectator
+                        thisPlayer = Object.values(state.lobby.currentGame.players)[0];
+                        thisPlayerUsername = thisPlayer.user.username;
+                    }
+
+                    let opponent = Object.values(state.lobby.currentGame.players).find((player) => {
+                        return player.user.username !== thisPlayerUsername;
+                    });
+                    let opponentUsername = opponent && opponent.user.username;
+
                     let amber = {
-                        resolvedAmberBonusCount: 0,
-                        reapCount: 0,
-                        player: 0,
-                        opponent: 0,
-                        center: 0
+                        player: getPlayerAmberDiff(diff.players[thisPlayerUsername]),
+                        opponent: getPlayerAmberDiff(diff.players[opponentUsername]),
+                        center:
+                            getPlayerCardsInPlayAmberTokenDiff(diff.players[thisPlayerUsername]) +
+                            getPlayerCardsInPlayAmberTokenDiff(diff.players[opponentUsername])
                     };
-                    amber.resolvedAmberBonusCount = searchMessageDiffForString(
+                    let resolvedAmberBonusCount = searchMessageDiffForString(
                         diff,
                         ' gains an amber due to '
                     );
-                    amber.reapCount = searchMessageDiffForString(diff, 'reap with ');
-
-                    let playersDiff = Object.entries(diff.players);
-                    let activePlayerUsername = state.lobby.currentGame.players[playersDiff[0][0]]
-                        .activePlayer
-                        ? state.lobby.currentGame.players[playersDiff[0][0]].user.username
-                        : state.lobby.currentGame.players[playersDiff[1][0]].user.username;
-                    let opponentUsername = state.lobby.currentGame.players[playersDiff[1][0]]
-                        .activePlayer
-                        ? state.lobby.currentGame.players[playersDiff[0][0]].user.username
-                        : state.lobby.currentGame.players[playersDiff[1][0]].user.username;
-                    amber.player = getPlayerAmberDiff(
-                        state.lobby.currentGame.players[playersDiff[0][0]].activePlayer
-                            ? playersDiff[0][1]
-                            : playersDiff[1][1]
-                    );
-                    amber.opponent = getPlayerAmberDiff(
-                        state.lobby.currentGame.players[playersDiff[1][0]].activePlayer
-                            ? playersDiff[0][1]
-                            : playersDiff[1][1]
-                    );
-                    amber.center = getPlayerCardsInPlayAmberTokenDiff(playersDiff[0][1]);
-                    amber.center += getPlayerCardsInPlayAmberTokenDiff(playersDiff[1][1]);
-                    console.log('patching game state', game, 'with resulting diff', diff);
+                    let reapCount = searchMessageDiffForString(diff, 'reap with ');
 
                     let closedAnimations = {};
-
-                    for (let i = 0; i < amber.resolvedAmberBonusCount; i++) {
-                        count(closedAnimations, 'supply-to-player');
+                    for (let i = 0; i < resolvedAmberBonusCount; i++) {
+                        count(
+                            closedAnimations,
+                            'supply-to-' + (thisPlayer.activePlayer ? 'player' : 'opponent')
+                        );
+                        if (thisPlayer.activePlayer) amber.player--;
+                        else amber.opponent--;
                     }
-                    amber.player -= amber.resolvedAmberBonusCount;
-                    amber.resolvedAmberBonusCount = 0;
 
-                    for (let i = 0; i < amber.reapCount; i++) {
-                        count(closedAnimations, 'supply-to-player-bounce');
+                    for (let i = 0; i < reapCount; i++) {
+                        count(
+                            closedAnimations,
+                            'supply-to-' +
+                                (thisPlayer.activePlayer ? 'player' : 'opponent') +
+                                '-bounce'
+                        );
+                        if (thisPlayer.activePlayer) amber.player--;
+                        else amber.opponent--;
                     }
-                    amber.player -= amber.reapCount;
-                    amber.reapCount = 0;
 
                     let openAnimations = [];
                     Object.entries(amber).forEach((e) => {
@@ -247,70 +253,43 @@ export function connectGameSocket(url, name) {
                     });
                     openAnimations.forEach((a) => count(closedAnimations, a + 'supply'));
 
-                    // if the player is changing the diff looks like [true, [true, false]], otherwise [true, 0, 0]
-                    let isActivePlayerChanging =
-                        !!playersDiff[0][1].activePlayer &&
-                        Array.isArray(playersDiff[0][1].activePlayer[1]);
-                    console.log(
-                        'trying to determine if the active player has changed',
-                        playersDiff[0][1].activePlayer,
-                        playersDiff[1][1].activePlayer
-                    );
-
-                    let animations = [];
+                    let newAnimations = [];
                     Object.entries(closedAnimations).forEach((closedAnimation) => {
-                        let amount = closedAnimation[1] == undefined ? 1 : closedAnimation[1];
-                        for (let i = 0; i < amount; i++) {
-                            animations.push({
+                        for (let i = 0; i < closedAnimation[1]; i++) {
+                            newAnimations.push({
                                 id: uniqueId(),
                                 name: closedAnimation[0],
                                 delay: i,
-                                username: activePlayerUsername,
-                                fromLastTurn: isActivePlayerChanging
+                                activePlayer: thisPlayer.activePlayer
+                                    ? thisPlayerUsername
+                                    : opponentUsername
                             });
                         }
                     });
 
-                    console.log(
-                        // 'From these counts',
-                        // closedAnimationCounts,
-                        'I recommend these animations:',
-                        animations,
-                        'to add to',
-                        state.lobby.currentGame.animations
-                    );
-                    // bypass patching (because the game does not have an animations key? regardless, putting this stuff in 'game' and relying on patch didn't work)
+                    // change the animations value in the game directly instead of patching (because the game does not have an 'animations' key?)
                     if (Array.isArray(state.lobby.currentGame.animations)) {
                         let oldAnimations = state.lobby.currentGame.animations;
+                        // if the player is changing the diff looks like [true, [true, false]], otherwise like [true, 0, 0]
+                        let isActivePlayerChanging =
+                            !!diff.players[thisPlayerUsername].activePlayer &&
+                            Array.isArray(diff.players[thisPlayerUsername].activePlayer[1]);
                         if (isActivePlayerChanging) {
-                            console.log(
-                                'active player is detected to have changed, removing',
-                                oldAnimations.filter((a) => a.username == opponentUsername),
-                                'from',
-                                oldAnimations
-                            );
-                            // Clear a player's animations only until the turn is passed back to them.
-                            // Otherwise, a player can end the turn quickly to delete animations and potentially gain an advantage.
-                            oldAnimations = oldAnimations.filter(
-                                (a) => a.username != opponentUsername
+                            // Delete a player's animations only when the turn is passed back to them.
+                            // Otherwise, a player that ends the turn quickly may stop animations before they finish.
+                            oldAnimations = oldAnimations.filter((a) =>
+                                thisPlayer.activePlayer
+                                    ? a.activePlayer == thisPlayerUsername
+                                    : a.activePlayer == opponentUsername
                             );
                         }
-                        state.lobby.currentGame.animations = oldAnimations.concat(animations);
+                        state.lobby.currentGame.animations = oldAnimations.concat(newAnimations);
                     } else {
-                        state.lobby.currentGame.animations = animations;
+                        state.lobby.currentGame.animations = newAnimations;
                     }
                 }
                 gameState = patcher.patch(state.lobby.currentGame, game);
-                console.log(
-                    'these are the current animations',
-                    // gameState.animations,
-                    state.lobby.currentGame.animations
-                );
             } else {
-                // console.log(
-                //     'we are just setting the gamestate, not calculating animations, is it undefined though?',
-                //     game.animations
-                // );
                 gameState = game;
                 dispatch(setRootState(game));
             }

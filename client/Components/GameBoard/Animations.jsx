@@ -3,10 +3,10 @@ import Amber from './Amber';
 
 import './Animations.scss';
 
-const Animations = ({ animations = [], activePlayer }) => {
+const Animations = ({ animations = [] }) => {
     return (
         <div className='animations'>
-            {animations.map((animation, index) => {
+            {animations.map((animation) => {
                 let animationName = animation;
                 let animationDelay = 0;
                 if (typeof animation == 'object') {
@@ -15,19 +15,12 @@ const Animations = ({ animations = [], activePlayer }) => {
                         animationDelay = animation.delay;
                     }
                 }
-                // Flip the perspective of the animation if this isn't the
-                // active player.
-                if (
-                    (!activePlayer && !animation.fromLastTurn) ||
-                    (activePlayer && animation.fromLastTurn)
-                ) {
-                    animationName = animationName
-                        .split('-')
-                        .map((s) => (s == 'player' ? 'opponent' : s == 'opponent' ? 'player' : s))
-                        .join('-');
-                }
                 return (
-                    <Amber key={`a-${index}`} animation={animationName} delay={animationDelay} />
+                    <Amber
+                        key={`a-${animation.id}`}
+                        animation={animationName}
+                        delay={animationDelay}
+                    />
                 );
             })}
         </div>
