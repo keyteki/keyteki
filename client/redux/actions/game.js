@@ -342,6 +342,7 @@ function searchMessageForString(message, string) {
 
 function getPlayerAmberDiff(player) {
     if (
+        player &&
         player.stats &&
         player.stats.amber &&
         Array.isArray(player.stats.amber) &&
