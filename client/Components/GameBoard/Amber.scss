@@ -49,7 +49,6 @@
 .supply-to-player {
     animation-name: supply-to-player;
     animation-duration: 2s;
-    // animation-iteration-count: infinite;
 }
 
 @keyframes supply-to-player {
@@ -69,7 +68,6 @@
 .supply-to-player-bounce {
     animation-name: supply-to-player-bounce;
     animation-timing-function: ease-out;
-    // animation-iteration-count: infinite;
     animation-duration: 2s;
 }
 
@@ -114,7 +112,6 @@
 .player-to-supply {
     animation-name: player-to-supply;
     animation-duration: 2s;
-    // animation-iteration-count: infinite;
 }
 
 @keyframes player-to-supply {
@@ -134,7 +131,6 @@
 .supply-to-opponent {
     animation-name: supply-to-opponent;
     animation-duration: 2s;
-    // animation-iteration-count: infinite;
 }
 
 @keyframes supply-to-opponent {
@@ -154,7 +150,6 @@
 .supply-to-opponent-bounce {
     animation-name: supply-to-opponent-bounce;
     animation-timing-function: ease-out;
-    // animation-iteration-count: infinite;
     animation-duration: 2s;
 }
 
@@ -199,7 +194,6 @@
 .opponent-to-supply {
     animation-name: opponent-to-supply;
     animation-duration: 2s;
-    // animation-iteration-count: infinite;
 }
 
 @keyframes opponent-to-supply {
@@ -219,7 +213,6 @@
 .center-to-player {
     animation-name: center-to-player;
     animation-duration: 2s;
-    // animation-iteration-count: infinite;
 }
 
 @keyframes center-to-player {
@@ -237,7 +230,6 @@
 .center-to-opponent {
     animation-name: center-to-opponent;
     animation-duration: 2s;
-    // animation-iteration-count: infinite;
 }
 
 @keyframes center-to-opponent {
@@ -255,7 +247,6 @@
 .player-to-center {
     animation-name: player-to-center;
     animation-duration: 2s;
-    // animation-iteration-count: infinite;
 }
 
 @keyframes player-to-center {
@@ -274,7 +265,6 @@
 .opponent-to-center {
     animation-name: opponent-to-center;
     animation-duration: 2s;
-    // animation-iteration-count: infinite;
 }
 
 @keyframes opponent-to-center {
@@ -293,7 +283,6 @@
 .supply-to-center {
     animation-name: supply-to-center;
     animation-duration: 2s;
-    // animation-iteration-count: infinite;
 }
 
 @keyframes supply-to-center {
@@ -311,7 +300,6 @@
 .center-to-supply {
     animation-name: center-to-supply;
     animation-duration: 2s;
-    // animation-iteration-count: infinite;
 }
 
 @keyframes center-to-supply {
@@ -329,7 +317,6 @@
 .opponent-to-player {
     animation-name: opponent-to-player;
     animation-duration: 2s;
-    // animation-iteration-count: infinite;
 }
 
 @keyframes opponent-to-player {
@@ -352,7 +339,6 @@
 .opponent-to-player {
     animation-name: opponent-to-player;
     animation-duration: 2s;
-    // animation-iteration-count: infinite;
 }
 
 @keyframes opponent-to-player {
@@ -374,7 +360,6 @@
 .player-to-opponent {
     animation-name: player-to-opponent;
     animation-duration: 2s;
-    // animation-iteration-count: infinite;
 }
 
 @keyframes player-to-opponent {
