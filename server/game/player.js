@@ -895,9 +895,9 @@ class Player extends GameObject {
                 }
             });
         } else {
-            this.game.queueSimpleStep(() => {
-                this.finalizeForge(unforgedKeys.shift().value, modifiedCost, initialCost);
-            });
+            this.game.queueSimpleStep(() =>
+                this.finalizeForge(unforgedKeys.shift().value, modifiedCost, initialCost)
+            );
         }
     }
 
