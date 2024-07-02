@@ -75,7 +75,6 @@ class Game extends EventEmitter {
         this.startingHandsDrawn = false;
 
         this.cardNamesPlayedOrUsed = [];
-        this.animations = [];
 
         this.cardsUsed = [];
         this.omegaCard = null;
