@@ -20,10 +20,22 @@ class ThreeLLI0T extends Card {
         });
 
         this.scrap({
-            gameAction: ability.actions.returnToDeck((context) => ({
-                target: context.game.creaturesInPlay.flatMap((card) => card.upgrades || []),
-                shuffle: true
-            }))
+            gameAction: [
+                ability.actions.returnToDeck((context) => ({
+                    target: context.game.cardsInPlay.flatMap(
+                        (card) => card.upgrades.filter((u) => u.owner === context.player) || []
+                    ),
+                    shuffle: true
+                })),
+                ability.actions.returnToDeck((context) => ({
+                    target: context.game.cardsInPlay.flatMap(
+                        (card) =>
+                            card.upgrades.filter((u) => u.owner === context.player.opponent) || []
+                    ),
+                    shuffle: true,
+                    shufflePlayer: context.player.opponent
+                }))
+            ]
         });
     }
 }
