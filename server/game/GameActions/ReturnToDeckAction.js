@@ -11,7 +11,13 @@ class ReturnToDeckAction extends CardGameAction {
         super.setup();
         this.name = 'returnToDeck';
         if (this.shuffle) {
-            this.effectMsg = "return {0} to their owner's deck";
+            if (this.target.every((card) => ['play area', 'discard', 'purged'].includes(card.location))) {
+                this.effectMsg = "return {0} to their owner's deck";
+            } else if (this.target.length === 1) {
+                this.effectMsg = "return a card to their owner's deck";
+            } else {
+                this.effectMsg = "return cards to their owner's deck";
+            }
         } else {
             this.effectMsg =
                 'return {0} to the ' + (this.bottom ? 'bottom' : 'top') + " of their owner's deck";
