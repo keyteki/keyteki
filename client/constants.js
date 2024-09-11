@@ -14,6 +14,7 @@ export const Constants = {
         'sanctum',
         'saurian',
         'shadows',
+        'skyborn',
         'staralliance',
         'unfathomable',
         'untamed'
@@ -28,6 +29,7 @@ export const Constants = {
         'Sanctum',
         'Saurian',
         'Shadows',
+        'Skyborn',
         'Star Alliance',
         'Unfathomable',
         'Untamed'
