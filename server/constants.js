@@ -10,6 +10,7 @@ Constants.Houses = [
     'sanctum',
     'saurian',
     'shadows',
+    'skyborn',
     'staralliance',
     'unfathomable',
     'untamed'
@@ -24,6 +25,7 @@ Constants.HousesNames = [
     'Sanctum',
     'Saurian',
     'Shadows',
+    'Skyborn',
     'Star Alliance',
     'Unfathomable',
     'Untamed'

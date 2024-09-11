@@ -18,7 +18,8 @@ const defaultFiller = {
     unfathomable: 'hookmaster',
     untamed: 'ancient-bear',
     staralliance: 'explo-rover',
-    saurian: 'tricerian-legionary'
+    saurian: 'tricerian-legionary',
+    skyborn: 'prop-dusting'
 };
 const minDeck = 15;
 const fillerHouses = ['untamed', 'sanctum', 'shadows'];

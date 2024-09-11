@@ -2,6 +2,7 @@ const _ = require('underscore');
 
 const AbilityDsl = require('./abilitydsl.js');
 const CardAction = require('./cardaction.js');
+const Constants = require('../constants.js');
 const EffectSource = require('./EffectSource.js');
 const TriggeredAbility = require('./triggeredability');
 
@@ -526,6 +527,13 @@ class Card extends EffectSource {
         return _.uniq(traits.concat(this.getEffects('addTrait')));
     }
 
+    getHouseEnhancements() {
+        if (!this.enhancements) {
+            return [];
+        }
+        return this.enhancements.filter((e) => Constants.Houses.includes(e.toLowerCase()));
+    }
+
     getHouses() {
         let combinedHouses = [];
 
@@ -534,6 +542,7 @@ class Card extends EffectSource {
         } else {
             let copyEffect = this.mostRecentEffect('copyCard');
             combinedHouses.push(copyEffect ? copyEffect.printedHouse : this.printedHouse);
+            combinedHouses = combinedHouses.concat(copyEffect ? copyEffect.getHouseEnhancements() : this.getHouseEnhancements());
         }
 
         if (this.anyEffect('addHouse')) {
@@ -555,6 +564,7 @@ class Card extends EffectSource {
             currentHouse = this.getEffects('changeHouse');
         } else {
             currentHouse = [copyEffect ? copyEffect.printedHouse : this.printedHouse];
+            currentHouse = currentHouse.concat(copyEffect ? copyEffect.getHouseEnhancements() : this.getHouseEnhancements());
         }
 
         return currentHouse.includes(house) || this.getEffects('addHouse').includes(house);
