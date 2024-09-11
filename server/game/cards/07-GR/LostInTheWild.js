@@ -14,7 +14,8 @@ class LostInTheWild extends Card {
                 condition: (context) => context.player.isHaunted(),
                 gameAction: ability.actions.returnToDeck((context) => ({
                     target: context.game.creaturesInPlay.filter((card) => card.isOnFlank()),
-                    shuffle: true
+                    shuffle: true,
+                    shufflePlayer: context.player.opponent
                 })),
                 message: '{0} uses {1} to repeat the preceding effect'
             }

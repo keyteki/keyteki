@@ -4,6 +4,7 @@ class ReturnToDeckAction extends CardGameAction {
     setDefaultProperties() {
         this.bottom = false;
         this.shuffle = false;
+        this.shufflePlayer = null;
         this.shuffleDiscardIntoDeck = false;
     }
 
@@ -24,7 +25,6 @@ class ReturnToDeckAction extends CardGameAction {
     }
 
     getEventArray(context) {
-        let shufflePlayer = context.player;
         if (this.shuffle && !this.shuffleDiscardIntoDeck) {
             // Figure out if the entire discard has been shuffled into the
             // deck for either player.
@@ -43,11 +43,14 @@ class ReturnToDeckAction extends CardGameAction {
             ) {
                 this.shuffleDiscardIntoDeck =
                     context.player.opponent.discard === this.originalTarget;
-                shufflePlayer = context.player.opponent;
             }
         }
 
         if (this.target.length === 0 && this.shuffle) {
+            let shufflePlayer = context.player;
+            if (this.shufflePlayer) {
+                shufflePlayer = this.shufflePlayer;
+            }
             shufflePlayer.shuffleDeck(this.shuffleDiscardIntoDeck);
         }
 
