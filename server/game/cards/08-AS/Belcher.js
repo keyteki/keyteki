@@ -16,17 +16,6 @@ function wasCreatureDiscarded(context) {
     );
 }
 
-function putIntoPlayMessageArgs(context, player) {
-    return [
-        wasCreatureDiscarded(context)
-            ? 'put ' +
-              context.preThenEvents[context.preThenEvents.length - 1].card.name +
-              ' into play for ' +
-              player.name
-            : 'do nothing for ' + player.name
-    ];
-}
-
 class Belcher extends Card {
     // Action: Discard cards from the top of your deck until you
     // discard a creature or run out of cards. If you discarded a
@@ -42,14 +31,21 @@ class Belcher extends Card {
                     cardType: 'creature',
                     controller: 'opponent',
                     gameAction: ability.actions.dealDamage((context) => ({
-                        amount: context.preThenEvents.length > 0
-                            ? context.preThenEvents[context.preThenEvents.length - 1].card.getPower()
-                            : 0
+                        amount:
+                            context.preThenEvents.length > 0
+                                ? context.preThenEvents[
+                                      context.preThenEvents.length - 1
+                                  ].card.getPower()
+                                : 0
                     }))
                 },
                 message: '{0} uses {1} to deal {3} damage to {4}',
-                messageArgs: (context) => [context.preThenEvents.length > 0
-                                           ? context.preThenEvents[context.preThenEvents.length - 1].card.getPower() : 0, context.target]
+                messageArgs: (context) => [
+                    context.preThenEvents.length > 0
+                        ? context.preThenEvents[context.preThenEvents.length - 1].card.getPower()
+                        : 0,
+                    context.target
+                ]
             }
         });
     }
