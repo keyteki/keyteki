@@ -8,7 +8,7 @@ class SummonedCounsel extends Card {
             target: {
                 controller: 'self',
                 location: ['discard', 'purged'],
-                gameAction: ability.actions.returnToDeck({shuffle: true})
+                gameAction: ability.actions.returnToDeck({ shuffle: true })
             }
         });
     }
