@@ -1,6 +1,8 @@
 const Card = require('../../Card.js');
 
 class HarmonicPack extends Card {
+    // Play: Deal 2D to a creature. Reveal a random card from a player's archives.
+    // If you do, deal an additional 3D to the same creature. Discard the revealed card.
     setupCardAbilities(ability) {
         this.play({
             target: {
@@ -8,7 +10,7 @@ class HarmonicPack extends Card {
                 gameAction: ability.actions.dealDamage({ amount: 2 })
             },
             then: (thenContext) => ({
-                alwaysTrigger: true,
+                alwaysTriggers: true,
                 target: {
                     mode: 'select',
                     activePromptTitle: "Which player's archives",
