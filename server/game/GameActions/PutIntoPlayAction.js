@@ -207,6 +207,17 @@ class PutIntoPlayAction extends CardGameAction {
                     card.controller = prevController;
                 }
 
+                for (let e of card.getEffects('entersPlayWithEffect')) {
+                    context.game.actions
+                        .cardLastingEffect({
+                            target: card,
+                            targetLocation: 'play area',
+                            duration: e.duration,
+                            effect: e.builder()
+                        })
+                        .resolve(card, context);
+                }
+
                 player.moveCard(card, 'play area', {
                     left: this.left,
                     deployIndex: this.deployIndex,

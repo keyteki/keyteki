@@ -3,6 +3,7 @@ const CanUse = require('./Effects/Values/CanUse');
 const ConditionValue = require('./Effects/Values/ConditionValue');
 const CopyCard = require('./Effects/Values/CopyCard');
 const EffectBuilder = require('./Effects/EffectBuilder');
+const EffectValue = require('./Effects/Values/EffectValue');
 const GainAbility = require('./Effects/Values/GainAbility');
 
 /* Types of effect
@@ -40,6 +41,8 @@ const Effects = {
         EffectBuilder.card.static('entersPlayReady', new ConditionValue(condition)),
     entersPlayStunned: (condition) =>
         EffectBuilder.card.static('entersPlayStunned', new ConditionValue(condition)),
+    entersPlayWithEffect: (properties) =>
+        EffectBuilder.card.static('entersPlayWithEffect', new EffectValue(properties)),
     flipToken: () => EffectBuilder.card.static('flipToken'),
     visibleIn: (location) => EffectBuilder.card.static('visibleIn', location),
     gainAbility: (type, properties) =>
