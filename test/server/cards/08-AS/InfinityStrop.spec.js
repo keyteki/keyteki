@@ -6,7 +6,7 @@ describe('Infinity Strop', function () {
                     amber: 1,
                     house: 'dis',
                     hand: ['infinity-strop'],
-                    inPlay: ['mushroom-man', 'ember-imp'],
+                    inPlay: ['mushroom-man', 'ember-imp']
                 },
                 player2: {
                     hand: ['badge-of-unity'],

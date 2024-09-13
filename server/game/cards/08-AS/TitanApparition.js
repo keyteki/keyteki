@@ -7,7 +7,11 @@ class TitanApparition extends Card {
     setupCardAbilities(ability) {
         this.destroyed({
             gameAction: ability.actions.discard((context) => ({
-                target: context.source.controller !== context.game.activePlayer  && context.player.opponent ? context.player.opponent.deck.slice(0, 5) : context.player.deck.slice(0, 5),
+                target:
+                    context.source.controller !== context.game.activePlayer &&
+                    context.player.opponent
+                        ? context.player.opponent.deck.slice(0, 5)
+                        : context.player.deck.slice(0, 5)
             }))
         });
     }
