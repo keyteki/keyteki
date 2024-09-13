@@ -9,16 +9,16 @@ class AtomicDestabilizer extends Card {
                 when: {
                     onRoundEnded: (_, context) => context.player === this.game.activePlayer
                 },
-                gameAction: ability.actions.capture((context) => ({
+                gameAction: ability.actions.capture({
                     amount: 1
-                })),
+                }),
                 then: {
                     alwaysTriggers: true,
                     gameAction: ability.actions.loseAmber((context) => ({
                         target: context.source.controller,
-                        amount: context.source.amber,
+                        amount: context.source.amber
                     })),
-                    message: "{0} uses {1} to lose {3} amber",
+                    message: '{0} uses {1} to lose {3} amber',
                     messageArgs: (context) => [context.source.amber]
                 }
             })

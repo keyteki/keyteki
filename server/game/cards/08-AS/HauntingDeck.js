@@ -9,7 +9,7 @@ class HauntingDeck extends Card {
                 controller: 'any',
                 location: 'discard',
                 gameAction: ability.actions.purge()
-            },
+            }
         });
     }
 }

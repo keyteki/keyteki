@@ -9,7 +9,12 @@ describe('Vapor Imp', function () {
                 },
                 player2: {
                     inPlay: ['flaxia'],
-                    hand: ['dust-pixie', 'the-circle-of-life', 'ritual-of-balance', 'way-of-the-wolf']
+                    hand: [
+                        'dust-pixie',
+                        'the-circle-of-life',
+                        'ritual-of-balance',
+                        'way-of-the-wolf'
+                    ]
                 }
             });
         });

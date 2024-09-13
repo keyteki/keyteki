@@ -5,8 +5,8 @@ describe('Transparency Report', function () {
                 player1: {
                     amber: 1,
                     house: 'ekwidon',
-                    hand: ['transparency-report', 'pen-pal', 'the-old-tinker', 'gub'],
-                },
+                    hand: ['transparency-report', 'pen-pal', 'the-old-tinker', 'gub']
+                }
             });
         });
 
