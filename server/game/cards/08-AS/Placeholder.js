@@ -14,7 +14,7 @@ class Placeholder extends Card {
                     ability.actions.dealDamage({
                         amount: 2
                     })
-                ]),
+                ])
             },
             then: (preThenContext) => ({
                 alwaysTriggers: true,
@@ -28,9 +28,9 @@ class Placeholder extends Card {
                         ability.actions.dealDamage({
                             amount: 2
                         })
-                    ]),
-                },
-            }),
+                    ])
+                }
+            })
         });
     }
 }

@@ -9,7 +9,7 @@ class DBGobber extends Card {
         });
 
         this.scrap({
-            message: "{0} uses {1} to make each player with 7 or more amber lose 2 amber",
+            message: '{0} uses {1} to make each player with 7 or more amber lose 2 amber',
             messageArgs: (context) => [context.player, context.source],
             gameAction: [
                 ability.actions.conditional({
@@ -22,12 +22,12 @@ class DBGobber extends Card {
                 ability.actions.conditional({
                     condition: (context) =>
                         !!context.player.opponent && context.player.opponent.amber >= 7,
-                    trueGameAction: ability.actions.loseAmber((context) => ({
+                    trueGameAction: ability.actions.loseAmber({
                         amount: 2
-                    }))
+                    })
                 })
             ]
-        })
+        });
     }
 }
 

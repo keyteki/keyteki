@@ -16,13 +16,9 @@ class Doppelganger extends Card {
                         ability.effects.addTrait(trait)
                     );
 
-                    const printedAbilities = Object.values(
-                        context.target.abilities
-                    ).reduce(
+                    const printedAbilities = Object.values(context.target.abilities).reduce(
                         (result, array) =>
-                        result.concat(
-                            array.filter((ability) => ability.printedAbility)
-                        ),
+                            result.concat(array.filter((ability) => ability.printedAbility)),
                         []
                     );
                     for (const printedAbility of printedAbilities) {
@@ -43,7 +39,7 @@ class Doppelganger extends Card {
                 })
             },
             message: '{0} uses {1} to give {1} the text box of {2} for the remainder of the turn',
-            messageArgs: (context) => [context.player, context.source, context.target],
+            messageArgs: (context) => [context.player, context.source, context.target]
         });
     }
 }

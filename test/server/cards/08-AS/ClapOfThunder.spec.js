@@ -5,7 +5,7 @@ describe('Clap of Thunder', function () {
                 player1: {
                     house: 'brobnar',
                     inPlay: ['troll', 'krump', 'alaka', 'groggins'],
-                    hand: ['clap-of-thunder'],
+                    hand: ['clap-of-thunder']
                 },
                 player2: {
                     inPlay: ['flaxia', 'narp']
