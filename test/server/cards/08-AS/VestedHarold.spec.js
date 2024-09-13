@@ -5,7 +5,7 @@ describe('Vĕsted Harŏld', function () {
                 player1: {
                     house: 'ekwidon',
                     hand: ['exchange-program', 'vĕsted-harŏld'],
-                    inPlay: ['gub', 'troll'],
+                    inPlay: ['gub', 'troll']
                 },
                 player2: {
                     inPlay: ['dust-pixie', 'infurnace']

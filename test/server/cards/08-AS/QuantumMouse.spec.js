@@ -9,7 +9,7 @@ describe('Quantum Mouse', function () {
                     hand: ['archimedes', 'daughter']
                 },
                 player2: {
-                    amber: 2,
+                    amber: 2
                 }
             });
 

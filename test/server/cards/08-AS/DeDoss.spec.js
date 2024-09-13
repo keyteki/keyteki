@@ -8,7 +8,7 @@ describe('De-Doss', function () {
                     inPlay: ['titan-guardian', 'helper-bot']
                 },
                 player2: {
-                    hand: ['blood-of-titans', 'ganger-chieftain', 'krump'],
+                    hand: ['blood-of-titans', 'ganger-chieftain', 'krump']
                 }
             });
         });
