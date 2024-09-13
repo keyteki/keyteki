@@ -5,11 +5,11 @@ describe('Summoned Counsel', function () {
                 player1: {
                     house: 'geistoid',
                     inPlay: ['summoned-counsel'],
-                    discard: ['echofly', 'gub', 'ecto-charge'],
+                    discard: ['echofly', 'gub', 'ecto-charge']
                 },
                 player2: {
                     amber: 2,
-                    discard: ['lamindra', 'island-of-misfit-toys'],
+                    discard: ['lamindra', 'island-of-misfit-toys']
                 }
             });
 

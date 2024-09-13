@@ -7,7 +7,7 @@ describe('Wellstring', function () {
                     inPlay: ['wellstring', 'flaxia']
                 },
                 player2: {
-                    inPlay: ['lamindra', 'troll'],
+                    inPlay: ['lamindra', 'troll']
                 }
             });
         });
