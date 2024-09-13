@@ -542,7 +542,9 @@ class Card extends EffectSource {
         } else {
             let copyEffect = this.mostRecentEffect('copyCard');
             combinedHouses.push(copyEffect ? copyEffect.printedHouse : this.printedHouse);
-            combinedHouses = combinedHouses.concat(copyEffect ? copyEffect.getHouseEnhancements() : this.getHouseEnhancements());
+            combinedHouses = combinedHouses.concat(
+                copyEffect ? copyEffect.getHouseEnhancements() : this.getHouseEnhancements()
+            );
         }
 
         if (this.anyEffect('addHouse')) {
@@ -564,7 +566,9 @@ class Card extends EffectSource {
             currentHouse = this.getEffects('changeHouse');
         } else {
             currentHouse = [copyEffect ? copyEffect.printedHouse : this.printedHouse];
-            currentHouse = currentHouse.concat(copyEffect ? copyEffect.getHouseEnhancements() : this.getHouseEnhancements());
+            currentHouse = currentHouse.concat(
+                copyEffect ? copyEffect.getHouseEnhancements() : this.getHouseEnhancements()
+            );
         }
 
         return currentHouse.includes(house) || this.getEffects('addHouse').includes(house);

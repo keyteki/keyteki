@@ -9,8 +9,8 @@ class Monsquito extends Card {
                 alwaysTriggers: true,
                 target: {
                     cardType: 'creature',
-                    gameAction: ability.actions.dealDamage({amount: 2})
-                },
+                    gameAction: ability.actions.dealDamage({ amount: 2 })
+                }
             }
         });
     }
