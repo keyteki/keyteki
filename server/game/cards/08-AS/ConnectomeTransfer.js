@@ -6,7 +6,7 @@ class ConnectomeTransfer extends Card {
         this.play({
             gameAction: ability.actions.archive((context) => ({
                 target: context.game.creaturesInPlay.filter((card) => card.isOnFlank()),
-                owner: true,
+                owner: true
             }))
         });
     }

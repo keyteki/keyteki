@@ -16,10 +16,13 @@ class InfinityStrop extends Card {
                     context.preThenEvent.destroyEvent.destroyedByDamageDealt &&
                     context.preThenEvent.destroyEvent.resolved,
                 gameAction: ability.actions.dealDamage((context) => ({
-                    target: context.game.creaturesInPlay.filter((c) => c.getHouses().some((house) => context.preThenEvent.clone.hasHouse(house))),
+                    target: context.game.creaturesInPlay.filter((c) =>
+                        c.getHouses().some((house) => context.preThenEvent.clone.hasHouse(house))
+                    ),
                     amount: 4
                 })),
-                message: '{0} uses {1} to deal 4 damage to each creature that shares a house with {3}',
+                message:
+                    '{0} uses {1} to deal 4 damage to each creature that shares a house with {3}',
                 messageArgs: (context) => [context.preThenEvent.clone]
             }
         });

@@ -10,7 +10,7 @@ class RmFoler extends Card {
                 gameAction: ability.actions.destroy()
             },
             then: {
-                gameAction: ability.actions.draw(),
+                gameAction: ability.actions.draw()
             }
         });
     }

@@ -9,16 +9,18 @@ class VaporImp extends Card {
             gameAction: ability.actions.discardAtRandom((context) => ({
                 target: context.player
             })),
-            then: (preThenContext) => ({
-                condition: (context) => context.player.opponent && context.preThenEvent.cards.length > 0,
+            then: {
+                condition: (context) =>
+                    context.player.opponent && context.preThenEvent.cards.length > 0,
                 gameAction: ability.actions.nextRoundEffect((context) => ({
                     targetController: 'opponent',
                     effect: ability.effects.playerCannot(
                         'play',
-                        (innerContext) => innerContext.source.type === context.preThenEvent.cards[0].type
+                        (innerContext) =>
+                            innerContext.source.type === context.preThenEvent.cards[0].type
                     )
                 }))
-            })
+            }
         });
     }
 }

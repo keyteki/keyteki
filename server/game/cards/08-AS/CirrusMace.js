@@ -8,17 +8,18 @@ class CirrusMace extends Card {
             target: {
                 cardType: 'creature'
             },
-            message: "{0} uses {1} to add two +1 power counter to {2} and deal 2 damage to {2}'s neighbors",
+            message:
+                "{0} uses {1} to add two +1 power counter to {2} and deal 2 damage to {2}'s neighbors",
             messageArgs: (context) => [context.player, context.source, context.target],
             gameAction: ability.actions.addPowerCounter((context) => ({
                 amount: 2,
                 target: context.target
             })),
             then: (preThenContext) => ({
-                gameAction: ability.actions.dealDamage((context) => ({
+                gameAction: ability.actions.dealDamage({
                     amount: 2,
-                    target: preThenContext.target.neighbors,
-                }))
+                    target: preThenContext.target.neighbors
+                })
             })
         });
     }
