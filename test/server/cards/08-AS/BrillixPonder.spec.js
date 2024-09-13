@@ -4,10 +4,9 @@ describe('Brillix Ponder', function () {
             this.setupTest({
                 player1: {
                     house: 'logos',
-                    hand: ['brillix-ponder'],
+                    hand: ['brillix-ponder']
                 },
-                player2: {
-                }
+                player2: {}
             });
         });
 

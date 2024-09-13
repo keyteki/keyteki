@@ -642,5 +642,7 @@
     "Make a token creature": "Faça uma criatura token",
     "Draw a card": "Compre uma carta",
     "Choose which cards to reveal and discard": "Escolha quais cartas revelar e descartar",
-    "Select a neighbor to receive extra damage": "Selecione o vizinho para receber o dano restante"
+    "Select a neighbor to receive extra damage": "Selecione o vizinho para receber o dano restante",
+    "Purge": "Purge",
+    "Shuffle": "Shuffle"
 }
