@@ -32,7 +32,7 @@ describe('Parabyte', function () {
             this.player1.clickCard(this.mother);
             expect(this.mother.amber).toBe(1);
             expect(this.player2.amber).toBe(11);
-        })
+        });
 
         it('should capture on reap', function () {
             this.player1.clickCard(this.mother);
@@ -41,7 +41,7 @@ describe('Parabyte', function () {
             this.player1.clickCard(this.mother);
             expect(this.mother.amber).toBe(2);
             expect(this.player2.amber).toBe(10);
-        })
+        });
 
         it('should increase cost for each amber on friendly creature', function () {
             this.player1.clickCard(this.mother);
