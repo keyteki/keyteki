@@ -10,12 +10,13 @@ class TransparencyReport extends Card {
             })),
             then: {
                 alwaysTriggers: true,
-                condition: (context) => !context.player.hand.some((c) => c.hasHouse(context.player.activeHouse)),
+                condition: (context) =>
+                    !context.player.hand.some((c) => c.hasHouse(context.player.activeHouse)),
                 gameAction: ability.actions.gainAmber((context) => ({
                     target: context.player,
                     amount: 2
                 })),
-                message: "{0} uses {1} to gain 2 amber"
+                message: '{0} uses {1} to gain 2 amber'
             }
         });
     }

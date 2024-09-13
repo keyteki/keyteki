@@ -25,7 +25,7 @@ class VendorHyertula extends Card {
                         duration: 'lastingEffect',
                         until: {
                             onTakeControl: (event) =>
-                            event.card === context.target &&
+                                event.card === context.target &&
                                 event.player === context.player.opponent
                         },
                         effect: ability.effects.changeHouse('ekwidon')

@@ -5,7 +5,7 @@ describe('Vendor Hyertula', function () {
                 player1: {
                     amber: 1,
                     house: 'ekwidon',
-                    inPlay: ['vendor-hyertula', 'ornate-talking-tray'],
+                    inPlay: ['vendor-hyertula', 'ornate-talking-tray']
                 },
                 player2: {
                     amber: 6,
@@ -17,7 +17,7 @@ describe('Vendor Hyertula', function () {
         it('should allow you to not destroy itself', function () {
             this.player1.reap(this.vendorHyertula);
             expect(this.player1).toBeAbleToSelect(this.vendorHyertula);
-            this.player1.clickPrompt("Done");
+            this.player1.clickPrompt('Done');
             expect(this.vendorHyertula.location).toBe('play area');
             expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
         });
