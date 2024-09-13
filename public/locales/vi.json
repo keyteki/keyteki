@@ -647,5 +647,7 @@
     "Choose a friendly half to destroy": "Choose a friendly half to destroy",
     "Make a token creature": "Tạo một thuộc hạ",
     "Draw a card": "Rút một lá bài",
-    "Choose which cards to reveal and discard": "Chọn các lá bài nào để lộ và bỏ"
+    "Choose which cards to reveal and discard": "Chọn các lá bài nào để lộ và bỏ",
+    "Purge": "Purge",
+    "Shuffle": "Shuffle"
 }
