@@ -6,7 +6,7 @@ describe('Atomic Destabilizer', function () {
                     amber: 5,
                     house: 'geistoid',
                     hand: ['atomic-destabilizer'],
-                    inPlay: ['gub'],
+                    inPlay: ['gub']
                 },
                 player2: {
                     amber: 5,
@@ -19,9 +19,9 @@ describe('Atomic Destabilizer', function () {
 
         it('should cause creature owner to capture and lose amber at end of their turn', function () {
             this.player1.playUpgrade(this.atomicDestabilizer, this.dustPixie);
-            console.log("P1 ENDING");
+            console.log('P1 ENDING');
             this.player1.endTurn();
-            console.log("P1 ENDED");
+            console.log('P1 ENDED');
             this.player2.clickPrompt('untamed');
             expect(this.dustPixie.amber).toBe(3);
             this.player2.endTurn();

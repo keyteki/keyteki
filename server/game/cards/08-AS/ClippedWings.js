@@ -15,10 +15,10 @@ class ClippedWings extends Card {
                         Shuffle: ability.actions.returnToDeck((context) => ({
                             target: context.player.opponent.archives,
                             shufflePlayer: context.player.opponent,
-                            shuffle: true,
+                            shuffle: true
                         }))
                     }
-                },
+                }
             }
         });
     }
