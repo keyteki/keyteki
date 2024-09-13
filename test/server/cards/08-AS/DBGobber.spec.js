@@ -8,7 +8,7 @@ describe('D.B. Gobber', function () {
                     hand: ['db-gobber']
                 },
                 player2: {
-                    amber: 9,
+                    amber: 9
                 }
             });
         });
@@ -21,7 +21,6 @@ describe('D.B. Gobber', function () {
             expect(this.player2.amber).toBe(8);
             expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
         });
-
 
         it('makes each player with >= 7 amber lose 2', function () {
             this.player1.scrap(this.dbGobber);

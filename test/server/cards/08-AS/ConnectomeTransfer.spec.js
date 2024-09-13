@@ -31,7 +31,7 @@ describe('Connectome Transfer', function () {
             this.player2.clickPrompt('shadows');
             this.player2.playCreature(this.scowlyCaper);
             this.player2.endTurn();
-            this.player1.clickPrompt('logos')
+            this.player1.clickPrompt('logos');
             this.player1.play(this.connectomeTransfer);
             expect(this.helperBot.location).toBe('archives');
             expect(this.player1.player.archives).toContain(this.helperBot);
