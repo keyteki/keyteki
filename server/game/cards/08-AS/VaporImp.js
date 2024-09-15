@@ -19,7 +19,15 @@ class VaporImp extends Card {
                         (innerContext) =>
                             innerContext.source.type === context.preThenEvent.cards[0].type
                     )
-                }))
+                })),
+                message: '{3} uses {4} to prevent {5} from playing {6} cards next turn',
+                messageArgs: (context) => [
+                    context.player,
+                    context.source,
+                    context.player.opponent,
+                    context.preThenEvent.cards[0].type
+                ],
+                effectAlert: true
             }
         });
     }
