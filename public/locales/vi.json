@@ -649,5 +649,8 @@
     "Draw a card": "Rút một lá bài",
     "Choose which cards to reveal and discard": "Chọn các lá bài nào để lộ và bỏ",
     "Purge": "Purge",
-    "Shuffle": "Shuffle"
+    "Shuffle": "Shuffle",
+    "Archives": "Archives",
+    "Where to reveal a random card for you?" : "Where to reveal a random card for you?",
+    "Where to reveal a random card for opponent?" : "Where to reveal a random card for opponent?"
 }

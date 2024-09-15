@@ -644,5 +644,8 @@
     "Choose which cards to reveal and discard": "Escolha quais cartas revelar e descartar",
     "Select a neighbor to receive extra damage": "Selecione o vizinho para receber o dano restante",
     "Purge": "Purge",
-    "Shuffle": "Shuffle"
+    "Shuffle": "Shuffle",
+    "Archives": "Archives",
+    "Where to reveal a random card for you?" : "Where to reveal a random card for you?",
+    "Where to reveal a random card for opponent?" : "Where to reveal a random card for opponent?"
 }
