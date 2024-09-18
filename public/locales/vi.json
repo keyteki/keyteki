@@ -650,7 +650,10 @@
     "Choose which cards to reveal and discard": "Chọn các lá bài nào để lộ và bỏ",
     "Purge": "Purge",
     "Shuffle": "Shuffle",
-    "Archives": "Archives",
-    "Where to reveal a random card for you?" : "Where to reveal a random card for you?",
-    "Where to reveal a random card for opponent?" : "Where to reveal a random card for opponent?"
+    "My Hand": "My Hand",
+    "My Archives": "My Archives",
+    "Opponent's Hand": "Opponent's Hand",
+    "Opponent's Archives": "Opponent's Archives",
+    "Where to reveal a card from first?" : "Where to reveal a card from first?",
+    "Where to reveal a card from second?" : "Where to reveal a card from second?"
 }
