@@ -10,7 +10,8 @@ const card = {
     childCards: [],
     hasTrait: () => false,
     tokens: {},
-    hasToken: () => false
+    hasToken: () => false,
+    isInCenter: () => true
 };
 card.neighbors.push(card);
 card.neighbors.push(card);
