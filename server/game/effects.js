@@ -145,7 +145,8 @@ const Effects = {
     skipStep: (step) => EffectBuilder.player.static('skipStep', step),
     opponentCardsCannotLeaveArchives: (card) =>
         EffectBuilder.player.static('opponentCardsCannotLeaveArchives', card),
-    topCardOfDeckVisible: (card) => EffectBuilder.player.static('topCardOfDeckVisible', card)
+    topCardOfDeckVisible: (card) => EffectBuilder.player.static('topCardOfDeckVisible', card),
+    cannotPlayCreaturesOnRight: () => EffectBuilder.player.static('cannotPlayCreaturesOnRight')
 };
 
 module.exports = Effects;
