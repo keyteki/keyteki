@@ -723,12 +723,21 @@ class Player extends GameObject {
         return this.cardsInPlay.filter((card) => card.anyEffect('isAmberInPool'));
     }
 
-    canForgeKey(modifier = 0) {
+    canForgeKey(modifier = 0, keyColor = '') {
         if (!this.checkRestrictions('forge', this.game.getFrameworkContext(this))) {
             return false;
         }
 
         if (Object.values(this.keys).every((key) => key)) {
+            return false;
+        }
+
+        if (
+            keyColor &&
+            !this.getUnforgedKeys()
+                .map((k) => k.value)
+                .includes(keyColor)
+        ) {
             return false;
         }
 
@@ -746,20 +755,34 @@ class Player extends GameObject {
         return Math.max(0, Object.values(this.keys).filter((key) => key).length);
     }
 
-    forgeKey(modifier) {
+    forgeKey(modifier, keyColor = '') {
         let cost = Math.max(0, this.getCurrentKeyCost() + modifier);
         let amberSources = this.getAmberSources();
         let selfAmberSources = this.getCardAmberInPoolSources();
         let totalAvailable =
             amberSources.reduce((total, source) => total + source.tokens.amber, 0) +
             selfAmberSources.length;
-        this.chooseAmberSource(amberSources, selfAmberSources, totalAvailable, cost, cost);
+        this.chooseAmberSource(
+            amberSources,
+            selfAmberSources,
+            totalAvailable,
+            cost,
+            cost,
+            keyColor
+        );
         return cost;
     }
 
-    chooseAmberSource(amberSources, selfAmberSources, totalAvailable, modifiedCost, initialCost) {
+    chooseAmberSource(
+        amberSources,
+        selfAmberSources,
+        totalAvailable,
+        modifiedCost,
+        initialCost,
+        keyColor
+    ) {
         if (modifiedCost === 0 || (amberSources.length === 0 && selfAmberSources.length === 0)) {
-            this.chooseKeyToForge(modifiedCost, initialCost);
+            this.chooseKeyToForge(modifiedCost, initialCost, keyColor);
             return;
         }
 
@@ -783,7 +806,8 @@ class Player extends GameObject {
                         selfAmberSources,
                         totalAvailable - max,
                         modifiedCost - max,
-                        initialCost
+                        initialCost,
+                        keyColor
                     );
                     return;
                 }
@@ -809,7 +833,8 @@ class Player extends GameObject {
                             selfAmberSources,
                             totalAvailable - sourceAmber,
                             modifiedCost - choice,
-                            initialCost
+                            initialCost,
+                            keyColor
                         );
                     }
                 });
@@ -836,7 +861,8 @@ class Player extends GameObject {
                     selfAmberSources,
                     totalAvailable - max,
                     modifiedCost - max,
-                    initialCost
+                    initialCost,
+                    keyColor
                 );
                 return;
             }
@@ -862,7 +888,8 @@ class Player extends GameObject {
                             selfAmberSources,
                             totalAvailable - 1,
                             modifiedCost - 1,
-                            initialCost
+                            initialCost,
+                            keyColor
                         );
                         return true;
                     },
@@ -872,7 +899,8 @@ class Player extends GameObject {
                             selfAmberSources,
                             totalAvailable - 1,
                             modifiedCost,
-                            initialCost
+                            initialCost,
+                            keyColor
                         );
                         return true;
                     }
@@ -881,8 +909,11 @@ class Player extends GameObject {
         });
     }
 
-    chooseKeyToForge(modifiedCost, initialCost) {
+    chooseKeyToForge(modifiedCost, initialCost, keyColor) {
         let unforgedKeys = this.getUnforgedKeys();
+        if (keyColor) {
+            unforgedKeys = unforgedKeys.filter((k) => k.value === keyColor);
+        }
         if (unforgedKeys.length > 1) {
             this.game.promptWithHandlerMenu(this, {
                 activePromptTitle: { text: 'Which key would you like to forge?' },
