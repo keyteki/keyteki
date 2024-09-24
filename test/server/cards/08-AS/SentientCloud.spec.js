@@ -12,6 +12,9 @@ describe('Sentient Cloud', function () {
                     inPlay: ['culf-the-quiet', 'lamindra']
                 }
             });
+
+            this.sentientCloud.printedHouse = 'mars';
+            this.sentientCloud.maverick = 'mars';
         });
 
         it('should give highest-powered friendly creatures a fight ability to gain 2', function () {

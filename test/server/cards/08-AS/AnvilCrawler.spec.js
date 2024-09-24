@@ -3,7 +3,7 @@ describe('Anvil Crawler', function () {
         beforeEach(function () {
             this.setupTest({
                 player1: {
-                    house: 'logos',
+                    house: 'brobnar',
                     inPlay: ['anvil-crawler']
                 },
                 player2: {

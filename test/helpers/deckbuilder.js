@@ -24,6 +24,8 @@ const defaultFiller = {
 const minDeck = 15;
 const fillerHouses = ['untamed', 'sanctum', 'shadows'];
 
+const maverickHouses = ['redemption'];
+
 class DeckBuilder {
     constructor() {
         this.cardsByCode = this.loadCards(PathToSubModulePacks);
@@ -39,6 +41,11 @@ class DeckBuilder {
             let pack = require(path.join(directory, file));
 
             for (let card of pack.cards) {
+                // Ignore with cards that changed house in a later set.
+                if (maverickHouses.includes(card.house) && card.id in cards) {
+                    continue;
+                }
+
                 cards[card.id] = card;
             }
         }

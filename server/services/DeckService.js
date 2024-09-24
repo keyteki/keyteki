@@ -710,7 +710,54 @@ class DeckService {
         const allCards = await this.cardService.getAllCards();
 
         let specialCards = {
-            479: { 'dark-æmber-vault': true, 'it-s-coming': true }
+            479: { 'dark-æmber-vault': true, 'it-s-coming': true },
+            855: {
+                'armageddon-cloak': true,
+                'avenging-aura': true,
+                'book-of-malefaction': true,
+                'eye-of-judgment': true,
+                'hymn-to-duma': true,
+                'johnny-longfingers': true,
+                'lord-golgotha': true,
+                'mantle-of-the-zealot': true,
+                'martyr-s-end': true,
+                'master-of-the-grey': true,
+                'mighty-lance': true,
+                'one-stood-against-many': true,
+                'rogue-ogre': true,
+                'the-promised-blade': true,
+                'champion-tabris': true,
+                'dark-centurion': true,
+                'first-or-last': true,
+                francus: true,
+                'glorious-few': true,
+                'gorm-of-omm': true,
+                'grey-abbess': true,
+                'professor-terato': true,
+                'scrivener-favian': true,
+                'bordan-the-redeemed': true,
+                'bull-wark': true,
+                'burning-glare': true,
+                'citizen-shrix': true,
+                retribution: true,
+                'shifting-battlefield': true,
+                snarette: true,
+                'subtle-otto': true,
+                'even-ivan': true,
+                'odd-clawde': true,
+                'sacro-alien': true,
+                'sacro-beast': true,
+                'sacro-bot': true,
+                'sacro-fiend': true,
+                'sacro-saurus': true,
+                'sacro-thief': true
+            },
+            874: {
+                'dark-æmber-vault': true,
+                'build-your-champion': true,
+                'digging-up-the-monster': true,
+                'tomes-gigantic': true
+            }
         };
 
         let anomalies = {
@@ -718,6 +765,7 @@ class DeckService {
             'near-future-lens': { anomalySet: 600, house: 'star-alliance' },
             'orb-of-wonder': { anomalySet: 453, house: 'sanctum' },
             'the-grim-reaper': { anomalySet: 453, house: 'geistoid' },
+            'the-red-baron': { anomalySet: 453, house: 'skyborn' },
             valoocanth: { anomalySet: 453, house: 'unfathomable' }
         };
 

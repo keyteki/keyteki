@@ -54,10 +54,72 @@ class CardImport {
         let specialCards = {
             479: { 'dark-æmber-vault': true, 'it-s-coming': true, 'orb-of-wonder': true },
             496: { 'orb-of-wonder': true, valoocanth: true },
-            700: { 'ecto-charge': true, 'near-future-lens': true }
+            700: { 'ecto-charge': true, 'near-future-lens': true },
+            800: { 'the-red-baron': true },
+            855: {
+                'armageddon-cloak': true,
+                'avenging-aura': true,
+                'book-of-malefaction': true,
+                'eye-of-judgment': true,
+                'hymn-to-duma': true,
+                'johnny-longfingers': true,
+                'lord-golgotha': true,
+                'mantle-of-the-zealot': true,
+                'martyr-s-end': true,
+                'master-of-the-grey': true,
+                'mighty-lance': true,
+                'one-stood-against-many': true,
+                'rogue-ogre': true,
+                'the-promised-blade': true,
+                'champion-tabris': true,
+                'dark-centurion': true,
+                'first-or-last': true,
+                francus: true,
+                'glorious-few': true,
+                'gorm-of-omm': true,
+                'grey-abbess': true,
+                'professor-terato': true,
+                'scrivener-favian': true,
+                'bordan-the-redeemed': true,
+                'bull-wark': true,
+                'burning-glare': true,
+                'citizen-shrix': true,
+                retribution: true,
+                'shifting-battlefield': true,
+                snarette: true,
+                'subtle-otto': true,
+                'even-ivan': true,
+                'odd-clawde': true,
+                'sacro-alien': true,
+                'sacro-beast': true,
+                'sacro-bot': true,
+                'sacro-fiend': true,
+                'sacro-saurus': true,
+                'sacro-thief': true
+            },
+            874: {
+                'dark-æmber-vault': true,
+                'build-your-champion': true,
+                'digging-up-the-monster': true,
+                'tomes-gigantic': true
+            }
         };
 
-        const gigantic = ['deusillus', 'ultra-gravitron', 'niffle-kong'];
+        const gigantic = [
+            'deusillus',
+            'ultra-gravitron',
+            'niffle-kong',
+            'tormax',
+            'wretched-anathema',
+            'sirs-colossus',
+            'bawretchadontius',
+            'boosted-b4-rry',
+            'dodger-s-10',
+            'cadet-allison',
+            'j43g3r-v',
+            'titanic-bumblebird',
+            'ascendant-hester'
+        ];
         const skipMkdir = {};
 
         for (let card of cards) {

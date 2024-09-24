@@ -13,6 +13,9 @@ describe('Titanarpon', function () {
                     hand: ['troll']
                 }
             });
+
+            this.titanarpon.printedHouse = 'dis';
+            this.titanarpon.maverick = 'dis';
         });
 
         it('should allow first creature played to come in ready', function () {

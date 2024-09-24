@@ -4,7 +4,7 @@ describe('Alien Puffer', function () {
             this.setupTest({
                 player1: {
                     amber: 1,
-                    house: 'dis',
+                    house: 'brobnar',
                     inPlay: ['alien-puffer']
                 },
                 player2: {
