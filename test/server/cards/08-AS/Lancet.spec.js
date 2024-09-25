@@ -12,6 +12,9 @@ describe('Lancet', function () {
                     inPlay: ['lamindra']
                 }
             });
+
+            this.lancet.printedHouse = 'dis';
+            this.lancet.maverick = 'dis';
         });
 
         it('should give each friendly creature a fight ability to capture 1', function () {

@@ -3,7 +3,7 @@ describe('Grizzled Wyvern', function () {
         beforeEach(function () {
             this.setupTest({
                 player1: {
-                    house: 'ekwidon',
+                    house: 'brobnar',
                     hand: ['grizzled-wyvern']
                 },
                 player2: {

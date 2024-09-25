@@ -4,7 +4,7 @@ describe('Screeyan', function () {
             this.setupTest({
                 player1: {
                     amber: 1,
-                    house: 'geistoid',
+                    house: 'brobnar',
                     inPlay: ['screeyan']
                 },
                 player2: {

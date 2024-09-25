@@ -4,7 +4,7 @@ describe('Beehemoth', function () {
             this.setupTest({
                 player1: {
                     amber: 1,
-                    house: 'mars',
+                    house: 'brobnar',
                     inPlay: ['beehemoth', 'dust-pixie', 'hunting-witch', 'flaxia']
                 },
                 player2: {
@@ -25,7 +25,7 @@ describe('Beehemoth', function () {
             this.player1.clickCard(this.flaxia);
             expect(this.flaxia.getPower()).toBe(5);
             expect(this.flaxia.tokens.power).toBe(1);
-            this.player1.clickPrompt('mars');
+            this.player1.clickPrompt('brobnar');
         });
 
         it('should move anywhere in battleline on reap', function () {
