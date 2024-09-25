@@ -718,6 +718,7 @@ class DeckService {
             'near-future-lens': { anomalySet: 600, house: 'star-alliance' },
             'orb-of-wonder': { anomalySet: 453, house: 'sanctum' },
             'the-grim-reaper': { anomalySet: 453, house: 'geistoid' },
+            'the-red-baron': { anomalySet: 453, house: 'skyborn' },
             valoocanth: { anomalySet: 453, house: 'unfathomable' }
         };
 
