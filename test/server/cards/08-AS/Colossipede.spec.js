@@ -14,6 +14,8 @@ describe('Colossipede', function () {
                 }
             });
 
+            this.colossipede.printedHouse = 'logos';
+            this.colossipede.maverick = 'logos';
             this.helperBot.amber = 3;
         });
 

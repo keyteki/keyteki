@@ -4,7 +4,7 @@ describe('Rorqual', function () {
             this.setupTest({
                 player1: {
                     amber: 1,
-                    house: 'logos',
+                    house: 'brobnar',
                     inPlay: ['rorqual']
                 },
                 player2: {

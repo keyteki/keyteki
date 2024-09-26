@@ -4,7 +4,7 @@ describe('Malifi Dragon', function () {
             this.setupTest({
                 player1: {
                     amber: 1,
-                    house: 'skyborn',
+                    house: 'brobnar',
                     inPlay: ['malifi-dragon']
                 },
                 player2: {

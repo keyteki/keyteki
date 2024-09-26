@@ -4,7 +4,7 @@ describe('Akugyo', function () {
             this.setupTest({
                 player1: {
                     amber: 1,
-                    house: 'skyborn',
+                    house: 'brobnar',
                     inPlay: ['akugyo']
                 },
                 player2: {

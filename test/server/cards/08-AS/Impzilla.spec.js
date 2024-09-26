@@ -3,7 +3,7 @@ describe('Impzilla', function () {
         beforeEach(function () {
             this.setupTest({
                 player1: {
-                    house: 'logos',
+                    house: 'brobnar',
                     inPlay: ['impzilla', 'kelifi-dragon']
                 },
                 player2: {

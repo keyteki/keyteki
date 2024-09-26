@@ -4,7 +4,7 @@ describe('Titanarpon', function () {
             this.setupTest({
                 player1: {
                     amber: 5,
-                    house: 'geistoid',
+                    house: 'brobnar',
                     inPlay: ['volax']
                 },
                 player2: {
