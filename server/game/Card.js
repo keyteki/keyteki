@@ -173,6 +173,10 @@ class Card extends EffectSource {
             reactions = reactions.filter((reaction) => !reaction.properties.fight);
         }
 
+        if (this.isBlankDestroyed() && !ignoreBlank) {
+            reactions = reactions.filter((reaction) => !reaction.properties.destroyed);
+        }
+
         if (
             this.type === 'action' &&
             !this.controller.checkRestrictions('resolveActionPlayEffects')
@@ -777,6 +781,10 @@ class Card extends EffectSource {
 
     isBlankFight() {
         return this.anyEffect('blankFight');
+    }
+
+    isBlankDestroyed() {
+        return this.anyEffect('blankDestroyed');
     }
 
     hasKeyword(keyword) {

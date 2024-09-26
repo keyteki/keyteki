@@ -21,6 +21,7 @@ const Effects = {
     addTrait: (trait) => EffectBuilder.card.static('addTrait', trait),
     blank: () => EffectBuilder.card.static('blank'),
     blankFight: () => EffectBuilder.card.static('blankFight'),
+    blankDestroyed: () => EffectBuilder.card.static('blankDestroyed'),
     bonusDamage: (bonus) => EffectBuilder.card.static('bonusDamage', bonus),
     bonusFightDamage: (match) => EffectBuilder.card.static('bonusFightDamage', match),
     canPlayAsUpgrade: () => EffectBuilder.card.static('canPlayAsUpgrade'),
