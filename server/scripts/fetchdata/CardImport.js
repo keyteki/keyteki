@@ -54,7 +54,8 @@ class CardImport {
         let specialCards = {
             479: { 'dark-æmber-vault': true, 'it-s-coming': true, 'orb-of-wonder': true },
             496: { 'orb-of-wonder': true, valoocanth: true },
-            700: { 'ecto-charge': true, 'near-future-lens': true }
+            700: { 'ecto-charge': true, 'near-future-lens': true },
+            800: { 'the-red-baron': true }
         };
 
         const gigantic = ['deusillus', 'ultra-gravitron', 'niffle-kong'];
