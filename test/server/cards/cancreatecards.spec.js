@@ -6,6 +6,7 @@ const localeEn = require('../../../public/locales/en.json');
 
 const card = {
     hasHouse: () => true,
+    isOnFlank: () => true,
     neighbors: [],
     childCards: [],
     hasTrait: () => false,
@@ -27,7 +28,8 @@ const player = {
     getForgedKeys: () => 0,
     isTideHigh: () => true,
     isTideLow: () => false,
-    isHaunted: () => true
+    isHaunted: () => true,
+    keys: { red: true, blue: true, yellow: true }
 };
 player.opponent = player;
 card.controller = player;
