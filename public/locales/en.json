@@ -646,5 +646,11 @@
     "Choose which cards to reveal and discard": "Choose which cards to reveal and discard",
     "Select a neighbor to receive extra damage": "Select a neighbor to receive extra damage",
     "Purge": "Purge",
-    "Shuffle": "Shuffle"
+    "Shuffle": "Shuffle",
+    "My Hand": "My Hand",
+    "My Archives": "My Archives",
+    "Opponent's Hand": "Opponent's Hand",
+    "Opponent's Archives": "Opponent's Archives",
+    "Where to reveal a card from first?" : "Where to reveal a card from first?",
+    "Where to reveal a card from second?" : "Where to reveal a card from second?"
 }
