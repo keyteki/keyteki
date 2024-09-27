@@ -106,6 +106,7 @@ for (let house of Constants.Houses) {
     Constants.MaverickHouseAmberImages[
         house
     ] = require(`./assets/img/maverick/maverick-${house}-amber.png`);
+    Constants.EnhancementPips[house] = require(`./assets/img/enhancements/${house}.png`);
 }
 
 for (let x = 1; x < 8; x++) {
