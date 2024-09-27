@@ -5,16 +5,22 @@ class RefinedAdhesive extends Card {
     // reveal the card and put it facedown under this creature
     // instead.
     setupCardAbilities(ability) {
-        this.reaction({
+        this.interrupt({
             when: {
                 onCardDiscarded: (event, context) =>
                     event.location === 'hand' && context.source.parent
             },
-            gameAction: ability.actions.placeUnder((context) => ({
-                target: context.event.card,
-                parent: context.source.parent,
-                facedown: true
-            }))
+            gameAction: [
+                ability.actions.placeUnder((context) => ({
+                    target: context.event.card,
+                    parent: context.source.parent,
+                    facedown: true
+                })),
+                ability.actions.changeEvent((context) => ({
+                    event: context.event,
+                    cancel: true
+                }))
+            ]
         });
     }
 }
