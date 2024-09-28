@@ -40,6 +40,7 @@ const mockContext = {
         cardsUsed: [],
         cardsPlayed: [],
         creaturesInPlay: [],
+        cardsInPlay: [],
         activePlayer: player,
         getFrameworkContext: () => {}
     },
