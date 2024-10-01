@@ -7,6 +7,7 @@ class SearchAction extends PlayerAction {
         this.reveal = true;
         this.cardName = null;
         this.uniqueCardNames = false;
+        this.exactly = false;
     }
 
     setup() {
@@ -21,7 +22,7 @@ class SearchAction extends PlayerAction {
                 ? this.cardName
                 : !this.amount || this.amount === 1
                 ? 'a card'
-                : 'up to ' + this.amount + ' cards');
+                : (this.exactly ? 'exactly ' : 'up to ') + this.amount + ' cards');
     }
 
     canAffect(player, context) {
@@ -47,7 +48,7 @@ class SearchAction extends PlayerAction {
                         this.cardCondition
                             ? this.cardCondition(card)
                             : !this.cardName || card.name === this.cardName,
-                    mode: this.amount > 0 ? 'upTo' : 'unlimited',
+                    mode: this.amount > 0 ? (this.exactly ? 'exactly' : 'upTo') : 'unlimited',
                     onSelect: (player, cards) => {
                         event.searchedCards = cards;
 
