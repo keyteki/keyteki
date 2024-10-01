@@ -113,6 +113,21 @@ class ResolveBonusIconsAction extends CardGameAction {
                     });
                 }
                 break;
+            case 'token':
+                if (context.player.tokenCard) {
+                    context.game.actions
+                        .makeTokenCreature()
+                        .resolve(
+                            context.player.deck[0],
+                            context.game.getFrameworkContext(context.player)
+                        );
+                    context.game.addMessage(
+                        "{0} makes a token creature due to {1}'s bonus icon",
+                        context.player,
+                        event.card
+                    );
+                }
+                break;
         }
     }
 
