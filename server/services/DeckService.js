@@ -2,7 +2,8 @@ const logger = require('../log');
 const util = require('../util');
 const db = require('../db');
 const { expand, flatten } = require('../Array');
-const BonusOrder = ['amber', 'capture', 'damage', 'draw', 'discard'];
+const Constants = require('../constants');
+const BonusOrder = Constants.Houses.concat(['amber', 'capture', 'damage', 'draw', 'discard']);
 
 class DeckService {
     constructor(configService, cardService) {
