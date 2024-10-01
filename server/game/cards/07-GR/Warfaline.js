@@ -17,6 +17,10 @@ class Warfaline extends Card {
             effect: "shuffle the top 5 cards of a discard pile into the owner's deck",
             gameAction: ability.actions.returnToDeck((context) => ({
                 shuffle: true,
+                shufflePlayer:
+                    !context.select || context.select === 'Mine'
+                        ? context.player
+                        : context.player.opponent,
                 target:
                     !context.select || context.select === 'Mine'
                         ? context.player.getDiscardSlice(5)

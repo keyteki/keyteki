@@ -716,7 +716,7 @@ class DeckService {
 
         let anomalies = {
             'ecto-charge': { anomalySet: 600, house: 'geistoid' },
-            'near-future-lens': { anomalySet: 600, house: 'star-alliance' },
+            'near-future-lens': { anomalySet: 600, house: 'staralliance' },
             'orb-of-wonder': { anomalySet: 453, house: 'sanctum' },
             'the-grim-reaper': { anomalySet: 453, house: 'geistoid' },
             'the-red-baron': { anomalySet: 453, house: 'skyborn' },
