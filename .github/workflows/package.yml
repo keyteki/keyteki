@@ -1,20 +1,24 @@
-name: Package
-on:
-    workflow_run:
-        workflows: ['Build, test and package']
-        branches: ['master', 'pack/**']
-        types: completed
+# This workflow will do a clean installation of node dependencies, cache/restore them, build the source code and run tests across different versions of node
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-nodejs
 
+name: Manually package
+on:
+    workflow_dispatch:
+        inputs:
+            manual_branch:
+                description: Set branch
+                required: true
+                type: string
+                default: master
 jobs:
     package:
-        # `if` required because a workflow run is triggered regardless of
-        # the result of the previous workflow (see the documentation page)
-        if: ${{ github.event.workflow_run.conclusion == 'success' }}
+        name: Push Package
         runs-on: ubuntu-latest
         steps:
             - name: Checkout source and submodules
-              uses: actions/checkout@v3
+              uses: actions/checkout@v4
               with:
+                  #path: ${{ inputs.manual_branch }}
                   fetch-depth: '0'
                   submodules: recursive
             - name: Set up QEMU
@@ -26,7 +30,7 @@ jobs:
               with:
                   username: ${{ secrets.DOCKERHUB_USERNAME }}
                   password: ${{ secrets.DOCKERHUB_PASSWORD }}
-            - uses: actions/setup-node@v3
+            - uses: actions/setup-node@v4
               with:
                   node-version: lts/*
             - name: Install GitVersion
@@ -42,9 +46,11 @@ jobs:
               uses: docker/build-push-action@v3
               with:
                   build-args: |
-                      "VERSION=${{ steps.determine_version.outputs.semVer }}"
+                      VERSION=${{ steps.determine_version.outputs.semVer }}
+                      SENTRY_KEY=${{ secrets.SENTRY_DSN }}
+                      SENTRY_AUTH_TOKEN=${{ secrets.SENTRY_AUTH_TOKEN }}
                   push: true
-                  tags: cryogen/keyteki-lobby:latest, cryogen/keyteki-lobby:${{ steps.determine_version.outputs.semVer }}
+                  tags: ${{ secrets.DOCKERHUB_USERNAME }}/keyteki-lobby:latest, ${{ secrets.DOCKERHUB_USERNAME }}/keyteki-lobby:${{ steps.determine_version.outputs.semVer }}
             - name: Build and push node
               uses: docker/build-push-action@v3
               with:
@@ -52,4 +58,4 @@ jobs:
                       "VERSION=${{ steps.determine_version.outputs.semVer }}"
                   push: true
                   file: server/gamenode/Dockerfile
-                  tags: cryogen/keyteki-node:latest, cryogen/keyteki-node:${{ steps.determine_version.outputs.semVer }}
+                  tags: ${{ secrets.DOCKERHUB_USERNAME }}/keyteki-node:latest, ${{ secrets.DOCKERHUB_USERNAME }}/keyteki-node:${{ steps.determine_version.outputs.semVer }}
