@@ -60,6 +60,7 @@ const Effects = {
     mustFightIfAble: () => EffectBuilder.card.static('mustFightIfAble'),
     playAbilitiesAddReap: () => EffectBuilder.card.static('playAbilitiesAddReap'),
     reapAbilitiesAddFight: () => EffectBuilder.card.static('reapAbilitiesAddFight'),
+    removeAllTraits: () => EffectBuilder.card.static('removeAllTraits'),
     removeKeyword: (keyword) => EffectBuilder.card.static('removeKeyword', keyword),
     replaceDamage: (action, targetFunc) =>
         EffectBuilder.card.static('replaceDamage', { action, targetFunc }),
