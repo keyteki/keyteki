@@ -44,6 +44,21 @@ describe('Infinity Strop', function () {
             expect(this.sensorChiefGarcia.location).toBe('play area');
         });
 
+        it('should not deal 4 extra damage if creature was warded', function () {
+            this.dustPixie.ward();
+            this.player1.play(this.infinityStrop);
+            this.player1.clickCard(this.dustPixie);
+            expect(this.flaxia.location).toBe('play area');
+            expect(this.dustPixie.location).toBe('play area');
+            expect(this.mushroomMan.tokens.damage).toBe(undefined);
+            expect(this.emberImp.tokens.damage).toBe(undefined);
+            expect(this.emberImp.location).toBe('play area');
+            expect(this.troll.tokens.damage).toBe(undefined);
+            expect(this.troll.location).toBe('play area');
+            expect(this.sensorChiefGarcia.tokens.damage).toBe(undefined);
+            expect(this.sensorChiefGarcia.location).toBe('play area');
+        });
+
         it('should deal 4 damage to other creatures that share a house of target before it died', function () {
             this.player1.endTurn();
             this.player2.clickPrompt('staralliance');
