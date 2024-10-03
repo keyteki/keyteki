@@ -65,7 +65,7 @@
         "assets-webpack-plugin": "^5.1.1",
         "bcrypt": "^5.1.1",
         "bootstrap": "^4.5.0",
-        "canvas": "^2.9.1",
+        "canvas": "^2.11.2",
         "circletype": "^2.3.0",
         "clean-webpack-plugin": "^3.0.0",
         "clipboard": "^2.0.6",

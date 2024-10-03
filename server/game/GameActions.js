@@ -20,6 +20,8 @@ const Actions = {
     addKnowledgeCounter: (propertyFactory) =>
         new GameActions.AddTokenAction(propertyFactory, 'knowledge'),
     addNayCounter: (propertyFactory) => new GameActions.AddTokenAction(propertyFactory, 'nay'),
+    addMineralizeCounter: (propertyFactory) =>
+        new GameActions.AddTokenAction(propertyFactory, 'mineralize'),
     addPaintCounter: (propertyFactory) => new GameActions.AddTokenAction(propertyFactory, 'paint'),
     addSchemeCounter: (propertyFactory) =>
         new GameActions.AddTokenAction(propertyFactory, 'scheme'),

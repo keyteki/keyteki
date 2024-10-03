@@ -10,6 +10,7 @@ class PutIntoPlayAction extends CardGameAction {
         this.playedOnLeftFlank = false;
         this.playedOnRightFlank = false;
         this.promptSource = false;
+        this.beingPlayed = false;
     }
 
     setup() {
@@ -53,7 +54,14 @@ class PutIntoPlayAction extends CardGameAction {
         }
 
         if (player.cardsInPlay.some((card) => card.type === 'creature')) {
-            let choices = ['Left', 'Right'];
+            let choices = ['Left'];
+
+            let allowRightFlankDeploy = true;
+            if (!this.beingPlayed || !player.anyEffect('cannotPlayCreaturesOnRight')) {
+                choices.push('Right');
+            } else {
+                allowRightFlankDeploy = false;
+            }
 
             if (
                 (card.anyEffect('enterPlayAnywhere', context) ||
@@ -63,7 +71,17 @@ class PutIntoPlayAction extends CardGameAction {
                 player.creaturesInPlay.length > 1
             ) {
                 choices.push('Deploy Left');
-                choices.push('Deploy Right');
+
+                // Can only deploy right when prevented from playing
+                // on the right flank if there is more than one
+                // creature in play.
+                if (
+                    !this.beingPlayed ||
+                    !player.anyEffect('cannotPlayCreaturesOnRight') ||
+                    player.creaturesInPlay.length > 1
+                ) {
+                    choices.push('Deploy Right');
+                }
             }
 
             context.game.promptWithHandlerMenu(context.player, {
@@ -108,7 +126,11 @@ class PutIntoPlayAction extends CardGameAction {
                             cardCondition: (card) =>
                                 card.location === 'play area' &&
                                 card.controller === player &&
-                                card.type === 'creature',
+                                card.type === 'creature' &&
+                                (flank !== 'right' ||
+                                    allowRightFlankDeploy ||
+                                    player.creaturesInPlay.indexOf(card) <
+                                        player.creaturesInPlay.length - 1),
                             onSelect: (p, card) => {
                                 this.deployIndex = card.controller.cardsInPlay.indexOf(card);
                                 if (flank === 'left' && this.deployIndex >= 0) {
@@ -205,6 +227,17 @@ class PutIntoPlayAction extends CardGameAction {
                     card.updateEffectContexts();
                     context.game.checkGameState(true);
                     card.controller = prevController;
+                }
+
+                for (let e of card.getEffects('entersPlayWithEffect')) {
+                    context.game.actions
+                        .cardLastingEffect({
+                            target: card,
+                            targetLocation: 'play area',
+                            duration: e.duration,
+                            effect: e.builder()
+                        })
+                        .resolve(card, context);
                 }
 
                 player.moveCard(card, 'play area', {

@@ -2,7 +2,8 @@ const logger = require('../log');
 const util = require('../util');
 const db = require('../db');
 const { expand, flatten } = require('../Array');
-const BonusOrder = ['amber', 'capture', 'damage', 'draw', 'discard'];
+const Constants = require('../constants');
+const BonusOrder = Constants.Houses.concat(['amber', 'capture', 'damage', 'draw', 'discard']);
 
 class DeckService {
     constructor(configService, cardService) {
@@ -718,6 +719,7 @@ class DeckService {
             'near-future-lens': { anomalySet: 600, house: 'staralliance' },
             'orb-of-wonder': { anomalySet: 453, house: 'sanctum' },
             'the-grim-reaper': { anomalySet: 453, house: 'geistoid' },
+            'the-red-baron': { anomalySet: 453, house: 'skyborn' },
             valoocanth: { anomalySet: 453, house: 'unfathomable' }
         };
 

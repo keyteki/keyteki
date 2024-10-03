@@ -4,7 +4,6 @@ class SearchAction extends PlayerAction {
     setDefaultProperties() {
         this.amount = null;
         this.location = ['deck', 'discard'];
-        this.discard = false;
         this.reveal = true;
         this.cardName = null;
         this.uniqueCardNames = false;
@@ -58,26 +57,41 @@ class SearchAction extends PlayerAction {
                                 cardMessageInfo = cards.length === 1 ? 'a card' : '{2} cards';
                             }
 
-                            if (this.discard) {
-                                context.game.addMessage(
-                                    `{0} discards ${cardMessageInfo}`,
-                                    player,
-                                    cards,
-                                    cards.length
-                                );
-                            } else {
-                                context.game.addMessage(
-                                    `{0} takes ${cardMessageInfo} into their hand`,
-                                    player,
-                                    cards,
-                                    cards.length
-                                );
+                            switch (this.destination) {
+                                case 'discard':
+                                    context.game.addMessage(
+                                        `{0} discards ${cardMessageInfo}`,
+                                        player,
+                                        cards,
+                                        cards.length
+                                    );
+                                    break;
+                                case 'archives':
+                                    context.game.addMessage(
+                                        `{0} archives ${cardMessageInfo}`,
+                                        player,
+                                        cards,
+                                        cards.length
+                                    );
+                                    break;
+                                default:
+                                    context.game.addMessage(
+                                        `{0} takes ${cardMessageInfo} into their hand`,
+                                        player,
+                                        cards,
+                                        cards.length
+                                    );
                             }
                             for (let card of cards) {
-                                if (this.discard) {
-                                    context.game.actions.discard().resolve(card, context);
-                                } else {
-                                    player.moveCard(card, 'hand');
+                                switch (this.destination) {
+                                    case 'discard':
+                                        context.game.actions.discard().resolve(card, context);
+                                        break;
+                                    case 'archives':
+                                        context.game.actions.archive().resolve(card, context);
+                                        break;
+                                    default:
+                                        player.moveCard(card, 'hand');
                                 }
                             }
                         } else {

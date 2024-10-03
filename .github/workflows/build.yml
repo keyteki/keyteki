@@ -4,11 +4,11 @@
 name: Build, test and package
 on:
     push:
-        branches: ['master']
+        branches: ['master', 'pack/**']
         paths-ignore:
             - '.github/workflows/**'
     pull_request:
-        branches: ['master']
+        branches: ['master', 'pack/**']
         paths-ignore:
             - '.github/workflows/**'
 

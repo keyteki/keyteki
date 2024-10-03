@@ -42,6 +42,10 @@ class HousePhase extends Phase {
     }
 
     takeCardsFromArchives() {
+        if (!this.game.activePlayer.checkRestrictions('takeArchives')) {
+            return;
+        }
+
         if (this.game.activePlayer.archives.length) {
             let oppCannotLeave = this.game.activePlayer.anyEffect(
                 'opponentCardsCannotLeaveArchives'
