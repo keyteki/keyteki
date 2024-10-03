@@ -9,7 +9,7 @@ class EldestBatchminder extends Card {
                 onRoundEnded: (event, context) => context.player === this.game.activePlayer
             },
             gameAction: ability.actions.addPowerCounter((context) => ({
-                target: context.game.cardsInPlay.filter(
+                target: context.game.creaturesInPlay.filter(
                     (c) => c !== context.source && c.hasHouse('mars')
                 ),
                 amount: 2
