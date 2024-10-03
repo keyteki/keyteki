@@ -18,7 +18,9 @@ class AerialPedlar extends Card {
                         effect: ability.effects.takeControl(context.player)
                     })),
                     ability.actions.forRemainderOfTurn((context) => ({
-                        effect: ability.effects.canUse((card) => context.target.includes(card))
+                        effect: ability.effects.canUse(
+                            (card) => context.target && context.target.includes(card)
+                        )
                     }))
                 ]
             },
