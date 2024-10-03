@@ -21,7 +21,9 @@ class CardImport {
         this.force = force;
         this.skipReplace = skipReplace;
         this.buildHalfSize = imageSource.getHalfSizeBuilder();
-        this.cardService = new CardService(new ConfigService());
+        if (!skipReplace) {
+            this.cardService = new CardService(new ConfigService());
+        }
     }
 
     async import() {
@@ -31,7 +33,9 @@ class CardImport {
             console.log('Unable to fetch data', e);
         }
 
-        this.cardService.shutdown();
+        if (this.cardService) {
+            this.cardService.shutdown();
+        }
     }
 
     async importCards() {
