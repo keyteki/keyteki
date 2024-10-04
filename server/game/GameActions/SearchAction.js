@@ -7,6 +7,7 @@ class SearchAction extends PlayerAction {
         this.reveal = true;
         this.cardName = null;
         this.uniqueCardNames = false;
+        this.exactly = false;
     }
 
     setup() {
@@ -21,7 +22,7 @@ class SearchAction extends PlayerAction {
                 ? this.cardName
                 : !this.amount || this.amount === 1
                 ? 'a card'
-                : 'up to ' + this.amount + ' cards');
+                : (this.exactly ? 'exactly ' : 'up to ') + this.amount + ' cards');
     }
 
     canAffect(player, context) {
@@ -47,10 +48,9 @@ class SearchAction extends PlayerAction {
                         this.cardCondition
                             ? this.cardCondition(card)
                             : !this.cardName || card.name === this.cardName,
-                    mode: this.amount > 0 ? 'upTo' : 'unlimited',
+                    mode: this.amount > 0 ? (this.exactly ? 'exactly' : 'upTo') : 'unlimited',
                     onSelect: (player, cards) => {
                         event.searchedCards = cards;
-
                         if (cards.length > 0) {
                             let cardMessageInfo = '{1}';
                             if (!this.reveal) {
@@ -74,6 +74,14 @@ class SearchAction extends PlayerAction {
                                         cards.length
                                     );
                                     break;
+                                case 'deck':
+                                    context.game.addMessage(
+                                        `{0} puts ${cardMessageInfo} on top of their deck`,
+                                        player,
+                                        cards,
+                                        cards.length
+                                    );
+                                    break;
                                 default:
                                     context.game.addMessage(
                                         `{0} takes ${cardMessageInfo} into their hand`,
@@ -82,6 +90,11 @@ class SearchAction extends PlayerAction {
                                         cards.length
                                     );
                             }
+
+                            if (this.location.includes('deck')) {
+                                player.shuffleDeck();
+                            }
+
                             for (let card of cards) {
                                 switch (this.destination) {
                                     case 'discard':
@@ -90,16 +103,19 @@ class SearchAction extends PlayerAction {
                                     case 'archives':
                                         context.game.actions.archive().resolve(card, context);
                                         break;
+                                    case 'deck':
+                                        context.game.actions.returnToDeck().resolve(card, context);
+                                        break;
                                     default:
                                         player.moveCard(card, 'hand');
                                 }
                             }
                         } else {
                             context.game.addMessage("{0} doesn't take anything", player);
-                        }
 
-                        if (this.location.includes('deck')) {
-                            player.shuffleDeck();
+                            if (this.location.includes('deck')) {
+                                player.shuffleDeck();
+                            }
                         }
 
                         return true;
