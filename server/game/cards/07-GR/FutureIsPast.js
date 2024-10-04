@@ -14,9 +14,12 @@ class FutureIsPast extends Card {
                 })),
                 ability.actions.returnToDeck((context) => ({
                     shuffle: true,
-                    target: context.player.discard.concat(
-                        context.player.opponent ? context.player.opponent.discard : []
-                    )
+                    target: context.player.discard
+                })),
+                ability.actions.returnToDeck((context) => ({
+                    shuffle: true,
+                    shufflePlayer: context.player.opponent,
+                    target: context.player.opponent ? context.player.opponent.discard : []
                 }))
             ]
         });

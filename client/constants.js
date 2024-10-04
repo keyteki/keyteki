@@ -14,6 +14,7 @@ export const Constants = {
         'sanctum',
         'saurian',
         'shadows',
+        'skyborn',
         'staralliance',
         'unfathomable',
         'untamed'
@@ -28,6 +29,7 @@ export const Constants = {
         'Sanctum',
         'Saurian',
         'Shadows',
+        'Skyborn',
         'Star Alliance',
         'Unfathomable',
         'Untamed'
@@ -42,7 +44,9 @@ export const Constants = {
         { value: '600', label: 'WoE', tideRequired: false },
         { value: '601', label: 'UC2022', tideRequired: false },
         { value: '609', label: 'VM2023', tideRequired: false },
-        { value: '700', label: 'GR', tideRequired: false }
+        { value: '700', label: 'GR', tideRequired: false },
+        { value: '737', label: 'VM2024', tideRequired: false },
+        { value: '800', label: 'AS', tideRequired: false }
     ],
     CardTypes: ['action', 'artifact', 'creature', 'upgrade', 'token creature', 'the tide'],
     SetIconPaths: {},
@@ -102,6 +106,7 @@ for (let house of Constants.Houses) {
     Constants.MaverickHouseAmberImages[
         house
     ] = require(`./assets/img/maverick/maverick-${house}-amber.png`);
+    Constants.EnhancementPips[house] = require(`./assets/img/enhancements/${house}.png`);
 }
 
 for (let x = 1; x < 8; x++) {

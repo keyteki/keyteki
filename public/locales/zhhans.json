@@ -396,6 +396,7 @@
     "{{card}} (reap)": "{{card}} (reap)",
     "How much amber do you want to use from {{card}}?": "你想用 {{card}} 使用多少琥魄?",
     "Do you wish to repeat this effect?": "你想要重複这个效果吗?",
+    "Do you wish to move this creature to a flank?": "Do you wish to move this creature to a flank?",
     "Do you wish to forge a key?": "你想要锻造钥匙吗?",
     "Do you wish to purge a sanctum card?": "你想要清除一张圣堂卡吗?",
     "Do you wish to destroy all Mars creatures?": "你想要摧毁所有火星生物吗?",
@@ -439,6 +440,7 @@
     "Which player's deck": "哪一位牌手的牌组",
     "Which player's hand": "Which player's hand",
     "Which player's discard": "Which player's discard",
+    "Which player's archives": "Which player's archives",
     "Choose how many to capture from opponent": "选择从对手处抢占几个琥珀",
     "Gamble for amber?": "赌把大的？",
     "Which player's battleline do you want to rearrange": "选择重新分配哪个玩家的战线",
@@ -643,5 +645,13 @@
     "Make a token creature": "Make a token creature",
     "Draw a card": "Draw a card",
     "Choose which cards to reveal and discard": "Choose which cards to reveal and discard",
-    "Select a neighbor to receive extra damage": "Select a neighbor to receive extra damage"
+    "Select a neighbor to receive extra damage": "Select a neighbor to receive extra damage",
+    "Purge": "Purge",
+    "Shuffle": "Shuffle",
+    "My Hand": "My Hand",
+    "My Archives": "My Archives",
+    "Opponent's Hand": "Opponent's Hand",
+    "Opponent's Archives": "Opponent's Archives",
+    "Where to reveal a card from first?" : "Where to reveal a card from first?",
+    "Where to reveal a card from second?" : "Where to reveal a card from second?"
 }

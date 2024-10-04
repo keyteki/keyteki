@@ -3,6 +3,7 @@ const CanUse = require('./Effects/Values/CanUse');
 const ConditionValue = require('./Effects/Values/ConditionValue');
 const CopyCard = require('./Effects/Values/CopyCard');
 const EffectBuilder = require('./Effects/EffectBuilder');
+const EffectValue = require('./Effects/Values/EffectValue');
 const GainAbility = require('./Effects/Values/GainAbility');
 
 /* Types of effect
@@ -20,6 +21,7 @@ const Effects = {
     addTrait: (trait) => EffectBuilder.card.static('addTrait', trait),
     blank: () => EffectBuilder.card.static('blank'),
     blankFight: () => EffectBuilder.card.static('blankFight'),
+    blankDestroyed: () => EffectBuilder.card.static('blankDestroyed'),
     bonusDamage: (bonus) => EffectBuilder.card.static('bonusDamage', bonus),
     bonusFightDamage: (match) => EffectBuilder.card.static('bonusFightDamage', match),
     canPlayAsUpgrade: () => EffectBuilder.card.static('canPlayAsUpgrade'),
@@ -40,6 +42,8 @@ const Effects = {
         EffectBuilder.card.static('entersPlayReady', new ConditionValue(condition)),
     entersPlayStunned: (condition) =>
         EffectBuilder.card.static('entersPlayStunned', new ConditionValue(condition)),
+    entersPlayWithEffect: (properties) =>
+        EffectBuilder.card.static('entersPlayWithEffect', new EffectValue(properties)),
     flipToken: () => EffectBuilder.card.static('flipToken'),
     visibleIn: (location) => EffectBuilder.card.static('visibleIn', location),
     gainAbility: (type, properties) =>
@@ -142,7 +146,8 @@ const Effects = {
     skipStep: (step) => EffectBuilder.player.static('skipStep', step),
     opponentCardsCannotLeaveArchives: (card) =>
         EffectBuilder.player.static('opponentCardsCannotLeaveArchives', card),
-    topCardOfDeckVisible: (card) => EffectBuilder.player.static('topCardOfDeckVisible', card)
+    topCardOfDeckVisible: (card) => EffectBuilder.player.static('topCardOfDeckVisible', card),
+    cannotPlayCreaturesOnRight: () => EffectBuilder.player.static('cannotPlayCreaturesOnRight')
 };
 
 module.exports = Effects;

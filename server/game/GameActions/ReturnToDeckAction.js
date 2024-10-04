@@ -4,6 +4,7 @@ class ReturnToDeckAction extends CardGameAction {
     setDefaultProperties() {
         this.bottom = false;
         this.shuffle = false;
+        this.shufflePlayer = null;
         this.shuffleDiscardIntoDeck = false;
     }
 
@@ -11,7 +12,17 @@ class ReturnToDeckAction extends CardGameAction {
         super.setup();
         this.name = 'returnToDeck';
         if (this.shuffle) {
-            this.effectMsg = "return {0} to their owner's deck";
+            if (
+                this.target.every((card) =>
+                    ['play area', 'discard', 'purged'].includes(card.location)
+                )
+            ) {
+                this.effectMsg = "return {0} to their owner's deck";
+            } else if (this.target.length === 1) {
+                this.effectMsg = "return a card to their owner's deck";
+            } else {
+                this.effectMsg = "return cards to their owner's deck";
+            }
         } else {
             this.effectMsg =
                 'return {0} to the ' + (this.bottom ? 'bottom' : 'top') + " of their owner's deck";
@@ -24,7 +35,6 @@ class ReturnToDeckAction extends CardGameAction {
     }
 
     getEventArray(context) {
-        let shufflePlayer = context.player;
         if (this.shuffle && !this.shuffleDiscardIntoDeck) {
             // Figure out if the entire discard has been shuffled into the
             // deck for either player.
@@ -43,11 +53,14 @@ class ReturnToDeckAction extends CardGameAction {
             ) {
                 this.shuffleDiscardIntoDeck =
                     context.player.opponent.discard === this.originalTarget;
-                shufflePlayer = context.player.opponent;
             }
         }
 
         if (this.target.length === 0 && this.shuffle) {
+            let shufflePlayer = context.player;
+            if (this.shufflePlayer) {
+                shufflePlayer = this.shufflePlayer;
+            }
             shufflePlayer.shuffleDeck(this.shuffleDiscardIntoDeck);
         }
 
