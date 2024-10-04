@@ -11,6 +11,7 @@ INSERT INTO public."Houses" ("Id", "Code", "Name") VALUES (10, 'unfathomable', '
 INSERT INTO public."Houses" ("Id", "Code", "Name") VALUES (11, 'ekwidon', 'Ekwidon');
 INSERT INTO public."Houses" ("Id", "Code", "Name") VALUES (12, 'geistoid', 'Geistoid');
 INSERT INTO public."Houses" ("Id", "Code", "Name") VALUES (13, 'skyborn', 'Skyborn');
+INSERT INTO public."Houses" ("Id", "Code", "Name") VALUES (14, 'redemption', 'Redemption');
 INSERT INTO public."Houses" ("Id", "Code", "Name") VALUES (999, 'thetide', 'The Tide'); -- Leave this last
 
 --
