@@ -7,6 +7,7 @@ Constants.Houses = [
     'geistoid',
     'logos',
     'mars',
+    'redemption',
     'sanctum',
     'saurian',
     'shadows',
@@ -22,6 +23,7 @@ Constants.HousesNames = [
     'Geistoid',
     'Logos',
     'Mars',
+    'Redemption',
     'Sanctum',
     'Saurian',
     'Shadows',
@@ -38,7 +40,8 @@ Constants.Expansions = [
     { id: 496, label: 'DT', tideRequired: true },
     { id: 600, label: 'WoE', tideRequired: false },
     { id: 700, label: 'GR', tideRequired: false },
-    { id: 800, label: 'AS', tideRequired: false }
+    { id: 800, label: 'AS', tideRequired: false },
+    { id: 855, label: 'ToC', tideRequired: false }
 ];
 Constants.Tide = Object.freeze({
     HIGH: 'high',
