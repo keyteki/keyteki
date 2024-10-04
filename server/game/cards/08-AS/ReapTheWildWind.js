@@ -17,6 +17,7 @@ class ReapTheWildWind extends Card {
                             : []
                     )
             })),
+            effect: "reveal a random card from each player's hand",
             then: (
                 preThenContext,
                 revealedCards = preThenContext.ability.gameAction[0].target
