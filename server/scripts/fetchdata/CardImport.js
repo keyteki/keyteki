@@ -59,10 +59,30 @@ class CardImport {
             479: { 'dark-æmber-vault': true, 'it-s-coming': true, 'orb-of-wonder': true },
             496: { 'orb-of-wonder': true, valoocanth: true },
             700: { 'ecto-charge': true, 'near-future-lens': true, 'the-grim-reaper': true },
-            800: { 'the-red-baron': true }
+            800: { 'the-red-baron': true },
+            874: {
+                'build-your-champion': true,
+                'digging-up-the-monster': true,
+                'tomes-gigantic': true
+            }
         };
 
-        const gigantic = ['deusillus', 'ultra-gravitron', 'niffle-kong'];
+        const gigantic = [
+            'deusillus',
+            'ultra-gravitron',
+            'niffle-kong',
+            'tormax',
+            'wretched-anathema',
+            'sirs-colossus',
+            'bawretchadontius',
+            'boosted-b4-rry',
+            'dodger-s-10',
+            'cadet-allison',
+            'j43g3r-v',
+            'titanic-bumblebird',
+            'ascendant-hester',
+            'horizon-saber'
+        ];
         const skipMkdir = {};
 
         for (let card of cards) {

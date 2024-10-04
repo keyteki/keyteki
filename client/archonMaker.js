@@ -54,6 +54,26 @@ const shadowProps = {
 const defaultCardWidth = 65;
 const cardBackDecal = undefined;
 
+const gigantic2s = [
+    'deusillus2',
+    'ultra-gravitron2',
+    'niffle-kong2',
+    'tormax2',
+    'wretched-anathema2',
+    'sirs-colossus2',
+    'bawretchadontius2',
+    'boosted-b4-rry2',
+    'dodger-s-102',
+    'cadet-allison2',
+    'j43g3r-v2',
+    'titanic-bumblebird2',
+    'ascendant-hester2',
+    'horizon-saber2'
+];
+
+// The MV API doesn't provide proper per-house images for these cards.
+const houselessCards = ['build-your-champion', 'digging-up-the-monster', 'tomes-gigantic'];
+
 export const loadImage = (url) => {
     return new Promise((resolve) => {
         fabric.util.loadImage(url, async (image) => {
@@ -511,7 +531,12 @@ export const buildCard = async (
     const bonusIcons = amber > 0 || (enhancements && enhancements.length > 0);
 
     //house overlay
-    if (maverick || anomaly || (number && (number[0] === 'R' || number[0] === 'S'))) {
+    if (
+        maverick ||
+        anomaly ||
+        houselessCards.includes(card.id) ||
+        (number && (number[0] === 'R' || number[0] === 'S'))
+    ) {
         let house;
         if (maverick) {
             if (!MaverickCornerImage) {
@@ -547,10 +572,7 @@ export const buildCard = async (
         );
         let top = 59 + (amber ? amber * 30 : 0);
 
-        if (
-            ['deusillus2', 'ultra-gravitron2', 'niffle-kong2'].some((x) => x === card.id) &&
-            !image.includes('complete')
-        ) {
+        if (gigantic2s.some((x) => x === card.id) && !image.includes('complete')) {
             baseImage.set({ left: width - top, top: 14, angle: 90 });
         } else {
             baseImage.set({ left: 14, top });
@@ -564,10 +586,7 @@ export const buildCard = async (
                 imgOptions
             );
 
-            if (
-                ['deusillus2', 'ultra-gravitron2', 'niffle-kong2'].some((x) => x === card.id) &&
-                !image.includes('complete')
-            ) {
+            if (gigantic2s.some((x) => x === card.id) && !image.includes('complete')) {
                 pipImage.set({ left: width - top - 8 - index * 31, top: 21, angle: 90 });
             } else {
                 pipImage.set({ left: 21, top: top + 10 + index * 31 });
