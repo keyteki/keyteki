@@ -8,7 +8,7 @@ class CallOfNeed extends Card {
             gameAction: ability.actions.search({
                 location: ['deck'],
                 amount: 1,
-                discard: true
+                destination: 'discard'
             })
         });
     }

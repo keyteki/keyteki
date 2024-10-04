@@ -10,6 +10,7 @@ INSERT INTO public."Houses" ("Id", "Code", "Name") VALUES (9, 'brobnar', 'Brobna
 INSERT INTO public."Houses" ("Id", "Code", "Name") VALUES (10, 'unfathomable', 'Unfathomable');
 INSERT INTO public."Houses" ("Id", "Code", "Name") VALUES (11, 'ekwidon', 'Ekwidon');
 INSERT INTO public."Houses" ("Id", "Code", "Name") VALUES (12, 'geistoid', 'Geistoid');
+INSERT INTO public."Houses" ("Id", "Code", "Name") VALUES (13, 'skyborn', 'Skyborn');
 INSERT INTO public."Houses" ("Id", "Code", "Name") VALUES (999, 'thetide', 'The Tide'); -- Leave this last
 
 --
@@ -26,8 +27,10 @@ INSERT INTO public."Expansions" ("Id", "ExpansionId", "Code", "Name") VALUES (5,
 INSERT INTO public."Expansions" ("Id", "ExpansionId", "Code", "Name") VALUES (6, 496, 'DT', 'Dark Tidings');
 INSERT INTO public."Expansions" ("Id", "ExpansionId", "Code", "Name") VALUES (7, 600, 'WoE', 'Winds of Exchange');
 INSERT INTO public."Expansions" ("Id", "ExpansionId", "Code", "Name") VALUES (8, 601, 'UC2022', 'Unchained 2022');
-INSERT INTO public."Expansions" ("Id", "ExpansionId", "Code", "Name") VALUES (9, 609, 'VM2023', 'Vault Masters 2023')
+INSERT INTO public."Expansions" ("Id", "ExpansionId", "Code", "Name") VALUES (9, 609, 'VM2023', 'Vault Masters 2023');
 INSERT INTO public."Expansions" ("Id", "ExpansionId", "Code", "Name") VALUES (10, 700, 'GR', 'Grim Reminders');
+INSERT INTO public."Expansions" ("Id", "ExpansionId", "Code", "Name") VALUES (11, 737, 'VM2024', 'Vault Masters 2024');
+INSERT INTO public."Expansions" ("Id", "ExpansionId", "Code", "Name") VALUES (12, 800, 'AS', 'Æmber Skies');
 --
 -- Name: Expansions_Id_seq; Type: SEQUENCE SET; Schema: public; Owner: keyteki
 --

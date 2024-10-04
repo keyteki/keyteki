@@ -400,6 +400,7 @@
     "{{card}} (reap)": "{{card}} (reap)",
     "How much amber do you want to use from {{card}}?": "Bạn muốn dùng bao nhiêu amber từ {{card}}?",
     "Do you wish to repeat this effect?": "Bạn có muốn sử dụng lại hiệu ứng này không?",
+    "Do you wish to move this creature to a flank?": "Do you wish to move this creature to a flank?",
     "Do you wish to forge a key?": "Bạn có muốn rèn chìa không?",
     "Do you wish to purge a sanctum card?": "Bạn có muốn trục xuất một lá bài sanctum không?",
     "Do you wish to destroy all Mars creatures?": "Bạn có muốn tiêu diệt toàn bộ sinh vật nhà Mars không?",
@@ -443,6 +444,7 @@
     "Which player's deck": "Bộ bài của người chơi nào",
     "Which player's hand": "Which player's hand",
     "Which player's discard": "Which player's discard",
+    "Which player's archives": "Which player's archives",
     "Choose how many to capture from opponent": "Chọn bao nhiêu để bắt giữ từ đối thủ",
     "Gamble for amber?": "Cá cược amber?",
     "Which player's battleline do you want to rearrange": "Chiến tuyến của người chơi nào bạn muốn sắp xếp lại",
@@ -647,5 +649,13 @@
     "Choose a friendly half to destroy": "Choose a friendly half to destroy",
     "Make a token creature": "Tạo một thuộc hạ",
     "Draw a card": "Rút một lá bài",
-    "Choose which cards to reveal and discard": "Chọn các lá bài nào để lộ và bỏ"
+    "Choose which cards to reveal and discard": "Chọn các lá bài nào để lộ và bỏ",
+    "Purge": "Purge",
+    "Shuffle": "Shuffle",
+    "My Hand": "My Hand",
+    "My Archives": "My Archives",
+    "Opponent's Hand": "Opponent's Hand",
+    "Opponent's Archives": "Opponent's Archives",
+    "Where to reveal a card from first?" : "Where to reveal a card from first?",
+    "Where to reveal a card from second?" : "Where to reveal a card from second?"
 }

@@ -21,7 +21,9 @@ class CardImport {
         this.force = force;
         this.skipReplace = skipReplace;
         this.buildHalfSize = imageSource.getHalfSizeBuilder();
-        this.cardService = new CardService(new ConfigService());
+        if (!skipReplace) {
+            this.cardService = new CardService(new ConfigService());
+        }
     }
 
     async import() {
@@ -31,7 +33,9 @@ class CardImport {
             console.log('Unable to fetch data', e);
         }
 
-        this.cardService.shutdown();
+        if (this.cardService) {
+            this.cardService.shutdown();
+        }
     }
 
     async importCards() {
@@ -54,7 +58,8 @@ class CardImport {
         let specialCards = {
             479: { 'dark-æmber-vault': true, 'it-s-coming': true, 'orb-of-wonder': true },
             496: { 'orb-of-wonder': true, valoocanth: true },
-            700: { 'ecto-charge': true, 'near-future-lens': true }
+            700: { 'ecto-charge': true, 'near-future-lens': true, 'the-grim-reaper': true },
+            800: { 'the-red-baron': true }
         };
 
         const gigantic = ['deusillus', 'ultra-gravitron', 'niffle-kong'];

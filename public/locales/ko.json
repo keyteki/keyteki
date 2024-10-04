@@ -396,6 +396,7 @@
     "{{card}} (reap)": "{{card}} (reap)",
     "How much amber do you want to use from {{card}}?": "{{card}}에서 몇 개의 엠버를 사용하겠습니까?",
     "Do you wish to repeat this effect?": "이 효과를 반복하겠습니까?",
+    "Do you wish to move this creature to a flank?": "Do you wish to move this creature to a flank?",
     "Do you wish to forge a key?": "키를 제작하겠습니까?",
     "Do you wish to purge a sanctum card?": "생텀 카드를 제거하시겠습니까?",
     "Do you wish to destroy all Mars creatures?": "마스 생명체를 전부 파괴하시겠습니까?",
@@ -439,6 +440,7 @@
     "Which player's deck": "어떤 플레이어의 덱",
     "Which player's hand": "Which player's hand",
     "Which player's discard": "Which player's discard",
+    "Which player's archives": "Which player's archives",
     "Choose how many to capture from opponent": "상대에게서 포획할 갯 수를 고르세요",
     "Gamble for amber?": "엠버를 위해 도박하시겠습니까?",
     "Which player's battleline do you want to rearrange": "어떤 플레이어의 전선을 재정렬 하시겠습니까?",
@@ -643,5 +645,13 @@
     "Make a token creature": "Make a token creature",
     "Draw a card": "Draw a card",
     "Choose which cards to reveal and discard": "Choose which cards to reveal and discard",
-    "Select a neighbor to receive extra damage": "Select a neighbor to receive extra damage"
+    "Select a neighbor to receive extra damage": "Select a neighbor to receive extra damage",
+    "Purge": "Purge",
+    "Shuffle": "Shuffle",
+    "My Hand": "My Hand",
+    "My Archives": "My Archives",
+    "Opponent's Hand": "Opponent's Hand",
+    "Opponent's Archives": "Opponent's Archives",
+    "Where to reveal a card from first?" : "Where to reveal a card from first?",
+    "Where to reveal a card from second?" : "Where to reveal a card from second?"
 }

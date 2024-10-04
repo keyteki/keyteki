@@ -395,6 +395,7 @@
     "{{card}} (reap)": "{{card}} (coleta)",
     "How much amber do you want to use from {{card}}?": "Quanto amber você deseja usar de {{card}}?",
     "Do you wish to repeat this effect?": "Você deseja repetir esse efeito?",
+    "Do you wish to move this creature to a flank?": "Do you wish to move this creature to a flank?",
     "Do you wish to forge a key?": "Você deseja forjar uma chave?",
     "Do you wish to purge a sanctum card?": "Você deseja expurgar uma carta santuário?",
     "Do you wish to destroy all Mars creatures?": "Você deseja destruir todas as criaturas de Marte?",
@@ -438,6 +439,7 @@
     "Which player's deck": "Deck de qual jogador",
     "Which player's hand": "Which player's hand",
     "Which player's discard": "Which player's discard",
+    "Which player's archives": "Which player's archives",
     "Choose how many to capture from opponent": "Escolha quanto capturar do oponente",
     "Gamble for amber?": "Apostar por amber?",
     "Which player's battleline do you want to rearrange": "Reorganizar a linha de batalha de qual jogador",
@@ -642,5 +644,13 @@
     "Make a token creature": "Faça uma criatura token",
     "Draw a card": "Compre uma carta",
     "Choose which cards to reveal and discard": "Escolha quais cartas revelar e descartar",
-    "Select a neighbor to receive extra damage": "Selecione o vizinho para receber o dano restante"
+    "Select a neighbor to receive extra damage": "Selecione o vizinho para receber o dano restante",
+    "Purge": "Purge",
+    "Shuffle": "Shuffle",
+    "My Hand": "My Hand",
+    "My Archives": "My Archives",
+    "Opponent's Hand": "Opponent's Hand",
+    "Opponent's Archives": "Opponent's Archives",
+    "Where to reveal a card from first?" : "Where to reveal a card from first?",
+    "Where to reveal a card from second?" : "Where to reveal a card from second?"
 }
