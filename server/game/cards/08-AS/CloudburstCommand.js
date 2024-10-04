@@ -7,9 +7,8 @@ class CloudburstCommand extends Card {
             targetController: 'opponent',
             effect: ability.effects.modifyKeyCost(
                 (player, context) =>
-                    context.source.controller.cardsInPlay.filter(
-                        (card) =>
-                            card.type === 'creature' && card.hasHouse('skyborn') && card.isOnFlank()
+                    context.game.creaturesInPlay.filter(
+                        (card) => card.hasHouse('skyborn') && card.isOnFlank()
                     ).length
             )
         });
