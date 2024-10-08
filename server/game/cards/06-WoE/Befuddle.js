@@ -14,9 +14,8 @@ class Befuddle extends Card {
             effectAlert: true,
             gameAction: ability.actions.nextRoundEffect((context) => ({
                 targetController: 'opponent',
-                effect: ability.effects.playerCannot(
-                    'play',
-                    (sourceContext) => !sourceContext.source.hasHouse(context.house)
+                effect: ability.effects.playerCannot('play', (sourceContext) =>
+                    sourceContext.source.getHouses().some((h) => h !== context.house)
                 )
             }))
         });
