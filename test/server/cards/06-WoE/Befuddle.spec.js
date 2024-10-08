@@ -63,5 +63,17 @@ describe('Befuddle', function () {
             this.player2.reap(this.subjectKirby);
             expect(this.player2).not.toBeAbleToSelect(this.helperBot);
         });
+
+        it('should block opponent from playing cards with house enhancements', function () {
+            this.sensorChiefGarcia.enhancements = ['logos'];
+            this.player1.play(this.befuddle);
+            this.player1.clickPrompt('staralliance');
+            this.player1.endTurn();
+            this.player2.clickPrompt('staralliance');
+            this.player2.clickCard(this.sensorChiefGarcia);
+            expect(this.player2).not.toHavePromptButton('Play this creature');
+            expect(this.player2).toHavePromptButton('Discard this card');
+            this.player2.clickPrompt('Cancel');
+        });
     });
 });
