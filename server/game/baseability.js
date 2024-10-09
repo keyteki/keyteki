@@ -56,7 +56,7 @@ class BaseAbility {
     buildTargets(properties) {
         this.targets = [];
         if (properties.target) {
-            this.optionalTarget = !!properties.target.optional;
+            this.optionalTarget = properties.target.optional;
             this.targets.push(this.getAbilityTarget('target', properties.target));
         } else if (properties.targets) {
             for (const key of Object.keys(properties.targets)) {

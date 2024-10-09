@@ -1,3 +1,5 @@
+const Optional = require('../optional.js');
+
 class BaseCardSelector {
     constructor(properties) {
         this.cardCondition = properties.cardCondition;
@@ -108,7 +110,7 @@ class BaseCardSelector {
 
     // eslint-disable-next-line no-unused-vars
     hasEnoughSelected(selectedCards, context) {
-        return this.optional || selectedCards.length > 0;
+        return Optional.EvalOptional(context, this.optional) || selectedCards.length > 0;
     }
 
     hasEnoughTargets(context) {

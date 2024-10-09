@@ -114,5 +114,12 @@ describe('Shard of Change', function () {
             this.player1.clickPrompt('Done');
             expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
         });
+
+        it('should do nothing with no card matches', function () {
+            this.player1.player.hand = [this.wayOfThePixie];
+            this.player1.player.discard = [this.theOldTinker];
+            this.player1.useAction(this.shardOfChange);
+            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+        });
     });
 });
