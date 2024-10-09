@@ -1,6 +1,7 @@
 const _ = require('underscore');
 const SelectChoice = require('./SelectChoice.js');
 const AbilityTarget = require('./AbilityTarget.js');
+const Optional = require('../optional.js');
 
 class AbilityTargetSelect extends AbilityTarget {
     constructor(name, properties, ability) {
@@ -104,7 +105,7 @@ class AbilityTargetSelect extends AbilityTarget {
             };
         });
 
-        if (this.properties.optional) {
+        if (Optional.EvalOptional(context, this.properties.optional)) {
             choices.push('Done');
             handlers.push(() => (targetResults.cancelled = true));
         }

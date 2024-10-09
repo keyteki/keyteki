@@ -2,6 +2,7 @@ const _ = require('underscore');
 
 const CardSelector = require('../CardSelector.js');
 const AbilityTarget = require('./AbilityTarget.js');
+const Optional = require('../optional.js');
 
 class AbilityTargetCard extends AbilityTarget {
     constructor(name, properties, ability) {
@@ -99,7 +100,7 @@ class AbilityTargetCard extends AbilityTarget {
     }
 
     checkTarget(context) {
-        if (this.properties.optional) {
+        if (Optional.EvalOptional(context, this.properties.optional)) {
             return super.checkTarget(context);
         } else if (!context.targets[this.name]) {
             return false;
