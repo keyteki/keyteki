@@ -3,6 +3,7 @@ const _ = require('underscore');
 const AbilityDsl = require('./abilitydsl.js');
 const CardAction = require('./cardaction.js');
 const Constants = require('../constants.js');
+const Effects = require('./effects.js');
 const EffectSource = require('./EffectSource.js');
 const TriggeredAbility = require('./triggeredability');
 
@@ -115,6 +116,28 @@ class Card extends EffectSource {
 
     get type() {
         return this.mostRecentEffect('changeType') || this.clonedType || this.printedType;
+    }
+
+    getEffects(type, predicate = () => true) {
+        if (!Effects.unblankableEffects.includes(type) && this.isBlank()) {
+            return [];
+        }
+        return super.getEffects(type, predicate);
+    }
+
+    sumEffects(type) {
+        if (!Effects.unblankableEffects.includes(type) && this.isBlank()) {
+            return 0;
+        }
+        return super.sumEffects(type);
+    }
+
+    anyEffect(type) {
+        if (!Effects.unblankableEffects.includes(type) && this.isBlank()) {
+            return false;
+        }
+        let x = super.anyEffect(type);
+        return x;
     }
 
     isToken() {
