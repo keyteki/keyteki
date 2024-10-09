@@ -10,14 +10,13 @@ describe('Befuddle', function () {
                 },
                 player2: {
                     amber: 3,
-                    inPlay: ['batdrone', 'mother', 'subject-kirby'],
+                    inPlay: ['batdrone', 'mother', 'subject-kirby', 'sandhopper'],
                     hand: [
                         'helper-bot',
                         'dimension-door',
                         'sensor-chief-garcia',
                         'red-alert',
-                        'disruption-field',
-                        'flaxia'
+                        'disruption-field'
                     ]
                 }
             });
@@ -62,6 +61,32 @@ describe('Befuddle', function () {
             this.player2.clickPrompt('staralliance');
             this.player2.reap(this.subjectKirby);
             expect(this.player2).not.toBeAbleToSelect(this.helperBot);
+        });
+
+        it('should block opponent from playing cards with house enhancements', function () {
+            this.sensorChiefGarcia.enhancements = ['logos'];
+            this.player1.play(this.befuddle);
+            this.player1.clickPrompt('staralliance');
+            this.player1.endTurn();
+            this.player2.clickPrompt('staralliance');
+            this.player2.clickCard(this.sensorChiefGarcia);
+            expect(this.player2).not.toHavePromptButton('Play this creature');
+            expect(this.player2).toHavePromptButton('Discard this card');
+            this.player2.clickPrompt('Cancel');
+        });
+
+        it('should not prevent playing cards of that house off house', function () {
+            this.player1.play(this.befuddle);
+            this.player1.clickPrompt('logos');
+            this.player1.endTurn();
+            this.player2.clickPrompt('ekwidon');
+            this.player2.useAction(this.sandhopper);
+            this.player2.clickCard(this.batdrone);
+            expect(this.batdrone.location).toBe('hand');
+            this.player2.clickCard(this.batdrone);
+            this.player2.clickPrompt('Right');
+            expect(this.batdrone.location).toBe('play area');
+            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
         });
     });
 });
