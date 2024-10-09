@@ -6,7 +6,8 @@ describe('Doppelganger', function () {
                     amber: 1,
                     house: 'geistoid',
                     hand: ['touchstone'],
-                    inPlay: ['umbra', 'doppelganger', 'hunting-witch']
+                    inPlay: ['umbra', 'doppelganger', 'hunting-witch'],
+                    discard: ['doppelganger']
                 },
                 player2: {
                     amber: 2,
@@ -14,6 +15,7 @@ describe('Doppelganger', function () {
                 }
             });
 
+            this.doppelganger2 = this.player1.player.discard[0];
             this.player1.endTurn();
             this.player2.clickPrompt('brobnar');
             this.player2.endTurn();
@@ -48,6 +50,25 @@ describe('Doppelganger', function () {
             this.player1.playCreature(this.touchstone);
             this.player1.clickCard(this.doppelganger);
             expect(this.player1.amber).toBe(3);
+        });
+
+        it('should not be optional unless there are 2 adjacent shapeshifters', function () {
+            expect(this.player1).not.toHavePromptButton('Done');
+        });
+
+        it('should allow breaking from infinite loop with 2 next to each other', function () {
+            this.player1.clickCard(this.huntingWitch);
+            this.player1.clickPrompt('geistoid');
+            this.player1.endTurn();
+            this.player2.clickPrompt('brobnar');
+            this.player1.moveCard(this.huntingWitch, 'discard');
+            this.player1.moveCard(this.doppelganger2, 'play area');
+            this.player2.endTurn();
+
+            this.player1.clickCard(this.doppelganger);
+            this.player1.clickCard(this.doppelganger2);
+            this.player1.clickPrompt('Done');
+            this.player1.clickPrompt('geistoid');
         });
     });
 });
