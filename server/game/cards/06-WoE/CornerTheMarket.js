@@ -3,7 +3,7 @@ const Card = require('../../Card.js');
 class CornerTheMarket extends Card {
     // Play: During your opponent's next turn, they cannot play cards,
     // and each time they discard a card from their hand, they may
-    // instead archive that card.
+    // archive that card from their discard pile.
     setupCardAbilities(ability) {
         this.play({
             condition: (context) => !!context.player.opponent,
@@ -21,14 +21,14 @@ class CornerTheMarket extends Card {
                     when: {
                         onCardDiscarded: (event) => event.location === 'hand'
                     },
-                    triggeredAbilityType: 'interrupt',
+                    triggeredAbilityType: 'reaction',
                     gameAction: ability.actions.sequential([
                         ability.actions.archive((context) => ({
                             reveal: true,
                             target: context.event.card,
                             promptWithHandlerMenu: {
                                 optional: true,
-                                activePromptTitle: 'Archive instead?',
+                                activePromptTitle: 'Archive?',
                                 cards: [context.event.card],
                                 choices: ['Discard'],
                                 handlers: [
