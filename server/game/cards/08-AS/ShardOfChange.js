@@ -18,7 +18,9 @@ class ShardOfChange extends Card {
                 first: {
                     controller: 'self',
                     location: 'hand',
-                    optional: true
+                    optional: true,
+                    cardCondition: (card, context) =>
+                        context.player.discard.some((c) => c.type === card.type)
                 },
                 second: {
                     dependsOn: 'first',
