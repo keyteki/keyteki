@@ -7,8 +7,8 @@ class OnTheMark extends Card {
         this.play({
             condition: (context) =>
                 context.player.opponent &&
-                context.player.creaturesInPlay.length > 1 &&
-                context.player.opponent.creaturesInPlay.length > 1,
+                context.player.creaturesInPlay.length > 0 &&
+                context.player.opponent.creaturesInPlay.length > 0,
             target: {
                 cardType: 'creature',
                 controller: 'self',
