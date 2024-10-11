@@ -578,6 +578,14 @@ class Card extends EffectSource {
         return currentHouse.includes(house) || this.getEffects('addHouse').includes(house);
     }
 
+    hasHouseThatIsNot(house) {
+        if (!house) {
+            return true;
+        }
+
+        return this.getHouses().some((h) => h !== house);
+    }
+
     applyAnyLocationPersistentEffects() {
         _.each(this.persistentEffects, (effect) => {
             if (effect.location === 'any') {

@@ -24,7 +24,7 @@ class Befuddle extends Card {
                         // for cards already in play.
                         sourceContext.source.location !== 'play area' &&
                         // A card can't be played if it has any house that's not the called house.
-                        sourceContext.source.getHouses().some((h) => h !== context.house)
+                        sourceContext.source.hasHouseThatIsNot(context.house)
                 )
             }))
         });
