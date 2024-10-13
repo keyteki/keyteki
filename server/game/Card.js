@@ -564,18 +564,16 @@ class Card extends EffectSource {
         }
 
         house = house.toLowerCase();
-        let copyEffect = this.mostRecentEffect('copyCard');
-        let currentHouse;
-        if (this.anyEffect('changeHouse')) {
-            currentHouse = this.getEffects('changeHouse');
-        } else {
-            currentHouse = [copyEffect ? copyEffect.printedHouse : this.printedHouse];
-            currentHouse = currentHouse.concat(
-                copyEffect ? copyEffect.getHouseEnhancements() : this.getHouseEnhancements()
-            );
+        return this.getHouses().includes(house);
+    }
+
+    hasHouseThatIsNot(house) {
+        if (!house) {
+            return true;
         }
 
-        return currentHouse.includes(house) || this.getEffects('addHouse').includes(house);
+        house = house.toLowerCase();
+        return this.getHouses().some((h) => h !== house);
     }
 
     applyAnyLocationPersistentEffects() {
