@@ -9,7 +9,7 @@ describe('Fortune Reverser', function () {
                     inPlay: ['the-old-tinker', 'gemcoat-vendor']
                 },
                 player2: {
-                    hand: ['stealth-mode'],
+                    hand: ['stealth-mode', 'ethereal-adaptor'],
                     discard: new Array(9).fill('poke') // not yet haunted
                 }
             });
@@ -31,6 +31,17 @@ describe('Fortune Reverser', function () {
         it('blanks creature with the upgrade', function () {
             this.player1.playUpgrade(this.fortuneReverser, this.theOldTinker);
             this.player1.reap(this.theOldTinker);
+            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+        });
+
+        it('blanks future "this creature gains" upgrades', function () {
+            this.player1.playUpgrade(this.fortuneReverser, this.theOldTinker);
+            this.player1.endTurn();
+            this.player2.clickPrompt('geistoid');
+            this.player2.playUpgrade(this.etherealAdaptor, this.theOldTinker);
+            this.theOldTinker.amber = 10;
+            this.player2.endTurn();
+            this.player1.clickPrompt('ekwidon');
             expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
         });
     });

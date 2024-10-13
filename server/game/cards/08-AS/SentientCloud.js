@@ -6,6 +6,7 @@ class SentientCloud extends Card {
     setupCardAbilities(ability) {
         this.persistentEffect({
             targetController: 'current',
+            condition: (context) => context.player.creaturesInPlay.length > 0,
             match: (card, context) => {
                 let highestPower = context.player.creaturesInPlay.sort(
                     (a, b) => b.power - a.power
