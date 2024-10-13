@@ -13,6 +13,7 @@ class ClapOfThunder extends Card {
                 gameAction: ability.actions.destroy()
             },
             then: {
+                alwaysTriggers: true,
                 target: {
                     mode: 'mostStat',
                     cardType: 'creature',
