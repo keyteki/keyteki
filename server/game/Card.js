@@ -564,18 +564,7 @@ class Card extends EffectSource {
         }
 
         house = house.toLowerCase();
-        let copyEffect = this.mostRecentEffect('copyCard');
-        let currentHouse;
-        if (this.anyEffect('changeHouse')) {
-            currentHouse = this.getEffects('changeHouse');
-        } else {
-            currentHouse = [copyEffect ? copyEffect.printedHouse : this.printedHouse];
-            currentHouse = currentHouse.concat(
-                copyEffect ? copyEffect.getHouseEnhancements() : this.getHouseEnhancements()
-            );
-        }
-
-        return currentHouse.includes(house) || this.getEffects('addHouse').includes(house);
+        return this.getHouses().includes(house);
     }
 
     hasHouseThatIsNot(house) {
@@ -583,6 +572,7 @@ class Card extends EffectSource {
             return true;
         }
 
+        house = house.toLowerCase();
         return this.getHouses().some((h) => h !== house);
     }
 
