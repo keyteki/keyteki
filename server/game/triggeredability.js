@@ -41,7 +41,7 @@ class TriggeredAbility extends CardAbility {
         this.useEventPlayer = !!properties.useEventPlayer;
         this.autoResolve = !!properties.autoResolve;
         this.abilityType = abilityType;
-        this.optional = !!properties.optional;
+        this.optional = properties.optional;
         this.isLastingAbilityTrigger = !!properties.player;
         this.multipleTrigger = !!properties.multipleTrigger;
         if (properties.location === 'any') {

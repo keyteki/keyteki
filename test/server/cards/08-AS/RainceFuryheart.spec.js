@@ -19,15 +19,17 @@ describe('Raince Furyheart', function () {
             expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
         });
 
-        it('should not exalt the creature it fights if the creature dies', function () {
+        it('should exalt the creature it fights if the creature dies', function () {
             this.player1.fightWith(this.rainceFuryheart, this.dustPixie);
-            expect(this.player1.amber).toBe(1);
+            expect(this.player1.amber).toBe(2);
             expect(this.dustPixie.location).toBe('discard');
             expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
         });
 
-        it('should not exalt the creature it fights if it dies', function () {
+        it('should exalt the creature it fights even if it dies', function () {
             this.player1.fightWith(this.rainceFuryheart, this.briarGrubbling);
+            this.player1.clickCard(this.rainceFuryheart);
+            expect(this.briarGrubbling.amber).toBe(1);
             expect(this.player1.amber).toBe(1);
             expect(this.rainceFuryheart.location).toBe('discard');
             expect(this.player1).toHavePrompt('Choose a card to play, discard or use');

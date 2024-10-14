@@ -12,7 +12,13 @@ class CameBackWrong extends Card {
                 cardType: 'creature',
                 gameAction: ability.actions.sequential([
                     ability.actions.playCard(),
-                    ability.actions.attach({ upgrade: this })
+                    ability.actions.attach({ upgrade: this }),
+                    ability.actions.cardLastingEffect((context) => ({
+                        target: context.source,
+                        targetLocation: 'play area',
+                        duration: 'lastingEffect',
+                        effect: ability.effects.changeType('upgrade')
+                    }))
                 ])
             }
         });

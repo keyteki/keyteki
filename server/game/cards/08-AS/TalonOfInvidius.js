@@ -11,7 +11,7 @@ class TalonOfInvidius extends Card {
 
         this.destroyed({
             condition: (context) =>
-                context.player.opponent && context.player.opponent.creaturesInPlay.length > 1,
+                context.player.opponent && context.player.opponent.creaturesInPlay.length > 0,
             gameAction: ability.actions.removeAmber((context) => ({
                 target: context.source,
                 all: true

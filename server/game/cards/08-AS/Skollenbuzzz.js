@@ -23,6 +23,7 @@ class Skollenbuzzz extends Card {
 
         this.destroyed({
             gameAction: ability.actions.sequentialPutIntoPlay((context) => ({
+                controller: context.source.controller,
                 forEach: context.source.childCards
             })),
             effect: 'put each creature under {0} into play, and put {0} on top of their deck',

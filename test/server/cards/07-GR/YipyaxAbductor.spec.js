@@ -5,9 +5,9 @@ describe('Yipyax Abductor', function () {
                 player1: {
                     amber: 1,
                     house: 'mars',
-                    hand: ['yipyax-abductor', 'jammer-pack', 'wild-spirit'],
+                    hand: ['yipyax-abductor', 'jammer-pack', 'wild-spirit', 'came-back-wrong'],
                     inPlay: ['flaxia'],
-                    discard: ['containment-field']
+                    discard: ['containment-field', 'tunk']
                 },
                 player2: {
                     hand: ['observ-u-max'],
@@ -40,7 +40,7 @@ describe('Yipyax Abductor', function () {
                 expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
             });
 
-            it('can put a friendly artifact into archives on play', function () {
+            it('can put a friendly upgrade into archives on play', function () {
                 this.player1.clickCard(this.jammerPack);
                 expect(this.jammerPack.location).toBe('archives');
                 expect(this.player1.player.archives).toContain(this.jammerPack);
@@ -73,6 +73,27 @@ describe('Yipyax Abductor', function () {
                     expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
                 });
             });
+        });
+
+        it('can work with actions that become upgrades', function () {
+            this.player1.endTurn();
+            this.player2.clickPrompt('untamed');
+            this.player2.endTurn();
+            this.player1.clickPrompt('untamed');
+            this.player1.play(this.cameBackWrong);
+            this.player1.clickCard(this.tunk);
+            this.player1.clickPrompt('Left');
+            expect(this.tunk.power).toBe(4);
+            this.player1.endTurn();
+            this.player2.clickPrompt('untamed');
+            this.player2.endTurn();
+            this.player1.clickPrompt('mars');
+            this.player1.playCreature(this.yipyaxAbductor);
+            this.player1.clickCard(this.tunk); // heal tunk
+            this.player1.clickCard(this.cameBackWrong);
+            expect(this.tunk.power).toBe(6);
+            expect(this.player1.player.archives).toContain(this.cameBackWrong);
+            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
         });
     });
 });

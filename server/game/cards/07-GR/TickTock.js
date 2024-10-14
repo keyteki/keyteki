@@ -18,16 +18,32 @@ class TickTock extends Card {
                 gameAction: ability.actions.destroy((context) => ({
                     target: context.source
                 })),
-                then: {
-                    target: {
-                        mode: 'upTo',
-                        numCards: 3,
-                        controller: 'self',
-                        location: ['discard', 'hand'],
-                        gameAction: ability.actions.archive()
-                    },
-                    message: '{0} uses {1} to archive {2}',
-                    messageArgs: (context) => [context.target]
+                then: (context) => {
+                    let h = context.game.activePlayer.hand;
+                    return {
+                        target: {
+                            mode: 'upTo',
+                            numCards: 3,
+                            controller: 'self',
+                            location: ['discard', 'hand'],
+                            gameAction: ability.actions.archive()
+                        },
+                        message: '{0} uses {1} to archive {3}{4}',
+                        messageArgs: (context) => [
+                            context.target.length === 0
+                                ? 'nothing from discard'
+                                : context.target.filter((c) => !h.includes(c)),
+                            context.target.filter((c) => h.includes(c)).length > 0
+                                ? ' and ' +
+                                  context.target.filter((c) => h.includes(c)).length.toString() +
+                                  ' card' +
+                                  (context.target.filter((c) => h.includes(c)).length > 1
+                                      ? 's'
+                                      : '') +
+                                  ' from hand'
+                                : ''
+                        ]
+                    };
                 }
             }
         });

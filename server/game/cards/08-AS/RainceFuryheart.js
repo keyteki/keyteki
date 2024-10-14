@@ -3,7 +3,7 @@ const Card = require('../../Card.js');
 class RainceFuryheart extends Card {
     // Before Fight: Exalt the creature Raince Furyheart fights.
     setupCardAbilities(ability) {
-        this.fight({
+        this.beforeFight({
             gameAction: ability.actions.exalt((context) => ({
                 target: context.event.card
             }))

@@ -9,7 +9,13 @@ describe('Corner the Market', function () {
                 },
                 player2: {
                     inPlay: ['troll'],
-                    hand: ['gauntlet-of-command', 'blood-money', 'bumpsy', 'blood-of-titans']
+                    hand: [
+                        'gauntlet-of-command',
+                        'blood-money',
+                        'bumpsy',
+                        'blood-of-titans',
+                        'ornar-skullface'
+                    ]
                 }
             });
         });
@@ -54,7 +60,7 @@ describe('Corner the Market', function () {
             this.player2.clickPrompt('brobnar');
             this.player2.clickCard(this.gauntletOfCommand);
             this.player2.clickPrompt('Discard this card');
-            expect(this.player2).toHavePrompt('Archive instead?');
+            expect(this.player2).toHavePrompt('Archive?');
             expect(this.player2).toHavePromptCardButton(this.gauntletOfCommand);
             expect(this.player2).toHavePromptButton('Discard');
             this.player2.clickPrompt('gauntlet of command');
@@ -67,11 +73,30 @@ describe('Corner the Market', function () {
             this.player2.clickPrompt('brobnar');
             this.player2.clickCard(this.gauntletOfCommand);
             this.player2.clickPrompt('Discard this card');
-            expect(this.player2).toHavePrompt('Archive instead?');
+            expect(this.player2).toHavePrompt('Archive?');
             expect(this.player2).toHavePromptCardButton(this.gauntletOfCommand);
             expect(this.player2).toHavePromptButton('Discard');
             this.player2.clickPrompt('Discard');
             expect(this.gauntletOfCommand.location).toBe('discard');
+        });
+
+        it('allows opponent to resolve scrap', function () {
+            this.player1.play(this.cornerTheMarket);
+            this.player1.endTurn();
+            this.player2.clickPrompt('brobnar');
+            this.player2.clickCard(this.ornarSkullface);
+            this.player2.clickPrompt('Discard this card');
+            expect(this.player2).toBeAbleToSelect(this.ornarSkullface);
+            expect(this.player2).toHavePromptButton('Corner the Market');
+            this.player2.clickCard(this.ornarSkullface);
+            expect(this.player2).toBeAbleToSelect(this.troll);
+            this.player2.clickCard(this.troll);
+            expect(this.troll.tokens.damage).toBe(3);
+            expect(this.player2).toHavePrompt('Archive?');
+            expect(this.player2).toHavePromptCardButton(this.ornarSkullface);
+            expect(this.player2).toHavePromptButton('Discard');
+            this.player2.clickPrompt('Discard');
+            expect(this.ornarSkullface.location).toBe('discard');
         });
     });
 });
