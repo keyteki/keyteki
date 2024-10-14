@@ -36,5 +36,11 @@ describe('Harlock', function () {
             expect(this.niffleBrute1.location).toBe('deck');
             expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
         });
+
+        it('should be playable without breaking everything', function () {
+            this.player1.moveCard(this.harlock, 'hand');
+            this.player1.playCreature(this.harlock);
+            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+        });
     });
 });

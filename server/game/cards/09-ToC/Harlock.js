@@ -5,7 +5,9 @@ class Harlock extends Card {
     // a token creature.
     setupCardAbilities(ability) {
         this.fight({
-            condition: (context) => context.event.destroyed.includes(context.event.attackerTarget),
+            condition: (context) =>
+                context.event.destroyed &&
+                context.event.destroyed.includes(context.event.attackerTarget),
             gameAction: ability.actions.makeTokenCreature(),
             effect: 'make a token creature'
         });
