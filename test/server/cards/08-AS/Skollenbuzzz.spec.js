@@ -9,7 +9,7 @@ describe('Skollenbuzzz', function () {
                 },
                 player2: {
                     amber: 4,
-                    hand: ['krump'],
+                    hand: ['krump', 'hypnobeam', 'kaboom'],
                     inPlay: ['troll']
                 }
             });
@@ -79,6 +79,35 @@ describe('Skollenbuzzz', function () {
             expect(this.player1.player.deck[0]).toBe(this.skŏllĕnbŭzzz);
             expect(this.player1.player.creaturesInPlay.length).toBe(3);
             expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+        });
+
+        it('should put creatures into play for opponent when opponent controls it', function () {
+            this.player1.playCreature(this.skŏllĕnbŭzzz);
+            this.player1.clickCard(this.blypyp);
+            this.skŏllĕnbŭzzz.exhausted = false;
+            this.player1.reap(this.skŏllĕnbŭzzz);
+            this.player1.clickCard(this.charette);
+            this.player1.endTurn();
+            this.player2.clickPrompt('mars');
+            this.player2.play(this.hypnobeam);
+            this.player2.clickCard(this.skŏllĕnbŭzzz);
+            this.player2.clickPrompt('Right');
+            this.player2.play(this.kaboom);
+            expect(this.player2).toBeAbleToSelect(this.blypyp);
+            expect(this.player2).toBeAbleToSelect(this.charette);
+            expect(this.player2).not.toBeAbleToSelect(this.hireOn);
+            expect(this.player2).not.toBeAbleToSelect(this.krump);
+            expect(this.player2).not.toBeAbleToSelect(this.troll);
+            expect(this.player2).not.toBeAbleToSelect(this.shooler);
+            expect(this.player2).not.toBeAbleToSelect(this.skŏllĕnbŭzzz);
+            this.player2.clickCard(this.blypyp);
+            this.player2.clickPrompt('Right');
+            this.player2.clickPrompt('Right');
+            expect(this.skŏllĕnbŭzzz.location).toBe('deck');
+            expect(this.player1.player.deck[0]).toBe(this.skŏllĕnbŭzzz);
+            expect(this.player1.player.creaturesInPlay.length).toBe(0);
+            expect(this.player2.player.creaturesInPlay.length).toBe(2);
+            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
         });
     });
 });
