@@ -363,6 +363,49 @@ class DeckService {
 
         let cards = await db.query(cardTableQuery, [deck.id]);
 
+        // These are cards that have changed houses in later sets.
+        let specialCardDefaultHouses = {
+            'armageddon-cloak': 'sanctum',
+            'avenging-aura': 'sanctum',
+            'book-of-malefaction': 'sanctum',
+            'eye-of-judgment': 'sanctum',
+            'hymn-to-duma': 'sanctum',
+            'johnny-longfingers': 'shadows',
+            'lord-golgotha': 'sanctum',
+            'mantle-of-the-zealot': 'sanctum',
+            'martyr-s-end': 'sanctum',
+            'master-of-the-grey': 'sanctum',
+            'mighty-lance': 'sanctum',
+            'one-stood-against-many': 'sanctum',
+            'rogue-ogre': 'brobnar',
+            'the-promised-blade': 'sanctum',
+            'champion-tabris': 'sanctum',
+            'dark-centurion': 'sanctum',
+            'first-or-last': 'sanctum',
+            francus: 'sanctum',
+            'glorious-few': 'sanctum',
+            'gorm-of-omm': 'sanctum',
+            'grey-abbess': 'sanctum',
+            'professor-terato': 'logos',
+            'scrivener-favian': 'sanctum',
+            'bordan-the-redeemed': 'sanctum',
+            'bull-wark': 'sanctum',
+            'burning-glare': 'sanctum',
+            'citizen-shrix': 'saurian',
+            retribution: 'sanctum',
+            'shifting-battlefield': 'sanctum',
+            snarette: 'dis',
+            'subtle-otto': 'shadows',
+            'even-ivan': 'logos',
+            'odd-clawde': 'logos',
+            'sacro-alien': 'sanctum',
+            'sacro-beast': 'sanctum',
+            'sacro-bot': 'sanctum',
+            'sacro-fiend': 'sanctum',
+            'sacro-saurus': 'sanctum',
+            'sacro-thief': 'sanctum'
+        };
+
         deck.cards = cards.map((card) => ({
             dbId: card.Id,
             id: card.CardId,
@@ -370,7 +413,7 @@ class DeckService {
             maverick: card.Maverick || undefined,
             anomaly: card.Anomaly || undefined,
             image: card.ImageUrl || undefined,
-            house: card.House || undefined,
+            house: card.House || specialCardDefaultHouses[card.CardId] || undefined,
             isNonDeck: card.IsNonDeck,
             enhancements: card.Enhancements
                 ? card.Enhancements.replace(/[[{}"\]]/gi, '')
