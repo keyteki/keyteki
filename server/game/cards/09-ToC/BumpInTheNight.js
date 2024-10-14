@@ -15,6 +15,7 @@ class BumpInTheNight extends Card {
                 alwaysTriggers: true,
                 gameAction: ability.actions.conditional({
                     condition: (context) =>
+                        context.preThenEvent &&
                         context.preThenEvent.destroyEvent &&
                         context.preThenEvent.destroyEvent.destroyedByDamageDealt &&
                         context.preThenEvent.destroyEvent.resolved,
