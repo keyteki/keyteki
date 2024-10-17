@@ -33,15 +33,15 @@ class EdictOfNerotaurus extends Card {
     }
 
     onUseCard(event) {
-        if (event.card.type !== 'creature') {
+        if (event.clone.type !== 'creature') {
             return;
         }
-        if (event.reapEvent) {
+        if (event.reap) {
             this.lastCreatureReaped = true;
         } else {
             this.lastCreatureReaped = false;
         }
-        if (event.fightEvent) {
+        if (event.fight) {
             this.lastCreatureFought = true;
         } else {
             this.lastCreatureFought = false;
