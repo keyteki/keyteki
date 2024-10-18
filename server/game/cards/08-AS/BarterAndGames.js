@@ -55,8 +55,10 @@ class BarterAndGames extends Card {
             },
             gameAction: ability.actions.reveal((context) => ({
                 location: locationFromContext(context),
+                chatMessage: true,
                 target: _.shuffle(zoneFromContext(context)).slice(0, 1)
             })),
+            effect: 'reveal a card',
             then: (preThenContext) => ({
                 alwaysTriggers: true,
                 target: {
