@@ -398,12 +398,12 @@ class DeckService {
             'subtle-otto': 'shadows',
             'even-ivan': 'logos',
             'odd-clawde': 'logos',
-            'sacro-alien': 'sanctum',
-            'sacro-beast': 'sanctum',
-            'sacro-bot': 'sanctum',
-            'sacro-fiend': 'sanctum',
-            'sacro-saurus': 'sanctum',
-            'sacro-thief': 'sanctum'
+            'sacro-alien': 'staralliance',
+            'sacro-beast': 'untamed',
+            'sacro-bot': 'logos',
+            'sacro-fiend': 'dis',
+            'sacro-saurus': 'saurian',
+            'sacro-thief': 'shadows'
         };
 
         deck.cards = cards.map((card) => ({
