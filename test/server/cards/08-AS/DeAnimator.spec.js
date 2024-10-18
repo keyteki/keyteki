@@ -10,7 +10,7 @@ describe('De-Animator', function () {
                 },
                 player2: {
                     amber: 1,
-                    inPlay: ['noddy-the-thief', 'lamindra']
+                    inPlay: ['noddy-the-thief', 'lamindra', 'memrox-the-red']
                 }
             });
 
@@ -90,6 +90,23 @@ describe('De-Animator', function () {
             expect(this.noddyTheThief.type).toBe('artifact');
             expect(this.botBookton.type).toBe('artifact');
             expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+        });
+
+        it('should allow mineralized creatures to stack actions', function () {
+            this.player1.playCreature(this.deAnimator);
+            this.player1.clickCard(this.memroxTheRed);
+            this.player1.endTurn();
+            this.player2.clickPrompt('mars');
+            this.player2.moveCard(this.noddyTheThief, 'archives');
+            this.player2.clickCard(this.memroxTheRed);
+            this.player2.clickPrompt("Use this card's Action ability", 0);
+            expect(this.player2.amber).toBe(2);
+            expect(this.memroxTheRed.location).toBe('play area');
+            this.memroxTheRed.exhausted = false;
+            this.player2.clickCard(this.memroxTheRed);
+            this.player2.clickPrompt("Use this card's Action ability", 1);
+            expect(this.memroxTheRed.location).toBe('discard');
+            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
         });
     });
 });
