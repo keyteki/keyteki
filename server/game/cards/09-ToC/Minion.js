@@ -5,6 +5,9 @@ class Minion extends Card {
     // on top of its owner’s deck.
     setupCardAbilities(ability) {
         this.reap({
+            condition: (context) =>
+                context.player.isHaunted() ||
+                (context.player.opponent && context.player.opponent.isHaunted()),
             target: {
                 mode: 'select',
                 activePromptTitle: "Which player's discard",
