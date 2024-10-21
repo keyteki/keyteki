@@ -13,6 +13,25 @@ const GainAbility = require('./Effects/Values/GainAbility');
 */
 
 const Effects = {
+    unblankableEffects: [
+        'modifyPower',
+        'setPower',
+        'modifyArmor',
+        'setArmor',
+        'addTrait',
+        'takeControl',
+        'takeControlOn',
+        'takeControlOnLeft',
+        'takeControlOnRight',
+        'changeType',
+        'changeHouse',
+        'addHouse',
+        'addTrait',
+        'flipToken',
+        'copyCard',
+        'blank'
+    ],
+
     // Card effects
     actionCardLocationAfterPlay: (location) =>
         EffectBuilder.card.static('actionCardLocationAfterPlay', location),

@@ -12,7 +12,8 @@ const card = {
     hasTrait: () => false,
     tokens: {},
     hasToken: () => false,
-    isInCenter: () => true
+    isInCenter: () => true,
+    isToken: () => false
 };
 card.neighbors.push(card);
 card.neighbors.push(card);
@@ -40,6 +41,7 @@ const mockContext = {
         cardsUsed: [],
         cardsPlayed: [],
         creaturesInPlay: [],
+        cardsInPlay: [],
         activePlayer: player,
         getFrameworkContext: () => {}
     },

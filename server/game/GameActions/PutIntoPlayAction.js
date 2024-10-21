@@ -11,6 +11,7 @@ class PutIntoPlayAction extends CardGameAction {
         this.playedOnRightFlank = false;
         this.promptSource = false;
         this.beingPlayed = false;
+        this.controller = null;
     }
 
     setup() {
@@ -49,6 +50,8 @@ class PutIntoPlayAction extends CardGameAction {
             } else {
                 player = card.owner.opponent;
             }
+        } else if (this.controller) {
+            player = this.controller;
         } else {
             player = this.myControl ? context.player : card.controller;
         }
@@ -189,6 +192,8 @@ class PutIntoPlayAction extends CardGameAction {
                         player = card.owner.opponent;
                     }
                     control = true;
+                } else if (this.controller) {
+                    player = this.controller;
                 } else {
                     player = this.myControl ? context.player : card.controller;
                     control = this.myControl;

@@ -24,6 +24,7 @@ class SwapDiscardWithHandAction extends CardGameAction {
     canAffect(card, context) {
         return (
             card.location === 'hand' &&
+            this.discardCard &&
             this.discardCard.location === 'discard' &&
             super.canAffect(card, context)
         );
