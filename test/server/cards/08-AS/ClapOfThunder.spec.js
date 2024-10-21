@@ -12,11 +12,12 @@ describe('Clap of Thunder', function () {
                 }
             });
 
+            this.alaka.ward();
             this.player1.reap(this.troll);
             this.player1.play(this.clapOfThunder);
         });
 
-        it('should destroy the leastpowerful creature', function () {
+        it('should destroy the least powerful creature', function () {
             expect(this.player1).toHavePrompt('Clap of Thunder');
             expect(this.player1).toBeAbleToSelect(this.alaka);
             expect(this.player1).toBeAbleToSelect(this.flaxia);
@@ -48,6 +49,15 @@ describe('Clap of Thunder', function () {
             this.player1.clickCard(this.narp);
             expect(this.narp.exhausted).toBe(false);
             expect(this.narp.enraged).toBe(true);
+            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+        });
+
+        it('should still ready and enrage when no creature destroyed', function () {
+            this.player1.clickCard(this.alaka);
+            expect(this.alaka.location).toBe('play area');
+            this.player1.clickCard(this.troll);
+            expect(this.troll.exhausted).toBe(false);
+            expect(this.troll.enraged).toBe(true);
             expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
         });
     });

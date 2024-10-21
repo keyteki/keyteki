@@ -92,7 +92,7 @@ describe('Shadow of Dis', function () {
             this.player2.clickPrompt('untamed');
         });
 
-        it("test hideway-hole artifact's elusive still works", function () {
+        it("test hideway-hole artifact's elusive does not work", function () {
             this.player1.moveCard(this.autocannon, 'discard');
             this.player1.clickCard(this.hideawayHole);
             this.player1.clickPrompt("Use this card's Omni ability");
@@ -100,8 +100,8 @@ describe('Shadow of Dis', function () {
             this.player2.clickPrompt('dis');
             this.player2.play(this.shadowOfDis);
             this.player2.fightWith(this.tezmal, this.kindrithLongshot);
-            expect(this.tezmal.hasToken('damage')).toBe(false);
-            expect(this.kindrithLongshot.hasToken('damage')).toBe(false);
+            expect(this.tezmal.location).toBe('discard');
+            expect(this.kindrithLongshot.tokens.damage).toBe(2); // 2 from tezmal ignoring kindrith's elusive
         });
 
         it("should wear off after the opponent's turn", function () {

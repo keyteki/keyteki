@@ -18,20 +18,20 @@ describe('Cloudburst Command', function () {
         it('should increase cost for a single Skyborn flank creature', function () {
             this.player1.endTurn();
 
-            // Forge for 7.
-            this.player2.clickPrompt('Yellow');
-            expect(this.player2.player.keys.yellow).toBe(true);
-            expect(this.player2.player.amber).toBe(5);
-        });
-
-        it('should increase cost for eachSkyborn flank creature', function () {
-            this.player1.playCreature(this.bosunCreen);
-            this.player1.endTurn();
-
             // Forge for 8.
             this.player2.clickPrompt('Yellow');
             expect(this.player2.player.keys.yellow).toBe(true);
             expect(this.player2.player.amber).toBe(4);
+        });
+
+        it('should increase cost for each Skyborn flank creature', function () {
+            this.player1.playCreature(this.bosunCreen);
+            this.player1.endTurn();
+
+            // Forge for 9.
+            this.player2.clickPrompt('Yellow');
+            expect(this.player2.player.keys.yellow).toBe(true);
+            expect(this.player2.player.amber).toBe(3);
         });
 
         it('should not affect own key cost', function () {

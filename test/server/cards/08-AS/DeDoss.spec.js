@@ -5,10 +5,12 @@ describe('De-Doss', function () {
                 player1: {
                     house: 'logos',
                     hand: ['de-doss', 'archimedes'],
-                    inPlay: ['titan-guardian', 'helper-bot']
+                    inPlay: ['titan-guardian', 'helper-bot', 'hexpion']
                 },
                 player2: {
-                    hand: ['blood-of-titans', 'ganger-chieftain', 'krump']
+                    hand: ['blood-of-titans', 'harmal-atoon', 'krump'],
+                    inPlay: ['dr-xyloxxzlphrex'],
+                    discard: ['blypyp']
                 }
             });
         });
@@ -31,7 +33,7 @@ describe('De-Doss', function () {
             this.player2.clickCard(this.krump);
             expect(this.player2).not.toHavePromptButton('Play this creature');
             this.player2.clickPrompt('Discard this card');
-            this.player2.playCreature(this.gangerChieftain);
+            this.player2.playCreature(this.harmalAtoon);
             expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
         });
 
@@ -41,6 +43,18 @@ describe('De-Doss', function () {
             this.player2.clickPrompt('brobnar');
             this.player2.playUpgrade(this.bloodOfTitans, this.titanGuardian);
             this.player2.playCreature(this.krump);
+            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+        });
+
+        it('should consider only the power of the parent creature, not the creature putting the other creature into play', function () {
+            this.drXyloxxzlphrex.tokens.power = 2;
+            this.player1.playUpgrade(this.deDoss, this.hexpion);
+            this.player1.endTurn();
+            this.player2.clickPrompt('mars');
+            this.player2.reap(this.drXyloxxzlphrex);
+            this.player2.clickCard(this.blypyp);
+            this.player2.clickPrompt('Right');
+            expect(this.blypyp.location).toBe('play area');
             expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
         });
     });

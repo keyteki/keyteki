@@ -9,6 +9,11 @@ class Doppelganger extends Card {
             when: {
                 onBeginRound: (_, context) => context.player === this.game.activePlayer
             },
+            // The card doesn't say this ability it optional, but 2
+            // next to each other leads to an infinite loop that can't
+            // otherwise be broken by the engine (but is breakable by
+            // the Keyforge Infinite Loop rules).
+            optional: (context) => context.source.neighbors.some((c) => c.hasTrait('shapeshifter')),
             target: {
                 cardCondition: (card, context) => context.source.neighbors.includes(card),
                 gameAction: ability.actions.cardLastingEffect((context) => {

@@ -546,7 +546,7 @@ class Player extends GameObject {
         } else if (['discard', 'purged'].includes(targetLocation)) {
             // new cards go on the top of the discard pile
             targetPile.unshift(card);
-        } else if (targetLocation === 'play area' && options.deployIndex !== undefined) {
+        } else if (targetLocation === 'play area' && options.deployIndex >= -1) {
             targetPile.splice(options.deployIndex + 1, 0, card);
         } else if (targetLocation === 'play area' && options.left) {
             targetPile.unshift(card);

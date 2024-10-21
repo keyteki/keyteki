@@ -2,6 +2,7 @@ const _ = require('underscore');
 
 const BaseStep = require('./basestep.js');
 const TriggeredAbilityWindowTitles = require('./triggeredabilitywindowtitles.js');
+const Optional = require('../optional.js');
 
 class ForcedTriggeredAbilityWindow extends BaseStep {
     constructor(game, abilityType, window, eventsToExclude = []) {
@@ -63,7 +64,9 @@ class ForcedTriggeredAbilityWindow extends BaseStep {
             return false;
         }
 
-        this.noOptionalChoices = this.choices.every((context) => !context.ability.optional);
+        this.noOptionalChoices = this.choices.every((context) =>
+            Optional.EvalOptional(context, !context.ability.optional)
+        );
         if (
             this.noOptionalChoices &&
             (this.autoResolve ||
@@ -92,7 +95,9 @@ class ForcedTriggeredAbilityWindow extends BaseStep {
         if (lastingTriggerCards.length === 0) {
             if (
                 choices.some(
-                    (context) => !context.ability.optional && !context.ability.optionalTarget
+                    (context) =>
+                        !Optional.EvalOptional(context, context.ability.optional) &&
+                        !Optional.EvalOptional(context, context.ability.optionalTarget)
                 )
             ) {
                 let sourceCount = 0;
@@ -153,7 +158,9 @@ class ForcedTriggeredAbilityWindow extends BaseStep {
         let buttons = [];
         if (
             this.choices.every(
-                (context) => context.ability.optional || context.ability.optionalTarget
+                (context) =>
+                    Optional.EvalOptional(context, context.ability.optional) ||
+                    Optional.EvalOptional(context, context.ability.optionalTarget)
             )
         ) {
             buttons.push({ text: 'Done', arg: 'done' });

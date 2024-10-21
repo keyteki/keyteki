@@ -36,5 +36,15 @@ describe('Cirrus Mace', function () {
             expect(this.umbra.location).toBe('discard');
             expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
         });
+
+        it('does not break with no creatures in play', function () {
+            this.player1.moveCard(this.dewFaerie, 'discard');
+            this.player1.moveCard(this.troll, 'discard');
+            this.player1.moveCard(this.alaka, 'discard');
+            this.player2.moveCard(this.umbra, 'discard');
+            this.player2.moveCard(this.nexus, 'discard');
+            this.player1.useAction(this.cirrusMace);
+            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+        });
     });
 });
