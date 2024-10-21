@@ -19,7 +19,9 @@ describe('Minion', function () {
         });
 
         it('should do nothing on reap if neither player is haunted', function () {
+            let p = this.player1.discard[0];
             this.player1.reap(this.minion);
+            expect(p.location).toBe('discard');
             expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
         });
 
