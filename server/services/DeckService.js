@@ -380,7 +380,7 @@ class DeckService {
             'rogue-ogre': 'brobnar',
             'the-promised-blade': 'sanctum',
             'champion-tabris': 'sanctum',
-            'dark-centurion': 'sanctum',
+            'dark-centurion': 'saurian',
             'first-or-last': 'sanctum',
             francus: 'sanctum',
             'glorious-few': 'sanctum',
