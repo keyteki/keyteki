@@ -6,7 +6,7 @@ class VaultOfRedemption extends Card {
         this.reaction({
             when: {
                 onCardDestroyed: (event) =>
-                    event.clone.type === 'creature' && event.card.hasTrait('mutant')
+                    event.clone.type === 'creature' && event.clone.hasTrait('mutant')
             },
             gameAction: ability.actions.draw((context) => ({
                 target: context.source.controller
