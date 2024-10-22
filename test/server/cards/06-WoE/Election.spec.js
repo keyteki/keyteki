@@ -89,5 +89,26 @@ describe('Election', function () {
             expect(this.specialDelivery.location).toBe('play area');
             expect(this.election.location).toBe('discard');
         });
+
+        it('should not destroy warded creatures with 6 Yea votes', function () {
+            this.scylla.ward();
+            this.player1.reap(this.scylla);
+            this.player1.clickPrompt('Yea');
+            this.player1.reap(this.brutodonAuxiliary);
+            this.player1.clickPrompt('Yea');
+            this.player1.reap(this.cornicenOctavia);
+            this.player1.clickPrompt('Yea');
+            this.player1.reap(this.censorPhilo);
+            this.player1.clickPrompt('Yea');
+            this.player1.reap(this.brachiaditus);
+            this.player1.clickPrompt('Yea');
+            this.player1.reap(this.charybdis);
+            this.player1.clickPrompt('Yea');
+            expect(this.player1.player.creaturesInPlay.length).toBe(1);
+            expect(this.player2.player.creaturesInPlay.length).toBe(0);
+            expect(this.cityGates.location).toBe('play area');
+            expect(this.specialDelivery.location).toBe('play area');
+            expect(this.election.location).toBe('discard');
+        });
     });
 });
