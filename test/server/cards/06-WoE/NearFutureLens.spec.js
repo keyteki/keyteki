@@ -5,7 +5,13 @@ describe('Near-Future Lens', function () {
                 player1: {
                     amber: 1,
                     house: 'brobnar',
-                    hand: ['pelf', 'near-future-lens', 'help-from-future-self', 'blood-of-titans'],
+                    hand: [
+                        'pelf',
+                        'near-future-lens',
+                        'help-from-future-self',
+                        'blood-of-titans',
+                        'curse-of-cowardice'
+                    ],
                     discard: ['timetraveller']
                 },
                 player2: {
@@ -77,6 +83,18 @@ describe('Near-Future Lens', function () {
             this.player1.useAction(this.nearFutureLens, true);
             this.player1.clickCard(this.shooler);
             expect(this).toHaveRecentChatMessage('player1 uses Near-Future Lens to reveal Pelf', 2);
+        });
+
+        it('should add a chat message for the next top card of the deck has treachery', function () {
+            this.player1.moveCard(this.pelf, 'deck');
+            this.player1.moveCard(this.curseOfCowardice, 'deck');
+            this.player1.play(this.nearFutureLens);
+            expect(this).toHaveRecentChatMessage(
+                'player1 uses Near-Future Lens to reveal Curse of Cowardice'
+            );
+            this.nearFutureLens.ready();
+            this.player1.useAction(this.nearFutureLens, true);
+            expect(this).toHaveRecentChatMessage('player1 uses Near-Future Lens to reveal Pelf');
         });
 
         it('should add a chat message when control changes', function () {
