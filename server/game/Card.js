@@ -14,7 +14,7 @@ const PlayArtifactAction = require('./BaseActions/PlayArtifactAction');
 const PlayUpgradeAction = require('./BaseActions/PlayUpgradeAction');
 const ResolveFightAction = require('./GameActions/ResolveFightAction');
 const ResolveReapAction = require('./GameActions/ResolveReapAction');
-const ReturnToHandAction = require('./GameActions/ReturnToHandAction');
+const ReturnToHandFromDiscardAction = require('./BaseActions/ReturnToHandFromDiscardAction');
 const RemoveStun = require('./BaseActions/RemoveStun');
 
 class Card extends EffectSource {
@@ -1077,15 +1077,6 @@ class Card extends EffectSource {
         return removeStun;
     }
 
-    getReturnToHandAction() {
-        return this.action({
-            title: 'Return this card to hand',
-            printedAbility: false,
-            gameAction: new ReturnToHandAction({ location: 'discard' }),
-            location: 'discard'
-        });
-    }
-
     getActions(location = this.location) {
         let actions = [];
         if (location === 'hand') {
@@ -1110,7 +1101,7 @@ class Card extends EffectSource {
             location === 'discard' &&
             this.mostRecentEffect('returnToHandFromDiscardAnytime')
         ) {
-            actions.push(this.getReturnToHandAction());
+            actions.push(new ReturnToHandFromDiscardAction(this));
         }
 
         return actions.concat(this.actions.slice());
