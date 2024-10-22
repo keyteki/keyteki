@@ -3,6 +3,14 @@ const Card = require('../../Card.js');
 class Titanarpon extends Card {
     // The first creature you play each turn enters play ready.
     setupCardAbilities(ability) {
+        this.persistentEffect({
+            location: 'any',
+            condition: (context) =>
+                context.player === this.game.activePlayer &&
+                context.game.cardsPlayed.filter((card) => card.type === 'creature').length === 0,
+            effect: ability.effects.entersPlayReady()
+        });
+
         this.interrupt({
             when: {
                 onCardPlayed: (event, context) =>
