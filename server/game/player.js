@@ -499,7 +499,7 @@ class Player extends GameObject {
             return;
         }
 
-        let oldTopOfDeck = this.deck[0];
+        let oldTopOfDeck = card.owner.deck[0];
         this.removeCardFromPile(card);
         let location = card.location;
         targetPile = this.getSourceList(targetLocation);
@@ -583,7 +583,7 @@ class Player extends GameObject {
         }
 
         if (!options.aboutToShuffle) {
-            this.checkDeckAfterCardMove(oldTopOfDeck);
+            card.owner.checkDeckAfterCardMove(oldTopOfDeck);
         }
     }
 
