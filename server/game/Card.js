@@ -537,6 +537,10 @@ class Card extends EffectSource {
     }
 
     hasTrait(trait) {
+        if (this.anyEffect('removeAllTraits')) {
+            return false;
+        }
+
         if (!trait) {
             return false;
         }
@@ -546,6 +550,10 @@ class Card extends EffectSource {
     }
 
     getTraits(printed = false) {
+        if (this.anyEffect('removeAllTraits')) {
+            return [];
+        }
+
         if (printed) {
             return this.getBottomCard().traits;
         }

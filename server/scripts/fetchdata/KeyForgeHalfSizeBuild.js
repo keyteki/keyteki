@@ -65,7 +65,11 @@ const buildHalfSize = async (card, imgPath, filename, language) => {
     const artCanvas = new fabric.Image(art.toCanvasElement());
     artCanvas.set({ top: parameters[card.type].top, left: 150, originX: 'center' });
 
-    if (card.type === 'creature1' || card.type === 'creature2') {
+    if (
+        card.type === 'creature1' ||
+        card.type === 'creature2' ||
+        card.text.includes('Play only with the other half')
+    ) {
         artCanvas.scaleToWidth(297.5);
         artCanvas.set({ top: parameters[card.type].top, left: 210, originX: 'center' });
     }

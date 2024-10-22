@@ -488,7 +488,10 @@ class Player extends GameObject {
 
         if (
             !this.isLegalLocationForCard(card, targetLocation) ||
-            (targetPile && targetPile.includes(card)) ||
+            (targetPile &&
+                targetPile.includes(card) &&
+                (targetLocation !== 'deck' ||
+                    targetPile[options.bottom ? targetPile.length - 1 : 0] === card)) ||
             (card.controller.anyEffect('opponentCardsCannotLeaveArchives') &&
                 card.location === 'archives' &&
                 card.owner != card.controller)
@@ -499,6 +502,7 @@ class Player extends GameObject {
         let oldTopOfDeck = card.owner.deck[0];
         this.removeCardFromPile(card);
         let location = card.location;
+        targetPile = this.getSourceList(targetLocation);
 
         if (location === 'purged' && card.purgedBy) {
             card.purgedBy.purgedCards = card.purgedBy.purgedCards.filter((c) => c !== card);

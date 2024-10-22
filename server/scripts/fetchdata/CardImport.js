@@ -100,10 +100,30 @@ class CardImport {
                 'sacro-fiend': true,
                 'sacro-saurus': true,
                 'sacro-thief': true
+            },
+            874: {
+                'build-your-champion': true,
+                'digging-up-the-monster': true,
+                'tomes-gigantic': true
             }
         };
 
-        const gigantic = ['deusillus', 'ultra-gravitron', 'niffle-kong'];
+        const gigantic = [
+            'deusillus',
+            'ultra-gravitron',
+            'niffle-kong',
+            'tormax',
+            'wretched-anathema',
+            'sirs-colossus',
+            'bawretchadontius',
+            'boosted-b4-rry',
+            'dodger-s-10',
+            'cadet-allison',
+            'j43g3r-v',
+            'titanic-bumblebird',
+            'ascendant-hester',
+            'horizon-saber'
+        ];
         const skipMkdir = {};
 
         for (let card of cards) {

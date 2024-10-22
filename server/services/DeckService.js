@@ -795,6 +795,12 @@ class DeckService {
                 'sacro-fiend': true,
                 'sacro-saurus': true,
                 'sacro-thief': true
+            },
+            874: {
+                'dark-æmber-vault': true,
+                'build-your-champion': true,
+                'digging-up-the-monster': true,
+                'tomes-gigantic': true
             }
         };
 
@@ -857,7 +863,13 @@ class DeckService {
                 retCard.uuid = card.id;
             }
 
-            if (card.card_type === 'Creature2') {
+            if (
+                card.card_type === 'Creature2' ||
+                (card.card_text === '' &&
+                    card.power === null &&
+                    card.card_type === 'Creature' &&
+                    card.rarity === 'Rare')
+            ) {
                 retCard.id += '2';
             }
 

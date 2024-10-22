@@ -49,7 +49,8 @@ export const Constants = {
         { value: '700', label: 'GR', tideRequired: false },
         { value: '737', label: 'VM2024', tideRequired: false },
         { value: '800', label: 'AS', tideRequired: false },
-        { value: '855', label: 'ToC', tideRequired: false }
+        { value: '855', label: 'ToC', tideRequired: false },
+        { value: '874', label: 'MoMu', tideRequired: false }
     ],
     CardTypes: ['action', 'artifact', 'creature', 'upgrade', 'token creature', 'the tide'],
     SetIconPaths: {},

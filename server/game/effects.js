@@ -79,6 +79,7 @@ const Effects = {
     mustFightIfAble: () => EffectBuilder.card.static('mustFightIfAble'),
     playAbilitiesAddReap: () => EffectBuilder.card.static('playAbilitiesAddReap'),
     reapAbilitiesAddFight: () => EffectBuilder.card.static('reapAbilitiesAddFight'),
+    removeAllTraits: () => EffectBuilder.card.static('removeAllTraits'),
     removeKeyword: (keyword) => EffectBuilder.card.static('removeKeyword', keyword),
     replaceDamage: (action, targetFunc) =>
         EffectBuilder.card.static('replaceDamage', { action, targetFunc }),
@@ -132,6 +133,8 @@ const Effects = {
     canPlayOrUseHouse: (house) => EffectBuilder.player.static('canPlayOrUseHouse', house),
     canPlayOrUseNonHouse: (house) => EffectBuilder.player.static('canPlayOrUseNonHouse', house),
     canUseNonHouse: (house) => EffectBuilder.player.static('canUseNonHouse', house),
+    canFightNonHouse: (house) => EffectBuilder.player.static('canFightNonHouse', house),
+    canReapNonHouse: (house) => EffectBuilder.player.static('canReapNonHouse', house),
     canUseNonHouseCreature: (house) => EffectBuilder.player.static('canUseNonHouseCreature', house),
     canUse: (match) => EffectBuilder.player.static('canUse', new CanUse(match)),
     canUseHouse: (house) => EffectBuilder.player.static('canUseHouse', house),
