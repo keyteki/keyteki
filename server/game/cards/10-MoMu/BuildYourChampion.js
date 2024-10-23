@@ -9,8 +9,7 @@ class BuildYourChampion extends Card {
             gameAction: ability.actions.search({
                 cardCondition: (card) => card.gigantic,
                 amount: 2,
-                destination: 'archives',
-                exactly: true
+                destination: 'archives'
             })
         });
     }

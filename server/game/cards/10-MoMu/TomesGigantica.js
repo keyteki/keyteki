@@ -10,8 +10,7 @@ class TomesGigantica extends Card {
             gameAction: ability.actions.search({
                 cardCondition: (card) => card.gigantic,
                 amount: 2,
-                destination: 'hand',
-                exactly: true
+                destination: 'hand'
             }),
             then: {
                 alwaysTriggers: true,
