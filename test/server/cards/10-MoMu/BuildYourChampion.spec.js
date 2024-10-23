@@ -47,5 +47,15 @@ describe('Build Your Champion', function () {
             expect(this.deusillus2.location).toBe('hand');
             expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
         });
+
+        it('should be able to fail the search', function () {
+            this.player1.moveCard(this.deusillus, 'deck');
+            this.player1.moveCard(this.deusillus2, 'discard');
+            this.player1.play(this.buildYourChampion);
+            this.player1.clickPrompt('Done');
+            expect(this.deusillus.location).toBe('deck');
+            expect(this.deusillus2.location).toBe('discard');
+            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+        });
     });
 });
