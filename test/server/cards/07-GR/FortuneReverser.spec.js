@@ -10,6 +10,7 @@ describe('Fortune Reverser', function () {
                 },
                 player2: {
                     hand: ['stealth-mode', 'ethereal-adaptor'],
+                    inPlay: ['cpo-zytar'],
                     discard: new Array(9).fill('poke') // not yet haunted
                 }
             });
@@ -43,6 +44,13 @@ describe('Fortune Reverser', function () {
             this.player2.endTurn();
             this.player1.clickPrompt('ekwidon');
             expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+        });
+
+        it('does not blank enrage tokens', function () {
+            this.theOldTinker.tokens.enrage = 1;
+            this.player1.playUpgrade(this.fortuneReverser, this.theOldTinker);
+            this.player1.clickCard(this.theOldTinker);
+            expect(this.player1).not.toHavePromptButton('Reap with this creature');
         });
     });
 });

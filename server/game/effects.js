@@ -29,6 +29,7 @@ const Effects = {
         'addTrait',
         'flipToken',
         'copyCard',
+        'mustFightIfAble',
         'blank'
     ],
 
