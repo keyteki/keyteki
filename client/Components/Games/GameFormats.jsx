@@ -23,7 +23,8 @@ const GameFormats = ({ formProps }) => {
         { name: 'mm', label: t('Mass Mutation') },
         { name: 'dt', label: t('Dark Tidings') },
         { name: 'woe', label: t('Winds of Exchange') },
-        { name: 'gr', label: t('Grim Reminders') }
+        { name: 'gr', label: t('Grim Reminders') },
+        { name: 'as', label: t('Amber Skies') }
     ];
 
     return (
