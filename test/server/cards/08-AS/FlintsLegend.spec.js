@@ -45,5 +45,15 @@ describe("Flint's Legend", function () {
             expect(this.player2.amber).toBe(2);
             expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
         });
+
+        it('should do nothing if no opponent has no amber', function () {
+            this.player2.amber = 0;
+            this.player1.play(this.flintSLegend);
+            this.player1.clickCard(this.treasureIsland2);
+            expect(this.player2.amber).toBe(0);
+            expect(this.treasureIsland.amber).toBe(0);
+            expect(this.treasureIsland2.amber).toBe(0);
+            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+        });
     });
 });
