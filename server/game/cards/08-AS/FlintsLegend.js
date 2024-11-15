@@ -4,7 +4,7 @@ class FlintsLegend extends Card {
     // Play: Move 1A from your opponent's pool to Treasure Island.
     setupCardAbilities(ability) {
         this.play({
-            context: (context) => context.player.opponent && context.player.opponent.amber > 0,
+            condition: (context) => context.player.opponent && context.player.opponent.amber > 0,
             effect: 'move one amber from their pool to Treasure Island',
             target: {
                 cardType: 'artifact',
