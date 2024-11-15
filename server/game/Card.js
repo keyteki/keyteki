@@ -329,11 +329,17 @@ class Card extends EffectSource {
             this.interrupt({
                 when: {
                     onCardDestroyed: (event, context) =>
-                        event.card === context.source && context.source.warded,
+                        event.card === context.source &&
+                        event.card.type === 'creature' &&
+                        context.source.warded,
                     onCardPurged: (event, context) =>
-                        event.card === context.source && context.source.warded,
+                        event.card === context.source &&
+                        event.card.type === 'creature' &&
+                        context.source.warded,
                     onCardLeavesPlay: (event, context) =>
-                        event.card === context.source && context.source.warded
+                        event.card === context.source &&
+                        event.card.type === 'creature' &&
+                        context.source.warded
                 },
                 autoResolve: true,
                 effect: 'remove its ward token',
