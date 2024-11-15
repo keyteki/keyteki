@@ -29,5 +29,23 @@ describe('Titanarpon', function () {
             expect(this.troll.exhausted).toBe(true);
             expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
         });
+
+        it('should make itself enter play ready if first', function () {
+            this.player1.moveCard(this.titanarpon, 'hand');
+            this.player1.playCreature(this.titanarpon);
+            expect(this.titanarpon.exhausted).toBe(false);
+            this.player1.playCreature(this.gub);
+            expect(this.gub.exhausted).toBe(true);
+            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+        });
+
+        it('should not make itself enter play ready if second', function () {
+            this.player1.moveCard(this.titanarpon, 'hand');
+            this.player1.playCreature(this.gub);
+            expect(this.gub.exhausted).toBe(true);
+            this.player1.playCreature(this.titanarpon);
+            expect(this.titanarpon.exhausted).toBe(true);
+            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+        });
     });
 });
