@@ -837,6 +837,16 @@ class DeckService {
                 id += '-evil-twin';
             }
 
+            // These are "fixes" for card IDs in the master vault API
+            // that make it hard to import new decks with those cards.
+            // Use the old ID instead, so we can match it against the
+            // previously-imported cards.  E.g.,
+            // 'annihilation-ritual-' is now just
+            // 'annihilation-ritual'.
+            if (!(id in allCards) && id + '-' in allCards) {
+                id += '-';
+            }
+
             let retCard;
             let count = deckResponse.data._links.cards.filter((uuid) => uuid === card.id).length;
             if (card.is_maverick) {
