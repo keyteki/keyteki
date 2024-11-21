@@ -10,8 +10,7 @@ class DiggingUpTheMonster extends Card {
             gameAction: ability.actions.search({
                 cardCondition: (card) => card.gigantic,
                 amount: 2,
-                destination: 'deck',
-                exactly: true
+                destination: 'deck'
             })
         });
     }
