@@ -17,7 +17,9 @@ class RecreationalJettison extends Card {
             effect: 'discard {1} from their hand and resolve its bonus icons',
             effectArgs: (context) => [context.target],
             then: {
-                condition: (context) => context.player.keys.yellow,
+                condition: (context) =>
+                    context.player.keys.yellow ||
+                    (context.player.opponent && context.player.opponent.keys.yellow),
                 alwaysTriggers: true,
                 target: {
                     controller: 'self',

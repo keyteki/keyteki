@@ -28,8 +28,24 @@ describe('Recreational Jettison', function () {
             expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
         });
 
-        it('should repeat if blue key is forged', function () {
+        it('should repeat if your yellow key is forged', function () {
             this.player1.player.keys = { red: false, blue: false, yellow: true };
+            this.player1.play(this.recreationalJettison);
+            this.player1.clickCard(this.dustPixie);
+            expect(this.player1).toBeAbleToSelect(this.controlTheWeak);
+            expect(this.player1).toBeAbleToSelect(this.gub);
+            expect(this.player1).not.toBeAbleToSelect(this.flaxia);
+            this.player1.clickCard(this.controlTheWeak);
+            this.player1.clickCard(this.flaxia);
+            expect(this.player1.amber).toBe(5);
+            expect(this.player2.amber).toBe(1);
+            expect(this.flaxia.amber).toBe(1);
+            expect(this.controlTheWeak.location).toBe('discard');
+            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+        });
+
+        it('should repeat if opponent yellow key is forged', function () {
+            this.player2.player.keys = { red: false, blue: false, yellow: true };
             this.player1.play(this.recreationalJettison);
             this.player1.clickCard(this.dustPixie);
             expect(this.player1).toBeAbleToSelect(this.controlTheWeak);
