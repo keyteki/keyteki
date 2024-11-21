@@ -868,7 +868,8 @@ class DeckService {
                 (card.card_text === '' &&
                     card.power === null &&
                     card.card_type === 'Creature' &&
-                    card.rarity === 'Rare')
+                    card.rarity === 'Rare') ||
+                card.card_type === 'Gigantic Creature Art'
             ) {
                 retCard.id += '2';
             }
