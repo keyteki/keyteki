@@ -8,8 +8,8 @@ class FlintsMap extends Card {
         this.omni({
             gameAction: ability.actions.search({
                 cardCondition: (card) =>
-                    card.name === "Flint's Legend" ||
-                    card.name === "Flint's Stash" ||
+                    card.name === 'Flint’s Legend' ||
+                    card.name === 'Flint’s Stash' ||
                     card.name === 'Treasure Island',
                 amount: 1,
                 destination: 'archives'
