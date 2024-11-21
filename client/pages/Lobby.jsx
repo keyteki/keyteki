@@ -79,16 +79,7 @@ const Lobby = () => {
         ? 'Enter a message...'
         : 'You must be logged in to send lobby chat messages';
 
-    const banners = [
-        {
-            img: 'banner/kfpl-6.png',
-            link: 'https://www.thefinalswindle.com/2024/04/kfpl-6-league-information.html'
-        },
-        {
-            img: 'banner/DBC_GR_Banner.png',
-            link: 'https://drawbetter.cards/'
-        }
-    ];
+    const banners = [];
 
     return (
         <div className='flex-container'>
