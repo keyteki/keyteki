@@ -15,9 +15,11 @@ class TreasureIsland extends Card {
                 card.type === 'creature' &&
                 card.hasHouse('skyborn'),
             effect: ability.effects.gainAbility('reap', {
-                gameAction: ability.actions.removeAmber(),
-                effect: 'move 1 amber from {1} to {2}',
-                effectArgs: (context) => [context.source, this],
+                gameAction: ability.actions.loseAmber((context) => ({
+                    target: context.player
+                })),
+                effect: 'move 1 amber from their pool to {1}',
+                effectArgs: () => [this],
                 then: {
                     gameAction: ability.actions.placeAmber({
                         target: this
