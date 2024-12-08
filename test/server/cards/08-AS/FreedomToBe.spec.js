@@ -9,12 +9,14 @@ describe('Freedom to Be', function () {
                     inPlay: ['gub', 'charette']
                 },
                 player2: {
-                    amber: 2
+                    amber: 2,
+                    inPlay: ['chandler-anouk']
                 }
             });
         });
 
         it('should forge a key at +4 cost', function () {
+            this.player2.moveCard(this.chandlerAnouk, 'discard');
             this.player1.play(this.freedomToBe);
             this.player1.forgeKey('red');
             expect(this.player1.amber).toBe(0);
@@ -22,6 +24,7 @@ describe('Freedom to Be', function () {
         });
 
         it('should forge a key at +3 cost with one Skyborn flank creature', function () {
+            this.player2.moveCard(this.chandlerAnouk, 'discard');
             this.player1.playCreature(this.bosunCreen, true);
             this.player1.play(this.freedomToBe);
             this.player1.forgeKey('red');
@@ -30,11 +33,21 @@ describe('Freedom to Be', function () {
         });
 
         it('should forge a key at +2 cost with one Skyborn flank creature', function () {
+            this.player2.moveCard(this.chandlerAnouk, 'discard');
             this.player1.playCreature(this.bosunCreen, true);
             this.player1.playCreature(this.leyEarlOfHurl);
             this.player1.play(this.freedomToBe);
             this.player1.forgeKey('red');
             expect(this.player1.amber).toBe(2);
+            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+        });
+
+        it('should forge a key at +1 cost with three Skyborn flank creatures', function () {
+            this.player1.playCreature(this.bosunCreen, true);
+            this.player1.playCreature(this.leyEarlOfHurl);
+            this.player1.play(this.freedomToBe);
+            this.player1.forgeKey('red');
+            expect(this.player1.amber).toBe(3);
             expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
         });
     });
