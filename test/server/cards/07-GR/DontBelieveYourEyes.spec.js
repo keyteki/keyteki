@@ -55,5 +55,16 @@ describe("Don't Believe Your Eyes", function () {
                 expect(this.krump.amber).toBe(2);
             });
         });
+
+        it('should be able to select enemy creature when they have no amber', function () {
+            this.player1.play(this.softLanding); // haunted
+            this.player2.amber = 0;
+            this.player1.play(this.donTBelieveYourEyes);
+            this.player1.clickCard(this.krump);
+            expect(this.player1.amber).toBe(2);
+            expect(this.player2.amber).toBe(0);
+            expect(this.krump.amber).toBe(0);
+            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+        });
     });
 });

@@ -8,6 +8,7 @@ class DontBelieveYourEyes extends Card {
             target: {
                 cardType: 'creature',
                 gameAction: ability.actions.capture((context) => ({
+                    allowNoAmber: true,
                     amount: context.player.isHaunted() ? 2 : 1,
                     player: context.player.isHaunted()
                         ? context.target.controller
