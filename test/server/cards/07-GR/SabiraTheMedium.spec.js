@@ -5,7 +5,7 @@ describe('Sabira the Medium', function () {
                 player1: {
                     amber: 1,
                     house: 'logos',
-                    hand: ['help-from-future-self', 'invigorating-shower'],
+                    hand: ['help-from-future-self', 'invigorating-shower', 'spoo-key-charge'],
                     inPlay: ['sabira-the-medium'],
                     discard: ['timetraveller', 'poke']
                 },
@@ -16,6 +16,9 @@ describe('Sabira the Medium', function () {
                     discard: ['flaxia']
                 }
             });
+
+            this.spooKeyCharge.printedHouse = 'logos';
+            this.spooKeyCharge.maverick = 'logos';
         });
 
         it('triggers after a relevant action', function () {
@@ -60,6 +63,13 @@ describe('Sabira the Medium', function () {
             this.player1.clickPrompt('Done');
             expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
             expect(this.player1.amber).toBe(5);
+        });
+
+        it('does trigger on empty discard pile (Spoo-key Charge)', function () {
+            this.player1.player.discard = [];
+            this.player1.play(this.spooKeyCharge);
+            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1.amber).toBe(4);
         });
 
         it('does trigger when we happen to cause the rest of the discard to shuffle in', function () {
