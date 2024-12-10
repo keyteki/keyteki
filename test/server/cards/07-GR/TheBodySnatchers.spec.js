@@ -4,11 +4,11 @@ describe('The Body Snatchers', function () {
             this.setupTest({
                 player1: {
                     house: 'mars',
-                    hand: ['the-body-snatchers', 'kaboom'],
+                    hand: ['the-body-snatchers', 'kaboom', 'destroy-them-all'],
                     inPlay: ['tunk']
                 },
                 player2: {
-                    inPlay: ['dust-pixie', 'thing-from-the-deep']
+                    inPlay: ['dust-pixie', 'thing-from-the-deep', 'ritual-of-balance']
                 }
             });
         });
@@ -44,6 +44,19 @@ describe('The Body Snatchers', function () {
             this.player2.fightWith(this.dustPixie, this.tunk);
             expect(this.dustPixie.location).toBe('discard');
             expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+        });
+
+        it('only affects creatures', function () {
+            this.player1.play(this.theBodySnatchers);
+            this.player1.play(this.destroyThemAll);
+            this.player1.clickCard(this.ritualOfBalance);
+            this.player1.clickCard(this.thingFromTheDeep);
+            this.player1.clickPrompt('Left');
+            expect(this.thingFromTheDeep.location).toBe('play area');
+            expect(this.thingFromTheDeep.tokens.damage).toBeUndefined();
+            expect(this.player1.player.creaturesInPlay).toContain(this.thingFromTheDeep);
+            expect(this.ritualOfBalance.location).toBe('discard');
+            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
         });
     });
 });
