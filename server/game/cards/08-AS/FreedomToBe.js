@@ -8,7 +8,7 @@ class FreedomToBe extends Card {
             gameAction: ability.actions.forgeKey((context) => ({
                 modifier:
                     4 -
-                    context.player.creaturesInPlay.filter(
+                    context.game.creaturesInPlay.filter(
                         (c) => c.hasHouse('skyborn') && c.isOnFlank()
                     ).length
             }))

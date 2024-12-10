@@ -14,7 +14,6 @@ class PhalanxLeader extends Card {
             reap: true,
             gameAction: ability.actions.forRemainderOfTurn((context) => ({
                 controller: 'self',
-                cardType: 'creature',
                 match: (card) =>
                     context.player.creaturesInPlay.indexOf(card) <
                     context.player.creaturesInPlay.indexOf(context.source),
