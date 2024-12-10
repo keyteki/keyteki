@@ -1227,8 +1227,6 @@ class Game extends EventEmitter {
                         this.takeControl(card.getModifiedController(), card, modifiedByPlayer);
                         modifiedControl = true;
                     }
-                    // any upgrades which are illegally attached
-                    card.checkForIllegalAttachments();
                 });
             }
 
