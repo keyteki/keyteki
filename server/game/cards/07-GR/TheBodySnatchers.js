@@ -10,7 +10,7 @@ class TheBodySnatchers extends Card {
                 "give each enemy creature 'Destroyed: Fully heal this creature and give control of it to your opponent instead' for the remainder of the turn",
             gameAction: ability.actions.forRemainderOfTurn({
                 targetController: 'opponent',
-                cardType: 'creature',
+                match: (card) => card.type === 'creature',
                 effect: ability.effects.gainAbility('destroyed', {
                     effect: 'heal all damage from {0} and give control to {1}',
                     effectArgs: (context) => context.source.controller.opponent,
