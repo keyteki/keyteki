@@ -7,7 +7,7 @@ describe('Redeemer Amara', function () {
                     house: 'dis',
                     token: 'zealot',
                     hand: ['gateway-to-dis'],
-                    inPlay: ['redeemer-amara', 'snarette', 'charette']
+                    inPlay: ['redeemer-amara', 'snarette', 'charette', 'zealot:drumble']
                 },
                 player2: {
                     amber: 1,
@@ -24,7 +24,8 @@ describe('Redeemer Amara', function () {
             this.player1.clickPrompt('Left');
             this.player1.clickPrompt('Left');
             this.player1.clickPrompt('Left');
-            expect(this.player1.player.creaturesInPlay.length).toBe(4);
+            this.player1.clickPrompt('Left');
+            expect(this.player1.player.creaturesInPlay.length).toBe(5);
             expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
         });
 
@@ -33,7 +34,7 @@ describe('Redeemer Amara', function () {
             this.player2.clickPrompt('shadows');
             this.player2.fightWith(this.oldBruno, this.charette);
             this.player2.clickPrompt('Left');
-            expect(this.player1.player.creaturesInPlay.length).toBe(4);
+            expect(this.player1.player.creaturesInPlay.length).toBe(5);
             expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
         });
     });

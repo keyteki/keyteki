@@ -8,7 +8,7 @@ class RedeemerAmara extends Card {
             when: {
                 onCardDestroyed: (event, context) =>
                     event.clone.type === 'creature' &&
-                    (event.card.hasTrait('mutant') ||
+                    (event.clone.hasTrait('mutant') ||
                         event.card.controller !== context.source.controller)
             },
             gameAction: ability.actions.makeTokenCreature()
