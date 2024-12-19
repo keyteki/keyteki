@@ -8,7 +8,8 @@ class Jervi extends Card {
         this.reap({
             gameAction: ability.actions.search({
                 location: ['deck'],
-                amount: 1
+                amount: 1,
+                reveal: false
             })
         });
 
