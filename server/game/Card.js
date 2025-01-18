@@ -329,11 +329,17 @@ class Card extends EffectSource {
             this.interrupt({
                 when: {
                     onCardDestroyed: (event, context) =>
-                        event.card === context.source && context.source.warded,
+                        event.card === context.source &&
+                        event.card.type === 'creature' &&
+                        context.source.warded,
                     onCardPurged: (event, context) =>
-                        event.card === context.source && context.source.warded,
+                        event.card === context.source &&
+                        event.card.type === 'creature' &&
+                        context.source.warded,
                     onCardLeavesPlay: (event, context) =>
-                        event.card === context.source && context.source.warded
+                        event.card === context.source &&
+                        event.card.type === 'creature' &&
+                        context.source.warded
                 },
                 autoResolve: true,
                 effect: 'remove its ward token',
@@ -965,7 +971,10 @@ class Card extends EffectSource {
         this.persistentEffect({
             condition: properties.condition || (() => true),
             match: (card, context) =>
-                card === this.parent && (!properties.match || properties.match(card, context)),
+                card === this.parent &&
+                (!properties.match || properties.match(card, context)) &&
+                (card.type === 'creature' ||
+                    (this.anyEffect('canAttachToArtifacts') && card.type === 'artifact')),
             targetController: 'any',
             effect: properties.effect
         });
@@ -1138,16 +1147,6 @@ class Card extends EffectSource {
         }
 
         return this.anyEffect('consideredAsFlank') || this.neighbors.length < 2;
-    }
-
-    checkForIllegalAttachments() {
-        if (this.type === 'artifact' && this.upgrades.length > 0) {
-            this.upgrades.forEach((upgrade) => {
-                if (!upgrade.anyEffect('canAttachToArtifacts')) {
-                    upgrade.owner.moveCard(upgrade, 'discard');
-                }
-            });
-        }
     }
 
     isInCenter() {

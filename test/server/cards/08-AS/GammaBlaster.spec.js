@@ -27,5 +27,20 @@ describe('Gamma Blaster', function () {
             this.player1.clickCard(this.botBookton);
             expect(this.botBookton.location).toBe('discard');
         });
+
+        it('should allow enemy creatures to target yourself', function () {
+            this.player1.playUpgrade(this.gammaBlaster, this.munchling);
+            this.player1.endTurn();
+            this.player2.clickPrompt('logos');
+            this.player2.reap(this.munchling);
+            expect(this.player2).not.toBeAbleToSelect(this.botBookton);
+            expect(this.player2).not.toBeAbleToSelect(this.munchling);
+            expect(this.player2).not.toBeAbleToSelect(this.glylyxWeaponsmith);
+            expect(this.player2).toBeAbleToSelect(this.brashGrabber);
+            expect(this.player2).toBeAbleToSelect(this.grabberJammer);
+            this.player2.clickCard(this.brashGrabber);
+            expect(this.brashGrabber.location).toBe('discard');
+            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+        });
     });
 });

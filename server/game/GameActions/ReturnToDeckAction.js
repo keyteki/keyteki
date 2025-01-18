@@ -34,6 +34,15 @@ class ReturnToDeckAction extends CardGameAction {
         super.setTarget(target);
     }
 
+    hasLegalTarget(context) {
+        let result = super.hasLegalTarget(context);
+        // Shuffles with empty target arrays is allowed.
+        if (!result && this.shuffle && this.target.length == 0) {
+            return true;
+        }
+        return result;
+    }
+
     getEventArray(context) {
         if (this.shuffle && !this.shuffleDiscardIntoDeck) {
             // Figure out if the entire discard has been shuffled into the

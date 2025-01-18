@@ -5,7 +5,13 @@ describe('De-Animator', function () {
                 player1: {
                     amber: 2,
                     house: 'logos',
-                    hand: ['de-animator', 'de-animator', 'positron-bolt'],
+                    hand: [
+                        'de-animator',
+                        'de-animator',
+                        'positron-bolt',
+                        'neutron-shark',
+                        'rocket-boots'
+                    ],
                     inPlay: ['bot-bookton', 'seismo-entangler']
                 },
                 player2: {
@@ -107,6 +113,26 @@ describe('De-Animator', function () {
             this.player2.clickPrompt("Use this card's Action ability", 1);
             expect(this.memroxTheRed.location).toBe('discard');
             expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+        });
+
+        it('should not allow wards to affect the creature as an artifact', function () {
+            this.botBookton.ward();
+            this.player1.playCreature(this.deAnimator);
+            this.player1.clickCard(this.botBookton);
+            this.player1.playCreature(this.neutronShark);
+            this.player1.clickCard(this.noddyTheThief);
+            this.player1.clickCard(this.botBookton);
+            expect(this.botBookton.location).toBe('discard');
+            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+        });
+
+        it('should keep upgrades on de-animated creatures', function () {
+            this.player1.playUpgrade(this.rocketBoots, this.botBookton);
+            this.player1.playCreature(this.deAnimator);
+            this.player1.clickCard(this.botBookton);
+            expect(this.rocketBoots.location).toBe('play area');
+            expect(this.rocketBoots.parent).toBe(this.botBookton);
+            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
         });
     });
 });
