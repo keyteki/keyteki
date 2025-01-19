@@ -219,6 +219,10 @@ class DeckService {
             dbExpansions.push(700);
         }
 
+        if (expansions.as) {
+            dbExpansions.push(800);
+        }
+
         let deck;
         let expansionStr = dbExpansions.join(',');
         try {
