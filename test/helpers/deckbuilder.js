@@ -90,10 +90,16 @@ class DeckBuilder {
             deck = deck.concat(defaultFiller[houses[0]]);
         }
 
-        return this.buildDeck(houses, player.token, deck, player.name + "'s deck");
+        return this.buildDeck(
+            houses,
+            player.token,
+            player.prophecies,
+            deck,
+            player.name + "'s deck"
+        );
     }
 
-    buildDeck(houses, token, cardLabels, name) {
+    buildDeck(houses, token, prophecies, cardLabels, name) {
         let cardCounts = {};
         _.each(cardLabels, (label) => {
             let cardData = this.getCard(label);
@@ -121,6 +127,25 @@ class DeckBuilder {
                 throw `Not a token creature: ${cardData.id}`;
             }
         }
+
+        _.each(prophecies, (prophecy) => {
+            let prophecyCard = this.getCard(prophecy);
+            if (prophecyCard.type === 'prophecy') {
+                if (cardCounts[prophecyCard.id]) {
+                    cardCounts[prophecyCard.id].count++;
+                } else {
+                    cardCounts[prophecyCard.id] = {
+                        count: 1,
+                        card: prophecyCard,
+                        id: prophecyCard.id,
+                        prophecy: true,
+                        isNonDeck: true
+                    };
+                }
+            } else {
+                throw `Not a prophecy: ${prophecyCard.id}`;
+            }
+        });
 
         return {
             houses: houses,
