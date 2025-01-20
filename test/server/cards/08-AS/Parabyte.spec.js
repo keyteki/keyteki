@@ -5,7 +5,7 @@ describe('Parabyte', function () {
                 player1: {
                     amber: 9,
                     house: 'geistoid',
-                    inPlay: ['mother', 'ælbia-stray'],
+                    inPlay: ['mother', 'ælbia-stray', 'animator'],
                     hand: ['parabyte'],
                     discard: new Array(10).fill('poke') // haunted
                 },
@@ -55,6 +55,16 @@ describe('Parabyte', function () {
             this.player2.clickPrompt('Yellow');
             expect(this.player2.player.keys.yellow).toBe(true);
             expect(this.player2.player.amber).toBe(0);
+        });
+
+        it('should not count amber on artifacts towards key cost', function () {
+            this.player1.clickCard(this.mother);
+            this.animator.amber = 1;
+            this.player1.endTurn();
+
+            this.player2.clickPrompt('Yellow');
+            expect(this.player2.player.keys.yellow).toBe(true);
+            expect(this.player2.player.amber).toBe(4);
         });
     });
 });

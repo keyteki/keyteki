@@ -15,7 +15,10 @@ class Parabyte extends Card {
         this.persistentEffect({
             targetController: 'opponent',
             effect: ability.effects.modifyKeyCost((player, context) =>
-                context.source.controller.cardsInPlay.reduce((total, card) => total + card.amber, 0)
+                context.source.controller.creaturesInPlay.reduce(
+                    (total, card) => total + card.amber,
+                    0
+                )
             )
         });
     }
