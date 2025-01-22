@@ -80,10 +80,12 @@ class Game extends EventEmitter {
         this.cardsPlayed = [];
         this.cardsDiscarded = [];
         this.effectsUsed = [];
+        this.propheciesActivated = [];
         this.cardsDiscardedThisPhase = [];
         this.cardsUsedThisPhase = [];
         this.cardsPlayedThisPhase = [];
         this.effectsUsedThisPhase = [];
+        this.propheciesActivatedThisPhase = [];
         this.activePlayer = null;
         this.firstPlayer = null;
         this.playedRoundsAfterTime = [];
@@ -593,6 +595,16 @@ class Game extends EventEmitter {
         if (showMessage) {
             this.addMessage('{0} changed tide to {1}', player, Constants.Tide.toString(level));
         }
+    }
+
+    clickProphecy(playerName, prophecyCardId) {
+        let player = this.getPlayerByName(playerName);
+        let prophecyCard = player.prophecyCards.find((card) => card.uuid === prophecyCardId);
+        if (!player || !prophecyCard) {
+            return;
+        }
+
+        this.pipeline.handleProphecyClicked(player, prophecyCard);
     }
 
     modifyKey(playerName, color, forged) {
@@ -1361,7 +1373,8 @@ class Game extends EventEmitter {
             this.cardsDiscardedThisPhase.length === 0 &&
             this.cardsUsedThisPhase.length === 0 &&
             this.cardsPlayedThisPhase.length === 0 &&
-            this.effectsUsedThisPhase.length === 0
+            this.effectsUsedThisPhase.length === 0 &&
+            this.propheciesActivatedThisPhase.length === 0
         );
     }
 
@@ -1370,6 +1383,7 @@ class Game extends EventEmitter {
         this.cardsDiscardedThisPhase = [];
         this.cardsPlayedThisPhase = [];
         this.cardsUsedThisPhase = [];
+        this.propheciesActivatedThisPhase = [];
     }
 
     effectUsed(card) {
@@ -1392,6 +1406,11 @@ class Game extends EventEmitter {
         this.cardsUsed.push(card);
         this.cardsUsedThisPhase.push(card);
         this.cardNamesPlayedOrUsed.push(card.name);
+    }
+
+    prophecyActivated(prophecyCard) {
+        this.propheciesActivated.push(prophecyCard);
+        this.propheciesActivatedThisPhase.push(prophecyCard);
     }
 
     continue() {

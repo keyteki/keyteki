@@ -104,6 +104,17 @@ class GamePipeline {
         return false;
     }
 
+    handleProphecyClicked(player, prophecyCard) {
+        if (this.pipeline.length > 0) {
+            var step = this.getCurrentStep();
+            if (step.onProphecyClicked(player, prophecyCard) !== false) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     continue() {
         if (this.queue.length > 0) {
             this.pipeline = this.queue.concat(this.pipeline);
