@@ -686,15 +686,22 @@ class Player extends GameObject {
 
     getAvailableHouses() {
         let availableHouses = this.hand.concat(this.cardsInPlay).reduce((houses, card) => {
-            let cardHouse = (card.isToken() && card.tokenCard() ? card.tokenCard() : card)
-                .printedHouse;
+            let cardForHouses = card.isToken() && card.tokenCard() ? card.tokenCard() : card;
+
+            // Only cards in play can use their house enhancements to control what houses are available.
+            let cardHouses =
+                cardForHouses.location === 'play area'
+                    ? cardForHouses.getHouses()
+                    : [cardForHouses.printedHouse];
 
             if (card.anyEffect('changeHouse')) {
-                cardHouse = card.getEffects('changeHouse');
+                cardHouses = card.getEffects('changeHouse');
             }
 
-            if (!houses.includes(cardHouse)) {
-                return houses.concat(cardHouse);
+            for (let house of cardHouses) {
+                if (!houses.includes(house)) {
+                    houses.push(house);
+                }
             }
 
             return houses;
