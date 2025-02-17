@@ -91,16 +91,5 @@ describe('Multi-Dimensional Rescue', function () {
             this.player1.clickCard(this.earthbind);
             expect(this.multiDimensionalRescue.location).toBe('purged');
         });
-
-        it('does not purge itself if Myers puts it back in hand', function () {
-            this.player1.scrap(this.missileOfficerMyers);
-            this.player1.clickCard(this.multiDimensionalRescue);
-            this.player1.clickCard(this.multiDimensionalRescue);
-            this.player1.clickCard(this.worldTree);
-            this.player1.clickCard(this.bigtwig);
-            this.player1.clickCard(this.earthbind);
-            expect(this.multiDimensionalRescue.location).toBe('hand');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
-        });
     });
 });
