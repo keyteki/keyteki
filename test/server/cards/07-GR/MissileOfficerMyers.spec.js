@@ -37,21 +37,20 @@ describe('Missile Officer Myers', function () {
             expect(this.missileOfficerMyers.tokens.ward).toBe(1);
         });
 
-        it('can discard a card and resolve its play ability on scrap', function () {
+        it('allow a card from the non-active house to be played on scrap', function () {
             this.player1.scrap(this.missileOfficerMyers);
-            this.player1.clickCard(this.exhume);
+            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+
+            this.player1.play(this.exhume);
             this.player1.clickCard(this.gub);
             this.player1.clickPrompt('Left');
 
-            expect(this.player1.amber).toBe(1);
+            expect(this.player1.amber).toBe(2);
             expect(this.missileOfficerMyers.location).toBe('discard');
             expect(this.exhume.location).toBe('discard');
             expect(this.gub.location).toBe('play area');
             expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
-        });
 
-        it('can discard Legerdemain without crashing when there is no target', function () {
-            this.player1.scrap(this.missileOfficerMyers);
             this.player1.clickCard(this.legerdemain);
             expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
         });
