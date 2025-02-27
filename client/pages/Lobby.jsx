@@ -79,7 +79,12 @@ const Lobby = () => {
         ? 'Enter a message...'
         : 'You must be logged in to send lobby chat messages';
 
-    const banners = [];
+    const banners = [
+        {
+            img: 'banner/final-refrain-tcobanner.jpg',
+            link: 'https://discord.gg/F2VMYgkGJb'
+        }
+    ];
 
     return (
         <div className='flex-container'>
