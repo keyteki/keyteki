@@ -13,8 +13,7 @@ class Kaboom extends Card {
                 })),
                 ability.actions.gainChains({ amount: 3 })
             ]),
-            effect:
-                "Put each Mars creature into its owner's archives, destroy each creature, and gain 3 chains."
+            effect: "Put each Mars creature into its owner's archives, destroy each creature, and gain 3 chains."
         });
     }
 }

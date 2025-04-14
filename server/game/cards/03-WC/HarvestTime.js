@@ -7,8 +7,7 @@ class HarvestTime extends Card {
             target: {
                 mode: 'trait'
             },
-            effect:
-                'purge all cards with the {1} trait and each player gains amber equal to the number of their cards purged',
+            effect: 'purge all cards with the {1} trait and each player gains amber equal to the number of their cards purged',
             effectArgs: (context) => context.trait,
             gameAction: ability.actions.purge((context) => ({
                 target: context.game.cardsInPlay.filter((card) => card.hasTrait(context.trait))

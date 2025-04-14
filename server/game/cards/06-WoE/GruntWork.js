@@ -5,8 +5,7 @@ class GruntWork extends Card {
     // any order. Make a token creature.
     setupCardAbilities(ability) {
         this.play({
-            effect:
-                'look at the top 3 cards of their deck, rearrange them in any order, and make a token creature',
+            effect: 'look at the top 3 cards of their deck, rearrange them in any order, and make a token creature',
             gameAction: ability.actions.sequential([
                 ability.actions.rearrangeCards({ amount: 3 }),
                 ability.actions.makeTokenCreature()
