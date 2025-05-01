@@ -1,9 +1,7 @@
 const Card = require('../../Card.js');
 
-/**
- * Play: Search your deck and discard pile for a Variant creature, reveal it, and put it into your hand.
- */
 class HelpFromAnotherSelf extends Card {
+    // Play: Search your deck and discard pile for a Variant creature, reveal it, and put it into your hand.
     setupCardAbilities(ability) {
         this.play({
             effect: 'search their deck and discard pile for a Variant creature',
