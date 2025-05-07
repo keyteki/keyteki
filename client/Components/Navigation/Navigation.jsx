@@ -39,19 +39,16 @@ const Navigation = (props) => {
         lobbyResponse,
         lobbySocketConnected,
         lobbySocketConnecting
-    } = useSelector(
-        (state) => ({
-            gameConnected: state.games.connected,
-            gameConnecting: state.games.connecting,
-            gameResponse: state.games.responseTime,
-            games: state.lobby.games,
-            currentGame: state.lobby.currentGame,
-            lobbyResponse: state.lobby.responseTime,
-            lobbySocketConnected: state.lobby.connected,
-            lobbySocketConnecting: state.lobby.connecting
-        }),
-        null
-    );
+    } = useSelector((state) => ({
+        gameConnected: state.games.connected,
+        gameConnecting: state.games.connecting,
+        gameResponse: state.games.responseTime,
+        games: state.lobby.games,
+        currentGame: state.lobby.currentGame,
+        lobbyResponse: state.lobby.responseTime,
+        lobbySocketConnected: state.lobby.connected,
+        lobbySocketConnecting: state.lobby.connecting
+    }));
 
     /**
      * @param {MenuItem} menuItem The menu item
@@ -107,9 +104,10 @@ const Navigation = (props) => {
                         id={`nav-${menuItem.title}`}
                         title={t(menuItem.title)}
                     >
-                        {children.map((childItem) =>
+                        {children.map((childItem, index) =>
                             childItem.path ? (
                                 <NavDropdown.Item
+                                    key={`nav-${menuItem.title}__item-${index}`}
                                     as={Link}
                                     href={childItem.path}
                                     className='navbar-item interactable dropdown-child'

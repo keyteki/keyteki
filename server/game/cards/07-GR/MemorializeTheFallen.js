@@ -5,8 +5,7 @@ class MemorializeTheFallen extends Card {
     // their discard pile.
     setupCardAbilities(ability) {
         this.play({
-            effect:
-                'each player loses amber equal to the number of creatures in their discard pile',
+            effect: 'each player loses amber equal to the number of creatures in their discard pile',
             gameAction: [
                 ability.actions.loseAmber((context) => ({
                     amount: context.player.opponent
