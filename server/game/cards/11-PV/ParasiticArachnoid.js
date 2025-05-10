@@ -1,8 +1,8 @@
 const Card = require('../../Card.js');
 
-class ParasiticArachniod extends Card {
-    // Destroyed: An enemy creature captures 1 Aember icon from its own side.
-    // Fate: A friendly creature captures 3 Aember icon from your side.
+class ParasiticArachnoid extends Card {
+    // Destroyed: An enemy creature captures 1A from its own side.
+    // Fate: A friendly creature captures 3A from its own side.
     setupCardAbilities(ability) {
         this.destroyed({
             target: {
@@ -28,6 +28,6 @@ class ParasiticArachniod extends Card {
     }
 }
 
-ParasiticArachniod.id = 'parasitic-arachniod';
+ParasiticArachnoid.id = 'parasitic-arachnoid';
 
-module.exports = ParasiticArachniod;
+module.exports = ParasiticArachnoid;

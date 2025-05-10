@@ -12,7 +12,7 @@ describe('Expect The Unexpected', function () {
                     ],
                     hand: [
                         'ancient-bear',
-                        'parasitic-arachniod',
+                        'parasitic-arachnoid',
                         'invigorating-shower',
                         'till-the-earth'
                     ],
@@ -27,7 +27,7 @@ describe('Expect The Unexpected', function () {
         });
 
         it('should trigger when opponent shuffles their discard into their deck on their turn', function () {
-            this.player1.activateProphecy(this.expectTheUnexpected, this.parasiticArachniod);
+            this.player1.activateProphecy(this.expectTheUnexpected, this.parasiticArachnoid);
             this.player1.endTurn();
             this.player2.clickPrompt('untamed');
             this.player2.play(this.spooKeyCharge);
@@ -38,11 +38,11 @@ describe('Expect The Unexpected', function () {
             expect(this.umbra.amber).toBe(3);
             expect(this.player2.amber).toBe(2);
             expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
-            expect(this.parasiticArachniod.location).toBe('discard');
+            expect(this.parasiticArachnoid.location).toBe('discard');
         });
 
         it('should not trigger when opponent shuffles creatures from play into their deck on their turn', function () {
-            this.player1.activateProphecy(this.expectTheUnexpected, this.parasiticArachniod);
+            this.player1.activateProphecy(this.expectTheUnexpected, this.parasiticArachnoid);
             this.player1.endTurn();
             this.player2.clickPrompt('untamed');
             this.player2.play(this.lostInTheWoods);
@@ -52,7 +52,7 @@ describe('Expect The Unexpected', function () {
             this.player2.clickCard(this.mushroomMan);
             this.player2.clickPrompt('Done');
             expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
-            expect(this.parasiticArachniod.location).toBe('under');
+            expect(this.parasiticArachnoid.location).toBe('under');
         });
     });
 });

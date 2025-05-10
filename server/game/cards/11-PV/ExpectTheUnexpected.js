@@ -1,7 +1,7 @@
 const Card = require('../../Card.js');
 
 class ExpectTheUnexpected extends Card {
-    // After your opponent shuffles their discard pile into their deck during their turn, fulfill Expect the Unexpected.
+    // During your opponent’s turn, after your opponent shuffles their deck, fulfill Expect the Unexpected.
     setupCardAbilities(ability) {
         this.prophecyReaction({
             when: {

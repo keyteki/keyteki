@@ -555,6 +555,26 @@ class Card extends EffectSource {
         return this.triggeredAbility('reaction', properties);
     }
 
+    prophecyInterrupt(properties) {
+        let originalWhen = properties.when;
+        if (typeof originalWhen === 'object') {
+            properties.when = Object.entries(originalWhen).reduce((newWhen, [key, condition]) => {
+                newWhen[key] = (event, context) => {
+                    return (
+                        condition(event, context) &&
+                        context.game.activePlayer !== this.controller &&
+                        this.childCards.length > 0 &&
+                        this.activeProphecy
+                    );
+                };
+                return newWhen;
+            }, {});
+        }
+
+        properties.location = 'any';
+        return this.triggeredAbility('interrupt', properties);
+    }
+
     /**
      * Applies an effect that continues as long as the card providing the effect
      * is both in play and not blank.
