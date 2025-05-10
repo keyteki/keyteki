@@ -24,7 +24,6 @@ describe('Bad Omen', function () {
             this.player1.activateProphecy(this.badOmen, this.parasiticArachnoid);
             this.player1.endTurn();
             this.player2.clickPrompt('untamed');
-            console.log('HERE');
             this.player2.amber = 6;
             this.player2.endTurn();
             expect(this.player2).toBeAbleToSelect(this.huntingWitch);
@@ -32,6 +31,47 @@ describe('Bad Omen', function () {
             this.player2.clickCard(this.huntingWitch);
             expect(this.player2.amber).toBe(3);
             expect(this.huntingWitch.amber).toBe(3);
+            expect(this.parasiticArachnoid.location).toBe('discard');
+        });
+
+        it('should not fulfill when opponent has less than 6 amber at end of their turn', function () {
+            this.player1.activateProphecy(this.badOmen, this.parasiticArachnoid);
+            this.player1.endTurn();
+            this.player2.clickPrompt('untamed');
+            this.player2.amber = 5;
+            this.player2.endTurn();
+            expect(this.parasiticArachnoid.location).toBe('under');
+            this.player1.clickPrompt('untamed');
+            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+        });
+
+        it('should not fulfill when opponent has more than 6 amber at end of their turn', function () {
+            this.player1.activateProphecy(this.badOmen, this.parasiticArachnoid);
+            this.player1.endTurn();
+            this.player2.clickPrompt('untamed');
+            this.player2.amber = 7;
+            this.player2.endTurn();
+            expect(this.parasiticArachnoid.location).toBe('under');
+            this.player1.clickPrompt('untamed');
+            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+        });
+
+        it('should not fulfill when you have exactly 6 amber at end of your turn', function () {
+            this.player1.activateProphecy(this.badOmen, this.parasiticArachnoid);
+            this.player1.amber = 6;
+            this.player1.endTurn();
+            expect(this.parasiticArachnoid.location).toBe('under');
+            expect(this.player2).toHavePrompt('Choose which house you want to activate this turn');
+        });
+
+        it('should not fulfill when opponent has exactly 6 amber during their turn', function () {
+            this.player1.activateProphecy(this.badOmen, this.parasiticArachnoid);
+            this.player1.endTurn();
+            this.player2.clickPrompt('untamed');
+            this.player2.amber = 6;
+            this.player2.play(this.spooKeyCharge);
+            expect(this.parasiticArachnoid.location).toBe('under');
+            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
         });
     });
 });
