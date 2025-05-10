@@ -7,8 +7,8 @@ describe('Expect The Unexpected', function () {
                     prophecies: [
                         'expect-the-unexpected',
                         'forge-ahead-with-confidence',
-                        'the-cards-will-tell',
-                        'treat-each-action-as-your-last'
+                        'fate-laughs-at-your-plans',
+                        'bad-omen'
                     ],
                     hand: [
                         'ancient-bear',
