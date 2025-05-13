@@ -33,8 +33,8 @@ describe('Fate Laughs at Your Plans', function () {
             expect(this.player2).toBeAbleToSelect(this.umbra);
             expect(this.player2).not.toBeAbleToSelect(this.mushroomMan);
             this.player2.clickCard(this.hauntingWitch);
-            expect(this.hauntingWitch.amber).toBe(3);
-            expect(this.player2.amber).toBe(2);
+            expect(this.hauntingWitch.amber).toBe(2);
+            expect(this.player2.amber).toBe(3);
             expect(this.parasiticArachnoid.location).toBe('discard');
             expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
         });

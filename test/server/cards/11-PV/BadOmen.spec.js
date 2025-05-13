@@ -29,8 +29,8 @@ describe('Bad Omen', function () {
             expect(this.player2).toBeAbleToSelect(this.huntingWitch);
             expect(this.player2).not.toBeAbleToSelect(this.mushroomMan);
             this.player2.clickCard(this.huntingWitch);
-            expect(this.player2.amber).toBe(3);
-            expect(this.huntingWitch.amber).toBe(3);
+            expect(this.player2.amber).toBe(4);
+            expect(this.huntingWitch.amber).toBe(2);
             expect(this.parasiticArachnoid.location).toBe('discard');
         });
 
