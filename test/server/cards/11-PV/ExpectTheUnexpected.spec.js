@@ -35,8 +35,8 @@ describe('Expect The Unexpected', function () {
             expect(this.player2).toBeAbleToSelect(this.umbra);
             expect(this.player2).not.toBeAbleToSelect(this.mushroomMan);
             this.player2.clickCard(this.umbra);
-            expect(this.umbra.amber).toBe(3);
-            expect(this.player2.amber).toBe(2);
+            expect(this.umbra.amber).toBe(2);
+            expect(this.player2.amber).toBe(3);
             expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
             expect(this.parasiticArachnoid.location).toBe('discard');
         });

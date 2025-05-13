@@ -2,7 +2,7 @@ const Card = require('../../Card.js');
 
 class ParasiticArachnoid extends Card {
     // Destroyed: An enemy creature captures 1A from its own side.
-    // Fate: A friendly creature captures 3A from its own side.
+    // Fate: A friendly creature captures 2A from its own side.
     setupCardAbilities(ability) {
         this.destroyed({
             target: {
@@ -20,7 +20,7 @@ class ParasiticArachnoid extends Card {
                 controller: 'opponent',
                 cardType: 'creature',
                 gameAction: ability.actions.capture((context) => ({
-                    amount: 3,
+                    amount: 2,
                     player: context.game.activePlayer
                 }))
             }

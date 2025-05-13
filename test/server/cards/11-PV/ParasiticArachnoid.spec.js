@@ -46,7 +46,7 @@ describe('Parasitic Arachnoid', function () {
             expect(this.player2.amber).toBe(1);
         });
 
-        it('should cause friendly creature to capture 3 from your side when fate is activated', function () {
+        it('should cause friendly creature to capture 2 from your side when fate is activated', function () {
             this.player1.activateProphecy(this.expectTheUnexpected, this.parasiticArachnoid);
             this.player1.endTurn();
             this.player2.clickPrompt('untamed');
