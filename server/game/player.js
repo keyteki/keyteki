@@ -155,6 +155,10 @@ class Player extends GameObject {
         return this.cardsInPlay.filter((card) => card.type === 'creature');
     }
 
+    get activeProphecies() {
+        return this.prophecyCards.filter((card) => card.activeProphecy);
+    }
+
     /**
      * Draws the passed number of cards from the top of the deck into this players hand, shuffling if necessary
      * @param {number} numCards
@@ -1214,6 +1218,24 @@ class Player extends GameObject {
 
     deactivateProphecy(prophecyCard) {
         prophecyCard.activeProphecy = false;
+    }
+
+    flipProphecy(context, prophecyCard) {
+        if (!prophecyCard.isProphecy() || !prophecyCard.activeProphecy) {
+            return false;
+        }
+        let flipSide = this.prophecyFlipSide(prophecyCard);
+        if (!flipSide) {
+            return false;
+        }
+        prophecyCard.activeProphecy = false;
+        flipSide.activeProphecy = true;
+        // Move any cards under the prophecy to the flipside.
+        prophecyCard.childCards.forEach((card) => {
+            context.game.actions.placeUnder({ parent: flipSide }).resolve(card, context);
+        });
+        this.game.raiseEvent('onProphecyFlipped', { prophecyCard: flipSide });
+        return true;
     }
 }
 

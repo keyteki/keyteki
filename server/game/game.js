@@ -262,7 +262,7 @@ class Game extends EventEmitter {
      * @returns Card
      */
     findAnyCardInAnyList(cardId) {
-        return this.allCards.find((card) => card.uuid === cardId);
+        return this.allCards.concat(this.activeProphecies).find((card) => card.uuid === cardId);
     }
 
     /**
@@ -1341,6 +1341,13 @@ class Game extends EventEmitter {
 
     get cardsInPlay() {
         return this.getPlayers().reduce((array, player) => array.concat(player.cardsInPlay), []);
+    }
+
+    get activeProphecies() {
+        return this.getPlayers().reduce(
+            (array, player) => array.concat(player.activeProphecies),
+            []
+        );
     }
 
     get creaturesInPlay() {
