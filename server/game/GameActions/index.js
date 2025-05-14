@@ -24,6 +24,7 @@ module.exports = {
     ExhaustAction: require('./ExhaustAction'),
     FightGameAction: require('./FightGameAction'),
     FlipAction: require('./FlipAction'),
+    FlipProphecyAction: require('./FlipProphecyAction'),
     ForgeAction: require('./ForgeAction'),
     FulfillProphecyAction: require('./FulfillProphecyAction'),
     HealAction: require('./HealAction'),
