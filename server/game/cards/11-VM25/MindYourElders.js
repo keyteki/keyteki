@@ -8,9 +8,11 @@ class MindYourElders extends Card {
                 const friendlyMarsCreatures = context.player.creaturesInPlay.filter((card) =>
                     card.hasHouse('mars')
                 );
-                const enemyMarsCreatures = context.player.opponent.creaturesInPlay.filter((card) =>
-                    card.hasHouse('mars')
-                );
+                const enemyMarsCreatures = context.player.opponent
+                    ? context.player.opponent.creaturesInPlay.filter((card) =>
+                          card.hasHouse('mars')
+                      )
+                    : [];
                 return friendlyMarsCreatures.length > enemyMarsCreatures.length;
             },
             target: {
