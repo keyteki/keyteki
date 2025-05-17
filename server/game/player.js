@@ -1218,6 +1218,7 @@ class Player extends GameObject {
 
     deactivateProphecy(prophecyCard) {
         prophecyCard.activeProphecy = false;
+        this.game.raiseEvent('onProphecyDeactivated', { prophecyCard: prophecyCard });
     }
 
     flipProphecy(context, prophecyCard) {
@@ -1228,11 +1229,13 @@ class Player extends GameObject {
         if (!flipSide) {
             return false;
         }
-        prophecyCard.activeProphecy = false;
+        this.deactivateProphecy(prophecyCard);
         flipSide.activeProphecy = true;
         // Move any cards under the prophecy to the flipside.
-        prophecyCard.childCards.forEach((card) => {
-            context.game.actions.placeUnder({ parent: flipSide }).resolve(card, context);
+        flipSide.childCards = prophecyCard.childCards;
+        prophecyCard.childCards = [];
+        flipSide.childCards.forEach((card) => {
+            card.parent = flipSide;
         });
         this.game.raiseEvent('onProphecyFlipped', { prophecyCard: flipSide });
         return true;
