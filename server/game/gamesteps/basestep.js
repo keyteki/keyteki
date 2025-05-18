@@ -17,6 +17,10 @@ class BaseStep {
         return false;
     }
 
+    onProphecyClicked() {
+        return false;
+    }
+
     onMenuCommand() {
         return false;
     }

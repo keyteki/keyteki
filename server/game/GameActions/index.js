@@ -1,4 +1,5 @@
 module.exports = {
+    ActivateProphecyAction: require('./ActivateProphecyAction'),
     AddEventToWindowAction: require('./AddEventToWindowAction'),
     AddTokenAction: require('./AddTokenAction'),
     AllocateDamageAction: require('./AllocateDamageAction'),
@@ -23,7 +24,9 @@ module.exports = {
     ExhaustAction: require('./ExhaustAction'),
     FightGameAction: require('./FightGameAction'),
     FlipAction: require('./FlipAction'),
+    FlipProphecyAction: require('./FlipProphecyAction'),
     ForgeAction: require('./ForgeAction'),
+    FulfillProphecyAction: require('./FulfillProphecyAction'),
     HealAction: require('./HealAction'),
     JointGameAction: require('./JointGameAction'),
     LastingEffectAction: require('./LastingEffectAction'),
@@ -60,6 +63,7 @@ module.exports = {
     RemoveWardAction: require('./RemoveWardAction'),
     ResolveAbilityAction: require('./ResolveAbilityAction'),
     ResolveBonusIconsAction: require('./ResolveBonusIconsAction'),
+    ResolveFateAction: require('./ResolveFateAction'),
     ResolveFightAction: require('./ResolveFightAction'),
     ReturnAmberAction: require('./ReturnAmberAction'),
     ReturnToDeckAction: require('./ReturnToDeckAction'),
