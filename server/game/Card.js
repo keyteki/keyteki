@@ -426,7 +426,7 @@ class Card extends EffectSource {
     }
 
     fate(properties) {
-        return this.reaction(
+        return this.interrupt(
             Object.assign(
                 {
                     when: {
