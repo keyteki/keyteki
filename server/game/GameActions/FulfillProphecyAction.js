@@ -8,10 +8,7 @@ class FulfillProphecyAction extends PlayerAction {
     setup() {
         super.setup();
         this.name = 'fulfillProphecy';
-        this.effectMsg = 'fulfill the fate of {1}';
-        if (this.card && this.card.childCards) {
-            this.effectArgs = this.card.childCards;
-        }
+        this.effectMsg = 'fulfill its prophecy';
     }
 
     defaultTargets(context) {
