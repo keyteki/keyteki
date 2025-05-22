@@ -1175,6 +1175,15 @@ class Game extends EventEmitter {
         this.router.rematch(this);
     }
 
+    rematchWithNewDecks() {
+        if (!this.finishedAt) {
+            this.finishedAt = new Date();
+            this.winReason = 'rematch';
+        }
+
+        this.router.rematchWithNewDecks(this);
+    }
+
     timeExpired() {
         this.emit('onTimeExpired');
     }

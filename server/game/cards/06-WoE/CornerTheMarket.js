@@ -7,8 +7,7 @@ class CornerTheMarket extends Card {
     setupCardAbilities(ability) {
         this.play({
             condition: (context) => !!context.player.opponent,
-            effect:
-                'stop {1} from playing cards next turn; when they discard a card, they may archive it instead',
+            effect: 'stop {1} from playing cards next turn; when they discard a card, they may archive it instead',
             effectArgs: (context) => context.player.opponent,
             effectAlert: true,
             gameAction: [
