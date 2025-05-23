@@ -5,13 +5,9 @@ class WastefulRegret extends Card {
     setupCardAbilities(ability) {
         this.prophecyReaction({
             when: {
-                onCardDiscarded: (event, context) => {
-                    console.log(event.card.name, event.card.location);
-                    return (
-                        context.game.activePlayer === context.source.controller.opponent &&
-                        event.location === 'hand'
-                    );
-                }
+                onCardDiscarded: (event, context) =>
+                    context.game.activePlayer === context.source.controller.opponent &&
+                    event.location === 'hand'
             },
             gameAction: ability.actions.fulfillProphecy((context) => ({
                 card: context.source
