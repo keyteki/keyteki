@@ -1,0 +1,42 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+# Card Implementation Guide
+
+## Card Data Structure
+Card implementations in Keyteki follow a specific pattern where each card's game logic is implemented in JavaScript files under `server/game/cards/`, while their descriptions and metadata are stored in JSON files under `keyteki-json-data/packs/`.
+
+## Card Implementation Files
+- Card implementations are located in `server/game/cards/` organized by set
+- Each card is implemented as a JavaScript class extending the base `Card` class
+- The file name should match the card's ID from the JSON data
+- Example: [BadOmen.js](mdc:server/game/cards/11-PV/BadOmen.js)
+
+## Card JSON Data
+- Card descriptions and metadata are stored in JSON files under `keyteki-json-data/packs/`
+- Each set has its own JSON file (e.g., [PV.json](mdc:keyteki-json-data/packs/PV.json))
+- The JSON data contains:
+  - Card name, ID, and number
+  - House affiliation
+  - Card type and traits
+  - Power, armor, and amber values
+  - Card text and effects
+  - Rarity and expansion information
+
+## Implementation Guidelines
+1. When implementing a new card:
+   - First check the JSON data for the card's description and metadata
+   - Create a new JavaScript file in the appropriate set directory
+   - Use the card's ID from the JSON as the filename
+   - Implement the card's game logic according to its text description
+2. The card's ID in the implementation must match the ID in the JSON data
+3. All card text and effects should be implemented exactly as described in the JSON
+4. Always end every file with a newline.
+
+## Tests
+1. Tests should be added to a new spec.js file for the card under test/server/cards/11-PV.  Example: [BadOmen.spec.js](mdc:test/server/cards/11-PV/BadOmen.spec.js).
+2. New tests should follow the patterns of existing tests, e.g. no imports.
+3. Tests should be auto-run after being written, to ensure they pass.
+4. If more log data is needed to debug a test, you can set `DEBUG_TEST=1` in the environment before running the test.

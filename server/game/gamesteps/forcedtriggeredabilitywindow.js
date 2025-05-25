@@ -140,6 +140,11 @@ class ForcedTriggeredAbilityWindow extends BaseStep {
             return true;
         };
 
+        // Add prophecy as a card type if one of the choices is an active prophecy
+        if (choices.some((context) => context.source.activeProphecy)) {
+            properties.cardType = properties.cardType.concat('prophecy');
+        }
+
         properties.onMenuCommand = (player, arg) => {
             if (defaultProperties.onMenuCommand(player, arg)) {
                 return true;
@@ -171,6 +176,7 @@ class ForcedTriggeredAbilityWindow extends BaseStep {
         let properties = {
             buttons: buttons,
             location: 'any',
+            cardType: ['action', 'artifact', 'creature', 'upgrade'],
             onCancel: () => {
                 return this.onCancel();
             },

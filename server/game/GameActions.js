@@ -159,7 +159,11 @@ const Actions = {
     sequentialPutIntoPlay: (propertyFactory) =>
         new GameActions.SequentialPutIntoPlayAction(propertyFactory),
     sequentialMakeTokenCreature: (propertyFactory) =>
-        new GameActions.SequentialMakeTokenCreatureAction(propertyFactory)
+        new GameActions.SequentialMakeTokenCreatureAction(propertyFactory),
+    activateProphecy: (propertyFactory) => new GameActions.ActivateProphecyAction(propertyFactory),
+    fulfillProphecy: (propertyFactory) => new GameActions.FulfillProphecyAction(propertyFactory),
+    flipProphecy: (propertyFactory) => new GameActions.FlipProphecyAction(propertyFactory),
+    resolveFate: (propertyFactory) => new GameActions.ResolveFateAction(propertyFactory)
 };
 
 module.exports = Actions;

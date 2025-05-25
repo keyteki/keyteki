@@ -28,14 +28,16 @@ class BaseCardSelector {
     findPossibleCards(context) {
         if (this.location.includes('any')) {
             if (this.controller === 'self') {
-                return context.game.allCards.filter((card) => card.controller === context.player);
+                return context.game.allCards
+                    .filter((card) => card.controller === context.player)
+                    .concat(context.player.activeProphecies);
             } else if (this.controller === 'opponent') {
-                return context.game.allCards.filter(
-                    (card) => card.controller === context.player.opponent
-                );
+                return context.game.allCards
+                    .filter((card) => card.controller === context.player.opponent)
+                    .concat(context.player.opponent.activeProphecies);
             }
 
-            return context.game.allCards;
+            return context.game.allCards.concat(context.game.activeProphecies);
         }
 
         let upgrades = context.player.cardsInPlay.reduce(

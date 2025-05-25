@@ -52,6 +52,7 @@ class PutIntoPlayAction extends CardGameAction {
             }
         } else if (this.controller) {
             player = this.controller;
+            console.log('controller', player.name);
         } else {
             player = this.myControl ? context.player : card.controller;
         }
@@ -195,7 +196,7 @@ class PutIntoPlayAction extends CardGameAction {
                 } else if (this.controller) {
                     player = this.controller;
                 } else {
-                    player = this.myControl ? context.player : card.controller;
+                    player = this.myControl ? context.game.activePlayer : card.controller;
                     control = this.myControl;
                 }
 
