@@ -155,6 +155,10 @@ class Player extends GameObject {
         return this.cardsInPlay.filter((card) => card.type === 'creature');
     }
 
+    get activeProphecies() {
+        return this.prophecyCards.filter((card) => card.activeProphecy);
+    }
+
     /**
      * Draws the passed number of cards from the top of the deck into this players hand, shuffling if necessary
      * @param {number} numCards
@@ -228,6 +232,7 @@ class Player extends GameObject {
         this.houses = preparedDeck.houses;
         this.deck = preparedDeck.cards;
         this.allCards = preparedDeck.cards;
+        this.prophecyCards = preparedDeck.prophecyCards;
     }
 
     /**
@@ -1124,6 +1129,7 @@ class Player extends GameObject {
             },
             deckData: this.deckData,
             tokenCard: this.tokenCard && this.tokenCard.getShortSummary(),
+            prophecyCards: this.getSummaryForCardList(this.prophecyCards, activePlayer),
             wins: this.wins
         };
 
@@ -1154,6 +1160,85 @@ class Player extends GameObject {
         }
 
         return _.extend(state, promptState);
+    }
+
+    prophecyIndex(prophecyCard) {
+        return this.prophecyCards.indexOf(prophecyCard);
+    }
+
+    // Prophecy cards are paired in the prophecyCards array.  The first card in the pair is the front of the prophecy, and the second card is the back.
+    prophecyFlipSide(prophecyCard) {
+        let index = this.prophecyIndex(prophecyCard);
+        if (index === -1) {
+            return null;
+        }
+        if (index % 2 === 0) {
+            if (index >= this.prophecyCards.length - 1) {
+                return null;
+            }
+            return this.prophecyCards[index + 1];
+        }
+        if (index <= 0) {
+            return null;
+        }
+        return this.prophecyCards[index - 1];
+    }
+
+    // A prophecy can be activated if it is a prophecy card and not already active, and the flip side of the prophecy is not active.
+    canActivateProphecy(prophecyCard) {
+        if (
+            !prophecyCard.isProphecy() ||
+            prophecyCard.activeProphecy ||
+            prophecyCard.controller !== this ||
+            this.game.propheciesActivatedThisPhase.length > 0
+        ) {
+            return false;
+        }
+        let flipProphecy = this.prophecyFlipSide(prophecyCard);
+        if (!flipProphecy) {
+            return false;
+        }
+        return !flipProphecy.activeProphecy;
+    }
+
+    activateProphecy(context, prophecyCard, showMessage = true) {
+        if (!this.canActivateProphecy(prophecyCard)) {
+            return false;
+        }
+        this.game.prophecyActivated(prophecyCard);
+        prophecyCard.activeProphecy = true;
+        this.game.raiseEvent('onProphecyActivated', { prophecyCard: prophecyCard });
+
+        if (showMessage) {
+            this.game.addMessage('{0} activates their prophecy {1}', this, prophecyCard);
+        }
+
+        return true;
+    }
+
+    deactivateProphecy(prophecyCard) {
+        prophecyCard.activeProphecy = false;
+        this.game.raiseEvent('onProphecyDeactivated', { prophecyCard: prophecyCard });
+    }
+
+    flipProphecy(context, prophecyCard) {
+        if (!prophecyCard.isProphecy() || !prophecyCard.activeProphecy) {
+            return false;
+        }
+        let flipSide = this.prophecyFlipSide(prophecyCard);
+        if (!flipSide) {
+            return false;
+        }
+        this.deactivateProphecy(prophecyCard);
+        flipSide.activeProphecy = true;
+        // Move any cards under the prophecy to the flipside.
+        flipSide.childCards = prophecyCard.childCards;
+        prophecyCard.childCards = [];
+        flipSide.childCards.forEach((card) => {
+            card.parent = flipSide;
+        });
+        this.game.raiseEvent('onProphecyFlipped', { prophecyCard: flipSide });
+        return true;
     }
 }
 

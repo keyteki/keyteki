@@ -82,11 +82,14 @@ class SelectCardPrompt extends UiPrompt {
             }
 
             let cardCondition = this.properties.cardCondition;
-            this.properties.cardCondition = (card, context) =>
-                cardCondition(card, context) &&
-                this.properties.gameAction.some((gameAction) =>
-                    gameAction.canAffect(card, context)
-                );
+            this.properties.cardCondition = (card, context) => {
+                let x =
+                    cardCondition(card, context) &&
+                    this.properties.gameAction.some((gameAction) =>
+                        gameAction.canAffect(card, context)
+                    );
+                return x;
+            };
         }
 
         this.selector = properties.selector || CardSelector.for(this.properties);

@@ -78,6 +78,7 @@ class Card extends EffectSource {
         this.stunned = false;
         this.moribund = false;
         this.isFighting = false;
+        this.activeProphecy = false;
 
         this.locale = cardData.locale;
 
@@ -148,6 +149,10 @@ class Card extends EffectSource {
         return this.game
             .getPlayers()
             .find((player) => player.tokenCard && player.tokenCard.name === this.name)?.tokenCard;
+    }
+
+    isProphecy() {
+        return this.type === 'prophecy';
     }
 
     get actions() {
@@ -420,6 +425,21 @@ class Card extends EffectSource {
         return this.reaction(Object.assign({ reap: true, name: 'Reap' }, properties));
     }
 
+    fate(properties) {
+        return this.interrupt(
+            Object.assign(
+                {
+                    when: {
+                        onFate: (event, context) => event.card === context.source
+                    },
+                    name: 'Fate',
+                    location: 'any'
+                },
+                properties
+            )
+        );
+    }
+
     scrap(properties) {
         return this.reaction(
             Object.assign(
@@ -512,6 +532,46 @@ class Card extends EffectSource {
     }
 
     interrupt(properties) {
+        return this.triggeredAbility('interrupt', properties);
+    }
+
+    prophecyReaction(properties) {
+        let originalWhen = properties.when;
+        if (typeof originalWhen === 'object') {
+            properties.when = Object.entries(originalWhen).reduce((newWhen, [key, condition]) => {
+                newWhen[key] = (event, context) => {
+                    return (
+                        condition(event, context) &&
+                        context.game.activePlayer !== this.controller &&
+                        this.childCards.length > 0 &&
+                        this.activeProphecy
+                    );
+                };
+                return newWhen;
+            }, {});
+        }
+
+        properties.location = 'any';
+        return this.triggeredAbility('reaction', properties);
+    }
+
+    prophecyInterrupt(properties) {
+        let originalWhen = properties.when;
+        if (typeof originalWhen === 'object') {
+            properties.when = Object.entries(originalWhen).reduce((newWhen, [key, condition]) => {
+                newWhen[key] = (event, context) => {
+                    return (
+                        condition(event, context) &&
+                        context.game.activePlayer !== this.controller &&
+                        this.childCards.length > 0 &&
+                        this.activeProphecy
+                    );
+                };
+                return newWhen;
+            }, {});
+        }
+
+        properties.location = 'any';
         return this.triggeredAbility('interrupt', properties);
     }
 
@@ -1225,6 +1285,7 @@ class Card extends EffectSource {
         result.enhancements = this.enhancements;
         result.cardPrintedAmber = this.cardPrintedAmber;
         result.locale = this.locale;
+        result.activeProphecy = this.activeProphecy;
         return result;
     }
 
@@ -1287,7 +1348,8 @@ class Card extends EffectSource {
                 return upgrade.getSummary(activePlayer, hideWhenFaceup);
             }),
             uuid: this.uuid, // TODO - fix vulnerability with token cards
-            isToken: !!tokenCard
+            isToken: !!tokenCard,
+            activeProphecy: this.activeProphecy
         };
 
         if (tokenCard && isController) {

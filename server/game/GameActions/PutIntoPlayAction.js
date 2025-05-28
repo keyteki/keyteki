@@ -52,11 +52,15 @@ class PutIntoPlayAction extends CardGameAction {
             }
         } else if (this.controller) {
             player = this.controller;
+            console.log('controller', player.name);
         } else {
             player = this.myControl ? context.player : card.controller;
         }
 
-        if (player.cardsInPlay.some((card) => card.type === 'creature')) {
+        if (
+            card.type === 'creature' &&
+            player.cardsInPlay.some((card) => card.type === 'creature')
+        ) {
             let choices = ['Left'];
 
             let allowRightFlankDeploy = true;
@@ -195,7 +199,7 @@ class PutIntoPlayAction extends CardGameAction {
                 } else if (this.controller) {
                     player = this.controller;
                 } else {
-                    player = this.myControl ? context.player : card.controller;
+                    player = this.myControl ? context.game.activePlayer : card.controller;
                     control = this.myControl;
                 }
 
