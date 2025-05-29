@@ -36,6 +36,7 @@ INSERT INTO public."Expansions" ("Id", "ExpansionId", "Code", "Name") VALUES (13
 INSERT INTO public."Expansions" ("Id", "ExpansionId", "Code", "Name") VALUES (14, 874, 'MoMu', 'More Mutation');
 INSERT INTO public."Expansions" ("Id", "ExpansionId", "Code", "Name") VALUES (15, 907, 'DISC', 'Discovery');
 INSERT INTO public."Expansions" ("Id", "ExpansionId", "Code", "Name") VALUES (16, 939, 'VM2025', 'Vault Masters 2025');
+INSERT INTO public."Expansions" ("Id", "ExpansionId", "Code", "Name") VALUES (17, 886, 'PV', 'Prophetic Visions');
 
 --
 -- Name: Expansions_Id_seq; Type: SEQUENCE SET; Schema: public; Owner: keyteki
