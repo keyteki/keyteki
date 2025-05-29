@@ -10,9 +10,9 @@ class FallenSovereign extends Card {
         });
 
         this.fate({
-            gameAction: ability.actions.putIntoPlay({
-                myControl: true
-            })
+            gameAction: ability.actions.putIntoPlay((context) => ({
+                controller: context.game.activePlayer
+            }))
         });
     }
 }

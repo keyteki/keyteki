@@ -17,9 +17,9 @@ class Salvatorem extends Card {
         });
 
         this.fate({
-            gameAction: ability.actions.putIntoPlay({
-                myControl: false
-            })
+            gameAction: ability.actions.putIntoPlay((context) => ({
+                controller: context.game.activePlayer.opponent
+            }))
         });
     }
 }

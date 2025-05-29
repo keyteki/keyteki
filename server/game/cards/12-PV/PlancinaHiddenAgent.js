@@ -13,7 +13,7 @@ class PlancinaHiddenAgent extends Card {
         this.fate({
             gameAction: ability.actions.putIntoPlay((context) => ({
                 target: context.source,
-                myControl: true
+                controller: context.game.activePlayer
             }))
         });
     }

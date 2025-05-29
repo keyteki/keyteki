@@ -6,8 +6,7 @@ class FateLaughsAtYourPlans extends Card {
         this.prophecyReaction({
             when: {
                 onArchivesAddedToHand: (event, context) =>
-                    event.player === context.game.activePlayer &&
-                    event.player.opponent.archives.length === 0
+                    event.player === context.game.activePlayer && event.player.archives.length === 0
             },
             gameAction: ability.actions.fulfillProphecy((context) => ({
                 card: context.source
