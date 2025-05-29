@@ -81,7 +81,6 @@ class HousePhase extends Phase {
                                 }
                                 this.game.activePlayer.moveCard(card, 'hand');
                             }
-                            console.log('onArchivesAddedToHand');
                             this.game.raiseEvent('onArchivesAddedToHand', {
                                 player: this.game.activePlayer
                             });

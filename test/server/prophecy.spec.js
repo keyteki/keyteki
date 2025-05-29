@@ -8,11 +8,11 @@ describe('Prophecy', function () {
                         'expect-the-unexpected',
                         'forge-ahead-with-confidence',
                         'the-cards-will-tell',
-                        'treat-each-action-as-your-last'
+                        'overreach'
                     ],
                     hand: [
                         'ancient-bear',
-                        'parasitic-arachniod',
+                        'parasitic-arachnoid',
                         'invigorating-shower',
                         'till-the-earth'
                     ],
@@ -33,7 +33,7 @@ describe('Prophecy', function () {
             expect(this.expectTheUnexpected.childCards[0]).toBe(this.ancientBear);
             expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
             this.game.clickProphecy(this.player1.name, this.expectTheUnexpected.uuid);
-            expect(this.parasiticArachniod.location).toBe('hand');
+            expect(this.parasiticArachnoid.location).toBe('hand');
             expect(this.expectTheUnexpected.childCards.length).toBe(1);
             expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
         });
@@ -44,7 +44,7 @@ describe('Prophecy', function () {
             expect(this.expectTheUnexpected.childCards.length).toBe(1);
             expect(this.expectTheUnexpected.childCards[0]).toBe(this.ancientBear);
             this.game.clickProphecy(this.player1.name, this.theCardsWillTell.uuid);
-            expect(this.parasiticArachniod.location).toBe('hand');
+            expect(this.parasiticArachnoid.location).toBe('hand');
             expect(this.theCardsWillTell.childCards.length).toBe(0);
             expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
         });
@@ -55,10 +55,10 @@ describe('Prophecy', function () {
             this.player2.clickPrompt('untamed');
             this.player2.endTurn();
             this.player1.clickPrompt('untamed');
-            this.player1.activateProphecy(this.theCardsWillTell, this.parasiticArachniod);
-            expect(this.parasiticArachniod.location).toBe('under');
+            this.player1.activateProphecy(this.theCardsWillTell, this.parasiticArachnoid);
+            expect(this.parasiticArachnoid.location).toBe('under');
             expect(this.theCardsWillTell.childCards.length).toBe(1);
-            expect(this.theCardsWillTell.childCards[0]).toBe(this.parasiticArachniod);
+            expect(this.theCardsWillTell.childCards[0]).toBe(this.parasiticArachnoid);
             expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
         });
 
@@ -69,13 +69,13 @@ describe('Prophecy', function () {
             this.player2.endTurn();
             this.player1.clickPrompt('untamed');
             this.game.clickProphecy(this.player1.name, this.forgeAheadWithConfidence.uuid);
-            expect(this.parasiticArachniod.location).toBe('hand');
+            expect(this.parasiticArachnoid.location).toBe('hand');
             expect(this.forgeAheadWithConfidence.childCards.length).toBe(0);
             expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
         });
 
         it("should resolve fate effects on opponent's turn", function () {
-            this.player1.activateProphecy(this.expectTheUnexpected, this.parasiticArachniod);
+            this.player1.activateProphecy(this.expectTheUnexpected, this.parasiticArachnoid);
             this.player1.endTurn();
             this.player2.clickPrompt('untamed');
             this.player2.play(this.spooKeyCharge);
@@ -83,10 +83,10 @@ describe('Prophecy', function () {
             expect(this.player2).toBeAbleToSelect(this.umbra);
             expect(this.player2).not.toBeAbleToSelect(this.mushroomMan);
             this.player2.clickCard(this.umbra);
-            expect(this.umbra.amber).toBe(3);
-            expect(this.player2.amber).toBe(2);
+            expect(this.umbra.amber).toBe(2);
+            expect(this.player2.amber).toBe(3);
             expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
-            expect(this.parasiticArachniod.location).toBe('discard');
+            expect(this.parasiticArachnoid.location).toBe('discard');
         });
 
         it('should not trigger during your turn when your opponent meets the condition', function () {

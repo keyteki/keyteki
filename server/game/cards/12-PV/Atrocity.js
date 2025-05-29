@@ -26,8 +26,7 @@ class Atrocity extends Card {
                 context.source.controller.opponent &&
                 context.source.controller.opponent.deck.length > 0
                     ? context.source.controller.opponent.deck.slice(0, 1)
-                    : 'nothing',
-                context.source
+                    : 'nothing'
             ],
             then: {
                 alwaysTriggers: true,
