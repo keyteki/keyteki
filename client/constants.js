@@ -55,7 +55,15 @@ export const Constants = {
         { value: '939', label: 'VM2025', tideRequired: false },
         { value: '886', label: 'PV', tideRequired: false }
     ],
-    CardTypes: ['action', 'artifact', 'creature', 'upgrade', 'token creature', 'the tide'],
+    CardTypes: [
+        'action',
+        'artifact',
+        'creature',
+        'upgrade',
+        'token creature',
+        'the tide',
+        'prophecy'
+    ],
     SetIconPaths: {},
     DeckIconPaths: {},
     HouseIconPaths: {},
