@@ -303,7 +303,9 @@ export class GameBoard extends React.Component {
                                             className={className}
                                             src={img}
                                             onClick={
-                                                isClickable
+                                                card.selectable
+                                                    ? () => this.onCardClick(card)
+                                                    : isClickable
                                                     ? () => this.onClickProphecy(card)
                                                     : undefined
                                             }

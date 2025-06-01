@@ -419,6 +419,7 @@ class DeckService {
             image: card.ImageUrl || undefined,
             house: card.House || specialCardDefaultHouses[card.CardId] || undefined,
             isNonDeck: card.IsNonDeck,
+            prophecyId: card.ProphecyId || undefined,
             enhancements: card.Enhancements
                 ? card.Enhancements.replace(/[[{}"\]]/gi, '')
                       .split(',')
@@ -426,6 +427,27 @@ class DeckService {
                       .sort((a, b) => BonusOrder.indexOf(a) - BonusOrder.indexOf(b))
                 : undefined
         }));
+
+        // Sort cards: prophecy cards by ProphecyId first, then by dbId, others maintain original order
+        deck.cards.sort((a, b) => {
+            // Put deck cards first.
+            if (!a.isNonDeck && b.isNonDeck) {
+                return -1;
+            }
+            if (a.isNonDeck && !b.isNonDeck) {
+                return 1;
+            }
+
+            // If both have ProphecyId, sort by ProphecyId first, then by dbId
+            if (a.prophecyId && b.prophecyId) {
+                if (a.prophecyId !== b.prophecyId) {
+                    return a.prophecyId - b.prophecyId;
+                }
+                return a.dbId - b.dbId;
+            }
+            // If neither has ProphecyId, maintain original order by dbId
+            return a.dbId - b.dbId;
+        });
 
         let houseTable = standalone ? 'StandaloneDeckHouses' : 'DeckHouses';
         let houses = await db.query(
@@ -699,6 +721,20 @@ class DeckService {
         }
     }
 
+    async updateProphecyAssignments(deckId, assignments) {
+        try {
+            for (let [cardDbId, prophecyId] of Object.entries(assignments)) {
+                await db.query('UPDATE "DeckCards" SET "ProphecyId" = $2 WHERE "Id" = $1', [
+                    cardDbId,
+                    prophecyId
+                ]);
+            }
+        } catch (err) {
+            logger.error('Failed to update prophecy assignments', err);
+            throw new Error('Failed to update prophecy assignments');
+        }
+    }
+
     async delete(id) {
         try {
             await db.query('DELETE FROM "Decks" WHERE "Id" = $1', [id]);
@@ -834,8 +870,8 @@ class DeckService {
         let cards = deckCards.map((card) => {
             let id = card.card_title
                 .toLowerCase()
-                .replace(/[,?.!"„“”]/gi, '')
-                .replace(/[ '’]/gi, '-');
+                .replace(/[,?.!"„""]/gi, '')
+                .replace(/[ '']/gi, '-');
 
             if (card.rarity === 'Evil Twin') {
                 id += '-evil-twin';
@@ -942,8 +978,8 @@ class DeckService {
             uuid: uuid,
             identity: deckResponse.data.name
                 .toLowerCase()
-                .replace(/[,?.!"„“”]/gi, '')
-                .replace(/[ '’]/gi, '-'),
+                .replace(/[,?.!"„""]/gi, '')
+                .replace(/[ '']/gi, '-'),
             cardback: '',
             name: deckResponse.data.name,
             houses: deckResponse.data._links.houses.map((house) =>
