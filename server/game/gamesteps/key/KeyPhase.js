@@ -15,6 +15,19 @@ class KeyPhase extends Phase {
                     this.game.activePlayer,
                     this.game.getFrameworkContext(this.game.activePlayer)
                 );
+
+            // Check if player can forge a second key
+            if (
+                this.game.activePlayer.canForgeKey() &&
+                this.game.activePlayer.anyEffect('canForgeSecondKeyDuringKeyPhase')
+            ) {
+                this.game.actions
+                    .forgeKey()
+                    .resolve(
+                        this.game.activePlayer,
+                        this.game.getFrameworkContext(this.game.activePlayer)
+                    );
+            }
         } else {
             this.game.addMessage(
                 '{0} does not forge a key.  They have {1} amber.  The current cost is {2} amber ',
