@@ -336,10 +336,15 @@ export const buildDeckList = async (canvas, deck, language, translate, size) => 
     }
     let cardList = [];
     let nonDeckCards = [];
+    let prophecyCards = [];
 
     for (const { count, card } of deck.cards) {
         if (!card || card.isNonDeck) {
-            nonDeckCards.push(card);
+            if (card && card.type === 'prophecy') {
+                prophecyCards.push(card);
+            } else {
+                nonDeckCards.push(card);
+            }
             continue;
         }
 
@@ -356,10 +361,17 @@ export const buildDeckList = async (canvas, deck, language, translate, size) => 
         }
     }
 
-    for (const card of nonDeckCards) {
+    // Place prophecies first
+    for (const [index, card] of prophecyCards.entries()) {
         const x = cardData.start.x;
-        const y = 538;
+        const y = 538 + index * 28;
+        placeCard(canvas, card, language, x, y);
+    }
 
+    // Place other non-deck cards after prophecies
+    for (const [index, card] of nonDeckCards.entries()) {
+        const x = cardData.start.x;
+        const y = 538 + (prophecyCards.length + index) * 28;
         placeCard(canvas, card, language, x, y);
     }
 

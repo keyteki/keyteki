@@ -42,7 +42,10 @@ class ActivateProphecyAction extends PlayerAction {
                         cardCondition: (card) => card.location === 'hand',
                         onSelect: (player, card) => {
                             context.game.actions
-                                .placeUnder({ parent: this.prophecyCard })
+                                .placeUnder({
+                                    parent: this.prophecyCard,
+                                    facedown: true
+                                })
                                 .resolve(card, context);
                             return true;
                         }
