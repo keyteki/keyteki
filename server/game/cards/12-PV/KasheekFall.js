@@ -1,6 +1,8 @@
 const Card = require('../../Card.js');
 
 class KasheekFall extends Card {
+    // Play: Destroy each creature with a more powerful neighbor.
+    // Fate: Destroy each creature with a less powerful neighbor.
     setupCardAbilities(ability) {
         this.play({
             gameAction: ability.actions.destroy((context) => ({
