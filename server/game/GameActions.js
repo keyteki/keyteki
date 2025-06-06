@@ -33,6 +33,8 @@ const Actions = {
     addWisdomCounter: (propertyFactory) =>
         new GameActions.AddTokenAction(propertyFactory, 'wisdom'),
     addYeaCounter: (propertyFactory) => new GameActions.AddTokenAction(propertyFactory, 'yea'),
+    addMutationCounter: (propertyFactory) =>
+        new GameActions.AddTokenAction(propertyFactory, 'mutation'),
     applyDamage: (propertyFactory) => new GameActions.ApplyDamageAction(propertyFactory),
     archive: (propertyFactory) => new GameActions.ArchiveAction(propertyFactory),
     attach: (propertyFactory) => new GameActions.AttachAction(propertyFactory), // upgrade
