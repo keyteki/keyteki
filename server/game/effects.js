@@ -170,7 +170,11 @@ const Effects = {
     opponentCardsCannotLeaveArchives: (card) =>
         EffectBuilder.player.static('opponentCardsCannotLeaveArchives', card),
     topCardOfDeckVisible: (card) => EffectBuilder.player.static('topCardOfDeckVisible', card),
-    cannotPlayCreaturesOnRight: () => EffectBuilder.player.static('cannotPlayCreaturesOnRight')
+    cannotPlayCreaturesOnRight: () => EffectBuilder.player.static('cannotPlayCreaturesOnRight'),
+    canForgeSecondKeyDuringKeyPhase: () =>
+        EffectBuilder.player.static('canForgeSecondKeyDuringKeyPhase'),
+    cannotForgeMoreThan2KeysInATurn: () =>
+        EffectBuilder.player.static('cannotForgeMoreThan2KeysInATurn')
 };
 
 module.exports = Effects;

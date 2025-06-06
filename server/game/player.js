@@ -757,6 +757,14 @@ class Player extends GameObject {
             return false;
         }
 
+        // Check if player has already forged a key this round and doesn't have the effect
+        if (
+            this.keysForgedThisRound.length > 1 &&
+            this.anyEffect('cannotForgeMoreThan2KeysInATurn')
+        ) {
+            return false;
+        }
+
         let alternativeSources =
             this.getAmberSources().reduce((total, source) => total + source.tokens.amber, 0) +
             this.getCardAmberInPoolSources().length;
