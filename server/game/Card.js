@@ -1349,7 +1349,9 @@ class Card extends EffectSource {
             }),
             uuid: this.uuid, // TODO - fix vulnerability with token cards
             isToken: !!tokenCard,
-            activeProphecy: this.activeProphecy
+            activeProphecy: this.activeProphecy,
+            canActivateProphecy:
+                this.type === 'prophecy' ? this.controller.canActivateProphecy(this) : false
         };
 
         if (tokenCard && isController) {

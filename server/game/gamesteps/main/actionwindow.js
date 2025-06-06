@@ -76,9 +76,11 @@ class ActionWindow extends UiPrompt {
     onProphecyClicked(player, prophecyCard) {
         let activateProphecyAction = new ActivateProphecyAction({ prophecyCard: prophecyCard });
         let context = this.game.getFrameworkContext(player);
+        context.source = prophecyCard;
         if (activateProphecyAction.canAffect(player, context)) {
             this.game.promptWithHandlerMenu(player, {
                 activePromptTitle: 'Activate prophecy?',
+                source: prophecyCard,
                 choices: ['Yes', 'No'],
                 handlers: [
                     () => {

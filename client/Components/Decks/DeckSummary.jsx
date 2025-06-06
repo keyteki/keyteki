@@ -74,6 +74,20 @@ const DeckSummary = ({ deck }) => {
 
     let nonDeckCards = deck.cards
         .filter((c) => c.isNonDeck)
+        .sort((a, b) => {
+            // Sort prophecy cards by ProphecyId first, then by dbId
+            if (a.card.type === 'prophecy' && b.card.type === 'prophecy') {
+                // Both are prophecies - sort by ProphecyId first, then by dbId
+                const aId = a.prophecyId || 999;
+                const bId = b.prophecyId || 999;
+                if (aId !== bId) {
+                    return aId - bId;
+                }
+                return a.dbId - b.dbId;
+            }
+            // If only one is a prophecy or neither is a prophecy, maintain original order
+            return a.dbId - b.dbId;
+        })
         .map((card, i) => {
             return (
                 <div

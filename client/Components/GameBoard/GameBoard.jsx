@@ -55,6 +55,7 @@ export class GameBoard extends React.Component {
         this.onManualModeClick = this.onManualModeClick.bind(this);
         this.onMuteClick = this.onMuteClick.bind(this);
         this.onClickTide = this.onClickTide.bind(this);
+        this.onClickProphecy = this.onClickProphecy.bind(this);
 
         this.state = {
             cardToZoom: null,
@@ -111,6 +112,10 @@ export class GameBoard extends React.Component {
 
     onClickTide() {
         this.props.sendGameMessage('clickTide');
+    }
+
+    onClickProphecy(card) {
+        this.props.sendGameMessage('clickProphecy', card.uuid);
     }
 
     getTimer() {
@@ -208,13 +213,26 @@ export class GameBoard extends React.Component {
             thisPlayer.stats.tideRequired ||
             (otherPlayer && otherPlayer.stats.tideRequired) ||
             thisPlayer.tokenCard ||
-            (otherPlayer && otherPlayer.tokenCard)
+            (otherPlayer && otherPlayer.tokenCard) ||
+            (thisPlayer.prophecyCards && thisPlayer.prophecyCards.length > 0) ||
+            (otherPlayer && otherPlayer.prophecyCards && otherPlayer.prophecyCards.length > 0)
         ) {
             return (
                 <div className='reference-card-pane'>
-                    {this.renderToken(otherPlayer)}
+                    {/* Other player's content grouped together */}
+                    {otherPlayer && (
+                        <>
+                            {this.renderToken(otherPlayer)}
+                            {this.renderProphecies(otherPlayer)}
+                        </>
+                    )}
+
+                    {/* Tide centered between players */}
                     {this.renderTide(thisPlayer, otherPlayer)}
+
+                    {/* This player's content grouped together */}
                     {this.renderToken(thisPlayer)}
+                    {this.renderProphecies(thisPlayer)}
                 </div>
             );
         }
@@ -237,6 +255,132 @@ export class GameBoard extends React.Component {
                     onMouseOut={this.onMouseOut}
                     title={this.props.t(`${player.tokenCard.name}`)}
                 />
+            );
+        }
+    }
+
+    renderProphecies(player) {
+        if (player.prophecyCards && player.prophecyCards.length > 0) {
+            let locale = this.props.i18n.language;
+            const prophecyPairs = [];
+
+            // Group prophecies into pairs
+            for (let i = 0; i < player.prophecyCards.length; i += 2) {
+                const pair = player.prophecyCards.slice(i, i + 2);
+                prophecyPairs.push(pair);
+            }
+
+            return (
+                <div className='prophecy-player-section'>
+                    {prophecyPairs.map((pair, pairIndex) => (
+                        <div key={`prophecy-pair-${pairIndex}`} className='prophecy-grid'>
+                            {pair.map((card) => {
+                                // Handle both face-up and face-down prophecy cards
+                                let img;
+                                if (card.facedown) {
+                                    // Non-controlling player sees face-down card
+                                    img = Constants.DefaultCard;
+                                } else {
+                                    // Controlling player sees face-up card
+                                    img = `/img/cards/${locale === 'en' ? '' : locale}/${
+                                        card.image
+                                    }.png`;
+                                }
+
+                                // Only the prophecy controller can click prophecies
+                                const isController = player.name === this.props.user.username;
+                                const isClickable = isController && card.canActivateProphecy;
+                                const isActive = card.activeProphecy;
+                                const className = `img-fluid normal reference-card prophecy-card ${
+                                    isActive ? 'active' : 'inactive'
+                                } ${isClickable ? 'clickable' : ''} ${
+                                    isClickable ? 'can-activate' : ''
+                                }`;
+
+                                return (
+                                    <div key={card.uuid} className='prophecy-card-container'>
+                                        <img
+                                            className={className}
+                                            src={img}
+                                            onClick={
+                                                card.selectable
+                                                    ? () => this.onCardClick(card)
+                                                    : isClickable
+                                                    ? () => this.onClickProphecy(card)
+                                                    : undefined
+                                            }
+                                            onMouseOver={() => {
+                                                this.onMouseOver({
+                                                    image: (
+                                                        <img
+                                                            src={img}
+                                                            className='card-zoom normal'
+                                                        />
+                                                    ),
+                                                    size: 'normal'
+                                                });
+                                            }}
+                                            onMouseOut={this.onMouseOut}
+                                            title={
+                                                card.facedown
+                                                    ? 'Face-down prophecy'
+                                                    : this.props.t(`${card.name}`)
+                                            }
+                                        />
+
+                                        {/* Render child cards directly under this prophecy */}
+                                        {isActive &&
+                                            card.childCards &&
+                                            card.childCards.length > 0 &&
+                                            card.childCards.map((childCard, childIndex) => {
+                                                return (
+                                                    <div
+                                                        key={`${card.uuid}-child-${childIndex}`}
+                                                        className='child-card-under-prophecy'
+                                                        style={{
+                                                            top: `${35 + childIndex * 4}px`,
+                                                            left: `${childIndex * 2}px`
+                                                        }}
+                                                        onMouseOver={() => {
+                                                            if (isController) {
+                                                                const faceUpImg = `/img/cards/${
+                                                                    locale === 'en' ? '' : locale
+                                                                }/${childCard.image}.png`;
+                                                                this.onMouseOver({
+                                                                    image: (
+                                                                        <img
+                                                                            src={faceUpImg}
+                                                                            className='card-zoom normal'
+                                                                        />
+                                                                    ),
+                                                                    size: 'normal'
+                                                                });
+                                                            }
+                                                        }}
+                                                        onMouseOut={this.onMouseOut}
+                                                        title={
+                                                            isController
+                                                                ? this.props.t(`${childCard.name}`)
+                                                                : 'Face-down card'
+                                                        }
+                                                    >
+                                                        <CardBack
+                                                            deck={player.deckData}
+                                                            showDeckName={this.showDeckName(
+                                                                !this.isSpectating()
+                                                            )}
+                                                            zoom={false}
+                                                            size={this.props.user.settings.cardSize}
+                                                        />
+                                                    </div>
+                                                );
+                                            })}
+                                    </div>
+                                );
+                            })}
+                        </div>
+                    ))}
+                </div>
             );
         }
     }
