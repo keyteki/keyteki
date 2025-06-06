@@ -3,6 +3,7 @@ const GameAction = require('./GameAction');
 class AddEventToWindowAction extends GameAction {
     setDefaultProperties() {
         this.house = undefined;
+        this.player = undefined;
     }
 
     setup() {
@@ -19,7 +20,11 @@ class AddEventToWindowAction extends GameAction {
     getEventArray(context) {
         return [
             super.createEvent('unnamedEvent', { house: this.house }, () => {
-                context.player.activeHouse = this.house;
+                if (this.player) {
+                    this.player.activeHouse = this.house;
+                } else {
+                    context.player.activeHouse = this.house;
+                }
             })
         ];
     }
