@@ -407,7 +407,14 @@ class DeckService {
             'sacro-bot': 'logos',
             'sacro-fiend': 'dis',
             'sacro-saurus': 'saurian',
-            'sacro-thief': 'shadows'
+            'sacro-thief': 'shadows',
+            corrode: 'unfathomable',
+            'purifier-of-souls': 'sanctum',
+            stampede: 'untamed',
+            'follow-the-leader': 'brobnar',
+            picaroon: 'dis',
+            'research-smoko': 'logos',
+            'vault-s-blessing': 'untamed'
         };
 
         deck.cards = cards.map((card) => ({
@@ -841,6 +848,22 @@ class DeckService {
                 'build-your-champion': true,
                 'digging-up-the-monster': true,
                 'tomes-gigantic': true
+            },
+            886: {
+                'avenging-aura': true,
+                corrode: true,
+                'lord-golgotha': true,
+                'one-stood-against-many': true,
+                'purifier-of-souls': true,
+                stampede: true,
+                'dark-centurion': true,
+                'follow-the-leader': true,
+                picaroon: true,
+                'research-smoko': true,
+                'vault-s-blessing': true,
+                'citizen-shrix': true,
+                'even-ivan': true,
+                'odd-clawde': true
             }
         };
 
@@ -871,7 +894,7 @@ class DeckService {
             let id = card.card_title
                 .toLowerCase()
                 .replace(/[,?.!"„""]/gi, '')
-                .replace(/[ '']/gi, '-');
+                .replace(/[ ''’]/gi, '-');
 
             if (card.rarity === 'Evil Twin') {
                 id += '-evil-twin';

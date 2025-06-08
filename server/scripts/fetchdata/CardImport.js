@@ -105,6 +105,22 @@ class CardImport {
                 'build-your-champion': true,
                 'digging-up-the-monster': true,
                 'tomes-gigantic': true
+            },
+            886: {
+                'avenging-aura': true,
+                corrode: true,
+                'lord-golgotha': true,
+                'one-stood-against-many': true,
+                'purifier-of-souls': true,
+                stampede: true,
+                'dark-centurion': true,
+                'follow-the-leader': true,
+                picaroon: true,
+                'research-smoko': true,
+                'vault-s-blessing': true,
+                'citizen-shrix': true,
+                'even-ivan': true,
+                'odd-clawde': true
             }
         };
 
