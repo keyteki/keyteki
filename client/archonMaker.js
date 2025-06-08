@@ -651,8 +651,9 @@ export const buildCard = async (
         canvas.add(baseImage);
 
         for (const [index, pip] of enhancements.entries()) {
+            let pipKey = pip.replace(/[ ]/gi, ''); // "star alliance" -> "staralliance"
             const pipImage = new fabric.Image(
-                EnhancementPipImages[pip].toCanvasElement(),
+                EnhancementPipImages[pipKey].toCanvasElement(),
                 imgOptions
             );
 
