@@ -902,7 +902,8 @@ const getCountersForCard = (card) => {
         'hatch',
         'paint',
         'trade',
-        'mineralize'
+        'mineralize',
+        'mutation'
     ];
     let counters = [];
 
