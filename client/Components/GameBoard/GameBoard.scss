@@ -272,3 +272,46 @@
 .right-side-top {
     height: 50%;
 }
+
+// Responsive: shrink prophecy cards and grid on short screens
+@media (max-height: 800px) {
+    .right-side-top {
+        height: 0 !important;
+    }
+    .prompt-area {
+        justify-content: flex-start !important;
+    }
+    .inset-pane {
+        display: flex !important;
+        flex-direction: column !important;
+        width: 210px !important;
+        height: 100vh !important;
+        overflow-y: auto !important;
+        overflow-x: hidden !important;
+    }
+    .prompt-area {
+        position: sticky !important;
+        bottom: 0 !important;
+        padding-top: 0 !important;
+        margin-top: 0 !important;
+        background: rgba(0,0,0,0.85);
+        z-index: 2;
+    }
+    .reference-card-pane {
+        margin-top: 0 !important;
+        padding-top: 0 !important;
+    }
+    .reference-card-pane .prophecy-grid {
+        min-height: 90px !important;
+        padding: 2px 2px 25px 2px !important;
+        gap: 2px !important;
+    }
+    .reference-card-pane .prophecy-card {
+        max-width: 40px !important;
+        width: 80% !important;
+    }
+    .reference-card-pane .child-card-under-prophecy {
+        max-width: 34px !important;
+        width: 80% !important;
+    }
+}
