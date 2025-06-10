@@ -6,30 +6,25 @@ class Reiteration extends Card {
     // Fate: Discard 2 random cards from your hand.
     setupCardAbilities(ability) {
         this.play({
-            gameAction: ability.actions.sequential([
-                ability.actions.draw({ amount: 2 }),
-                ability.actions.returnToDeck((context) => ({
-                    promptForSelect: {
-                        controller: 'self',
-                        location: 'hand',
-                        message: '{0} uses {1} to return {2} to the bottom of their deck',
-                        messageArgs: (cards) => [context.player, context.source.name, cards]
-                    },
-                    shuffle: false,
-                    bottom: true
-                })),
-                ability.actions.returnToDeck((context) => ({
-                    promptForSelect: {
-                        controller: 'self',
-                        location: 'hand',
-                        message: '{0} uses {1} to return {2} to the bottom of their deck',
-                        messageArgs: (cards) => [context.player, context.source.name, cards]
-                    },
-                    shuffle: false,
-                    bottom: true
-                }))
-            ]),
-            effect: 'draw 2 cards and return 2 cards to the bottom of their deck'
+            gameAction: ability.actions.draw({ amount: 2 }),
+            then: {
+                alwaysTriggers: true,
+                target: {
+                    controller: 'self',
+                    location: 'hand',
+                    mode: 'exactly',
+                    numCards: 2,
+                    gameAction: ability.actions.returnToDeck({
+                        shuffle: false,
+                        bottom: true
+                    })
+                },
+                message: '{0} uses {1} to return {3} card{4} to the bottom of their deck',
+                messageArgs: (context) => [
+                    context.player.hand.length === 1 ? 'a' : '2',
+                    context.player.hand.length === 1 ? '' : 's'
+                ]
+            }
         });
 
         this.fate({
