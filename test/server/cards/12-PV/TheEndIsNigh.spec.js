@@ -11,11 +11,11 @@ describe('The End Is Nigh', function () {
                         'heads-i-win'
                     ],
                     hand: ['parasitic-arachnoid'],
-                    inPlay: ['xenos-bloodshadow']
+                    inPlay: ['xenos-bloodshadow', 'dust-pixie', 'mooncurser', 'toad']
                 },
                 player2: {
                     amber: 4,
-                    inPlay: ['urchin', 'umbra', 'nexus', 'troll']
+                    inPlay: ['urchin', 'umbra', 'nexus', 'troll', 'chasm-vespid']
                 }
             });
         });
@@ -27,6 +27,21 @@ describe('The End Is Nigh', function () {
             this.player2.fightWith(this.urchin, this.xenosBloodshadow);
             this.player2.fightWith(this.umbra, this.xenosBloodshadow);
             this.player2.fightWith(this.nexus, this.xenosBloodshadow);
+            this.player2.clickCard(this.troll);
+            expect(this.player2.amber).toBe(2);
+            expect(this.troll.amber).toBe(2);
+            expect(this.parasiticArachnoid.location).toBe('discard');
+            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+        });
+
+        it('should fulfill when 3 or more creatures including by splash-attack', function () {
+            this.player1.activateProphecy(this.theEndIsNigh, this.parasiticArachnoid);
+            this.player1.endTurn();
+            this.player2.clickPrompt('dis');
+            this.player2.fightWith(this.chasmVespid, this.mooncurser);
+            expect(this.dustPixie.location).toBe('discard');
+            expect(this.mooncurser.location).toBe('discard');
+            expect(this.toad.location).toBe('discard');
             this.player2.clickCard(this.troll);
             expect(this.player2.amber).toBe(2);
             expect(this.troll.amber).toBe(2);

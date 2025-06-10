@@ -28,6 +28,7 @@ describe('Reiteration', function () {
             expect(this.player1).not.toBeAbleToSelect(this.emberImp);
             this.player1.clickCard(this.flaxia);
             this.player1.clickCard(this.searine);
+            this.player1.clickPrompt('Done');
             expect(this.player1.hand.length).toBe(3); // 4 initial - 1 played + 2 drawn - 2 returned to deck
             expect(this.player1.deck.length).toBe(p1DeckLength); // 2 initial -2 drawn + 2 returned
             expect(this.player1.deck[this.player1.deck.length - 2]).toBe(this.flaxia);

@@ -4,15 +4,23 @@ const EventRegistrar = require('../../eventregistrar.js');
 class TheEndIsNigh extends Card {
     // During your opponent's turn, after 3 or more creatures have been destroyed that turn, fulfill The End is Nigh.
     setupCardAbilities(ability) {
-        this.creaturesDestroyed = 0;
+        this.creaturesDestroyed = [];
 
         this.tracker = new EventRegistrar(this.game, this);
-        this.tracker.register(['onCardDestroyed', 'onPhaseStarted']);
+        this.tracker.register(['onPhaseStarted']);
 
         this.prophecyInterrupt({
             when: {
-                onCardDestroyed: (event) =>
-                    event.card.type === 'creature' && this.creaturesDestroyed >= 2
+                onCardDestroyed: (event) => {
+                    if (
+                        event.card.type === 'creature' &&
+                        !this.creaturesDestroyed.includes(event.card) &&
+                        !event.cancelled
+                    ) {
+                        this.creaturesDestroyed.push(event.card);
+                    }
+                    return this.creaturesDestroyed.length >= 3;
+                }
             },
             gameAction: ability.actions.fulfillProphecy((context) => ({
                 card: context.source
@@ -20,15 +28,9 @@ class TheEndIsNigh extends Card {
         });
     }
 
-    onCardDestroyed(event) {
-        if (event.card.type === 'creature') {
-            this.creaturesDestroyed += 1;
-        }
-    }
-
     onPhaseStarted(event) {
         if (event.phase === 'main') {
-            this.creaturesDestroyed = 0;
+            this.creaturesDestroyed = [];
         }
     }
 }
