@@ -893,7 +893,7 @@ class DeckService {
         let cards = deckCards.map((card) => {
             let id = card.card_title
                 .toLowerCase()
-                .replace(/[,?.!"„""]/gi, '')
+                .replace(/[,?.!"„""“”]/gi, '')
                 .replace(/[ ''’]/gi, '-');
 
             if (card.rarity === 'Evil Twin') {
