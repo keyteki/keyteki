@@ -27,6 +27,7 @@ class BondsmanBelvan extends Card {
                 cardType: 'artifact',
                 controller: 'opponent',
                 gameAction: ability.actions.cardLastingEffect((context) => ({
+                    duration: 'lastingEffect',
                     effect: ability.effects.takeControl(context.game.activePlayer.opponent)
                 }))
             }

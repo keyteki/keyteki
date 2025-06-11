@@ -56,7 +56,10 @@ describe('Bondsman Belvan', function () {
             expect(this.player2).toBeAbleToSelect(this.autocannon);
             this.player2.clickCard(this.autocannon);
             expect(this.autocannon.controller).toBe(this.player1.player);
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            this.player2.endTurn();
+            this.player1.clickPrompt('shadows');
+            expect(this.autocannon.controller).toBe(this.player1.player);
+            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
         });
     });
 });

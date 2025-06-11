@@ -9,16 +9,24 @@ class Reiteration extends Card {
             gameAction: ability.actions.draw({ amount: 2 }),
             then: {
                 alwaysTriggers: true,
-                target: {
-                    controller: 'self',
-                    location: 'hand',
-                    mode: 'exactly',
-                    numCards: 2,
-                    gameAction: ability.actions.returnToDeck({
+                gameAction: ability.actions.sequential([
+                    ability.actions.returnToDeck({
+                        promptForSelect: {
+                            controller: 'self',
+                            location: 'hand'
+                        },
+                        shuffle: false,
+                        bottom: true
+                    }),
+                    ability.actions.returnToDeck({
+                        promptForSelect: {
+                            controller: 'self',
+                            location: 'hand'
+                        },
                         shuffle: false,
                         bottom: true
                     })
-                },
+                ]),
                 message: '{0} uses {1} to return {3} card{4} to the bottom of their deck',
                 messageArgs: (context) => [
                     context.player.hand.length === 1 ? 'a' : '2',
