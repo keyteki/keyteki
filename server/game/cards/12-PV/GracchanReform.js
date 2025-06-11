@@ -5,6 +5,7 @@ class GracchanReform extends Card {
     // Fate: Your opponent archives the top 2 cards of their deck.
     setupCardAbilities(ability) {
         this.play({
+            condition: (context) => !!context.player.opponent,
             gameAction: ability.actions.playCard((context) => ({
                 revealOnIllegalTarget: true,
                 target: context.player.opponent.deck[0]

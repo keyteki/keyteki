@@ -46,5 +46,18 @@ describe('Trade Blows', function () {
             this.player1.clickPrompt('Done');
             expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
         });
+
+        it('should repeat if enemy creature was warded', function () {
+            this.flaxia.ward();
+            this.player1.play(this.tradeBlows);
+            this.player1.clickCard(this.flaxia);
+            expect(this.flaxia.warded).toBe(false);
+            this.player1.clickCard(this.emberImp);
+            expect(this.emberImp.tokens.damage).toBe(1);
+            this.player1.clickCard(this.searine);
+            expect(this.searine.tokens.damage).toBe(1);
+            this.player1.clickPrompt('Done');
+            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+        });
     });
 });

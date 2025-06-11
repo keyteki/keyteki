@@ -20,10 +20,14 @@ class ParallelThinking extends Card {
                     context.select && context.select.includes('Deck')
                         ? context.select.includes('My')
                             ? context.player.deck.slice(0, 2)
-                            : context.player.opponent.deck.slice(0, 2)
+                            : context.player.opponent
+                            ? context.player.opponent.deck.slice(0, 2)
+                            : []
                         : context.select && context.select.includes('My')
                         ? _.shuffle(context.player.archives).slice(0, 2)
-                        : _.shuffle(context.player.opponent.archives).slice(0, 2)
+                        : context.player.opponent
+                        ? _.shuffle(context.player.opponent.archives).slice(0, 2)
+                        : []
             })),
             then: {
                 condition: (context) => {
