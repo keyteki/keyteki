@@ -262,7 +262,22 @@ class Game extends EventEmitter {
      * @returns Card
      */
     findAnyCardInAnyList(cardId) {
-        return this.allCards.concat(this.activeProphecies).find((card) => card.uuid === cardId);
+        // Search in regular cards and active prophecies
+        let card = this.allCards.concat(this.activeProphecies).find((card) => card.uuid === cardId);
+
+        // If not found, search in all prophecy cards (including inactive ones)
+        if (!card && this.manualMode) {
+            for (let player of this.getPlayers()) {
+                if (player.prophecyCards) {
+                    card = player.prophecyCards.find((card) => card.uuid === cardId);
+                    if (card) {
+                        break;
+                    }
+                }
+            }
+        }
+
+        return card;
     }
 
     /**

@@ -39,6 +39,7 @@ class ActivateProphecyAction extends PlayerAction {
                             'Choose a card from your hand to place under the prophecy',
                         location: 'hand',
                         controller: 'self',
+                        source: this.prophecyCard,
                         cardCondition: (card) => card.location === 'hand',
                         onSelect: (player, card) => {
                             context.game.actions

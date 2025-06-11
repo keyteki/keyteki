@@ -1,6 +1,45 @@
+const ActivateProphecyAction = require('./GameActions/ActivateProphecyAction');
+const DeactivateProphecyAction = require('./GameActions/DeactivateProphecyAction');
+const FulfillProphecyAction = require('./GameActions/FulfillProphecyAction');
+
 class MenuCommands {
     static cardMenuClick(menuItem, game, player, card) {
         switch (menuItem.command) {
+            case 'activateProphecy':
+                if (game.manualMode && card.isProphecy()) {
+                    let activateProphecyAction = new ActivateProphecyAction({
+                        prophecyCard: card
+                    });
+                    let context = game.getFrameworkContext(player);
+                    context.source = card;
+                    if (activateProphecyAction.canAffect(player, context)) {
+                        activateProphecyAction.resolve(player, context);
+                    }
+                }
+                break;
+            case 'deactivateProphecy':
+                if (game.manualMode && card.isProphecy()) {
+                    let deactivateProphecyAction = new DeactivateProphecyAction({
+                        prophecyCard: card
+                    });
+                    let context = game.getFrameworkContext(player);
+                    context.source = card;
+                    if (deactivateProphecyAction.canAffect(player, context)) {
+                        deactivateProphecyAction.resolve(player, context);
+                    }
+                }
+                break;
+            case 'fulfillProphecy':
+                if (game.manualMode && card.isProphecy()) {
+                    let fulfillProphecyAction = new FulfillProphecyAction({ card: card });
+                    let context = game.getFrameworkContext(player);
+                    context.source = card;
+                    // The fulfill prophecy action targets the active player (opponent)
+                    if (fulfillProphecyAction.canAffect(game.activePlayer, context)) {
+                        fulfillProphecyAction.resolve(game.activePlayer, context);
+                    }
+                }
+                break;
             case 'exhaust':
                 if (card.exhausted) {
                     game.addAlert('danger', '{0} readies {1}', player, card);
