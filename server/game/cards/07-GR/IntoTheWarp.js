@@ -20,7 +20,9 @@ class IntoTheWarp extends Card {
                     condition: (context) =>
                         !!context.player.opponent && context.player.opponent.deck.length > 0,
                     trueGameAction: ability.actions.discard((context) => ({
-                        target: context.player.opponent.deck[0]
+                        target: context.player.opponent
+                            ? context.player.opponent.deck[0]
+                            : undefined
                     }))
                 })
             ],

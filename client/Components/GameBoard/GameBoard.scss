@@ -273,6 +273,25 @@
     height: 50%;
 }
 
+// Ensure prompt never goes off screen
+.right-side {
+    .prompt-area {
+        max-height: 100vh;
+        overflow-y: auto;
+        overflow-x: hidden;
+
+        .inset-pane {
+            position: sticky;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.95);
+            border-radius: 4px;
+            margin: 2px;
+            z-index: $layer-prompt + 1;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.3);
+        }
+    }
+}
+
 // Responsive: shrink prophecy cards and grid on short screens
 @media (max-height: 975px) {
     .right-side-top {
