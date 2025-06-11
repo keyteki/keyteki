@@ -7,6 +7,7 @@ import { withTranslation, Trans } from 'react-i18next';
 
 import ActivePlayerPrompt from './ActivePlayerPrompt';
 import CardBack from '../Decks/CardBack';
+import CardMenu from './CardMenu';
 import CardZoom from './CardZoom';
 import { Constants } from '../../constants';
 import GameChat from './GameChat';
@@ -56,6 +57,7 @@ export class GameBoard extends React.Component {
         this.onMuteClick = this.onMuteClick.bind(this);
         this.onClickTide = this.onClickTide.bind(this);
         this.onClickProphecy = this.onClickProphecy.bind(this);
+        this.onProphecyMenuItemClick = this.onProphecyMenuItemClick.bind(this);
 
         this.state = {
             cardToZoom: null,
@@ -64,7 +66,8 @@ export class GameBoard extends React.Component {
             showMessages: true,
             lastMessageCount: 0,
             newMessages: 0,
-            showModal: false
+            showModal: false,
+            showProphecyMenu: null // UUID of prophecy card whose menu is shown
         };
     }
 
@@ -144,6 +147,11 @@ export class GameBoard extends React.Component {
 
     onMenuItemClick(card, menuItem) {
         this.props.sendGameMessage('menuItemClick', card.uuid, menuItem);
+    }
+
+    onProphecyMenuItemClick(card, menuItem) {
+        this.props.sendGameMessage('menuItemClick', card.uuid, menuItem);
+        this.setState({ showProphecyMenu: null });
     }
 
     onOptionSettingToggle(option, value) {
@@ -289,12 +297,14 @@ export class GameBoard extends React.Component {
 
                                 // Only the prophecy controller can click prophecies
                                 const isController = player.name === this.props.user.username;
-                                const isClickable = isController && card.canActivateProphecy;
+                                const isClickable =
+                                    isController &&
+                                    (card.canActivateProphecy || this.props.currentGame.manualMode);
                                 const isActive = card.activeProphecy;
                                 const className = `img-fluid normal reference-card prophecy-card ${
                                     isActive ? 'active' : 'inactive'
                                 } ${isClickable ? 'clickable' : ''} ${
-                                    isClickable ? 'can-activate' : ''
+                                    !isActive && card.canActivateProphecy ? 'can-activate' : ''
                                 }`;
 
                                 return (
@@ -306,7 +316,26 @@ export class GameBoard extends React.Component {
                                                 card.selectable
                                                     ? () => this.onCardClick(card)
                                                     : isClickable
-                                                    ? () => this.onClickProphecy(card)
+                                                    ? () => {
+                                                          if (
+                                                              this.props.currentGame.manualMode &&
+                                                              card.menu &&
+                                                              card.menu.length > 0
+                                                          ) {
+                                                              // In manual mode, show menu if available
+                                                              this.setState({
+                                                                  showProphecyMenu:
+                                                                      this.state
+                                                                          .showProphecyMenu ===
+                                                                      card.uuid
+                                                                          ? null
+                                                                          : card.uuid
+                                                              });
+                                                          } else {
+                                                              // Fallback to old prophecy click behavior
+                                                              this.onClickProphecy(card);
+                                                          }
+                                                      }
                                                     : undefined
                                             }
                                             onMouseOver={() => {
@@ -327,6 +356,21 @@ export class GameBoard extends React.Component {
                                                     : this.props.t(`${card.name}`)
                                             }
                                         />
+
+                                        {/* Render prophecy menu if shown */}
+                                        {this.state.showProphecyMenu === card.uuid &&
+                                            card.menu &&
+                                            card.menu.length > 0 && (
+                                                <CardMenu
+                                                    menu={card.menu}
+                                                    onMenuItemClick={(menuItem) => {
+                                                        this.onProphecyMenuItemClick(
+                                                            card,
+                                                            menuItem
+                                                        );
+                                                    }}
+                                                />
+                                            )}
 
                                         {/* Render child cards directly under this prophecy */}
                                         {isActive &&

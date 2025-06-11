@@ -796,6 +796,28 @@ class Card extends EffectSource {
     getMenu() {
         var menu = [];
 
+        // Special handling for prophecy cards in manual mode
+        if (this.isProphecy() && this.game.manualMode) {
+            menu.push({ command: 'click', text: 'Select Card', menu: 'main' });
+
+            if (!this.activeProphecy) {
+                // Inactive prophecy: show "Activate" option
+                if (this.controller.canActivateProphecy(this)) {
+                    menu.push({ command: 'activateProphecy', text: 'Activate', menu: 'main' });
+                }
+            } else {
+                // Active prophecy: show "Deactivate" option
+                menu.push({ command: 'deactivateProphecy', text: 'Deactivate', menu: 'main' });
+
+                // If active and opponent is active player, show "Trigger" option
+                if (this.game.activePlayer !== this.controller) {
+                    menu.push({ command: 'fulfillProphecy', text: 'Trigger', menu: 'main' });
+                }
+            }
+
+            return menu;
+        }
+
         if (!this.menu.length || !this.game.manualMode || this.location !== 'play area') {
             return undefined;
         }

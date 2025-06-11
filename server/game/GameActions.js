@@ -163,6 +163,8 @@ const Actions = {
     sequentialMakeTokenCreature: (propertyFactory) =>
         new GameActions.SequentialMakeTokenCreatureAction(propertyFactory),
     activateProphecy: (propertyFactory) => new GameActions.ActivateProphecyAction(propertyFactory),
+    deactivateProphecy: (propertyFactory) =>
+        new GameActions.DeactivateProphecyAction(propertyFactory),
     fulfillProphecy: (propertyFactory) => new GameActions.FulfillProphecyAction(propertyFactory),
     flipProphecy: (propertyFactory) => new GameActions.FlipProphecyAction(propertyFactory),
     resolveFate: (propertyFactory) => new GameActions.ResolveFateAction(propertyFactory)

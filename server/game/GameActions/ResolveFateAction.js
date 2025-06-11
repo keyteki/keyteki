@@ -8,7 +8,9 @@ class ResolveFateAction extends CardGameAction {
     }
 
     getEvent(card, context) {
-        let fateEvent = super.createEvent('onFate', { card: card, context: context }, () => {});
+        let fateEvent = super.createEvent('onFate', { card: card, context: context }, () => {
+            context.game.addMessage('{0} resolves the fate effect of {1}', context.player, card);
+        });
 
         fateEvent.addChildEvent(
             context.game.actions
