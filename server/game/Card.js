@@ -632,7 +632,9 @@ class Card extends EffectSource {
         if (!this.enhancements) {
             return [];
         }
-        return this.enhancements.filter((e) => Constants.Houses.includes(e.toLowerCase()));
+        return this.enhancements
+            .map((e) => e.replace(' ', '')) // e.g. "star alliance" -> "staralliance"
+            .filter((e) => Constants.Houses.includes(e.toLowerCase()));
     }
 
     getHouses() {
