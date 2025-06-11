@@ -15,7 +15,7 @@ class Antanagoge extends Card {
         });
 
         this.reap({
-            effect: 'deal damage to each enemy creature equal to the power of {0}',
+            effect: 'deal damage to each creature equal to the power of {0}',
             condition: (context) =>
                 context.source.childCards.filter((card) => card.location === 'grafted').length > 0,
             target: {
@@ -24,7 +24,7 @@ class Antanagoge extends Card {
                     card.type === 'creature' && card.parent === context.source,
                 gameAction: ability.actions.dealDamage((context) => ({
                     amount: context.target.power,
-                    target: context.player.opponent ? context.player.opponent.creaturesInPlay : []
+                    target: context.game.creaturesInPlay
                 }))
             }
         });

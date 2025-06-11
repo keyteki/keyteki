@@ -49,7 +49,8 @@ describe('Antanagoge', function () {
                 expect(this.troll.tokens.damage).toBe(3);
                 expect(this.bumpsy.tokens.damage).toBe(3);
                 expect(this.daughter.tokens.damage).toBeUndefined();
-                expect(this.antanagoge.tokens.damage).toBeUndefined();
+                expect(this.daughter.location).toBe('discard');
+                expect(this.antanagoge.tokens.damage).toBe(1);
                 expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
             });
 
@@ -88,8 +89,8 @@ describe('Antanagoge', function () {
                 expect(this.player1).not.toBeAbleToSelect(this.antanagoge);
                 this.player1.clickCard(this.troll);
                 expect(this.bumpsy.location).toBe('discard');
-                expect(this.daughter.location).toBe('play area');
-                expect(this.antanagoge.location).toBe('play area');
+                expect(this.daughter.location).toBe('discard');
+                expect(this.antanagoge.location).toBe('discard');
                 expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
             });
         });
