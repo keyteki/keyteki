@@ -10,7 +10,9 @@ class TradeBlows extends Card {
                 gameAction: ability.actions.dealDamage({ amount: 1 })
             },
             then: (preThenContext) => ({
-                condition: () => preThenContext.target.location === 'play area',
+                alwaysTriggers: true,
+                condition: () =>
+                    preThenContext.target && preThenContext.target.location === 'play area',
                 target: {
                     optional: true,
                     cardType: 'creature',
