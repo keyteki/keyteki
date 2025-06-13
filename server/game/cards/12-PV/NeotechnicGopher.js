@@ -14,7 +14,7 @@ class NeotechnicGopher extends Card {
             },
             effect: 'discard {1}{2}',
             effectArgs: (context) => [
-                context.target.name,
+                context.target ? context.target.name : 'nothing',
                 context.player.hand.length <= 1 ? ' and gain 1 amber' : ''
             ],
             then: {
