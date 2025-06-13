@@ -5,6 +5,8 @@ class CosmicRecompense extends Card {
     // Fate: You cannot play, use, or discard cards for the remainder of the turn.
     setupCardAbilities(ability) {
         this.play({
+            condition: (context) =>
+                context.player.opponent && context.player.opponent.creaturesInPlay.length > 0,
             target: {
                 cardType: 'creature',
                 controller: 'opponent',
@@ -12,7 +14,11 @@ class CosmicRecompense extends Card {
                     ability.actions.dealDamage({ amount: 3 }),
                     ability.actions.steal((context) => ({
                         target: context.player.opponent,
-                        amount: context.target.location === 'play area' ? 1 : 0
+                        amount: context.target
+                            ? context.target.location === 'play area'
+                                ? 1
+                                : 0
+                            : 0
                     }))
                 ])
             },
@@ -27,7 +33,11 @@ class CosmicRecompense extends Card {
                         ability.actions.dealDamage({ amount: 3 }),
                         ability.actions.steal((context) => ({
                             target: context.player.opponent,
-                            amount: context.target.location === 'play area' ? 1 : 0
+                            amount: context.target
+                                ? context.target.location === 'play area'
+                                    ? 1
+                                    : 0
+                                : 0
                         }))
                     ])
                 },
