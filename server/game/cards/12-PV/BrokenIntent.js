@@ -10,17 +10,13 @@ class BrokenIntent extends Card {
                 action: {
                     mode: 'select',
                     choices: {
-                        'Discard archives': () => true,
+                        'Discard archives': ability.actions.discard((context) => ({
+                            target: context.player.archives.concat(
+                                context.player.opponent ? context.player.opponent.archives : []
+                            )
+                        })),
                         'Purge action': () => true
                     }
-                },
-                'Discard archives': {
-                    dependsOn: 'action',
-                    gameAction: ability.actions.discard((context) => ({
-                        target: context.player.archives.concat(
-                            context.player.opponent ? context.player.opponent.archives : []
-                        )
-                    }))
                 },
                 'Purge action': {
                     dependsOn: 'action',

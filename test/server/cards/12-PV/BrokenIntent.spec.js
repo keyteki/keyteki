@@ -29,6 +29,17 @@ describe('Broken Intent', function () {
             expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
         });
 
+        it('should allow discarding just opponent archives', function () {
+            this.player1.player.archives = [];
+            this.player1.play(this.brokenIntent);
+            this.player1.clickPrompt('Discard archives');
+            expect(this.player1.player.archives.length).toBe(0);
+            expect(this.player2.player.archives.length).toBe(0);
+            expect(this.flaxia.location).toBe('discard');
+            expect(this.searine.location).toBe('discard');
+            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+        });
+
         it('should allow purging an action card from discard', function () {
             this.player1.play(this.brokenIntent);
             this.player1.clickPrompt('Purge action');
