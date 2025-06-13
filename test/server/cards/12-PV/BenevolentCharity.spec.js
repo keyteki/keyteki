@@ -32,6 +32,8 @@ describe('Benevolent Charity', function () {
             expect(this.emberImp.amber).toBe(0);
             expect(this.yurk.amber).toBe(0);
             expect(this.searine.amber).toBe(1);
+            expect(this.player1.amber).toBe(2);
+            expect(this.player2.amber).toBe(4);
             expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
         });
 

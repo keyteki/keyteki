@@ -6,7 +6,7 @@ class BenevolentCharity extends Card {
     // Fate: Each enemy creature with A on it captures 1.
     setupCardAbilities(ability) {
         this.play({
-            gameAction: ability.actions.returnAmber((context) => ({
+            gameAction: ability.actions.removeAmber((context) => ({
                 target: context.player.creaturesInPlay,
                 all: true
             }))
