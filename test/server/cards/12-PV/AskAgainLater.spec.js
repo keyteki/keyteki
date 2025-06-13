@@ -10,12 +10,13 @@ describe('Ask Again Later', function () {
                         'bad-omen',
                         'heads-i-win'
                     ],
-                    hand: ['ember-imp', 'parasitic-arachnoid'],
-                    discard: ['ancient-bear', 'ember-imp', 'krump']
+                    hand: ['parasitic-arachnoid', 'gleaming-the-cube'],
+                    discard: ['medic-ingram', 'krump']
                 },
                 player2: {
                     amber: 4,
-                    inPlay: ['troll', 'urchin']
+                    inPlay: ['troll', 'urchin'],
+                    discard: ['nerve-blast']
                 }
             });
         });
@@ -24,13 +25,27 @@ describe('Ask Again Later', function () {
             this.player1.activateProphecy(this.askAgainLater, this.parasiticArachnoid);
             this.player1.endTurn();
             this.player2.clickPrompt('brobnar');
-            this.player1.moveCard(this.ancientBear, 'deck');
+            this.player1.moveCard(this.medicIngram, 'deck');
             this.player2.clickPrompt('dis');
             this.player2.clickCard(this.troll);
             expect(this.player2.amber).toBe(2);
             expect(this.troll.amber).toBe(2);
-            expect(this.ancientBear.location).toBe('deck');
+            expect(this.medicIngram.location).toBe('deck');
             expect(this.parasiticArachnoid.location).toBe('discard');
+            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+        });
+
+        it('should allow fate to change house on fulfillment', function () {
+            this.player1.activateProphecy(this.askAgainLater, this.gleamingTheCube);
+            this.player1.endTurn();
+            this.player2.moveCard(this.nerveBlast, 'deck');
+            this.player2.clickPrompt('brobnar');
+            this.player1.moveCard(this.medicIngram, 'deck');
+            this.player2.clickPrompt('dis');
+            expect(this.nerveBlast.location).toBe('discard');
+            this.player2.reap(this.urchin);
+            expect(this.player2.amber).toBe(5);
+            expect(this.gleamingTheCube.location).toBe('discard');
             expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
         });
 
@@ -38,9 +53,9 @@ describe('Ask Again Later', function () {
             this.player1.activateProphecy(this.askAgainLater, this.parasiticArachnoid);
             this.player1.endTurn();
             this.player2.clickPrompt('brobnar');
-            this.player1.moveCard(this.ancientBear, 'deck');
-            this.player2.clickPrompt('untamed');
-            expect(this.ancientBear.location).toBe('deck');
+            this.player1.moveCard(this.medicIngram, 'deck');
+            this.player2.clickPrompt('staralliance');
+            expect(this.medicIngram.location).toBe('deck');
             expect(this.parasiticArachnoid.location).toBe('under');
             expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
         });
@@ -50,7 +65,7 @@ describe('Ask Again Later', function () {
             this.player1.endTurn();
             this.player2.clickPrompt('brobnar');
             expect(this.player2).toHavePromptButton('dis');
-            expect(this.player2).toHavePromptButton('untamed');
+            expect(this.player2).toHavePromptButton('staralliance');
             expect(this.player2).toHavePromptButton('brobnar');
             expect(this.player2).not.toHavePromptButton('logos');
             expect(this.player2).not.toHavePromptButton('shadows');
