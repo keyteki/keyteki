@@ -23,6 +23,7 @@ class BanditCulver extends Card {
         if (
             event.card.controller === this.controller &&
             event.card.hasHouse('shadows') &&
+            event.location === 'hand' &&
             this.shadowsCardDiscarded === undefined
         ) {
             this.shadowsCardDiscarded = event.card;

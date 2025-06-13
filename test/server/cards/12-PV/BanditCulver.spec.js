@@ -5,7 +5,8 @@ describe('Bandit Culver', function () {
                 player1: {
                     house: 'shadows',
                     inPlay: ['bandit-culver'],
-                    hand: ['urchin', 'umbra', 'duskwitch'],
+                    hand: ['urchin', 'umbra', 'duskwitch', 'ransack'],
+                    discard: ['mooncurser'],
                     amber: 1
                 },
                 player2: {
@@ -19,6 +20,15 @@ describe('Bandit Culver', function () {
             this.player1.scrap(this.urchin);
             expect(this.player1.amber).toBe(2);
             expect(this.player2.amber).toBe(2);
+            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+        });
+
+        it('should not steal 1 amber when discarding from deck', function () {
+            this.player1.moveCard(this.duskwitch, 'deck');
+            this.player1.moveCard(this.mooncurser, 'deck');
+            this.player1.play(this.ransack);
+            expect(this.player1.amber).toBe(3); // only steal 2 from ransack
+            expect(this.player2.amber).toBe(1);
             expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
         });
 
