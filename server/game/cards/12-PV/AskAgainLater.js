@@ -3,7 +3,7 @@ const Card = require('../../Card.js');
 class AskAgainLater extends Card {
     // Each time your opponent chooses their active house, they must name a house on your identity card. Reveal the top card of your deck. If the revealed card does not match the named house, fulfill Ask Again Later.
     setupCardAbilities(ability) {
-        this.prophecyInterrupt({
+        this.prophecyReaction({
             when: {
                 onChooseActiveHouse: () => true
             },
