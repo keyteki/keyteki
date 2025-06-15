@@ -20,6 +20,13 @@ describe('Pied Viper', function () {
             this.player2.clickPrompt('Left');
             expect(this.ancientBear.controller).toBe(this.player1.player);
             expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            this.player2.endTurn();
+            this.player1.clickPrompt('untamed');
+            expect(this.ancientBear.controller).toBe(this.player1.player);
+            this.player1.endTurn();
+            this.player2.clickPrompt('untamed');
+            expect(this.ancientBear.controller).toBe(this.player1.player);
+            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
         });
 
         it('should not gain control when there are not more enemy creatures', function () {
