@@ -5,7 +5,7 @@ describe('Poised Strike', function () {
                 player1: {
                     house: 'dis',
                     hand: ['poised-strike'],
-                    inPlay: ['ember-imp'],
+                    inPlay: ['ember-imp', 'searine'],
                     prophecies: [
                         'overreach',
                         'forge-ahead-with-confidence',
@@ -20,20 +20,24 @@ describe('Poised Strike', function () {
             });
         });
 
-        it('when used to reap it should destroy the creature', function () {
+        it('should not destroy the creature when it is used without readying', function () {
             this.player1.playUpgrade(this.poisedStrike, this.emberImp);
             this.player1.reap(this.emberImp);
-            expect(this.emberImp.location).toBe('discard');
-            expect(this.poisedStrike.location).toBe('discard');
+            expect(this.emberImp.location).toBe('play area');
+            expect(this.poisedStrike.location).toBe('play area');
             expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
         });
 
-        it('when used to fight it should destroy the creature', function () {
+        it('should destroy the creature when it readies at start of turn', function () {
             this.player1.playUpgrade(this.poisedStrike, this.emberImp);
-            this.player1.fightWith(this.emberImp, this.krump);
+            this.player1.reap(this.emberImp); // Use the creature to exhaust it
+            expect(this.emberImp.exhausted).toBe(true);
+            expect(this.emberImp.location).toBe('play area');
+            this.player1.reap(this.searine);
+            this.player1.endTurn();
             expect(this.emberImp.location).toBe('discard');
+            expect(this.searine.location).toBe('play area');
             expect(this.poisedStrike.location).toBe('discard');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
         });
 
         it('when fate is activated it should skip the ready cards step', function () {
