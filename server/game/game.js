@@ -1395,8 +1395,7 @@ class Game extends EventEmitter {
             this.cardsDiscardedThisPhase.length === 0 &&
             this.cardsUsedThisPhase.length === 0 &&
             this.cardsPlayedThisPhase.length === 0 &&
-            this.effectsUsedThisPhase.length === 0 &&
-            this.propheciesActivatedThisPhase.length === 0
+            this.effectsUsedThisPhase.length === 0
         );
     }
 
