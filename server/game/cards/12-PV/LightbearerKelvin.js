@@ -23,16 +23,18 @@ class LightbearerKelvin extends Card {
             })),
             then: {
                 condition: (context) => {
-                    const card = context.preThenEvent.card;
+                    const card = context.preThenEvent ? context.preThenEvent.card : null;
                     return card && card.type === 'creature';
                 },
                 alwaysTriggers: true,
                 gameAction: ability.actions.putIntoPlay((context) => ({
                     myControl: true,
-                    target: context.preThenEvent.card
+                    target: context.preThenEvent ? context.preThenEvent.card : null
                 })),
                 message: '{0} uses {1} to put {3} into play under their control',
-                messageArgs: (context) => [context.preThenEvent.card]
+                messageArgs: (context) => [
+                    context.preThenEvent ? context.preThenEvent.card : 'nothing'
+                ]
             }
         });
     }
