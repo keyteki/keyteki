@@ -5,8 +5,9 @@ class SirJaune extends Card {
     // Fate: Lose one third of your (rounded down).
     setupCardAbilities(ability) {
         this.play({
+            condition: (context) => context.player.opponent && context.player.opponent.amber > 0,
             gameAction: ability.actions.capture((context) => ({
-                amount: Math.floor(context.player.opponent.amber / 3)
+                amount: Math.floor(context.player.opponent ? context.player.opponent.amber / 3 : 0)
             }))
         });
 
