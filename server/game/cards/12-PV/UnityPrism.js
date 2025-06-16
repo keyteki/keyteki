@@ -21,7 +21,8 @@ class UnityPrism extends Card {
         });
 
         this.scrap({
-            effect: 'reveal their hand and gain 1 amber for each house represented in it',
+            effect: 'reveal their hand ({1}) and gain 1 amber for each house represented in it',
+            effectArgs: (context) => [context.player.hand],
             gameAction: ability.actions.gainAmber((context) => ({
                 amount: context.game.getHousesInPlay(context.player.hand).length
             }))
