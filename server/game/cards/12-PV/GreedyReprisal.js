@@ -5,9 +5,11 @@ class GreedyReprisal extends Card {
     // Fate: Deal 2 to a friendly creature for each point of armor on enemy creatures.
     setupCardAbilities(ability) {
         this.play({
+            condition: (context) => context.player.opponent && context.player.opponent.amber > 0,
             target: {
                 mode: 'exactly',
-                numCards: (context) => context.player.opponent.amber,
+                numCards: (context) =>
+                    context.player.opponent ? context.player.opponent.amber : 0,
                 cardType: 'creature',
                 gameAction: ability.actions.destroy()
             }
