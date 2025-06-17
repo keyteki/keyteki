@@ -33,6 +33,8 @@ const Actions = {
     addWisdomCounter: (propertyFactory) =>
         new GameActions.AddTokenAction(propertyFactory, 'wisdom'),
     addYeaCounter: (propertyFactory) => new GameActions.AddTokenAction(propertyFactory, 'yea'),
+    addMutationCounter: (propertyFactory) =>
+        new GameActions.AddTokenAction(propertyFactory, 'mutation'),
     applyDamage: (propertyFactory) => new GameActions.ApplyDamageAction(propertyFactory),
     archive: (propertyFactory) => new GameActions.ArchiveAction(propertyFactory),
     attach: (propertyFactory) => new GameActions.AttachAction(propertyFactory), // upgrade
@@ -159,7 +161,13 @@ const Actions = {
     sequentialPutIntoPlay: (propertyFactory) =>
         new GameActions.SequentialPutIntoPlayAction(propertyFactory),
     sequentialMakeTokenCreature: (propertyFactory) =>
-        new GameActions.SequentialMakeTokenCreatureAction(propertyFactory)
+        new GameActions.SequentialMakeTokenCreatureAction(propertyFactory),
+    activateProphecy: (propertyFactory) => new GameActions.ActivateProphecyAction(propertyFactory),
+    deactivateProphecy: (propertyFactory) =>
+        new GameActions.DeactivateProphecyAction(propertyFactory),
+    fulfillProphecy: (propertyFactory) => new GameActions.FulfillProphecyAction(propertyFactory),
+    flipProphecy: (propertyFactory) => new GameActions.FlipProphecyAction(propertyFactory),
+    resolveFate: (propertyFactory) => new GameActions.ResolveFateAction(propertyFactory)
 };
 
 module.exports = Actions;

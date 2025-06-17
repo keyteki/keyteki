@@ -11,6 +11,7 @@ class CurseOfDisappearances extends Card {
             when: {
                 onRoundEnded: (_, context) => context.player === this.game.activePlayer
             },
+            condition: (context) => !!context.player.opponent,
             gameAction: ability.actions.archive((context) => ({
                 promptForSelect: {
                     activePromptTitle: 'Choose a creature to archive',

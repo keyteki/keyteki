@@ -51,7 +51,8 @@ class Deck {
     prepare(player) {
         const result = {
             houses: [],
-            cards: []
+            cards: [],
+            prophecyCards: []
         };
 
         result.houses = this.data.houses;
@@ -76,6 +77,16 @@ class Deck {
             result.tokenCard = this.createCard(player, tokenCard.card);
             result.tokenCard.setupAbilities();
         }
+
+        // Find up to 4 prophecy cards and set up their abilities.
+        const prophecyCards = this.data.cards.filter((c) => c.card && c.card.type === 'prophecy');
+        const prophecyCardsToSetup = prophecyCards.slice(0, 4);
+        prophecyCardsToSetup.forEach((card) => {
+            const prophecyCard = this.createCard(player, card.card);
+            prophecyCard.activeProphecy = false;
+            prophecyCard.setupAbilities();
+            result.prophecyCards.push(prophecyCard);
+        });
 
         return result;
     }

@@ -52,9 +52,18 @@ export const Constants = {
         { value: '855', label: 'ToC', tideRequired: false },
         { value: '874', label: 'MoMu', tideRequired: false },
         { value: '907', label: 'DISC', tideRequired: false },
-        { value: '939', label: 'VM2025', tideRequired: false }
+        { value: '939', label: 'VM2025', tideRequired: false },
+        { value: '886', label: 'PV', tideRequired: false }
     ],
-    CardTypes: ['action', 'artifact', 'creature', 'upgrade', 'token creature', 'the tide'],
+    CardTypes: [
+        'action',
+        'artifact',
+        'creature',
+        'upgrade',
+        'token creature',
+        'the tide',
+        'prophecy'
+    ],
     SetIconPaths: {},
     DeckIconPaths: {},
     HouseIconPaths: {},

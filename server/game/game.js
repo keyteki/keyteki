@@ -80,10 +80,12 @@ class Game extends EventEmitter {
         this.cardsPlayed = [];
         this.cardsDiscarded = [];
         this.effectsUsed = [];
+        this.propheciesActivated = [];
         this.cardsDiscardedThisPhase = [];
         this.cardsUsedThisPhase = [];
         this.cardsPlayedThisPhase = [];
         this.effectsUsedThisPhase = [];
+        this.propheciesActivatedThisPhase = [];
         this.activePlayer = null;
         this.firstPlayer = null;
         this.playedRoundsAfterTime = [];
@@ -260,7 +262,22 @@ class Game extends EventEmitter {
      * @returns Card
      */
     findAnyCardInAnyList(cardId) {
-        return this.allCards.find((card) => card.uuid === cardId);
+        // Search in regular cards and active prophecies
+        let card = this.allCards.concat(this.activeProphecies).find((card) => card.uuid === cardId);
+
+        // If not found, search in all prophecy cards (including inactive ones)
+        if (!card && this.manualMode) {
+            for (let player of this.getPlayers()) {
+                if (player.prophecyCards) {
+                    card = player.prophecyCards.find((card) => card.uuid === cardId);
+                    if (card) {
+                        break;
+                    }
+                }
+            }
+        }
+
+        return card;
     }
 
     /**
@@ -593,6 +610,16 @@ class Game extends EventEmitter {
         if (showMessage) {
             this.addMessage('{0} changed tide to {1}', player, Constants.Tide.toString(level));
         }
+    }
+
+    clickProphecy(playerName, prophecyCardId) {
+        let player = this.getPlayerByName(playerName);
+        let prophecyCard = player.prophecyCards.find((card) => card.uuid === prophecyCardId);
+        if (!player || !prophecyCard) {
+            return;
+        }
+
+        this.pipeline.handleProphecyClicked(player, prophecyCard);
     }
 
     modifyKey(playerName, color, forged) {
@@ -1331,6 +1358,13 @@ class Game extends EventEmitter {
         return this.getPlayers().reduce((array, player) => array.concat(player.cardsInPlay), []);
     }
 
+    get activeProphecies() {
+        return this.getPlayers().reduce(
+            (array, player) => array.concat(player.activeProphecies),
+            []
+        );
+    }
+
     get creaturesInPlay() {
         return this.cardsInPlay.filter((card) => card.type === 'creature');
     }
@@ -1370,6 +1404,7 @@ class Game extends EventEmitter {
         this.cardsDiscardedThisPhase = [];
         this.cardsPlayedThisPhase = [];
         this.cardsUsedThisPhase = [];
+        this.propheciesActivatedThisPhase = [];
     }
 
     effectUsed(card) {
@@ -1392,6 +1427,11 @@ class Game extends EventEmitter {
         this.cardsUsed.push(card);
         this.cardsUsedThisPhase.push(card);
         this.cardNamesPlayedOrUsed.push(card.name);
+    }
+
+    prophecyActivated(prophecyCard) {
+        this.propheciesActivated.push(prophecyCard);
+        this.propheciesActivatedThisPhase.push(prophecyCard);
     }
 
     continue() {

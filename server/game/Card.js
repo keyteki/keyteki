@@ -78,6 +78,7 @@ class Card extends EffectSource {
         this.stunned = false;
         this.moribund = false;
         this.isFighting = false;
+        this.activeProphecy = false;
 
         this.locale = cardData.locale;
 
@@ -148,6 +149,10 @@ class Card extends EffectSource {
         return this.game
             .getPlayers()
             .find((player) => player.tokenCard && player.tokenCard.name === this.name)?.tokenCard;
+    }
+
+    isProphecy() {
+        return this.type === 'prophecy';
     }
 
     get actions() {
@@ -420,6 +425,21 @@ class Card extends EffectSource {
         return this.reaction(Object.assign({ reap: true, name: 'Reap' }, properties));
     }
 
+    fate(properties) {
+        return this.interrupt(
+            Object.assign(
+                {
+                    when: {
+                        onFate: (event, context) => event.card === context.source
+                    },
+                    name: 'Fate',
+                    location: 'any'
+                },
+                properties
+            )
+        );
+    }
+
     scrap(properties) {
         return this.reaction(
             Object.assign(
@@ -515,6 +535,46 @@ class Card extends EffectSource {
         return this.triggeredAbility('interrupt', properties);
     }
 
+    prophecyReaction(properties) {
+        let originalWhen = properties.when;
+        if (typeof originalWhen === 'object') {
+            properties.when = Object.entries(originalWhen).reduce((newWhen, [key, condition]) => {
+                newWhen[key] = (event, context) => {
+                    return (
+                        condition(event, context) &&
+                        context.game.activePlayer !== this.controller &&
+                        this.childCards.length > 0 &&
+                        this.activeProphecy
+                    );
+                };
+                return newWhen;
+            }, {});
+        }
+
+        properties.location = 'any';
+        return this.triggeredAbility('reaction', properties);
+    }
+
+    prophecyInterrupt(properties) {
+        let originalWhen = properties.when;
+        if (typeof originalWhen === 'object') {
+            properties.when = Object.entries(originalWhen).reduce((newWhen, [key, condition]) => {
+                newWhen[key] = (event, context) => {
+                    return (
+                        condition(event, context) &&
+                        context.game.activePlayer !== this.controller &&
+                        this.childCards.length > 0 &&
+                        this.activeProphecy
+                    );
+                };
+                return newWhen;
+            }, {});
+        }
+
+        properties.location = 'any';
+        return this.triggeredAbility('interrupt', properties);
+    }
+
     /**
      * Applies an effect that continues as long as the card providing the effect
      * is both in play and not blank.
@@ -572,7 +632,9 @@ class Card extends EffectSource {
         if (!this.enhancements) {
             return [];
         }
-        return this.enhancements.filter((e) => Constants.Houses.includes(e.toLowerCase()));
+        return this.enhancements
+            .map((e) => e.replace(' ', '')) // e.g. "star alliance" -> "staralliance"
+            .filter((e) => Constants.Houses.includes(e.toLowerCase()));
     }
 
     getHouses() {
@@ -735,6 +797,28 @@ class Card extends EffectSource {
 
     getMenu() {
         var menu = [];
+
+        // Special handling for prophecy cards in manual mode
+        if (this.isProphecy() && this.game.manualMode) {
+            menu.push({ command: 'click', text: 'Select Card', menu: 'main' });
+
+            if (!this.activeProphecy) {
+                // Inactive prophecy: show "Activate" option
+                if (this.controller.canActivateProphecy(this)) {
+                    menu.push({ command: 'activateProphecy', text: 'Activate', menu: 'main' });
+                }
+            } else {
+                // Active prophecy: show "Deactivate" option
+                menu.push({ command: 'deactivateProphecy', text: 'Deactivate', menu: 'main' });
+
+                // If active and opponent is active player, show "Trigger" option
+                if (this.game.activePlayer !== this.controller) {
+                    menu.push({ command: 'fulfillProphecy', text: 'Trigger', menu: 'main' });
+                }
+            }
+
+            return menu;
+        }
 
         if (!this.menu.length || !this.game.manualMode || this.location !== 'play area') {
             return undefined;
@@ -1225,6 +1309,7 @@ class Card extends EffectSource {
         result.enhancements = this.enhancements;
         result.cardPrintedAmber = this.cardPrintedAmber;
         result.locale = this.locale;
+        result.activeProphecy = this.activeProphecy;
         return result;
     }
 
@@ -1287,7 +1372,10 @@ class Card extends EffectSource {
                 return upgrade.getSummary(activePlayer, hideWhenFaceup);
             }),
             uuid: this.uuid, // TODO - fix vulnerability with token cards
-            isToken: !!tokenCard
+            isToken: !!tokenCard,
+            activeProphecy: this.activeProphecy,
+            canActivateProphecy:
+                this.type === 'prophecy' ? this.controller.canActivateProphecy(this) : false
         };
 
         if (tokenCard && isController) {

@@ -27,6 +27,10 @@ class BaseStepWithPipeline extends BaseStep {
         return this.pipeline.handleTideClicked(player);
     }
 
+    onProphecyClicked(player, prophecyCard) {
+        return this.pipeline.handleProphecyClicked(player, prophecyCard);
+    }
+
     onMenuCommand(player, arg, uuid, method) {
         return this.pipeline.handleMenuCommand(player, arg, uuid, method);
     }
