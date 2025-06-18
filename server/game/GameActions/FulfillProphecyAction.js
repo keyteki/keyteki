@@ -37,6 +37,7 @@ class FulfillProphecyAction extends PlayerAction {
                 this.card.controller.deactivateProphecy(this.card);
                 if (this.card.childCards && this.card.childCards.length > 0) {
                     let childCard = this.card.childCards[0];
+                    childCard.facedown = false;
                     context.game.actions.resolveFate().resolve(childCard, context);
                 }
             }
