@@ -53,7 +53,8 @@ export const Constants = {
         { value: '874', label: 'MoMu', tideRequired: false },
         { value: '907', label: 'DISC', tideRequired: false },
         { value: '939', label: 'VM2025', tideRequired: false },
-        { value: '886', label: 'PV', tideRequired: false }
+        { value: '886', label: 'PV', tideRequired: false },
+        { value: '918', label: 'CC', tideRequired: false }
     ],
     CardTypes: [
         'action',
