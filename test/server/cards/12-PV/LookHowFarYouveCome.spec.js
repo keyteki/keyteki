@@ -15,7 +15,7 @@ describe("Look How Far You've Come", function () {
                 },
                 player2: {
                     amber: 4,
-                    hand: ['troll', 'gauntlet-of-command'],
+                    hand: ['troll', 'gauntlet-of-command', 'chota-hazri'],
                     inPlay: []
                 }
             });
@@ -25,7 +25,7 @@ describe("Look How Far You've Come", function () {
             this.player1.activateProphecy(this.lookHowFarYouVeCome, this.parasiticArachnoid);
             this.player1.endTurn();
             this.player2.clickPrompt('brobnar');
-            this.player2.play(this.troll);
+            this.player2.playCreature(this.troll);
             this.player2.clickCard(this.troll);
             expect(this.player2.amber).toBe(2);
             expect(this.troll.amber).toBe(2);
@@ -44,9 +44,27 @@ describe("Look How Far You've Come", function () {
 
         it('should not fulfill when you play a creature during your turn', function () {
             this.player1.activateProphecy(this.lookHowFarYouVeCome, this.parasiticArachnoid);
-            this.player1.play(this.emberImp);
+            this.player1.playCreature(this.emberImp);
             expect(this.parasiticArachnoid.location).toBe('under');
             expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+        });
+
+        it('should allow active player to choose order of play effect', function () {
+            this.player1.activateProphecy(this.lookHowFarYouVeCome, this.parasiticArachnoid);
+            this.player1.endTurn();
+            this.player2.amber = 8;
+            this.player2.clickPrompt('untamed');
+            this.player2.playCreature(this.chotaHazri);
+            expect(this.player2).toHavePromptCardButton(this.chotaHazri);
+            expect(this.player2).toHavePromptCardButton(this.lookHowFarYouVeCome);
+            this.player2.clickPrompt(this.chotaHazri.name);
+            this.player2.clickPrompt('Yes');
+            this.player2.forgeKey('red');
+            this.player2.clickCard(this.chotaHazri);
+            expect(this.player2.amber).toBe(0);
+            expect(this.chotaHazri.amber).toBe(1);
+            expect(this.parasiticArachnoid.location).toBe('discard');
+            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
         });
     });
 });
