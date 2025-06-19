@@ -6,15 +6,16 @@ class SoulLock extends Card {
     setupCardAbilities(ability) {
         this.persistentEffect({
             targetController: 'opponent',
-            effect: ability.effects.playerCannot('use', (context, effectContext) => {
+            effect: ability.effects.playerCannot('use', (context, effectContext, event) => {
                 if (
                     !effectContext.source.childCards ||
                     effectContext.source.childCards.length === 0
                 ) {
                     return false;
                 }
+                const source = event && event.card ? event.card : context.source;
                 return effectContext.source.childCards.some((child) =>
-                    child.getHouses().some((house) => context.source.hasHouse(house))
+                    child.getHouses().some((house) => source.hasHouse(house))
                 );
             })
         });
