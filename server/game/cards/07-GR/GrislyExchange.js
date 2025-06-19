@@ -5,8 +5,7 @@ class GrislyExchange extends Card {
     // the bottom of their deck. Discard the top 5 cards of your deck.
     setupCardAbilities(ability) {
         this.play({
-            effect:
-                "put the top 5 cards of {2}'s discard pile on the bottom of their deck, and discard the top 5 cards of {1}'s deck",
+            effect: "put the top 5 cards of {2}'s discard pile on the bottom of their deck, and discard the top 5 cards of {1}'s deck",
             effectArgs: (context) => [context.player, context.player.opponent],
             gameAction: [
                 ability.actions.conditional((context) => ({
