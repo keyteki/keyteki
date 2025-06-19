@@ -13,6 +13,7 @@ INSERT INTO public."Houses" ("Id", "Code", "Name") VALUES (12, 'geistoid', 'Geis
 INSERT INTO public."Houses" ("Id", "Code", "Name") VALUES (13, 'skyborn', 'Skyborn');
 INSERT INTO public."Houses" ("Id", "Code", "Name") VALUES (14, 'redemption', 'Redemption');
 -- Leave these last
+INSERT INTO public."Houses" ("Id", "Code", "Name") VALUES (997, 'archonpower', 'Archon Power');
 INSERT INTO public."Houses" ("Id", "Code", "Name") VALUES (998, 'prophecy', 'Prophecy');
 INSERT INTO public."Houses" ("Id", "Code", "Name") VALUES (999, 'thetide', 'The Tide');
 
@@ -39,6 +40,7 @@ INSERT INTO public."Expansions" ("Id", "ExpansionId", "Code", "Name") VALUES (14
 INSERT INTO public."Expansions" ("Id", "ExpansionId", "Code", "Name") VALUES (15, 907, 'DISC', 'Discovery');
 INSERT INTO public."Expansions" ("Id", "ExpansionId", "Code", "Name") VALUES (16, 939, 'VM2025', 'Vault Masters 2025');
 INSERT INTO public."Expansions" ("Id", "ExpansionId", "Code", "Name") VALUES (17, 886, 'PV', 'Prophetic Visions');
+INSERT INTO public."Expansions" ("Id", "ExpansionId", "Code", "Name") VALUES (18, 918, 'CC', 'Crucible Clash');
 
 --
 -- Name: Expansions_Id_seq; Type: SEQUENCE SET; Schema: public; Owner: keyteki
@@ -92,3 +94,5 @@ SELECT pg_catalog.setval('public."Users_Id_seq"', 11, true);
 INSERT INTO public."UserRoles" ("UserId", "RoleId") VALUES (1, 1);
 INSERT INTO public."UserRoles" ("UserId", "RoleId") VALUES (1, 6);
 INSERT INTO public."UserRoles" ("UserId", "RoleId") VALUES (1, 10);
+
+ALTER TABLE "DeckCards" ADD COLUMN "ProphecyId" INTEGER;
