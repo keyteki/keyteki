@@ -1,9 +1,9 @@
 const Card = require('../../Card.js');
 
 class Sample42C extends Card {
-    // Action: Move 1 amber from your opponent's pool to Sample 42-C.
-    // If there are 4 amber or more on Sample 42-C, forge a key at no cost. Purge Sample 42-C.
-    // Fate: The most powerful enemy creature captures half of your amber (rounding down).
+    // Action: Move 1A from your opponent’s pool to Sample 42-C.
+    // If there are 4A or more on Sample 42-C, forge a key at no cost and purge Sample 42-C.
+    // Fate: The most powerful enemy creature captures half of your A (rounding down).
     setupCardAbilities(ability) {
         this.action({
             condition: (context) => !!context.player.opponent,
