@@ -513,6 +513,8 @@
     "Chains": "枷锁",
     "Current Key Cost": "当前造钥匙费用",
     "Exhaust/Ready": "横置/重置",
+    "Ready creature": "重置生物",
+    "Exhaust creature": "横置生物",
     "Modify Tokens": "修改指示物",
     "Give control": "送给对方",
     "Back": "返回",
