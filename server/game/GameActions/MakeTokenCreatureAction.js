@@ -28,6 +28,17 @@ class MakeTokenCreatureAction extends CardGameAction {
         return player && player.tokenCard && super.canAffect(card, context);
     }
 
+    targetsCanChangeViaSimultaneousAction(context) {
+        const player = this.targetPlayer(context);
+        if (!player) {
+            return false;
+        }
+
+        // If any simultaneous action makes us refill the deck (e.g., via shuffling the discard pile),
+        // we need to allow the player to choose which ability to use first.
+        return true;
+    }
+
     getEvent(card, context) {
         return super.createEvent(
             'onMakeToken',
