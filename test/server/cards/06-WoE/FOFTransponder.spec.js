@@ -76,4 +76,58 @@ describe('FOF Transponder', function () {
             expect(this.player1.player.creaturesInPlay.length).toBe(0);
         });
     });
+
+    describe('FOF Transponder with prospector', function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    amber: 1,
+                    token: 'prospector',
+                    house: 'staralliance',
+                    inPlay: ['prospector:helmsman-spears'],
+                    hand: ['fof-transponder', 'particle-sweep'],
+                    discard: ['sensor-chief-garcia', 'cxo-taber']
+                },
+                player2: {
+                    inPlay: ['bumpsy']
+                }
+            });
+
+            this.helmsmanSpears = this.player1.player.creaturesInPlay[0];
+        });
+
+        it('should allow you to draw before making a token on an empty deck', function () {
+            this.player1.player.deck = [];
+            this.player1.playUpgrade(this.fofTransponder, this.helmsmanSpears);
+            this.player1.play(this.particleSweep);
+            this.player1.clickCard(this.helmsmanSpears);
+            this.player1.clickPrompt('Prospector');
+            expect(this.player1.player.deck.length).toBe(1);
+            this.player1.clickPrompt('Right');
+            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+        });
+
+        it('should allow you to try to make a token on an empty deck before drawing', function () {
+            this.player1.player.deck = [];
+            this.player1.playUpgrade(this.fofTransponder, this.helmsmanSpears);
+            this.player1.play(this.particleSweep);
+            this.player1.clickCard(this.helmsmanSpears);
+            this.player1.clickPrompt('FOF Transponder');
+            expect(this.player1.player.creaturesInPlay.length).toBe(0);
+            expect(this.helmsmanSpears.location).toBe('discard');
+            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+        });
+
+        it('should allow you to order even if no token can be made', function () {
+            this.player1.player.deck = [];
+            this.player1.player.discard = [];
+            this.player1.playUpgrade(this.fofTransponder, this.helmsmanSpears);
+            this.player1.play(this.particleSweep);
+            this.player1.clickCard(this.helmsmanSpears);
+            this.player1.clickPrompt('FOF Transponder');
+            expect(this.player1.player.creaturesInPlay.length).toBe(0);
+            expect(this.helmsmanSpears.location).toBe('discard');
+            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+        });
+    });
 });
