@@ -1,5 +1,4 @@
 const Card = require('../../Card.js');
-const _ = require('underscore');
 
 class Reiteration extends Card {
     // Play: Draw 2 cards. Put 2 cards from your hand on the bottom of your deck.
@@ -36,8 +35,9 @@ class Reiteration extends Card {
         });
 
         this.fate({
-            gameAction: ability.actions.discard((context) => ({
-                target: _.shuffle(context.game.activePlayer.hand).slice(0, 2)
+            gameAction: ability.actions.discardAtRandom((context) => ({
+                target: context.game.activePlayer,
+                amount: 2
             }))
         });
     }
