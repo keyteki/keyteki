@@ -11,7 +11,7 @@ describe('Wounds into Wisdom', function () {
                         'fate-laughs-at-your-plans'
                     ],
                     hand: ['parasitic-arachnoid'],
-                    inPlay: ['charette', 'xenos-bloodshadow']
+                    inPlay: ['charette', 'xenos-bloodshadow', 'brabble']
                 },
                 player2: {
                     amber: 4,
@@ -28,6 +28,18 @@ describe('Wounds into Wisdom', function () {
             this.player2.clickCard(this.troll);
             expect(this.player2.amber).toBe(2);
             expect(this.troll.amber).toBe(2);
+            expect(this.parasiticArachnoid.location).toBe('discard');
+            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+        });
+
+        it('should fulfill after destroyed effects', function () {
+            this.player1.activateProphecy(this.woundsIntoWisdom, this.parasiticArachnoid);
+            this.player1.endTurn();
+            this.player2.clickPrompt('brobnar');
+            this.player2.fightWith(this.troll, this.brabble);
+            this.player2.clickCard(this.troll);
+            expect(this.troll.amber).toBe(1); // player2 lost 3A, so only 1A left to capture
+            expect(this.player2.amber).toBe(0);
             expect(this.parasiticArachnoid.location).toBe('discard');
             expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
         });
