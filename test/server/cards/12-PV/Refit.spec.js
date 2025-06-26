@@ -14,7 +14,8 @@ describe('Refit', function () {
                     ]
                 },
                 player2: {
-                    inPlay: ['troll', 'brammo']
+                    inPlay: ['troll', 'brammo', 'gauntlet-of-command'],
+                    hand: ['animating-force']
                 }
             });
 
@@ -54,6 +55,22 @@ describe('Refit', function () {
             this.player2.clickCard(this.blastShielding);
             expect(this.blastShielding.location).toBe('discard');
             expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+        });
+
+        it('should work on Animating Force', function () {
+            this.player1.endTurn();
+            this.player2.clickPrompt('geistoid');
+            this.player2.playUpgrade(this.animatingForce, this.gauntletOfCommand);
+            this.player2.clickPrompt('Right');
+            this.player2.endTurn();
+            this.player1.clickPrompt('staralliance');
+            this.player1.play(this.refit);
+            expect(this.player1).toBeAbleToSelect(this.animatingForce);
+            this.player1.clickCard(this.animatingForce);
+            this.player1.clickCard(this.brammo);
+            expect(this.brammo.upgrades).toContain(this.animatingForce);
+            expect(this.player2.player.creaturesInPlay).toContain(this.gauntletOfCommand); // still a creature
+            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
         });
     });
 });
