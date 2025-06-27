@@ -58,4 +58,29 @@ describe('De-Doss', function () {
             expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
         });
     });
+
+    describe("De-Doss's ability vs upgrade creatures", function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'logos',
+                    hand: ['de-doss'],
+                    inPlay: ['daughter']
+                },
+                player2: {
+                    hand: ['shield-u-later'],
+                    inPlay: ['cxo-taber']
+                }
+            });
+        });
+
+        it('should not prevent opponent from playing creatures as upgrades', function () {
+            this.player1.playUpgrade(this.deDoss, this.daughter);
+            this.player1.endTurn();
+            this.player2.clickPrompt('staralliance');
+            this.player2.playUpgrade(this.shieldULater, this.cxoTaber);
+            expect(this.cxoTaber.upgrades).toContain(this.shieldULater);
+            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+        });
+    });
 });
