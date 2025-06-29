@@ -514,6 +514,8 @@
     "Chains": "체인",
     "Current Key Cost": "현재 열쇠 제작 비용",
     "Exhaust/Ready": "소진/준비",
+    "Ready creature": "준비 생명체",
+    "Exhaust creature": "소진 생명체",
     "Modify Tokens": "토큰들을 수정합니다",
     "Give control": "컨트롤을 준다",
     "Back": "돌아가기",
