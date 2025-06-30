@@ -15,7 +15,7 @@ class NamelsConfession extends Card {
                     context.preThenEvents &&
                     context.preThenEvents.every((event) => !event.cancelled),
                 gameAction: ability.actions.gainAmber((context) => ({
-                    amount: Math.floor(context.preThenEvents[0].clone.power / 2)
+                    amount: Math.floor(context.preThenEvents[0].clone.modifiedPower / 2)
                 }))
             }
         });
