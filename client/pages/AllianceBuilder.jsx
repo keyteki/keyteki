@@ -40,15 +40,18 @@ const AllianceBuilderPage = () => {
     const [selectedPods, setSelectedPods] = useState([]);
     const [deckName, setDeckName] = useState();
     const [selectedToken, setSelectedToken] = useState();
+    const [selectedProphecyDeck, setSelectedProphecyDeck] = useState();
     let [zoomCard, setZoomCard] = useState(null);
     let [mousePos, setMousePosition] = useState({ x: 0, y: 0 });
 
     const renderToken = (deck) => {
-        if (!deck.cards.some((d) => d.isNonDeck && d.id !== 'the-tide')) {
+        // Only render non-deck token creatures, not prophecy cards
+        const tokenCard = deck.cards.find(
+            (d) => d.isNonDeck && d.card && d.card.type === 'token creature' && d.id !== 'the-tide'
+        );
+        if (!tokenCard) {
             return null;
         }
-
-        let tokenCard = deck.cards.find((d) => d.isNonDeck);
         return (
             <div className='mt-2'>
                 <div
@@ -57,11 +60,9 @@ const AllianceBuilderPage = () => {
                     onMouseMove={(event) => {
                         let y = event.clientY;
                         let yPlusHeight = y + 420;
-
                         if (yPlusHeight >= window.innerHeight) {
                             y -= yPlusHeight - window.innerHeight;
                         }
-
                         setMousePosition({ x: event.clientX, y: y });
                     }}
                     onMouseOut={() => setZoomCard(null)}
@@ -77,11 +78,24 @@ const AllianceBuilderPage = () => {
 
     const isSaveDisabled = () => {
         const selectedDecks = selectedPods.map((key) => decksByUuid[key.split(':')[0]]);
+        // Only require a token if a non-deck token creature is present (not a prophecy)
         const needsToken = selectedDecks.some((d) =>
-            d.cards.some((c) => c.isNonDeck && c.id !== 'the-tide')
+            d.cards.some(
+                (c) =>
+                    c.isNonDeck && c.card && c.card.type === 'token creature' && c.id !== 'the-tide'
+            )
         );
-
-        return selectedPods.length !== 3 || !deckName || (needsToken && !selectedToken);
+        // Check if any selected deck has prophecy cards
+        const hasProphecyCards = selectedDecks.some((d) =>
+            d.cards.some((c) => (c.card && c.card.type === 'prophecy') || c.prophecyId)
+        );
+        const needsProphecyDeck = hasProphecyCards && !selectedProphecyDeck;
+        return (
+            selectedPods.length !== 3 ||
+            !deckName ||
+            (needsToken && !selectedToken) ||
+            needsProphecyDeck
+        );
     };
 
     useEffect(() => {
@@ -119,53 +133,88 @@ const AllianceBuilderPage = () => {
     } else if (!decks || decks.length === 0) {
         decksList = <AlertPanel type='info'>There are no decks from this set.</AlertPanel>;
     } else {
-        decksList = decks.map((d) => (
-            <div
-                className='mt-2 alliance-deck d-flex flex-column p-2'
-                key={d.id}
-                onMouseOver={() => setCurrentDeck(d)}
-                onMouseOut={() => setCurrentDeck(undefined)}
-            >
-                <span>{d.name}</span>
-                <div className='mt-2'>
-                    {d.houses.sort().map((h) => {
-                        let selection = [...selectedPods];
-                        let selectionKey = `${d.uuid}:${h}`;
-
-                        let imgClass = 'alliance-house';
-                        if (selection.includes(selectionKey)) {
-                            imgClass += ' selected';
-                        }
-
-                        return (
-                            <img
-                                className={imgClass}
-                                key={h}
-                                src={Constants.HouseIconPaths[h]}
-                                onClick={() => {
-                                    if (
-                                        (selection.some((s) => s.includes(h)) ||
-                                            selection.length === 3) &&
-                                        !selection.includes(selectionKey)
-                                    ) {
-                                        return;
-                                    }
-
-                                    if (selection.includes(selectionKey)) {
-                                        selection = selection.filter((s) => s !== selectionKey);
-                                    } else {
-                                        selection.push(selectionKey);
-                                    }
-
-                                    setSelectedPods(selection);
-                                }}
-                            />
-                        );
-                    })}
+        decksList = decks.map((d) => {
+            // Find prophecy cards for this deck
+            const prophecyCards = d.cards.filter(
+                (c) => (c.card && c.card.type === 'prophecy') || c.prophecyId
+            );
+            const hasProphecies = prophecyCards.length > 0;
+            const isSelectedAsProphecy = selectedProphecyDeck === d.uuid;
+            // Truncate prophecy names for display
+            const prophecyNames = prophecyCards.map((c) =>
+                c.card && c.card.name ? c.card.name : c.name || 'Unknown Prophecy'
+            );
+            const prophecyText = prophecyNames.join(', ');
+            const truncatedText =
+                prophecyText.length > 40 ? prophecyText.substring(0, 37) + '...' : prophecyText;
+            return (
+                <div
+                    className='mt-2 alliance-deck d-flex flex-column p-2'
+                    key={d.id}
+                    onMouseOver={() => setCurrentDeck(d)}
+                    onMouseOut={() => setCurrentDeck(undefined)}
+                >
+                    <span>{d.name}</span>
+                    <div className='mt-2 d-flex align-items-center'>
+                        {d.houses.sort().map((h) => {
+                            let selection = [...selectedPods];
+                            let selectionKey = `${d.uuid}:${h}`;
+                            let imgClass = 'alliance-house';
+                            if (selection.includes(selectionKey)) {
+                                imgClass += ' selected';
+                            }
+                            return (
+                                <img
+                                    className={imgClass}
+                                    key={h}
+                                    src={Constants.HouseIconPaths[h]}
+                                    onClick={() => {
+                                        if (
+                                            (selection.some((s) => s.includes(h)) ||
+                                                selection.length === 3) &&
+                                            !selection.includes(selectionKey)
+                                        ) {
+                                            return;
+                                        }
+                                        if (selection.includes(selectionKey)) {
+                                            selection = selection.filter((s) => s !== selectionKey);
+                                        } else {
+                                            selection.push(selectionKey);
+                                        }
+                                        setSelectedPods(selection);
+                                    }}
+                                />
+                            );
+                        })}
+                    </div>
+                    {/* Prophecy selection row - only once per deck, after house icons, and only if a pod from this deck is selected */}
+                    {hasProphecies && selectedPods.some((pod) => pod.startsWith(d.uuid + ':')) && (
+                        <div
+                            className={`prophecy-row mt-1 ${
+                                isSelectedAsProphecy ? 'selected' : ''
+                            }`}
+                            style={{
+                                cursor: 'pointer',
+                                color: isSelectedAsProphecy ? '#28a745' : '#218838',
+                                fontWeight: 600,
+                                whiteSpace: 'nowrap',
+                                overflow: 'hidden',
+                                textOverflow: 'ellipsis',
+                                maxWidth: 260
+                            }}
+                            title={prophecyText}
+                            onClick={() =>
+                                setSelectedProphecyDeck(isSelectedAsProphecy ? null : d.uuid)
+                            }
+                        >
+                            {isSelectedAsProphecy ? '✓ ' : ''}
+                            {truncatedText}
+                        </div>
+                    )}
+                    {renderToken(d)}
                 </div>
-                {renderToken(d)}
-            </div>
-        ));
+            );
+        });
     }
 
     return (
@@ -182,13 +231,18 @@ const AllianceBuilderPage = () => {
                                 <Button
                                     disabled={isSaveDisabled()}
                                     onClick={() => {
-                                        dispatch(
-                                            saveAllianceDeck({
-                                                name: deckName,
-                                                pods: selectedPods,
-                                                token: selectedToken
-                                            })
-                                        );
+                                        const allianceData = {
+                                            name: deckName,
+                                            pods: selectedPods,
+                                            token: selectedToken
+                                        };
+
+                                        // Add prophecy source deck if needed
+                                        if (selectedProphecyDeck) {
+                                            allianceData.prophecySourceDeck = selectedProphecyDeck;
+                                        }
+
+                                        dispatch(saveAllianceDeck(allianceData));
                                     }}
                                 >
                                     <Trans>Save</Trans>
