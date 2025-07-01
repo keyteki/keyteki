@@ -591,6 +591,7 @@ class DeckService {
         }
 
         // Second pass: collect regular cards from selected houses
+        const tokenDecksAdded = new Set();
         for (let pod of deck.pods) {
             let [deckId, house] = pod.split(':');
 
@@ -603,8 +604,12 @@ class DeckService {
                     continue;
                 }
 
+                // Only add the token card from a given deck once
                 if (card.id === deck.tokenCard?.id) {
-                    podCards.push(card);
+                    if (!tokenDecksAdded.has(deckId)) {
+                        podCards.push(card);
+                        tokenDecksAdded.add(deckId);
+                    }
                 } else if (card.isNonDeck) {
                     continue;
                 } else if (
