@@ -129,7 +129,7 @@ const Effects = {
             apply: (player) => player.addPlayableLocation('play', player, location),
             unapply: (player, context, location) => player.removePlayableLocation(location)
         }),
-    canPlayHouse: (house) => EffectBuilder.player.static('canPlayHouse', house),
+    canPlayHouse: (house) => EffectBuilder.player.flexible('canPlayHouse', house),
     canPlayNonHouse: (house) => EffectBuilder.player.flexible('canPlayNonHouse', house),
     canPlayOrUseHouse: (house) => EffectBuilder.player.static('canPlayOrUseHouse', house),
     canPlayOrUseNonHouse: (house) => EffectBuilder.player.static('canPlayOrUseNonHouse', house),
