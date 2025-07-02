@@ -74,6 +74,8 @@ const DeckSummary = ({ deck }) => {
 
     let nonDeckCards = deck.cards
         .filter((c) => c.isNonDeck)
+        // Filter out archon power cards
+        .filter((c) => !c.card || c.card.type !== 'archon power')
         // Deduplicate token creatures (not prophecy cards)
         .filter((card, idx, arr) => {
             if (card.card && card.card.type === 'token creature') {
@@ -235,7 +237,7 @@ const DeckSummary = ({ deck }) => {
                 })}
             </Row>
 
-            {deck.cards.some((c) => c.isNonDeck) && (
+            {deck.cards.some((c) => c.isNonDeck && (!c.card || c.card.type !== 'archon power')) && (
                 <Row className='deck-houses'>
                     <Col xs='12'>
                         <Trans>Non-Deck Cards</Trans>
