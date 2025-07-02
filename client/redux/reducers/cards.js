@@ -29,6 +29,7 @@ function processDecks(decks, state) {
                 image: card.image,
                 enhancements: card.enhancements,
                 dbId: card.dbId,
+                prophecyId: card.prophecyId,
                 isNonDeck: card.isNonDeck
             };
             result.card.image = card.image || card.id;
