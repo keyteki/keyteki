@@ -10,10 +10,7 @@ class FeldarsPlan extends Card {
             effectAlert: true,
             gameAction: ability.actions.nextRoundEffect({
                 when: {
-                    onCardPlayed: (event, context) => {
-                        console.log(event.player.name, context.player.name);
-                        return event.player === context.player;
-                    }
+                    onCardPlayed: (event, context) => event.player === context.player
                 },
                 message: '{0} uses {1} to steal 1 amber from {2}',
                 messageArgs: (context) => [context.player.opponent, context.source, context.player],

@@ -28,7 +28,7 @@ describe('Poised Strike', function () {
             expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
         });
 
-        it('should destroy the creature when it readies at start of turn', function () {
+        it('should destroy the creature when it readies at end of turn', function () {
             this.player1.playUpgrade(this.poisedStrike, this.emberImp);
             this.player1.reap(this.emberImp); // Use the creature to exhaust it
             expect(this.emberImp.exhausted).toBe(true);
@@ -38,6 +38,14 @@ describe('Poised Strike', function () {
             expect(this.emberImp.location).toBe('discard');
             expect(this.searine.location).toBe('play area');
             expect(this.poisedStrike.location).toBe('discard');
+        });
+
+        it('should not destroy the creature when it is used without readying', function () {
+            this.player1.playUpgrade(this.poisedStrike, this.emberImp);
+            this.player1.endTurn();
+            expect(this.emberImp.location).toBe('play area');
+            expect(this.poisedStrike.location).toBe('play area');
+            this.player2.clickPrompt('brobnar');
         });
 
         it('when fate is activated it should skip the ready cards step', function () {

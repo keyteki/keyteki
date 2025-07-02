@@ -6,7 +6,7 @@ describe("Namel's Confession", function () {
                     amber: 2,
                     house: 'redemption',
                     hand: ['namel-s-confession'],
-                    inPlay: ['ember-imp', 'troll', 'shock-herder']
+                    inPlay: ['ember-imp', 'troll', 'picaroon', 'shock-herder']
                 },
                 player2: {
                     amber: 4,
@@ -42,6 +42,15 @@ describe("Namel's Confession", function () {
             this.player1.moveCard(this.troll, 'discard');
             this.player1.play(this.namelSConfession);
             expect(this.player1.amber).toBe(3);
+            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+        });
+
+        it('should work on Picaroon', function () {
+            this.player1.play(this.namelSConfession);
+            expect(this.player1).toBeAbleToSelect(this.picaroon);
+            this.player1.clickCard(this.picaroon);
+            expect(this.picaroon.location).toBe('discard');
+            expect(this.player1.amber).toBe(8);
             expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
         });
     });

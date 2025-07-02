@@ -9,6 +9,10 @@ class MercurialWormhole extends Card {
                 target: context.player.deck[0]
             })),
             then: {
+                condition: (context) =>
+                    context.preThenEvents.length > 0 &&
+                    context.preThenEvents[0].name === 'playCardEvent' &&
+                    !context.preThenEvents[0].illegalTarget,
                 target: {
                     mode: 'house',
                     houses: (context) =>

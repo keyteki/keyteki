@@ -74,6 +74,22 @@ const DeckSummary = ({ deck }) => {
 
     let nonDeckCards = deck.cards
         .filter((c) => c.isNonDeck)
+        // Deduplicate token creatures (not prophecy cards)
+        .filter((card, idx, arr) => {
+            if (card.card && card.card.type === 'token creature') {
+                // Only keep the first occurrence of each token card id (and prophecyId if present)
+                return (
+                    arr.findIndex(
+                        (c) =>
+                            c.card &&
+                            c.card.type === 'token creature' &&
+                            c.id === card.id &&
+                            (c.prophecyId || null) === (card.prophecyId || null)
+                    ) === idx
+                );
+            }
+            return true;
+        })
         .sort((a, b) => {
             // Sort prophecy cards by ProphecyId first, then by dbId
             if (a.card.type === 'prophecy' && b.card.type === 'prophecy') {

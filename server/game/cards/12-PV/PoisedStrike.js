@@ -6,7 +6,8 @@ class PoisedStrike extends Card {
     setupCardAbilities(ability) {
         this.reaction({
             when: {
-                onCardReadied: (event, context) => event.card === context.source.parent
+                onCardReadied: (event, context) =>
+                    event.card === context.source.parent && event.exhausted
             },
             gameAction: ability.actions.destroy((context) => ({ target: context.source.parent }))
         });

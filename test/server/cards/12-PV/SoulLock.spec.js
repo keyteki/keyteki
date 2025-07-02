@@ -4,11 +4,11 @@ describe('Soul Lock', function () {
             this.setupTest({
                 player1: {
                     house: 'dis',
-                    inPlay: ['soul-lock'],
-                    hand: ['ancient-bear', 'ancient-bear']
+                    inPlay: ['soul-lock', 'library-of-the-damned', 'searine']
                 },
                 player2: {
-                    inPlay: ['troll', 'krump', 'urchin', 'gauntlet-of-command']
+                    hand: ['skippy-the-glorious'],
+                    inPlay: ['troll', 'krump', 'dextre', 'gauntlet-of-command']
                 }
             });
         });
@@ -32,8 +32,8 @@ describe('Soul Lock', function () {
             expect(this.troll.location).toBe('under');
             expect(this.troll.facedown).toBe(false);
             this.player1.endTurn();
-            this.player2.clickPrompt('shadows');
-            this.player2.reap(this.urchin);
+            this.player2.clickPrompt('logos');
+            this.player2.reap(this.dextre);
             expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
         });
 
@@ -41,14 +41,28 @@ describe('Soul Lock', function () {
             this.player1.useAction(this.soulLock);
             this.player1.clickCard(this.troll);
             this.player1.endTurn();
-            this.player2.clickPrompt('shadows');
+            this.player2.clickPrompt('logos');
             this.player2.endTurn();
             this.player1.clickPrompt('dis');
             this.player1.useAction(this.soulLock);
-            this.player1.clickCard(this.urchin);
+            this.player1.clickCard(this.dextre);
             expect(this.troll.location).toBe('discard');
-            expect(this.urchin.location).toBe('under');
+            expect(this.dextre.location).toBe('under');
             expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+        });
+
+        it('should be usable by opponent via scrap', function () {
+            this.player1.useAction(this.soulLock);
+            this.player1.clickCard(this.dextre);
+            this.player1.endTurn();
+            this.player2.clickPrompt('logos');
+            this.player2.scrap(this.skippyTheGlorious);
+            expect(this.player2).toBeAbleToSelect(this.soulLock);
+            this.player2.clickCard(this.soulLock);
+            this.player2.clickCard(this.searine);
+            expect(this.soulLock.exhausted).toBe(true);
+            expect(this.searine.location).toBe('under');
+            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
         });
     });
 });

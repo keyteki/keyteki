@@ -16,7 +16,7 @@ class ISSIndominus extends Card {
                 alwaysTriggers: true,
                 condition: (context) => context.player.opponent,
                 gameAction: ability.actions.dealDamage((context) => ({
-                    target: context.player.opponent.creaturesInPlay,
+                    target: context.player.opponent ? context.player.opponent.creaturesInPlay : [],
                     amount: context.preThenEvents.filter((event) => !event.cancelled).length
                 }))
             }

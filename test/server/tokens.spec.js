@@ -28,6 +28,13 @@ describe('Token', function () {
             this.player1.clickPrompt('Left');
         });
 
+        it('should make no token if the deck is empty', function () {
+            this.player1.player.deck = [];
+            this.player1.play(this.hireOn);
+            expect(this.player1.player.creaturesInPlay.length).toBe(0);
+            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+        });
+
         it('should lose token abilities after destroyed', function () {
             let token = this.antiquitiesDealer;
             this.player1.moveCard(token, 'deck');

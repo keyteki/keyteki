@@ -21,7 +21,9 @@ class SkippyTheGlorious extends Card {
             },
             then: (preThenContext) => ({
                 condition: (context) =>
-                    preThenContext.target.exhausted && !context.preThenEvents[0].clone.exhausted,
+                    (preThenContext.target.exhausted ||
+                        preThenContext.target.location !== 'play area') &&
+                    !context.preThenEvents[0].clone.exhausted,
                 gameAction: ability.actions.draw()
             })
         });

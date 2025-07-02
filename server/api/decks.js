@@ -144,7 +144,8 @@ module.exports.init = function (server) {
                     uuid: uuid.v1(),
                     username: req.user.username,
                     pods: req.body.pods,
-                    tokenCard: req.body.token
+                    tokenCard: req.body.token,
+                    prophecySourceDeck: req.body.prophecySourceDeck
                 }
             );
             let savedDeck;

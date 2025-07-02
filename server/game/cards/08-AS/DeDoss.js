@@ -17,6 +17,7 @@ class DeDoss extends Card {
                         // case.  The only way to figure that out is by
                         // checking the context source's location.
                         context.source.location !== 'play area' &&
+                        context.source.type === 'creature' &&
                         effectContext.source.power < context.source.power
                 )
             })

@@ -20,7 +20,10 @@ class MoveUpgrade extends CardGameAction {
             return false;
         }
 
-        if (!this.upgrades || !this.upgrades.some((upgrade) => upgrade.canAttach(card, context))) {
+        if (
+            !this.upgrades ||
+            !this.upgrades.some((upgrade) => upgrade.canMoveAttachedUpgradeTo(card, context))
+        ) {
             return false;
         }
 

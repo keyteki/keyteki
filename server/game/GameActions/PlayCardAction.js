@@ -52,9 +52,9 @@ class PlayCardAction extends CardGameAction {
             );
 
         return super.createEvent(
-            'unnamedEvent',
+            'playCardEvent',
             { card: card, context: context, player: context.player },
-            () => {
+            (event) => {
                 if (playActions.length > 1) {
                     context.game.promptWithHandlerMenu(context.player, {
                         activePromptTitle: 'Play ' + card.name + ':',
@@ -67,6 +67,7 @@ class PlayCardAction extends CardGameAction {
                 } else if (playActions.length === 1) {
                     this.resolveAction(context, playActions[0]);
                 } else {
+                    event.illegalTarget = true;
                     if (this.revealOnIllegalTarget) {
                         context.game.addMessage(
                             '{0} was unable to be played so is returned to its original location',

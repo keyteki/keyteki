@@ -544,6 +544,54 @@ class DeckService {
         deck.houses = [];
 
         let podCards = [];
+        let prophecyCards = [];
+
+        // First pass: collect all prophecy cards from all decks
+        for (let pod of deck.pods) {
+            let [deckId] = pod.split(':');
+            let dbDeck = decksByUuid[deckId];
+
+            for (let card of dbDeck.cards) {
+                // Check if this is a prophecy card (either by card type or by having a prophecyId)
+                if ((card.card && card.card.type === 'prophecy') || card.prophecyId) {
+                    prophecyCards.push({
+                        ...card,
+                        sourceDeckId: deckId,
+                        sourceDeck: dbDeck
+                    });
+                }
+            }
+        }
+
+        // Handle prophecy card selection
+        if (prophecyCards.length > 0) {
+            if (!deck.prophecySourceDeck) {
+                throw new Error(
+                    'Prophecy source deck must be specified when creating an alliance with prophecy cards'
+                );
+            }
+
+            // Only include prophecy cards from the selected source deck
+            let sourceDeck = decksByUuid[deck.prophecySourceDeck];
+            if (!sourceDeck) {
+                throw new Error('Invalid prophecy source deck specified');
+            }
+
+            let sourceProphecyCards = sourceDeck.cards.filter(
+                (card) => (card.card && card.card.type === 'prophecy') || card.prophecyId
+            );
+
+            // Add prophecy cards with their original prophecy IDs
+            for (let card of sourceProphecyCards) {
+                podCards.push({
+                    ...card,
+                    prophecyId: card.prophecyId // explicitly preserve
+                });
+            }
+        }
+
+        // Second pass: collect regular cards from selected houses
+        const tokenDecksAdded = new Set();
         for (let pod of deck.pods) {
             let [deckId, house] = pod.split(':');
 
@@ -551,8 +599,17 @@ class DeckService {
 
             deck.houses.push(house);
             for (let card of dbDeck.cards) {
+                // Skip prophecy cards as they're handled separately
+                if ((card.card && card.card.type === 'prophecy') || card.prophecyId) {
+                    continue;
+                }
+
+                // Only add the token card from a given deck once
                 if (card.id === deck.tokenCard?.id) {
-                    podCards.push(card);
+                    if (!tokenDecksAdded.has(deckId)) {
+                        podCards.push(card);
+                        tokenDecksAdded.add(deckId);
+                    }
                 } else if (card.isNonDeck) {
                     continue;
                 } else if (
@@ -644,6 +701,7 @@ class DeckService {
                 params.push(await this.getHouseIdFromName(card.house));
                 params.push(card.enhancements ? JSON.stringify(card.enhancements) : undefined);
                 params.push(card.isNonDeck);
+                params.push(card.prophecyId); // Add prophecy ID
             }
 
             params.push(deck.id);
@@ -655,9 +713,9 @@ class DeckService {
         try {
             if (user) {
                 await db.query(
-                    `INSERT INTO "DeckCards" ("CardId", "Count", "Maverick", "Anomaly", "ImageUrl", "HouseId", "Enhancements", "IsNonDeck", "DeckId") VALUES ${expand(
+                    `INSERT INTO "DeckCards" ("CardId", "Count", "Maverick", "Anomaly", "ImageUrl", "HouseId", "Enhancements", "IsNonDeck", "ProphecyId", "DeckId") VALUES ${expand(
                         deck.cards.length,
-                        9
+                        10
                     )}`,
                     params
                 );

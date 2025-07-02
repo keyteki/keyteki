@@ -1077,6 +1077,11 @@ class Card extends EffectSource {
         return card && card.getType() === 'creature' && this.canPlayAsUpgrade();
     }
 
+    // eslint-disable-next-line no-unused-vars
+    canMoveAttachedUpgradeTo(card, context) {
+        return card && card.getType() === 'creature' && this.type === 'upgrade';
+    }
+
     use(player, ignoreHouse = false) {
         let legalActions = this.getLegalActions(player, ignoreHouse);
 

@@ -5,8 +5,9 @@ class ForgeAheadWithConfidence extends Card {
     setupCardAbilities(ability) {
         this.prophecyReaction({
             when: {
-                onForgeKey: (_, context) =>
-                    context.game.activePlayer === context.source.controller.opponent
+                onForgeKey: (event, context) =>
+                    context.game.activePlayer === context.source.controller.opponent &&
+                    event.player === context.source.controller.opponent
             },
             gameAction: ability.actions.fulfillProphecy((context) => ({
                 card: context.source
