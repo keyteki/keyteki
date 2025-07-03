@@ -32,5 +32,17 @@ describe('Cursed Loot', function () {
             expect(this.cursedLoot.location).toBe('discard');
             expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
         });
+
+        it('should destroy itself if controller has no cards in hand, even without a discard', function () {
+            this.player1.play(this.cursedLoot);
+            this.player1.endTurn();
+            this.player2.clickPrompt('dis');
+            this.player2.moveCard(this.krump, 'discard');
+            this.player2.moveCard(this.ancientBear, 'discard');
+            this.player2.play(this.emberImp);
+            expect(this.player2.player.hand.length).toBe(0);
+            expect(this.cursedLoot.location).toBe('discard');
+            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+        });
     });
 });
