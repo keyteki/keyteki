@@ -14,15 +14,15 @@ describe('Lithomancy', function () {
             });
         });
 
-        it('should gain 2 amber when top card matches active house', function () {
+        it('should discard the top card and gain 2 amber when top card matches active house', function () {
             this.player1.moveCard(this.dustPixie, 'deck');
             this.player1.useAction(this.lithomancy);
             expect(this.player1.amber).toBe(2);
-            expect(this.dustPixie.location).toBe('deck');
+            expect(this.dustPixie.location).toBe('discard');
             expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
         });
 
-        it('should not gain amber when top card does not match active house', function () {
+        it('should not discard the top card or gain amber when top card does not match active house', function () {
             this.player1.moveCard(this.krump, 'deck');
             this.player1.useAction(this.lithomancy);
             expect(this.player1.amber).toBe(0);
