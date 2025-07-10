@@ -5,8 +5,7 @@ class DiggingUpTheMonster extends Card {
     // creature and reveal them. Put them on top of your deck in any order.
     setupCardAbilities(ability) {
         this.play({
-            effect:
-                'search for two parts of a Gigantic creature part and put them back on top of their deck',
+            effect: 'search for two parts of a Gigantic creature part and put them back on top of their deck',
             gameAction: ability.actions.search({
                 cardCondition: (card) => card.gigantic,
                 amount: 2,

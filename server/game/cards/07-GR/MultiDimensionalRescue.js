@@ -33,8 +33,7 @@ class MultiDimensionalRescue extends Card {
                     gameAction: ability.actions.returnToHand({ location: 'discard' })
                 }
             },
-            effect:
-                'return {1} to their hand, play one non-Star Alliance card this turn, and purge {0}',
+            effect: 'return {1} to their hand, play one non-Star Alliance card this turn, and purge {0}',
             effectArgs: (context) => [Object.values(context.targets)],
             then: {
                 alwaysTriggers: true,

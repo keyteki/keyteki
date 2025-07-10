@@ -18,8 +18,7 @@ class EnergyVampirism extends Card {
                     }))
                 ])
             },
-            effect:
-                'capture 1 amber onto {0} from its own side and then deal 1 D for each amber on {0} to a creature'
+            effect: 'capture 1 amber onto {0} from its own side and then deal 1 D for each amber on {0} to a creature'
         });
     }
 }

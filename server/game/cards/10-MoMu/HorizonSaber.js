@@ -26,8 +26,7 @@ class HorizonSaber extends GiganticCard {
                     target: context.player.discard
                 }))
             ]),
-            effect:
-                'search deck and discard for a card, archive it, and shuffle their discard into their deck'
+            effect: 'search deck and discard for a card, archive it, and shuffle their discard into their deck'
         });
     }
 }

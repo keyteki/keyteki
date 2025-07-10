@@ -258,6 +258,20 @@ class GameRouter extends EventEmitter {
                 this.emit('onGameRematch', message.arg.game);
 
                 break;
+            case 'REMATCHWITHNEWDECKS':
+                this.gameService.update(message.arg.game);
+
+                if (worker) {
+                    worker.numGames--;
+                } else {
+                    logger.error(
+                        `Got rematch with new decks game for non existant worker ${identity}`
+                    );
+                }
+
+                this.emit('onGameRematchWithNewDecks', message.arg.game);
+
+                break;
             case 'GAMECLOSED':
                 if (worker) {
                     worker.numGames--;

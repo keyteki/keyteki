@@ -7,8 +7,7 @@ class TokenOfAppreciation extends Card {
     // each friendly token creature.
     setupCardAbilities(ability) {
         this.play({
-            effect:
-                'make a token creature and forge a key for +7 current cost, minus 1 amber for each friendly token creature',
+            effect: 'make a token creature and forge a key for +7 current cost, minus 1 amber for each friendly token creature',
             gameAction: ability.actions.sequential([
                 ability.actions.makeTokenCreature(),
                 ability.actions.forgeKey((context) => ({

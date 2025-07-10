@@ -5,8 +5,7 @@ class Amberlution extends Card {
     // Play: Destroy each creature. Each player reveals their hand and puts each creature from their hand into play ready.
     setupCardAbilities(ability) {
         this.play({
-            effect:
-                "destroy each creature; reveal {1}'s hand as {2}; and reveal {3}'s hand as {4} and put creatures from each player's hand into play ready",
+            effect: "destroy each creature; reveal {1}'s hand as {2}; and reveal {3}'s hand as {4} and put creatures from each player's hand into play ready",
             effectArgs: (context) => [
                 context.player,
                 context.player.hand,

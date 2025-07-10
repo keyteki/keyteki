@@ -4,8 +4,7 @@ class MatingSeason extends Card {
     // Play: Shuffle each Mars creature into its owners deck. Each player gains 1<A> for each creature shuffled into their deck this way.
     setupCardAbilities(ability) {
         this.play({
-            effect:
-                "shuffle each Mars creature into their owner's deck, and each player gains 1 amber for each creature shuffled into their deck",
+            effect: "shuffle each Mars creature into their owner's deck, and each player gains 1 amber for each creature shuffled into their deck",
             gameAction: [
                 ability.actions.gainAmber((context) => ({
                     amount: context.game.creaturesInPlay.filter(

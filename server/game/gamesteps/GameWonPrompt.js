@@ -1,5 +1,6 @@
 const AllPlayerPrompt = require('./allplayerprompt');
 const RematchPrompt = require('./RematchPrompt');
+const RematchWithNewDecksPrompt = require('./RematchWithNewDecksPrompt');
 
 class GameWonPrompt extends AllPlayerPrompt {
     constructor(game, winner) {
@@ -22,7 +23,8 @@ class GameWonPrompt extends AllPlayerPrompt {
             buttons: [
                 { arg: 'continue', text: 'Continue Playing' },
                 { arg: 'rematch', text: 'Rematch' },
-                { arg: 'rematch-swap', text: 'Rematch: Swap Decks' }
+                { arg: 'rematch-swap', text: 'Rematch: Swap Decks' },
+                { arg: 'rematch-with-new-decks', text: 'Rematch: With New Decks' }
             ]
         };
     }
@@ -43,6 +45,9 @@ class GameWonPrompt extends AllPlayerPrompt {
             case 'rematch-swap':
                 message = 'a rematch and swap decks';
                 break;
+            case 'rematch-with-new-decks':
+                message = 'a rematch with new decks';
+                break;
         }
 
         this.game.addMessage('{0} would like {1}', player, message);
@@ -58,6 +63,13 @@ class GameWonPrompt extends AllPlayerPrompt {
         if (arg === 'rematch-swap') {
             this.game.swap = !this.game.swap;
             this.game.queueStep(new RematchPrompt(this.game, player));
+
+            return true;
+        }
+
+        if (arg === 'rematch-with-new-decks') {
+            this.game.swap = false;
+            this.game.queueStep(new RematchWithNewDecksPrompt(this.game, player));
 
             return true;
         }

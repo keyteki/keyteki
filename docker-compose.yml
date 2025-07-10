@@ -22,7 +22,13 @@ services:
             - '.'
     node:
         restart: always
-        build: .
+        build:
+            context: .
+            ulimits:
+                nproc: 65535
+                nofile:
+                    soft: 20000
+                    hard: 40000
         ports:
             - '9500:9500'
             - '9339:9339'

@@ -17,8 +17,7 @@ class TalentScout extends Card {
                 revealTargets: true,
                 location: 'hand',
                 gameAction: ability.actions.playCard(),
-                effect:
-                    "look at opponent's hand and play a creature, and give control of {1} to opponent",
+                effect: "look at opponent's hand and play a creature, and give control of {1} to opponent",
                 effectArgs: (context) => context.source
             },
             then: {

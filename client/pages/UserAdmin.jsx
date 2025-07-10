@@ -119,9 +119,8 @@ const UserAdmin = () => {
                         label={permission.label}
                         inline
                         onChange={() => {
-                            currentPermissions[permission.name] = !currentPermissions[
-                                permission.name
-                            ];
+                            currentPermissions[permission.name] =
+                                !currentPermissions[permission.name];
                             let newPermissions = Object.assign({}, currentPermissions);
                             setCurrentPermissions(newPermissions);
                         }}

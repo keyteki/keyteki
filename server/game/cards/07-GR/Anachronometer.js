@@ -2,8 +2,7 @@ const Card = require('../../Card.js');
 
 function anachronometerAbility(ability) {
     return {
-        effect:
-            'shuffle their discard into their deck, draw a card, and discard the top {1} cards of the deck',
+        effect: 'shuffle their discard into their deck, draw a card, and discard the top {1} cards of the deck',
         effectArgs: (context) => [
             context.player.opponent ? context.player.opponent.discard.length : 0
         ],

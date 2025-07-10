@@ -10,8 +10,7 @@ class TrojanSauropod extends Card {
         });
 
         this.omni({
-            effect:
-                "gain 3 amber, revel their opponent's hand as {1} and play each of their creature",
+            effect: "gain 3 amber, revel their opponent's hand as {1} and play each of their creature",
             effectArgs: (context) =>
                 context.player.opponent ? [context.player.opponent.hand] : [],
             gameAction: ability.actions.gainAmber({ amount: 3 }),

@@ -7,8 +7,7 @@ class GrimReminder extends Card {
             target: {
                 mode: 'house'
             },
-            effect:
-                'archive all {1} creatures from their discard pile, including {2}, then gain 1 chain',
+            effect: 'archive all {1} creatures from their discard pile, including {2}, then gain 1 chain',
             effectArgs: (context) => {
                 const recurredCreatures = context.player.discard.filter(
                     (card) => card.type === 'creature' && card.hasHouse(context.house)

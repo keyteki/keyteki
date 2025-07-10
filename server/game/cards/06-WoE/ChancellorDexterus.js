@@ -21,8 +21,7 @@ class ChancellorDexterus extends Card {
                     target: context.target
                 }))
             ],
-            effect:
-                'exalt its right neighbor and make it house Saurian for the remainder of the turn'
+            effect: 'exalt its right neighbor and make it house Saurian for the remainder of the turn'
         });
     }
 }

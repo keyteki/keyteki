@@ -298,6 +298,25 @@ class GameServer {
     }
 
     /**
+     * @param {import("../game/game")} game
+     */
+    rematchWithNewDecks(game) {
+        this.gameSocket.send('REMATCHWITHNEWDECKS', { game: game.getSaveState() });
+
+        for (let player of Object.values(game.getPlayersAndSpectators())) {
+            if (player.left || player.disconnectedAt || !player.socket) {
+                continue;
+            }
+
+            player.socket.send('cleargamestate');
+            player.socket.leaveChannel(game.id);
+            player.left = true;
+        }
+
+        delete this.games[game.id];
+    }
+
+    /**
      * @param {import("../pendinggame")} pendingGame
      */
     onStartGame(pendingGame) {

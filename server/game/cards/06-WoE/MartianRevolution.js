@@ -5,8 +5,7 @@ class MartianRevolution extends Card {
     // destroyed this way, make a token creature.
     setupCardAbilities(ability) {
         this.play({
-            effect:
-                'destroy each friendly creature and make a token creature for each creature destroyed this way',
+            effect: 'destroy each friendly creature and make a token creature for each creature destroyed this way',
             gameAction: ability.actions.destroy((context) => ({
                 target: context.player.creaturesInPlay
             })),
