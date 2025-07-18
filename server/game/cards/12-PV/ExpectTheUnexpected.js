@@ -5,8 +5,7 @@ class ExpectTheUnexpected extends Card {
     setupCardAbilities(ability) {
         this.prophecyReaction({
             when: {
-                onDeckShuffled: (event, context) =>
-                    event.shuffledDiscardIntoDeck && event.player !== context.source.controller
+                onDeckShuffled: (event, context) => event.player !== context.source.controller
             },
             gameAction: ability.actions.fulfillProphecy((context) => ({
                 card: context.source
