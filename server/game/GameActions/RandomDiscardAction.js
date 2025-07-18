@@ -41,7 +41,7 @@ class RandomDiscardAction extends PlayerAction {
             (event) => {
                 event.cards = _.shuffle(this.getCards(player)).slice(0, event.amount);
                 context.game.addMessage('{0} discards {1} at random', player, event.cards);
-                context.game.actions.discard().resolve(event.cards, context);
+                context.game.actions.discard({ chatMessage: false }).resolve(event.cards, context);
             }
         );
     }

@@ -100,7 +100,7 @@ class ResolveBonusIconsAction extends CardGameAction {
                         controller: 'self',
                         onSelect: (player, card) => {
                             context.game.actions
-                                .discard()
+                                .discard({ chatMessage: false })
                                 .resolve(card, context.game.getFrameworkContext(player));
                             context.game.addMessage(
                                 "{0} discards {1} due to {2}'s bonus icon",
