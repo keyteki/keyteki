@@ -40,7 +40,9 @@ class ChosenDiscardAction extends PlayerAction {
                         controller: player === context.player ? 'self' : 'opponent',
                         onSelect: (player, cards) => {
                             context.game.addMessage('{0} discards {1}', player, cards);
-                            context.game.actions.discard().resolve(cards, context);
+                            context.game.actions
+                                .discard({ chatMessage: false })
+                                .resolve(cards, context);
                             return true;
                         }
                     });

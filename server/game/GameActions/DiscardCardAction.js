@@ -6,6 +6,10 @@ class DiscardCardAction extends CardGameAction {
         this.cost = 'discarding {0}';
     }
 
+    setDefaultProperties() {
+        this.chatMessage = true;
+    }
+
     getEvent(card, context) {
         let location = card.location;
         return super.createEvent('onCardDiscarded', { card, context, location }, () => {
@@ -18,7 +22,14 @@ class DiscardCardAction extends CardGameAction {
     }
 
     getEventArray(context) {
-        if (this.target && this.target.length > 0) {
+        if (!this.target || this.target.length === 0) {
+            return [];
+        }
+
+        const events = this.target
+            .filter((target) => this.canAffect(target, context))
+            .map((card) => this.getEvent(card, context));
+        if (events.length > 0 && this.chatMessage) {
             context.game.addMessage(
                 '{0} uses {1} to discard {2}',
                 context.player,
@@ -26,7 +37,7 @@ class DiscardCardAction extends CardGameAction {
                 this.target
             );
         }
-        return this.target.map((card) => this.getEvent(card, context));
+        return events;
     }
 }
 
