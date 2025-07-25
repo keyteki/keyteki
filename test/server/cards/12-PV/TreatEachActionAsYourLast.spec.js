@@ -15,7 +15,7 @@ describe('Treat Each Action as Your Last', function () {
                 },
                 player2: {
                     amber: 4,
-                    hand: ['troll', 'anger', 'follow-the-leader'],
+                    hand: ['troll', 'anger', 'follow-the-leader', 'wild-wormhole', 'poke'],
                     inPlay: ['rowdy-skald']
                 }
             });
@@ -32,6 +32,22 @@ describe('Treat Each Action as Your Last', function () {
             this.player2.clickPrompt(this.followTheLeader.name);
             this.player2.clickCard(this.rowdySkald);
             expect(this.player2.amber).toBe(3);
+            expect(this.rowdySkald.amber).toBe(2);
+            expect(this.parasiticArachnoid.location).toBe('discard');
+            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+        });
+
+        it('should fulfill when opponent plays their second action from Wild Wormhole', function () {
+            this.player1.activateProphecy(this.treatEachActionAsYourLast, this.parasiticArachnoid);
+            this.player1.endTurn();
+            this.player2.clickPrompt('logos');
+            this.player2.moveCard(this.followTheLeader, 'deck');
+            this.player2.play(this.poke);
+            this.player2.play(this.wildWormhole);
+            this.player2.clickPrompt(this.wildWormhole.name);
+            this.player2.clickPrompt(this.followTheLeader.name);
+            this.player2.clickCard(this.rowdySkald);
+            expect(this.player2.amber).toBe(4);
             expect(this.rowdySkald.amber).toBe(2);
             expect(this.parasiticArachnoid.location).toBe('discard');
             expect(this.player2).toHavePrompt('Choose a card to play, discard or use');

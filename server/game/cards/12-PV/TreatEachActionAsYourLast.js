@@ -9,7 +9,7 @@ class TreatEachActionAsYourLast extends Card {
                     context.game.activePlayer === context.source.controller.opponent &&
                     event.card.type === 'action' &&
                     context.game.cardsPlayedThisPhase.filter((card) => card.type === 'action')
-                        .length === 2
+                        .length >= 2
             },
             gameAction: ability.actions.fulfillProphecy((context) => ({
                 card: context.source
