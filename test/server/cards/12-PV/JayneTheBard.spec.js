@@ -9,7 +9,7 @@ describe('Jayne the Bard', function () {
                 },
                 player2: {
                     amber: 4,
-                    inPlay: ['krump', 'flaxia']
+                    inPlay: ['krump', 'flaxia', 'dew-faerie']
                 }
             });
         });
@@ -35,6 +35,16 @@ describe('Jayne the Bard', function () {
         });
 
         it('should not repeat if the target has no amber', function () {
+            this.dewFaerie.tokens.amber = 1;
+            this.player1.reap(this.jayneTheBard);
+            this.player1.clickCard(this.dewFaerie);
+            expect(this.dewFaerie.location).toBe('discard');
+            this.player1.clickCard(this.krump);
+            expect(this.krump.tokens.damage).toBe(2);
+            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+        });
+
+        it('should repeat if the target has amber but is destroyed', function () {
             this.player1.reap(this.jayneTheBard);
             this.player1.clickCard(this.krump);
             expect(this.krump.tokens.damage).toBe(2);

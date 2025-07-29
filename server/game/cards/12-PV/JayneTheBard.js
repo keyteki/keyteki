@@ -8,10 +8,17 @@ class JayneTheBard extends Card {
             target: {
                 cardType: 'creature',
                 controller: 'opponent',
-                gameAction: ability.actions.dealDamage({ amount: 2 })
+                gameAction: ability.actions.dealDamage((context) => {
+                    // Technically this should be taking the clone right before it leaves play,
+                    // since destroyed abilities might change the amber on the creature
+                    // before it leaves play.
+                    context.event.targetClone = context.target.createSnapshot();
+                    return { amount: 2 };
+                })
             },
             then: (preThenContext) => ({
-                condition: () => preThenContext.target && preThenContext.target.tokens.amber > 0,
+                condition: () =>
+                    preThenContext.target && preThenContext.event.targetClone.tokens.amber > 0,
                 alwaysTriggers: true,
                 target: {
                     cardType: 'creature',

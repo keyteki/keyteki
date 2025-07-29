@@ -7,20 +7,13 @@ class TheEndIsNigh extends Card {
         this.creaturesDestroyed = [];
 
         this.tracker = new EventRegistrar(this.game, this);
-        this.tracker.register(['onPhaseStarted']);
+        this.tracker.register(['onRoundEnded', 'onCardDestroyed']);
 
-        this.prophecyInterrupt({
+        this.prophecyReaction({
             when: {
-                onCardDestroyed: (event) => {
-                    if (
-                        event.card.type === 'creature' &&
-                        !this.creaturesDestroyed.includes(event.card) &&
-                        !event.cancelled
-                    ) {
-                        this.creaturesDestroyed.push(event.card);
-                    }
-                    return this.creaturesDestroyed.length >= 3;
-                }
+                onCardDestroyed: (event) =>
+                    this.creaturesDestroyed.length >= 3 &&
+                    this.creaturesDestroyed[2] === event.card.uuid
             },
             gameAction: ability.actions.fulfillProphecy((context) => ({
                 card: context.source
@@ -28,9 +21,13 @@ class TheEndIsNigh extends Card {
         });
     }
 
-    onPhaseStarted(event) {
-        if (event.phase === 'main') {
-            this.creaturesDestroyed = [];
+    onRoundEnded() {
+        this.creaturesDestroyed = [];
+    }
+
+    onCardDestroyed(event) {
+        if (event.clone.type === 'creature') {
+            this.creaturesDestroyed.push(event.card.uuid);
         }
     }
 }

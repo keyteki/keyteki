@@ -11,7 +11,13 @@ describe('The End Is Nigh', function () {
                         'heads-i-win'
                     ],
                     hand: ['parasitic-arachnoid'],
-                    inPlay: ['xenos-bloodshadow', 'dust-pixie', 'mooncurser', 'toad']
+                    inPlay: [
+                        'xenos-bloodshadow',
+                        'dust-pixie',
+                        'mooncurser',
+                        'toad',
+                        'hunting-witch'
+                    ]
                 },
                 player2: {
                     amber: 4,
@@ -55,6 +61,18 @@ describe('The End Is Nigh', function () {
             this.player2.clickPrompt('shadows');
             this.player2.fightWith(this.urchin, this.xenosBloodshadow);
             this.player2.fightWith(this.umbra, this.xenosBloodshadow);
+            expect(this.parasiticArachnoid.location).toBe('under');
+            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+        });
+
+        it('should not fulfill when a ward prevents the destruction of a creature', function () {
+            this.player1.activateProphecy(this.theEndIsNigh, this.parasiticArachnoid);
+            this.player1.endTurn();
+            this.player2.clickPrompt('shadows');
+            this.player2.fightWith(this.nexus, this.xenosBloodshadow);
+            this.player2.fightWith(this.umbra, this.xenosBloodshadow);
+            this.urchin.ward();
+            this.player2.fightWith(this.urchin, this.huntingWitch);
             expect(this.parasiticArachnoid.location).toBe('under');
             expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
         });

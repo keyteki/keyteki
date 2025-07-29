@@ -126,6 +126,12 @@ class ActionWindow extends UiPrompt {
         return { menuTitle: 'Waiting for opponent' };
     }
 
+    hasAvailableProphecies(player) {
+        return player.prophecyCards.some((prophecyCard) =>
+            player.canActivateProphecy(prophecyCard)
+        );
+    }
+
     menuCommand(player, choice) {
         if (choice === 'manual') {
             this.game.promptForSelect(this.game.activePlayer, {
@@ -144,7 +150,10 @@ class ActionWindow extends UiPrompt {
 
         if (choice === 'done') {
             let cards = player.cardsInPlay.concat(player.hand);
-            if (cards.some((card) => card.getLegalActions(player).length > 0)) {
+            let hasPlayableCards = cards.some((card) => card.getLegalActions(player).length > 0);
+            let hasAvailableProphecies = this.hasAvailableProphecies(player);
+
+            if (hasPlayableCards || hasAvailableProphecies) {
                 this.game.promptWithHandlerMenu(player, {
                     source: 'End Turn',
                     activePromptTitle: 'Are you sure you want to end your turn?',

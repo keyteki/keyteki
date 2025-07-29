@@ -10,7 +10,9 @@ class ExoticPivot extends Card {
             })),
             then: {
                 condition: (context) => !context.preThenEvent.card.hasHouse('logos'),
-                gameAction: ability.actions.steal({ amount: 3 })
+                gameAction: ability.actions.steal({ amount: 3 }),
+                message: '{0} uses {1} to steal 3 amber from {3}',
+                messageArgs: (context) => [context.player.opponent]
             }
         });
 

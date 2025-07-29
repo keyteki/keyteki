@@ -16,9 +16,14 @@ class Lithomancy extends Card {
                 condition: (context) =>
                     context.player.deck.length > 0 &&
                     context.player.deck[0].hasHouse(context.player.activeHouse),
-                gameAction: ability.actions.gainAmber({ amount: 2 }),
-                message: '{0} uses {1} to gain 2 amber',
-                messageArgs: (context) => [context.player, context.source]
+                gameAction: [
+                    ability.actions.discard((context) => ({
+                        target: context.player.deck[0]
+                    })),
+                    ability.actions.gainAmber({ amount: 2 })
+                ],
+                message: '{0} uses {1} to discard {2} and gain 2 amber',
+                messageArgs: (context) => [context.player, context.source, context.player.deck[0]]
             }
         });
     }

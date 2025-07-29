@@ -31,7 +31,7 @@ class DeactivateProphecyAction extends PlayerAction {
             // Discard any cards under the prophecy
             if (this.prophecyCard.childCards && this.prophecyCard.childCards.length > 0) {
                 let childCard = this.prophecyCard.childCards[0];
-                context.game.actions.discard().resolve(childCard, context);
+                context.game.actions.discard({ chatMessage: false }).resolve(childCard, context);
             }
 
             // Deactivate the prophecy

@@ -98,7 +98,9 @@ class SearchAction extends PlayerAction {
                             for (let card of cards) {
                                 switch (this.destination) {
                                     case 'discard':
-                                        context.game.actions.discard().resolve(card, context);
+                                        context.game.actions
+                                            .discard({ chatMessage: false })
+                                            .resolve(card, context);
                                         break;
                                     case 'archives':
                                         context.game.actions.archive().resolve(card, context);
