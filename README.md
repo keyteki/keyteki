@@ -53,10 +53,10 @@ brew install docker-compose
 mkdir -p ~/.docker/cli-plugins 
 ln -sfn $HOMEBREW_PREFIX/opt/docker-compose/bin/docker-compose ~/.docker/cli-plugins/docker-compose
 brew install pyenv
-pyenv install 3.10.16
+pyenv install 3.11.9
 pyenv init
 # exec above and reload shell, so you have pyenv available at your terminal
-pyenv shell 3.10.16
+pyenv shell 3.11.9
 
 ```
 
@@ -68,16 +68,36 @@ git submodule update
 npm install
 docker volume create --name=tco_dbdata
 docker-compose up --build
-docker-compose up -d redis #or any service if needed
-# docker builder prune => if allocate memory error occurs
-# if running node server locally, change default.json5 redisUrl to:
-# redisUrl: 'redis://localhost:6379/',
-# also postgres configs to:
-# dbUser: 'keyteki',
-# dbHost: 'localhost',
-# dbDatabase: 'keyteki',
-# dbPassword: 'changemeplease',
-# dbPort: 54320,
+```
+
+#### Running with Hybrid Setup (Docker services + Local Node server)
+
+If you want to run the Node.js server locally while using Docker for Redis and PostgreSQL:
+
+1. Start only the database services:
+```bash
+docker-compose up -d redis postgres
+```
+
+2. Update `config/default.json5` to point to localhost:
+```javascript
+redisUrl: 'redis://localhost:6379/',
+dbUser: 'keyteki',
+dbHost: 'localhost',
+dbDatabase: 'keyteki',
+dbPassword: 'changemeplease',
+dbPort: 54320,
+```
+
+3. Run the Node.js server locally:
+```bash
+npm start
+```
+
+#### Troubleshooting
+```bash
+# If you get memory allocation errors:
+docker builder prune
 ```
 
 In another terminal, run the following command:
