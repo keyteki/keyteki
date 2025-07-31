@@ -63,4 +63,4 @@ class RematchWithNewDecksPrompt extends AllPlayerPrompt {
     }
 }
 
-module.exports = RematchWithNewDecksPrompt; 
+module.exports = RematchWithNewDecksPrompt;
