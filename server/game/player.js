@@ -1198,7 +1198,8 @@ class Player extends GameObject {
             !prophecyCard.isProphecy() ||
             prophecyCard.activeProphecy ||
             prophecyCard.controller !== this ||
-            (this.game.propheciesActivatedThisPhase.length > 0 && !this.game.manualMode)
+            (this.game.propheciesActivatedThisPhase.length > 0 && !this.game.manualMode) ||
+            this.hand.length === 0
         ) {
             return false;
         }
