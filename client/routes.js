@@ -6,6 +6,7 @@ import Logout from './pages/Logout';
 import Register from './pages/Register';
 import Lobby from './pages/Lobby';
 import Decks from './pages/Decks';
+import DeckStat from './pages/DeckStat';
 //import Matches from './pages/Matches';
 import ImportDeck from './Components/Decks/ImportDeck';
 import HowToPlay from './pages/HowToPlay';
@@ -39,6 +40,7 @@ const routes = [
         )
     },
     { path: '/blocklist', action: () => <BlockList key='blocklist' /> },
+    { path: '/deckstats', action: () => <DeckStat key='deckstats' /> },
     { path: '/decks', action: () => <Decks key='decks' /> },
     { path: '/decks/import', action: () => <ImportDeck key='importDecks' /> },
     {

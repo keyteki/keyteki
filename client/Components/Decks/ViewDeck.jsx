@@ -5,6 +5,7 @@ import { ButtonGroup, Col } from 'react-bootstrap';
 import ConfirmButton from '../Form/ConfirmButton';
 import DeckSummary from './DeckSummary';
 import Panel from '../Site/Panel';
+import Link from '../../Components/Navigation/Link';
 import { deleteDeck } from '../../redux/actions';
 import { useDispatch } from 'react-redux';
 
@@ -31,6 +32,9 @@ const ViewDeck = ({ deck }) => {
                         <Trans>Delete</Trans>
                     </ConfirmButton>
                 </ButtonGroup>
+                <Link className='btn btn-primary ml-2' href='/deckstats'>
+                    <Trans>Statistics</Trans>
+                </Link>
             </Col>
             <DeckSummary deck={deck} />
         </Panel>
