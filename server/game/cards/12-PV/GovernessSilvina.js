@@ -1,10 +1,12 @@
 const Card = require('../../Card.js');
 
 class GovernessSilvina extends Card {
-    // Play: Move each from a friendly creature to the most powerful enemy creature.
+    // Play: Move each A from a friendly creature to the most powerful enemy creature.
     // Scrap: Stun 2 creatures with no on them.
     setupCardAbilities(ability) {
         this.play({
+            condition: (context) =>
+                context.player.opponent && context.player.opponent.creaturesInPlay.length > 0,
             target: {
                 cardType: 'creature',
                 controller: 'self',

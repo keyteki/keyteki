@@ -55,5 +55,15 @@ describe('Governess Silvina', function () {
             expect(this.culfTheQuiet.stunned).toBe(true);
             expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
         });
+
+        it('should do nothing if there are no enemy creatures', function () {
+            this.oratorHissaro.tokens.amber = 2;
+            this.player2.moveCard(this.krump, 'discard');
+            this.player2.moveCard(this.dustPixie, 'discard');
+            this.player2.moveCard(this.culfTheQuiet, 'discard');
+            this.player1.playCreature(this.governessSilvina);
+            expect(this.oratorHissaro.tokens.amber).toBe(2);
+            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+        });
     });
 });
