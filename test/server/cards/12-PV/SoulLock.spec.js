@@ -7,8 +7,8 @@ describe('Soul Lock', function () {
                     inPlay: ['soul-lock', 'library-of-the-damned', 'searine']
                 },
                 player2: {
-                    hand: ['skippy-the-glorious'],
-                    inPlay: ['troll', 'krump', 'dextre', 'gauntlet-of-command']
+                    hand: ['skippy-the-glorious', 'the-grey-rider'],
+                    inPlay: ['troll', 'krump', 'dextre', 'barrister-joya', 'gauntlet-of-command']
                 }
             });
         });
@@ -62,6 +62,19 @@ describe('Soul Lock', function () {
             this.player2.clickCard(this.searine);
             expect(this.soulLock.exhausted).toBe(true);
             expect(this.searine.location).toBe('under');
+            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+        });
+
+        it('should allow use of other cards triggered by cards of the locked house', function () {
+            this.player1.useAction(this.soulLock);
+            this.player1.clickCard(this.barristerJoya);
+            this.player1.endTurn();
+            this.player2.clickPrompt('sanctum');
+            this.player2.playCreature(this.theGreyRider, true);
+            this.player2.clickCard(this.theGreyRider);
+            this.player2.clickCard(this.troll);
+            this.player2.clickCard(this.searine);
+            expect(this.searine.location).toBe('discard');
             expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
         });
     });
