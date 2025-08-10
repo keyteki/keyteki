@@ -19,9 +19,11 @@ class HazardZerp extends Card {
         });
 
         this.scrap({
-            effect: 'discard {1} and deal 3 damage to a creature',
-            effectArgs: (context) =>
+            effect: 'discard {1} and deal 3 damage to {2}',
+            effectArgs: (context) => [
                 context.targets.discard ? context.targets.discard : 'nothing',
+                context.targets.damage ? context.targets.damage : 'nothing'
+            ],
             targets: {
                 discard: {
                     activePromptTitle: 'Choose a card to discard',
@@ -30,7 +32,6 @@ class HazardZerp extends Card {
                     gameAction: ability.actions.discard()
                 },
                 damage: {
-                    dependsOn: 'discard',
                     cardType: 'creature',
                     gameAction: ability.actions.dealDamage({ amount: 3 })
                 }
