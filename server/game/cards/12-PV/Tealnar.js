@@ -27,6 +27,7 @@ class Tealnar extends Card {
                     );
                     return [successfulEvents.length];
                 },
+                effectAlert: true,
                 gameAction: ability.actions.gainAmber((context) => ({
                     target: context.game.activePlayer.opponent,
                     amount: context.preThenEvents.filter(
