@@ -161,7 +161,6 @@ describe('Kaupe Evil Twin', function () {
         });
 
         it('should be able to discard even when no enemy creatures are in play', function () {
-            this.player2.moveCard(this.lamindra, 'discard');
             this.player2.moveCard(this.gladiodontus, 'discard');
             this.player2.moveCard(this.troll, 'discard');
             this.player1.reap(this.kaupeEvilTwin);

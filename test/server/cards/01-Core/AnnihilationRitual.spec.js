@@ -13,7 +13,7 @@ describe('Annihilation Ritual', function () {
                         'mighty-tiger',
                         'snufflegator',
                         'inka-the-spider',
-                        'grumpus:flaxia',
+                        'grumpus:lost-in-the-woods',
                         'brammo'
                     ],
                     hand: ['niffle-kong', 'niffle-kong2', 'ancient-bear']
