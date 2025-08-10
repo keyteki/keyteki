@@ -724,10 +724,6 @@ class PlayerInteractionWrapper {
 
         return card;
     }
-
-    getDiscardSlice(amount) {
-        return this.player.getDiscardSlice(amount);
-    }
 }
 
 module.exports = PlayerInteractionWrapper;
