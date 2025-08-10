@@ -74,5 +74,15 @@ describe('Warfaline', function () {
             expect(shuffled).toBe(this.player1.player);
             expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
         });
+
+        it('shuffles nothing for empty discard ', function () {
+            let shuffled = null;
+            this.player1.player.game.on('onDeckShuffled', (event) => (shuffled = event.player));
+            this.player1.player.discard = [];
+            this.player1.play(this.warfaline);
+            this.player1.clickPrompt('Mine');
+            expect(shuffled).toBe(this.player1.player);
+            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+        });
     });
 });
