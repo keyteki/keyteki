@@ -31,7 +31,8 @@ class StrategicFeint extends Card {
                     )
                 })),
                 message: '{0} uses {1} to prevent playing {3} cards for the remainder of the turn',
-                messageArgs: (context) => [context.preThenEvent.card.type]
+                messageArgs: (context) => [context.preThenEvent.card.type],
+                effectAlert: true
             }
         });
     }
