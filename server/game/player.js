@@ -484,6 +484,8 @@ class Player extends GameObject {
      * @param {Object} options
      */
     moveCard(card, targetLocation, options = {}) {
+        let origCard = card.createSnapshot();
+
         if (targetLocation.endsWith(' bottom')) {
             options.bottom = true;
             targetLocation = targetLocation.replace(' bottom', '');
@@ -574,6 +576,9 @@ class Player extends GameObject {
 
         this.game.raiseEvent('onCardPlaced', {
             card: card,
+            // Remember the card as it was originally (e.g.,
+            // tokens that have left play need to be remembered as tokens).
+            cloneOverride: origCard,
             from: location,
             to: targetLocation,
             drawn: options.drawn

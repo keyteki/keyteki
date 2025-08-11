@@ -45,7 +45,6 @@ describe('Genetic Strain', function () {
 
         it('should not make opponent gain amber when fate is triggered if they have no Mutants', function () {
             this.player1.moveCard(this.citizenShrix, 'discard');
-            this.player1.moveCard(this.bordanTheRedeemed, 'discard');
             this.player1.activateProphecy(this.overreach, this.geneticStrain);
             this.player1.endTurn();
             this.player2.clickPrompt('untamed');
