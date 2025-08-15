@@ -5,7 +5,7 @@ class ThermalDepletion extends Card {
     setupCardAbilities(ability) {
         this.play({
             effect: 'prevent creatures from readying until the start of their next turn',
-            gameAction: ability.actions.lastingEffect({
+            gameAction: ability.actions.untilNextTurn({
                 targetController: 'any',
                 effect: ability.effects.cardCannot('ready')
             })
