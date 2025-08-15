@@ -31,6 +31,11 @@ describe('Thermal Depletion', function () {
             this.player1.clickPrompt('brobnar');
             expect(this.troll.exhausted).toBe(true);
             expect(this.dustPixie.exhausted).toBe(true);
+            this.player1.endTurn();
+            this.player2.clickPrompt('untamed');
+            this.player2.endTurn();
+            expect(this.troll.exhausted).toBe(false);
+            expect(this.dustPixie.exhausted).toBe(false);
         });
     });
 });
