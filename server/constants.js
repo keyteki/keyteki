@@ -45,7 +45,8 @@ Constants.Expansions = [
     { id: 874, label: 'MoMu', tideRequired: false },
     { id: 907, label: 'DISC', tideRequired: false },
     { id: 939, label: 'VM2025', tideRequired: false },
-    { id: 886, label: 'PV', tideRequired: false }
+    { id: 886, label: 'PV', tideRequired: false },
+    { id: 918, label: 'CC', tideRequired: false }
 ];
 Constants.Tide = Object.freeze({
     HIGH: 'high',

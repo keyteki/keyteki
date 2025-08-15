@@ -603,6 +603,10 @@ class DeckService {
                 if ((card.card && card.card.type === 'prophecy') || card.prophecyId) {
                     continue;
                 }
+                // Skip archon power cards
+                if (card.card && card.card.type === 'archon power') {
+                    continue;
+                }
 
                 // Only add the token card from a given deck once
                 if (card.id === deck.tokenCard?.id) {
