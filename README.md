@@ -44,13 +44,60 @@ Check out the [About page](https://thecrucible.online/about) of Keyteki live dep
 
 If you have docker installed, you can use the containerised version of the site.
 
+#### MACOS Setup
+```
+brew install colima
+colima start
+# colima stop --force
+brew install docker-compose
+mkdir -p ~/.docker/cli-plugins 
+ln -sfn $HOMEBREW_PREFIX/opt/docker-compose/bin/docker-compose ~/.docker/cli-plugins/docker-compose
+brew install pyenv
+pyenv install 3.11.9
+pyenv init
+# exec above and reload shell, so you have pyenv available at your terminal
+pyenv shell 3.11.9
+
+```
+
 Clone the repository, then run the following commands:
 
 ```
 git submodule init
 git submodule update
 npm install
-docker-compose up
+docker volume create --name=tco_dbdata
+docker-compose up --build
+```
+
+#### Running with Hybrid Setup (Docker services + Local Node server)
+
+If you want to run the Node.js server locally while using Docker for Redis and PostgreSQL:
+
+1. Start only the database services:
+```bash
+docker-compose up -d redis postgres
+```
+
+2. Update `config/default.json5` to point to localhost:
+```javascript
+redisUrl: 'redis://localhost:6379/',
+dbUser: 'keyteki',
+dbHost: 'localhost',
+dbDatabase: 'keyteki',
+dbPassword: 'changemeplease',
+dbPort: 54320,
+```
+
+3. Run the Node.js server locally:
+```bash
+npm start
+```
+
+#### Troubleshooting
+```bash
+# If you get memory allocation errors:
+docker builder prune
 ```
 
 In another terminal, run the following command:
@@ -66,7 +113,7 @@ Fetchdata takes a while to run, and some images may error out due to API rate li
 #### Required Software
 
 -   Git
--   Node.js 16
+-   Node.js v16.20.2
 -   PostgreSQL
 -   Redis
 

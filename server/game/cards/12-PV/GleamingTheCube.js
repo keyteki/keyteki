@@ -35,7 +35,8 @@ class GleamingTheCube extends Card {
                     player: context.game.activePlayer
                 })),
                 message: '{0} uses {1} to change the active house to {3}',
-                messageArgs: (context) => [context.house]
+                messageArgs: (context) => [context.house],
+                effectAlert: true
             }
         });
     }

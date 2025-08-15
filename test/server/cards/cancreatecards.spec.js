@@ -31,7 +31,8 @@ const player = {
     isTideHigh: () => true,
     isTideLow: () => false,
     isHaunted: () => true,
-    keys: { red: true, blue: true, yellow: true }
+    keys: { red: true, blue: true, yellow: true },
+    getDiscardSlice: () => []
 };
 player.opponent = player;
 card.controller = player;
