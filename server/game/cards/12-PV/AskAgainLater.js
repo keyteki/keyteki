@@ -19,10 +19,7 @@ class AskAgainLater extends Card {
                 target: context.player.deck[0]
             })),
             then: (preThenContext) => ({
-                alwaysTriggers: true,
-                condition: (context) =>
-                    !context.preThenEvent ||
-                    !context.preThenEvent.card.hasHouse(preThenContext.house),
+                condition: (context) => !context.preThenEvent.card.hasHouse(preThenContext.house),
                 gameAction: ability.actions.fulfillProphecy((context) => ({
                     card: context.source
                 }))

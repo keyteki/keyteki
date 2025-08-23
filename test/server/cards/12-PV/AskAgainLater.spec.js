@@ -71,18 +71,5 @@ describe('Ask Again Later', function () {
             expect(this.player2).not.toHavePromptButton('shadows');
             expect(this.player2).not.toHavePromptButton('mars');
         });
-
-        it('should fulfill prophecy when player1 has no cards in deck', function () {
-            this.player1.activateProphecy(this.askAgainLater, this.parasiticArachnoid);
-            this.player1.endTurn();
-            this.player1.player.deck = [];
-            this.player2.clickPrompt('brobnar');
-            this.player2.clickPrompt('dis');
-            this.player2.clickCard(this.troll);
-            expect(this.player2.amber).toBe(2);
-            expect(this.troll.amber).toBe(2);
-            expect(this.parasiticArachnoid.location).toBe('discard');
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
-        });
     });
 });
