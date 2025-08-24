@@ -21,7 +21,6 @@ class SuggestionBox extends Card {
                     gameAction: ability.actions.discard((context) => ({
                         target: context.player.deck.slice(0, 4)
                     })),
-                    message: '{0} uses {1} to discard {3}',
                     messageArgs: (context) => [context.player.deck.slice(0, 4)]
                 }
             })
