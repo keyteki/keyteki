@@ -29,7 +29,6 @@ class Webstur extends Card {
                         this.discards++;
                         return true;
                     },
-                    message: '{0} uses {1} to discard {3}',
                     messageArgs: (context) => [context.preThenEvents.map((e) => e.card)],
                     gameAction: ability.actions.resolveAbility({ ability: context.ability })
                 })

@@ -13,8 +13,6 @@ class BondsmanBelvan extends Card {
                 promptWithHandlerMenu: {
                     optional: true,
                     activePromptTitle: 'Do you want to discard this card?',
-                    message: '{0} uses {1} to discard {2}',
-                    messageArgs: () => [context.player, context.source, context.player.opponent],
                     choices: ['Leave on top of deck'],
                     handlers: [() => []],
                     cards: [context.player.opponent ? context.player.opponent.deck[0] : undefined]

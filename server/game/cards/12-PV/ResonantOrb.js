@@ -41,8 +41,6 @@ class ResonantOrb extends Card {
                     gameAction: ability.actions.discard((context) => ({
                         target: context.player.deck[0]
                     })),
-                    message: '{0} uses {1} to discard {3}',
-                    messageArgs: (context) => [context.player.deck[0]],
                     then: {
                         condition: (context) =>
                             context.preThenEvents.length > 0 &&

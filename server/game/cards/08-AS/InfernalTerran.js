@@ -13,7 +13,6 @@ class InfernalTerran extends Card {
                     promptForSelect: {
                         controller: 'self',
                         location: 'hand',
-                        message: '{0} uses {1} to discard {2}',
                         messageArgs: (card) => [context.player, context.source, card]
                     }
                 })),
@@ -31,13 +30,19 @@ class InfernalTerran extends Card {
                 messageArgs: (context) =>
                     context.preThenEvents.reduce(
                         (acc, event) =>
-                            acc + event.card.bonusIcons.filter((icon) => icon === 'amber').length,
+                            acc +
+                            (event.card
+                                ? event.card.bonusIcons.filter((icon) => icon === 'amber').length
+                                : 0),
                         0
                     ),
                 gameAction: ability.actions.steal((context) => ({
                     amount: context.preThenEvents.reduce(
                         (acc, event) =>
-                            acc + event.card.bonusIcons.filter((icon) => icon === 'amber').length,
+                            acc +
+                            (event.card
+                                ? event.card.bonusIcons.filter((icon) => icon === 'amber').length
+                                : 0),
                         0
                     )
                 }))

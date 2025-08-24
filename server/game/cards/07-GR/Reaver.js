@@ -20,7 +20,6 @@ class Reaver extends Card {
                         location: 'hand',
                         gameAction: ability.actions.discard()
                     },
-                    message: '{0} uses {1} to discard {3}',
                     messageArgs: (context) => [context.target]
                 }
             }
