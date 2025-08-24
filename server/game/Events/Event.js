@@ -15,10 +15,11 @@ class Event {
         this.childEvent = null;
         this.subEvent = null;
         this.openReactionWindow = true;
+        this.clone = null;
 
         _.extend(this, params);
-
-        if (this.card) {
+        this.clone = this.cloneOverride;
+        if (this.card && !this.clone) {
             this.clone = this.card.createSnapshot();
         }
     }
@@ -94,7 +95,7 @@ class Event {
             return;
         }
 
-        if (this.card) {
+        if (this.card && !this.cloneOverride) {
             this.clone = this.card.createSnapshot();
         }
     }

@@ -19,7 +19,6 @@ class EmpyreanCharge extends Card {
                         context.player.opponent ? context.player.opponent.archives : []
                     )
                 })),
-                message: '{0} uses {1} to discard {3} from the archives',
                 messageArgs: (context) => [
                     context.player.archives.concat(
                         context.player.opponent ? context.player.opponent.archives : []

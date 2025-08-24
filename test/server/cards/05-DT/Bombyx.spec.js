@@ -24,7 +24,6 @@ describe('Bombyx', function () {
         });
 
         it('should be destroyed if played when there are no ceatures', function () {
-            this.player1.moveCard(this.flaxia, 'discard');
             this.player1.play(this.bombyx);
             this.player1.endTurn();
             expect(this.bombyx.location).toBe('discard');

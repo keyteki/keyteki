@@ -433,7 +433,8 @@ class Card extends EffectSource {
                         onFate: (event, context) => event.card === context.source
                     },
                     name: 'Fate',
-                    location: 'any'
+                    location: 'any',
+                    effectAlert: true
                 },
                 properties
             )

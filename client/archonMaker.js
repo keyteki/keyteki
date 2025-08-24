@@ -315,6 +315,10 @@ export const buildDeckList = async (canvas, deck, language, translate, size) => 
 
     for (const { count, card } of deck.cards) {
         if (!card || card.isNonDeck) {
+            // Skip archon power cards
+            if (card && card.type === 'archon power') {
+                continue;
+            }
             if (card && card.type === 'prophecy') {
                 prophecyCards.push(card);
             } else {

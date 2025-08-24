@@ -12,7 +12,8 @@ const parameters = {
     ['the tide']: { top: 0, height: 490, width: 297.5 },
     creature1: { top: -5, height: 380, width: 417.5 },
     upgrade: { top: -140, height: 225, width: 297.5 },
-    ['prophecy']: { top: 0, height: 490, width: 297.5 }
+    ['prophecy']: { top: 0, height: 490, width: 297.5 },
+    ['archon power']: { top: 0, height: 490, width: 297.5 }
 };
 const shadowProps = {
     color: 'Black',

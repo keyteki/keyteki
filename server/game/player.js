@@ -484,6 +484,8 @@ class Player extends GameObject {
      * @param {Object} options
      */
     moveCard(card, targetLocation, options = {}) {
+        let origCard = card.createSnapshot();
+
         if (targetLocation.endsWith(' bottom')) {
             options.bottom = true;
             targetLocation = targetLocation.replace(' bottom', '');
@@ -574,6 +576,9 @@ class Player extends GameObject {
 
         this.game.raiseEvent('onCardPlaced', {
             card: card,
+            // Remember the card as it was originally (e.g.,
+            // tokens that have left play need to be remembered as tokens).
+            cloneOverride: origCard,
             from: location,
             to: targetLocation,
             drawn: options.drawn
@@ -710,7 +715,7 @@ class Player extends GameObject {
             }
 
             return houses;
-        }, this.houses);
+        }, this.houses.slice());
         let stopHouseChoice = this.getEffects('stopHouseChoice');
         let restrictHouseChoice = _.flatten(this.getEffects('restrictHouseChoice')).filter(
             (house) => !stopHouseChoice.includes(house) && availableHouses.includes(house)
@@ -1198,7 +1203,8 @@ class Player extends GameObject {
             !prophecyCard.isProphecy() ||
             prophecyCard.activeProphecy ||
             prophecyCard.controller !== this ||
-            (this.game.propheciesActivatedThisPhase.length > 0 && !this.game.manualMode)
+            (this.game.propheciesActivatedThisPhase.length > 0 && !this.game.manualMode) ||
+            this.hand.length === 0
         ) {
             return false;
         }

@@ -41,5 +41,13 @@ describe('Hazard Zerp', function () {
             expect(this.flaxia.location).toBe('discard');
             expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
         });
+
+        it('should fire scrap even when no card is discarded', function () {
+            this.player1.moveCard(this.flaxia, 'discard');
+            this.player1.scrap(this.hazardZerp);
+            this.player1.clickCard(this.krump);
+            expect(this.krump.tokens.damage).toBe(3);
+            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+        });
     });
 });

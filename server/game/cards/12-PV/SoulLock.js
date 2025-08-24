@@ -13,7 +13,12 @@ class SoulLock extends Card {
                 ) {
                     return false;
                 }
-                const source = event && event.card ? event.card : context.source;
+                const source =
+                    event && event.card
+                        ? event.card
+                        : context.target
+                        ? context.target
+                        : context.source;
                 return effectContext.source.childCards.some((child) =>
                     child.getHouses().some((house) => source.hasHouse(house))
                 );
