@@ -11,7 +11,8 @@ describe('Infernal Terran', function () {
                         'dew-faerie',
                         'dust-pixie',
                         'control-the-weak'
-                    ]
+                    ],
+                    discard: ['carrion-wyrm']
                 },
                 player2: {
                     amber: 4
@@ -56,6 +57,19 @@ describe('Infernal Terran', function () {
 
         it('should discard hand and steal amber on scrap', function () {
             this.player1.scrap(this.infernalTerran);
+            expect(this.emberImp.location).toBe('discard');
+            expect(this.dewFaerie.location).toBe('discard');
+            expect(this.dustPixie.location).toBe('discard');
+            expect(this.controlTheWeak.location).toBe('discard');
+            expect(this.player1.amber).toBe(4);
+            expect(this.player2.amber).toBe(1);
+            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+        });
+
+        it('should discard hand and steal amber on scrap when there is another scrap ability', function () {
+            this.player1.moveCard(this.carrionWyrm, 'hand');
+            this.player1.scrap(this.infernalTerran);
+            this.player1.clickCard(this.carrionWyrm);
             expect(this.emberImp.location).toBe('discard');
             expect(this.dewFaerie.location).toBe('discard');
             expect(this.dustPixie.location).toBe('discard');
