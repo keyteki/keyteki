@@ -1046,7 +1046,7 @@ class DeckService {
                 !card.id
                     .split('')
                     .every((char) =>
-                        'æaăàáãǎâbcdeĕèéěfghĭìíǐijklmnoöǑŏòóõǒpqrstuŭùúǔvwxyz0123456789-[]*…'.includes(
+                        'æaăàáãǎâbcdeĕèéěfghĭìíǐijklmnoöǑŏòóõǒpqrstuŭùúǔüvwxyz0123456789-[]*…'.includes(
                             char
                         )
                     )
