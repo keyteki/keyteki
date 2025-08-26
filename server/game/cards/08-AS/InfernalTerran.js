@@ -27,25 +27,29 @@ class InfernalTerran extends Card {
             })),
             then: {
                 message: '{0} uses {1} to steal {3} amber',
-                messageArgs: (context) =>
-                    context.preThenEvents.reduce(
-                        (acc, event) =>
-                            acc +
-                            (event.card
-                                ? event.card.bonusIcons.filter((icon) => icon === 'amber').length
-                                : 0),
+                messageArgs: (context) => {
+                    const events = context.preThenEvents || [];
+                    const cards = events.flatMap((e) =>
+                        (Array.isArray(e.cards) ? e.cards : []).concat(e.card ? [e.card] : [])
+                    );
+                    return cards.reduce(
+                        (acc, card) =>
+                            acc + card.bonusIcons.filter((icon) => icon === 'amber').length,
                         0
-                    ),
-                gameAction: ability.actions.steal((context) => ({
-                    amount: context.preThenEvents.reduce(
-                        (acc, event) =>
-                            acc +
-                            (event.card
-                                ? event.card.bonusIcons.filter((icon) => icon === 'amber').length
-                                : 0),
+                    );
+                },
+                gameAction: ability.actions.steal((context) => {
+                    const events = context.preThenEvents || [];
+                    const cards = events.flatMap((e) =>
+                        (Array.isArray(e.cards) ? e.cards : []).concat(e.card ? [e.card] : [])
+                    );
+                    const amount = cards.reduce(
+                        (acc, card) =>
+                            acc + card.bonusIcons.filter((icon) => icon === 'amber').length,
                         0
-                    )
-                }))
+                    );
+                    return { amount };
+                })
             }
         });
     }

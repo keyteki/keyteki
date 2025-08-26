@@ -11,10 +11,24 @@ class Plummet extends Card {
             then: {
                 gameAction: ability.actions.dealDamage((context) => ({
                     target: context.game.creaturesInPlay,
-                    amount: context.preThenEvents.length
+                    amount: (() => {
+                        const events = context.preThenEvents || [];
+                        const cards = events.flatMap((e) =>
+                            (Array.isArray(e.cards) ? e.cards : []).concat(e.card ? [e.card] : [])
+                        );
+                        return cards.length || events.length;
+                    })()
                 })),
                 message: '{0} uses {1} to deal {3} damage to each creature',
-                messageArgs: (context) => [context.preThenEvents.length]
+                messageArgs: (context) => [
+                    (() => {
+                        const events = context.preThenEvents || [];
+                        const cards = events.flatMap((e) =>
+                            (Array.isArray(e.cards) ? e.cards : []).concat(e.card ? [e.card] : [])
+                        );
+                        return cards.length || events.length;
+                    })()
+                ]
             }
         });
     }

@@ -56,7 +56,6 @@ class DiscardCardAction extends CardGameAction {
             context.game.promptForSelect(activePlayer, {
                 activePromptTitle: 'Select next card to discard',
                 context: context,
-                controller: 'self',
                 location: 'hand',
                 cardCondition: (card) => this._remainingDiscardCards.includes(card),
                 onSelect: (player, card) => {
@@ -101,8 +100,17 @@ class DiscardCardAction extends CardGameAction {
         if (this._orderedByPrompt) {
             const orderedTargets = this.target.filter((t) => this.canAffect(t, context));
 
+            if (orderedTargets.length > 0 && this.chatMessage) {
+                context.game.addMessage(
+                    '{0} uses {1} to discard {2}',
+                    context.player,
+                    context.source,
+                    this.target
+                );
+            }
+
             return [
-                context.game.getEvent('unnamedEvent', {}, () => {
+                context.game.getEvent('onOrderedDiscard', { cards: orderedTargets }, () => {
                     // No chat message here; callers like ChosenDiscardAction/RandomDiscardAction already log
                     for (const card of orderedTargets) {
                         const evt = this.getEvent(card, context);

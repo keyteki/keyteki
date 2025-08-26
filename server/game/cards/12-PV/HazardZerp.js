@@ -29,7 +29,7 @@ class HazardZerp extends Card {
                     activePromptTitle: 'Choose a card to discard',
                     location: 'hand',
                     controller: 'self',
-                    gameAction: ability.actions.discard()
+                    gameAction: ability.actions.discard({ chatMessage: false })
                 },
                 damage: {
                     cardType: 'creature',
