@@ -8,7 +8,7 @@ Web based implementation of Keyforge: the Unique Deck Game
 
 This is the respository for the code internally known as keyteki which is running on [thecrucible.online](https://thecrucible.online/) allowing people to play KeyForge online using only their browser
 
-### Does't this look a lot like Jinteki/Throneteki? The Android netrunner/AGOT online experience?
+### Doesn't this look a lot like Jinteki/Throneteki? The Android netrunner/AGOT online experience?
 
 Glad you noticed! Yes, jinteki was a huge inspiration for this project, as the interface is clean and user friendly, so I've tried to make this similar in a lot of ways
 
