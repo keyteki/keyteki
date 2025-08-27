@@ -82,8 +82,6 @@ import { faCheck } from '@fortawesome/free-solid-svg-icons';
  * @property {{ [key: string]: { filterVal: string; }; }} filters
  * @property {Expansion[]} expansions
  */
-
-// Extract components outside to fix React Hot Loader issues
 const MultiSelectFilter = ({ expansions, pagingDetails, expansionFilter }) => {
     return (
         <Select

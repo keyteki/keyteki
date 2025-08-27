@@ -119,13 +119,11 @@ const DeckTags = ({ deck }) => {
     const handleCreateAndAssignTag = () => {
         if (!newTagName.trim() || !deck?.id) return;
 
-        // Check for duplicate names
         const existingTag = tags.find(
             (tag) => tag.name.toLowerCase() === newTagName.trim().toLowerCase()
         );
 
         if (existingTag) {
-            // If tag exists, just assign it
             if (deckTags.length < 10) {
                 dispatch(assignTagToDeck(deck.id, existingTag.id));
             }
@@ -134,16 +132,14 @@ const DeckTags = ({ deck }) => {
             return;
         }
 
-        // Check limits
         if (tags.length >= 10) {
-            return; // User already has max tags
+            return;
         }
 
         if (deckTags.length >= 10) {
-            return; // Deck already has max tags
+            return;
         }
 
-        // Create new tag
         dispatch(
             createTag({
                 name: newTagName.trim(),
@@ -158,7 +154,6 @@ const DeckTags = ({ deck }) => {
         setShowAddTagInput(false);
     };
 
-    // Don't render if deck is not available
     if (!deck) {
         return null;
     }
