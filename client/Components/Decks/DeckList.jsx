@@ -11,7 +11,7 @@ import debounce from 'lodash.debounce';
 import $ from 'jquery';
 
 import CardBack from './CardBack';
-import { loadDecks, selectDeck, loadStandaloneDecks } from '../../redux/actions';
+import { loadDecks, selectDeck, loadStandaloneDecks, loadTags } from '../../redux/actions';
 
 import './DeckList.scss';
 import { Constants } from '../../constants';
@@ -83,6 +83,51 @@ import { faCheck } from '@fortawesome/free-solid-svg-icons';
  * @property {Expansion[]} expansions
  */
 
+// Extract components outside to fix React Hot Loader issues
+const MultiSelectFilter = ({ expansions, pagingDetails, expansionFilter }) => {
+    return (
+        <Select
+            isMulti
+            options={expansions}
+            defaultValue={expansions}
+            value={pagingDetails.filter.find((f) => f.name === 'expansion')?.value}
+            onChange={(values) => expansionFilter.current(values.map((v) => v))}
+        />
+    );
+};
+
+const TagSelectFilter = ({ tags, pagingDetails, tagFilter, t }) => {
+    const tagOptions = tags.map((tag) => ({
+        label: tag.name,
+        value: tag.id,
+        color: tag.color
+    }));
+
+    return (
+        <Select
+            isMulti
+            options={tagOptions}
+            placeholder={t('Filter by tags')}
+            value={pagingDetails.filter.find((f) => f.name === 'tags')?.value || []}
+            onChange={(values) => tagFilter.current(values || [])}
+            formatOptionLabel={(option) => (
+                <div style={{ display: 'flex', alignItems: 'center' }}>
+                    <div
+                        style={{
+                            width: '12px',
+                            height: '12px',
+                            borderRadius: '50%',
+                            backgroundColor: option.color,
+                            marginRight: '8px'
+                        }}
+                    />
+                    {option.label}
+                </div>
+            )}
+        />
+    );
+};
+
 /**
  * @param {DeckListProps} props
  */
@@ -106,12 +151,14 @@ const DeckList = ({
     });
     const nameFilter = useRef(null);
     const expansionFilter = useRef(null);
+    const tagFilter = useRef(null);
     const dispatch = useDispatch();
 
-    const { decks, numDecks, selectedDeck } = useSelector((state) => ({
+    const { decks, numDecks, selectedDeck, tags } = useSelector((state) => ({
         decks: standaloneDecks ? state.cards.standaloneDecks : state.cards.decks,
         numDecks: state.cards.numDecks,
-        selectedDeck: standaloneDecks ? null : state.cards.selectedDeck
+        selectedDeck: standaloneDecks ? null : state.cards.selectedDeck,
+        tags: state.tags?.tags || []
     }));
 
     useEffect(() => {
@@ -119,22 +166,11 @@ const DeckList = ({
             dispatch(loadStandaloneDecks());
         } else {
             dispatch(loadDecks(pagingDetails));
+            dispatch(loadTags()); // Load tags for filtering
         }
 
         $('.filter-label').parent().parent().hide();
     }, [pagingDetails, dispatch, standaloneDecks]);
-
-    const MultiSelectFilter = () => {
-        return (
-            <Select
-                isMulti
-                options={expansions}
-                defaultValue={expansions}
-                value={pagingDetails.filter.find((f) => f.name === 'expansion')?.value}
-                onChange={(values) => expansionFilter.current(values.map((v) => v))}
-            />
-        );
-    };
 
     const selectRow = {
         mode: 'radio',
@@ -251,6 +287,28 @@ const DeckList = ({
             })
         },
         {
+            dataField: 'tags',
+            text: t('Tags'),
+            headerStyle: {
+                display: 'none'
+            },
+            style: {
+                display: 'none'
+            },
+            sort: false,
+            // eslint-disable-next-line react/display-name
+            formatter: (tags) => {
+                if (!tags || !Array.isArray(tags)) return '';
+                return tags.map((tag) => tag.name).join(', ');
+            },
+            filter: multiSelectFilter({
+                options: {},
+                getFilter: (filter) => {
+                    tagFilter.current = filter;
+                }
+            })
+        },
+        {
             dataField: 'lastUpdated',
             headerStyle: {
                 width: '18%'
@@ -328,7 +386,23 @@ const DeckList = ({
                             </Form.Group>
                             <Form.Group as={Col} lg='6' controlId='formGridExpansion'>
                                 <Form.Label>{t('Expansion')}</Form.Label>
-                                <Form.Control as={MultiSelectFilter} />
+                                <MultiSelectFilter
+                                    expansions={expansions}
+                                    pagingDetails={pagingDetails}
+                                    expansionFilter={expansionFilter}
+                                    t={t}
+                                />
+                            </Form.Group>
+                        </Form.Row>
+                        <Form.Row>
+                            <Form.Group as={Col} lg='12' controlId='formGridTags'>
+                                <Form.Label>{t('Tags')}</Form.Label>
+                                <TagSelectFilter
+                                    tags={tags}
+                                    pagingDetails={pagingDetails}
+                                    tagFilter={tagFilter}
+                                    t={t}
+                                />
                             </Form.Group>
                         </Form.Row>
                     </Form>
@@ -351,7 +425,7 @@ const DeckList = ({
                             : paginationFactory({
                                   page: pagingDetails.page,
                                   sizePerPage: pagingDetails.pageSize,
-                                  totalSize: numDecks
+                                  totalSize: parseInt(numDecks) || 0
                               })
                     }
                     filter={filterFactory()}

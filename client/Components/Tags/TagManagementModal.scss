@@ -1,0 +1,86 @@
+.tag-form-section {
+    background: #f8f9fa;
+    padding: 20px;
+    border-radius: 8px;
+    border: 1px solid #dee2e6;
+}
+
+.tag-color-picker {
+    margin-top: 8px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    
+    .color-option {
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        cursor: pointer;
+        border: 2px solid transparent;
+        transition: all 0.2s ease;
+        
+        &:hover {
+            transform: scale(1.1);
+        }
+        
+        &.selected {
+            border-color: #000;
+            box-shadow: 0 0 0 2px #fff, 0 0 0 4px #000;
+        }
+    }
+}
+
+.tag-preview {
+    display: flex;
+    align-items: center;
+    margin-top: 8px;
+}
+
+.existing-tags-section {
+    h5 {
+        margin-bottom: 16px;
+        color: #495057;
+    }
+}
+
+.tags-list {
+    max-height: 300px;
+    overflow-y: auto;
+    
+    .row {
+        margin-left: 0;
+        margin-right: 0;
+    }
+}
+
+.tag-item {
+    padding: 8px 12px;
+    background: #ffffff;
+    border: 1px solid #dee2e6;
+    border-radius: 6px;
+    transition: background-color 0.2s ease;
+    
+    &:hover {
+        background: #f8f9fa;
+    }
+}
+
+@media (max-width: 768px) {
+    .tag-form-section {
+        padding: 15px;
+    }
+    
+    .tag-item {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+        
+        .tag-pill {
+            margin-bottom: 4px;
+        }
+        
+        div {
+            align-self: flex-end;
+        }
+    }
+}

@@ -100,6 +100,9 @@ class DeckService {
 
         await this.getDeckCardsAndHouses(retDeck);
 
+        // Add tags to the deck
+        retDeck.tags = await this.getDeckTags(retDeck.id, deck[0].UserId);
+
         return retDeck;
     }
 
@@ -296,6 +299,16 @@ class DeckService {
                 )} `;
                 params.push(...filterObject.value.map((v) => v.value));
                 index += filterObject.value.length;
+            } else if (filterObject.name === 'tags') {
+                if (filterObject.value && filterObject.value.length > 0) {
+                    filter += `AND d."Id" IN (
+                        SELECT DISTINCT dt."DeckId" 
+                        FROM "DeckTags" dt 
+                        WHERE dt."TagId" IN ${expand(1, filterObject.value.length, index)}
+                    ) `;
+                    params.push(...filterObject.value.map((v) => v.value));
+                    index += filterObject.value.length;
+                }
             } else if (filterObject.name === 'isAlliance') {
                 filter += `AND ${this.mapColumn(filterObject.name)} = $${index++} `;
                 params.push(filterObject.value);
@@ -351,6 +364,9 @@ class DeckService {
 
             retDecks.push(retDeck);
         }
+
+        // Add tags to all decks
+        await this.addTagsToDecks(retDecks, user.id);
 
         return retDecks;
     }
@@ -1089,8 +1105,33 @@ class DeckService {
             uuid: deck.Uuid,
             verified: deck.Verified,
             wins: deck.WinCount,
-            winRate: deck.WinRate
+            winRate: deck.WinRate,
+            tags: [] // Tags will be populated separately
         };
+    }
+
+    async getDeckTags(deckId, userId) {
+        try {
+            const tags = await db.query(
+                'SELECT t."Id" as id, t."Name" as name, t."Color" as color ' +
+                    'FROM "Tags" t ' +
+                    'JOIN "DeckTags" dt ON dt."TagId" = t."Id" ' +
+                    'WHERE dt."DeckId" = $1 AND t."UserId" = $2 ' +
+                    'ORDER BY t."Name" ASC',
+                [deckId, userId]
+            );
+            return tags || [];
+        } catch (err) {
+            logger.error('Failed to get deck tags', err);
+            return [];
+        }
+    }
+
+    async addTagsToDecks(decks, userId) {
+        for (let deck of decks) {
+            deck.tags = await this.getDeckTags(deck.id, userId);
+        }
+        return decks;
     }
 }
 

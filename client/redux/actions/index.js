@@ -6,6 +6,7 @@ export * from './news';
 export * from './socket';
 export * from './deck';
 export * from './admin';
+export * from './tag';
 export * from './user';
 export * from './account';
 export * from './banlist';
