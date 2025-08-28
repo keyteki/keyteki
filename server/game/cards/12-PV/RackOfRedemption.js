@@ -11,20 +11,20 @@ class RackOfRedemption extends Card {
         this.reaction({
             when: {
                 onCardDestroyed: (event) =>
-                    event.card.type === 'creature' &&
-                    event.card.hasTrait('mutant') &&
-                    (this.mutantDestroyed === undefined || this.mutantDestroyed === event.card)
+                    event.clone.type === 'creature' &&
+                    event.clone.hasTrait('mutant') &&
+                    (this.mutantDestroyed === undefined || this.mutantDestroyed === event.clone)
             },
             gameAction: ability.actions.gainAmber((context) => ({
                 preEventHandler: (context) => {
                     if (this.mutantDestroyed === undefined) {
-                        this.mutantDestroyed = context.event.card;
+                        this.mutantDestroyed = context.event.clone;
                     }
                 },
-                target: context.event.card.owner,
+                target: context.event.clone.owner,
                 amount:
                     this.mutantDestroyed === undefined ||
-                    this.mutantDestroyed === context.event.card
+                    this.mutantDestroyed === context.event.clone
                         ? 1
                         : 0
             }))
@@ -40,10 +40,10 @@ class RackOfRedemption extends Card {
         if (
             this.location !== 'play area' &&
             this.mutantDestroyed === undefined &&
-            event.card.type === 'creature' &&
-            event.card.hasTrait('mutant')
+            event.clone.type === 'creature' &&
+            event.clone.hasTrait('mutant')
         ) {
-            this.mutantDestroyed = event.card;
+            this.mutantDestroyed = event.clone;
         }
     }
 }
