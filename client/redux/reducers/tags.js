@@ -75,6 +75,11 @@ export default function (state = initialState, action) {
                 tagDeleted: true
             });
 
+            // Remove the deleted tag from the tags array
+            if (action.response.tagId) {
+                newState.tags = state.tags.filter((tag) => tag.id !== action.response.tagId);
+            }
+
             return newState;
 
         case Tags.AssignTagToDeck:

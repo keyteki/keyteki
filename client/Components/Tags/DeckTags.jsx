@@ -29,16 +29,23 @@ const DeckTags = ({ deck }) => {
     const { t } = useTranslation();
     const dispatch = useDispatch();
 
-    const { tags, loading, tagAssigned, tagRemoved, tagCreated, tagDeleted } = useSelector(
-        (state) => ({
-            tags: state.tags?.tags || [],
-            loading: state.tags?.loading || false,
-            tagAssigned: state.tags?.tagAssigned || false,
-            tagRemoved: state.tags?.tagRemoved || false,
-            tagCreated: state.tags?.tagCreated || false,
-            tagDeleted: state.tags?.tagDeleted || false
-        })
-    );
+    const {
+        tags,
+        loading,
+        tagAssigned,
+        tagRemoved,
+        tagCreated,
+        tagDeleted,
+        tagUpdated
+    } = useSelector((state) => ({
+        tags: state.tags?.tags || [],
+        loading: state.tags?.loading || false,
+        tagAssigned: state.tags?.tagAssigned || false,
+        tagRemoved: state.tags?.tagRemoved || false,
+        tagCreated: state.tags?.tagCreated || false,
+        tagDeleted: state.tags?.tagDeleted || false,
+        tagUpdated: state.tags?.tagUpdated || false
+    }));
 
     const [showTagModal, setShowTagModal] = useState(false);
 
@@ -69,7 +76,7 @@ const DeckTags = ({ deck }) => {
     const availableTags = tags.filter((tag) => !deckTags.some((deckTag) => deckTag.id === tag.id));
 
     useEffect(() => {
-        if (tagAssigned || tagRemoved || tagDeleted) {
+        if (tagAssigned || tagRemoved || tagDeleted || tagUpdated) {
             dispatch(
                 loadDecks({
                     pageSize: 10,
@@ -80,7 +87,7 @@ const DeckTags = ({ deck }) => {
                 })
             );
         }
-    }, [tagAssigned, tagRemoved, tagDeleted, dispatch]);
+    }, [tagAssigned, tagRemoved, tagDeleted, tagUpdated, dispatch]);
 
     useEffect(() => {
         if (tagCreated && newTagName && deckId) {

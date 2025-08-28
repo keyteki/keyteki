@@ -101,12 +101,26 @@ const TagSelectFilter = ({ tags, pagingDetails, tagFilter, t }) => {
         color: tag.color
     }));
 
+    // Get currently selected tag IDs from the filter
+    const selectedTagFilter = pagingDetails.filter.find((f) => f.name === 'tags')?.value || [];
+    const selectedTagIds = selectedTagFilter.map((selectedTag) => selectedTag.value);
+
+    // Build the selected values using current tag data to ensure names and colors are up to date
+    const validSelectedTags = selectedTagIds
+        .map((tagId) => tags.find((tag) => tag.id === tagId))
+        .filter(Boolean) // Remove any tags that no longer exist
+        .map((tag) => ({
+            label: tag.name,
+            value: tag.id,
+            color: tag.color
+        }));
+
     return (
         <Select
             isMulti
             options={tagOptions}
             placeholder={t('Filter by tags')}
-            value={pagingDetails.filter.find((f) => f.name === 'tags')?.value || []}
+            value={validSelectedTags}
             onChange={(values) => tagFilter.current(values || [])}
             formatOptionLabel={(option) => (
                 <div style={{ display: 'flex', alignItems: 'center' }}>
@@ -152,12 +166,16 @@ const DeckList = ({
     const tagFilter = useRef(null);
     const dispatch = useDispatch();
 
-    const { decks, numDecks, selectedDeck, tags } = useSelector((state) => ({
-        decks: standaloneDecks ? state.cards.standaloneDecks : state.cards.decks,
-        numDecks: state.cards.numDecks,
-        selectedDeck: standaloneDecks ? null : state.cards.selectedDeck,
-        tags: state.tags?.tags || []
-    }));
+    const { decks, numDecks, selectedDeck, tags, tagUpdated, tagDeleted } = useSelector(
+        (state) => ({
+            decks: standaloneDecks ? state.cards.standaloneDecks : state.cards.decks,
+            numDecks: state.cards.numDecks,
+            selectedDeck: standaloneDecks ? null : state.cards.selectedDeck,
+            tags: state.tags?.tags || [],
+            tagUpdated: state.tags?.tagUpdated || false,
+            tagDeleted: state.tags?.tagDeleted || false
+        })
+    );
 
     useEffect(() => {
         if (standaloneDecks) {
@@ -169,6 +187,48 @@ const DeckList = ({
 
         $('.filter-label').parent().parent().hide();
     }, [pagingDetails, dispatch, standaloneDecks]);
+
+    // Reload tags and trigger new search when they are updated or deleted
+    useEffect(() => {
+        if (!standaloneDecks && (tagUpdated || tagDeleted)) {
+            dispatch(loadTags());
+
+            // Update the filter state with current tag data before triggering search
+            setPagingDetails((currentPagingDetails) => {
+                const tagFilter = currentPagingDetails.filter.find((f) => f.name === 'tags');
+                if (tagFilter && tagFilter.value.length > 0) {
+                    // Get the selected tag IDs
+                    const selectedTagIds = tagFilter.value.map((selectedTag) => selectedTag.value);
+
+                    // Rebuild the filter with current tag data
+                    const updatedTagFilter = selectedTagIds
+                        .map((tagId) => tags.find((tag) => tag.id === tagId))
+                        .filter(Boolean) // Remove any tags that no longer exist
+                        .map((tag) => ({
+                            label: tag.name,
+                            value: tag.id,
+                            color: tag.color
+                        }));
+
+                    // Update pagingDetails with the new filter data
+                    const updatedPagingDetails = {
+                        ...currentPagingDetails,
+                        filter: currentPagingDetails.filter.map((f) =>
+                            f.name === 'tags' ? { ...f, value: updatedTagFilter } : f
+                        )
+                    };
+
+                    // Trigger the search with updated filter
+                    dispatch(loadDecks(updatedPagingDetails));
+                    return updatedPagingDetails;
+                } else {
+                    // No tag filter active, just reload normally
+                    dispatch(loadDecks(currentPagingDetails));
+                    return currentPagingDetails;
+                }
+            });
+        }
+    }, [tagUpdated, tagDeleted, dispatch, standaloneDecks, tags]);
 
     const selectRow = {
         mode: 'radio',

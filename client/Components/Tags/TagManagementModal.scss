@@ -1,5 +1,4 @@
 .tag-form-section {
-    background: #f8f9fa;
     padding: 20px;
     border-radius: 8px;
     border: 1px solid #dee2e6;
@@ -39,7 +38,6 @@
 .existing-tags-section {
     h5 {
         margin-bottom: 16px;
-        color: #495057;
     }
 }
 
@@ -55,10 +53,10 @@
 
 .tag-item {
     padding: 8px 12px;
-    background: #ffffff;
     border: 1px solid #dee2e6;
     border-radius: 6px;
     transition: background-color 0.2s ease;
+    margin-bottom: 1px;
     
     &:hover {
         background: #f8f9fa;

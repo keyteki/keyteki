@@ -152,7 +152,7 @@ module.exports.init = function (server) {
                 }
 
                 await tagService.deleteTag(req.user, parseInt(req.params.id));
-                res.send({ success: true });
+                res.send({ success: true, tagId: parseInt(req.params.id) });
             } catch (err) {
                 logger.error('Failed to delete tag', err);
 

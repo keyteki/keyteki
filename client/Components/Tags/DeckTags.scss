@@ -9,12 +9,6 @@
     align-items: center;
 }
 
-.tags-title {
-    font-weight: 600;
-    color: #495057;
-    font-size: 0.9rem;
-}
-
 .available-tags-section {
     margin-top: 12px;
     padding-top: 12px;
@@ -30,14 +24,12 @@
 }
 
 .inline-tag-creation {
-    background: #f8f9fa;
     padding: 12px;
     border-radius: 6px;
     border: 1px solid #dee2e6;
     
     .form-label {
         font-weight: 600;
-        color: #495057;
         margin-bottom: 6px;
     }
     
@@ -48,7 +40,6 @@
         padding: 4px;
         border: 1px solid #dee2e6;
         border-radius: 4px;
-        background: white;
         
         .color-option-small {
             width: 20px;
