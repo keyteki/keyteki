@@ -5,6 +5,7 @@ describe('Rack of Redemption', function () {
                 player1: {
                     amber: 1,
                     house: 'redemption',
+                    hand: ['vial-of-mutation'],
                     inPlay: [
                         'rack-of-redemption',
                         'doomsayer',
@@ -56,6 +57,16 @@ describe('Rack of Redemption', function () {
             this.player1.play(this.rackOfRedemption);
             this.player1.fightWith(this.intrepidExemplar, this.troll);
             expect(this.player1.amber).toBe(1);
+            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+        });
+
+        it('should give amber if creature with mutation counter is destroyed', function () {
+            this.player1.play(this.vialOfMutation);
+            this.player1.clickCard(this.ruthlessAvenger);
+            this.player1.clickCard(this.fandangle);
+            this.player1.clickPrompt('Done');
+            this.player1.fightWith(this.ruthlessAvenger, this.troll);
+            expect(this.player1.amber).toBe(3);
             expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
         });
     });
