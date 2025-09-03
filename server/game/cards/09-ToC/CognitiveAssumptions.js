@@ -17,7 +17,7 @@ class CognitiveAssumptions extends Card {
                     amount: context.target.length
                 }))
             },
-            effect: 'to reveal {1} and make {2} token creature{3}',
+            effect: 'reveal {1} and make {2} token creature{3}',
             effectArgs: (context) => [
                 context.target,
                 context.target.length,
