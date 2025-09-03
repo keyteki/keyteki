@@ -81,6 +81,10 @@ const Lobby = () => {
 
     const banners = [
         {
+            img: 'banner/mwkfco-banner-tco.jpg',
+            link: 'https://bestmidwestkeyforgeevents.com/'
+        },
+        {
             img: 'banner/final-refrain-tcobanner.jpg',
             link: 'https://discord.gg/F2VMYgkGJb'
         }
