@@ -6,7 +6,7 @@ class Aerialist extends Card {
     setupCardAbilities(ability) {
         this.persistentEffect({
             condition: (context) => context.player.keys.yellow,
-            targetController: 'self',
+            targetController: 'current',
             match: (card, context) => card === context.source,
             effect: ability.effects.gainAbility('reap', {
                 gameAction: ability.actions.capture()
