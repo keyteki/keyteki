@@ -7,7 +7,7 @@ describe('Born to Rock', function () {
                     inPlay: ['born-to-rock', 'shorty', 'culf-the-quiet', 'foozle', 'troll', 'gub']
                 },
                 player2: {
-                    inPlay: ['flaxia', 'silvertooth']
+                    inPlay: ['flaxia', 'silvertooth', 'brammo', 'krump']
                 }
             });
         });
@@ -18,6 +18,7 @@ describe('Born to Rock', function () {
             expect(this.foozle.getPower()).toBe(5 + 2); // 1 Brobnar neighbor
             expect(this.troll.getPower()).toBe(8 + 1); // 1 brobnar neighbor
             expect(this.gub.getPower()).toBe(1);
+            expect(this.brammo.getPower()).toBe(4);
         });
 
         it('should update power dynamically as neighbors change', function () {

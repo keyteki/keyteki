@@ -5,7 +5,7 @@ class Corsair extends Card {
     setupCardAbilities(ability) {
         this.persistentEffect({
             condition: (context) => context.player.keys.red,
-            targetController: 'self',
+            targetController: 'current',
             match: (card, context) => card === context.source,
             effect: [ability.effects.modifyPower(1), ability.effects.addKeyword({ skirmish: 1 })]
         });

@@ -23,7 +23,7 @@ class StrategicFeint extends Card {
             then: {
                 condition: (context) => !!context.preThenEvent.card,
                 gameAction: ability.actions.forRemainderOfTurn((context) => ({
-                    targetController: 'self',
+                    targetController: 'opponent',
                     effect: ability.effects.playerCannot(
                         'play',
                         (innerContext) =>

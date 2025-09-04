@@ -6,7 +6,7 @@ class Marketeer extends Card {
     setupCardAbilities(ability) {
         this.persistentEffect({
             condition: (context) => context.player.keys.blue,
-            targetController: 'self',
+            targetController: 'current',
             match: (card, context) => card === context.source,
             effect: ability.effects.gainAbility('action', {
                 gameAction: [ability.actions.gainAmber({ amount: 2 }), ability.actions.destroy()]
