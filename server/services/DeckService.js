@@ -354,6 +354,54 @@ class DeckService {
 
         return retDecks;
     }
+    async findStatsForUserDeck(userId, deckId) {
+        logger.error('findStatsForUserDeck ' + userId +' '+ deckId);
+        let retStats = {};
+        let params = [userId];
+        if (deckId != null) {
+            params.push(deckId);
+        }
+        let dbstats;
+        let deckQuery = deckId != null ? '	and gp."DeckId"=$2 ' : '';
+        const query =
+            'Select q_win."GameType", q_win."DeckId", q_win."PlayerId", q_win."WinCount", q_loose."LooseCount" ,' +
+            'CASE ' +
+            'WHEN q_win."WinCount" + q_loose."LooseCount" = 0 THEN ' +
+            '0 ' +
+            'ELSE (CAST(q_win."WinCount" AS FLOAT) / (q_win."WinCount" + q_loose."LooseCount")) * 100 ' +
+            'END AS "WinRate"' +
+            'From' +
+            '(SELECT g."GameType", gp."DeckId" ,gp."PlayerId", count(*) as "WinCount" ' +
+            'FROM "Games" g ' +
+            'JOIN "GamePlayers" gp on gp."GameId" = g."Id"' +
+            '	where gp."PlayerId" =$1' +
+            '	and g."WinnerId" =$1' +
+            deckQuery +
+            '	group by g."GameType", gp."DeckId",gp."PlayerId") q_win' +
+            '	JOIN (' +
+            '	SELECT g."GameType", gp."DeckId" ,gp."PlayerId", count(*) as "LooseCount"' +
+            '	FROM "Games" g' +
+            '	JOIN "GamePlayers" gp on gp."GameId" = g."Id"' +
+            '	where gp."PlayerId" =$1' +
+            '	and g."WinnerId" IS NULL' +
+            deckQuery +
+            '	group by g."GameType", gp."DeckId",gp."PlayerId") q_loose' +
+            '	ON q_win."GameType" = q_loose."GameType"';
+        try {
+            dbstats = await db.query(query, params);
+        } catch (err) {
+            logger.error('Failed to retrieve stats', err);
+        }
+        let statTable = [];
+
+        for (let stat of dbstats) {
+            let retStat = this.mapStat(stat);
+            statTable.push(retStat);
+        }
+        retStats.statTable = statTable;
+
+        return retStats;
+    }
 
     async getDeckCardsAndHouses(deck, standalone = false) {
         let cardTableQuery;
@@ -1075,6 +1123,16 @@ class DeckService {
         };
     }
 
+    mapStat(stat) {
+        return {
+            deckId: stat.DeckId,
+            userId: stat.UserId,
+            gameType: stat.GameType,
+            winCount: stat.WinCount,
+            looseCount: stat.LooseCount,
+            winRate: stat.WinRate
+        };
+    }
     mapDeck(deck) {
         return {
             expansion: deck.Expansion,
@@ -1084,12 +1142,21 @@ class DeckService {
             name: deck.Name,
             lastUpdated: deck.LastUpdated,
             losses: deck.LoseCount,
+            beginnerLosses: deck.BeginnerLoseCount,
+            casualLosses: deck.CasualLoseCount,
+            competitiveLosses: deck.CompetitiveLoseCount,
             usageCount: deck.DeckCount,
             username: deck.Username,
             uuid: deck.Uuid,
             verified: deck.Verified,
             wins: deck.WinCount,
-            winRate: deck.WinRate
+            winRate: deck.WinRate,
+            competitiveWins: deck.CompetitiveWinCount,
+            competitiveWinRate: deck.CompetitiveWinRate,
+            casualWins: deck.CasualWinCount,
+            casualWinRate: deck.CasualWinRate,
+            beginnerWins: deck.BeginnerWinCount,
+            beginnerWinRate: deck.BeginnerWinRate
         };
     }
 }
