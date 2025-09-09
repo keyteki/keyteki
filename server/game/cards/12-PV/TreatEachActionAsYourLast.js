@@ -7,7 +7,7 @@ class TreatEachActionAsYourLast extends Card {
             when: {
                 onCardPlayed: (event, context) =>
                     context.game.activePlayer === context.source.controller.opponent &&
-                    event.card.type === 'action' &&
+                    event.clone.type === 'action' &&
                     context.game.cardsPlayedThisPhase.filter((card) => card.type === 'action')
                         .length >= 2
             },
