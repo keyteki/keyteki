@@ -26,6 +26,18 @@ class CodeMonkey extends Card {
                 ability.actions.archive((context) => ({
                     target: context.source.neighbors
                 }))
+            ],
+            message: '{0} uses {1} to archive {2} and gain {3} amber',
+            messageArgs: (context) => [
+                context.player,
+                context.source,
+                context.source.neighbors.length === 0 ? 'nothing' : context.source.neighbors,
+                context.source.neighbors.length === 2 &&
+                context.source.neighbors[0]
+                    .getHouses()
+                    .some((house) => context.source.neighbors[1].getHouses().includes(house))
+                    ? 2
+                    : 0
             ]
         });
     }

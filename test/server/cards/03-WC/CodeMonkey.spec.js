@@ -38,6 +38,20 @@ describe('Code Monkey', function () {
                 expect(this.titanMechanic.location).toBe('archives');
             });
         });
+
+        describe('next to no creatures', function () {
+            beforeEach(function () {
+                this.player1.moveCard(this.troll, 'hand');
+                this.player1.moveCard(this.badPenny, 'hand');
+                this.player1.moveCard(this.titanMechanic, 'hand');
+                this.player1.moveCard(this.helperBot, 'hand');
+                this.player1.playCreature(this.codeMonkey);
+            });
+
+            it('should not gain 2 amber', function () {
+                expect(this.player1.amber).toBe(0);
+            });
+        });
     });
 
     describe('When played with Sinestra and Dexus in play', function () {
