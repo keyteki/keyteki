@@ -6,7 +6,7 @@ describe('Book of LeQ', function () {
                     amber: 4,
                     house: 'staralliance',
                     inPlay: ['book-of-leq', 'groggins'],
-                    hand: ['troll', 'armsmaster-molina', 'krump']
+                    hand: ['troll', 'armsmaster-molina', 'krump', 'batdrone']
                 },
                 player2: {
                     inPlay: ['dextre'],
@@ -61,6 +61,39 @@ describe('Book of LeQ', function () {
                 this.player2.play(this.fetchdrones);
                 this.player2.playUpgrade(this.rocketBoots, this.hexpion);
                 this.player2.playUpgrade(this.backupCopy, this.hexpion);
+            });
+        });
+
+        describe('when the top card is a house-pipped star alliance card', function () {
+            beforeEach(function () {
+                this.armsmasterMolina.enhacements = ['brobnar'];
+                this.player1.moveCard(this.armsmasterMolina, 'deck');
+                this.player1.useAction(this.bookOfLeq);
+            });
+
+            it('should end the turn', function () {
+                expect(this.game.activePlayer).toBe(this.player2.player);
+            });
+
+            it('should not ready cards', function () {
+                expect(this.bookOfLeq.exhausted).toBe(true);
+            });
+        });
+
+        describe('when the top card is a house-pipped non-star alliance card', function () {
+            beforeEach(function () {
+                this.troll.enhancements = ['logos'];
+                this.player1.moveCard(this.troll, 'deck');
+                this.player1.useAction(this.bookOfLeq);
+            });
+
+            it('should let the player choose which house becomes the active house', function () {
+                expect(this.player1).toHavePrompt('Choose a house');
+                expect(this.player1).toHavePromptButton('logos');
+                expect(this.player1).toHavePromptButton('brobnar');
+                this.player1.clickPrompt('logos');
+                this.player1.playCreature(this.batdrone);
+                expect(this.batdrone.location).toBe('play area');
             });
         });
     });
