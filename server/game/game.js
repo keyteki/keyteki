@@ -1428,7 +1428,8 @@ class Game extends EventEmitter {
 
     cardPlayed(card) {
         this.cardsPlayed.push(card);
-        this.cardsPlayedThisPhase.push(card);
+        // Some cards depend on the type of the player card, which may have changed after it was played.
+        this.cardsPlayedThisPhase.push(card.createSnapshot());
         this.cardNamesPlayedOrUsed.push(card.name);
     }
 
