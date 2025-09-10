@@ -15,7 +15,7 @@ class SauryAboutThat extends Card {
                 ])
             },
             then: (preThenContext) => ({
-                message: '{3} gains 1 amber',
+                message: '{3} gains 1 amber from {1}',
                 messageArgs: () => [preThenContext.target.controller]
             })
         });
