@@ -1,4 +1,4 @@
-import { Decks } from '../types';
+import { Decks, Tags } from '../types';
 
 function selectDeck(state, deck) {
     if (state.decks && state.decks.length !== 0) {
@@ -195,6 +195,11 @@ export default function (state = { decks: [], cards: {} }, action) {
                 deckDeleted: false,
                 deckSaved: false
             });
+        case Tags.TagAssignedToDeck:
+        case Tags.TagRemovedFromDeck:
+            // When tags are assigned/removed, we should reload the decks to get updated data
+            // For now, we'll just return the state as-is and rely on the DeckTags component to trigger a reload
+            return state;
         default:
             return state;
     }
