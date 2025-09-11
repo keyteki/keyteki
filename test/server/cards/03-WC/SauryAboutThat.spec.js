@@ -29,7 +29,7 @@ describe('Saury About That', function () {
                     hand: ['saury-about-that']
                 },
                 player2: {
-                    inPlay: ['lamindra']
+                    inPlay: ['lamindra', 'keyfrog']
                 }
             });
         });
@@ -67,6 +67,18 @@ describe('Saury About That', function () {
             expect(this.lamindra.tokens.ward).toBeUndefined();
             expect(this.player1.amber).toBe(0);
             expect(this.player2.amber).toBe(1);
+        });
+
+        it('should resolve destroy abilities before gaining amber', function () {
+            this.player2.amber = 5;
+            this.player1.play(this.sauryAboutThat);
+
+            expect(this.player1).toHavePrompt('Choose a creature');
+            this.player1.clickCard(this.keyfrog);
+
+            expect(this.keyfrog.location).toBe('discard');
+            expect(this.player1.amber).toBe(0);
+            expect(this.player2.amber).toBe(6);
         });
     });
 });
