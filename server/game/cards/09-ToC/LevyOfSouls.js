@@ -16,9 +16,7 @@ class LevyOfSouls extends Card {
                     targetController: 'any',
                     effect: ability.effects.modifyKeyCost(
                         (_, context) =>
-                            context.source.controller.creaturesInPlay.filter((card) =>
-                                card.isToken()
-                            ).length
+                            context.player.creaturesInPlay.filter((card) => card.isToken()).length
                     )
                 })
             }
