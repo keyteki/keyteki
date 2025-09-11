@@ -1,10 +1,11 @@
-const OpenInformationLocations = ['play area', 'purged', 'grafted', 'discard'];
+const OpenInformationLocations = ['play area', 'purged', 'grafted', 'discard', 'under'];
 
 class CardVisibility {
     constructor(game) {
         this.game = game;
         this.rules = [
             (card) => this.isPublicRule(card),
+            (card) => this.isProphecyRule(card),
             (card) => this.isEffectRule(card),
             (card, player) => this.isControllerRule(card, player),
             (card, player) => this.isSpectatorRule(card, player)
@@ -25,6 +26,10 @@ class CardVisibility {
 
     isPublicRule(card) {
         return OpenInformationLocations.includes(card.location) && !card.facedown;
+    }
+
+    isProphecyRule(card) {
+        return card.type === 'prophecy';
     }
 
     isEffectRule(card) {

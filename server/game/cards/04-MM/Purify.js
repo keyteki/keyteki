@@ -20,7 +20,6 @@ class Purify extends Card {
                 let discardedCards = index > -1 ? deck.slice(0, index + 1) : deck;
                 let card = index > -1 ? deck[index] : null;
                 let result = {
-                    message: '{0} uses {1} to discard {3}',
                     messageArgs: [discardedCards],
                     gameAction: ability.actions.discard({
                         target: discardedCards

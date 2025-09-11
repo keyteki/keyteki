@@ -5,12 +5,19 @@ describe('Near-Future Lens', function () {
                 player1: {
                     amber: 1,
                     house: 'brobnar',
-                    hand: ['pelf', 'near-future-lens', 'help-from-future-self'],
+                    hand: [
+                        'pelf',
+                        'near-future-lens',
+                        'help-from-future-self',
+                        'blood-of-titans',
+                        'curse-of-cowardice'
+                    ],
                     discard: ['timetraveller']
                 },
                 player2: {
                     amber: 1,
-                    inPlay: ['shooler']
+                    inPlay: ['shooler', 'uncommon-currency'],
+                    hand: ['gub']
                 }
             });
         });
@@ -63,6 +70,42 @@ describe('Near-Future Lens', function () {
             expect(this.player1.deck[0].getSummary(this.player1.player).facedown).toBe(false);
             expect(this.player1.deck[0].getSummary(this.player2.player).facedown).toBe(false);
             expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+        });
+
+        it('should add a chat message for the next top card of the deck for uprades', function () {
+            this.player1.moveCard(this.pelf, 'deck');
+            this.player1.moveCard(this.bloodOfTitans, 'deck');
+            this.player1.play(this.nearFutureLens);
+            expect(this).toHaveRecentChatMessage(
+                'player1 uses Near-Future Lens to reveal Blood of Titans'
+            );
+            this.nearFutureLens.ready();
+            this.player1.useAction(this.nearFutureLens, true);
+            this.player1.clickCard(this.shooler);
+            expect(this).toHaveRecentChatMessage('player1 uses Near-Future Lens to reveal Pelf', 2);
+        });
+
+        it('should add a chat message for the next top card of the deck has treachery', function () {
+            this.player1.moveCard(this.pelf, 'deck');
+            this.player1.moveCard(this.curseOfCowardice, 'deck');
+            this.player1.play(this.nearFutureLens);
+            expect(this).toHaveRecentChatMessage(
+                'player1 uses Near-Future Lens to reveal Curse of Cowardice'
+            );
+            this.nearFutureLens.ready();
+            this.player1.useAction(this.nearFutureLens, true);
+            expect(this).toHaveRecentChatMessage('player1 uses Near-Future Lens to reveal Pelf');
+        });
+
+        it('should add a chat message when control changes', function () {
+            this.player2.moveCard(this.gub, 'deck');
+            this.player1.play(this.nearFutureLens);
+            this.player1.endTurn();
+            this.player2.clickPrompt('ekwidon');
+            this.player2.useAction(this.uncommonCurrency);
+            this.player2.clickCard(this.nearFutureLens);
+            expect(this.player2.deck[0].getSummary(this.player1.player).facedown).toBe(false);
+            expect(this).toHaveRecentChatMessage('player2 uses Near-Future Lens to reveal Gub');
         });
     });
 });

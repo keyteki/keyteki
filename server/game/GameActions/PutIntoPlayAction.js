@@ -10,6 +10,8 @@ class PutIntoPlayAction extends CardGameAction {
         this.playedOnLeftFlank = false;
         this.playedOnRightFlank = false;
         this.promptSource = false;
+        this.beingPlayed = false;
+        this.controller = null;
     }
 
     setup() {
@@ -40,13 +42,32 @@ class PutIntoPlayAction extends CardGameAction {
         }
 
         if (card.anyEffect('entersPlayUnderOpponentsControl') && card.owner.opponent) {
-            player = card.owner.opponent;
+            if (this.myControl) {
+                // If we are putting this card into play as if we
+                // owned it, then our opponent gets the card, not the
+                // card's owner's opponent.
+                player = context.player.opponent;
+            } else {
+                player = card.owner.opponent;
+            }
+        } else if (this.controller) {
+            player = this.controller;
         } else {
             player = this.myControl ? context.player : card.controller;
         }
 
-        if (player.cardsInPlay.some((card) => card.type === 'creature')) {
-            let choices = ['Left', 'Right'];
+        if (
+            (this.target.length === 0 || this.target[0].type === 'creature') &&
+            player.cardsInPlay.some((card) => card.type === 'creature')
+        ) {
+            let choices = ['Left'];
+
+            let allowRightFlankDeploy = true;
+            if (!this.beingPlayed || !player.anyEffect('cannotPlayCreaturesOnRight')) {
+                choices.push('Right');
+            } else {
+                allowRightFlankDeploy = false;
+            }
 
             if (
                 (card.anyEffect('enterPlayAnywhere', context) ||
@@ -56,7 +77,17 @@ class PutIntoPlayAction extends CardGameAction {
                 player.creaturesInPlay.length > 1
             ) {
                 choices.push('Deploy Left');
-                choices.push('Deploy Right');
+
+                // Can only deploy right when prevented from playing
+                // on the right flank if there is more than one
+                // creature in play.
+                if (
+                    !this.beingPlayed ||
+                    !player.anyEffect('cannotPlayCreaturesOnRight') ||
+                    player.creaturesInPlay.length > 1
+                ) {
+                    choices.push('Deploy Right');
+                }
             }
 
             context.game.promptWithHandlerMenu(context.player, {
@@ -101,7 +132,11 @@ class PutIntoPlayAction extends CardGameAction {
                             cardCondition: (card) =>
                                 card.location === 'play area' &&
                                 card.controller === player &&
-                                card.type === 'creature',
+                                card.type === 'creature' &&
+                                (flank !== 'right' ||
+                                    allowRightFlankDeploy ||
+                                    player.creaturesInPlay.indexOf(card) <
+                                        player.creaturesInPlay.length - 1),
                             onSelect: (p, card) => {
                                 this.deployIndex = card.controller.cardsInPlay.indexOf(card);
                                 if (flank === 'left' && this.deployIndex >= 0) {
@@ -151,8 +186,18 @@ class PutIntoPlayAction extends CardGameAction {
                 let player;
                 let control;
                 if (card.anyEffect('entersPlayUnderOpponentsControl') && card.owner.opponent) {
-                    player = card.owner.opponent;
+                    if (this.myControl) {
+                        // If we are putting this card into play as if
+                        // we owned it, then our opponent gets the
+                        // card, not the card's owner's opponent.
+                        player = context.player.opponent;
+                    } else {
+                        player = card.owner.opponent;
+                    }
                     control = true;
+                } else if (this.controller) {
+                    player = this.controller;
+                    control = player !== context.player;
                 } else {
                     player = this.myControl ? context.player : card.controller;
                     control = this.myControl;
@@ -176,6 +221,32 @@ class PutIntoPlayAction extends CardGameAction {
                     }
 
                     card.image = card.compositeImageId || card.id;
+                }
+
+                // If we took control, we need to update the effect
+                // contexts AND update the game state to reflect the
+                // new controller, since it could affect the
+                // 'entersPlay' properties below.  But it must be done
+                // before the location of the card is moved to 'play
+                // area', since that could incorrectly affect the
+                // 'entersPlay' effect.
+                if (control && card.controller != player) {
+                    let prevController = card.controller;
+                    card.controller = player;
+                    card.updateEffectContexts();
+                    context.game.checkGameState(true);
+                    card.controller = prevController;
+                }
+
+                for (let e of card.getEffects('entersPlayWithEffect')) {
+                    context.game.actions
+                        .cardLastingEffect({
+                            target: card,
+                            targetLocation: 'play area',
+                            duration: e.duration,
+                            effect: e.builder()
+                        })
+                        .resolve(card, context);
                 }
 
                 player.moveCard(card, 'play area', {

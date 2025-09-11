@@ -501,14 +501,29 @@ module.exports.init = function (server, options) {
         })
     );
 
-    server.post('/api/account/logout', function (req, res, next) {
-        req.logout(function (err) {
-            if (err) {
+    server.post(
+        '/api/account/logout',
+        passport.authenticate('jwt', { session: false }),
+        wrapAsync(async (req, res, next) => {
+            req.params.username = req.user ? req.user.username : undefined;
+
+            let user = await checkAuth(req, res);
+
+            if (!user) {
+                return;
+            }
+
+            try {
+                await userService.clearUserSessions(user.username);
+            } catch (err) {
                 return next(err);
             }
+
+            user.tokens = [];
+
             res.send({ success: true });
-        });
-    });
+        })
+    );
 
     server.post(
         '/api/account/checkauth',

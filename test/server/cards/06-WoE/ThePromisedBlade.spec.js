@@ -53,7 +53,7 @@ describe('The Promised Blade', function () {
                             'xanthyx-harvester',
                             'sv3-lander'
                         ],
-                        hand: []
+                        hand: ['animating-force']
                     }
                 });
             });
@@ -65,6 +65,22 @@ describe('The Promised Blade', function () {
                 this.player2.clickPrompt('Me');
                 expect(this.thePromisedBlade.controller).toBe(this.player2.player);
                 expect(this.player2).toHavePrompt(
+                    'Choose which house you want to activate this turn'
+                );
+            });
+
+            it("should not trigger twice if it's a creature", function () {
+                this.player1.endTurn();
+                this.player2.clickPrompt('Me');
+                this.player2.clickPrompt('geistoid');
+                this.player2.playUpgrade(this.animatingForce, this.thePromisedBlade);
+                this.player2.clickPrompt('Left');
+                this.player2.moveCard(this.myxTheTallminded, 'discard');
+                this.player2.endTurn();
+                this.player1.clickPrompt('Me');
+                this.player1.clickPrompt('Left');
+                expect(this.thePromisedBlade.controller).toBe(this.player1.player);
+                expect(this.player1).toHavePrompt(
                     'Choose which house you want to activate this turn'
                 );
             });

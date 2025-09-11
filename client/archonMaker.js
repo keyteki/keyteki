@@ -54,6 +54,26 @@ const shadowProps = {
 const defaultCardWidth = 65;
 const cardBackDecal = undefined;
 
+const gigantic2s = [
+    'deusillus2',
+    'ultra-gravitron2',
+    'niffle-kong2',
+    'tormax2',
+    'wretched-anathema2',
+    'sirs-colossus2',
+    'bawretchadontius2',
+    'boosted-b4-rry2',
+    'dodger-s-102',
+    'cadet-allison2',
+    'j43g3r-v2',
+    'titanic-bumblebird2',
+    'ascendant-hester2',
+    'horizon-saber2'
+];
+
+// The MV API doesn't provide proper per-house images for these cards.
+const houselessCards = ['build-your-champion', 'digging-up-the-monster', 'tomes-gigantic'];
+
 export const loadImage = (url) => {
     return new Promise((resolve) => {
         fabric.util.loadImage(url, async (image) => {
@@ -221,12 +241,55 @@ const placeCard = (canvas, card, language, x, y) => {
     }
 };
 
+const placeCardCompact = (canvas, card, language, x, y) => {
+    const name = card.locale && card.locale[language] ? card.locale[language].name : card.name;
+
+    // Truncate name if it's too long
+    const maxLength = 16;
+    const truncatedName = name.length > maxLength ? name.substring(0, maxLength - 3) + '...' : name;
+
+    const rarity = new fabric.Image(Rarities[card.rarity].toCanvasElement(), imgOptions);
+    rarity
+        .set({
+            left: x,
+            top: y,
+            shadow: new fabric.Shadow({ ...shadowProps, offsetX: 1, offsetY: 1, blur: 1 })
+        })
+        .scaleToWidth(cardData.size);
+
+    const number = new fabric.Text(card.number.toString(), fontProps).set({
+        left: x + rarity.getScaledWidth() + 2,
+        top: y + 2,
+        fontSize: 17
+    });
+
+    const typeIcon = new fabric.Image(CardTypesIcons[card.type].toCanvasElement(), imgOptions);
+    typeIcon
+        .set({
+            left: x + rarity.getScaledWidth() + number.getScaledWidth() + 2,
+            top: y,
+            shadow: new fabric.Shadow({ ...shadowProps, offsetX: 1, offsetY: 1, blur: 1 })
+        })
+        .scaleToWidth(cardData.size);
+
+    const title = new fabric.Text(truncatedName, {
+        ...fontProps,
+        fontWeight: 300,
+        fontSize: 17,
+        fill: card.enhancements ? '#0081ad' : 'black'
+    }).set({
+        left: x + rarity.getScaledWidth() + 32 + typeIcon.getScaledWidth(),
+        top: y + 2
+    });
+
+    canvas.add(number, title, rarity, typeIcon);
+};
+
 export const buildDeckList = async (canvas, deck, language, translate, size) => {
     if (!cacheLoaded) {
         await cacheImages();
     }
     const width = 840;
-    const height = 600;
     const order = ['action', 'artifact', 'creature', 'upgrade'];
 
     const fontProps = {
@@ -238,13 +301,50 @@ export const buildDeckList = async (canvas, deck, language, translate, size) => 
     };
     const lineStyle = { fill: 'black', stroke: 'black', strokeWidth: 2 };
 
-    canvas.setWidth(width);
-    canvas.setHeight(height);
-
     if (!deck.houses) {
-        buildFailImage(canvas, size, width, height);
+        canvas.setWidth(width);
+        canvas.setHeight(600);
+        buildFailImage(canvas, size, width, 600);
         return;
     }
+
+    // Process cards first to determine if we have prophecies
+    let cardList = [];
+    let nonDeckCards = [];
+    let prophecyCards = [];
+
+    for (const { count, card } of deck.cards) {
+        if (!card || card.isNonDeck) {
+            // Skip archon power cards
+            if (card && card.type === 'archon power') {
+                continue;
+            }
+            if (card && card.type === 'prophecy') {
+                prophecyCards.push(card);
+            } else {
+                nonDeckCards.push(card);
+            }
+            continue;
+        }
+
+        for (let i = 0; i < count; i++) {
+            cardList.push({
+                ...card,
+                is_maverick: !!card.maverick,
+                is_anomaly: !!card.anomaly,
+                enhancements: card.enhancements,
+                type: card.type.replace(/\d/g, ''),
+                rarity:
+                    card.rarity === 'FIXED' || card.rarity === 'Variant' ? 'Special' : card.rarity
+            });
+        }
+    }
+
+    // Extend height to accommodate prophecy cards properly
+    const height = prophecyCards.length > 0 ? 630 : 600;
+
+    canvas.setWidth(width);
+    canvas.setHeight(height);
 
     const houseData = {
         size: 35,
@@ -269,7 +369,9 @@ export const buildDeckList = async (canvas, deck, language, translate, size) => 
 
     QRCodeIcon.set({ left: 737, top: 13 }).scaleToWidth(90);
     expansion.set({ left: 185, top: 72 }).scaleToWidth(20);
-    TCO.set({ left: 757, top: 507 }).scaleToWidth(40);
+    // Position TCO icon based on actual height
+    const tcoTop = height - 33; // 33px from bottom
+    TCO.set({ left: 757, top: tcoTop }).scaleToWidth(40);
     text.set({ left: 210, top: 72 });
     canvas.add(DeckListIcon, line1, line2, line3, QRCodeIcon, expansion, text, TCO);
 
@@ -314,32 +416,24 @@ export const buildDeckList = async (canvas, deck, language, translate, size) => 
         ).set({ left: houseData[index].x + 35, top: houseData[index].y + 5 });
         canvas.add(houseText).add(houseImage);
     }
-    let cardList = [];
-    let nonDeckCards = [];
 
-    for (const { count, card } of deck.cards) {
-        if (!card || card.isNonDeck) {
-            nonDeckCards.push(card);
-            continue;
-        }
+    // Place prophecies in a single row evenly spaced across the bottom
+    if (prophecyCards.length > 0) {
+        const prophecyY = 538;
+        // Each prophecy card takes approximately 150px width, use 170px spacing between starts
+        const cardSpacing = 190;
+        const startX = 60; // Left-aligned with left margin
 
-        for (let i = 0; i < count; i++) {
-            cardList.push({
-                ...card,
-                is_maverick: !!card.maverick,
-                is_anomaly: !!card.anomaly,
-                enhancements: card.enhancements,
-                type: card.type.replace(/\d/g, ''),
-                rarity:
-                    card.rarity === 'FIXED' || card.rarity === 'Variant' ? 'Special' : card.rarity
-            });
+        for (const [index, card] of prophecyCards.entries()) {
+            const x = startX + index * cardSpacing;
+            placeCardCompact(canvas, card, language, x, prophecyY);
         }
     }
 
-    for (const card of nonDeckCards) {
+    // Place other non-deck cards after prophecies
+    for (const [index, card] of nonDeckCards.entries()) {
         const x = cardData.start.x;
-        const y = 538;
-
+        const y = (prophecyCards.length > 0 ? 566 : 538) + index * 28;
         placeCard(canvas, card, language, x, y);
     }
 
@@ -462,6 +556,7 @@ export const buildCard = async (
     {
         maverick,
         anomaly,
+        number,
         enhancements,
         image,
         url,
@@ -510,7 +605,12 @@ export const buildCard = async (
     const bonusIcons = amber > 0 || (enhancements && enhancements.length > 0);
 
     //house overlay
-    if (maverick || anomaly) {
+    if (
+        maverick ||
+        anomaly ||
+        houselessCards.includes(card.id) ||
+        (number && (number[0] === 'R' || number[0] === 'S'))
+    ) {
         let house;
         if (maverick) {
             if (!MaverickCornerImage) {
@@ -519,8 +619,10 @@ export const buildCard = async (
             MaverickCornerImage.set({ left: 210 });
             canvas.add(MaverickCornerImage);
             house = maverick;
-        } else {
+        } else if (anomaly) {
             house = anomaly;
+        } else {
+            house = card.house || card.printedHouse;
         }
 
         if (bonusIcons) {
@@ -544,10 +646,7 @@ export const buildCard = async (
         );
         let top = 59 + (amber ? amber * 30 : 0);
 
-        if (
-            ['deusillus2', 'ultra-gravitron2', 'niffle-kong2'].some((x) => x === card.id) &&
-            !image.includes('complete')
-        ) {
+        if (gigantic2s.some((x) => x === card.id) && !image.includes('complete')) {
             baseImage.set({ left: width - top, top: 14, angle: 90 });
         } else {
             baseImage.set({ left: 14, top });
@@ -556,15 +655,13 @@ export const buildCard = async (
         canvas.add(baseImage);
 
         for (const [index, pip] of enhancements.entries()) {
+            let pipKey = pip.replace(/[ ]/gi, ''); // "star alliance" -> "staralliance"
             const pipImage = new fabric.Image(
-                EnhancementPipImages[pip].toCanvasElement(),
+                EnhancementPipImages[pipKey].toCanvasElement(),
                 imgOptions
             );
 
-            if (
-                ['deusillus2', 'ultra-gravitron2', 'niffle-kong2'].some((x) => x === card.id) &&
-                !image.includes('complete')
-            ) {
+            if (gigantic2s.some((x) => x === card.id) && !image.includes('complete')) {
                 pipImage.set({ left: width - top - 8 - index * 31, top: 21, angle: 90 });
             } else {
                 pipImage.set({ left: 21, top: top + 10 + index * 31 });
@@ -808,7 +905,9 @@ const getCountersForCard = (card) => {
         'wisdom',
         'hatch',
         'paint',
-        'trade'
+        'trade',
+        'mineralize',
+        'mutation'
     ];
     let counters = [];
 

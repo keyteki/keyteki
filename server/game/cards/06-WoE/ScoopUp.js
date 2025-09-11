@@ -2,8 +2,9 @@ const Card = require('../../Card.js');
 
 class ScoopUp extends Card {
     // Play: Put a friendly non-Mars creature and an enemy non-Mars
-    // creature into your archives. If that enemy creature would leave
-    // your archives, return it to its owner's hand instead.
+    // creature into your archives. If either card leaves your
+    // archives and you are not the owner of it, put it into its
+    // owner’s hand instead.
     setupCardAbilities(ability) {
         this.play({
             targets: {
@@ -13,7 +14,11 @@ class ScoopUp extends Card {
                     cardType: 'creature',
                     controller: 'self',
                     cardCondition: (card) => !card.hasHouse('mars'),
-                    gameAction: ability.actions.archive()
+                    gameAction: ability.actions.archive((context) => ({
+                        owner: context.targets.friendly
+                            ? context.targets.friendly.owner === context.player
+                            : false
+                    }))
                 },
                 enemy: {
                     mode: 'exactly',

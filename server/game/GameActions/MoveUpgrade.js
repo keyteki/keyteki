@@ -3,6 +3,7 @@ const CardGameAction = require('./CardGameAction');
 class MoveUpgrade extends CardGameAction {
     setDefaultProperties() {
         this.upgrades = null;
+        this.takeControl = true;
     }
 
     setup() {
@@ -19,7 +20,10 @@ class MoveUpgrade extends CardGameAction {
             return false;
         }
 
-        if (!this.upgrades || !this.upgrades.some((upgrade) => upgrade.canAttach(card, context))) {
+        if (
+            !this.upgrades ||
+            !this.upgrades.some((upgrade) => upgrade.canMoveAttachedUpgradeTo(card, context))
+        ) {
             return false;
         }
 
@@ -58,7 +62,7 @@ class MoveUpgrade extends CardGameAction {
                 event.card.parent.removeAttachment(event.card);
                 event.parent.upgrades.push(event.card);
                 event.card.parent = event.parent;
-                if (event.card.controller !== event.context.player) {
+                if (event.card.controller !== event.context.player && this.takeControl) {
                     event.card.controller = event.context.player;
                     event.card.updateEffectContexts();
                 }

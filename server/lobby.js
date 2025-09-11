@@ -2,10 +2,8 @@ const socketio = require('socket.io');
 const Socket = require('./socket.js');
 const jwt = require('jsonwebtoken');
 const _ = require('underscore');
-const moment = require('moment');
 
 const logger = require('./log');
-const version = moment(require('../version').releaseDate);
 const PendingGame = require('./pendinggame');
 const GameRouter = require('./gamerouter');
 const ServiceFactory = require('./services/ServiceFactory');
@@ -31,6 +29,7 @@ class Lobby {
 
         this.router.on('onGameClosed', this.onGameClosed.bind(this));
         this.router.on('onGameRematch', this.onGameRematch.bind(this));
+        this.router.on('onGameRematchWithNewDecks', this.onGameRematchWithNewDecks.bind(this));
         this.router.on('onPlayerLeft', this.onPlayerLeft.bind(this));
         this.router.on('onWorkerTimedOut', this.onWorkerTimedOut.bind(this));
         this.router.on('onNodeReconnected', this.onNodeReconnected.bind(this));
@@ -152,8 +151,6 @@ class Lobby {
     }
 
     handshake(ioSocket, next) {
-        let versionInfo = undefined;
-
         if (ioSocket.handshake.query.token && ioSocket.handshake.query.token !== 'undefined') {
             jwt.verify(
                 ioSocket.handshake.query.token,
@@ -195,11 +192,7 @@ class Lobby {
             );
         }
 
-        if (ioSocket.handshake.query.version) {
-            versionInfo = moment(ioSocket.handshake.query.version);
-        }
-
-        if (!versionInfo || versionInfo < version) {
+        if ((process.env.VERSION || 'Local build') !== ioSocket.handshake.query.version) {
             ioSocket.emit(
                 'banner',
                 'Your client version is out of date, please refresh or clear your cache to get the latest version'
@@ -1007,6 +1000,102 @@ class Lobby {
         Promise.all(promises).then(() => {
             this.onStartGame(socket, newGame.id);
         });
+    }
+
+    onGameRematchWithNewDecks(oldGame) {
+        let gameId = oldGame.gameId;
+        let game = this.games[gameId];
+
+        if (!game) {
+            return;
+        }
+
+        this.broadcastGameMessage('removegame', game);
+        delete this.games[gameId];
+
+        let newGame = new PendingGame(game.owner, {
+            adaptive: game.adaptive,
+            gameFormat: game.gameFormat,
+            gameTimeLimit: game.gameTimeLimit,
+            gameType: game.gameType,
+            hideDeckLists: game.hideDeckLists,
+            showHand: game.showHand,
+            allowSpectators: game.allowSpectators,
+            spectators: game.spectators,
+            swap: false,
+            useGameTimeLimit: game.useGameTimeLimit
+        });
+        newGame.rematch = true;
+        newGame.previousWinner = oldGame.winner;
+
+        let owner = game.getPlayerOrSpectator(game.owner.username);
+        if (!owner) {
+            logger.error("Tried to rematch but the owner wasn't in the game");
+            return;
+        }
+
+        let socket = this.socketsByName[owner.name];
+        if (!socket) {
+            logger.error("Tried to rematch but the owner's socket has gone away");
+            return;
+        }
+
+        this.games[newGame.id] = newGame;
+        newGame.newGame(socket.id, socket.user);
+
+        socket.joinChannel(newGame.id);
+        this.sendGameState(newGame);
+        this.broadcastGameMessage('newgame', newGame);
+
+        for (let player of Object.values(game.getPlayers()).filter(
+            (player) => player.name !== owner.username
+        )) {
+            let socket = this.socketsByName[player.name];
+
+            if (!socket) {
+                logger.warn(
+                    `Tried to add ${player.name} to a rematch but couldn't find their socket`
+                );
+                continue;
+            }
+            player.deck = [];
+
+            newGame.join(socket.id, player.user);
+        }
+
+        for (let player of Object.values(game.getPlayers())) {
+            let oldPlayer = oldGame.players.find((x) => x.name === player.name);
+
+            if (oldPlayer && oldPlayer.wins) {
+                if (!newGame.players[player.name]) {
+                    logger.warn(
+                        `Tried to set ${player.name} wins but couldn't find them in the game`
+                    );
+                    continue;
+                }
+
+                newGame.players[player.name].wins = oldPlayer.wins;
+            }
+        }
+
+        for (let spectator of game.getSpectators()) {
+            let socket = this.socketsByName[spectator.name];
+
+            if (!socket) {
+                logger.warn(
+                    `Tried to add ${spectator.name} to spectate a rematch but couldn't find their socket`
+                );
+                continue;
+            }
+
+            newGame.watch(socket.id, spectator.user);
+        }
+
+        // Set the password after everyone has joined, so we don't need to worry about overriding the password, or storing it unencrypted/hashed
+        newGame.password = game.password;
+
+        this.sendGameState(newGame);
+        this.broadcastGameMessage('updategame', newGame);
     }
 
     onPlayerLeft(gameId, player) {

@@ -7,6 +7,7 @@ class ScreamingCave extends Card {
             effect: 'shuffle their hand and discard pile into their deck',
             gameAction: ability.actions.returnToDeck((context) => ({
                 shuffle: true,
+                shuffleDiscardIntoDeck: true,
                 target: context.player.hand.concat(context.player.discard)
             }))
         });

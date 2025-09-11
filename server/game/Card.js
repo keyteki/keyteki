@@ -2,6 +2,8 @@ const _ = require('underscore');
 
 const AbilityDsl = require('./abilitydsl.js');
 const CardAction = require('./cardaction.js');
+const Constants = require('../constants.js');
+const Effects = require('./effects.js');
 const EffectSource = require('./EffectSource.js');
 const TriggeredAbility = require('./triggeredability');
 
@@ -12,6 +14,7 @@ const PlayArtifactAction = require('./BaseActions/PlayArtifactAction');
 const PlayUpgradeAction = require('./BaseActions/PlayUpgradeAction');
 const ResolveFightAction = require('./GameActions/ResolveFightAction');
 const ResolveReapAction = require('./GameActions/ResolveReapAction');
+const ReturnToHandFromDiscardAction = require('./BaseActions/ReturnToHandFromDiscardAction');
 const RemoveStun = require('./BaseActions/RemoveStun');
 
 class Card extends EffectSource {
@@ -75,6 +78,7 @@ class Card extends EffectSource {
         this.stunned = false;
         this.moribund = false;
         this.isFighting = false;
+        this.activeProphecy = false;
 
         this.locale = cardData.locale;
 
@@ -115,6 +119,28 @@ class Card extends EffectSource {
         return this.mostRecentEffect('changeType') || this.clonedType || this.printedType;
     }
 
+    getEffects(type, predicate = () => true) {
+        if (!Effects.unblankableEffects.includes(type) && this.isBlank()) {
+            return [];
+        }
+        return super.getEffects(type, predicate);
+    }
+
+    sumEffects(type) {
+        if (!Effects.unblankableEffects.includes(type) && this.isBlank()) {
+            return 0;
+        }
+        return super.sumEffects(type);
+    }
+
+    anyEffect(type) {
+        if (!Effects.unblankableEffects.includes(type) && this.isBlank()) {
+            return false;
+        }
+        let x = super.anyEffect(type);
+        return x;
+    }
+
     isToken() {
         return this.sumEffects('flipToken') % 2 === 1;
     }
@@ -123,6 +149,10 @@ class Card extends EffectSource {
         return this.game
             .getPlayers()
             .find((player) => player.tokenCard && player.tokenCard.name === this.name)?.tokenCard;
+    }
+
+    isProphecy() {
+        return this.type === 'prophecy';
     }
 
     get actions() {
@@ -169,6 +199,10 @@ class Card extends EffectSource {
 
         if (this.isBlankFight() && !ignoreBlank) {
             reactions = reactions.filter((reaction) => !reaction.properties.fight);
+        }
+
+        if (this.isBlankDestroyed() && !ignoreBlank) {
+            reactions = reactions.filter((reaction) => !reaction.properties.destroyed);
         }
 
         if (
@@ -300,11 +334,17 @@ class Card extends EffectSource {
             this.interrupt({
                 when: {
                     onCardDestroyed: (event, context) =>
-                        event.card === context.source && context.source.warded,
+                        event.card === context.source &&
+                        event.card.type === 'creature' &&
+                        context.source.warded,
                     onCardPurged: (event, context) =>
-                        event.card === context.source && context.source.warded,
+                        event.card === context.source &&
+                        event.card.type === 'creature' &&
+                        context.source.warded,
                     onCardLeavesPlay: (event, context) =>
-                        event.card === context.source && context.source.warded
+                        event.card === context.source &&
+                        event.card.type === 'creature' &&
+                        context.source.warded
                 },
                 autoResolve: true,
                 effect: 'remove its ward token',
@@ -329,6 +369,30 @@ class Card extends EffectSource {
                     ability.effects.cardCannot('damage'),
                     ability.effects.cardCannot('destroy')
                 ]
+            })
+        );
+
+        // Treachery
+        this.abilities.keywordPersistentEffects.push(
+            this.persistentEffect({
+                printedAbility: false,
+                condition: () => this.hasKeyword('treachery'),
+                match: this,
+                location: 'any',
+                targetController: 'any',
+                effect: ability.effects.entersPlayUnderOpponentsControl()
+            })
+        );
+
+        // Versatile
+        this.abilities.keywordPersistentEffects.push(
+            this.persistentEffect({
+                condition: () => this.hasKeyword('versatile'),
+                printedAbility: false,
+                match: this,
+                effect: ability.effects.canUse(
+                    (card, _, effectContext) => card === effectContext.source
+                )
             })
         );
     }
@@ -359,6 +423,44 @@ class Card extends EffectSource {
 
     reap(properties) {
         return this.reaction(Object.assign({ reap: true, name: 'Reap' }, properties));
+    }
+
+    fate(properties) {
+        return this.interrupt(
+            Object.assign(
+                {
+                    when: {
+                        onFate: (event, context) => event.card === context.source
+                    },
+                    name: 'Fate',
+                    location: 'any',
+                    effectAlert: true
+                },
+                properties
+            )
+        );
+    }
+
+    scrap(properties) {
+        return this.reaction(
+            Object.assign(
+                {
+                    when: {
+                        onCardDiscarded: (event, context) => {
+                            return (
+                                event.location === 'hand' &&
+                                event.card.controller === context.game.activePlayer &&
+                                event.card === context.source
+                            );
+                        }
+                    },
+                    location: 'any',
+                    scrap: true,
+                    name: 'Scrap'
+                },
+                properties
+            )
+        );
     }
 
     destroyed(properties) {
@@ -434,12 +536,52 @@ class Card extends EffectSource {
         return this.triggeredAbility('interrupt', properties);
     }
 
+    prophecyReaction(properties) {
+        let originalWhen = properties.when;
+        if (typeof originalWhen === 'object') {
+            properties.when = Object.entries(originalWhen).reduce((newWhen, [key, condition]) => {
+                newWhen[key] = (event, context) => {
+                    return (
+                        condition(event, context) &&
+                        context.game.activePlayer !== this.controller &&
+                        this.childCards.length > 0 &&
+                        this.activeProphecy
+                    );
+                };
+                return newWhen;
+            }, {});
+        }
+
+        properties.location = 'any';
+        return this.triggeredAbility('reaction', properties);
+    }
+
+    prophecyInterrupt(properties) {
+        let originalWhen = properties.when;
+        if (typeof originalWhen === 'object') {
+            properties.when = Object.entries(originalWhen).reduce((newWhen, [key, condition]) => {
+                newWhen[key] = (event, context) => {
+                    return (
+                        condition(event, context) &&
+                        context.game.activePlayer !== this.controller &&
+                        this.childCards.length > 0 &&
+                        this.activeProphecy
+                    );
+                };
+                return newWhen;
+            }, {});
+        }
+
+        properties.location = 'any';
+        return this.triggeredAbility('interrupt', properties);
+    }
+
     /**
      * Applies an effect that continues as long as the card providing the effect
      * is both in play and not blank.
      */
     persistentEffect(properties) {
-        const allowedLocations = ['any', 'play area'];
+        const allowedLocations = ['any', 'play area', 'discard'];
         let location = properties.location || 'play area';
         if (!allowedLocations.includes(location)) {
             throw new Error(`'${location}' is not a supported effect location.`);
@@ -462,6 +604,10 @@ class Card extends EffectSource {
     }
 
     hasTrait(trait) {
+        if (this.anyEffect('removeAllTraits')) {
+            return false;
+        }
+
         if (!trait) {
             return false;
         }
@@ -471,12 +617,25 @@ class Card extends EffectSource {
     }
 
     getTraits(printed = false) {
+        if (this.anyEffect('removeAllTraits')) {
+            return [];
+        }
+
         if (printed) {
             return this.getBottomCard().traits;
         }
         let copyEffect = this.mostRecentEffect('copyCard');
         let traits = copyEffect ? copyEffect.traits : this.getBottomCard().traits;
         return _.uniq(traits.concat(this.getEffects('addTrait')));
+    }
+
+    getHouseEnhancements() {
+        if (!this.enhancements) {
+            return [];
+        }
+        return this.enhancements
+            .map((e) => e.replace(' ', '')) // e.g. "star alliance" -> "staralliance"
+            .filter((e) => Constants.Houses.includes(e.toLowerCase()));
     }
 
     getHouses() {
@@ -487,6 +646,9 @@ class Card extends EffectSource {
         } else {
             let copyEffect = this.mostRecentEffect('copyCard');
             combinedHouses.push(copyEffect ? copyEffect.printedHouse : this.printedHouse);
+            combinedHouses = combinedHouses.concat(
+                copyEffect ? copyEffect.getHouseEnhancements() : this.getHouseEnhancements()
+            );
         }
 
         if (this.anyEffect('addHouse')) {
@@ -502,15 +664,16 @@ class Card extends EffectSource {
         }
 
         house = house.toLowerCase();
-        let copyEffect = this.mostRecentEffect('copyCard');
-        let currentHouse;
-        if (this.anyEffect('changeHouse')) {
-            currentHouse = this.getEffects('changeHouse');
-        } else {
-            currentHouse = [copyEffect ? copyEffect.printedHouse : this.printedHouse];
+        return this.getHouses().includes(house);
+    }
+
+    hasHouseThatIsNot(house) {
+        if (!house) {
+            return true;
         }
 
-        return currentHouse.includes(house) || this.getEffects('addHouse').includes(house);
+        house = house.toLowerCase();
+        return this.getHouses().some((h) => h !== house);
     }
 
     applyAnyLocationPersistentEffects() {
@@ -538,6 +701,23 @@ class Card extends EffectSource {
         this.endRound();
     }
 
+    clearDependentCards() {
+        for (let upgrade of this.upgrades) {
+            upgrade.onLeavesPlay();
+            upgrade.owner.moveCard(upgrade, 'discard');
+        }
+
+        for (let child of this.childCards) {
+            child.onLeavesPlay();
+            child.owner.moveCard(child, 'discard');
+        }
+
+        for (let card of this.purgedCards) {
+            card.purgedBy = null;
+        }
+        this.purgedCards = [];
+    }
+
     endRound() {
         this.armorUsed = 0;
         this.elusiveUsed = false;
@@ -558,11 +738,21 @@ class Card extends EffectSource {
             this.removeLastingEffects();
         }
 
+        let effectLocations = ['play area', 'discard'];
+
         _.each(this.getPersistentEffects(true), (effect) => {
             if (effect.location !== 'any') {
-                if (to === 'play area' && from !== 'play area') {
+                if (
+                    effectLocations.includes(effect.location) &&
+                    to === effect.location &&
+                    from !== effect.location
+                ) {
                     effect.ref = this.addEffectToEngine(effect);
-                } else if (to !== 'play area' && from === 'play area') {
+                } else if (
+                    effectLocations.includes(effect.location) &&
+                    to !== effect.location &&
+                    from === effect.location
+                ) {
                     if (effect.ref) {
                         this.removeEffectFromEngine(effect.ref);
                     }
@@ -609,6 +799,28 @@ class Card extends EffectSource {
     getMenu() {
         var menu = [];
 
+        // Special handling for prophecy cards in manual mode
+        if (this.isProphecy() && this.game.manualMode) {
+            menu.push({ command: 'click', text: 'Select Card', menu: 'main' });
+
+            if (!this.activeProphecy) {
+                // Inactive prophecy: show "Activate" option
+                if (this.controller.canActivateProphecy(this)) {
+                    menu.push({ command: 'activateProphecy', text: 'Activate', menu: 'main' });
+                }
+            } else {
+                // Active prophecy: show "Deactivate" option
+                menu.push({ command: 'deactivateProphecy', text: 'Deactivate', menu: 'main' });
+
+                // If active and opponent is active player, show "Trigger" option
+                if (this.game.activePlayer !== this.controller) {
+                    menu.push({ command: 'fulfillProphecy', text: 'Trigger', menu: 'main' });
+                }
+            }
+
+            return menu;
+        }
+
         if (!this.menu.length || !this.game.manualMode || this.location !== 'play area') {
             return undefined;
         }
@@ -650,6 +862,13 @@ class Card extends EffectSource {
         return !!this.tokens[type];
     }
 
+    sumTokens() {
+        if (!this.tokens) {
+            return 0;
+        }
+        return Object.values(this.tokens).reduce((a, b) => a + b, 0);
+    }
+
     removeToken(type, number = this.tokens[type]) {
         if (!this.tokens[type]) {
             return;
@@ -682,6 +901,10 @@ class Card extends EffectSource {
 
     isBlankFight() {
         return this.anyEffect('blankFight');
+    }
+
+    isBlankDestroyed() {
+        return this.anyEffect('blankDestroyed');
     }
 
     hasKeyword(keyword) {
@@ -833,7 +1056,10 @@ class Card extends EffectSource {
         this.persistentEffect({
             condition: properties.condition || (() => true),
             match: (card, context) =>
-                card === this.parent && (!properties.match || properties.match(card, context)),
+                card === this.parent &&
+                (!properties.match || properties.match(card, context)) &&
+                (card.type === 'creature' ||
+                    (this.anyEffect('canAttachToArtifacts') && card.type === 'artifact')),
             targetController: 'any',
             effect: properties.effect
         });
@@ -850,6 +1076,11 @@ class Card extends EffectSource {
     // eslint-disable-next-line no-unused-vars
     canAttach(card, context) {
         return card && card.getType() === 'creature' && this.canPlayAsUpgrade();
+    }
+
+    // eslint-disable-next-line no-unused-vars
+    canMoveAttachedUpgradeTo(card, context) {
+        return card && card.getType() === 'creature' && this.type === 'upgrade';
     }
 
     use(player, ignoreHouse = false) {
@@ -903,7 +1134,6 @@ class Card extends EffectSource {
         if (this.getEffects('mustFightIfAble').length > 0 && canFight) {
             actions = actions.filter((action) => action.title === 'Fight with this creature');
         }
-
         return actions;
     }
 
@@ -966,6 +1196,11 @@ class Card extends EffectSource {
             actions.push(this.getFightAction());
             actions.push(this.getReapAction());
             actions.push(this.getRemoveStunAction());
+        } else if (
+            location === 'discard' &&
+            this.mostRecentEffect('returnToHandFromDiscardAnytime')
+        ) {
+            actions.push(new ReturnToHandFromDiscardAction(this));
         }
 
         return actions.concat(this.actions.slice());
@@ -1002,14 +1237,6 @@ class Card extends EffectSource {
         }
 
         return this.anyEffect('consideredAsFlank') || this.neighbors.length < 2;
-    }
-
-    checkForIllegalAttachments() {
-        if (this.type === 'artifact' && this.upgrades.length > 0) {
-            this.upgrades.forEach((upgrade) => {
-                upgrade.owner.moveCard(upgrade, 'discard');
-            });
-        }
     }
 
     isInCenter() {
@@ -1088,6 +1315,7 @@ class Card extends EffectSource {
         result.enhancements = this.enhancements;
         result.cardPrintedAmber = this.cardPrintedAmber;
         result.locale = this.locale;
+        result.activeProphecy = this.activeProphecy;
         return result;
     }
 
@@ -1131,6 +1359,7 @@ class Card extends EffectSource {
             facedown: this.facedown,
             location: this.location,
             locale: this.locale,
+            number: tokenCardOrThis.cardData.number,
             menu: this.getMenu(),
             name: this.name,
             new: this.new,
@@ -1149,7 +1378,10 @@ class Card extends EffectSource {
                 return upgrade.getSummary(activePlayer, hideWhenFaceup);
             }),
             uuid: this.uuid, // TODO - fix vulnerability with token cards
-            isToken: !!tokenCard
+            isToken: !!tokenCard,
+            activeProphecy: this.activeProphecy,
+            canActivateProphecy:
+                this.type === 'prophecy' ? this.controller.canActivateProphecy(this) : false
         };
 
         if (tokenCard && isController) {

@@ -69,7 +69,7 @@ module.exports = Earthbind;
 
 Once you have a guess how your card might work, create the file. The files go in the `server/game/cards/` directory, in the folder matching the set. For a new MM card, use `server/game/cards/04-MM`
 
-Your file should be named using java naming syntax, which is roughly, first latter capital for each word, no spaces. In this case Access Denied becomes: `AccessDenied.js`
+Your file should be named using java naming syntax, which is roughly, first letter capital for each word, no spaces. In this case Access Denied becomes: `AccessDenied.js`
 
 Update the Earthbind card, replacing Earthbind with AccessDenied.
 
@@ -96,7 +96,7 @@ Note the id needs to be all lower case, with dashes, in this case:
 
 #### 4. Update for your effect.
 
-In this file the code in `setupCardAbilities(ability) {` needs to be updated for your cards ability.
+In this file, the code in `setupCardAbilities(ability) {` needs to be updated for your card's ability.
 
 The Earthbind card prevents any use of the card, so we need to change that to just be reap.
 
@@ -160,7 +160,7 @@ module.exports = AccessDenied;
 
 Tests? Yes, just do it, it will save you time as you test your card for your self, and it will help future developers when crazy changes to the engine are needed for things like large-two-card-creatures.
 
-Create your test file in a using a name like:
+Create your test file using a name like:
 `test/server/cards/04-MM/AccessDenied.spec.js`
 
 I recommend you copy an existing test.
@@ -206,7 +206,7 @@ player1: {
 
 -   `house` - this is the starting house selected
 -   `inPlay` - these are the cards that are in play for this play
--   `hand` - these are the cards that are in the players hand
+-   `hand` - these are the cards that are in the player's hand
 
 #### 7. Add simple test case.
 
@@ -304,7 +304,7 @@ Run these commands until there are no more errors.
 -   `npm run lint`
 -   `npm test`
 
-> Note: The this codebase uses spaces not tabs.
+> Note: The codebase uses spaces not tabs.
 
 #### 13. Git your changes to the cloud.
 

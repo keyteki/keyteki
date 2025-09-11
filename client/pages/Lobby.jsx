@@ -81,24 +81,8 @@ const Lobby = () => {
 
     const banners = [
         {
-            img: 'banner/nfcc-banner.png',
-            link: 'https://www.facebook.com/NewFrontiersCardClub'
-        },
-        {
-            img: 'banner/tco-youtube-phloxemall.png',
-            link: 'https://bit.ly/46NfNaG'
-        },
-        {
-            img: 'banner/tco-youtube-captains-deck.png',
-            link: 'https://bit.ly/3sVmLNf'
-        },
-        {
-            img: 'banner/tco-website-portugal.png',
-            link: 'https://bit.ly/47HirAl'
-        },
-        {
-            img: 'banner/tco-podcast-warcastreforged.png',
-            link: 'https://bit.ly/417Jn9U'
+            img: 'banner/mwkfco-banner-tco.jpg',
+            link: 'https://bestmidwestkeyforgeevents.com/'
         }
     ];
 

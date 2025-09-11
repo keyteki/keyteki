@@ -8,7 +8,8 @@ describe('LittleRapscal', function () {
                     inPlay: ['little-rapscal', 'troll', 'valdr']
                 },
                 player2: {
-                    inPlay: ['umbra']
+                    inPlay: ['umbra'],
+                    hand: ['fortune-reverser']
                 }
             });
         });
@@ -24,6 +25,24 @@ describe('LittleRapscal', function () {
             expect(this.player1).toHavePromptButton('Reap with this creature');
             this.player1.clickPrompt('Reap with this creature');
             expect(this.player1.amber).toBe(5);
+        });
+        it('still prevents other blank creatures from reaping or using action', function () {
+            this.player1.endTurn();
+            this.player2.clickPrompt('ekwidon');
+            this.player2.playUpgrade(this.fortuneReverser, this.troll);
+            this.player2.endTurn();
+            this.player1.clickPrompt('brobnar');
+            this.player1.clickCard(this.troll);
+            expect(this.player1).not.toHavePromptButton('Reap with this creature');
+        });
+        it('does nothing when it itself is blanked', function () {
+            this.player1.endTurn();
+            this.player2.clickPrompt('ekwidon');
+            this.player2.playUpgrade(this.fortuneReverser, this.littleRapscal);
+            this.player2.endTurn();
+            this.player1.clickPrompt('brobnar');
+            this.player1.clickCard(this.troll);
+            expect(this.player1).toHavePromptButton('Reap with this creature');
         });
     });
 });

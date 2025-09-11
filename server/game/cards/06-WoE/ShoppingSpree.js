@@ -10,9 +10,12 @@ class ShoppingSpree extends Card {
             })),
             then: {
                 gameAction: ability.actions.draw((context) => {
-                    return {
-                        amount: context.preThenEvents.length
-                    };
+                    const events = context.preThenEvents || [];
+                    const cards = events.flatMap((e) =>
+                        (Array.isArray(e.cards) ? e.cards : []).concat(e.card ? [e.card] : [])
+                    );
+                    const amount = cards.length || events.length;
+                    return { amount };
                 })
             }
         });

@@ -20,6 +20,8 @@ const Actions = {
     addKnowledgeCounter: (propertyFactory) =>
         new GameActions.AddTokenAction(propertyFactory, 'knowledge'),
     addNayCounter: (propertyFactory) => new GameActions.AddTokenAction(propertyFactory, 'nay'),
+    addMineralizeCounter: (propertyFactory) =>
+        new GameActions.AddTokenAction(propertyFactory, 'mineralize'),
     addPaintCounter: (propertyFactory) => new GameActions.AddTokenAction(propertyFactory, 'paint'),
     addSchemeCounter: (propertyFactory) =>
         new GameActions.AddTokenAction(propertyFactory, 'scheme'),
@@ -31,6 +33,8 @@ const Actions = {
     addWisdomCounter: (propertyFactory) =>
         new GameActions.AddTokenAction(propertyFactory, 'wisdom'),
     addYeaCounter: (propertyFactory) => new GameActions.AddTokenAction(propertyFactory, 'yea'),
+    addMutationCounter: (propertyFactory) =>
+        new GameActions.AddTokenAction(propertyFactory, 'mutation'),
     applyDamage: (propertyFactory) => new GameActions.ApplyDamageAction(propertyFactory),
     archive: (propertyFactory) => new GameActions.ArchiveAction(propertyFactory),
     attach: (propertyFactory) => new GameActions.AttachAction(propertyFactory), // upgrade
@@ -63,6 +67,8 @@ const Actions = {
     placeAmber: (propertyFactory) => new GameActions.AddTokenAction(propertyFactory, 'amber'), // amount = 1
     placeUnder: (propertyFactory) => new GameActions.PlaceUnderAction(propertyFactory), // parent
     playCard: (propertyFactory) => new GameActions.PlayCardAction(propertyFactory), // resetOnCancel = false, postHandler
+    playUpgradeOnParent: (propertyFactory) =>
+        new GameActions.PlayUpgradeOnParentAction(propertyFactory),
     purge: (propertyFactory) => new GameActions.PurgeAction(propertyFactory),
     putIntoPlay: (propertyFactory) => new GameActions.PutIntoPlayAction(propertyFactory),
     ready: (propertyFactory) => new GameActions.ReadyAction(propertyFactory),
@@ -70,6 +76,7 @@ const Actions = {
     rearrangeBattleline: (propertyFactory) =>
         new GameActions.RearrangeBattlelineAction(propertyFactory),
     reduceArmor: (propertyFactory) => new GameActions.ReduceArmorAction(propertyFactory),
+    removeAllTokens: (propertyFactory) => new GameActions.RemoveAllTokensAction(propertyFactory),
     removeAmber: (propertyFactory) => new GameActions.RemoveTokenAction(propertyFactory, 'amber'),
     removeDamage: (propertyFactory) => new GameActions.RemoveTokenAction(propertyFactory, 'damage'),
     removeDepthCounter: (propertyFactory) =>
@@ -149,10 +156,18 @@ const Actions = {
         new GameActions.SequentialCardLastingEffectAction(propertyFactory),
     sequentialForEach: (propertyFactory) =>
         new GameActions.SequentialForEachAction(propertyFactory),
+    sequentialFight: (propertyFactory) => new GameActions.SequentialFightAction(propertyFactory),
+    sequentialPlay: (propertyFactory) => new GameActions.SequentialPlayAction(propertyFactory),
     sequentialPutIntoPlay: (propertyFactory) =>
         new GameActions.SequentialPutIntoPlayAction(propertyFactory),
     sequentialMakeTokenCreature: (propertyFactory) =>
-        new GameActions.SequentialMakeTokenCreatureAction(propertyFactory)
+        new GameActions.SequentialMakeTokenCreatureAction(propertyFactory),
+    activateProphecy: (propertyFactory) => new GameActions.ActivateProphecyAction(propertyFactory),
+    deactivateProphecy: (propertyFactory) =>
+        new GameActions.DeactivateProphecyAction(propertyFactory),
+    fulfillProphecy: (propertyFactory) => new GameActions.FulfillProphecyAction(propertyFactory),
+    flipProphecy: (propertyFactory) => new GameActions.FlipProphecyAction(propertyFactory),
+    resolveFate: (propertyFactory) => new GameActions.ResolveFateAction(propertyFactory)
 };
 
 module.exports = Actions;

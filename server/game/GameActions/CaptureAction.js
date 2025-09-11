@@ -4,6 +4,7 @@ class CaptureAction extends CardAction {
     setDefaultProperties() {
         this.amount = 1;
         this.player = false;
+        this.allowNoAmber = false;
     }
 
     setup() {
@@ -21,7 +22,7 @@ class CaptureAction extends CardAction {
         return (
             player &&
             player.checkRestrictions('capture', context) &&
-            player.amber > 0 &&
+            (player.amber > 0 || this.allowNoAmber) &&
             this.amount > 0 &&
             card.location === 'play area' &&
             super.canAffect(card, context)

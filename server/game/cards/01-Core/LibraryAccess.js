@@ -13,7 +13,9 @@ class LibraryAccess extends Card {
                     },
                     gameAction: ability.actions.draw((context) => ({ target: context.player }))
                 })),
-                ability.actions.moveCard({ destination: 'purged' })
+                ability.actions.purge((context) => ({
+                    target: context.source
+                }))
             ]
         });
     }

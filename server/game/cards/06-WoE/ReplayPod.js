@@ -9,9 +9,28 @@ class ReplayPod extends Card {
         this.persistentEffect({
             match: (card) => card.type === 'creature' && card.hasHouse('mars'),
             effect: ability.effects.gainAbility('destroyed', {
-                gameAction: ability.actions.placeUnder({
-                    parent: this,
-                    facedown: true
+                gameAction: ability.actions.placeUnder((context) => {
+                    const pods = context.player.cardsInPlay.filter(
+                        (c) => c.id === 'replay-pod' && c.controller === context.source.controller
+                    );
+                    const firstPod = pods[0];
+                    if (pods.length <= 1) {
+                        return { parent: firstPod, facedown: true };
+                    }
+                    // The windows coalesce abilities from cards of the same name into a single ability
+                    // So we must explicitly ask the user to choose which pod to use if there are more than one.
+                    return {
+                        parent: firstPod, // provisional for legality checks
+                        facedown: true,
+                        promptWithHandlerMenu: {
+                            activePromptTitle: 'Choose a Replay Pod',
+                            cards: pods,
+                            customHandler: (chosenPod, action) => {
+                                action.parent = chosenPod; // set the actual parent
+                                action.setTarget(context.source); // ensure target remains the destroyed creature
+                            }
+                        }
+                    };
                 })
             })
         });

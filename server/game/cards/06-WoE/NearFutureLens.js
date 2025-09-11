@@ -15,6 +15,16 @@ class NearFutureLens extends Card {
             }))
         });
 
+        this.reaction({
+            when: {
+                onTakeControl: (event, context) => event.card === context.source
+            },
+            gameAction: ability.actions.reveal((context) => ({
+                target: context.source.controller.deck[0],
+                location: 'deck'
+            }))
+        });
+
         this.omni({
             gameAction: ability.actions.playCard((context) => ({
                 revealOnIllegalTarget: true,

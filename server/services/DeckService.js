@@ -2,6 +2,8 @@ const logger = require('../log');
 const util = require('../util');
 const db = require('../db');
 const { expand, flatten } = require('../Array');
+const Constants = require('../constants');
+const BonusOrder = Constants.Houses.concat(['amber', 'capture', 'damage', 'draw', 'discard']);
 
 class DeckService {
     constructor(configService, cardService) {
@@ -213,6 +215,14 @@ class DeckService {
             dbExpansions.push(600);
         }
 
+        if (expansions.gr) {
+            dbExpansions.push(700);
+        }
+
+        if (expansions.as) {
+            dbExpansions.push(800);
+        }
+
         let deck;
         let expansionStr = dbExpansions.join(',');
         try {
@@ -357,6 +367,56 @@ class DeckService {
 
         let cards = await db.query(cardTableQuery, [deck.id]);
 
+        // These are cards that have changed houses in later sets.
+        let specialCardDefaultHouses = {
+            'armageddon-cloak': 'sanctum',
+            'avenging-aura': 'sanctum',
+            'book-of-malefaction': 'sanctum',
+            'eye-of-judgment': 'sanctum',
+            'hymn-to-duma': 'sanctum',
+            'johnny-longfingers': 'shadows',
+            'lord-golgotha': 'sanctum',
+            'mantle-of-the-zealot': 'sanctum',
+            'martyr-s-end': 'sanctum',
+            'master-of-the-grey': 'sanctum',
+            'mighty-lance': 'sanctum',
+            'one-stood-against-many': 'sanctum',
+            'rogue-ogre': 'brobnar',
+            'the-promised-blade': 'sanctum',
+            'champion-tabris': 'sanctum',
+            'dark-centurion': 'saurian',
+            'first-or-last': 'sanctum',
+            francus: 'sanctum',
+            'glorious-few': 'sanctum',
+            'gorm-of-omm': 'sanctum',
+            'grey-abbess': 'sanctum',
+            'professor-terato': 'logos',
+            'scrivener-favian': 'sanctum',
+            'bordan-the-redeemed': 'sanctum',
+            'bull-wark': 'sanctum',
+            'burning-glare': 'sanctum',
+            'citizen-shrix': 'saurian',
+            retribution: 'sanctum',
+            'shifting-battlefield': 'sanctum',
+            snarette: 'dis',
+            'subtle-otto': 'shadows',
+            'even-ivan': 'logos',
+            'odd-clawde': 'logos',
+            'sacro-alien': 'staralliance',
+            'sacro-beast': 'untamed',
+            'sacro-bot': 'logos',
+            'sacro-fiend': 'dis',
+            'sacro-saurus': 'saurian',
+            'sacro-thief': 'shadows',
+            corrode: 'unfathomable',
+            'purifier-of-souls': 'sanctum',
+            stampede: 'untamed',
+            'follow-the-leader': 'brobnar',
+            picaroon: 'dis',
+            'research-smoko': 'logos',
+            'vault-s-blessing': 'untamed'
+        };
+
         deck.cards = cards.map((card) => ({
             dbId: card.Id,
             id: card.CardId,
@@ -364,15 +424,37 @@ class DeckService {
             maverick: card.Maverick || undefined,
             anomaly: card.Anomaly || undefined,
             image: card.ImageUrl || undefined,
-            house: card.House || undefined,
+            house: card.House || specialCardDefaultHouses[card.CardId] || undefined,
             isNonDeck: card.IsNonDeck,
+            prophecyId: card.ProphecyId || undefined,
             enhancements: card.Enhancements
                 ? card.Enhancements.replace(/[[{}"\]]/gi, '')
                       .split(',')
                       .filter((c) => c.length > 0)
-                      .sort()
+                      .sort((a, b) => BonusOrder.indexOf(a) - BonusOrder.indexOf(b))
                 : undefined
         }));
+
+        // Sort cards: prophecy cards by ProphecyId first, then by dbId, others maintain original order
+        deck.cards.sort((a, b) => {
+            // Put deck cards first.
+            if (!a.isNonDeck && b.isNonDeck) {
+                return -1;
+            }
+            if (a.isNonDeck && !b.isNonDeck) {
+                return 1;
+            }
+
+            // If both have ProphecyId, sort by ProphecyId first, then by dbId
+            if (a.prophecyId && b.prophecyId) {
+                if (a.prophecyId !== b.prophecyId) {
+                    return a.prophecyId - b.prophecyId;
+                }
+                return a.dbId - b.dbId;
+            }
+            // If neither has ProphecyId, maintain original order by dbId
+            return a.dbId - b.dbId;
+        });
 
         let houseTable = standalone ? 'StandaloneDeckHouses' : 'DeckHouses';
         let houses = await db.query(
@@ -409,7 +491,7 @@ class DeckService {
             throw new Error('Invalid response from Api. Please try again later.');
         }
 
-        let newDeck = this.parseDeckResponse(deck.username, deckResponse);
+        let newDeck = await this.parseDeckResponse(deck.username, deckResponse);
         if (!newDeck) {
             throw new Error('There was a problem importing your deck, please try again later.');
         }
@@ -462,6 +544,54 @@ class DeckService {
         deck.houses = [];
 
         let podCards = [];
+        let prophecyCards = [];
+
+        // First pass: collect all prophecy cards from all decks
+        for (let pod of deck.pods) {
+            let [deckId] = pod.split(':');
+            let dbDeck = decksByUuid[deckId];
+
+            for (let card of dbDeck.cards) {
+                // Check if this is a prophecy card (either by card type or by having a prophecyId)
+                if ((card.card && card.card.type === 'prophecy') || card.prophecyId) {
+                    prophecyCards.push({
+                        ...card,
+                        sourceDeckId: deckId,
+                        sourceDeck: dbDeck
+                    });
+                }
+            }
+        }
+
+        // Handle prophecy card selection
+        if (prophecyCards.length > 0) {
+            if (!deck.prophecySourceDeck) {
+                throw new Error(
+                    'Prophecy source deck must be specified when creating an alliance with prophecy cards'
+                );
+            }
+
+            // Only include prophecy cards from the selected source deck
+            let sourceDeck = decksByUuid[deck.prophecySourceDeck];
+            if (!sourceDeck) {
+                throw new Error('Invalid prophecy source deck specified');
+            }
+
+            let sourceProphecyCards = sourceDeck.cards.filter(
+                (card) => (card.card && card.card.type === 'prophecy') || card.prophecyId
+            );
+
+            // Add prophecy cards with their original prophecy IDs
+            for (let card of sourceProphecyCards) {
+                podCards.push({
+                    ...card,
+                    prophecyId: card.prophecyId // explicitly preserve
+                });
+            }
+        }
+
+        // Second pass: collect regular cards from selected houses
+        const tokenDecksAdded = new Set();
         for (let pod of deck.pods) {
             let [deckId, house] = pod.split(':');
 
@@ -469,8 +599,21 @@ class DeckService {
 
             deck.houses.push(house);
             for (let card of dbDeck.cards) {
+                // Skip prophecy cards as they're handled separately
+                if ((card.card && card.card.type === 'prophecy') || card.prophecyId) {
+                    continue;
+                }
+                // Skip archon power cards
+                if (card.card && card.card.type === 'archon power') {
+                    continue;
+                }
+
+                // Only add the token card from a given deck once
                 if (card.id === deck.tokenCard?.id) {
-                    podCards.push(card);
+                    if (!tokenDecksAdded.has(deckId)) {
+                        podCards.push(card);
+                        tokenDecksAdded.add(deckId);
+                    }
                 } else if (card.isNonDeck) {
                     continue;
                 } else if (
@@ -505,7 +648,7 @@ class DeckService {
                 deck.expansion
             ]);
         } catch (err) {
-            logger.error('Failed to check expansion', err);
+            logger.error('Failed to check expansion', err, deck.expansion, deck.uuid);
 
             return false;
         }
@@ -562,6 +705,7 @@ class DeckService {
                 params.push(await this.getHouseIdFromName(card.house));
                 params.push(card.enhancements ? JSON.stringify(card.enhancements) : undefined);
                 params.push(card.isNonDeck);
+                params.push(card.prophecyId); // Add prophecy ID
             }
 
             params.push(deck.id);
@@ -573,9 +717,9 @@ class DeckService {
         try {
             if (user) {
                 await db.query(
-                    `INSERT INTO "DeckCards" ("CardId", "Count", "Maverick", "Anomaly", "ImageUrl", "HouseId", "Enhancements", "IsNonDeck", "DeckId") VALUES ${expand(
+                    `INSERT INTO "DeckCards" ("CardId", "Count", "Maverick", "Anomaly", "ImageUrl", "HouseId", "Enhancements", "IsNonDeck", "ProphecyId", "DeckId") VALUES ${expand(
                         deck.cards.length,
-                        9
+                        10
                     )}`,
                     params
                 );
@@ -646,6 +790,20 @@ class DeckService {
         }
     }
 
+    async updateProphecyAssignments(deckId, assignments) {
+        try {
+            for (let [cardDbId, prophecyId] of Object.entries(assignments)) {
+                await db.query('UPDATE "DeckCards" SET "ProphecyId" = $2 WHERE "Id" = $1', [
+                    cardDbId,
+                    prophecyId
+                ]);
+            }
+        } catch (err) {
+            logger.error('Failed to update prophecy assignments', err);
+            throw new Error('Failed to update prophecy assignments');
+        }
+    }
+
     async delete(id) {
         try {
             await db.query('DELETE FROM "Decks" WHERE "Id" = $1', [id]);
@@ -701,13 +859,82 @@ class DeckService {
         }
     }
 
-    parseDeckResponse(username, deckResponse) {
+    async parseDeckResponse(username, deckResponse) {
+        const allCards = await this.cardService.getAllCards();
+
         let specialCards = {
-            479: { 'dark-æmber-vault': true, 'it-s-coming': true }
+            479: { 'dark-æmber-vault': true, 'it-s-coming': true },
+            855: {
+                'armageddon-cloak': true,
+                'avenging-aura': true,
+                'book-of-malefaction': true,
+                'eye-of-judgment': true,
+                'hymn-to-duma': true,
+                'johnny-longfingers': true,
+                'lord-golgotha': true,
+                'mantle-of-the-zealot': true,
+                'martyr-s-end': true,
+                'master-of-the-grey': true,
+                'mighty-lance': true,
+                'one-stood-against-many': true,
+                'rogue-ogre': true,
+                'the-promised-blade': true,
+                'champion-tabris': true,
+                'dark-centurion': true,
+                'first-or-last': true,
+                francus: true,
+                'glorious-few': true,
+                'gorm-of-omm': true,
+                'grey-abbess': true,
+                'professor-terato': true,
+                'scrivener-favian': true,
+                'bordan-the-redeemed': true,
+                'bull-wark': true,
+                'burning-glare': true,
+                'citizen-shrix': true,
+                retribution: true,
+                'shifting-battlefield': true,
+                snarette: true,
+                'subtle-otto': true,
+                'even-ivan': true,
+                'odd-clawde': true,
+                'sacro-alien': true,
+                'sacro-beast': true,
+                'sacro-bot': true,
+                'sacro-fiend': true,
+                'sacro-saurus': true,
+                'sacro-thief': true
+            },
+            874: {
+                'dark-æmber-vault': true,
+                'build-your-champion': true,
+                'digging-up-the-monster': true,
+                'tomes-gigantic': true
+            },
+            886: {
+                'avenging-aura': true,
+                corrode: true,
+                'lord-golgotha': true,
+                'one-stood-against-many': true,
+                'purifier-of-souls': true,
+                stampede: true,
+                'dark-centurion': true,
+                'follow-the-leader': true,
+                picaroon: true,
+                'research-smoko': true,
+                'vault-s-blessing': true,
+                'citizen-shrix': true,
+                'even-ivan': true,
+                'odd-clawde': true
+            }
         };
 
         let anomalies = {
+            'ecto-charge': { anomalySet: 600, house: 'geistoid' },
+            'near-future-lens': { anomalySet: 600, house: 'staralliance' },
             'orb-of-wonder': { anomalySet: 453, house: 'sanctum' },
+            'the-grim-reaper': { anomalySet: 453, house: 'geistoid' },
+            'the-red-baron': { anomalySet: 453, house: 'skyborn' },
             valoocanth: { anomalySet: 453, house: 'unfathomable' }
         };
 
@@ -728,8 +955,8 @@ class DeckService {
         let cards = deckCards.map((card) => {
             let id = card.card_title
                 .toLowerCase()
-                .replace(/[,?.!"„“”]/gi, '')
-                .replace(/[ '’]/gi, '-');
+                .replace(/[,?.!"„""“”]/gi, '')
+                .replace(/[ ''’]/gi, '-');
 
             if (card.rarity === 'Evil Twin') {
                 id += '-evil-twin';
@@ -761,8 +988,20 @@ class DeckService {
                 retCard.uuid = card.id;
             }
 
-            if (card.card_type === 'Creature2') {
+            if (
+                card.card_type === 'Creature2' ||
+                (card.card_text === '' &&
+                    card.power === null &&
+                    card.card_type === 'Creature' &&
+                    card.rarity === 'Rare') ||
+                card.card_type === 'Gigantic Creature Art'
+            ) {
                 retCard.id += '2';
+            }
+
+            // Revenants can be in any house, their real house is set on the deck itself
+            if (card.house.toLowerCase().replace(' ', '') !== allCards[retCard.id].house) {
+                retCard.house = card.house.toLowerCase().replace(' ', '');
             }
 
             // If this is one of the cards that has an entry for every house, get the correct house image
@@ -807,17 +1046,13 @@ class DeckService {
                 !card.id
                     .split('')
                     .every((char) =>
-                        'æaăàáãǎbcdeĕèéěfghĭìíǐijklmnoöǑŏòóõǒpqrstuŭùúǔvwxyz0123456789-[]*'.includes(
+                        'æaăàáãǎâbcdeĕèéěfghĭìíǐijklmnoöǑŏòóõǒpqrstuŭùúǔüvwxyz0123456789-[]*…'.includes(
                             char
                         )
                     )
         );
         if (anyIllegalCards) {
-            logger.error(
-                `DECK IMPORT ERROR: ${anyIllegalCards.id
-                    .split('')
-                    .map((char) => char.charCodeAt(0))}`
-            );
+            logger.error(`DECK IMPORT ERROR: ${anyIllegalCards.id}`);
 
             return undefined;
         }
@@ -828,8 +1063,8 @@ class DeckService {
             uuid: uuid,
             identity: deckResponse.data.name
                 .toLowerCase()
-                .replace(/[,?.!"„“”]/gi, '')
-                .replace(/[ '’]/gi, '-'),
+                .replace(/[,?.!"„""]/gi, '')
+                .replace(/[ '']/gi, '-'),
             cardback: '',
             name: deckResponse.data.name,
             houses: deckResponse.data._links.houses.map((house) =>

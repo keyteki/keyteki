@@ -155,6 +155,10 @@ class Player extends GameObject {
         return this.cardsInPlay.filter((card) => card.type === 'creature');
     }
 
+    get activeProphecies() {
+        return this.prophecyCards.filter((card) => card.activeProphecy);
+    }
+
     /**
      * Draws the passed number of cards from the top of the deck into this players hand, shuffling if necessary
      * @param {number} numCards
@@ -168,7 +172,7 @@ class Player extends GameObject {
         }
 
         for (let card of this.deck.slice(0, numCards)) {
-            this.moveCard(card, 'hand');
+            this.moveCard(card, 'hand', { drawn: true });
         }
 
         if (remainingCards > 0 && this.discard.length > 0) {
@@ -186,22 +190,21 @@ class Player extends GameObject {
             this.moveCard(card, 'deck', { aboutToShuffle: true });
         }
 
-        this.shuffleDeck();
+        this.shuffleDeck(true);
     }
 
     /**
      * Shuffles the deck, emitting an event and displaying a message in chat
      */
-    shuffleDeck() {
-        this.game.emitEvent('onDeckShuffled', { player: this });
+    shuffleDeck(shuffledDiscardIntoDeck = false) {
         this.deck = _.shuffle(this.deck);
         if (this.isTopCardOfDeckVisible() && this.deck.length > 0) {
-            this.deck[0].facedown = false;
-            this.deck.slice(1).forEach((card) => {
-                card.facedown = true;
-            });
             this.addTopCardOfDeckVisibleMessage();
         }
+        this.game.raiseEvent('onDeckShuffled', {
+            player: this,
+            shuffledDiscardIntoDeck: shuffledDiscardIntoDeck
+        });
     }
 
     /**
@@ -229,6 +232,7 @@ class Player extends GameObject {
         this.houses = preparedDeck.houses;
         this.deck = preparedDeck.cards;
         this.allCards = preparedDeck.cards;
+        this.prophecyCards = preparedDeck.prophecyCards;
     }
 
     /**
@@ -399,12 +403,18 @@ class Player extends GameObject {
                     this
                 );
             } else if (card.type === 'upgrade') {
+                let title = `Select a creature`;
+                let cardType = ['creature'];
+                if (card.anyEffect('canAttachToArtifacts')) {
+                    title = 'Select a card';
+                    cardType = cardType.concat(['artifact']);
+                }
                 if (this.game.creaturesInPlay.length > 0) {
                     this.game.promptForSelect(this, {
                         source: card,
-                        activePromptTitle: `Select a creature`,
+                        activePromptTitle: title,
                         cardCondition: (card) =>
-                            card.location === 'play area' && card.type === 'creature',
+                            card.location === 'play area' && cardType.includes(card.type),
                         onSelect: (p, parent) => {
                             this.removeCardFromPile(card);
                             card.new = true;
@@ -458,6 +468,14 @@ class Player extends GameObject {
         this.houses = deckData.houses;
     }
 
+    checkDeckAfterCardMove(oldTopOfDeck) {
+        if (this.isTopCardOfDeckVisible() && this.deck.length > 0) {
+            if (oldTopOfDeck != this.deck[0]) {
+                this.addTopCardOfDeckVisibleMessage();
+            }
+        }
+    }
+
     /**
      * Moves a card from one location to another. This involves removing in from the list it's currently in, calling DrawCard.move (which changes
      * its location property), and then adding it to the list it should now be in
@@ -466,6 +484,8 @@ class Player extends GameObject {
      * @param {Object} options
      */
     moveCard(card, targetLocation, options = {}) {
+        let origCard = card.createSnapshot();
+
         if (targetLocation.endsWith(' bottom')) {
             options.bottom = true;
             targetLocation = targetLocation.replace(' bottom', '');
@@ -475,7 +495,10 @@ class Player extends GameObject {
 
         if (
             !this.isLegalLocationForCard(card, targetLocation) ||
-            (targetPile && targetPile.includes(card)) ||
+            (targetPile &&
+                targetPile.includes(card) &&
+                (targetLocation !== 'deck' ||
+                    targetPile[options.bottom ? targetPile.length - 1 : 0] === card)) ||
             (card.controller.anyEffect('opponentCardsCannotLeaveArchives') &&
                 card.location === 'archives' &&
                 card.owner != card.controller)
@@ -483,9 +506,10 @@ class Player extends GameObject {
             return;
         }
 
-        let oldTopOfDeck = this.deck[0];
+        let oldTopOfDeck = card.owner.deck[0];
         this.removeCardFromPile(card);
         let location = card.location;
+        targetPile = this.getSourceList(targetLocation);
 
         if (location === 'purged' && card.purgedBy) {
             card.purgedBy.purgedCards = card.purgedBy.purgedCards.filter((c) => c !== card);
@@ -498,18 +522,7 @@ class Player extends GameObject {
                 return;
             }
 
-            for (let upgrade of card.upgrades) {
-                upgrade.onLeavesPlay();
-                upgrade.owner.moveCard(upgrade, 'discard');
-            }
-
-            for (let child of card.childCards) {
-                child.onLeavesPlay();
-                child.owner.moveCard(child, 'discard');
-            }
-
-            card.purgedCards.forEach((c) => (c.purgedBy = null));
-            card.purgedCards = [];
+            card.clearDependentCards();
 
             card.onLeavesPlay();
             card.controller = this;
@@ -540,7 +553,7 @@ class Player extends GameObject {
         } else if (['discard', 'purged'].includes(targetLocation)) {
             // new cards go on the top of the discard pile
             targetPile.unshift(card);
-        } else if (targetLocation === 'play area' && options.deployIndex !== undefined) {
+        } else if (targetLocation === 'play area' && options.deployIndex >= -1) {
             targetPile.splice(options.deployIndex + 1, 0, card);
         } else if (targetLocation === 'play area' && options.left) {
             targetPile.unshift(card);
@@ -563,28 +576,24 @@ class Player extends GameObject {
 
         this.game.raiseEvent('onCardPlaced', {
             card: card,
+            // Remember the card as it was originally (e.g.,
+            // tokens that have left play need to be remembered as tokens).
+            cloneOverride: origCard,
             from: location,
-            to: targetLocation
+            to: targetLocation,
+            drawn: options.drawn
         });
         if (composedPart) {
             this.game.raiseEvent('onCardPlaced', {
                 card: composedPart,
                 from: location,
-                to: targetLocation
+                to: targetLocation,
+                drawn: options.drawn
             });
         }
 
-        if (!options.aboutToShuffle && this.isTopCardOfDeckVisible() && this.deck.length > 0) {
-            this.deck[0].facedown = false;
-
-            // In case a new card was added on top of the deck.
-            if (this.deck.length > 1) {
-                this.deck[1].facedown = true;
-            }
-
-            if (oldTopOfDeck != this.deck[0]) {
-                this.addTopCardOfDeckVisibleMessage();
-            }
+        if (!options.aboutToShuffle) {
+            card.owner.checkDeckAfterCardMove(oldTopOfDeck);
         }
     }
 
@@ -675,6 +684,9 @@ class Player extends GameObject {
     }
 
     isHaunted() {
+        if (this.anyEffect('countPurgedForHaunted')) {
+            return this.discard.length + this.purged.length >= 10;
+        }
         return this.discard.length >= 10;
     }
 
@@ -684,19 +696,26 @@ class Player extends GameObject {
 
     getAvailableHouses() {
         let availableHouses = this.hand.concat(this.cardsInPlay).reduce((houses, card) => {
-            let cardHouse = (card.isToken() && card.tokenCard() ? card.tokenCard() : card)
-                .printedHouse;
+            let cardForHouses = card.isToken() && card.tokenCard() ? card.tokenCard() : card;
+
+            // Only cards in play can use their house enhancements to control what houses are available.
+            let cardHouses =
+                cardForHouses.location === 'play area'
+                    ? cardForHouses.getHouses()
+                    : [cardForHouses.printedHouse];
 
             if (card.anyEffect('changeHouse')) {
-                cardHouse = card.getEffects('changeHouse');
+                cardHouses = card.getEffects('changeHouse');
             }
 
-            if (!houses.includes(cardHouse)) {
-                return houses.concat(cardHouse);
+            for (let house of cardHouses) {
+                if (!houses.includes(house)) {
+                    houses.push(house);
+                }
             }
 
             return houses;
-        }, this.houses);
+        }, this.houses.slice());
         let stopHouseChoice = this.getEffects('stopHouseChoice');
         let restrictHouseChoice = _.flatten(this.getEffects('restrictHouseChoice')).filter(
             (house) => !stopHouseChoice.includes(house) && availableHouses.includes(house)
@@ -725,12 +744,29 @@ class Player extends GameObject {
         return this.cardsInPlay.filter((card) => card.anyEffect('isAmberInPool'));
     }
 
-    canForgeKey(modifier = 0) {
+    canForgeKey(modifier = 0, keyColor = '') {
         if (!this.checkRestrictions('forge', this.game.getFrameworkContext(this))) {
             return false;
         }
 
         if (Object.values(this.keys).every((key) => key)) {
+            return false;
+        }
+
+        if (
+            keyColor &&
+            !this.getUnforgedKeys()
+                .map((k) => k.value)
+                .includes(keyColor)
+        ) {
+            return false;
+        }
+
+        // Check if player has already forged a key this round and doesn't have the effect
+        if (
+            this.keysForgedThisRound.length > 1 &&
+            this.anyEffect('cannotForgeMoreThan2KeysInATurn')
+        ) {
             return false;
         }
 
@@ -748,20 +784,34 @@ class Player extends GameObject {
         return Math.max(0, Object.values(this.keys).filter((key) => key).length);
     }
 
-    forgeKey(modifier) {
+    forgeKey(modifier, keyColor = '') {
         let cost = Math.max(0, this.getCurrentKeyCost() + modifier);
         let amberSources = this.getAmberSources();
         let selfAmberSources = this.getCardAmberInPoolSources();
         let totalAvailable =
             amberSources.reduce((total, source) => total + source.tokens.amber, 0) +
             selfAmberSources.length;
-        this.chooseAmberSource(amberSources, selfAmberSources, totalAvailable, cost, cost);
+        this.chooseAmberSource(
+            amberSources,
+            selfAmberSources,
+            totalAvailable,
+            cost,
+            cost,
+            keyColor
+        );
         return cost;
     }
 
-    chooseAmberSource(amberSources, selfAmberSources, totalAvailable, modifiedCost, initialCost) {
+    chooseAmberSource(
+        amberSources,
+        selfAmberSources,
+        totalAvailable,
+        modifiedCost,
+        initialCost,
+        keyColor
+    ) {
         if (modifiedCost === 0 || (amberSources.length === 0 && selfAmberSources.length === 0)) {
-            this.chooseKeyToForge(modifiedCost, initialCost);
+            this.chooseKeyToForge(modifiedCost, initialCost, keyColor);
             return;
         }
 
@@ -785,7 +835,8 @@ class Player extends GameObject {
                         selfAmberSources,
                         totalAvailable - max,
                         modifiedCost - max,
-                        initialCost
+                        initialCost,
+                        keyColor
                     );
                     return;
                 }
@@ -811,7 +862,8 @@ class Player extends GameObject {
                             selfAmberSources,
                             totalAvailable - sourceAmber,
                             modifiedCost - choice,
-                            initialCost
+                            initialCost,
+                            keyColor
                         );
                     }
                 });
@@ -838,7 +890,8 @@ class Player extends GameObject {
                     selfAmberSources,
                     totalAvailable - max,
                     modifiedCost - max,
-                    initialCost
+                    initialCost,
+                    keyColor
                 );
                 return;
             }
@@ -864,7 +917,8 @@ class Player extends GameObject {
                             selfAmberSources,
                             totalAvailable - 1,
                             modifiedCost - 1,
-                            initialCost
+                            initialCost,
+                            keyColor
                         );
                         return true;
                     },
@@ -874,7 +928,8 @@ class Player extends GameObject {
                             selfAmberSources,
                             totalAvailable - 1,
                             modifiedCost,
-                            initialCost
+                            initialCost,
+                            keyColor
                         );
                         return true;
                     }
@@ -883,8 +938,11 @@ class Player extends GameObject {
         });
     }
 
-    chooseKeyToForge(modifiedCost, initialCost) {
+    chooseKeyToForge(modifiedCost, initialCost, keyColor) {
         let unforgedKeys = this.getUnforgedKeys();
+        if (keyColor) {
+            unforgedKeys = unforgedKeys.filter((k) => k.value === keyColor);
+        }
         if (unforgedKeys.length > 1) {
             this.game.promptWithHandlerMenu(this, {
                 activePromptTitle: { text: 'Which key would you like to forge?' },
@@ -1019,6 +1077,29 @@ class Player extends GameObject {
         return this.game.highTide ? this.game.highTide !== this : false;
     }
 
+    getDiscardSlice(n = 1) {
+        if (this.discard.length <= Math.abs(n)) {
+            // Return the exact discard array if we are including
+            // everything; that way, we can trigger effects that (for
+            // example) depend on shuffling the full discard into the deck.
+            return this.discard;
+        } else if (n < 0) {
+            return this.discard.slice(n);
+        }
+        return this.discard.slice(0, n);
+    }
+
+    getDiscardWithCondition(condition = () => true) {
+        let res = this.discard.filter(condition);
+        if (res.length === this.discard.length) {
+            // Return the exact discard array if we are including
+            // everything; that way, we can trigger effects that (for
+            // example) depend on shuffling the full discard into the deck.
+            return this.discard;
+        }
+        return res;
+    }
+
     /**
      * This information is passed to the UI
      * @param {Player} activePlayer
@@ -1061,6 +1142,7 @@ class Player extends GameObject {
             },
             deckData: this.deckData,
             tokenCard: this.tokenCard && this.tokenCard.getShortSummary(),
+            prophecyCards: this.getSummaryForCardList(this.prophecyCards, activePlayer),
             wins: this.wins
         };
 
@@ -1091,6 +1173,86 @@ class Player extends GameObject {
         }
 
         return _.extend(state, promptState);
+    }
+
+    prophecyIndex(prophecyCard) {
+        return this.prophecyCards.indexOf(prophecyCard);
+    }
+
+    // Prophecy cards are paired in the prophecyCards array.  The first card in the pair is the front of the prophecy, and the second card is the back.
+    prophecyFlipSide(prophecyCard) {
+        let index = this.prophecyIndex(prophecyCard);
+        if (index === -1) {
+            return null;
+        }
+        if (index % 2 === 0) {
+            if (index >= this.prophecyCards.length - 1) {
+                return null;
+            }
+            return this.prophecyCards[index + 1];
+        }
+        if (index <= 0) {
+            return null;
+        }
+        return this.prophecyCards[index - 1];
+    }
+
+    // A prophecy can be activated if it is a prophecy card and not already active, and the flip side of the prophecy is not active.
+    canActivateProphecy(prophecyCard) {
+        if (
+            !prophecyCard.isProphecy() ||
+            prophecyCard.activeProphecy ||
+            prophecyCard.controller !== this ||
+            (this.game.propheciesActivatedThisPhase.length > 0 && !this.game.manualMode) ||
+            this.hand.length === 0
+        ) {
+            return false;
+        }
+        let flipProphecy = this.prophecyFlipSide(prophecyCard);
+        if (!flipProphecy) {
+            return false;
+        }
+        return !flipProphecy.activeProphecy;
+    }
+
+    activateProphecy(context, prophecyCard, showMessage = true) {
+        if (!this.canActivateProphecy(prophecyCard)) {
+            return false;
+        }
+        this.game.prophecyActivated(prophecyCard);
+        prophecyCard.activeProphecy = true;
+        this.game.raiseEvent('onProphecyActivated', { prophecyCard: prophecyCard });
+
+        if (showMessage) {
+            this.game.addMessage('{0} activates their prophecy {1}', this, prophecyCard);
+        }
+
+        return true;
+    }
+
+    deactivateProphecy(prophecyCard) {
+        prophecyCard.activeProphecy = false;
+        this.game.raiseEvent('onProphecyDeactivated', { prophecyCard: prophecyCard });
+    }
+
+    flipProphecy(context, prophecyCard) {
+        if (!prophecyCard.isProphecy() || !prophecyCard.activeProphecy) {
+            return false;
+        }
+        let flipSide = this.prophecyFlipSide(prophecyCard);
+        if (!flipSide) {
+            return false;
+        }
+        this.deactivateProphecy(prophecyCard);
+        flipSide.activeProphecy = true;
+        // Move any cards under the prophecy to the flipside.
+        flipSide.childCards = prophecyCard.childCards;
+        prophecyCard.childCards = [];
+        flipSide.childCards.forEach((card) => {
+            card.parent = flipSide;
+        });
+        this.game.raiseEvent('onProphecyFlipped', { prophecyCard: flipSide });
+        return true;
     }
 }
 

@@ -11,6 +11,7 @@ import AmberImage from '../../assets/img/enhancements/amberui.png';
 import CaptureImage from '../../assets/img/enhancements/captureui.png';
 import DrawImage from '../../assets/img/enhancements/drawui.png';
 import DamageImage from '../../assets/img/enhancements/damageui.png';
+import DiscardImage from '../../assets/img/enhancements/discardui.png';
 
 import './DeckSummary.scss';
 
@@ -73,6 +74,38 @@ const DeckSummary = ({ deck }) => {
 
     let nonDeckCards = deck.cards
         .filter((c) => c.isNonDeck)
+        // Filter out archon power cards
+        .filter((c) => !c.card || c.card.type !== 'archon power')
+        // Deduplicate token creatures (not prophecy cards)
+        .filter((card, idx, arr) => {
+            if (card.card && card.card.type === 'token creature') {
+                // Only keep the first occurrence of each token card id (and prophecyId if present)
+                return (
+                    arr.findIndex(
+                        (c) =>
+                            c.card &&
+                            c.card.type === 'token creature' &&
+                            c.id === card.id &&
+                            (c.prophecyId || null) === (card.prophecyId || null)
+                    ) === idx
+                );
+            }
+            return true;
+        })
+        .sort((a, b) => {
+            // Sort prophecy cards by ProphecyId first, then by dbId
+            if (a.card.type === 'prophecy' && b.card.type === 'prophecy') {
+                // Both are prophecies - sort by ProphecyId first, then by dbId
+                const aId = a.prophecyId || 999;
+                const bId = b.prophecyId || 999;
+                if (aId !== bId) {
+                    return aId - bId;
+                }
+                return a.dbId - b.dbId;
+            }
+            // If only one is a prophecy or neither is a prophecy, maintain original order
+            return a.dbId - b.dbId;
+        })
         .map((card, i) => {
             return (
                 <div
@@ -137,28 +170,34 @@ const DeckSummary = ({ deck }) => {
                     </Row>
                     {Object.keys(enhancements).length > 0 ? (
                         <Row className='deck-enhancements'>
-                            <Col xs='3' className='deck-enhancement'>
+                            <Col xs='2' className='deck-enhancement'>
                                 <img src={AmberImage} className='deck-img-enhancement' />
                                 <span className='deck-text-enhancement'>
                                     {enhancements.amber || 0}
                                 </span>
                             </Col>
-                            <Col xs='3' className='deck-enhancement'>
+                            <Col xs='2' className='deck-enhancement'>
                                 <img src={CaptureImage} className='deck-img-enhancement' />
                                 <span className='deck-text-enhancement'>
                                     {enhancements.capture || 0}
                                 </span>
                             </Col>
-                            <Col xs='3' className='deck-enhancement'>
+                            <Col xs='2' className='deck-enhancement'>
                                 <img src={DrawImage} className='deck-img-enhancement' />
                                 <span className='deck-text-enhancement'>
                                     {enhancements.draw || 0}
                                 </span>
                             </Col>
-                            <Col xs='3' className='deck-enhancement'>
+                            <Col xs='2' className='deck-enhancement'>
                                 <img src={DamageImage} className='deck-img-enhancement' />
                                 <span className='deck-text-enhancement'>
                                     {enhancements.damage || 0}
+                                </span>
+                            </Col>
+                            <Col xs='2' className='deck-enhancement'>
+                                <img src={DiscardImage} className='deck-img-enhancement' />
+                                <span className='deck-text-enhancement'>
+                                    {enhancements.discard || 0}
                                 </span>
                             </Col>
                         </Row>
@@ -198,7 +237,7 @@ const DeckSummary = ({ deck }) => {
                 })}
             </Row>
 
-            {deck.cards.some((c) => c.isNonDeck) && (
+            {deck.cards.some((c) => c.isNonDeck && (!c.card || c.card.type !== 'archon power')) && (
                 <Row className='deck-houses'>
                     <Col xs='12'>
                         <Trans>Non-Deck Cards</Trans>

@@ -91,6 +91,43 @@ class ResolveBonusIconsAction extends CardGameAction {
                     });
                 }
                 break;
+            case 'discard':
+                if (context.player.hand.length > 0) {
+                    context.game.promptForSelect(context.game.activePlayer, {
+                        activePromptTitle: 'Choose a card to discard due to bonus icon',
+                        source: event.card,
+                        location: 'hand',
+                        controller: 'self',
+                        onSelect: (player, card) => {
+                            context.game.actions
+                                .discard({ chatMessage: false })
+                                .resolve(card, context.game.getFrameworkContext(player));
+                            context.game.addMessage(
+                                "{0} discards {1} due to {2}'s bonus icon",
+                                player,
+                                card,
+                                event.card
+                            );
+                            return true;
+                        }
+                    });
+                }
+                break;
+            case 'token':
+                if (context.player.tokenCard) {
+                    context.game.actions
+                        .makeTokenCreature()
+                        .resolve(
+                            context.player.deck[0],
+                            context.game.getFrameworkContext(context.player)
+                        );
+                    context.game.addMessage(
+                        "{0} makes a token creature due to {1}'s bonus icon",
+                        context.player,
+                        event.card
+                    );
+                }
+                break;
         }
     }
 

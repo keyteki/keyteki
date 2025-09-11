@@ -10,12 +10,20 @@ class Bryozoarch extends Card {
 
         this.interrupt({
             when: {
-                onCardPlayed: (event, context) =>
-                    event.card.type === 'action' && event.player === context.player.opponent
+                onCardPlayedAfterBonusIcons: (event, context) =>
+                    event.card.type === 'action' &&
+                    event.player === context.player.opponent &&
+                    context.source.location === 'play area'
             },
-            gameAction: ability.actions.destroy((context) => ({
-                target: context.player.creaturesInPlay[0]
-            }))
+            gameAction: ability.actions.changeEvent((context) => ({
+                event: context.event,
+                cancel: true
+            })),
+            then: {
+                gameAction: ability.actions.destroy((context) => ({
+                    target: context.player.creaturesInPlay[0]
+                }))
+            }
         });
     }
 }

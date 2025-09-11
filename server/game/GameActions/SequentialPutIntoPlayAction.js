@@ -6,6 +6,7 @@ class SequentialPutIntoPlayAction extends GameAction {
         this.revealList = [];
         this.ready = false;
         this.forEach = [];
+        this.controller = null;
     }
 
     setup() {
@@ -27,7 +28,10 @@ class SequentialPutIntoPlayAction extends GameAction {
     }
 
     queueActionSteps(context, element) {
-        let action = context.game.actions.putIntoPlay({ ready: this.ready });
+        let action = context.game.actions.putIntoPlay({
+            controller: this.controller,
+            ready: this.ready
+        });
 
         context.game.queueSimpleStep(() => {
             action.setDefaultTarget(() => element);

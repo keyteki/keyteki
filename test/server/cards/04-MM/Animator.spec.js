@@ -171,9 +171,9 @@ describe('Animator', function () {
                             this.player1.endTurn();
                         });
 
-                        it('should discard the upgrade', function () {
-                            expect(this.discombobulator.location).toBe('discard');
-                            expect(this.discombobulator.controller).toBe(this.player1.player);
+                        it('should keep the upgrade attached', function () {
+                            expect(this.discombobulator.location).toBe('play area');
+                            expect(this.discombobulator.parent).toBe(this.lashOfBrokenDreams);
                         });
                     });
                 });

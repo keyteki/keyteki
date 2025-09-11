@@ -4,7 +4,7 @@ describe('Annihilation Ritual', function () {
             this.setupTest({
                 player1: {
                     house: 'dis',
-                    inPlay: ['annihilation-ritual-', 'ember-imp', 'guardian-demon', 'the-terror'],
+                    inPlay: ['annihilation-ritual', 'ember-imp', 'guardian-demon', 'the-terror'],
                     hand: ['hand-of-dis', 'pitlord']
                 },
                 player2: {
@@ -13,7 +13,7 @@ describe('Annihilation Ritual', function () {
                         'mighty-tiger',
                         'snufflegator',
                         'inka-the-spider',
-                        'grumpus:flaxia',
+                        'grumpus:lost-in-the-woods',
                         'brammo'
                     ],
                     hand: ['niffle-kong', 'niffle-kong2', 'ancient-bear']

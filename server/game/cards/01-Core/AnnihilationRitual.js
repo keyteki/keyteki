@@ -16,6 +16,6 @@ class AnnihilationRitual extends Card {
     }
 }
 
-AnnihilationRitual.id = 'annihilation-ritual-';
+AnnihilationRitual.id = 'annihilation-ritual';
 
 module.exports = AnnihilationRitual;

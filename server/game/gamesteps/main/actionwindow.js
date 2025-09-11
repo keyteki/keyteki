@@ -2,6 +2,7 @@ const UiPrompt = require('../uiprompt.js');
 const DiscardAction = require('../../BaseActions/DiscardAction');
 const RaiseTideAction = require('../../GameActions/RaiseTideAction');
 const UseAction = require('../../GameActions/UseAction');
+const ActivateProphecyAction = require('../../GameActions/ActivateProphecyAction');
 
 class ActionWindow extends UiPrompt {
     onCardClicked(player, card) {
@@ -72,6 +73,28 @@ class ActionWindow extends UiPrompt {
         return true;
     }
 
+    onProphecyClicked(player, prophecyCard) {
+        let activateProphecyAction = new ActivateProphecyAction({ prophecyCard: prophecyCard });
+        let context = this.game.getFrameworkContext(player);
+        context.source = prophecyCard;
+        if (activateProphecyAction.canAffect(player, context)) {
+            this.game.promptWithHandlerMenu(player, {
+                activePromptTitle: 'Activate prophecy?',
+                source: prophecyCard,
+                choices: ['Yes', 'No'],
+                handlers: [
+                    () => {
+                        activateProphecyAction.resolve(player, context);
+                        return true;
+                    },
+                    () => true
+                ]
+            });
+        }
+
+        return true;
+    }
+
     checkForPhaseEnding() {
         if (this.game.endPhaseRightNow) {
             this.game.endPhaseRightNow = false;
@@ -103,6 +126,12 @@ class ActionWindow extends UiPrompt {
         return { menuTitle: 'Waiting for opponent' };
     }
 
+    hasAvailableProphecies(player) {
+        return player.prophecyCards.some((prophecyCard) =>
+            player.canActivateProphecy(prophecyCard)
+        );
+    }
+
     menuCommand(player, choice) {
         if (choice === 'manual') {
             this.game.promptForSelect(this.game.activePlayer, {
@@ -121,7 +150,10 @@ class ActionWindow extends UiPrompt {
 
         if (choice === 'done') {
             let cards = player.cardsInPlay.concat(player.hand);
-            if (cards.some((card) => card.getLegalActions(player).length > 0)) {
+            let hasPlayableCards = cards.some((card) => card.getLegalActions(player).length > 0);
+            let hasAvailableProphecies = this.hasAvailableProphecies(player);
+
+            if (hasPlayableCards || hasAvailableProphecies) {
                 this.game.promptWithHandlerMenu(player, {
                     source: 'End Turn',
                     activePromptTitle: 'Are you sure you want to end your turn?',

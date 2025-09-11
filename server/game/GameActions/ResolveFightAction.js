@@ -70,7 +70,8 @@ class ResolveFightAction extends CardGameAction {
             let defenderParams = {
                 amount: defenderAmount,
                 fightEvent: event,
-                damageSource: event.card
+                damageSource: event.card,
+                ignoreArmor: event.attacker.ignores('armor')
             };
             let attackerAmount =
                 event.attacker.power +
@@ -87,7 +88,8 @@ class ResolveFightAction extends CardGameAction {
             let attackerParams = {
                 amount: attackerAmount,
                 fightEvent: event,
-                damageSource: event.attacker
+                damageSource: event.attacker,
+                ignoreArmor: event.attacker.ignores('armor')
             };
             if (
                 !event.card.getKeywordValue('elusive') ||

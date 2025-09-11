@@ -9,7 +9,9 @@ class BrainDrain extends Card {
                 controller: 'opponent',
                 revealTargets: true,
                 location: 'hand',
-                gameAction: ability.actions.returnToDeck()
+                gameAction: ability.actions.returnToDeck({
+                    reveal: true
+                })
             }
         });
     }

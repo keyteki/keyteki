@@ -9,6 +9,9 @@ class AttachAction extends CardGameAction {
     setup() {
         this.name = 'attach';
         this.targetType = ['creature'];
+        if (this.upgrade && this.upgrade.anyEffect('canAttachToArtifacts')) {
+            this.targetType = this.targetType.concat(['artifact']);
+        }
         this.effectMsg = 'attach {1} to {0}';
         this.effectArgs = () => {
             return this.upgrade;
@@ -46,9 +49,12 @@ class AttachAction extends CardGameAction {
                 if (event.card.location === 'play area') {
                     event.card.parent.removeAttachment(event.card);
                 } else {
+                    let controller = event.card.controller;
+                    let oldTopOfDeck = controller.deck[0];
                     event.card.controller.removeCardFromPile(event.card);
                     event.card.new = true;
                     event.card.moveTo('play area');
+                    controller.checkDeckAfterCardMove(oldTopOfDeck);
                 }
 
                 event.parent.upgrades.push(event.card);

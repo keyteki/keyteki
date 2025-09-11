@@ -1,0 +1,20 @@
+name: Deploy Lobby
+on:
+    workflow_dispatch:
+        inputs:
+            environment:
+                type: environment
+                description: Select the environment
+                default: Production
+jobs:
+    deploy:
+        runs-on: self-hosted
+        environment: ${{ inputs.environment }}
+        steps:
+            - name: Pull latest lobby image
+              run: docker pull cryogen/keyteki-lobby
+            - name: Stop and remove lobby image
+              continue-on-error: true
+              run: docker stop ${{ vars.LOBBY_CONTAINER_NAME }} && docker rm ${{ vars.LOBBY_CONTAINER_NAME }}
+            - name: Run new lobby image
+              run: docker run --restart unless-stopped -d -p ${{ vars.LOBBY_PORT }}:80 --network ${{ vars.NETWORK_NAME }} -v ${{ vars.CARDS_PATH }}:/usr/src/app/public/img/cards -v ${{ vars.BGS_PATH }}:/usr/src/app/public/img/bgs -v ${{ vars.AVATAR_PATH }}:/usr/src/app/public/img/avatar -v ${{ vars.LOBBY_LOG_PATH }}:/usr/src/app/server/logs --name ${{ vars.LOBBY_CONTAINER_NAME }} --env NODE_CONFIG='{"env":"production","sentryDsn":"${{ secrets.SENTRY_DSN }}","captchaKey":"${{ secrets.CAPTHCA_KEY }}","minLobbyChatTime":3600,"dbUser":"${{ secrets.DB_USER }}","dbHost":"host.docker.internal","dbDatabase":"${{ secrets.DB_NAME }}","dbPassword":"${{ secrets.DB_PASSWORD }}","dbPort":${{ secrets.DB_PORT }},"redisUrl":"${{ secrets.REDIS_URL }}","secret":"${{ secrets.SECRET }}","lobby":{"port":80,"emailKey":"${{ secrets.EMAIL_KEY }}","hmacSecret":"${{ secrets.HMAC }}","requireActivation":false,"lowerDeckThreshold":5,"middleDeckThreshold":20,"upperDeckThreshold":50, "patreonCallbackUrl":"${{ vars.PATREON_CALLBACK_URL }}","patreonClientId":"${{ secrets.PATREON_CLIENTID }}","patreonSecret":"${{ secrets.PATREON_SECRET }}"}}' cryogen/keyteki-lobby

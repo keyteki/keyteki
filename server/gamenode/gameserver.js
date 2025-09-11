@@ -16,7 +16,6 @@ const GameSocket = require('./gamesocket');
 const Game = require('../game/game');
 const Socket = require('../socket');
 const ConfigService = require('../services/ConfigService');
-const version = require('../../version');
 
 class GameServer {
     constructor() {
@@ -24,7 +23,7 @@ class GameServer {
         const sentryDsn = this.configService.getValue('sentryDsn');
 
         if (sentryDsn) {
-            Sentry.init({ dsn: sentryDsn, release: version.build });
+            Sentry.init({ dsn: sentryDsn, release: process.env.VERSION || 'Local build' });
         }
 
         this.games = {};
@@ -47,7 +46,7 @@ class GameServer {
             this.configService,
             this.host,
             this.protocol,
-            version.build
+            process.env.VERSION || 'Local build'
         );
         this.gameSocket.on('onStartGame', this.onStartGame.bind(this));
         this.gameSocket.on('onSpectator', this.onSpectator.bind(this));
@@ -293,6 +292,25 @@ class GameServer {
             player.socket.send('cleargamestate');
             player.socket.leaveChannel(game.id);
             player.left = true; // So they don't get game state sent after the /rematch command is issued
+        }
+
+        delete this.games[game.id];
+    }
+
+    /**
+     * @param {import("../game/game")} game
+     */
+    rematchWithNewDecks(game) {
+        this.gameSocket.send('REMATCHWITHNEWDECKS', { game: game.getSaveState() });
+
+        for (let player of Object.values(game.getPlayersAndSpectators())) {
+            if (player.left || player.disconnectedAt || !player.socket) {
+                continue;
+            }
+
+            player.socket.send('cleargamestate');
+            player.socket.leaveChannel(game.id);
+            player.left = true;
         }
 
         delete this.games[game.id];

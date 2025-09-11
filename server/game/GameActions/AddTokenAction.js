@@ -8,6 +8,7 @@ class AddTokenAction extends CardGameAction {
 
     setDefaultProperties() {
         this.amount = 1;
+        this.multiplier = 1;
     }
 
     setup() {
@@ -18,8 +19,21 @@ class AddTokenAction extends CardGameAction {
             token = '+1 power counter';
         }
 
-        this.effectMsg =
-            'place ' + this.amount + ' ' + (this.type === 'power' ? token : this.type) + ' on {0}';
+        if (this.multiplier > 1) {
+            this.effectMsg =
+                'multiply the number of ' +
+                (this.type === 'power' ? token : this.type) +
+                ' on {0} by ' +
+                this.multiplier;
+        } else {
+            this.effectMsg =
+                'place ' +
+                this.amount +
+                ' ' +
+                (this.type === 'power' ? token : this.type) +
+                ' on {0} ' +
+                (this.multiplier > 1 ? 'for each ' + token + ' on {0}' : '');
+        }
     }
 
     canAffect(card, context) {
@@ -30,7 +44,13 @@ class AddTokenAction extends CardGameAction {
         return super.createEvent(
             'onAddToken',
             { card: card, context: context, amount: this.amount },
-            () => card.addToken(this.type, this.amount)
+            () =>
+                card.addToken(
+                    this.type,
+                    this.multiplier > 1
+                        ? this.multiplier * card.tokens[this.type] - card.tokens[this.type]
+                        : this.amount
+                )
         );
     }
 }

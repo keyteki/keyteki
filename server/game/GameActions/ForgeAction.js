@@ -9,7 +9,11 @@ class ForgeAction extends PlayerAction {
     setup() {
         super.setup();
         this.name = 'forgeKey';
-        this.effectMsg = 'forge a key';
+        if (this.keyColor !== '') {
+            this.effectMsg = 'forge the ' + this.keyColor + ' key';
+        } else {
+            this.effectMsg = 'forge a key';
+        }
         this.effectArgs = this.modifier;
     }
 
@@ -18,7 +22,10 @@ class ForgeAction extends PlayerAction {
     }
 
     canAffect(player, context) {
-        return player.canForgeKey(this.getModifier(player)) && super.canAffect(player, context);
+        return (
+            player.canForgeKey(this.getModifier(player), this.keyColor) &&
+            super.canAffect(player, context)
+        );
     }
 
     defaultTargets(context) {
@@ -30,7 +37,7 @@ class ForgeAction extends PlayerAction {
             'onForgeKey',
             { player: player, modifier: this.getModifier(player), context: context },
             (event) => {
-                event.amberSpent = event.player.forgeKey(event.modifier);
+                event.amberSpent = event.player.forgeKey(event.modifier, this.keyColor);
             }
         );
     }

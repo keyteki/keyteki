@@ -19,7 +19,8 @@ module.exports = {
         new webpack.ProvidePlugin({
             $: 'jquery',
             jQuery: 'jquery'
-        })
+        }),
+        new webpack.EnvironmentPlugin(['VERSION'])
     ],
     output: {
         path: path.resolve(__dirname, 'dist'),

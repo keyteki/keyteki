@@ -31,14 +31,18 @@ const CardImage = ({ card, cardBack, size, halfSize, onMouseOver, onMouseOut }) 
                 }
 
                 if (canvas) {
-                    fabricRef.current = await buildCard(canvas, {
-                        ...card,
-                        size,
-                        halfSize,
-                        url: `/img/${halfSize ? 'halfSize' : 'cards'}/${
-                            i18n.language === 'en' ? '' : i18n.language
-                        }/${card.image.replace(/\*/g, '_')}.${halfSize ? 'jpg' : 'png'}`
-                    });
+                    try {
+                        fabricRef.current = await buildCard(canvas, {
+                            ...card,
+                            size,
+                            halfSize,
+                            url: `/img/cards/${halfSize ? 'halfSize/' : ''}${
+                                i18n.language === 'en' ? '' : i18n.language
+                            }/${card.image.replace(/\*/g, '_')}.${halfSize ? 'jpg' : 'png'}`
+                        });
+                    } catch {
+                        fabricRef.current = null;
+                    }
                 }
             }
         },
@@ -60,6 +64,7 @@ const CardImage = ({ card, cardBack, size, halfSize, onMouseOver, onMouseOut }) 
             card.tokens && card.tokens.growth,
             card.tokens && card.tokens.ignorance,
             card.tokens && card.tokens.knowledge,
+            card.tokens && card.tokens.mutation,
             card.tokens && card.tokens.power,
             card.tokens && card.tokens.scheme,
             card.tokens && card.tokens.time,

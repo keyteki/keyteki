@@ -11,9 +11,10 @@ describe('Bryozoarch', function () {
                 player2: {
                     token: 'grumpus',
                     inPlay: ['skullback-crab', 'bryozoarch'],
-                    hand: ['initiation']
+                    hand: ['initiation', 'bryozoarch']
                 }
             });
+            this.bryozoarch2 = this.player2.player.hand[1];
         });
 
         it('should blank opponent actions', function () {
@@ -21,7 +22,7 @@ describe('Bryozoarch', function () {
             expect(this.player2.player.creaturesInPlay.length).toBe(1);
             expect(this.skullbackCrab.location).toBe('discard');
             expect(this.bryozoarch.location).toBe('play area');
-            expect(this.player2.player.archives.length).toBe(0);
+            expect(this.player1.player.archives.length).toBe(0);
             expect(this.player1.amber).toBe(2);
             expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
         });
@@ -47,10 +48,44 @@ describe('Bryozoarch', function () {
             expect(this.player2.player.creaturesInPlay.length).toBe(1);
             expect(this.skullbackCrab.location).toBe('discard');
             expect(this.bryozoarch.location).toBe('play area');
-            expect(this.player2.player.archives.length).toBe(0);
+            expect(this.player1.player.archives.length).toBe(0);
             expect(this.player1.amber).toBe(3);
 
             expect(this.tribute.location).toBe('discard');
+        });
+
+        it('should only cause one destroy with 2 Bryozoarchs out', function () {
+            this.player1.endTurn();
+            this.player2.clickPrompt('unfathomable');
+            this.player2.playCreature(this.bryozoarch2);
+            this.player2.endTurn();
+            this.player1.clickPrompt('logos');
+
+            this.player1.play(this.labwork);
+            this.player1.clickCard(this.bryozoarch); // which Bryo interrupts?
+            expect(this.player2.player.creaturesInPlay.length).toBe(2);
+            expect(this.skullbackCrab.location).toBe('discard');
+            expect(this.bryozoarch.location).toBe('play area');
+            expect(this.bryozoarch2.location).toBe('play area');
+            expect(this.player1.player.archives.length).toBe(0);
+            expect(this.player1.amber).toBe(2);
+            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+        });
+
+        it('should resolve bonus icons before replacing the event', function () {
+            this.labwork.enhancements = ['damage'];
+            this.bryozoarch.tokens.damage = 5;
+            this.player1.play(this.labwork);
+            this.player1.clickCard(this.bryozoarch);
+            this.player1.clickCard(this.tribute);
+            expect(this.player2.player.creaturesInPlay.length).toBe(1);
+            expect(this.bryozoarch.location).toBe('discard');
+            expect(this.skullbackCrab.location).toBe('play area');
+            expect(this.tribute.location).toBe('archives');
+            expect(this.player1.player.archives.length).toBe(1);
+            expect(this.player1.amber).toBe(2);
+            expect(this.labwork.location).toBe('discard');
+            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
         });
     });
 });

@@ -301,6 +301,13 @@ beforeEach(function () {
                     this[camel] = card;
                 }
             }
+
+            for (let prophecy of player.player.prophecyCards) {
+                let camel = this.cardCamel(prophecy);
+                if (!this[camel]) {
+                    this[camel] = prophecy;
+                }
+            }
         }
 
         this.game.checkGameState(true);

@@ -8,11 +8,14 @@ export const Constants = {
         'brobnar',
         'dis',
         'ekwidon',
+        'geistoid',
         'logos',
         'mars',
+        'redemption',
         'sanctum',
         'saurian',
         'shadows',
+        'skyborn',
         'staralliance',
         'unfathomable',
         'untamed'
@@ -21,11 +24,14 @@ export const Constants = {
         'Brobnar',
         'Dis',
         'Ekwidon',
+        'Geistoid',
         'Logos',
         'Mars',
+        'Redemption',
         'Sanctum',
         'Saurian',
         'Shadows',
+        'Skyborn',
         'Star Alliance',
         'Unfathomable',
         'Untamed'
@@ -39,9 +45,26 @@ export const Constants = {
         { value: '496', label: 'DT', tideRequired: true },
         { value: '600', label: 'WoE', tideRequired: false },
         { value: '601', label: 'UC2022', tideRequired: false },
-        { value: '609', label: 'VM2023', tideRequired: false }
+        { value: '609', label: 'VM2023', tideRequired: false },
+        { value: '700', label: 'GR', tideRequired: false },
+        { value: '737', label: 'VM2024', tideRequired: false },
+        { value: '800', label: 'AS', tideRequired: false },
+        { value: '855', label: 'ToC', tideRequired: false },
+        { value: '874', label: 'MoMu', tideRequired: false },
+        { value: '907', label: 'DISC', tideRequired: false },
+        { value: '939', label: 'VM2025', tideRequired: false },
+        { value: '886', label: 'PV', tideRequired: false },
+        { value: '918', label: 'CC', tideRequired: false }
     ],
-    CardTypes: ['action', 'artifact', 'creature', 'upgrade', 'token creature', 'the tide'],
+    CardTypes: [
+        'action',
+        'artifact',
+        'creature',
+        'upgrade',
+        'token creature',
+        'the tide',
+        'prophecy'
+    ],
     SetIconPaths: {},
     DeckIconPaths: {},
     HouseIconPaths: {},
@@ -57,7 +80,8 @@ export const Constants = {
         amber: require('./assets/img/enhancements/amber.png'),
         capture: require('./assets/img/enhancements/capture.png'),
         draw: require('./assets/img/enhancements/draw.png'),
-        damage: require('./assets/img/enhancements/damage.png')
+        damage: require('./assets/img/enhancements/damage.png'),
+        discard: require('./assets/img/enhancements/discard.png')
     },
     TideImages: {
         neutral: require('./assets/img/tide/tide-neutral.png'),
@@ -98,6 +122,7 @@ for (let house of Constants.Houses) {
     Constants.MaverickHouseAmberImages[
         house
     ] = require(`./assets/img/maverick/maverick-${house}-amber.png`);
+    Constants.EnhancementPips[house] = require(`./assets/img/enhancements/${house}.png`);
 }
 
 for (let x = 1; x < 8; x++) {

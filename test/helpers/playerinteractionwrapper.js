@@ -187,6 +187,17 @@ class PlayerInteractionWrapper {
         this.game.checkGameState(true);
     }
 
+    activateProphecy(prophecyCard, fateCard) {
+        this.game.clickProphecy(this.player.name, prophecyCard.uuid);
+        this.game.continue();
+        this.checkUnserializableGameState();
+        this.clickPrompt('Yes');
+        this.clickCard(fateCard);
+        this.game.checkGameState(true);
+        this.game.continue();
+        this.checkUnserializableGameState();
+    }
+
     executeCommand(command) {
         let args = command.split(' ');
         if (this.game.chatCommands.executeCommand(this.player, args[0], args)) {
@@ -632,6 +643,11 @@ class PlayerInteractionWrapper {
         }
 
         return card;
+    }
+
+    scrap(card) {
+        this.clickCard(card);
+        this.clickPrompt('Discard this card');
     }
 
     /**

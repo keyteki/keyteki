@@ -10,7 +10,7 @@ class ThinkTwice extends Card {
                 cardType: 'action',
                 gameAction: ability.actions.sequential([
                     ability.actions.playCard(),
-                    ability.actions.moveCard({ destination: 'purged' })
+                    ability.actions.purge()
                 ])
             }
         });

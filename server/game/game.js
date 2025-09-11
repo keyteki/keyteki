@@ -80,10 +80,12 @@ class Game extends EventEmitter {
         this.cardsPlayed = [];
         this.cardsDiscarded = [];
         this.effectsUsed = [];
+        this.propheciesActivated = [];
         this.cardsDiscardedThisPhase = [];
         this.cardsUsedThisPhase = [];
         this.cardsPlayedThisPhase = [];
         this.effectsUsedThisPhase = [];
+        this.propheciesActivatedThisPhase = [];
         this.activePlayer = null;
         this.firstPlayer = null;
         this.playedRoundsAfterTime = [];
@@ -260,7 +262,22 @@ class Game extends EventEmitter {
      * @returns Card
      */
     findAnyCardInAnyList(cardId) {
-        return this.allCards.find((card) => card.uuid === cardId);
+        // Search in regular cards and active prophecies
+        let card = this.allCards.concat(this.activeProphecies).find((card) => card.uuid === cardId);
+
+        // If not found, search in all prophecy cards (including inactive ones)
+        if (!card && this.manualMode) {
+            for (let player of this.getPlayers()) {
+                if (player.prophecyCards) {
+                    card = player.prophecyCards.find((card) => card.uuid === cardId);
+                    if (card) {
+                        break;
+                    }
+                }
+            }
+        }
+
+        return card;
     }
 
     /**
@@ -593,6 +610,16 @@ class Game extends EventEmitter {
         if (showMessage) {
             this.addMessage('{0} changed tide to {1}', player, Constants.Tide.toString(level));
         }
+    }
+
+    clickProphecy(playerName, prophecyCardId) {
+        let player = this.getPlayerByName(playerName);
+        let prophecyCard = player.prophecyCards.find((card) => card.uuid === prophecyCardId);
+        if (!player || !prophecyCard) {
+            return;
+        }
+
+        this.pipeline.handleProphecyClicked(player, prophecyCard);
     }
 
     modifyKey(playerName, color, forged) {
@@ -1069,7 +1096,7 @@ class Game extends EventEmitter {
             player.cardsInPlay.push(card);
         }
         card.updateEffectContexts();
-        this.emitEvent('onTakeControl', { player, card });
+        this.raiseEvent('onTakeControl', { player, card });
     }
 
     watch(socketId, user) {
@@ -1175,6 +1202,15 @@ class Game extends EventEmitter {
         this.router.rematch(this);
     }
 
+    rematchWithNewDecks() {
+        if (!this.finishedAt) {
+            this.finishedAt = new Date();
+            this.winReason = 'rematch';
+        }
+
+        this.router.rematchWithNewDecks(this);
+    }
+
     timeExpired() {
         this.emit('onTimeExpired');
     }
@@ -1227,8 +1263,6 @@ class Game extends EventEmitter {
                         this.takeControl(card.getModifiedController(), card, modifiedByPlayer);
                         modifiedControl = true;
                     }
-                    // any upgrades which are illegally attached
-                    card.checkForIllegalAttachments();
                 });
             }
 
@@ -1277,7 +1311,7 @@ class Game extends EventEmitter {
     }
 
     raiseEndRoundEvent() {
-        this.raiseEvent('onRoundEnded', {}, () => {
+        this.raiseEvent('onRoundEnded', { player: this.activePlayer }, () => {
             this.endRound();
         });
     }
@@ -1302,7 +1336,7 @@ class Game extends EventEmitter {
 
         this.activePlayer.activeHouse = null;
 
-        if (this.activePlayer.opponent) {
+        if (this.activePlayer.opponent && !this.activePlayer.anyEffect('anotherTurn')) {
             this.activePlayer = this.activePlayer.opponent;
         }
 
@@ -1331,6 +1365,13 @@ class Game extends EventEmitter {
 
     get cardsInPlay() {
         return this.getPlayers().reduce((array, player) => array.concat(player.cardsInPlay), []);
+    }
+
+    get activeProphecies() {
+        return this.getPlayers().reduce(
+            (array, player) => array.concat(player.activeProphecies),
+            []
+        );
     }
 
     get creaturesInPlay() {
@@ -1372,6 +1413,7 @@ class Game extends EventEmitter {
         this.cardsDiscardedThisPhase = [];
         this.cardsPlayedThisPhase = [];
         this.cardsUsedThisPhase = [];
+        this.propheciesActivatedThisPhase = [];
     }
 
     effectUsed(card) {
@@ -1386,7 +1428,8 @@ class Game extends EventEmitter {
 
     cardPlayed(card) {
         this.cardsPlayed.push(card);
-        this.cardsPlayedThisPhase.push(card);
+        // Some cards depend on the type of the player card, which may have changed after it was played.
+        this.cardsPlayedThisPhase.push(card.createSnapshot());
         this.cardNamesPlayedOrUsed.push(card.name);
     }
 
@@ -1394,6 +1437,11 @@ class Game extends EventEmitter {
         this.cardsUsed.push(card);
         this.cardsUsedThisPhase.push(card);
         this.cardNamesPlayedOrUsed.push(card.name);
+    }
+
+    prophecyActivated(prophecyCard) {
+        this.propheciesActivated.push(prophecyCard);
+        this.propheciesActivatedThisPhase.push(prophecyCard);
     }
 
     continue() {

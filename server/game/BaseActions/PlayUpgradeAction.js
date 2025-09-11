@@ -4,13 +4,27 @@ const CardLastingEffectAction = require('../GameActions/CardLastingEffectAction'
 const Effects = require('../effects');
 
 class PlayUpgradeAction extends BasePlayAction {
-    constructor(card) {
+    constructor(card, parent) {
+        let title = 'Choose a creature to attach this upgrade to';
+        let cardType = 'creature';
+        if (card.anyEffect('canAttachToArtifacts')) {
+            title = 'Choose a card to attached this upgrade to';
+            cardType = [cardType].concat(['artifact']);
+        }
         super(card, {
-            activePromptTitle: 'Choose a creature to attach this upgrade to',
-            cardType: 'creature',
+            activePromptTitle: title,
+            cardType: cardType,
             gameAction: new AttachAction((context) => ({ upgrade: context.source }))
         });
         this.title = 'Play this upgrade';
+        this.parent = parent;
+    }
+
+    // Create a new copy of this action with a forced parent, since we can't
+    // use the constructor directly in a GameAction without causing a
+    // dependency cycle.
+    newWithParent(parent) {
+        return new PlayUpgradeAction(this.card, parent);
     }
 
     displayMessage(context) {
@@ -30,6 +44,18 @@ class PlayUpgradeAction extends BasePlayAction {
         }
     }
 
+    resolveTargets(context) {
+        if (this.parent) {
+            context.target = this.parent;
+            return {
+                cancelled: false,
+                payCostsFirst: false,
+                delayTargeting: null
+            };
+        }
+        return super.resolveTargets(context);
+    }
+
     meetsRequirements(context = this.createContext(), ignoredRequirements = []) {
         if (context.source.printedType === 'creature' && context.source.canPlayAsUpgrade()) {
             context.source.printedType = 'upgrade';
@@ -43,8 +69,15 @@ class PlayUpgradeAction extends BasePlayAction {
 
     addSubEvent(event, context) {
         super.addSubEvent(event, context);
+        let attachTargetType = ['creature'];
+        if (context.source.anyEffect('canAttachToArtifacts')) {
+            attachTargetType = attachTargetType.concat(['artifact']);
+        }
         event.addChildEvent(
-            new AttachAction({ upgrade: context.source }).getEvent(context.target, context)
+            new AttachAction({
+                upgrade: context.source,
+                targetType: attachTargetType
+            }).getEvent(context.target, context)
         );
         if (context.source.type === 'creature') {
             const changeTypeEvent = new CardLastingEffectAction({

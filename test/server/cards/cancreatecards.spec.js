@@ -6,11 +6,14 @@ const localeEn = require('../../../public/locales/en.json');
 
 const card = {
     hasHouse: () => true,
+    isOnFlank: () => true,
     neighbors: [],
     childCards: [],
     hasTrait: () => false,
     tokens: {},
-    hasToken: () => false
+    hasToken: () => false,
+    isInCenter: () => true,
+    isToken: () => false
 };
 card.neighbors.push(card);
 card.neighbors.push(card);
@@ -26,7 +29,10 @@ const player = {
     checkRestrictions: () => true,
     getForgedKeys: () => 0,
     isTideHigh: () => true,
-    isTideLow: () => false
+    isTideLow: () => false,
+    isHaunted: () => true,
+    keys: { red: true, blue: true, yellow: true },
+    getDiscardSlice: () => []
 };
 player.opponent = player;
 card.controller = player;
@@ -36,6 +42,7 @@ const mockContext = {
         cardsUsed: [],
         cardsPlayed: [],
         creaturesInPlay: [],
+        cardsInPlay: [],
         activePlayer: player,
         getFrameworkContext: () => {}
     },

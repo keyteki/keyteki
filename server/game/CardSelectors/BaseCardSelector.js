@@ -1,3 +1,5 @@
+const Optional = require('../optional.js');
+
 class BaseCardSelector {
     constructor(properties) {
         this.cardCondition = properties.cardCondition;
@@ -26,14 +28,16 @@ class BaseCardSelector {
     findPossibleCards(context) {
         if (this.location.includes('any')) {
             if (this.controller === 'self') {
-                return context.game.allCards.filter((card) => card.controller === context.player);
+                return context.game.allCards
+                    .filter((card) => card.controller === context.player)
+                    .concat(context.player.activeProphecies);
             } else if (this.controller === 'opponent') {
-                return context.game.allCards.filter(
-                    (card) => card.controller === context.player.opponent
-                );
+                return context.game.allCards
+                    .filter((card) => card.controller === context.player.opponent)
+                    .concat(context.player.opponent.activeProphecies);
             }
 
-            return context.game.allCards;
+            return context.game.allCards.concat(context.game.activeProphecies);
         }
 
         let upgrades = context.player.cardsInPlay.reduce(
@@ -108,7 +112,7 @@ class BaseCardSelector {
 
     // eslint-disable-next-line no-unused-vars
     hasEnoughSelected(selectedCards, context) {
-        return this.optional || selectedCards.length > 0;
+        return Optional.EvalOptional(context, this.optional) || selectedCards.length > 0;
     }
 
     hasEnoughTargets(context) {

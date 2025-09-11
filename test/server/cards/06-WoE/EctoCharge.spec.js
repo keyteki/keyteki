@@ -6,6 +6,7 @@ describe('Ecto-Charge', function () {
                     house: 'brobnar',
                     amber: 9,
                     hand: ['ecto-charge'],
+                    inPlay: Array(10).fill('brammo'),
                     discard: Array(25).fill('brammo')
                 },
                 player2: {
@@ -17,7 +18,7 @@ describe('Ecto-Charge', function () {
             this.johnSmyth.amber = 1;
         });
 
-        it('should forge a key paying 6 amber', function () {
+        it('should forge a key paying 8 amber', function () {
             // cost is 8 => 8 + 20 - 25 = 3 (minimum is 6)
             this.player1.play(this.ectoCharge);
             this.player1.clickPrompt('red');
@@ -36,7 +37,7 @@ describe('Ecto-Charge', function () {
             this.player1.endTurn();
         });
 
-        it('should not forge a key if cost is 11, and not discard Ecto-Charge', function () {
+        it('should not forge a key if cost is 11, and not purge Ecto-Charge', function () {
             // cost is 8 => 8 + 20 - 17 = 11
             this.player1.player.discard = this.player1.player.discard.slice(0, 17);
             this.player1.play(this.ectoCharge);

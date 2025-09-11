@@ -4,6 +4,7 @@ const AbilityContext = require('../AbilityContext.js');
 const CardSelector = require('../CardSelector.js');
 const EffectSource = require('../EffectSource.js');
 const UiPrompt = require('./uiprompt.js');
+const Optional = require('../optional.js');
 
 /**
  * General purpose prompt that asks the user to select 1 or more cards.
@@ -81,11 +82,14 @@ class SelectCardPrompt extends UiPrompt {
             }
 
             let cardCondition = this.properties.cardCondition;
-            this.properties.cardCondition = (card, context) =>
-                cardCondition(card, context) &&
-                this.properties.gameAction.some((gameAction) =>
-                    gameAction.canAffect(card, context)
-                );
+            this.properties.cardCondition = (card, context) => {
+                let x =
+                    cardCondition(card, context) &&
+                    this.properties.gameAction.some((gameAction) =>
+                        gameAction.canAffect(card, context)
+                    );
+                return x;
+            };
         }
 
         this.selector = properties.selector || CardSelector.for(this.properties);
@@ -155,7 +159,7 @@ class SelectCardPrompt extends UiPrompt {
     activePrompt() {
         let buttons = this.properties.buttons;
         if (
-            this.properties.optional ||
+            Optional.EvalOptional(this.context, this.properties.optional) ||
             (!this.selector.automaticFireOnSelect(this.context) && this.hasEnoughSelected())
         ) {
             if (buttons.every((button) => button.text !== 'Done')) {
@@ -264,7 +268,9 @@ class SelectCardPrompt extends UiPrompt {
     menuCommand(player, arg) {
         if (
             arg === 'cancel' ||
-            (arg === 'done' && this.properties.optional && this.selectedCards.length === 0)
+            (arg === 'done' &&
+                Optional.EvalOptional(this.context, this.properties.optional) &&
+                this.selectedCards.length === 0)
         ) {
             this.properties.onCancel(player);
             this.complete();

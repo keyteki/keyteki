@@ -24,6 +24,11 @@ class CardGameAction extends GameAction {
             );
         }
 
+        // If no legal targets but we could get targets when other actions are in the same window, allow it for simultaneous ability ordering
+        if (!result && this.targetsCanChangeViaSimultaneousAction(context)) {
+            return true;
+        }
+
         return result;
     }
 
@@ -119,6 +124,11 @@ class CardGameAction extends GameAction {
             this.canAffect(event.card, event.context) &&
             event.card.checkRestrictions(this.name, event.context, event)
         );
+    }
+
+    // eslint-disable-next-line no-unused-vars
+    targetsCanChangeViaSimultaneousAction(context) {
+        return false;
     }
 }
 

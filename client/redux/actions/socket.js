@@ -1,6 +1,5 @@
 import io from 'socket.io-client';
 
-import version from '../../../version';
 import * as actions from '.';
 
 export function socketMessageSent(message) {
@@ -146,7 +145,7 @@ export function connectLobby() {
         }
 
         let queryString = state.auth.token ? 'token=' + state.auth.token + '&' : '';
-        queryString += 'version=' + version.releaseDate;
+        queryString += 'version=' + process.env.VERSION || 'Local build';
 
         let socket = io.connect(window.location.origin, {
             reconnection: true,

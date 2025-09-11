@@ -20,7 +20,7 @@ describe('Spangler Box', function () {
                         'silvertooth',
                         'gorm-of-omm',
                         'stealer-of-souls',
-                        'annihilation-ritual-',
+                        'annihilation-ritual',
                         'dust-imp',
                         'gub',
                         'charette'

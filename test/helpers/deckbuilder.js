@@ -10,17 +10,22 @@ const defaultFiller = {
     brobnar: 'anger',
     dis: 'hand-of-dis',
     ekwidon: 'corner-the-market',
+    geistoid: 'echofly',
     logos: 'foggify',
     mars: 'ammonia-clouds',
+    redemption: 'redeemer-amara',
     sanctum: 'champion-anaphiel',
     shadows: 'macis-asp',
     unfathomable: 'hookmaster',
     untamed: 'ancient-bear',
     staralliance: 'explo-rover',
-    saurian: 'tricerian-legionary'
+    saurian: 'tricerian-legionary',
+    skyborn: 'prop-dusting'
 };
 const minDeck = 15;
 const fillerHouses = ['untamed', 'sanctum', 'shadows'];
+
+const maverickHouses = ['redemption'];
 
 class DeckBuilder {
     constructor() {
@@ -37,6 +42,11 @@ class DeckBuilder {
             let pack = require(path.join(directory, file));
 
             for (let card of pack.cards) {
+                // Ignore with cards that changed house in a later set.
+                if (maverickHouses.includes(card.house) && card.id in cards) {
+                    continue;
+                }
+
                 cards[card.id] = card;
             }
         }
@@ -80,10 +90,16 @@ class DeckBuilder {
             deck = deck.concat(defaultFiller[houses[0]]);
         }
 
-        return this.buildDeck(houses, player.token, deck, player.name + "'s deck");
+        return this.buildDeck(
+            houses,
+            player.token,
+            player.prophecies,
+            deck,
+            player.name + "'s deck"
+        );
     }
 
-    buildDeck(houses, token, cardLabels, name) {
+    buildDeck(houses, token, prophecies, cardLabels, name) {
         let cardCounts = {};
         _.each(cardLabels, (label) => {
             let cardData = this.getCard(label);
@@ -111,6 +127,25 @@ class DeckBuilder {
                 throw `Not a token creature: ${cardData.id}`;
             }
         }
+
+        _.each(prophecies, (prophecy) => {
+            let prophecyCard = this.getCard(prophecy);
+            if (prophecyCard.type === 'prophecy') {
+                if (cardCounts[prophecyCard.id]) {
+                    cardCounts[prophecyCard.id].count++;
+                } else {
+                    cardCounts[prophecyCard.id] = {
+                        count: 1,
+                        card: prophecyCard,
+                        id: prophecyCard.id,
+                        prophecy: true,
+                        isNonDeck: true
+                    };
+                }
+            } else {
+                throw `Not a prophecy: ${prophecyCard.id}`;
+            }
+        });
 
         return {
             houses: houses,

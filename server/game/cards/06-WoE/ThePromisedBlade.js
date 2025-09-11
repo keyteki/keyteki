@@ -1,9 +1,14 @@
 const Card = require('../../Card.js');
+const EventRegistrar = require('../../eventregistrar.js');
 
 class ThePromisedBlade extends Card {
     // At the start of each player's turn, the player with the fewest creatures in play takes control of The Promised Blade.
     // Omni: A friendly creature captures 1 amber.
     setupCardAbilities(ability) {
+        this.movedThisRound = false;
+        this.tracker = new EventRegistrar(this.game, this);
+        this.tracker.register(['onRoundEnded']);
+
         this.omni({
             target: {
                 cardType: 'creature',
@@ -19,6 +24,7 @@ class ThePromisedBlade extends Card {
             when: {
                 onBeginRound: (_, context) =>
                     !!context.source.controller.opponent &&
+                    !this.movedThisRound &&
                     context.source.controller.creaturesInPlay.length ===
                         context.source.controller.opponent.creaturesInPlay.length
             },
@@ -40,15 +46,18 @@ class ThePromisedBlade extends Card {
             ],
             then: (preThenContext) => ({
                 alwaysTriggers: true,
-                gameAction: ability.actions.cardLastingEffect((context) => ({
-                    duration: 'lastingEffect',
-                    target: context.source,
-                    effect: ability.effects.takeControl(
-                        preThenContext.selects.select.choice === 'Me'
-                            ? context.game.activePlayer
-                            : context.game.activePlayer.opponent
-                    )
-                }))
+                gameAction: ability.actions.cardLastingEffect((context) => {
+                    this.movedThisRound = true;
+                    return {
+                        duration: 'lastingEffect',
+                        target: context.source,
+                        effect: ability.effects.takeControl(
+                            preThenContext.selects.select.choice === 'Me'
+                                ? context.game.activePlayer
+                                : context.game.activePlayer.opponent
+                        )
+                    };
+                })
             })
         });
 
@@ -57,15 +66,23 @@ class ThePromisedBlade extends Card {
             when: {
                 onBeginRound: (_, context) =>
                     !!context.source.controller.opponent &&
+                    !this.movedThisRound &&
                     context.source.controller.creaturesInPlay.length >
                         context.source.controller.opponent.creaturesInPlay.length
             },
-            gameAction: ability.actions.cardLastingEffect((context) => ({
-                duration: 'lastingEffect',
-                target: context.source,
-                effect: ability.effects.takeControl(context.source.controller.opponent)
-            }))
+            gameAction: ability.actions.cardLastingEffect((context) => {
+                this.movedThisRound = true;
+                return {
+                    duration: 'lastingEffect',
+                    target: context.source,
+                    effect: ability.effects.takeControl(context.source.controller.opponent)
+                };
+            })
         });
+    }
+
+    onRoundEnded() {
+        this.movedThisRound = false;
     }
 }
 

@@ -42,6 +42,10 @@ class HousePhase extends Phase {
     }
 
     takeCardsFromArchives() {
+        if (!this.game.activePlayer.checkRestrictions('takeArchives')) {
+            return;
+        }
+
         if (this.game.activePlayer.archives.length) {
             let oppCannotLeave = this.game.activePlayer.anyEffect(
                 'opponentCardsCannotLeaveArchives'
@@ -77,6 +81,9 @@ class HousePhase extends Phase {
                                 }
                                 this.game.activePlayer.moveCard(card, 'hand');
                             }
+                            this.game.raiseEvent('onArchivesAddedToHand', {
+                                player: this.game.activePlayer
+                            });
                             return true;
                         }
                     },
@@ -92,6 +99,11 @@ class HousePhase extends Phase {
                                     continue;
                                 }
                                 this.game.activePlayer.moveCard(card, 'hand');
+                            }
+                            if (this.game.activePlayer.archives.length === 0) {
+                                this.game.raiseEvent('onArchivesAddedToHand', {
+                                    player: this.game.activePlayer
+                                });
                             }
                         }
                         return true;
@@ -116,6 +128,9 @@ class HousePhase extends Phase {
                                 }
                                 this.game.activePlayer.moveCard(card, 'hand');
                             }
+                            this.game.raiseEvent('onArchivesAddedToHand', {
+                                player: this.game.activePlayer
+                            });
                         },
                         () => true
                     ]

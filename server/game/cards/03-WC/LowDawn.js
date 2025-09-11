@@ -15,7 +15,7 @@ class LowDawn extends Card {
                 })),
                 ability.actions.returnToDeck((context) => ({
                     shuffle: true,
-                    target: context.player.discard.filter(
+                    target: context.player.getDiscardWithCondition(
                         (card) => card.type === 'creature' && card.hasHouse('untamed')
                     )
                 }))

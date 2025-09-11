@@ -20,7 +20,6 @@ const JwtStrategy = passportJwt.Strategy;
 const ExtractJwt = passportJwt.ExtractJwt;
 
 const UserService = require('./services/UserService.js');
-const version = require('../version.js');
 
 class Server {
     constructor(isDeveloping) {
@@ -33,7 +32,10 @@ class Server {
 
     init(options) {
         if (!this.isDeveloping) {
-            Sentry.init({ dsn: this.configService.getValue('sentryDsn'), release: version.build });
+            Sentry.init({
+                dsn: this.configService.getValue('sentryDsn'),
+                release: process.env.VERSION || 'Local build'
+            });
             app.use(Sentry.Handlers.requestHandler());
             app.use(Sentry.Handlers.errorHandler());
         }
