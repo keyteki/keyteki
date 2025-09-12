@@ -50,4 +50,33 @@ describe('Levy of Souls', function () {
             expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
         });
     });
+
+    describe("Levy of Soul's ability used by opponent", function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    amber: 8,
+                    house: 'dis',
+                    token: 'catena-fiend',
+                    inPlay: ['levy-of-souls']
+                },
+                player2: {
+                    token: 'savant',
+                    hand: ['skippy-the-glorious'],
+                    deck: new Array(12).fill('toad')
+                }
+            });
+        });
+        it('should increase key cost when used by opponent', function () {
+            this.player1.endTurn();
+            this.player2.clickPrompt('logos');
+            this.player2.scrap(this.skippyTheGlorious);
+            this.player2.clickCard(this.levyOfSouls);
+            this.player2.endTurn();
+
+            this.player1.forgeKey('blue');
+            expect(this.player1.amber).toBe(1);
+            expect(this.player1).toHavePrompt('Choose which house you want to activate this turn');
+        });
+    });
 });
