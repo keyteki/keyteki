@@ -39,9 +39,59 @@ class RandomDiscardAction extends PlayerAction {
             'unnamedEvent',
             { player, context, amount: this.amount },
             (event) => {
-                event.cards = _.shuffle(this.getCards(player)).slice(0, event.amount);
-                context.game.addMessage('{0} discards {1} at random', player, event.cards);
-                context.game.actions.discard({ chatMessage: false }).resolve(event.cards, context);
+                const cardsToDiscard = [];
+                let remainingAmount = event.amount;
+
+                // Create a recursive function to discard cards one at a time
+                const discardNextCard = () => {
+                    if (remainingAmount <= 0) {
+                        // All cards discarded, finish the event
+                        event.cards = cardsToDiscard;
+                        if (cardsToDiscard.length > 0) {
+                            context.game.addMessage(
+                                '{0} discards {1} at random',
+                                player,
+                                event.cards
+                            );
+                        }
+                        return;
+                    }
+
+                    const availableCards = this.getCards(player);
+                    if (availableCards.length === 0) {
+                        // No more cards to discard, finish the event
+                        event.cards = cardsToDiscard;
+                        if (cardsToDiscard.length > 0) {
+                            context.game.addMessage(
+                                '{0} discards {1} at random',
+                                player,
+                                event.cards
+                            );
+                        }
+                        return;
+                    }
+
+                    const randomCard = _.sample(availableCards);
+                    cardsToDiscard.push(randomCard);
+
+                    // Create a discard event for this specific card
+                    const discardEvent = context.game.actions
+                        .discard({ chatMessage: false })
+                        .getEvent(randomCard, context);
+
+                    // Queue the discard event and continue after it's resolved
+                    context.game.queueSimpleStep(() => {
+                        context.game.openEventWindow([discardEvent]);
+                    });
+
+                    context.game.queueSimpleStep(() => {
+                        remainingAmount--;
+                        discardNextCard();
+                    });
+                };
+
+                // Start the recursive discarding
+                discardNextCard();
             }
         );
     }
