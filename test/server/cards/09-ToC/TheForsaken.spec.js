@@ -47,7 +47,6 @@ describe('The Forsaken', function () {
             this.player1.endTurn();
             this.player2.clickPrompt('brobnar');
             this.player2.play(this.recklessness);
-            this.player2.clickPrompt('Autoresolve');
             expect(this.toad1.location).toBe('play area');
             expect(this.toad2.location).toBe('play area');
             expect(this.toad3.location).toBe('play area');
