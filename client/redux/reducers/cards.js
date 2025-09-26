@@ -149,6 +149,12 @@ export default function (state = { decks: [], cards: {} }, action) {
             newState = selectDeck(newState, selected);
 
             return newState;
+        case 'RECEIVE_STATS':
+            newState = Object.assign({}, state, {
+                stats: action.response.stats
+            });
+
+            return newState;
         case 'SELECT_DECK':
             newState = Object.assign({}, state, {
                 selectedDeck: action.deck,
