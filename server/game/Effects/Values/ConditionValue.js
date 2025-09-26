@@ -1,13 +1,14 @@
 const EffectValue = require('./EffectValue');
 
 class ConditionValue extends EffectValue {
-    constructor(condition) {
+    constructor(condition, target = null) {
         super(condition);
         this.condition = condition || (() => true);
+        this.target = target;
     }
 
-    getValue() {
-        return this;
+    getValue(target) {
+        return new ConditionValue(this.condition, target);
     }
 
     checkCondition(abilityContext, effectContext) {
@@ -17,7 +18,7 @@ class ConditionValue extends EffectValue {
         if (!abilityContext) {
             return false;
         }
-        return this.condition(abilityContext.source, abilityContext, effectContext);
+        return this.condition(this.target || abilityContext.source, abilityContext, effectContext);
     }
 }
 
