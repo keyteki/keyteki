@@ -11,11 +11,11 @@ describe('Outlook Not So Good', function () {
                         'forge-ahead-with-confidence',
                         'fate-laughs-at-your-plans'
                     ],
-                    hand: ['parasitic-arachnoid']
+                    hand: ['parasitic-arachnoid', 'soulkeeper']
                 },
                 player2: {
                     amber: 4,
-                    hand: ['troll'],
+                    hand: ['troll', 'ember-imp'],
                     inPlay: ['hard-simpson']
                 }
             });
@@ -36,6 +36,15 @@ describe('Outlook Not So Good', function () {
             this.player1.activateProphecy(this.outlookNotSoGood, this.parasiticArachnoid);
             this.player1.endTurn();
             this.player2.clickPrompt('shadows');
+            expect(this.parasiticArachnoid.location).toBe('under');
+            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+        });
+
+        it('should not fulfill when opponent chooses a house with upgrades in play', function () {
+            this.player1.activateProphecy(this.outlookNotSoGood, this.parasiticArachnoid);
+            this.player1.playUpgrade(this.soulkeeper, this.hardSimpson);
+            this.player1.endTurn();
+            this.player2.clickPrompt('dis');
             expect(this.parasiticArachnoid.location).toBe('under');
             expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
         });
