@@ -7,9 +7,7 @@ class OutlookNotSoGood extends Card {
             when: {
                 onChooseActiveHouse: (event, context) =>
                     context.game.activePlayer === context.source.controller.opponent &&
-                    context.game.getHousesInPlay(context.game.cardsInPlay, true).every((h) => {
-                        return h !== event.house;
-                    })
+                    !context.game.cardsInPlay.some((card) => card.hasHouse(event.house))
             },
             gameAction: ability.actions.fulfillProphecy((context) => ({
                 card: context.source
