@@ -132,4 +132,40 @@ describe('Corrode', function () {
             });
         });
     });
+
+    describe('when only upgrade is in play', function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'untamed',
+                    amber: 1,
+                    hand: ['corrode'],
+                    inPlay: ['flaxia']
+                },
+                player2: {
+                    amber: 1,
+                    hand: ['pentacorder'],
+                    inPlay: ['krump']
+                }
+            });
+            this.player1.endTurn();
+            this.player2.clickPrompt('staralliance');
+            this.player2.playUpgrade(this.pentacorder, this.krump);
+            this.player2.endTurn();
+            this.player1.clickPrompt('unfathomable');
+            this.player1.play(this.corrode);
+        });
+
+        it('destroys the chosen upgrade', function () {
+            expect(this.player1).toHavePromptButton('Destroy an upgrade');
+            this.player1.clickPrompt('Destroy an upgrade');
+            expect(this.player1).toBeAbleToSelect(this.pentacorder);
+            this.player1.clickCard(this.pentacorder);
+            expect(this.flaxia.location).toBe('play area');
+            expect(this.krump.location).toBe('play area');
+
+            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.pentacorder.location).toBe('discard');
+        });
+    });
 });
