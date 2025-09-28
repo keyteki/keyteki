@@ -19,12 +19,13 @@ class Corrode extends Card {
     setupCardAbilities(ability) {
         this.play({
             condition: (context) =>
-                context.game.cardsInPlay.some(
-                    (card) =>
-                        card.type === 'upgrade' ||
-                        card.type === 'artifact' ||
-                        (card.type === 'creature' && card.armor > 0)
-                ),
+                context.game.cardsInPlay.some((c) => {
+                    return (
+                        c.type === 'artifact' ||
+                        c.upgrades?.length > 0 ||
+                        (c.type === 'creature' && c.armor > 0)
+                    );
+                }),
             effect: 'destroy {1}',
             effectArgs: (context) => [this.reduceTargets(context)],
             targets: {
