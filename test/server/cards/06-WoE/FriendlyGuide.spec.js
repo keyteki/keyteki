@@ -4,7 +4,13 @@ describe('Friendly Guide', function () {
             this.setupTest({
                 player1: {
                     house: 'untamed',
-                    inPlay: ['niffle-ape', 'friendly-guide', 'dark-faerie', 'rustgnawer']
+                    inPlay: [
+                        'niffle-ape',
+                        'friendly-guide',
+                        'dark-faerie',
+                        'rustgnawer',
+                        'guji-dinosaur-hunter'
+                    ]
                 },
                 player2: {
                     inPlay: ['dextre', 'hunting-witch', 'shĭzyokŭ-swopper']
@@ -45,6 +51,22 @@ describe('Friendly Guide', function () {
             this.player2.clickPrompt('ekwidon');
             this.player2.fightWith(this.shĭzyokŭSwopper, this.niffleApe);
             expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+        });
+
+        it('should allow use on action ability that removes from play', function () {
+            this.player1.endTurn();
+            this.player2.clickPrompt('ekwidon');
+            this.player2.endTurn();
+            this.player1.clickPrompt('brobnar');
+            this.player1.fightWith(this.gujiDinosaurHunter, this.huntingWitch);
+            this.player1.moveCard(this.darkFaerie, 'discard');
+            this.player1.moveCard(this.rustgnawer, 'discard');
+            this.gujiDinosaurHunter.ready();
+            this.player1.useAction(this.gujiDinosaurHunter);
+            this.player1.clickCard(this.gujiDinosaurHunter);
+            expect(this.player1).toHavePrompt('Triggered Abilities');
+            this.player1.clickCard(this.friendlyGuide);
+            this.player1.clickPrompt('Reap with this creature');
         });
     });
 });
