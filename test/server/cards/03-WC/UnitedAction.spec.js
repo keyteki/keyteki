@@ -48,7 +48,9 @@ describe('United Action', function () {
         });
 
         it('should not allow an out of house card that is not represented in play to be played', function () {
-            expect(this.player1).not.toBeAbleToSelect(this.phaseShift);
+            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.player1.clickCard(this.phaseShift);
+            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
         });
     });
 
@@ -70,6 +72,7 @@ describe('United Action', function () {
                 },
                 player2: {
                     inPlay: ['urchin', 'crash-muldoon'],
+                    hand: ['big-magnet'],
                     amber: 3
                 }
             });
@@ -109,6 +112,29 @@ describe('United Action', function () {
 
             it('should allow an out of house card represented by the upgrade to be played', function () {
                 this.player1.play(this.phaseShift);
+            });
+        });
+
+        describe('and an upgrade changes controller', function () {
+            beforeEach(function () {
+                this.player1.endTurn();
+                this.player2.clickPrompt('staralliance');
+                this.player2.endTurn();
+                this.player1.clickPrompt('logos');
+                this.player1.playUpgrade(this.rocketBoots, this.urchin);
+                this.player1.endTurn();
+                this.player2.clickPrompt('mars');
+                this.player2.play(this.bigMagnet);
+                this.player2.clickCard(this.urchin);
+                this.player2.endTurn();
+                this.player1.clickPrompt('staralliance');
+                this.player1.play(this.unitedAction);
+            });
+
+            it('should not allow an out of house card represented by the upgrade to be played', function () {
+                expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+                this.player1.clickCard(this.phaseShift);
+                expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
             });
         });
     });
