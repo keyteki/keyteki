@@ -16,9 +16,6 @@ describe('Nogi Smartfist', function () {
         it('should draw 2 cards and discard 2 cards when fight', function () {
             this.player1.fightWith(this.nogiSmartfist, this.duskwitch);
             expect(this.player1.player.discard.length).toBe(2);
-            console.log(this.player1.player.discard.map((c) => c.name));
-            console.log(this.player1.player.hand.map((c) => c.name));
-            console.log(this.player1.player.deck.map((c) => c.name));
             expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
         });
     });

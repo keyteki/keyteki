@@ -86,7 +86,6 @@ class CardAction extends CardAbility {
     }
 
     executeHandler(context) {
-        super.executeHandler(context);
         if (!this.reap && !this.fight) {
             context.game.raiseEvent(
                 'onUseCard',
@@ -94,6 +93,7 @@ class CardAction extends CardAbility {
                 () => {}
             );
         }
+        super.executeHandler(context);
     }
 
     isAction() {
