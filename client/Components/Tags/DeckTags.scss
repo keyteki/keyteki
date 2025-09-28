@@ -1,0 +1,133 @@
+.deck-tags-section {
+    border-top: 1px solid #dee2e6;
+    padding-top: 16px;
+    margin-top: 16px;
+}
+
+.deck-tags-header {
+    margin-bottom: 12px;
+    align-items: center;
+}
+
+.available-tags-section {
+    margin-top: 12px;
+    padding-top: 12px;
+    border-top: 1px solid #e9ecef;
+}
+
+.tag-pills-container {
+    min-height: 32px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 4px;
+}
+
+.inline-tag-creation {
+    padding: 12px;
+    border-radius: 6px;
+    border: 1px solid #dee2e6;
+    
+    .form-label {
+        font-weight: 600;
+        margin-bottom: 6px;
+    }
+    
+    .tag-color-picker-inline {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 4px;
+        padding: 4px;
+        border: 1px solid #dee2e6;
+        border-radius: 4px;
+        
+        .color-option-small {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            cursor: pointer;
+            border: 1px solid transparent;
+            transition: all 0.2s ease;
+            
+            &:hover {
+                transform: scale(1.1);
+            }
+            
+            &.selected {
+                border-color: #000;
+                box-shadow: 0 0 0 1px #fff, 0 0 0 2px #000;
+            }
+        }
+    }
+    
+    .tag-preview {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        
+        &::before {
+            content: "Preview:";
+            font-size: 0.75rem;
+            color: #6c757d;
+        }
+    }
+}
+
+@media (max-width: 768px) {
+    .deck-tags-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+        
+        .text-end {
+            align-self: stretch;
+            text-align: left !important;
+        }
+    }
+    
+    .deck-tags-section {
+        padding-top: 12px;
+        margin-top: 12px;
+    }
+    
+    .tags-title {
+        font-size: 0.8rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .deck-tags-header {
+        .btn {
+            font-size: 0.75rem;
+            padding: 4px 8px;
+        }
+    }
+    
+    .available-tags-section {
+        margin-top: 8px;
+        padding-top: 8px;
+    }
+    
+    .tag-section-title {
+        font-size: 0.8rem;
+        margin-bottom: 6px;
+    }
+    
+    .inline-tag-creation {
+        padding: 8px;
+        
+        .input-group {
+            flex-wrap: wrap;
+            gap: 4px;
+        }
+        
+        .color-input {
+            width: 32px;
+            height: 28px;
+        }
+        
+        .btn {
+            font-size: 0.75rem;
+        }
+    }
+}
