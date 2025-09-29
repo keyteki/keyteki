@@ -12,9 +12,7 @@ class UnitedAction extends Card {
                         let housesInPlay = context.game.getHousesInPlay(
                             context.game.cardsInPlay,
                             true,
-                            (card) =>
-                                (card.type === 'upgrade' && card.owner === context.player) ||
-                                card.controller === context.player
+                            (card) => card.controller === context.player
                         );
                         return housesInPlay.some((house) => card.hasHouse(house));
                     }),
