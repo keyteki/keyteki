@@ -24,7 +24,7 @@ describe('Too Low', function () {
         it('should destroy creatures with power less than the chosen creature', function () {
             this.player1.play(this.tooLow);
             expect(this.player1).toBeAbleToSelect(this.krump);
-            expect(this.player1).not.toBeAbleToSelect(this.dustPixie);
+            expect(this.player1).toBeAbleToSelect(this.dustPixie);
             expect(this.player1).not.toBeAbleToSelect(this.urchin);
             expect(this.player1).not.toBeAbleToSelect(this.huntingWitch);
             expect(this.player1).not.toBeAbleToSelect(this.tantadlin);
