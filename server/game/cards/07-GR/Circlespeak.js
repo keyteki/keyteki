@@ -26,7 +26,16 @@ class Circlespeak extends Card {
                     }))
                 ]
             },
-            effect: 'capture 2 amber onto {0} from each haunted player'
+            effect: 'capture {1} amber from {2} and {3} amber from {4} onto {0}',
+            effectArgs: (context) => [
+                Math.min(context.player.isHaunted() ? 2 : 0, context.player.amber),
+                context.player.name,
+                Math.min(
+                    context.player.opponent.isHaunted() ? 2 : 0,
+                    context.player.opponent.amber
+                ),
+                context.player.opponent.name
+            ]
         });
     }
 }
