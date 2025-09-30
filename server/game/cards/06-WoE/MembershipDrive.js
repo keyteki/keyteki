@@ -10,11 +10,14 @@ class MembershipDrive extends Card {
                     amount: context.player.creaturesInPlay.filter((c) => c.isToken()).length
                 }))
             ]),
-            message:
-                'make a token creature and gain 1 amber for each friendly token creature for a total of {1} amber',
-            messageArgs: (context) => [
-                context.player.creaturesInPlay.filter((c) => c.isToken()).length
-            ]
+            effect: 'make a token creature',
+            then: {
+                message:
+                    '{0} uses {1} to gain 1 amber for each friendly token creature for a total of {3} amber',
+                messageArgs: (context) => [
+                    context.player.creaturesInPlay.filter((c) => c.isToken()).length
+                ]
+            }
         });
     }
 }
