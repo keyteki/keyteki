@@ -15,7 +15,7 @@ class Hoodwink extends Card {
                 message: '{0} uses {1} to steal {3} amber',
                 messageArgs: (context) => [
                     Math.min(
-                        context.player.opponent.amber,
+                        context.player.opponent.amber ?? 0,
                         context.player.hand.filter((card) => !card.hasHouse('shadows')).length
                     )
                 ],

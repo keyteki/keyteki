@@ -9,12 +9,12 @@ class EffervescentPrinciple extends Card {
                 context.player,
                 Math.floor(context.player.amber / 2),
                 context.player.opponent,
-                Math.floor(context.player.opponent.amber / 2)
+                Math.floor(context.player.opponent.amber ?? 0 / 2)
             ],
             gameAction: [
                 ability.actions.loseAmber((context) => ({
                     amount: context.player.opponent
-                        ? Math.floor(context.player.opponent.amber / 2)
+                        ? Math.floor(context.player.opponent.amber ?? 0 / 2)
                         : 0
                 })),
                 ability.actions.loseAmber((context) => ({
