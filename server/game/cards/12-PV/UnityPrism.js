@@ -7,7 +7,7 @@ class UnityPrism extends Card {
     // Scrap: Reveal your hand. Gain 1 amber for each house represented in it.
     setupCardAbilities(ability) {
         this.play({
-            effect: 'allow playing cards from any house and limit to 4 cards this turn',
+            effect: 'allow playing up to 4 cards from any house this turn',
             gameAction: ability.actions.forRemainderOfTurn({
                 effect: [
                     ability.effects.canPlay((card, context) => {
