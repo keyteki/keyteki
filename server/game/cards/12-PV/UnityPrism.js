@@ -10,10 +10,10 @@ class UnityPrism extends Card {
             effect: 'allow playing up to 4 cards from any house this turn',
             gameAction: ability.actions.forRemainderOfTurn({
                 effect: [
-                    ability.effects.canPlay((card, context) => {
+                    ability.effects.canPlay((context) => {
                         return context.game.cardsPlayedThisPhase.length < 4;
                     }),
-                    ability.effects.playerCannot('play', (card, context) => {
+                    ability.effects.playerCannot('play', (context) => {
                         return context.game.cardsPlayedThisPhase.length >= 4;
                     })
                 ]
@@ -25,7 +25,12 @@ class UnityPrism extends Card {
                 'reveal their hand ({1}) and gain 1 amber for each house represented in it, gaining a total of {2} amber',
             effectArgs: (context) => [
                 context.player.hand,
-                context.game.getHousesInPlay(context.player.hand).length
+                context.player.hand.reduce((houses, card) => {
+                    if (!houses.includes(card.printedHouse)) {
+                        houses.push(card.printedHouse);
+                    }
+                    return houses;
+                }, []).length
             ],
             gameAction: ability.actions.gainAmber((context) => ({
                 amount: context.game.getHousesInPlay(context.player.hand).length
