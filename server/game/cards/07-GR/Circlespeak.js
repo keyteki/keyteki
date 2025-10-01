@@ -31,8 +31,8 @@ class Circlespeak extends Card {
                 Math.min(context.player.isHaunted() ? 2 : 0, context.player.amber),
                 context.player.name,
                 Math.min(
-                    context.player.opponent.isHaunted() ?? false ? 2 : 0,
-                    context.player.opponent.amber ?? 0
+                    !!context.player.opponent && context.player.opponent.isHaunted() ? 2 : 0,
+                    context.player.opponent ? context.player.opponent.amber : 0
                 ),
                 context.player.opponent.name
             ]
