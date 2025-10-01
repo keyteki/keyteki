@@ -20,7 +20,15 @@ class ThrowingStars extends Card {
                             event.destroyEvent.resolved
                     ).length
                 })),
-                message: '{0} gains amber for each creature destroyed this way'
+                message: '{0} uses {1} to gain {3} amber',
+                messageArgs: (context) => [
+                    context.preThenEvents.filter(
+                        (event) =>
+                            event.destroyEvent &&
+                            event.destroyEvent.destroyedByDamageDealt &&
+                            event.destroyEvent.resolved
+                    ).length
+                ]
             }
         });
     }
