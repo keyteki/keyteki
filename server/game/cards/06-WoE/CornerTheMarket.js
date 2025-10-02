@@ -8,7 +8,7 @@ class CornerTheMarket extends Card {
         this.play({
             condition: (context) => !!context.player.opponent,
             effect:
-                'stop {1} from playing cards next turn; when they discard a card, they may archive it instead',
+                'stop {1} from playing cards during their next turn; after {1} discards a card, they may archive that card from their discard pile instead',
             effectArgs: (context) => context.player.opponent,
             effectAlert: true,
             gameAction: [
@@ -42,16 +42,12 @@ class CornerTheMarket extends Card {
                             condition: (context) => !context.event.doNotCancelDiscard,
                             trueGameAction: ability.actions.changeEvent((context) => ({
                                 event: context.event,
-                                cancel: true
+                                cancel: false
                             }))
                         })
                     ]),
-                    message: '{0} uses {1} to allow archival of {2} instead of discard',
-                    messageArgs: (context) => [
-                        context.player.opponent,
-                        context.source,
-                        context.event.card
-                    ]
+                    message: '{0} uses {1} to archive {2} from the discard pile',
+                    messageArgs: (context) => [context.player, context.source, context.event.card]
                 })
             ]
         });

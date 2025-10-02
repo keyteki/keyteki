@@ -99,4 +99,54 @@ describe('Corner the Market', function () {
             expect(this.ornarSkullface.location).toBe('discard');
         });
     });
+    describe('its ability', function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    amber: 1,
+                    house: 'ekwidon',
+                    hand: ['corner-the-market']
+                },
+                player2: {
+                    inPlay: ['the-old-tinker'],
+                    hand: ['auto-encoder', 'foggify']
+                }
+            });
+        });
+        it('does not interrupt the old tinker', function () {
+            this.player1.play(this.cornerTheMarket);
+            this.player1.endTurn();
+            this.player2.clickPrompt('ekwidon');
+            expect(this.player2.hand.length).toBe(2);
+            this.player2.reap(this.theOldTinker);
+            this.player2.clickCard(this.autoEncoder);
+            expect(this.autoEncoder.location).toBe('discard');
+            expect(this.player2).toHavePrompt('Archive?');
+            this.player2.clickPrompt('auto-encoder');
+            expect(this.autoEncoder.location).toBe('archives');
+            expect(this.player2.hand.length).toBe(2);
+        });
+
+        it('does not interrupt auto-encoder', function () {
+            this.player1.endTurn();
+            this.player2.clickPrompt('logos');
+            this.player2.play(this.autoEncoder);
+            this.player2.endTurn();
+            this.player1.clickPrompt('ekwidon');
+            this.player1.play(this.cornerTheMarket);
+            this.player1.endTurn();
+            this.player2.clickPrompt('logos');
+            expect(this.player2.archives.length).toBe(0);
+            this.player2.clickCard(this.foggify);
+            this.player2.clickPrompt('Discard this card');
+            expect(this.player2).toHavePrompt('Any reactions?');
+            expect(this.player2).toBeAbleToSelect(this.autoEncoder);
+            this.player2.clickCard(this.autoEncoder);
+            expect(this.player2).toHavePromptCardButton(this.foggify);
+            expect(this.player2).toHavePromptButton('Discard');
+            this.player2.clickPrompt('foggify');
+            expect(this.foggify.location).toBe('archives');
+            expect(this.player2.archives.length).toBe(2);
+        });
+    });
 });
