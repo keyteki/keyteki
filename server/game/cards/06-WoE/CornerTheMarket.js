@@ -19,7 +19,8 @@ class CornerTheMarket extends Card {
                 ability.actions.nextRoundEffect({
                     targetController: 'opponent',
                     when: {
-                        onCardDiscarded: (event) => event.location === 'hand'
+                        onCardDiscarded: (event, context) =>
+                            event.location === 'hand' && event.card.controller === context.player
                     },
                     triggeredAbilityType: 'reaction',
                     gameAction: ability.actions.sequential([

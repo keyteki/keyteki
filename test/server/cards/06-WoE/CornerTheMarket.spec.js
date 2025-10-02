@@ -108,7 +108,7 @@ describe('Corner the Market', function () {
                     hand: ['corner-the-market']
                 },
                 player2: {
-                    inPlay: ['the-old-tinker'],
+                    inPlay: ['the-old-tinker', 'subtle-maul'],
                     hand: ['auto-encoder', 'foggify']
                 }
             });
@@ -147,6 +147,16 @@ describe('Corner the Market', function () {
             this.player2.clickPrompt('foggify');
             expect(this.foggify.location).toBe('archives');
             expect(this.player2.archives.length).toBe(2);
+        });
+
+        it('does not prompt when discarding from opponents hand', function () {
+            this.player1.play(this.cornerTheMarket);
+            this.player1.endTurn();
+            this.player2.clickPrompt('shadows');
+            this.player2.useAction(this.subtleMaul);
+            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player2.hand.length).toBe(2);
+            expect(this.player2.archives.length).toBe(0);
         });
     });
 });
