@@ -28,7 +28,7 @@ class Deusillus extends GiganticCard {
                         messageArgs: (card) => [
                             context.player,
                             context.source,
-                            context.player.opponent ? context.player.opponent.amber : 0,
+                            context.source.tokens.amber,
                             context.player.opponent,
                             card
                         ]
