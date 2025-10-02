@@ -23,8 +23,15 @@ class Deusillus extends GiganticCard {
                         activePromptTitle: 'Choose a creature',
                         cardType: 'creature',
                         controller: 'opponent',
-                        message: '{0} uses {1} to capture all amber and deal 5 damage to {2}',
-                        messageArgs: (card) => [context.player, context.source, card]
+                        message:
+                            '{0} uses {1} to capture all {2} amber from {3} and deal 5 damage to {4}',
+                        messageArgs: (card) => [
+                            context.player,
+                            context.source,
+                            context.player.opponent ? context.player.opponent.amber : 0,
+                            context.player.opponent,
+                            card
+                        ]
                     }
                 }))
             ])
@@ -32,7 +39,14 @@ class Deusillus extends GiganticCard {
 
         this.fight({
             reap: true,
-            effect: 'remove 1 amber from {0} and deal 2 damage to all enemy creatures',
+            message:
+                "{0} uses {1} to remove {2} amber from {1} and deal 2 damage to all of {3}'s creatures",
+            messageArgs: (context) => [
+                context.player,
+                context.source,
+                Math.min(1, context.source.amber),
+                context.player.opponent
+            ],
             gameAction: ability.actions.sequential([
                 ability.actions.removeAmber(),
                 ability.actions.dealDamage((context) => ({
