@@ -21,10 +21,7 @@ class AnimatingForce extends Card {
                     ability.effects.changeType('creature'),
                     ability.effects.modifyPower(4),
                     ability.effects.takeControl(context.player),
-                    ability.effects.canUse(
-                        // TODO: replace with versatile
-                        (card, _, effectContext) => card === effectContext.source.parent
-                    )
+                    ability.effects.addKeyword({ versatile: 1 })
                 ]
             })),
             then: {
