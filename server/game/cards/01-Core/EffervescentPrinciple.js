@@ -4,12 +4,18 @@ class EffervescentPrinciple extends Card {
     // Play: Each player loses half their <A> (rounding down the loss). Gain 1 chain.
     setupCardAbilities(ability) {
         this.play({
-            effect: 'gain a chain and make both players lose half their amber',
+            effect: 'gain 1 chain and make {1} lose {2} amber and {3} lose {4} amber',
+            effectArgs: (context) => [
+                context.player,
+                Math.floor(context.player.amber / 2),
+                context.player.opponent,
+                Math.floor((context.player.opponent ? context.player.opponent.amber : 0) / 2)
+            ],
             gameAction: [
                 ability.actions.loseAmber((context) => ({
-                    amount: context.player.opponent
-                        ? Math.floor(context.player.opponent.amber / 2)
-                        : 0
+                    amount: Math.floor(
+                        (context.player.opponent ? context.player.opponent.amber : 0) / 2
+                    )
                 })),
                 ability.actions.loseAmber((context) => ({
                     target: context.player,
