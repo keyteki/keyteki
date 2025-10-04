@@ -9,7 +9,14 @@ class CovetousHema extends Card {
             effect: ability.effects.addKeyword({ elusive: 1 })
         });
         this.play({
-            gameAction: ability.actions.capture({ amount: 3 })
+            gameAction: ability.actions.capture({ amount: 3 }),
+            message: '{0} uses {1} to capture {2} amber from {3}, placing it on {1}',
+            messageArgs: (context) => [
+                context.player,
+                context.source,
+                Math.min(3, context.player.opponent ? context.player.opponent.amber : 0),
+                context.player.opponent
+            ]
         });
     }
 }

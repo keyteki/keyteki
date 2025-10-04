@@ -4,7 +4,8 @@ class Humble extends Card {
     // Play: Exhaust a creature. If you do, move 3 from that creature to the common supply.
     setupCardAbilities(ability) {
         this.play({
-            effect: 'exhaust {0} and move 3 amber from it to common supply',
+            effect: 'to exhaust {0} and move {1} amber from {0} to common supply',
+            effectArgs: (context) => [context.target.tokens.amber || 0],
             target: {
                 controller: 'any',
                 cardType: 'creature',
