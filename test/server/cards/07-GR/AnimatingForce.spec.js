@@ -9,7 +9,7 @@ describe('Animating Force', function () {
                     inPlay: ['dominator-bauble', 'charette']
                 },
                 player2: {
-                    hand: ['wipe-clear'],
+                    hand: ['wipe-clear', 'harland-mindlock'],
                     inPlay: ['cpo-zytar', 'library-of-babble']
                 }
             });
@@ -66,6 +66,19 @@ describe('Animating Force', function () {
             this.player1.clickPrompt('Discard this card');
             expect(this.player1.amber).toBe(2);
             expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+        });
+
+        it('can can be used after opponent takes control', function () {
+            this.player1.playUpgrade(this.animatingForce, this.dominatorBauble);
+            this.player1.clickPrompt('Right');
+            this.player1.endTurn();
+            this.player2.clickPrompt('logos');
+            this.player2.play(this.harlandMindlock);
+            this.player2.clickCard(this.dominatorBauble);
+            this.player2.clickPrompt('Right');
+            this.player2.reap(this.dominatorBauble);
+            expect(this.player2.amber).toBe(1);
+            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
         });
     });
 });
