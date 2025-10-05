@@ -23,32 +23,20 @@ class CornerTheMarket extends Card {
                             event.location === 'hand' && event.card.controller === context.player
                     },
                     triggeredAbilityType: 'reaction',
-                    gameAction: ability.actions.sequential([
-                        ability.actions.archive((context) => ({
-                            reveal: true,
-                            target: context.event.card,
-                            promptWithHandlerMenu: {
-                                optional: true,
-                                activePromptTitle: 'Archive?',
-                                cards: [context.event.card],
-                                choices: ['Discard'],
-                                handlers: [
-                                    () => {
-                                        context.event.doNotCancelDiscard = true;
-                                    }
-                                ]
-                            }
-                        })),
-                        ability.actions.conditional({
-                            condition: (context) => !context.event.doNotCancelDiscard,
-                            trueGameAction: ability.actions.changeEvent((context) => ({
-                                event: context.event,
-                                cancel: false
-                            }))
-                        })
-                    ]),
-                    message: '{0} uses {1} to archive {2} from the discard pile',
-                    messageArgs: (context) => [context.player, context.source, context.event.card]
+                    preferActionPromptMessage: true,
+                    gameAction: ability.actions.archive((context) => ({
+                        reveal: true,
+                        target: context.event.card,
+                        promptWithHandlerMenu: {
+                            optional: true,
+                            activePromptTitle: 'Archive?',
+                            cards: [context.event.card],
+                            choices: ['Discard'],
+                            handlers: [() => {}],
+                            message: '{0} uses {1} to archive {2} from the discard pile',
+                            messageArgs: (cards) => [context.player, context.source, cards]
+                        }
+                    }))
                 })
             ]
         });
