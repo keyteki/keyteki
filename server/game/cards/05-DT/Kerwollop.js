@@ -18,14 +18,8 @@ class Kerwollop extends Card {
                     ).length
                 })),
                 message:
-                    '{0} uses {1} to gain 1 amber for each creature destroyed this way, gaining a total of {3} amber: {4}',
+                    '{0} uses {1} to gain 1 amber for each creature destroyed this way ({3}), gaining a total of {4} amber',
                 messageArgs: (context) => [
-                    context.preThenEvents.filter(
-                        (event) =>
-                            event.destroyEvent &&
-                            event.destroyEvent.destroyedByDamageDealt &&
-                            event.destroyEvent.resolved
-                    ).length,
                     context.preThenEvents
                         .filter(
                             (event) =>
@@ -33,7 +27,13 @@ class Kerwollop extends Card {
                                 event.destroyEvent.destroyedByDamageDealt &&
                                 event.destroyEvent.resolved
                         )
-                        .map((event) => event.card.name)
+                        .map((event) => event.card),
+                    context.preThenEvents.filter(
+                        (event) =>
+                            event.destroyEvent &&
+                            event.destroyEvent.destroyedByDamageDealt &&
+                            event.destroyEvent.resolved
+                    ).length
                 ]
             }
         });

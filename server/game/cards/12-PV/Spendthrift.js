@@ -16,10 +16,10 @@ class Spendthrift extends Card {
         this.fate({
             effect: "move all {1} amber from enemy creatures to their opponent's pool",
             effectArgs: (context) => [
-                context.game.activePlayer.opponent.creaturesInPlay.reduce((total, card) => {
-                    console.log('total:', total);
-                    return total + card.amber;
-                }, 0)
+                context.game.activePlayer.opponent.creaturesInPlay.reduce(
+                    (total, card) => total + card.amber,
+                    0
+                )
             ],
             gameAction: [
                 ability.actions.removeAmber((context) => ({
