@@ -7,7 +7,7 @@ class CityStateInterest extends Card {
             gameAction: ability.actions.capture((context) => ({
                 target: context.player.creaturesInPlay
             })),
-            effect: 'to capture 1 amber onto each friendly creature',
+            preferActionPromptMessage: true,
             then: {
                 alwaysTriggers: true,
                 message: '{0} uses {1} to capture 1 amber onto {3}',

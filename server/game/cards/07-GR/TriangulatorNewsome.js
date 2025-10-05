@@ -6,7 +6,7 @@ class TriangulatorNewsome extends Card {
     setupCardAbilities(ability) {
         this.reap({
             condition: (context) => context.player.isHaunted(),
-            effect: "move all {2} amber from {0}'s neighbors to their pool: {3}",
+            effect: "move all {2} amber from {0}'s neighbors ({3}) to their pool",
             effectArgs: (context) => [
                 context.source,
                 context.source.neighbors.reduce((total, card) => total + card.amber, 0),

@@ -9,14 +9,18 @@ class Deusillus extends GiganticCard {
     }
 
     setupCardAbilities(ability) {
+        this.oppAmber = 0;
         super.setupCardAbilities(ability);
 
         this.play({
             preferActionPromptMessage: true,
             gameAction: ability.actions.sequential([
-                ability.actions.capture((context) => ({
-                    amount: context.player.opponent ? context.player.opponent.amber : 0
-                })),
+                ability.actions.capture((context) => {
+                    this.oppAmber = context.player.opponent ? context.player.opponent.amber : 0;
+                    return {
+                        amount: this.oppAmber
+                    };
+                }),
                 ability.actions.dealDamage((context) => ({
                     amount: 5,
                     promptForSelect: {
@@ -28,7 +32,7 @@ class Deusillus extends GiganticCard {
                         messageArgs: (card) => [
                             context.player,
                             context.source,
-                            context.source.tokens.amber,
+                            this.oppAmber,
                             context.player.opponent,
                             card
                         ]
