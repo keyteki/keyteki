@@ -1,0 +1,31 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+    name: keyteki-card-images
+    # prettier-ignore
+    namespace: {{ .Values.namespace }}
+spec:
+    accessModes:
+        - ReadWriteOnce
+    # prettier-ignore
+    storageClassName: {{ .Values.storage.className | default "local-path" }}
+    resources:
+        requests:
+            # prettier-ignore
+            storage: {{ .Values.storage.cardImages | default "50Gi" }}
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+    name: keyteki-avatars
+    # prettier-ignore
+    namespace: {{ .Values.namespace }}
+spec:
+    accessModes:
+        - ReadWriteOnce
+    # prettier-ignore
+    storageClassName: {{ .Values.storage.className | default "local-path" }}
+    resources:
+        requests:
+            # prettier-ignore
+            storage: {{ .Values.storage.avatars | default "10Gi" }}

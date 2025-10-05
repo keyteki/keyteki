@@ -11,10 +11,76 @@ jobs:
         runs-on: self-hosted
         environment: ${{ inputs.environment }}
         steps:
-            - name: Pull latest lobby image
-              run: docker pull cryogen/keyteki-lobby
-            - name: Stop and remove lobby image
-              continue-on-error: true
-              run: docker stop ${{ vars.LOBBY_CONTAINER_NAME }} && docker rm ${{ vars.LOBBY_CONTAINER_NAME }}
-            - name: Run new lobby image
-              run: docker run --restart unless-stopped -d -p ${{ vars.LOBBY_PORT }}:80 --network ${{ vars.NETWORK_NAME }} -v ${{ vars.CARDS_PATH }}:/usr/src/app/public/img/cards -v ${{ vars.BGS_PATH }}:/usr/src/app/public/img/bgs -v ${{ vars.AVATAR_PATH }}:/usr/src/app/public/img/avatar -v ${{ vars.LOBBY_LOG_PATH }}:/usr/src/app/server/logs --name ${{ vars.LOBBY_CONTAINER_NAME }} --env NODE_CONFIG='{"env":"production","sentryDsn":"${{ secrets.SENTRY_DSN }}","captchaKey":"${{ secrets.CAPTHCA_KEY }}","minLobbyChatTime":3600,"dbUser":"${{ secrets.DB_USER }}","dbHost":"host.docker.internal","dbDatabase":"${{ secrets.DB_NAME }}","dbPassword":"${{ secrets.DB_PASSWORD }}","dbPort":${{ secrets.DB_PORT }},"redisUrl":"${{ secrets.REDIS_URL }}","secret":"${{ secrets.SECRET }}","lobby":{"port":80,"emailKey":"${{ secrets.EMAIL_KEY }}","hmacSecret":"${{ secrets.HMAC }}","requireActivation":false,"lowerDeckThreshold":5,"middleDeckThreshold":20,"upperDeckThreshold":50, "patreonCallbackUrl":"${{ vars.PATREON_CALLBACK_URL }}","patreonClientId":"${{ secrets.PATREON_CLIENTID }}","patreonSecret":"${{ secrets.PATREON_SECRET }}"}}' cryogen/keyteki-lobby
+            - name: Checkout repo
+              uses: actions/checkout@v3
+
+            - name: Deploy Lobby
+              run: |
+                  ENV=$(echo "${{ github.event.inputs.environment }}" | tr '[:upper:]' '[:lower:]')
+                  APP_NAME="The Crucible Online"
+
+                  if [ "${{ github.event.inputs.environment }}" = "Production" ]; then
+                    NAMESPACE="keyteki"
+                    ENV_SUBDOMAIN="production"
+                  else
+                    NAMESPACE="keyteki-development"
+                    ENV_SUBDOMAIN="dev"
+                  fi
+
+                  echo "Deploying lobby to namespace: $NAMESPACE for environment: $ENV_SUBDOMAIN"
+
+                  # Generate a unique deployment timestamp to force pod updates
+                  DEPLOY_TIME=$(date +%s)
+                  echo "Deployment timestamp: $DEPLOY_TIME"
+
+                  # Create values file with secrets
+                  cat > /tmp/lobby-secrets.yaml <<EOF
+                  nodeConfig:
+                    env: "'production'"
+                    appName: "$APP_NAME"
+                    sentryDsn: "${{ secrets.SENTRY_DSN }}"
+                    captchaKey: "${{ secrets.CAPTCHA_KEY }}"
+                    minLobbyChatTime: 3600
+                    dbPath: "${{ secrets.DB_PATH }}"
+                    cookieLifetime: 604800000
+                    redisPrefix: "keyteki:$ENV"
+                    redisUrl: "${{ secrets.REDIS_URL }}"
+                    secret: "${{ secrets.SECRET }}"
+                    emailKey: "${{ secrets.EMAIL_KEY }}"
+                    emailBlockKey: "${{ secrets.EMAIL_BLOCK_KEY }}"
+                    port: 80
+                    hmacSecret: "${{ secrets.HMAC }}"
+                    requireActivation: false
+                    patreonCallbackUrl: "${{ secrets.PATREON_CALLBACK_URL }}"
+                    patreonClientId: "${{ secrets.PATREON_CLIENT_ID }}"
+                    patreonSecret: "${{ secrets.PATREON_SECRET }}"
+                    "dbUser":"${{ secrets.DB_USER }}",
+                    "dbHost":"postgres.shared-services.svc.cluster.local",
+                    "dbDatabase":"${{ secrets.DB_NAME }}",
+                    "dbPassword":"${{ secrets.DB_PASSWORD }}",
+                    "dbPort":${{ secrets.DB_PORT }},
+                    lobby:
+                      lowerDeckThreshold: 5
+                      middleDeckThreshold: 20
+                      upperDeckThreshold: 50
+                      port: 80
+                      emailKey: "${{ secrets.EMAIL_KEY }}"
+                      hmacSecret: "${{ secrets.HMAC }}"
+                      requireActivation: false
+                      patreonCallbackUrl: "${{ vars.PATREON_CALLBACK_URL }}"
+                      patreonClientId: "${{ secrets.PATREON_CLIENTID }}"
+                      patreonSecret: "${{ secrets.PATREON_SECRET }}"
+                  EOF
+
+                  helm upgrade --install keyteki-lobby ./infrastructure/lobby \
+                    --set namespace=$NAMESPACE \
+                    --set environment=$ENV_SUBDOMAIN \
+                    --set deployTime=$DEPLOY_TIME \
+                    -f /tmp/lobby-secrets.yaml \
+                    -n $NAMESPACE
+
+                  # Clean up secrets file
+                  rm /tmp/lobby-secrets.yaml
+
+                  # Verify rollout
+                  kubectl rollout status deployment/keyteki-lobby -n $NAMESPACE

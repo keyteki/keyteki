@@ -1,0 +1,68 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+    name: node
+    # prettier-ignore
+    namespace: {{ .Values.namespace }}
+spec:
+    serviceName: node
+    # prettier-ignore
+    replicas: {{ .Values.replicaCount }}
+    # Rolling update strategy: create new pods before terminating old ones
+    updateStrategy:
+        type: RollingUpdate
+        rollingUpdate:
+            partition: 0
+    podManagementPolicy: Parallel
+    selector:
+        matchLabels:
+            app: game-node
+    template:
+        metadata:
+            labels:
+                app: game-node
+            annotations:
+                #prettier-ignore
+                checksum/secret: {{ .Values.nodeConfig | toJson | sha256sum }}
+                #prettier-ignore
+                checksum/image: {{ .Values.image.tag | sha256sum }}
+                #prettier-ignore
+                deployTime: {{ .Values.deployTime | default "0" | quote }}
+        spec:
+            terminationGracePeriodSeconds: 7200
+            containers:
+                - name: keyteki-node
+                  image: '{{ .Values.image.repository }}:{{ .Values.image.tag }}'
+                  imagePullPolicy: Always
+                  ports:
+                      - containerPort: 80
+                        name: http
+                      - containerPort: 9000
+                        name: health
+                  env:
+                      - name: NODE_ENV
+                        value: 'production'
+                      - name: SERVER
+                        valueFrom:
+                            fieldRef:
+                                fieldPath: metadata.name
+                      - name: NODE_CONFIG
+                        valueFrom:
+                            secretKeyRef:
+                                name: keyteki-node-secret
+                                key: node_config
+                  readinessProbe:
+                      httpGet:
+                          path: /health/ready
+                          port: 9000
+                      initialDelaySeconds: 10
+                      periodSeconds: 5
+                      failureThreshold: 1
+                      successThreshold: 1
+                  livenessProbe:
+                      httpGet:
+                          path: /health/alive
+                          port: 9000
+                      initialDelaySeconds: 30
+                      periodSeconds: 10
+                      failureThreshold: 3

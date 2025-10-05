@@ -1,0 +1,17 @@
+namespace: keyteki-development
+environment: development
+
+image:
+    repository: cryogen/keyteki-lobby
+    tag: latest
+
+deployTime: '0'
+
+nodeConfig: {}
+
+storage:
+    className: local-path
+    cardImages: 5Gi
+    avatars: 1Gi
+
+resources: {}
