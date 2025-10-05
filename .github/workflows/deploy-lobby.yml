@@ -54,11 +54,11 @@ jobs:
                     patreonCallbackUrl: "${{ secrets.PATREON_CALLBACK_URL }}"
                     patreonClientId: "${{ secrets.PATREON_CLIENT_ID }}"
                     patreonSecret: "${{ secrets.PATREON_SECRET }}"
-                    "dbUser":"${{ secrets.DB_USER }}",
-                    "dbHost":"postgres.shared-services.svc.cluster.local",
-                    "dbDatabase":"${{ secrets.DB_NAME }}",
-                    "dbPassword":"${{ secrets.DB_PASSWORD }}",
-                    "dbPort":${{ secrets.DB_PORT }},
+                    "dbUser":"${{ secrets.DB_USER }}"
+                    "dbHost":"postgres.shared-services.svc.cluster.local"
+                    "dbDatabase":"${{ secrets.DB_NAME }}"
+                    "dbPassword":"${{ secrets.DB_PASSWORD }}"
+                    "dbPort":${{ secrets.DB_PORT }}
                     lobby:
                       lowerDeckThreshold: 5
                       middleDeckThreshold: 20
