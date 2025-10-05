@@ -75,7 +75,12 @@ class GameRouter extends EventEmitter {
 
         let returnedWorker;
         for (const worker of Object.values(this.workers)) {
-            if (worker.disabled || worker.disconnected || worker.numGames >= worker.maxGames) {
+            if (
+                worker.numGames >= worker.maxGames ||
+                worker.disabled ||
+                worker.disconnected ||
+                worker.draining
+            ) {
                 continue;
             }
 
@@ -92,12 +97,15 @@ class GameRouter extends EventEmitter {
             return {
                 name: worker.identity,
                 numGames: worker.numGames,
-                status: worker.disconnceted
+                status: worker.disconnected
                     ? 'disconnected'
                     : worker.disabled
                     ? 'disabled'
+                    : worker.draining
+                    ? 'draining'
                     : 'active',
-                version: worker.version
+                version: worker.version,
+                draining: worker.draining || false
             };
         });
     }
