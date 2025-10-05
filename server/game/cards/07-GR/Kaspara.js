@@ -24,7 +24,9 @@ class Kaspara extends Card {
                         ability.actions.gainAmber((context) => ({
                             target: context.player.opponent
                         }))
-                    ]
+                    ],
+                    message: '{0} uses {1} to make both players gain 1 amber',
+                    messageArgs: (context) => [context.player, context.source]
                 }),
                 ability.effects.gainAbility('destroyed', {
                     gameAction: [
@@ -32,7 +34,9 @@ class Kaspara extends Card {
                         ability.actions.gainAmber((context) => ({
                             target: context.player.opponent
                         }))
-                    ]
+                    ],
+                    message: '{0} uses {1} to make both players gain 1 amber',
+                    messageArgs: (context) => [context.player, context.source]
                 })
             ]
         });

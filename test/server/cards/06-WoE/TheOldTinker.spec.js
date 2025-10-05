@@ -23,7 +23,7 @@ describe('The Old Tinker', function () {
             expect(this.player1.hand.length).toBe(1);
         });
 
-        it("should shouldn't draw a card when used to reap when there is nothing to discard", function () {
+        it('should not draw a card when used to reap when there is nothing to discard', function () {
             this.player1.moveCard(this.soulkeeper, 'deck');
             this.player1.reap(this.theOldTinker);
             expect(this.player1.amber).toBe(1);
