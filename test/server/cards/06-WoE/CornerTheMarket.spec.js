@@ -98,6 +98,25 @@ describe('Corner the Market', function () {
             this.player2.clickPrompt('Discard');
             expect(this.ornarSkullface.location).toBe('discard');
         });
+
+        it('allows opponent to resolve scrap with archive', function () {
+            this.player1.play(this.cornerTheMarket);
+            this.player1.endTurn();
+            this.player2.clickPrompt('brobnar');
+            this.player2.clickCard(this.ornarSkullface);
+            this.player2.clickPrompt('Discard this card');
+            expect(this.player2).toBeAbleToSelect(this.ornarSkullface);
+            expect(this.player2).toHavePromptButton('Corner the Market');
+            this.player2.clickCard(this.ornarSkullface);
+            expect(this.player2).toBeAbleToSelect(this.troll);
+            this.player2.clickCard(this.troll);
+            expect(this.troll.tokens.damage).toBe(3);
+            expect(this.player2).toHavePrompt('Archive?');
+            expect(this.player2).toHavePromptCardButton(this.ornarSkullface);
+            expect(this.player2).toHavePromptButton('Discard');
+            this.player2.clickPrompt('Ornar Skullface');
+            expect(this.ornarSkullface.location).toBe('archives');
+        });
     });
     describe('its ability', function () {
         beforeEach(function () {
