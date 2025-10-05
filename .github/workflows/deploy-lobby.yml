@@ -41,7 +41,6 @@ jobs:
                     sentryDsn: "${{ secrets.SENTRY_DSN }}"
                     captchaKey: "${{ secrets.CAPTCHA_KEY }}"
                     minLobbyChatTime: 3600
-                    dbPath: "${{ secrets.DB_PATH }}"
                     cookieLifetime: 604800000
                     redisKeyPrefix: "keyteki:$ENV"
                     redisUrl: "${{ secrets.REDIS_URL }}"
