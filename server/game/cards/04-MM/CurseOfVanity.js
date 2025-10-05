@@ -19,7 +19,9 @@ class CurseOfVanity extends Card {
                     controller: 'opponent',
                     gameAction: ability.actions.exalt()
                 }
-            }
+            },
+            effect: 'exalt {1}',
+            effectArgs: (context) => [Object.values(context.targets)]
         });
     }
 }
