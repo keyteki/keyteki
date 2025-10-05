@@ -1,0 +1,5 @@
+apiVersion: v2
+name: game-node
+description: StatefulSet for keyteki game nodes
+version: 0.1.0
+appVersion: 'latest'

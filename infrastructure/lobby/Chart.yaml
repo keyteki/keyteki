@@ -1,0 +1,5 @@
+apiVersion: v2
+name: keyteki-lobby
+description: Deployment for keyteki lobby server
+version: 0.1.0
+appVersion: 'latest'

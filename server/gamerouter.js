@@ -1,8 +1,8 @@
-const redis = require('redis');
 const EventEmitter = require('events');
 
 const logger = require('./log');
 const GameService = require('./services/GameService');
+const RedisClientFactory = require('./services/RedisClientFactory');
 const { detectBinary } = require('./util');
 
 class GameRouter extends EventEmitter {
@@ -15,17 +15,23 @@ class GameRouter extends EventEmitter {
         this.workers = {};
         this.gameService = new GameService();
 
-        this.subscriber = redis.createClient(configService.getValue('redisUrl'));
-        this.publisher = redis.createClient(configService.getValue('redisUrl'));
+        const factory = new RedisClientFactory(configService);
+        this.subscriber = factory.createClient();
+        this.publisher = factory.createClient();
 
         this.subscriber.on('error', this.onError);
         this.publisher.on('error', this.onError);
 
-        this.subscriber.subscribe('nodemessage');
-        this.subscriber.on('message', this.onMessage.bind(this));
-        this.subscriber.on('subscribe', () => {
-            this.sendCommand('allnodes', 'LOBBYHELLO');
-        });
+        this.subscriber
+            .connect()
+            .then(() => {
+                return this.subscriber.subscribe('nodemessage', this.onMessage.bind(this));
+            })
+            .then(() => {
+                this.sendCommand('allnodes', 'LOBBYHELLO');
+            });
+
+        this.publisher.connect();
 
         setInterval(this.checkTimeouts.bind(this), 1000 * 60);
     }
@@ -190,7 +196,7 @@ class GameRouter extends EventEmitter {
      * @param {string} channel
      * @param {string} msg
      */
-    onMessage(channel, msg) {
+    onMessage(msg, channel) {
         if (channel !== 'nodemessage') {
             logger.warn(`Message '${msg}' received for unknown channel ${channel}`);
             return;

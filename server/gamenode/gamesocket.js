@@ -1,9 +1,9 @@
 const EventEmitter = require('events');
 const { spawnSync } = require('child_process');
-const redis = require('redis');
 
 const config = require('config');
 const logger = require('../log.js');
+const RedisClientFactory = require('../services/RedisClientFactory');
 const { detectBinary } = require('../util');
 
 class GameSocket extends EventEmitter {
@@ -23,27 +23,43 @@ class GameSocket extends EventEmitter {
 
         this.nodeName = process.env.SERVER || configService.getValueForSection('gameNode', 'name');
 
-        this.subscriber = redis.createClient(configService.getValue('redisUrl'));
-        this.publisher = redis.createClient(configService.getValue('redisUrl'));
-        this.redis = redis.createClient(configService.getValue('redisUrl'));
+        const factory = new RedisClientFactory(configService);
+        this.subscriber = factory.createClient();
+        this.publisher = factory.createClient();
+        this.redis = factory.createClient();
 
         this.subscriber.on('error', this.onError);
         this.publisher.on('error', this.onError);
 
-        this.subscriber.subscribe(this.nodeName);
-        this.subscriber.subscribe('allnodes');
-        this.subscriber.on('subscribe', this.onConnect.bind(this));
-        this.subscriber.on('message', this.onMessage.bind(this));
+        this.subscriber
+            .connect()
+            .then(() => {
+                return Promise.all([
+                    this.subscriber.subscribe(this.nodeName, this.onMessage.bind(this)),
+                    this.subscriber.subscribe('allnodes', this.onMessage.bind(this))
+                ]);
+            })
+            .then(() => {
+                this.onConnect('allnodes');
+            });
 
-        this.redis.get('cards', (err, cards) => {
-            if (err) {
+        this.publisher.connect();
+        this.redis
+            .connect()
+            .then(() => {
+                return this.redis.get('cards');
+            })
+            .then((cards) => {
+                if (!cards) {
+                    logger.error('No cards found in redis');
+                    return;
+                }
+
+                this.emit('onCardData', JSON.parse(cards));
+            })
+            .catch((err) => {
                 logger.error('Error loading cards from redis', err);
-
-                return;
-            }
-
-            this.emit('onCardData', JSON.parse(cards));
-        });
+            });
     }
 
     send(command, arg) {
@@ -98,7 +114,7 @@ class GameSocket extends EventEmitter {
      * @param {string} channel
      * @param {string} msg
      */
-    onMessage(channel, msg) {
+    onMessage(msg, channel) {
         if (channel !== 'allnodes' && channel !== this.nodeName) {
             logger.warn(`Message '${msg}' received for unknown channel ${channel}`);
             return;
