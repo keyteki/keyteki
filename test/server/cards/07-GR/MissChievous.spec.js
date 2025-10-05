@@ -38,12 +38,6 @@ describe('Miss Chievous', function () {
         it('discards top 2 cards for opponent when a friendly Geistoid enters play and player has no deck', function () {
             this.player1.player.deck = [];
             expect(this.missChievous.location).toBe('play area');
-
-            console.log(
-                'Player 2 deck length before play:',
-                this.player1.deck.length,
-                this.player2.player.deck.length
-            );
             this.player1.playCreature(this.echofly);
             expect(this.initiation.location).toBe('discard');
             expect(this.dustPixie.location).toBe('discard');
@@ -52,11 +46,6 @@ describe('Miss Chievous', function () {
 
         it('discards top 2 cards for player when a friendly Geistoid enters play and opponent has no deck', function () {
             this.player2.player.deck = [];
-            console.log(
-                'Player 2 deck length before play:',
-                this.player1.deck.length,
-                this.player2.player.deck.length
-            );
             this.player1.playCreature(this.echofly);
             expect(this.gub.location).toBe('discard');
             expect(this.keyToDis.location).toBe('discard');
