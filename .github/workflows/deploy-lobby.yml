@@ -36,14 +36,14 @@ jobs:
                   # Create values file with secrets
                   cat > /tmp/lobby-secrets.yaml <<EOF
                   nodeConfig:
-                    env: "'production'"
+                    env: "production"
                     appName: "$APP_NAME"
                     sentryDsn: "${{ secrets.SENTRY_DSN }}"
                     captchaKey: "${{ secrets.CAPTCHA_KEY }}"
                     minLobbyChatTime: 3600
                     dbPath: "${{ secrets.DB_PATH }}"
                     cookieLifetime: 604800000
-                    redisPrefix: "keyteki:$ENV"
+                    redisKeyPrefix: "keyteki:$ENV"
                     redisUrl: "${{ secrets.REDIS_URL }}"
                     secret: "${{ secrets.SECRET }}"
                     emailKey: "${{ secrets.EMAIL_KEY }}"
@@ -54,11 +54,11 @@ jobs:
                     patreonCallbackUrl: "${{ secrets.PATREON_CALLBACK_URL }}"
                     patreonClientId: "${{ secrets.PATREON_CLIENT_ID }}"
                     patreonSecret: "${{ secrets.PATREON_SECRET }}"
-                    "dbUser":"${{ secrets.DB_USER }}"
-                    "dbHost":"postgres.shared-services.svc.cluster.local"
-                    "dbDatabase":"${{ secrets.DB_NAME }}"
-                    "dbPassword":"${{ secrets.DB_PASSWORD }}"
-                    "dbPort":${{ secrets.DB_PORT }}
+                    dbUser: "${{ secrets.DB_USER }}"
+                    dbHost: "postgres.shared-services.svc.cluster.local"
+                    dbDatabase: "${{ secrets.DB_NAME }}"
+                    dbPassword: "${{ secrets.DB_PASSWORD }}"
+                    dbPort: ${{ secrets.DB_PORT }}
                     lobby:
                       lowerDeckThreshold: 5
                       middleDeckThreshold: 20
