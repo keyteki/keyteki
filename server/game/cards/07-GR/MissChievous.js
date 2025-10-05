@@ -13,29 +13,21 @@ class MissChievous extends Card {
                     event.card.type === 'creature' &&
                     event.card.hasHouse('geistoid')
             },
-            gameAction: [
-                ability.actions.conditional({
-                    condition: (context) => context.player.deck.length > 0,
-                    trueGameAction: ability.actions.discard((context) => ({
-                        target: context.player.deck.slice(
-                            0,
-                            Math.min(2, context.player.deck.length)
-                        )
-                    }))
-                }),
-                ability.actions.conditional({
-                    condition: (context) =>
-                        !!context.player.opponent && context.player.opponent.deck.length > 0,
-                    trueGameAction: ability.actions.discard((context) => ({
-                        target: context.player.opponent
-                            ? context.player.opponent.deck.slice(
-                                  0,
-                                  Math.min(2, context.player.deck.length)
-                              )
-                            : []
-                    }))
-                })
-            ],
+
+            gameAction: ability.actions.sequential([
+                ability.actions.discard((context) => ({
+                    target: context.player.deck.slice(0, Math.min(2, context.player.deck.length))
+                })),
+                ability.actions.discard((context) => ({
+                    alwaysTriggers: true,
+                    target: context.player.opponent
+                        ? context.player.opponent.deck.slice(
+                              0,
+                              Math.min(2, context.player.deck.length)
+                          )
+                        : []
+                }))
+            ]),
             message: "{0} uses {1} to discard the top two cards of each player's deck",
             messageArgs: (context) => [context.player, context.source]
         });
