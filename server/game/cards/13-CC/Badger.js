@@ -11,7 +11,6 @@ class Badger extends Card {
                 when: {
                     onCardPlayed: (event) =>
                         event.player === context.player &&
-                        event.card !== context.source &&
                         event.card.type === 'creature' &&
                         event.card.hasHouse('brobnar')
                 },
