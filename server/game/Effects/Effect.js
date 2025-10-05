@@ -38,6 +38,8 @@ class Effect {
         this.location = properties.location || 'play area';
         this.printedAbility = properties.printedAbility !== false;
         this.nextRound = !!properties.nextRound;
+        this.waitForOpponentTurn = properties.waitForOpponentTurn !== false;
+        this.effectController = properties.effectController;
         this.targets = [];
         this.effect = effect;
         this.refreshContext(properties.context);

@@ -114,12 +114,32 @@ class EffectEngine {
 
         _.each(this.nextRoundEffects, (effect) => {
             if (effect.roundDuration > 1) {
-                effect.nextRound = false;
-                effect.roundDuration -= 1;
-                this.add(effect);
+                // Check if we should wait for opponent turn
+                let shouldActivate = true;
+                if (effect.waitForOpponentTurn && effect.effectController) {
+                    // Only activate if it's now the opponent's turn
+                    shouldActivate = this.game.activePlayer !== effect.effectController;
+                }
+
+                if (shouldActivate) {
+                    effect.nextRound = false;
+                    effect.roundDuration -= 1;
+                    this.add(effect);
+                } else {
+                    // The effect stays in nextRoundEffects for another round
+                }
             }
         });
-        this.nextRoundEffects = [];
+
+        // Only remove effects that were activated
+        this.nextRoundEffects = this.nextRoundEffects.filter((effect) => {
+            if (effect.roundDuration > 1) {
+                if (effect.waitForOpponentTurn && effect.effectController) {
+                    return this.game.activePlayer === effect.effectController;
+                }
+            }
+            return false;
+        });
     }
 
     registerCustomDurationEvents(effect) {

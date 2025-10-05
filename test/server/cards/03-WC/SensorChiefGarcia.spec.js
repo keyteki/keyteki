@@ -55,6 +55,8 @@ describe('Sensor Chief Garcia', function () {
             this.player1.endTurn();
             expect(this.player2.player.getForgedKeys()).toBe(0);
             expect(this.player2.player.amber).toBe(6);
+            expect(this.player1.player.getCurrentKeyCost()).toBe(8);
+            expect(this.player2.player.getCurrentKeyCost()).toBe(8);
         });
 
         it('should stop a key being forged when fighting', function () {
