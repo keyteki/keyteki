@@ -21,7 +21,16 @@ class AutoVac5150 extends Card {
                     ]),
                     falseGameAction: ability.actions.archive()
                 })
-            }
+            },
+            message: '{0} uses {1} to {2}',
+            messageArgs: (context) => [
+                context.player,
+                context.source,
+                context.target
+                    ? "raise key cost by 3 during their opponent's next turn"
+                    : 'archive a card',
+                'y'
+            ]
         });
     }
 }
