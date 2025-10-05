@@ -37,6 +37,8 @@ describe('Miss Chievous', function () {
 
         it('discards top 2 cards for opponent when a friendly Geistoid enters play and player has no deck', function () {
             this.player1.player.deck = [];
+            expect(this.missChievous.location).toBe('play area');
+
             console.log(
                 'Player 2 deck length before play:',
                 this.player1.deck.length,

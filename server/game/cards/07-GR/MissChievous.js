@@ -14,22 +14,12 @@ class MissChievous extends Card {
                     event.card.hasHouse('geistoid')
             },
 
-            gameAction: ability.actions.sequential([
-                ability.actions.discard((context) => ({
-                    target: context.player.deck.slice(0, Math.min(2, context.player.deck.length))
-                })),
-                ability.actions.discard((context) => ({
-                    alwaysTriggers: true,
-                    target: context.player.opponent
-                        ? context.player.opponent.deck.slice(
-                              0,
-                              Math.min(2, context.player.deck.length)
-                          )
-                        : []
-                }))
-            ]),
-            message: "{0} uses {1} to discard the top two cards of each player's deck",
-            messageArgs: (context) => [context.player, context.source]
+            gameAction: ability.actions.discard(() => ({
+                target: this.game
+                    .getPlayers()
+                    .flatMap((player) => player.deck.slice(0, Math.min(2, player.deck.length)))
+            })),
+            preferActionPromptMessage: true
         });
 
         this.reap({
