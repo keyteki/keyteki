@@ -16,9 +16,11 @@ class AmbrosiaOutpost extends Card {
                     cardCondition: (card) => card.hasToken('amber'),
                     gameAction: ability.actions.removeAmber()
                 },
-                then: {
-                    gameAction: ability.actions.gainAmber()
-                }
+                then: (preThenContext) => ({
+                    gameAction: ability.actions.gainAmber(),
+                    message: '{0} uses {1} to move 1 amber from {3} to their pool',
+                    messageArgs: [preThenContext.target]
+                })
             }
         });
     }
