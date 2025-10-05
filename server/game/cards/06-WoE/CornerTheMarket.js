@@ -8,7 +8,7 @@ class CornerTheMarket extends Card {
         this.play({
             condition: (context) => !!context.player.opponent,
             effect:
-                'stop {1} from playing cards next turn; when they discard a card, they may archive it instead',
+                'stop {1} from playing cards during their next turn; after {1} discards a card, they may archive that card from their discard pile instead',
             effectArgs: (context) => context.player.opponent,
             effectAlert: true,
             gameAction: [
@@ -19,39 +19,24 @@ class CornerTheMarket extends Card {
                 ability.actions.nextRoundEffect({
                     targetController: 'opponent',
                     when: {
-                        onCardDiscarded: (event) => event.location === 'hand'
+                        onCardDiscarded: (event, context) =>
+                            event.location === 'hand' && event.card.controller === context.player
                     },
                     triggeredAbilityType: 'reaction',
-                    gameAction: ability.actions.sequential([
-                        ability.actions.archive((context) => ({
-                            reveal: true,
-                            target: context.event.card,
-                            promptWithHandlerMenu: {
-                                optional: true,
-                                activePromptTitle: 'Archive?',
-                                cards: [context.event.card],
-                                choices: ['Discard'],
-                                handlers: [
-                                    () => {
-                                        context.event.doNotCancelDiscard = true;
-                                    }
-                                ]
-                            }
-                        })),
-                        ability.actions.conditional({
-                            condition: (context) => !context.event.doNotCancelDiscard,
-                            trueGameAction: ability.actions.changeEvent((context) => ({
-                                event: context.event,
-                                cancel: true
-                            }))
-                        })
-                    ]),
-                    message: '{0} uses {1} to allow archival of {2} instead of discard',
-                    messageArgs: (context) => [
-                        context.player.opponent,
-                        context.source,
-                        context.event.card
-                    ]
+                    preferActionPromptMessage: true,
+                    gameAction: ability.actions.archive((context) => ({
+                        reveal: true,
+                        target: context.event.card,
+                        promptWithHandlerMenu: {
+                            optional: true,
+                            activePromptTitle: 'Archive?',
+                            cards: [context.event.card],
+                            choices: ['Discard'],
+                            handlers: [() => {}],
+                            message: '{0} uses {1} to archive {2} from the discard pile',
+                            messageArgs: (cards) => [context.player, context.source, cards]
+                        }
+                    }))
                 })
             ]
         });
