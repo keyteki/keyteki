@@ -9,11 +9,18 @@ class Spendthrift extends Card {
                 cardType: 'creature',
                 gameAction: [ability.actions.removeAmber({ all: true }), ability.actions.exalt()]
             },
-            effect: 'move all amber from {0} to the common supply and exalt it'
+            effect: 'move all {2} amber from {0} to the common supply and exalt {0}',
+            effectArgs: (context) => [context.target, context.target.tokens.amber || 0]
         });
 
         this.fate({
-            effect: "move all amber from enemy creatures to their opponent's pool",
+            effect: "move all {1} amber from enemy creatures to their opponent's pool",
+            effectArgs: (context) => [
+                context.game.activePlayer.opponent.creaturesInPlay.reduce(
+                    (total, card) => total + card.amber,
+                    0
+                )
+            ],
             gameAction: [
                 ability.actions.removeAmber((context) => ({
                     all: true,
