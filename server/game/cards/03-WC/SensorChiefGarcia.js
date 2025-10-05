@@ -9,7 +9,7 @@ class SensorChiefGarcia extends Card {
             effect: "increase key cost by 2 during {1}'s next turn",
             effectArgs: (context) => context.player.opponent,
             gameAction: ability.actions.nextRoundEffect({
-                targetController: 'any',
+                targetController: 'opponent',
                 effect: ability.effects.modifyKeyCost(2)
             })
         });
