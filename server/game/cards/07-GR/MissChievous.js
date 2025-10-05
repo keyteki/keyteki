@@ -13,7 +13,6 @@ class MissChievous extends Card {
                     event.card.type === 'creature' &&
                     event.card.hasHouse('geistoid')
             },
-
             gameAction: ability.actions.discard(() => ({
                 target: this.game
                     .getPlayers()
