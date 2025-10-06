@@ -13,7 +13,6 @@ class LastingEffectAction extends GameAction {
         this.effect = [];
         this.targetController = null;
         this.until = null;
-        this.waitForOpponentTurn = true;
 
         // lasting ability trigger properties
         this.when = null;
@@ -64,9 +63,7 @@ class LastingEffectAction extends GameAction {
                 this.targetController || (this.roundDuration === 1 ? 'current' : 'opponent'),
             until: this.until,
             roundDuration: !this.until ? this.roundDuration : undefined,
-            nextRound: this.nextRound,
-            waitForOpponentTurn: this.waitForOpponentTurn,
-            effectController: context.player
+            nextRound: this.nextRound
         };
 
         return [
