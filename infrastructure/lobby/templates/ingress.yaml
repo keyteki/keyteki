@@ -10,7 +10,7 @@ spec:
         - websecure
     routes:
 {{- if eq .Values.environment "production" }}
-        - match: (Host(`thecrucible.online`) && (PathPrefix(`/img/cards/`) || PathPrefix(`/img/avatar/`))
+        - match: Host(`thecrucible.online`) && (PathPrefix(`/img/cards/`) || PathPrefix(`/img/avatar/`))
           kind: Rule
           priority: 20
           services:
@@ -25,7 +25,7 @@ spec:
               - name: keyteki-lobby
                 port: 80
 {{- else }}
-        - match: (Host(`{{ .Values.environment }}.thecrucible.online`) && (PathPrefix(`/img/cards/`) || PathPrefix(`/img/avatar/`))
+        - match: Host(`{{ .Values.environment }}.thecrucible.online`) && (PathPrefix(`/img/cards/`) || PathPrefix(`/img/avatar/`))
           kind: Rule
           priority: 20
           services:
