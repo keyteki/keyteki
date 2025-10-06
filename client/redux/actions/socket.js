@@ -111,7 +111,7 @@ export function nodeStatusReceived(status) {
     };
 }
 
-export function responseTimeReceived(responseTime) {
+export function lobbyResponseTimeReceived(responseTime) {
     return {
         type: 'RESPONSE_TIME_RECEIVED',
         responseTime: responseTime
@@ -158,7 +158,7 @@ export function connectLobby() {
         dispatch(lobbyConnecting(socket));
 
         socket.on('pong', (responseTime) => {
-            dispatch(responseTimeReceived(responseTime));
+            dispatch(lobbyResponseTimeReceived(responseTime));
         });
 
         socket.on('connect', () => {

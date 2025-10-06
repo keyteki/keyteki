@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+    name: keyteki-lobby
+    # prettier-ignore
+    namespace: {{ .Values.namespace }}
+spec:
+    selector:
+        app: keyteki-lobby
+    ports:
+        - port: 80
+          targetPort: 80
+          protocol: TCP

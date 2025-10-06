@@ -1,0 +1,12 @@
+replicaCount: 1
+namespace: keyteki-development
+
+image:
+    repository: cryogen/keyteki-node
+    tag: latest
+
+deployTime: '0'
+
+nodeConfig: {}
+
+resources: {}

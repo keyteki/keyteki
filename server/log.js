@@ -1,16 +1,4 @@
 const { createLogger, format, transports } = require('winston');
-require('winston-daily-rotate-file');
-const fs = require('fs');
-
-if (!fs.existsSync(__dirname + '/logs/')) {
-    fs.mkdirSync(__dirname + '/logs/');
-}
-
-let rotate = new transports.DailyRotateFile({
-    filename: __dirname + '/logs/keyteki-%DATE%.log',
-    datePattern: 'YYYY-MM-DD',
-    zippedArchive: true
-});
 
 const prettyJson = format.printf((info) => {
     if (info.meta && info.meta instanceof Error) {
@@ -42,8 +30,7 @@ const logger = createLogger({
                 format.simple(),
                 prettyJson
             )
-        }),
-        rotate
+        })
     ]
 });
 

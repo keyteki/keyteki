@@ -16,6 +16,7 @@ const GameSocket = require('./gamesocket');
 const Game = require('../game/game');
 const Socket = require('../socket');
 const ConfigService = require('../services/ConfigService');
+const HealthServer = require('./healthserver.js');
 
 class GameServer {
     constructor() {
@@ -63,7 +64,6 @@ class GameServer {
             server = https.createServer({ key: privateKey, cert: certificate });
         }
 
-        const nodeName = this.configService.getValueForSection('gameNode', 'name');
         const socketioPort = this.configService.getValueForSection('gameNode', 'socketioPort');
 
         server.listen(process.env.PORT || socketioPort, '0.0.0.0');
@@ -73,18 +73,20 @@ class GameServer {
             pingTimeout: 15000
         };
 
+        const nodeIdentity =
+            process.env.SERVER || this.configService.getValueForSection('gameNode', 'name');
+        if (nodeIdentity) {
+            options.path = '/' + nodeIdentity + '/socket.io';
+        }
+
         const corsOrigin = this.configService.getValueForSection('gameNode', 'origin');
         if (corsOrigin) {
             options.origins = corsOrigin;
         }
 
-        if (process.env.NODE_ENV !== 'production') {
-            options.path = '/' + (process.env.SERVER || nodeName) + '/socket.io';
-        }
-
         logger.info(
             `Listening on 0.0.0.0:${process.env.PORT || socketioPort}/${
-                process.env.SERVER || nodeName
+                process.env.SERVER || nodeIdentity
             }/socket.io`
         );
 
@@ -94,6 +96,9 @@ class GameServer {
         this.io.on('connection', this.onConnection.bind(this));
 
         setInterval(() => this.clearStaleAndFinishedGames(), 30 * 1000);
+
+        this.healthServer = new HealthServer(this);
+        this.healthServer.start();
     }
 
     debugDump() {

@@ -73,9 +73,7 @@ class Server {
         if (this.isDeveloping) {
             const compiler = webpack(webpackConfig);
             const middleware = webpackDevMiddleware(compiler, {
-                hot: true,
-                contentBase: 'client',
-                publicPath: '/',
+                publicPath: webpackConfig.output.publicPath,
                 stats: {
                     colors: true,
                     hash: false,
@@ -83,8 +81,7 @@ class Server {
                     chunks: false,
                     chunkModules: false,
                     modules: false
-                },
-                historyApiFallback: true
+                }
             });
 
             app.set('view engine', 'pug');

@@ -1,21 +1,109 @@
-name: Deploy Node
+name: Deploy Game Nodes
 on:
-  workflow_dispatch:
-    inputs:
-     environment:
-        type: environment
-        description: Select the environment 
-        default: ProductionNode1
+    workflow_dispatch:
+        inputs:
+            environment:
+                type: environment
+                description: Select the environment
+                default: Production
+
 jobs:
-  deploy:
-    if: github.repository == 'keyteki/keyteki' && ${{ github.event.workflow_run.conclusion == 'success' }}
-    runs-on: self-hosted
-    environment: ${{ inputs.environment }}
-    steps:
-        - name: Pull latest node image
-          run: docker pull cryogen/keyteki-node
-        - name: Stop and remove node image
-          continue-on-error: true
-          run: docker stop ${{ vars.CONTAINER_NAME }} && docker rm ${{ vars.CONTAINER_NAME }}
-        - name: Run new node image
-          run: docker run --restart unless-stopped -d -p ${{ vars.PORT }}:80 --network ${{ vars.NETWORK_NAME }} -v ${{ vars.LOG_PATH }}:/app/node/server/logs --name ${{ vars.CONTAINER_NAME }} --env NODE_CONFIG='{"env":"production","sentryDsn":"${{ secrets.SENTRY_DSN }}","redisUrl":"${{ secrets.REDIS_URL }}","secret":"${{ secrets.SECRET }}","gameNode":{"name":"${{ vars.NODE_NAME }}","socketioPort":80,"host":"${{ vars.HOSTNAME }}","origin":"http://${{ vars.HOSTNAME }}:* https://${{ vars.HOSTNAME }}:*"}}' cryogen/keyteki-node:latest
+    deploy:
+        runs-on: self-hosted
+        environment: ${{ inputs.environment }}
+        steps:
+            - name: Checkout repo
+              uses: actions/checkout@v3
+
+            - name: Deploy Game Nodes
+              run: |
+                  ENV=$(echo "${{ github.event.inputs.environment }}" | tr '[:upper:]' '[:lower:]')
+
+                  if [ "${{ github.event.inputs.environment }}" = "Production" ]; then
+                    NAMESPACE="keyteki"
+                    REPLICAS=2
+                    SCALE_INCREMENT=2
+                    ENV_SUBDOMAIN="production"
+                  elif [ "${{ github.event.inputs.environment }}" = "Development" ]; then
+                    NAMESPACE="keyteki-development"
+                    REPLICAS=1
+                    SCALE_INCREMENT=1
+                    ENV_SUBDOMAIN="dev"
+                  else
+                    NAMESPACE="keyteki-$ENV"
+                    REPLICAS=1
+                    SCALE_INCREMENT=1
+                    ENV_SUBDOMAIN="$ENV"
+                  fi
+
+                  echo "Deploying to $NAMESPACE ($REPLICAS replicas)"
+                  DEPLOY_TIME=$(date +%s)
+                  echo "Deployment timestamp: $DEPLOY_TIME"
+
+                  cat > /tmp/node-secrets.yaml <<EOF
+                  nodeConfig:
+                    env: "production"
+                    sentryDsn: "${{ secrets.SENTRY_DSN }}"
+                    redisPrefix: "keyteki:$ENV"
+                    redisUrl: "${{ secrets.REDIS_URL }}"
+                    gameNode:
+                      socketioPort: 80
+                    secret: "${{ secrets.SECRET }}"
+                  EOF
+
+                  helm upgrade --install game-node ./infrastructure/node \
+                    --set namespace=$NAMESPACE \
+                    --set replicaCount=$REPLICAS \
+                    --set environment=$ENV_SUBDOMAIN \
+                    --set deployTime=$DEPLOY_TIME \
+                    -f /tmp/node-secrets.yaml \
+                    -n $NAMESPACE
+
+                  rm /tmp/node-secrets.yaml
+
+                  echo "Starting graceful rollout..."
+
+                  NEW_REPLICAS=$((REPLICAS + SCALE_INCREMENT))
+                  echo "Scaling up to $NEW_REPLICAS replicas..."
+                  kubectl scale statefulset node -n $NAMESPACE --replicas=$NEW_REPLICAS
+
+                  for i in $(seq $REPLICAS $((NEW_REPLICAS - 1))); do
+                    NEW_POD="node-$i"
+                    echo "Waiting for $NEW_POD to become ready..."
+                    kubectl wait --for=condition=ready pod/$NEW_POD -n $NAMESPACE --timeout=30m
+                    echo "$NEW_POD is ready."
+                  done
+
+                  OLD_PODS=$(kubectl get pods -n $NAMESPACE -l app=game-node -o jsonpath='{.items[*].metadata.name}' | tr ' ' '\n' | sort | head -n $REPLICAS)
+                  echo "Old pods: $OLD_PODS"
+
+                  echo "Sending SIGTERM to all old pods to start draining..."
+                  for POD in $OLD_PODS; do
+                    echo "Signaling $POD..."
+                    kubectl exec -n $NAMESPACE $POD -- /bin/sh -c "kill -TERM \$(pidof node)" || true
+                  done
+
+                  echo "Waiting for all old pods to drain..."
+                  for POD in $OLD_PODS; do
+                    echo "Monitoring $POD..."
+                    ATTEMPTS=0
+                    while [ $ATTEMPTS -lt 540 ]; do
+                      GAMES=$(kubectl exec -n $NAMESPACE $POD -- wget -q -O- http://localhost:9000/health/games 2>/dev/null || echo "error")
+                      if [ "$GAMES" = "error" ]; then
+                        echo "$POD: Health check failed; assuming node shutting down."
+                        break
+                      fi
+                      if [ "$GAMES" = "0" ]; then
+                        echo "$POD: All games finished."
+                        break
+                      fi
+                      echo "$POD: Still running $GAMES games... ($ATTEMPTS/540)"
+                      ATTEMPTS=$((ATTEMPTS + 1))
+                      sleep 10
+                    done
+                  done
+
+                  echo "Scaling back down to $REPLICAS replicas..."
+                  kubectl scale statefulset node -n $NAMESPACE --replicas=$REPLICAS
+
+                  echo "Graceful rollout complete!"
