@@ -50,6 +50,37 @@ describe("Snag's Mirror", function () {
                     });
                 });
             });
+            // TODO: Should not block next immediate house
+            // If house is selected and then goes away should restrict
+            // Check start of my next turn effects (lucky dice)
+        });
+    });
+
+    describe('after taking another turn', function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    amber: 0,
+                    hand: ['sensor-chief-garcia'],
+                    inPlay: ['tachyon-manifold', 'snag-s-mirror']
+                },
+                player2: {
+                    amber: 0,
+                    inPlay: [],
+                    hand: ['necromorph', 'azuretooth', 'shaffles']
+                }
+            });
+            this.player1.clickPrompt('ekwidon');
+            this.player1.useAction(this.tachyonManifold);
+        });
+
+        xit("should affect opponent's next turn", function () {
+            this.player1.endTurn();
+            this.player1.clickPrompt('dis');
+            this.player1.endTurn();
+            expect(this.player2).toHavePromptButton('staralliance');
+            expect(this.player2).not.toHavePromptButton('ekwidon');
+            expect(this.player2).not.toHavePromptButton('dis');
         });
     });
 });

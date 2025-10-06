@@ -10,6 +10,7 @@ class SensorChiefGarcia extends Card {
             effectArgs: (context) => context.player.opponent,
             gameAction: ability.actions.nextRoundEffect({
                 targetController: 'any',
+                // TODO: tests for current, any, and opponent
                 effect: ability.effects.modifyKeyCost(2)
             })
         });
