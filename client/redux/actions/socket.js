@@ -84,7 +84,10 @@ export function handoff(details) {
 
 export function handoffReceived(details) {
     return (dispatch, getState) => {
-        let url = '//' + details.address;
+        let url =
+            details.address && details.address !== 'undefined'
+                ? '//' + details.address
+                : '//' + window.location.hostname;
         let standardPorts = [80, 443];
         let state = getState();
 

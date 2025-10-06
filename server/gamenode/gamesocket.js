@@ -98,10 +98,9 @@ class GameSocket extends EventEmitter {
     }
 
     onGameSync(games) {
-        this.send('HELLO', {
+        const helloData = {
             maxGames: this.isDraining ? 0 : config.maxGames,
             version: this.version,
-            address: this.listenAddress,
             port:
                 process.env.NODE_ENV === 'production'
                     ? 80
@@ -109,7 +108,13 @@ class GameSocket extends EventEmitter {
             protocol: this.protocol,
             games: games,
             draining: this.isDraining
-        });
+        };
+
+        if (this.listenAddress) {
+            helloData.address = this.listenAddress;
+        }
+
+        this.send('HELLO', helloData);
     }
 
     setDraining(draining) {
