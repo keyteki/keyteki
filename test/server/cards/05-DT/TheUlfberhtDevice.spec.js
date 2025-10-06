@@ -141,6 +141,8 @@ describe('The Ulfberht Device', function () {
             expect(this.player2).not.toHavePromptButton('staralliance');
             expect(this.player2).toHavePromptButton('dis');
             expect(this.player2).toHavePromptButton('ekwidon');
+            this.player2.clickPrompt('dis');
+            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
         });
     });
 });

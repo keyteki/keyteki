@@ -63,6 +63,8 @@ describe('Lifeward', function () {
             this.player2.clickCard(this.troll);
             expect(this.player2).toHavePrompt('Troll');
             expect(this.player2).not.toHavePromptButton('Play this creature');
+            this.player2.clickPrompt('Discard this card');
+            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
         });
     });
 });
