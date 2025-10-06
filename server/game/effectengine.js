@@ -132,14 +132,13 @@ class EffectEngine {
         });
 
         // Only remove effects that were activated
-        this.nextRoundEffects = this.nextRoundEffects.filter((effect) => {
-            if (effect.roundDuration > 1) {
-                if (effect.waitForOpponentTurn && effect.effectController) {
-                    return this.game.activePlayer === effect.effectController;
-                }
-            }
-            return false;
-        });
+        this.nextRoundEffects = this.nextRoundEffects.filter(
+            (effect) =>
+                effect.roundDuration > 1 &&
+                effect.waitForOpponentTurn &&
+                effect.effectController &&
+                this.game.activePlayer === effect.effectController
+        );
     }
 
     registerCustomDurationEvents(effect) {
