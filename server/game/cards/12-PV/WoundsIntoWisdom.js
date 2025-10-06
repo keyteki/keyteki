@@ -7,8 +7,8 @@ class WoundsIntoWisdom extends Card {
             when: {
                 onDamageDealt: (event, context) =>
                     context.game.activePlayer === context.source.controller.opponent &&
-                    event.card.controller === context.source.controller &&
-                    event.card.type === 'creature'
+                    event.clone.controller === context.source.controller &&
+                    event.clone.type === 'creature'
             },
             gameAction: ability.actions.fulfillProphecy((context) => ({
                 card: context.source
