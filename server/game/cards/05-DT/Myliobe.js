@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Myliobe extends Card {
     // (T) While the tide is high, Myliobe gains skirmish. (When you use this creature to fight, it is dealt no damage in return.)
@@ -21,4 +21,4 @@ class Myliobe extends Card {
 
 Myliobe.id = 'myliobe';
 
-module.exports = Myliobe;
+export default Myliobe;

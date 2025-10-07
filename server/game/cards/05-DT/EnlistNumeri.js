@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class EnlistNumeri extends Card {
     // Play: Take control of an enemy creature with A on it. While under your control, it belongs to house Saurian. (Instead of its original house.)
@@ -34,4 +34,4 @@ class EnlistNumeri extends Card {
 
 EnlistNumeri.id = 'enlist-numeri';
 
-module.exports = EnlistNumeri;
+export default EnlistNumeri;

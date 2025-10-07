@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class ReassemblyRequired extends Card {
     // Play: Put a creature into its owner's archives.
@@ -21,4 +21,4 @@ class ReassemblyRequired extends Card {
 
 ReassemblyRequired.id = 'reassembly-required';
 
-module.exports = ReassemblyRequired;
+export default ReassemblyRequired;

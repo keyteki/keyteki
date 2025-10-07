@@ -1,5 +1,5 @@
-const Card = require('../../Card.js');
-const EventRegistrar = require('../../eventregistrar.js');
+import Card from '../../Card.js';
+import EventRegistrar from '../../eventregistrar.js';
 
 class Overrun extends Card {
     // Play: If 3 or more enemy creatures have been destroyed this turn, your opponent loses 2A.
@@ -39,4 +39,4 @@ class Overrun extends Card {
 
 Overrun.id = 'overrun';
 
-module.exports = Overrun;
+export default Overrun;

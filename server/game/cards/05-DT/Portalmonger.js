@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Portalmonger extends Card {
     // (T) While the tide is high, your opponent’s keys cost +4A.
@@ -13,4 +13,4 @@ class Portalmonger extends Card {
 
 Portalmonger.id = 'portalmonger';
 
-module.exports = Portalmonger;
+export default Portalmonger;

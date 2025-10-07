@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class PubliusScipio extends Card {
     // Splash-attack 4.
@@ -23,4 +23,4 @@ class PubliusScipio extends Card {
 
 PubliusScipio.id = 'publius-scipio';
 
-module.exports = PubliusScipio;
+export default PubliusScipio;

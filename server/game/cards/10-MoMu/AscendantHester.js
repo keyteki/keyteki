@@ -1,4 +1,4 @@
-const GiganticCard = require('../../GiganticCard.js');
+import GiganticCard from '../../GiganticCard.js';
 
 class AscendantHester extends GiganticCard {
     // (Play only with the other half of Ascendant Hester.)
@@ -28,4 +28,4 @@ class AscendantHester extends GiganticCard {
 
 AscendantHester.id = 'ascendant-hester';
 
-module.exports = AscendantHester;
+export default AscendantHester;

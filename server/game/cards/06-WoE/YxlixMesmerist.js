@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class YxlixMesmerist extends Card {
     //Action: A creature captures 1A from its own side.
@@ -17,4 +17,4 @@ class YxlixMesmerist extends Card {
 
 YxlixMesmerist.id = 'yxlix-mesmerist';
 
-module.exports = YxlixMesmerist;
+export default YxlixMesmerist;

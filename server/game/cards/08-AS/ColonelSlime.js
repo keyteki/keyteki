@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class ColonelSlime extends Card {
     // Scrap: A friendly creature captures 1A.
@@ -15,4 +15,4 @@ class ColonelSlime extends Card {
 
 ColonelSlime.id = 'colonel-slime';
 
-module.exports = ColonelSlime;
+export default ColonelSlime;

@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Cladogenesis extends Card {
     // Play: Each player discards the top card of their deck and reveals their hand. Discard each card that belongs to their discarded card's house. Each player refills their hand as if it were their "draw cards" step.
@@ -74,4 +74,4 @@ class Cladogenesis extends Card {
 
 Cladogenesis.id = 'cladogenesis';
 
-module.exports = Cladogenesis;
+export default Cladogenesis;

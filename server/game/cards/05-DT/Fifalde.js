@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Fifalde extends Card {
     // Play: Destroy a friendly Bombyx. If you do not, destroy Fifalde.
@@ -32,4 +32,4 @@ class Fifalde extends Card {
 
 Fifalde.id = 'fifalde';
 
-module.exports = Fifalde;
+export default Fifalde;

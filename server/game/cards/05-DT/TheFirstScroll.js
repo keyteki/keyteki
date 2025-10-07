@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class TheFirstScroll extends Card {
     // After a player forges a key, each creature they control captures 1A from its own side.
@@ -18,4 +18,4 @@ class TheFirstScroll extends Card {
 
 TheFirstScroll.id = 'the-first-scroll';
 
-module.exports = TheFirstScroll;
+export default TheFirstScroll;

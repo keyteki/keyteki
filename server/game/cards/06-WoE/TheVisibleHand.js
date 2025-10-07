@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class TheVisibleHand extends Card {
     // Make 2 token creatures. Reveal your hand to your opponent.
@@ -17,4 +17,4 @@ class TheVisibleHand extends Card {
 
 TheVisibleHand.id = 'the-visible-hand';
 
-module.exports = TheVisibleHand;
+export default TheVisibleHand;

@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class GreyMonk extends Card {
     // Each friendly creature gets +1 armor.
@@ -20,4 +20,4 @@ class GreyMonk extends Card {
 
 GreyMonk.id = 'grey-monk';
 
-module.exports = GreyMonk;
+export default GreyMonk;

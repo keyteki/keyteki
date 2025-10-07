@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Exile extends Card {
     // Play: Give control of a friendly creature to your opponent.
@@ -21,4 +21,4 @@ class Exile extends Card {
 
 Exile.id = 'exile';
 
-module.exports = Exile;
+export default Exile;

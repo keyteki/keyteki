@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Volax extends Card {
     // Destroyed: Gain A equal to the A in your pool.
@@ -13,4 +13,4 @@ class Volax extends Card {
 
 Volax.id = 'volax';
 
-module.exports = Volax;
+export default Volax;

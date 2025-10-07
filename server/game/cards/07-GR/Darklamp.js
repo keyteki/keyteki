@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Darklamp extends Card {
     // Each friendly creature with A on it gains elusive.
@@ -19,4 +19,4 @@ class Darklamp extends Card {
 
 Darklamp.id = 'darklamp';
 
-module.exports = Darklamp;
+export default Darklamp;

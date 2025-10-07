@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class GratTattuu extends Card {
     // Each other friendly Brobnar creature gets +2 power.
@@ -13,4 +13,4 @@ class GratTattuu extends Card {
 
 GratTattuu.id = 'grat-tattuu';
 
-module.exports = GratTattuu;
+export default GratTattuu;

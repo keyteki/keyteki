@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class CallOfTheVoid extends Card {
     // Play: Exhaust a creature. If it was already exhausted, destroy it instead and its controller loses 1A.
@@ -29,4 +29,4 @@ class CallOfTheVoid extends Card {
 
 CallOfTheVoid.id = 'call-of-the-void';
 
-module.exports = CallOfTheVoid;
+export default CallOfTheVoid;

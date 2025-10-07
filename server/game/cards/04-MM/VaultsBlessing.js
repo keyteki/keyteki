@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class VaultsBlessing extends Card {
     // Play: Each player gains 1A for each Mutant creature they control.
@@ -42,4 +42,4 @@ class VaultsBlessing extends Card {
 
 VaultsBlessing.id = 'vault-s-blessing';
 
-module.exports = VaultsBlessing;
+export default VaultsBlessing;

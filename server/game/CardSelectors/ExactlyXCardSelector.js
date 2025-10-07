@@ -1,4 +1,4 @@
-const BaseCardSelector = require('./BaseCardSelector.js');
+import BaseCardSelector from './BaseCardSelector.js';
 
 class ExactlyXCardSelector extends BaseCardSelector {
     constructor(numCards, properties) {
@@ -45,4 +45,4 @@ class ExactlyXCardSelector extends BaseCardSelector {
     }
 }
 
-module.exports = ExactlyXCardSelector;
+export default ExactlyXCardSelector;

@@ -1,5 +1,5 @@
-const util = require('../util.js');
-const logger = require('../log.js');
+import { httpRequest } from '../util.js';
+import logger from '../log.js';
 
 class ChallongeService {
     async getTournamentsForUser(user) {
@@ -10,12 +10,12 @@ class ChallongeService {
         let personal, community;
 
         try {
-            personal = await util.httpRequest(
+            personal = await httpRequest(
                 `https://api.challonge.com/v1/tournaments.json?api_key=${user.challonge.key}`,
                 { json: true }
             );
             community = user.challonge.subdomain
-                ? await util.httpRequest(
+                ? await httpRequest(
                       `https://api.challonge.com/v1/tournaments.json?api_key=${user.challonge.key}&subdomain=${user.challonge.subdomain}`,
                       { json: true }
                   )
@@ -42,7 +42,7 @@ class ChallongeService {
 
         let matches;
         try {
-            matches = await util.httpRequest(
+            matches = await httpRequest(
                 `https://api.challonge.com/v1/tournaments/${tournamentId}/matches.json?api_key=${user.challonge.key}`,
                 { json: true }
             );
@@ -61,7 +61,7 @@ class ChallongeService {
 
         let participants;
         try {
-            participants = await util.httpRequest(
+            participants = await httpRequest(
                 `https://api.challonge.com/v1/tournaments/${tournamentId}/participants.json?api_key=${user.challonge.key}`,
                 { json: true }
             );
@@ -87,7 +87,7 @@ class ChallongeService {
                 let url = `https://api.challonge.com/v1/tournaments/${match.tournamentId}/matches/${match.matchId}/attachments.json?api_key=${user.challonge.key}`;
 
                 try {
-                    result = await util.httpRequest(url, {
+                    result = await httpRequest(url, {
                         method: 'POST',
                         json: true,
                         body: {
@@ -111,4 +111,4 @@ class ChallongeService {
     }
 }
 
-module.exports = ChallongeService;
+export default ChallongeService;

@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class BiomeDiscovery extends Card {
     // (T) Play: If the tide is high, you may look at the top 2 cards of your deck and discard 1 of them. Otherwise, raise the tide.
@@ -33,4 +33,4 @@ class BiomeDiscovery extends Card {
 
 BiomeDiscovery.id = 'biome-discovery';
 
-module.exports = BiomeDiscovery;
+export default BiomeDiscovery;

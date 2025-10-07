@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class ReveredMonk extends Card {
     // Revered Monk gets +2 armor for each of its sanctum neighbors
@@ -13,4 +13,4 @@ class ReveredMonk extends Card {
 
 ReveredMonk.id = 'revered-monk';
 
-module.exports = ReveredMonk;
+export default ReveredMonk;

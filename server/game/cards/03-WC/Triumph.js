@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Triumph extends Card {
     // Play: If there are no enemy creatures, exalt each friendly creature. If you do and there are 6 or more friendly creatures, forge a key at no cost.
@@ -22,4 +22,4 @@ class Triumph extends Card {
 
 Triumph.id = 'triumph';
 
-module.exports = Triumph;
+export default Triumph;

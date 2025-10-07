@@ -1,4 +1,4 @@
-const BlasterCard = require('./BlasterCard.js');
+import BlasterCard from './BlasterCard.js';
 
 class WallsBlaster extends BlasterCard {
     // This creature gains, Fight/Reap: You may deal 2D to a creature, or attach Walls Blaster to Chief Engineer Walls.
@@ -28,4 +28,4 @@ class WallsBlaster extends BlasterCard {
 
 WallsBlaster.id = 'walls--blaster';
 
-module.exports = WallsBlaster;
+export default WallsBlaster;

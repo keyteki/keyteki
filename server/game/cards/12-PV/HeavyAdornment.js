@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class HeavyAdornment extends Card {
     // This creature gains, "After Reap: Exalt each of this creature's neighbors."
@@ -15,4 +15,4 @@ class HeavyAdornment extends Card {
 
 HeavyAdornment.id = 'heavy-adornment';
 
-module.exports = HeavyAdornment;
+export default HeavyAdornment;

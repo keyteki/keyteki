@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class TheCardsWillTell extends Card {
     // During your opponent's turn, after your opponent draws a card outside of their "draw cards step", fulfill The Cards Will Tell.
@@ -19,4 +19,4 @@ class TheCardsWillTell extends Card {
 
 TheCardsWillTell.id = 'the-cards-will-tell';
 
-module.exports = TheCardsWillTell;
+export default TheCardsWillTell;

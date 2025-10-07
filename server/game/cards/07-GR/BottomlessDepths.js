@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class BottomlessDepths extends Card {
     // Each time you discard a card from your hand, put that card
@@ -20,4 +20,4 @@ class BottomlessDepths extends Card {
 
 BottomlessDepths.id = 'bottomless-depths';
 
-module.exports = BottomlessDepths;
+export default BottomlessDepths;

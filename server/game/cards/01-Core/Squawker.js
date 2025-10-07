@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Squawker extends Card {
     // Play: Ready a Mars creature or stun a non-Mars creature.
@@ -21,4 +21,4 @@ class Squawker extends Card {
 
 Squawker.id = 'squawker';
 
-module.exports = Squawker;
+export default Squawker;

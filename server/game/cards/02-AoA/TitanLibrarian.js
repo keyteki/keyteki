@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class TitanLibrarian extends Card {
     // At the end of your turn, if Titan Librarian is not on a flank, archive a card.
@@ -19,4 +19,4 @@ class TitanLibrarian extends Card {
 
 TitanLibrarian.id = 'titan-librarian';
 
-module.exports = TitanLibrarian;
+export default TitanLibrarian;

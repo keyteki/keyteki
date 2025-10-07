@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class QyxxlyxxGraveMaster extends Card {
     // Play: Purge a creature from a discard pile. Deal 2 D to each
@@ -33,4 +33,4 @@ class QyxxlyxxGraveMaster extends Card {
 
 QyxxlyxxGraveMaster.id = 'qyxxlyxx-grave-master';
 
-module.exports = QyxxlyxxGraveMaster;
+export default QyxxlyxxGraveMaster;

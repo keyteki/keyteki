@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Cadet extends Card {
     // Destroyed: Ready Cadet`s most powerful neighbor.
@@ -18,4 +18,4 @@ class Cadet extends Card {
 
 Cadet.id = 'cadet';
 
-module.exports = Cadet;
+export default Cadet;

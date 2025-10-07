@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class WailOfTheDamned extends Card {
     // Enhance PT. (These icons have already been added to cards in your deck.)
@@ -18,4 +18,4 @@ class WailOfTheDamned extends Card {
 
 WailOfTheDamned.id = 'wail-of-the-damned';
 
-module.exports = WailOfTheDamned;
+export default WailOfTheDamned;

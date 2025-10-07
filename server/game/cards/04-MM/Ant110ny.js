@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Ant110ny extends Card {
     // Play: Capture all of your opponents A.
@@ -26,4 +26,4 @@ class Ant110ny extends Card {
 
 Ant110ny.id = 'ant1-10ny';
 
-module.exports = Ant110ny;
+export default Ant110ny;

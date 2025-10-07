@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class AFairGame extends Card {
     // Play: Discard the top card of your opponents deck and reveal their hand. You gain 1A for each card of the discarded cards house revealed this way. Your opponent repeats the preceding effect on you.
@@ -68,4 +68,4 @@ class AFairGame extends Card {
 
 AFairGame.id = 'a-fair-game';
 
-module.exports = AFairGame;
+export default AFairGame;

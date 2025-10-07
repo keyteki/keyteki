@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class SkreelSwarm extends Card {
     // Play: Deal 1D to each enemy creature.
@@ -26,4 +26,4 @@ class SkreelSwarm extends Card {
 
 SkreelSwarm.id = 'skreel-swarm';
 
-module.exports = SkreelSwarm;
+export default SkreelSwarm;

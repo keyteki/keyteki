@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Blunderbore extends Card {
     // After Fight: If you are haunted, your opponent loses 2 A. Otherwise,
@@ -15,4 +15,4 @@ class Blunderbore extends Card {
 
 Blunderbore.id = 'blunderbore';
 
-module.exports = Blunderbore;
+export default Blunderbore;

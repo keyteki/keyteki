@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class SpadeTeller extends Card {
     // Play/After Fight/After Reap: Choose a house. Discard the top card of your deck. If that card belongs to the chosen house, gain 1.
@@ -27,4 +27,4 @@ class SpadeTeller extends Card {
 
 SpadeTeller.id = 'spade-teller';
 
-module.exports = SpadeTeller;
+export default SpadeTeller;

@@ -1,14 +1,15 @@
 {
     "include": ["server/**/*"],
     "compilerOptions": {
-        "module": "es6",
+        "module": "es2022",
         "moduleResolution": "node",
-        "target": "es6",
+        "target": "es2022",
         "sourceMap": true,
         "outDir": "build",
         "allowJs": true,
         "checkJs": true,
-        "lib": ["es2017"]
+        "allowSyntheticDefaultImports": true,
+        "lib": ["es2022"]
     },
     "exclude": ["node_modules"]
 }

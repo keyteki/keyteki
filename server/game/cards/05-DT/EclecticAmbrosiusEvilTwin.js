@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class EclecticAmbrosiusEvilTwin extends Card {
     // Reap: Put an ignorance counter on an enemy creature. As long as that creature has an ignorance counter, its text box is considered blank (except for traits).
@@ -22,4 +22,4 @@ class EclecticAmbrosiusEvilTwin extends Card {
 
 EclecticAmbrosiusEvilTwin.id = 'eclectic-ambrosius-evil-twin';
 
-module.exports = EclecticAmbrosiusEvilTwin;
+export default EclecticAmbrosiusEvilTwin;

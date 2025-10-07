@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class GiantGnawbill extends Card {
     // After a player chooses an active house, that player destroys an artifact of that house.
@@ -19,4 +19,4 @@ class GiantGnawbill extends Card {
 
 GiantGnawbill.id = 'giant-gnawbill';
 
-module.exports = GiantGnawbill;
+export default GiantGnawbill;

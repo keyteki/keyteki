@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Angwish extends Card {
     // For each damage on Angwish,
@@ -15,4 +15,4 @@ class Angwish extends Card {
 
 Angwish.id = 'angwish';
 
-module.exports = Angwish;
+export default Angwish;

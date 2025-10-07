@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Strug extends Card {
     // Play/Destroyed: Your opponent loses 1.
@@ -29,4 +29,4 @@ class Strug extends Card {
 
 Strug.id = 'strug';
 
-module.exports = Strug;
+export default Strug;

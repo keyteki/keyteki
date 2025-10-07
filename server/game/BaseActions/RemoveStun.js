@@ -1,6 +1,6 @@
-const AbilityContext = require('../AbilityContext');
-const BaseAbility = require('../baseability.js');
-const Costs = require('../costs.js');
+import AbilityContext from '../AbilityContext.js';
+import BaseAbility from '../baseability.js';
+import Costs from '../costs.js';
 
 class RemoveStun extends BaseAbility {
     constructor(card) {
@@ -59,4 +59,4 @@ class RemoveStun extends BaseAbility {
     }
 }
 
-module.exports = RemoveStun;
+export default RemoveStun;

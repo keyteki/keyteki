@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Nightforge extends Card {
     // Play: If you have not forged a key
@@ -17,4 +17,4 @@ class Nightforge extends Card {
 
 Nightforge.id = 'nightforge';
 
-module.exports = Nightforge;
+export default Nightforge;

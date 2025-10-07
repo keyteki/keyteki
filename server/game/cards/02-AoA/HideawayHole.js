@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class HideawayHole extends Card {
     // Omni: Sacrifice Hideaway Hole. Creatures you control gain elusive until the start of your next turn.
@@ -19,4 +19,4 @@ class HideawayHole extends Card {
 
 HideawayHole.id = 'hideaway-hole';
 
-module.exports = HideawayHole;
+export default HideawayHole;

@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class HoloCamo extends Card {
     // While this creature is ready, it cannot be dealt damage.
@@ -12,4 +12,4 @@ class HoloCamo extends Card {
 
 HoloCamo.id = 'holo-camo';
 
-module.exports = HoloCamo;
+export default HoloCamo;

@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class RazorsGambit extends Card {
     // Action: Ready and fight with a friendly Skyborn creature. If
@@ -36,4 +36,4 @@ class RazorsGambit extends Card {
 
 RazorsGambit.id = 'razor-s-gambit';
 
-module.exports = RazorsGambit;
+export default RazorsGambit;

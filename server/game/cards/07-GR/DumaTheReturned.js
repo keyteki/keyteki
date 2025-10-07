@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class DumaTheReturned extends Card {
     // Destroyed: Return the top 3 cards of your discard pile to your
@@ -21,4 +21,4 @@ class DumaTheReturned extends Card {
 
 DumaTheReturned.id = 'duma-the-returned';
 
-module.exports = DumaTheReturned;
+export default DumaTheReturned;

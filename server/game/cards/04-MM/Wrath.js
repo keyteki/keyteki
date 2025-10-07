@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Wrath extends Card {
     // Taunt. Poison. Skirmish.
@@ -19,4 +19,4 @@ class Wrath extends Card {
 
 Wrath.id = 'wrath';
 
-module.exports = Wrath;
+export default Wrath;

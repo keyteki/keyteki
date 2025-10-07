@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class LaurelWreath extends Card {
     // This creature gets +1 power for each amber on it.
@@ -16,4 +16,4 @@ class LaurelWreath extends Card {
 
 LaurelWreath.id = 'laurel-wreath';
 
-module.exports = LaurelWreath;
+export default LaurelWreath;

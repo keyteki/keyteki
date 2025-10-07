@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class TrialByWater extends Card {
     // (T) Play: Reset the tide. Until the start of your next turn, players cannot raise the tide.
@@ -19,4 +19,4 @@ class TrialByWater extends Card {
 
 TrialByWater.id = 'trial-by-water';
 
-module.exports = TrialByWater;
+export default TrialByWater;

@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Snippy extends Card {
     // Play: Deal 2 to a creature.
@@ -28,4 +28,4 @@ class Snippy extends Card {
 
 Snippy.id = 'snippy';
 
-module.exports = Snippy;
+export default Snippy;

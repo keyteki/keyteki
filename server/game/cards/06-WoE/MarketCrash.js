@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class MarketCrash extends Card {
     // Play: Destroy each non-token creature. Gain 2 chains.
@@ -17,4 +17,4 @@ class MarketCrash extends Card {
 
 MarketCrash.id = 'market-crash';
 
-module.exports = MarketCrash;
+export default MarketCrash;

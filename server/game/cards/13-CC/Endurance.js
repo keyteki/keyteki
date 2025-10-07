@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Endurance extends Card {
     // Each of Endurance's Skyborn neighbors gain, "After Reap: Ready and fight with this creature."
@@ -19,4 +19,4 @@ class Endurance extends Card {
 
 Endurance.id = 'endurance';
 
-module.exports = Endurance;
+export default Endurance;

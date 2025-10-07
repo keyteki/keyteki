@@ -1,7 +1,7 @@
-const Card = require('../../Card.js');
-const FightGameAction = require('../../GameActions/FightGameAction');
-const AbilityResolver = require('../../gamesteps/abilityresolver');
-const SimpleStep = require('../../gamesteps/simplestep');
+import Card from '../../Card.js';
+import FightGameAction from '../../GameActions/FightGameAction.js';
+import AbilityResolver from '../../gamesteps/abilityresolver.js';
+import SimpleStep from '../../gamesteps/simplestep.js';
 
 class SmiteAbilityResolver extends AbilityResolver {
     // Play: Ready and fight with a friendly creature. Deal 2D to the attacked creatures neighbors.
@@ -77,4 +77,4 @@ class Smite extends Card {
 
 Smite.id = 'smite';
 
-module.exports = Smite;
+export default Smite;

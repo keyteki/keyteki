@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class PhoticRaider extends Card {
     // Play: Capture 2A.
@@ -17,4 +17,4 @@ class PhoticRaider extends Card {
 
 PhoticRaider.id = 'photic-raider';
 
-module.exports = PhoticRaider;
+export default PhoticRaider;

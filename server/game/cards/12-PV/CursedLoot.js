@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class CursedLoot extends Card {
     // Treachery.
@@ -23,4 +23,4 @@ class CursedLoot extends Card {
 
 CursedLoot.id = 'cursed-loot';
 
-module.exports = CursedLoot;
+export default CursedLoot;

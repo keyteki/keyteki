@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class BrigadierOls extends Card {
     // Enhance .
@@ -14,4 +14,4 @@ class BrigadierOls extends Card {
 
 BrigadierOls.id = 'brigadier-ols';
 
-module.exports = BrigadierOls;
+export default BrigadierOls;

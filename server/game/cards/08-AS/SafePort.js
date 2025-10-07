@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class SafePort extends Card {
     // Play: If your yellow key is forged, a friendly creature
@@ -27,4 +27,4 @@ class SafePort extends Card {
 
 SafePort.id = 'safe-port';
 
-module.exports = SafePort;
+export default SafePort;

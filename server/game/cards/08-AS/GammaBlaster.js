@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class GammaBlaster extends Card {
     // This creature gains, “After Reap: Destroy an enemy creature with A on it.”
@@ -18,4 +18,4 @@ class GammaBlaster extends Card {
 
 GammaBlaster.id = 'gamma-blaster';
 
-module.exports = GammaBlaster;
+export default GammaBlaster;

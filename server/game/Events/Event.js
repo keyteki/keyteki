@@ -1,4 +1,4 @@
-const _ = require('underscore');
+import _ from 'underscore';
 
 class Event {
     constructor(name, params = {}, handler, gameAction) {
@@ -112,4 +112,4 @@ class Event {
     }
 }
 
-module.exports = Event;
+export default Event;

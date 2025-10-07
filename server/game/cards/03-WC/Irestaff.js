@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Irestaff extends Card {
     // Action: Enrage a creature. Give that creature a +1 power counter.
@@ -19,4 +19,4 @@ class Irestaff extends Card {
 
 Irestaff.id = 'irestaff';
 
-module.exports = Irestaff;
+export default Irestaff;

@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class SackOfCoins extends Card {
     // Play: Deal 1D to a creature for each
@@ -15,4 +15,4 @@ class SackOfCoins extends Card {
 
 SackOfCoins.id = 'sack-of-coins';
 
-module.exports = SackOfCoins;
+export default SackOfCoins;

@@ -1,4 +1,4 @@
-const PlayerAction = require('./PlayerAction');
+import PlayerAction from './PlayerAction.js';
 
 class FlipProphecyAction extends PlayerAction {
     setDefaultProperties() {
@@ -36,4 +36,4 @@ class FlipProphecyAction extends PlayerAction {
     }
 }
 
-module.exports = FlipProphecyAction;
+export default FlipProphecyAction;

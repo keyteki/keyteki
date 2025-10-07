@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Sentinel extends Card {
     // Action: Stun an enemy creature. If that creature was already
@@ -23,4 +23,4 @@ class Sentinel extends Card {
 
 Sentinel.id = 'sentinel';
 
-module.exports = Sentinel;
+export default Sentinel;

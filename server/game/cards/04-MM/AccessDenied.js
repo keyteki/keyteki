@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class AccessDenied extends Card {
     // This creature cannot reap.
@@ -11,4 +11,4 @@ class AccessDenied extends Card {
 
 AccessDenied.id = 'access-denied';
 
-module.exports = AccessDenied;
+export default AccessDenied;

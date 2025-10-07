@@ -1,4 +1,4 @@
-const BlasterCard = require('./BlasterCard.js');
+import BlasterCard from './BlasterCard.js';
 
 class IngramsBlaster extends BlasterCard {
     // This creature gains, Fight/Reap: You may deal 2D to a creature, or attach Ingrams Blaster to Medic Ingram.
@@ -24,4 +24,4 @@ class IngramsBlaster extends BlasterCard {
 
 IngramsBlaster.id = 'ingram-s-blaster';
 
-module.exports = IngramsBlaster;
+export default IngramsBlaster;

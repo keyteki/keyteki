@@ -1,5 +1,5 @@
-const Card = require('../../Card.js');
-const EventRegistrar = require('../../eventregistrar.js');
+import Card from '../../Card.js';
+import EventRegistrar from '../../eventregistrar.js';
 
 class NirborFlamewing extends Card {
     // At the start of your turn, if Nirbor Flamewing is in your
@@ -101,4 +101,4 @@ class NirborFlamewing extends Card {
 
 NirborFlamewing.id = 'nirbor-flamewing';
 
-module.exports = NirborFlamewing;
+export default NirborFlamewing;

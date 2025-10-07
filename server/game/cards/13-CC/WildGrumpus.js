@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class WildGrumpus extends Card {
     // Hazardous 3.
@@ -19,4 +19,4 @@ class WildGrumpus extends Card {
 
 WildGrumpus.id = 'wild-grumpus';
 
-module.exports = WildGrumpus;
+export default WildGrumpus;

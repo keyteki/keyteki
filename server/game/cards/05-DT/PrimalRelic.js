@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class PrimalRelic extends Card {
     // Play: Put  4A on Primal Relic from the common supply. Give 3 creatures a +1 power counter.
@@ -40,4 +40,4 @@ class PrimalRelic extends Card {
 
 PrimalRelic.id = 'primal-relic';
 
-module.exports = PrimalRelic;
+export default PrimalRelic;

@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class ShellOfAGhost extends Card {
     // Play: Destroy each creature that is not on a flank. Put a
@@ -34,4 +34,4 @@ class ShellOfAGhost extends Card {
 
 ShellOfAGhost.id = 'shell-of-a-ghost';
 
-module.exports = ShellOfAGhost;
+export default ShellOfAGhost;

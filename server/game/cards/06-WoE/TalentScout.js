@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class TalentScout extends Card {
     // Talent Scout may be used as if it belonged to the active house.
@@ -45,4 +45,4 @@ class TalentScout extends Card {
 
 TalentScout.id = 'talent-scout';
 
-module.exports = TalentScout;
+export default TalentScout;

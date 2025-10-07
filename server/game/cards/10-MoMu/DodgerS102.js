@@ -1,4 +1,4 @@
-const DodgerS10 = require('./DodgerS10.js');
+import DodgerS10 from './DodgerS10.js';
 
 class DodgerS102 extends DodgerS10 {
     constructor(owner, cardData) {
@@ -8,4 +8,4 @@ class DodgerS102 extends DodgerS10 {
 
 DodgerS102.id = 'dodger-s-102';
 
-module.exports = DodgerS102;
+export default DodgerS102;

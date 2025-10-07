@@ -1,4 +1,4 @@
-const PlayerAction = require('./PlayerAction');
+import PlayerAction from './PlayerAction.js';
 
 class TransferAmberAction extends PlayerAction {
     setDefaultProperties() {
@@ -35,4 +35,4 @@ class TransferAmberAction extends PlayerAction {
     }
 }
 
-module.exports = TransferAmberAction;
+export default TransferAmberAction;

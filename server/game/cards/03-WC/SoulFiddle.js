@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class SoulFiddle extends Card {
     // Action: Enrage a creature.
@@ -15,4 +15,4 @@ class SoulFiddle extends Card {
 
 SoulFiddle.id = 'soul-fiddle';
 
-module.exports = SoulFiddle;
+export default SoulFiddle;

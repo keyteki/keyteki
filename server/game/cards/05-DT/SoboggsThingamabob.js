@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class SoboggsThingamabob extends Card {
     // After your opponent forges a key, exhaust each creature they control.
@@ -16,4 +16,4 @@ class SoboggsThingamabob extends Card {
 
 SoboggsThingamabob.id = 'sobogg-s-thingamabob';
 
-module.exports = SoboggsThingamabob;
+export default SoboggsThingamabob;

@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class GauntletOfCommand extends Card {
     // Action: Ready and fight with a friendly creature.
@@ -19,4 +19,4 @@ class GauntletOfCommand extends Card {
 
 GauntletOfCommand.id = 'gauntlet-of-command';
 
-module.exports = GauntletOfCommand;
+export default GauntletOfCommand;

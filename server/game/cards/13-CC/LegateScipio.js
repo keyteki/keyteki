@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class LegateScipio extends Card {
     // Enhance .
@@ -16,4 +16,4 @@ class LegateScipio extends Card {
 
 LegateScipio.id = 'legate-scipio';
 
-module.exports = LegateScipio;
+export default LegateScipio;

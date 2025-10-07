@@ -1,4 +1,4 @@
-const AllPlayerPrompt = require('../allplayerprompt');
+import AllPlayerPrompt from '../allplayerprompt.js';
 
 class GameStartPrompt extends AllPlayerPrompt {
     constructor(game) {
@@ -31,4 +31,4 @@ class GameStartPrompt extends AllPlayerPrompt {
     }
 }
 
-module.exports = GameStartPrompt;
+export default GameStartPrompt;

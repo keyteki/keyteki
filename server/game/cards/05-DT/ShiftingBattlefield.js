@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class ShiftingBattlefield extends Card {
     // Play: Move a friendly creature anywhere in your battleline. That creature captures 1A.
@@ -20,4 +20,4 @@ class ShiftingBattlefield extends Card {
 
 ShiftingBattlefield.id = 'shifting-battlefield';
 
-module.exports = ShiftingBattlefield;
+export default ShiftingBattlefield;

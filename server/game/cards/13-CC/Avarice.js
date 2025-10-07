@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Avarice extends Card {
     // Play: This creature captures 2 amber from its own side.
@@ -15,4 +15,4 @@ class Avarice extends Card {
 
 Avarice.id = 'avarice';
 
-module.exports = Avarice;
+export default Avarice;

@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class TheFlyinSpecter extends Card {
     // (T) After your opponent raises the tide, destroy The Flyin’ Specter.
@@ -22,4 +22,4 @@ class TheFlyinSpecter extends Card {
 
 TheFlyinSpecter.id = 'the-flyin--specter';
 
-module.exports = TheFlyinSpecter;
+export default TheFlyinSpecter;

@@ -1,5 +1,5 @@
-const BaseAbility = require('./baseability.js');
-const EffectSource = require('./EffectSource.js');
+import BaseAbility from './baseability.js';
+import EffectSource from './EffectSource.js';
 
 class AbilityContext {
     constructor(properties) {
@@ -36,4 +36,4 @@ class AbilityContext {
     }
 }
 
-module.exports = AbilityContext;
+export default AbilityContext;

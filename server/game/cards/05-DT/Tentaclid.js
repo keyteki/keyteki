@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Tentaclid extends Card {
     // Skirmish. Taunt.
@@ -13,4 +13,4 @@ class Tentaclid extends Card {
 
 Tentaclid.id = 'tentaclid';
 
-module.exports = Tentaclid;
+export default Tentaclid;

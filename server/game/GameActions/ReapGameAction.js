@@ -1,4 +1,4 @@
-const CardGameAction = require('./CardGameAction');
+import CardGameAction from './CardGameAction.js';
 
 class ReapGameAction extends CardGameAction {
     setup() {
@@ -49,4 +49,4 @@ class ReapGameAction extends CardGameAction {
     }
 }
 
-module.exports = ReapGameAction;
+export default ReapGameAction;

@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class GhostlyDrVerokter extends Card {
     // Play/After Reap: Return a card from your discard pile to the
@@ -24,4 +24,4 @@ class GhostlyDrVerokter extends Card {
 
 GhostlyDrVerokter.id = 'ghostly-dr-verokter';
 
-module.exports = GhostlyDrVerokter;
+export default GhostlyDrVerokter;

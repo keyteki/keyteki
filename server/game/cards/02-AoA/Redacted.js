@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Redacted extends Card {
     // After you choose Logos as your active house, place 1A from the common supply on [REDACTED]. When there are 4or more A on [REDACTED], sacrifice it and forge a key at no cost.
@@ -31,4 +31,4 @@ class Redacted extends Card {
 
 Redacted.id = '[redacted]';
 
-module.exports = Redacted;
+export default Redacted;

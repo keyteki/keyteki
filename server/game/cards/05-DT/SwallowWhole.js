@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class SwallowWhole extends Card {
     // (T) Play only if the tide is high.
@@ -42,4 +42,4 @@ class SwallowWhole extends Card {
 
 SwallowWhole.id = 'swallow-whole';
 
-module.exports = SwallowWhole;
+export default SwallowWhole;

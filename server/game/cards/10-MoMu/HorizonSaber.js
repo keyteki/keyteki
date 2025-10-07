@@ -1,4 +1,4 @@
-const GiganticCard = require('../../GiganticCard.js');
+import GiganticCard from '../../GiganticCard.js';
 
 class HorizonSaber extends GiganticCard {
     // (Play only with the other half of Horizon Saber.)
@@ -34,4 +34,4 @@ class HorizonSaber extends GiganticCard {
 
 HorizonSaber.id = 'horizon-saber';
 
-module.exports = HorizonSaber;
+export default HorizonSaber;

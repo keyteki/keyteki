@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class FlyingBroomstick extends Card {
     // This creature gains elusive, and "After Reap: Heal all damage
@@ -27,4 +27,4 @@ class FlyingBroomstick extends Card {
 
 FlyingBroomstick.id = 'flying-broomstick';
 
-module.exports = FlyingBroomstick;
+export default FlyingBroomstick;

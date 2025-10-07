@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class DAL33T3R extends Card {
     // After Reap: Return 2 enemy creatures to their owner's hand.
@@ -29,4 +29,4 @@ class DAL33T3R extends Card {
 
 DAL33T3R.id = 'dal-33-t3r';
 
-module.exports = DAL33T3R;
+export default DAL33T3R;

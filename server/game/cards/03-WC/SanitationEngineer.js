@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class SanitationEngineer extends Card {
     // Hazardous 1. (Before this creature is attacked, deal 1D to the attacking enemy.)
@@ -16,4 +16,4 @@ class SanitationEngineer extends Card {
 
 SanitationEngineer.id = 'sanitation-engineer';
 
-module.exports = SanitationEngineer;
+export default SanitationEngineer;

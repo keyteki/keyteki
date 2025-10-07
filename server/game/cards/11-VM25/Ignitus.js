@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Ignitus extends Card {
     // Ignitus gains splash-attack X, where X is the number of exhausted creatures
@@ -13,4 +13,4 @@ class Ignitus extends Card {
 
 Ignitus.id = 'ignitus';
 
-module.exports = Ignitus;
+export default Ignitus;

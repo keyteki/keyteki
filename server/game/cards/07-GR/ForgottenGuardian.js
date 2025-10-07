@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class ForgottenGuardian extends Card {
     // Play: Purge a card from a discard pile.
@@ -29,4 +29,4 @@ class ForgottenGuardian extends Card {
 
 ForgottenGuardian.id = 'forgotten-guardian';
 
-module.exports = ForgottenGuardian;
+export default ForgottenGuardian;

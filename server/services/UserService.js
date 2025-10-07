@@ -1,12 +1,12 @@
-const moment = require('moment');
-const crypto = require('crypto');
-const EventEmitter = require('events');
-const uuid = require('uuid');
+import moment from 'moment';
+import crypto from 'node:crypto';
+import { EventEmitter } from 'node:events';
+import uuid from 'uuid';
 
-const logger = require('../log');
-const User = require('../models/User');
-const db = require('../db');
-const { expand } = require('../Array');
+import logger from '../log.js';
+import User from '../models/User.js';
+import db from '../db/index.js';
+import { expand } from '../Array.js';
 
 class UserService extends EventEmitter {
     constructor(configService) {
@@ -733,4 +733,4 @@ class UserService extends EventEmitter {
     }
 }
 
-module.exports = UserService;
+export default UserService;

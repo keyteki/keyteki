@@ -1,5 +1,5 @@
-const _ = require('underscore');
-const Card = require('../../Card.js');
+import _ from 'underscore';
+import Card from '../../Card.js';
 
 class Keyforgery extends Card {
     // When your opponent would forge a key, that player names a house. Reveal a random card from your hand. If that card is not of the named house, destroy Keyforgery and they do not forge that key (no A is spent).
@@ -38,4 +38,4 @@ class Keyforgery extends Card {
 
 Keyforgery.id = 'keyforgery';
 
-module.exports = Keyforgery;
+export default Keyforgery;

@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class SubtleOtto extends Card {
     // Play: Your opponent discards a random card from their hand.
@@ -11,4 +11,4 @@ class SubtleOtto extends Card {
 
 SubtleOtto.id = 'subtle-otto';
 
-module.exports = SubtleOtto;
+export default SubtleOtto;

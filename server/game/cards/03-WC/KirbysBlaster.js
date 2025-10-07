@@ -1,4 +1,4 @@
-const BlasterCard = require('./BlasterCard.js');
+import BlasterCard from './BlasterCard.js';
 
 class KirbysBlaster extends BlasterCard {
     // This creature gains, Fight/Reap: You may deal 2D to a creature, or attach Kirbys Blaster to Com. Officer Kirby.
@@ -20,4 +20,4 @@ class KirbysBlaster extends BlasterCard {
 
 KirbysBlaster.id = 'kirby-s-blaster';
 
-module.exports = KirbysBlaster;
+export default KirbysBlaster;

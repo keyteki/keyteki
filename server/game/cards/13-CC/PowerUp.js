@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class PowerUp extends Card {
     // Play: Give a friendly creature two +1 power counters. If that creature is the most powerful creature, archive this card.
@@ -25,4 +25,4 @@ class PowerUp extends Card {
 
 PowerUp.id = 'power-up';
 
-module.exports = PowerUp;
+export default PowerUp;

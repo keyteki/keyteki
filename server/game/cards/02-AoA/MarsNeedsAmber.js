@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class MarsNeedsAmber extends Card {
     // Play: Each damaged enemy non-Mars creature captures 1A from their own side.
@@ -18,4 +18,4 @@ class MarsNeedsAmber extends Card {
 
 MarsNeedsAmber.id = 'mars-needs-æmber';
 
-module.exports = MarsNeedsAmber;
+export default MarsNeedsAmber;

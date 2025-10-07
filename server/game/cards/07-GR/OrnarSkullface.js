@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class OrnarSkullface extends Card {
     // Scrap: Deal 3 to a creature.
@@ -14,4 +14,4 @@ class OrnarSkullface extends Card {
 
 OrnarSkullface.id = 'ornar-skullface';
 
-module.exports = OrnarSkullface;
+export default OrnarSkullface;

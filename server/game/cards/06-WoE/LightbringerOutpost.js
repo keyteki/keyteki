@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class LightbringerOutpost extends Card {
     // Action: Put a friendly creature on the bottom of its owner`s deck. If you do, a friendly creature captures 3 Aember.
@@ -26,4 +26,4 @@ class LightbringerOutpost extends Card {
 
 LightbringerOutpost.id = 'lightbringer-outpost';
 
-module.exports = LightbringerOutpost;
+export default LightbringerOutpost;

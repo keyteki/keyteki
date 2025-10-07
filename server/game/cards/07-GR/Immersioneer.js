@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Immersioneer extends Card {
     // After Reap: Discard the top 3 cards of any player's deck.
@@ -49,4 +49,4 @@ class Immersioneer extends Card {
 
 Immersioneer.id = 'immersioneer';
 
-module.exports = Immersioneer;
+export default Immersioneer;

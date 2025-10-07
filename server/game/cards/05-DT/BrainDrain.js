@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class BrainDrain extends Card {
     // Play: Look at your opponent's hand. Choose a card from it and put it on top of their deck.
@@ -19,4 +19,4 @@ class BrainDrain extends Card {
 
 BrainDrain.id = 'brain-drain';
 
-module.exports = BrainDrain;
+export default BrainDrain;

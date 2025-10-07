@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Kaspara extends Card {
     // X is the combined total of between each player’s pools.
@@ -45,4 +45,4 @@ class Kaspara extends Card {
 
 Kaspara.id = 'kaspara';
 
-module.exports = Kaspara;
+export default Kaspara;

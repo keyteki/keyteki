@@ -1,5 +1,5 @@
-const Card = require('../../Card.js');
-const EventRegistrar = require('../../eventregistrar.js');
+import Card from '../../Card.js';
+import EventRegistrar from '../../eventregistrar.js';
 
 class Alaka extends Card {
     // If you have used a creature to fight this turn, Alaka enters play ready.
@@ -26,4 +26,4 @@ class Alaka extends Card {
 
 Alaka.id = 'alaka';
 
-module.exports = Alaka;
+export default Alaka;

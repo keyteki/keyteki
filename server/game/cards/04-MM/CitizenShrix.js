@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class CitizenShrix extends Card {
     // Play/Reap: Exalt Citizen Shrix. Steal 1A.
@@ -16,4 +16,4 @@ class CitizenShrix extends Card {
 
 CitizenShrix.id = 'citizen-shrix';
 
-module.exports = CitizenShrix;
+export default CitizenShrix;

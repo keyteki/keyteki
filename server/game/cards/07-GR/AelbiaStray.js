@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class AelbiaStray extends Card {
     // If you are haunted, Ælbia Stray enters play ready.
@@ -19,4 +19,4 @@ class AelbiaStray extends Card {
 
 AelbiaStray.id = 'ælbia-stray';
 
-module.exports = AelbiaStray;
+export default AelbiaStray;

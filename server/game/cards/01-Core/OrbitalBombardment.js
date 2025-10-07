@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class OrbitalBombardment extends Card {
     // Play: Reveal any number of Mars cards from your hand. For each card revealed this way, deal 2D to a creature. (You may choose a different creature each time.)
@@ -23,4 +23,4 @@ class OrbitalBombardment extends Card {
 
 OrbitalBombardment.id = 'orbital-bombardment';
 
-module.exports = OrbitalBombardment;
+export default OrbitalBombardment;

@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class RetrotechnicianLe extends Card {
     // If you are haunted, Retrotechnician Le enters play ready.
@@ -25,4 +25,4 @@ class RetrotechnicianLe extends Card {
 
 RetrotechnicianLe.id = 'retrotechnician-le';
 
-module.exports = RetrotechnicianLe;
+export default RetrotechnicianLe;

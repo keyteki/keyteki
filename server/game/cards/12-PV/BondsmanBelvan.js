@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class BondsmanBelvan extends Card {
     // After Fight/After Reap: Look at the top card of your opponent's deck. You may discard it.
@@ -35,4 +35,4 @@ class BondsmanBelvan extends Card {
 
 BondsmanBelvan.id = 'bondsman-belvan';
 
-module.exports = BondsmanBelvan;
+export default BondsmanBelvan;

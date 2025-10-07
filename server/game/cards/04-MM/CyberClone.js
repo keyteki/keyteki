@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class CyberClone extends Card {
     // Play: Purge another creature. Until Cyber-Clone leaves play, it has power equal to the purged creatures power, and gains that creatures armor, keywords, and traits.
@@ -48,4 +48,4 @@ class CyberClone extends Card {
 
 CyberClone.id = 'cyber-clone';
 
-module.exports = CyberClone;
+export default CyberClone;

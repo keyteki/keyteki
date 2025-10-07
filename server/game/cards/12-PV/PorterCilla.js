@@ -1,5 +1,5 @@
-const Card = require('../../Card.js');
-const _ = require('underscore');
+import Card from '../../Card.js';
+import _ from 'underscore';
 
 class PorterCilla extends Card {
     // After Reap: Put a random card from your opponent's hand on top of their deck.
@@ -16,4 +16,4 @@ class PorterCilla extends Card {
 
 PorterCilla.id = 'porter-cilla';
 
-module.exports = PorterCilla;
+export default PorterCilla;

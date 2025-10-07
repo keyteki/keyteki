@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class DissonantChord extends Card {
     // Play: Deal 3D to a creature. If this damage destroys that creature, stun each of its neighbors after it leaves play.
@@ -32,4 +32,4 @@ class DissonantChord extends Card {
 
 DissonantChord.id = 'dissonant-chord';
 
-module.exports = DissonantChord;
+export default DissonantChord;

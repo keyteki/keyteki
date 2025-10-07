@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class CincinnatusRex extends Card {
     // If there are no enemy creatures, destroy Cincinnatus Rex.
@@ -33,4 +33,4 @@ class CincinnatusRex extends Card {
 
 CincinnatusRex.id = 'cincinnatus-rex';
 
-module.exports = CincinnatusRex;
+export default CincinnatusRex;

@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class CulturalExchange extends Card {
     // Play: Your opponent puts each card from their archives into their hand.
@@ -20,4 +20,4 @@ class CulturalExchange extends Card {
 
 CulturalExchange.id = 'cultural-exchange';
 
-module.exports = CulturalExchange;
+export default CulturalExchange;

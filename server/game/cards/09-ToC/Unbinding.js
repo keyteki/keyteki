@@ -1,5 +1,5 @@
-const Card = require('../../Card.js');
-const EventRegistrar = require('../../eventregistrar.js');
+import Card from '../../Card.js';
+import EventRegistrar from '../../eventregistrar.js';
 
 class Unbinding extends Card {
     // Play: Make a token creature. If a friendly creature was
@@ -42,4 +42,4 @@ class Unbinding extends Card {
 
 Unbinding.id = 'unbinding';
 
-module.exports = Unbinding;
+export default Unbinding;

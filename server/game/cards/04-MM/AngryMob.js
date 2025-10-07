@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class AngryMob extends Card {
     // Before Fight: You may discard cards from the top of your deck until you discard an Angry Mob or run out of cards. If you discard an Angry Mob this way, put it into your hand.
@@ -33,4 +33,4 @@ class AngryMob extends Card {
 
 AngryMob.id = 'angry-mob';
 
-module.exports = AngryMob;
+export default AngryMob;

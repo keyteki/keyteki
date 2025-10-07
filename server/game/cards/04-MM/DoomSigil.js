@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class DoomSigil extends Card {
     // Each creature gains poison.
@@ -22,4 +22,4 @@ class DoomSigil extends Card {
 
 DoomSigil.id = 'doom-sigil';
 
-module.exports = DoomSigil;
+export default DoomSigil;

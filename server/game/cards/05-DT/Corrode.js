@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Corrode extends Card {
     // Play: Choose one:
@@ -65,4 +65,4 @@ class Corrode extends Card {
 
 Corrode.id = 'corrode';
 
-module.exports = Corrode;
+export default Corrode;

@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Hyde extends Card {
     // Reap: Draw a card. If you control Velum, draw 2 cards instead.
@@ -25,4 +25,4 @@ class Hyde extends Card {
 
 Hyde.id = 'hyde';
 
-module.exports = Hyde;
+export default Hyde;

@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Toad extends Card {
     // Toad cannot reap.
@@ -11,4 +11,4 @@ class Toad extends Card {
 
 Toad.id = 'toad';
 
-module.exports = Toad;
+export default Toad;

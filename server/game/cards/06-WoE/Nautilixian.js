@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Nautilixian extends Card {
     // Nautilixan cannot be used unless you have used 1 or more
@@ -28,4 +28,4 @@ class Nautilixian extends Card {
 
 Nautilixian.id = 'nautilixian';
 
-module.exports = Nautilixian;
+export default Nautilixian;

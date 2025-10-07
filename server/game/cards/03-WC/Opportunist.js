@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Opportunist extends Card {
     // This creature gains elusive. (The first time this creature is attacked each turn, no damage is dealt.)
@@ -19,4 +19,4 @@ class Opportunist extends Card {
 
 Opportunist.id = 'opportunist';
 
-module.exports = Opportunist;
+export default Opportunist;

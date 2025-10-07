@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class HypnoticCommand extends Card {
     // Play: For each friendly Mars creature, choose an enemy creature to capture 1A from their own side.
@@ -22,4 +22,4 @@ class HypnoticCommand extends Card {
 
 HypnoticCommand.id = 'hypnotic-command';
 
-module.exports = HypnoticCommand;
+export default HypnoticCommand;

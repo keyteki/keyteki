@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class BaldricTheBold extends Card {
     // Before Fight: If the creature Baldric the Bold fights is the most powerful enemy creature, gain 2A.
@@ -21,4 +21,4 @@ class BaldricTheBold extends Card {
 
 BaldricTheBold.id = 'baldric-the-bold';
 
-module.exports = BaldricTheBold;
+export default BaldricTheBold;

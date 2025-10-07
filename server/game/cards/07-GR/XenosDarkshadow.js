@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class XenosDarkshadow extends Card {
     // Assault X. Hazardous X. Splash-attack X.
@@ -32,4 +32,4 @@ class XenosDarkshadow extends Card {
 
 XenosDarkshadow.id = 'xenos-darkshadow';
 
-module.exports = XenosDarkshadow;
+export default XenosDarkshadow;

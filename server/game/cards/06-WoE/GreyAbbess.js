@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class GreyAbess extends Card {
     // Play: Make a token creature. Each friendly token creature gets +1 armor
@@ -15,4 +15,4 @@ class GreyAbess extends Card {
 
 GreyAbess.id = 'grey-abbess';
 
-module.exports = GreyAbess;
+export default GreyAbess;

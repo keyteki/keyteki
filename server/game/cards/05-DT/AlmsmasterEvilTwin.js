@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class AlmsmasterEvilTwin extends Card {
     // Deploy.
@@ -15,4 +15,4 @@ class AlmsmasterEvilTwin extends Card {
 
 AlmsmasterEvilTwin.id = 'almsmaster-evil-twin';
 
-module.exports = AlmsmasterEvilTwin;
+export default AlmsmasterEvilTwin;

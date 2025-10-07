@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class KelifiDragon extends Card {
     // Kelifi Dragon cannot be played unless you have 7<A> or more.
@@ -22,4 +22,4 @@ class KelifiDragon extends Card {
 
 KelifiDragon.id = 'kelifi-dragon';
 
-module.exports = KelifiDragon;
+export default KelifiDragon;

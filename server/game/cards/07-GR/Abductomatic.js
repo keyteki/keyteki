@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class AbductOMatic extends Card {
     // After Fight: If you are haunted, capture 2A.
@@ -25,4 +25,4 @@ class AbductOMatic extends Card {
 
 AbductOMatic.id = 'abduct-o-matic';
 
-module.exports = AbductOMatic;
+export default AbductOMatic;

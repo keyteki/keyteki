@@ -1,4 +1,4 @@
-const AllPlayerPrompt = require('./allplayerprompt.js');
+import AllPlayerPrompt from './allplayerprompt.js';
 
 class HouseTieBreakPrompt extends AllPlayerPrompt {
     constructor(game) {
@@ -39,4 +39,4 @@ class HouseTieBreakPrompt extends AllPlayerPrompt {
     }
 }
 
-module.exports = HouseTieBreakPrompt;
+export default HouseTieBreakPrompt;

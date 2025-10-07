@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class LethalDistraction extends Card {
     // Play: Choose a creature. For the remainder of the turn, whenever this creature takes damage, it takes an additional 2D.
@@ -17,4 +17,4 @@ class LethalDistraction extends Card {
 
 LethalDistraction.id = 'lethal-distraction';
 
-module.exports = LethalDistraction;
+export default LethalDistraction;

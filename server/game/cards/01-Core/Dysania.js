@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Dysania extends Card {
     // Play: Your opponent discards each of their archived cards. You gain 1A for each card discarded this way.
@@ -27,4 +27,4 @@ class Dysania extends Card {
 
 Dysania.id = 'dysania';
 
-module.exports = Dysania;
+export default Dysania;

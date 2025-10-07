@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class GeneticBlast extends Card {
     // Play: Deal 2Damage to a creature and each other creature with
@@ -26,4 +26,4 @@ class GeneticBlast extends Card {
 
 GeneticBlast.id = 'genetic-blast';
 
-module.exports = GeneticBlast;
+export default GeneticBlast;

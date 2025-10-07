@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Sleight extends Card {
     // Destroyed: Shuffle each creature into its owner's deck.
@@ -36,4 +36,4 @@ class Sleight extends Card {
 
 Sleight.id = 'sleight';
 
-module.exports = Sleight;
+export default Sleight;

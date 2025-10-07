@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class CrystalHive extends Card {
     // Action: For the remainder of the turn, gain 1<A> each time a creature reaps.
@@ -17,4 +17,4 @@ class CrystalHive extends Card {
 
 CrystalHive.id = 'crystal-hive';
 
-module.exports = CrystalHive;
+export default CrystalHive;

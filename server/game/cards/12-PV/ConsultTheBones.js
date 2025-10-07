@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class ConsultTheBones extends Card {
     // Play: Discard the top card of each player's deck. For each card
@@ -26,4 +26,4 @@ class ConsultTheBones extends Card {
 
 ConsultTheBones.id = 'consult-the-bones';
 
-module.exports = ConsultTheBones;
+export default ConsultTheBones;

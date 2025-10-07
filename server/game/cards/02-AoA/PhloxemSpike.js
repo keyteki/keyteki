@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class PhloxemSpike extends Card {
     // Play: If there are no friendly creatures in play, destroy each creature not on a flank.
@@ -15,4 +15,4 @@ class PhloxemSpike extends Card {
 
 PhloxemSpike.id = 'phloxem-spike';
 
-module.exports = PhloxemSpike;
+export default PhloxemSpike;

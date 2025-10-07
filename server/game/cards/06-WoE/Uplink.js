@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Uplink extends Card {
     // This creature gains, Action: Make a token creature for each of this creatures nonStar Alliance neighbors.
@@ -17,4 +17,4 @@ class Uplink extends Card {
 
 Uplink.id = 'uplink';
 
-module.exports = Uplink;
+export default Uplink;

@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class GiantSloth extends Card {
     // You cannot use this card unless you have discarded an Untamed card from your hand this turn.
@@ -17,4 +17,4 @@ class GiantSloth extends Card {
 
 GiantSloth.id = 'giant-sloth';
 
-module.exports = GiantSloth;
+export default GiantSloth;

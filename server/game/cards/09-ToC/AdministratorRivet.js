@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class AdministratorRivet extends Card {
     // Play: Make a token creature. If you are haunted, each friendly
@@ -20,4 +20,4 @@ class AdministratorRivet extends Card {
 
 AdministratorRivet.id = 'administrator-rivet';
 
-module.exports = AdministratorRivet;
+export default AdministratorRivet;

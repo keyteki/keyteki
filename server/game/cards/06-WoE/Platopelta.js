@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Platopelta extends Card {
     // After Reap: If Platopelta has a wisdom counter, draw 1 card,
@@ -42,4 +42,4 @@ class Platopelta extends Card {
 
 Platopelta.id = 'platopelta';
 
-module.exports = Platopelta;
+export default Platopelta;

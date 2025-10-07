@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class SkipperHuko extends Card {
     // After Reap: Capture 1A. If you do, exalt each enemy flank creature.
@@ -26,4 +26,4 @@ class SkipperHuko extends Card {
 
 SkipperHuko.id = 'skipper-hukŏ';
 
-module.exports = SkipperHuko;
+export default SkipperHuko;

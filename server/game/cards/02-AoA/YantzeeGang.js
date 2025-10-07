@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class YantzeeGang extends Card {
     // Action: Steal 1A.
@@ -11,4 +11,4 @@ class YantzeeGang extends Card {
 
 YantzeeGang.id = 'yantzee-gang';
 
-module.exports = YantzeeGang;
+export default YantzeeGang;

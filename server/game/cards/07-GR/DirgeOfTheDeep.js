@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class DirgeOfTheDeep extends Card {
     // Play: Discard the bottom card of your opponent’s deck. Exhaust
@@ -25,4 +25,4 @@ class DirgeOfTheDeep extends Card {
 
 DirgeOfTheDeep.id = 'dirge-of-the-deep';
 
-module.exports = DirgeOfTheDeep;
+export default DirgeOfTheDeep;

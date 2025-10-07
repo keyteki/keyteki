@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class OstentatiousMount extends Card {
     // Play: Move this creature anywhere in its controller's battleline.
@@ -21,4 +21,4 @@ class OstentatiousMount extends Card {
 
 OstentatiousMount.id = 'ostentatious-mount';
 
-module.exports = OstentatiousMount;
+export default OstentatiousMount;

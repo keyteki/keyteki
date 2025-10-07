@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class BrackishShoreline extends Card {
     // After a creature fights, it does not ready during its controller's next "ready cards" step.
@@ -20,4 +20,4 @@ class BrackishShoreline extends Card {
 
 BrackishShoreline.id = 'brackish-shoreline';
 
-module.exports = BrackishShoreline;
+export default BrackishShoreline;

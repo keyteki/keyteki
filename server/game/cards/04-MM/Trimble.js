@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Trimble extends Card {
     // Each Mutant creature gains skirmish.
@@ -13,4 +13,4 @@ class Trimble extends Card {
 
 Trimble.id = 'trimble';
 
-module.exports = Trimble;
+export default Trimble;

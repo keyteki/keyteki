@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class TheSting extends Card {
     // Skip your forge a key step.
@@ -36,4 +36,4 @@ class TheSting extends Card {
 
 TheSting.id = 'the-sting';
 
-module.exports = TheSting;
+export default TheSting;

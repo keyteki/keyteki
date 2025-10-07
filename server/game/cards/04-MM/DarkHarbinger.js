@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class DarkHarbinger extends Card {
     // After you play an Untamed action card, ready Dark Harbinger.
@@ -17,4 +17,4 @@ class DarkHarbinger extends Card {
 
 DarkHarbinger.id = 'dark-harbinger';
 
-module.exports = DarkHarbinger;
+export default DarkHarbinger;

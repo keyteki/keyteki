@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Tocsin extends Card {
     // Reap: Your opponent discards a random card from their hand.
@@ -11,4 +11,4 @@ class Tocsin extends Card {
 
 Tocsin.id = 'tocsin';
 
-module.exports = Tocsin;
+export default Tocsin;

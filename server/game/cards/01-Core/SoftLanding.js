@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class SoftLanding extends Card {
     // Play: The next creature or artifact you play this turn enters play ready.
@@ -25,4 +25,4 @@ class SoftLanding extends Card {
 
 SoftLanding.id = 'soft-landing';
 
-module.exports = SoftLanding;
+export default SoftLanding;

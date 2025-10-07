@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class CustomVirus extends Card {
     // Omni: Sacrifice Custom Virus. Purge a creature from your hand. Destroy each creature that shares a trait with the purged creature.
@@ -28,4 +28,4 @@ class CustomVirus extends Card {
 
 CustomVirus.id = 'custom-virus';
 
-module.exports = CustomVirus;
+export default CustomVirus;

@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class DiplomatAgung extends Card {
     // Play/Fight/Reap: For the remainder of the turn, a friendly creature belongs to the house of your choice in addition to its other houses.
@@ -27,4 +27,4 @@ class DiplomatAgung extends Card {
 
 DiplomatAgung.id = 'diplomat-agung';
 
-module.exports = DiplomatAgung;
+export default DiplomatAgung;

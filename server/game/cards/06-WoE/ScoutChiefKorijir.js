@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class ScoutChiefKorijir extends Card {
     //Play: Make a token creature. After Fight/After Reap: Make a token creature.
@@ -13,4 +13,4 @@ class ScoutChiefKorijir extends Card {
 
 ScoutChiefKorijir.id = 'scout-chief-korijir';
 
-module.exports = ScoutChiefKorijir;
+export default ScoutChiefKorijir;

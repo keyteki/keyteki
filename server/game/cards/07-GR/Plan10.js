@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Plan10 extends Card {
     // At the end of each player's turn, return a card from under Plan
@@ -38,4 +38,4 @@ class Plan10 extends Card {
 
 Plan10.id = 'plan-10';
 
-module.exports = Plan10;
+export default Plan10;

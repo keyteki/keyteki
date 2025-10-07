@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class ForgeCompiler extends Card {
     // After your opponent forges a key, destroy Forge Compiler and ward each friendly creature.
@@ -20,4 +20,4 @@ class ForgeCompiler extends Card {
 
 ForgeCompiler.id = 'forge-compiler';
 
-module.exports = ForgeCompiler;
+export default ForgeCompiler;

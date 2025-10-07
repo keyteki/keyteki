@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Mug extends Card {
     // Play: Move 1 from a creature to your pool. Deal 2 to that creature.
@@ -22,4 +22,4 @@ class Mug extends Card {
 
 Mug.id = 'mug';
 
-module.exports = Mug;
+export default Mug;

@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Grondal extends Card {
     // Play: Make 2 token creatures.
@@ -28,4 +28,4 @@ class Grondal extends Card {
 
 Grondal.id = 'grondal';
 
-module.exports = Grondal;
+export default Grondal;

@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class HeavyweightMorik extends Card {
     // Scrap: Deal 2 to a friendly creature and 2 to an enemy
@@ -29,4 +29,4 @@ class HeavyweightMorik extends Card {
 
 HeavyweightMorik.id = 'heavyweight-morik';
 
-module.exports = HeavyweightMorik;
+export default HeavyweightMorik;

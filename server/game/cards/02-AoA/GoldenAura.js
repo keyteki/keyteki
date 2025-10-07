@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class GoldenAura extends Card {
     // Play: Choose a creature. Fully heal the chosen creature. For the remainder of the turn, the chosen creature is considered to be in house Sanctum and cannot be dealt damage.
@@ -22,4 +22,4 @@ class GoldenAura extends Card {
 
 GoldenAura.id = 'golden-aura';
 
-module.exports = GoldenAura;
+export default GoldenAura;

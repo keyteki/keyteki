@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class WitchQueen extends Card {
     // Each other friendly Witch creature enters play ready.
@@ -32,4 +32,4 @@ class WitchQueen extends Card {
 
 WitchQueen.id = 'witch-queen';
 
-module.exports = WitchQueen;
+export default WitchQueen;

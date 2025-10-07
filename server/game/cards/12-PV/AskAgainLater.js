@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class AskAgainLater extends Card {
     // Each time your opponent chooses their active house, they must name a house on your identity card. Reveal the top card of your deck. If the revealed card does not match the named house, fulfill Ask Again Later.
@@ -30,4 +30,4 @@ class AskAgainLater extends Card {
 
 AskAgainLater.id = 'ask-again-later';
 
-module.exports = AskAgainLater;
+export default AskAgainLater;

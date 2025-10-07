@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class PerfectHarmony extends Card {
     // Play: Draw 2 cards, gain 2A, and archive a card if you control creatures from 3 or more different houses.
@@ -24,4 +24,4 @@ class PerfectHarmony extends Card {
 
 PerfectHarmony.id = 'perfect-harmony';
 
-module.exports = PerfectHarmony;
+export default PerfectHarmony;

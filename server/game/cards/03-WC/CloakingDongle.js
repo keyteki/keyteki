@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class CloakingDongle extends Card {
     // This creature and each of its neighbors gains elusive. (The first time this creature is attacked each turn, no damage is dealt.)
@@ -17,4 +17,4 @@ class CloakingDongle extends Card {
 
 CloakingDongle.id = 'cloaking-dongle';
 
-module.exports = CloakingDongle;
+export default CloakingDongle;

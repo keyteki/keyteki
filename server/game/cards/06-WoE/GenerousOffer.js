@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class GenerousOffer extends Card {
     //Play: Destroy a friendly creature. If you do, steal 2A.
@@ -18,4 +18,4 @@ class GenerousOffer extends Card {
 
 GenerousOffer.id = 'generous-offer';
 
-module.exports = GenerousOffer;
+export default GenerousOffer;

@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class DumaTheMartyr extends Card {
     // Destroyed: Fully heal each other friendly creature and draw 2cards.
@@ -20,4 +20,4 @@ class DumaTheMartyr extends Card {
 
 DumaTheMartyr.id = 'duma-the-martyr';
 
-module.exports = DumaTheMartyr;
+export default DumaTheMartyr;

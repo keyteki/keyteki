@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class HeadsIWin extends Card {
     // At the end of your turn, you may flip Heads, I Win.
@@ -35,4 +35,4 @@ class HeadsIWin extends Card {
 
 HeadsIWin.id = 'heads-i-win';
 
-module.exports = HeadsIWin;
+export default HeadsIWin;

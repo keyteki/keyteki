@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class VaporImp extends Card {
     // After Reap: Discard a random card from your hand. During your
@@ -35,4 +35,4 @@ class VaporImp extends Card {
 
 VaporImp.id = 'vapor-imp';
 
-module.exports = VaporImp;
+export default VaporImp;

@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class PortalGuardian extends Card {
     // Scrap: A friendly creature captures 1A.
@@ -16,4 +16,4 @@ class PortalGuardian extends Card {
 
 PortalGuardian.id = 'portal-guardian';
 
-module.exports = PortalGuardian;
+export default PortalGuardian;

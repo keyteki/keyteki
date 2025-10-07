@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class DisabledSecurity extends Card {
     // Play: Discard the top 3 cards of your opponent's deck. Play 1 of the discarded cards as if it were yours.
@@ -28,4 +28,4 @@ class DisabledSecurity extends Card {
 
 DisabledSecurity.id = 'disabled-security';
 
-module.exports = DisabledSecurity;
+export default DisabledSecurity;

@@ -1,4 +1,4 @@
-const Clock = require('./Clock');
+import Clock from './Clock.js';
 
 class ChessClock extends Clock {
     constructor(player, time) {
@@ -24,4 +24,4 @@ class ChessClock extends Clock {
     }
 }
 
-module.exports = ChessClock;
+export default ChessClock;

@@ -1,4 +1,4 @@
-const PlayerAction = require('./PlayerAction');
+import PlayerAction from './PlayerAction.js';
 
 class RearrangeCardsAction extends PlayerAction {
     setDefaultProperties() {
@@ -61,4 +61,4 @@ class RearrangeCardsAction extends PlayerAction {
     }
 }
 
-module.exports = RearrangeCardsAction;
+export default RearrangeCardsAction;

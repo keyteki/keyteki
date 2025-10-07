@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class BinaryMoray extends Card {
     // (T) After you raise the tide, ready Binary Moray.
@@ -31,4 +31,4 @@ class BinaryMoray extends Card {
 
 BinaryMoray.id = 'binary-moray';
 
-module.exports = BinaryMoray;
+export default BinaryMoray;

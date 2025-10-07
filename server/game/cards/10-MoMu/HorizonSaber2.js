@@ -1,4 +1,4 @@
-const HorizonSaber = require('./HorizonSaber.js');
+import HorizonSaber from './HorizonSaber.js';
 
 class HorizonSaber2 extends HorizonSaber {
     constructor(owner, cardData) {
@@ -8,4 +8,4 @@ class HorizonSaber2 extends HorizonSaber {
 
 HorizonSaber2.id = 'horizon-saber2';
 
-module.exports = HorizonSaber2;
+export default HorizonSaber2;

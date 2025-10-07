@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Streke extends Card {
     // Elusive.(The first time this creature is attacked each turn, no damage is dealt.)
@@ -14,4 +14,4 @@ class Streke extends Card {
 
 Streke.id = 'streke';
 
-module.exports = Streke;
+export default Streke;

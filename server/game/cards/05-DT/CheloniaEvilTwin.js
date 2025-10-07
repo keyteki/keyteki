@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class CheloniaEvilTwin extends Card {
     // Elusive. (The first time this creature is attacked each turn, no damage is dealt.)
@@ -19,4 +19,4 @@ class CheloniaEvilTwin extends Card {
 
 CheloniaEvilTwin.id = 'chelonia-evil-twin';
 
-module.exports = CheloniaEvilTwin;
+export default CheloniaEvilTwin;

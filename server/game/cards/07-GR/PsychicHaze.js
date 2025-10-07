@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class PsychicHaze extends Card {
     // Enraged creatures cannot be used to fight friendly Mars creatures.
@@ -22,4 +22,4 @@ class PsychicHaze extends Card {
 
 PsychicHaze.id = 'psychic-haze';
 
-module.exports = PsychicHaze;
+export default PsychicHaze;

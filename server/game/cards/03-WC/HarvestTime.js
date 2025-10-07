@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class HarvestTime extends Card {
     // Play: Choose a trait. Purge each card with that trait. Each player gains 1A for each card they controlled that was purged this way.
@@ -37,4 +37,4 @@ class HarvestTime extends Card {
 
 HarvestTime.id = 'harvest-time';
 
-module.exports = HarvestTime;
+export default HarvestTime;

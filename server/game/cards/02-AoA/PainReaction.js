@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class PainReaction extends Card {
     // Play: Deal 2D to an enemy creature. If this damage destroys that creature, deal 2D to each of that creatures neighbors.
@@ -27,4 +27,4 @@ class PainReaction extends Card {
 
 PainReaction.id = 'pain-reaction';
 
-module.exports = PainReaction;
+export default PainReaction;

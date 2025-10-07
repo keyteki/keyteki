@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class BloodOfTitans extends Card {
     // This creature gets +5power.
@@ -11,4 +11,4 @@ class BloodOfTitans extends Card {
 
 BloodOfTitans.id = 'blood-of-titans';
 
-module.exports = BloodOfTitans;
+export default BloodOfTitans;

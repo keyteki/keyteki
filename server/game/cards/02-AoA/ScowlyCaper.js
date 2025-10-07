@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class ScowlyCaper extends Card {
     // Skirmish.
@@ -33,4 +33,4 @@ class ScowlyCaper extends Card {
 
 ScowlyCaper.id = 'scowly-caper';
 
-module.exports = ScowlyCaper;
+export default ScowlyCaper;

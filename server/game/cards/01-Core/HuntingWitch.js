@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class HuntingWitch extends Card {
     // Each time you play another creature, gain 1<A>.
@@ -17,4 +17,4 @@ class HuntingWitch extends Card {
 
 HuntingWitch.id = 'hunting-witch';
 
-module.exports = HuntingWitch;
+export default HuntingWitch;

@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class SwapWidget extends Card {
     // Action: Return a ready friendly Mars creature to your hand. If you do, put a Mars creature with a different name from your hand into play, then ready it.
@@ -30,4 +30,4 @@ class SwapWidget extends Card {
 
 SwapWidget.id = 'swap-widget';
 
-module.exports = SwapWidget;
+export default SwapWidget;

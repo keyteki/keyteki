@@ -1,5 +1,5 @@
-const Card = require('../../Card.js');
-const EventRegistrar = require('../../eventregistrar.js');
+import Card from '../../Card.js';
+import EventRegistrar from '../../eventregistrar.js';
 
 class Bonesaw extends Card {
     // If a friendly creature was destroyed this turn, Bonesaw enters play ready.
@@ -29,4 +29,4 @@ class Bonesaw extends Card {
 
 Bonesaw.id = 'bonesaw';
 
-module.exports = Bonesaw;
+export default Bonesaw;

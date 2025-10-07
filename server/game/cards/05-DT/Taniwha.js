@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Taniwha extends Card {
     // Fight/Reap: Destroy a friendly creature and gain 1A.
@@ -17,4 +17,4 @@ class Taniwha extends Card {
 
 Taniwha.id = 'taniwha';
 
-module.exports = Taniwha;
+export default Taniwha;

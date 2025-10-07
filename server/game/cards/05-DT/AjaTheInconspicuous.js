@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class AjaTheInconspicuous extends Card {
     // While Aja the Inconspicuous is not on a flank, it cannot be dealt damage.
@@ -12,4 +12,4 @@ class AjaTheInconspicuous extends Card {
 
 AjaTheInconspicuous.id = 'aja-the-inconspicuous';
 
-module.exports = AjaTheInconspicuous;
+export default AjaTheInconspicuous;

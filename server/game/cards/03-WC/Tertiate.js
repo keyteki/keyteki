@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Tertiate extends Card {
     // Play: Destroy one third of all enemy creatures and one third of all friendly creatures (rounding up each time).
@@ -30,4 +30,4 @@ class Tertiate extends Card {
 
 Tertiate.id = 'tertiate';
 
-module.exports = Tertiate;
+export default Tertiate;

@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Chronicler extends Card {
     // After Reap: Archive the top card of your deck.
@@ -14,4 +14,4 @@ class Chronicler extends Card {
 
 Chronicler.id = 'chronicler';
 
-module.exports = Chronicler;
+export default Chronicler;

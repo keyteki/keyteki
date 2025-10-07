@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class PlancinaHiddenAgent extends Card {
     // Destroyed: Destroy each of Plancina, Hidden Agent's neighbors.
@@ -21,4 +21,4 @@ class PlancinaHiddenAgent extends Card {
 
 PlancinaHiddenAgent.id = 'plancina-hidden-agent';
 
-module.exports = PlancinaHiddenAgent;
+export default PlancinaHiddenAgent;

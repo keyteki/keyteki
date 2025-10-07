@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class SongOfTheWild extends Card {
     // Play: For the remainder of the turn, each friendly creature gains, Reap: Gain 1A.
@@ -18,4 +18,4 @@ class SongOfTheWild extends Card {
 
 SongOfTheWild.id = 'song-of-the-wild';
 
-module.exports = SongOfTheWild;
+export default SongOfTheWild;

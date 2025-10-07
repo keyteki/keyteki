@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class MassingAtMidnight extends Card {
     // Play: Make 3 token creatures. Purge Massing at Midnight.
@@ -19,4 +19,4 @@ class MassingAtMidnight extends Card {
 
 MassingAtMidnight.id = 'massing-at-midnight';
 
-module.exports = MassingAtMidnight;
+export default MassingAtMidnight;

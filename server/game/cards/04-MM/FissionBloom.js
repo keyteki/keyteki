@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class FissionBloom extends Card {
     // Enhance R. (These icons have already been added to cards in your deck.)
@@ -30,4 +30,4 @@ class FissionBloom extends Card {
 
 FissionBloom.id = 'fission-bloom';
 
-module.exports = FissionBloom;
+export default FissionBloom;

@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Ransack extends Card {
     // Play: Steal 1. Discard the top card of your deck. If that card is a Shadows card, trigger this effect again.
@@ -33,4 +33,4 @@ class Ransack extends Card {
 
 Ransack.id = 'ransack';
 
-module.exports = Ransack;
+export default Ransack;

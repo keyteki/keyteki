@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class StrangeTorpedo extends Card {
     // Play: Deal 1 D to a creature, with 1 D splash. If your opponent
@@ -46,4 +46,4 @@ class StrangeTorpedo extends Card {
 
 StrangeTorpedo.id = 'strange-torpedo';
 
-module.exports = StrangeTorpedo;
+export default StrangeTorpedo;

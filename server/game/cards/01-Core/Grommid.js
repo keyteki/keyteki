@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Grommid extends Card {
     // You cannot play creatures.
@@ -23,4 +23,4 @@ class Grommid extends Card {
 
 Grommid.id = 'grommid';
 
-module.exports = Grommid;
+export default Grommid;

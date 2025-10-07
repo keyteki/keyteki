@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Scaethe extends Card {
     // Destroyed: Destroy the least powerful enemy creature.
@@ -18,4 +18,4 @@ class Scaethe extends Card {
 
 Scaethe.id = 'scaethe';
 
-module.exports = Scaethe;
+export default Scaethe;

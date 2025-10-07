@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class AllusionsOfGrandeur extends Card {
     // Play: Choose a house on your opponent's identity card. If your opponent does not choose that house as their active house on their next turn, gain 3A.
@@ -29,4 +29,4 @@ class AllusionsOfGrandeur extends Card {
 
 AllusionsOfGrandeur.id = 'allusions-of-grandeur';
 
-module.exports = AllusionsOfGrandeur;
+export default AllusionsOfGrandeur;

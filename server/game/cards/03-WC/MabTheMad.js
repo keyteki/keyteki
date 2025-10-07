@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class MabTheMad extends Card {
     // Reap: Shuffle Mab the Mad into your deck.
@@ -13,4 +13,4 @@ class MabTheMad extends Card {
 
 MabTheMad.id = 'mab-the-mad';
 
-module.exports = MabTheMad;
+export default MabTheMad;

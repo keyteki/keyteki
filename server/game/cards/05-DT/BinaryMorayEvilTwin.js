@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class BinaryMorayEvilTwin extends Card {
     // Skirmish.
@@ -22,4 +22,4 @@ class BinaryMorayEvilTwin extends Card {
 
 BinaryMorayEvilTwin.id = 'binary-moray-evil-twin';
 
-module.exports = BinaryMorayEvilTwin;
+export default BinaryMorayEvilTwin;

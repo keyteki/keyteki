@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class KompsosHaruspex extends Card {
     // Each friendly creatures play effect is a play/reap effect.
@@ -12,4 +12,4 @@ class KompsosHaruspex extends Card {
 
 KompsosHaruspex.id = 'kompsos-haruspex';
 
-module.exports = KompsosHaruspex;
+export default KompsosHaruspex;

@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class ChainGang extends Card {
     // After you play Subtle Chain, ready Chain Gang.
@@ -28,4 +28,4 @@ class ChainGang extends Card {
 
 ChainGang.id = 'chain-gang';
 
-module.exports = ChainGang;
+export default ChainGang;

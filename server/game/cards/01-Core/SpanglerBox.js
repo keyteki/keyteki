@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class SpanglerBox extends Card {
     // Action: Purge a creature in play. If you do, your opponent gains control of Spangler Box. If Spangler Box leaves play, return to play all cards purged by Spangler Box.
@@ -39,4 +39,4 @@ class SpanglerBox extends Card {
 
 SpanglerBox.id = 'spangler-box';
 
-module.exports = SpanglerBox;
+export default SpanglerBox;

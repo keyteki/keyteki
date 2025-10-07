@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class OrphionLandsChosen extends Card {
     // (T) While the tide is low, Orphion, Land’s Chosen gets +3 armor and gains, “Reap: Capture 2A.”
@@ -18,4 +18,4 @@ class OrphionLandsChosen extends Card {
 
 OrphionLandsChosen.id = 'orphion-land-s-chosen';
 
-module.exports = OrphionLandsChosen;
+export default OrphionLandsChosen;

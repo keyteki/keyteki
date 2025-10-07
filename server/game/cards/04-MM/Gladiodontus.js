@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Gladiodontus extends Card {
     // Gladiodontus enters play stunned.
@@ -25,4 +25,4 @@ class Gladiodontus extends Card {
 
 Gladiodontus.id = 'gladiodontus';
 
-module.exports = Gladiodontus;
+export default Gladiodontus;

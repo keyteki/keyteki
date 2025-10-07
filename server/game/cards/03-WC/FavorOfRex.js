@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class FavorOfRex extends Card {
     // Play: Trigger the play effect of a creature as if you had just played it.
@@ -18,4 +18,4 @@ class FavorOfRex extends Card {
 
 FavorOfRex.id = 'favor-of-rex';
 
-module.exports = FavorOfRex;
+export default FavorOfRex;

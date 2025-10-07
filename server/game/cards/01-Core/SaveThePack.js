@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class SaveThePack extends Card {
     // Play: Destroy each damaged creature. Gain 1chain.
@@ -17,4 +17,4 @@ class SaveThePack extends Card {
 
 SaveThePack.id = 'save-the-pack';
 
-module.exports = SaveThePack;
+export default SaveThePack;

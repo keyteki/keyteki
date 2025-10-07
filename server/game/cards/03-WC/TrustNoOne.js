@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class TrustNoOne extends Card {
     // Play: Steal 1A. If there are no friendly creatures in play, instead steal 1A for each house represented among enemy creatures (to a maximum of 3).
@@ -23,4 +23,4 @@ class TrustNoOne extends Card {
 
 TrustNoOne.id = 'trust-no-one';
 
-module.exports = TrustNoOne;
+export default TrustNoOne;

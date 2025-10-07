@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class SeanceScanner extends Card {
     // Action: If you are haunted, use a friendly non-Star Alliance creature.
@@ -17,4 +17,4 @@ class SeanceScanner extends Card {
 
 SeanceScanner.id = 'séance-scanner';
 
-module.exports = SeanceScanner;
+export default SeanceScanner;

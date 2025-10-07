@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class REvolution extends Card {
     // This creature and each creature with the same name as it gain,
@@ -25,4 +25,4 @@ class REvolution extends Card {
 
 REvolution.id = 'r-evolution';
 
-module.exports = REvolution;
+export default REvolution;

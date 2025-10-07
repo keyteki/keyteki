@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class ShardOfResurgence extends Card {
     // Action: Archive a card from your discard pile for each friendly Shard.
@@ -27,4 +27,4 @@ class ShardOfResurgence extends Card {
 
 ShardOfResurgence.id = 'shard-of-resurgence';
 
-module.exports = ShardOfResurgence;
+export default ShardOfResurgence;

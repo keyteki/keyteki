@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class DroseraRelic extends Card {
     // Action: Destroy the least powerful friendly creature. If you do, steal 2.
@@ -39,4 +39,4 @@ class DroseraRelic extends Card {
 
 DroseraRelic.id = 'drosera-relic';
 
-module.exports = DroseraRelic;
+export default DroseraRelic;

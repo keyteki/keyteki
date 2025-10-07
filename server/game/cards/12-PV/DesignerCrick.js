@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class DesignerCrick extends Card {
     // Each time your opponent discards a card from their hand, draw a card and Designer Crick captures 1.
@@ -17,4 +17,4 @@ class DesignerCrick extends Card {
 
 DesignerCrick.id = 'designer-crick';
 
-module.exports = DesignerCrick;
+export default DesignerCrick;

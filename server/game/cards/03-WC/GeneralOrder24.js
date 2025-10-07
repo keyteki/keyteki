@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class GeneralOrder24 extends Card {
     // At the start of each players turn, they must choose a creature they control and destroy each creature of the chosen creatures house. If that player has no creatures in play, destroy General Order 24 instead.
@@ -29,4 +29,4 @@ class GeneralOrder24 extends Card {
 
 GeneralOrder24.id = 'general-order-24';
 
-module.exports = GeneralOrder24;
+export default GeneralOrder24;

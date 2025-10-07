@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class LavaBall extends Card {
     // Play: Deal 4D to a creature,
@@ -18,4 +18,4 @@ class LavaBall extends Card {
 
 LavaBall.id = 'lava-ball';
 
-module.exports = LavaBall;
+export default LavaBall;

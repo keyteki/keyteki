@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Circlespeak extends Card {
     // Play: Choose a creature. It captures 2A from each haunted player.
@@ -42,4 +42,4 @@ class Circlespeak extends Card {
 
 Circlespeak.id = 'circlespeak';
 
-module.exports = Circlespeak;
+export default Circlespeak;

@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class KalochStonefather extends Card {
     // While Kaloch Stonefather is in the center of your battleline, each friendly creature gains skirmish.
@@ -13,4 +13,4 @@ class KalochStonefather extends Card {
 
 KalochStonefather.id = 'kaloch-stonefather';
 
-module.exports = KalochStonefather;
+export default KalochStonefather;

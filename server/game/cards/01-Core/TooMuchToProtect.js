@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class TooMuchToProtect extends Card {
     // Play: Steal all but 6of youropponentsA.
@@ -14,4 +14,4 @@ class TooMuchToProtect extends Card {
 
 TooMuchToProtect.id = 'too-much-to-protect';
 
-module.exports = TooMuchToProtect;
+export default TooMuchToProtect;

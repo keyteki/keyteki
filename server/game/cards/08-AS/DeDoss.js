@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class DeDoss extends Card {
     // This creature gains, “Your opponent cannot play creatures more
@@ -27,4 +27,4 @@ class DeDoss extends Card {
 
 DeDoss.id = 'de-doss';
 
-module.exports = DeDoss;
+export default DeDoss;

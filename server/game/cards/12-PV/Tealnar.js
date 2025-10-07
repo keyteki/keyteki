@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Tealnar extends Card {
     // Each friendly creature gains, "After Fight: Heal 3 from each of this creature's neighbors."
@@ -41,4 +41,4 @@ class Tealnar extends Card {
 
 Tealnar.id = 'tealnar';
 
-module.exports = Tealnar;
+export default Tealnar;

@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class EldestBear extends Card {
     // Assault 3.
@@ -16,4 +16,4 @@ class EldestBear extends Card {
 
 EldestBear.id = 'eldest-bear';
 
-module.exports = EldestBear;
+export default EldestBear;

@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Crassosaurus extends Card {
     // Elusive.
@@ -65,4 +65,4 @@ class Crassosaurus extends Card {
 
 Crassosaurus.id = 'crassosaurus';
 
-module.exports = Crassosaurus;
+export default Crassosaurus;

@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Doppelganger extends Card {
     // At the start of your turn, choose one of Doppelganger’s
@@ -51,4 +51,4 @@ class Doppelganger extends Card {
 
 Doppelganger.id = 'doppelganger';
 
-module.exports = Doppelganger;
+export default Doppelganger;

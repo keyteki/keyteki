@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class TributeCollector extends Card {
     // Play/After Fight: A friendly creature captures 1 A.
@@ -16,4 +16,4 @@ class TributeCollector extends Card {
 
 TributeCollector.id = 'tribute-collector';
 
-module.exports = TributeCollector;
+export default TributeCollector;

@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class PiedViper extends Card {
     // Elusive.
@@ -25,4 +25,4 @@ class PiedViper extends Card {
 
 PiedViper.id = 'pied-viper';
 
-module.exports = PiedViper;
+export default PiedViper;

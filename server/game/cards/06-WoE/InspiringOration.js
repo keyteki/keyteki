@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class InspiringOration extends Card {
     // Play: Exalt a friendly creature. Make a token creature for each
@@ -27,4 +27,4 @@ class InspiringOration extends Card {
 
 InspiringOration.id = 'inspiring-oration';
 
-module.exports = InspiringOration;
+export default InspiringOration;

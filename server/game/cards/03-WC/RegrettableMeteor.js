@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class RegrettableMeteor extends Card {
     // Play: Destroy each Dinosaur creature and each creature with power 6 or higher.
@@ -15,4 +15,4 @@ class RegrettableMeteor extends Card {
 
 RegrettableMeteor.id = 'regrettable-meteor';
 
-module.exports = RegrettableMeteor;
+export default RegrettableMeteor;

@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class EntropicManipulator extends Card {
     // Play: Choose a player. You may redistribute the damage on the creatures that player controls among that players creatures. (You may cause more damage to a creature than it has power.)
@@ -43,4 +43,4 @@ class EntropicManipulator extends Card {
 
 EntropicManipulator.id = 'entropic-manipulator';
 
-module.exports = EntropicManipulator;
+export default EntropicManipulator;

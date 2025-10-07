@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Mollymawk extends Card {
     // Play: Destroy an artifact.
@@ -14,4 +14,4 @@ class Mollymawk extends Card {
 
 Mollymawk.id = 'mollymawk';
 
-module.exports = Mollymawk;
+export default Mollymawk;

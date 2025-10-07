@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class ProfEmeritusKering extends Card {
     // Deploy.
@@ -28,4 +28,4 @@ class ProfEmeritusKering extends Card {
 
 ProfEmeritusKering.id = 'prof-emeritus-kering';
 
-module.exports = ProfEmeritusKering;
+export default ProfEmeritusKering;

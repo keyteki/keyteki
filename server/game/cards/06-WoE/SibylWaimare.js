@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class SibylWaimare extends Card {
     // At the start of your opponent's turn, that player discards the top card
@@ -26,4 +26,4 @@ class SibylWaimare extends Card {
 
 SibylWaimare.id = 'sibyl-waimare';
 
-module.exports = SibylWaimare;
+export default SibylWaimare;

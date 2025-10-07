@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class ControlTheWeak extends Card {
     // Play: Choose a house on your opponents identity card. Your opponent must choose that house as their active house on their next turn.
@@ -21,4 +21,4 @@ class ControlTheWeak extends Card {
 
 ControlTheWeak.id = 'control-the-weak';
 
-module.exports = ControlTheWeak;
+export default ControlTheWeak;

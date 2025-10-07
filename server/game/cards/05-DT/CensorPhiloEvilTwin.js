@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class CensorPhiloEvilTwin extends Card {
     // Play: Deal 5D to a creature with A on it.
@@ -15,4 +15,4 @@ class CensorPhiloEvilTwin extends Card {
 
 CensorPhiloEvilTwin.id = 'censor-philo-evil-twin';
 
-module.exports = CensorPhiloEvilTwin;
+export default CensorPhiloEvilTwin;

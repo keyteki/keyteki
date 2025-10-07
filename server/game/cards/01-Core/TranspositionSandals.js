@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class TranspositionSandals extends Card {
     // This creature gains, Action: Swap this creature with another friendly creature in the battleline. You may use that other creature this turn.
@@ -21,4 +21,4 @@ class TranspositionSandals extends Card {
 
 TranspositionSandals.id = 'transposition-sandals';
 
-module.exports = TranspositionSandals;
+export default TranspositionSandals;

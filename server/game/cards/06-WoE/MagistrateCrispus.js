@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class MagistrateCrispus extends Card {
     // At the end of your turn, each player takes control of each
@@ -30,4 +30,4 @@ class MagistrateCrispus extends Card {
 
 MagistrateCrispus.id = 'magistrate-crispus';
 
-module.exports = MagistrateCrispus;
+export default MagistrateCrispus;

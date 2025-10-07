@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class TheEvilEye extends Card {
     // Play: Keys cost +3A during your opponents next turn.
@@ -16,4 +16,4 @@ class TheEvilEye extends Card {
 
 TheEvilEye.id = 'the-evil-eye';
 
-module.exports = TheEvilEye;
+export default TheEvilEye;

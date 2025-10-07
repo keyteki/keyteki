@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Aristotlmimus extends Card {
     // After Reap: If Aristotlmimus has a wisdom counter,
@@ -39,4 +39,4 @@ class Aristotlmimus extends Card {
 
 Aristotlmimus.id = 'aristotlmimus';
 
-module.exports = Aristotlmimus;
+export default Aristotlmimus;

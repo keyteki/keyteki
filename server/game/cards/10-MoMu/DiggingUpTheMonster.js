@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class DiggingUpTheMonster extends Card {
     // Play: Search your deck and discard pile for two halves of a gigantic
@@ -18,4 +18,4 @@ class DiggingUpTheMonster extends Card {
 
 DiggingUpTheMonster.id = 'digging-up-the-monster';
 
-module.exports = DiggingUpTheMonster;
+export default DiggingUpTheMonster;

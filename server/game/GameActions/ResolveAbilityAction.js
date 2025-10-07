@@ -1,6 +1,6 @@
-const CardAction = require('./CardGameAction');
-const AbilityResolver = require('../gamesteps/abilityresolver.js');
-const SimpleStep = require('../gamesteps/simplestep.js');
+import CardAction from './CardGameAction.js';
+import AbilityResolver from '../gamesteps/abilityresolver.js';
+import SimpleStep from '../gamesteps/simplestep.js';
 
 class NoCostsAbilityResolver extends AbilityResolver {
     initialise() {
@@ -84,4 +84,4 @@ class ResolveAbilityAction extends CardAction {
     }
 }
 
-module.exports = ResolveAbilityAction;
+export default ResolveAbilityAction;

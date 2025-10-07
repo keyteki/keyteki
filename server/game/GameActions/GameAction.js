@@ -1,4 +1,4 @@
-const Event = require('../Events/Event.js');
+import Event from '../Events/Event.js';
 
 class GameAction {
     constructor(propertyFactory = {}) {
@@ -137,4 +137,4 @@ class GameAction {
     }
 }
 
-module.exports = GameAction;
+export default GameAction;

@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class SkippyTimehog extends Card {
     // Play: Your opponent cannot use any cards next turn. (Cards can still be played and discarded.)
@@ -18,4 +18,4 @@ class SkippyTimehog extends Card {
 
 SkippyTimehog.id = 'skippy-timehog';
 
-module.exports = SkippyTimehog;
+export default SkippyTimehog;

@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class OrbOfWonder extends Card {
     // Omni: Destroy Orb of Wonder. If you do, search your deck for a card and put it into your hand. Shuffle your deck.
@@ -19,4 +19,4 @@ class OrbOfWonder extends Card {
 
 OrbOfWonder.id = 'orb-of-wonder';
 
-module.exports = OrbOfWonder;
+export default OrbOfWonder;

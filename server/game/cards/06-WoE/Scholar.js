@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Scholar extends Card {
     //After Reap: Draw 1 card.
@@ -11,4 +11,4 @@ class Scholar extends Card {
 
 Scholar.id = 'scholar';
 
-module.exports = Scholar;
+export default Scholar;

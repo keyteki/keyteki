@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Brammo extends Card {
     // Play: Deal 2D to each enemy flank creature.
@@ -15,4 +15,4 @@ class Brammo extends Card {
 
 Brammo.id = 'brammo';
 
-module.exports = Brammo;
+export default Brammo;

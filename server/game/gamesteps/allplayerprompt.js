@@ -1,5 +1,5 @@
-const _ = require('underscore');
-const UiPrompt = require('./uiprompt.js');
+import _ from 'underscore';
+import UiPrompt from './uiprompt.js';
 
 class AllPlayerPrompt extends UiPrompt {
     activeCondition(player) {
@@ -18,4 +18,4 @@ class AllPlayerPrompt extends UiPrompt {
     }
 }
 
-module.exports = AllPlayerPrompt;
+export default AllPlayerPrompt;

@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Sequis extends Card {
     // Reap: Capture 1<A>.
@@ -11,4 +11,4 @@ class Sequis extends Card {
 
 Sequis.id = 'sequis';
 
-module.exports = Sequis;
+export default Sequis;

@@ -1,10 +1,10 @@
-const ChallongeService = require('../services/ChallongeService.js');
-const passport = require('passport');
-const { wrapAsync } = require('../util.js');
+import ChallongeService from '../services/ChallongeService.js';
+import passport from 'passport';
+import { wrapAsync } from '../util.js';
 
 let challongeService = new ChallongeService();
 
-module.exports.init = function (server) {
+export function init(server) {
     server.get(
         '/api/challonge/tournaments/',
         passport.authenticate('jwt', { session: false }),
@@ -103,4 +103,4 @@ module.exports.init = function (server) {
             res.send({ success: true, attachments: data, message: 'Match links sent' });
         })
     );
-};
+}

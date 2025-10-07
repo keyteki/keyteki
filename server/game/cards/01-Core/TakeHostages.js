@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class TakeHostages extends Card {
     // Play: For the remainder of the turn, each time a friendly creature fights,
@@ -22,4 +22,4 @@ class TakeHostages extends Card {
 
 TakeHostages.id = 'take-hostages';
 
-module.exports = TakeHostages;
+export default TakeHostages;

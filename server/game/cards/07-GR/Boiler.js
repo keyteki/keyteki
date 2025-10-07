@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Boiler extends Card {
     // Destroyed: Deal 6 D to each enemy flank creature.
@@ -27,4 +27,4 @@ class Boiler extends Card {
 
 Boiler.id = 'boiler';
 
-module.exports = Boiler;
+export default Boiler;

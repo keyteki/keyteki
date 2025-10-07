@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Absolve extends Card {
     // Play: Heal 1D from each creature. Each creature healed this way captures 1A from its opponent
@@ -39,4 +39,4 @@ class Absolve extends Card {
 
 Absolve.id = 'absolve';
 
-module.exports = Absolve;
+export default Absolve;

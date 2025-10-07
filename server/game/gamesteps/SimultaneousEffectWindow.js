@@ -1,6 +1,6 @@
-const _ = require('underscore');
+import _ from 'underscore';
 
-const ForcedTriggeredAbilityWindow = require('./forcedtriggeredabilitywindow.js');
+import ForcedTriggeredAbilityWindow from './forcedtriggeredabilitywindow.js';
 
 class SimultaneousEffectWindow extends ForcedTriggeredAbilityWindow {
     constructor(game) {
@@ -46,4 +46,4 @@ class SimultaneousEffectWindow extends ForcedTriggeredAbilityWindow {
     }
 }
 
-module.exports = SimultaneousEffectWindow;
+export default SimultaneousEffectWindow;

@@ -1,4 +1,4 @@
-const Tormax = require('./Tormax.js');
+import Tormax from './Tormax.js';
 
 class Tormax2 extends Tormax {
     constructor(owner, cardData) {
@@ -8,4 +8,4 @@ class Tormax2 extends Tormax {
 
 Tormax2.id = 'tormax2';
 
-module.exports = Tormax2;
+export default Tormax2;

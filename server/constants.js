@@ -57,4 +57,4 @@ Constants.Tide = Object.freeze({
 
 Object.freeze(Constants);
 
-module.exports = Constants;
+export default Constants;

@@ -1,4 +1,4 @@
-const PlayerAction = require('./PlayerAction');
+import PlayerAction from './PlayerAction.js';
 
 class ModifyChainsAction extends PlayerAction {
     setDefaultProperties() {
@@ -35,4 +35,4 @@ class ModifyChainsAction extends PlayerAction {
     }
 }
 
-module.exports = ModifyChainsAction;
+export default ModifyChainsAction;

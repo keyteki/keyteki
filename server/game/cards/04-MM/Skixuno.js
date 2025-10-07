@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Skixuno extends Card {
     // Omega.
@@ -21,4 +21,4 @@ class Skixuno extends Card {
 
 Skixuno.id = 'skixuno';
 
-module.exports = Skixuno;
+export default Skixuno;

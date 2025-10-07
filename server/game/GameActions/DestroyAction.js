@@ -1,4 +1,4 @@
-const CardGameAction = require('./CardGameAction');
+import CardGameAction from './CardGameAction.js';
 
 class DestroyAction extends CardGameAction {
     constructor(propertyFactory, isSacrifice = false) {
@@ -47,4 +47,4 @@ class DestroyAction extends CardGameAction {
     }
 }
 
-module.exports = DestroyAction;
+export default DestroyAction;

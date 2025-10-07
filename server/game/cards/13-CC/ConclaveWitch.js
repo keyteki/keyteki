@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class ConclaveWitch extends Card {
     // Enhance 1.
@@ -19,4 +19,4 @@ class ConclaveWitch extends Card {
 
 ConclaveWitch.id = 'conclave-witch';
 
-module.exports = ConclaveWitch;
+export default ConclaveWitch;

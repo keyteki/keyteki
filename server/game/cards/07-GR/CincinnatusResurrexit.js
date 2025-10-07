@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class CincinnatusResurrexit extends Card {
     // Cincinnatus Resurrexit gets +1 power for each A on it.
@@ -25,4 +25,4 @@ class CincinnatusResurrexit extends Card {
 
 CincinnatusResurrexit.id = 'cincinnatus-resurrexit';
 
-module.exports = CincinnatusResurrexit;
+export default CincinnatusResurrexit;

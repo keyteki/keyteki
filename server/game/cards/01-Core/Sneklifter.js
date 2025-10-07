@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Sneklifter extends Card {
     // Play: Take control of an enemy artifact. While under your control, if it does not belong to one of your 3 houses, it is considered to be of house Shadows.
@@ -33,4 +33,4 @@ class Sneklifter extends Card {
 
 Sneklifter.id = 'sneklifter';
 
-module.exports = Sneklifter;
+export default Sneklifter;

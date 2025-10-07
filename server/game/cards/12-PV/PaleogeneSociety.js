@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class PaleogeneSociety extends Card {
     // Play: Return another card from your discard pile to your hand. Purge Paleogene Society.
@@ -29,4 +29,4 @@ class PaleogeneSociety extends Card {
 
 PaleogeneSociety.id = 'paleogene-society';
 
-module.exports = PaleogeneSociety;
+export default PaleogeneSociety;

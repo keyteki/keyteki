@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Ballistego extends Card {
     //Play: You may exalt Ballistego.
@@ -19,4 +19,4 @@ class Ballistego extends Card {
 
 Ballistego.id = 'ballistego';
 
-module.exports = Ballistego;
+export default Ballistego;

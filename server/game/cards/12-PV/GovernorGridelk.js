@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class GovernorGridelk extends Card {
     // After Fight: Put the topmost creature from your opponent's discard pile into play under your control.
@@ -14,4 +14,4 @@ class GovernorGridelk extends Card {
 
 GovernorGridelk.id = 'governor-gridelk';
 
-module.exports = GovernorGridelk;
+export default GovernorGridelk;

@@ -1,5 +1,5 @@
-const Card = require('../../Card.js');
-const EventRegistrar = require('../../eventregistrar.js');
+import Card from '../../Card.js';
+import EventRegistrar from '../../eventregistrar.js';
 
 class TheUlfberhtDevice extends Card {
     // Each player cannot choose the same active house they chose on their previous turn.
@@ -21,4 +21,4 @@ class TheUlfberhtDevice extends Card {
 
 TheUlfberhtDevice.id = 'the-ulfberht-device';
 
-module.exports = TheUlfberhtDevice;
+export default TheUlfberhtDevice;

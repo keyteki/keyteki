@@ -1,5 +1,5 @@
-const Card = require('../../Card.js');
-const EventRegistrar = require('../../eventregistrar.js');
+import Card from '../../Card.js';
+import EventRegistrar from '../../eventregistrar.js';
 
 class DeadMansChest extends Card {
     // Play: Put 4A on Dead Man’s Chest from the common supply. Deal 2D to a creature.
@@ -50,4 +50,4 @@ class DeadMansChest extends Card {
 
 DeadMansChest.id = 'dead-man-s-chest';
 
-module.exports = DeadMansChest;
+export default DeadMansChest;

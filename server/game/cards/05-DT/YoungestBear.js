@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class YoungestBear extends Card {
     // Reap: You may reap with 1 of Youngest Bear's neighbors.
@@ -18,4 +18,4 @@ class YoungestBear extends Card {
 
 YoungestBear.id = 'youngest-bear';
 
-module.exports = YoungestBear;
+export default YoungestBear;

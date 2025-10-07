@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class ForgemasterOg extends Card {
     // After a player forges a key, they lose all of their remaining A.
@@ -17,4 +17,4 @@ class ForgemasterOg extends Card {
 
 ForgemasterOg.id = 'forgemaster-og';
 
-module.exports = ForgemasterOg;
+export default ForgemasterOg;

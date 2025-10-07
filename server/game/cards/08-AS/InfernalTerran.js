@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class InfernalTerran extends Card {
     // Play/After Reap: Discard a card. Steal 1A.
@@ -57,4 +57,4 @@ class InfernalTerran extends Card {
 
 InfernalTerran.id = 'infernal-terran';
 
-module.exports = InfernalTerran;
+export default InfernalTerran;

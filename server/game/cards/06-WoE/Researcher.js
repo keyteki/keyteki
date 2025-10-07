@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Researcher extends Card {
     // Omni: Reveal a Mars Card from your hand and archive it.
@@ -16,4 +16,4 @@ class Researcher extends Card {
 
 Researcher.id = 'researcher';
 
-module.exports = Researcher;
+export default Researcher;

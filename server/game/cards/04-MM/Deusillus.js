@@ -1,4 +1,4 @@
-const GiganticCard = require('../../GiganticCard.js');
+import GiganticCard from '../../GiganticCard.js';
 
 class Deusillus extends GiganticCard {
     // (Play only with the other half of Deusillus.)
@@ -64,4 +64,4 @@ class Deusillus extends GiganticCard {
 
 Deusillus.id = 'deusillus';
 
-module.exports = Deusillus;
+export default Deusillus;

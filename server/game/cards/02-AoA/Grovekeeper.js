@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Grovekeeper extends Card {
     // At the end of your turn, give each neighboring creature a +1power counter.
@@ -14,4 +14,4 @@ class Grovekeeper extends Card {
 
 Grovekeeper.id = 'grovekeeper';
 
-module.exports = Grovekeeper;
+export default Grovekeeper;

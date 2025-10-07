@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class TalmageSteelheartEvilTwin extends Card {
     // Play: Deal damage to an enemy creature equal to the number of cards you have played this turn (including this one).
@@ -17,4 +17,4 @@ class TalmageSteelheartEvilTwin extends Card {
 
 TalmageSteelheartEvilTwin.id = 'talmage-steelheart-evil-twin';
 
-module.exports = TalmageSteelheartEvilTwin;
+export default TalmageSteelheartEvilTwin;

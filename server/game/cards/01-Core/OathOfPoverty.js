@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class OathOfPoverty extends Card {
     // Play: Destroy each of your artifacts. Gain 2A for each artifact destroyed this way.
@@ -23,4 +23,4 @@ class OathOfPoverty extends Card {
 
 OathOfPoverty.id = 'oath-of-poverty';
 
-module.exports = OathOfPoverty;
+export default OathOfPoverty;

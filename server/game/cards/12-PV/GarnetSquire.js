@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class GarnetSquire extends Card {
     // Enhance DD.
@@ -19,4 +19,4 @@ class GarnetSquire extends Card {
 
 GarnetSquire.id = 'garnet-squire';
 
-module.exports = GarnetSquire;
+export default GarnetSquire;

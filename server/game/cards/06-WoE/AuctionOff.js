@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class AuctionOff extends Card {
     // Play: Purge an artifact. Its controller gains 1Aember.
@@ -22,4 +22,4 @@ class AuctionOff extends Card {
 
 AuctionOff.id = 'auction-off';
 
-module.exports = AuctionOff;
+export default AuctionOff;

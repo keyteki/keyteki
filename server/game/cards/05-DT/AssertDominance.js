@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class AssertDominance extends Card {
     // Play: For the remainder of the turn, a friendly creature gains skirmish. Ready and fight with that creature.
@@ -23,4 +23,4 @@ class AssertDominance extends Card {
 
 AssertDominance.id = 'assert-dominance';
 
-module.exports = AssertDominance;
+export default AssertDominance;

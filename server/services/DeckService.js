@@ -1,8 +1,8 @@
-const logger = require('../log');
-const util = require('../util');
-const db = require('../db');
-const { expand, flatten } = require('../Array');
-const Constants = require('../constants');
+import logger from '../log.js';
+import { httpRequest } from '../util.js';
+import db from '../db/index.js';
+import { expand, flatten } from '../Array.js';
+import Constants from '../constants.js';
 const BonusOrder = Constants.Houses.concat(['amber', 'capture', 'damage', 'draw', 'discard']);
 
 class DeckService {
@@ -470,7 +470,7 @@ class DeckService {
         let deckResponse;
 
         try {
-            let response = await util.httpRequest(
+            let response = await httpRequest(
                 `https://www.keyforgegame.com/api/decks/${deck.uuid}/?links=cards`
             );
 
@@ -1094,4 +1094,4 @@ class DeckService {
     }
 }
 
-module.exports = DeckService;
+export default DeckService;

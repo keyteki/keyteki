@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class SleepWithTheFishes extends Card {
     // Play: Destroy each exhausted creature.
@@ -13,4 +13,4 @@ class SleepWithTheFishes extends Card {
 
 SleepWithTheFishes.id = 'sleep-with-the-fishes';
 
-module.exports = SleepWithTheFishes;
+export default SleepWithTheFishes;

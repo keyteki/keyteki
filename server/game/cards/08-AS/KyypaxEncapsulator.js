@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class KyypaxEncapsulator extends Card {
     // After Reap: Put an enemy creature into its owner’s archives.
@@ -15,4 +15,4 @@ class KyypaxEncapsulator extends Card {
 
 KyypaxEncapsulator.id = 'kyypax-encapsulator';
 
-module.exports = KyypaxEncapsulator;
+export default KyypaxEncapsulator;

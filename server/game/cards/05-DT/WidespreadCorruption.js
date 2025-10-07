@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class WidespreadCorruption extends Card {
     // After a player gains A by reaping, a creature they do not control captures that A.
@@ -34,4 +34,4 @@ class WidespreadCorruption extends Card {
 
 WidespreadCorruption.id = 'widespread-corruption';
 
-module.exports = WidespreadCorruption;
+export default WidespreadCorruption;

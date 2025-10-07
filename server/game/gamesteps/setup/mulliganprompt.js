@@ -1,4 +1,4 @@
-const AllPlayerPrompt = require('../allplayerprompt.js');
+import AllPlayerPrompt from '../allplayerprompt.js';
 
 class MulliganPrompt extends AllPlayerPrompt {
     constructor(game) {
@@ -45,4 +45,4 @@ class MulliganPrompt extends AllPlayerPrompt {
     }
 }
 
-module.exports = MulliganPrompt;
+export default MulliganPrompt;

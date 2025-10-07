@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class GalacticCensus extends Card {
     // Play: If there are exactly 3 or exactly 4 houses represented among creatures in play, gain 1A. If there are exactly 5, gain 2A. If there are 6 or more, gain 3A.
@@ -31,4 +31,4 @@ class GalacticCensus extends Card {
 
 GalacticCensus.id = 'galactic-census';
 
-module.exports = GalacticCensus;
+export default GalacticCensus;

@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class GreenAeronaut extends Card {
     // Action: A friendly Nautilixian gains Splash-attack 3 for the
@@ -20,4 +20,4 @@ class GreenAeronaut extends Card {
 
 GreenAeronaut.id = 'green-aeronaut';
 
-module.exports = GreenAeronaut;
+export default GreenAeronaut;

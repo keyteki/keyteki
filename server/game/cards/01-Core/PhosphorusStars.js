@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class PhosphorusStars extends Card {
     // Play: Stun each non-Mars creature. Gain 2 chains.
@@ -17,4 +17,4 @@ class PhosphorusStars extends Card {
 
 PhosphorusStars.id = 'phosphorus-stars';
 
-module.exports = PhosphorusStars;
+export default PhosphorusStars;

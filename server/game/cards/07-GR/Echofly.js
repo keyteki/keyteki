@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Echofly extends Card {
     // Action: Return an action card from your discard pile to your hand.
@@ -26,4 +26,4 @@ class Echofly extends Card {
 
 Echofly.id = 'echofly';
 
-module.exports = Echofly;
+export default Echofly;

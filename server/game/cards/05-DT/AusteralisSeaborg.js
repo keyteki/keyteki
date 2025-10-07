@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class AusteralisSeaborg extends Card {
     // (T) Reap: Deal 2D to a creature. If this damage destroys that creature, raise the tide.
@@ -22,4 +22,4 @@ class AusteralisSeaborg extends Card {
 
 AusteralisSeaborg.id = 'austeralis-seaborg';
 
-module.exports = AusteralisSeaborg;
+export default AusteralisSeaborg;

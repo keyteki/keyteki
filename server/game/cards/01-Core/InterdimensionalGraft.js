@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class InterdimensionalGraft extends Card {
     // Play: If an opponent forges a key on their next turn, they must give you their remaining A.
@@ -22,4 +22,4 @@ class InterdimensionalGraft extends Card {
 
 InterdimensionalGraft.id = 'interdimensional-graft';
 
-module.exports = InterdimensionalGraft;
+export default InterdimensionalGraft;

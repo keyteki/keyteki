@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Lapisaurus extends Card {
     // Taunt. (This creature’s neighbors cannot be attacked unless they have taunt.)
@@ -17,4 +17,4 @@ class Lapisaurus extends Card {
 
 Lapisaurus.id = 'lapisaurus';
 
-module.exports = Lapisaurus;
+export default Lapisaurus;

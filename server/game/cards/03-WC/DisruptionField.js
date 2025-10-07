@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class DisruptionField extends Card {
     // Your opponents keys cost +1A for each disruption counter on Disruption Field.
@@ -29,4 +29,4 @@ class DisruptionField extends Card {
 
 DisruptionField.id = 'disruption-field';
 
-module.exports = DisruptionField;
+export default DisruptionField;

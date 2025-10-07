@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class MarshalEwer extends Card {
     // (T) Play/Fight: Raise the tide.
@@ -12,4 +12,4 @@ class MarshalEwer extends Card {
 
 MarshalEwer.id = 'marshal-ewer';
 
-module.exports = MarshalEwer;
+export default MarshalEwer;

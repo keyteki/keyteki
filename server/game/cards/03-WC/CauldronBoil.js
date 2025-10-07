@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class CauldronBoil extends Card {
     // Play: Deal damage to each creature equal to the amount of damage on that creature.
@@ -18,4 +18,4 @@ class CauldronBoil extends Card {
 
 CauldronBoil.id = 'cauldron-boil';
 
-module.exports = CauldronBoil;
+export default CauldronBoil;

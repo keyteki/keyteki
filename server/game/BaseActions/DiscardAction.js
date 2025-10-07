@@ -1,5 +1,5 @@
-const AbilityContext = require('../AbilityContext');
-const BaseAbility = require('../baseability.js');
+import AbilityContext from '../AbilityContext.js';
+import BaseAbility from '../baseability.js';
 
 class DiscardAction extends BaseAbility {
     constructor(card) {
@@ -53,4 +53,4 @@ class DiscardAction extends BaseAbility {
     }
 }
 
-module.exports = DiscardAction;
+export default DiscardAction;

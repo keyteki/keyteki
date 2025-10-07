@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class KeyAbduction extends Card {
     // Play: Return each Mars creature to its owners hand. Then, you may forge a key at +9A current cost, reduced by 1A for each card in your hand.
@@ -21,4 +21,4 @@ class KeyAbduction extends Card {
 
 KeyAbduction.id = 'key-abduction';
 
-module.exports = KeyAbduction;
+export default KeyAbduction;

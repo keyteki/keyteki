@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class OrphielSeasChosen extends Card {
     // (T) While the tide is high, Orphiel, Sea’s Chosen gains skirmish and, “Fight: Gain 2A.”
@@ -20,4 +20,4 @@ class OrphielSeasChosen extends Card {
 
 OrphielSeasChosen.id = 'orphiel-sea-s-chosen';
 
-module.exports = OrphielSeasChosen;
+export default OrphielSeasChosen;

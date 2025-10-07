@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class ClapOfThunder extends Card {
     // Play: Destroy the least powerful creature. Ready and enrage the
@@ -31,4 +31,4 @@ class ClapOfThunder extends Card {
 
 ClapOfThunder.id = 'clap-of-thunder';
 
-module.exports = ClapOfThunder;
+export default ClapOfThunder;

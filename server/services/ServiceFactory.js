@@ -1,9 +1,9 @@
-const MessageService = require('./MessageService');
-const CardService = require('./CardService');
+import MessageService from './MessageService.js';
+import CardService from './CardService.js';
 
 let services = {};
 
-module.exports = {
+export default {
     messageService: () => {
         if (!services.messageService) {
             services.messageService = new MessageService();

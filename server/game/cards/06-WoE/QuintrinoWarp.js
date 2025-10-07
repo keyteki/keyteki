@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class QuintrinoWarp extends Card {
     // Play: Choose a friendly creature and an enemy creature. Destroy
@@ -48,4 +48,4 @@ class QuintrinoWarp extends Card {
 
 QuintrinoWarp.id = 'quintrino-warp';
 
-module.exports = QuintrinoWarp;
+export default QuintrinoWarp;

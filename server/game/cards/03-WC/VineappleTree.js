@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class VineappleTree extends Card {
     // Keys cost +1A for each growth counter on Vineapple Tree.
@@ -26,4 +26,4 @@ class VineappleTree extends Card {
 
 VineappleTree.id = 'vineapple-tree';
 
-module.exports = VineappleTree;
+export default VineappleTree;

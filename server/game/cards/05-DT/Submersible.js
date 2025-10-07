@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Submersible extends Card {
     // (T) While the tide is high, each friendly Thief creature gains elusive.
@@ -15,4 +15,4 @@ class Submersible extends Card {
 
 Submersible.id = 'submersible';
 
-module.exports = Submersible;
+export default Submersible;

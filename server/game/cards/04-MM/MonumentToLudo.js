@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class MonumentToLudo extends Card {
     // Action: Move 1A from a creature to the common supply. If Praefectus Ludo is in your discard pile, move 2A from that creature to the common supply instead.
@@ -18,4 +18,4 @@ class MonumentToLudo extends Card {
 
 MonumentToLudo.id = 'monument-to-ludo';
 
-module.exports = MonumentToLudo;
+export default MonumentToLudo;

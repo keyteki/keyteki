@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Fling extends Card {
     // Play: Destroy a friendly creature. If you do, deal damage to an
@@ -32,4 +32,4 @@ class Fling extends Card {
 
 Fling.id = 'fling';
 
-module.exports = Fling;
+export default Fling;

@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class BestiariiUrsoEvilTwin extends Card {
     // Play/Fight: Stun a creature.
@@ -15,4 +15,4 @@ class BestiariiUrsoEvilTwin extends Card {
 
 BestiariiUrsoEvilTwin.id = 'bestiarii-urso-evil-twin';
 
-module.exports = BestiariiUrsoEvilTwin;
+export default BestiariiUrsoEvilTwin;

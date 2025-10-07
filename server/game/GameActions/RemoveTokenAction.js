@@ -1,4 +1,4 @@
-const CardGameAction = require('./CardGameAction');
+import CardGameAction from './CardGameAction.js';
 
 class RemoveTokenAction extends CardGameAction {
     constructor(propertyFactory, type = 'power') {
@@ -75,4 +75,4 @@ class RemoveTokenAction extends CardGameAction {
     }
 }
 
-module.exports = RemoveTokenAction;
+export default RemoveTokenAction;

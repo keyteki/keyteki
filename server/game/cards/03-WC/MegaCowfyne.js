@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class MegaCowfyne extends Card {
     // Before Fight: Deal 2D to each neighbor of the creature Mega Cowfyne fights.
@@ -15,4 +15,4 @@ class MegaCowfyne extends Card {
 
 MegaCowfyne.id = 'mega-cowfyne';
 
-module.exports = MegaCowfyne;
+export default MegaCowfyne;

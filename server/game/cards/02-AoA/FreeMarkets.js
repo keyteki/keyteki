@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class FreeMarkets extends Card {
     // Play: Gain 1A (to a maximum of 6) for each house represented among cards in play, except for Sanctum.
@@ -19,4 +19,4 @@ class FreeMarkets extends Card {
 
 FreeMarkets.id = 'free-markets';
 
-module.exports = FreeMarkets;
+export default FreeMarkets;

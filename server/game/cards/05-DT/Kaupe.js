@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Kaupe extends Card {
     // Your opponent cannot play more than 1 card of each card type (action, artifact, creature, upgrade) each turn.
@@ -47,4 +47,4 @@ class Kaupe extends Card {
 
 Kaupe.id = 'kaupe';
 
-module.exports = Kaupe;
+export default Kaupe;

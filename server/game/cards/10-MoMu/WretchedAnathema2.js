@@ -1,4 +1,4 @@
-const WretchedAnathema = require('./WretchedAnathema.js');
+import WretchedAnathema from './WretchedAnathema.js';
 
 class WretchedAnathema2 extends WretchedAnathema {
     constructor(owner, cardData) {
@@ -8,4 +8,4 @@ class WretchedAnathema2 extends WretchedAnathema {
 
 WretchedAnathema2.id = 'wretched-anathema2';
 
-module.exports = WretchedAnathema2;
+export default WretchedAnathema2;

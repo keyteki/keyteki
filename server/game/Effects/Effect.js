@@ -1,4 +1,4 @@
-const _ = require('underscore');
+import _ from 'underscore';
 
 /**
  * Represents a card based effect applied to one or more targets.
@@ -150,4 +150,4 @@ class Effect {
     }
 }
 
-module.exports = Effect;
+export default Effect;

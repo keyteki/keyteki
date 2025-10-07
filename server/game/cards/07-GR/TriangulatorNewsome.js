@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class TriangulatorNewsome extends Card {
     // After Reap: If you are haunted, move each from Triangulator
@@ -27,4 +27,4 @@ class TriangulatorNewsome extends Card {
 
 TriangulatorNewsome.id = 'triangulator-newsome';
 
-module.exports = TriangulatorNewsome;
+export default TriangulatorNewsome;

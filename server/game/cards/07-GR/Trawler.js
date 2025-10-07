@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Trawler extends Card {
     // If you are haunted, capture all your opponent’s A.
@@ -14,4 +14,4 @@ class Trawler extends Card {
 
 Trawler.id = 'trawler';
 
-module.exports = Trawler;
+export default Trawler;

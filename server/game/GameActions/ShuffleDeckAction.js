@@ -1,4 +1,4 @@
-const PlayerAction = require('./PlayerAction');
+import PlayerAction from './PlayerAction.js';
 
 class ShuffleDeckAction extends PlayerAction {
     setup() {
@@ -19,4 +19,4 @@ class ShuffleDeckAction extends PlayerAction {
     }
 }
 
-module.exports = ShuffleDeckAction;
+export default ShuffleDeckAction;

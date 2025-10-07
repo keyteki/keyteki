@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class BurnTheStockpile extends Card {
     // Play: If your opponent has 7A or more, they lose 4A.
@@ -12,4 +12,4 @@ class BurnTheStockpile extends Card {
 
 BurnTheStockpile.id = 'burn-the-stockpile';
 
-module.exports = BurnTheStockpile;
+export default BurnTheStockpile;

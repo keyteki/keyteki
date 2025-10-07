@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class ChieftainsBrew extends Card {
     // Play: Give a creature two +1 power counters.
@@ -16,4 +16,4 @@ class ChieftainsBrew extends Card {
 
 ChieftainsBrew.id = 'chieftain-s-brew';
 
-module.exports = ChieftainsBrew;
+export default ChieftainsBrew;

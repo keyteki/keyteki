@@ -1,5 +1,5 @@
-const Card = require('../../Card.js');
-const EventRegistrar = require('../../eventregistrar.js');
+import Card from '../../Card.js';
+import EventRegistrar from '../../eventregistrar.js';
 
 class Foozle extends Card {
     // Reap: If an enemy creature has been destroyed this turn, gain 1A.
@@ -29,4 +29,4 @@ class Foozle extends Card {
 
 Foozle.id = 'foozle';
 
-module.exports = Foozle;
+export default Foozle;

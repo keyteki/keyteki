@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Hornswoggle extends Card {
     // Play: Use an enemy artifact as if it were yours.
@@ -15,4 +15,4 @@ class Hornswoggle extends Card {
 
 Hornswoggle.id = 'hornswoggle';
 
-module.exports = Hornswoggle;
+export default Hornswoggle;

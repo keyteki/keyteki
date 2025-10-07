@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class ProfessorTerato extends Card {
     // Each Mutant creature gains, Reap: Draw a card.
@@ -15,4 +15,4 @@ class ProfessorTerato extends Card {
 
 ProfessorTerato.id = 'professor-terato';
 
-module.exports = ProfessorTerato;
+export default ProfessorTerato;

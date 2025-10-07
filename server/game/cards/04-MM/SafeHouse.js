@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class SafeHouse extends Card {
     // Action: Archive a friendly creature from play.
@@ -15,4 +15,4 @@ class SafeHouse extends Card {
 
 SafeHouse.id = 'safe-house';
 
-module.exports = SafeHouse;
+export default SafeHouse;

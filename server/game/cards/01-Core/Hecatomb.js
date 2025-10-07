@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Hecatomb extends Card {
     // Play: Destroy each Dis creature. Each player gains 1A for each creature they controlled that was destroyed this way.
@@ -36,4 +36,4 @@ class Hecatomb extends Card {
 
 Hecatomb.id = 'hecatomb';
 
-module.exports = Hecatomb;
+export default Hecatomb;

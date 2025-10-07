@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class IslandOfMisfitToys extends Card {
     // Action: Return each Geistoid card from your discard pile to
@@ -24,4 +24,4 @@ class IslandOfMisfitToys extends Card {
 
 IslandOfMisfitToys.id = 'island-of-misfit-toys';
 
-module.exports = IslandOfMisfitToys;
+export default IslandOfMisfitToys;

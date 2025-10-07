@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class PingleWhoAnnoys extends Card {
     // Elusive. (The first time this creature is attacked each turn, no damage is dealt.)
@@ -19,4 +19,4 @@ class PingleWhoAnnoys extends Card {
 
 PingleWhoAnnoys.id = 'pingle-who-annoys';
 
-module.exports = PingleWhoAnnoys;
+export default PingleWhoAnnoys;

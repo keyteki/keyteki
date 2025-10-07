@@ -1,4 +1,4 @@
-const PlayerAction = require('./PlayerAction');
+import PlayerAction from './PlayerAction.js';
 
 class MulliganAction extends PlayerAction {
     setup() {
@@ -19,4 +19,4 @@ class MulliganAction extends PlayerAction {
     }
 }
 
-module.exports = MulliganAction;
+export default MulliganAction;

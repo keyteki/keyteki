@@ -1,5 +1,5 @@
-const _ = require('underscore');
-const Card = require('../../Card.js');
+import _ from 'underscore';
+import Card from '../../Card.js';
 
 class CatchAndRelease extends Card {
     // Play: Return each creature to its owner`s hand. Each player
@@ -38,4 +38,4 @@ class CatchAndRelease extends Card {
 
 CatchAndRelease.id = 'catch-and-release';
 
-module.exports = CatchAndRelease;
+export default CatchAndRelease;

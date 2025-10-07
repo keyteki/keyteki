@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class DuskChronicles extends Card {
     // Play: If your opponent has more A than you, draw a card. If you have more A than your opponent, archive a card.
@@ -23,4 +23,4 @@ class DuskChronicles extends Card {
 
 DuskChronicles.id = 'dusk-chronicles';
 
-module.exports = DuskChronicles;
+export default DuskChronicles;

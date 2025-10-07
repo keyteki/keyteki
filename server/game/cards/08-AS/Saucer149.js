@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Saucer149 extends Card {
     // Play: Exalt Saucer 149 four times.
@@ -40,4 +40,4 @@ class Saucer149 extends Card {
 
 Saucer149.id = 'saucer-149';
 
-module.exports = Saucer149;
+export default Saucer149;

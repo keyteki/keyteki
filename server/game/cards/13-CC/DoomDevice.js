@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class DoomDevice extends Card {
     // At the end of your turn, if there are 13 or more cards in play, destroy each creature and artifact.
@@ -27,4 +27,4 @@ class DoomDevice extends Card {
 
 DoomDevice.id = 'doom-device';
 
-module.exports = DoomDevice;
+export default DoomDevice;

@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class RaiderOfThePeaks extends Card {
     // At the start of your turn, the player who controls the most
@@ -35,4 +35,4 @@ class RaiderOfThePeaks extends Card {
 
 RaiderOfThePeaks.id = 'raider-of-the-peaks';
 
-module.exports = RaiderOfThePeaks;
+export default RaiderOfThePeaks;

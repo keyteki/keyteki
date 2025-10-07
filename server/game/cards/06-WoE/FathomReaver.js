@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class FathomReaver extends Card {
     // Play: Make a token creature. While you control a token creature,
@@ -18,4 +18,4 @@ class FathomReaver extends Card {
 
 FathomReaver.id = 'fathom-reaver';
 
-module.exports = FathomReaver;
+export default FathomReaver;

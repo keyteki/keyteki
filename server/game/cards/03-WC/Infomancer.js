@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Infomancer extends Card {
     // Elusive.
@@ -32,4 +32,4 @@ class Infomancer extends Card {
 
 Infomancer.id = 'infomancer';
 
-module.exports = Infomancer;
+export default Infomancer;

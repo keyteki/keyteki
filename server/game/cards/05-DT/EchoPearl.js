@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class EchoPearl extends Card {
     // Omni: Destroy Echo Pearl. Exhaust, stun, and enrage a creature.
@@ -25,4 +25,4 @@ class EchoPearl extends Card {
 
 EchoPearl.id = 'echo-pearl';
 
-module.exports = EchoPearl;
+export default EchoPearl;

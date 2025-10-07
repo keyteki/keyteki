@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class LightsmithClariel extends Card {
     // Before Fight: You may switch Lightsmith Clariel's power and armor for the remainder of the turn.
@@ -14,4 +14,4 @@ class LightsmithClariel extends Card {
 
 LightsmithClariel.id = 'lightsmith-clariel';
 
-module.exports = LightsmithClariel;
+export default LightsmithClariel;

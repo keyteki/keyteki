@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Archimedes extends Card {
     // Elusive.(The first time this creature is attacked each turn, no damage is dealt.)
@@ -16,4 +16,4 @@ class Archimedes extends Card {
 
 Archimedes.id = 'archimedes';
 
-module.exports = Archimedes;
+export default Archimedes;

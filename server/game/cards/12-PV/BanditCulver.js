@@ -1,5 +1,5 @@
-const Card = require('../../Card.js');
-const EventRegistrar = require('../../eventregistrar.js');
+import Card from '../../Card.js';
+import EventRegistrar from '../../eventregistrar.js';
 
 class BanditCulver extends Card {
     // Elusive. Enhance .
@@ -37,4 +37,4 @@ class BanditCulver extends Card {
 
 BanditCulver.id = 'bandit-culver';
 
-module.exports = BanditCulver;
+export default BanditCulver;

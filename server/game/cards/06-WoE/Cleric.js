@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Cleric extends Card {
     // When cleric enters play, capture 1A
@@ -17,4 +17,4 @@ class Cleric extends Card {
 
 Cleric.id = 'cleric';
 
-module.exports = Cleric;
+export default Cleric;

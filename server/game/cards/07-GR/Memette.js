@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Memette extends Card {
     // Play/Destroyed: Archive the top card of your discard pile.
@@ -21,4 +21,4 @@ class Memette extends Card {
 
 Memette.id = 'memette';
 
-module.exports = Memette;
+export default Memette;

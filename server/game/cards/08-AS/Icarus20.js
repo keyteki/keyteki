@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Icarus20 extends Card {
     // Each friendly creature gains, “Action: Draw a card.”
@@ -14,4 +14,4 @@ class Icarus20 extends Card {
 
 Icarus20.id = 'icarus-20';
 
-module.exports = Icarus20;
+export default Icarus20;

@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class EtansJar extends Card {
     // Play: Name a card. Until Etans Jar leaves play, cards with that name cannot be played.
@@ -26,4 +26,4 @@ class EtansJar extends Card {
 
 EtansJar.id = 'etan-s-jar';
 
-module.exports = EtansJar;
+export default EtansJar;

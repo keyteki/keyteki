@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Scooboo extends Card {
     // While Scooboo is in your discard pile, if you would draw a card
@@ -38,4 +38,4 @@ class Scooboo extends Card {
 
 Scooboo.id = 'scooboo';
 
-module.exports = Scooboo;
+export default Scooboo;

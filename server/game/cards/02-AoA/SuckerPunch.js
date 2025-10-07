@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class SuckerPunch extends Card {
     // Alpha. (You can only play this card before doing anything else this step.)
@@ -25,4 +25,4 @@ class SuckerPunch extends Card {
 
 SuckerPunch.id = 'sucker-punch';
 
-module.exports = SuckerPunch;
+export default SuckerPunch;

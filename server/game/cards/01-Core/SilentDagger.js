@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class SilentDagger extends Card {
     // This creature gains, Reap: Deal 4<D> to a flank creature.
@@ -17,4 +17,4 @@ class SilentDagger extends Card {
 
 SilentDagger.id = 'silent-dagger';
 
-module.exports = SilentDagger;
+export default SilentDagger;

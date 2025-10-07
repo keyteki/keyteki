@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class ZYXResearcher extends Card {
     // Play: Archive the top card of your deck or the top card of your discard pile.
@@ -21,4 +21,4 @@ class ZYXResearcher extends Card {
 
 ZYXResearcher.id = 'zyx-researcher';
 
-module.exports = ZYXResearcher;
+export default ZYXResearcher;

@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Mindwarper extends Card {
     // Elusive. (The first time this creature is attacked each turn, no damage is dealt.)
@@ -19,4 +19,4 @@ class Mindwarper extends Card {
 
 Mindwarper.id = 'mindwarper';
 
-module.exports = Mindwarper;
+export default Mindwarper;

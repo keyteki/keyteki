@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Ruination extends Card {
     // Play: Choose a card. Destroy that card and each card with the same name.
@@ -25,4 +25,4 @@ class Ruination extends Card {
 
 Ruination.id = 'ruination';
 
-module.exports = Ruination;
+export default Ruination;

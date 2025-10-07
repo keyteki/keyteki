@@ -1,4 +1,4 @@
-const PlayerAction = require('./PlayerAction');
+import PlayerAction from './PlayerAction.js';
 
 class DrawAction extends PlayerAction {
     setDefaultProperties() {
@@ -117,4 +117,4 @@ class DrawAction extends PlayerAction {
     }
 }
 
-module.exports = DrawAction;
+export default DrawAction;

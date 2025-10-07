@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class AutoVac5150 extends Card {
     // Action: You may discard a card from your archives. If you do, keys cost +3A during your opponents next turn. Otherwise, archive a card.
@@ -37,4 +37,4 @@ class AutoVac5150 extends Card {
 
 AutoVac5150.id = 'auto-vac-5150';
 
-module.exports = AutoVac5150;
+export default AutoVac5150;

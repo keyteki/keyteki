@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class GhostTree extends Card {
     // While you are haunted, Ghost Tree deals no damage when fighting.
@@ -23,4 +23,4 @@ class GhostTree extends Card {
 
 GhostTree.id = 'ghost-tree';
 
-module.exports = GhostTree;
+export default GhostTree;

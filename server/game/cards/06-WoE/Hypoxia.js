@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Hypoxia extends Card {
     //Play: Destroy each token creature.
@@ -13,4 +13,4 @@ class Hypoxia extends Card {
 
 Hypoxia.id = 'hypoxia';
 
-module.exports = Hypoxia;
+export default Hypoxia;

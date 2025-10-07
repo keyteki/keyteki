@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class StaralliancePlant extends Card {
     // Elusive.
@@ -15,4 +15,4 @@ class StaralliancePlant extends Card {
 
 StaralliancePlant.id = 'star-alliance-plant';
 
-module.exports = StaralliancePlant;
+export default StaralliancePlant;

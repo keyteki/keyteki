@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class PuzzlingTrinket extends Card {
     // Enhance . (These icons have already been added to cards in your deck.)
@@ -18,4 +18,4 @@ class PuzzlingTrinket extends Card {
 
 PuzzlingTrinket.id = 'puzzling-trinket';
 
-module.exports = PuzzlingTrinket;
+export default PuzzlingTrinket;

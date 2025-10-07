@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class LightEverlasting extends Card {
     // Play: Play a Sanctum creature from your discard pile anywhere in your battleline.
@@ -17,4 +17,4 @@ class LightEverlasting extends Card {
 
 LightEverlasting.id = 'light-everlasting';
 
-module.exports = LightEverlasting;
+export default LightEverlasting;

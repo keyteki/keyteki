@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class ObsidianForge extends Card {
     // Action: Destroy any number of friendly creatures. You may forge a key at +6A current cost, reduced by 1A for each creature destroyed this way. If you forge a key this way, destroy Obsidian Forge.
@@ -26,4 +26,4 @@ class ObsidianForge extends Card {
 
 ObsidianForge.id = 'obsidian-forge';
 
-module.exports = ObsidianForge;
+export default ObsidianForge;

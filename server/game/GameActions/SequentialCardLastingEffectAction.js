@@ -1,5 +1,5 @@
-const CardListSelector = require('./CardListSelector');
-const GameAction = require('./GameAction');
+import CardListSelector from './CardListSelector.js';
+import GameAction from './GameAction.js';
 
 class SequentialCardLastingEffectAction extends GameAction {
     setDefaultProperties() {
@@ -81,4 +81,4 @@ class SequentialCardLastingEffectAction extends GameAction {
     }
 }
 
-module.exports = SequentialCardLastingEffectAction;
+export default SequentialCardLastingEffectAction;

@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class LiftingBuddy extends Card {
     // Play/After Fight/After Reap: Give Lifting Buddy two +1 power counters.
@@ -30,4 +30,4 @@ class LiftingBuddy extends Card {
 
 LiftingBuddy.id = 'lifting-buddy';
 
-module.exports = LiftingBuddy;
+export default LiftingBuddy;

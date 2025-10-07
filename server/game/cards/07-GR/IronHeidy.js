@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class IronHeidy extends Card {
     // While you are haunted, Iron Heidy and each of Iron Heidy's
@@ -15,4 +15,4 @@ class IronHeidy extends Card {
 
 IronHeidy.id = 'iron-heidy';
 
-module.exports = IronHeidy;
+export default IronHeidy;

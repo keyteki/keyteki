@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class ReassemblingAutomaton extends Card {
     // Destroyed: If you have any other creatures in play, instead of destroying Reassembling Automaton, fully heal it, exhaust it, and move it to a flank.
@@ -27,4 +27,4 @@ class ReassemblingAutomaton extends Card {
 
 ReassemblingAutomaton.id = 'reassembling-automaton';
 
-module.exports = ReassemblingAutomaton;
+export default ReassemblingAutomaton;

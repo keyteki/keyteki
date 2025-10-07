@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class HeedTheHorde extends Card {
     // Play: For each friendly Mutant creature, your opponent loses 1.
@@ -30,4 +30,4 @@ class HeedTheHorde extends Card {
 
 HeedTheHorde.id = 'heed-the-horde';
 
-module.exports = HeedTheHorde;
+export default HeedTheHorde;

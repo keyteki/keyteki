@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class DthoshraRecruiter extends Card {
     // After Reap: Make a token creature.
@@ -11,4 +11,4 @@ class DthoshraRecruiter extends Card {
 
 DthoshraRecruiter.id = 'dthoshră-recruiter';
 
-module.exports = DthoshraRecruiter;
+export default DthoshraRecruiter;

@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class ToxicudaVenom extends Card {
     //This creature gains poison. (Any damage dealt by this creature's power during a fight destroyes the damaged creature.)
@@ -13,4 +13,4 @@ class ToxicudaVenom extends Card {
 
 ToxicudaVenom.id = 'toxicuda-venom';
 
-module.exports = ToxicudaVenom;
+export default ToxicudaVenom;

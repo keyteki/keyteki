@@ -1,7 +1,7 @@
 import React from 'react';
 import { Trans, useTranslation } from 'react-i18next';
-import { Form, Col } from 'react-bootstrap';
-import { getStandardControlProps } from '../../util';
+import { Form, Col, Row } from 'react-bootstrap';
+import { getStandardControlProps } from '../../util.jsx';
 
 const GameOptions = ({ formProps }) => {
     const { t } = useTranslation();
@@ -18,7 +18,7 @@ const GameOptions = ({ formProps }) => {
     return (
         <>
             <Form.Group>
-                <Form.Row>
+                <Row>
                     <Col xs={12} className='font-weight-bold'>
                         <Trans>Options</Trans>
                     </Col>
@@ -35,10 +35,10 @@ const GameOptions = ({ formProps }) => {
                             ></Form.Check>
                         </Col>
                     ))}
-                </Form.Row>
+                </Row>
             </Form.Group>
             {formProps.values.useGameTimeLimit && (
-                <Form.Row>
+                <Row>
                     <Form.Group as={Col} sm={4}>
                         <Form.Label>{t('Time Limit')}</Form.Label>
                         <Form.Control
@@ -50,7 +50,7 @@ const GameOptions = ({ formProps }) => {
                             {formProps.errors.gameTimeLimit}
                         </Form.Control.Feedback>
                     </Form.Group>
-                </Form.Row>
+                </Row>
             )}
         </>
     );

@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Kamalani extends Card {
     //Destroyed: Make 2 token creatures.
@@ -11,4 +11,4 @@ class Kamalani extends Card {
 
 Kamalani.id = 'kamalani';
 
-module.exports = Kamalani;
+export default Kamalani;

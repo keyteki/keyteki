@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class TheSusurrus extends Card {
     // Action: Exhaust a friendly Unfathomable creature. If you do, exhaust up to 3 creatures and/or artifacts.
@@ -24,4 +24,4 @@ class TheSusurrus extends Card {
 
 TheSusurrus.id = 'the-susurrus';
 
-module.exports = TheSusurrus;
+export default TheSusurrus;

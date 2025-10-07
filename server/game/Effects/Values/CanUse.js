@@ -1,4 +1,4 @@
-const ConditionValue = require('./ConditionValue');
+import ConditionValue from './ConditionValue.js';
 
 class CanUse extends ConditionValue {
     constructor(condition, toFight = false, toReap = false) {
@@ -39,4 +39,4 @@ class CanUse extends ConditionValue {
     }
 }
 
-module.exports = CanUse;
+export default CanUse;

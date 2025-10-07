@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class RuinsOfArchonis extends Card {
     // Play: Put  4A on Ruins of Archonis from the common supply. Archive a card.
@@ -37,4 +37,4 @@ class RuinsOfArchonis extends Card {
 
 RuinsOfArchonis.id = 'ruins-of-archonis';
 
-module.exports = RuinsOfArchonis;
+export default RuinsOfArchonis;

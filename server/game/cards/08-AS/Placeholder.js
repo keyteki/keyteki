@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Placeholder extends Card {
     // Move a creature to a flank of its controller’s battleline and
@@ -37,4 +37,4 @@ class Placeholder extends Card {
 
 Placeholder.id = 'placeholder';
 
-module.exports = Placeholder;
+export default Placeholder;

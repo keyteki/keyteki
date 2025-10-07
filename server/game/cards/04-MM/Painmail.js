@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Painmail extends Card {
     // This creature gains, After any player chooses Dis as their active house, put Painmail into its owners archives and destroy this creature.
@@ -25,4 +25,4 @@ class Painmail extends Card {
 
 Painmail.id = 'painmail';
 
-module.exports = Painmail;
+export default Painmail;

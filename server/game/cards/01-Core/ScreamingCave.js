@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class ScreamingCave extends Card {
     // Action: Shuffle your hand and discard pile into your deck.
@@ -16,4 +16,4 @@ class ScreamingCave extends Card {
 
 ScreamingCave.id = 'screaming-cave';
 
-module.exports = ScreamingCave;
+export default ScreamingCave;

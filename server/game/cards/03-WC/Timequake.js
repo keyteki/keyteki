@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Timequake extends Card {
     // Play: Shuffle each friendly card in play into your deck. Draw a card for each card shuffled into your deck this way.
@@ -31,4 +31,4 @@ class Timequake extends Card {
 
 Timequake.id = 'timequake';
 
-module.exports = Timequake;
+export default Timequake;

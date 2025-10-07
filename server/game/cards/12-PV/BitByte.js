@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class BitByte extends Card {
     // Skirmish.
@@ -28,4 +28,4 @@ class BitByte extends Card {
 
 BitByte.id = 'bit-byte';
 
-module.exports = BitByte;
+export default BitByte;

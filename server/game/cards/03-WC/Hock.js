@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Hock extends Card {
     // Play: Destroy an artifact. If you do, gain 1A.
@@ -17,4 +17,4 @@ class Hock extends Card {
 
 Hock.id = 'hock';
 
-module.exports = Hock;
+export default Hock;

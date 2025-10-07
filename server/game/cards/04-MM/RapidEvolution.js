@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class RapidEvolution extends Card {
     // Play: Choose a creature. Give it a +1 power counter for each A you have.
@@ -16,4 +16,4 @@ class RapidEvolution extends Card {
 
 RapidEvolution.id = 'rapid-evolution';
 
-module.exports = RapidEvolution;
+export default RapidEvolution;

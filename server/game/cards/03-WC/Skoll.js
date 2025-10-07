@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Skoll extends Card {
     // Assault 3. (Before this creature attacks, deal 3D to the attacked enemy.)
@@ -26,4 +26,4 @@ class Skoll extends Card {
 
 Skoll.id = 'sköll';
 
-module.exports = Skoll;
+export default Skoll;

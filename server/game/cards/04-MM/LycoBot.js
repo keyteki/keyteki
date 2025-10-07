@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class LycoBot extends Card {
     // Skirmish. (When you use this creature to fight, it is dealt no damage in return.)
@@ -19,4 +19,4 @@ class LycoBot extends Card {
 
 LycoBot.id = 'lyco-bot';
 
-module.exports = LycoBot;
+export default LycoBot;

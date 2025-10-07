@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class SauryAboutThat extends Card {
     // Play: Destroy a creature. Its controller gains 1.
@@ -24,4 +24,4 @@ class SauryAboutThat extends Card {
 
 SauryAboutThat.id = 'saury-about-that';
 
-module.exports = SauryAboutThat;
+export default SauryAboutThat;

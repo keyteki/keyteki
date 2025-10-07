@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class InHereSomewhere extends Card {
     // Play: If you are haunted, archive 2 cards from your discard pile.
@@ -33,4 +33,4 @@ class InHereSomewhere extends Card {
 
 InHereSomewhere.id = 'in-here-somewhere…';
 
-module.exports = InHereSomewhere;
+export default InHereSomewhere;

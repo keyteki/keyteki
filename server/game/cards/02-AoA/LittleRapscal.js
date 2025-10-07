@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class LittleRapscal extends Card {
     // Elusive.(The first time this creature is attacked each turn, no damage is dealt.)
@@ -18,4 +18,4 @@ class LittleRapscal extends Card {
 
 LittleRapscal.id = 'little-rapscal';
 
-module.exports = LittleRapscal;
+export default LittleRapscal;

@@ -1,5 +1,5 @@
-const CardListSelector = require('./CardListSelector');
-const GameAction = require('./GameAction');
+import CardListSelector from './CardListSelector.js';
+import GameAction from './GameAction.js';
 
 class SequentialPlayAction extends GameAction {
     setDefaultProperties() {
@@ -85,4 +85,4 @@ class SequentialPlayAction extends GameAction {
     }
 }
 
-module.exports = SequentialPlayAction;
+export default SequentialPlayAction;

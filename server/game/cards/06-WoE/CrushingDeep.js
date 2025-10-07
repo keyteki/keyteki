@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class CrushingDeep extends Card {
     //Play: During your opponent's next turn, keys cost +3A for each forged key they have.
@@ -18,4 +18,4 @@ class CrushingDeep extends Card {
 
 CrushingDeep.id = 'crushing-deep';
 
-module.exports = CrushingDeep;
+export default CrushingDeep;

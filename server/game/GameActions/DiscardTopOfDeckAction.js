@@ -1,4 +1,4 @@
-const PlayerAction = require('./PlayerAction');
+import PlayerAction from './PlayerAction.js';
 
 class DiscardTopOfDeckAction extends PlayerAction {
     setDefaultProperties() {
@@ -27,4 +27,4 @@ class DiscardTopOfDeckAction extends PlayerAction {
     }
 }
 
-module.exports = DiscardTopOfDeckAction;
+export default DiscardTopOfDeckAction;

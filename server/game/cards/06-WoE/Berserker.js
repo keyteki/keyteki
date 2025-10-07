@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Berserker extends Card {
     // Berserker enters play ready and enraged.
@@ -16,4 +16,4 @@ class Berserker extends Card {
 
 Berserker.id = 'berserker';
 
-module.exports = Berserker;
+export default Berserker;

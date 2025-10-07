@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class AnvilCrawler extends Card {
     // Each player refills their hand to 1 additional card during
@@ -13,4 +13,4 @@ class AnvilCrawler extends Card {
 
 AnvilCrawler.id = 'anvil-crawler';
 
-module.exports = AnvilCrawler;
+export default AnvilCrawler;

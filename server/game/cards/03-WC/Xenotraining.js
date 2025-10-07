@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Xenotraining extends Card {
     // Play: For each house represented among friendly creatures, a friendly creature captures 1.
@@ -26,4 +26,4 @@ class Xenotraining extends Card {
 
 Xenotraining.id = 'xenotraining';
 
-module.exports = Xenotraining;
+export default Xenotraining;

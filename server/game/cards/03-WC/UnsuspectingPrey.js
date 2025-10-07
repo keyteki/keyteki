@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class UnsuspectingPrey extends Card {
     // Play: Deal 2D to up to 3undamaged creatures.
@@ -19,4 +19,4 @@ class UnsuspectingPrey extends Card {
 
 UnsuspectingPrey.id = 'unsuspecting-prey';
 
-module.exports = UnsuspectingPrey;
+export default UnsuspectingPrey;

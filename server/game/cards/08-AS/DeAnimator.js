@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class DeAnimator extends Card {
     // Each card that has a mineralize counter on it is considered an
@@ -39,4 +39,4 @@ class DeAnimator extends Card {
 
 DeAnimator.id = 'de-animator';
 
-module.exports = DeAnimator;
+export default DeAnimator;

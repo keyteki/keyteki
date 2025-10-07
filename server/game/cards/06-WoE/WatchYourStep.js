@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class WatchYourStep extends Card {
     // Play: Choose a house on your opponent's identity card. If they
@@ -43,4 +43,4 @@ class WatchYourStep extends Card {
 
 WatchYourStep.id = 'watch-your-step';
 
-module.exports = WatchYourStep;
+export default WatchYourStep;

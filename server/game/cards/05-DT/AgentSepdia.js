@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class AgentSepdia extends Card {
     // (T) Fight/Reap: Deal 1D to a creature. If the tide is high, stun that creature.
@@ -25,4 +25,4 @@ class AgentSepdia extends Card {
 
 AgentSepdia.id = 'agent-sepdia';
 
-module.exports = AgentSepdia;
+export default AgentSepdia;

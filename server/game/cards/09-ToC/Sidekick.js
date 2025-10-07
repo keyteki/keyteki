@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Sidekick extends Card {
     // Play: Choose a card in your hand and put it into play as a token creature.
@@ -16,4 +16,4 @@ class Sidekick extends Card {
 
 Sidekick.id = 'sidekick';
 
-module.exports = Sidekick;
+export default Sidekick;

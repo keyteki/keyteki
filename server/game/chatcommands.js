@@ -1,10 +1,10 @@
-const _ = require('underscore');
-const Constants = require('../constants.js');
-const GameActions = require('./GameActions');
-const ManualModePrompt = require('./gamesteps/ManualModePrompt');
-const Deck = require('./deck');
-const RematchPrompt = require('./gamesteps/RematchPrompt');
-const ManualKeyForgePrompt = require('./gamesteps/ManualKeyForgePrompt.js');
+import _ from 'underscore';
+import Constants from '../constants.js';
+import GameActions from './GameActions.js';
+import ManualModePrompt from './gamesteps/ManualModePrompt.js';
+import Deck from './deck.js';
+import RematchPrompt from './gamesteps/RematchPrompt.js';
+import ManualKeyForgePrompt from './gamesteps/ManualKeyForgePrompt.js';
 
 class ChatCommands {
     constructor(game) {
@@ -376,4 +376,4 @@ class ChatCommands {
     }
 }
 
-module.exports = ChatCommands;
+export default ChatCommands;

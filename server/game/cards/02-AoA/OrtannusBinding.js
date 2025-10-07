@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class OrtannusBinding extends Card {
     // Play: Deal 2D to a friendly creature.
@@ -15,4 +15,4 @@ class OrtannusBinding extends Card {
 
 OrtannusBinding.id = 'ortannu-s-binding';
 
-module.exports = OrtannusBinding;
+export default OrtannusBinding;

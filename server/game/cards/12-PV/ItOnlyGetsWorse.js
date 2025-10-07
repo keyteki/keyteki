@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class ItOnlyGetsWorse extends Card {
     // During your opponent's turn, after your opponent steals one or more  from you, fulfill It Only Gets Worse.
@@ -18,4 +18,4 @@ class ItOnlyGetsWorse extends Card {
 
 ItOnlyGetsWorse.id = 'it-only-gets-worse';
 
-module.exports = ItOnlyGetsWorse;
+export default ItOnlyGetsWorse;

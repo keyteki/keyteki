@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Cosmicrux extends Card {
     // After a player readies a creature, deal 1 to it.
@@ -17,4 +17,4 @@ class Cosmicrux extends Card {
 
 Cosmicrux.id = 'cosmicrux';
 
-module.exports = Cosmicrux;
+export default Cosmicrux;

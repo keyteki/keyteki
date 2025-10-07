@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class MimicGel extends Card {
     // Mimic Gel cannot be played unless there is another creature in play.
@@ -37,4 +37,4 @@ class MimicGel extends Card {
 
 MimicGel.id = 'mimic-gel';
 
-module.exports = MimicGel;
+export default MimicGel;

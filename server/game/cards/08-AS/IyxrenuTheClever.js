@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class IyxrenuTheClever extends Card {
     // Action: Lose 1A. If you do, move all A from a creature to your pool.
@@ -30,4 +30,4 @@ class IyxrenuTheClever extends Card {
 
 IyxrenuTheClever.id = 'iyxrenu-the-clever';
 
-module.exports = IyxrenuTheClever;
+export default IyxrenuTheClever;

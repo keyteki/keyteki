@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class ChotaHazri extends Card {
     // Play: Lose 1A. If you do, you may forge a key at current cost.
@@ -15,4 +15,4 @@ class ChotaHazri extends Card {
 
 ChotaHazri.id = 'chota-hazri';
 
-module.exports = ChotaHazri;
+export default ChotaHazri;

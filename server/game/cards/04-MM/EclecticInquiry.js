@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class EclecticInquiry extends Card {
     // Play: Archive the top 2 cards of your deck.
@@ -17,4 +17,4 @@ class EclecticInquiry extends Card {
 
 EclecticInquiry.id = 'eclectic-inquiry';
 
-module.exports = EclecticInquiry;
+export default EclecticInquiry;

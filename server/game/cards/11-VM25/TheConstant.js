@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class TheConstant extends Card {
     // Each player skips their ”draw cards” step.
@@ -36,4 +36,4 @@ class TheConstant extends Card {
 
 TheConstant.id = 'the-constant';
 
-module.exports = TheConstant;
+export default TheConstant;

@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class HauntedHouse extends Card {
     // At the start of your turn, if you are not haunted, discard the
@@ -27,4 +27,4 @@ class HauntedHouse extends Card {
 
 HauntedHouse.id = 'haunted-house';
 
-module.exports = HauntedHouse;
+export default HauntedHouse;

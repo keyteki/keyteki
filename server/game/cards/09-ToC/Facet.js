@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Facet extends Card {
     // Destroyed: If it is your turn, gain 1A.
@@ -12,4 +12,4 @@ class Facet extends Card {
 
 Facet.id = 'facet';
 
-module.exports = Facet;
+export default Facet;

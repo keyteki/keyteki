@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class OptioGorkus extends Card {
     // Elusive.
@@ -28,4 +28,4 @@ class OptioGorkus extends Card {
 
 OptioGorkus.id = 'optio-gorkus';
 
-module.exports = OptioGorkus;
+export default OptioGorkus;

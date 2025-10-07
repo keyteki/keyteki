@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class ArchlegateValeria extends Card {
     // Enhance .
@@ -22,4 +22,4 @@ class ArchlegateValeria extends Card {
 
 ArchlegateValeria.id = 'archlegate-valeria';
 
-module.exports = ArchlegateValeria;
+export default ArchlegateValeria;

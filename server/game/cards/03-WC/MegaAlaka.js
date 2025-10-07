@@ -1,7 +1,7 @@
-const Alaka = require('./Alaka.js');
+import Alaka from './Alaka.js';
 
 class MegaAlaka extends Alaka {}
 
 MegaAlaka.id = 'mega-alaka';
 
-module.exports = MegaAlaka;
+export default MegaAlaka;

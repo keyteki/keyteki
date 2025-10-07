@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class FirstBlood extends Card {
     // Alpha. (You can only play this card before doing anything else this step.)
@@ -22,4 +22,4 @@ class FirstBlood extends Card {
 
 FirstBlood.id = 'first-blood';
 
-module.exports = FirstBlood;
+export default FirstBlood;

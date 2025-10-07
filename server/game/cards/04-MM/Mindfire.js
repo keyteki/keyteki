@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Mindfire extends Card {
     // Play: Your opponent discards a random card from their hand. Steal 1A for each bonus icon on the discarded card.
@@ -30,4 +30,4 @@ class Mindfire extends Card {
 
 Mindfire.id = 'mindfire';
 
-module.exports = Mindfire;
+export default Mindfire;

@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Technobabble extends Card {
     // Play: Stun a creature and each of its neighbors that shares a house with it.
@@ -24,4 +24,4 @@ class Technobabble extends Card {
 
 Technobabble.id = 'technobabble';
 
-module.exports = Technobabble;
+export default Technobabble;

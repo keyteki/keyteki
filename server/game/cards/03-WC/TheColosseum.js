@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class TheColosseum extends Card {
     // After an enemy creature is destroyed while fighting, put a glory counter on The Colosseum.
@@ -37,4 +37,4 @@ class TheColosseum extends Card {
 
 TheColosseum.id = 'the-colosseum';
 
-module.exports = TheColosseum;
+export default TheColosseum;

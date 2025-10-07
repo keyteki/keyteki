@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class PYR0 extends Card {
     setupCardAbilities(ability) {
@@ -15,4 +15,4 @@ class PYR0 extends Card {
 
 PYR0.id = 'pyr*0';
 
-module.exports = PYR0;
+export default PYR0;

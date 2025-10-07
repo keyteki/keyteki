@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class QuantumCompass extends Card {
     // Omni: Archive the top card of your deck.
@@ -14,4 +14,4 @@ class QuantumCompass extends Card {
 
 QuantumCompass.id = 'quantum-compass';
 
-module.exports = QuantumCompass;
+export default QuantumCompass;

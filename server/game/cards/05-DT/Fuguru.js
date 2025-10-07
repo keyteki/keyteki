@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Fuguru extends Card {
     // Poison.
@@ -13,4 +13,4 @@ class Fuguru extends Card {
 
 Fuguru.id = 'fuguru';
 
-module.exports = Fuguru;
+export default Fuguru;

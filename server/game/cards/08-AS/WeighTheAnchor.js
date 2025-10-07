@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class WeighTheAnchor extends Card {
     // Play: For each creature your opponent controls in excess of
@@ -23,4 +23,4 @@ class WeighTheAnchor extends Card {
 
 WeighTheAnchor.id = 'weigh-the-anchor';
 
-module.exports = WeighTheAnchor;
+export default WeighTheAnchor;

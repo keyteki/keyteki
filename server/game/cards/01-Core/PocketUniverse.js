@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class PocketUniverse extends Card {
     // You may spend A on Pocket Universe when forging keys.
@@ -17,4 +17,4 @@ class PocketUniverse extends Card {
 
 PocketUniverse.id = 'pocket-universe';
 
-module.exports = PocketUniverse;
+export default PocketUniverse;

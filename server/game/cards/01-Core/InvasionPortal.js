@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class InvasionPortal extends Card {
     // Action: Discard cards from the top of your deck until you discard a Mars creature or run out of cards. If you discard a Mars creature this way, put it into your hand.
@@ -36,4 +36,4 @@ class InvasionPortal extends Card {
 
 InvasionPortal.id = 'invasion-portal';
 
-module.exports = InvasionPortal;
+export default InvasionPortal;

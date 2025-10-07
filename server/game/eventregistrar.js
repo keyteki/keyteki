@@ -1,4 +1,4 @@
-const _ = require('underscore');
+import _ from 'underscore';
 
 /**
  * Simplifies event registration given an event emitter to listen to events and
@@ -70,4 +70,4 @@ class EventRegistrar {
     }
 }
 
-module.exports = EventRegistrar;
+export default EventRegistrar;

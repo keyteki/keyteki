@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Fetchdrones extends Card {
     // Action: Discard the top 2cards of your deck. For each Logos card discarded this way, a friendly creature captures 2A.
@@ -39,4 +39,4 @@ class Fetchdrones extends Card {
 
 Fetchdrones.id = 'fetchdrones';
 
-module.exports = Fetchdrones;
+export default Fetchdrones;

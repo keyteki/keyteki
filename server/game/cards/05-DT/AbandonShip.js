@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class AbandonShip extends Card {
     // (T) Play: Return a creature to its owner’s hand. If the tide is high, return 4 creatures to their owners’ hands instead.
@@ -16,4 +16,4 @@ class AbandonShip extends Card {
 
 AbandonShip.id = 'abandon-ship';
 
-module.exports = AbandonShip;
+export default AbandonShip;

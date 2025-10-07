@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class RandomAccessArchives extends Card {
     // Play: Archive the top card of your deck.
@@ -14,4 +14,4 @@ class RandomAccessArchives extends Card {
 
 RandomAccessArchives.id = 'random-access-archives';
 
-module.exports = RandomAccessArchives;
+export default RandomAccessArchives;

@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class InstrumentOfSilence extends Card {
     // This creature gains skirmish and, Fight: Gain 1.
@@ -16,4 +16,4 @@ class InstrumentOfSilence extends Card {
 
 InstrumentOfSilence.id = 'instrument-of-silence';
 
-module.exports = InstrumentOfSilence;
+export default InstrumentOfSilence;

@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class NavigatorAli extends Card {
     // Play/Fight/Reap: Look at the top 3 cards of your deck and put them back in any order.
@@ -13,4 +13,4 @@ class NavigatorAli extends Card {
 
 NavigatorAli.id = 'navigator-ali';
 
-module.exports = NavigatorAli;
+export default NavigatorAli;

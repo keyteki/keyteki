@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Tezmal extends Card {
     // Elusive.(The first time this creature is attacked each turn, no damage is dealt.)
@@ -21,4 +21,4 @@ class Tezmal extends Card {
 
 Tezmal.id = 'tezmal';
 
-module.exports = Tezmal;
+export default Tezmal;

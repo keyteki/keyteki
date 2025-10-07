@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class TwilightPixie extends Card {
     // Each of Twilight Pixie’s non-Faerie neighbors gains, “After
@@ -16,4 +16,4 @@ class TwilightPixie extends Card {
 
 TwilightPixie.id = 'twilight-pixie';
 
-module.exports = TwilightPixie;
+export default TwilightPixie;

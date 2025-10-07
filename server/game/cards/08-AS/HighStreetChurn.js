@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 function getHouse(context) {
     return context.secondResolution ? context.secondResolution : context.house;
@@ -46,4 +46,4 @@ class HighStreetChurn extends Card {
 
 HighStreetChurn.id = 'high-street-churn';
 
-module.exports = HighStreetChurn;
+export default HighStreetChurn;

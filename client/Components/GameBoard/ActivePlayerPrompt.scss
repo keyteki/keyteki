@@ -1,8 +1,8 @@
 @import '../../styles/variables';
 @import '../../styles/colours';
-@import '~bootstrap/scss/functions';
-@import '~bootstrap/scss/variables';
-@import '~bootstrap/scss/mixins';
+@import 'bootstrap/scss/functions';
+@import 'bootstrap/scss/variables';
+@import 'bootstrap/scss/mixins';
 
 .menu-pane-source {
     margin-top: -1.25rem;
@@ -49,27 +49,27 @@
 }
 
 .icon-unforgedkeyred {
-    background-image: url('~assets/img/unforgedkeyred.png');
+    background-image: url('..\../assets/img/unforgedkeyred.png');
 }
 
 .icon-unforgedkeyblue {
-    background-image: url('~assets/img/unforgedkeyblue.png');
+    background-image: url('..\../assets/img/unforgedkeyblue.png');
 }
 
 .icon-unforgedkeyyellow {
-    background-image: url('~assets/img/unforgedkeyyellow.png');
+    background-image: url('..\../assets/img/unforgedkeyyellow.png');
 }
 
 .icon-forgedkeyred {
-    background-image: url('~assets/img/forgedkeyred.png');
+    background-image: url('..\../assets/img/forgedkeyred.png');
 }
 
 .icon-forgedkeyblue {
-    background-image: url('~assets/img/forgedkeyblue.png');
+    background-image: url('..\../assets/img/forgedkeyblue.png');
 }
 
 .icon-forgedkeyyellow {
-    background-image: url('~assets/img/forgedkeyyellow.png');
+    background-image: url('..\../assets/img/forgedkeyyellow.png');
 }
 
 .icon-forgedKey {

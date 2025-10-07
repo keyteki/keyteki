@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class ZParticleTracker extends Card {
     // This creature gains, "Fight: Search your deck for an upgrade and put it into your hand. Shuffle your deck."
@@ -19,4 +19,4 @@ class ZParticleTracker extends Card {
 
 ZParticleTracker.id = 'z-particle-tracker';
 
-module.exports = ZParticleTracker;
+export default ZParticleTracker;

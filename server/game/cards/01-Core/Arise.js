@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Arise extends Card {
     // Play: Choose a house. Return each creature of that house from your discard pile to your hand. Gain 1 chain.
@@ -28,4 +28,4 @@ class Arise extends Card {
 
 Arise.id = 'arise';
 
-module.exports = Arise;
+export default Arise;

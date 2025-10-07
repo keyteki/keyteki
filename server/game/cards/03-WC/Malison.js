@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Malison extends Card {
     // Fight: You may move an enemy creature anywhere in its controllers battleline. Then, if it is on a flank, it captures 1A from its own side.
@@ -21,4 +21,4 @@ class Malison extends Card {
 
 Malison.id = 'malison';
 
-module.exports = Malison;
+export default Malison;

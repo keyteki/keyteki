@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class IndignantTone extends Card {
     // Play: Deal 3D to a creature. If this damage destroys that creature, enrage each of its neighbors after it leaves play.
@@ -25,4 +25,4 @@ class IndignantTone extends Card {
 
 IndignantTone.id = 'indignant-tone';
 
-module.exports = IndignantTone;
+export default IndignantTone;

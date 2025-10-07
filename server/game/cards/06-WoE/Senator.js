@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Senator extends Card {
     // Action: Keys cost +1A during your opponent's next turn.
@@ -16,4 +16,4 @@ class Senator extends Card {
 
 Senator.id = 'senator';
 
-module.exports = Senator;
+export default Senator;

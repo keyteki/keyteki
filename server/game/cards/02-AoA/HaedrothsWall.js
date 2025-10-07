@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class HaedrothsWall extends Card {
     // Each friendly flank creature gets +2power.
@@ -13,4 +13,4 @@ class HaedrothsWall extends Card {
 
 HaedrothsWall.id = 'haedroth-s-wall';
 
-module.exports = HaedrothsWall;
+export default HaedrothsWall;

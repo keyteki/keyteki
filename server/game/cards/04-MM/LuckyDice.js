@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class LuckyDice extends Card {
     // Omni: Destroy Lucky Dice. During your opponents next turn, friendly creatures cannot be dealt damage.
@@ -20,4 +20,4 @@ class LuckyDice extends Card {
 
 LuckyDice.id = 'lucky-dice';
 
-module.exports = LuckyDice;
+export default LuckyDice;

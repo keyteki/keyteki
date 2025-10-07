@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class TouristTrap extends Card {
     // Play: Make a token creature.
@@ -59,4 +59,4 @@ class TouristTrap extends Card {
 
 TouristTrap.id = 'tourist-trap';
 
-module.exports = TouristTrap;
+export default TouristTrap;

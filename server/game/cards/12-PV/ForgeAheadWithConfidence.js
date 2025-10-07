@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class ForgeAheadWithConfidence extends Card {
     // During your opponent's turn, after your opponent forges a key, fulfill Forge Ahead With Confidence.
@@ -18,4 +18,4 @@ class ForgeAheadWithConfidence extends Card {
 
 ForgeAheadWithConfidence.id = 'forge-ahead-with-confidence';
 
-module.exports = ForgeAheadWithConfidence;
+export default ForgeAheadWithConfidence;

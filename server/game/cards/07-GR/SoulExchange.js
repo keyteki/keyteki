@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 function firstCreatureInDiscard(context) {
     const player =
@@ -53,4 +53,4 @@ class SoulExchange extends Card {
 
 SoulExchange.id = 'soul-exchange';
 
-module.exports = SoulExchange;
+export default SoulExchange;

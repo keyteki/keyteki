@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class CollectorWorm extends Card {
     // Fight: Archive the creature Collector Worm fights. If that creature leaves your archives, put it in its owners hand instead.
@@ -14,4 +14,4 @@ class CollectorWorm extends Card {
 
 CollectorWorm.id = 'collector-worm';
 
-module.exports = CollectorWorm;
+export default CollectorWorm;

@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class UrienTheCircumspect extends Card {
     // Reap: Gain A equal to Urien the Circumspect's armor.
@@ -13,4 +13,4 @@ class UrienTheCircumspect extends Card {
 
 UrienTheCircumspect.id = 'urien-the-circumspect';
 
-module.exports = UrienTheCircumspect;
+export default UrienTheCircumspect;

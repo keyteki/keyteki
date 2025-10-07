@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class RemoteAccess extends Card {
     // Play: Use an opponents artifact as if it were yours.
@@ -15,4 +15,4 @@ class RemoteAccess extends Card {
 
 RemoteAccess.id = 'remote-access';
 
-module.exports = RemoteAccess;
+export default RemoteAccess;

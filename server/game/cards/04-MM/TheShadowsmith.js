@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class TheShadowsmith extends Card {
     // Each Mutant creature gains elusive.
@@ -13,4 +13,4 @@ class TheShadowsmith extends Card {
 
 TheShadowsmith.id = 'the-shadowsmith';
 
-module.exports = TheShadowsmith;
+export default TheShadowsmith;

@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class SicSemperTyrannosaurus extends Card {
     // Play: Move each A from the most powerful creature to your pool and destroy that creature.
@@ -24,4 +24,4 @@ class SicSemperTyrannosaurus extends Card {
 
 SicSemperTyrannosaurus.id = 'sic-semper-tyrannosaurus';
 
-module.exports = SicSemperTyrannosaurus;
+export default SicSemperTyrannosaurus;

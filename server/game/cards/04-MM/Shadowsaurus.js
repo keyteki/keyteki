@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Shadowsaurus extends Card {
     // Action: Move each A from an enemy creature to your opponents pool. If there was at least 1A on that creature, take control of it. While under your control, it belongs to house Shadows.
@@ -38,4 +38,4 @@ class Shadowsaurus extends Card {
 
 Shadowsaurus.id = 'shadowsaurus';
 
-module.exports = Shadowsaurus;
+export default Shadowsaurus;

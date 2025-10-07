@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class DanceOfDoom extends Card {
     // Play: Choose a number. Destroy each creature with power equal to that number.
@@ -30,4 +30,4 @@ class DanceOfDoom extends Card {
 
 DanceOfDoom.id = 'dance-of-doom';
 
-module.exports = DanceOfDoom;
+export default DanceOfDoom;

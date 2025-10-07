@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class DustImp extends Card {
     // Destroyed: Gain 2A.
@@ -11,4 +11,4 @@ class DustImp extends Card {
 
 DustImp.id = 'dust-imp';
 
-module.exports = DustImp;
+export default DustImp;

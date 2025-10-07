@@ -1,11 +1,12 @@
 /*eslint no-console: 0*/
 
-const _ = require('underscore');
-const monk = require('monk');
+import underscore from 'underscore';
+const _ = underscore;
+import monk from 'monk';
 
-const Constants = require('./constants.js');
-const GameService = require('./services/GameService.js');
-const config = require('config');
+import Constants from './constants.js';
+import GameService from './services/GameService.js';
+import config from 'config';
 
 const bannedDecks = [
     'flaregas-spawn-of-conflascoot',

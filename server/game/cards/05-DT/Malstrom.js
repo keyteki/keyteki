@@ -1,5 +1,5 @@
-const Card = require('../../Card.js');
-const _ = require('underscore');
+import Card from '../../Card.js';
+import _ from 'underscore';
 
 class Malstrom extends Card {
     // Play: Put each creature on top of its owner's deck in a random order. Gain 2 chains.
@@ -18,4 +18,4 @@ class Malstrom extends Card {
 
 Malstrom.id = 'mælstrom';
 
-module.exports = Malstrom;
+export default Malstrom;

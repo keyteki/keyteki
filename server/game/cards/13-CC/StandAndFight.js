@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class StandAndFight extends Card {
     // Play: Exalt a friendly creature and an enemy creature. Ready and fight with the friendly creature exalted in this way.
@@ -37,4 +37,4 @@ class StandAndFight extends Card {
 
 StandAndFight.id = 'stand-and-fight';
 
-module.exports = StandAndFight;
+export default StandAndFight;

@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Chronus extends Card {
     // Enhance RR. (These icons have already been added to cards in your deck.)
@@ -21,4 +21,4 @@ class Chronus extends Card {
 
 Chronus.id = 'chronus';
 
-module.exports = Chronus;
+export default Chronus;

@@ -1,5 +1,5 @@
-const flatMap = require('../../Array').flatMap;
-const AbilityTarget = require('./AbilityTarget.js');
+import { flatMap } from '../../Array.js';
+import AbilityTarget from './AbilityTarget.js';
 
 class AbilityTargetCardName extends AbilityTarget {
     constructor(name, properties, ability) {
@@ -74,4 +74,4 @@ class AbilityTargetCardName extends AbilityTarget {
     }
 }
 
-module.exports = AbilityTargetCardName;
+export default AbilityTargetCardName;

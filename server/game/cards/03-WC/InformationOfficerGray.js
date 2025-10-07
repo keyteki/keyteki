@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class InformationOfficerGray extends Card {
     // Play/Fight/Reap: You may reveal a non-Star Alliance card from your hand. If you do, archive it.
@@ -25,4 +25,4 @@ class InformationOfficerGray extends Card {
 
 InformationOfficerGray.id = 'information-officer-gray';
 
-module.exports = InformationOfficerGray;
+export default InformationOfficerGray;

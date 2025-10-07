@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Phantasm extends Card {
     // After Reap: Discard a card from your hand.
@@ -15,4 +15,4 @@ class Phantasm extends Card {
 
 Phantasm.id = 'phantasm';
 
-module.exports = Phantasm;
+export default Phantasm;

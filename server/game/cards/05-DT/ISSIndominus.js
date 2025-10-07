@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class ISSIndominus extends Card {
     // Action: Exhaust up to 5 friendly Saurian creatures. For each creature exhausted this way, deal 1D to each enemy creature.
@@ -26,4 +26,4 @@ class ISSIndominus extends Card {
 
 ISSIndominus.id = 'iss-indominus';
 
-module.exports = ISSIndominus;
+export default ISSIndominus;

@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class MemroxTheRed extends Card {
     // Your opponent's cards cannot leave your archives.
@@ -23,4 +23,4 @@ class MemroxTheRed extends Card {
 
 MemroxTheRed.id = 'memrox-the-red';
 
-module.exports = MemroxTheRed;
+export default MemroxTheRed;

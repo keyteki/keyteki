@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class MarketFluctuation extends Card {
     // Play: Each haunted player draws 3 cards. Each player that is
@@ -25,4 +25,4 @@ class MarketFluctuation extends Card {
 
 MarketFluctuation.id = 'market-fluctuation';
 
-module.exports = MarketFluctuation;
+export default MarketFluctuation;

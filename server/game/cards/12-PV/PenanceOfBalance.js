@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 function getDifference(context) {
     const enemyCreatures = context.player.opponent.creaturesInPlay.length;
@@ -51,4 +51,4 @@ class PenanceOfBalance extends Card {
 
 PenanceOfBalance.id = 'penance-of-balance';
 
-module.exports = PenanceOfBalance;
+export default PenanceOfBalance;

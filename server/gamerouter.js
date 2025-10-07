@@ -1,9 +1,9 @@
-const EventEmitter = require('events');
+import { EventEmitter } from 'node:events';
 
-const logger = require('./log');
-const GameService = require('./services/GameService');
-const RedisClientFactory = require('./services/RedisClientFactory');
-const { detectBinary } = require('./util');
+import logger from './log.js';
+import GameService from './services/GameService.js';
+import RedisClientFactory from './services/RedisClientFactory.js';
+import { detectBinary } from './util.js';
 
 class GameRouter extends EventEmitter {
     /**
@@ -38,7 +38,7 @@ class GameRouter extends EventEmitter {
 
     // External methods
     /**
-     * @param {import("./pendinggame.js")} game
+     * @param {*} game
      */
     startGame(game) {
         let node = this.getNextAvailableGameNode();
@@ -58,8 +58,8 @@ class GameRouter extends EventEmitter {
     }
 
     /**
-     * @param {import("./pendinggame.js")} game
-     * @param {import("./models/User")} user
+     * @param {*} game
+     * @param {*} user
      */
     addSpectator(game, user) {
         this.sendCommand(game.node.identity, 'SPECTATOR', {
@@ -167,7 +167,7 @@ class GameRouter extends EventEmitter {
     }
 
     /**
-     * @param {import("./pendinggame.js")} game
+     * @param {*} game
      * @param {string} username
      */
     notifyFailedConnect(game, username) {
@@ -182,7 +182,7 @@ class GameRouter extends EventEmitter {
     }
 
     /**
-     * @param {import("./pendinggame.js")} game
+     * @param {*} game
      */
     closeGame(game) {
         if (!game.node) {
@@ -364,4 +364,4 @@ class GameRouter extends EventEmitter {
     }
 }
 
-module.exports = GameRouter;
+export default GameRouter;

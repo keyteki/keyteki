@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class PrognosticatingWitch extends Card {
     // Play/After Reap: If you have 3 or fewer cards in your hand, draw 2 cards.
@@ -14,4 +14,4 @@ class PrognosticatingWitch extends Card {
 
 PrognosticatingWitch.id = 'prognosticating-witch';
 
-module.exports = PrognosticatingWitch;
+export default PrognosticatingWitch;

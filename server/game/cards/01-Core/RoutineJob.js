@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class RoutineJob extends Card {
     // Play: Steal 1A. Then, steal 1A for each copy of Routine Job in your discard pile.
@@ -21,4 +21,4 @@ class RoutineJob extends Card {
 
 RoutineJob.id = 'routine-job';
 
-module.exports = RoutineJob;
+export default RoutineJob;

@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Chronometer extends Card {
     // At the end of your turn, put a time counter on each friendly Clock
@@ -33,4 +33,4 @@ class Chronometer extends Card {
 
 Chronometer.id = 'chronometer';
 
-module.exports = Chronometer;
+export default Chronometer;

@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class DestructiveAnalysis extends Card {
     // Play: Deal 2D to a creature. You may purge any number of cards from your archives to deal an additional 2D to the same creature for each card purged this way.
@@ -31,4 +31,4 @@ class DestructiveAnalysis extends Card {
 
 DestructiveAnalysis.id = 'destructive-analysis';
 
-module.exports = DestructiveAnalysis;
+export default DestructiveAnalysis;

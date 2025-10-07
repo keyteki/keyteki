@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class VeemosLightbringer extends Card {
     // Play: Destroy each elusive creature.
@@ -14,4 +14,4 @@ class VeemosLightbringer extends Card {
 
 VeemosLightbringer.id = 'veemos-lightbringer';
 
-module.exports = VeemosLightbringer;
+export default VeemosLightbringer;

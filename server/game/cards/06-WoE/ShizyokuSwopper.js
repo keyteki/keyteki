@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class ShizyokuSwopper extends Card {
     // After Fight: Swap control of this creature and the creature it fights. (Both creatures must survive the fight.)
@@ -35,4 +35,4 @@ class ShizyokuSwopper extends Card {
 
 ShizyokuSwopper.id = 'shĭzyokŭ-swopper';
 
-module.exports = ShizyokuSwopper;
+export default ShizyokuSwopper;

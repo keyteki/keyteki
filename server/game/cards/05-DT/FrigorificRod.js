@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class FrigorificRod extends Card {
     // Action: Exhaust a creature or artifact.
@@ -14,4 +14,4 @@ class FrigorificRod extends Card {
 
 FrigorificRod.id = 'frigorific-rod';
 
-module.exports = FrigorificRod;
+export default FrigorificRod;

@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class LongfusedMines extends Card {
     // Omni: Sacrifice Longfused Mines.
@@ -22,4 +22,4 @@ class LongfusedMines extends Card {
 
 LongfusedMines.id = 'longfused-mines';
 
-module.exports = LongfusedMines;
+export default LongfusedMines;

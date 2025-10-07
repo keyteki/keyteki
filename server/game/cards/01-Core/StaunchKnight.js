@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class StaunchKnight extends Card {
     // Staunch Knight gets +2 power while it is on a flank.
@@ -12,4 +12,4 @@ class StaunchKnight extends Card {
 
 StaunchKnight.id = 'staunch-knight';
 
-module.exports = StaunchKnight;
+export default StaunchKnight;

@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class LateralThrusters extends Card {
     // This creature gains, “At the start of your turn, you may
@@ -19,4 +19,4 @@ class LateralThrusters extends Card {
 
 LateralThrusters.id = 'lateral-thrusters';
 
-module.exports = LateralThrusters;
+export default LateralThrusters;

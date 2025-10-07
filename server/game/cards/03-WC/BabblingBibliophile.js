@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class BabblingBibliophile extends Card {
     // Reap: Draw 2 cards.
@@ -12,4 +12,4 @@ class BabblingBibliophile extends Card {
 }
 
 BabblingBibliophile.id = 'babbling-bibliophile';
-module.exports = BabblingBibliophile;
+export default BabblingBibliophile;

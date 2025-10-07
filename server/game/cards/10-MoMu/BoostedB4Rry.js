@@ -1,4 +1,4 @@
-const GiganticCard = require('../../GiganticCard.js');
+import GiganticCard from '../../GiganticCard.js';
 
 class BoostedB4Rry extends GiganticCard {
     // (Play only with the other half of Boosted B4-RRY.)
@@ -60,4 +60,4 @@ class BoostedB4Rry extends GiganticCard {
 
 BoostedB4Rry.id = 'boosted-b4-rry';
 
-module.exports = BoostedB4Rry;
+export default BoostedB4Rry;

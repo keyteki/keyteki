@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class FurtherInvestigations extends Card {
     // Play: Destroy any number of friendly creatures. For each creature destroyed this way, archive a card.
@@ -35,4 +35,4 @@ class FurtherInvestigations extends Card {
 
 FurtherInvestigations.id = 'further-investigations';
 
-module.exports = FurtherInvestigations;
+export default FurtherInvestigations;

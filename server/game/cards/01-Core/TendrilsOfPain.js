@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class TendrilsOfPain extends Card {
     // Play: Deal 1<D> to each creature. Deal an additional 3<D> to each creature if your opponent forged a key on their previous turn.
@@ -25,4 +25,4 @@ class TendrilsOfPain extends Card {
 
 TendrilsOfPain.id = 'tendrils-of-pain';
 
-module.exports = TendrilsOfPain;
+export default TendrilsOfPain;

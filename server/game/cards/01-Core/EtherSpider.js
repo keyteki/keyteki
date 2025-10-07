@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class EtherSpider extends Card {
     // Ether Spider deals no damage when fighting.
@@ -30,4 +30,4 @@ class EtherSpider extends Card {
 
 EtherSpider.id = 'ether-spider';
 
-module.exports = EtherSpider;
+export default EtherSpider;

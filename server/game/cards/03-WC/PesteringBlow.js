@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class PesteringBlow extends Card {
     // Play: Deal 1D to a creature and enrage it.
@@ -15,4 +15,4 @@ class PesteringBlow extends Card {
 
 PesteringBlow.id = 'pestering-blow';
 
-module.exports = PesteringBlow;
+export default PesteringBlow;

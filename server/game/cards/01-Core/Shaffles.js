@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Shaffles extends Card {
     // At the end of your turn, your opponent loses 1<A>.
@@ -14,4 +14,4 @@ class Shaffles extends Card {
 
 Shaffles.id = 'shaffles';
 
-module.exports = Shaffles;
+export default Shaffles;

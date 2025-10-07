@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class EvasionSigil extends Card {
     // Before a creature fights, discard the top card of its controller's deck. If the discarded card is of the active house, exhaust that creature with no effect.
@@ -53,4 +53,4 @@ class EvasionSigil extends Card {
 
 EvasionSigil.id = 'evasion-sigil';
 
-module.exports = EvasionSigil;
+export default EvasionSigil;

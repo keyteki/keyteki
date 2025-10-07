@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class ChangeAgent extends Card {
     // After Fight/After Reap: For each card in your opponent’s hand
@@ -17,4 +17,4 @@ class ChangeAgent extends Card {
 
 ChangeAgent.id = 'change-agent';
 
-module.exports = ChangeAgent;
+export default ChangeAgent;

@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Tribute extends Card {
     // Play: The most powerful friendly creature captures 2A. You may exalt that creature to repeat the preceding effect.
@@ -35,4 +35,4 @@ class Tribute extends Card {
 
 Tribute.id = 'tribute';
 
-module.exports = Tribute;
+export default Tribute;

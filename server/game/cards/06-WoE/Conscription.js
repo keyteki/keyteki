@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Conscription extends Card {
     // Play: If there are more enemy creatures than friendly
@@ -21,4 +21,4 @@ class Conscription extends Card {
 
 Conscription.id = 'conscription';
 
-module.exports = Conscription;
+export default Conscription;

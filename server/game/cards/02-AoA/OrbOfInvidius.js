@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class OrbOfInvidius extends Card {
     // After a creature reaps, stun it.
@@ -16,4 +16,4 @@ class OrbOfInvidius extends Card {
 
 OrbOfInvidius.id = 'orb-of-invidius';
 
-module.exports = OrbOfInvidius;
+export default OrbOfInvidius;

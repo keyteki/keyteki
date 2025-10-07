@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Sniffer extends Card {
     // Action: For the remainder of the turn, each creature loses elusive.
@@ -15,4 +15,4 @@ class Sniffer extends Card {
 
 Sniffer.id = 'sniffer';
 
-module.exports = Sniffer;
+export default Sniffer;

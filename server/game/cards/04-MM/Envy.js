@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Envy extends Card {
     // Elusive.
@@ -17,4 +17,4 @@ class Envy extends Card {
 
 Envy.id = 'envy';
 
-module.exports = Envy;
+export default Envy;

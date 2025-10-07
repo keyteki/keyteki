@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class MotherNorthelle extends Card {
     // Elusive.(The first time this creature is attacked each turn, no damage is dealt.)
@@ -22,4 +22,4 @@ class MotherNorthelle extends Card {
 
 MotherNorthelle.id = 'mother-northelle';
 
-module.exports = MotherNorthelle;
+export default MotherNorthelle;

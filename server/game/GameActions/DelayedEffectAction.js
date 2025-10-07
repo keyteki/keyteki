@@ -1,4 +1,4 @@
-const CardGameAction = require('./CardGameAction');
+import CardGameAction from './CardGameAction.js';
 
 class DelayedEffectAction extends CardGameAction {
     setDefaultProperties() {
@@ -37,4 +37,4 @@ class DelayedEffectAction extends CardGameAction {
     }
 }
 
-module.exports = DelayedEffectAction;
+export default DelayedEffectAction;

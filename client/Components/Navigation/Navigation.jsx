@@ -39,19 +39,16 @@ const Navigation = (props) => {
         lobbyResponse,
         lobbySocketConnected,
         lobbySocketConnecting
-    } = useSelector(
-        (state) => ({
-            gameConnected: state.games.connected,
-            gameConnecting: state.games.connecting,
-            gameResponse: state.games.responseTime,
-            games: state.lobby.games,
-            currentGame: state.lobby.currentGame,
-            lobbyResponse: state.lobby.responseTime,
-            lobbySocketConnected: state.lobby.connected,
-            lobbySocketConnecting: state.lobby.connecting
-        }),
-        null
-    );
+    } = useSelector((state) => ({
+        gameConnected: state.games.connected,
+        gameConnecting: state.games.connecting,
+        gameResponse: state.games.responseTime,
+        games: state.lobby.games,
+        currentGame: state.lobby.currentGame,
+        lobbyResponse: state.lobby.responseTime,
+        lobbySocketConnected: state.lobby.connected,
+        lobbySocketConnecting: state.lobby.connecting
+    }));
 
     /**
      * @param {MenuItem} menuItem The menu item

@@ -1,4 +1,4 @@
-const EffectValue = require('./EffectValue');
+import EffectValue from './EffectValue.js';
 
 class GainAbility extends EffectValue {
     constructor(type, properties, printedAbility = false) {
@@ -48,4 +48,4 @@ class GainAbility extends EffectValue {
     }
 }
 
-module.exports = GainAbility;
+export default GainAbility;

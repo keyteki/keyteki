@@ -1,4 +1,4 @@
-const GameAction = require('./GameAction');
+import GameAction from './GameAction.js';
 
 class PlayerAction extends GameAction {
     setup() {
@@ -17,4 +17,4 @@ class PlayerAction extends GameAction {
     }
 }
 
-module.exports = PlayerAction;
+export default PlayerAction;

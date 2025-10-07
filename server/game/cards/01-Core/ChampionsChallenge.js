@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class ChampionsChallenge extends Card {
     // Play: Destroy each enemy creature except the most powerful enemy creature. Destroy each friendly creature except the most powerful friendly creature. Ready and fight with your remaining creature.
@@ -62,4 +62,4 @@ class ChampionsChallenge extends Card {
 
 ChampionsChallenge.id = 'champion-s-challenge';
 
-module.exports = ChampionsChallenge;
+export default ChampionsChallenge;

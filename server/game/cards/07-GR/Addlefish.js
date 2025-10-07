@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Addlefish extends Card {
     // After Fight: Your opponent discards 2 random cards from their hand.
@@ -11,4 +11,4 @@ class Addlefish extends Card {
 
 Addlefish.id = 'addlefish';
 
-module.exports = Addlefish;
+export default Addlefish;

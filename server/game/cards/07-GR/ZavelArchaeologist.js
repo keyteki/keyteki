@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class ZavelArchaeologist extends Card {
     // Each time you play an artifact from your discard pile, gain 1.
@@ -32,4 +32,4 @@ class ZavelArchaeologist extends Card {
 
 ZavelArchaeologist.id = 'zavel-archaeologist';
 
-module.exports = ZavelArchaeologist;
+export default ZavelArchaeologist;

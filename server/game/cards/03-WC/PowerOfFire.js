@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class PowerOfFire extends Card {
     // Play: Sacrifice a friendly creature. If you do, each player loses A equal to half that creatures power (rounding down the loss). Gain 1 chain.
@@ -36,4 +36,4 @@ class PowerOfFire extends Card {
 
 PowerOfFire.id = 'power-of-fire';
 
-module.exports = PowerOfFire;
+export default PowerOfFire;

@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class LieutenantGorvenal extends Card {
     // After you fight with a creature, Lieutenant Gorvenal captures 1A.
@@ -16,4 +16,4 @@ class LieutenantGorvenal extends Card {
 
 LieutenantGorvenal.id = 'lieutenant-gorvenal';
 
-module.exports = LieutenantGorvenal;
+export default LieutenantGorvenal;

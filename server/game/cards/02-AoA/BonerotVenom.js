@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class BonerotVenom extends Card {
     // After this creature is used, deal 2D to it.
@@ -17,4 +17,4 @@ class BonerotVenom extends Card {
 
 BonerotVenom.id = 'bonerot-venom';
 
-module.exports = BonerotVenom;
+export default BonerotVenom;

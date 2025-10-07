@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class EnsignClark extends Card {
     // Enhance.
@@ -16,4 +16,4 @@ class EnsignClark extends Card {
 
 EnsignClark.id = 'ensign-clark';
 
-module.exports = EnsignClark;
+export default EnsignClark;

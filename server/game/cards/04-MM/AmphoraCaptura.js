@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class AmphoraCaptura extends Card {
     // Enhance AADDRR.
@@ -12,4 +12,4 @@ class AmphoraCaptura extends Card {
 
 AmphoraCaptura.id = 'amphora-captura';
 
-module.exports = AmphoraCaptura;
+export default AmphoraCaptura;

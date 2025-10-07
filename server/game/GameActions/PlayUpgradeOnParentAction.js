@@ -1,4 +1,4 @@
-const CardGameAction = require('./CardGameAction');
+import CardGameAction from './CardGameAction.js';
 
 class PlayUpgradeOnParentAction extends CardGameAction {
     setDefaultProperties() {
@@ -79,4 +79,4 @@ class PlayUpgradeOnParentAction extends CardGameAction {
     }
 }
 
-module.exports = PlayUpgradeOnParentAction;
+export default PlayUpgradeOnParentAction;

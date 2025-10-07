@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Antanagoge extends Card {
     // Play: You may graft an enemy creature onto Antanagoge.
@@ -33,4 +33,4 @@ class Antanagoge extends Card {
 
 Antanagoge.id = 'antanagoge';
 
-module.exports = Antanagoge;
+export default Antanagoge;

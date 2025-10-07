@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class PermanentRecord extends Card {
     // Play: Exhaust a friendly creature. If you do, steal 2A.
@@ -20,4 +20,4 @@ class PermanentRecord extends Card {
 
 PermanentRecord.id = 'permanent-record';
 
-module.exports = PermanentRecord;
+export default PermanentRecord;

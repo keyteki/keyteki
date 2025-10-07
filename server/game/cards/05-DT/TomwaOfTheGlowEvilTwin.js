@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class TomwaOfTheGlowEvilTwin extends Card {
     // (T) Reap: If the tide is high, exhaust an enemy creature and your opponent discards a random card from their hand.
@@ -17,4 +17,4 @@ class TomwaOfTheGlowEvilTwin extends Card {
 
 TomwaOfTheGlowEvilTwin.id = 'tomwa-of-the-glow-evil-twin';
 
-module.exports = TomwaOfTheGlowEvilTwin;
+export default TomwaOfTheGlowEvilTwin;

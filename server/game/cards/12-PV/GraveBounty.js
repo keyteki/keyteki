@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class GraveBounty extends Card {
     // Play: Purge a card from your discard pile. If you do, your opponent loses 2.
@@ -31,4 +31,4 @@ class GraveBounty extends Card {
 
 GraveBounty.id = 'grave-bounty';
 
-module.exports = GraveBounty;
+export default GraveBounty;

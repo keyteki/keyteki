@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class ExoShellSystem extends Card {
     // Play: Make a token creature.
@@ -18,4 +18,4 @@ class ExoShellSystem extends Card {
 
 ExoShellSystem.id = 'exo-shell-system';
 
-module.exports = ExoShellSystem;
+export default ExoShellSystem;

@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class BotBookton extends Card {
     // Reap: Play the top card of your deck.
@@ -14,4 +14,4 @@ class BotBookton extends Card {
 
 BotBookton.id = 'bot-bookton';
 
-module.exports = BotBookton;
+export default BotBookton;

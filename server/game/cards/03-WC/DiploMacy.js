@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class DiploMacy extends Card {
     // Alpha.
@@ -19,4 +19,4 @@ class DiploMacy extends Card {
 
 DiploMacy.id = 'diplo-macy';
 
-module.exports = DiploMacy;
+export default DiploMacy;

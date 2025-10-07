@@ -1,5 +1,5 @@
-const CardSelector = require('../CardSelector.js');
-const AbilityTarget = require('./AbilityTarget.js');
+import CardSelector from '../CardSelector.js';
+import AbilityTarget from './AbilityTarget.js';
 
 class AbilityTargetAbility extends AbilityTarget {
     constructor(name, properties, ability) {
@@ -106,4 +106,4 @@ class AbilityTargetAbility extends AbilityTarget {
     }
 }
 
-module.exports = AbilityTargetAbility;
+export default AbilityTargetAbility;

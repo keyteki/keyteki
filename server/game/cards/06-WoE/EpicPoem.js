@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 class EpicPoem extends Card {
     // Play: Exalt a friendly creature. Gain 1 amber for each  on that creature.
     setupCardAbilities(ability) {
@@ -22,4 +22,4 @@ class EpicPoem extends Card {
 }
 
 EpicPoem.id = 'epic-poem';
-module.exports = EpicPoem;
+export default EpicPoem;

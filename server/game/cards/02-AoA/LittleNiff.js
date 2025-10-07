@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class LittleNiff extends Card {
     // Omega. Deploy. Elusive.
@@ -17,4 +17,4 @@ class LittleNiff extends Card {
 
 LittleNiff.id = 'little-niff';
 
-module.exports = LittleNiff;
+export default LittleNiff;

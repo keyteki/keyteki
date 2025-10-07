@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class WayOfThePorcupine extends Card {
     // This creature gains Hazardous3. (Before this creature is attacked, deal 3D to the attacking enemy.)
@@ -11,4 +11,4 @@ class WayOfThePorcupine extends Card {
 
 WayOfThePorcupine.id = 'way-of-the-porcupine';
 
-module.exports = WayOfThePorcupine;
+export default WayOfThePorcupine;

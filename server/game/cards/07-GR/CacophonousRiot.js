@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class CacophonousRiot extends Card {
     // Play: Ready and enrage a creature and each of its neighbors.
@@ -23,4 +23,4 @@ class CacophonousRiot extends Card {
 
 CacophonousRiot.id = 'cacophonous-riot';
 
-module.exports = CacophonousRiot;
+export default CacophonousRiot;

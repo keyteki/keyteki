@@ -1,4 +1,4 @@
-const GiganticCard = require('../../GiganticCard.js');
+import GiganticCard from '../../GiganticCard.js';
 
 class DodgerS10 extends GiganticCard {
     // (Play only with the other half of Dodger’s 10.)
@@ -23,4 +23,4 @@ class DodgerS10 extends GiganticCard {
 
 DodgerS10.id = 'dodger-s-10';
 
-module.exports = DodgerS10;
+export default DodgerS10;

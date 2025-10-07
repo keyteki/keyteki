@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class BorrNitsTouch extends Card {
     // Play: Reveal the top 5 cards of a players deck. Purge a card revealed this way. Shuffle the other revealed cards into that deck.
@@ -45,4 +45,4 @@ class BorrNitsTouch extends Card {
 
 BorrNitsTouch.id = 'borr-nit-s-touch';
 
-module.exports = BorrNitsTouch;
+export default BorrNitsTouch;

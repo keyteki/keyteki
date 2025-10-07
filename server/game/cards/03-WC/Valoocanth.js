@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Valoocanth extends Card {
     //  While the tide is low, Valoocanth cannot be used.
@@ -23,4 +23,4 @@ class Valoocanth extends Card {
 
 Valoocanth.id = 'valoocanth';
 
-module.exports = Valoocanth;
+export default Valoocanth;

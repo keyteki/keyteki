@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class FertilityChant extends Card {
     // Play: Your opponent gains 2<A>.
@@ -17,4 +17,4 @@ class FertilityChant extends Card {
 
 FertilityChant.id = 'fertility-chant';
 
-module.exports = FertilityChant;
+export default FertilityChant;

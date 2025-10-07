@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class ContainmentField extends Card {
     // After this creature is used, destroy it.
@@ -14,4 +14,4 @@ class ContainmentField extends Card {
 
 ContainmentField.id = 'containment-field';
 
-module.exports = ContainmentField;
+export default ContainmentField;

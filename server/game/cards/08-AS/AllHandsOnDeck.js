@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class AllHandsOnDeck extends Card {
     // Play: If you are haunted, destroy a creature. Otherwise, deal
@@ -33,4 +33,4 @@ class AllHandsOnDeck extends Card {
 
 AllHandsOnDeck.id = 'all-hands-on-deck';
 
-module.exports = AllHandsOnDeck;
+export default AllHandsOnDeck;

@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class TheFittest extends Card {
     // Play: Give each friendly creature a +1 power counter.
@@ -14,4 +14,4 @@ class TheFittest extends Card {
 
 TheFittest.id = 'the-fittest';
 
-module.exports = TheFittest;
+export default TheFittest;

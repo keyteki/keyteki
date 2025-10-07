@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class NerveBlast extends Card {
     // Play: Steal 1A. If you do, deal 2D to a creature.
@@ -21,4 +21,4 @@ class NerveBlast extends Card {
 
 NerveBlast.id = 'nerve-blast';
 
-module.exports = NerveBlast;
+export default NerveBlast;

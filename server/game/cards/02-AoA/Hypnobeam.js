@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Hypnobeam extends Card {
     // Play: Gain control of an enemy creature.
@@ -18,4 +18,4 @@ class Hypnobeam extends Card {
 
 Hypnobeam.id = 'hypnobeam';
 
-module.exports = Hypnobeam;
+export default Hypnobeam;

@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class WordOfReturning extends Card {
     // Play: Deal 1<D> to each enemy creature for each <A> on it. Return all <A> from those creatures to your pool.
@@ -26,4 +26,4 @@ class WordOfReturning extends Card {
 
 WordOfReturning.id = 'word-of-returning';
 
-module.exports = WordOfReturning;
+export default WordOfReturning;

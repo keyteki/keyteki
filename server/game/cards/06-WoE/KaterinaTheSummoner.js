@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class KaterinaTheSummoner extends Card {
     // Play/After Reap: Capture 1.
@@ -21,4 +21,4 @@ class KaterinaTheSummoner extends Card {
 
 KaterinaTheSummoner.id = 'katerina-the-summoner';
 
-module.exports = KaterinaTheSummoner;
+export default KaterinaTheSummoner;

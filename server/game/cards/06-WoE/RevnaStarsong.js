@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class RevnaStarsong extends Card {
     // Each friendly Berserker loses all fight effects.
@@ -13,4 +13,4 @@ class RevnaStarsong extends Card {
 
 RevnaStarsong.id = 'revna-starsong';
 
-module.exports = RevnaStarsong;
+export default RevnaStarsong;

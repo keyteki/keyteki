@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class SuggestionBox extends Card {
     // This creature gains, “After Reap: Look at the top 5 cards of
@@ -30,4 +30,4 @@ class SuggestionBox extends Card {
 
 SuggestionBox.id = 'suggestion-box';
 
-module.exports = SuggestionBox;
+export default SuggestionBox;

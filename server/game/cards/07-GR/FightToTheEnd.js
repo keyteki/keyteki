@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class FightToTheEnd extends Card {
     // Play: Choose a friendly creature. If you are haunted, that
@@ -38,4 +38,4 @@ class FightToTheEnd extends Card {
 
 FightToTheEnd.id = 'fight-to-the-end';
 
-module.exports = FightToTheEnd;
+export default FightToTheEnd;

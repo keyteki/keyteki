@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 function anachronometerAbility(ability) {
     return {
@@ -47,4 +47,4 @@ class Anachronometer extends Card {
 
 Anachronometer.id = 'anachronometer';
 
-module.exports = Anachronometer;
+export default Anachronometer;

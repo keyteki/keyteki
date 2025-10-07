@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class ArmoryOfficerNel extends Card {
     // Enhance R. (These icons have already been added to cards in your deck.)
@@ -16,4 +16,4 @@ class ArmoryOfficerNel extends Card {
 
 ArmoryOfficerNel.id = 'armory-officer-nel';
 
-module.exports = ArmoryOfficerNel;
+export default ArmoryOfficerNel;

@@ -1,4 +1,4 @@
-const request = require('request');
+import request from 'request';
 
 function httpRequest(url, options = {}) {
     return new Promise((resolve, reject) => {
@@ -57,8 +57,4 @@ function detectBinary(state, path = '', results = []) {
     return results;
 }
 
-module.exports = {
-    detectBinary: detectBinary,
-    httpRequest: httpRequest,
-    wrapAsync: wrapAsync
-};
+export { detectBinary, httpRequest, wrapAsync };

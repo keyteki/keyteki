@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class NeotechnicGopher extends Card {
     // Play/After Reap: Discard a card. If you have no cards in your hand, gain 1 amber.
@@ -35,4 +35,4 @@ class NeotechnicGopher extends Card {
 
 NeotechnicGopher.id = 'neotechnic-gopher';
 
-module.exports = NeotechnicGopher;
+export default NeotechnicGopher;

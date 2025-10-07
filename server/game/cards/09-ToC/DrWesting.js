@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class DrWesting extends Card {
     // After Reap: If Dr. Westing is on a flank, make a token creature.
@@ -12,4 +12,4 @@ class DrWesting extends Card {
 
 DrWesting.id = 'dr-westing';
 
-module.exports = DrWesting;
+export default DrWesting;

@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Mothergun extends Card {
     // Action: Reveal any number of Mars cards from your hand. Deal damage to a creature equal to the number of Mars cards revealed this way.
@@ -37,4 +37,4 @@ class Mothergun extends Card {
 
 Mothergun.id = 'mothergun';
 
-module.exports = Mothergun;
+export default Mothergun;

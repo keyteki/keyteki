@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Warrior extends Card {
     // Warrior cannot reap unless there are no enemy creatures in play.
@@ -15,4 +15,4 @@ class Warrior extends Card {
 
 Warrior.id = 'warrior';
 
-module.exports = Warrior;
+export default Warrior;

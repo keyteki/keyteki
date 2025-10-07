@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class StarsAligned extends Card {
     // At the start of your opponent's turn, if each player has the same number of creatures, fulfill Stars Aligned.
@@ -24,4 +24,4 @@ class StarsAligned extends Card {
 
 StarsAligned.id = 'stars-aligned';
 
-module.exports = StarsAligned;
+export default StarsAligned;

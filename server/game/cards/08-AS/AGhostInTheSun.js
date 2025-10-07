@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class AGhostInTheSun extends Card {
     // Play: For each forged key your opponent has, put a creature into play
@@ -28,4 +28,4 @@ class AGhostInTheSun extends Card {
 
 AGhostInTheSun.id = 'a-ghost-in-the-sun';
 
-module.exports = AGhostInTheSun;
+export default AGhostInTheSun;

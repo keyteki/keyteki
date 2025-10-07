@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Regrowth extends Card {
     // Play: Return a creature from your discard pile to your hand.
@@ -16,4 +16,4 @@ class Regrowth extends Card {
 
 Regrowth.id = 'regrowth';
 
-module.exports = Regrowth;
+export default Regrowth;

@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class UlyqMegamouth extends Card {
     // Fight/Reap: Use a friendly non-Mars creature.
@@ -17,4 +17,4 @@ class UlyqMegamouth extends Card {
 
 UlyqMegamouth.id = 'ulyq-megamouth';
 
-module.exports = UlyqMegamouth;
+export default UlyqMegamouth;

@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class TermsOfRedress extends Card {
     // Play: Choose a friendly creature to capture 2<A>.
@@ -15,4 +15,4 @@ class TermsOfRedress extends Card {
 
 TermsOfRedress.id = 'terms-of-redress';
 
-module.exports = TermsOfRedress;
+export default TermsOfRedress;

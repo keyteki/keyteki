@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class EyeOfJudgement extends Card {
     // Action: Purge a creature from a discard pile.
@@ -15,4 +15,4 @@ class EyeOfJudgement extends Card {
 
 EyeOfJudgement.id = 'eye-of-judgment';
 
-module.exports = EyeOfJudgement;
+export default EyeOfJudgement;

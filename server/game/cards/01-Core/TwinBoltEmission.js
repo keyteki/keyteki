@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class TwinBoltEmission extends Card {
     // Play: Deal 2<D> to a creature and deal 2<D> to a different creature.
@@ -16,4 +16,4 @@ class TwinBoltEmission extends Card {
 
 TwinBoltEmission.id = 'twin-bolt-emission';
 
-module.exports = TwinBoltEmission;
+export default TwinBoltEmission;

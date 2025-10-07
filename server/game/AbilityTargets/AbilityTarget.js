@@ -76,4 +76,4 @@ class AbilityTarget {
     }
 }
 
-module.exports = AbilityTarget;
+export default AbilityTarget;

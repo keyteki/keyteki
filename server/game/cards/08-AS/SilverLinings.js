@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class SilverLinings extends Card {
     // Play: Gain 1A for each house represented among friendly flank
@@ -16,4 +16,4 @@ class SilverLinings extends Card {
 
 SilverLinings.id = 'silver-linings';
 
-module.exports = SilverLinings;
+export default SilverLinings;

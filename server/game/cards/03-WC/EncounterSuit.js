@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class EncounterSuit extends Card {
     // After an action card is played, but before resolving its play effect, ward this creature.
@@ -15,4 +15,4 @@ class EncounterSuit extends Card {
 
 EncounterSuit.id = 'encounter-suit';
 
-module.exports = EncounterSuit;
+export default EncounterSuit;

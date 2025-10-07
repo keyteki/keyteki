@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class SenatorShrix extends Card {
     // You may spend A on Senator Shrix as if it were in your pool.
@@ -20,4 +20,4 @@ class SenatorShrix extends Card {
 
 SenatorShrix.id = 'senator-shrix';
 
-module.exports = SenatorShrix;
+export default SenatorShrix;

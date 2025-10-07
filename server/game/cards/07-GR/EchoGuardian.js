@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class EchoGuardian extends Card {
     // While you are haunted, Echo Guardian gets +2 power and gains poison.
@@ -18,4 +18,4 @@ class EchoGuardian extends Card {
 
 EchoGuardian.id = 'echo-guardian';
 
-module.exports = EchoGuardian;
+export default EchoGuardian;

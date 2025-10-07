@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class YxlyxStimrager extends Card {
     // Fight: Deal 2D to a creature and move it to either flank of its controllers battleline.
@@ -21,4 +21,4 @@ class YxlyxStimrager extends Card {
 
 YxlyxStimrager.id = 'yxlyx-stimrager';
 
-module.exports = YxlyxStimrager;
+export default YxlyxStimrager;

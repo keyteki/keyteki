@@ -1,25 +1,23 @@
-const express = require('express');
+import express from 'express';
+import bodyParser from 'body-parser';
+import passport from 'passport';
+import logger from './log.js';
+import * as api from './api/index.js';
+import { dirname, join } from 'node:path';
+import { createServer as createHttpServer } from 'node:http';
+import historyApiFallback from 'connect-history-api-fallback';
+import * as Sentry from '@sentry/node';
+import ConfigService from './services/ConfigService.js';
+import UserService from './services/UserService.js';
+import { fileURLToPath } from 'node:url';
+
 const app = express();
-const bodyParser = require('body-parser');
-const ConfigService = require('./services/ConfigService');
-const passport = require('passport');
-const logger = require('./log.js');
-const api = require('./api');
-const path = require('path');
-const http = require('http');
-const webpackDevMiddleware = require('webpack-dev-middleware');
-const webpackHotMiddleware = require('webpack-hot-middleware');
-const historyApiFallback = require('connect-history-api-fallback');
-const webpack = require('webpack');
-const webpackConfig = require('../webpack.dev.js');
 
-const passportJwt = require('passport-jwt');
-const Sentry = require('@sentry/node');
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
-const JwtStrategy = passportJwt.Strategy;
-const ExtractJwt = passportJwt.ExtractJwt;
-
-const UserService = require('./services/UserService.js');
+import passportJwt from 'passport-jwt';
+const { Strategy: JwtStrategy, ExtractJwt } = passportJwt;
 
 class Server {
     constructor(isDeveloping) {
@@ -27,10 +25,10 @@ class Server {
 
         this.userService = new UserService(this.configService);
         this.isDeveloping = isDeveloping;
-        this.server = http.Server(app);
+        this.server = createHttpServer(app);
     }
 
-    init(options) {
+    async init(options) {
         if (!this.isDeveloping) {
             Sentry.init({
                 dsn: this.configService.getValue('sentryDsn'),
@@ -50,6 +48,7 @@ class Server {
                     .getUserById(jwtPayload.id)
                     .then((user) => {
                         if (user) {
+                            // @ts-ignore runtime User has method getWireSafeDetails
                             return done(null, user.getWireSafeDetails());
                         }
 
@@ -67,39 +66,23 @@ class Server {
 
         api.init(app, options);
 
-        app.use(express.static(__dirname + '/../public'));
-        app.use(express.static(__dirname + '/../dist'));
+        app.use(express.static(join(__dirname, '..', 'public')));
+        app.use(express.static(join(__dirname, '..', 'dist')));
 
         if (this.isDeveloping) {
-            const compiler = webpack(webpackConfig);
-            const middleware = webpackDevMiddleware(compiler, {
-                publicPath: webpackConfig.output.publicPath,
-                stats: {
-                    colors: true,
-                    hash: false,
-                    timings: true,
-                    chunks: false,
-                    chunkModules: false,
-                    modules: false
-                }
+            // Vite dev server middleware
+            const { createServer } = await import('vite');
+            const vite = await createServer({
+                root: join(__dirname, '..'),
+                server: { middlewareMode: true }
             });
 
-            app.set('view engine', 'pug');
-            app.set('views', path.join(__dirname, '..', 'views'));
-
-            app.use(middleware);
-            app.use(
-                webpackHotMiddleware(compiler, {
-                    log: false,
-                    path: '/__webpack_hmr',
-                    heartbeat: 2000
-                })
-            );
+            // Vite middleware must come BEFORE history fallback
+            app.use(vite.middlewares);
             app.use(historyApiFallback());
-            app.use(middleware);
         } else {
             app.get('*', (req, res) => {
-                res.sendFile(path.join(__dirname, '..', 'dist', 'index.html'));
+                res.sendFile(join(__dirname, '..', 'dist', 'index.html'));
             });
         }
 
@@ -139,4 +122,4 @@ class Server {
     }
 }
 
-module.exports = Server;
+export default Server;

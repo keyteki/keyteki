@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class ComOfficerKirby extends Card {
     // Play/Fight/Reap: You may play a non-Star Alliance artifact, upgrade, or action card this turn.
@@ -20,4 +20,4 @@ class ComOfficerKirby extends Card {
 
 ComOfficerKirby.id = 'com-officer-kirby';
 
-module.exports = ComOfficerKirby;
+export default ComOfficerKirby;

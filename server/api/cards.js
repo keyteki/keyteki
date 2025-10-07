@@ -1,10 +1,10 @@
-const Constants = require('../constants');
-const ServiceFactory = require('../services/ServiceFactory');
-const ConfigService = require('../services/ConfigService');
+import Constants from '../constants.js';
+import ServiceFactory from '../services/ServiceFactory.js';
+import ConfigService from '../services/ConfigService.js';
 
 const cardService = ServiceFactory.cardService(new ConfigService());
 
-module.exports.init = function (server) {
+export function init(server) {
     server.get('/api/cards', function (req, res, next) {
         cardService
             .getAllCards({ shortForm: true })
@@ -22,4 +22,4 @@ module.exports.init = function (server) {
         });
         res.send({ success: true, factions: factions });
     });
-};
+}

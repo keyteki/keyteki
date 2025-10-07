@@ -1,4 +1,4 @@
-const Effect = require('./Effect.js');
+import Effect from './Effect.js';
 
 class PlayerEffect extends Effect {
     constructor(game, source, properties, effect) {
@@ -24,4 +24,4 @@ class PlayerEffect extends Effect {
     }
 }
 
-module.exports = PlayerEffect;
+export default PlayerEffect;

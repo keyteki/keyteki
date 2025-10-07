@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Cauldron extends Card {
     // Omni: Put the top card of your deck faceup under Cauldron. If
@@ -24,4 +24,4 @@ class Cauldron extends Card {
 
 Cauldron.id = 'cauldron';
 
-module.exports = Cauldron;
+export default Cauldron;

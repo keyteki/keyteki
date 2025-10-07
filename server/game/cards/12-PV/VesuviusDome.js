@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class VesuviusDome extends Card {
     // Action: Move each A from each creature to the common supply. Destroy each creature. Destroy Vesuvius Dome.
@@ -22,4 +22,4 @@ class VesuviusDome extends Card {
 
 VesuviusDome.id = 'vesuvius-dome';
 
-module.exports = VesuviusDome;
+export default VesuviusDome;

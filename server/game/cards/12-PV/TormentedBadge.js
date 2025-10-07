@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class TormentedBadge extends Card {
     // Action: Take control of an enemy Mutant creature.
@@ -36,4 +36,4 @@ class TormentedBadge extends Card {
 
 TormentedBadge.id = 'tormented-badge';
 
-module.exports = TormentedBadge;
+export default TormentedBadge;

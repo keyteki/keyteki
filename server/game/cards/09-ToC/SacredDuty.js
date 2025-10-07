@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class SacredDuty extends Card {
     // This creature gets +2 power and gains, “After Fight: Make a
@@ -24,4 +24,4 @@ class SacredDuty extends Card {
 
 SacredDuty.id = 'sacred-duty';
 
-module.exports = SacredDuty;
+export default SacredDuty;

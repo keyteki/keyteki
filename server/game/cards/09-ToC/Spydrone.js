@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Spydrone extends Card {
     // Action: Draw a card.
@@ -11,4 +11,4 @@ class Spydrone extends Card {
 
 Spydrone.id = 'spydrone';
 
-module.exports = Spydrone;
+export default Spydrone;

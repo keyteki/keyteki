@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class HoistOperations extends Card {
     // Play: Put a creature into its owner’s archives.
@@ -15,4 +15,4 @@ class HoistOperations extends Card {
 
 HoistOperations.id = 'hoist-operations';
 
-module.exports = HoistOperations;
+export default HoistOperations;

@@ -1,4 +1,4 @@
-const NiffleKong = require('./NiffleKong.js');
+import NiffleKong from './NiffleKong.js';
 
 class NiffleKong2 extends NiffleKong {
     constructor(owner, cardData) {
@@ -8,4 +8,4 @@ class NiffleKong2 extends NiffleKong {
 
 NiffleKong2.id = 'niffle-kong2';
 
-module.exports = NiffleKong2;
+export default NiffleKong2;

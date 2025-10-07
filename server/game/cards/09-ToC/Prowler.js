@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Prowler extends Card {
     // After Reap: If your opponent has more A than you, steal 1A.
@@ -13,4 +13,4 @@ class Prowler extends Card {
 
 Prowler.id = 'prowler';
 
-module.exports = Prowler;
+export default Prowler;

@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class TerranceSurefoot extends Card {
     // After an enemy creature reaps, move 1A from Terrance Surefoot
@@ -26,4 +26,4 @@ class TerranceSurefoot extends Card {
 
 TerranceSurefoot.id = 'terrance-surefoot';
 
-module.exports = TerranceSurefoot;
+export default TerranceSurefoot;

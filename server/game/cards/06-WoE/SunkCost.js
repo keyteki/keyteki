@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class SunkCost extends Card {
     // Play: Choose a house. Your opponent discards a random card from
@@ -28,4 +28,4 @@ class SunkCost extends Card {
 
 SunkCost.id = 'sunk-cost';
 
-module.exports = SunkCost;
+export default SunkCost;

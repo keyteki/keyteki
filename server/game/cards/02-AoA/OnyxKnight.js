@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class OnyxKnight extends Card {
     // Play: Destroy each creature with odd power.
@@ -13,4 +13,4 @@ class OnyxKnight extends Card {
 
 OnyxKnight.id = 'onyx-knight';
 
-module.exports = OnyxKnight;
+export default OnyxKnight;

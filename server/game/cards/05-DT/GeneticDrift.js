@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class GeneticDrift extends Card {
     // Play: Give a creature a +1 power counter. Then give each creature with a +1 power counter another +1 power counter.
@@ -20,4 +20,4 @@ class GeneticDrift extends Card {
 
 GeneticDrift.id = 'genetic-drift';
 
-module.exports = GeneticDrift;
+export default GeneticDrift;

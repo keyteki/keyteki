@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Doomsayer extends Card {
     // After Reap: Move each A from a friendly creature to the common supply. For each A moved, deal 2D to a creature.
@@ -25,4 +25,4 @@ class Doomsayer extends Card {
 
 Doomsayer.id = 'doomsayer';
 
-module.exports = Doomsayer;
+export default Doomsayer;

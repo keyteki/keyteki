@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class CornerTheMarket extends Card {
     // Play: During your opponent's next turn, they cannot play cards,
@@ -45,4 +45,4 @@ class CornerTheMarket extends Card {
 
 CornerTheMarket.id = 'corner-the-market';
 
-module.exports = CornerTheMarket;
+export default CornerTheMarket;

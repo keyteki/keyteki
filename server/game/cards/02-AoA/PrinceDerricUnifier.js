@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class PrinceDerricUnifier extends Card {
     // Play: Gain 3A if you control creatures from 3different houses.
@@ -14,4 +14,4 @@ class PrinceDerricUnifier extends Card {
 
 PrinceDerricUnifier.id = 'prince-derric-unifier';
 
-module.exports = PrinceDerricUnifier;
+export default PrinceDerricUnifier;

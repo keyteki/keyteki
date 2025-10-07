@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class KorikiGerminator extends Card {
     // Play/After Reap: Put a card from a player's discard pile on the
@@ -17,4 +17,4 @@ class KorikiGerminator extends Card {
 
 KorikiGerminator.id = 'koriki-germinator';
 
-module.exports = KorikiGerminator;
+export default KorikiGerminator;

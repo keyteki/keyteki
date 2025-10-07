@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Buzzle extends Card {
     // Skirmish. (When you use this creature to fight, it is dealt no damage in return.)
@@ -24,4 +24,4 @@ class Buzzle extends Card {
 
 Buzzle.id = 'buzzle';
 
-module.exports = Buzzle;
+export default Buzzle;

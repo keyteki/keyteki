@@ -1,5 +1,5 @@
-const Card = require('../../Card.js');
-const EventRegistrar = require('../../eventregistrar.js');
+import Card from '../../Card.js';
+import EventRegistrar from '../../eventregistrar.js';
 
 class TheWarchest extends Card {
     // Action: Gain 1A for each enemy creature that was destroyed in a fight this turn.
@@ -29,4 +29,4 @@ class TheWarchest extends Card {
 
 TheWarchest.id = 'the-warchest';
 
-module.exports = TheWarchest;
+export default TheWarchest;

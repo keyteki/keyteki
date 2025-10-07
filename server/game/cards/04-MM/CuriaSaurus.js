@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class CuriaSuarus extends Card {
     // Each creature with A on it gains, Destroyed: Move 1A from this creature to the most powerful enemy creature.
@@ -25,4 +25,4 @@ class CuriaSuarus extends Card {
 
 CuriaSuarus.id = 'curia-saurus';
 
-module.exports = CuriaSuarus;
+export default CuriaSuarus;

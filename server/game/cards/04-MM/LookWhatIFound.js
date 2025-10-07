@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class LookWhatIFound extends Card {
     // Omega.
@@ -39,4 +39,4 @@ class LookWhatIFound extends Card {
 
 LookWhatIFound.id = 'look-what-i-found';
 
-module.exports = LookWhatIFound;
+export default LookWhatIFound;

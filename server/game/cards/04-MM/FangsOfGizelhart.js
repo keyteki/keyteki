@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class FangsOfGizelhart extends Card {
     // Play: Purge the most powerful creature.
@@ -17,4 +17,4 @@ class FangsOfGizelhart extends Card {
 
 FangsOfGizelhart.id = 'fangs-of-gizelhart';
 
-module.exports = FangsOfGizelhart;
+export default FangsOfGizelhart;

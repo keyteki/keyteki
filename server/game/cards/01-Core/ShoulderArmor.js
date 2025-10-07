@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class ShoulderArmor extends Card {
     // While this creature is on a flank, it gets +2 armor and +2 power.
@@ -12,4 +12,4 @@ class ShoulderArmor extends Card {
 
 ShoulderArmor.id = 'shoulder-armor';
 
-module.exports = ShoulderArmor;
+export default ShoulderArmor;

@@ -10,7 +10,7 @@ import AlertPanel from '../Site/AlertPanel';
 import GameOptions from './GameOptions';
 import GameFormats from './GameFormats';
 import GameTypes from './GameTypes';
-import { getStandardControlProps } from '../../util';
+import { getStandardControlProps } from '../../util.jsx';
 import { cancelNewGame, sendSocketMessage } from '../../redux/actions';
 
 import './NewGame.scss';
@@ -173,7 +173,7 @@ const NewGame = ({
                         {!quickJoin && (
                             <>
                                 {!tournament && (
-                                    <Form.Row>
+                                    <Row>
                                         <Form.Group as={Col} lg='8' controlId='formGridGameName'>
                                             <Form.Label>{t('Name')}</Form.Label>
                                             <Form.Label className='float-right'>
@@ -189,7 +189,7 @@ const NewGame = ({
                                                 {formProps.errors.name}
                                             </Form.Control.Feedback>
                                         </Form.Group>
-                                    </Form.Row>
+                                    </Row>
                                 )}
                                 <GameOptions formProps={formProps} />
                             </>

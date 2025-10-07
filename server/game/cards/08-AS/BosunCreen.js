@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class BosunCreen extends Card {
     // Scrap: Move a creature to a flank of its controller’s battleline.
@@ -14,4 +14,4 @@ class BosunCreen extends Card {
 
 BosunCreen.id = 'bosun-creen';
 
-module.exports = BosunCreen;
+export default BosunCreen;

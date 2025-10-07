@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Trihard extends Card {
     // Play: Each player randomly discards one third of their cards
@@ -23,4 +23,4 @@ class Trihard extends Card {
 
 Trihard.id = 'trihard';
 
-module.exports = Trihard;
+export default Trihard;

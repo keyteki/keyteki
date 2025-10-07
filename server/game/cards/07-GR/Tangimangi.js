@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Tangimangi extends Card {
     // While your opponent is haunted, their keys cost +3.
@@ -14,4 +14,4 @@ class Tangimangi extends Card {
 
 Tangimangi.id = 'tangimangi';
 
-module.exports = Tangimangi;
+export default Tangimangi;

@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class RedeemerAmara extends Card {
     // Each time an enemy creature or a Mutant creature is destroyed,
@@ -18,4 +18,4 @@ class RedeemerAmara extends Card {
 
 RedeemerAmara.id = 'redeemer-amara';
 
-module.exports = RedeemerAmara;
+export default RedeemerAmara;

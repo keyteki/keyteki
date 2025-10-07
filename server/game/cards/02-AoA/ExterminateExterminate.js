@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class ExterminateExterminate extends Card {
     // Play: For each friendly Mars creature you control, destroy a non-Mars creature with lower power.
@@ -23,4 +23,4 @@ class ExterminateExterminate extends Card {
 
 ExterminateExterminate.id = 'exterminate-exterminate';
 
-module.exports = ExterminateExterminate;
+export default ExterminateExterminate;

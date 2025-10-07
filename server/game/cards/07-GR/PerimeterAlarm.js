@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class PerimeterAlarm extends Card {
     // Play: Use a friendly non-Star Alliance creature. If you are
@@ -31,4 +31,4 @@ class PerimeterAlarm extends Card {
 
 PerimeterAlarm.id = 'perimeter-alarm';
 
-module.exports = PerimeterAlarm;
+export default PerimeterAlarm;

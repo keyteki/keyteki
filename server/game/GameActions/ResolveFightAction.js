@@ -1,4 +1,4 @@
-const CardGameAction = require('./CardGameAction');
+import CardGameAction from './CardGameAction.js';
 
 class ResolveFightAction extends CardGameAction {
     setDefaultProperties() {
@@ -179,4 +179,4 @@ class ResolveFightAction extends CardGameAction {
     }
 }
 
-module.exports = ResolveFightAction;
+export default ResolveFightAction;

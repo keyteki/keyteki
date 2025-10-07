@@ -1,5 +1,5 @@
-const Card = require('../../Card.js');
-const EventRegistrar = require('../../eventregistrar.js');
+import Card from '../../Card.js';
+import EventRegistrar from '../../eventregistrar.js';
 
 class CurseOfCowardice extends Card {
     // Treachery.
@@ -40,4 +40,4 @@ class CurseOfCowardice extends Card {
 
 CurseOfCowardice.id = 'curse-of-cowardice';
 
-module.exports = CurseOfCowardice;
+export default CurseOfCowardice;

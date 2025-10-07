@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class DownToSize extends Card {
     // Play: Choose an enemy creature. Until the end of the turn, that
@@ -20,4 +20,4 @@ class DownToSize extends Card {
 
 DownToSize.id = 'down-to-size';
 
-module.exports = DownToSize;
+export default DownToSize;

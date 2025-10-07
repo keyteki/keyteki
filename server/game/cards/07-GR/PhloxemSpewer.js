@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class PhloxemSpewer extends Card {
     // Splash-attack 2.
@@ -15,4 +15,4 @@ class PhloxemSpewer extends Card {
 
 PhloxemSpewer.id = 'phloxem-spewer';
 
-module.exports = PhloxemSpewer;
+export default PhloxemSpewer;

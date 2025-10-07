@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class LoricaInfantry extends Card {
     // After Fight: You may exalt Lorica Infantry. If you do, your opponent loses 2.
@@ -20,4 +20,4 @@ class LoricaInfantry extends Card {
 
 LoricaInfantry.id = 'lorica-infantry';
 
-module.exports = LoricaInfantry;
+export default LoricaInfantry;

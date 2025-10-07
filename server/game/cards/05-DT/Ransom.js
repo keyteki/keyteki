@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Ransom extends Card {
     // This creature cannot be used and gains, "At the start of your turn, you may give your opponent 2A. If you do, destroy Ransom."
@@ -36,4 +36,4 @@ class Ransom extends Card {
 
 Ransom.id = 'ransom';
 
-module.exports = Ransom;
+export default Ransom;

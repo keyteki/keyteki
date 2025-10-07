@@ -1,4 +1,4 @@
-const PlayerAction = require('./PlayerAction');
+import PlayerAction from './PlayerAction.js';
 
 class UnforgeAction extends PlayerAction {
     setDefaultProperties() {
@@ -22,4 +22,4 @@ class UnforgeAction extends PlayerAction {
     }
 }
 
-module.exports = UnforgeAction;
+export default UnforgeAction;

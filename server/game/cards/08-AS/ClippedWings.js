@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class ClippedWings extends Card {
     // Play: Choose one:
@@ -26,4 +26,4 @@ class ClippedWings extends Card {
 
 ClippedWings.id = 'clipped-wings';
 
-module.exports = ClippedWings;
+export default ClippedWings;

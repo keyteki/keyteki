@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class MakeItSo extends Card {
     // Play: Choose a house. Reveal the top card of your deck. If that card belongs to the chosen house, draw it and trigger this effect again.
@@ -29,4 +29,4 @@ class MakeItSo extends Card {
 
 MakeItSo.id = 'make-it-so';
 
-module.exports = MakeItSo;
+export default MakeItSo;

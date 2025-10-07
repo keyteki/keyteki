@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class MinervasWings extends Card {
     // This creature cannot fight or reap and gains, “Action: Draw 2 cards.”
@@ -17,4 +17,4 @@ class MinervasWings extends Card {
 
 MinervasWings.id = 'minerva-s-wings';
 
-module.exports = MinervasWings;
+export default MinervasWings;

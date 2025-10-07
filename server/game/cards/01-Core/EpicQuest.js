@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class EpicQuest extends Card {
     // Play: Archive each friendly Knight creature in play.
@@ -29,4 +29,4 @@ class EpicQuest extends Card {
 
 EpicQuest.id = 'epic-quest';
 
-module.exports = EpicQuest;
+export default EpicQuest;

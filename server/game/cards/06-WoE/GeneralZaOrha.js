@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class GeneralZaOrha extends Card {
     // Play: For each forged key your opponent has, make a token creature.
@@ -13,4 +13,4 @@ class GeneralZaOrha extends Card {
 
 GeneralZaOrha.id = 'general-ză-orhă';
 
-module.exports = GeneralZaOrha;
+export default GeneralZaOrha;

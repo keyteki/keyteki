@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class DefenseInitiative extends Card {
     // Play: Ward a creature. You may exalt that creature. If you exalt it, ward each of its neighbors.
@@ -27,4 +27,4 @@ class DefenseInitiative extends Card {
 
 DefenseInitiative.id = 'defense-initiative';
 
-module.exports = DefenseInitiative;
+export default DefenseInitiative;

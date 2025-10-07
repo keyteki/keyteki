@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class ThinTheHerd extends Card {
     // Play: Shuffle the 4 least powerful creatures into their owners’ decks.
@@ -17,4 +17,4 @@ class ThinTheHerd extends Card {
 
 ThinTheHerd.id = 'thin-the-herd';
 
-module.exports = ThinTheHerd;
+export default ThinTheHerd;

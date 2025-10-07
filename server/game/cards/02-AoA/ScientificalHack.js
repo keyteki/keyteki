@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class ScientificalHack extends Card {
     // Omni: Sacrifice Scientifical Hack. For the remainder of the turn, you may use friendly artifacts as if they belonged to the active house.
@@ -16,4 +16,4 @@ class ScientificalHack extends Card {
 
 ScientificalHack.id = 'scientifical-hack';
 
-module.exports = ScientificalHack;
+export default ScientificalHack;

@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class BeachDay extends Card {
     // (T) Play: Return a creature to its owner's hand. If the tide is high, gain 1A.
@@ -20,4 +20,4 @@ class BeachDay extends Card {
 
 BeachDay.id = 'beach-day';
 
-module.exports = BeachDay;
+export default BeachDay;

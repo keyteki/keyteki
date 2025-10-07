@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Scyphos extends Card {
     // Hazardous 4.
@@ -15,4 +15,4 @@ class Scyphos extends Card {
 
 Scyphos.id = 'scyphos';
 
-module.exports = Scyphos;
+export default Scyphos;

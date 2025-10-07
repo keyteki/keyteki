@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class DeepProbe extends Card {
     // Play: Choose a house. Reveal your opponent's hand. Discard each creature of that house revealed this way.
@@ -26,4 +26,4 @@ class DeepProbe extends Card {
 
 DeepProbe.id = 'deep-probe';
 
-module.exports = DeepProbe;
+export default DeepProbe;

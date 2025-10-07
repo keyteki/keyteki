@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class BossZarek extends Card {
     // Enhance PTPTPT. (These icons have already been added to cards in your deck.)
@@ -14,4 +14,4 @@ class BossZarek extends Card {
 
 BossZarek.id = 'boss-zarek';
 
-module.exports = BossZarek;
+export default BossZarek;

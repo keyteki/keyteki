@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class ZRayBlaster extends Card {
     // This creature gets +3 power and gains, "Before Fight: Deal 3 to each neighbor of the creature this creature fights."
@@ -20,4 +20,4 @@ class ZRayBlaster extends Card {
 
 ZRayBlaster.id = 'z-ray-blaster';
 
-module.exports = ZRayBlaster;
+export default ZRayBlaster;

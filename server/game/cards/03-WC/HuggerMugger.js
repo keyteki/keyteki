@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class HuggerMugger extends Card {
     // Elusive. (The first time this creature is attacked each turn, no damage is dealt.)
@@ -19,4 +19,4 @@ class HuggerMugger extends Card {
 
 HuggerMugger.id = 'hugger-mugger';
 
-module.exports = HuggerMugger;
+export default HuggerMugger;

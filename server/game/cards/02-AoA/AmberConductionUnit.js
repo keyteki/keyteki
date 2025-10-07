@@ -1,5 +1,5 @@
-const Card = require('../../Card.js');
-const EventRegistrar = require('../../eventregistrar.js');
+import Card from '../../Card.js';
+import EventRegistrar from '../../eventregistrar.js';
 
 class AmberConductionUnit extends Card {
     // After an enemy creature reaps, if it is the first time a creature has reaped this turn, stun it.
@@ -36,4 +36,4 @@ class AmberConductionUnit extends Card {
 
 AmberConductionUnit.id = 'æmber-conduction-unit';
 
-module.exports = AmberConductionUnit;
+export default AmberConductionUnit;

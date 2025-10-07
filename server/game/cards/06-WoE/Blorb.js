@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Blorb extends Card {
     // Blorb cannot reap.
@@ -24,4 +24,4 @@ class Blorb extends Card {
 
 Blorb.id = 'blorb';
 
-module.exports = Blorb;
+export default Blorb;

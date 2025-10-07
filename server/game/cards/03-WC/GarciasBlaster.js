@@ -1,4 +1,4 @@
-const BlasterCard = require('./BlasterCard.js');
+import BlasterCard from './BlasterCard.js';
 
 class GarciasBlaster extends BlasterCard {
     // This creature gains, Fight/Reap: You may deal 2D to a creature, or attach Garcias Blaster to Sensor Chief Garcia.
@@ -20,4 +20,4 @@ class GarciasBlaster extends BlasterCard {
 
 GarciasBlaster.id = 'garcia-s-blaster';
 
-module.exports = GarciasBlaster;
+export default GarciasBlaster;

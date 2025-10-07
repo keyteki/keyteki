@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class SigilOfBrotherhood extends Card {
     // Omni: Sacrifice Sigil of Brotherhood. For the remainder of the turn, you may use friendly Sanctum creatures.
@@ -18,4 +18,4 @@ class SigilOfBrotherhood extends Card {
 
 SigilOfBrotherhood.id = 'sigil-of-brotherhood';
 
-module.exports = SigilOfBrotherhood;
+export default SigilOfBrotherhood;

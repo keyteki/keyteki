@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class LoyalPackmate extends Card {
     // Enemy creatures cannot be used to fight friendly creatures
@@ -14,4 +14,4 @@ class LoyalPackmate extends Card {
 
 LoyalPackmate.id = 'loyal-packmate';
 
-module.exports = LoyalPackmate;
+export default LoyalPackmate;

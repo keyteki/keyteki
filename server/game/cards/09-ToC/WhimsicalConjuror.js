@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class WhimsicalConjuror extends Card {
     // When you resolve an A bonus icon, you may make a token creature
@@ -12,4 +12,4 @@ class WhimsicalConjuror extends Card {
 
 WhimsicalConjuror.id = 'whimsical-conjuror';
 
-module.exports = WhimsicalConjuror;
+export default WhimsicalConjuror;

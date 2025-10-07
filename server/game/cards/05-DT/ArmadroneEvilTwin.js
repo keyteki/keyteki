@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class ArmadroneEvilTwin extends Card {
     // Fight: Steal 2A.
@@ -11,4 +11,4 @@ class ArmadroneEvilTwin extends Card {
 
 ArmadroneEvilTwin.id = 'armadrone-evil-twin';
 
-module.exports = ArmadroneEvilTwin;
+export default ArmadroneEvilTwin;

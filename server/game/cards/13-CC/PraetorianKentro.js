@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class PraetorianKentro extends Card {
     // Enhance .
@@ -16,4 +16,4 @@ class PraetorianKentro extends Card {
 
 PraetorianKentro.id = 'praetorian-kentro';
 
-module.exports = PraetorianKentro;
+export default PraetorianKentro;

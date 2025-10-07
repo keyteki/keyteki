@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class DigitalSignal extends Card {
     // Play: For each card in your opponent's archives, archive a card. Discard your opponent's archives.
@@ -32,4 +32,4 @@ class DigitalSignal extends Card {
 
 DigitalSignal.id = 'digital-signal';
 
-module.exports = DigitalSignal;
+export default DigitalSignal;

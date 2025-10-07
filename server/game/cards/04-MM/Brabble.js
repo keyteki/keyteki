@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Brabble extends Card {
     // Destroyed: Your opponent loses 1A. If it is not your turn, your opponent loses 3A instead.
@@ -13,4 +13,4 @@ class Brabble extends Card {
 
 Brabble.id = 'brabble';
 
-module.exports = Brabble;
+export default Brabble;

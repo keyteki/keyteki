@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Terrordactyl extends Card {
     // Terrordactyl enters play stunned.
@@ -26,4 +26,4 @@ class Terrordactyl extends Card {
 
 Terrordactyl.id = 'terrordactyl';
 
-module.exports = Terrordactyl;
+export default Terrordactyl;

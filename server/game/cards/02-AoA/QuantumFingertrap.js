@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class QuantumFingertrap extends Card {
     // Action: Swap the positions of two creatures in a battleline.
@@ -31,4 +31,4 @@ class QuantumFingertrap extends Card {
 
 QuantumFingertrap.id = 'quantum-fingertrap';
 
-module.exports = QuantumFingertrap;
+export default QuantumFingertrap;

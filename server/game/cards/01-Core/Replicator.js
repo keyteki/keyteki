@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Replicator extends Card {
     // Reap: Trigger the reap effect of another creature in play as if you controlled that creature. (That creature does not exhaust.)
@@ -17,4 +17,4 @@ class Replicator extends Card {
 
 Replicator.id = 'replicator';
 
-module.exports = Replicator;
+export default Replicator;

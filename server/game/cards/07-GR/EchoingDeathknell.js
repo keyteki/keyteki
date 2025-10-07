@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class EchoingDeathknell extends Card {
     // Play: Deal 1 to each creature. If one or more creatures are
@@ -25,4 +25,4 @@ class EchoingDeathknell extends Card {
 
 EchoingDeathknell.id = 'echoing-deathknell';
 
-module.exports = EchoingDeathknell;
+export default EchoingDeathknell;

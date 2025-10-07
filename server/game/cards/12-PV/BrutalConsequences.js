@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class BrutalConsequences extends Card {
     // Play: Deal 3 to a creature. If this damage destroys that creature, purge it.
@@ -40,4 +40,4 @@ class BrutalConsequences extends Card {
 
 BrutalConsequences.id = 'brutal-consequences';
 
-module.exports = BrutalConsequences;
+export default BrutalConsequences;

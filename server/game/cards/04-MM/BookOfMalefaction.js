@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class BookOfMalefaction extends Card {
     // After your A is stolen, put a warrant counter on Book of Malefaction for each A stolen.
@@ -27,4 +27,4 @@ class BookOfMalefaction extends Card {
 
 BookOfMalefaction.id = 'book-of-malefaction';
 
-module.exports = BookOfMalefaction;
+export default BookOfMalefaction;

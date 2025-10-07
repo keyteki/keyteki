@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Ch337aEvilTwin extends Card {
     // Skirmish. (When you use this creature to fight, it is dealt no damage in return.)
@@ -16,4 +16,4 @@ class Ch337aEvilTwin extends Card {
 
 Ch337aEvilTwin.id = 'ch-337a-evil-twin';
 
-module.exports = Ch337aEvilTwin;
+export default Ch337aEvilTwin;

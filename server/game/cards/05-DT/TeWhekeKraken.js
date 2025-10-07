@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class TeWhekeKraken extends Card {
     // Play: Exhaust 2 friendly Unfathomable creatures. If you do not, destroy Te-wheke Kraken.
@@ -35,4 +35,4 @@ class TeWhekeKraken extends Card {
 
 TeWhekeKraken.id = 'te-wheke-kraken';
 
-module.exports = TeWhekeKraken;
+export default TeWhekeKraken;

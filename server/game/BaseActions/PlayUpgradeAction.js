@@ -1,7 +1,7 @@
-const BasePlayAction = require('./BasePlayAction');
-const AttachAction = require('../GameActions/AttachAction');
-const CardLastingEffectAction = require('../GameActions/CardLastingEffectAction');
-const Effects = require('../effects');
+import BasePlayAction from './BasePlayAction.js';
+import AttachAction from '../GameActions/AttachAction.js';
+import CardLastingEffectAction from '../GameActions/CardLastingEffectAction.js';
+import Effects from '../effects.js';
 
 class PlayUpgradeAction extends BasePlayAction {
     constructor(card, parent) {
@@ -90,4 +90,4 @@ class PlayUpgradeAction extends BasePlayAction {
     }
 }
 
-module.exports = PlayUpgradeAction;
+export default PlayUpgradeAction;

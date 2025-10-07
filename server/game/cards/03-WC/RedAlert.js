@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class RedAlert extends Card {
     // Play: If there are more enemy creatures than friendly creatures, deal damage to each enemy creature equal to the difference.
@@ -20,4 +20,4 @@ class RedAlert extends Card {
 
 RedAlert.id = 'red-alert';
 
-module.exports = RedAlert;
+export default RedAlert;

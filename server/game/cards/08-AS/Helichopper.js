@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Helichopper extends Card {
     // If you are haunted, Helichopper gets +3 power for each A on
@@ -18,4 +18,4 @@ class Helichopper extends Card {
 
 Helichopper.id = 'helichopper';
 
-module.exports = Helichopper;
+export default Helichopper;

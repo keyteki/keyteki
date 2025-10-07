@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class SaurusRex extends Card {
     // Fight/Reap: If Saurus Rex is in the center of your battleline, you may exalt it. If you do, search your deck for a Saurian card, reveal it, and put it into your hand. Shuffle your deck.
@@ -21,4 +21,4 @@ class SaurusRex extends Card {
 
 SaurusRex.id = 'saurus-rex';
 
-module.exports = SaurusRex;
+export default SaurusRex;

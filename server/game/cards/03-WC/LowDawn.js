@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class LowDawn extends Card {
     // Play: If there are 3 or more Untamed creatures in your discard pile, gain 2A. Shuffle each Untamed creature from your discard pile into your deck.
@@ -26,4 +26,4 @@ class LowDawn extends Card {
 
 LowDawn.id = 'low-dawn';
 
-module.exports = LowDawn;
+export default LowDawn;

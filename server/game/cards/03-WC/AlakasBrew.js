@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class AlakasBrew extends Card {
     // Play: Give a creature two +1 power counters.
@@ -16,4 +16,4 @@ class AlakasBrew extends Card {
 
 AlakasBrew.id = 'alaka-s-brew';
 
-module.exports = AlakasBrew;
+export default AlakasBrew;

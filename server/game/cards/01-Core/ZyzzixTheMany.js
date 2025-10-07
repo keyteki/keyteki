@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class ZyzzixTheMany extends Card {
     // Fight/Reap: You may reveal a creature from your hand. If you do, archive it and Zyzzix the Many gets three +1 power counters.
@@ -25,4 +25,4 @@ class ZyzzixTheMany extends Card {
 
 ZyzzixTheMany.id = 'zyzzix-the-many';
 
-module.exports = ZyzzixTheMany;
+export default ZyzzixTheMany;

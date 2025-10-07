@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class MasterOfTheGrey extends Card {
     // Your opponent cannot resolve bonus icons on cards they play.
@@ -12,4 +12,4 @@ class MasterOfTheGrey extends Card {
 
 MasterOfTheGrey.id = 'master-of-the-grey';
 
-module.exports = MasterOfTheGrey;
+export default MasterOfTheGrey;

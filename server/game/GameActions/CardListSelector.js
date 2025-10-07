@@ -1,4 +1,4 @@
-const SingleCardSelector = require('../CardSelectors/SingleCardSelector');
+import SingleCardSelector from '../CardSelectors/SingleCardSelector.js';
 
 class CardListSelector extends SingleCardSelector {
     constructor(cardList, revealList = []) {
@@ -24,4 +24,4 @@ class CardListSelector extends SingleCardSelector {
     }
 }
 
-module.exports = CardListSelector;
+export default CardListSelector;

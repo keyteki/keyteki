@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Berinon extends Card {
     // After a Mutant creature enters play, enrage Berinon.
@@ -20,4 +20,4 @@ class Berinon extends Card {
 
 Berinon.id = 'berinon';
 
-module.exports = Berinon;
+export default Berinon;

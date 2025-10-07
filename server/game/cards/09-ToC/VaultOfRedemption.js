@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class VaultOfRedemption extends Card {
     // Each time a Mutant creature is destroyed, draw a card.
@@ -17,4 +17,4 @@ class VaultOfRedemption extends Card {
 
 VaultOfRedemption.id = 'vault-of-redemption';
 
-module.exports = VaultOfRedemption;
+export default VaultOfRedemption;

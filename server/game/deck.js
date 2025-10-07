@@ -1,8 +1,9 @@
-const _ = require('underscore');
+import underscore from 'underscore';
+const _ = underscore;
 
-const cards = require('./cards');
-const Card = require('./Card.js');
-const logger = require('../log.js');
+import cards from './cards/index.js';
+import Card from './Card.js';
+import logger from '../log.js';
 
 class Deck {
     constructor(data) {
@@ -122,4 +123,4 @@ class Deck {
     }
 }
 
-module.exports = Deck;
+export default Deck;

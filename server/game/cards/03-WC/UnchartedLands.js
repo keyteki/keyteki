@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class UnchartedLands extends Card {
     // Play: Place 6A from the common supply on Uncharted Lands.
@@ -28,4 +28,4 @@ class UnchartedLands extends Card {
 
 UnchartedLands.id = 'uncharted-lands';
 
-module.exports = UnchartedLands;
+export default UnchartedLands;

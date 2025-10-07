@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class OperativeEspionEvilTwin extends Card {
     // Elusive. (The first time this creature is attacked each turn, no damage is dealt.)
@@ -19,4 +19,4 @@ class OperativeEspionEvilTwin extends Card {
 
 OperativeEspionEvilTwin.id = 'operative-espion-evil-twin';
 
-module.exports = OperativeEspionEvilTwin;
+export default OperativeEspionEvilTwin;

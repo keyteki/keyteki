@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class GhostlyHand extends Card {
     // Play: If your opponent has exactly 1<A>, steal it.
@@ -12,4 +12,4 @@ class GhostlyHand extends Card {
 
 GhostlyHand.id = 'ghostly-hand';
 
-module.exports = GhostlyHand;
+export default GhostlyHand;

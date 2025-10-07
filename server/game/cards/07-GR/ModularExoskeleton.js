@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class ModularExoskeleton extends Card {
     // This creature gets +4 power.
@@ -26,4 +26,4 @@ class ModularExoskeleton extends Card {
 
 ModularExoskeleton.id = 'modular-exoskeleton';
 
-module.exports = ModularExoskeleton;
+export default ModularExoskeleton;

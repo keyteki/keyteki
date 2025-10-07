@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Rotfeast extends Card {
     // Play: For the remainder of the turn, gain 1 each time a
@@ -19,4 +19,4 @@ class Rotfeast extends Card {
 
 Rotfeast.id = 'rotfeast';
 
-module.exports = Rotfeast;
+export default Rotfeast;

@@ -1,4 +1,4 @@
-const BaseAbility = require('./baseability.js');
+import BaseAbility from './baseability.js';
 
 class CustomPlayAction extends BaseAbility {
     constructor(properties) {
@@ -17,4 +17,4 @@ class CustomPlayAction extends BaseAbility {
     }
 }
 
-module.exports = CustomPlayAction;
+export default CustomPlayAction;

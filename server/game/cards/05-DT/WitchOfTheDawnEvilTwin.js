@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class WitchOfTheDawnEvilTwin extends Card {
     // Play: Destroy another friendly creature. If you do, play a different creature from your discard pile. Ready and use that creature.
@@ -33,4 +33,4 @@ class WitchOfTheDawnEvilTwin extends Card {
 
 WitchOfTheDawnEvilTwin.id = 'witch-of-the-dawn-evil-twin';
 
-module.exports = WitchOfTheDawnEvilTwin;
+export default WitchOfTheDawnEvilTwin;

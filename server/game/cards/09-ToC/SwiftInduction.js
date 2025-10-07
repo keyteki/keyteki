@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class SwiftInduction extends Card {
     // Play: Make a token creature. If that token creature enters play
@@ -22,4 +22,4 @@ class SwiftInduction extends Card {
 
 SwiftInduction.id = 'swift-induction';
 
-module.exports = SwiftInduction;
+export default SwiftInduction;

@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Francus extends Card {
     // After an enemy creature is destroyed fighting Francus, Francus captures 1<A>.
@@ -15,4 +15,4 @@ class Francus extends Card {
 
 Francus.id = 'francus';
 
-module.exports = Francus;
+export default Francus;

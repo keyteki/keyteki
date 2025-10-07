@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class BlastFromThePast extends Card {
     // Play: Exalt a friendly creature. Archive a Saurian creature from your discard pile. Deal damage equal to the archived creatures power to an enemy creature.
@@ -35,4 +35,4 @@ class BlastFromThePast extends Card {
 
 BlastFromThePast.id = 'blast-from-the-past';
 
-module.exports = BlastFromThePast;
+export default BlastFromThePast;

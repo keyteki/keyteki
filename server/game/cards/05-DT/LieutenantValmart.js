@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class LieutenantValmart extends Card {
     // (T) Play/Fight/Reap: If the tide is high, keys cost +3A during your opponent's next turn.
@@ -19,4 +19,4 @@ class LieutenantValmart extends Card {
 
 LieutenantValmart.id = 'lieutenant-valmart';
 
-module.exports = LieutenantValmart;
+export default LieutenantValmart;

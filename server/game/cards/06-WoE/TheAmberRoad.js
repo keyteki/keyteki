@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class TheAmberRoad extends Card {
     // Omni: Put 1 trade counter on The Æmber Road, then gain 1 Aember for each trade counter on it. Give control of The Æmber Road to your opponent.
@@ -28,4 +28,4 @@ class TheAmberRoad extends Card {
 
 TheAmberRoad.id = 'the-æmber-road';
 
-module.exports = TheAmberRoad;
+export default TheAmberRoad;

@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class ClosedDoorNegotiation extends Card {
     // Play: Your opponent draws a card. Steal 1 Aember. If you
@@ -23,4 +23,4 @@ class ClosedDoorNegotiation extends Card {
 
 ClosedDoorNegotiation.id = 'closed-door-negotiation';
 
-module.exports = ClosedDoorNegotiation;
+export default ClosedDoorNegotiation;

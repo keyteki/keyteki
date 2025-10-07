@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class FutureIsPast extends Card {
     // Play: Swap each player's deck with their discard pile. Shuffle
@@ -28,4 +28,4 @@ class FutureIsPast extends Card {
 
 FutureIsPast.id = 'future-is-past';
 
-module.exports = FutureIsPast;
+export default FutureIsPast;

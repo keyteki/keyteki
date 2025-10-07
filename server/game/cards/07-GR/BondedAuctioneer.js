@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class BondedAuctioneer extends Card {
     // After Reap: Destroy an artifact. If you do, its controller gains 1A.
@@ -32,4 +32,4 @@ class BondedAuctioneer extends Card {
 
 BondedAuctioneer.id = 'bonded-auctioneer';
 
-module.exports = BondedAuctioneer;
+export default BondedAuctioneer;

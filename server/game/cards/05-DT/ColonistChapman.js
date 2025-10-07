@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class ColonistChapman extends Card {
     // Taunt.
@@ -19,4 +19,4 @@ class ColonistChapman extends Card {
 
 ColonistChapman.id = 'colonist-chapman';
 
-module.exports = ColonistChapman;
+export default ColonistChapman;

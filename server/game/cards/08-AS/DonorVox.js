@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class DonorVox extends Card {
     // Scrap: Give a friendly Mars creature two +1 power counters.
@@ -17,4 +17,4 @@ class DonorVox extends Card {
 
 DonorVox.id = 'donor-vox';
 
-module.exports = DonorVox;
+export default DonorVox;

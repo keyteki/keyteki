@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Commpod extends Card {
     // Action: Reveal any number of Mars cards from your hand. For each card revealed this way, you may ready one Mars creature.
@@ -31,4 +31,4 @@ class Commpod extends Card {
 
 Commpod.id = 'commpod';
 
-module.exports = Commpod;
+export default Commpod;

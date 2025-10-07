@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class BogSpitter extends Card {
     // After Fight: Discard a random card from a player's hand.
@@ -33,4 +33,4 @@ class BogSpitter extends Card {
 
 BogSpitter.id = 'bog-spitter';
 
-module.exports = BogSpitter;
+export default BogSpitter;

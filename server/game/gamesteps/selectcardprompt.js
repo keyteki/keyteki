@@ -1,10 +1,10 @@
-const _ = require('underscore');
+import _ from 'underscore';
 
-const AbilityContext = require('../AbilityContext.js');
-const CardSelector = require('../CardSelector.js');
-const EffectSource = require('../EffectSource.js');
-const UiPrompt = require('./uiprompt.js');
-const Optional = require('../optional.js');
+import AbilityContext from '../AbilityContext.js';
+import CardSelector from '../CardSelector.js';
+import EffectSource from '../EffectSource.js';
+import UiPrompt from './uiprompt.js';
+import Optional from '../optional.js';
 
 /**
  * General purpose prompt that asks the user to select 1 or more cards.
@@ -305,4 +305,4 @@ class SelectCardPrompt extends UiPrompt {
     }
 }
 
-module.exports = SelectCardPrompt;
+export default SelectCardPrompt;

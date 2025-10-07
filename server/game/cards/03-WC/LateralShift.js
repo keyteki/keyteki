@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class LateralShift extends Card {
     // Play: Look at your opponents hand. Play a card from that hand as if it were yours.
@@ -16,4 +16,4 @@ class LateralShift extends Card {
 
 LateralShift.id = 'lateral-shift';
 
-module.exports = LateralShift;
+export default LateralShift;

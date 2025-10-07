@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Mindworm extends Card {
     // Elusive.(The first time this creature is attacked each turn, no damage is dealt.)
@@ -17,4 +17,4 @@ class Mindworm extends Card {
 
 Mindworm.id = 'mindworm';
 
-module.exports = Mindworm;
+export default Mindworm;

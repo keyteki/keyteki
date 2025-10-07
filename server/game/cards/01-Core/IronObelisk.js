@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class IronObelisk extends Card {
     // Your opponents keys cost +1A for each friendly damaged Brobnar creature.
@@ -20,4 +20,4 @@ class IronObelisk extends Card {
 
 IronObelisk.id = 'iron-obelisk';
 
-module.exports = IronObelisk;
+export default IronObelisk;

@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Sandwyrm extends Card {
     // After Fight: Shuffle Sandwyrm into your deck.
@@ -13,4 +13,4 @@ class Sandwyrm extends Card {
 
 Sandwyrm.id = 'sandwyrm';
 
-module.exports = Sandwyrm;
+export default Sandwyrm;

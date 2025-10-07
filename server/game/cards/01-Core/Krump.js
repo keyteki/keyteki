@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Krump extends Card {
     // After an enemy creature is destroyed fighting Krump, its controller loses 1<A>.
@@ -15,4 +15,4 @@ class Krump extends Card {
 
 Krump.id = 'krump';
 
-module.exports = Krump;
+export default Krump;

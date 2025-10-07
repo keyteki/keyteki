@@ -1,5 +1,5 @@
-const Card = require('../../Card.js');
-const _ = require('underscore');
+import Card from '../../Card.js';
+import _ from 'underscore';
 
 class RuthlessAvenger extends Card {
     // Assault 2. Hazardous 2.
@@ -25,4 +25,4 @@ class RuthlessAvenger extends Card {
 
 RuthlessAvenger.id = 'ruthless-avenger';
 
-module.exports = RuthlessAvenger;
+export default RuthlessAvenger;

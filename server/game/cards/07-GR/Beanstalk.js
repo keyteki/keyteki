@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Beanstalk extends Card {
     // Friendly Giant creatures enter play ready.
@@ -23,4 +23,4 @@ class Beanstalk extends Card {
 
 Beanstalk.id = 'beanstalk';
 
-module.exports = Beanstalk;
+export default Beanstalk;

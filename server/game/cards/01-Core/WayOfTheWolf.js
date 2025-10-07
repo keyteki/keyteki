@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class WayOfTheWolf extends Card {
     // This creature gains skirmish.  (When you use this creature to fight, it is dealt no damage in return.)
@@ -11,4 +11,4 @@ class WayOfTheWolf extends Card {
 
 WayOfTheWolf.id = 'way-of-the-wolf';
 
-module.exports = WayOfTheWolf;
+export default WayOfTheWolf;

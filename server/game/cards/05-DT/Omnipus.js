@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Omnipus extends Card {
     // Omnipus cannot fight.
@@ -35,4 +35,4 @@ class Omnipus extends Card {
 
 Omnipus.id = 'omnipus';
 
-module.exports = Omnipus;
+export default Omnipus;

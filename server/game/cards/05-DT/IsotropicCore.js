@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class IsotropicCore extends Card {
     // Each friendly creature gains hazardous 1.  (Before that creature is attacked, deal 1D to the attacking enemy.)
@@ -14,4 +14,4 @@ class IsotropicCore extends Card {
 
 IsotropicCore.id = 'isotropic-core';
 
-module.exports = IsotropicCore;
+export default IsotropicCore;

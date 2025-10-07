@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class AvidCollecting extends Card {
     //Play: Return a friendly token creature to your hand.
@@ -16,4 +16,4 @@ class AvidCollecting extends Card {
 
 AvidCollecting.id = 'avid-collecting';
 
-module.exports = AvidCollecting;
+export default AvidCollecting;

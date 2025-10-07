@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class EncounterGolem extends Card {
     // After you play an action card, put that card on the bottom of
@@ -30,4 +30,4 @@ class EncounterGolem extends Card {
 
 EncounterGolem.id = 'encounter-golem';
 
-module.exports = EncounterGolem;
+export default EncounterGolem;

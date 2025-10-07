@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class TutorBinRillo extends Card {
     // Play: Discard up to 3 cards. Your opponent draws a card.
@@ -34,4 +34,4 @@ class TutorBinRillo extends Card {
 
 TutorBinRillo.id = 'tutor-bin-rillo';
 
-module.exports = TutorBinRillo;
+export default TutorBinRillo;

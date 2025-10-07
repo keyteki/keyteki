@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class SingingScythe extends Card {
     // While you are haunted, you may return Singing Scythe from your
@@ -51,4 +51,4 @@ class SingingScythe extends Card {
 
 SingingScythe.id = 'singing-scythe';
 
-module.exports = SingingScythe;
+export default SingingScythe;

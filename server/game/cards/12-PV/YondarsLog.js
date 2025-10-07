@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class YondarsLog extends Card {
     // Play: If there are more enemy creatures than friendly creatures, archive each card from your hand.
@@ -18,4 +18,4 @@ class YondarsLog extends Card {
 
 YondarsLog.id = 'yondar-s-log';
 
-module.exports = YondarsLog;
+export default YondarsLog;

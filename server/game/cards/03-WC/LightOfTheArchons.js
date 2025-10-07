@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class LightOfTheArchons extends Card {
     // This creature gets +1 power and +1 armor for each upgrade attached to it.
@@ -14,4 +14,4 @@ class LightOfTheArchons extends Card {
 
 LightOfTheArchons.id = 'light-of-the-archons';
 
-module.exports = LightOfTheArchons;
+export default LightOfTheArchons;

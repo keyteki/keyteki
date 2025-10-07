@@ -1,5 +1,5 @@
-const CardListSelector = require('./CardListSelector');
-const GameAction = require('./GameAction');
+import CardListSelector from './CardListSelector.js';
+import GameAction from './GameAction.js';
 
 class SequentialMakeTokenCreatureAction extends GameAction {
     setDefaultProperties() {
@@ -77,4 +77,4 @@ class SequentialMakeTokenCreatureAction extends GameAction {
     }
 }
 
-module.exports = SequentialMakeTokenCreatureAction;
+export default SequentialMakeTokenCreatureAction;

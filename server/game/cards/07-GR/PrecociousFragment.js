@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class PrecociousFragment extends Card {
     // After Reap: If you are haunted, gain 1. Otherwise, discard the
@@ -22,4 +22,4 @@ class PrecociousFragment extends Card {
 
 PrecociousFragment.id = 'precocious-fragment';
 
-module.exports = PrecociousFragment;
+export default PrecociousFragment;

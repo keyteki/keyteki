@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class BindingIrons extends Card {
     // Play: Your opponent gains 3chains.
@@ -16,4 +16,4 @@ class BindingIrons extends Card {
 
 BindingIrons.id = 'binding-irons';
 
-module.exports = BindingIrons;
+export default BindingIrons;

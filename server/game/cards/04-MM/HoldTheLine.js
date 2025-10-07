@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class HoldTheLine extends Card {
     // Play: If there are more enemy creatures than friendly creatures, draw cards equal to the difference.
@@ -19,4 +19,4 @@ class HoldTheLine extends Card {
 
 HoldTheLine.id = 'hold-the-line';
 
-module.exports = HoldTheLine;
+export default HoldTheLine;

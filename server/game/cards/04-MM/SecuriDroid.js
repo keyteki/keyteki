@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class SecuriDroid extends Card {
     // Taunt. (This creatures neighbors cannot be attacked unless they have taunt.)
@@ -16,4 +16,4 @@ class SecuriDroid extends Card {
 
 SecuriDroid.id = 'securi-droid';
 
-module.exports = SecuriDroid;
+export default SecuriDroid;

@@ -1,4 +1,4 @@
-const EffectValue = require('./EffectValue');
+import EffectValue from './EffectValue.js';
 
 class CannotRestriction extends EffectValue {
     constructor(type, condition) {
@@ -25,4 +25,4 @@ class CannotRestriction extends EffectValue {
     }
 }
 
-module.exports = CannotRestriction;
+export default CannotRestriction;

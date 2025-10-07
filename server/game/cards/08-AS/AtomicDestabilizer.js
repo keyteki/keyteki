@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class AtomicDestabilizer extends Card {
     // This creature gains, “At the end of your turn, this creature
@@ -28,4 +28,4 @@ class AtomicDestabilizer extends Card {
 
 AtomicDestabilizer.id = 'atomic-destabilizer';
 
-module.exports = AtomicDestabilizer;
+export default AtomicDestabilizer;

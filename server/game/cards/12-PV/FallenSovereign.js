@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class FallenSovereign extends Card {
     // Each of Fallen Sovereign's neighbors gains the Mutant trait.
@@ -19,4 +19,4 @@ class FallenSovereign extends Card {
 
 FallenSovereign.id = 'fallen-sovereign';
 
-module.exports = FallenSovereign;
+export default FallenSovereign;

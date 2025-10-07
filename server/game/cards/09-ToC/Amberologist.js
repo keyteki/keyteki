@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Amberologist extends Card {
     // Action: Capture 1A.
@@ -11,4 +11,4 @@ class Amberologist extends Card {
 
 Amberologist.id = 'æmberologist';
 
-module.exports = Amberologist;
+export default Amberologist;

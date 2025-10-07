@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class ScrivenerFavian extends Card {
     // Enhance PTPT. (These icons have already been added to cards in your deck.)
@@ -12,4 +12,4 @@ class ScrivenerFavian extends Card {
 
 ScrivenerFavian.id = 'scrivener-favian';
 
-module.exports = ScrivenerFavian;
+export default ScrivenerFavian;

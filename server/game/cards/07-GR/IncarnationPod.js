@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class IncarnationPod extends Card {
     // Action: Choose a card in any discard pile and put it on the
@@ -32,4 +32,4 @@ class IncarnationPod extends Card {
 
 IncarnationPod.id = 'incarnation-pod';
 
-module.exports = IncarnationPod;
+export default IncarnationPod;

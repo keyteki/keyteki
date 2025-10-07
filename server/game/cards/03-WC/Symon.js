@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Symon extends Card {
     // Skirmish. (When you use this creature to fight, it is dealt no damage in return.)
@@ -14,4 +14,4 @@ class Symon extends Card {
 
 Symon.id = 'symon';
 
-module.exports = Symon;
+export default Symon;

@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class PKESyphonator extends Card {
     // Play: Gain 1A for each card in your opponent’s archives. Your
@@ -25,4 +25,4 @@ class PKESyphonator extends Card {
 
 PKESyphonator.id = 'pke-syphonator';
 
-module.exports = PKESyphonator;
+export default PKESyphonator;

@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Eyegor extends Card {
     // Play: Look at the top 3cards of your deck. Add 1to your hand and discard the others.
@@ -24,4 +24,4 @@ class Eyegor extends Card {
 
 Eyegor.id = 'eyegor';
 
-module.exports = Eyegor;
+export default Eyegor;

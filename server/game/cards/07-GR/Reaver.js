@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Reaver extends Card {
     // After Reap: Move 1 A from a friendly creature to your pool. If you do,
@@ -29,4 +29,4 @@ class Reaver extends Card {
 
 Reaver.id = 'reaver';
 
-module.exports = Reaver;
+export default Reaver;

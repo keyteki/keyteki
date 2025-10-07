@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Form, Col, Button, Table } from 'react-bootstrap';
+import { Form, Col, Button, Table, Row } from 'react-bootstrap';
 import { Formik } from 'formik';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimes, faCircleNotch } from '@fortawesome/free-solid-svg-icons';
@@ -157,7 +157,7 @@ const BlockList = () => {
                                                     their chat messages or their games.
                                                 </Trans>
                                             </p>
-                                            <Form.Row>
+                                            <Row>
                                                 <Form.Group
                                                     as={Col}
                                                     xs='9'
@@ -180,7 +180,7 @@ const BlockList = () => {
                                                         {formProps.errors.blockee}
                                                     </Form.Control.Feedback>
                                                 </Form.Group>
-                                            </Form.Row>
+                                            </Row>
 
                                             <Button variant='primary' type='submit'>
                                                 <Trans>Add</Trans>

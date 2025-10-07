@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class ClearMind extends Card {
     // Play: Unstun each friendly creature.
@@ -13,4 +13,4 @@ class ClearMind extends Card {
 
 ClearMind.id = 'clear-mind';
 
-module.exports = ClearMind;
+export default ClearMind;

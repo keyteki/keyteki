@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Graphton extends Card {
     // After Reap: Archive the top card of your deck.
@@ -14,4 +14,4 @@ class Graphton extends Card {
 
 Graphton.id = 'graphton';
 
-module.exports = Graphton;
+export default Graphton;

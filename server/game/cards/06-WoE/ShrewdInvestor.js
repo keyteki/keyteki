@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class ShrewdInvestor extends Card {
     // Play: You may have your opponent gain 1Aember. If you do,
@@ -20,4 +20,4 @@ class ShrewdInvestor extends Card {
 
 ShrewdInvestor.id = 'shrewd-investor';
 
-module.exports = ShrewdInvestor;
+export default ShrewdInvestor;

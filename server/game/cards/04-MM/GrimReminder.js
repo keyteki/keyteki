@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class GrimReminder extends Card {
     // Play: Choose a house. Archive each creature of that house from your discard pile. Gain 1 chain.
@@ -32,4 +32,4 @@ class GrimReminder extends Card {
 
 GrimReminder.id = 'grim-reminder';
 
-module.exports = GrimReminder;
+export default GrimReminder;

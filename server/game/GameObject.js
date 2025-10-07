@@ -1,6 +1,7 @@
-const uuid = require('uuid');
-const _ = require('underscore');
-const GameActions = require('./GameActions');
+import uuid from 'uuid';
+import underscore from 'underscore';
+const _ = underscore;
+import * as GameActions from './GameActions/index.js';
 
 class GameObject {
     constructor(game) {
@@ -112,4 +113,4 @@ class GameObject {
     }
 }
 
-module.exports = GameObject;
+export default GameObject;

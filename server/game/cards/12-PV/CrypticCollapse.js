@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class CrypticCollapse extends Card {
     // Play: Discard your hand. For each card discarded this way, an enemy creature captures 1 from its own side.
@@ -31,4 +31,4 @@ class CrypticCollapse extends Card {
 
 CrypticCollapse.id = 'cryptic-collapse';
 
-module.exports = CrypticCollapse;
+export default CrypticCollapse;

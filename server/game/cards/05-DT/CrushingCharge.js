@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class CrushingCharge extends Card {
     // Play: Destroy each creature with power 4 or lower. Gain 1 chain.
@@ -17,4 +17,4 @@ class CrushingCharge extends Card {
 
 CrushingCharge.id = 'crushing-charge';
 
-module.exports = CrushingCharge;
+export default CrushingCharge;

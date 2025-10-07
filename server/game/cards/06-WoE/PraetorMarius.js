@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 // After Reap: For each exhausted creature to Praetor Marius`s left, capture 1 Aember.
 class PraetorMarius extends Card {
     // After Reap: For each exhausted creature to Praetor Mariuss left,
@@ -19,4 +19,4 @@ class PraetorMarius extends Card {
 
 PraetorMarius.id = 'praetor-marius';
 
-module.exports = PraetorMarius;
+export default PraetorMarius;

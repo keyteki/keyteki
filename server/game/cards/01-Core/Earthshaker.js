@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Earthshaker extends Card {
     // Play: Destroy each creature with power 3 or lower.
@@ -13,4 +13,4 @@ class Earthshaker extends Card {
 
 Earthshaker.id = 'earthshaker';
 
-module.exports = Earthshaker;
+export default Earthshaker;

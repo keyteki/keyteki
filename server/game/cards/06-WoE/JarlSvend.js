@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class JarlSvend extends Card {
     // After an enemy creature is destroyed fighting Jarl Svend, make
@@ -19,4 +19,4 @@ class JarlSvend extends Card {
 
 JarlSvend.id = 'jarl-svend';
 
-module.exports = JarlSvend;
+export default JarlSvend;

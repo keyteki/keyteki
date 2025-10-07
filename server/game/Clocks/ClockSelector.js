@@ -1,8 +1,8 @@
-const Clock = require('./Clock');
-const Timer = require('./Timer');
-const ChessClock = require('./ChessClock');
-const Hourglass = require('./Hourglass');
-const Byoyomi = require('./Byoyomi');
+import Clock from './Clock.js';
+import Timer from './Timer.js';
+import ChessClock from './ChessClock.js';
+import Hourglass from './Hourglass.js';
+import Byoyomi from './Byoyomi.js';
 
 const typeToClock = {
     none: (player, time) => new Clock(player, time),
@@ -24,4 +24,4 @@ class ClockSelector {
     }
 }
 
-module.exports = ClockSelector;
+export default ClockSelector;

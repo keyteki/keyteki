@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class FourCRForeseer extends Card {
     // Play/After Reap: Look at the top 2 cards of your deck. Put 1 into your hand.
@@ -20,4 +20,4 @@ class FourCRForeseer extends Card {
 
 FourCRForeseer.id = '4cr-foreseer';
 
-module.exports = FourCRForeseer;
+export default FourCRForeseer;

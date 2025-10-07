@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class FriendlyGuide extends Card {
     //Elusive
@@ -18,4 +18,4 @@ class FriendlyGuide extends Card {
 
 FriendlyGuide.id = 'friendly-guide';
 
-module.exports = FriendlyGuide;
+export default FriendlyGuide;

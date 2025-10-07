@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class IronyxVatminder extends Card {
     // Play/Destroyed: Make a token creature.
@@ -14,4 +14,4 @@ class IronyxVatminder extends Card {
 
 IronyxVatminder.id = 'ironyx-vatminder';
 
-module.exports = IronyxVatminder;
+export default IronyxVatminder;

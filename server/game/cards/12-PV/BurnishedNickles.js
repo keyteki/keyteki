@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class BurnishedNickles extends Card {
     // Elusive. Enhance .
@@ -16,4 +16,4 @@ class BurnishedNickles extends Card {
 
 BurnishedNickles.id = 'burnished-nickles';
 
-module.exports = BurnishedNickles;
+export default BurnishedNickles;

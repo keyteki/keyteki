@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Paraguardian extends Card {
     // Reap: You may exalt Paraguardian. If you do, ward each of its neighbors.
@@ -18,4 +18,4 @@ class Paraguardian extends Card {
 
 Paraguardian.id = 'paraguardian';
 
-module.exports = Paraguardian;
+export default Paraguardian;

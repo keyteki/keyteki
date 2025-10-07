@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class SaurianPlant extends Card {
     // Elusive.
@@ -15,4 +15,4 @@ class SaurianPlant extends Card {
 
 SaurianPlant.id = 'saurian-plant';
 
-module.exports = SaurianPlant;
+export default SaurianPlant;

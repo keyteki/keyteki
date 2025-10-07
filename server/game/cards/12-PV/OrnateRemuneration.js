@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class OrnateRemuneration extends Card {
     // Play: Choose one:
@@ -36,4 +36,4 @@ class OrnateRemuneration extends Card {
 
 OrnateRemuneration.id = 'ornate-remuneration';
 
-module.exports = OrnateRemuneration;
+export default OrnateRemuneration;

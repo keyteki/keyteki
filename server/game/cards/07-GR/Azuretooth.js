@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Azuretooth extends Card {
     // After Fight/After Reap: Move each A from a friendly creature to
@@ -31,4 +31,4 @@ class Azuretooth extends Card {
 
 Azuretooth.id = 'azuretooth';
 
-module.exports = Azuretooth;
+export default Azuretooth;

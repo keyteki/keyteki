@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class LictorJustinian extends Card {
     // After your opponent plays a card, deal 1D to each enemy creature.
@@ -18,4 +18,4 @@ class LictorJustinian extends Card {
 
 LictorJustinian.id = 'lictor-justinian';
 
-module.exports = LictorJustinian;
+export default LictorJustinian;

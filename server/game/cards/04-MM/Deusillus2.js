@@ -1,4 +1,4 @@
-const Deusillus = require('./Deusillus.js');
+import Deusillus from './Deusillus.js';
 
 class Deusillus2 extends Deusillus {
     constructor(owner, cardData) {
@@ -8,4 +8,4 @@ class Deusillus2 extends Deusillus {
 
 Deusillus2.id = 'deusillus2';
 
-module.exports = Deusillus2;
+export default Deusillus2;

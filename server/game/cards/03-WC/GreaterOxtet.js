@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class GreaterOxtet extends Card {
     // Taunt.
@@ -23,4 +23,4 @@ class GreaterOxtet extends Card {
 
 GreaterOxtet.id = 'greater-oxtet';
 
-module.exports = GreaterOxtet;
+export default GreaterOxtet;

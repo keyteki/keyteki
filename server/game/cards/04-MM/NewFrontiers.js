@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class NewFrontiers extends Card {
     // Play: Choose a house. Reveal the top 3 cards of your deck. Archive each card of the chosen house and discard the others.
@@ -28,4 +28,4 @@ class NewFrontiers extends Card {
 
 NewFrontiers.id = 'new-frontiers';
 
-module.exports = NewFrontiers;
+export default NewFrontiers;

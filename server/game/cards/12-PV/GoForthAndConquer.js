@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class GoForthAndConquer extends Card {
     // During your opponent's turn, after an enemy creature is used to fight, fulfill Go Forth and Conquer.
@@ -18,4 +18,4 @@ class GoForthAndConquer extends Card {
 
 GoForthAndConquer.id = 'go-forth-and-conquer';
 
-module.exports = GoForthAndConquer;
+export default GoForthAndConquer;

@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Stunner extends Card {
     // This creature gains, "Fight/Reap: You may stun a creature."
@@ -19,4 +19,4 @@ class Stunner extends Card {
 
 Stunner.id = 'stunner';
 
-module.exports = Stunner;
+export default Stunner;

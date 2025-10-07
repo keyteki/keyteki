@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class DeEscalation extends Card {
     // Play: Destroy each creature. Your opponent archives the top 3
@@ -25,4 +25,4 @@ class DeEscalation extends Card {
 
 DeEscalation.id = 'de-escalation';
 
-module.exports = DeEscalation;
+export default DeEscalation;

@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class SafePlace extends Card {
     // You may spend <A> on Safe Place when forging keys.
@@ -17,4 +17,4 @@ class SafePlace extends Card {
 
 SafePlace.id = 'safe-place';
 
-module.exports = SafePlace;
+export default SafePlace;

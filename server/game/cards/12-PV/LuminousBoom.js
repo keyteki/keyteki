@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class LuminousBoom extends Card {
     // Enhance 1.
@@ -29,4 +29,4 @@ class LuminousBoom extends Card {
 
 LuminousBoom.id = 'luminous-boom';
 
-module.exports = LuminousBoom;
+export default LuminousBoom;

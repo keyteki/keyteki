@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class DarkCenturion extends Card {
     // Enhance PTPT.
@@ -22,4 +22,4 @@ class DarkCenturion extends Card {
 
 DarkCenturion.id = 'dark-centurion';
 
-module.exports = DarkCenturion;
+export default DarkCenturion;

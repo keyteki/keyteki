@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class FlipStallard extends Card {
     // Each enemy creature loses each of its destroyed abilities.
@@ -13,4 +13,4 @@ class FlipStallard extends Card {
 
 FlipStallard.id = 'flip-stallard';
 
-module.exports = FlipStallard;
+export default FlipStallard;

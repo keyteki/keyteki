@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Muster extends Card {
     // Play: Make a token creature. If your opponent has more A than you, archive Muster
@@ -24,4 +24,4 @@ class Muster extends Card {
 
 Muster.id = 'muster';
 
-module.exports = Muster;
+export default Muster;

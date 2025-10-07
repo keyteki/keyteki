@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class SkeletalMurmook extends Card {
     // While you are haunted, your opponent's keys cost +2.
@@ -13,4 +13,4 @@ class SkeletalMurmook extends Card {
 
 SkeletalMurmook.id = 'skeletal-murmook';
 
-module.exports = SkeletalMurmook;
+export default SkeletalMurmook;

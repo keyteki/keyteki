@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Thundertow extends Card {
     // Play: Exhaust 2 creatures. Deal 2D to each exhausted creature.
@@ -24,4 +24,4 @@ class Thundertow extends Card {
 
 Thundertow.id = 'thundertow';
 
-module.exports = Thundertow;
+export default Thundertow;

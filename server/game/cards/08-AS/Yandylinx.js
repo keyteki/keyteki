@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Yandylinx extends Card {
     // After Reap: Discard a card. If you do, your opponent loses 1A.
@@ -28,4 +28,4 @@ class Yandylinx extends Card {
 
 Yandylinx.id = 'yandylinx';
 
-module.exports = Yandylinx;
+export default Yandylinx;

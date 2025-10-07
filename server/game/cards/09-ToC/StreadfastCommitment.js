@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class SteadfastCommitment extends Card {
     // Play: Put the top card of your discard pile on the bottom of your deck.
@@ -22,4 +22,4 @@ class SteadfastCommitment extends Card {
 
 SteadfastCommitment.id = 'steadfast-commitment';
 
-module.exports = SteadfastCommitment;
+export default SteadfastCommitment;

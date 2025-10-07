@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class GiltspineMesmerist extends Card {
     // After a player readies a card, discard the top card of their deck.
@@ -51,4 +51,4 @@ class GiltspineMesmerist extends Card {
 
 GiltspineMesmerist.id = 'giltspine-mesmerist';
 
-module.exports = GiltspineMesmerist;
+export default GiltspineMesmerist;

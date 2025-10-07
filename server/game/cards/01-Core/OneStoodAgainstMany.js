@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class OneStoodAgainstMany extends Card {
     // Play: Ready and fight with a friendly creature 3times, each time against a different enemy creature. Resolve these fights one at a time.
@@ -50,4 +50,4 @@ class OneStoodAgainstMany extends Card {
 
 OneStoodAgainstMany.id = 'one-stood-against-many';
 
-module.exports = OneStoodAgainstMany;
+export default OneStoodAgainstMany;

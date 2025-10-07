@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class EmbellishImp extends Card {
     // Each time an enemy creature is destroyed, steal 1.
@@ -28,4 +28,4 @@ class EmbellishImp extends Card {
 
 EmbellishImp.id = 'embellish-imp';
 
-module.exports = EmbellishImp;
+export default EmbellishImp;

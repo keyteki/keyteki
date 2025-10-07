@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Chummy extends Card {
     // Before Fight: If the creature Chummy fights is the least powerful enemy creature, steal 1.
@@ -28,4 +28,4 @@ class Chummy extends Card {
 
 Chummy.id = 'chummy';
 
-module.exports = Chummy;
+export default Chummy;

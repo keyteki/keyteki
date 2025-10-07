@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class MonumentToShrix extends Card {
     // You may spend A on Monument to Shrix as if it were in your pool.
@@ -48,4 +48,4 @@ class MonumentToShrix extends Card {
 
 MonumentToShrix.id = 'monument-to-shrix';
 
-module.exports = MonumentToShrix;
+export default MonumentToShrix;

@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class NamelsConfession extends Card {
     // Play: Destroy a friendly creature. If you do, gain A equal to half its power (rounding down the gain).
@@ -24,4 +24,4 @@ class NamelsConfession extends Card {
 
 NamelsConfession.id = 'namel-s-confession';
 
-module.exports = NamelsConfession;
+export default NamelsConfession;

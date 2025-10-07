@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class HelpFromFutureSelf extends Card {
     // Play: Search your deck and discard pile for a Timetraveller, reveal it, and put it into your hand. Shuffle your discard pile into your deck.
@@ -21,4 +21,4 @@ class HelpFromFutureSelf extends Card {
 
 HelpFromFutureSelf.id = 'help-from-future-self';
 
-module.exports = HelpFromFutureSelf;
+export default HelpFromFutureSelf;

@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class DrXyloxxzlphrex extends Card {
     // After Reap: Play a Mars creature from your discard pile and ready it.
@@ -22,4 +22,4 @@ class DrXyloxxzlphrex extends Card {
 
 DrXyloxxzlphrex.id = 'dr-xyloxxzlphrex';
 
-module.exports = DrXyloxxzlphrex;
+export default DrXyloxxzlphrex;

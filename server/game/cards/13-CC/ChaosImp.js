@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class ChaosImp extends Card {
     // Destroyed: Your opponent loses 1A. If your opponent has no A, archive Chaos Imp.
@@ -24,4 +24,4 @@ class ChaosImp extends Card {
 
 ChaosImp.id = 'chaos-imp';
 
-module.exports = ChaosImp;
+export default ChaosImp;

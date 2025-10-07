@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class HarbingerOfDoom extends Card {
     // Destroyed: Destroy each creature.
@@ -14,4 +14,4 @@ class HarbingerOfDoom extends Card {
 
 HarbingerOfDoom.id = 'harbinger-of-doom';
 
-module.exports = HarbingerOfDoom;
+export default HarbingerOfDoom;

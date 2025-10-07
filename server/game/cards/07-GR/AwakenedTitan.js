@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class AwakenedTitan extends Card {
     // Awakened Titan cannot ready unless you are haunted.
@@ -12,4 +12,4 @@ class AwakenedTitan extends Card {
 
 AwakenedTitan.id = 'awakened-titan';
 
-module.exports = AwakenedTitan;
+export default AwakenedTitan;

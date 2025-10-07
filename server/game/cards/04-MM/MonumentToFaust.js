@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class MonumentToFaust extends Card {
     // Action: Keys cost +1A during your opponents next turn. If Faust the Great is in your discard pile, keys cost +2A during your opponents next turn instead.
@@ -21,4 +21,4 @@ class MonumentToFaust extends Card {
 
 MonumentToFaust.id = 'monument-to-faust';
 
-module.exports = MonumentToFaust;
+export default MonumentToFaust;

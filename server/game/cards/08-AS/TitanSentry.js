@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class TitanSentry extends Card {
     // Players cannot take their archives into their hands during
@@ -33,4 +33,4 @@ class TitanSentry extends Card {
 
 TitanSentry.id = 'titan-sentry';
 
-module.exports = TitanSentry;
+export default TitanSentry;

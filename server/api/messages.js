@@ -1,12 +1,10 @@
-const passport = require('passport');
-
-const ServiceFactory = require('../services/ServiceFactory.js');
-
-const logger = require('../log.js');
+import passport from 'passport';
+import ServiceFactory from '../services/ServiceFactory.js';
+import logger from '../log.js';
 
 let messageService = ServiceFactory.messageService();
 
-module.exports.init = function (server) {
+export function init(server) {
     server.delete(
         '/api/messages/:messageId',
         passport.authenticate('jwt', { session: false }),
@@ -26,4 +24,4 @@ module.exports.init = function (server) {
                 });
         }
     );
-};
+}

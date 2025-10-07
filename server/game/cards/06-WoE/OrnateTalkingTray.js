@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class OrnateTalkingTray extends Card {
     // Omni: Destroy Ornate Talking Tray. Make a token creature.
@@ -16,4 +16,4 @@ class OrnateTalkingTray extends Card {
 
 OrnateTalkingTray.id = 'ornate-talking-tray';
 
-module.exports = OrnateTalkingTray;
+export default OrnateTalkingTray;

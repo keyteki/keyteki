@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class TheHowlingPit extends Card {
     // During their draw cards step, each player refills their hand to 1 additional card.
@@ -12,4 +12,4 @@ class TheHowlingPit extends Card {
 
 TheHowlingPit.id = 'the-howling-pit';
 
-module.exports = TheHowlingPit;
+export default TheHowlingPit;

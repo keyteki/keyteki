@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class ShrinkRayTechnician extends Card {
     // After Reap: Choose an enemy creature. It gets -2 power until
@@ -36,4 +36,4 @@ class ShrinkRayTechnician extends Card {
 
 ShrinkRayTechnician.id = 'shrink-ray-technician';
 
-module.exports = ShrinkRayTechnician;
+export default ShrinkRayTechnician;

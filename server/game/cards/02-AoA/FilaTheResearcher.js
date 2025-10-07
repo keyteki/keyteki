@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class FilaTheResearcher extends Card {
     // Elusive.(The first time this creature is attacked each turn, no damage is dealt.)
@@ -15,4 +15,4 @@ class FilaTheResearcher extends Card {
 
 FilaTheResearcher.id = 'fila-the-researcher';
 
-module.exports = FilaTheResearcher;
+export default FilaTheResearcher;

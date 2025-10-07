@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Tangler extends Card {
     // After Reap: Stun a creature and each of its neighbors.
@@ -25,4 +25,4 @@ class Tangler extends Card {
 
 Tangler.id = 'tangler';
 
-module.exports = Tangler;
+export default Tangler;

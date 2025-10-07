@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Roxador extends Card {
     // Skirmish.(When you use this creature to fight, it is dealt no damage in return.)
@@ -16,4 +16,4 @@ class Roxador extends Card {
 
 Roxador.id = 'roxador';
 
-module.exports = Roxador;
+export default Roxador;

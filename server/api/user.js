@@ -1,11 +1,11 @@
-const passport = require('passport');
+import passport from 'passport';
 
-const UserService = require('../services/UserService.js');
-const DeckService = require('../services/DeckService.js');
-const ConfigService = require('../services/ConfigService.js');
-const { wrapAsync } = require('../util.js');
-const logger = require('../log.js');
-const CardService = require('../services/CardService.js');
+import UserService from '../services/UserService.js';
+import DeckService from '../services/DeckService.js';
+import ConfigService from '../services/ConfigService.js';
+import { wrapAsync } from '../util.js';
+import logger from '../log.js';
+import CardService from '../services/CardService.js';
 
 let configService = new ConfigService();
 
@@ -13,7 +13,7 @@ let userService = new UserService(configService);
 let cardService = new CardService(configService);
 let deckService = new DeckService(configService, cardService);
 
-module.exports.init = function (server) {
+export function init(server) {
     server.get(
         '/api/user/:username',
         passport.authenticate('jwt', { session: false }),
@@ -32,6 +32,7 @@ module.exports.init = function (server) {
                     return res.status(404).send({ message: 'Not found' });
                 }
 
+                // @ts-ignore runtime user has getFullDetails
                 retUser = user.getFullDetails();
 
                 if (req.user.permissions.canVerifyDecks) {
@@ -90,6 +91,7 @@ module.exports.init = function (server) {
                 });
             }
 
+            // @ts-ignore runtime dbUser has getDetails
             let user = dbUser.getDetails();
 
             if (!user) {
@@ -147,4 +149,4 @@ module.exports.init = function (server) {
             res.send({ success: true });
         })
     );
-};
+}

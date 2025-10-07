@@ -1,4 +1,4 @@
-const BaseCardSelector = require('./BaseCardSelector');
+import BaseCardSelector from './BaseCardSelector.js';
 
 class MinStatCardSelector extends BaseCardSelector {
     constructor(properties) {
@@ -15,4 +15,4 @@ class MinStatCardSelector extends BaseCardSelector {
     }
 }
 
-module.exports = MinStatCardSelector;
+export default MinStatCardSelector;

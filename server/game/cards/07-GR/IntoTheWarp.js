@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class IntoTheWarp extends Card {
     // Play: Each player discards the top card of their deck. Destroy
@@ -54,4 +54,4 @@ class IntoTheWarp extends Card {
 
 IntoTheWarp.id = 'into-the-warp';
 
-module.exports = IntoTheWarp;
+export default IntoTheWarp;

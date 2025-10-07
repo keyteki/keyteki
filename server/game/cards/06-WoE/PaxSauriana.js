@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class PaxSauriana extends Card {
     //Play: Ward each creature.
@@ -13,4 +13,4 @@ class PaxSauriana extends Card {
 
 PaxSauriana.id = 'pax-sauriana';
 
-module.exports = PaxSauriana;
+export default PaxSauriana;

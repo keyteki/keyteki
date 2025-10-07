@@ -1,4 +1,4 @@
-const _ = require('underscore');
+import _ from 'underscore';
 
 class CostReducer {
     constructor(game, source, properties) {
@@ -70,4 +70,4 @@ class CostReducer {
     }
 }
 
-module.exports = CostReducer;
+export default CostReducer;

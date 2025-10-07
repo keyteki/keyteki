@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Skollenbuzzz extends Card {
     // Play/After Reap: You may put a creature from your hand faceup
@@ -37,4 +37,4 @@ class Skollenbuzzz extends Card {
 
 Skollenbuzzz.id = 'skŏllĕnbŭzzz';
 
-module.exports = Skollenbuzzz;
+export default Skollenbuzzz;

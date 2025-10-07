@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class FreedomToBe extends Card {
     // Forge a key at +4A current cost, reduced by 1A for each Skyborn
@@ -18,4 +18,4 @@ class FreedomToBe extends Card {
 
 FreedomToBe.id = 'freedom-to-be';
 
-module.exports = FreedomToBe;
+export default FreedomToBe;

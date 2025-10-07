@@ -1,4 +1,4 @@
-const ChessClock = require('./ChessClock');
+import ChessClock from './ChessClock.js';
 
 class Hourglass extends ChessClock {
     opponentStart() {
@@ -7,4 +7,4 @@ class Hourglass extends ChessClock {
     }
 }
 
-module.exports = Hourglass;
+export default Hourglass;

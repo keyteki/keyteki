@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class TreasureMap extends Card {
     // Play: If you have not played any other cards this turn, gain 3A. For the remainder of the turn, you cannot play cards.
@@ -21,4 +21,4 @@ class TreasureMap extends Card {
 
 TreasureMap.id = 'treasure-map';
 
-module.exports = TreasureMap;
+export default TreasureMap;

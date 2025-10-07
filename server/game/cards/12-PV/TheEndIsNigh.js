@@ -1,5 +1,5 @@
-const Card = require('../../Card.js');
-const EventRegistrar = require('../../eventregistrar.js');
+import Card from '../../Card.js';
+import EventRegistrar from '../../eventregistrar.js';
 
 class TheEndIsNigh extends Card {
     // During your opponent's turn, after 3 or more creatures have been destroyed that turn, fulfill The End is Nigh.
@@ -34,4 +34,4 @@ class TheEndIsNigh extends Card {
 
 TheEndIsNigh.id = 'the-end-is-nigh';
 
-module.exports = TheEndIsNigh;
+export default TheEndIsNigh;

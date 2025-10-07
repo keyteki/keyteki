@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class HarlandMindlock extends Card {
     // Play: Take control of an enemy flank creature until Harland Mindlock leaves play.
@@ -22,4 +22,4 @@ class HarlandMindlock extends Card {
 
 HarlandMindlock.id = 'harland-mindlock';
 
-module.exports = HarlandMindlock;
+export default HarlandMindlock;

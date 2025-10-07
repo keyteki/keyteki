@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class ChasmVespid extends Card {
     // Skirmish. Splash-attack 1.
@@ -16,4 +16,4 @@ class ChasmVespid extends Card {
 
 ChasmVespid.id = 'chasm-vespid';
 
-module.exports = ChasmVespid;
+export default ChasmVespid;

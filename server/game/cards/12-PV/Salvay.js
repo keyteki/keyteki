@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Salvay extends Card {
     setupCardAbilities(ability) {
@@ -15,4 +15,4 @@ class Salvay extends Card {
 
 Salvay.id = 'salvay';
 
-module.exports = Salvay;
+export default Salvay;

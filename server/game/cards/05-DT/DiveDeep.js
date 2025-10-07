@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class DiveDeep extends Card {
     // Play: Discard the top card of your opponent's deck. Put a creature that shares a house with that card on the bottom of its owner's deck.
@@ -22,4 +22,4 @@ class DiveDeep extends Card {
 
 DiveDeep.id = 'dive-deep';
 
-module.exports = DiveDeep;
+export default DiveDeep;

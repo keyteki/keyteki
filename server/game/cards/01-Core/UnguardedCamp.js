@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class UnguardedCamp extends Card {
     // Play: For each creature you have in excess of your opponent, a friendly creature captures 1<A>. Each creature cannot capture more than 1<A> this way.
@@ -31,4 +31,4 @@ class UnguardedCamp extends Card {
 
 UnguardedCamp.id = 'unguarded-camp';
 
-module.exports = UnguardedCamp;
+export default UnguardedCamp;

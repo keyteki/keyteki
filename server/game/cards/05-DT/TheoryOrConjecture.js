@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class TheoryOrConjecture extends Card {
     // Play: Choose one:
@@ -25,4 +25,4 @@ class TheoryOrConjecture extends Card {
 
 TheoryOrConjecture.id = 'theory-or-conjecture';
 
-module.exports = TheoryOrConjecture;
+export default TheoryOrConjecture;

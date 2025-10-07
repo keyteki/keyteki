@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class ProtectivePlaymate extends Card {
     // While you are haunted, Protective Playmate gets +6
@@ -18,4 +18,4 @@ class ProtectivePlaymate extends Card {
 
 ProtectivePlaymate.id = 'protective-playmate';
 
-module.exports = ProtectivePlaymate;
+export default ProtectivePlaymate;

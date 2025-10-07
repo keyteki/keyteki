@@ -1,4 +1,4 @@
-const CardGameAction = require('./CardGameAction');
+import CardGameAction from './CardGameAction.js';
 
 class RemoveWardAction extends CardGameAction {
     setup() {
@@ -18,4 +18,4 @@ class RemoveWardAction extends CardGameAction {
     }
 }
 
-module.exports = RemoveWardAction;
+export default RemoveWardAction;

@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class RenewedLife extends Card {
     // Play: Fully heal a creature. Make a token creature for each damage healed this way.
@@ -22,4 +22,4 @@ class RenewedLife extends Card {
 
 RenewedLife.id = 'renewed-life';
 
-module.exports = RenewedLife;
+export default RenewedLife;

@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class RockhurlingGiant extends Card {
     // During your turn, each time you
@@ -23,4 +23,4 @@ class RockhurlingGiant extends Card {
 
 RockhurlingGiant.id = 'rock-hurling-giant';
 
-module.exports = RockhurlingGiant;
+export default RockhurlingGiant;

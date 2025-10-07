@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Teamwork extends Card {
     //Play:Make a token creature. If there are more enemy creatures than friendly creatures, archive Teamwork.
@@ -27,4 +27,4 @@ class Teamwork extends Card {
 
 Teamwork.id = 'teamwork';
 
-module.exports = Teamwork;
+export default Teamwork;

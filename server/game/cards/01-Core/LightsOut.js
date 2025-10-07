@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class LightsOut extends Card {
     // Play: Return 2enemy creatures to their owners hand.
@@ -17,4 +17,4 @@ class LightsOut extends Card {
 
 LightsOut.id = 'lights-out';
 
-module.exports = LightsOut;
+export default LightsOut;

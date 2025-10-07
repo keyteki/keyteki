@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class SaurianEgg extends Card {
     // Saurian Egg cannot fight or reap.
@@ -70,4 +70,4 @@ class SaurianEgg extends Card {
 
 SaurianEgg.id = 'saurian-egg';
 
-module.exports = SaurianEgg;
+export default SaurianEgg;

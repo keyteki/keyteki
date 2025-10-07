@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Fidgit extends Card {
     // Elusive.
@@ -39,4 +39,4 @@ class Fidgit extends Card {
 
 Fidgit.id = 'fidgit';
 
-module.exports = Fidgit;
+export default Fidgit;

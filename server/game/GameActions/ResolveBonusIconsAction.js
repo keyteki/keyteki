@@ -1,4 +1,4 @@
-const CardGameAction = require('./CardGameAction');
+import CardGameAction from './CardGameAction.js';
 
 class ResolveBonusIconsAction extends CardGameAction {
     setup() {
@@ -188,4 +188,4 @@ class ResolveBonusIconsAction extends CardGameAction {
     }
 }
 
-module.exports = ResolveBonusIconsAction;
+export default ResolveBonusIconsAction;

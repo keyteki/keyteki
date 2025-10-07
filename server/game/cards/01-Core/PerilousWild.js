@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class PerilousWild extends Card {
     // Play: Destroy each elusive creature.
@@ -14,4 +14,4 @@ class PerilousWild extends Card {
 
 PerilousWild.id = 'perilous-wild';
 
-module.exports = PerilousWild;
+export default PerilousWild;

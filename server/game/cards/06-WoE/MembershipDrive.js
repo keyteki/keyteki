@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class MembershipDrive extends Card {
     // Play: Make a token creature. Gain 1A for each friendly token creature
@@ -24,4 +24,4 @@ class MembershipDrive extends Card {
 
 MembershipDrive.id = 'membership-drive';
 
-module.exports = MembershipDrive;
+export default MembershipDrive;

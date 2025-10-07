@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class NiffleGrounds extends Card {
     // Action: Choose a creature. For the remainder of the turn, that creature loses taunt and elusive.
@@ -22,4 +22,4 @@ class NiffleGrounds extends Card {
 
 NiffleGrounds.id = 'niffle-grounds';
 
-module.exports = NiffleGrounds;
+export default NiffleGrounds;

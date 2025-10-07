@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Phobivore extends Card {
     // This creature gains “While you are haunted, this creature
@@ -13,4 +13,4 @@ class Phobivore extends Card {
 
 Phobivore.id = 'phobivore';
 
-module.exports = Phobivore;
+export default Phobivore;

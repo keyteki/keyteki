@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class TreasureIsland extends Card {
     // Each friendly Skyborn creature gains, “After Reap: Move 1A from
@@ -32,4 +32,4 @@ class TreasureIsland extends Card {
 
 TreasureIsland.id = 'treasure-island';
 
-module.exports = TreasureIsland;
+export default TreasureIsland;

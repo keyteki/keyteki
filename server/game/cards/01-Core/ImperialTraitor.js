@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class ImperialTraitor extends Card {
     // Play: Look at your opponents hand. You may choose and purge a Sanctum card in it.
@@ -20,4 +20,4 @@ class ImperialTraitor extends Card {
 
 ImperialTraitor.id = 'imperial-traitor';
 
-module.exports = ImperialTraitor;
+export default ImperialTraitor;

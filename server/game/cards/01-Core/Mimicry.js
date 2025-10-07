@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Mimicry extends Card {
     // When you play this card, treat it as a copy of an action card in your opponents discard pile.
@@ -47,4 +47,4 @@ class Mimicry extends Card {
 
 Mimicry.id = 'mimicry';
 
-module.exports = Mimicry;
+export default Mimicry;

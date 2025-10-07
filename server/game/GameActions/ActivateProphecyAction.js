@@ -1,4 +1,4 @@
-const PlayerAction = require('./PlayerAction');
+import PlayerAction from './PlayerAction.js';
 
 class ActivateProphecyAction extends PlayerAction {
     setDefaultProperties() {
@@ -57,4 +57,4 @@ class ActivateProphecyAction extends PlayerAction {
     }
 }
 
-module.exports = ActivateProphecyAction;
+export default ActivateProphecyAction;

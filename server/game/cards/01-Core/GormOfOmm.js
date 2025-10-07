@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class GormOfOmm extends Card {
     // Omni: Sacrifice Gorm of Omm. Destroy an artifact.
@@ -19,4 +19,4 @@ class GormOfOmm extends Card {
 
 GormOfOmm.id = 'gorm-of-omm';
 
-module.exports = GormOfOmm;
+export default GormOfOmm;

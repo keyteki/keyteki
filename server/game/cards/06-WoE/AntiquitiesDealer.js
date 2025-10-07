@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class AntiquitiesDealer extends Card {
     // Action: Gain 2 if you control at least one artifact.
@@ -16,4 +16,4 @@ class AntiquitiesDealer extends Card {
 
 AntiquitiesDealer.id = 'antiquities-dealer';
 
-module.exports = AntiquitiesDealer;
+export default AntiquitiesDealer;

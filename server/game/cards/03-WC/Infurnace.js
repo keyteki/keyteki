@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Infurnace extends Card {
     // Play: Purge up to 2 cards from a discard pile. Your opponent loses A equal to the number of A bonus icons on the purged cards.
@@ -43,4 +43,4 @@ class Infurnace extends Card {
 
 Infurnace.id = 'infurnace';
 
-module.exports = Infurnace;
+export default Infurnace;

@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class DaemoBot extends Card {
     // Reap: Discard a card from your hand. If you do, draw a card.
@@ -23,4 +23,4 @@ class DaemoBot extends Card {
 
 DaemoBot.id = 'dæmo-bot';
 
-module.exports = DaemoBot;
+export default DaemoBot;

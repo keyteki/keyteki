@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class PrimusUnguis extends Card {
     // Each friendly creature gets +2 power for each  on Primus Unguis.
@@ -17,4 +17,4 @@ class PrimusUnguis extends Card {
 
 PrimusUnguis.id = 'primus-unguis';
 
-module.exports = PrimusUnguis;
+export default PrimusUnguis;

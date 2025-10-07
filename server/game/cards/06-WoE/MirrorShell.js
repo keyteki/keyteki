@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class MirrorShell extends Card {
     // Play: Make a token creature.
@@ -27,4 +27,4 @@ class MirrorShell extends Card {
 
 MirrorShell.id = 'mirror-shell';
 
-module.exports = MirrorShell;
+export default MirrorShell;

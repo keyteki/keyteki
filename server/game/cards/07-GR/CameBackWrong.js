@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class CameBackWrong extends Card {
     // Play: Play a creature from your discard pile and attach Came
@@ -35,4 +35,4 @@ class CameBackWrong extends Card {
 
 CameBackWrong.id = 'came-back-wrong';
 
-module.exports = CameBackWrong;
+export default CameBackWrong;

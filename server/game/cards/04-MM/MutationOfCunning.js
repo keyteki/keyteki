@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class MutationOfCunning extends Card {
     // Play: Until the start of your next turn, a creature gains elusive and the Mutant trait.
@@ -21,4 +21,4 @@ class MutationOfCunning extends Card {
 
 MutationOfCunning.id = 'mutation-of-cunning';
 
-module.exports = MutationOfCunning;
+export default MutationOfCunning;

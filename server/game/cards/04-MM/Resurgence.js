@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Resurgence extends Card {
     // Enhance R. (These icons have already been added to cards in your deck.)
@@ -27,4 +27,4 @@ class Resurgence extends Card {
 
 Resurgence.id = 'resurgence';
 
-module.exports = Resurgence;
+export default Resurgence;

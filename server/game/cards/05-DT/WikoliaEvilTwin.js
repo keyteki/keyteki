@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class WikoliaEvilTwin extends Card {
     // Reap: Exalt Wikolia. Keys cost +4A during your opponent's next turn.
@@ -19,4 +19,4 @@ class WikoliaEvilTwin extends Card {
 
 WikoliaEvilTwin.id = 'wikolia-evil-twin';
 
-module.exports = WikoliaEvilTwin;
+export default WikoliaEvilTwin;

@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class OldEgad extends Card {
     // Destroyed: Ward each of Old Egad's neighbors.
@@ -13,4 +13,4 @@ class OldEgad extends Card {
 
 OldEgad.id = 'old-egad';
 
-module.exports = OldEgad;
+export default OldEgad;

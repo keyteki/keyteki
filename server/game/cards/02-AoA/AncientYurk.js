@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class AncientYurk extends Card {
     // Play: Choose and discard 3cards from your hand.
@@ -17,4 +17,4 @@ class AncientYurk extends Card {
 
 AncientYurk.id = 'ancient-yurk';
 
-module.exports = AncientYurk;
+export default AncientYurk;

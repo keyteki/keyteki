@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class PhantasmalVisit extends Card {
     // Play: Stun and exhaust a creature. If you are haunted, archive
@@ -25,4 +25,4 @@ class PhantasmalVisit extends Card {
 
 PhantasmalVisit.id = 'phantasmal-visit';
 
-module.exports = PhantasmalVisit;
+export default PhantasmalVisit;

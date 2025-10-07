@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class GrumpBuggy extends Card {
     // Your opponents keys cost +1A for each friendly creature with power 5or higher.
@@ -27,4 +27,4 @@ class GrumpBuggy extends Card {
 
 GrumpBuggy.id = 'grump-buggy';
 
-module.exports = GrumpBuggy;
+export default GrumpBuggy;

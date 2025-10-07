@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Amberling extends Card {
     // Æmberling cannot reap.
@@ -18,4 +18,4 @@ class Amberling extends Card {
 
 Amberling.id = 'æmberling';
 
-module.exports = Amberling;
+export default Amberling;

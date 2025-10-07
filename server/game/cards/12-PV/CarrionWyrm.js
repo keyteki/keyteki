@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class CarrionWyrm extends Card {
     // After Reap: Destroy an enemy creature.
@@ -24,4 +24,4 @@ class CarrionWyrm extends Card {
 
 CarrionWyrm.id = 'carrion-wyrm';
 
-module.exports = CarrionWyrm;
+export default CarrionWyrm;

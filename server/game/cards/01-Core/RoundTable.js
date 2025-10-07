@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class RoundTable extends Card {
     // Each friendly Knight creature gets +1 power and gains taunt.
@@ -12,4 +12,4 @@ class RoundTable extends Card {
 
 RoundTable.id = 'round-table';
 
-module.exports = RoundTable;
+export default RoundTable;

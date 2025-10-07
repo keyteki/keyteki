@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class BrothersInBattle extends Card {
     // Play: Choose a house. For the remainder of the turn, each friendly creature of that house may fight.
@@ -18,4 +18,4 @@ class BrothersInBattle extends Card {
 
 BrothersInBattle.id = 'brothers-in-battle';
 
-module.exports = BrothersInBattle;
+export default BrothersInBattle;

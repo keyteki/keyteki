@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class GloriousTradition extends Card {
     // Action: Exalt each enemy flank creature.
@@ -15,4 +15,4 @@ class GloriousTradition extends Card {
 
 GloriousTradition.id = 'glorious-tradition';
 
-module.exports = GloriousTradition;
+export default GloriousTradition;

@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class RainceFuryheart extends Card {
     // Before Fight: Exalt the creature Raince Furyheart fights.
@@ -13,4 +13,4 @@ class RainceFuryheart extends Card {
 
 RainceFuryheart.id = 'raince-furyheart';
 
-module.exports = RainceFuryheart;
+export default RainceFuryheart;

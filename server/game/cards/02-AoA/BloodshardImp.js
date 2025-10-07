@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class BloodshardImp extends Card {
     // After a creature reaps, its controller must sacrifice it.
@@ -16,4 +16,4 @@ class BloodshardImp extends Card {
 
 BloodshardImp.id = 'bloodshard-imp';
 
-module.exports = BloodshardImp;
+export default BloodshardImp;

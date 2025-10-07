@@ -1,7 +1,7 @@
-const { Pool } = require('pg');
-
-const ConfigService = require('../services/ConfigService');
-const logger = require('../log');
+import pg from 'pg';
+const { Pool } = pg;
+import ConfigService from '../services/ConfigService.js';
+import logger from '../log.js';
 
 const configService = new ConfigService();
 
@@ -13,7 +13,7 @@ const pool = new Pool({
     port: configService.getValue('dbPort')
 });
 
-module.exports = {
+export default {
     /**
      * @param {string} text
      * @param {any[]} params

@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Shorty extends Card {
     // Assault 4. (Before this creature attacks, deal 4D to the attacked enemy.)
@@ -12,4 +12,4 @@ class Shorty extends Card {
 
 Shorty.id = 'shorty';
 
-module.exports = Shorty;
+export default Shorty;

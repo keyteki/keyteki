@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class SampleCollection extends Card {
     // Play: Put an enemy creature into your archives for each key your opponent has forged. If any of these creatures leave your archives, they are put into their owners hand instead.
@@ -30,4 +30,4 @@ class SampleCollection extends Card {
 
 SampleCollection.id = 'sample-collection';
 
-module.exports = SampleCollection;
+export default SampleCollection;

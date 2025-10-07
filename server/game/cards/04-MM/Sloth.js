@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Sloth extends Card {
     // At the end of your turn, if you did not use any creatures this turn, gain 1A for each friendly Sin creature.
@@ -18,4 +18,4 @@ class Sloth extends Card {
 
 Sloth.id = 'sloth';
 
-module.exports = Sloth;
+export default Sloth;

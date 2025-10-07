@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class JackieTar extends Card {
     // Elusive. (The first time this creature is attacked each turn, no damage is dealt.)
@@ -17,4 +17,4 @@ class JackieTar extends Card {
 
 JackieTar.id = 'jackie-tar';
 
-module.exports = JackieTar;
+export default JackieTar;

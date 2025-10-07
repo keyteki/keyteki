@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class ÜberkingTablets extends Card {
     // Action: Ready or exhaust a creature. If you do, deal 2 damage to that creature.
@@ -46,4 +46,4 @@ class ÜberkingTablets extends Card {
 
 ÜberkingTablets.id = 'überking-tablets';
 
-module.exports = ÜberkingTablets;
+export default ÜberkingTablets;

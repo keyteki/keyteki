@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class FiveC077 extends Card {
     // Reap: Ready and use another friendly creature with the same power as 5C077. You may give 5C077 a +1 power counter or remove a +1 power counter from 5C077.
@@ -32,4 +32,4 @@ class FiveC077 extends Card {
 
 FiveC077.id = '5c077';
 
-module.exports = FiveC077;
+export default FiveC077;

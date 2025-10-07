@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class HastatusRaptor extends Card {
     // Before Fight: You may exalt Hastatus Raptor. If you do, deal 1D to the creature Hastatus Raptor fights for each A on friendly Hastatus Raptors.
@@ -23,4 +23,4 @@ class HastatusRaptor extends Card {
 
 HastatusRaptor.id = 'hastatus-raptor';
 
-module.exports = HastatusRaptor;
+export default HastatusRaptor;

@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class TrainingCosts extends Card {
     // Training Costs cannot be discarded from your hand except
@@ -31,4 +31,4 @@ class TrainingCosts extends Card {
 
 TrainingCosts.id = 'training-costs';
 
-module.exports = TrainingCosts;
+export default TrainingCosts;

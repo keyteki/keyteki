@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class ChiefEngineerWalls extends Card {
     // Elusive. (The first time this creature is attacked each turn, no damage is dealt.)
@@ -20,4 +20,4 @@ class ChiefEngineerWalls extends Card {
 
 ChiefEngineerWalls.id = 'chief-engineer-walls';
 
-module.exports = ChiefEngineerWalls;
+export default ChiefEngineerWalls;

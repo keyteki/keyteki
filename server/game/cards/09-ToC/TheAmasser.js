@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class TheAmasser extends Card {
     // Each time your opponent draws a card, make a token creature on
@@ -20,4 +20,4 @@ class TheAmasser extends Card {
 
 TheAmasser.id = 'the-amasser';
 
-module.exports = TheAmasser;
+export default TheAmasser;

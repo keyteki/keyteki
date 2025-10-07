@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class ProfessorSutterkin extends Card {
     // Reap: Draw a card for each friendly Logos creature.
@@ -15,4 +15,4 @@ class ProfessorSutterkin extends Card {
 
 ProfessorSutterkin.id = 'professor-sutterkin';
 
-module.exports = ProfessorSutterkin;
+export default ProfessorSutterkin;

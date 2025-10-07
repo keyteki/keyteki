@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class UmbraSaurus extends Card {
     // Elusive. (The first time this creature is attacked each turn, no damage is dealt.)
@@ -19,4 +19,4 @@ class UmbraSaurus extends Card {
 
 UmbraSaurus.id = 'umbra-saurus';
 
-module.exports = UmbraSaurus;
+export default UmbraSaurus;

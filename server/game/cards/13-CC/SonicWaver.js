@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class SonicWaver extends Card {
     // At the end of each player's turn, if there are no stunned creatures in play, purge Sonic Waver.
@@ -34,4 +34,4 @@ class SonicWaver extends Card {
 
 SonicWaver.id = 'sonic-waver';
 
-module.exports = SonicWaver;
+export default SonicWaver;

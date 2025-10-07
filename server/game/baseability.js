@@ -1,10 +1,10 @@
-const AbilityTargetAbility = require('./AbilityTargets/AbilityTargetAbility');
-const AbilityTargetCard = require('./AbilityTargets/AbilityTargetCard');
-const AbilityTargetHouse = require('./AbilityTargets/AbilityTargetHouse');
-const AbilityTargetSelect = require('./AbilityTargets/AbilityTargetSelect');
-const AbilityTargetTrait = require('./AbilityTargets/AbilityTargetTrait');
-const AbilityTargetOptions = require('./AbilityTargets/AbilityTargetOptions');
-const AbilityTargetCardName = require('./AbilityTargets/AbilityTargetCardName');
+import AbilityTargetAbility from './AbilityTargets/AbilityTargetAbility.js';
+import AbilityTargetCard from './AbilityTargets/AbilityTargetCard.js';
+import AbilityTargetHouse from './AbilityTargets/AbilityTargetHouse.js';
+import AbilityTargetSelect from './AbilityTargets/AbilityTargetSelect.js';
+import AbilityTargetTrait from './AbilityTargets/AbilityTargetTrait.js';
+import AbilityTargetOptions from './AbilityTargets/AbilityTargetOptions.js';
+import AbilityTargetCardName from './AbilityTargets/AbilityTargetCardName.js';
 
 /**
  * Base class representing an ability that can be done by the player. This
@@ -235,4 +235,4 @@ class BaseAbility {
     }
 }
 
-module.exports = BaseAbility;
+export default BaseAbility;

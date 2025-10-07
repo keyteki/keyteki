@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class RoragScreamer extends Card {
     // After Fight: Ready Rorag Screamer.
@@ -25,4 +25,4 @@ class RoragScreamer extends Card {
 
 RoragScreamer.id = 'rorag-screamer';
 
-module.exports = RoragScreamer;
+export default RoragScreamer;

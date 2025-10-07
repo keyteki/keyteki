@@ -1,5 +1,5 @@
-const PlayerAction = require('./PlayerAction');
-const _ = require('underscore');
+import PlayerAction from './PlayerAction.js';
+import _ from 'underscore';
 
 class RandomArchiveAction extends PlayerAction {
     setDefaultProperties() {
@@ -26,4 +26,4 @@ class RandomArchiveAction extends PlayerAction {
     }
 }
 
-module.exports = RandomArchiveAction;
+export default RandomArchiveAction;

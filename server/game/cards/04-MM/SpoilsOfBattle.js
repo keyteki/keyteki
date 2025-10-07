@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class SpoilsOfBattle extends Card {
     // Play: A friendly creature captures 1. Each creature with  on it captures 1 from its opponent.
@@ -30,4 +30,4 @@ class SpoilsOfBattle extends Card {
 }
 
 SpoilsOfBattle.id = 'spoils-of-battle';
-module.exports = SpoilsOfBattle;
+export default SpoilsOfBattle;

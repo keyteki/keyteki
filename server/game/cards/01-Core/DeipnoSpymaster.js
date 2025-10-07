@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class DeipnoSpymaster extends Card {
     // Elusive. (The first time this creature is attacked each turn, no damage is dealt.)
@@ -19,4 +19,4 @@ class DeipnoSpymaster extends Card {
 
 DeipnoSpymaster.id = 'deipno-spymaster';
 
-module.exports = DeipnoSpymaster;
+export default DeipnoSpymaster;

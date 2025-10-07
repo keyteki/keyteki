@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class SeekerNeedle extends Card {
     // Action: Deal 1<D> to a creature. If this damage destroys that creature, gain 1<A>.
@@ -22,4 +22,4 @@ class SeekerNeedle extends Card {
 
 SeekerNeedle.id = 'seeker-needle';
 
-module.exports = SeekerNeedle;
+export default SeekerNeedle;

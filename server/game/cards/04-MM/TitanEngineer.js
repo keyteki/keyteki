@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class TitanEngineer extends Card {
     // While Titan Engineer is not on a flank, keys cost +1 A.
@@ -13,4 +13,4 @@ class TitanEngineer extends Card {
 
 TitanEngineer.id = 'titan-engineer';
 
-module.exports = TitanEngineer;
+export default TitanEngineer;

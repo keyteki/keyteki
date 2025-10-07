@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class SeaUrchinEvilTwin extends Card {
     // (T) Play: Capture 2A. If the tide is high, steal 2A instead.
@@ -17,4 +17,4 @@ class SeaUrchinEvilTwin extends Card {
 
 SeaUrchinEvilTwin.id = 'sea-urchin-evil-twin';
 
-module.exports = SeaUrchinEvilTwin;
+export default SeaUrchinEvilTwin;

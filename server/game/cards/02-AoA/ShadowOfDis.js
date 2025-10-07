@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class ShadowOfDis extends Card {
     // Play: Until your next turn, enemy creatures text boxes are considered blank (except for traits).
@@ -19,4 +19,4 @@ class ShadowOfDis extends Card {
 
 ShadowOfDis.id = 'shadow-of-dis';
 
-module.exports = ShadowOfDis;
+export default ShadowOfDis;

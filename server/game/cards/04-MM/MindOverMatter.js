@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class MindOverMatter extends Card {
     // Play: Put each creature into its owner's archives.
@@ -14,4 +14,4 @@ class MindOverMatter extends Card {
 
 MindOverMatter.id = 'mind-over-matter';
 
-module.exports = MindOverMatter;
+export default MindOverMatter;

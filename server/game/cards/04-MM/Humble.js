@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Humble extends Card {
     // Play: Exhaust a creature. If you do, move 3 from that creature to the common supply.
@@ -23,4 +23,4 @@ class Humble extends Card {
 
 Humble.id = 'humble';
 
-module.exports = Humble;
+export default Humble;

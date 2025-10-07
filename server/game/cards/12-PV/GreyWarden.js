@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class GreyWarden extends Card {
     // Deploy.
@@ -18,4 +18,4 @@ class GreyWarden extends Card {
 
 GreyWarden.id = 'grey-warden';
 
-module.exports = GreyWarden;
+export default GreyWarden;

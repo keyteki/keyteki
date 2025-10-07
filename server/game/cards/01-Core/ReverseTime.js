@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class ReverseTime extends Card {
     // Play: Swap your deck and your discard pile. Then, shuffle your deck.
@@ -22,4 +22,4 @@ class ReverseTime extends Card {
 
 ReverseTime.id = 'reverse-time';
 
-module.exports = ReverseTime;
+export default ReverseTime;

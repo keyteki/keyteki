@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class TemptingOffer extends Card {
     // Enhance PT. (These icons have already been added to cards in your deck.)
@@ -21,4 +21,4 @@ class TemptingOffer extends Card {
 
 TemptingOffer.id = 'tempting-offer';
 
-module.exports = TemptingOffer;
+export default TemptingOffer;

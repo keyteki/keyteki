@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class RelentlessAssault extends Card {
     // Play: Ready and fight with up
@@ -26,4 +26,4 @@ class RelentlessAssault extends Card {
 
 RelentlessAssault.id = 'relentless-assault';
 
-module.exports = RelentlessAssault;
+export default RelentlessAssault;

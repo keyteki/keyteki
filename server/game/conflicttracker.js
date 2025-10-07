@@ -1,4 +1,4 @@
-const _ = require('underscore');
+import _ from 'underscore';
 
 class ConflictTracker {
     constructor() {
@@ -148,4 +148,4 @@ class ConflictTracker {
     }
 }
 
-module.exports = ConflictTracker;
+export default ConflictTracker;

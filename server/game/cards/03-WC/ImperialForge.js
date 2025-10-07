@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class ImperialForge extends Card {
     // Play: Forge a key at +8 current cost, reduced by 1 for each  on friendly creatures.
@@ -15,4 +15,4 @@ class ImperialForge extends Card {
 
 ImperialForge.id = 'imperial-forge';
 
-module.exports = ImperialForge;
+export default ImperialForge;

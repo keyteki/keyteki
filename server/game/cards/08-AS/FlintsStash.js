@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class FlintsStash extends Card {
     // Each flank creature gains, “Destroyed: Gain 2A."
@@ -15,4 +15,4 @@ class FlintsStash extends Card {
 
 FlintsStash.id = 'flint-s-stash';
 
-module.exports = FlintsStash;
+export default FlintsStash;

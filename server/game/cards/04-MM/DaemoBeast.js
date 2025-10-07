@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class DaemoBeast extends Card {
     // Skirmish. (When you use this creature to fight, it is dealt no damage in return.)
@@ -12,4 +12,4 @@ class DaemoBeast extends Card {
 
 DaemoBeast.id = 'dæmo-beast';
 
-module.exports = DaemoBeast;
+export default DaemoBeast;

@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class ScoutPete extends Card {
     // Play/Fight/Reap: Look at the top card of your deck. You may discard that card.
@@ -23,4 +23,4 @@ class ScoutPete extends Card {
 
 ScoutPete.id = 'scout-pete';
 
-module.exports = ScoutPete;
+export default ScoutPete;

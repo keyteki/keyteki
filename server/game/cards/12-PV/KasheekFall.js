@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class KasheekFall extends Card {
     // Play: Destroy each creature with a more powerful neighbor.
@@ -26,4 +26,4 @@ class KasheekFall extends Card {
 
 KasheekFall.id = 'kasheek-fall';
 
-module.exports = KasheekFall;
+export default KasheekFall;

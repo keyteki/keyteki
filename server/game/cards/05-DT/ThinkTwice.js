@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class ThinkTwice extends Card {
     // Play: Play an action card from your discard pile, then purge it.
@@ -19,4 +19,4 @@ class ThinkTwice extends Card {
 
 ThinkTwice.id = 'think-twice';
 
-module.exports = ThinkTwice;
+export default ThinkTwice;

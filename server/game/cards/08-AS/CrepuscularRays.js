@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class CrepuscularRays extends Card {
     // Play: Choose a friendly creature. Move each A from that
@@ -24,4 +24,4 @@ class CrepuscularRays extends Card {
 
 CrepuscularRays.id = 'crepuscular-rays';
 
-module.exports = CrepuscularRays;
+export default CrepuscularRays;

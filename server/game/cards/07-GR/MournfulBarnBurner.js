@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class MournfulBarnBurner extends Card {
     // After Fight: Discard the top 2 cards of a player’s deck.
@@ -64,4 +64,4 @@ class MournfulBarnBurner extends Card {
 
 MournfulBarnBurner.id = 'mournful-barn-burner';
 
-module.exports = MournfulBarnBurner;
+export default MournfulBarnBurner;

@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class BuildYourChampion extends Card {
     // Play: Search your deck and discard pile for two halves of a
@@ -17,4 +17,4 @@ class BuildYourChampion extends Card {
 
 BuildYourChampion.id = 'build-your-champion';
 
-module.exports = BuildYourChampion;
+export default BuildYourChampion;

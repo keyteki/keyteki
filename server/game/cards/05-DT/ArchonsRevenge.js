@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class ArchonsRevenge extends Card {
     // Action: Exhaust up to 2 friendly Shadows creatures. For each creature exhausted this way, steal 1A.
@@ -25,4 +25,4 @@ class ArchonsRevenge extends Card {
 
 ArchonsRevenge.id = 'archon-s-revenge';
 
-module.exports = ArchonsRevenge;
+export default ArchonsRevenge;

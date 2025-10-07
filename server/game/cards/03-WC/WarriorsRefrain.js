@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class WarriorsRefrain extends Card {
     // Play: Stun each creature with power 3 or lower.
@@ -13,4 +13,4 @@ class WarriorsRefrain extends Card {
 
 WarriorsRefrain.id = 'warriors--refrain';
 
-module.exports = WarriorsRefrain;
+export default WarriorsRefrain;

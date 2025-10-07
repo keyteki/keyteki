@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Drummernaut extends Card {
     // Play/Fight/Reap: Return another friendly Giant creature to your hand.
@@ -18,4 +18,4 @@ class Drummernaut extends Card {
 
 Drummernaut.id = 'drummernaut';
 
-module.exports = Drummernaut;
+export default Drummernaut;

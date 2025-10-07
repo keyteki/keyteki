@@ -1,5 +1,5 @@
-const _ = require('underscore');
-const BaseCardSelector = require('./BaseCardSelector.js');
+import _ from 'underscore';
+import BaseCardSelector from './BaseCardSelector.js';
 
 class SelectSelector extends BaseCardSelector {
     constructor(properties) {
@@ -16,4 +16,4 @@ class SelectSelector extends BaseCardSelector {
     }
 }
 
-module.exports = SelectSelector;
+export default SelectSelector;

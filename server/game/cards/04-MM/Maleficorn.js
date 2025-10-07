@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Maleficorn extends Card {
     // Enhance DDDD.
@@ -19,4 +19,4 @@ class Maleficorn extends Card {
 
 Maleficorn.id = 'maleficorn';
 
-module.exports = Maleficorn;
+export default Maleficorn;

@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class UniversalRecycleBin extends Card {
     // Action: Archive a purged card you own.
@@ -15,4 +15,4 @@ class UniversalRecycleBin extends Card {
 
 UniversalRecycleBin.id = 'universal-recycle-bin';
 
-module.exports = UniversalRecycleBin;
+export default UniversalRecycleBin;

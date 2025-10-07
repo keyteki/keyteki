@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class IxxyxliFixfinger extends Card {
     // Elusive.(The first time this creature is attacked each turn, no damage is dealt.)
@@ -15,4 +15,4 @@ class IxxyxliFixfinger extends Card {
 
 IxxyxliFixfinger.id = 'ixxyxli-fixfinger';
 
-module.exports = IxxyxliFixfinger;
+export default IxxyxliFixfinger;

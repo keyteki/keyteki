@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class SV3Lander extends Card {
     // Play: Make a token creature.
@@ -25,4 +25,4 @@ class SV3Lander extends Card {
 
 SV3Lander.id = 'sv3-lander';
 
-module.exports = SV3Lander;
+export default SV3Lander;

@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class BansheeSuit extends Card {
     // This creature gains, “Destroyed: Archive this creature and the
@@ -16,4 +16,4 @@ class BansheeSuit extends Card {
 
 BansheeSuit.id = 'banshee-suit';
 
-module.exports = BansheeSuit;
+export default BansheeSuit;

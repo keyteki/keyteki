@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class HazardZerp extends Card {
     // Play: Deal 3 damage to a creature. If that creature is destroyed, draw a card.
@@ -42,4 +42,4 @@ class HazardZerp extends Card {
 
 HazardZerp.id = 'hazard-zerp';
 
-module.exports = HazardZerp;
+export default HazardZerp;

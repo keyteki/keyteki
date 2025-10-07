@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class LycoAlien extends Card {
     // Skirmish. (When you use this creature to fight, it is dealt no damage in return.)
@@ -28,4 +28,4 @@ class LycoAlien extends Card {
 
 LycoAlien.id = 'lyco-alien';
 
-module.exports = LycoAlien;
+export default LycoAlien;

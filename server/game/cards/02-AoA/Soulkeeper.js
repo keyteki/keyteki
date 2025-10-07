@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Soulkeeper extends Card {
     // This creature gains, Destroyed: Destroy the most powerful enemy creature.
@@ -20,4 +20,4 @@ class Soulkeeper extends Card {
 
 Soulkeeper.id = 'soulkeeper';
 
-module.exports = Soulkeeper;
+export default Soulkeeper;

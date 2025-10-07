@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class CensorPhilo extends Card {
     // Censor Philo cannot be dealt damage by creatures with A on them.
@@ -16,4 +16,4 @@ class CensorPhilo extends Card {
 
 CensorPhilo.id = 'censor-philo';
 
-module.exports = CensorPhilo;
+export default CensorPhilo;

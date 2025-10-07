@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class TakeThatSmartypants extends Card {
     // Play: Steal 2A if your opponent has 3or more Logos cards in play.
@@ -19,4 +19,4 @@ class TakeThatSmartypants extends Card {
 
 TakeThatSmartypants.id = 'take-that-smartypants';
 
-module.exports = TakeThatSmartypants;
+export default TakeThatSmartypants;

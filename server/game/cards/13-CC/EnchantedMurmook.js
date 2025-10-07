@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class EnchantedMurmook extends Card {
     // Enhance .
@@ -18,4 +18,4 @@ class EnchantedMurmook extends Card {
 
 EnchantedMurmook.id = 'enchanted-murmook';
 
-module.exports = EnchantedMurmook;
+export default EnchantedMurmook;

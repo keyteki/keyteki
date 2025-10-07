@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class UntrumsSerenity extends Card {
     // Omega.
@@ -52,4 +52,4 @@ class UntrumsSerenity extends Card {
 
 UntrumsSerenity.id = 'untrum-s-serenity';
 
-module.exports = UntrumsSerenity;
+export default UntrumsSerenity;

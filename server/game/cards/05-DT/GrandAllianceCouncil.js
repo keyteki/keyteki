@@ -1,6 +1,6 @@
-const Card = require('../../Card.js');
-const Houses = require('../../../constants').Houses;
-const HousesNames = require('../../../constants').HousesNames;
+import Card from '../../Card.js';
+import Constants from '../../../constants.js';
+const { Houses, HousesNames } = Constants;
 
 class GrandAllianceCouncil extends Card {
     // Play: Choose a creature of each house. Destroy each creature not chosen.
@@ -31,4 +31,4 @@ class GrandAllianceCouncil extends Card {
 
 GrandAllianceCouncil.id = 'grand-alliance-council';
 
-module.exports = GrandAllianceCouncil;
+export default GrandAllianceCouncil;

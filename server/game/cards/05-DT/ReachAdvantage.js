@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class ReachAdvantage extends Card {
     // (T) Play: If the tide is high, a friendly creature captures 3A. Otherwise, raise the tide.
@@ -25,4 +25,4 @@ class ReachAdvantage extends Card {
 
 ReachAdvantage.id = 'reach-advantage';
 
-module.exports = ReachAdvantage;
+export default ReachAdvantage;

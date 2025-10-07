@@ -1,39 +1,39 @@
-const _ = require('underscore');
-const EventEmitter = require('events');
-const moment = require('moment');
+import _ from 'underscore';
+import EventEmitter from 'events';
+import moment from 'moment';
 
-const Constants = require('../constants');
-const ChatCommands = require('./chatcommands');
-const GameChat = require('./gamechat');
-const EffectEngine = require('./effectengine');
-const Player = require('./player');
-const Spectator = require('./spectator');
-const AnonymousSpectator = require('./anonymousspectator');
-const GamePipeline = require('./gamepipeline');
-const SetupPhase = require('./gamesteps/setup/setupphase');
-const KeyPhase = require('./gamesteps/key/KeyPhase');
-const HousePhase = require('./gamesteps/house/HousePhase');
-const MainPhase = require('./gamesteps/main/MainPhase');
-const ReadyPhase = require('./gamesteps/ReadyPhase');
-const DrawPhase = require('./gamesteps/draw/drawphase');
-const SimpleStep = require('./gamesteps/simplestep');
-const MenuPrompt = require('./gamesteps/menuprompt');
-const HandlerMenuPrompt = require('./gamesteps/handlermenuprompt');
-const SelectCardPrompt = require('./gamesteps/selectcardprompt');
-const OptionsMenuPrompt = require('./gamesteps/OptionsMenuPrompt');
-const GameWonPrompt = require('./gamesteps/GameWonPrompt');
-const HouseTieBreakPrompt = require('./gamesteps/HouseTieBreakPrompt');
-const GameActions = require('./GameActions');
-const Effects = require('./effects.js');
-const Event = require('./Events/Event');
-const EventWindow = require('./Events/EventWindow');
-const AbilityResolver = require('./gamesteps/abilityresolver');
-const SimultaneousEffectWindow = require('./gamesteps/SimultaneousEffectWindow');
-const AbilityContext = require('./AbilityContext');
-const MenuCommands = require('./MenuCommands');
-const TimeLimit = require('./TimeLimit');
-const PlainTextGameChatFormatter = require('./PlainTextGameChatFormatter');
-const CardVisibility = require('./CardVisibility');
+import Constants from '../constants.js';
+import ChatCommands from './chatcommands.js';
+import GameChat from './gamechat.js';
+import EffectEngine from './effectengine.js';
+import Player from './player.js';
+import Spectator from './spectator.js';
+import AnonymousSpectator from './anonymousspectator.js';
+import GamePipeline from './gamepipeline.js';
+import SetupPhase from './gamesteps/setup/setupphase.js';
+import KeyPhase from './gamesteps/key/KeyPhase.js';
+import HousePhase from './gamesteps/house/HousePhase.js';
+import MainPhase from './gamesteps/main/MainPhase.js';
+import ReadyPhase from './gamesteps/ReadyPhase.js';
+import DrawPhase from './gamesteps/draw/drawphase.js';
+import SimpleStep from './gamesteps/simplestep.js';
+import MenuPrompt from './gamesteps/menuprompt.js';
+import HandlerMenuPrompt from './gamesteps/handlermenuprompt.js';
+import SelectCardPrompt from './gamesteps/selectcardprompt.js';
+import OptionsMenuPrompt from './gamesteps/OptionsMenuPrompt.js';
+import GameWonPrompt from './gamesteps/GameWonPrompt.js';
+import HouseTieBreakPrompt from './gamesteps/HouseTieBreakPrompt.js';
+import GameActions from './GameActions.js';
+import Effects from './effects.js';
+import Event from './Events/Event.js';
+import EventWindow from './Events/EventWindow.js';
+import AbilityResolver from './gamesteps/abilityresolver.js';
+import SimultaneousEffectWindow from './gamesteps/SimultaneousEffectWindow.js';
+import AbilityContext from './AbilityContext.js';
+import MenuCommands from './MenuCommands.js';
+import TimeLimit from './TimeLimit.js';
+import PlainTextGameChatFormatter from './PlainTextGameChatFormatter.js';
+import CardVisibility from './CardVisibility.js';
 
 class Game extends EventEmitter {
     constructor(details, options = {}) {
@@ -1601,4 +1601,4 @@ class Game extends EventEmitter {
     }
 }
 
-module.exports = Game;
+export default Game;

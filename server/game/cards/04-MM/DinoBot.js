@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class DinoBot extends Card {
     // Play: You may exalt Dino-Bot. If you do, deal 3D to a creature.
@@ -30,4 +30,4 @@ class DinoBot extends Card {
 
 DinoBot.id = 'dino-bot';
 
-module.exports = DinoBot;
+export default DinoBot;

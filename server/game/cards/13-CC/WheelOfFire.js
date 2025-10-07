@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class WheelOfFire extends Card {
     // This creature gains assault 2, hazardous 2, and splash-attack 2.
@@ -15,4 +15,4 @@ class WheelOfFire extends Card {
 
 WheelOfFire.id = 'wheel-of-fire';
 
-module.exports = WheelOfFire;
+export default WheelOfFire;

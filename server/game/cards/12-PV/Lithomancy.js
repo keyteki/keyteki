@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Lithomancy extends Card {
     // Action: Reveal the top card of your deck. If the revealed card belongs to the active house, discard it and gain 2 amber.
@@ -34,4 +34,4 @@ class Lithomancy extends Card {
 
 Lithomancy.id = 'lithomancy';
 
-module.exports = Lithomancy;
+export default Lithomancy;

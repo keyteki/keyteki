@@ -1,4 +1,4 @@
-const ChessClock = require('./ChessClock');
+import ChessClock from './ChessClock.js';
 
 class Byoyomi extends ChessClock {
     updateTimeLeft(secs) {
@@ -6,4 +6,4 @@ class Byoyomi extends ChessClock {
     }
 }
 
-module.exports = Byoyomi;
+export default Byoyomi;

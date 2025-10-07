@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class HireOn extends Card {
     // Play: Make a token creature. If there is a combined total of 6
@@ -31,4 +31,4 @@ class HireOn extends Card {
 
 HireOn.id = 'hire-on';
 
-module.exports = HireOn;
+export default HireOn;

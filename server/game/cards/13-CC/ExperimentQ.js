@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class ExperimentQ extends Card {
     // Enhance .
@@ -29,4 +29,4 @@ class ExperimentQ extends Card {
 
 ExperimentQ.id = 'experiment-q';
 
-module.exports = ExperimentQ;
+export default ExperimentQ;

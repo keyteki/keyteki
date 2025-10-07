@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class SacroFiend extends Card {
     // Destroyed: Steal 1A.
@@ -11,4 +11,4 @@ class SacroFiend extends Card {
 
 SacroFiend.id = 'sacro-fiend';
 
-module.exports = SacroFiend;
+export default SacroFiend;

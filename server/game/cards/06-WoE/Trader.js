@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Trader extends Card {
     //Action: Steal 1A icon. Destroy Trader.
@@ -15,4 +15,4 @@ class Trader extends Card {
 
 Trader.id = 'trader';
 
-module.exports = Trader;
+export default Trader;

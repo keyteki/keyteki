@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class HukaruIcefin extends Card {
     // After Reap: Choose a house. Exhaust each creature of that house.
@@ -25,4 +25,4 @@ class HukaruIcefin extends Card {
 
 HukaruIcefin.id = 'hukaru-icefin';
 
-module.exports = HukaruIcefin;
+export default HukaruIcefin;

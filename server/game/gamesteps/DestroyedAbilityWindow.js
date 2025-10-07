@@ -1,4 +1,4 @@
-const ForcedTriggeredAbilityWindow = require('./forcedtriggeredabilitywindow.js');
+import ForcedTriggeredAbilityWindow from './forcedtriggeredabilitywindow.js';
 
 class DestroyedTriggeredAbilityWindow extends ForcedTriggeredAbilityWindow {
     constructor(game, abilityType, window, eventsToExclude = []) {
@@ -23,4 +23,4 @@ class DestroyedTriggeredAbilityWindow extends ForcedTriggeredAbilityWindow {
     }
 }
 
-module.exports = DestroyedTriggeredAbilityWindow;
+export default DestroyedTriggeredAbilityWindow;

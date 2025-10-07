@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class RecordedHistory extends Card {
     // Play: Reveal up to 3 cards of different houses from your
@@ -20,4 +20,4 @@ class RecordedHistory extends Card {
 
 RecordedHistory.id = 'recorded-history';
 
-module.exports = RecordedHistory;
+export default RecordedHistory;

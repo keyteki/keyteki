@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Mole extends Card {
     // This creature gains, "Your opponent may spend  on this creature as if it were in their pool."
@@ -11,4 +11,4 @@ class Mole extends Card {
 
 Mole.id = 'mole';
 
-module.exports = Mole;
+export default Mole;

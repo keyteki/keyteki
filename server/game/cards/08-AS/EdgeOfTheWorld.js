@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class EdgeOfTheWorld extends Card {
     // Play: Move a creature to a flank of its controller’s battleline. Steal 1A.
@@ -20,4 +20,4 @@ class EdgeOfTheWorld extends Card {
 
 EdgeOfTheWorld.id = 'edge-of-the-world';
 
-module.exports = EdgeOfTheWorld;
+export default EdgeOfTheWorld;

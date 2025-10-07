@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Airlock extends Card {
     //Action: Discard a non-Mars card from your hand. If you do, draw a card.
@@ -19,4 +19,4 @@ class Airlock extends Card {
 
 Airlock.id = 'airlock';
 
-module.exports = Airlock;
+export default Airlock;

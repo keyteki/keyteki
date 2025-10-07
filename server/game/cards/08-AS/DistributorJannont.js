@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class DistributorJanoont extends Card {
     // After Fight/After Reap: Move 1A from a creature to another creature.
@@ -27,4 +27,4 @@ class DistributorJanoont extends Card {
 
 DistributorJanoont.id = 'distributor-janŏŏnt';
 
-module.exports = DistributorJanoont;
+export default DistributorJanoont;

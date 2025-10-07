@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class DataForge extends Card {
     // Play: You may forge a key at +10 current cost, reduced by 1 for each card in your hand.
@@ -15,4 +15,4 @@ class DataForge extends Card {
 
 DataForge.id = 'data-forge';
 
-module.exports = DataForge;
+export default DataForge;

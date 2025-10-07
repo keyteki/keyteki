@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Mooncurser extends Card {
     // Skirmish. Poison.
@@ -12,4 +12,4 @@ class Mooncurser extends Card {
 
 Mooncurser.id = 'mooncurser';
 
-module.exports = Mooncurser;
+export default Mooncurser;

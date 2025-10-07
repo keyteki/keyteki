@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class PlublioSDecree extends Card {
     // Play: You may exalt up to 3 friendly creatures. For the remainder of the turn, they belong to house Saurian.
@@ -22,4 +22,4 @@ class PlublioSDecree extends Card {
 
 PlublioSDecree.id = 'plublio-s-decree';
 
-module.exports = PlublioSDecree;
+export default PlublioSDecree;

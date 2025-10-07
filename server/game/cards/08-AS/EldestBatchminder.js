@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class EldestBatchminder extends Card {
     // At the end of your turn, give each other Mars creature two +1
@@ -20,4 +20,4 @@ class EldestBatchminder extends Card {
 
 EldestBatchminder.id = 'eldest-batchminder';
 
-module.exports = EldestBatchminder;
+export default EldestBatchminder;

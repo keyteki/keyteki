@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Commune extends Card {
     // Omega. (After you play this card, end this step.)
@@ -20,4 +20,4 @@ class Commune extends Card {
 
 Commune.id = 'commune';
 
-module.exports = Commune;
+export default Commune;

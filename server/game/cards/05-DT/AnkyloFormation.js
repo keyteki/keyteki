@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class AnkyloFormation extends Card {
     // Play: Choose one:
@@ -50,4 +50,4 @@ class AnkyloFormation extends Card {
 
 AnkyloFormation.id = 'ankylo-formation';
 
-module.exports = AnkyloFormation;
+export default AnkyloFormation;

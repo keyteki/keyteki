@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class TillTheEarth extends Card {
     // Play: Each player shuffles their discard pile into their deck.
@@ -26,4 +26,4 @@ class TillTheEarth extends Card {
 
 TillTheEarth.id = 'till-the-earth';
 
-module.exports = TillTheEarth;
+export default TillTheEarth;

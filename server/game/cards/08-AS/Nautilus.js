@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Nautilus extends Card {
     // Play/After Fight: Ward a creature. Draw a card.
@@ -19,4 +19,4 @@ class Nautilus extends Card {
 
 Nautilus.id = 'nautilus';
 
-module.exports = Nautilus;
+export default Nautilus;

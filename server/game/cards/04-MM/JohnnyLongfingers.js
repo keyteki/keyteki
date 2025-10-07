@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class JohnnyLongfingers extends Card {
     // Each friendly Mutant creature gains, Destroyed: Steal 1A.
@@ -14,4 +14,4 @@ class JohnnyLongfingers extends Card {
 
 JohnnyLongfingers.id = 'johnny-longfingers';
 
-module.exports = JohnnyLongfingers;
+export default JohnnyLongfingers;

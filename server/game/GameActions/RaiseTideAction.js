@@ -1,5 +1,5 @@
-const Constants = require('../../constants');
-const PlayerAction = require('./PlayerAction');
+import Constants from '../../constants.js';
+import PlayerAction from './PlayerAction.js';
 
 class RaiseTideAction extends PlayerAction {
     setDefaultProperties() {
@@ -47,4 +47,4 @@ class RaiseTideAction extends PlayerAction {
     }
 }
 
-module.exports = RaiseTideAction;
+export default RaiseTideAction;

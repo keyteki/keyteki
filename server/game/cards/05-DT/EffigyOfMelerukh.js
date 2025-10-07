@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class EffigyOfMelerukh extends Card {
     // After an enemy creature reaps, put an awakening counter on Effigy of Melerukh.
@@ -37,4 +37,4 @@ class EffigyOfMelerukh extends Card {
 
 EffigyOfMelerukh.id = 'effigy-of-melerukh';
 
-module.exports = EffigyOfMelerukh;
+export default EffigyOfMelerukh;

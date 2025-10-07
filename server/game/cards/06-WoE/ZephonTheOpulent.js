@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class ZephonTheOpulent extends Card {
     // Play: Make 2 token creatures.
@@ -25,4 +25,4 @@ class ZephonTheOpulent extends Card {
 
 ZephonTheOpulent.id = 'zephon-the-opulent';
 
-module.exports = ZephonTheOpulent;
+export default ZephonTheOpulent;

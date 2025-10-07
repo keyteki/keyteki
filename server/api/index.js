@@ -1,14 +1,14 @@
-const account = require('./account');
-const decks = require('./decks');
-const games = require('./games');
-const cards = require('./cards');
-const news = require('./news');
-const user = require('./user');
-const messages = require('./messages');
-const banlist = require('./banlist');
-const challonge = require('./challonge');
+import * as account from './account.js';
+import * as decks from './decks.js';
+import * as games from './games.js';
+import * as cards from './cards.js';
+import * as news from './news.js';
+import * as user from './user.js';
+import * as messages from './messages.js';
+import * as banlist from './banlist.js';
+import * as challonge from './challonge.js';
 
-module.exports.init = function (server, options) {
+export function init(server, options) {
     account.init(server, options);
     decks.init(server);
     games.init(server);
@@ -18,4 +18,4 @@ module.exports.init = function (server, options) {
     messages.init(server);
     banlist.init(server);
     challonge.init(server);
-};
+}

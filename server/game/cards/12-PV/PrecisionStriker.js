@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class PrecisionStriker extends Card {
     // Play/After Fight/After Reap: Discard the top 3 cards of your opponent's deck. Put 1 of the discarded cards on the bottom of your opponent's deck.
@@ -29,4 +29,4 @@ class PrecisionStriker extends Card {
 
 PrecisionStriker.id = 'precision-striker';
 
-module.exports = PrecisionStriker;
+export default PrecisionStriker;

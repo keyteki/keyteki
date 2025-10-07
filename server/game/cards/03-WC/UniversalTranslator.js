@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class UniversalTranslator extends Card {
     // This creature gains, "Fight/Reap: Use a friendly non-Star Alliance creature."
@@ -32,4 +32,4 @@ class UniversalTranslator extends Card {
 
 UniversalTranslator.id = 'universal-translator';
 
-module.exports = UniversalTranslator;
+export default UniversalTranslator;

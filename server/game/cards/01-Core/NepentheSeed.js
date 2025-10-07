@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class NepentheSeed extends Card {
     // Omni: Sacrifice Nepenthe Seed. Return a card from your discard pile to your hand.
@@ -16,4 +16,4 @@ class NepentheSeed extends Card {
 
 NepentheSeed.id = 'nepenthe-seed';
 
-module.exports = NepentheSeed;
+export default NepentheSeed;

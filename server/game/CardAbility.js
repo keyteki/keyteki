@@ -1,4 +1,4 @@
-const ThenAbility = require('./ThenAbility');
+import ThenAbility from './ThenAbility.js';
 
 class CardAbility extends ThenAbility {
     constructor(game, card, properties) {
@@ -170,4 +170,4 @@ class CardAbility extends ThenAbility {
     }
 }
 
-module.exports = CardAbility;
+export default CardAbility;

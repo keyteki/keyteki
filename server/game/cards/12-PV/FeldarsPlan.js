@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class FeldarsPlan extends Card {
     // Play: During your opponent's next turn, each time they play a card, steal 1A.
@@ -24,4 +24,4 @@ class FeldarsPlan extends Card {
 
 FeldarsPlan.id = 'feldar-s-plan';
 
-module.exports = FeldarsPlan;
+export default FeldarsPlan;

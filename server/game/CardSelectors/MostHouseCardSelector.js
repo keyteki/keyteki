@@ -1,5 +1,5 @@
-const Constants = require('../../constants.js');
-const ExactlyXCardSelector = require('./ExactlyXCardSelector');
+import Constants from '../../constants.js';
+import ExactlyXCardSelector from './ExactlyXCardSelector.js';
 
 class MostHouseCardSelector extends ExactlyXCardSelector {
     constructor(properties) {
@@ -49,4 +49,4 @@ class MostHouseCardSelector extends ExactlyXCardSelector {
     }
 }
 
-module.exports = MostHouseCardSelector;
+export default MostHouseCardSelector;

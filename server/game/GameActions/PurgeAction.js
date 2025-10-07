@@ -1,4 +1,4 @@
-const CardGameAction = require('./CardGameAction');
+import CardGameAction from './CardGameAction.js';
 
 const locationsHiddenFromPurge = ['hand', 'archives'];
 
@@ -47,4 +47,4 @@ class PurgeAction extends CardGameAction {
     }
 }
 
-module.exports = PurgeAction;
+export default PurgeAction;

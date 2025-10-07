@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class NarlGibbus extends Card {
     // While enraged Narl Gibbus gains skirmish and splash-attack 3.
@@ -22,4 +22,4 @@ class NarlGibbus extends Card {
 
 NarlGibbus.id = 'narl-gibbus';
 
-module.exports = NarlGibbus;
+export default NarlGibbus;

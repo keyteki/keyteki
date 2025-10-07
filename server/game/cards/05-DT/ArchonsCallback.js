@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class ArchonsCallback extends Card {
     // Omega. (After you play this card, end this step.)
@@ -12,4 +12,4 @@ class ArchonsCallback extends Card {
 
 ArchonsCallback.id = 'archon-s-callback';
 
-module.exports = ArchonsCallback;
+export default ArchonsCallback;

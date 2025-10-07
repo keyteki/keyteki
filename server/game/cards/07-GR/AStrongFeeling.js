@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class AStrongFeeling extends Card {
     // Play: Ready each friendly creature with A on it. Move 1 A from
@@ -19,4 +19,4 @@ class AStrongFeeling extends Card {
 
 AStrongFeeling.id = 'a-strong-feeling';
 
-module.exports = AStrongFeeling;
+export default AStrongFeeling;

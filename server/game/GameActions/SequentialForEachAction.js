@@ -1,4 +1,4 @@
-const GameAction = require('./GameAction');
+import GameAction from './GameAction.js';
 
 class SequentialForEachAction extends GameAction {
     setDefaultProperties() {
@@ -55,4 +55,4 @@ class SequentialForEachAction extends GameAction {
     }
 }
 
-module.exports = SequentialForEachAction;
+export default SequentialForEachAction;

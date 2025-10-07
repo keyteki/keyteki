@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class AmbrosiaOutpost extends Card {
     // Action: Put a friendly creatue on the bottom of its owner's deck. If you do, move 1A from a friendly creature to your pool.
@@ -28,4 +28,4 @@ class AmbrosiaOutpost extends Card {
 
 AmbrosiaOutpost.id = 'æmbrosia-outpost';
 
-module.exports = AmbrosiaOutpost;
+export default AmbrosiaOutpost;

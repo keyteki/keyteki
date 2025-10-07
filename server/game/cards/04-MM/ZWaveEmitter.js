@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class ZWaveEmitter extends Card {
     // At the start of your turn, ward this creature.
@@ -16,4 +16,4 @@ class ZWaveEmitter extends Card {
 
 ZWaveEmitter.id = 'z-wave-emitter';
 
-module.exports = ZWaveEmitter;
+export default ZWaveEmitter;

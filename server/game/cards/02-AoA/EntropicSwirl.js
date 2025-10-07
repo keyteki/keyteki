@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class EntropicSwirl extends Card {
     // Play: Choose a creature. For each trait that creature has, deal it 2D and gain 1A.
@@ -22,4 +22,4 @@ class EntropicSwirl extends Card {
 
 EntropicSwirl.id = 'entropic-swirl';
 
-module.exports = EntropicSwirl;
+export default EntropicSwirl;

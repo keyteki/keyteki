@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class MasterRabten extends Card {
     // Play/After Reap: Each friendly Monk creature captures 1A.
@@ -17,4 +17,4 @@ class MasterRabten extends Card {
 
 MasterRabten.id = 'master-rabten';
 
-module.exports = MasterRabten;
+export default MasterRabten;

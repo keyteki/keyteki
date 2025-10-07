@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class RitualOfBalance extends Card {
     // Action: If your opponent has 6<A> or more, steal 1<A>.
@@ -14,4 +14,4 @@ class RitualOfBalance extends Card {
 
 RitualOfBalance.id = 'ritual-of-balance';
 
-module.exports = RitualOfBalance;
+export default RitualOfBalance;

@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class TheVaultkeeper extends Card {
     // Your A cannot be stolen.
@@ -11,4 +11,4 @@ class TheVaultkeeper extends Card {
 
 TheVaultkeeper.id = 'the-vaultkeeper';
 
-module.exports = TheVaultkeeper;
+export default TheVaultkeeper;

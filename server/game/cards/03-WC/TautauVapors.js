@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class TautauVapors extends Card {
     // Play: Draw 2 cards. Archive a card.
@@ -19,4 +19,4 @@ class TautauVapors extends Card {
 
 TautauVapors.id = 'tautau-vapors';
 
-module.exports = TautauVapors;
+export default TautauVapors;

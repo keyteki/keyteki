@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class HobnobberEvilTwin extends Card {
     // Omni: If your opponent has exactly 1A, steal it.
@@ -12,4 +12,4 @@ class HobnobberEvilTwin extends Card {
 
 HobnobberEvilTwin.id = 'hobnobber-evil-twin';
 
-module.exports = HobnobberEvilTwin;
+export default HobnobberEvilTwin;

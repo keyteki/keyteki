@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class MultiDimensionalRescue extends Card {
     // Play: Return one card of each type (action, artifact, creature,
@@ -54,4 +54,4 @@ class MultiDimensionalRescue extends Card {
 
 MultiDimensionalRescue.id = 'multi-dimensional-rescue';
 
-module.exports = MultiDimensionalRescue;
+export default MultiDimensionalRescue;

@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Spinnertech extends Card {
     // Play/Destroyed: Choose a card in your discard pile and put it
@@ -34,4 +34,4 @@ class Spinnertech extends Card {
 
 Spinnertech.id = 'spinnertech';
 
-module.exports = Spinnertech;
+export default Spinnertech;

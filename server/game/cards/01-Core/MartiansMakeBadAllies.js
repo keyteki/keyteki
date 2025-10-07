@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class MartiansMakeBadAllies extends Card {
     // Play: Reveal your hand. Purge each revealed non-Mars creature and gain 1<A> for each card purged this way.
@@ -29,4 +29,4 @@ class MartiansMakeBadAllies extends Card {
 
 MartiansMakeBadAllies.id = 'martians-make-bad-allies';
 
-module.exports = MartiansMakeBadAllies;
+export default MartiansMakeBadAllies;

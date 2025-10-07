@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Screechbomb extends Card {
     // Omni: Sacrifice Screechbomb.
@@ -15,4 +15,4 @@ class Screechbomb extends Card {
 
 Screechbomb.id = 'screechbomb';
 
-module.exports = Screechbomb;
+export default Screechbomb;

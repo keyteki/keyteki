@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class ClonalWitch extends Card {
     // Elusive.
@@ -36,4 +36,4 @@ class ClonalWitch extends Card {
 
 ClonalWitch.id = 'clonal-witch';
 
-module.exports = ClonalWitch;
+export default ClonalWitch;

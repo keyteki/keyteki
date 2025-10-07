@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Commandeer extends Card {
     // Play: For the remainder of the turn, after you play another card, a friendly creature captures 1A.
@@ -27,4 +27,4 @@ class Commandeer extends Card {
 
 Commandeer.id = 'commandeer';
 
-module.exports = Commandeer;
+export default Commandeer;

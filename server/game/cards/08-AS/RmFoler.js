@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class RmFoler extends Card {
     // After Reap: Destroy an enemy creature. If you do, draw a card.
@@ -18,4 +18,4 @@ class RmFoler extends Card {
 
 RmFoler.id = 'rm-foler';
 
-module.exports = RmFoler;
+export default RmFoler;

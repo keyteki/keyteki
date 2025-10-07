@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class YipyaxAbductor extends Card {
     // Play/After Fight: Put an upgrade from play into your
@@ -20,4 +20,4 @@ class YipyaxAbductor extends Card {
 
 YipyaxAbductor.id = 'yipyax-abductor';
 
-module.exports = YipyaxAbductor;
+export default YipyaxAbductor;

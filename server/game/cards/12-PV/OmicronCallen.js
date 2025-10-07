@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class OmicronCallen extends Card {
     // After Reap: Destroy each other creature.
@@ -28,4 +28,4 @@ class OmicronCallen extends Card {
 
 OmicronCallen.id = 'omicron-callen';
 
-module.exports = OmicronCallen;
+export default OmicronCallen;

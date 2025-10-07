@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class PrescriptiveGrammarbot extends Card {
     // Taunt. Hazardous 3.
@@ -19,4 +19,4 @@ class PrescriptiveGrammarbot extends Card {
 
 PrescriptiveGrammarbot.id = 'prescriptive-grammarbot';
 
-module.exports = PrescriptiveGrammarbot;
+export default PrescriptiveGrammarbot;

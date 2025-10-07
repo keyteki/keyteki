@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Bumblebird extends Card {
     // Alpha. (You can only play this card before doing anything else this step.)
@@ -22,4 +22,4 @@ class Bumblebird extends Card {
 
 Bumblebird.id = 'bumblebird';
 
-module.exports = Bumblebird;
+export default Bumblebird;

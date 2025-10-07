@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class DreadstarrTheLone extends Card {
     // If there are no other friendly Brobnar creatures in play,
@@ -22,4 +22,4 @@ class DreadstarrTheLone extends Card {
 
 DreadstarrTheLone.id = 'dreadstarr-the-lone';
 
-module.exports = DreadstarrTheLone;
+export default DreadstarrTheLone;

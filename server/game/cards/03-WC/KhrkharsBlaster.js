@@ -1,4 +1,4 @@
-const BlasterCard = require('./BlasterCard.js');
+import BlasterCard from './BlasterCard.js';
 
 class KhrkharsBlaster extends BlasterCard {
     // This creature gains, Fight/Reap: You may deal 2D to a creature, or attach Khrkhars Blaster to Lieutenant Khrkhar.
@@ -20,4 +20,4 @@ class KhrkharsBlaster extends BlasterCard {
 
 KhrkharsBlaster.id = 'khrkhar-s-blaster';
 
-module.exports = KhrkharsBlaster;
+export default KhrkharsBlaster;

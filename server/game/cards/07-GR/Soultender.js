@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Soultender extends Card {
     // Play:/After Reap: Move each A from each Specter creature to the common
@@ -32,4 +32,4 @@ class Soultender extends Card {
 
 Soultender.id = 'soultender';
 
-module.exports = Soultender;
+export default Soultender;

@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class PileOfSkulls extends Card {
     // Each time an enemy creature is destroyed during your turn,
@@ -22,4 +22,4 @@ class PileOfSkulls extends Card {
 
 PileOfSkulls.id = 'pile-of-skulls';
 
-module.exports = PileOfSkulls;
+export default PileOfSkulls;

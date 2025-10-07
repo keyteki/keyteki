@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class InstantTransmission extends Card {
     // Omni: Draw 3 cards. Destroy Instant Transmission.
@@ -13,4 +13,4 @@ class InstantTransmission extends Card {
 
 InstantTransmission.id = 'instant-transmission';
 
-module.exports = InstantTransmission;
+export default InstantTransmission;

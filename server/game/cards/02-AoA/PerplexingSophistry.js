@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class PerplexingSophistry extends Card {
     // Play: If you have more A than your opponent, they discard a random card from their hand and you draw a card.
@@ -16,4 +16,4 @@ class PerplexingSophistry extends Card {
 
 PerplexingSophistry.id = 'perplexing-sophistry';
 
-module.exports = PerplexingSophistry;
+export default PerplexingSophistry;

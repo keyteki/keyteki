@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class BrawlIn extends Card {
     // Play: Make 2 token creatures. Enrage them.
@@ -18,4 +18,4 @@ class BrawlIn extends Card {
 
 BrawlIn.id = 'brawl-in';
 
-module.exports = BrawlIn;
+export default BrawlIn;

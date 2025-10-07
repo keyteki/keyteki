@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class MassAbduction extends Card {
     // Play: Put up to 3 damaged enemy creatures into your archives. If any of these creatures leave your archives, they are put into their owners hand instead.
@@ -18,4 +18,4 @@ class MassAbduction extends Card {
 
 MassAbduction.id = 'mass-abduction';
 
-module.exports = MassAbduction;
+export default MassAbduction;

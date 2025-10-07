@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class PenPal extends Card {
     // Action: Exhaust an enemy creature. If you do, each player gains 1A.
@@ -20,4 +20,4 @@ class PenPal extends Card {
 
 PenPal.id = 'pen-pal';
 
-module.exports = PenPal;
+export default PenPal;

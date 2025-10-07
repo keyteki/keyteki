@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Cleaner extends Card {
     // Action: Deal 3D to a creature.
@@ -14,4 +14,4 @@ class Cleaner extends Card {
 
 Cleaner.id = 'cleaner';
 
-module.exports = Cleaner;
+export default Cleaner;

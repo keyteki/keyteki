@@ -1,7 +1,7 @@
-const _ = require('underscore');
-const AbilityContext = require('../AbilityContext');
-const EffectSource = require('../EffectSource');
-const UiPrompt = require('./uiprompt');
+import _ from 'underscore';
+import AbilityContext from '../AbilityContext.js';
+import EffectSource from '../EffectSource.js';
+import UiPrompt from './uiprompt.js';
 
 /**
  * Drop down menu prompt. Takes an options object with menu options and
@@ -80,4 +80,4 @@ class OptionsMenuPrompt extends UiPrompt {
     }
 }
 
-module.exports = OptionsMenuPrompt;
+export default OptionsMenuPrompt;

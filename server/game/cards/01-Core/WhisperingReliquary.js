@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class WhisperingReliquary extends Card {
     // Action: Return an artifact to its owner's hand.
@@ -14,4 +14,4 @@ class WhisperingReliquary extends Card {
 
 WhisperingReliquary.id = 'whispering-reliquary';
 
-module.exports = WhisperingReliquary;
+export default WhisperingReliquary;

@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class AlienHorror extends Card {
     // While you are haunted, Alien Horror gets +7 power.
@@ -20,4 +20,4 @@ class AlienHorror extends Card {
 
 AlienHorror.id = 'alien-horror';
 
-module.exports = AlienHorror;
+export default AlienHorror;

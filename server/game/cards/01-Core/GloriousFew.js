@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class GloriousFew extends Card {
     // Play: For each creature your opponent controls in excess of you, gain 1<A>.
@@ -20,4 +20,4 @@ class GloriousFew extends Card {
 
 GloriousFew.id = 'glorious-few';
 
-module.exports = GloriousFew;
+export default GloriousFew;

@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class CollarOfSubordination extends Card {
     // You control this creature.
@@ -11,4 +11,4 @@ class CollarOfSubordination extends Card {
 
 CollarOfSubordination.id = 'collar-of-subordination';
 
-module.exports = CollarOfSubordination;
+export default CollarOfSubordination;

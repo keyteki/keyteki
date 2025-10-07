@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class TreokTheWise extends Card {
     // After Reap: Choose a creature. Until the start of your next turn, that creature gains invulnerable.
@@ -18,4 +18,4 @@ class TreokTheWise extends Card {
 
 TreokTheWise.id = 'treok-the-wise';
 
-module.exports = TreokTheWise;
+export default TreokTheWise;

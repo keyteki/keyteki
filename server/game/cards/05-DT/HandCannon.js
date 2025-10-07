@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class HandCannon extends Card {
     // This creature gains skirmish and, "Fight: Move 1A from the creature this creature fights to your pool."
@@ -24,4 +24,4 @@ class HandCannon extends Card {
 
 HandCannon.id = 'hand-cannon';
 
-module.exports = HandCannon;
+export default HandCannon;

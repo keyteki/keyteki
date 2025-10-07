@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class CosmicRecompense extends Card {
     // Play: Deal 3D to an enemy creature. If it is not destroyed, steal 1A. Repeat the preceding effect.
@@ -63,4 +63,4 @@ class CosmicRecompense extends Card {
 
 CosmicRecompense.id = 'cosmic-recompense';
 
-module.exports = CosmicRecompense;
+export default CosmicRecompense;

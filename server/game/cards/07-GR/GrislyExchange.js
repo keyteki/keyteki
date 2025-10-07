@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class GrislyExchange extends Card {
     // Play: Put the top 5 cards of your opponent's discard pile on
@@ -32,4 +32,4 @@ class GrislyExchange extends Card {
 
 GrislyExchange.id = 'grisly-exchange';
 
-module.exports = GrislyExchange;
+export default GrislyExchange;

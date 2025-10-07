@@ -2,7 +2,7 @@ import React from 'react';
 import toRegex from 'path-to-regexp';
 import queryString from 'query-string-es5';
 
-import routes from './routes';
+import routes from './routes.jsx';
 import NotFound from './pages/NotFound';
 import Unauthorised from './pages/Unauthorised';
 

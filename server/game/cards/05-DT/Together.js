@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Together extends Card {
     // (T) Play: You may play a non-Star Alliance card. If the tide is high, you may play another non-Star Alliance card.
@@ -28,4 +28,4 @@ class Together extends Card {
 
 Together.id = 'together';
 
-module.exports = Together;
+export default Together;

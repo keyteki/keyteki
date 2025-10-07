@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class HallowedBlaster extends Card {
     // Action: Heal 3 damage from a creature.
@@ -14,4 +14,4 @@ class HallowedBlaster extends Card {
 
 HallowedBlaster.id = 'hallowed-blaster';
 
-module.exports = HallowedBlaster;
+export default HallowedBlaster;

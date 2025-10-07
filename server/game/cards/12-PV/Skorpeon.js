@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Skorpeon extends Card {
     // Enhance .
@@ -23,4 +23,4 @@ class Skorpeon extends Card {
 
 Skorpeon.id = 'skorpeon';
 
-module.exports = Skorpeon;
+export default Skorpeon;

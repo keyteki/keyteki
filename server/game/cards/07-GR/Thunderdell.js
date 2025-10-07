@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Thunderdell extends Card {
     // While you are haunted, Thunderdell gains splash-attack 5.
@@ -12,4 +12,4 @@ class Thunderdell extends Card {
 
 Thunderdell.id = 'thunderdell';
 
-module.exports = Thunderdell;
+export default Thunderdell;

@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class RefinedAdhesive extends Card {
     // Each time a card would be discarded from a player's hand,
@@ -27,4 +27,4 @@ class RefinedAdhesive extends Card {
 
 RefinedAdhesive.id = 'refined-adhesive';
 
-module.exports = RefinedAdhesive;
+export default RefinedAdhesive;

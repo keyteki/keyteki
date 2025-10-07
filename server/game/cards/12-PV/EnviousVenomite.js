@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class EnviousVenomite extends Card {
     // Skirmish.
@@ -27,4 +27,4 @@ class EnviousVenomite extends Card {
 
 EnviousVenomite.id = 'envious-venomite';
 
-module.exports = EnviousVenomite;
+export default EnviousVenomite;

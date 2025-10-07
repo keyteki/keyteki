@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class RecreationalJettison extends Card {
     // Play: Discard a card. Resolve its bonus icons as if you had
@@ -39,4 +39,4 @@ class RecreationalJettison extends Card {
 
 RecreationalJettison.id = 'recreational-jettison';
 
-module.exports = RecreationalJettison;
+export default RecreationalJettison;

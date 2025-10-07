@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class BrillixPonder extends Card {
     // Scrap: Draw a card.
@@ -11,4 +11,4 @@ class BrillixPonder extends Card {
 
 BrillixPonder.id = 'brillix-ponder';
 
-module.exports = BrillixPonder;
+export default BrillixPonder;

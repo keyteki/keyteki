@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class NovuDynamo extends Card {
     // At the start of your turn, you may discard a Logos card from your hand or archives. If you do, gain 1A. Otherwise, destroy Novu Dynamo.
@@ -44,4 +44,4 @@ class NovuDynamo extends Card {
 
 NovuDynamo.id = 'novu-dynamo';
 
-module.exports = NovuDynamo;
+export default NovuDynamo;

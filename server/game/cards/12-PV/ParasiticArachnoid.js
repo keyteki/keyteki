@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class ParasiticArachnoid extends Card {
     // Destroyed: An enemy creature captures 1A from its own side.
@@ -30,4 +30,4 @@ class ParasiticArachnoid extends Card {
 
 ParasiticArachnoid.id = 'parasitic-arachnoid';
 
-module.exports = ParasiticArachnoid;
+export default ParasiticArachnoid;

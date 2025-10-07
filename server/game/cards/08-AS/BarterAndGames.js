@@ -1,5 +1,5 @@
-const _ = require('underscore');
-const Card = require('../../Card.js');
+import _ from 'underscore';
+import Card from '../../Card.js';
 
 function amountForEvents(events, controller) {
     return events.reduce(
@@ -143,4 +143,4 @@ class BarterAndGames extends Card {
 
 BarterAndGames.id = 'barter-and-games';
 
-module.exports = BarterAndGames;
+export default BarterAndGames;

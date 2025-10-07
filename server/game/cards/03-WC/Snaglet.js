@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Snaglet extends Card {
     // Elusive.
@@ -27,4 +27,4 @@ class Snaglet extends Card {
 
 Snaglet.id = 'snaglet';
 
-module.exports = Snaglet;
+export default Snaglet;

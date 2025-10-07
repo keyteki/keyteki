@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class WalkThePlank extends Card {
     // Play: If your opponent has no A, deal 4D to a creature. Otherwise, steal 1A.
@@ -26,4 +26,4 @@ class WalkThePlank extends Card {
 
 WalkThePlank.id = 'walk-the-plank';
 
-module.exports = WalkThePlank;
+export default WalkThePlank;

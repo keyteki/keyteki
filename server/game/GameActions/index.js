@@ -1,90 +1,88 @@
-module.exports = {
-    ActivateProphecyAction: require('./ActivateProphecyAction'),
-    AddEventToWindowAction: require('./AddEventToWindowAction'),
-    AddTokenAction: require('./AddTokenAction'),
-    AllocateDamageAction: require('./AllocateDamageAction'),
-    ArchiveAction: require('./ArchiveAction'),
-    ApplyDamageAction: require('./ApplyDamageAction'),
-    AttachAction: require('./AttachAction'),
-    CaptureAction: require('./CaptureAction'),
-    CardLastingEffectAction: require('./CardLastingEffectAction'),
-    ChangeActiveHouseAction: require('./ChangeActiveHouse'),
-    ChangeEventAction: require('./ChangeEventAction'),
-    ChooseGameAction: require('./ChooseGameAction'),
-    ChosenDiscardAction: require('./ChosenDiscardAction'),
-    ConditionalAction: require('./ConditionalAction'),
-    DeactivateProphecyAction: require('./DeactivateProphecyAction'),
-    DealDamageAction: require('./DealDamageAction'),
-    DelayedEffectAction: require('./DelayedEffectAction'),
-    DestroyAction: require('./DestroyAction'),
-    DiscardCardAction: require('./DiscardCardAction'),
-    DiscardTopOfDeckAction: require('./DiscardTopOfDeckAction'),
-    DrawAction: require('./DrawAction'),
-    EnrageAction: require('./EnrageAction'),
-    ExaltAction: require('./ExaltAction'),
-    ExhaustAction: require('./ExhaustAction'),
-    FightGameAction: require('./FightGameAction'),
-    FlipAction: require('./FlipAction'),
-    FlipProphecyAction: require('./FlipProphecyAction'),
-    ForgeAction: require('./ForgeAction'),
-    FulfillProphecyAction: require('./FulfillProphecyAction'),
-    HealAction: require('./HealAction'),
-    JointGameAction: require('./JointGameAction'),
-    LastingEffectAction: require('./LastingEffectAction'),
-    LoseAmberAction: require('./LoseAmberAction'),
-    ModifyAmberAction: require('./ModifyAmberAction'),
-    ModifyChainsActions: require('./ModifyChainsAction'),
-    MoveCardAction: require('./MoveCardAction'),
-    MoveOnBattlelineAction: require('./MoveOnBattlelineAction'),
-    MoveToBottomAction: require('./MoveToBottomAction'),
-    MoveToFlankAction: require('./MoveToFlankAction'),
-    MoveUpgrade: require('./MoveUpgrade'),
-    MoveUpgradeToFlank: require('./MoveUpgradeToFlank'),
-    MulliganAction: require('./MulliganAction'),
-    ResetTideAction: require('./ResetTideAction'),
-    PlaceUnderAction: require('./PlaceUnderAction'),
-    PlayCardAction: require('./PlayCardAction'),
-    PlayUpgradeOnParentAction: require('./PlayUpgradeOnParentAction'),
-    MakeTokenCreatureAction: require('./MakeTokenCreatureAction'),
-    PurgeAction: require('./PurgeAction'),
-    PutIntoPlayAction: require('./PutIntoPlayAction'),
-    RaiseTideAction: require('./RaiseTideAction'),
-    RandomArchiveAction: require('./RandomArchiveAction'),
-    RandomDiscardAction: require('./RandomDiscardAction'),
-    RandomPlayCardAction: require('./RandomPlayCardAction'),
-    RandomPurgeAction: require('./RandomPurgeAction'),
-    ReadyAction: require('./ReadyAction'),
-    ReapGameAction: require('./ReapGameAction'),
-    RearrangeBattlelineAction: require('./RearrangeBattlelineAction'),
-    RearrangeCardsAction: require('./RearrangeCardsAction'),
-    ReduceArmorAction: require('./ReduceArmorAction'),
-    RemoveStunAction: require('./RemoveStunAction'),
-    RemoveTokenAction: require('./RemoveTokenAction'),
-    RemoveAllTokensAction: require('./RemoveAllTokensAction'),
-    RemoveWardAction: require('./RemoveWardAction'),
-    ResolveAbilityAction: require('./ResolveAbilityAction'),
-    ResolveBonusIconsAction: require('./ResolveBonusIconsAction'),
-    ResolveFateAction: require('./ResolveFateAction'),
-    ResolveFightAction: require('./ResolveFightAction'),
-    ReturnAmberAction: require('./ReturnAmberAction'),
-    ReturnToDeckAction: require('./ReturnToDeckAction'),
-    ReturnToHandAction: require('./ReturnToHandAction'),
-    RevealAction: require('./RevealAction'),
-    SearchAction: require('./SearchAction'),
-    SequentialAction: require('./SequentialAction'),
-    SequentialCardLastingEffectAction: require('./SequentialCardLastingEffectAction'),
-    SequentialForEachAction: require('./SequentialForEachAction'),
-    SequentialFightAction: require('./SequentialFightAction'),
-    SequentialMakeTokenCreatureAction: require('./SequentialMakeTokenCreatureAction'),
-    SequentialPlayAction: require('./SequentialPlayAction'),
-    SequentialPutIntoPlayAction: require('./SequentialPutIntoPlayAction'),
-    ShuffleDeckAction: require('./ShuffleDeckAction'),
-    StealAction: require('./StealAction'),
-    StunAction: require('./StunAction'),
-    SwapAction: require('./SwapAction'),
-    SwapDiscardWithHandAction: require('./SwapDiscardWithHandAction'),
-    TransferAmberAction: require('./TransferAmberAction'),
-    UnforgeAction: require('./UnforgeAction'),
-    UseAction: require('./UseAction'),
-    WardAction: require('./WardAction')
-};
+export { default as ActivateProphecyAction } from './ActivateProphecyAction.js';
+export { default as AddEventToWindowAction } from './AddEventToWindowAction.js';
+export { default as AddTokenAction } from './AddTokenAction.js';
+export { default as AllocateDamageAction } from './AllocateDamageAction.js';
+export { default as ArchiveAction } from './ArchiveAction.js';
+export { default as ApplyDamageAction } from './ApplyDamageAction.js';
+export { default as AttachAction } from './AttachAction.js';
+export { default as CaptureAction } from './CaptureAction.js';
+export { default as CardLastingEffectAction } from './CardLastingEffectAction.js';
+export { default as ChangeActiveHouseAction } from './ChangeActiveHouse.js';
+export { default as ChangeEventAction } from './ChangeEventAction.js';
+export { default as ChooseGameAction } from './ChooseGameAction.js';
+export { default as ChosenDiscardAction } from './ChosenDiscardAction.js';
+export { default as ConditionalAction } from './ConditionalAction.js';
+export { default as DeactivateProphecyAction } from './DeactivateProphecyAction.js';
+export { default as DealDamageAction } from './DealDamageAction.js';
+export { default as DelayedEffectAction } from './DelayedEffectAction.js';
+export { default as DestroyAction } from './DestroyAction.js';
+export { default as DiscardCardAction } from './DiscardCardAction.js';
+export { default as DiscardTopOfDeckAction } from './DiscardTopOfDeckAction.js';
+export { default as DrawAction } from './DrawAction.js';
+export { default as EnrageAction } from './EnrageAction.js';
+export { default as ExaltAction } from './ExaltAction.js';
+export { default as ExhaustAction } from './ExhaustAction.js';
+export { default as FightGameAction } from './FightGameAction.js';
+export { default as FlipAction } from './FlipAction.js';
+export { default as FlipProphecyAction } from './FlipProphecyAction.js';
+export { default as ForgeAction } from './ForgeAction.js';
+export { default as FulfillProphecyAction } from './FulfillProphecyAction.js';
+export { default as HealAction } from './HealAction.js';
+export { default as JointGameAction } from './JointGameAction.js';
+export { default as LastingEffectAction } from './LastingEffectAction.js';
+export { default as LoseAmberAction } from './LoseAmberAction.js';
+export { default as ModifyAmberAction } from './ModifyAmberAction.js';
+export { default as ModifyChainsActions } from './ModifyChainsAction.js';
+export { default as MoveCardAction } from './MoveCardAction.js';
+export { default as MoveOnBattlelineAction } from './MoveOnBattlelineAction.js';
+export { default as MoveToBottomAction } from './MoveToBottomAction.js';
+export { default as MoveToFlankAction } from './MoveToFlankAction.js';
+export { default as MoveUpgrade } from './MoveUpgrade.js';
+export { default as MoveUpgradeToFlank } from './MoveUpgradeToFlank.js';
+export { default as MulliganAction } from './MulliganAction.js';
+export { default as ResetTideAction } from './ResetTideAction.js';
+export { default as PlaceUnderAction } from './PlaceUnderAction.js';
+export { default as PlayCardAction } from './PlayCardAction.js';
+export { default as PlayUpgradeOnParentAction } from './PlayUpgradeOnParentAction.js';
+export { default as MakeTokenCreatureAction } from './MakeTokenCreatureAction.js';
+export { default as PurgeAction } from './PurgeAction.js';
+export { default as PutIntoPlayAction } from './PutIntoPlayAction.js';
+export { default as RaiseTideAction } from './RaiseTideAction.js';
+export { default as RandomArchiveAction } from './RandomArchiveAction.js';
+export { default as RandomDiscardAction } from './RandomDiscardAction.js';
+export { default as RandomPlayCardAction } from './RandomPlayCardAction.js';
+export { default as RandomPurgeAction } from './RandomPurgeAction.js';
+export { default as ReadyAction } from './ReadyAction.js';
+export { default as ReapGameAction } from './ReapGameAction.js';
+export { default as RearrangeBattlelineAction } from './RearrangeBattlelineAction.js';
+export { default as RearrangeCardsAction } from './RearrangeCardsAction.js';
+export { default as ReduceArmorAction } from './ReduceArmorAction.js';
+export { default as RemoveStunAction } from './RemoveStunAction.js';
+export { default as RemoveTokenAction } from './RemoveTokenAction.js';
+export { default as RemoveAllTokensAction } from './RemoveAllTokensAction.js';
+export { default as RemoveWardAction } from './RemoveWardAction.js';
+export { default as ResolveAbilityAction } from './ResolveAbilityAction.js';
+export { default as ResolveBonusIconsAction } from './ResolveBonusIconsAction.js';
+export { default as ResolveFateAction } from './ResolveFateAction.js';
+export { default as ResolveFightAction } from './ResolveFightAction.js';
+export { default as ReturnAmberAction } from './ReturnAmberAction.js';
+export { default as ReturnToDeckAction } from './ReturnToDeckAction.js';
+export { default as ReturnToHandAction } from './ReturnToHandAction.js';
+export { default as RevealAction } from './RevealAction.js';
+export { default as SearchAction } from './SearchAction.js';
+export { default as SequentialAction } from './SequentialAction.js';
+export { default as SequentialCardLastingEffectAction } from './SequentialCardLastingEffectAction.js';
+export { default as SequentialForEachAction } from './SequentialForEachAction.js';
+export { default as SequentialFightAction } from './SequentialFightAction.js';
+export { default as SequentialMakeTokenCreatureAction } from './SequentialMakeTokenCreatureAction.js';
+export { default as SequentialPlayAction } from './SequentialPlayAction.js';
+export { default as SequentialPutIntoPlayAction } from './SequentialPutIntoPlayAction.js';
+export { default as ShuffleDeckAction } from './ShuffleDeckAction.js';
+export { default as StealAction } from './StealAction.js';
+export { default as StunAction } from './StunAction.js';
+export { default as SwapAction } from './SwapAction.js';
+export { default as SwapDiscardWithHandAction } from './SwapDiscardWithHandAction.js';
+export { default as TransferAmberAction } from './TransferAmberAction.js';
+export { default as UnforgeAction } from './UnforgeAction.js';
+export { default as UseAction } from './UseAction.js';
+export { default as WardAction } from './WardAction.js';

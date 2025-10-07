@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class MaruckTheMarked extends Card {
     // After Maruck the Marked prevents damage with its armor, capture 1A for each damage just prevented.
@@ -16,4 +16,4 @@ class MaruckTheMarked extends Card {
 
 MaruckTheMarked.id = 'maruck-the-marked';
 
-module.exports = MaruckTheMarked;
+export default MaruckTheMarked;

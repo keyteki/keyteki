@@ -1,5 +1,5 @@
-const Constants = require('../../../constants.js');
-const Card = require('../../Card.js');
+import Constants from '../../../constants.js';
+import Card from '../../Card.js';
 
 class MiniGroupthinkTank extends Card {
     // Play/Fight/Reap: Deal 8D to a creature that shares a house with 2 of its neighbors.
@@ -24,4 +24,4 @@ class MiniGroupthinkTank extends Card {
 
 MiniGroupthinkTank.id = 'mini-groupthink-tank';
 
-module.exports = MiniGroupthinkTank;
+export default MiniGroupthinkTank;

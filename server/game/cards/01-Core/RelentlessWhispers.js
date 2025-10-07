@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class RelentlessWhispers extends Card {
     // Play: Deal 2<D> to a creature. If this damage destroys that creature, steal 1<A>.
@@ -23,4 +23,4 @@ class RelentlessWhispers extends Card {
 
 RelentlessWhispers.id = 'relentless-whispers';
 
-module.exports = RelentlessWhispers;
+export default RelentlessWhispers;

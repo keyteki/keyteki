@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class NifflePaw extends Card {
     // This creature gains, After Reap: Destroy this creature and attach Niffle Paw to another creature.
@@ -27,4 +27,4 @@ class NifflePaw extends Card {
 
 NifflePaw.id = 'niffle-paw';
 
-module.exports = NifflePaw;
+export default NifflePaw;

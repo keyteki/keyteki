@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class UnsettlingAncestry extends Card {
     // Play: Stun and exhaust an enemy creature. If you are haunted,
@@ -23,4 +23,4 @@ class UnsettlingAncestry extends Card {
 
 UnsettlingAncestry.id = 'unsettling-ancestry';
 
-module.exports = UnsettlingAncestry;
+export default UnsettlingAncestry;

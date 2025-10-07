@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Snag extends Card {
     // Fight: Your opponent must choose the house of the creature Snag fights as their active house on their next turn.
@@ -16,4 +16,4 @@ class Snag extends Card {
 
 Snag.id = 'snag';
 
-module.exports = Snag;
+export default Snag;

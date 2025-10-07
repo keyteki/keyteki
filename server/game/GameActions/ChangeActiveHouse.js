@@ -1,4 +1,4 @@
-const GameAction = require('./GameAction');
+import GameAction from './GameAction.js';
 
 class ChangeActiveHouseAction extends GameAction {
     setDefaultProperties() {
@@ -57,4 +57,4 @@ class ChangeActiveHouseAction extends GameAction {
     }
 }
 
-module.exports = ChangeActiveHouseAction;
+export default ChangeActiveHouseAction;

@@ -1,5 +1,5 @@
 import React from 'react';
-import { render } from 'react-dom';
+import { createRoot } from 'react-dom/client';
 import Application from './Application';
 import { Provider } from 'react-redux';
 import configureStore from './configureStore';
@@ -62,7 +62,13 @@ window.onpopstate = function (e) {
     store.dispatch(navigate(e.target.location.pathname, null, true));
 };
 
-render(
+const container = document.getElementById('component');
+if (!container) {
+    throw new Error('Could not find root element with id "component"');
+}
+const root = createRoot(container);
+
+root.render(
     <DndProvider backend={TouchBackend} options={{ enableMouseEvents: true }}>
         <Provider store={store}>
             <div className='body'>
@@ -83,6 +89,5 @@ render(
                 </ErrorBoundary>
             </div>
         </Provider>
-    </DndProvider>,
-    document.getElementById('component')
+    </DndProvider>
 );

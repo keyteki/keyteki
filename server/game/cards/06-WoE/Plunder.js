@@ -1,6 +1,6 @@
-const _ = require('underscore');
-const Card = require('../../Card.js');
-const EventRegistrar = require('../../eventregistrar.js');
+import _ from 'underscore';
+import Card from '../../Card.js';
+import EventRegistrar from '../../eventregistrar.js';
 
 class Plunder extends Card {
     // Play: Reveal a random unrevealed card from your opponent's
@@ -58,4 +58,4 @@ class Plunder extends Card {
 
 Plunder.id = 'plunder';
 
-module.exports = Plunder;
+export default Plunder;

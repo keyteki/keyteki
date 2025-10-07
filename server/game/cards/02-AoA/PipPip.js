@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class PipPip extends Card {
     // After an enemy creature reaps, stun it.
@@ -18,4 +18,4 @@ class PipPip extends Card {
 
 PipPip.id = 'pip-pip';
 
-module.exports = PipPip;
+export default PipPip;

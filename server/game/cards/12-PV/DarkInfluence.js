@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class DarkInfluence extends Card {
     // Play: Discard the top card of a player's deck. If it is a Mutant creature, gain 1A.
@@ -34,4 +34,4 @@ class DarkInfluence extends Card {
 
 DarkInfluence.id = 'dark-influence';
 
-module.exports = DarkInfluence;
+export default DarkInfluence;

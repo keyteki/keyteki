@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class TheGoldenSpiral extends Card {
     // Action: Exalt a friendly creature. Ready and use that creature.
@@ -20,4 +20,4 @@ class TheGoldenSpiral extends Card {
 
 TheGoldenSpiral.id = 'the-golden-spiral';
 
-module.exports = TheGoldenSpiral;
+export default TheGoldenSpiral;

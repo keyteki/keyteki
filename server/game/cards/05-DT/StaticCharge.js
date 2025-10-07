@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class StaticCharge extends Card {
     // This creature gains, "At the start of your turn, deal 2D to each of this creature's neighbors."
@@ -20,4 +20,4 @@ class StaticCharge extends Card {
 
 StaticCharge.id = 'static-charge';
 
-module.exports = StaticCharge;
+export default StaticCharge;

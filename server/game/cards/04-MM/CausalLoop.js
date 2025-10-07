@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class CausalLoop extends Card {
     // Play: Archive a card. Archive Causal Loop.
@@ -16,4 +16,4 @@ class CausalLoop extends Card {
 
 CausalLoop.id = 'causal-loop';
 
-module.exports = CausalLoop;
+export default CausalLoop;

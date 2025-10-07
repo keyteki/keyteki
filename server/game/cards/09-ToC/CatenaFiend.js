@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class CatenaFiend extends Card {
     // After Fight: Steal 1A. Deal 3D to a friendly creature.
@@ -21,4 +21,4 @@ class CatenaFiend extends Card {
 
 CatenaFiend.id = 'catena-fiend';
 
-module.exports = CatenaFiend;
+export default CatenaFiend;

@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class JayneTheBard extends Card {
     // After Reap: Deal 2 to an enemy creature. If that creature has on it, repeat the preceding effect.
@@ -44,4 +44,4 @@ class JayneTheBard extends Card {
 
 JayneTheBard.id = 'jayne-the-bard';
 
-module.exports = JayneTheBard;
+export default JayneTheBard;

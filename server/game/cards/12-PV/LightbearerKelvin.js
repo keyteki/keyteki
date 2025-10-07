@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class LightbearerKelvin extends Card {
     // After Fight: Discard the bottom card of a player's deck. If it is a creature, put it into play under your control.
@@ -42,4 +42,4 @@ class LightbearerKelvin extends Card {
 
 LightbearerKelvin.id = 'lightbearer-kelvin';
 
-module.exports = LightbearerKelvin;
+export default LightbearerKelvin;

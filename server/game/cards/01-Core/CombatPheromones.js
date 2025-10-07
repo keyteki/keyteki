@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class CombatPheromones extends Card {
     // Omni: Sacrifice Combat Pheromones. You may use up to 2 other Mars cards this turn.
@@ -22,4 +22,4 @@ class CombatPheromones extends Card {
 
 CombatPheromones.id = 'combat-pheromones';
 
-module.exports = CombatPheromones;
+export default CombatPheromones;

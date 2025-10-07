@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class BornToRock extends Card {
     // Each friendly Brobnar creature gets +1 power for each of its Brobnar neighbors.
@@ -15,4 +15,4 @@ class BornToRock extends Card {
 
 BornToRock.id = 'born-to-rock';
 
-module.exports = BornToRock;
+export default BornToRock;

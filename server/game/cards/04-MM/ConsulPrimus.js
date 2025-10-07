@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class ConsulPrimus extends Card {
     // Enhance . (These icons have already been added to cards in your deck.)
@@ -27,4 +27,4 @@ class ConsulPrimus extends Card {
 
 ConsulPrimus.id = 'consul-primus';
 
-module.exports = ConsulPrimus;
+export default ConsulPrimus;

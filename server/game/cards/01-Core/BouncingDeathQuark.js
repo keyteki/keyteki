@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class BouncingDeathquark extends Card {
     // Play: Destroy an enemy creature and a friendly creature. You may repeat this effect as many times as you like, as long as it is possible to repeat the entire effect.
@@ -37,4 +37,4 @@ class BouncingDeathquark extends Card {
 
 BouncingDeathquark.id = 'bouncing-deathquark';
 
-module.exports = BouncingDeathquark;
+export default BouncingDeathquark;

@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Solo extends Card {
     // If there are no other friendly creatures in play, Solo gets +20 power and gains, "After Fight: Gain 3."
@@ -24,4 +24,4 @@ class Solo extends Card {
 
 Solo.id = 'solo';
 
-module.exports = Solo;
+export default Solo;

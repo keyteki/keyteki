@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class FreshMarks extends Card {
     //Play: Destroy a friendly creature. If you do, exalt 3 enemy creatures.
@@ -24,4 +24,4 @@ class FreshMarks extends Card {
 
 FreshMarks.id = 'fresh-marks';
 
-module.exports = FreshMarks;
+export default FreshMarks;

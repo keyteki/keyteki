@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class BoobyTrap extends Card {
     // Play: Deal 4<D> to a creature that is not on a flank with 2<D> splash.
@@ -15,4 +15,4 @@ class BoobyTrap extends Card {
 
 BoobyTrap.id = 'booby-trap';
 
-module.exports = BoobyTrap;
+export default BoobyTrap;

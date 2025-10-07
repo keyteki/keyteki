@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class LarieOfTheLakeEvilTwin extends Card {
     // (T) While the tide is high, Lærie of the Lake gets +5 armor.
@@ -13,4 +13,4 @@ class LarieOfTheLakeEvilTwin extends Card {
 
 LarieOfTheLakeEvilTwin.id = 'lærie-of-the-lake-evil-twin';
 
-module.exports = LarieOfTheLakeEvilTwin;
+export default LarieOfTheLakeEvilTwin;

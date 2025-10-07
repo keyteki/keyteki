@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class AnnihilationRitual extends Card {
     // When a creature would enter a discard pile from play, it is purged instead.
@@ -18,4 +18,4 @@ class AnnihilationRitual extends Card {
 
 AnnihilationRitual.id = 'annihilation-ritual';
 
-module.exports = AnnihilationRitual;
+export default AnnihilationRitual;

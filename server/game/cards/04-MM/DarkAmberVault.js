@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class DarkAmberVault extends Card {
     // After you play a Mutant creature, draw a card.
@@ -24,4 +24,4 @@ class DarkAmberVault extends Card {
 
 DarkAmberVault.id = 'dark-æmber-vault';
 
-module.exports = DarkAmberVault;
+export default DarkAmberVault;

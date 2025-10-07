@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class TheyTellNoTales extends Card {
     // Play: Choose a house. Destroy each creature of the chosen
@@ -24,4 +24,4 @@ class TheyTellNoTales extends Card {
 
 TheyTellNoTales.id = 'they-tell-no-tales';
 
-module.exports = TheyTellNoTales;
+export default TheyTellNoTales;

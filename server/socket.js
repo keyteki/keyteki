@@ -1,9 +1,9 @@
-const logger = require('./log');
-const EventEmitter = require('events');
-const jwt = require('jsonwebtoken');
-const Sentry = require('@sentry/node');
+import logger from './log.js';
+import { EventEmitter } from 'node:events';
+import jwt from 'jsonwebtoken';
+import * as Sentry from '@sentry/node';
 
-const User = require('./models/User');
+import User from './models/User.js';
 
 class Socket extends EventEmitter {
     constructor(socket, options = {}) {
@@ -81,4 +81,4 @@ class Socket extends EventEmitter {
     }
 }
 
-module.exports = Socket;
+export default Socket;

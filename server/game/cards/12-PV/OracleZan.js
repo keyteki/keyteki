@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class OracleZan extends Card {
     // After Reap: Move each amber from a friendly creature to the common supply. For each amber moved, heal 2 damage from a creature.
@@ -34,4 +34,4 @@ class OracleZan extends Card {
 
 OracleZan.id = 'oracle-zan';
 
-module.exports = OracleZan;
+export default OracleZan;

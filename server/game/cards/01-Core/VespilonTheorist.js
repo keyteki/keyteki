@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class VespilonTheorist extends Card {
     // Elusive. (The first time this creature is attacked each turn, no damage is dealt.)
@@ -40,4 +40,4 @@ class VespilonTheorist extends Card {
 
 VespilonTheorist.id = 'vespilon-theorist';
 
-module.exports = VespilonTheorist;
+export default VespilonTheorist;

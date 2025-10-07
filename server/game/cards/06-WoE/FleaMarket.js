@@ -1,5 +1,5 @@
-const _ = require('underscore');
-const Card = require('../../Card.js');
+import _ from 'underscore';
+import Card from '../../Card.js';
 
 class FleaMarket extends Card {
     // Action: Look at a random card in your opponent's hand. You may give your opponent 1 Aember. If you do, play that card as if it were yours.
@@ -37,4 +37,4 @@ class FleaMarket extends Card {
 
 FleaMarket.id = 'flea-market';
 
-module.exports = FleaMarket;
+export default FleaMarket;

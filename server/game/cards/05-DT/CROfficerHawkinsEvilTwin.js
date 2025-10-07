@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class CROfficerHawkinsEvilTwin extends Card {
     // Deploy. (This creature can enter play anywhere in your battleline.)
@@ -14,4 +14,4 @@ class CROfficerHawkinsEvilTwin extends Card {
 
 CROfficerHawkinsEvilTwin.id = 'cr-officer-hawkins-evil-twin';
 
-module.exports = CROfficerHawkinsEvilTwin;
+export default CROfficerHawkinsEvilTwin;

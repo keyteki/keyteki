@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class GraspingVines extends Card {
     // Play: Return up to 3artifacts to their owners hands.
@@ -16,4 +16,4 @@ class GraspingVines extends Card {
 
 GraspingVines.id = 'grasping-vines';
 
-module.exports = GraspingVines;
+export default GraspingVines;

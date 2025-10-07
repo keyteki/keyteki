@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class XenoFiend extends Card {
     // Fight: Look at the top 3 cards of your deck. Put 1 into your hand and 1 on the bottom of your deck.
@@ -32,4 +32,4 @@ class XenoFiend extends Card {
 
 XenoFiend.id = 'xeno-fiend';
 
-module.exports = XenoFiend;
+export default XenoFiend;

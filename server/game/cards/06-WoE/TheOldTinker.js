@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class TheOldTinker extends Card {
     // Reap: Discard a card from your hand. If you do, draw a card.
@@ -18,4 +18,4 @@ class TheOldTinker extends Card {
 
 TheOldTinker.id = 'the-old-tinker';
 
-module.exports = TheOldTinker;
+export default TheOldTinker;

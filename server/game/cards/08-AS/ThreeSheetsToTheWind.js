@@ -1,5 +1,5 @@
-const _ = require('underscore');
-const Card = require('../../Card.js');
+import _ from 'underscore';
+import Card from '../../Card.js';
 
 class ThreeSheetsToTheWind extends Card {
     // Play: Your opponent draws 3 cards, discards a random card from
@@ -33,4 +33,4 @@ class ThreeSheetsToTheWind extends Card {
 
 ThreeSheetsToTheWind.id = 'three-sheets-to-the-wind';
 
-module.exports = ThreeSheetsToTheWind;
+export default ThreeSheetsToTheWind;

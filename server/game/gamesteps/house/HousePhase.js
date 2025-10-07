@@ -1,5 +1,5 @@
-const Phase = require('../phase.js');
-const SimpleStep = require('../simplestep.js');
+import Phase from '../phase.js';
+import SimpleStep from '../simplestep.js';
 
 class HousePhase extends Phase {
     constructor(game) {
@@ -140,4 +140,4 @@ class HousePhase extends Phase {
     }
 }
 
-module.exports = HousePhase;
+export default HousePhase;

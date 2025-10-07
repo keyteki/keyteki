@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class FortuneReverser extends Card {
     // This creature's text box is considered blank, except for traits.
@@ -21,4 +21,4 @@ class FortuneReverser extends Card {
 
 FortuneReverser.id = 'fortune-reverser';
 
-module.exports = FortuneReverser;
+export default FortuneReverser;

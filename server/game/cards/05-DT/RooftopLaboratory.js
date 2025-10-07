@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class RooftopLaboratory extends Card {
     // Each friendly Scientist creature enters play ready.
@@ -13,4 +13,4 @@ class RooftopLaboratory extends Card {
 
 RooftopLaboratory.id = 'rooftop-laboratory';
 
-module.exports = RooftopLaboratory;
+export default RooftopLaboratory;

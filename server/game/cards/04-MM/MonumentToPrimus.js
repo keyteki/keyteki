@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class MonumentToPrimus extends Card {
     // Action: Move 1A from a friendly creature to another friendly creature. If Consul Primus is in your discard pile, move 1A from a creature to another creature instead.
@@ -39,4 +39,4 @@ class MonumentToPrimus extends Card {
 
 MonumentToPrimus.id = 'monument-to-primus';
 
-module.exports = MonumentToPrimus;
+export default MonumentToPrimus;

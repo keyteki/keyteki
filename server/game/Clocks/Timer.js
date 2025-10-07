@@ -1,4 +1,4 @@
-const Clock = require('./Clock');
+import Clock from './Clock.js';
 
 class Timer extends Clock {
     constructor(player, time) {
@@ -11,4 +11,4 @@ class Timer extends Clock {
     }
 }
 
-module.exports = Timer;
+export default Timer;

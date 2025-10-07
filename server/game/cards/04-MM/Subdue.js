@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Subdue extends Card {
     // Play: Deal 1D to a creature and stun it.
@@ -14,4 +14,4 @@ class Subdue extends Card {
 
 Subdue.id = 'subdue';
 
-module.exports = Subdue;
+export default Subdue;

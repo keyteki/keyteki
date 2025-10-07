@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class PiranhaMonkeys extends Card {
     // Play/Reap: Deal 2D to each other creature.
@@ -16,4 +16,4 @@ class PiranhaMonkeys extends Card {
 
 PiranhaMonkeys.id = 'piranha-monkeys';
 
-module.exports = PiranhaMonkeys;
+export default PiranhaMonkeys;

@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class OfferingToInvidius extends Card {
     // Play: Purge a creature from a discard pile.
@@ -15,4 +15,4 @@ class OfferingToInvidius extends Card {
 
 OfferingToInvidius.id = 'offering-to-invidius';
 
-module.exports = OfferingToInvidius;
+export default OfferingToInvidius;

@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Tantadlin extends Card {
     // Tantadlin only deals 2D when fighting.
@@ -15,4 +15,4 @@ class Tantadlin extends Card {
 
 Tantadlin.id = 'tantadlin';
 
-module.exports = Tantadlin;
+export default Tantadlin;

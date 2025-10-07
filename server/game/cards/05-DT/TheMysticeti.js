@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class TheMysticeti extends Card {
     // Action: Exhaust 1 or more friendly Untamed creatures. If you do, give The Mysticeti three +1 power counters for each creature exhausted this way and move it anywhere in your battleline as a creature with 0 power and taunt.
@@ -42,4 +42,4 @@ class TheMysticeti extends Card {
 
 TheMysticeti.id = 'the-mysticeti';
 
-module.exports = TheMysticeti;
+export default TheMysticeti;

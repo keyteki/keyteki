@@ -1,5 +1,5 @@
-const BaseStep = require('./basestep.js');
-const GamePipeline = require('../gamepipeline.js');
+import BaseStep from './basestep.js';
+import GamePipeline from '../gamepipeline.js';
 
 class BaseStepWithPipeline extends BaseStep {
     constructor(game) {
@@ -49,4 +49,4 @@ class BaseStepWithPipeline extends BaseStep {
     }
 }
 
-module.exports = BaseStepWithPipeline;
+export default BaseStepWithPipeline;

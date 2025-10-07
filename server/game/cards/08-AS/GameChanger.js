@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class GameChanger extends Card {
     // Each friendly Ekwidon creature cannot reap and gains, “Action:
@@ -19,4 +19,4 @@ class GameChanger extends Card {
 
 GameChanger.id = 'game-changer';
 
-module.exports = GameChanger;
+export default GameChanger;

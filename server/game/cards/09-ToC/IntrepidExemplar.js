@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class IntrepidExemplar extends Card {
     // After Fight/Destroyed: Make a token creature.
@@ -14,4 +14,4 @@ class IntrepidExemplar extends Card {
 
 IntrepidExemplar.id = 'intrepid-exemplar';
 
-module.exports = IntrepidExemplar;
+export default IntrepidExemplar;

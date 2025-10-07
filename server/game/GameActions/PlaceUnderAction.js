@@ -1,4 +1,4 @@
-const CardGameAction = require('./CardGameAction');
+import CardGameAction from './CardGameAction.js';
 
 class PlaceUnderAction extends CardGameAction {
     constructor(propertyFactory, isGraft = false) {
@@ -59,4 +59,4 @@ class PlaceUnderAction extends CardGameAction {
     }
 }
 
-module.exports = PlaceUnderAction;
+export default PlaceUnderAction;

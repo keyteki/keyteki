@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class GanymedeArchivist extends Card {
     // Reap: Archive a card.
@@ -15,4 +15,4 @@ class GanymedeArchivist extends Card {
 
 GanymedeArchivist.id = 'ganymede-archivist';
 
-module.exports = GanymedeArchivist;
+export default GanymedeArchivist;

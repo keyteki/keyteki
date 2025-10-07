@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class TheCorpulentCollector extends Card {
     // Play: Capture all of your opponent's A. Deal 1D to The Corpulent Collector for each A on it.
@@ -19,4 +19,4 @@ class TheCorpulentCollector extends Card {
 
 TheCorpulentCollector.id = 'the-corpulent-collector';
 
-module.exports = TheCorpulentCollector;
+export default TheCorpulentCollector;

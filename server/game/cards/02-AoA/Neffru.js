@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Neffru extends Card {
     // Each time a creature is destroyed,
@@ -19,4 +19,4 @@ class Neffru extends Card {
 
 Neffru.id = 'neffru';
 
-module.exports = Neffru;
+export default Neffru;

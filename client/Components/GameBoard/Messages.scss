@@ -1,8 +1,8 @@
 @import '../../styles/variables';
 @import '../../styles/colours';
-@import '~bootstrap/scss/functions';
-@import '~bootstrap/scss/variables';
-@import '~bootstrap/scss/mixins';
+@import 'bootstrap/scss/functions';
+@import 'bootstrap/scss/variables';
+@import 'bootstrap/scss/mixins';
 
 .separator {
     hr {
@@ -125,7 +125,7 @@
 
 .startofround {
     font-size: 1.05rem;
-    background-image: url('~assets/img/panel-primary.png');
+    background-image: url('..\../assets/img/panel-primary.png');
     border-top: 1px solid theme-color('primary');
     text-transform: uppercase;
     font-family: Keyforge, Helvetica, sans-serif;

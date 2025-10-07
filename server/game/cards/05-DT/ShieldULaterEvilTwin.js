@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class ShieldULaterEvilTwin extends Card {
     // Shield-U-Later may be played as an upgrade instead of a creature, with the text: “This creature loses all armor and gets –2 power.”
@@ -16,4 +16,4 @@ class ShieldULaterEvilTwin extends Card {
 
 ShieldULaterEvilTwin.id = 'shield-u-later-evil-twin';
 
-module.exports = ShieldULaterEvilTwin;
+export default ShieldULaterEvilTwin;

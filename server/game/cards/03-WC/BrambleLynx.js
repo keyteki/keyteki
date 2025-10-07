@@ -1,5 +1,5 @@
-const Card = require('../../Card.js');
-const EventRegistrar = require('../../eventregistrar.js');
+import Card from '../../Card.js';
+import EventRegistrar from '../../eventregistrar.js';
 
 class BrambleLynx extends Card {
     // Skirmish. (When you use this creature to fight, it is dealt no damage in return.)
@@ -27,4 +27,4 @@ class BrambleLynx extends Card {
 
 BrambleLynx.id = 'bramble-lynx';
 
-module.exports = BrambleLynx;
+export default BrambleLynx;

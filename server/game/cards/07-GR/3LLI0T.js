@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class ThreeLLI0T extends Card {
     // Play/After Fight/After Reap: You may play an upgrade from your
@@ -42,4 +42,4 @@ class ThreeLLI0T extends Card {
 
 ThreeLLI0T.id = '3ll-i0t';
 
-module.exports = ThreeLLI0T;
+export default ThreeLLI0T;

@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Bracchanalia extends Card {
     // Play: Put 4A on Bracchanalia from the common supply. A friendly creature captures 1A.
@@ -35,4 +35,4 @@ class Bracchanalia extends Card {
 
 Bracchanalia.id = 'bracchanalia';
 
-module.exports = Bracchanalia;
+export default Bracchanalia;

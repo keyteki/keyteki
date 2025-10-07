@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Nerotaurus extends Card {
     // Fight: Enemy creatures cannot reap during your opponents next turn.
@@ -28,4 +28,4 @@ class Nerotaurus extends Card {
 
 Nerotaurus.id = 'nerotaurus';
 
-module.exports = Nerotaurus;
+export default Nerotaurus;

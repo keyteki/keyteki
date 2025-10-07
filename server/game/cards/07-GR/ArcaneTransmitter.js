@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class ArcaneTransmitter extends Card {
     // Action: Discard the top 4 cards of any player's deck.
@@ -43,4 +43,4 @@ class ArcaneTransmitter extends Card {
 
 ArcaneTransmitter.id = 'arcane-transmitter';
 
-module.exports = ArcaneTransmitter;
+export default ArcaneTransmitter;

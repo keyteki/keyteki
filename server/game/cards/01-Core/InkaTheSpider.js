@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class InkaTheSpider extends Card {
     // Poison.(Any damage dealt by this creatures power during a fight destroys the damaged creature.)
@@ -16,4 +16,4 @@ class InkaTheSpider extends Card {
 
 InkaTheSpider.id = 'inka-the-spider';
 
-module.exports = InkaTheSpider;
+export default InkaTheSpider;

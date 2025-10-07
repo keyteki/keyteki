@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Kartanoo extends Card {
     // Reap: Use an artifact controlled by any player as if it were yours.
@@ -15,4 +15,4 @@ class Kartanoo extends Card {
 
 Kartanoo.id = 'kartanoo';
 
-module.exports = Kartanoo;
+export default Kartanoo;

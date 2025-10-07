@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class WerewolfCurse extends Card {
     // This creature gains splash-attack 3 and "After Fight: Archive
@@ -25,4 +25,4 @@ class WerewolfCurse extends Card {
 
 WerewolfCurse.id = 'werewolf-curse';
 
-module.exports = WerewolfCurse;
+export default WerewolfCurse;

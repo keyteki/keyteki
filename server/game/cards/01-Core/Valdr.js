@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Valdr extends Card {
     // Valdr deals +2<D> while attacking an enemy creature on the flank.
@@ -11,4 +11,4 @@ class Valdr extends Card {
 
 Valdr.id = 'valdr';
 
-module.exports = Valdr;
+export default Valdr;

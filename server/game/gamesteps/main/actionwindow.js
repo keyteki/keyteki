@@ -1,8 +1,8 @@
-const UiPrompt = require('../uiprompt.js');
-const DiscardAction = require('../../BaseActions/DiscardAction');
-const RaiseTideAction = require('../../GameActions/RaiseTideAction');
-const UseAction = require('../../GameActions/UseAction');
-const ActivateProphecyAction = require('../../GameActions/ActivateProphecyAction');
+import UiPrompt from '../uiprompt.js';
+import DiscardAction from '../../BaseActions/DiscardAction.js';
+import RaiseTideAction from '../../GameActions/RaiseTideAction.js';
+import UseAction from '../../GameActions/UseAction.js';
+import ActivateProphecyAction from '../../GameActions/ActivateProphecyAction.js';
 
 class ActionWindow extends UiPrompt {
     onCardClicked(player, card) {
@@ -169,4 +169,4 @@ class ActionWindow extends UiPrompt {
     }
 }
 
-module.exports = ActionWindow;
+export default ActionWindow;

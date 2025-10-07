@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class GhoulKeeping extends Card {
     // Play: Ready a friendly Geistoid creature.
@@ -17,4 +17,4 @@ class GhoulKeeping extends Card {
 
 GhoulKeeping.id = 'ghoul-keeping';
 
-module.exports = GhoulKeeping;
+export default GhoulKeeping;

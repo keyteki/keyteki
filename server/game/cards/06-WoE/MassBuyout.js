@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class MassBuyout extends Card {
     // Play: Destroy each creature. Each player gains Aember icon
@@ -55,4 +55,4 @@ class MassBuyout extends Card {
 
 MassBuyout.id = 'mass-buyout';
 
-module.exports = MassBuyout;
+export default MassBuyout;

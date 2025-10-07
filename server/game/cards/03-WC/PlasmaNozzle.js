@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class PlasmaNozzle extends Card {
     // This creature gains, "Before Fight: Deal 2 to the attacked creature, with 2 splash."
@@ -17,4 +17,4 @@ class PlasmaNozzle extends Card {
 
 PlasmaNozzle.id = 'plasma-nozzle';
 
-module.exports = PlasmaNozzle;
+export default PlasmaNozzle;

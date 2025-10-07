@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Mother extends Card {
     // During your draw cards step, refill your hand to 1 additional card.
@@ -11,4 +11,4 @@ class Mother extends Card {
 
 Mother.id = 'mother';
 
-module.exports = Mother;
+export default Mother;

@@ -1,4 +1,4 @@
-const EffectValue = require('./Values/EffectValue');
+import EffectValue from './Values/EffectValue.js';
 
 class StaticEffect {
     constructor(type = '', value) {
@@ -43,4 +43,4 @@ class StaticEffect {
     }
 }
 
-module.exports = StaticEffect;
+export default StaticEffect;

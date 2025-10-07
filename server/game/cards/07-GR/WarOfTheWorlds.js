@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class WarOfTheWorlds extends Card {
     // Play: Destroy all non-Mars creatures. Deal 2 D to each Mars
@@ -21,4 +21,4 @@ class WarOfTheWorlds extends Card {
 
 WarOfTheWorlds.id = 'war-of-the-worlds';
 
-module.exports = WarOfTheWorlds;
+export default WarOfTheWorlds;

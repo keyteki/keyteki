@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class WayOfThePixie extends Card {
     // This creature gains, "Reap: Gain 1A."
@@ -13,4 +13,4 @@ class WayOfThePixie extends Card {
 
 WayOfThePixie.id = 'way-of-the-pixie';
 
-module.exports = WayOfThePixie;
+export default WayOfThePixie;

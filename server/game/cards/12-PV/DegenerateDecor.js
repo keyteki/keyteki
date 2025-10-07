@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class DegenerateDecor extends Card {
     // Play: Choose one:
@@ -38,4 +38,4 @@ class DegenerateDecor extends Card {
 
 DegenerateDecor.id = 'degenerate-decor';
 
-module.exports = DegenerateDecor;
+export default DegenerateDecor;

@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class LibraryAccess extends Card {
     // Play: For the remainder of the turn, each time you play another card, draw a card.
@@ -23,4 +23,4 @@ class LibraryAccess extends Card {
 
 LibraryAccess.id = 'library-access';
 
-module.exports = LibraryAccess;
+export default LibraryAccess;

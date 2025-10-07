@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class RottingMist extends Card {
     // Play: For the remainder of the turn, each enemy creature gets –1 power.
@@ -16,4 +16,4 @@ class RottingMist extends Card {
 
 RottingMist.id = 'rotting-mist';
 
-module.exports = RottingMist;
+export default RottingMist;

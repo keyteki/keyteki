@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class GoodOfTheMany extends Card {
     // Play: Destroy each creature that does not share a trait with another creature in its controllers battleline.
@@ -20,4 +20,4 @@ class GoodOfTheMany extends Card {
 
 GoodOfTheMany.id = 'good-of-the-many';
 
-module.exports = GoodOfTheMany;
+export default GoodOfTheMany;

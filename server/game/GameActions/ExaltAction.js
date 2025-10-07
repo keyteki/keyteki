@@ -1,4 +1,4 @@
-const AddTokenAction = require('./AddTokenAction');
+import AddTokenAction from './AddTokenAction.js';
 
 class ExaltAction extends AddTokenAction {
     setDefaultProperties() {
@@ -33,4 +33,4 @@ class ExaltAction extends AddTokenAction {
     }
 }
 
-module.exports = ExaltAction;
+export default ExaltAction;

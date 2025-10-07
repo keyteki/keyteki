@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Gravelguts extends Card {
     // After an enemy creature is destroyed fighting Gravelguts, give Gravelguts two +1 power counters.
@@ -17,4 +17,4 @@ class Gravelguts extends Card {
 
 Gravelguts.id = 'gravelguts';
 
-module.exports = Gravelguts;
+export default Gravelguts;

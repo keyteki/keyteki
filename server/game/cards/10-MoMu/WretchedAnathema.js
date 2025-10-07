@@ -1,4 +1,4 @@
-const GiganticCard = require('../../GiganticCard.js');
+import GiganticCard from '../../GiganticCard.js';
 
 class WretchedAnathema extends GiganticCard {
     // (Play only with the other half of Wretched Anathema.)
@@ -34,4 +34,4 @@ class WretchedAnathema extends GiganticCard {
 
 WretchedAnathema.id = 'wretched-anathema';
 
-module.exports = WretchedAnathema;
+export default WretchedAnathema;

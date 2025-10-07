@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class TendrilsFromBeyond extends Card {
     // Play: Choose a creature. If that creature’s controller is
@@ -22,4 +22,4 @@ class TendrilsFromBeyond extends Card {
 
 TendrilsFromBeyond.id = 'tendrils-from-beyond';
 
-module.exports = TendrilsFromBeyond;
+export default TendrilsFromBeyond;

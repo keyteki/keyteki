@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class LongWayHome extends Card {
     // Play: Archive each friendly Skyborn creature from play.
@@ -16,4 +16,4 @@ class LongWayHome extends Card {
 
 LongWayHome.id = 'long-way-home';
 
-module.exports = LongWayHome;
+export default LongWayHome;

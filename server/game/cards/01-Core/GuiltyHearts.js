@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class GuiltyHearts extends Card {
     // Play: Destroy each creature with any <A> on it.
@@ -14,4 +14,4 @@ class GuiltyHearts extends Card {
 
 GuiltyHearts.id = 'guilty-hearts';
 
-module.exports = GuiltyHearts;
+export default GuiltyHearts;

@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class HandOfDis extends Card {
     // Play: Destroy a creature that is not on a flank.
@@ -15,4 +15,4 @@ class HandOfDis extends Card {
 
 HandOfDis.id = 'hand-of-dis';
 
-module.exports = HandOfDis;
+export default HandOfDis;

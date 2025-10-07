@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class DrMilli extends Card {
     // Play: For each creature your opponent controls in excess of you, not counting Dr. Milli, archive a card.
@@ -26,4 +26,4 @@ class DrMilli extends Card {
 
 DrMilli.id = 'dr-milli';
 
-module.exports = DrMilli;
+export default DrMilli;

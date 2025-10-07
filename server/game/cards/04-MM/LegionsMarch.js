@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class LegionsMarch extends Card {
     // Play: For the remainder of the turn, after you use a Dinosaur creature, deal 1D to each non-Dinosaur creature.
@@ -26,4 +26,4 @@ class LegionsMarch extends Card {
 
 LegionsMarch.id = 'legion-s-march';
 
-module.exports = LegionsMarch;
+export default LegionsMarch;

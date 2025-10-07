@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Earthbind extends Card {
     // This creature cannot be used unless its controller has discarded a card this turn.
@@ -15,4 +15,4 @@ class Earthbind extends Card {
 
 Earthbind.id = 'earthbind';
 
-module.exports = Earthbind;
+export default Earthbind;

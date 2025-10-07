@@ -64,10 +64,4 @@ function sortBy(array, transform) {
     return [...array].sort(sortByComparison(transform));
 }
 
-module.exports = {
-    flatten,
-    flatMap,
-    partition,
-    sortBy,
-    expand
-};
+export { flatten, flatMap, partition, sortBy, expand };

@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class CrazyKillingMachine extends Card {
     // Action: Discard the top card of each players deck. For each of those cards, destroy a creature or artifact of that cards house, if able. If 2 cards are not destroyed as a result of this, destroy Crazy Killing Machine.
@@ -55,4 +55,4 @@ class CrazyKillingMachine extends Card {
 
 CrazyKillingMachine.id = 'crazy-killing-machine';
 
-module.exports = CrazyKillingMachine;
+export default CrazyKillingMachine;

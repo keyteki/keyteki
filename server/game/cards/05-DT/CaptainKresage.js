@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class CaptainKresage extends Card {
     // While you control another creature with elusive, taunt, poison, or skirmish, Captain Kresage gains that keyword.
@@ -51,4 +51,4 @@ class CaptainKresage extends Card {
 
 CaptainKresage.id = 'captain-kresage';
 
-module.exports = CaptainKresage;
+export default CaptainKresage;

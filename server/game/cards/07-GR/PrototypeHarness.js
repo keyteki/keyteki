@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class PrototypeHarness extends Card {
     // This creature gets +6 power and gains, “At the start of your
@@ -25,4 +25,4 @@ class PrototypeHarness extends Card {
 
 PrototypeHarness.id = 'prototype-harness';
 
-module.exports = PrototypeHarness;
+export default PrototypeHarness;

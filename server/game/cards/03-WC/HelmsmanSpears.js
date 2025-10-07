@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class HelmsmanSpears extends Card {
     // Fight/Reap: Discard any number of cards from your hand. Draw a card for each card discarded this way.
@@ -22,4 +22,4 @@ class HelmsmanSpears extends Card {
 
 HelmsmanSpears.id = 'helmsman-spears';
 
-module.exports = HelmsmanSpears;
+export default HelmsmanSpears;

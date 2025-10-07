@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class DemonsBane extends Card {
     // Play: Destroy a Demon creature.
@@ -18,4 +18,4 @@ class DemonsBane extends Card {
 
 DemonsBane.id = 'demons--bane';
 
-module.exports = DemonsBane;
+export default DemonsBane;

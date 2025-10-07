@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class MothershipSupport extends Card {
     // Play: For each friendly ready Mars creature, deal 2D to a creature. (You may choose a different creature each time.)
@@ -17,4 +17,4 @@ class MothershipSupport extends Card {
 
 MothershipSupport.id = 'mothership-support';
 
-module.exports = MothershipSupport;
+export default MothershipSupport;

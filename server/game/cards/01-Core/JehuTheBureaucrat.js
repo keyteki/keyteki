@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class JehuTheBureaucrat extends Card {
     // After you choose Sanctum as your active house, gain 2<A>.
@@ -15,4 +15,4 @@ class JehuTheBureaucrat extends Card {
 
 JehuTheBureaucrat.id = 'jehu-the-bureaucrat';
 
-module.exports = JehuTheBureaucrat;
+export default JehuTheBureaucrat;

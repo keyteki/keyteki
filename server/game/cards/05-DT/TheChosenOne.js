@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class TheChosenOne extends Card {
     // Instead of readying creatures they control during their “ready cards” step, your opponent deals 1D to The Chosen One for each exhausted creature they control.
@@ -28,4 +28,4 @@ class TheChosenOne extends Card {
 
 TheChosenOne.id = 'the-chosen-one';
 
-module.exports = TheChosenOne;
+export default TheChosenOne;

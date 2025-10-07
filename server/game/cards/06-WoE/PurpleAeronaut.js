@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class PurpleAeronaut extends Card {
     // After 4 friendly Pilot creatures are used in the same turn, a
@@ -34,4 +34,4 @@ class PurpleAeronaut extends Card {
 
 PurpleAeronaut.id = 'purple-aeronaut';
 
-module.exports = PurpleAeronaut;
+export default PurpleAeronaut;

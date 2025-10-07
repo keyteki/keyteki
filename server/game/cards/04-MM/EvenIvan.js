@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class EvenIvan extends Card {
     // Action: If your opponent has an even amount of A, steal 1A.
@@ -13,4 +13,4 @@ class EvenIvan extends Card {
 
 EvenIvan.id = 'even-ivan';
 
-module.exports = EvenIvan;
+export default EvenIvan;

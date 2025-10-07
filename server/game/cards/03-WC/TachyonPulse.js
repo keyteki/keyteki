@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class TachyonPulse extends Card {
     // Play: Destroy each artifact. Exhaust each creature with an upgrade.
@@ -19,4 +19,4 @@ class TachyonPulse extends Card {
 
 TachyonPulse.id = 'tachyon-pulse';
 
-module.exports = TachyonPulse;
+export default TachyonPulse;

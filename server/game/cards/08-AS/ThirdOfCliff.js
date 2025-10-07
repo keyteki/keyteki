@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class ThirdOfCliff extends Card {
     // Action: If your red key is forged, destroy each enemy flank
@@ -32,4 +32,4 @@ class ThirdOfCliff extends Card {
 
 ThirdOfCliff.id = 'third-of-cliff';
 
-module.exports = ThirdOfCliff;
+export default ThirdOfCliff;

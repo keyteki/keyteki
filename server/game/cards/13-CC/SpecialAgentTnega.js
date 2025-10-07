@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class SpecialAgentTnega extends Card {
     // Special Agent Tnega gets +2 power for each of its Mars neighbors.
@@ -13,4 +13,4 @@ class SpecialAgentTnega extends Card {
 
 SpecialAgentTnega.id = 'special-agent-tnega';
 
-module.exports = SpecialAgentTnega;
+export default SpecialAgentTnega;

@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Teliga extends Card {
     // Each time your opponent plays a creature, gain 1A.
@@ -15,4 +15,4 @@ class Teliga extends Card {
 
 Teliga.id = 'teliga';
 
-module.exports = Teliga;
+export default Teliga;

@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class HadronCollision extends Card {
     // Play: Remove a ward from a creature and deal 3D to it. This damage cannot be prevented by armor.
@@ -21,4 +21,4 @@ class HadronCollision extends Card {
 
 HadronCollision.id = 'hadron-collision';
 
-module.exports = HadronCollision;
+export default HadronCollision;

@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class DryTheRiver extends Card {
     // (T) Each creature gains, “While the tide is low, this creature cannot reap.”
@@ -17,4 +17,4 @@ class DryTheRiver extends Card {
 
 DryTheRiver.id = 'dry-the-river';
 
-module.exports = DryTheRiver;
+export default DryTheRiver;

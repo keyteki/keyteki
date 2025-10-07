@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class HarvestSkimmer extends Card {
     // After Reap: Discard the top card of your deck. If it is a
@@ -19,4 +19,4 @@ class HarvestSkimmer extends Card {
 
 HarvestSkimmer.id = 'harvest-skimmer';
 
-module.exports = HarvestSkimmer;
+export default HarvestSkimmer;

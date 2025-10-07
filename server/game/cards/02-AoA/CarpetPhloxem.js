@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class CarpetPhloxem extends Card {
     // Play: If there are no friendly creatures in play, deal 4D to each creature.
@@ -16,4 +16,4 @@ class CarpetPhloxem extends Card {
 
 CarpetPhloxem.id = 'carpet-phloxem';
 
-module.exports = CarpetPhloxem;
+export default CarpetPhloxem;

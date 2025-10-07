@@ -1,4 +1,4 @@
-const CardGameAction = require('./CardGameAction');
+import CardGameAction from './CardGameAction.js';
 
 class ArchiveAction extends CardGameAction {
     setDefaultProperties() {
@@ -40,4 +40,4 @@ class ArchiveAction extends CardGameAction {
     }
 }
 
-module.exports = ArchiveAction;
+export default ArchiveAction;

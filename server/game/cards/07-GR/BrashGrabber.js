@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class BrashGrabber extends Card {
     // If you are not haunted, Brash Grabber enters play enraged.
@@ -29,4 +29,4 @@ class BrashGrabber extends Card {
 
 BrashGrabber.id = 'brash-grabber';
 
-module.exports = BrashGrabber;
+export default BrashGrabber;

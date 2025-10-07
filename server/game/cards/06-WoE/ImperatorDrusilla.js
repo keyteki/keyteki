@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class ImperatorDrusilla extends Card {
     // Play: Destroy another friendly creature.
@@ -29,4 +29,4 @@ class ImperatorDrusilla extends Card {
 
 ImperatorDrusilla.id = 'imperator-drusilla';
 
-module.exports = ImperatorDrusilla;
+export default ImperatorDrusilla;

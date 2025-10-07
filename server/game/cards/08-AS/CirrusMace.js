@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class CirrusMace extends Card {
     // Action: Give a creature two +1 power counters. Deal 2D to each
@@ -26,4 +26,4 @@ class CirrusMace extends Card {
 
 CirrusMace.id = 'cirrus-mace';
 
-module.exports = CirrusMace;
+export default CirrusMace;

@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class UnityOrDiscord extends Card {
     // Play: Choose one:
@@ -45,4 +45,4 @@ class UnityOrDiscord extends Card {
 
 UnityOrDiscord.id = 'unity-or-discord';
 
-module.exports = UnityOrDiscord;
+export default UnityOrDiscord;

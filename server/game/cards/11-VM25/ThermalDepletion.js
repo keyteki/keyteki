@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class ThermalDepletion extends Card {
     // Play: Until the start of your next turn, creatures cannot ready.
@@ -15,4 +15,4 @@ class ThermalDepletion extends Card {
 
 ThermalDepletion.id = 'thermal-depletion';
 
-module.exports = ThermalDepletion;
+export default ThermalDepletion;

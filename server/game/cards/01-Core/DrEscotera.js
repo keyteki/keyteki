@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class DrEscotera extends Card {
     // Play: Gain 1<A> for each forged key your opponent has.
@@ -13,4 +13,4 @@ class DrEscotera extends Card {
 
 DrEscotera.id = 'dr-escotera';
 
-module.exports = DrEscotera;
+export default DrEscotera;

@@ -1,5 +1,5 @@
-const CardGameAction = require('./CardGameAction');
-const RemoveTokenAction = require('./RemoveTokenAction');
+import CardGameAction from './CardGameAction.js';
+import RemoveTokenAction from './RemoveTokenAction.js';
 
 class RemoveAllTokensAction extends CardGameAction {
     setup() {
@@ -42,4 +42,4 @@ class RemoveAllTokensAction extends CardGameAction {
     }
 }
 
-module.exports = RemoveAllTokensAction;
+export default RemoveAllTokensAction;

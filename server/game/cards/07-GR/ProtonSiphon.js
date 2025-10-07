@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class ProtonSiphon extends Card {
     setupCardAbilities(ability) {
@@ -11,4 +11,4 @@ class ProtonSiphon extends Card {
 
 ProtonSiphon.id = 'proton-siphon';
 
-module.exports = ProtonSiphon;
+export default ProtonSiphon;

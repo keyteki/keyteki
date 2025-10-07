@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class RitualOfTognath extends Card {
     // Play: Destroy 2 friendly creatures.
@@ -17,4 +17,4 @@ class RitualOfTognath extends Card {
 
 RitualOfTognath.id = 'ritual-of-tognath';
 
-module.exports = RitualOfTognath;
+export default RitualOfTognath;

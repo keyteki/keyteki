@@ -1,4 +1,4 @@
-const UiPrompt = require('./uiprompt.js');
+import UiPrompt from './uiprompt.js';
 
 class AllocateDamagePrompt extends UiPrompt {
     constructor(game, properties) {
@@ -125,4 +125,4 @@ class AllocateDamagePrompt extends UiPrompt {
     }
 }
 
-module.exports = AllocateDamagePrompt;
+export default AllocateDamagePrompt;

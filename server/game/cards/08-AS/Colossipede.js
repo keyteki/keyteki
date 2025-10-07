@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Colossipede extends Card {
     // Each friendly creature with A on it gains, “After Fight: Move
@@ -28,4 +28,4 @@ class Colossipede extends Card {
 
 Colossipede.id = 'colossipede';
 
-module.exports = Colossipede;
+export default Colossipede;

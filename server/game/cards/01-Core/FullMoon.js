@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class FullMoon extends Card {
     // Play: For the remainder of the turn,
@@ -19,4 +19,4 @@ class FullMoon extends Card {
 
 FullMoon.id = 'full-moon';
 
-module.exports = FullMoon;
+export default FullMoon;

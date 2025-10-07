@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class OfficersBlaster extends Card {
     // This creature gets +2 power.
@@ -20,4 +20,4 @@ class OfficersBlaster extends Card {
 }
 OfficersBlaster.id = 'officer-s-blaster';
 
-module.exports = OfficersBlaster;
+export default OfficersBlaster;

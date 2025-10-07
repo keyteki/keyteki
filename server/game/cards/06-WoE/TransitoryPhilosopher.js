@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class TransitoryPhilosopher extends Card {
     //Action: Steal 1A for each enemy artifact.
@@ -17,4 +17,4 @@ class TransitoryPhilosopher extends Card {
 
 TransitoryPhilosopher.id = 'transitory-philosopher';
 
-module.exports = TransitoryPhilosopher;
+export default TransitoryPhilosopher;

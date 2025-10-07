@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class HelpFromAnotherSelf extends Card {
     // Play: Search your deck and discard pile for a Variant creature, reveal it, and put it into your hand.
@@ -17,4 +17,4 @@ class HelpFromAnotherSelf extends Card {
 
 HelpFromAnotherSelf.id = 'help-from-another-self';
 
-module.exports = HelpFromAnotherSelf;
+export default HelpFromAnotherSelf;

@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class EzraPaws extends Card {
     // Play/After Reap: Reveal your opponent’s hand. Draw a card.
@@ -19,4 +19,4 @@ class EzraPaws extends Card {
 
 EzraPaws.id = 'ezra-paws';
 
-module.exports = EzraPaws;
+export default EzraPaws;

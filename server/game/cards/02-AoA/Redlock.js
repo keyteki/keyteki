@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Redlock extends Card {
     // Skirmish.(When you use this creature to fight, it is dealt no damage in return.)
@@ -17,4 +17,4 @@ class Redlock extends Card {
 
 Redlock.id = 'redlock';
 
-module.exports = Redlock;
+export default Redlock;

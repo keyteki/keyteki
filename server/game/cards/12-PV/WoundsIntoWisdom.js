@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class WoundsIntoWisdom extends Card {
     // During your opponent's turn, after a friendly creature is dealt damage, fulfill Wounds into Wisdom.
@@ -19,4 +19,4 @@ class WoundsIntoWisdom extends Card {
 
 WoundsIntoWisdom.id = 'wounds-into-wisdom';
 
-module.exports = WoundsIntoWisdom;
+export default WoundsIntoWisdom;

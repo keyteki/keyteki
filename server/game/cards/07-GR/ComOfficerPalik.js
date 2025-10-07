@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class ComOfficerPalik extends Card {
     // Versatile. (This card may be used as if it belonged to the active house.)
@@ -18,4 +18,4 @@ class ComOfficerPalik extends Card {
 
 ComOfficerPalik.id = 'com-officer-palik';
 
-module.exports = ComOfficerPalik;
+export default ComOfficerPalik;

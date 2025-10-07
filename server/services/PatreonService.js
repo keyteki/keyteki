@@ -1,9 +1,9 @@
-const patreon = require('patreon');
-const patreonAPI = patreon.patreon;
-const patreonOAuth = patreon.oauth;
-const pledgeSchema = require('patreon/dist/schemas/pledge').default;
+import patreon from 'patreon';
+const { patreon: patreonAPI, oauth: patreonOAuth } = patreon;
+import pledgeSchemaModule from 'patreon/dist/schemas/pledge.js';
+const pledgeSchema = pledgeSchemaModule.default;
 
-const logger = require('../log.js');
+import logger from '../log.js';
 
 class PatreonService {
     constructor(clientId, secret, userService, callbackUrl) {
@@ -147,4 +147,4 @@ class PatreonService {
     }
 }
 
-module.exports = PatreonService;
+export default PatreonService;

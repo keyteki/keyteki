@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class CommanderRemiel extends Card {
     // Reap: Use a friendly non-Sanctum creature.
@@ -16,4 +16,4 @@ class CommanderRemiel extends Card {
 
 CommanderRemiel.id = 'commander-remiel';
 
-module.exports = CommanderRemiel;
+export default CommanderRemiel;

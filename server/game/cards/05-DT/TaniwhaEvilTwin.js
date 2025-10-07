@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class TaniwhaEvilTwin extends Card {
     // Fight/Reap: Put a creature from your discard pile on top of your deck.
@@ -17,4 +17,4 @@ class TaniwhaEvilTwin extends Card {
 
 TaniwhaEvilTwin.id = 'taniwha-evil-twin';
 
-module.exports = TaniwhaEvilTwin;
+export default TaniwhaEvilTwin;

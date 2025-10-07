@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class PulseCannon extends Card {
     // Action: Stun a creature and each of its neighbors.
@@ -16,4 +16,4 @@ class PulseCannon extends Card {
 
 PulseCannon.id = 'pulse-cannon';
 
-module.exports = PulseCannon;
+export default PulseCannon;

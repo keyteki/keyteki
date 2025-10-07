@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class ZeffPunchYardus extends Card {
     // After Reap: Archive the top card of your deck and the top card of your discard pile.
@@ -24,4 +24,4 @@ class ZeffPunchYardus extends Card {
 
 ZeffPunchYardus.id = 'zeff-punch-yardus';
 
-module.exports = ZeffPunchYardus;
+export default ZeffPunchYardus;

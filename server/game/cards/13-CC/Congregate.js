@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Congregate extends Card {
     // Play: Choose a trait. if there are 2 or more friendly creatures with that trait, gain 2A.
@@ -30,4 +30,4 @@ class Congregate extends Card {
 
 Congregate.id = 'congregate';
 
-module.exports = Congregate;
+export default Congregate;

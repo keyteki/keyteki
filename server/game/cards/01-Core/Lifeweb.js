@@ -1,5 +1,5 @@
-const Card = require('../../Card.js');
-const EventRegistrar = require('../../eventregistrar.js');
+import Card from '../../Card.js';
+import EventRegistrar from '../../eventregistrar.js';
 
 class Lifeweb extends Card {
     // Play: If your opponent played 3or more creatures on their previous turn, steal 2A.
@@ -44,4 +44,4 @@ class Lifeweb extends Card {
 
 Lifeweb.id = 'lifeweb';
 
-module.exports = Lifeweb;
+export default Lifeweb;

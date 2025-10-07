@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class TitanApparition extends Card {
     // Destroyed: If it is not your turn, your opponent discards 5
@@ -19,4 +19,4 @@ class TitanApparition extends Card {
 
 TitanApparition.id = 'titan-apparition';
 
-module.exports = TitanApparition;
+export default TitanApparition;

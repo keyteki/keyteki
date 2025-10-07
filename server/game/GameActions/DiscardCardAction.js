@@ -1,4 +1,4 @@
-const CardGameAction = require('./CardGameAction');
+import CardGameAction from './CardGameAction.js';
 
 class DiscardCardAction extends CardGameAction {
     preEventHandler(context) {
@@ -135,4 +135,4 @@ class DiscardCardAction extends CardGameAction {
     }
 }
 
-module.exports = DiscardCardAction;
+export default DiscardCardAction;

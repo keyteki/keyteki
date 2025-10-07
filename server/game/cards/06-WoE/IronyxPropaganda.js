@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class IronyxPropaganda extends Card {
     // This creature gains, "After Fight/After Reap: Make a token creature."
@@ -18,4 +18,4 @@ class IronyxPropaganda extends Card {
 
 IronyxPropaganda.id = 'ironyx-propaganda';
 
-module.exports = IronyxPropaganda;
+export default IronyxPropaganda;

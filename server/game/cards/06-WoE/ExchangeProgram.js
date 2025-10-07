@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class ExchangeProgram extends Card {
     // Play: Choose a friendly flank creature and an enemy flank
@@ -52,4 +52,4 @@ class ExchangeProgram extends Card {
 
 ExchangeProgram.id = 'exchange-program';
 
-module.exports = ExchangeProgram;
+export default ExchangeProgram;

@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Portalmonster extends Card {
     // If you are haunted, keys cost +1 for each card in your discard
@@ -24,4 +24,4 @@ class Portalmonster extends Card {
 
 Portalmonster.id = 'portalmonster';
 
-module.exports = Portalmonster;
+export default Portalmonster;

@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class SciOfficerQincan extends Card {
     // Elusive. (The first time this creature is attacked each turn, no damage is dealt.)
@@ -21,4 +21,4 @@ class SciOfficerQincan extends Card {
 
 SciOfficerQincan.id = 'sci-officer-qincan';
 
-module.exports = SciOfficerQincan;
+export default SciOfficerQincan;

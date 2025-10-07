@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class UrienTheCircumspectEvilTwin extends Card {
     // Reap: Your opponent loses A equal to Urien the Circumspect's armor.
@@ -13,4 +13,4 @@ class UrienTheCircumspectEvilTwin extends Card {
 
 UrienTheCircumspectEvilTwin.id = 'urien-the-circumspect-evil-twin';
 
-module.exports = UrienTheCircumspectEvilTwin;
+export default UrienTheCircumspectEvilTwin;

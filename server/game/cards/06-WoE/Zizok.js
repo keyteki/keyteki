@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Zizok extends Card {
     // After an enemy creature is destroyed by Zizok's splash-attack
@@ -19,4 +19,4 @@ class Zizok extends Card {
 
 Zizok.id = 'zizok';
 
-module.exports = Zizok;
+export default Zizok;

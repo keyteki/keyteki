@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Patronage extends Card {
     // Play: Move half the A from a creature to your pool (rounding up). Move the remaining A from that creature to your opponents pool.
@@ -29,4 +29,4 @@ class Patronage extends Card {
 
 Patronage.id = 'patronage';
 
-module.exports = Patronage;
+export default Patronage;

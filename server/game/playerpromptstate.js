@@ -1,4 +1,4 @@
-const _ = require('underscore');
+import _ from 'underscore';
 
 class PlayerPromptState {
     constructor(player) {
@@ -88,4 +88,4 @@ class PlayerPromptState {
     }
 }
 
-module.exports = PlayerPromptState;
+export default PlayerPromptState;

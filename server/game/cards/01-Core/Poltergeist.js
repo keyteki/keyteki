@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Poltergeist extends Card {
     // Play: Use an artifact controlled by any player as if it were yours. Destroy that artifact.
@@ -18,4 +18,4 @@ class Poltergeist extends Card {
 
 Poltergeist.id = 'poltergeist';
 
-module.exports = Poltergeist;
+export default Poltergeist;

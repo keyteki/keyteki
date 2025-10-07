@@ -1,4 +1,4 @@
-const GiganticCard = require('../../GiganticCard.js');
+import GiganticCard from '../../GiganticCard.js';
 
 class NiffleKong extends GiganticCard {
     // (Play only with the other half of Niffle Kong.)
@@ -61,4 +61,4 @@ class NiffleKong extends GiganticCard {
 
 NiffleKong.id = 'niffle-kong';
 
-module.exports = NiffleKong;
+export default NiffleKong;

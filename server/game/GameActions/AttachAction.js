@@ -1,4 +1,4 @@
-const CardGameAction = require('./CardGameAction');
+import CardGameAction from './CardGameAction.js';
 
 class AttachAction extends CardGameAction {
     setDefaultProperties() {
@@ -68,4 +68,4 @@ class AttachAction extends CardGameAction {
     }
 }
 
-module.exports = AttachAction;
+export default AttachAction;

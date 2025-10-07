@@ -1,4 +1,4 @@
-const Settings = require('../settings');
+import { getUserWithDefaultsSet } from '../settings.js';
 
 class User {
     constructor(userData) {
@@ -151,7 +151,7 @@ class User {
             challonge: this.userData.challonge
         };
 
-        user = Settings.getUserWithDefaultsSet(user);
+        user = getUserWithDefaultsSet(user);
 
         return user;
     }
@@ -170,7 +170,7 @@ class User {
 
         delete user.password;
 
-        user = Settings.getUserWithDefaultsSet(user);
+        user = getUserWithDefaultsSet(user);
         user.avatar = this.avatar;
 
         return user;
@@ -182,7 +182,7 @@ class User {
         delete user.password;
         delete user.tokens;
 
-        user = Settings.getUserWithDefaultsSet(user);
+        user = getUserWithDefaultsSet(user);
         user.role = this.role;
         user.avatar = this.avatar;
 
@@ -190,4 +190,4 @@ class User {
     }
 }
 
-module.exports = User;
+export default User;

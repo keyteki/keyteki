@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class BellatoranRecruiter extends Card {
     // Enhance .
@@ -26,4 +26,4 @@ class BellatoranRecruiter extends Card {
 
 BellatoranRecruiter.id = 'bellatoran-recruiter';
 
-module.exports = BellatoranRecruiter;
+export default BellatoranRecruiter;

@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class CodeMonkey extends Card {
     // Deploy. (This creature can enter play anywhere in your battleline.)
@@ -45,4 +45,4 @@ class CodeMonkey extends Card {
 
 CodeMonkey.id = 'code-monkey';
 
-module.exports = CodeMonkey;
+export default CodeMonkey;

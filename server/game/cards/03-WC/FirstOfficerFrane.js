@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class FirstOfficerFrane extends Card {
     // Play/Fight/Reap: A friendly creature captures 1A.
@@ -17,4 +17,4 @@ class FirstOfficerFrane extends Card {
 
 FirstOfficerFrane.id = 'first-officer-frane';
 
-module.exports = FirstOfficerFrane;
+export default FirstOfficerFrane;

@@ -1,4 +1,4 @@
-const EventRegistrar = require('./eventregistrar.js');
+import EventRegistrar from './eventregistrar.js';
 
 class SimpleEventTracker {
     constructor(game, event) {
@@ -13,4 +13,4 @@ class SimpleEventTracker {
     }
 }
 
-module.exports = SimpleEventTracker;
+export default SimpleEventTracker;

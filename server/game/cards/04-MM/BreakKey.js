@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class BreakKey extends Card {
     // Play: If your opponent has more forged keys than you, unforge an opponents key. If you unforge an opponents key this way, your opponent gains 6A.
@@ -22,4 +22,4 @@ class BreakKey extends Card {
 
 BreakKey.id = 'break-key';
 
-module.exports = BreakKey;
+export default BreakKey;

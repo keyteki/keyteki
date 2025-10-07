@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Chenille extends Card {
     // Hazardous 6.
@@ -18,4 +18,4 @@ class Chenille extends Card {
 
 Chenille.id = 'chenille';
 
-module.exports = Chenille;
+export default Chenille;

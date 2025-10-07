@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class MercurialWormhole extends Card {
     // Play: Play the top card of your deck. That card's house becomes your active house.
@@ -32,4 +32,4 @@ class MercurialWormhole extends Card {
 
 MercurialWormhole.id = 'mercurial-wormhole';
 
-module.exports = MercurialWormhole;
+export default MercurialWormhole;

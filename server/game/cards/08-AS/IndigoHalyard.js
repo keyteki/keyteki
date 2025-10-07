@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class IndigoHalyard extends Card {
     // While your blue key is forged, Indigo Halyard gains, “After
@@ -35,4 +35,4 @@ class IndigoHalyard extends Card {
 
 IndigoHalyard.id = 'indigo-halyard';
 
-module.exports = IndigoHalyard;
+export default IndigoHalyard;

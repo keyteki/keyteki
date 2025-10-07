@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Pupgrade extends Card {
     // Pupgrade may be played as an upgrade instead of a creature,
@@ -37,4 +37,4 @@ class Pupgrade extends Card {
 
 Pupgrade.id = 'pupgrade';
 
-module.exports = Pupgrade;
+export default Pupgrade;

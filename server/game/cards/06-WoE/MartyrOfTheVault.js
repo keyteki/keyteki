@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class MartyrOfTheVault extends Card {
     // Destroyed: If your opponent has 7 or more, they lose all but 5.
@@ -14,4 +14,4 @@ class MartyrOfTheVault extends Card {
 
 MartyrOfTheVault.id = 'martyr-of-the-vault';
 
-module.exports = MartyrOfTheVault;
+export default MartyrOfTheVault;

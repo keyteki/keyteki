@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class BilgumAvalanche extends Card {
     // After you forge a key, deal 2D to each enemy creature.
@@ -18,4 +18,4 @@ class BilgumAvalanche extends Card {
 
 BilgumAvalanche.id = 'bilgum-avalanche';
 
-module.exports = BilgumAvalanche;
+export default BilgumAvalanche;

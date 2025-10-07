@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class DivineSeal extends Card {
     // Play: Put a creature on the bottom of its owner's deck.
@@ -22,4 +22,4 @@ class DivineSeal extends Card {
 
 DivineSeal.id = 'divine-seal';
 
-module.exports = DivineSeal;
+export default DivineSeal;

@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class FyreBreath extends Card {
     // This creature gets +3 power and gains, Before Fight: Deal 2D to each neighbor of the creature this creature fights.
@@ -20,4 +20,4 @@ class FyreBreath extends Card {
 
 FyreBreath.id = 'fyre-breath';
 
-module.exports = FyreBreath;
+export default FyreBreath;

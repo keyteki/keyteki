@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class EdaiEdie4x4 extends Card {
     // Play: Archive a card.
@@ -22,4 +22,4 @@ class EdaiEdie4x4 extends Card {
 
 EdaiEdie4x4.id = 'edai-edie-4x4';
 
-module.exports = EdaiEdie4x4;
+export default EdaiEdie4x4;

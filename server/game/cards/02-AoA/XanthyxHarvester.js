@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class XanthyxHarvester extends Card {
     // Xanthyx Harvester cannot be used while it has a non-Mars neighbor.
@@ -17,4 +17,4 @@ class XanthyxHarvester extends Card {
 
 XanthyxHarvester.id = 'xanthyx-harvester';
 
-module.exports = XanthyxHarvester;
+export default XanthyxHarvester;

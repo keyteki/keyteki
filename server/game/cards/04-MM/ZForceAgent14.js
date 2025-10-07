@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class ZForceAgent14 extends Card {
     // Fight: Gain 1 for each upgrade on Z-Force Agent 14.
@@ -13,4 +13,4 @@ class ZForceAgent14 extends Card {
 
 ZForceAgent14.id = 'z-force-agent-14';
 
-module.exports = ZForceAgent14;
+export default ZForceAgent14;

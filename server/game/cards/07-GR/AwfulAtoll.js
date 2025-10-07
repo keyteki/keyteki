@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class AwfulAtoll extends Card {
     // While a player is haunted, their creatures get -2 power.
@@ -23,4 +23,4 @@ class AwfulAtoll extends Card {
 
 AwfulAtoll.id = 'awful-atoll';
 
-module.exports = AwfulAtoll;
+export default AwfulAtoll;

@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Slayer extends Card {
     // If there are no enemy creatures in play, destroy Slayer.
@@ -17,4 +17,4 @@ class Slayer extends Card {
 
 Slayer.id = 'slayer';
 
-module.exports = Slayer;
+export default Slayer;

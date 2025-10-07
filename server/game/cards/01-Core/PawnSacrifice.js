@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class PawnSacrifice extends Card {
     // Play: Sacrifice a friendly creature. If you do, deal 3<D> each to 2 creatures.
@@ -25,4 +25,4 @@ class PawnSacrifice extends Card {
 
 PawnSacrifice.id = 'pawn-sacrifice';
 
-module.exports = PawnSacrifice;
+export default PawnSacrifice;

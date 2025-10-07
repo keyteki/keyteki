@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class UmbraAlien extends Card {
     // Elusive. (The first time this creature is attacked each turn, no damage is dealt.)
@@ -28,4 +28,4 @@ class UmbraAlien extends Card {
 
 UmbraAlien.id = 'umbra-alien';
 
-module.exports = UmbraAlien;
+export default UmbraAlien;

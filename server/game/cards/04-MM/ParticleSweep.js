@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class ParticleSweep extends Card {
     // Play: Deal 2D to a creature. If it is a Mutant creature, destroy it instead.
@@ -24,4 +24,4 @@ class ParticleSweep extends Card {
 
 ParticleSweep.id = 'particle-sweep';
 
-module.exports = ParticleSweep;
+export default ParticleSweep;

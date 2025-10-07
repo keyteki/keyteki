@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class GanymedeOutpost extends Card {
     // Action: Put a friendly creature on the bottom of its owner's
@@ -28,4 +28,4 @@ class GanymedeOutpost extends Card {
 
 GanymedeOutpost.id = 'ganymede-outpost';
 
-module.exports = GanymedeOutpost;
+export default GanymedeOutpost;

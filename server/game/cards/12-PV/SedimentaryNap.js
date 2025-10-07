@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class SedimentaryNap extends Card {
     // Play: Shuffle a creature into its owner's deck.
@@ -27,4 +27,4 @@ class SedimentaryNap extends Card {
 
 SedimentaryNap.id = 'sedimentary-nap';
 
-module.exports = SedimentaryNap;
+export default SedimentaryNap;

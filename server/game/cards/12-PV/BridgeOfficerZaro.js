@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class BridgeOfficerZaro extends Card {
     // After Fight: Capture 3. If you do, ready a friendly non-Alien creature.
@@ -21,4 +21,4 @@ class BridgeOfficerZaro extends Card {
 
 BridgeOfficerZaro.id = 'bridge-officer-zaro';
 
-module.exports = BridgeOfficerZaro;
+export default BridgeOfficerZaro;

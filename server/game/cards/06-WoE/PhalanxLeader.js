@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class PhalanxLeader extends Card {
     // Play: Make a token creature immediately to Phalanx Leader's left.
@@ -25,4 +25,4 @@ class PhalanxLeader extends Card {
 
 PhalanxLeader.id = 'phalanx-leader';
 
-module.exports = PhalanxLeader;
+export default PhalanxLeader;

@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class BrainStemAntenna extends Card {
     // This creature gains, After you play a Mars creature, ready this creature and for the remainder of the turn it belongs to house Mars.
@@ -24,4 +24,4 @@ class BrainStemAntenna extends Card {
 
 BrainStemAntenna.id = 'brain-stem-antenna';
 
-module.exports = BrainStemAntenna;
+export default BrainStemAntenna;

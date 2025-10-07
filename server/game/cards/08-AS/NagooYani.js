@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class NagooYani extends Card {
     // Play/After Fight: Deal 4D to an enemy creature.
@@ -25,4 +25,4 @@ class NagooYani extends Card {
 
 NagooYani.id = 'nagoo-yani';
 
-module.exports = NagooYani;
+export default NagooYani;

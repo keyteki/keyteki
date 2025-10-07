@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Bulwark extends Card {
     // Each of Bulwarks neighbors gets +2 armor.
@@ -12,4 +12,4 @@ class Bulwark extends Card {
 
 Bulwark.id = 'bulwark';
 
-module.exports = Bulwark;
+export default Bulwark;

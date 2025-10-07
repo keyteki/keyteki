@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Oubliette extends Card {
     // Play: Purge a creature with power 3or lower.
@@ -15,4 +15,4 @@ class Oubliette extends Card {
 
 Oubliette.id = 'oubliette';
 
-module.exports = Oubliette;
+export default Oubliette;

@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class TheRedDeath extends Card {
     // The Red Death cannot ready unless you are haunted.
@@ -18,4 +18,4 @@ class TheRedDeath extends Card {
 
 TheRedDeath.id = 'the-red-death';
 
-module.exports = TheRedDeath;
+export default TheRedDeath;

@@ -1,5 +1,5 @@
-const BaseStepWithPipeline = require('./basestepwithpipeline.js');
-const SimpleStep = require('./simplestep.js');
+import BaseStepWithPipeline from './basestepwithpipeline.js';
+import SimpleStep from './simplestep.js';
 
 class AbilityResolver extends BaseStepWithPipeline {
     constructor(game, context) {
@@ -117,4 +117,4 @@ class AbilityResolver extends BaseStepWithPipeline {
     }
 }
 
-module.exports = AbilityResolver;
+export default AbilityResolver;

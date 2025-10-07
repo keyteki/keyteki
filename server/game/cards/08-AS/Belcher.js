@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 function discard(deck) {
     const index = deck.findIndex((card) => card.type === 'creature');
@@ -53,4 +53,4 @@ class Belcher extends Card {
 
 Belcher.id = 'belcher';
 
-module.exports = Belcher;
+export default Belcher;

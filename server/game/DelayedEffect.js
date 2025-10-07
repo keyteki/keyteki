@@ -72,4 +72,4 @@ class DelayedEffect {
     }
 }
 
-module.exports = DelayedEffect;
+export default DelayedEffect;

@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class CH337A extends Card {
     // Elusive.
@@ -14,4 +14,4 @@ class CH337A extends Card {
 
 CH337A.id = 'ch-337a';
 
-module.exports = CH337A;
+export default CH337A;

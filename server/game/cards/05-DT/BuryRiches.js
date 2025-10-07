@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class BuryRiches extends Card {
     // (T) Play: If the tide is high, move 1A from each creature to its controller's pool. Otherwise, raise the tide.
@@ -39,4 +39,4 @@ class BuryRiches extends Card {
 
 BuryRiches.id = 'bury-riches';
 
-module.exports = BuryRiches;
+export default BuryRiches;

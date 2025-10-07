@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class CloneHome extends Card {
     // Play: Make a token creature. If there are more friendly
@@ -30,4 +30,4 @@ class CloneHome extends Card {
 
 CloneHome.id = 'clone-home';
 
-module.exports = CloneHome;
+export default CloneHome;

@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class MarcellaTheYounger extends Card {
     // After Fight/After Reap: You may exalt Marcella, the Younger. If you do, draw 2 cards.
@@ -17,4 +17,4 @@ class MarcellaTheYounger extends Card {
 
 MarcellaTheYounger.id = 'marcella-the-younger';
 
-module.exports = MarcellaTheYounger;
+export default MarcellaTheYounger;

@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class PhotonBlast extends Card {
     // Play: Deal 2 Damage icon to a creature, with 1 Damage icon
@@ -30,4 +30,4 @@ class PhotonBlast extends Card {
 
 PhotonBlast.id = 'photon-blast';
 
-module.exports = PhotonBlast;
+export default PhotonBlast;

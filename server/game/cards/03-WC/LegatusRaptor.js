@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class LegatusRaptor extends Card {
     // Fight: You may exalt Legatus Raptor. If you do, ready and use another friendly creature.
@@ -27,4 +27,4 @@ class LegatusRaptor extends Card {
 
 LegatusRaptor.id = 'legatus-raptor';
 
-module.exports = LegatusRaptor;
+export default LegatusRaptor;

@@ -1,5 +1,5 @@
-const _ = require('underscore');
-const Card = require('../../Card.js');
+import _ from 'underscore';
+import Card from '../../Card.js';
 
 class HarmonicPack extends Card {
     // Play: Deal 2D to a creature. Reveal a random card from a player's archives.
@@ -54,4 +54,4 @@ class HarmonicPack extends Card {
 
 HarmonicPack.id = 'harmonic-pack';
 
-module.exports = HarmonicPack;
+export default HarmonicPack;

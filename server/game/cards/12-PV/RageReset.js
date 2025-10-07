@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class RageReset extends Card {
     // Play: Destroy any number of friendly creatures. Draw 1 card for each creature destroyed this way.
@@ -31,4 +31,4 @@ class RageReset extends Card {
 
 RageReset.id = 'rage-reset';
 
-module.exports = RageReset;
+export default RageReset;

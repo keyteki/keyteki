@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Col, Form } from 'react-bootstrap';
+import { Col, Form, Row } from 'react-bootstrap';
 import moment from 'moment';
 import BootstrapTable from 'react-bootstrap-table-next';
 import paginationFactory from 'react-bootstrap-table2-paginator';
@@ -10,7 +10,7 @@ import Select from 'react-select';
 import debounce from 'lodash.debounce';
 import $ from 'jquery';
 
-import CardBack from './CardBack';
+import CardBack from './CardBack.jsx';
 import { loadDecks, selectDeck, loadStandaloneDecks } from '../../redux/actions';
 
 import './DeckList.scss';
@@ -313,7 +313,7 @@ const DeckList = ({
             {!standaloneDecks && (
                 <Col md={12}>
                     <Form>
-                        <Form.Row>
+                        <Row>
                             <Form.Group as={Col} lg='6' controlId='formGridName'>
                                 <Form.Label>{t('Name')}</Form.Label>
                                 <Form.Control
@@ -330,7 +330,7 @@ const DeckList = ({
                                 <Form.Label>{t('Expansion')}</Form.Label>
                                 <Form.Control as={MultiSelectFilter} />
                             </Form.Group>
-                        </Form.Row>
+                        </Row>
                     </Form>
                 </Col>
             )}

@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class GuardDisguise extends Card {
     // Action: Sacrifice Guard Disguise. If your opponent has 3A or fewer, steal 3A.
@@ -17,4 +17,4 @@ class GuardDisguise extends Card {
 
 GuardDisguise.id = 'guard-disguise';
 
-module.exports = GuardDisguise;
+export default GuardDisguise;

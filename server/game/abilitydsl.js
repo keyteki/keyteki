@@ -1,7 +1,7 @@
-const Effects = require('./effects.js');
-const GameActions = require('./GameActions');
-const AbilityLimit = require('./abilitylimit');
-const Costs = require('./costs.js');
+import Effects from './effects.js';
+import GameActions from './GameActions.js';
+import AbilityLimit from './abilitylimit.js';
+import Costs from './costs.js';
 
 const AbilityDsl = {
     actions: GameActions,
@@ -10,4 +10,4 @@ const AbilityDsl = {
     limit: AbilityLimit
 };
 
-module.exports = AbilityDsl;
+export default AbilityDsl;

@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class SilverKeyImp extends Card {
     // Elusive.(The first time this creature is attacked each turn, no damage is dealt.)
@@ -16,4 +16,4 @@ class SilverKeyImp extends Card {
 
 SilverKeyImp.id = 'silver-key-imp';
 
-module.exports = SilverKeyImp;
+export default SilverKeyImp;

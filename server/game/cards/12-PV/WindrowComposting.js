@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class WindrowComposting extends Card {
     // Play: Shuffle a card from your discard pile into your deck.
@@ -35,4 +35,4 @@ class WindrowComposting extends Card {
 
 WindrowComposting.id = 'windrow-composting';
 
-module.exports = WindrowComposting;
+export default WindrowComposting;

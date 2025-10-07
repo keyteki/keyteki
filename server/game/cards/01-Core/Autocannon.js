@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Autocannon extends Card {
     // Deal 1<D> to each creature after it enters play.
@@ -17,4 +17,4 @@ class Autocannon extends Card {
 
 Autocannon.id = 'autocannon';
 
-module.exports = Autocannon;
+export default Autocannon;

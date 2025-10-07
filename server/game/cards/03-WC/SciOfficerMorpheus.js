@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class SciOfficerMorpheus extends Card {
     // After you play a creature with a play effect, trigger its play effect an additional time.
@@ -26,4 +26,4 @@ class SciOfficerMorpheus extends Card {
 
 SciOfficerMorpheus.id = 'sci-officer-morpheus';
 
-module.exports = SciOfficerMorpheus;
+export default SciOfficerMorpheus;

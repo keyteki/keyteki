@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Aerialist extends Card {
     // While your yellow key is forged, Aerialist gains, “After Reap:
@@ -17,4 +17,4 @@ class Aerialist extends Card {
 
 Aerialist.id = 'aerialist';
 
-module.exports = Aerialist;
+export default Aerialist;

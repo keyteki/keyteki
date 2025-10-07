@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class RemmysHorror extends Card {
     // Play: Destroy a creature and an artifact. Purge a random card from your opponent's hand.
@@ -38,4 +38,4 @@ class RemmysHorror extends Card {
 
 RemmysHorror.id = 'remmy-s-horror';
 
-module.exports = RemmysHorror;
+export default RemmysHorror;

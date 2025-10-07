@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Fish extends Card {
     //Destroyed: Deal 2D to the most powerful enemy creature.
@@ -17,4 +17,4 @@ class Fish extends Card {
 
 Fish.id = 'fish';
 
-module.exports = Fish;
+export default Fish;

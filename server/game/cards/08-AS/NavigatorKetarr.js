@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class NavigatorKetarr extends Card {
     // After Reap: If Navigator Ketarr is on a flank, draw 2 cards and
@@ -21,4 +21,4 @@ class NavigatorKetarr extends Card {
 
 NavigatorKetarr.id = 'navigator-ketarr';
 
-module.exports = NavigatorKetarr;
+export default NavigatorKetarr;

@@ -1,3 +1,55 @@
+// Import all static images
+import amberImg from './assets/img/enhancements/amber.png';
+import captureImg from './assets/img/enhancements/capture.png';
+import drawImg from './assets/img/enhancements/draw.png';
+import damageImg from './assets/img/enhancements/damage.png';
+import discardImg from './assets/img/enhancements/discard.png';
+
+import tideNeutral from './assets/img/tide/tide-neutral.png';
+import tideLow from './assets/img/tide/tide-low.png';
+import tideHigh from './assets/img/tide/tide.png';
+
+import modifiedPowerImg from './assets/img/modifiedPower.png';
+import armorImg from './assets/img/armor.png';
+import maverickImg from './assets/img/maverick.png';
+import anomalyImg from './assets/img/anomaly.png';
+import defaultCardImg from './assets/img/idbacks/identity.jpg';
+import maverickCornerImg from './assets/img/maverick/maverick-corner.png';
+
+// Use Vite's import.meta.glob for dynamic imports
+// These return { './path/to/file.png': urlString }
+const tideCardImages = import.meta.glob('./assets/img/tide/tide-card-*.png', {
+    eager: true,
+    import: 'default'
+});
+const allIdbackImages = import.meta.glob('./assets/img/idbacks/*.png', {
+    eager: true,
+    import: 'default'
+});
+const allMainImages = import.meta.glob('./assets/img/*.png', { eager: true, import: 'default' });
+const houseIcons = import.meta.glob('./assets/img/house/*.png', { eager: true, import: 'default' });
+const idBackHouses = import.meta.glob('./assets/img/idbacks/idback_houses/*.png', {
+    eager: true,
+    import: 'default'
+});
+const houseBgs = import.meta.glob('./assets/img/bgs/*.png', { eager: true, import: 'default' });
+const maverickHouses = import.meta.glob('./assets/img/maverick/maverick-*.png', {
+    eager: true,
+    import: 'default'
+});
+const enhancementImages = import.meta.glob('./assets/img/enhancements/*.png', {
+    eager: true,
+    import: 'default'
+});
+const idBackBlanks = import.meta.glob('./assets/img/idbacks/idback_blanks/*.png', {
+    eager: true,
+    import: 'default'
+});
+const idBackDecals = import.meta.glob('./assets/img/idbacks/decals/*.png', {
+    eager: true,
+    import: 'default'
+});
+
 export const ItemTypes = {
     CARD: 'card',
     PANEL: 'panel'
@@ -77,67 +129,94 @@ export const Constants = {
     MaverickHouseImages: {},
     MaverickHouseAmberImages: {},
     EnhancementPips: {
-        amber: require('./assets/img/enhancements/amber.png'),
-        capture: require('./assets/img/enhancements/capture.png'),
-        draw: require('./assets/img/enhancements/draw.png'),
-        damage: require('./assets/img/enhancements/damage.png'),
-        discard: require('./assets/img/enhancements/discard.png')
+        amber: amberImg,
+        capture: captureImg,
+        draw: drawImg,
+        damage: damageImg,
+        discard: discardImg
     },
     TideImages: {
-        neutral: require('./assets/img/tide/tide-neutral.png'),
-        low: require('./assets/img/tide/tide-low.png'),
-        high: require('./assets/img/tide/tide.png'),
+        neutral: tideNeutral,
+        low: tideLow,
+        high: tideHigh,
         card: {}
     },
     Tokens: {
-        ModifiedPower: require('./assets/img/modifiedPower.png'),
-        Armor: require('./assets/img/armor.png')
+        ModifiedPower: modifiedPowerImg,
+        Armor: armorImg
     },
-    MaverickIcon: require('./assets/img/maverick.png'),
-    AnomalyIcon: require('./assets/img/anomaly.png'),
-    DefaultCard: require('./assets/img/idbacks/identity.jpg'),
-    MaverickCornerImage: require('./assets/img/maverick/maverick-corner.png')
+    MaverickIcon: maverickImg,
+    AnomalyIcon: anomalyImg,
+    DefaultCard: defaultCardImg,
+    MaverickCornerImage: maverickCornerImg
 };
 
+// Populate tide card images
 for (let locale of Constants.Locales) {
-    Constants.TideImages.card[locale] = require(`./assets/img/tide/tide-card-${locale}.png`);
+    const key = `./assets/img/tide/tide-card-${locale}.png`;
+    if (tideCardImages[key]) {
+        Constants.TideImages.card[locale] = tideCardImages[key];
+    }
 }
 
+// Populate expansion icons
 for (let expansion of Constants.Expansions) {
-    Constants.SetIconPaths[
-        expansion.value
-    ] = require(`./assets/img/idbacks/${expansion.value}.png`);
-    Constants.DeckIconPaths[expansion.value] = require(`./assets/img/${expansion.value}.png`);
+    const setKey = `./assets/img/idbacks/${expansion.value}.png`;
+    const deckKey = `./assets/img/${expansion.value}.png`;
+
+    if (allIdbackImages[setKey]) {
+        Constants.SetIconPaths[expansion.value] = allIdbackImages[setKey];
+    }
+    if (allMainImages[deckKey]) {
+        Constants.DeckIconPaths[expansion.value] = allMainImages[deckKey];
+    }
 }
 
+// Populate card type images
 for (let type of Constants.CardTypes) {
-    Constants.CardTypesPaths[type] = require(`./assets/img/idbacks/${type}.png`);
+    const key = `./assets/img/idbacks/${type}.png`;
+    if (allIdbackImages[key]) {
+        Constants.CardTypesPaths[type] = allIdbackImages[key];
+    }
 }
 
+// Populate house images
 for (let house of Constants.Houses) {
-    Constants.HouseIconPaths[house] = require(`./assets/img/house/${house}.png`);
-    Constants.IdBackHousePaths[house] = require(`./assets/img/idbacks/idback_houses/${house}.png`);
-    Constants.HouseBgPaths[house] = require(`./assets/img/bgs/${house}.png`);
-    Constants.MaverickHouseImages[house] = require(`./assets/img/maverick/maverick-${house}.png`);
-    Constants.MaverickHouseAmberImages[
-        house
-    ] = require(`./assets/img/maverick/maverick-${house}-amber.png`);
-    Constants.EnhancementPips[house] = require(`./assets/img/enhancements/${house}.png`);
+    const houseKey = `./assets/img/house/${house}.png`;
+    const idBackKey = `./assets/img/idbacks/idback_houses/${house}.png`;
+    const bgKey = `./assets/img/bgs/${house}.png`;
+    const maverickKey = `./assets/img/maverick/maverick-${house}.png`;
+    const maverickAmberKey = `./assets/img/maverick/maverick-${house}-amber.png`;
+    const enhancementKey = `./assets/img/enhancements/${house}.png`;
+
+    if (houseIcons[houseKey]) Constants.HouseIconPaths[house] = houseIcons[houseKey];
+    if (idBackHouses[idBackKey]) Constants.IdBackHousePaths[house] = idBackHouses[idBackKey];
+    if (houseBgs[bgKey]) Constants.HouseBgPaths[house] = houseBgs[bgKey];
+    if (maverickHouses[maverickKey])
+        Constants.MaverickHouseImages[house] = maverickHouses[maverickKey];
+    if (maverickHouses[maverickAmberKey])
+        Constants.MaverickHouseAmberImages[house] = maverickHouses[maverickAmberKey];
+    if (enhancementImages[enhancementKey])
+        Constants.EnhancementPips[house] = enhancementImages[enhancementKey];
 }
 
+// Populate blank card backs
 for (let x = 1; x < 8; x++) {
-    Constants.IdBackBlanksPaths[
-        x
-    ] = require(`./assets/img/idbacks/idback_blanks/cardback_${x}.png`);
-    Constants.IdBackBlanksPaths[
-        `${x}_evil`
-    ] = require(`./assets/img/idbacks/idback_blanks/cardback_${x}_evil.png`);
+    const blankKey = `./assets/img/idbacks/idback_blanks/cardback_${x}.png`;
+    const evilKey = `./assets/img/idbacks/idback_blanks/cardback_${x}_evil.png`;
+
+    if (idBackBlanks[blankKey]) Constants.IdBackBlanksPaths[x] = idBackBlanks[blankKey];
+    if (idBackBlanks[evilKey]) Constants.IdBackBlanksPaths[`${x}_evil`] = idBackBlanks[evilKey];
 }
 
-Constants.IdBackDecals.santa = require(`./assets/img/idbacks/decals/santa.png`);
+// Populate decals
+const santaKey = './assets/img/idbacks/decals/santa.png';
+if (idBackDecals[santaKey]) Constants.IdBackDecals.santa = idBackDecals[santaKey];
 
+// Populate enhancement base images
 for (let x = 1; x < 6; x++) {
-    Constants.EnhancementBaseImages[x] = require(`./assets/img/enhancements/base-${x}.png`);
+    const key = `./assets/img/enhancements/base-${x}.png`;
+    if (enhancementImages[key]) Constants.EnhancementBaseImages[x] = enhancementImages[key];
 }
 
 export const PatreonClientId = 'HjDP9KKd-HscTXXMs_2TNl2h_POjaEw7D-EkLv_ShRbarVO_WuKA0LWRBp9LRdLq';

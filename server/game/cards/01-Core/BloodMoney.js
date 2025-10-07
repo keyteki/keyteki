@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class BloodMoney extends Card {
     // Play: Place 2A from the common supply on an enemy creature.
@@ -15,4 +15,4 @@ class BloodMoney extends Card {
 
 BloodMoney.id = 'blood-money';
 
-module.exports = BloodMoney;
+export default BloodMoney;

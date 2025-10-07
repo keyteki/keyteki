@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class FancyDonavon extends Card {
     // Scrap: Ready and fight with a friendly non-Brobnar creature.
@@ -22,4 +22,4 @@ class FancyDonavon extends Card {
 
 FancyDonavon.id = 'fancy-donavon';
 
-module.exports = FancyDonavon;
+export default FancyDonavon;

@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class TheroCenturion extends Card {
     // Play/Fight: Capture 1A.
@@ -12,4 +12,4 @@ class TheroCenturion extends Card {
 
 TheroCenturion.id = 'thero-centurion';
 
-module.exports = TheroCenturion;
+export default TheroCenturion;

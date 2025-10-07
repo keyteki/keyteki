@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class MasterTheTheory extends Card {
     // Play: If there are no friendly creatures in play, you may archive a card for each enemy creature.
@@ -25,4 +25,4 @@ class MasterTheTheory extends Card {
 
 MasterTheTheory.id = 'master-the-theory';
 
-module.exports = MasterTheTheory;
+export default MasterTheTheory;

@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Duskwitch extends Card {
     // Omega. (After you play this card, end this step.)
@@ -20,4 +20,4 @@ class Duskwitch extends Card {
 
 Duskwitch.id = 'duskwitch';
 
-module.exports = Duskwitch;
+export default Duskwitch;

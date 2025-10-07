@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class GrenadeSnib extends Card {
     // Destroyed: Your opponent loses 2<A>.
@@ -11,4 +11,4 @@ class GrenadeSnib extends Card {
 
 GrenadeSnib.id = 'grenade-snib';
 
-module.exports = GrenadeSnib;
+export default GrenadeSnib;

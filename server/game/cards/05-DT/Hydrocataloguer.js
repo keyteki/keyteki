@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Hydrocataloguer extends Card {
     // (T) After a player raises the tide, they archive the top card of their deck.
@@ -17,4 +17,4 @@ class Hydrocataloguer extends Card {
 
 Hydrocataloguer.id = 'hydrocataloguer';
 
-module.exports = Hydrocataloguer;
+export default Hydrocataloguer;

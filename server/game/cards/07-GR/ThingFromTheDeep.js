@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class ThingFromTheDeep extends Card {
     // Thing from the Deep cannot be played unless Open the Seal is in
@@ -24,4 +24,4 @@ class ThingFromTheDeep extends Card {
 
 ThingFromTheDeep.id = 'thing-from-the-deep';
 
-module.exports = ThingFromTheDeep;
+export default ThingFromTheDeep;

@@ -1,4 +1,4 @@
-const GameAction = require('./GameAction');
+import GameAction from './GameAction.js';
 
 class ConditionalAction extends GameAction {
     setup() {
@@ -107,4 +107,4 @@ class ConditionalAction extends GameAction {
     }
 }
 
-module.exports = ConditionalAction;
+export default ConditionalAction;

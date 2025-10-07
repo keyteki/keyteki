@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Pitlord extends Card {
     // Taunt.(This creatures neighbors cannot be attacked unless they have taunt.)
@@ -12,4 +12,4 @@ class Pitlord extends Card {
 
 Pitlord.id = 'pitlord';
 
-module.exports = Pitlord;
+export default Pitlord;

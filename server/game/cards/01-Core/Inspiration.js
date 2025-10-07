@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Inspiration extends Card {
     // Play: Ready and use a friendly creature.
@@ -19,4 +19,4 @@ class Inspiration extends Card {
 
 Inspiration.id = 'inspiration';
 
-module.exports = Inspiration;
+export default Inspiration;

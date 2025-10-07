@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class SuspendedAnimation extends Card {
     // Play: Put a damaged enemy creature into your archives. If it
@@ -19,4 +19,4 @@ class SuspendedAnimation extends Card {
 
 SuspendedAnimation.id = 'suspended-animation';
 
-module.exports = SuspendedAnimation;
+export default SuspendedAnimation;

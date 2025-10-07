@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Suzerain extends Card {
     // After Reap: Purge the top card of a player’s deck. If you do,
@@ -30,4 +30,4 @@ class Suzerain extends Card {
 
 Suzerain.id = 'suzerain';
 
-module.exports = Suzerain;
+export default Suzerain;

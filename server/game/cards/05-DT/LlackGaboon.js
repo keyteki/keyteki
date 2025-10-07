@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class LlackGaboon extends Card {
     // Llack Gaboon gets +1 power for each other exhausted creature. If there are 3 or more other exhausted creatures, Llack Gaboon gains skirmish and hazardous 5.
@@ -31,4 +31,4 @@ class LlackGaboon extends Card {
 
 LlackGaboon.id = 'llack-gaboon';
 
-module.exports = LlackGaboon;
+export default LlackGaboon;

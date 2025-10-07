@@ -1,4 +1,4 @@
-const _ = require('underscore');
+import _ from 'underscore';
 
 class Optional {}
 
@@ -9,4 +9,4 @@ Optional.EvalOptional = function (context, optional) {
     return !!optional;
 };
 
-module.exports = Optional;
+export default Optional;

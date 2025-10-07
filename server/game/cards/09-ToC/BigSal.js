@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class BigSal extends Card {
     // Play: Make 2 token creatures.
@@ -11,4 +11,4 @@ class BigSal extends Card {
 
 BigSal.id = 'big-sal';
 
-module.exports = BigSal;
+export default BigSal;

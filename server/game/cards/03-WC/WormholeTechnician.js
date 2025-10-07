@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class WormholeTechnician extends Card {
     // Reap: Reveal the top card of your deck. If it is a Logos card, play it. Otherwise, archive it.
@@ -39,4 +39,4 @@ class WormholeTechnician extends Card {
 
 WormholeTechnician.id = 'wormhole-technician';
 
-module.exports = WormholeTechnician;
+export default WormholeTechnician;

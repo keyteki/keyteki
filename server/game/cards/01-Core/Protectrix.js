@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Protectrix extends Card {
     // Reap: You may fully heal a creature. If you do, that creature cannot be dealt damage for the remainder of the turn.
@@ -22,4 +22,4 @@ class Protectrix extends Card {
 
 Protectrix.id = 'protectrix';
 
-module.exports = Protectrix;
+export default Protectrix;

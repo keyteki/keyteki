@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class WindsOfDeath extends Card {
     // Play: Each player archives each creature from their discard
@@ -27,4 +27,4 @@ class WindsOfDeath extends Card {
 
 WindsOfDeath.id = 'winds-of-death';
 
-module.exports = WindsOfDeath;
+export default WindsOfDeath;

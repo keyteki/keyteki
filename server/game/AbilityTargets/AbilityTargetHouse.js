@@ -1,6 +1,6 @@
-const Constants = require('../../constants.js');
-const SelectChoice = require('./SelectChoice.js');
-const AbilityTarget = require('./AbilityTarget.js');
+import Constants from '../../constants.js';
+import SelectChoice from './SelectChoice.js';
+import AbilityTarget from './AbilityTarget.js';
 
 class AbilityTargetHouse extends AbilityTarget {
     constructor(name, properties, ability) {
@@ -96,4 +96,4 @@ class AbilityTargetHouse extends AbilityTarget {
     }
 }
 
-module.exports = AbilityTargetHouse;
+export default AbilityTargetHouse;

@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Infiltrator extends Card {
     // Skirmish. Treachery. Versatile.
@@ -18,4 +18,4 @@ class Infiltrator extends Card {
 
 Infiltrator.id = 'infiltrator';
 
-module.exports = Infiltrator;
+export default Infiltrator;

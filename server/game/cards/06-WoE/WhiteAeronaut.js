@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class WhiteAeronaut extends Card {
     // Action: Ward and fully heal a friendly Nautilixian.
@@ -19,4 +19,4 @@ class WhiteAeronaut extends Card {
 
 WhiteAeronaut.id = 'white-aeronaut';
 
-module.exports = WhiteAeronaut;
+export default WhiteAeronaut;

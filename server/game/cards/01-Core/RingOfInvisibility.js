@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class RingOfInvisibility extends Card {
     // This creature gains elusive and skirmish.
@@ -11,4 +11,4 @@ class RingOfInvisibility extends Card {
 
 RingOfInvisibility.id = 'ring-of-invisibility';
 
-module.exports = RingOfInvisibility;
+export default RingOfInvisibility;

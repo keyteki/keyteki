@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class ShadowSelf extends Card {
     // Shadow Self deals no damage when fighting.
@@ -26,4 +26,4 @@ class ShadowSelf extends Card {
 
 ShadowSelf.id = 'shadow-self';
 
-module.exports = ShadowSelf;
+export default ShadowSelf;

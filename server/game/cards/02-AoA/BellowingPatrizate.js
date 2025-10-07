@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class BellowingPatrizate extends Card {
     // While Bellowing Patrizate is ready, each creature takes 1D after it enters play.
@@ -18,4 +18,4 @@ class BellowingPatrizate extends Card {
 
 BellowingPatrizate.id = 'bellowing-patrizate';
 
-module.exports = BellowingPatrizate;
+export default BellowingPatrizate;

@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class WildSpirit extends Card {
     // This creature gains, Reap: Capture 1A.
@@ -13,4 +13,4 @@ class WildSpirit extends Card {
 
 WildSpirit.id = 'wild-spirit';
 
-module.exports = WildSpirit;
+export default WildSpirit;

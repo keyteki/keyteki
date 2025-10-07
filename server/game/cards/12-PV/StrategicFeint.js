@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class StrategicFeint extends Card {
     // Play: Deal 1 to two enemy creatures and exhaust them.
@@ -40,4 +40,4 @@ class StrategicFeint extends Card {
 
 StrategicFeint.id = 'strategic-feint';
 
-module.exports = StrategicFeint;
+export default StrategicFeint;

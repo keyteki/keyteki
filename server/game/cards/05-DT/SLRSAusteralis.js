@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class SLRSAusteralis extends Card {
     // Action: Exhaust up to 3 friendly Logos creatures. For each creature exhausted this way, play the top card of your deck, one at a time.
@@ -29,4 +29,4 @@ class SLRSAusteralis extends Card {
 
 SLRSAusteralis.id = 'slrs-austeralis';
 
-module.exports = SLRSAusteralis;
+export default SLRSAusteralis;

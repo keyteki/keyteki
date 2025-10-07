@@ -1,4 +1,4 @@
-const GameActions = require('./GameActions/index');
+import * as GameActions from './GameActions/index.js';
 
 const Actions = {
     // card actions
@@ -170,4 +170,4 @@ const Actions = {
     resolveFate: (propertyFactory) => new GameActions.ResolveFateAction(propertyFactory)
 };
 
-module.exports = Actions;
+export default Actions;

@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class RedPlanetRayGun extends Card {
     // This creature gains, Reap: Choose a creature. Deal 1D to that creature for each Mars creature in play.
@@ -19,4 +19,4 @@ class RedPlanetRayGun extends Card {
 
 RedPlanetRayGun.id = 'red-planet-ray-gun';
 
-module.exports = RedPlanetRayGun;
+export default RedPlanetRayGun;

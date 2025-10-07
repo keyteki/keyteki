@@ -1,4 +1,4 @@
-const moment = require('moment');
+import moment from 'moment';
 
 class TimeLimit {
     constructor(game) {
@@ -49,4 +49,4 @@ class TimeLimit {
     }
 }
 
-module.exports = TimeLimit;
+export default TimeLimit;

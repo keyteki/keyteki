@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class TechnoFiend extends Card {
     // Reap: Discard a card from your hand. If you do, draw a card.
@@ -22,4 +22,4 @@ class TechnoFiend extends Card {
 
 TechnoFiend.id = 'techno-fiend';
 
-module.exports = TechnoFiend;
+export default TechnoFiend;

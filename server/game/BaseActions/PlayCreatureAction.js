@@ -1,4 +1,4 @@
-const BasePlayAction = require('./BasePlayAction');
+import BasePlayAction from './BasePlayAction.js';
 
 class PlayCreatureAction extends BasePlayAction {
     constructor(card) {
@@ -49,4 +49,4 @@ class PlayCreatureAction extends BasePlayAction {
     }
 }
 
-module.exports = PlayCreatureAction;
+export default PlayCreatureAction;

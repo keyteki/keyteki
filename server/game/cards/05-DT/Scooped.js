@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Scooped extends Card {
     // Play: Deal 2D to a creature. If it is not destroyed, it captures 1A from its own side.
@@ -29,4 +29,4 @@ class Scooped extends Card {
 
 Scooped.id = 'scooped';
 
-module.exports = Scooped;
+export default Scooped;

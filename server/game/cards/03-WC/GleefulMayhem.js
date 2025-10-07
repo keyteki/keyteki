@@ -1,5 +1,6 @@
-const Card = require('../../Card.js');
-const Houses = require('../../../constants').Houses;
+import Card from '../../Card.js';
+import Constants from '../../../constants.js';
+const { Houses } = Constants;
 
 class GleefulMayhem extends Card {
     // Play: For each house, deal 5D to a creature of that house.
@@ -23,4 +24,4 @@ class GleefulMayhem extends Card {
 
 GleefulMayhem.id = 'gleeful-mayhem';
 
-module.exports = GleefulMayhem;
+export default GleefulMayhem;

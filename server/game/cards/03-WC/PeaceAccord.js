@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class PeaceAccord extends Card {
     // Play: Each player gains 2A.
@@ -35,4 +35,4 @@ class PeaceAccord extends Card {
 
 PeaceAccord.id = 'peace-accord';
 
-module.exports = PeaceAccord;
+export default PeaceAccord;

@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class AmberVac extends Card {
     // (T) Play: Raise the tide.
@@ -24,4 +24,4 @@ class AmberVac extends Card {
 
 AmberVac.id = 'æmber-vac';
 
-module.exports = AmberVac;
+export default AmberVac;

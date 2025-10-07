@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Zenzizenzizenzic extends Card {
     // While Zenzizenzizenzic is in the center of your battleline, refill your hand to 2 additional cards during your "draw cards" step.
@@ -12,4 +12,4 @@ class Zenzizenzizenzic extends Card {
 
 Zenzizenzizenzic.id = 'zenzizenzizenzic';
 
-module.exports = Zenzizenzizenzic;
+export default Zenzizenzizenzic;

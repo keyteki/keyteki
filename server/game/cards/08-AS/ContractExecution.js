@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class ContractExecution extends Card {
     // Play: For the remainder of the turn, each time you play a
@@ -31,4 +31,4 @@ class ContractExecution extends Card {
 
 ContractExecution.id = 'contract-execution';
 
-module.exports = ContractExecution;
+export default ContractExecution;

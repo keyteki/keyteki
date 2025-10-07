@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class GiltspineNetcaster extends Card {
     // Enhance (PTPT). (These icons have already been added to cards in your deck.)
@@ -15,4 +15,4 @@ class GiltspineNetcaster extends Card {
 
 GiltspineNetcaster.id = 'giltspine-netcaster';
 
-module.exports = GiltspineNetcaster;
+export default GiltspineNetcaster;

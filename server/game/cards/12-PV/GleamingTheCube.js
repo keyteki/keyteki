@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class GleamingTheCube extends Card {
     // Play: Ready and use a friendly creature.
@@ -44,4 +44,4 @@ class GleamingTheCube extends Card {
 
 GleamingTheCube.id = 'gleaming-the-cube';
 
-module.exports = GleamingTheCube;
+export default GleamingTheCube;

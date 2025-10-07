@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class TheGrandGord extends Card {
     // At the start of your turn, if you control the most powerful
@@ -31,4 +31,4 @@ class TheGrandGord extends Card {
 
 TheGrandGord.id = 'the-grand-gord';
 
-module.exports = TheGrandGord;
+export default TheGrandGord;

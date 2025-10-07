@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class FeedingPit extends Card {
     // Action: Discard a creature from your hand. If you do, gain 1<A>.
@@ -19,4 +19,4 @@ class FeedingPit extends Card {
 
 FeedingPit.id = 'feeding-pit';
 
-module.exports = FeedingPit;
+export default FeedingPit;

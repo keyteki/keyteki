@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class HungryHippogriff extends Card {
     // Each other friendly creature gains, “Destroyed: Move each A
@@ -21,4 +21,4 @@ class HungryHippogriff extends Card {
 
 HungryHippogriff.id = 'hungry-hippogriff';
 
-module.exports = HungryHippogriff;
+export default HungryHippogriff;

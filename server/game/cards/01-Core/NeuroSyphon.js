@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class NeuroSyphon extends Card {
     // Play: If your opponent has more <A> than you, steal 1<A> and draw a card.
@@ -14,4 +14,4 @@ class NeuroSyphon extends Card {
 
 NeuroSyphon.id = 'neuro-syphon';
 
-module.exports = NeuroSyphon;
+export default NeuroSyphon;

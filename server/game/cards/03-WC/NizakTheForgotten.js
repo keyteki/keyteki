@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class NizakTheForgotten extends Card {
     // While fighting, Nizak, The Forgotten gains invulnerable. (It cannot be destroyed or dealt damage.)
@@ -26,4 +26,4 @@ class NizakTheForgotten extends Card {
 
 NizakTheForgotten.id = 'nizak-the-forgotten';
 
-module.exports = NizakTheForgotten;
+export default NizakTheForgotten;

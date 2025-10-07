@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Warsong extends Card {
     // Play: For the remainder of the turn, gain 1<A> each time a friendly creature fights.
@@ -19,4 +19,4 @@ class Warsong extends Card {
 
 Warsong.id = 'warsong';
 
-module.exports = Warsong;
+export default Warsong;

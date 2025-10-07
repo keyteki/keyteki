@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Wardrummer extends Card {
     // Play: Return each other friendly Brobnar creature to your hand.
@@ -19,4 +19,4 @@ class Wardrummer extends Card {
 
 Wardrummer.id = 'wardrummer';
 
-module.exports = Wardrummer;
+export default Wardrummer;

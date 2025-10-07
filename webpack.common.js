@@ -7,10 +7,15 @@ module.exports = {
     resolve: {
         extensions: ['.js', '.jsx'],
         alias: {
-            assets: path.resolve('./client/assets')
+            assets: path.resolve('./client/assets'),
+            'process/browser': require.resolve('process/browser')
+        },
+        extensionAlias: {
+            '.js': ['.js', '.ts', '.tsx']
         },
         fallback: {
             process: require.resolve('process/browser'),
+            'process/browser': require.resolve('process/browser'),
             buffer: require.resolve('buffer/'),
             util: require.resolve('util/'),
             url: require.resolve('url/'),

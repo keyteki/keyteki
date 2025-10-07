@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Skullion extends Card {
     // Play: Sacrifice a friendly creature.
@@ -16,4 +16,4 @@ class Skullion extends Card {
 
 Skullion.id = 'skullion';
 
-module.exports = Skullion;
+export default Skullion;

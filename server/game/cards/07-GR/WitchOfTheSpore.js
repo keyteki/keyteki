@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class WitchOfTheSpore extends Card {
     // Scrap: Deal 3 to an enemy creature.
@@ -15,4 +15,4 @@ class WitchOfTheSpore extends Card {
 
 WitchOfTheSpore.id = 'witch-of-the-spore';
 
-module.exports = WitchOfTheSpore;
+export default WitchOfTheSpore;

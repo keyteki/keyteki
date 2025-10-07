@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class HauntingWitch extends Card {
     // After you play a creature, if you are haunted, gain 1.
@@ -16,4 +16,4 @@ class HauntingWitch extends Card {
 
 HauntingWitch.id = 'haunting-witch';
 
-module.exports = HauntingWitch;
+export default HauntingWitch;

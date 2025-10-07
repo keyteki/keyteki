@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class DinoThief extends Card {
     // Elusive. (The first time this creature is attacked each turn, no damage is dealt.)
@@ -19,4 +19,4 @@ class DinoThief extends Card {
 
 DinoThief.id = 'dino-thief';
 
-module.exports = DinoThief;
+export default DinoThief;

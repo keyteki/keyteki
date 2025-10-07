@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Mugwump extends Card {
     // After an enemy creature is destroyed fighting Mugwump, fully heal Mugwump and give it a +1power counter.
@@ -15,4 +15,4 @@ class Mugwump extends Card {
 
 Mugwump.id = 'mugwump';
 
-module.exports = Mugwump;
+export default Mugwump;

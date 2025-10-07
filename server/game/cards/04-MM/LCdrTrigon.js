@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class LCdrTrigon extends Card {
     // Reap: Discard the top card of your deck. Resolve that cards bonus icons as if you had played it.
@@ -18,4 +18,4 @@ class LCdrTrigon extends Card {
 
 LCdrTrigon.id = 'lcdr-trigon';
 
-module.exports = LCdrTrigon;
+export default LCdrTrigon;

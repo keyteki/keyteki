@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Smith extends Card {
     // Play: Gain 2A if you control more creatures than your opponent.
@@ -15,4 +15,4 @@ class Smith extends Card {
 
 Smith.id = 'smith';
 
-module.exports = Smith;
+export default Smith;

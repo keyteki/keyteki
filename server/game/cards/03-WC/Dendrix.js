@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Dendrix extends Card {
     // Fight: Your opponent discards a random card from their hand.
@@ -11,4 +11,4 @@ class Dendrix extends Card {
 
 Dendrix.id = 'dendrix';
 
-module.exports = Dendrix;
+export default Dendrix;

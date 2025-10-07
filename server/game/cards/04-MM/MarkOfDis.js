@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class MarkOfDis extends Card {
     // Play: Deal 2D to a creature. If it is not destroyed, its controller must choose that creatures house as their active house on their next turn.
@@ -27,4 +27,4 @@ class MarkOfDis extends Card {
 
 MarkOfDis.id = 'mark-of-dis';
 
-module.exports = MarkOfDis;
+export default MarkOfDis;

@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Beehemoth extends Card {
     // At the start of your turn, give a creature a +1 power counter.
@@ -45,4 +45,4 @@ class Beehemoth extends Card {
 
 Beehemoth.id = 'beehemoth';
 
-module.exports = Beehemoth;
+export default Beehemoth;

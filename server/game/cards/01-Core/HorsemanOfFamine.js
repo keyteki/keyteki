@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class HorsemanOfFamine extends Card {
     // Play/Fight/Reap: Destroy the least powerful creature.
@@ -19,4 +19,4 @@ class HorsemanOfFamine extends Card {
 
 HorsemanOfFamine.id = 'horseman-of-famine';
 
-module.exports = HorsemanOfFamine;
+export default HorsemanOfFamine;

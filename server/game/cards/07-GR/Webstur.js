@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Webstur extends Card {
     // After Fight: For each damage on Webstur, you may discard the top card
@@ -39,4 +39,4 @@ class Webstur extends Card {
 
 Webstur.id = 'webstur';
 
-module.exports = Webstur;
+export default Webstur;

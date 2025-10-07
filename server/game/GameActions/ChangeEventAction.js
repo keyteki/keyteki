@@ -1,4 +1,4 @@
-const GameAction = require('./GameAction');
+import GameAction from './GameAction.js';
 
 class ChangeEventAction extends GameAction {
     setDefaultProperties() {
@@ -32,4 +32,4 @@ class ChangeEventAction extends GameAction {
     }
 }
 
-module.exports = ChangeEventAction;
+export default ChangeEventAction;

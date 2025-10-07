@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class InfinityStrop extends Card {
     // Play: Play: Deal 2D to a creature. If this damage destroys that
@@ -31,4 +31,4 @@ class InfinityStrop extends Card {
 
 InfinityStrop.id = 'infinity-strop';
 
-module.exports = InfinityStrop;
+export default InfinityStrop;

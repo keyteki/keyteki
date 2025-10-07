@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Gatekeeper extends Card {
     // Play: If your opponent has 7 or more A, capture all but 5 of it.
@@ -14,4 +14,4 @@ class Gatekeeper extends Card {
 
 Gatekeeper.id = 'gatekeeper';
 
-module.exports = Gatekeeper;
+export default Gatekeeper;

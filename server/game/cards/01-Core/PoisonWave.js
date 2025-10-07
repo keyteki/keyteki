@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class PoisonWave extends Card {
     // Play: Deal 2<D> to each creature.
@@ -15,4 +15,4 @@ class PoisonWave extends Card {
 
 PoisonWave.id = 'poison-wave';
 
-module.exports = PoisonWave;
+export default PoisonWave;

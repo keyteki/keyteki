@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Tunk extends Card {
     // After you play another Mars creature, fully heal Tunk.
@@ -18,4 +18,4 @@ class Tunk extends Card {
 
 Tunk.id = 'tunk';
 
-module.exports = Tunk;
+export default Tunk;

@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class TheCallipygianIdeal extends Card {
     // Play: Exalt this creature.
@@ -16,4 +16,4 @@ class TheCallipygianIdeal extends Card {
 
 TheCallipygianIdeal.id = 'the-callipygian-ideal';
 
-module.exports = TheCallipygianIdeal;
+export default TheCallipygianIdeal;

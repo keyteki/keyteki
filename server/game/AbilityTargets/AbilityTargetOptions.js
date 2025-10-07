@@ -1,4 +1,4 @@
-const AbilityTarget = require('./AbilityTarget');
+import AbilityTarget from './AbilityTarget.js';
 
 class AbilityTargetOptions extends AbilityTarget {
     constructor(name, properties, ability) {
@@ -59,4 +59,4 @@ class AbilityTargetOptions extends AbilityTarget {
     }
 }
 
-module.exports = AbilityTargetOptions;
+export default AbilityTargetOptions;

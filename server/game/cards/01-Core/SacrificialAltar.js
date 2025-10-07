@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class SacrificialAltar extends Card {
     // Action: Purge a friendly Human creature from play. If you do, play a creature from your discard pile.
@@ -25,4 +25,4 @@ class SacrificialAltar extends Card {
 
 SacrificialAltar.id = 'sacrificial-altar';
 
-module.exports = SacrificialAltar;
+export default SacrificialAltar;

@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Greed extends Card {
     // During your draw cards step, refill your hand to 1 additional card for each friendly Sin creature.
@@ -13,4 +13,4 @@ class Greed extends Card {
 
 Greed.id = 'greed';
 
-module.exports = Greed;
+export default Greed;

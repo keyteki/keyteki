@@ -1,4 +1,4 @@
-const EffectValue = require('./EffectValue');
+import EffectValue from './EffectValue.js';
 
 class ConditionValue extends EffectValue {
     constructor(condition) {
@@ -21,4 +21,4 @@ class ConditionValue extends EffectValue {
     }
 }
 
-module.exports = ConditionValue;
+export default ConditionValue;

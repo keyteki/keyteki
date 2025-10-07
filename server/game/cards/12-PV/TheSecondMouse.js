@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class TheSecondMouse extends Card {
     // At the end of your opponent's turn, if they have less  in their pool than you, fulfill The Second Mouse.
@@ -18,4 +18,4 @@ class TheSecondMouse extends Card {
 
 TheSecondMouse.id = 'the-second-mouse';
 
-module.exports = TheSecondMouse;
+export default TheSecondMouse;

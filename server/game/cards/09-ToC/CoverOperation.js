@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class CoverOperation extends Card {
     // Play: Make a token creature, then ready it.
@@ -17,4 +17,4 @@ class CoverOperation extends Card {
 
 CoverOperation.id = 'cover-operation';
 
-module.exports = CoverOperation;
+export default CoverOperation;

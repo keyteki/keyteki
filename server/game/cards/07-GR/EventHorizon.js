@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class EventHorizon extends Card {
     // Play: Discard cards from the top of your deck until you discard
@@ -33,4 +33,4 @@ class EventHorizon extends Card {
 
 EventHorizon.id = 'event-horizon';
 
-module.exports = EventHorizon;
+export default EventHorizon;

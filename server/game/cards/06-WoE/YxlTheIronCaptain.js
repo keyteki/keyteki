@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class YxlTheIronCaptain extends Card {
     // Play: Each friendly Ironyx creature captures 2A.
@@ -20,4 +20,4 @@ class YxlTheIronCaptain extends Card {
 
 YxlTheIronCaptain.id = 'yxl-the-iron-captain';
 
-module.exports = YxlTheIronCaptain;
+export default YxlTheIronCaptain;

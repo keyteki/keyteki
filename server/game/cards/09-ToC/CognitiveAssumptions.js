@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class CognitiveAssumptions extends Card {
     // Play: Reveal up to 3 Logos cards from your hand. For each card
@@ -29,4 +29,4 @@ class CognitiveAssumptions extends Card {
 
 CognitiveAssumptions.id = 'cognitive-assumptions';
 
-module.exports = CognitiveAssumptions;
+export default CognitiveAssumptions;

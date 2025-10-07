@@ -1,5 +1,5 @@
-const Constants = require('../../../constants.js');
-const Card = require('../../Card.js');
+import Constants from '../../../constants.js';
+import Card from '../../Card.js';
 
 class GroupthinkTank extends Card {
     // Action: Deal 4D to each creature that shares a house with at least 1 of its neighbors.
@@ -25,4 +25,4 @@ class GroupthinkTank extends Card {
 
 GroupthinkTank.id = 'groupthink-tank';
 
-module.exports = GroupthinkTank;
+export default GroupthinkTank;

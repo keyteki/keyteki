@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class MusthicMurmook extends Card {
     // Each players keys cost +1A.
@@ -19,4 +19,4 @@ class MusthicMurmook extends Card {
 
 MusthicMurmook.id = 'musthic-murmook';
 
-module.exports = MusthicMurmook;
+export default MusthicMurmook;

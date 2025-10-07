@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class LoyaltyImplants extends Card {
     // Omni: Destroy Loyalty Implants. You may use friendly Mars
@@ -20,4 +20,4 @@ class LoyaltyImplants extends Card {
 
 LoyaltyImplants.id = 'loyalty-implants';
 
-module.exports = LoyaltyImplants;
+export default LoyaltyImplants;

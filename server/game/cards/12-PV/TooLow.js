@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class TooLow extends Card {
     // Play: Choose an enemy creature. Destroy each creature with power less than the chosen creature's power.
@@ -60,4 +60,4 @@ class TooLow extends Card {
 
 TooLow.id = 'too-low';
 
-module.exports = TooLow;
+export default TooLow;

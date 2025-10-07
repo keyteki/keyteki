@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Dragnet extends Card {
     // Play: Return a creature and each neighbor that shares a house with it to their owners' hands.
@@ -24,4 +24,4 @@ class Dragnet extends Card {
 
 Dragnet.id = 'dragnet';
 
-module.exports = Dragnet;
+export default Dragnet;

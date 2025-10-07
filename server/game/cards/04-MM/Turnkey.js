@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Turnkey extends Card {
     // Play: Unforge an opponents key. If you do, when Turnkey leaves play, your opponent forges a key at no cost.
@@ -30,4 +30,4 @@ class Turnkey extends Card {
 
 Turnkey.id = 'turnkey';
 
-module.exports = Turnkey;
+export default Turnkey;

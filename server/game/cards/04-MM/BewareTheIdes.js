@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class BewareTheIdes extends Card {
     // Play: Deal 23D to a creature in the center of its controllers battleline.
@@ -15,4 +15,4 @@ class BewareTheIdes extends Card {
 
 BewareTheIdes.id = 'beware-the-ides';
 
-module.exports = BewareTheIdes;
+export default BewareTheIdes;

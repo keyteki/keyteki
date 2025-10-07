@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class AmbassadorLiu extends Card {
     // Action: Discard a card from your hand. If it is a Dis or Shadows card, steal 1A. If it is a Logos or Untamed card, gain 2A. If it is a Sanctum or Saurian card, capture 3A.
@@ -57,4 +57,4 @@ class AmbassadorLiu extends Card {
 
 AmbassadorLiu.id = 'ambassador-liu';
 
-module.exports = AmbassadorLiu;
+export default AmbassadorLiu;

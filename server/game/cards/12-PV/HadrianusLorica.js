@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class HadrianusLorica extends Card {
     // Each friendly creature with A on it gets +3 armor.
@@ -19,4 +19,4 @@ class HadrianusLorica extends Card {
 
 HadrianusLorica.id = 'hadrianus-lorica';
 
-module.exports = HadrianusLorica;
+export default HadrianusLorica;

@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class FlashFreeze extends Card {
     // Play: For the remainder of the turn, after you play another card, exhaust a creature.
@@ -24,4 +24,4 @@ class FlashFreeze extends Card {
 
 FlashFreeze.id = 'flash-freeze';
 
-module.exports = FlashFreeze;
+export default FlashFreeze;

@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class SubjectKirby extends Card {
     // Play/Fight/Reap: You may play a non-Star Alliance creature this turn.
@@ -19,4 +19,4 @@ class SubjectKirby extends Card {
 
 SubjectKirby.id = 'subject-kirby';
 
-module.exports = SubjectKirby;
+export default SubjectKirby;

@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class RufusVergilius extends Card {
     // After Reap: A neighboring creature captures 1. Ward that creature.
@@ -17,4 +17,4 @@ class RufusVergilius extends Card {
 
 RufusVergilius.id = 'rufus-vergilius';
 
-module.exports = RufusVergilius;
+export default RufusVergilius;

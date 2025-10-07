@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class RelentlessCreeper extends Card {
     // After you choose Dis as your active house, you may return Relentless Creeper from your discard pile to your hand.
@@ -20,4 +20,4 @@ class RelentlessCreeper extends Card {
 
 RelentlessCreeper.id = 'relentless-creeper';
 
-module.exports = RelentlessCreeper;
+export default RelentlessCreeper;

@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class UnleashTheBeast extends Card {
     // Play: Exhaust a friendly creature. If you do, deal damage equal to the exhausted creature's power to an enemy creature.
@@ -29,4 +29,4 @@ class UnleashTheBeast extends Card {
 
 UnleashTheBeast.id = 'unleash-the-beast';
 
-module.exports = UnleashTheBeast;
+export default UnleashTheBeast;

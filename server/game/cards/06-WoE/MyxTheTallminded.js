@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class MyxTheTallminded extends Card {
     // Your opponent's keys cost +1 Aember for each friendly Mars
@@ -19,4 +19,4 @@ class MyxTheTallminded extends Card {
 
 MyxTheTallminded.id = 'myx-the-tallminded';
 
-module.exports = MyxTheTallminded;
+export default MyxTheTallminded;

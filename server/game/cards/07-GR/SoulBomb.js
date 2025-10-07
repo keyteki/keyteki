@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class SoulBomb extends Card {
     // Omni: If you are haunted, deal 4 to each creature. Destroy Soul Bomb.
@@ -17,4 +17,4 @@ class SoulBomb extends Card {
 
 SoulBomb.id = 'soul-bomb';
 
-module.exports = SoulBomb;
+export default SoulBomb;

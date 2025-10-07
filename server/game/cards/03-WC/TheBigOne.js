@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class TheBigOne extends Card {
     // After a creature is played, put a fuse counter on The Big One.
@@ -27,4 +27,4 @@ class TheBigOne extends Card {
 
 TheBigOne.id = 'the-big-one';
 
-module.exports = TheBigOne;
+export default TheBigOne;

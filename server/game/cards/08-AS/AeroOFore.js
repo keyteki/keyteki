@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class AeroOFore extends Card {
     // While Aero O'Fore is in the center of your battleline, it
@@ -29,4 +29,4 @@ class AeroOFore extends Card {
 
 AeroOFore.id = 'aero-o-fore';
 
-module.exports = AeroOFore;
+export default AeroOFore;

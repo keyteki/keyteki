@@ -1,4 +1,4 @@
-const Bawretchadontius = require('./Bawretchadontius.js');
+import Bawretchadontius from './Bawretchadontius.js';
 
 class Bawretchadontius2 extends Bawretchadontius {
     constructor(owner, cardData) {
@@ -8,4 +8,4 @@ class Bawretchadontius2 extends Bawretchadontius {
 
 Bawretchadontius2.id = 'bawretchadontius2';
 
-module.exports = Bawretchadontius2;
+export default Bawretchadontius2;

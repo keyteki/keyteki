@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class ParadoxShield extends Card {
     // This creature gains “Destroyed: Discard cards from the top of
@@ -41,4 +41,4 @@ class ParadoxShield extends Card {
 
 ParadoxShield.id = 'paradox-shield';
 
-module.exports = ParadoxShield;
+export default ParadoxShield;

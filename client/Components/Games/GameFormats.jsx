@@ -1,6 +1,6 @@
 import React from 'react';
 import { Trans, useTranslation } from 'react-i18next';
-import { Form, Col } from 'react-bootstrap';
+import { Form, Col, Row } from 'react-bootstrap';
 
 import './GameFormats.scss';
 
@@ -29,7 +29,7 @@ const GameFormats = ({ formProps }) => {
 
     return (
         <>
-            <Form.Row>
+            <Row>
                 <Col xs={12} className='font-weight-bold'>
                     <Trans>Format</Trans>
                 </Col>
@@ -51,9 +51,9 @@ const GameFormats = ({ formProps }) => {
                         {formProps.errors.gameFormat}
                     </Form.Control.Feedback>
                 </Form.Group>
-            </Form.Row>
+            </Row>
             {formProps.values.gameFormat === 'sealed' && (
-                <Form.Row>
+                <Row>
                     <Form.Group className='game-formats' as={Col}>
                         {expansions.map((expansion) => {
                             return (
@@ -72,7 +72,7 @@ const GameFormats = ({ formProps }) => {
                             );
                         })}
                     </Form.Group>
-                </Form.Row>
+                </Row>
             )}
         </>
     );

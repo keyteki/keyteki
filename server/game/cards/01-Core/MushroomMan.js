@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class MushroomMan extends Card {
     // Mushroom Man gets +3 power for each unforged key you have.
@@ -11,4 +11,4 @@ class MushroomMan extends Card {
 
 MushroomMan.id = 'mushroom-man';
 
-module.exports = MushroomMan;
+export default MushroomMan;

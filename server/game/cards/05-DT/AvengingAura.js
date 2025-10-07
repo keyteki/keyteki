@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class AvengingAura extends Card {
     // For the remainder of the turn, each friendly creature gains assault X, where X is the number of forged keys your opponent has.
@@ -19,4 +19,4 @@ class AvengingAura extends Card {
 
 AvengingAura.id = 'avenging-aura';
 
-module.exports = AvengingAura;
+export default AvengingAura;

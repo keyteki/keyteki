@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Pestergrove extends Card {
     // Each creature enters play enraged.
@@ -14,4 +14,4 @@ class Pestergrove extends Card {
 
 Pestergrove.id = 'pestergrove';
 
-module.exports = Pestergrove;
+export default Pestergrove;

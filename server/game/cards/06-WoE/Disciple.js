@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Disciple extends Card {
     // Disciple gets +1 power and +1 armor for each Monk neighbor it has
@@ -18,4 +18,4 @@ class Disciple extends Card {
 
 Disciple.id = 'disciple';
 
-module.exports = Disciple;
+export default Disciple;

@@ -1,0 +1,12 @@
+# Dependencies
+node_modules/
+
+# Build output
+public/vendor-*.js
+public/vendor-manifest.json
+
+# Test files (still using CommonJS)
+test/
+
+# Legacy files
+server/game/loader.js

@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class NiceToGreetYou extends Card {
     // Play: Ready each Mars creature.
@@ -13,4 +13,4 @@ class NiceToGreetYou extends Card {
 
 NiceToGreetYou.id = 'nice-to-greet-you';
 
-module.exports = NiceToGreetYou;
+export default NiceToGreetYou;

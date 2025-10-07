@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Adaptoid extends Card {
     // Enhance PTDR.
@@ -34,4 +34,4 @@ class Adaptoid extends Card {
 
 Adaptoid.id = 'adaptoid';
 
-module.exports = Adaptoid;
+export default Adaptoid;

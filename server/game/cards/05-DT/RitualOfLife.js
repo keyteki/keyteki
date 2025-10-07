@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class RitualOfLife extends Card {
     // Action: Destroy a friendly creature. If you do, return a different creature from your discard pile to your hand.
@@ -24,4 +24,4 @@ class RitualOfLife extends Card {
 
 RitualOfLife.id = 'ritual-of-life';
 
-module.exports = RitualOfLife;
+export default RitualOfLife;

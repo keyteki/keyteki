@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class KnowledgeIsPower extends Card {
     // Play: Choose one: Archive a card, or, for each archived card you have, gain 1A.
@@ -24,4 +24,4 @@ class KnowledgeIsPower extends Card {
 
 KnowledgeIsPower.id = 'knowledge-is-power';
 
-module.exports = KnowledgeIsPower;
+export default KnowledgeIsPower;

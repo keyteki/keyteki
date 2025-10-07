@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Kerwollop extends Card {
     // Play: Deal 1D to each creature. Gain 1A for each creature destroyed this way.
@@ -42,4 +42,4 @@ class Kerwollop extends Card {
 
 Kerwollop.id = 'kerwollop';
 
-module.exports = Kerwollop;
+export default Kerwollop;

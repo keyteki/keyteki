@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class DominatorBauble extends Card {
     // Action: Use a friendly creature.
@@ -15,4 +15,4 @@ class DominatorBauble extends Card {
 
 DominatorBauble.id = 'dominator-bauble';
 
-module.exports = DominatorBauble;
+export default DominatorBauble;

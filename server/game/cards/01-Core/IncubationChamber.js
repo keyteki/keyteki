@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class IncubationChamber extends Card {
     // Omni: Reveal a Mars creature from your hand. If you do, archive it.
@@ -18,4 +18,4 @@ class IncubationChamber extends Card {
 
 IncubationChamber.id = 'incubation-chamber';
 
-module.exports = IncubationChamber;
+export default IncubationChamber;

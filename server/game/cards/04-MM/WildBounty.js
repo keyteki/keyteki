@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class WildBounty extends Card {
     // Enhance AA.
@@ -29,4 +29,4 @@ class WildBounty extends Card {
 
 WildBounty.id = 'wild-bounty';
 
-module.exports = WildBounty;
+export default WildBounty;

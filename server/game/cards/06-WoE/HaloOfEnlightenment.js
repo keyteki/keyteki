@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class HaloOfEnlightenment extends Card {
     // This creature cannot be attacked while its controller controls a token creature.
@@ -25,4 +25,4 @@ class HaloOfEnlightenment extends Card {
 
 HaloOfEnlightenment.id = 'halo-of-enlightenment';
 
-module.exports = HaloOfEnlightenment;
+export default HaloOfEnlightenment;

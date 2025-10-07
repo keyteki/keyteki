@@ -1,4 +1,4 @@
-const PlayerAction = require('./PlayerAction');
+import PlayerAction from './PlayerAction.js';
 
 class SearchAction extends PlayerAction {
     setDefaultProperties() {
@@ -128,4 +128,4 @@ class SearchAction extends PlayerAction {
     }
 }
 
-module.exports = SearchAction;
+export default SearchAction;

@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class SpaceInvaders extends Card {
     // Play: Reveal any number of creatures from your hand. Make each
@@ -21,4 +21,4 @@ class SpaceInvaders extends Card {
 
 SpaceInvaders.id = 'space-invaders';
 
-module.exports = SpaceInvaders;
+export default SpaceInvaders;

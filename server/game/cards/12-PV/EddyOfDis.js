@@ -1,5 +1,5 @@
-const Card = require('../../Card.js');
-const _ = require('underscore');
+import Card from '../../Card.js';
+import _ from 'underscore';
 
 class EddyOfDis extends Card {
     // Play: Shuffle a random card from your opponent's hand into their deck.
@@ -34,4 +34,4 @@ class EddyOfDis extends Card {
 
 EddyOfDis.id = 'eddy-of-dis';
 
-module.exports = EddyOfDis;
+export default EddyOfDis;

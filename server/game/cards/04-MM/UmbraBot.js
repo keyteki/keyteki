@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class UmbraBot extends Card {
     // Elusive. (The first time this creature is attacked each turn, no damage is dealt.)
@@ -19,4 +19,4 @@ class UmbraBot extends Card {
 
 UmbraBot.id = 'umbra-bot';
 
-module.exports = UmbraBot;
+export default UmbraBot;

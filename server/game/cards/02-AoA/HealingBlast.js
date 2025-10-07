@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class HealingBlast extends Card {
     // Play: Fully heal a creature. If you healed 4 or more damage this way, gain 2A.
@@ -19,4 +19,4 @@ class HealingBlast extends Card {
 
 HealingBlast.id = 'healing-blast';
 
-module.exports = HealingBlast;
+export default HealingBlast;

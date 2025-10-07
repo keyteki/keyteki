@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class ExpectTheUnexpected extends Card {
     // During your opponent’s turn, after your opponent shuffles their deck, fulfill Expect the Unexpected.
@@ -16,4 +16,4 @@ class ExpectTheUnexpected extends Card {
 
 ExpectTheUnexpected.id = 'expect-the-unexpected';
 
-module.exports = ExpectTheUnexpected;
+export default ExpectTheUnexpected;

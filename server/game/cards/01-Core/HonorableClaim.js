@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class HonorableClaim extends Card {
     // Play: Each friendly Knight creature captures 1<A>.
@@ -15,4 +15,4 @@ class HonorableClaim extends Card {
 
 HonorableClaim.id = 'honorable-claim';
 
-module.exports = HonorableClaim;
+export default HonorableClaim;

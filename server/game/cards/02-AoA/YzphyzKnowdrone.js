@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class YzphyzKnowdrone extends Card {
     // Play: Archive a card. You may purge an archived card to stun a creature.
@@ -36,4 +36,4 @@ class YzphyzKnowdrone extends Card {
 
 YzphyzKnowdrone.id = 'yzphyz-knowdrone';
 
-module.exports = YzphyzKnowdrone;
+export default YzphyzKnowdrone;

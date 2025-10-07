@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class IhakaOfTheDepths extends Card {
     // After you draw a card during your turn, you may put the top
@@ -23,4 +23,4 @@ class IhakaOfTheDepths extends Card {
 
 IhakaOfTheDepths.id = 'ihaka-of-the-depths';
 
-module.exports = IhakaOfTheDepths;
+export default IhakaOfTheDepths;

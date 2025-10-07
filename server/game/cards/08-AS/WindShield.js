@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class WindShield extends Card {
     // This creature gains elusive and “After Reap: A friendly creature captures 1A.”
@@ -20,4 +20,4 @@ class WindShield extends Card {
 
 WindShield.id = 'wind-shield';
 
-module.exports = WindShield;
+export default WindShield;

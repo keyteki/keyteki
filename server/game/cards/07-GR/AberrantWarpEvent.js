@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 function discard(deck) {
     const index = deck.findIndex((card) => card.type === 'creature');
@@ -88,4 +88,4 @@ class AberrantWarpEvent extends Card {
 
 AberrantWarpEvent.id = 'aberrant-warp-event';
 
-module.exports = AberrantWarpEvent;
+export default AberrantWarpEvent;

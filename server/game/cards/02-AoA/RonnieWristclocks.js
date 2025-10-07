@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class RonnieWristclocks extends Card {
     // Play: Steal 1A. If your opponent has 7A or more, steal 2A instead.
@@ -13,4 +13,4 @@ class RonnieWristclocks extends Card {
 
 RonnieWristclocks.id = 'ronnie-wristclocks';
 
-module.exports = RonnieWristclocks;
+export default RonnieWristclocks;

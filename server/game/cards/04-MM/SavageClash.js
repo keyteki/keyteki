@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class SavageClash extends Card {
     // Play: Destroy each creature except the most powerful enemy creature and the least powerful friendly creature.
@@ -49,4 +49,4 @@ class SavageClash extends Card {
 
 SavageClash.id = 'savage-clash';
 
-module.exports = SavageClash;
+export default SavageClash;

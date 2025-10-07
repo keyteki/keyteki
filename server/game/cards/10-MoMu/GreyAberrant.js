@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class GreyAberrant extends Card {
     // Each creature loses each of its traits.
@@ -13,4 +13,4 @@ class GreyAberrant extends Card {
 
 GreyAberrant.id = 'grey-aberrant';
 
-module.exports = GreyAberrant;
+export default GreyAberrant;

@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class CreedOfNurture extends Card {
     // Omni: Sacrifice Creed of Nurture. If you do, reveal a creature from your hand and choose a creature in play. For the remainder of the turn, the chosen creature gains the text box of the revealed creature.
@@ -56,4 +56,4 @@ class CreedOfNurture extends Card {
 
 CreedOfNurture.id = 'creed-of-nurture';
 
-module.exports = CreedOfNurture;
+export default CreedOfNurture;

@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class LibraryOfTheDamned extends Card {
     // Action: Archive a card.
@@ -15,4 +15,4 @@ class LibraryOfTheDamned extends Card {
 
 LibraryOfTheDamned.id = 'library-of-the-damned';
 
-module.exports = LibraryOfTheDamned;
+export default LibraryOfTheDamned;

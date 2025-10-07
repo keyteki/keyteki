@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class WitchOfTheDawn extends Card {
     // Play: Return a creature from your discard pile to your hand.
@@ -16,4 +16,4 @@ class WitchOfTheDawn extends Card {
 
 WitchOfTheDawn.id = 'witch-of-the-dawn';
 
-module.exports = WitchOfTheDawn;
+export default WitchOfTheDawn;

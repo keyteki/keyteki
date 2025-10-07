@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Falcron extends Card {
     // Each of Falcron’s neighbors gains, “After Reap: Steal 1A.”
@@ -14,4 +14,4 @@ class Falcron extends Card {
 
 Falcron.id = 'falcron';
 
-module.exports = Falcron;
+export default Falcron;

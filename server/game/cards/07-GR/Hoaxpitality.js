@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Hoaxpitality extends Card {
     // Play: Choose an enemy creature and a friendly creature. Until
@@ -33,4 +33,4 @@ class Hoaxpitality extends Card {
 
 Hoaxpitality.id = 'hoaxpitality';
 
-module.exports = Hoaxpitality;
+export default Hoaxpitality;

@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class PullUpStakes extends Card {
     //Play: Shuffle 2 friendly creatures into their owners' decks. Return 4 enemy creatures to their owners' hands.
@@ -29,4 +29,4 @@ class PullUpStakes extends Card {
 
 PullUpStakes.id = 'pull-up-stakes';
 
-module.exports = PullUpStakes;
+export default PullUpStakes;

@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Snarette extends Card {
     // At the end of your turn, capture 1A.
@@ -23,4 +23,4 @@ class Snarette extends Card {
 
 Snarette.id = 'snarette';
 
-module.exports = Snarette;
+export default Snarette;

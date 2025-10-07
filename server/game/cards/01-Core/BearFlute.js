@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class BearFlute extends Card {
     // Action: Fully heal an Ancient Bear. If there are no Ancient Bears in play, search your deck and discard pile and put each Ancient Bear from them into your hand. If you do, shuffle your discard pile into your deck.
@@ -40,4 +40,4 @@ class BearFlute extends Card {
 
 BearFlute.id = 'bear-flute';
 
-module.exports = BearFlute;
+export default BearFlute;

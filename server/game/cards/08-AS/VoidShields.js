@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class VoidShields extends Card {
     // This creature gains, “At the end of your turn, ward this creature.”
@@ -16,4 +16,4 @@ class VoidShields extends Card {
 
 VoidShields.id = 'void-shields';
 
-module.exports = VoidShields;
+export default VoidShields;

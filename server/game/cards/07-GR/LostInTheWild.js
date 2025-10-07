@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class LostInTheWild extends Card {
     // Play: Shuffle each flank creature into its owner's deck. If you
@@ -25,4 +25,4 @@ class LostInTheWild extends Card {
 
 LostInTheWild.id = 'lost-in-the-wild';
 
-module.exports = LostInTheWild;
+export default LostInTheWild;

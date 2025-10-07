@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Crunch extends Card {
     // After Fight/After Reap: Give Crunch a number of +1 power
@@ -21,4 +21,4 @@ class Crunch extends Card {
 
 Crunch.id = 'crunch';
 
-module.exports = Crunch;
+export default Crunch;

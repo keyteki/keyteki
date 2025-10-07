@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class AemberStorm extends Card {
     // Play: For each A in your pool, deal 1 D to an enemy creature.
@@ -16,4 +16,4 @@ class AemberStorm extends Card {
 
 AemberStorm.id = 'æmber-storm';
 
-module.exports = AemberStorm;
+export default AemberStorm;

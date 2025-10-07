@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class TroopCall extends Card {
     // Play: Return each friendly Niffle creature from your discard pile and from play to your hand.
@@ -22,4 +22,4 @@ class TroopCall extends Card {
 
 TroopCall.id = 'troop-call';
 
-module.exports = TroopCall;
+export default TroopCall;

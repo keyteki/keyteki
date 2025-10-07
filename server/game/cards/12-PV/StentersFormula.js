@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class StentersFormula extends Card {
     // Play: Ward up to 3 creatures. Draw a card.
@@ -20,4 +20,4 @@ class StentersFormula extends Card {
 
 StentersFormula.id = 'stenter-s-formula';
 
-module.exports = StentersFormula;
+export default StentersFormula;

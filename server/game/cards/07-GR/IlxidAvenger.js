@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class IlxidAvenger extends Card {
     // Play/After Fight: Give Ilxid Avenger a +1 power counter for
@@ -32,4 +32,4 @@ class IlxidAvenger extends Card {
 
 IlxidAvenger.id = 'ilxid-avenger';
 
-module.exports = IlxidAvenger;
+export default IlxidAvenger;

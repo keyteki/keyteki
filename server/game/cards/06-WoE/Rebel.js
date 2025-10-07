@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Rebel extends Card {
     //Reap: Deal 1D to a creature.
@@ -14,4 +14,4 @@ class Rebel extends Card {
 
 Rebel.id = 'rebel';
 
-module.exports = Rebel;
+export default Rebel;

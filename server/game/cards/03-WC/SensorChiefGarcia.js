@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class SensorChiefGarcia extends Card {
     // Play/Fight/Reap: Keys cost +2A during your opponents next turn.
@@ -18,4 +18,4 @@ class SensorChiefGarcia extends Card {
 
 SensorChiefGarcia.id = 'sensor-chief-garcia';
 
-module.exports = SensorChiefGarcia;
+export default SensorChiefGarcia;

@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class TradeSecrets extends Card {
     // Play: Discard any number of Ekwidon cards from your hand. Steal
@@ -25,4 +25,4 @@ class TradeSecrets extends Card {
 
 TradeSecrets.id = 'trade-secrets';
 
-module.exports = TradeSecrets;
+export default TradeSecrets;

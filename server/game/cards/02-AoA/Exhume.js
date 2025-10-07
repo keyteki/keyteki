@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Exhume extends Card {
     // Play: Choose a creature in your discard pile. You may play that creature as if it belonged to the active house and was in your hand.
@@ -17,4 +17,4 @@ class Exhume extends Card {
 
 Exhume.id = 'exhume';
 
-module.exports = Exhume;
+export default Exhume;

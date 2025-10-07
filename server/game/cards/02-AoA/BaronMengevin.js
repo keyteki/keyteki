@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class BaronMengevin extends Card {
     // After you discard a Sanctum card from your hand, Baron Mengevin captures 1A.
@@ -18,4 +18,4 @@ class BaronMengevin extends Card {
 
 BaronMengevin.id = 'baron-mengevin';
 
-module.exports = BaronMengevin;
+export default BaronMengevin;

@@ -1,5 +1,5 @@
-const Card = require('../../Card.js');
-const EventRegistrar = require('../../eventregistrar.js');
+import Card from '../../Card.js';
+import EventRegistrar from '../../eventregistrar.js';
 
 class EdictOfNerotaurus extends Card {
     // After a creature reaps, the next creature used this turn cannot reap.
@@ -58,4 +58,4 @@ class EdictOfNerotaurus extends Card {
 
 EdictOfNerotaurus.id = 'edict-of-nerotaurus';
 
-module.exports = EdictOfNerotaurus;
+export default EdictOfNerotaurus;

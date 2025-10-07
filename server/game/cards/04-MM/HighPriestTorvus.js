@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class HighPriestTorvus extends Card {
     // Reap: You may exalt High Priest Torvus. If you do, after you resolve your next action card this turn, return it to your hand instead of placing it in your discard pile.
@@ -28,4 +28,4 @@ class HighPriestTorvus extends Card {
 
 HighPriestTorvus.id = 'high-priest-torvus';
 
-module.exports = HighPriestTorvus;
+export default HighPriestTorvus;

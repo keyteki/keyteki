@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Hookmaster extends Card {
     // (T) Fight: If the tide is high, your opponent loses 2A.
@@ -12,4 +12,4 @@ class Hookmaster extends Card {
 
 Hookmaster.id = 'hookmaster';
 
-module.exports = Hookmaster;
+export default Hookmaster;

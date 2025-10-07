@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class GrinderSwarm extends Card {
     // Grinder Swarm gets +1 power for each creature in play.
@@ -15,4 +15,4 @@ class GrinderSwarm extends Card {
 
 GrinderSwarm.id = 'grinder-swarm';
 
-module.exports = GrinderSwarm;
+export default GrinderSwarm;

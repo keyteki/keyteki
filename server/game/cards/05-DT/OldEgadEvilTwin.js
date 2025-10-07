@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class OldEgadEvilTwin extends Card {
     // Destroyed: Enrage each enemy creature.
@@ -13,4 +13,4 @@ class OldEgadEvilTwin extends Card {
 
 OldEgadEvilTwin.id = 'old-egad-evil-twin';
 
-module.exports = OldEgadEvilTwin;
+export default OldEgadEvilTwin;

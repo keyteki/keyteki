@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class AzureBasinOutpost extends Card {
     // Action: Put a friendly creatue on the bottom of its owner's deck. If you do, exhaust 3 enemy creatures.
@@ -24,4 +24,4 @@ class AzureBasinOutpost extends Card {
 
 AzureBasinOutpost.id = 'azure-basin-outpost';
 
-module.exports = AzureBasinOutpost;
+export default AzureBasinOutpost;

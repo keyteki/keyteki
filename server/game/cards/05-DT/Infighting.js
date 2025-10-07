@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Infighting extends Card {
     // Play: Each creature deals damage equal to its power to its right neighbor.
@@ -37,4 +37,4 @@ class Infighting extends Card {
 
 Infighting.id = 'infighting';
 
-module.exports = Infighting;
+export default Infighting;

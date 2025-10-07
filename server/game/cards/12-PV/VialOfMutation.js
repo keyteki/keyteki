@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class VialOfMutation extends Card {
     // Play: Put a Mutation counter on 2 creatures. While those creatures have a mutation counter, they gain the Mutant trait.
@@ -31,4 +31,4 @@ class VialOfMutation extends Card {
 
 VialOfMutation.id = 'vial-of-mutation';
 
-module.exports = VialOfMutation;
+export default VialOfMutation;

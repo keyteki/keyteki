@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class QyxxlyxPlagueMaster extends Card {
     // Fight/Reap: Deal 3D to each Human creature. This damage cannot be prevented by armor.
@@ -16,4 +16,4 @@ class QyxxlyxPlagueMaster extends Card {
 
 QyxxlyxPlagueMaster.id = 'qyxxlyx-plague-master';
 
-module.exports = QyxxlyxPlagueMaster;
+export default QyxxlyxPlagueMaster;

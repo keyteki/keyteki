@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class ProtectTheWeak extends Card {
     // This creature gets +1armor and gains taunt. (This creatures neighbors cannot be attacked unless they have taunt.)
@@ -11,4 +11,4 @@ class ProtectTheWeak extends Card {
 
 ProtectTheWeak.id = 'protect-the-weak';
 
-module.exports = ProtectTheWeak;
+export default ProtectTheWeak;

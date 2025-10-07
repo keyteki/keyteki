@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class NiffleApe extends Card {
     // While Niffle Ape is attacking, ignore taunt and elusive.
@@ -11,4 +11,4 @@ class NiffleApe extends Card {
 
 NiffleApe.id = 'niffle-ape';
 
-module.exports = NiffleApe;
+export default NiffleApe;

@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class DeepwaterGruen extends Card {
     // (T) Play/Reap: If the tide is low, your opponent gains 1A.
@@ -15,4 +15,4 @@ class DeepwaterGruen extends Card {
 
 DeepwaterGruen.id = 'deepwater-gruen';
 
-module.exports = DeepwaterGruen;
+export default DeepwaterGruen;

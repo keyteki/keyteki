@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Harmonia extends Card {
     // Elusive. (The first time this creature is attacked each turn, no damage is dealt.)
@@ -24,4 +24,4 @@ class Harmonia extends Card {
 
 Harmonia.id = 'harmonia';
 
-module.exports = Harmonia;
+export default Harmonia;

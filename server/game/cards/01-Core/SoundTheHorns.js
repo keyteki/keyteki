@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class SoundTheHorns extends Card {
     // Play: Discard cards from the top of your deck until you either discard a Brobnar creature or run out of cards. If you discarded a Brobnar creature this way, put it into your hand.
@@ -36,4 +36,4 @@ class SoundTheHorns extends Card {
 
 SoundTheHorns.id = 'sound-the-horns';
 
-module.exports = SoundTheHorns;
+export default SoundTheHorns;

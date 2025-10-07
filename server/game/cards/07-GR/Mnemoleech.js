@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Mnemoleech extends Card {
     // After Reap: If your opponent is haunted, steal 2A. Otherwise, steal 1A.
@@ -24,4 +24,4 @@ class Mnemoleech extends Card {
 
 Mnemoleech.id = 'mnemoleech';
 
-module.exports = Mnemoleech;
+export default Mnemoleech;

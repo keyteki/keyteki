@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Unprepared extends Card {
     // Play: Choose a house. Stun each creature of that house.
@@ -16,4 +16,4 @@ class Unprepared extends Card {
 
 Unprepared.id = 'unprepared';
 
-module.exports = Unprepared;
+export default Unprepared;

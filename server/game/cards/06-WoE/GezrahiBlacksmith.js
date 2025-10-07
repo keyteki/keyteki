@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class GezrahiBlacksmith extends Card {
     // At the start of each player's turn, that player chooses to
@@ -24,4 +24,4 @@ class GezrahiBlacksmith extends Card {
 
 GezrahiBlacksmith.id = 'gezrăhi-blacksmith';
 
-module.exports = GezrahiBlacksmith;
+export default GezrahiBlacksmith;

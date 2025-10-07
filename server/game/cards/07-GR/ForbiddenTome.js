@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class ForbiddenTome extends Card {
     // Each haunted player refills their hand to 1 additional card
@@ -14,4 +14,4 @@ class ForbiddenTome extends Card {
 
 ForbiddenTome.id = 'forbidden-tome';
 
-module.exports = ForbiddenTome;
+export default ForbiddenTome;

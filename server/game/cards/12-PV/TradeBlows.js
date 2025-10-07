@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class TradeBlows extends Card {
     // Play: Deal 1 to an enemy creature. If that creature is not destroyed, you may deal 1 to a friendly creature to repeat this effect.
@@ -31,4 +31,4 @@ class TradeBlows extends Card {
 
 TradeBlows.id = 'trade-blows';
 
-module.exports = TradeBlows;
+export default TradeBlows;

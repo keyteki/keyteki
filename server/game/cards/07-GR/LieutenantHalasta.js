@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class LieutenantHalasta extends Card {
     // After Reap: Stun a creature.
@@ -27,4 +27,4 @@ class LieutenantHalasta extends Card {
 
 LieutenantHalasta.id = 'lieutenant-halasta';
 
-module.exports = LieutenantHalasta;
+export default LieutenantHalasta;

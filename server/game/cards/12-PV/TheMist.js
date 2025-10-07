@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class TheMist extends Card {
     // Omni: Destroy The Mist. For the remainder of the turn, each creature gains the Mutant trait.
@@ -20,4 +20,4 @@ class TheMist extends Card {
 
 TheMist.id = 'the-mist';
 
-module.exports = TheMist;
+export default TheMist;

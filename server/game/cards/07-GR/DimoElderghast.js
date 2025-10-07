@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class DimoElderghast extends Card {
     // Each friendly creature with A on it gains, “Destroyed: If you
@@ -19,4 +19,4 @@ class DimoElderghast extends Card {
 
 DimoElderghast.id = 'dimo-elderghast';
 
-module.exports = DimoElderghast;
+export default DimoElderghast;

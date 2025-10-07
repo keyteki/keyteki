@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class WastefulRegret extends Card {
     // During your opponent's turn, after your opponent discards a cards from their hand, fulfill Wasteful Regret.
@@ -19,4 +19,4 @@ class WastefulRegret extends Card {
 
 WastefulRegret.id = 'wasteful-regret';
 
-module.exports = WastefulRegret;
+export default WastefulRegret;

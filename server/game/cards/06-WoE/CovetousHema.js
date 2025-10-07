@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class CovetousHema extends Card {
     //While Covetous Hema is not on a flank, it gains elusive.
@@ -23,4 +23,4 @@ class CovetousHema extends Card {
 
 CovetousHema.id = 'covetous-hema';
 
-module.exports = CovetousHema;
+export default CovetousHema;

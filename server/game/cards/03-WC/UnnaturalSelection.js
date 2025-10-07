@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class UnnaturalSelection extends Card {
     // Play: Choose 3 friendly creatures and 3enemy creatures. Destroy each other creature.
@@ -33,4 +33,4 @@ class UnnaturalSelection extends Card {
 
 UnnaturalSelection.id = 'unnatural-selection';
 
-module.exports = UnnaturalSelection;
+export default UnnaturalSelection;

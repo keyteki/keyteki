@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class ViscountOfAerys extends Card {
     // While your yellow key is forged, each enemy creature enters play stunned.
@@ -23,4 +23,4 @@ class ViscountOfAerys extends Card {
 
 ViscountOfAerys.id = 'viscount-of-aerys';
 
-module.exports = ViscountOfAerys;
+export default ViscountOfAerys;

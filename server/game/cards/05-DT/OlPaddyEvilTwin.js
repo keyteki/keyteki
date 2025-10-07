@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class OlPaddyEvilTwin extends Card {
     // (T) Reap: Discard the bottom card of your opponent's deck, or the bottom 3 cards instead if the tide is high. Destroy a creature that shares a house with 1 of the discarded cards.
@@ -26,4 +26,4 @@ class OlPaddyEvilTwin extends Card {
 
 OlPaddyEvilTwin.id = 'ol--paddy-evil-twin';
 
-module.exports = OlPaddyEvilTwin;
+export default OlPaddyEvilTwin;

@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class TreatEachActionAsYourLast extends Card {
     // During your opponent's turn, after your opponent plays their second action that turn, fulfill Treat Each Action as Your Last
@@ -20,4 +20,4 @@ class TreatEachActionAsYourLast extends Card {
 
 TreatEachActionAsYourLast.id = 'treat-each-action-as-your-last';
 
-module.exports = TreatEachActionAsYourLast;
+export default TreatEachActionAsYourLast;

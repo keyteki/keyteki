@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class GrowthSurge extends Card {
     // Play: Give a flank creature three +1 power counters. Give its neighbor two +1 power counters. Give the second creature's other neighbor a +1 power counter.
@@ -96,4 +96,4 @@ class GrowthSurge extends Card {
 
 GrowthSurge.id = 'growth-surge';
 
-module.exports = GrowthSurge;
+export default GrowthSurge;

@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class IrradiatedAmber extends Card {
     // Play: If your opponent has 6<A> or more, deal 3<D> to each enemy creature.
@@ -16,4 +16,4 @@ class IrradiatedAmber extends Card {
 
 IrradiatedAmber.id = 'irradiated-æmber';
 
-module.exports = IrradiatedAmber;
+export default IrradiatedAmber;

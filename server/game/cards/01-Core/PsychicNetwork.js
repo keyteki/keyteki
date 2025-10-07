@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class PsychicNetwork extends Card {
     // Play: Steal 1<A> for each friendly ready Mars creature.
@@ -15,4 +15,4 @@ class PsychicNetwork extends Card {
 
 PsychicNetwork.id = 'psychic-network';
 
-module.exports = PsychicNetwork;
+export default PsychicNetwork;

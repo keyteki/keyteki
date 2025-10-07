@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Faygin extends Card {
     // Elusive. (The first time this creature is attacked each turn, no damage is dealt.)
@@ -20,4 +20,4 @@ class Faygin extends Card {
 
 Faygin.id = 'faygin';
 
-module.exports = Faygin;
+export default Faygin;

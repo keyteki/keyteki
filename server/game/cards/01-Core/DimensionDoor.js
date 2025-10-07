@@ -1,5 +1,5 @@
-const Card = require('../../Card.js');
-const EventRegistrar = require('../../eventregistrar.js');
+import Card from '../../Card.js';
+import EventRegistrar from '../../eventregistrar.js';
 
 class DimensionDoor extends Card {
     // Play: For the remainder of the turn, any <A> you would gain from reaping is stolen from your opponent instead.
@@ -36,4 +36,4 @@ class DimensionDoor extends Card {
 
 DimensionDoor.id = 'dimension-door';
 
-module.exports = DimensionDoor;
+export default DimensionDoor;

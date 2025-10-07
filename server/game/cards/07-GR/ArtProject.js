@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class ArtProject extends Card {
     // Play: Unforge an opponent’s key. If you do, purge Art Project,
@@ -23,4 +23,4 @@ class ArtProject extends Card {
 
 ArtProject.id = 'art-project';
 
-module.exports = ArtProject;
+export default ArtProject;

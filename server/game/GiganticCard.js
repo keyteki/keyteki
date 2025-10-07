@@ -1,4 +1,4 @@
-const Card = require('./Card.js');
+import Card from './Card.js';
 
 class GiganticCard extends Card {
     constructor(owner, cardData) {
@@ -47,4 +47,4 @@ class GiganticCard extends Card {
     }
 }
 
-module.exports = GiganticCard;
+export default GiganticCard;

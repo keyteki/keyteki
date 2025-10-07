@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class AutoEncoder extends Card {
     // After a card is discarded from your hand, archive the top card of your deck.
@@ -17,4 +17,4 @@ class AutoEncoder extends Card {
 
 AutoEncoder.id = 'auto-encoder';
 
-module.exports = AutoEncoder;
+export default AutoEncoder;

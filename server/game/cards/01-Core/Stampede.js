@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Stampede extends Card {
     // Play: If you used 3 or more creatures this turn, steal 2<A>.
@@ -13,4 +13,4 @@ class Stampede extends Card {
 
 Stampede.id = 'stampede';
 
-module.exports = Stampede;
+export default Stampede;

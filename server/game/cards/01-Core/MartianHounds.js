@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class MartianHounds extends Card {
     // Play: Choose a creature. For each damaged creature, give the chosen creature two +1power counters.
@@ -18,4 +18,4 @@ class MartianHounds extends Card {
 
 MartianHounds.id = 'martian-hounds';
 
-module.exports = MartianHounds;
+export default MartianHounds;

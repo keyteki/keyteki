@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class BlossomDrake extends Card {
     // Blossom Drake gets +1 power for each artifact in play.
@@ -20,4 +20,4 @@ class BlossomDrake extends Card {
 
 BlossomDrake.id = 'blossom-drake';
 
-module.exports = BlossomDrake;
+export default BlossomDrake;

@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Whirlpool extends Card {
     // At the end of each player's turn, that player gives control of the creature on their right flank to their opponent and moves it to that player's left flank.
@@ -28,4 +28,4 @@ class Whirlpool extends Card {
 
 Whirlpool.id = 'whirlpool';
 
-module.exports = Whirlpool;
+export default Whirlpool;

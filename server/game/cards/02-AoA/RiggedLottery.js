@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class RiggedLottery extends Card {
     // Play: Each player discards the top 5cards of their deck. For each Shadows card discarded, its owner gains 1A.
@@ -65,4 +65,4 @@ class RiggedLottery extends Card {
 
 RiggedLottery.id = 'rigged-lottery';
 
-module.exports = RiggedLottery;
+export default RiggedLottery;

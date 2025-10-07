@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class BullWark extends Card {
     // Assault 2. (Before this creature attacks, deal 2 to the attacked enemy.)
@@ -13,4 +13,4 @@ class BullWark extends Card {
 
 BullWark.id = 'bull-wark';
 
-module.exports = BullWark;
+export default BullWark;

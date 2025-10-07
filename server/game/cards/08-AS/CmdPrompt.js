@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class CmdPrompt extends Card {
     // After Reap: You may play a non-Logos card this turn.
@@ -14,4 +14,4 @@ class CmdPrompt extends Card {
 
 CmdPrompt.id = 'cmd-prompt';
 
-module.exports = CmdPrompt;
+export default CmdPrompt;

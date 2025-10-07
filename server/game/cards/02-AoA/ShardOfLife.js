@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class ShardOfLife extends Card {
     // Action: Shuffle a card from your discard pile into your deck for each friendly Shard.
@@ -21,4 +21,4 @@ class ShardOfLife extends Card {
 
 ShardOfLife.id = 'shard-of-life';
 
-module.exports = ShardOfLife;
+export default ShardOfLife;

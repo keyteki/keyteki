@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class KeyHammer extends Card {
     // Play: If your opponent forged a key on their previous turn, unforge it. Your opponent gains 6<A>.
@@ -24,4 +24,4 @@ class KeyHammer extends Card {
 
 KeyHammer.id = 'key-hammer';
 
-module.exports = KeyHammer;
+export default KeyHammer;

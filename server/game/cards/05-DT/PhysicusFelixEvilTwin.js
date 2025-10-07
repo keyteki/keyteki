@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class PhysicusFelixEvilTwin extends Card {
     // (T) Play/Fight: If the tide is low, you may exalt a creature.
@@ -17,4 +17,4 @@ class PhysicusFelixEvilTwin extends Card {
 
 PhysicusFelixEvilTwin.id = 'physicus-felix-evil-twin';
 
-module.exports = PhysicusFelixEvilTwin;
+export default PhysicusFelixEvilTwin;

@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Tangrant extends Card {
     // You may play a Mars card during each turn in which Mars is not your active house.
@@ -12,4 +12,4 @@ class Tangrant extends Card {
 
 Tangrant.id = 'tangrant';
 
-module.exports = Tangrant;
+export default Tangrant;

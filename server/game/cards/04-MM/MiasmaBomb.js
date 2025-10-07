@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class MiasmaBomb extends Card {
     // Enhance . (These icons have already been added to cards in your deck.)
@@ -21,4 +21,4 @@ class MiasmaBomb extends Card {
 
 MiasmaBomb.id = 'miasma-bomb';
 
-module.exports = MiasmaBomb;
+export default MiasmaBomb;

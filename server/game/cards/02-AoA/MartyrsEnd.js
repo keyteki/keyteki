@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class MartyrsEnd extends Card {
     // Play: Destroy any number of friendly creatures. Gain 1A for each creature destroyed this way.
@@ -25,4 +25,4 @@ class MartyrsEnd extends Card {
 
 MartyrsEnd.id = 'martyr-s-end';
 
-module.exports = MartyrsEnd;
+export default MartyrsEnd;

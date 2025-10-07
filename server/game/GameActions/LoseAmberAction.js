@@ -1,4 +1,4 @@
-const PlayerAction = require('./PlayerAction');
+import PlayerAction from './PlayerAction.js';
 
 class LoseAmberAction extends PlayerAction {
     setDefaultProperties() {
@@ -33,4 +33,4 @@ class LoseAmberAction extends PlayerAction {
     }
 }
 
-module.exports = LoseAmberAction;
+export default LoseAmberAction;

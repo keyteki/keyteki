@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class TheFloorIsLava extends Card {
     // At the start of your turn, deal 1D to a friendly creature and 1D to an enemy creature.
@@ -27,4 +27,4 @@ class TheFloorIsLava extends Card {
 
 TheFloorIsLava.id = 'the-floor-is-lava';
 
-module.exports = TheFloorIsLava;
+export default TheFloorIsLava;

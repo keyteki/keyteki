@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class SirJaune extends Card {
     // Play: Capture one third of your opponent's (rounded down).
@@ -22,4 +22,4 @@ class SirJaune extends Card {
 
 SirJaune.id = 'sir-jaune';
 
-module.exports = SirJaune;
+export default SirJaune;

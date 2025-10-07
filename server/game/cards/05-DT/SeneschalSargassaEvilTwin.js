@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class SeneschalSargassaEvilTwin extends Card {
     // (T) After a player raises the tide, Seneschal Sargassa captures 2A from your opponent.
@@ -17,4 +17,4 @@ class SeneschalSargassaEvilTwin extends Card {
 
 SeneschalSargassaEvilTwin.id = 'seneschal-sargassa-evil-twin';
 
-module.exports = SeneschalSargassaEvilTwin;
+export default SeneschalSargassaEvilTwin;

@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class SquireAlys extends Card {
     // Play: Capture 2A.
@@ -11,4 +11,4 @@ class SquireAlys extends Card {
 
 SquireAlys.id = 'squire-alys';
 
-module.exports = SquireAlys;
+export default SquireAlys;

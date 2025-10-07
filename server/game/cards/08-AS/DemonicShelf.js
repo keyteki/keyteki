@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class DemonicShelf extends Card {
     // Action: Put a friendly creature faceup under Demonic
@@ -26,4 +26,4 @@ class DemonicShelf extends Card {
 
 DemonicShelf.id = 'demonic-shelf';
 
-module.exports = DemonicShelf;
+export default DemonicShelf;

@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class StaffUp extends Card {
     // Play: For the remainder of the turn. when any amount of Aember
@@ -36,4 +36,4 @@ class StaffUp extends Card {
 
 StaffUp.id = 'staff-up';
 
-module.exports = StaffUp;
+export default StaffUp;

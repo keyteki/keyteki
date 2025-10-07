@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class WeakLink extends Card {
     //This creature gains, "While this creature is exhausted, your keys cost +6A icon."
@@ -16,4 +16,4 @@ class WeakLink extends Card {
 
 WeakLink.id = 'weak-link';
 
-module.exports = WeakLink;
+export default WeakLink;

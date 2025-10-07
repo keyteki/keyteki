@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class SilAT8 extends Card {
     // Enhance .
@@ -31,4 +31,4 @@ class SilAT8 extends Card {
 
 SilAT8.id = 'sil-a-t8';
 
-module.exports = SilAT8;
+export default SilAT8;

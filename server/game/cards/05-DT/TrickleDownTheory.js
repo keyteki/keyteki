@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class TrickleDownTheory extends Card {
     // (T) Play: Raise the tide.
@@ -17,4 +17,4 @@ class TrickleDownTheory extends Card {
 
 TrickleDownTheory.id = 'trickle-down-theory';
 
-module.exports = TrickleDownTheory;
+export default TrickleDownTheory;

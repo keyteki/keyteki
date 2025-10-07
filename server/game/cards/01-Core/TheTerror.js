@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class TheTerror extends Card {
     // Play: If your opponent has no <A>, gain 2<A>.
@@ -12,4 +12,4 @@ class TheTerror extends Card {
 
 TheTerror.id = 'the-terror';
 
-module.exports = TheTerror;
+export default TheTerror;

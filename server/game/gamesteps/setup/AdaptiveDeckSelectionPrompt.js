@@ -1,5 +1,5 @@
-const AllPlayerPrompt = require('../allplayerprompt');
-const ChainBiddingPrompt = require('./ChainBiddingPrompt');
+import AllPlayerPrompt from '../allplayerprompt.js';
+import ChainBiddingPrompt from './ChainBiddingPrompt.js';
 
 class AdaptiveDeckSelectionPrompt extends AllPlayerPrompt {
     constructor(game) {
@@ -89,4 +89,4 @@ class AdaptiveDeckSelectionPrompt extends AllPlayerPrompt {
     }
 }
 
-module.exports = AdaptiveDeckSelectionPrompt;
+export default AdaptiveDeckSelectionPrompt;

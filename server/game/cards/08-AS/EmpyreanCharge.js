@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class EmpyreanCharge extends Card {
     // Play: Forge a key at +6A current cost, reduced by the total
@@ -31,4 +31,4 @@ class EmpyreanCharge extends Card {
 
 EmpyreanCharge.id = 'empyrean-charge';
 
-module.exports = EmpyreanCharge;
+export default EmpyreanCharge;

@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Soleft extends Card {
     // Destroyed: Destroy the creature on your opponent's left flank.
@@ -13,4 +13,4 @@ class Soleft extends Card {
 
 Soleft.id = 'soleft';
 
-module.exports = Soleft;
+export default Soleft;

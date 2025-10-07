@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Restringuntus extends Card {
     // Play: Choose a house. Your opponent cannot choose that house as their active house until Restringuntus leaves play.
@@ -23,4 +23,4 @@ class Restringuntus extends Card {
 
 Restringuntus.id = 'restringuntus';
 
-module.exports = Restringuntus;
+export default Restringuntus;

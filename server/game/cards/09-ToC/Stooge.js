@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Stooge extends Card {
     // Action: If Stooge is on a flank, make a token creature.
@@ -12,4 +12,4 @@ class Stooge extends Card {
 
 Stooge.id = 'stooge';
 
-module.exports = Stooge;
+export default Stooge;

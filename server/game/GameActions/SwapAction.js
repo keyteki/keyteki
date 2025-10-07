@@ -1,4 +1,4 @@
-const CardGameAction = require('./CardGameAction');
+import CardGameAction from './CardGameAction.js';
 
 class SwapAction extends CardGameAction {
     constructor(propertyFactory, swapTokens = false, swapUpgrades = false) {
@@ -58,4 +58,4 @@ class SwapAction extends CardGameAction {
     }
 }
 
-module.exports = SwapAction;
+export default SwapAction;

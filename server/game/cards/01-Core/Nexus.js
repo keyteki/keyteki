@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Nexus extends Card {
     // Elusive. (The first time this creature is attacked each turn, no damage is dealt.)
@@ -16,4 +16,4 @@ class Nexus extends Card {
 
 Nexus.id = 'nexus';
 
-module.exports = Nexus;
+export default Nexus;

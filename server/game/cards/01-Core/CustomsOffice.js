@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class CustomsOffice extends Card {
     // Your opponent must pay you 1A in order to play an artifact.
@@ -16,4 +16,4 @@ class CustomsOffice extends Card {
 
 CustomsOffice.id = 'customs-office';
 
-module.exports = CustomsOffice;
+export default CustomsOffice;

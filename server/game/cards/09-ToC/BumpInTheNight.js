@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class BumpInTheNight extends Card {
     // Play: Deal 2D to an enemy creature. If this damage destroys
@@ -38,4 +38,4 @@ class BumpInTheNight extends Card {
 
 BumpInTheNight.id = 'bump-in-the-night';
 
-module.exports = BumpInTheNight;
+export default BumpInTheNight;

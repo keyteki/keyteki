@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Blypyp extends Card {
     // Reap: The next Mars creature you play this turn enters play ready.
@@ -26,4 +26,4 @@ class Blypyp extends Card {
 
 Blypyp.id = 'blypyp';
 
-module.exports = Blypyp;
+export default Blypyp;

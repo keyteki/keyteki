@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Digitallia extends Card {
     // Enhance 1.
@@ -15,4 +15,4 @@ class Digitallia extends Card {
 
 Digitallia.id = 'digitallia';
 
-module.exports = Digitallia;
+export default Digitallia;

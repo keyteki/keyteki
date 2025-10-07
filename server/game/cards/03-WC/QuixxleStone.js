@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class QuixxleStone extends Card {
     // If a player has more creatures in play than their opponent, they cannot play creatures.
@@ -26,4 +26,4 @@ class QuixxleStone extends Card {
 
 QuixxleStone.id = 'quixxle-stone';
 
-module.exports = QuixxleStone;
+export default QuixxleStone;

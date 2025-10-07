@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class StealthModifications extends Card {
     // This creature and each of its neighbors gains elusive.
@@ -24,4 +24,4 @@ class StealthModifications extends Card {
 
 StealthModifications.id = 'stealth-modifications';
 
-module.exports = StealthModifications;
+export default StealthModifications;

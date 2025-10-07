@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Stratowise extends Card {
     // After Fight/After Reap: Discard a card. If you are haunted, capture 1A.
@@ -23,4 +23,4 @@ class Stratowise extends Card {
 
 Stratowise.id = 'stratowise';
 
-module.exports = Stratowise;
+export default Stratowise;

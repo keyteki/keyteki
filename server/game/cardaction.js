@@ -1,5 +1,5 @@
-const CardAbility = require('./CardAbility.js');
-const Costs = require('./costs.js');
+import CardAbility from './CardAbility.js';
+import Costs from './costs.js';
 
 /**
  * Represents an action ability provided by card text.
@@ -101,4 +101,4 @@ class CardAction extends CardAbility {
     }
 }
 
-module.exports = CardAction;
+export default CardAction;

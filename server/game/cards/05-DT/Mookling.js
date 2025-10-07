@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Mookling extends Card {
     // Your opponent's keys cost +XA, where X is Mookling's power.
@@ -10,4 +10,4 @@ class Mookling extends Card {
     }
 }
 Mookling.id = 'mookling';
-module.exports = Mookling;
+export default Mookling;

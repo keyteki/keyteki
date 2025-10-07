@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class AbyssalSight extends Card {
     // Play: Destroy a friendly creature. If you do, look at your opponent's hand and choose a card from it. That player discards that card.
@@ -25,4 +25,4 @@ class AbyssalSight extends Card {
 
 AbyssalSight.id = 'abyssal-sight';
 
-module.exports = AbyssalSight;
+export default AbyssalSight;

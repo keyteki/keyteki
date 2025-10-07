@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class SirMarrows extends Card {
     // After your opponent gains A by reaping, Sir Marrows captures it.
@@ -29,4 +29,4 @@ class SirMarrows extends Card {
 
 SirMarrows.id = 'sir-marrows';
 
-module.exports = SirMarrows;
+export default SirMarrows;

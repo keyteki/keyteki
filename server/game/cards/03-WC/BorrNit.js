@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class BorrNit extends Card {
     // Reap: Reveal the top 5 cards of a players deck. Purge a card revealed this way. Shuffle the other revealed cards into that deck.
@@ -45,4 +45,4 @@ class BorrNit extends Card {
 
 BorrNit.id = 'borr-nit';
 
-module.exports = BorrNit;
+export default BorrNit;

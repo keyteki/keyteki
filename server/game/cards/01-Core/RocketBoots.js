@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class RocketBoots extends Card {
     // This creature gains, Fight/Reap: If this is the first time this creature was used this turn, ready it.
@@ -24,4 +24,4 @@ class RocketBoots extends Card {
 
 RocketBoots.id = 'rocket-boots';
 
-module.exports = RocketBoots;
+export default RocketBoots;

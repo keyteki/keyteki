@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class BrikkNastee extends Card {
     //After another friendly Brobnar creature fights, gain 1A.
@@ -21,4 +21,4 @@ class BrikkNastee extends Card {
 
 BrikkNastee.id = 'brikk-nastee';
 
-module.exports = BrikkNastee;
+export default BrikkNastee;

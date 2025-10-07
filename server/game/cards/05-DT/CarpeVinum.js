@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class CarpeVinum extends Card {
     // Play: Exalt 2 enemy creatures.
@@ -17,4 +17,4 @@ class CarpeVinum extends Card {
 
 CarpeVinum.id = 'carpe-vinum';
 
-module.exports = CarpeVinum;
+export default CarpeVinum;

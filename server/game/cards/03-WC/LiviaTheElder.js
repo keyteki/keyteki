@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class LiviaTheElder extends Card {
     // Reap: You may exalt Livia the Elder. If you do, each friendly creatures fight effects and reap effects are fight/reap effects for the remainder of the turn.
@@ -20,4 +20,4 @@ class LiviaTheElder extends Card {
 
 LiviaTheElder.id = 'livia-the-elder';
 
-module.exports = LiviaTheElder;
+export default LiviaTheElder;

@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class FuzzyGruen extends Card {
     // Play: Your opponent gains 1A.
@@ -16,4 +16,4 @@ class FuzzyGruen extends Card {
 
 FuzzyGruen.id = 'fuzzy-gruen';
 
-module.exports = FuzzyGruen;
+export default FuzzyGruen;

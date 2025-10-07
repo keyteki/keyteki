@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class NumquidTheFair extends Card {
     // Play: Destroy an enemy creature. Repeat this cards effect if your opponent still controls more creatures than you.
@@ -23,4 +23,4 @@ class NumquidTheFair extends Card {
 
 NumquidTheFair.id = 'numquid-the-fair';
 
-module.exports = NumquidTheFair;
+export default NumquidTheFair;

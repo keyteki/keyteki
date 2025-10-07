@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Fogbank extends Card {
     // Play: Your opponent cannot use creatures to fight on their next turn.
@@ -18,4 +18,4 @@ class Fogbank extends Card {
 
 Fogbank.id = 'fogbank';
 
-module.exports = Fogbank;
+export default Fogbank;

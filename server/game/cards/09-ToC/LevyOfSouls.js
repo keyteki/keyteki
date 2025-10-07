@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class LevyOfSouls extends Card {
     // Action: Make a token creature. Keys cost +1A for each friendly token
@@ -26,4 +26,4 @@ class LevyOfSouls extends Card {
 
 LevyOfSouls.id = 'levy-of-souls';
 
-module.exports = LevyOfSouls;
+export default LevyOfSouls;

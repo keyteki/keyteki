@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class KymoorOutpost extends Card {
     // Action: Put a friendly creature on the bottom of its owner's deck.
@@ -20,4 +20,4 @@ class KymoorOutpost extends Card {
 
 KymoorOutpost.id = 'kymoor-outpost';
 
-module.exports = KymoorOutpost;
+export default KymoorOutpost;

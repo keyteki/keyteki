@@ -1,21 +1,22 @@
-const _ = require('underscore');
+import underscore from 'underscore';
+const _ = underscore;
 
-const AbilityDsl = require('./abilitydsl.js');
-const CardAction = require('./cardaction.js');
-const Constants = require('../constants.js');
-const Effects = require('./effects.js');
-const EffectSource = require('./EffectSource.js');
-const TriggeredAbility = require('./triggeredability');
+import AbilityDsl from './abilitydsl.js';
+import CardAction from './cardaction.js';
+import Constants from '../constants.js';
+import Effects from './effects.js';
+import EffectSource from './EffectSource.js';
+import TriggeredAbility from './triggeredability.js';
 
-const DiscardAction = require('./BaseActions/DiscardAction');
-const PlayAction = require('./BaseActions/PlayAction');
-const PlayCreatureAction = require('./BaseActions/PlayCreatureAction');
-const PlayArtifactAction = require('./BaseActions/PlayArtifactAction');
-const PlayUpgradeAction = require('./BaseActions/PlayUpgradeAction');
-const ResolveFightAction = require('./GameActions/ResolveFightAction');
-const ResolveReapAction = require('./GameActions/ResolveReapAction');
-const ReturnToHandFromDiscardAction = require('./BaseActions/ReturnToHandFromDiscardAction');
-const RemoveStun = require('./BaseActions/RemoveStun');
+import DiscardAction from './BaseActions/DiscardAction.js';
+import PlayAction from './BaseActions/PlayAction.js';
+import PlayCreatureAction from './BaseActions/PlayCreatureAction.js';
+import PlayArtifactAction from './BaseActions/PlayArtifactAction.js';
+import PlayUpgradeAction from './BaseActions/PlayUpgradeAction.js';
+import ResolveFightAction from './GameActions/ResolveFightAction.js';
+import ResolveReapAction from './GameActions/ResolveReapAction.js';
+import ReturnToHandFromDiscardAction from './BaseActions/ReturnToHandFromDiscardAction.js';
+import RemoveStun from './BaseActions/RemoveStun.js';
 
 class Card extends EffectSource {
     constructor(owner, cardData) {
@@ -1407,4 +1408,4 @@ class Card extends EffectSource {
     }
 }
 
-module.exports = Card;
+export default Card;

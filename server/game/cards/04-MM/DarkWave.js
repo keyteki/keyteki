@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class DarkWave extends Card {
     // Play: Deal 2D to each non-Mutant
@@ -16,4 +16,4 @@ class DarkWave extends Card {
 
 DarkWave.id = 'dark-wave';
 
-module.exports = DarkWave;
+export default DarkWave;

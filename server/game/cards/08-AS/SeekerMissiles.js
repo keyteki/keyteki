@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class SeekerMissiles extends Card {
     // Play: Deal 2D to a creature for each Skyborn flank creature.
@@ -17,4 +17,4 @@ class SeekerMissiles extends Card {
 
 SeekerMissiles.id = 'seeker-missiles';
 
-module.exports = SeekerMissiles;
+export default SeekerMissiles;

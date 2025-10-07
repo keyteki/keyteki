@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class StirUpTrouble extends Card {
     // Play: Choose a creature and 1 of its neighbors. Each chosen creature deals damage equal to its power to the other.
@@ -32,4 +32,4 @@ class StirUpTrouble extends Card {
 
 StirUpTrouble.id = 'stir-up-trouble';
 
-module.exports = StirUpTrouble;
+export default StirUpTrouble;

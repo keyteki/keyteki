@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class InsurancePolicy extends Card {
     // Play: Lose 1A. This creature gains, "Destroyed: If it is not
@@ -23,4 +23,4 @@ class InsurancePolicy extends Card {
 
 InsurancePolicy.id = 'insurance-policy';
 
-module.exports = InsurancePolicy;
+export default InsurancePolicy;

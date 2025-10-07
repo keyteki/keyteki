@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class B0T extends Card {
     //Action: Use a friendly non-Star Alliance creature.
@@ -16,4 +16,4 @@ class B0T extends Card {
 
 B0T.id = 'b0-t';
 
-module.exports = B0T;
+export default B0T;

@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class CursedTomb extends Card {
     // Each creature with no A on it gains, “Destroyed: Purge this creature.”
@@ -27,4 +27,4 @@ class CursedTomb extends Card {
 
 CursedTomb.id = 'cursed-tomb';
 
-module.exports = CursedTomb;
+export default CursedTomb;

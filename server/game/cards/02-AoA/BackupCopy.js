@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class BackupCopy extends Card {
     // This creature gains, Destroyed: Put this creature on top of your deck.
@@ -14,4 +14,4 @@ class BackupCopy extends Card {
 
 BackupCopy.id = 'backup-copy';
 
-module.exports = BackupCopy;
+export default BackupCopy;

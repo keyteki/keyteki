@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class TectonicShift extends Card {
     // Play: Divide each player's battleline in half as evenly as
@@ -88,4 +88,4 @@ class TectonicShift extends Card {
 
 TectonicShift.id = 'tectonic-shift';
 
-module.exports = TectonicShift;
+export default TectonicShift;

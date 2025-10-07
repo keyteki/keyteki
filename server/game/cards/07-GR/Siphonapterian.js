@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Siphonapterian extends Card {
     // While you are haunted, Siphonapterian gains taunt.
@@ -21,4 +21,4 @@ class Siphonapterian extends Card {
 
 Siphonapterian.id = 'siphonapterian';
 
-module.exports = Siphonapterian;
+export default Siphonapterian;

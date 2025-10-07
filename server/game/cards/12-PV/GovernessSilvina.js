@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class GovernessSilvina extends Card {
     // Play: Move each A from a friendly creature to the most powerful enemy creature.
@@ -45,4 +45,4 @@ class GovernessSilvina extends Card {
 
 GovernessSilvina.id = 'governess-silvina';
 
-module.exports = GovernessSilvina;
+export default GovernessSilvina;

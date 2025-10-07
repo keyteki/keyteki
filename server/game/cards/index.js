@@ -1,6 +1,10 @@
-const _ = require('underscore');
-const fs = require('fs');
-const path = require('path');
+import fs from 'node:fs';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
+import { dirname } from 'node:path';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 function getDirectories(srcpath) {
     let fullPath = path.join(__dirname, srcpath);
@@ -9,27 +13,31 @@ function getDirectories(srcpath) {
     });
 }
 
-function loadFiles(directory) {
+async function loadFiles(directory, cards) {
     let fullPath = path.join(__dirname, directory);
     let files = fs.readdirSync(fullPath).filter((file) => {
-        return !fs.statSync(path.join(fullPath, file)).isDirectory();
+        return !fs.statSync(path.join(fullPath, file)).isDirectory() && file.endsWith('.js');
     });
 
     for (let file of files) {
-        let card = require('./' + directory + '/' + file);
-
-        cards[card.id] = card;
+        let module = await import('./' + directory + '/' + file);
+        let card = module.default;
+        if (card && card.id) {
+            cards[card.id] = card;
+        }
     }
 }
 
-function loadCards(directory) {
+async function loadCards(directory) {
     let cards = {};
 
-    loadFiles(directory);
+    await loadFiles(directory, cards);
 
-    _.each(getDirectories(directory), (dir) => {
-        cards = Object.assign(cards, loadCards(path.join(directory, dir)));
-    });
+    let directories = getDirectories(directory);
+    for (let dir of directories) {
+        let subCards = await loadCards(path.join(directory, dir));
+        cards = Object.assign(cards, subCards);
+    }
 
     return cards;
 }
@@ -38,7 +46,8 @@ let cards = {};
 let directories = getDirectories('.');
 
 for (let directory of directories) {
-    cards = Object.assign(cards, loadCards(directory));
+    let dirCards = await loadCards(directory);
+    cards = Object.assign(cards, dirCards);
 }
 
-module.exports = cards;
+export default cards;

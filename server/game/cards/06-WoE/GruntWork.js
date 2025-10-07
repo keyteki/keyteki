@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class GruntWork extends Card {
     // Play: Look at the top 3 cards of your deck and put them back in
@@ -17,4 +17,4 @@ class GruntWork extends Card {
 
 GruntWork.id = 'grunt-work';
 
-module.exports = GruntWork;
+export default GruntWork;

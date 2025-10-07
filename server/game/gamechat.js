@@ -1,8 +1,8 @@
-const uuid = require('uuid');
+import uuid from 'uuid';
 
-const Card = require('./Card.js');
-const Spectator = require('./spectator.js');
-const Player = require('./player.js');
+import Card from './Card.js';
+import Spectator from './spectator.js';
+import Player from './player.js';
 
 class GameChat {
     constructor(game) {
@@ -134,4 +134,4 @@ class GameChat {
     }
 }
 
-module.exports = GameChat;
+export default GameChat;

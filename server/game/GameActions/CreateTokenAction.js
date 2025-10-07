@@ -1,5 +1,5 @@
-const CardGameAction = require('./CardGameAction');
-const DiscardFromPlayAction = require('./DestroyAction');
+import CardGameAction from './CardGameAction.js';
+import DiscardFromPlayAction from './DestroyAction.js';
 class CreateTokenAction extends CardGameAction {
     setup() {
         this.name = 'createToken';
@@ -46,4 +46,4 @@ class CreateTokenAction extends CardGameAction {
     }
 }
 
-module.exports = CreateTokenAction;
+export default CreateTokenAction;

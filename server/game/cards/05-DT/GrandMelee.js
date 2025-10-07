@@ -1,5 +1,5 @@
-const Card = require('../../Card.js');
-const Constants = require('../../../constants.js');
+import Card from '../../Card.js';
+import Constants from '../../../constants.js';
 
 class GrandMelee extends Card {
     // Play: Destroy each creature that does not share a house with at least 1 of its neighbors.
@@ -22,4 +22,4 @@ class GrandMelee extends Card {
 
 GrandMelee.id = 'grand-melee';
 
-module.exports = GrandMelee;
+export default GrandMelee;

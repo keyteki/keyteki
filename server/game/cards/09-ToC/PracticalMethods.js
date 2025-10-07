@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class PracticalMethods extends Card {
     // Play: Make a token creature. Destroy a friendly creature and an
@@ -33,4 +33,4 @@ class PracticalMethods extends Card {
 
 PracticalMethods.id = 'practical-methods';
 
-module.exports = PracticalMethods;
+export default PracticalMethods;

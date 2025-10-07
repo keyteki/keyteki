@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class KaupeEvilTwin extends Card {
     // You cannot play more than 1 card of each type each turn.
@@ -65,4 +65,4 @@ class KaupeEvilTwin extends Card {
 
 KaupeEvilTwin.id = 'kaupe-evil-twin';
 
-module.exports = KaupeEvilTwin;
+export default KaupeEvilTwin;

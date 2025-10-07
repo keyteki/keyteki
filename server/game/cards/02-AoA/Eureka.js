@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Eureka extends Card {
     // Alpha.
@@ -18,4 +18,4 @@ class Eureka extends Card {
 
 Eureka.id = 'eureka';
 
-module.exports = Eureka;
+export default Eureka;

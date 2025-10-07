@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class RootAccess extends Card {
     // Play: Discard the bottom card of your opponent’s deck. Deal 2D
@@ -28,4 +28,4 @@ class RootAccess extends Card {
 
 RootAccess.id = 'root-access';
 
-module.exports = RootAccess;
+export default RootAccess;

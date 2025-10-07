@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class RedAeronaut extends Card {
     // Play: Search your deck and discard pile for a Nautilixian and
@@ -36,4 +36,4 @@ class RedAeronaut extends Card {
 
 RedAeronaut.id = 'red-aeronaut';
 
-module.exports = RedAeronaut;
+export default RedAeronaut;

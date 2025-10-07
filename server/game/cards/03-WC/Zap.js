@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Zap extends Card {
     // Play: Deal 1 to a creature for each house represented among creatures in play.
@@ -14,4 +14,4 @@ class Zap extends Card {
 }
 Zap.id = 'zap';
 
-module.exports = Zap;
+export default Zap;

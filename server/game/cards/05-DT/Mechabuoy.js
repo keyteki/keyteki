@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Mechabuoy extends Card {
     // (T) At the start of each player’s turn, if the tide is high for that player, they gain 1A.
@@ -16,4 +16,4 @@ class Mechabuoy extends Card {
 
 Mechabuoy.id = 'mechabuoy';
 
-module.exports = Mechabuoy;
+export default Mechabuoy;

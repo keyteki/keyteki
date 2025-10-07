@@ -1,4 +1,4 @@
-const CardGameAction = require('./CardGameAction');
+import CardGameAction from './CardGameAction.js';
 
 class MoveToBottomAction extends CardGameAction {
     constructor(propertyFactory) {
@@ -21,4 +21,4 @@ class MoveToBottomAction extends CardGameAction {
     }
 }
 
-module.exports = MoveToBottomAction;
+export default MoveToBottomAction;

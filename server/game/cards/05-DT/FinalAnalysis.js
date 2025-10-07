@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class FinalAnalysis extends Card {
     // Play: Destroy each creature. Each player draws a card for each creature they controlled that was destroyed this way.
@@ -32,4 +32,4 @@ class FinalAnalysis extends Card {
 
 FinalAnalysis.id = 'final-analysis';
 
-module.exports = FinalAnalysis;
+export default FinalAnalysis;

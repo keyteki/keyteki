@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class RaidingParty extends Card {
     // After Fight: If two keys of the same color are forged, steal
@@ -20,4 +20,4 @@ class RaidingParty extends Card {
 
 RaidingParty.id = 'raiding-party';
 
-module.exports = RaidingParty;
+export default RaidingParty;

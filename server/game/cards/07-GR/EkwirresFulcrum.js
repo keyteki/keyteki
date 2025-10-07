@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class EkwirresFulcrum extends Card {
     // At the end of each player's turn, they may gain 1. If they do,
@@ -26,4 +26,4 @@ class EkwirresFulcrum extends Card {
 
 EkwirresFulcrum.id = 'ekwirrĕ-s-fulcrum';
 
-module.exports = EkwirresFulcrum;
+export default EkwirresFulcrum;

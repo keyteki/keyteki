@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class SharkBait extends Card {
     // Play: Deal 2D to a friendly non-Mars creature. If it is not destroyed, it captures 2A.
@@ -25,4 +25,4 @@ class SharkBait extends Card {
 
 SharkBait.id = 'shark-bait';
 
-module.exports = SharkBait;
+export default SharkBait;

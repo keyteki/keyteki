@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class AlienPuffer extends Card {
     // Destroyed: Gain 2A.
@@ -11,4 +11,4 @@ class AlienPuffer extends Card {
 
 AlienPuffer.id = 'alien-puffer';
 
-module.exports = AlienPuffer;
+export default AlienPuffer;

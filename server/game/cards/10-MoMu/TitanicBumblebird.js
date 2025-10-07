@@ -1,4 +1,4 @@
-const GiganticCard = require('../../GiganticCard.js');
+import GiganticCard from '../../GiganticCard.js';
 
 class TitanicBumblebird extends GiganticCard {
     // (Play only with the other half of Titanic Bumblebird.)
@@ -48,4 +48,4 @@ class TitanicBumblebird extends GiganticCard {
 
 TitanicBumblebird.id = 'titanic-bumblebird';
 
-module.exports = TitanicBumblebird;
+export default TitanicBumblebird;

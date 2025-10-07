@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class StormSurge extends Card {
     // Play: Your opponent cannot ready cards during the "ready cards" step of their next turn.
@@ -17,4 +17,4 @@ class StormSurge extends Card {
 
 StormSurge.id = 'storm-surge';
 
-module.exports = StormSurge;
+export default StormSurge;

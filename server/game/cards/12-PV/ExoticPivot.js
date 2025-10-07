@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class ExoticPivot extends Card {
     // Play: Discard the top card of your deck. If it is not a Logos card, steal 3.
@@ -33,4 +33,4 @@ class ExoticPivot extends Card {
 
 ExoticPivot.id = 'exotic-pivot';
 
-module.exports = ExoticPivot;
+export default ExoticPivot;

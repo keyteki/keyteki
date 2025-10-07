@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class CaptainNemo extends Card {
     // After Fight: Destroy an artifact and a creature.
@@ -29,4 +29,4 @@ class CaptainNemo extends Card {
 
 CaptainNemo.id = 'captain-nemo';
 
-module.exports = CaptainNemo;
+export default CaptainNemo;

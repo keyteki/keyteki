@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class KymoorEclipse extends Card {
     // Play: Shuffle each flank creature into its owners deck.
@@ -25,4 +25,4 @@ class KymoorEclipse extends Card {
 
 KymoorEclipse.id = 'kymoor-eclipse';
 
-module.exports = KymoorEclipse;
+export default KymoorEclipse;

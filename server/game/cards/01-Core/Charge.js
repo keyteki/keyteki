@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Charge extends Card {
     // Play: For the remainder of the turn, each creature you play gains, Play: Deal 2<D> to an enemy creature.
@@ -20,4 +20,4 @@ class Charge extends Card {
 
 Charge.id = 'charge';
 
-module.exports = Charge;
+export default Charge;

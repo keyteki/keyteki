@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class GiltspineSchool extends Card {
     // Play: Make 3 token creatures.
@@ -20,4 +20,4 @@ class GiltspineSchool extends Card {
 
 GiltspineSchool.id = 'giltspine-school';
 
-module.exports = GiltspineSchool;
+export default GiltspineSchool;

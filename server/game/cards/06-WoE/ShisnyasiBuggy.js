@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class ShisnyasiBuggy extends Card {
     //Action: Lose 1A. If you do, draw 3 cards.
@@ -17,4 +17,4 @@ class ShisnyasiBuggy extends Card {
 
 ShisnyasiBuggy.id = 'shĭsnyasĭ-buggy';
 
-module.exports = ShisnyasiBuggy;
+export default ShisnyasiBuggy;

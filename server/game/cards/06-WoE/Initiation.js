@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Initiation extends Card {
     //Play: Make a token creature. If you have fewer than 4 cards in hand, archive Initiation.
@@ -19,4 +19,4 @@ class Initiation extends Card {
 
 Initiation.id = 'initiation';
 
-module.exports = Initiation;
+export default Initiation;

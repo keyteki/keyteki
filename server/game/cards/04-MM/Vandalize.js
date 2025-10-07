@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Vandalize extends Card {
     // Play: Look at the top 3 cards of your opponents deck. Discard 1 and put the others back in any order.
@@ -24,4 +24,4 @@ class Vandalize extends Card {
 
 Vandalize.id = 'vandalize';
 
-module.exports = Vandalize;
+export default Vandalize;

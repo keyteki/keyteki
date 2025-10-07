@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Dexus extends Card {
     // After your opponent plays a creature on their right flank, they lose 1A.
@@ -17,4 +17,4 @@ class Dexus extends Card {
 
 Dexus.id = 'dexus';
 
-module.exports = Dexus;
+export default Dexus;

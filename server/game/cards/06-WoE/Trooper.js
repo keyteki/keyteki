@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Trooper extends Card {
     //After Fight/After Reap: Exalt $this.
@@ -15,4 +15,4 @@ class Trooper extends Card {
 
 Trooper.id = 'trooper';
 
-module.exports = Trooper;
+export default Trooper;

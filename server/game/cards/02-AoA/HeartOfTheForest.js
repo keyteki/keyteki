@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class HeartOfTheForest extends Card {
     // Each player cannot forge keys while they have more forged keys than their opponent.
@@ -17,4 +17,4 @@ class HeartOfTheForest extends Card {
 
 HeartOfTheForest.id = 'heart-of-the-forest';
 
-module.exports = HeartOfTheForest;
+export default HeartOfTheForest;

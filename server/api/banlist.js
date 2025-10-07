@@ -1,11 +1,10 @@
-const passport = require('passport');
-
-const BanlistService = require('../services/BanlistService');
-const { wrapAsync } = require('../util');
+import passport from 'passport';
+import BanlistService from '../services/BanlistService.js';
+import { wrapAsync } from '../util.js';
 
 let banlistService = new BanlistService();
 
-module.exports.init = function (server) {
+export function init(server) {
     server.get(
         '/api/banlist',
         passport.authenticate('jwt', { session: false }),
@@ -33,6 +32,7 @@ module.exports.init = function (server) {
                 return res.status(400).send({ success: false, message: 'Already exists' });
             }
 
+            // @ts-ignore partial entry, service will complete fields
             entry = {
                 ip: req.body.ip,
                 userId: req.user.id
@@ -53,4 +53,4 @@ module.exports.init = function (server) {
                 });
         })
     );
-};
+}

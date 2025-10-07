@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Azrael extends Card {
     // After Reap: Until the end of the turn, each friendly creature may fight.
@@ -14,4 +14,4 @@ class Azrael extends Card {
 
 Azrael.id = 'azrael';
 
-module.exports = Azrael;
+export default Azrael;

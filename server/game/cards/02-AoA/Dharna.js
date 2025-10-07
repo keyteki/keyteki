@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Dharna extends Card {
     // Play: Gain 1A for each damaged friendly creature.
@@ -23,4 +23,4 @@ class Dharna extends Card {
 
 Dharna.id = 'dharna';
 
-module.exports = Dharna;
+export default Dharna;

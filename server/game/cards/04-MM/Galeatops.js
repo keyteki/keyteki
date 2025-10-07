@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Galeatops extends Card {
     // Galeatops only deals 4D when fighting.
@@ -11,4 +11,4 @@ class Galeatops extends Card {
 
 Galeatops.id = 'galeatops';
 
-module.exports = Galeatops;
+export default Galeatops;

@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class MasterTashi extends Card {
     // After Fight: Ready and reap with a neighboring creature.
@@ -34,4 +34,4 @@ class MasterTashi extends Card {
 
 MasterTashi.id = 'master-tashi';
 
-module.exports = MasterTashi;
+export default MasterTashi;

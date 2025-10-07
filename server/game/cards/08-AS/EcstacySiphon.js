@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class EcstacySiphon extends Card {
     // Play: Deal 1D to an enemy creature for each card in your
@@ -19,4 +19,4 @@ class EcstacySiphon extends Card {
 
 EcstacySiphon.id = 'ecstacy-siphon';
 
-module.exports = EcstacySiphon;
+export default EcstacySiphon;

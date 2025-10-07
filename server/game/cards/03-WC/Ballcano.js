@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Ballcano extends Card {
     // Play: Deal 4D to each creature. Gain 2 chains.
@@ -18,4 +18,4 @@ class Ballcano extends Card {
 
 Ballcano.id = 'ballcano';
 
-module.exports = Ballcano;
+export default Ballcano;

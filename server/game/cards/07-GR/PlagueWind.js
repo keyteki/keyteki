@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class PlagueWind extends Card {
     // Play: Until the end of the turn, each non-Mars creature gets -3 power.
@@ -16,4 +16,4 @@ class PlagueWind extends Card {
 
 PlagueWind.id = 'plague-wind';
 
-module.exports = PlagueWind;
+export default PlagueWind;

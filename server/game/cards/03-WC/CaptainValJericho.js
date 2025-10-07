@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class CaptainValJericho extends Card {
     // While Captain Val Jericho is in the center of your battleline, you may play 1 card that is not of the active house during your turn.
@@ -13,4 +13,4 @@ class CaptainValJericho extends Card {
 
 CaptainValJericho.id = 'captain-val-jericho';
 
-module.exports = CaptainValJericho;
+export default CaptainValJericho;

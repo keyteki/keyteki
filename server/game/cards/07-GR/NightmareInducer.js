@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class NightmareInducer extends Card {
     // Action: Choose a card in your opponent's discard pile. Exhaust
@@ -27,4 +27,4 @@ class NightmareInducer extends Card {
 
 NightmareInducer.id = 'nightmare-inducer';
 
-module.exports = NightmareInducer;
+export default NightmareInducer;

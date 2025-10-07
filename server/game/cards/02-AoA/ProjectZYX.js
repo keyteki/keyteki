@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class ProjectZYX extends Card {
     // Fight/Reap: You may play one of your archived cards as if it were in your hand and in the active house.
@@ -17,4 +17,4 @@ class ProjectZYX extends Card {
 
 ProjectZYX.id = 'project-zyx';
 
-module.exports = ProjectZYX;
+export default ProjectZYX;

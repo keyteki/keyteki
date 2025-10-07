@@ -1,4 +1,4 @@
-const GameAction = require('./GameAction');
+import GameAction from './GameAction.js';
 
 class SequentialAction extends GameAction {
     constructor(gameActions) {
@@ -58,4 +58,4 @@ class SequentialAction extends GameAction {
     }
 }
 
-module.exports = SequentialAction;
+export default SequentialAction;

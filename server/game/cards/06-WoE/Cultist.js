@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Cultist extends Card {
     //Action:  Destroy $this. If you do, Ward a friendly creature.
@@ -22,4 +22,4 @@ class Cultist extends Card {
 
 Cultist.id = 'cultist';
 
-module.exports = Cultist;
+export default Cultist;

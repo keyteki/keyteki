@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Hoodwink extends Card {
     // Play: Reveal your hand. For each non-Shadows card revealed this way, steal 1. Purge Hoodwink.
@@ -31,4 +31,4 @@ class Hoodwink extends Card {
 
 Hoodwink.id = 'hoodwink';
 
-module.exports = Hoodwink;
+export default Hoodwink;

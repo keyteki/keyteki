@@ -1,4 +1,4 @@
-const _ = require('underscore');
+import _ from 'underscore';
 
 const EventToTitleFunc = {
     onCardAbilityInitiated: (event) => 'the effects of ' + event.card.name,
@@ -80,4 +80,4 @@ const AbilityWindowTitles = {
     }
 };
 
-module.exports = AbilityWindowTitles;
+export default AbilityWindowTitles;

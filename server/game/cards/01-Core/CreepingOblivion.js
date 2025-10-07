@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class CreepingOblivion extends Card {
     // Play: Purge up to 2cards from a discard pile.
@@ -32,4 +32,4 @@ class CreepingOblivion extends Card {
 
 CreepingOblivion.id = 'creeping-oblivion';
 
-module.exports = CreepingOblivion;
+export default CreepingOblivion;

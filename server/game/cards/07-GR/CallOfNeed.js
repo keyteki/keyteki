@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class CallOfNeed extends Card {
     // Play: Search your deck for a card and discard it.
@@ -16,4 +16,4 @@ class CallOfNeed extends Card {
 
 CallOfNeed.id = 'call-of-need';
 
-module.exports = CallOfNeed;
+export default CallOfNeed;

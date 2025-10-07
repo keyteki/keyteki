@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class LayOfTheLand extends Card {
     // Play: Look at the top 3 cards of your deck and put them back in any order. Draw a card.
@@ -16,4 +16,4 @@ class LayOfTheLand extends Card {
 
 LayOfTheLand.id = 'lay-of-the-land';
 
-module.exports = LayOfTheLand;
+export default LayOfTheLand;

@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Rustmiser extends Card {
     // Reap: Exhaust each enemy artifact.
@@ -15,4 +15,4 @@ class Rustmiser extends Card {
 
 Rustmiser.id = 'rustmiser';
 
-module.exports = Rustmiser;
+export default Rustmiser;

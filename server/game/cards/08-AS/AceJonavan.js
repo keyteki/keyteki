@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class AceJonavan extends Card {
     // For each A on Ace Jonavan, keys cost +1A.
@@ -17,4 +17,4 @@ class AceJonavan extends Card {
 
 AceJonavan.id = 'ace-jonavan';
 
-module.exports = AceJonavan;
+export default AceJonavan;

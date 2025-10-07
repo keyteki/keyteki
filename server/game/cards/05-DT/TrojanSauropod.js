@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class TrojanSauropod extends Card {
     // Trojan Sauropod enters play under your opponent’s control.
@@ -41,4 +41,4 @@ class TrojanSauropod extends Card {
 
 TrojanSauropod.id = 'trojan-sauropod';
 
-module.exports = TrojanSauropod;
+export default TrojanSauropod;

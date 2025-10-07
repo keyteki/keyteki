@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Eunoia extends Card {
     // After an enemy creature is destroyed fighting Eunoia, gain 1A and heal 2 damage from Eunoia.
@@ -15,4 +15,4 @@ class Eunoia extends Card {
 
 Eunoia.id = 'eunoia';
 
-module.exports = Eunoia;
+export default Eunoia;

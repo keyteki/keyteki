@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class HunterOfLegend extends Card {
     // This creature gains skirmish and “After Fight: Make a token creature.”
@@ -16,4 +16,4 @@ class HunterOfLegend extends Card {
 
 HunterOfLegend.id = 'hunter-of-legend';
 
-module.exports = HunterOfLegend;
+export default HunterOfLegend;

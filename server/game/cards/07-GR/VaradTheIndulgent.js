@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class VaradTheIndulgent extends Card {
     // Varad the Indulgent gets +1 power for each on it.
@@ -24,4 +24,4 @@ class VaradTheIndulgent extends Card {
 
 VaradTheIndulgent.id = 'varad-the-indulgent';
 
-module.exports = VaradTheIndulgent;
+export default VaradTheIndulgent;

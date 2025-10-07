@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class ChantOfHubris extends Card {
     // Play: Move 1A from a creature to another creature.
@@ -26,4 +26,4 @@ class ChantOfHubris extends Card {
 
 ChantOfHubris.id = 'chant-of-hubris';
 
-module.exports = ChantOfHubris;
+export default ChantOfHubris;

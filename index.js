@@ -1,5 +1,5 @@
-const runServer = require('./server');
-const logger = require('./server/log');
+import runServer from './server/index.js';
+import logger from './server/log.js';
 
 runServer()
     .then(() => {

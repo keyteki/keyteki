@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class AmberspineMongrel extends Card {
     // Hazardous 3.(Before this creature is attacked, deal 3D to the attacking enemy.)
@@ -17,4 +17,4 @@ class AmberspineMongrel extends Card {
 
 AmberspineMongrel.id = 'æmberspine-mongrel';
 
-module.exports = AmberspineMongrel;
+export default AmberspineMongrel;

@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class BlatantThievery extends Card {
     // Play: Enrage an enemy creature. Move all A from that creature to your pool.
@@ -29,4 +29,4 @@ class BlatantThievery extends Card {
 
 BlatantThievery.id = 'blatant-thievery';
 
-module.exports = BlatantThievery;
+export default BlatantThievery;

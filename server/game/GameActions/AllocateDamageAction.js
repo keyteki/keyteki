@@ -1,6 +1,6 @@
-const GameAction = require('./GameAction');
-const AllocateDamagePrompt = require('../gamesteps/AllocateDamagePrompt');
-const CardSelector = require('../CardSelector.js');
+import GameAction from './GameAction.js';
+import AllocateDamagePrompt from '../gamesteps/AllocateDamagePrompt.js';
+import CardSelector from '../CardSelector.js';
 
 class AllocateDamageAction extends GameAction {
     setDefaultProperties() {
@@ -65,4 +65,4 @@ class AllocateDamageAction extends GameAction {
     }
 }
 
-module.exports = AllocateDamageAction;
+export default AllocateDamageAction;

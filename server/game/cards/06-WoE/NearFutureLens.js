@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class NearFutureLens extends Card {
     setupCardAbilities(ability) {
@@ -36,4 +36,4 @@ class NearFutureLens extends Card {
 
 NearFutureLens.id = 'near-future-lens';
 
-module.exports = NearFutureLens;
+export default NearFutureLens;

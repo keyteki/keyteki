@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class RaveningMorphazoid extends Card {
     // While you are haunted, Ravening Morphazoid gains poison and skirmish.
@@ -31,4 +31,4 @@ class RaveningMorphazoid extends Card {
 
 RaveningMorphazoid.id = 'ravening-morphazoid';
 
-module.exports = RaveningMorphazoid;
+export default RaveningMorphazoid;

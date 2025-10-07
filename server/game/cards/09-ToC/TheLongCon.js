@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class TheLongCon extends Card {
     // Each friendly Stooge cannot reap.
@@ -57,4 +57,4 @@ class TheLongCon extends Card {
 
 TheLongCon.id = 'the-long-con';
 
-module.exports = TheLongCon;
+export default TheLongCon;

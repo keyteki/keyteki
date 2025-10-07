@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class MedicusLacus extends Card {
     // (T) While the tide is high, you may spend A on friendly creatures as if it were in your pool.
@@ -13,4 +13,4 @@ class MedicusLacus extends Card {
 
 MedicusLacus.id = 'medicus-lacus';
 
-module.exports = MedicusLacus;
+export default MedicusLacus;

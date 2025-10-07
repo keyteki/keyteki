@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class LashOut extends Card {
     // Play: If you are haunted, deal 3 D to a creature with 3
@@ -18,4 +18,4 @@ class LashOut extends Card {
 
 LashOut.id = 'lash-out';
 
-module.exports = LashOut;
+export default LashOut;

@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class StrangeOrdination extends Card {
     // (T) Play only if the tide is high.
@@ -12,4 +12,4 @@ class StrangeOrdination extends Card {
 
 StrangeOrdination.id = 'strange-ordination';
 
-module.exports = StrangeOrdination;
+export default StrangeOrdination;

@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class GeneralSherman extends Card {
     // General Sherman deals no damage when fighting.
@@ -34,4 +34,4 @@ class GeneralSherman extends Card {
 
 GeneralSherman.id = 'general-sherman';
 
-module.exports = GeneralSherman;
+export default GeneralSherman;

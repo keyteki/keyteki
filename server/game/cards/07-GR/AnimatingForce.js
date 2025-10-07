@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class AnimatingForce extends Card {
     // This upgrade enters play attached to an artifact instead of a creature.
@@ -44,4 +44,4 @@ class AnimatingForce extends Card {
 
 AnimatingForce.id = 'animating-force';
 
-module.exports = AnimatingForce;
+export default AnimatingForce;

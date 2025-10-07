@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class HitAndRun extends Card {
     // Play: Deal 2D to a creature. Return a friendly creature to your hand.
@@ -28,4 +28,4 @@ class HitAndRun extends Card {
 
 HitAndRun.id = 'hit-and-run';
 
-module.exports = HitAndRun;
+export default HitAndRun;

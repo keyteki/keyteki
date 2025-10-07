@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class SenatorBracchus extends Card {
     // You may spend A on friendly creatures as if it were in your pool.
@@ -18,4 +18,4 @@ class SenatorBracchus extends Card {
 
 SenatorBracchus.id = 'senator-bracchus';
 
-module.exports = SenatorBracchus;
+export default SenatorBracchus;

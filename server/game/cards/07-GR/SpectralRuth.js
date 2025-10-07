@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class SpectralRuth extends Card {
     // Play: If you forged a key this turn, archive your discard pile.
@@ -21,4 +21,4 @@ class SpectralRuth extends Card {
 
 SpectralRuth.id = 'spectral-ruth';
 
-module.exports = SpectralRuth;
+export default SpectralRuth;

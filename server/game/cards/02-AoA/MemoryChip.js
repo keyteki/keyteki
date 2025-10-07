@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class MemoryChip extends Card {
     // After you choose Logos as your active house, archive a card.
@@ -19,4 +19,4 @@ class MemoryChip extends Card {
 
 MemoryChip.id = 'memory-chip';
 
-module.exports = MemoryChip;
+export default MemoryChip;

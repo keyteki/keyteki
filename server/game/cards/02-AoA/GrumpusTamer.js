@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class GrumpusTamer extends Card {
     // Reap: Search your deck and discard pile for a War Grumpus, reveal it, and add it to your hand. Then, shuffle your deck.
@@ -14,4 +14,4 @@ class GrumpusTamer extends Card {
 
 GrumpusTamer.id = 'grumpus-tamer';
 
-module.exports = GrumpusTamer;
+export default GrumpusTamer;

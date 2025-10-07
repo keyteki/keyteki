@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class AerialPedlar extends Card {
     // After Reap: Take control of the least powerful enemy
@@ -39,4 +39,4 @@ class AerialPedlar extends Card {
 
 AerialPedlar.id = 'aerial-pedlar';
 
-module.exports = AerialPedlar;
+export default AerialPedlar;

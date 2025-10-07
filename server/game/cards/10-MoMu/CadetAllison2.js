@@ -1,4 +1,4 @@
-const CadetAllison = require('./CadetAllison.js');
+import CadetAllison from './CadetAllison.js';
 
 class CadetAllison2 extends CadetAllison {
     constructor(owner, cardData) {
@@ -8,4 +8,4 @@ class CadetAllison2 extends CadetAllison {
 
 CadetAllison2.id = 'cadet-allison2';
 
-module.exports = CadetAllison2;
+export default CadetAllison2;

@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Titanarpon extends Card {
     // The first creature you play each turn enters play ready.
@@ -29,4 +29,4 @@ class Titanarpon extends Card {
 
 Titanarpon.id = 'titanarpon';
 
-module.exports = Titanarpon;
+export default Titanarpon;

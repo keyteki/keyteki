@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Flamethrower extends Card {
     // Action: Deal 1D to a creature,
@@ -18,4 +18,4 @@ class Flamethrower extends Card {
 
 Flamethrower.id = 'flamethrower';
 
-module.exports = Flamethrower;
+export default Flamethrower;

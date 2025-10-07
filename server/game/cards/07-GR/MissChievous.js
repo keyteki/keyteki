@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class MissChievous extends Card {
     // After a friendly Geistoid creature enters play, each player
@@ -31,4 +31,4 @@ class MissChievous extends Card {
 
 MissChievous.id = 'miss-chievous';
 
-module.exports = MissChievous;
+export default MissChievous;

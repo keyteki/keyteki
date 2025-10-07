@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class PutInASpin extends Card {
     // Play: Lose 1A. If you do, choose a house and discard the top
@@ -35,4 +35,4 @@ class PutInASpin extends Card {
 
 PutInASpin.id = 'put-in-a-spin';
 
-module.exports = PutInASpin;
+export default PutInASpin;

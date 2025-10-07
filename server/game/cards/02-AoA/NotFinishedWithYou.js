@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class NotFinishedWithYou extends Card {
     // Play: Shuffle any number of creatures from your discard pile into your deck.
@@ -18,4 +18,4 @@ class NotFinishedWithYou extends Card {
 
 NotFinishedWithYou.id = 'not-finished-with-you';
 
-module.exports = NotFinishedWithYou;
+export default NotFinishedWithYou;

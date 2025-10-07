@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class BreakerHill extends Card {
     // Elusive. (The first time this creature is attacked each turn, no damage is dealt.)
@@ -15,4 +15,4 @@ class BreakerHill extends Card {
 
 BreakerHill.id = 'breaker-hill';
 
-module.exports = BreakerHill;
+export default BreakerHill;

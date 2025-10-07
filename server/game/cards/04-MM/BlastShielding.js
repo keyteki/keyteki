@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class BlastShielding extends Card {
     // This creature gets +2 armor.
@@ -26,4 +26,4 @@ class BlastShielding extends Card {
 
 BlastShielding.id = 'blast-shielding';
 
-module.exports = BlastShielding;
+export default BlastShielding;

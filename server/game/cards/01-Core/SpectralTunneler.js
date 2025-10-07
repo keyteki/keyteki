@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class SpectralTunneler extends Card {
     // Action: Choose a creature. For the remainder of the turn, that creature is considered a flank creature and gains, Reap: Draw a card.
@@ -23,4 +23,4 @@ class SpectralTunneler extends Card {
 
 SpectralTunneler.id = 'spectral-tunneler';
 
-module.exports = SpectralTunneler;
+export default SpectralTunneler;

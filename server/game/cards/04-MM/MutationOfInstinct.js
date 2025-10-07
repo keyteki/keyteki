@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class MutationOfInstinct extends Card {
     // Play: Until the start of your next turn, a creature gains skirmish and the Mutant trait.
@@ -21,4 +21,4 @@ class MutationOfInstinct extends Card {
 
 MutationOfInstinct.id = 'mutation-of-instinct';
 
-module.exports = MutationOfInstinct;
+export default MutationOfInstinct;

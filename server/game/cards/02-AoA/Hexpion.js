@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class Hexpion extends Card {
     // Destroyed: Archive Hexpion and the top card of your deck.
@@ -17,4 +17,4 @@ class Hexpion extends Card {
 
 Hexpion.id = 'hexpion';
 
-module.exports = Hexpion;
+export default Hexpion;

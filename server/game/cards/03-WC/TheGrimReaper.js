@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class TheGrimReaper extends Card {
     // If you are haunted, The Grim Reaper enters play ready. (You are haunted if there are 10 or more cards in your discard pile.)
@@ -33,4 +33,4 @@ class TheGrimReaper extends Card {
 
 TheGrimReaper.id = 'the-grim-reaper';
 
-module.exports = TheGrimReaper;
+export default TheGrimReaper;

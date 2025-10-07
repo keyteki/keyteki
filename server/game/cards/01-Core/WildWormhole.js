@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class WildWormhole extends Card {
     // Play: Play the top card of your deck.
@@ -14,4 +14,4 @@ class WildWormhole extends Card {
 
 WildWormhole.id = 'wild-wormhole';
 
-module.exports = WildWormhole;
+export default WildWormhole;

@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class RequestDonations extends Card {
     // Play: Make a token creature. It captures 2A.
@@ -17,4 +17,4 @@ class RequestDonations extends Card {
 
 RequestDonations.id = 'request-donations';
 
-module.exports = RequestDonations;
+export default RequestDonations;

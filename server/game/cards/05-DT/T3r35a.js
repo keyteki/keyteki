@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class T3r35a extends Card {
     // T3R-35A may be used as if it belonged to either of its neighbor's houses.
@@ -34,4 +34,4 @@ class T3r35a extends Card {
 
 T3r35a.id = 't3r-35a';
 
-module.exports = T3r35a;
+export default T3r35a;

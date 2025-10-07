@@ -1,4 +1,4 @@
-const Card = require('../../Card.js');
+import Card from '../../Card.js';
 
 class KiriGiltspine extends Card {
     // Elusive.
@@ -25,4 +25,4 @@ class KiriGiltspine extends Card {
 
 KiriGiltspine.id = 'kiri-giltspine';
 
-module.exports = KiriGiltspine;
+export default KiriGiltspine;

@@ -1,5 +1,5 @@
-const Card = require('../../Card.js');
-const EventRegistrar = require('../../eventregistrar.js');
+import Card from '../../Card.js';
+import EventRegistrar from '../../eventregistrar.js';
 
 class FontOfTheEye extends Card {
     // Omni: If an enemy creature was destroyed this turn, a friendly creature captures 1A.
@@ -36,4 +36,4 @@ class FontOfTheEye extends Card {
 
 FontOfTheEye.id = 'font-of-the-eye';
 
-module.exports = FontOfTheEye;
+export default FontOfTheEye;
