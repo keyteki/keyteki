@@ -3,7 +3,7 @@ const GameAction = require('./GameAction');
 
 class SequentialCardLastingEffectAction extends GameAction {
     setDefaultProperties() {
-        this.duration = 'untilEndOfTurn';
+        this.duration = 'untilEndOfRound';
         this.condition = null;
         this.until = null;
         this.effectForEach = [];

@@ -26,7 +26,7 @@ class RedAeronaut extends Card {
                 controller: 'self',
                 cardCondition: (card) => card.name === 'Nautilixian',
                 gameAction: ability.actions.cardLastingEffect({
-                    duration: 'untilEndOfTurn',
+                    duration: 'untilEndOfRound',
                     effect: ability.effects.modifyPower(5)
                 })
             }

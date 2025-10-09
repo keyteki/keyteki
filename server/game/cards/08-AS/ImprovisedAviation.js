@@ -24,7 +24,7 @@ class ImprovisedAviation extends Card {
                         // is entering play, and let it last for the rest of
                         // the round.
                         ability.effects.entersPlayWithEffect({
-                            duration: 'untilEndOfTurn',
+                            duration: 'untilEndOfRound',
                             builder: () =>
                                 // TODO: validate
                                 ability.effects.gainAbility('fight', {

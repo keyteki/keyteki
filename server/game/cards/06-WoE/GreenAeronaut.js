@@ -10,7 +10,7 @@ class GreenAeronaut extends Card {
                 controller: 'self',
                 cardCondition: (card) => card.name === 'Nautilixian',
                 gameAction: ability.actions.cardLastingEffect({
-                    duration: 'untilEndOfTurn',
+                    duration: 'untilEndOfRound',
                     effect: ability.effects.addKeyword({ 'splash-attack': 3 })
                 })
             }
