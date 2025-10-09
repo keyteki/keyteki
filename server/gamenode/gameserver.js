@@ -41,7 +41,10 @@ class GameServer {
             this.protocol = 'http';
         }
 
-        this.host = this.configService.getValueForSection('gameNode', 'host');
+        this.host =
+            process.env.HOST ||
+            this.configService.getValueForSection('gameNode', 'host') ||
+            undefined;
 
         this.gameSocket = new GameSocket(
             this.configService,

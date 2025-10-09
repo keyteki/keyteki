@@ -7,10 +7,12 @@ on:
         branches: ['master', 'pack/**']
         paths-ignore:
             - '.github/workflows/**'
+            - 'infrastructure/**'
     pull_request:
         branches: ['master', 'pack/**']
         paths-ignore:
             - '.github/workflows/**'
+            - 'infrastructure/**'
 
 jobs:
     build:

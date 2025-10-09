@@ -44,9 +44,10 @@ jobs:
                   nodeConfig:
                     env: "production"
                     sentryDsn: "${{ secrets.SENTRY_DSN }}"
-                    redisPrefix: "keyteki:$ENV"
+                    redisKeyPrefix: "keyteki:$ENV"
                     redisUrl: "${{ secrets.REDIS_URL }}"
                     gameNode:
+                      host: null
                       socketioPort: 80
                     secret: "${{ secrets.SECRET }}"
                   EOF

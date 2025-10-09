@@ -10,9 +10,9 @@ spec:
   routes:
   {{- range $i, $e := until 10 }}
   {{- if eq $.Values.environment "production" }}
-    - match: (Host(`thecrucible.online`) && PathPrefix(`/node-{{$i}}/socket.io`)
+    - match: Host(`thecrucible.online`) && PathPrefix(`/node-{{$i}}/socket.io`)
   {{- else }}
-    - match: (Host(`{{ $.Values.environment }}.thecrucible.online`) && PathPrefix(`/node-{{$i}}/socket.io`)
+    - match: Host(`{{ $.Values.environment }}.thecrucible.online`) && PathPrefix(`/node-{{$i}}/socket.io`)
   {{- end }}
       kind: Rule
       services:
