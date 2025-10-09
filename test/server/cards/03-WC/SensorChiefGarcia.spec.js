@@ -95,6 +95,7 @@ describe('Sensor Chief Garcia', function () {
             this.player1.endTurn();
             expect(this.player2.player.getCurrentKeyCost()).toBe(8);
             expect(this.player2.player.getForgedKeys()).toBe(0);
+            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
         });
     });
 });

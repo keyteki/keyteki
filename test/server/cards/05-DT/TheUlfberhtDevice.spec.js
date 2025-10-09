@@ -19,9 +19,9 @@ describe('The Ulfberht Device', function () {
             this.player1.endTurn();
             this.player2.clickPrompt('untamed');
             this.player2.endTurn();
-            this.player1.clickPrompt('untamed');
+            this.player1.clickPrompt('logos');
             this.player1.endTurn();
-            this.player2.clickPrompt('logos');
+            this.player2.clickPrompt('untamed');
             this.player2.endTurn();
             this.player1.clickPrompt('logos');
         });
@@ -112,8 +112,6 @@ describe('The Ulfberht Device', function () {
             });
         });
     });
-    // Should block immediately after play
-    // If goes away should not restrict
 
     describe('after taking another turn', function () {
         beforeEach(function () {
@@ -143,6 +141,8 @@ describe('The Ulfberht Device', function () {
             expect(this.player2).not.toHavePromptButton('staralliance');
             expect(this.player2).toHavePromptButton('dis');
             expect(this.player2).toHavePromptButton('ekwidon');
+            this.player2.clickPrompt('dis');
+            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
         });
     });
 });

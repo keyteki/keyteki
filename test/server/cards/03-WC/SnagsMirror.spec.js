@@ -38,21 +38,16 @@ describe("Snag's Mirror", function () {
                 });
 
                 describe("and then snag's mirror goes away", function () {
-                    beforeEach(function () {
+                    it('should restrict house choice once more', function () {
                         this.player1.moveCard(this.snagSMirror, 'discard');
+                        expect(this.player2).not.toHavePromptButton('logos');
                         this.player2.clickPrompt('brobnar');
                         this.player2.endTurn();
-                    });
-
-                    it('should not restrict house choice anymore', function () {
                         expect(this.player1).toHavePromptButton('logos');
                         expect(this.player1).toHavePromptButton('brobnar');
                     });
                 });
             });
-            // TODO: Should not block next immediate house
-            // If house is selected and then goes away should restrict
-            // Check start of my next turn effects (lucky dice)
         });
     });
 
@@ -81,6 +76,8 @@ describe("Snag's Mirror", function () {
             expect(this.player2).toHavePromptButton('staralliance');
             expect(this.player2).not.toHavePromptButton('ekwidon');
             expect(this.player2).not.toHavePromptButton('dis');
+            this.player2.clickPrompt('staralliance');
+            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
         });
     });
 });

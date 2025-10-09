@@ -1,5 +1,4 @@
 const Card = require('../../Card.js');
-// const EventRegistrar = require('../../eventregistrar.js');
 
 class SnagsMirror extends Card {
     // After a player chooses an active house, their opponent cannot choose the same house as their active house on their next turn.
