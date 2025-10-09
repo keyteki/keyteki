@@ -7,7 +7,7 @@ class LogosAmbassador extends Card {
         this.fight({
             reap: true,
             effect: 'allow them to play or use one Logos card this turn',
-            gameAction: ability.actions.untilEndOfPlayerTurn({
+            gameAction: ability.actions.forRemainderOfTurn({
                 effect: ability.effects.canPlayOrUseHouse('logos')
             })
         });

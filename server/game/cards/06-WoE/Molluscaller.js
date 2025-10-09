@@ -7,7 +7,7 @@ class Molluscaller extends Card {
         this.reap({
             effect:
                 'cause all friendly Strange Shells to gain 3 power and lose their abilities for the remainder of the turn',
-            gameAction: ability.actions.untilEndOfPlayerTurn({
+            gameAction: ability.actions.forRemainderOfTurn({
                 match: (card) => card.name === 'Strange Shell',
                 effect: [ability.effects.blank(), ability.effects.modifyPower(3)]
             })

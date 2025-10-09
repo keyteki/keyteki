@@ -8,7 +8,7 @@ class TachyonManifold extends Card {
             effect: 'take another turn after this one and purge {0}',
             effectAlert: true,
             gameAction: [
-                ability.actions.untilEndOfPlayerTurn({
+                ability.actions.forRemainderOfTurn({
                     effect: ability.effects.anotherTurn()
                 }),
                 ability.actions.conditional((context) => ({

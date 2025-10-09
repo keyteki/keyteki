@@ -7,7 +7,7 @@ class LiviaTheElder extends Card {
             optional: true,
             gameAction: ability.actions.exalt(),
             then: {
-                gameAction: ability.actions.untilEndOfPlayerTurn({
+                gameAction: ability.actions.forRemainderOfTurn({
                     effect: [
                         ability.effects.reapAbilitiesAddFight(),
                         ability.effects.fightAbilitiesAddReap()

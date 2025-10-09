@@ -8,7 +8,7 @@ class LibraryCard extends Card {
                 'purge {0} and then draw a card after playing a card for the remainder of the turn',
             gameAction: ability.actions.purge(),
             then: {
-                gameAction: ability.actions.untilEndOfPlayerTurn((context) => ({
+                gameAction: ability.actions.forRemainderOfTurn((context) => ({
                     when: {
                         onCardPlayed: (event) => event.player === context.player
                     },

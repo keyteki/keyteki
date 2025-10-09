@@ -15,7 +15,7 @@ class GonePearShaped extends Card {
 
         this.fate({
             effect: 'prevent creatures from reaping for the remainder of the turn',
-            gameAction: ability.actions.untilEndOfPlayerTurn({
+            gameAction: ability.actions.forRemainderOfTurn({
                 targetController: 'opponent',
                 effect: ability.effects.cardCannot('reap')
             })

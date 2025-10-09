@@ -6,7 +6,7 @@ class FissionBloom extends Card {
     setupCardAbilities(ability) {
         this.action({
             effect: 'resolve the bonus icons of the next card played an additional time',
-            gameAction: ability.actions.untilEndOfPlayerTurn((context) => ({
+            gameAction: ability.actions.forRemainderOfTurn((context) => ({
                 when: {
                     onCardPlayed: (event) =>
                         event.player === context.player && event.card !== context.source

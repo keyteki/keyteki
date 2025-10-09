@@ -6,7 +6,7 @@ class PubliusScipio extends Card {
     setupCardAbilities(ability) {
         this.fate({
             effect: 'deal 4 damage to neighbors of friendly creatures used this turn',
-            gameAction: ability.actions.untilEndOfPlayerTurn({
+            gameAction: ability.actions.forRemainderOfTurn({
                 when: {
                     onUseCard: (event, context) =>
                         event.card.type === 'creature' &&

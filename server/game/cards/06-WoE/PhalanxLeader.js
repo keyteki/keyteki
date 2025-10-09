@@ -12,7 +12,7 @@ class PhalanxLeader extends Card {
 
         this.fight({
             reap: true,
-            gameAction: ability.actions.untilEndOfPlayerTurn((context) => ({
+            gameAction: ability.actions.forRemainderOfTurn((context) => ({
                 controller: 'self',
                 match: (card) =>
                     context.player.creaturesInPlay.indexOf(card) <

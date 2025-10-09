@@ -8,7 +8,7 @@ class UnityPrism extends Card {
     setupCardAbilities(ability) {
         this.play({
             effect: 'allow playing up to 4 cards from any house this turn',
-            gameAction: ability.actions.untilEndOfPlayerTurn({
+            gameAction: ability.actions.forRemainderOfTurn({
                 effect: [
                     ability.effects.canPlay((context) => {
                         return context.game.cardsPlayedThisPhase.length < 4;

@@ -6,7 +6,7 @@ class RitualOfTheHunt extends Card {
         this.omni({
             gameAction: [
                 ability.actions.sacrifice(),
-                ability.actions.untilEndOfPlayerTurn({
+                ability.actions.forRemainderOfTurn({
                     effect: ability.effects.canUse(
                         (card) => card.hasHouse('untamed') && card.type === 'creature'
                     )

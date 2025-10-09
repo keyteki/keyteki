@@ -11,7 +11,7 @@ class AbondTheArmorsmith extends Card {
         });
         this.action({
             effect: 'each other friendly creature gets +1 armor',
-            gameAction: ability.actions.untilEndOfPlayerTurn((context) => ({
+            gameAction: ability.actions.forRemainderOfTurn((context) => ({
                 target: context.player.creaturesInPlay.filter((card) => card !== context.source),
                 effect: ability.effects.modifyArmor(1)
             }))

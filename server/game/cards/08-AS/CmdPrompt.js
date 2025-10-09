@@ -5,7 +5,7 @@ class CmdPrompt extends Card {
     setupCardAbilities(ability) {
         this.reap({
             effect: 'allow them to play one non-Logos card this turn',
-            gameAction: ability.actions.untilEndOfPlayerTurn({
+            gameAction: ability.actions.forRemainderOfTurn({
                 effect: ability.effects.canPlayNonHouse('logos')
             })
         });

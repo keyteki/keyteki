@@ -8,7 +8,7 @@ class ImprovisedAviation extends Card {
         this.play({
             effect: 'have the next friendly creature enter play ready and gain a fight effect',
             gameAction: [
-                ability.actions.untilEndOfPlayerTurn({
+                ability.actions.forRemainderOfTurn({
                     until: {
                         onCardEntersPlay: (event) =>
                             event.card.type === 'creature' &&

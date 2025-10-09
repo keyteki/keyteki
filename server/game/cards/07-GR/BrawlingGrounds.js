@@ -8,7 +8,7 @@ class BrawlingGrounds extends Card {
         this.omni({
             effect:
                 'make the controller of each creature destroyed in a fight this turn discard a card at random for the remainder of the turn',
-            gameAction: ability.actions.untilEndOfPlayerTurn({
+            gameAction: ability.actions.forRemainderOfTurn({
                 when: {
                     onCardDestroyed: (event) =>
                         event.clone.type === 'creature' &&

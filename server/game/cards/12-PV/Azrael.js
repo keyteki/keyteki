@@ -5,7 +5,7 @@ class Azrael extends Card {
     setupCardAbilities(ability) {
         this.reap({
             effect: 'allow each friendly creature to fight until the end of the turn',
-            gameAction: ability.actions.untilEndOfPlayerTurn({
+            gameAction: ability.actions.forRemainderOfTurn({
                 effect: ability.effects.canFight(() => true)
             })
         });

@@ -5,7 +5,7 @@ class KathaTheWise extends Card {
     setupCardAbilities(ability) {
         this.omni({
             effect: 'allow them to play one Untamed creature this turn',
-            gameAction: ability.actions.untilEndOfPlayerTurn({
+            gameAction: ability.actions.forRemainderOfTurn({
                 effect: ability.effects.canPlayHouse({
                     house: 'untamed',
                     condition: (card) => card.type === 'creature' && card.location === 'hand'

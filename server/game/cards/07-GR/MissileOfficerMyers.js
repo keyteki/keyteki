@@ -21,7 +21,7 @@ class MissileOfficerMyers extends Card {
 
         this.scrap({
             effect: 'play 1 card that is not of the active house during their turn',
-            gameAction: ability.actions.untilEndOfPlayerTurn((context) => ({
+            gameAction: ability.actions.forRemainderOfTurn((context) => ({
                 effect: ability.effects.canPlayNonHouse(context.player.activeHouse)
             }))
         });

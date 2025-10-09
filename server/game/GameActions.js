@@ -138,8 +138,10 @@ const Actions = {
     unforgeKey: (propertyFactory) => new GameActions.UnforgeAction(propertyFactory),
 
     lastingEffect: (propertyFactory) => new GameActions.LastingEffectAction(propertyFactory),
-    untilEndOfPlayerTurn: (propertyFactory) =>
-        new GameActions.LastingEffectAction(propertyFactory, 'untilEndOfPlayerTurn'),
+    forRemainderOfTurn: (propertyFactory) =>
+        new GameActions.LastingEffectAction(propertyFactory, 'forRemainderOfTurn'),
+    duringOpponentNextTurn: (propertyFactory) =>
+        new GameActions.LastingEffectAction(propertyFactory, 'duringOpponentNextTurn'),
     untilEndOfOpponentNextTurn: (propertyFactory) =>
         new GameActions.LastingEffectAction(propertyFactory, 'untilEndOfOpponentNextTurn'),
     untilStartOfPlayerNextTurn: (propertyFactory) =>

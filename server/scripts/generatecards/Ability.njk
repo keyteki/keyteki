@@ -179,7 +179,7 @@ ability.actions.sequential([
     {{formatSingleAction(action, refs) | indent(4)}}{{"," if not loop.last }}
         {%- endfor %}
 ])
-    {%- elif ['untilEndOfPlayerTurn', 'lastingEffect'].includes(effect.name) -%}
+    {%- elif ['forRemainderOfTurn', 'lastingEffect'].includes(effect.name) -%}
         {%- if effect.durationEffect.name == "reaction" or not effect.durationEffect.target or effect.durationEffect.target.mode == 'all' -%}
 ability.actions.{{effect.name}}({{formatParams(effect, refs, allowContext=false)}})
         {%- else -%}
@@ -215,7 +215,7 @@ ability.effects.addKeyword({
     {{keyword.name}}: {{keyword.count|default(1, true)}}{{"," if not loop.last }}
         {%- endfor %}
 })
-    {%- elif ['untilEndOfPlayerTurn', 'lastingEffect'].includes(effect.name) -%}
+    {%- elif ['forRemainderOfTurn', 'lastingEffect'].includes(effect.name) -%}
         {%- if effect.durationEffect.name == "reaction" or not effect.durationEffect.target -%}
 ability.actions.{{effect.name}}({{formatParams(effect, refs, allowContext=false)}})
         {%- else -%}

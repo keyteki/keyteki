@@ -7,7 +7,7 @@ class ThePaleStar extends Card {
             effect: 'make each creature to be 1 power and 0 amor',
             gameAction: [
                 ability.actions.destroy(),
-                ability.actions.untilEndOfPlayerTurn({
+                ability.actions.forRemainderOfTurn({
                     targetController: 'any',
                     effect: [ability.effects.setPower(1), ability.effects.setArmor(0)]
                 })

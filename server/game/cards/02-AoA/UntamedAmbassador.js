@@ -7,7 +7,7 @@ class UntamedAmbassador extends Card {
         this.fight({
             reap: true,
             effect: 'allow them to play or use one Untamed card this turn',
-            gameAction: ability.actions.untilEndOfPlayerTurn({
+            gameAction: ability.actions.forRemainderOfTurn({
                 effect: ability.effects.canPlayOrUseHouse('untamed')
             })
         });

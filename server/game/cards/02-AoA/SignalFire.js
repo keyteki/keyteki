@@ -7,7 +7,7 @@ class SignalFire extends Card {
             effect: 'allow all friendly brobnar creatures to only fight this turn',
             gameAction: [
                 ability.actions.sacrifice(),
-                ability.actions.untilEndOfPlayerTurn({
+                ability.actions.forRemainderOfTurn({
                     effect: [
                         ability.effects.canUse(
                             (card) => card.type === 'creature' && card.hasHouse('brobnar')

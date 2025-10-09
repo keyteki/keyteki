@@ -7,7 +7,7 @@ class SubjectKirby extends Card {
             fight: true,
             reap: true,
             effect: 'allow them to play one non staralliance creature this turn',
-            gameAction: ability.actions.untilEndOfPlayerTurn({
+            gameAction: ability.actions.forRemainderOfTurn({
                 effect: ability.effects.canPlayNonHouse({
                     house: 'staralliance',
                     condition: (card) => card.type === 'creature'

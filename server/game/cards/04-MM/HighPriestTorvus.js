@@ -7,7 +7,7 @@ class HighPriestTorvus extends Card {
             optional: true,
             gameAction: ability.actions.exalt(),
             then: {
-                gameAction: ability.actions.untilEndOfPlayerTurn((context) => ({
+                gameAction: ability.actions.forRemainderOfTurn((context) => ({
                     when: {
                         onCardPlayed: (event) =>
                             event.player === context.player && event.card.type === 'action'

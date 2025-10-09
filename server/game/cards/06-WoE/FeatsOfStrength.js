@@ -7,7 +7,7 @@ class FeatsOfStrength extends Card {
         this.play({
             effect:
                 'make a token creature each time an enemy creature is destroyed in a fight for the remainder of the turn',
-            gameAction: ability.actions.untilEndOfPlayerTurn((context) => ({
+            gameAction: ability.actions.forRemainderOfTurn((context) => ({
                 when: {
                     onCardDestroyed: (event) =>
                         event.clone.type === 'creature' &&

@@ -38,7 +38,7 @@ class MultiDimensionalRescue extends Card {
             effectArgs: (context) => [Object.values(context.targets)],
             then: {
                 alwaysTriggers: true,
-                gameAction: ability.actions.untilEndOfPlayerTurn({
+                gameAction: ability.actions.forRemainderOfTurn({
                     effect: ability.effects.canPlayNonHouse('staralliance')
                 }),
                 then: {

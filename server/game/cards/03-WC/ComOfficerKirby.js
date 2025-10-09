@@ -8,7 +8,7 @@ class ComOfficerKirby extends Card {
             reap: true,
             effect:
                 'allow them to play one non staralliance artifact, upgrade, or action​ card this turn',
-            gameAction: ability.actions.untilEndOfPlayerTurn({
+            gameAction: ability.actions.forRemainderOfTurn({
                 effect: ability.effects.canPlayNonHouse({
                     house: 'staralliance',
                     condition: (card) => ['action', 'artifact', 'upgrade'].includes(card.type)

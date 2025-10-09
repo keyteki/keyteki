@@ -481,7 +481,7 @@ TimeLimitedEffect = (duration:Duration "," _ effect:(SinglePersistentEffect/Gene
 	return {name:duration, durationEffect:effect}
 })
 
-Duration = "For the remainder of the turn"i {return "untilEndOfPlayerTurn"} /
+Duration = "For the remainder of the turn"i {return "forRemainderOfTurn"} /
 "during your opponent" [’'] "s next turn"i {return "lastingEffect"} //TODO: Correct this, lastingEffect also applies during the current turn
 
 //Persistent effects

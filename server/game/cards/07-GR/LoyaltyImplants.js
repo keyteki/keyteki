@@ -8,7 +8,7 @@ class LoyaltyImplants extends Card {
             effect: 'destroy {0} and use friendly Mars creatures this turn',
             gameAction: [
                 ability.actions.destroy(),
-                ability.actions.untilEndOfPlayerTurn({
+                ability.actions.forRemainderOfTurn({
                     effect: ability.effects.canUse(
                         (card) => card.hasHouse('mars') && card.type === 'creature'
                     )

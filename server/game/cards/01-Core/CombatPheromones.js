@@ -9,7 +9,7 @@ class CombatPheromones extends Card {
                 numCards: 2,
                 controller: 'self',
                 cardCondition: (card) => card.hasHouse('mars'),
-                gameAction: ability.actions.untilEndOfPlayerTurn((context) => ({
+                gameAction: ability.actions.forRemainderOfTurn((context) => ({
                     effect: ability.effects.canUse((card) => context.target.includes(card))
                 }))
             },

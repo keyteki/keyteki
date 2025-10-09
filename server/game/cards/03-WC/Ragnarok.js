@@ -6,16 +6,16 @@ class Ragnarok extends Card {
     setupCardAbilities(ability) {
         this.play({
             gameAction: [
-                ability.actions.untilEndOfPlayerTurn({
+                ability.actions.forRemainderOfTurn({
                     effect: ability.effects.cardCannot('reap')
                 }),
-                ability.actions.untilEndOfPlayerTurn((context) => ({
+                ability.actions.forRemainderOfTurn((context) => ({
                     when: {
                         onUseCard: (event) => !!event.fight
                     },
                     gameAction: ability.actions.gainAmber({ target: context.player })
                 })),
-                ability.actions.untilEndOfPlayerTurn({
+                ability.actions.forRemainderOfTurn({
                     when: {
                         onTurnEnded: () => true
                     },

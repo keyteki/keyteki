@@ -11,7 +11,7 @@ class TreasureMap extends Card {
                 ability.actions.gainAmber((context) => ({
                     amount: context.game.cardsPlayed.some((card) => card !== context.source) ? 0 : 3
                 })),
-                ability.actions.untilEndOfPlayerTurn({
+                ability.actions.forRemainderOfTurn({
                     effect: ability.effects.playerCannot('play')
                 })
             ]

@@ -8,7 +8,7 @@ class KelpingHands extends Card {
                 ability.actions.destroy((context) => ({
                     target: context.source
                 })),
-                ability.actions.untilEndOfPlayerTurn({
+                ability.actions.forRemainderOfTurn({
                     match: (card) => card.type === 'creature',
                     effect: ability.effects.addKeyword({
                         poison: 1

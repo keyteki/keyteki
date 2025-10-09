@@ -7,7 +7,7 @@ class AvengingAura extends Card {
             effect: 'give each friendly creature assault {0} for the remainder of the turn',
             effectArgs: (context) =>
                 context.player.opponent ? context.player.opponent.getForgedKeys() : 0,
-            gameAction: ability.actions.untilEndOfPlayerTurn((context) => ({
+            gameAction: ability.actions.forRemainderOfTurn((context) => ({
                 target: context.player.creaturesInPlay,
                 effect: ability.effects.addKeyword({
                     assault: context.player.opponent ? context.player.opponent.getForgedKeys() : 0

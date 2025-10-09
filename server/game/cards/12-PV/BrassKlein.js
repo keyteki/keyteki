@@ -16,7 +16,7 @@ class BrassKlein extends Card {
         });
 
         this.fate({
-            gameAction: ability.actions.untilEndOfPlayerTurn({
+            gameAction: ability.actions.forRemainderOfTurn({
                 targetController: 'opponent',
                 effect: ability.effects.cardCannot('fight')
             })
