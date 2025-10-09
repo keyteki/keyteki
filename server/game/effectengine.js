@@ -8,8 +8,8 @@ class EffectEngine {
         this.events = new EventRegistrar(game, this);
         this.events.register(['onPhaseEnded', 'onRoundEnded']);
         this.effects = [];
-        this.nextRoundEffects = [];
         this.delayedEffects = [];
+        this.nextTurnEffects = [];
         this.terminalConditions = [];
         this.customDurationEvents = [];
         this.newEffect = false;
@@ -17,8 +17,8 @@ class EffectEngine {
 
     add(effect) {
         //console.log('add', effect.source.name, effect.effect.type, effect.targets.map(t => t.name), effect.match.name);
-        if (effect.nextRound) {
-            this.nextRoundEffects.push(effect);
+        if (effect.duration === 'duringOpponentNextTurn') {
+            this.nextTurnEffects.push(effect);
         } else {
             this.effects.push(effect);
             if (effect.duration === 'custom') {
@@ -54,14 +54,6 @@ class EffectEngine {
                 effect.target.location === 'play area'
         );
         _.each(this.delayedEffects, (effect) => effect.checkEffect(events));
-        /*
-        let effectsToTrigger = this.delayedEffects.filter(effect => effect.checkEffect(events));
-        if(effectsToTrigger.length > 0) {
-            this.game.openSimultaneousEffectWindow(effectsToTrigger.map(effect => ({
-                title: effect.source.name + '\'s effect' + (effect.target ? ' on ' + effect.target.name : ''),
-                handler: () => effect.executeHandler()
-            })));
-        }*/
     }
 
     checkTerminalConditions() {
@@ -103,23 +95,72 @@ class EffectEngine {
     }
 
     onRoundEnded() {
+        // Remove current player's expired effects
         this.newEffect = this.unapplyAndRemove(
-            (effect) => effect.duration === 'untilEndOfRound' || effect.roundDuration === 1
+            (effect) => effect.duration === 'forRemainderOfTurn'
         );
+
+        // Remove next player's about to expire effects
+        this.newEffect =
+            this.unapplyAndRemove(
+                (effect) =>
+                    effect.duration === 'untilNextTurn' &&
+                    (this.game.activePlayer.anyEffect('anotherTurn')
+                        ? effect.effectController === this.game.activePlayer
+                        : effect.effectController !== this.game.activePlayer)
+            ) || this.newEffect;
+
+        // Check if current player or opponent is taking next turn
+        let filterEndOfNextTurn = 'untilEndOfMyNextTurn';
+        if (this.game.activePlayer.opponent && !this.game.activePlayer.anyEffect('anotherTurn')) {
+            filterEndOfNextTurn = 'nextRoundEffect';
+        }
+
+        // Set next turn effects for next player
+        _.each(this.effects, (effect) => {
+            if (effect.duration === filterEndOfNextTurn) {
+                effect.duration === 'forRemainderOfTurn';
+            }
+        });
+
+        // TODO: what need to be done to add effects and set next turn effects?
+        // eg duringOpponentNextTurn
+
+        // Set next player's effects
         _.each(this.effects, (effect) => {
             if (effect.roundDuration > 1) {
                 effect.roundDuration -= 1;
             }
         });
 
-        _.each(this.nextRoundEffects, (effect) => {
+        _.each(this.nextTurnEffects, (effect) => {
             if (effect.roundDuration > 1) {
-                effect.nextRound = false;
-                effect.roundDuration -= 1;
-                this.add(effect);
+                // Check if we should wait for opponent turn
+                let shouldActivate = true;
+                if (effect.waitForOpponentTurn && effect.effectController) {
+                    // Only activate if it's now the opponent's turn
+                    shouldActivate = this.game.activePlayer !== effect.effectController;
+                }
+
+                if (shouldActivate) {
+                    effect.nextTurn = false;
+                    effect.roundDuration -= 1;
+                    this.add(effect);
+                } else {
+                    // The effect stays in nextTurnEffects for another turn
+                }
             }
         });
-        this.nextRoundEffects = [];
+
+        // Only remove effects that were activated
+        this.nextTurnEffects = this.nextTurnEffects.filter((effect) => {
+            if (effect.roundDuration > 1) {
+                if (effect.waitForOpponentTurn && effect.effectController) {
+                    return this.game.activePlayer === effect.effectController;
+                }
+            }
+            return false;
+        });
     }
 
     registerCustomDurationEvents(effect) {
