@@ -7,7 +7,7 @@ class IntoTheNight extends Card {
             effect:
                 'stop all non-Shadows creatures from fighting until the start of their next turn',
             effectAlert: true,
-            gameAction: ability.actions.untilStartOfPlayerNextTurn({
+            gameAction: ability.actions.untilNextTurn({
                 targetController: 'any',
                 effect: ability.effects.cardCannot(
                     'fight',

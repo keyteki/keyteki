@@ -30,7 +30,7 @@ class Atrocity extends Card {
             ],
             then: {
                 alwaysTriggers: true,
-                gameAction: ability.actions.untilStartOfPlayerNextTurn((context) => ({
+                gameAction: ability.actions.untilNextTurn((context) => ({
                     target: context.source.controller.opponent,
                     effect: ability.effects.restrictHouseChoice(
                         context.preThenEvents.length > 1 && context.preThenEvents[0].card

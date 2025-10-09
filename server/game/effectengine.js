@@ -104,7 +104,7 @@ class EffectEngine {
         this.newEffect =
             this.unapplyAndRemove(
                 (effect) =>
-                    effect.duration === 'untilStartOfPlayerNextTurn' &&
+                    effect.duration === 'untilNextTurn' &&
                     (this.game.activePlayer.anyEffect('anotherTurn')
                         ? effect.effectController === this.game.activePlayer
                         : effect.effectController !== this.game.activePlayer)

@@ -8,7 +8,7 @@ class TrialByWater extends Card {
             effectAlert: true,
             gameAction: [
                 ability.actions.resetTide(),
-                ability.actions.untilStartOfPlayerNextTurn({
+                ability.actions.untilNextTurn({
                     targetController: 'any',
                     effect: ability.effects.playerCannot('raiseTide')
                 })

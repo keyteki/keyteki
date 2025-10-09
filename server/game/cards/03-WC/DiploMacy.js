@@ -7,7 +7,7 @@ class DiploMacy extends Card {
         this.play({
             effect: 'to exalt each creature before fight until the start of their next turn',
             effectAlert: true,
-            gameAction: ability.actions.untilStartOfPlayerNextTurn({
+            gameAction: ability.actions.untilNextTurn({
                 targetController: 'any',
                 effect: ability.effects.gainAbility('beforeFight', {
                     gameAction: ability.actions.exalt()
