@@ -65,7 +65,11 @@ metadata:
     # prettier-ignore
     namespace: {{ .Values.namespace }}
 spec:
+{{- if eq .Values.environment "production" }}
+    secretName: keyteki-lobby-tls
+{{- else }}
     secretName: keyteki-lobby-{{ .Values.environment }}-tls
+{{- end }}
     issuerRef:
         name: letsencrypt-prod
         kind: ClusterIssuer
