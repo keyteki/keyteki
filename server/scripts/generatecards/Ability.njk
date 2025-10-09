@@ -15,7 +15,7 @@ this.persistentEffect({
 });
     {%- endif -%}
 {%- elif ability.name == 'reaction' -%}
-this.{{'interrupt' if ['onTurnEnded'].includes(ability.trigger.trigger) else 'reaction'}}({
+this.{{'interrupt' if ['onRoundEnded'].includes(ability.trigger.trigger) else 'reaction'}}({
     {{formatReaction(ability, refs) | indent(4)}}
 });
 {%- elif ability.name == 'keywords' -%}

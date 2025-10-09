@@ -5,7 +5,7 @@ class MalifiDragon extends Card {
     setupCardAbilities(ability) {
         this.interrupt({
             when: {
-                onTurnEnded: (event, context) =>
+                onRoundEnded: (event, context) =>
                     context.player === this.game.activePlayer && context.player.amber <= 4
             },
             gameAction: ability.actions.gainAmber({ amount: 2 })

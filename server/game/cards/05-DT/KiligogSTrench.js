@@ -5,7 +5,7 @@ class KiligogSTrench extends Card {
     setupCardAbilities(ability) {
         this.interrupt({
             when: {
-                onTurnEnded: (event, context) => context.player === this.game.activePlayer
+                onRoundEnded: (event, context) => context.player === this.game.activePlayer
             },
             gameAction: ability.actions.addDepthCounter((context) => ({
                 target: context.source

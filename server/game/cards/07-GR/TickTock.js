@@ -8,7 +8,7 @@ class TickTock extends Card {
     setupCardAbilities(ability) {
         this.interrupt({
             when: {
-                onTurnEnded: (_, context) => context.player === this.game.activePlayer
+                onRoundEnded: (_, context) => context.player === this.game.activePlayer
             },
             gameAction: ability.actions.addTimeCounter((context) => ({
                 target: context.source.controller.creaturesInPlay.filter((c) => c.hasTrait('clock'))

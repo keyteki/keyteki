@@ -10,7 +10,7 @@ class AmberfinShark extends Card {
 
         this.interrupt({
             when: {
-                onTurnEnded: (_, context) => context.player === this.game.activePlayer
+                onRoundEnded: (_, context) => context.player === this.game.activePlayer
             },
             gameAction: ability.actions.removePowerCounter(),
             then: {

@@ -190,7 +190,7 @@ PhaseTrigger = "At the"i _ part:("start"/"end") _ "of" _ player:PlayerTarget _
 	return {
 		name: "reaction",
 		trigger: {
-			trigger: trigger || (part == "start" ? "onBeginRound" : "onTurnEnded"),
+			trigger: trigger || (part == "start" ? "onBeginRound" : "onRoundEnded"),
 			conditions:[{name:'turn', player}]
 		},
 		actions:sortActions(actions)

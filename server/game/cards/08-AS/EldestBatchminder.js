@@ -6,7 +6,7 @@ class EldestBatchminder extends Card {
     setupCardAbilities(ability) {
         this.interrupt({
             when: {
-                onTurnEnded: (event, context) => context.player === this.game.activePlayer
+                onRoundEnded: (event, context) => context.player === this.game.activePlayer
             },
             gameAction: ability.actions.addPowerCounter((context) => ({
                 target: context.game.creaturesInPlay.filter(

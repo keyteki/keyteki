@@ -6,7 +6,7 @@ class GarnetSquire extends Card {
     setupCardAbilities(ability) {
         this.interrupt({
             when: {
-                onTurnEnded: (_, context) => context.player === this.game.activePlayer
+                onRoundEnded: (_, context) => context.player === this.game.activePlayer
             },
             condition: (context) => context.source.tokens.damage > 0,
             gameAction: ability.actions.heal({ amount: 1 }),

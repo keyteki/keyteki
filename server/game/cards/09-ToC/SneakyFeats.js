@@ -7,7 +7,7 @@ class SneakyFeats extends Card {
     setupCardAbilities(ability) {
         this.activePlayerStoleAmber = false;
         this.tracker = new EventRegistrar(this.game, this);
-        this.tracker.register(['onStealAmber', { 'onTurnEnded:preResolution': 'onTurnEnded' }]);
+        this.tracker.register(['onStealAmber', { 'onRoundEnded:preResolution': 'onRoundEnded' }]);
 
         this.play({
             gameAction: ability.actions.makeTokenCreature(),
@@ -30,7 +30,7 @@ class SneakyFeats extends Card {
         }
     }
 
-    onTurnEnded() {
+    onRoundEnded() {
         this.activePlayerStoleAmber = false;
     }
 }

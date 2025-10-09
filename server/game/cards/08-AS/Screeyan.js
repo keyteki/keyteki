@@ -7,7 +7,7 @@ class Screeyan extends Card {
     setupCardAbilities(ability) {
         this.interrupt({
             when: {
-                onTurnEnded: (event, context) =>
+                onRoundEnded: (event, context) =>
                     context.player === this.game.activePlayer && context.player.opponent
             },
             gameAction: ability.actions.discard((context) => ({

@@ -7,7 +7,7 @@ class ThePromisedBlade extends Card {
     setupCardAbilities(ability) {
         this.movedThisRound = false;
         this.tracker = new EventRegistrar(this.game, this);
-        this.tracker.register(['onTurnEnded']);
+        this.tracker.register(['onRoundEnded']);
 
         this.omni({
             target: {
@@ -81,7 +81,7 @@ class ThePromisedBlade extends Card {
         });
     }
 
-    onTurnEnded() {
+    onRoundEnded() {
         this.movedThisRound = false;
     }
 }

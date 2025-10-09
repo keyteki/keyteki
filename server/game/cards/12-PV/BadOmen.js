@@ -5,7 +5,7 @@ class BadOmen extends Card {
     setupCardAbilities(ability) {
         this.prophecyInterrupt({
             when: {
-                onTurnEnded: (_, context) =>
+                onRoundEnded: (_, context) =>
                     this.game.activePlayer === context.source.controller.opponent &&
                     this.game.activePlayer.amber === 6
             },

@@ -6,7 +6,7 @@ class TailsYouLose extends Card {
     setupCardAbilities(ability) {
         this.interrupt({
             when: {
-                onTurnEnded: (_, context) =>
+                onRoundEnded: (_, context) =>
                     context.player === this.game.activePlayer && context.source.activeProphecy
             },
             location: 'any',

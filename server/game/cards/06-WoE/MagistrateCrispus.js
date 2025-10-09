@@ -6,7 +6,7 @@ class MagistrateCrispus extends Card {
     setupCardAbilities(ability) {
         this.interrupt({
             when: {
-                onTurnEnded: (event, context) => context.player === this.game.activePlayer
+                onRoundEnded: (event, context) => context.player === this.game.activePlayer
             },
             // TODO: This is probably fine?
             gameAction: ability.actions.sequentialCardLastingEffect((context) => ({

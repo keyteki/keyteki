@@ -6,7 +6,7 @@ class EffectEngine {
     constructor(game) {
         this.game = game;
         this.events = new EventRegistrar(game, this);
-        this.events.register(['onPhaseEnded', 'onTurnEnded']);
+        this.events.register(['onPhaseEnded', 'onRoundEnded']);
         this.effects = [];
         this.delayedEffects = [];
         this.nextTurnEffects = [];
@@ -94,7 +94,7 @@ class EffectEngine {
         this.newEffect = this.unapplyAndRemove((effect) => effect.duration === 'untilEndOfPhase');
     }
 
-    onTurnEnded() {
+    onRoundEnded() {
         // Remove current player's expired effects
         this.newEffect = this.unapplyAndRemove(
             (effect) => effect.duration === 'forRemainderOfTurn'

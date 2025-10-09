@@ -17,7 +17,7 @@ class Ragnarok extends Card {
                 })),
                 ability.actions.forRemainderOfTurn({
                     when: {
-                        onTurnEnded: () => true
+                        onRoundEnded: () => true
                     },
                     triggeredAbilityType: 'interrupt',
                     gameAction: ability.actions.destroy((context) => ({

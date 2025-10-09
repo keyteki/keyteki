@@ -6,7 +6,7 @@ class EkwirresFulcrum extends Card {
     setupCardAbilities(ability) {
         this.interrupt({
             when: {
-                onTurnEnded: () => true
+                onRoundEnded: () => true
             },
             useEventPlayer: true,
             optional: true,
