@@ -146,8 +146,8 @@ const Actions = {
         new GameActions.LastingEffectAction(propertyFactory, 'nextRoundEffect'),
     untilNextTurn: (propertyFactory) =>
         new GameActions.LastingEffectAction(propertyFactory, 'untilNextTurn'),
-    untilEndOfPlayerNextTurn: (propertyFactory) =>
-        new GameActions.LastingEffectAction(propertyFactory, 'untilEndOfPlayerNextTurn'),
+    untilEndOfMyNextTurn: (propertyFactory) =>
+        new GameActions.LastingEffectAction(propertyFactory, 'untilEndOfMyNextTurn'),
 
     // meta actions
     addEventToWindow: (propertyFactory) => new GameActions.AddEventToWindowAction(propertyFactory),
