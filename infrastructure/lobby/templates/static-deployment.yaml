@@ -23,16 +23,16 @@ spec:
                       - name: nginx-config
                         mountPath: /etc/nginx/nginx.conf
                         subPath: nginx.conf
-                                            - name: static-assets
-                                                mountPath: /usr/share/nginx/html/img
+                      - name: static-assets
+                        mountPath: /usr/share/nginx/html/img
                         readOnly: true
             volumes:
                 - name: nginx-config
                   configMap:
                       name: keyteki-static-nginx-config
-                                - name: static-assets
-                                    persistentVolumeClaim:
-                                            claimName: keyteki-static-assets
+                - name: static-assets
+                  persistentVolumeClaim:
+                  claimName: keyteki-static-assets
 ---
 apiVersion: v1
 kind: Service
