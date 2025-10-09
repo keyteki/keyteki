@@ -7,7 +7,7 @@ class StormSurge extends Card {
             effect:
                 'prevent opponent from readying cards during the ready card step of their next turn',
             effectAlert: true,
-            gameAction: ability.actions.nextRoundEffect({
+            gameAction: ability.actions.untilEndOfOpponentsNextTurn({
                 targetController: 'opponent',
                 effect: ability.effects.doesNotReady()
             })

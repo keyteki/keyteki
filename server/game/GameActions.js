@@ -131,7 +131,7 @@ const Actions = {
     lastingEffect: (propertyFactory) => new GameActions.LastingEffectAction(propertyFactory),
     loseAmber: (propertyFactory) => new GameActions.LoseAmberAction(propertyFactory),
     mulligan: (propertyFactory) => new GameActions.MulliganAction(propertyFactory), // name
-    nextRoundEffect: (propertyFactory) =>
+    untilEndOfOpponentsNextTurn: (propertyFactory) =>
         new GameActions.LastingEffectAction(propertyFactory, 2, true),
     raiseTide: (propertyFactory) => new GameActions.RaiseTideAction(propertyFactory),
     rearrangeCards: (propertFactory) => new GameActions.RearrangeCardsAction(propertFactory),
@@ -143,7 +143,8 @@ const Actions = {
     unforgeKey: (propertyFactory) => new GameActions.UnforgeAction(propertyFactory),
     untilEndOfMyNextTurn: (propertyFactory) =>
         new GameActions.LastingEffectAction(propertyFactory, 3),
-    untilNextTurn: (propertyFactory) => new GameActions.LastingEffectAction(propertyFactory, 2),
+    untilStartOfYourNextTurn: (propertyFactory) =>
+        new GameActions.LastingEffectAction(propertyFactory, 2),
     // meta actions
     addEventToWindow: (propertyFactory) => new GameActions.AddEventToWindowAction(propertyFactory),
     allocateDamage: (propertyFactory) => new GameActions.AllocateDamageAction(propertyFactory),

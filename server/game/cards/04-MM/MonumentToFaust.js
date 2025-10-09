@@ -9,7 +9,7 @@ class MonumentToFaust extends Card {
                 context.player.opponent,
                 context.player.discard.some((card) => card.name === 'Faust the Great') ? 2 : 1
             ],
-            gameAction: ability.actions.nextRoundEffect({
+            gameAction: ability.actions.untilEndOfOpponentsNextTurn({
                 targetController: 'any',
                 effect: ability.effects.modifyKeyCost((player, context) =>
                     context.player.discard.some((card) => card.name === 'Faust the Great') ? 2 : 1

@@ -9,7 +9,7 @@ class LieutenantValmart extends Card {
             condition: (context) => context.player.isTideHigh(),
             effect: "increase key cost by 3 during {1}'s next turn",
             effectArgs: (context) => context.player.opponent,
-            gameAction: ability.actions.nextRoundEffect({
+            gameAction: ability.actions.untilEndOfOpponentsNextTurn({
                 targetController: 'any',
                 effect: ability.effects.modifyKeyCost(3)
             })

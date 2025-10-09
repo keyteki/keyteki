@@ -14,7 +14,7 @@ class Screeyan extends Card {
                 target: context.player.opponent ? context.player.opponent.deck[0] : []
             })),
             then: {
-                gameAction: ability.actions.nextRoundEffect((context) => ({
+                gameAction: ability.actions.untilEndOfOpponentsNextTurn((context) => ({
                     targetController: 'opponent',
                     effect: context.preThenEvent.card
                         .getHouses()

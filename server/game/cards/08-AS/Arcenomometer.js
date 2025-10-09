@@ -9,7 +9,7 @@ class Arcenomometer extends Card {
             effect: 'make {1} lose an amber each time they play a card during their next turn',
             effectArgs: (context) => context.player.opponent,
             effectAlert: true,
-            gameAction: ability.actions.nextRoundEffect({
+            gameAction: ability.actions.untilEndOfOpponentsNextTurn({
                 when: {
                     onCardPlayed: (event, context) => event.player !== context.player.opponent
                 },

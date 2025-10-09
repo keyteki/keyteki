@@ -13,7 +13,7 @@ class PoisedStrike extends Card {
         });
 
         this.fate({
-            gameAction: ability.actions.untilNextTurn((context) => ({
+            gameAction: ability.actions.untilStartOfYourNextTurn((context) => ({
                 target: context.game.activePlayer,
                 effect: ability.effects.doesNotReady()
             }))
