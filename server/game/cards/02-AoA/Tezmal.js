@@ -11,7 +11,7 @@ class Tezmal extends Card {
             },
             effect: 'stop {1} from choosing {2} as their active house',
             effectArgs: (context) => [context.player.opponent, context.house],
-            gameAction: ability.actions.untilEndOfOpponentNextTurn((context) => ({
+            gameAction: ability.actions.nextRoundEffect((context) => ({
                 targetController: 'opponent',
                 effect: ability.effects.stopHouseChoice(context.house)
             }))

@@ -11,7 +11,7 @@ class Lifeward extends Card {
             effectAlert: true,
             gameAction: [
                 ability.actions.sacrifice(),
-                ability.actions.untilEndOfOpponentNextTurn({
+                ability.actions.nextRoundEffect({
                     targetController: 'opponent',
                     effect: ability.effects.playerCannot(
                         'play',

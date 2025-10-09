@@ -113,7 +113,7 @@ class EffectEngine {
         // Check if current player or opponent is taking next turn
         let filterEndOfNextTurn = 'untilEndOfPlayerNextTurn';
         if (this.game.activePlayer.opponent && !this.game.activePlayer.anyEffect('anotherTurn')) {
-            filterEndOfNextTurn = 'untilEndOfOpponentNextTurn';
+            filterEndOfNextTurn = 'nextRoundEffect';
         }
 
         // Set next turn effects for next player
