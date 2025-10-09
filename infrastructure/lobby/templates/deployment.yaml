@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+    name: keyteki-lobby
+    # prettier-ignore
+    namespace: {{ .Values.namespace }}
+spec:
+    replicas: 1
+    selector:
+        matchLabels:
+            app: keyteki-lobby
+    template:
+        metadata:
+            labels:
+                app: keyteki-lobby
+            annotations:
+                #prettier-ignore
+                deployTime: {{ .Values.deployTime | default "0" | quote }}
+        spec:
+            containers:
+                - name: keyteki-lobby
+                  image: '{{ .Values.image.repository }}:{{ .Values.image.tag }}'
+                  imagePullPolicy: Always
+                  ports:
+                      - containerPort: 80
+                  env:
+                      - name: NODE_CONFIG
+                        valueFrom:
+                            secretKeyRef:
+                                name: keyteki-lobby-secret
+                                key: node_config
+                  volumeMounts:
+                      - name: avatars
+                        mountPath: /usr/src/app/public/img/avatar
+            volumes:
+                - name: avatars
+                  persistentVolumeClaim:
+                      claimName: keyteki-avatars

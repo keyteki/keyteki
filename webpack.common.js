@@ -8,6 +8,18 @@ module.exports = {
         extensions: ['.js', '.jsx'],
         alias: {
             assets: path.resolve('./client/assets')
+        },
+        fallback: {
+            process: require.resolve('process/browser'),
+            buffer: require.resolve('buffer/'),
+            util: require.resolve('util/'),
+            url: require.resolve('url/'),
+            http: false,
+            https: false,
+            stream: require.resolve('stream-browserify'),
+            crypto: false,
+            fs: false,
+            path: require.resolve('path-browserify')
         }
     },
     plugins: [
@@ -18,16 +30,23 @@ module.exports = {
         }),
         new webpack.ProvidePlugin({
             $: 'jquery',
-            jQuery: 'jquery'
+            jQuery: 'jquery',
+            Buffer: ['buffer', 'Buffer'],
+            process: 'process/browser'
         }),
-        new webpack.EnvironmentPlugin(['VERSION'])
+        new webpack.DefinePlugin({
+            'process.env': JSON.stringify({
+                VERSION: process.env.VERSION || 'development',
+                NODE_ENV: process.env.NODE_ENV || 'development'
+            })
+        })
     ],
     output: {
         path: path.resolve(__dirname, 'dist'),
         publicPath: '/'
     },
     optimization: {
-        moduleIds: 'hashed',
+        moduleIds: 'deterministic',
         runtimeChunk: 'single',
         splitChunks: {
             cacheGroups: {
@@ -43,22 +62,27 @@ module.exports = {
         rules: [
             {
                 test: /\.jsx?/,
-                exclude: /[\\/]node_modules[\\/](?!(@sendgrid\/mail|debug|engine.io-client|socket.io-client|cross-env|eslint-config-prettier|eslint-plugin-jest|eslint-plugin-prettier|lint-staged|pg|prettier|socket.io|winston)[\\/])/,
+                exclude: /[\\/]node_modules[\\/](?!(@sendgrid\/mail|debug|engine.io-client|socket.io-client|cross-env|eslint-config-prettier|eslint-plugin-jest|eslint-plugin-prettier|lint-staged|pg|prettier|socket.io|winston)[\\/])|\.json$/,
                 loader: 'babel-loader'
             },
             {
                 test: /.(jpe?g|png|woff(2)?|eot|ttf|cur|svg|mp3|ogg)(\?[a-z0-9=.]+)?$/,
-                use: 'url-loader?limit=16384'
+                type: 'asset/resource'
             },
             { test: /\.css$/, use: ['style-loader', 'css-loader'] },
             { test: /\.scss$/, use: ['style-loader', 'css-loader', 'sass-loader'] },
             {
-                test: /\.json/,
-                exclude: /node_modules/,
-                type: 'javascript/auto',
-                use: [require.resolve('json-loader')]
-            },
-            { test: /\.pug$/, include: path.join(__dirname, 'views'), loaders: ['pug-loader'] }
+                test: /\.pug$/,
+                include: path.join(__dirname, 'views'),
+                use: [
+                    {
+                        loader: 'pug-loader',
+                        options: {
+                            pretty: true
+                        }
+                    }
+                ]
+            }
         ]
     }
 };

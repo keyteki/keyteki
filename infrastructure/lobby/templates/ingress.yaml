@@ -1,0 +1,77 @@
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+    name: keyteki-lobby
+    # prettier-ignore
+    namespace: {{ .Values.namespace }}
+spec:
+    entryPoints:
+        - web
+        - websecure
+    routes:
+{{- if eq .Values.environment "production" }}
+        - match: Host(`thecrucible.online`) && (PathPrefix(`/img/cards/`) || PathPrefix(`/img/avatar/`))
+          kind: Rule
+          priority: 20
+          services:
+              - name: keyteki-static
+                port: 80
+          middlewares:
+              - name: static-cache-headers
+        - match: Host(`thecrucible.online`)
+          kind: Rule
+          priority: 10
+          services:
+              - name: keyteki-lobby
+                port: 80
+{{- else }}
+        - match: Host(`{{ .Values.environment }}.thecrucible.online`) && (PathPrefix(`/img/cards/`) || PathPrefix(`/img/avatar/`))
+          kind: Rule
+          priority: 20
+          services:
+              - name: keyteki-static
+                port: 80
+          middlewares:
+              - name: static-cache-headers
+        - match: Host(`{{ .Values.environment }}.thecrucible.online`)
+          kind: Rule
+          priority: 10
+          services:
+              - name: keyteki-lobby
+                port: 80
+{{- end }}
+    tls:
+{{- if eq .Values.environment "production" }}
+        secretName: keyteki-lobby-tls
+{{- else }}
+        secretName: keyteki-lobby-{{ .Values.environment }}-tls
+{{- end }}
+---
+apiVersion: traefik.io/v1alpha1
+kind: Middleware
+metadata:
+    name: static-cache-headers
+    # prettier-ignore
+    namespace: {{ .Values.namespace }}
+spec:
+    headers:
+        customResponseHeaders:
+            Cache-Control: "public, max-age=604800" # 7 days
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+    name: keyteki-lobby-cert
+    # prettier-ignore
+    namespace: {{ .Values.namespace }}
+spec:
+    secretName: keyteki-lobby-{{ .Values.environment }}-tls
+    issuerRef:
+        name: letsencrypt-prod
+        kind: ClusterIssuer
+    dnsNames:
+{{- if eq .Values.environment "production" }}
+        - thecrucible.online
+{{- else }}
+        - {{ .Values.environment }}.thecrucible.online
+{{- end }}

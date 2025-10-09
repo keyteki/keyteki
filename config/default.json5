@@ -3,6 +3,7 @@
 
     secret: 'somethingverysecret',
     redisUrl: 'redis://redis/',
+    redisKeyPrefix: 'keyteki:dev',
     dbUser: 'keyteki',
     dbHost: 'postgres',
     dbDatabase: 'keyteki',
