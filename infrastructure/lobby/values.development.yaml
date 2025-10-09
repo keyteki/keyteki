@@ -1,0 +1,17 @@
+# Development overrides for the lobby chart
+namespace: keyteki-development
+environment: development
+
+deployTime: '0'
+
+# Use the same unified static assets PVC size unless overridden
+storage:
+  className: local-path
+  staticAssets: 60Gi
+
+# Use a dev image tag if needed
+image:
+  repository: cryogen/keyteki-lobby
+  tag: latest
+
+resources: {}
