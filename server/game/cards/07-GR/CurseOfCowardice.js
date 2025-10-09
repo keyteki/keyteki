@@ -10,11 +10,11 @@ class CurseOfCowardice extends Card {
     setupCardAbilities(ability) {
         this.fights = 0;
         this.tracker = new EventRegistrar(this.game, this);
-        this.tracker.register(['onFight', 'onRoundEnded']);
+        this.tracker.register(['onFight', 'onTurnEnded']);
 
         this.interrupt({
             when: {
-                onRoundEnded: (_, context) => context.player === this.game.activePlayer
+                onTurnEnded: (_, context) => context.player === this.game.activePlayer
             },
             gameAction: ability.actions.loseAmber((context) => ({
                 target: context.player,
@@ -33,7 +33,7 @@ class CurseOfCowardice extends Card {
         this.fights++;
     }
 
-    onRoundEnded() {
+    onTurnEnded() {
         this.fights = 0;
     }
 }

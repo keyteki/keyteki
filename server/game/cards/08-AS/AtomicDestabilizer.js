@@ -7,7 +7,7 @@ class AtomicDestabilizer extends Card {
         this.whileAttached({
             effect: ability.effects.gainAbility('interrupt', {
                 when: {
-                    onRoundEnded: (_, context) => context.player === this.game.activePlayer
+                    onTurnEnded: (_, context) => context.player === this.game.activePlayer
                 },
                 gameAction: ability.actions.capture({
                     amount: 1

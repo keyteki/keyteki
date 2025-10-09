@@ -5,7 +5,7 @@ class PhaseShift extends Card {
     setupCardAbilities(ability) {
         this.play({
             effect: 'allow them to play one non-Logos card this turn',
-            gameAction: ability.actions.forRemainderOfTurn({
+            gameAction: ability.actions.untilEndOfPlayerTurn({
                 effect: ability.effects.canPlayNonHouse('logos')
             })
         });

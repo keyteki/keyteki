@@ -8,7 +8,7 @@ class Foggify extends Card {
             effect: 'stop {1} from fighting next turn',
             effectArgs: (context) => context.player.opponent,
             effectAlert: true,
-            gameAction: ability.actions.untilEndOfOpponentsNextTurn({
+            gameAction: ability.actions.untilEndOfOpponentNextTurn({
                 targetController: 'opponent',
                 effect: ability.effects.cardCannot('fight')
             })

@@ -11,7 +11,7 @@ class Suspendamander extends Card {
             effect: 'prevent {1} from playing actions of house {2} next turn',
             effectArgs: (context) => [context.player.opponent, context.house],
             effectAlert: true,
-            gameAction: ability.actions.untilEndOfOpponentsNextTurn((context) => ({
+            gameAction: ability.actions.untilEndOfOpponentNextTurn((context) => ({
                 targetController: 'opponent',
                 effect: ability.effects.playerCannot(
                     'play',

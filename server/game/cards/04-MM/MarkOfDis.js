@@ -10,7 +10,8 @@ class MarkOfDis extends Card {
                     ability.actions.dealDamage({ amount: 2 }),
                     ability.actions.conditional((context) => ({
                         condition: () => context.target.location === 'play area',
-                        trueGameAction: ability.actions.untilEndOfMyNextTurn({
+                        // TODO: this probably doesn't work
+                        trueGameAction: ability.actions.untilEndOfPlayerNextTurn({
                             targetController:
                                 context.player === context.target.controller
                                     ? 'current'

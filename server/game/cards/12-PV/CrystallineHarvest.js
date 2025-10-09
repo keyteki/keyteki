@@ -5,7 +5,7 @@ class CrystallineHarvest extends Card {
     // Fate: For the remainder of the turn, lose 1 amber each time you play an action card.
     setupCardAbilities(ability) {
         this.play({
-            gameAction: ability.actions.forRemainderOfTurn({
+            gameAction: ability.actions.untilEndOfPlayerTurn({
                 when: {
                     onCardPlayed: (event, context) =>
                         event.player === context.player && event.card.type === 'action'
@@ -15,7 +15,7 @@ class CrystallineHarvest extends Card {
         });
 
         this.fate({
-            gameAction: ability.actions.forRemainderOfTurn({
+            gameAction: ability.actions.untilEndOfPlayerTurn({
                 when: {
                     onCardPlayed: (event, context) =>
                         event.player === context.game.activePlayer && event.card.type === 'action'

@@ -5,7 +5,7 @@ class WildBounty extends Card {
     // Play: The next time you play a card this turn, resolve each of its bonus icons an additional time.
     setupCardAbilities(ability) {
         this.play({
-            gameAction: ability.actions.forRemainderOfTurn((context) => ({
+            gameAction: ability.actions.untilEndOfPlayerTurn((context) => ({
                 when: {
                     onCardPlayed: (event) =>
                         event.player === context.player && event.card !== context.source

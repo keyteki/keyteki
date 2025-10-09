@@ -5,7 +5,7 @@ class PlagueWind extends Card {
     setupCardAbilities(ability) {
         this.play({
             effect: 'give each non-Mars creatures -3 power until the end of the turn',
-            gameAction: ability.actions.forRemainderOfTurn({
+            gameAction: ability.actions.untilEndOfPlayerTurn({
                 targetController: 'any',
                 match: (card) => !card.hasHouse('mars'),
                 effect: ability.effects.modifyPower(-3)

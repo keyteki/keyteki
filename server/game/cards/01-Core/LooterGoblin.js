@@ -7,7 +7,7 @@ class LooterGoblin extends Card {
         this.reap({
             effect:
                 'gain 1 amber each time an enemy creature is destroyed for the remainder of the turn',
-            gameAction: ability.actions.forRemainderOfTurn((context) => ({
+            gameAction: ability.actions.untilEndOfPlayerTurn((context) => ({
                 when: {
                     onCardDestroyed: (event) =>
                         event.clone.type === 'creature' && event.clone.controller !== context.player

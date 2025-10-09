@@ -10,7 +10,7 @@ class SeismoEntangler extends Card {
             effect: 'stop {1} creatures from reaping next turn',
             effectArgs: (context) => context.house,
             effectAlert: true,
-            gameAction: ability.actions.untilEndOfOpponentsNextTurn((context) => ({
+            gameAction: ability.actions.untilEndOfOpponentNextTurn((context) => ({
                 targetController: 'opponent',
                 effect: ability.effects.cardCannot('reap', (cannotContext) =>
                     cannotContext.source.hasHouse(context.house)

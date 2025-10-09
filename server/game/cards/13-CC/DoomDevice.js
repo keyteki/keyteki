@@ -5,7 +5,7 @@ class DoomDevice extends Card {
     setupCardAbilities(ability) {
         this.interrupt({
             when: {
-                onRoundEnded: (event, context) => context.player === this.game.activePlayer
+                onTurnEnded: (event, context) => context.player === this.game.activePlayer
             },
             condition: (context) =>
                 context.game.cardsInPlay.length +

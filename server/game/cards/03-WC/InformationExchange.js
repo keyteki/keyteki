@@ -7,7 +7,7 @@ class InformationExchange extends Card {
         this.amberStolenControllerUuid = {};
         this.activePlayerStoleAmber = false;
         this.tracker = new EventRegistrar(this.game, this);
-        this.tracker.register(['onStealAmber', { 'onRoundEnded:preResolution': 'onRoundEnded' }]);
+        this.tracker.register(['onStealAmber', { 'onTurnEnded:preResolution': 'onTurnEnded' }]);
 
         this.play({
             gameAction: ability.actions.steal((context) => ({
@@ -26,7 +26,7 @@ class InformationExchange extends Card {
         }
     }
 
-    onRoundEnded() {
+    onTurnEnded() {
         this.amberStolenControllerUuid[this.game.activePlayer.uuid] = this.activePlayerStoleAmber;
         this.activePlayerStoleAmber = false;
     }

@@ -488,7 +488,7 @@ this.action({
 
 #### Lasting effects
 
-Unlike persistent effects, lasting effects are typically applied during an action, reaction or interrupt and expire after a specified period of time. Lasting effect use the same properties as persistent effects, above. Lasting effects are applied using the `cardLastingEffect`, `ringLastingEffect` or `playerLastingEffect`, depending on what they affect. They take a `duration:` property which is one of `untilEndOfConflict` (default), `untilEndOfPhase` or `untilEndOfRound`.
+Unlike persistent effects, lasting effects are typically applied during an action, reaction or interrupt and expire after a specified period of time. Lasting effect use the same properties as persistent effects, above. Lasting effects are applied using the `cardLastingEffect`, `ringLastingEffect` or `playerLastingEffect`, depending on what they affect. They take a `duration:` property which is one of `untilEndOfConflict` (default), `untilEndOfPhase` or `untilEndOfTurn`.
 
 ```javascript
 // Action: During a conflict, bow this character. Choose another [crane] character – that character
@@ -524,7 +524,7 @@ this.action({
 });
 ```
 
-To apply an effect to last until the end of the round, use `untilEndOfRound`:
+To apply an effect to last until the end of the round, use `untilEndOfTurn`:
 
 ```javascript
 /// Action: Choose a holding you control – you may trigger each of that holding's triggered abilities an additional time this round (or specified period).

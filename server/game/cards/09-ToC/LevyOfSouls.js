@@ -12,7 +12,7 @@ class LevyOfSouls extends Card {
                 message:
                     "{0} uses {1} to increase key cost +1 amber for each friendly token creature during {2}'s next turn",
                 messageArgs: (context) => [context.player, context.source, context.player.opponent],
-                gameAction: ability.actions.untilEndOfOpponentsNextTurn({
+                gameAction: ability.actions.untilEndOfOpponentNextTurn({
                     targetController: 'any',
                     effect: ability.effects.modifyKeyCost(
                         (_, context) =>

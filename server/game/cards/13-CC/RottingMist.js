@@ -5,7 +5,7 @@ class RottingMist extends Card {
     setupCardAbilities(ability) {
         this.play({
             effect: 'give each enemy creature -1 power until the end of the turn',
-            gameAction: ability.actions.forRemainderOfTurn({
+            gameAction: ability.actions.untilEndOfPlayerTurn({
                 targetController: 'opponent',
                 match: (card) => card.type === 'creature',
                 effect: ability.effects.modifyPower(-1)

@@ -8,7 +8,7 @@ class ImprovisedAviation extends Card {
         this.play({
             effect: 'have the next friendly creature enter play ready and gain a fight effect',
             gameAction: [
-                ability.actions.forRemainderOfTurn({
+                ability.actions.untilEndOfPlayerTurn({
                     until: {
                         onCardEntersPlay: (event) =>
                             event.card.type === 'creature' &&
@@ -24,10 +24,10 @@ class ImprovisedAviation extends Card {
                         // is entering play, and let it last for the rest of
                         // the round.
                         ability.effects.entersPlayWithEffect({
-                            duration: 'untilEndOfRound',
+                            duration: 'untilEndOfTurn',
                             builder: () =>
+                                // TODO: validate
                                 ability.effects.gainAbility('fight', {
-                                    roundDuration: 1,
                                     target: {
                                         cardType: 'artifact',
                                         controller: 'any',

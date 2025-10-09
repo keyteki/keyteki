@@ -5,7 +5,7 @@ class StaffUp extends Card {
     // would be added to your pool, make that many token creatures instead.
     setupCardAbilities(ability) {
         this.play({
-            gameAction: ability.actions.forRemainderOfTurn({
+            gameAction: ability.actions.untilEndOfPlayerTurn({
                 when: {
                     onModifyAmber: (event, context) =>
                         event.player === context.player && event.amount > 0 && !event.loseAmber

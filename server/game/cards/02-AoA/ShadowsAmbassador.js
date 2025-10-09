@@ -7,7 +7,7 @@ class ShadowsAmbassador extends Card {
         this.fight({
             reap: true,
             effect: 'allow them to play or use one Shadows card this turn',
-            gameAction: ability.actions.forRemainderOfTurn({
+            gameAction: ability.actions.untilEndOfPlayerTurn({
                 effect: ability.effects.canPlayOrUseHouse('shadows')
             })
         });

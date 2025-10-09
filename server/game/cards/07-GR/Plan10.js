@@ -16,7 +16,7 @@ class Plan10 extends Card {
 
         this.interrupt({
             when: {
-                onRoundEnded: () => true
+                onTurnEnded: () => true
             },
             useEventPlayer: true,
             target: {

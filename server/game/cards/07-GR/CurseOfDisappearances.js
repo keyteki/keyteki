@@ -9,7 +9,7 @@ class CurseOfDisappearances extends Card {
     setupCardAbilities(ability) {
         this.interrupt({
             when: {
-                onRoundEnded: (_, context) => context.player === this.game.activePlayer
+                onTurnEnded: (_, context) => context.player === this.game.activePlayer
             },
             condition: (context) => !!context.player.opponent,
             gameAction: ability.actions.archive((context) => ({

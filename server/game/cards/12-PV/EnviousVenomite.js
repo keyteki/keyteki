@@ -12,7 +12,7 @@ class EnviousVenomite extends Card {
         });
 
         this.fate({
-            gameAction: ability.actions.forRemainderOfTurn((context) => ({
+            gameAction: ability.actions.untilEndOfPlayerTurn((context) => ({
                 match: (card) =>
                     card.type === 'creature' && card.controller !== context.game.activePlayer,
                 effect: ability.effects.addKeyword({

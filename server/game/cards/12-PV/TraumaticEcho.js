@@ -11,7 +11,7 @@ class TraumaticEcho extends Card {
                 gameAction: ability.actions.purge()
             },
             then: {
-                gameAction: ability.actions.untilEndOfOpponentsNextTurn((context) => ({
+                gameAction: ability.actions.untilEndOfOpponentNextTurn((context) => ({
                     targetController: 'opponent',
                     effect: ability.effects.playerCannot(
                         'play',

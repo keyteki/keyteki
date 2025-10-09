@@ -8,7 +8,7 @@ class CurseOfObstinacy extends Card {
     setupCardAbilities(ability) {
         this.interrupt({
             when: {
-                onRoundEnded: (_, context) => context.player === this.game.activePlayer
+                onTurnEnded: (_, context) => context.player === this.game.activePlayer
             },
             gameAction: ability.actions.stun((context) => ({
                 target: context.player.creaturesInPlay.filter(

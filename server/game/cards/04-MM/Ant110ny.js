@@ -11,7 +11,7 @@ class Ant110ny extends Card {
         });
         this.interrupt({
             when: {
-                onRoundEnded: (_event, context) => context.player === context.game.activePlayer
+                onTurnEnded: (_event, context) => context.player === context.game.activePlayer
             },
             condition: (context) => context.source.hasToken('amber'),
             gameAction: [

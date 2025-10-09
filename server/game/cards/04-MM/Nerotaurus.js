@@ -8,7 +8,7 @@ class Nerotaurus extends Card {
             condition: (context) => !!context.player.opponent,
             effect: 'stop {1} from reaping next turn',
             effectArgs: (context) => context.player.opponent,
-            gameAction: ability.actions.untilEndOfOpponentsNextTurn({
+            gameAction: ability.actions.untilEndOfOpponentNextTurn({
                 targetController: 'opponent',
                 effect: ability.effects.cardCannot('reap')
             })
@@ -18,7 +18,7 @@ class Nerotaurus extends Card {
             condition: (context) => !!context.player.opponent,
             effect: 'stop {1} from fighting next turn',
             effectArgs: (context) => context.player.opponent,
-            gameAction: ability.actions.untilEndOfOpponentsNextTurn({
+            gameAction: ability.actions.untilEndOfOpponentNextTurn({
                 targetController: 'opponent',
                 effect: ability.effects.cardCannot('fight')
             })

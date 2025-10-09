@@ -6,7 +6,7 @@ class TyrannusAquilae extends Card {
     setupCardAbilities(ability) {
         this.interrupt({
             when: {
-                onRoundEnded: () => true
+                onTurnEnded: () => true
             },
             gameAction: ability.actions.capture()
         });

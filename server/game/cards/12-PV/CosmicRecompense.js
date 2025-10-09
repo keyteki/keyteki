@@ -49,7 +49,7 @@ class CosmicRecompense extends Card {
 
         this.fate({
             effect: 'prevent playing, using, or discarding cards for the remainder of the turn',
-            gameAction: ability.actions.forRemainderOfTurn({
+            gameAction: ability.actions.untilEndOfPlayerTurn({
                 targetController: 'opponent',
                 effect: [
                     ability.effects.playerCannot('play'),

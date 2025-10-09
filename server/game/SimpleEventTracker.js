@@ -5,10 +5,10 @@ class SimpleEventTracker {
         this.events = [];
         this.tracker = new EventRegistrar(game, this);
         this[event] = (event) => this.events.push(event);
-        this.tracker.register(['onRoundEnded', event]);
+        this.tracker.register(['onTurnEnded', event]);
     }
 
-    onRoundEnded() {
+    onTurnEnded() {
         this.events = [];
     }
 }

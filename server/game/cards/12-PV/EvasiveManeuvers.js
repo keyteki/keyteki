@@ -6,7 +6,7 @@ class EvasiveManeuvers extends Card {
     setupCardAbilities(ability) {
         this.play({
             effect: 'prevent friendly creatures from taking damage for the remainder of the turn',
-            gameAction: ability.actions.forRemainderOfTurn({
+            gameAction: ability.actions.untilEndOfPlayerTurn({
                 targetController: 'current',
                 effect: ability.effects.cardCannot('damage')
             })

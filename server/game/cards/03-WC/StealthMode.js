@@ -8,7 +8,7 @@ class StealthMode extends Card {
             effect: 'stop {1} from playing any actions on their next turn',
             effectArgs: (context) => context.player.opponent,
             effectAlert: true,
-            gameAction: ability.actions.untilEndOfOpponentsNextTurn({
+            gameAction: ability.actions.untilEndOfOpponentNextTurn({
                 targetController: 'opponent',
                 effect: ability.effects.playerCannot(
                     'play',

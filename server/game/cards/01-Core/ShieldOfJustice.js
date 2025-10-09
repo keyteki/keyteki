@@ -5,7 +5,7 @@ class ShieldOfJustice extends Card {
     setupCardAbilities(ability) {
         this.play({
             effect: 'prevent their creatures from taking damage this turn',
-            gameAction: ability.actions.forRemainderOfTurn({
+            gameAction: ability.actions.untilEndOfPlayerTurn({
                 effect: ability.effects.cardCannot('damage')
             })
         });

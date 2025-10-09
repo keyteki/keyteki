@@ -8,7 +8,7 @@ class AncestralTimekeeper extends Card {
     setupCardAbilities(ability) {
         this.interrupt({
             when: {
-                onRoundEnded: (_, context) => context.player === this.game.activePlayer
+                onTurnEnded: (_, context) => context.player === this.game.activePlayer
             },
             gameAction: ability.actions.addTimeCounter((context) => ({
                 target: context.source.controller.creaturesInPlay.filter((c) => c.hasTrait('clock'))
@@ -20,7 +20,7 @@ class AncestralTimekeeper extends Card {
                 })),
                 then: {
                     message: '{0} uses {1} to take another turn after this one',
-                    gameAction: ability.actions.forRemainderOfTurn({
+                    gameAction: ability.actions.untilEndOfPlayerTurn({
                         effect: ability.effects.anotherTurn()
                     })
                 }

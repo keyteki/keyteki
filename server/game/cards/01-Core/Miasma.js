@@ -7,7 +7,7 @@ class Miasma extends Card {
             condition: (context) => !!context.player.opponent,
             effect: 'make {1} skip their key step next turn',
             effectArgs: (context) => context.player.opponent,
-            gameAction: ability.actions.untilEndOfOpponentsNextTurn({
+            gameAction: ability.actions.untilEndOfOpponentNextTurn({
                 targetController: 'opponent',
                 effect: ability.effects.skipStep('key')
             })

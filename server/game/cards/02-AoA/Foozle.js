@@ -6,7 +6,7 @@ class Foozle extends Card {
     setupCardAbilities(ability) {
         this.creatureDestroyedControllerUuid = {};
         this.tracker = new EventRegistrar(this.game, this);
-        this.tracker.register(['onCardDestroyed', 'onRoundEnded']);
+        this.tracker.register(['onCardDestroyed', 'onTurnEnded']);
 
         this.reap({
             condition: (context) =>
@@ -22,7 +22,7 @@ class Foozle extends Card {
         }
     }
 
-    onRoundEnded() {
+    onTurnEnded() {
         this.creatureDestroyedControllerUuid = {};
     }
 }

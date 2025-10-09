@@ -59,7 +59,7 @@ class SetupPhase extends Phase {
             .draw({ amount: 1 })
             .resolve(this.game.activePlayer, this.game.getFrameworkContext());
         this.game.actions
-            .forRemainderOfTurn({
+            .untilEndOfPlayerTurn({
                 condition: () =>
                     !!this.game.cardsUsed.length ||
                     !!this.game.cardsPlayed.length ||

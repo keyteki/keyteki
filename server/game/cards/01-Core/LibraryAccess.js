@@ -6,7 +6,7 @@ class LibraryAccess extends Card {
         this.play({
             effect: 'draw a card after playing a card for the remainder of the turn, and purge {0}',
             gameAction: [
-                ability.actions.forRemainderOfTurn((context) => ({
+                ability.actions.untilEndOfPlayerTurn((context) => ({
                     when: {
                         onCardPlayed: (event) =>
                             event.player === context.player && event.card !== context.source

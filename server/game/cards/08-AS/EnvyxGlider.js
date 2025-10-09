@@ -5,7 +5,7 @@ class EnvyxGlider extends Card {
     setupCardAbilities(ability) {
         this.fight({
             targetController: 'opponent',
-            gameAction: ability.actions.untilEndOfOpponentsNextTurn({
+            gameAction: ability.actions.untilEndOfOpponentNextTurn({
                 targetController: 'any',
                 effect: ability.effects.modifyKeyCost(
                     (player) =>

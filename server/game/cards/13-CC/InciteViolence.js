@@ -5,7 +5,7 @@ class InciteViolence extends Card {
     setupCardAbilities(ability) {
         this.play({
             effect: 'give each friendly creature splash-attack 1 for the remainder of the turn',
-            gameAction: ability.actions.forRemainderOfTurn((context) => ({
+            gameAction: ability.actions.untilEndOfPlayerTurn((context) => ({
                 target: context.player.creaturesInPlay,
                 effect: ability.effects.addKeyword({ 'splash-attack': 1 })
             }))

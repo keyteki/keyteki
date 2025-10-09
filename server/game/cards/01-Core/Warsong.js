@@ -7,7 +7,7 @@ class Warsong extends Card {
         this.play({
             effect:
                 'gain 1 amber each time a friendly creature fights for the remainder of the turn',
-            gameAction: ability.actions.forRemainderOfTurn((context) => ({
+            gameAction: ability.actions.untilEndOfPlayerTurn((context) => ({
                 when: {
                     onFight: (event) => event.attacker.controller === context.player
                 },

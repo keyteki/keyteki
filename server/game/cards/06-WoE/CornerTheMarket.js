@@ -12,11 +12,11 @@ class CornerTheMarket extends Card {
             effectArgs: (context) => context.player.opponent,
             effectAlert: true,
             gameAction: [
-                ability.actions.untilEndOfOpponentsNextTurn({
+                ability.actions.untilEndOfOpponentNextTurn({
                     targetController: 'opponent',
                     effect: ability.effects.cardCannot('play')
                 }),
-                ability.actions.untilEndOfOpponentsNextTurn({
+                ability.actions.untilEndOfOpponentNextTurn({
                     targetController: 'opponent',
                     when: {
                         onCardDiscarded: (event, context) =>

@@ -5,7 +5,7 @@ class CrystalHive extends Card {
     setupCardAbilities(ability) {
         this.action({
             effect: 'gain 1 amber each time a creature reaps for the remainder of the turn',
-            gameAction: ability.actions.forRemainderOfTurn((context) => ({
+            gameAction: ability.actions.untilEndOfPlayerTurn((context) => ({
                 when: {
                     onReap: () => true
                 },

@@ -14,7 +14,7 @@ class LesserOxtet extends Card {
         this.reap({
             effect: "increase key cost by 3 during {1}'s next turn",
             effectArgs: (context) => context.player.opponent,
-            gameAction: ability.actions.untilEndOfOpponentsNextTurn({
+            gameAction: ability.actions.untilEndOfOpponentNextTurn({
                 targetController: 'any',
                 effect: ability.effects.modifyKeyCost(3)
             })

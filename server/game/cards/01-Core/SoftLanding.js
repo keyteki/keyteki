@@ -5,7 +5,7 @@ class SoftLanding extends Card {
     setupCardAbilities(ability) {
         this.play({
             effect: 'make the next creature/artifact played this turn enter play ready',
-            gameAction: ability.actions.forRemainderOfTurn((context) => ({
+            gameAction: ability.actions.untilEndOfPlayerTurn((context) => ({
                 when: {
                     onCardPlayed: (event) =>
                         (event.card.type === 'creature' || event.card.type === 'artifact') &&

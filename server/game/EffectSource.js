@@ -25,10 +25,10 @@ class EffectSource extends GameObject {
     /**
      * Applies an immediate effect which lasts until the end of the round.
      */
-    untilEndOfRound(propertyFactory) {
+    untilEndOfTurn(propertyFactory) {
         var properties = propertyFactory(AbilityDsl);
         return this.addEffectToEngine(
-            Object.assign({ duration: 'untilEndOfRound', location: 'any' }, properties)
+            Object.assign({ duration: 'untilEndOfTurn', location: 'any' }, properties)
         );
     }
 

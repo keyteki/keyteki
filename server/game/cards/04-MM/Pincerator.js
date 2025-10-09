@@ -5,7 +5,7 @@ class Pincerator extends Card {
     setupCardAbilities(ability) {
         this.interrupt({
             when: {
-                onRoundEnded: () => true
+                onTurnEnded: () => true
             },
             gameAction: ability.actions.dealDamage((context) => ({
                 amount: 1,

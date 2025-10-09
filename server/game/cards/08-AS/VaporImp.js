@@ -12,7 +12,7 @@ class VaporImp extends Card {
             then: {
                 condition: (context) =>
                     context.player.opponent && context.preThenEvent.cards.length > 0,
-                gameAction: ability.actions.untilEndOfOpponentsNextTurn((context) => ({
+                gameAction: ability.actions.untilEndOfOpponentNextTurn((context) => ({
                     targetController: 'opponent',
                     effect: ability.effects.playerCannot(
                         'play',

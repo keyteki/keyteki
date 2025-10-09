@@ -6,7 +6,7 @@ class TheMist extends Card {
         this.omni({
             gameAction: [
                 ability.actions.destroy(),
-                ability.actions.forRemainderOfTurn({
+                ability.actions.untilEndOfPlayerTurn({
                     targetController: 'any',
                     effect: ability.effects.addTrait('mutant')
                 })

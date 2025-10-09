@@ -5,7 +5,7 @@ class FollowTheLeader extends Card {
     setupCardAbilities(ability) {
         this.play({
             effect: 'allow each friendly creature to fight until the end of the turn',
-            gameAction: ability.actions.forRemainderOfTurn({
+            gameAction: ability.actions.untilEndOfPlayerTurn({
                 effect: ability.effects.canFight(() => true)
             })
         });

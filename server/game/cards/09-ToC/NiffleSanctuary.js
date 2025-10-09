@@ -20,7 +20,7 @@ class NiffleSanctuary extends Card {
                 alwaysTriggers: true,
                 message:
                     '{0} uses {1} to make each friendly Niffle Brute gain "After Fight: Gain 1 amber" for the rest of the turn',
-                gameAction: ability.actions.forRemainderOfTurn({
+                gameAction: ability.actions.untilEndOfPlayerTurn({
                     targetController: 'current',
                     match: (card) => card.name === 'Niffle Brute',
                     effect: ability.effects.gainAbility('fight', {

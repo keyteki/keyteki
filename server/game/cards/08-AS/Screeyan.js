@@ -7,14 +7,14 @@ class Screeyan extends Card {
     setupCardAbilities(ability) {
         this.interrupt({
             when: {
-                onRoundEnded: (event, context) =>
+                onTurnEnded: (event, context) =>
                     context.player === this.game.activePlayer && context.player.opponent
             },
             gameAction: ability.actions.discard((context) => ({
                 target: context.player.opponent ? context.player.opponent.deck[0] : []
             })),
             then: {
-                gameAction: ability.actions.untilEndOfOpponentsNextTurn((context) => ({
+                gameAction: ability.actions.untilEndOfOpponentNextTurn((context) => ({
                     targetController: 'opponent',
                     effect: context.preThenEvent.card
                         .getHouses()

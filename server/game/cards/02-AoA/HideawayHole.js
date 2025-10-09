@@ -8,7 +8,7 @@ class HideawayHole extends Card {
             effectAlert: true,
             gameAction: [
                 ability.actions.sacrifice(),
-                ability.actions.untilStartOfYourNextTurn({
+                ability.actions.untilStartOfPlayerNextTurn({
                     targetController: 'current',
                     effect: ability.effects.addKeyword({ elusive: 1 })
                 })

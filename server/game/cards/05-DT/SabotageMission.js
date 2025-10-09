@@ -7,7 +7,7 @@ class SabotageMission extends Card {
         this.play({
             effect: "increase key cost by 1 for each friendly creature during {1}'s next turn",
             effectArgs: (context) => [context.player.opponent],
-            gameAction: ability.actions.untilEndOfOpponentsNextTurn((context) => ({
+            gameAction: ability.actions.untilEndOfOpponentNextTurn((context) => ({
                 targetController: 'any',
                 effect: ability.effects.modifyKeyCost(
                     () => _.uniq(context.player.creaturesInPlay.map((card) => card.power)).length

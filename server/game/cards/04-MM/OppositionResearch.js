@@ -9,7 +9,7 @@ class OppositionResearch extends Card {
             effect: 'stop {1} from reaping next turn',
             effectArgs: (context) => context.player.opponent,
             effectAlert: true,
-            gameAction: ability.actions.untilEndOfOpponentsNextTurn({
+            gameAction: ability.actions.untilEndOfOpponentNextTurn({
                 targetController: 'opponent',
                 effect: ability.effects.cardCannot('reap')
             })

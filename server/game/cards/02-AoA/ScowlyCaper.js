@@ -20,7 +20,7 @@ class ScowlyCaper extends Card {
 
         this.interrupt({
             when: {
-                onRoundEnded: (event, context) => context.player === this.game.activePlayer
+                onTurnEnded: (event, context) => context.player === this.game.activePlayer
             },
             target: {
                 cardType: 'creature',

@@ -10,7 +10,7 @@ class MiasmaBomb extends Card {
             effectArgs: (context) => context.player.opponent,
             gameAction: ability.actions.sequential([
                 ability.actions.sacrifice(),
-                ability.actions.untilEndOfOpponentsNextTurn({
+                ability.actions.untilEndOfOpponentNextTurn({
                     targetController: 'opponent',
                     effect: ability.effects.skipStep('key')
                 })
