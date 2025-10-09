@@ -7,6 +7,10 @@ import { nodePolyfills } from 'vite-plugin-node-polyfills';
 
 // https://vitejs.dev/config/
 export default defineConfig({
+    server: {
+        // CORS is managed by Express during development; disable in Vite to avoid conflicts
+        cors: false
+    },
     plugins: [
         react(),
         inject({

@@ -85,6 +85,9 @@ a {
     }
 }
 
+/* Button styles migrated to HeroUI - these old image-based styles are deprecated */
+/* Keeping for reference during migration */
+/*
 .btn-short {
     background-size: 100% 32px;
 }
@@ -157,6 +160,7 @@ a {
 .btn-stretch {
     background-size: 100% 32px;
 }
+*/
 
 #pageDropDown {
     background-image: none;

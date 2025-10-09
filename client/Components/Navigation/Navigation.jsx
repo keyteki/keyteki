@@ -139,7 +139,7 @@ const Navigation = (props) => {
     );
 
     return (
-        <Navbar bg='dark' variant='dark' className='navbar-sm' fixed='top' expand='lg'>
+        <Navbar bg='dark' color='dark' className='navbar-sm' fixed='top' expand='lg'>
             <div className='d-flex justify-content-between flex-grow-1 d-lg-none'>
                 <div className='flex-basis-0 flex-grow-1'></div>
                 <Navbar.Brand className='navbar-brand bg-dark  mr-0' as={Link} href='/'>

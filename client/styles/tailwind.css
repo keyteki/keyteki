@@ -1,0 +1,66 @@
+@import 'tailwindcss';
+@plugin "../../hero.ts";
+@source '../../node_modules/@heroui/theme/dist/**/*.{js,ts,jsx,tsx}';
+
+@layer utilities {
+    .text-balance {
+        text-wrap: balance;
+    }
+}
+
+@layer components {
+    .btn-texture-primary {
+        background-image: url('../assets/img/button-primary.png');
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: 100% 100%;
+    }
+    .btn-texture-primary:hover,
+    .btn-texture-primary:focus,
+    .btn-texture-primary:active {
+        background-image: url('../assets/img/button-primary-hover.png');
+    }
+
+    .btn-texture-default {
+        background-image: url('../assets/img/button-orange.png');
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: 100% 100%;
+    }
+    .btn-texture-default:hover,
+    .btn-texture-default:focus,
+    .btn-texture-default:active {
+        background-image: url('../assets/img/button-orange-hover.png');
+    }
+
+    .btn-texture-danger {
+        background-image: url('../assets/img/button-red.png');
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: 100% 100%;
+    }
+    .btn-texture-danger:hover,
+    .btn-texture-danger:focus,
+    .btn-texture-danger:active {
+        background-image: url('../assets/img/button-red-hover.png');
+    }
+
+    .btn-texture-success {
+        background-image: url('../assets/img/button-green.png');
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: 100% 100%;
+    }
+    .btn-texture-success:hover,
+    .btn-texture-success:focus,
+    .btn-texture-success:active {
+        background-image: url('../assets/img/button-green-hover.png');
+    }
+
+    .panel-texture-primary {
+        background-image: url('../assets/img/panel-primary.png');
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: cover;
+    }
+}

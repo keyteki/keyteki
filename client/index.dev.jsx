@@ -7,6 +7,7 @@ import 'bootstrap/dist/js/bootstrap';
 import ReduxToastr from 'react-redux-toastr';
 import { DndProvider } from 'react-dnd';
 import { TouchBackend } from 'react-dnd-touch-backend';
+import { HeroUIProvider } from '@heroui/react';
 import Application from './Application.jsx';
 
 import './i18n';
@@ -27,21 +28,23 @@ const root = createRoot(container);
 
 const render = () => {
     root.render(
-        <Provider store={store}>
-            <DndProvider backend={TouchBackend} options={{ enableMouseEvents: true }}>
-                <div className='body'>
-                    <ReduxToastr
-                        timeOut={4000}
-                        newestOnTop
-                        preventDuplicates
-                        position='top-right'
-                        transitionIn='fadeIn'
-                        transitionOut='fadeOut'
-                    />
-                    <Application />
-                </div>
-            </DndProvider>
-        </Provider>
+        <HeroUIProvider>
+            <Provider store={store}>
+                <DndProvider backend={TouchBackend} options={{ enableMouseEvents: true }}>
+                    <div className='body'>
+                        <ReduxToastr
+                            timeOut={4000}
+                            newestOnTop
+                            preventDuplicates
+                            position='top-right'
+                            transitionIn='fadeIn'
+                            transitionOut='fadeOut'
+                        />
+                        <Application />
+                    </div>
+                </DndProvider>
+            </Provider>
+        </HeroUIProvider>
     );
 };
 

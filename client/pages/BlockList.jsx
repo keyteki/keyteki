@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Form, Col, Button, Table, Row } from 'react-bootstrap';
+import { Form, Col, Table, Row } from 'react-bootstrap';
+import { Button } from '@heroui/react';
 import { Formik } from 'formik';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimes, faCircleNotch } from '@fortawesome/free-solid-svg-icons';
@@ -182,7 +183,7 @@ const BlockList = () => {
                                                 </Form.Group>
                                             </Row>
 
-                                            <Button variant='primary' type='submit'>
+                                            <Button color='primary' type='submit'>
                                                 <Trans>Add</Trans>
                                                 &nbsp;
                                                 {addState && addState.loading && (

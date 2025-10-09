@@ -3,9 +3,18 @@ import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
 import { navigate } from '../../redux/actions';
 
+/**
+ * @param {Object} props
+ * @param {import('react').ReactNode | string} props.children
+ * @param {string} [props.className]
+ * @param {string} props.href
+ */
 const Link = ({ children, className, href }) => {
     const dispatch = useDispatch();
 
+    /**
+     * @param {import('react').MouseEvent<HTMLAnchorElement>} event
+     */
     const onClick = (event) => {
         event.preventDefault();
         dispatch(navigate(href));
@@ -20,7 +29,7 @@ const Link = ({ children, className, href }) => {
 
 Link.propTypes = {
     children: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
-    classname: PropTypes.string,
+    className: PropTypes.string,
     href: PropTypes.string
 };
 

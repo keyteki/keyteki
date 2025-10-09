@@ -6,7 +6,7 @@ import Panel from '../Site/Panel';
 
 import { Trans, useTranslation } from 'react-i18next';
 import { useState } from 'react';
-import { Button } from 'react-bootstrap';
+import { Button } from '@heroui/react';
 import { cancelPasswordJoin, sendSocketMessage } from '../../redux/actions';
 
 const PasswordGame = () => {
@@ -40,7 +40,7 @@ const PasswordGame = () => {
                 </div>
                 <div className='text-center'>
                     <Button
-                        variant='primary'
+                        color='primary'
                         onClick={() => {
                             dispatch(
                                 sendSocketMessage(
@@ -53,7 +53,7 @@ const PasswordGame = () => {
                     >
                         {t(passwordJoinType)}
                     </Button>
-                    <Button variant='danger' onClick={() => dispatch(cancelPasswordJoin())}>
+                    <Button color='danger' onClick={() => dispatch(cancelPasswordJoin())}>
                         <Trans>Cancel</Trans>
                     </Button>
                 </div>

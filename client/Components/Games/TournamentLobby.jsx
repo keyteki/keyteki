@@ -5,7 +5,8 @@ import { toastr } from 'react-redux-toastr';
 import { Trans, useTranslation } from 'react-i18next';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleNotch } from '@fortawesome/free-solid-svg-icons';
-import { Col, Button, Form, Row } from 'react-bootstrap';
+import { Col, Form, Row } from 'react-bootstrap';
+import { Button } from '@heroui/react';
 
 import NewGame from './NewGame';
 import Panel from '../Site/Panel';
@@ -199,7 +200,7 @@ const TournamentLobby = () => {
                         </Form.Control>
                     </Form.Group>
                     <Col sm='4'>
-                        <Button variant='primary' onClick={() => dispatch(fetchTournaments())}>
+                        <Button color='primary' onClick={() => dispatch(fetchTournaments())}>
                             <Trans>Refresh Tournaments</Trans>
                             {requestTournamentsState?.loading && (
                                 <FontAwesomeIcon icon={faCircleNotch} spin />
@@ -227,7 +228,7 @@ const TournamentLobby = () => {
                                         {game ? (
                                             game.started ? (
                                                 <Button
-                                                    variant='primary'
+                                                    color='primary'
                                                     value={game.id}
                                                     onClick={(event) =>
                                                         dispatch(
@@ -242,14 +243,12 @@ const TournamentLobby = () => {
                                                 </Button>
                                             ) : (
                                                 <ReactClipboard text={getMatchLink(game)}>
-                                                    <Button variant='primary'>
-                                                        Copy Game Link
-                                                    </Button>
+                                                    <Button color='primary'>Copy Game Link</Button>
                                                 </ReactClipboard>
                                             )
                                         ) : (
                                             <Button
-                                                variant='primary'
+                                                color='primary'
                                                 value={match.id}
                                                 onClick={createGames}
                                             >
@@ -260,7 +259,7 @@ const TournamentLobby = () => {
                                     {index <= 0 && (
                                         <Col sm='3'>
                                             <Button
-                                                variant='primary'
+                                                color='primary'
                                                 onClick={() =>
                                                     dispatch(fetchMatches(tournament.id))
                                                 }
@@ -277,17 +276,17 @@ const TournamentLobby = () => {
                         })}
                         <div className='text-center mt-3'>
                             <Button
-                                variant='primary'
+                                color='primary'
                                 value='all'
-                                disabled={matchesWithNoGames.length <= 0}
+                                isDisabled={matchesWithNoGames.length <= 0}
                                 onClick={createGames}
                             >
                                 <Trans>Create All Games</Trans>
                             </Button>
                             <Button
-                                variant='primary'
+                                color='primary'
                                 onClick={sendAttachment}
-                                disabled={matchesWithGames.length <= 0}
+                                isDisabled={matchesWithGames.length <= 0}
                             >
                                 <Trans>Send Attachments</Trans>
                                 {attachmentState?.loading && (

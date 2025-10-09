@@ -1,26 +1,6 @@
 import React from 'react';
 
-import './Panel.scss';
-import { Card } from 'react-bootstrap';
-
-/** 
- * @typedef {'primary'
-    | 'secondary'
-    | 'success'
-    | 'danger'
-    | 'warning'
-    | 'info'
-    | 'dark'
-    | 'light'} PanelType
- */
-
-const PanelType = Object.freeze({
-    Default: 'default',
-    Primary: 'primary',
-    Info: 'info',
-    Warning: 'warning',
-    Danger: 'danger'
-});
+import { Card, CardHeader, CardBody } from '@heroui/react';
 
 /**
  * @typedef PanelProps
@@ -28,41 +8,28 @@ const PanelType = Object.freeze({
  * @property {string} [className]
  * @property {string} [title]
  * @property {string} [titleClass]
- * @property {string} [type]
  */
 
 /**
  * @param {PanelProps} props
  */
-const Panel = ({ type = PanelType.Primary, title, titleClass, children }) => {
-    /** @type {PanelType} */
-    let retType;
-
-    switch (type) {
-        case PanelType.Primary:
-            retType = 'primary';
-            break;
-        case PanelType.Default:
-            retType = 'secondary';
-            break;
-        case PanelType.Info:
-            retType = 'info';
-            break;
-        case PanelType.Warning:
-            retType = 'warning';
-            break;
-        case PanelType.Danger:
-            retType = 'danger';
-            break;
-        default:
-            retType = 'primary';
-            break;
-    }
+const Panel = ({ title, titleClass, className, children }) => {
+    const panelClass = `${className || ''}`;
 
     return (
-        <Card border={retType} bg='dark'>
-            {title && <Card.Header className={`${titleClass} text-center`}>{title}</Card.Header>}
-            <Card.Body>{children}</Card.Body>
+        <Card
+            className={`${panelClass} bg-black/80 shadow-[3px_3px_5px_#371c1c] font-[Keyforge,_Helvetica,_sans-serif]`}
+            radius='sm'
+            shadow='sm'
+        >
+            {title && (
+                <CardHeader
+                    className={`text-center text-white panel-texture-primary ${titleClass || ''}`}
+                >
+                    {title}
+                </CardHeader>
+            )}
+            <CardBody>{children}</CardBody>
         </Card>
     );
 };

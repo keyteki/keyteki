@@ -1,6 +1,7 @@
 import React from 'react';
 import { Trans, useTranslation } from 'react-i18next';
-import { Col, Form, Button, Row } from 'react-bootstrap';
+import { Col, Form, Row } from 'react-bootstrap';
+import { Button } from '@heroui/react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Formik } from 'formik';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -136,7 +137,7 @@ const ImportDeck = () => {
                                 </Row>
 
                                 <Col className='text-center'>
-                                    <Button variant='secondary' type='submit'>
+                                    <Button color='secondary' type='submit'>
                                         {t('Import')}
                                         &nbsp;
                                         {apiState && apiState.loading && (

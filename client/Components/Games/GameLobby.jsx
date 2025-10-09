@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { toastr } from 'react-redux-toastr';
 import { Trans, useTranslation } from 'react-i18next';
-import { Col, Row, Button, Form } from 'react-bootstrap';
+import { Col, Row, Form } from 'react-bootstrap';
+import { Button } from '@heroui/react';
 
 import NewGame from './NewGame';
 import GameList from './GameList';
@@ -110,8 +111,8 @@ const GameLobby = ({ gameId }) => {
                 <Row className='game-buttons'>
                     <Col sm={4} lg={3}>
                         <Button
-                            disabled={!user}
-                            variant='primary'
+                            isDisabled={!user}
+                            color='primary'
                             onClick={() => {
                                 setQuickJoin(false);
                                 dispatch(startNewGame());
@@ -120,8 +121,8 @@ const GameLobby = ({ gameId }) => {
                             <Trans>New Game</Trans>
                         </Button>
                         <Button
-                            disabled={!user}
-                            variant='primary'
+                            isDisabled={!user}
+                            color='primary'
                             onClick={() => {
                                 setQuickJoin(true);
                                 dispatch(startNewGame());

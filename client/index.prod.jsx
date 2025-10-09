@@ -9,6 +9,7 @@ import ReduxToastr from 'react-redux-toastr';
 import * as Sentry from '@sentry/browser';
 import { DndProvider } from 'react-dnd';
 import { TouchBackend } from 'react-dnd-touch-backend';
+import { HeroUIProvider } from '@heroui/react';
 
 import ErrorBoundary from './Components/Site/ErrorBoundary';
 
@@ -69,25 +70,27 @@ if (!container) {
 const root = createRoot(container);
 
 root.render(
-    <DndProvider backend={TouchBackend} options={{ enableMouseEvents: true }}>
-        <Provider store={store}>
-            <div className='body'>
-                <ReduxToastr
-                    timeOut={4000}
-                    newestOnTop
-                    preventDuplicates
-                    position='top-right'
-                    transitionIn='fadeIn'
-                    transitionOut='fadeOut'
-                />
-                <ErrorBoundary
-                    message={
-                        "We're sorry, a critical error has occured in the client and we're unable to show you anything.  Please try refreshing your browser after filling out a report."
-                    }
-                >
-                    <Application />
-                </ErrorBoundary>
-            </div>
-        </Provider>
-    </DndProvider>
+    <HeroUIProvider>
+        <DndProvider backend={TouchBackend} options={{ enableMouseEvents: true }}>
+            <Provider store={store}>
+                <div className='body'>
+                    <ReduxToastr
+                        timeOut={4000}
+                        newestOnTop
+                        preventDuplicates
+                        position='top-right'
+                        transitionIn='fadeIn'
+                        transitionOut='fadeOut'
+                    />
+                    <ErrorBoundary
+                        message={
+                            "We're sorry, a critical error has occured in the client and we're unable to show you anything.  Please try refreshing your browser after filling out a report."
+                        }
+                    >
+                        <Application />
+                    </ErrorBoundary>
+                </div>
+            </Provider>
+        </DndProvider>
+    </HeroUIProvider>
 );

@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import moment from 'moment';
-import { Table, Form, Col, Button } from 'react-bootstrap';
+import { Table, Form, Col } from 'react-bootstrap';
+import { Button } from '@heroui/react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleNotch } from '@fortawesome/free-solid-svg-icons';
 
@@ -92,7 +93,7 @@ const NewsAdmin = () => {
                     <div className='btn-group'>
                         {editId === newsItem.id ? (
                             <Button
-                                variant='primary'
+                                color='primary'
                                 type='button'
                                 onClick={() => {
                                     dispatch(saveNews(editId, editText));
@@ -104,7 +105,7 @@ const NewsAdmin = () => {
                             </Button>
                         ) : (
                             <Button
-                                variant='primary'
+                                color='primary'
                                 type='button'
                                 onClick={() => {
                                     setEditId(newsItem.id);
@@ -115,7 +116,7 @@ const NewsAdmin = () => {
                             </Button>
                         )}
                         <Button
-                            variant='danger'
+                            color='danger'
                             type='button'
                             onClick={() => dispatch(deleteNews(newsItem.id))}
                         >
@@ -181,7 +182,7 @@ const NewsAdmin = () => {
                             </Form.Group>
 
                             <Button
-                                variant='primary'
+                                color='primary'
                                 type='button'
                                 onClick={() => {
                                     dispatch(addNews(newsText));

@@ -1,6 +1,6 @@
 import React from 'react';
 import { useTranslation, Trans } from 'react-i18next';
-import { Button } from 'react-bootstrap';
+import { Button } from '@heroui/react';
 
 import Panel from '../Site/Panel';
 import DeckStatus from '../Decks/DeckStatus';

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { Col, Form, Button } from 'react-bootstrap';
+import { Col, Form } from 'react-bootstrap';
+import { Button } from '@heroui/react';
 import { useDispatch, useSelector } from 'react-redux';
 import { sendSocketMessage } from '../redux/actions';
 

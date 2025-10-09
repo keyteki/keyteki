@@ -74,7 +74,11 @@ class Server {
             const { createServer } = await import('vite');
             const vite = await createServer({
                 root: join(__dirname, '..'),
-                server: { middlewareMode: true }
+                server: {
+                    middlewareMode: true,
+                    // Disable Vite CORS in middleware mode to avoid duplicate header setting
+                    cors: false
+                }
             });
 
             // Vite middleware must come BEFORE history fallback

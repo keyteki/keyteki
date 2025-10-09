@@ -1,7 +1,8 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import ReactClipboard from 'react-clipboardjs-copy';
-import { Button, Form } from 'react-bootstrap';
+import { Form } from 'react-bootstrap';
+import { Button } from '@heroui/react';
 import { Trans, useTranslation } from 'react-i18next';
 import $ from 'jquery';
 
@@ -187,8 +188,8 @@ const PendingGame = () => {
             </audio>
             <Panel title={currentGame.name}>
                 <Button
-                    variant='success'
-                    disabled={!canClickStart()}
+                    color='success'
+                    isDisabled={!canClickStart()}
                     onClick={() => {
                         setWaiting(true);
                         dispatch(startGame(currentGame.id));
@@ -197,7 +198,7 @@ const PendingGame = () => {
                     <Trans>Start</Trans>
                 </Button>
                 <Button
-                    variant='primary'
+                    color='primary'
                     onClick={() => {
                         dispatch(leaveGame(currentGame.id));
                     }}
@@ -208,7 +209,7 @@ const PendingGame = () => {
                     <ReactClipboard
                         text={`${window.location.protocol}//${window.location.host}/play?gameId=${currentGame.id}`}
                     >
-                        <Button variant='primary'>
+                        <Button color='primary'>
                             <Trans>Copy Game Link</Trans>
                         </Button>
                     </ReactClipboard>

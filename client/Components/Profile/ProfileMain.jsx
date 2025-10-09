@@ -1,5 +1,6 @@
 import React, { useRef, useState } from 'react';
-import { Col, Form, Button, Row } from 'react-bootstrap';
+import { Col, Form, Row } from 'react-bootstrap';
+import { Button } from '@heroui/react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
 
@@ -87,7 +88,7 @@ const ProfileMain = ({ user, formProps }) => {
                         ) : (
                             <Avatar imgPath={user?.avatar}></Avatar>
                         )}
-                        <Button variant='secondary' onClick={onAvatarUploadClick}>
+                        <Button color='secondary' onClick={onAvatarUploadClick}>
                             {t('Change avatar')}
                         </Button>
                     </div>
@@ -126,11 +127,11 @@ const ProfileMain = ({ user, formProps }) => {
                             alt={t('Patreon Logo')}
                         />
                         {!user?.patreon || user?.patreon === PatreonStatus.Unlinked ? (
-                            <Button variant='secondary' href={patreonUrl}>
+                            <Button color='secondary' href={patreonUrl}>
                                 {t('Link Account')}
                             </Button>
                         ) : (
-                            <Button variant='secondary' onClick={() => dispatch(unlinkPatreon())}>
+                            <Button color='secondary' onClick={() => dispatch(unlinkPatreon())}>
                                 {t('Unlink Account')}
                             </Button>
                         )}

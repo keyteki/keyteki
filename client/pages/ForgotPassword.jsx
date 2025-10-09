@@ -7,7 +7,8 @@ import Panel from '../Components/Site/Panel';
 import { useTranslation } from 'react-i18next';
 import { Account } from '../redux/types';
 import { clearApiStatus, forgotPassword } from '../redux/actions';
-import { Form, Col, Button, Row } from 'react-bootstrap';
+import { Form, Col, Row } from 'react-bootstrap';
+import { Button } from '@heroui/react';
 import { Formik } from 'formik';
 import * as yup from 'yup';
 import ApiStatus from '../Components/Site/ApiStatus';
@@ -111,7 +112,7 @@ const ForgotPassword = () => {
                                 </Form.Group>
                             </Row>
                             <div className='text-center'>
-                                <Button variant='primary' type='submit'>
+                                <Button color='primary' type='submit'>
                                     {t('Submit')}
                                 </Button>
                             </div>

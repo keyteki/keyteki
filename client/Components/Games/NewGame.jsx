@@ -1,7 +1,8 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Trans, useTranslation } from 'react-i18next';
-import { Form, Button, Row, Col } from 'react-bootstrap';
+import { Form, Row, Col } from 'react-bootstrap';
+import { Button } from '@heroui/react';
 import { Formik } from 'formik';
 import * as yup from 'yup';
 
@@ -209,11 +210,11 @@ const NewGame = ({
                             </Row>
                         )}
                         <div className='text-center newgame-buttons'>
-                            <Button variant='success' type='submit'>
+                            <Button color='success' type='submit'>
                                 <Trans>Start</Trans>
                             </Button>
                             <Button
-                                variant='primary'
+                                color='primary'
                                 onClick={() => {
                                     dispatch(cancelNewGame());
                                     if (onClosed) {

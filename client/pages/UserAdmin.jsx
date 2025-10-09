@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Col, Form, Table, Button, Spinner, Row } from 'react-bootstrap';
+import { Col, Form, Table, Spinner, Row } from 'react-bootstrap';
+import { Button } from '@heroui/react';
 import moment from 'moment';
 import * as yup from 'yup';
 
@@ -177,7 +178,7 @@ const UserAdmin = () => {
                             </Row>
                             <Row>
                                 <Col md={6}>
-                                    <Button type='submit' variant='primary'>
+                                    <Button type='submit' color='primary'>
                                         Submit&nbsp;
                                         {apiState?.loading && (
                                             <Spinner
@@ -308,7 +309,7 @@ const UserAdmin = () => {
                                     </Button>
                                     <Button
                                         type='button'
-                                        variant='primary'
+                                        color='primary'
                                         onClick={() => {
                                             currentUser.permissions = currentPermissions;
                                             currentUser.verified = userVerified;

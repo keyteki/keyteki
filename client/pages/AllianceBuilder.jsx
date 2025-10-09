@@ -1,7 +1,8 @@
 import React, { useMemo, useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Trans, useTranslation } from 'react-i18next';
-import { Col, Row, Form, Button } from 'react-bootstrap';
+import { Col, Row, Form } from 'react-bootstrap';
+import { Button } from '@heroui/react';
 
 import Panel from '../Components/Site/Panel';
 import ApiStatus from '../Components/Site/ApiStatus';
@@ -229,7 +230,7 @@ const AllianceBuilderPage = () => {
                         <Row>
                             <Col sm={12}>
                                 <Button
-                                    disabled={isSaveDisabled()}
+                                    isDisabled={isSaveDisabled()}
                                     onClick={() => {
                                         const allianceData = {
                                             name: deckName,

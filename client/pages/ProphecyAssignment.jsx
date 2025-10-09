@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { Col, Button, Row, Form } from 'react-bootstrap';
+import { Col, Row, Form } from 'react-bootstrap';
+import { Button } from '@heroui/react';
 import Panel from '../Components/Site/Panel';
 import { useTranslation, Trans } from 'react-i18next';
 import AlertPanel from '../Components/Site/AlertPanel';
@@ -251,9 +252,9 @@ const ProphecyAssignment = () => {
                 <Row>
                     <Col className='text-center mt-4'>
                         <Button
-                            variant='primary'
+                            color='primary'
                             onClick={handleSave}
-                            disabled={!selectedProphecyId}
+                            isDisabled={!selectedProphecyId}
                         >
                             <Trans>Save Prophecy Assignments</Trans>
                         </Button>

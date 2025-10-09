@@ -28,7 +28,7 @@ const ProfileContainer = () => {
     });
 
     if (!user) {
-        return <Alert variant='danger'>{t('You need to be logged in to view your profile')}</Alert>;
+        return <Alert color='danger'>{t('You need to be logged in to view your profile')}</Alert>;
     }
 
     return (

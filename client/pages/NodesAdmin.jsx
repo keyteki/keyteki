@@ -6,6 +6,7 @@ import Panel from '../Components/Site/Panel';
 
 import * as actions from '../redux/actions';
 import { Col } from 'react-bootstrap';
+import { Button } from '@heroui/react';
 
 class NodeAdmin extends React.Component {
     constructor(props) {
@@ -45,20 +46,20 @@ class NodeAdmin extends React.Component {
                     <td>{node.status}</td>
                     <td>{node.version}</td>
                     <td>
-                        <button
+                        <Button
+                            color='primary'
                             type='button'
-                            className='btn btn-primary'
                             onClick={this.onToggleNodeClick.bind(this, node)}
                         >
                             {node.status === 'active' ? 'Disable' : 'Enable'}
-                        </button>
-                        <button
+                        </Button>
+                        <Button
+                            color='primary'
                             type='button'
-                            className='btn btn-primary'
                             onClick={this.onRestartNodeClick.bind(this, node)}
                         >
                             Restart
-                        </button>
+                        </Button>
                     </td>
                 </tr>
             );
@@ -96,9 +97,9 @@ class NodeAdmin extends React.Component {
                 <Panel title='Game Node Administration'>
                     {content}
 
-                    <button className='btn btn-default btn-short' onClick={this.onRefreshClick}>
+                    <Button color='secondary' onClick={this.onRefreshClick}>
                         Refresh
-                    </button>
+                    </Button>
                 </Panel>
             </Col>
         );

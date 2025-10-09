@@ -326,7 +326,7 @@ const PlayerStats = ({
                     <div className='state'>
                         <a href='#' onClick={onMessagesClick} className='pl-1'>
                             <FontAwesomeIcon icon={faComment}></FontAwesomeIcon>
-                            {numMessages > 0 && <Badge variant='danger'>{numMessages}</Badge>}
+                            {numMessages > 0 && <Badge color='danger'>{numMessages}</Badge>}
                         </a>
                     </div>
                 </div>

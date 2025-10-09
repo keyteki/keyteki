@@ -1,5 +1,6 @@
 import React, { useState, useRef } from 'react';
-import { Form, Button, Alert, Col, Row, Spinner } from 'react-bootstrap';
+import { Form, Alert, Col, Row, Spinner } from 'react-bootstrap';
+import { Button } from '@heroui/react';
 import { Formik } from 'formik';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
@@ -111,7 +112,7 @@ const Profile = ({ onSubmit, isLoading }) => {
     });
 
     if (!user) {
-        return <Alert variant='danger'>{t('You need to be logged in to view your profile')}</Alert>;
+        return <Alert color='danger'>{t('You need to be logged in to view your profile')}</Alert>;
     }
 
     initialValues.email = user.email;
@@ -240,7 +241,7 @@ const Profile = ({ onSubmit, isLoading }) => {
                         </Col>
                     </Row>
                     <div className='text-center profile-submit'>
-                        <Button variant='primary' type='submit' disabled={isLoading}>
+                        <Button color='primary' type='submit' isDisabled={isLoading}>
                             {isLoading ? (
                                 <Spinner
                                     animation='border'
