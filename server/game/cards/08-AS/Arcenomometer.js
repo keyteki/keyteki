@@ -11,11 +11,9 @@ class Arcenomometer extends Card {
             effectAlert: true,
             gameAction: ability.actions.duringOpponentNextTurn({
                 when: {
-                    onCardPlayed: (event, context) => event.player !== context.player.opponent
+                    onCardPlayed: () => true
                 },
-                gameAction: ability.actions.loseAmber((context) => ({
-                    target: context.player
-                }))
+                gameAction: ability.actions.loseAmber()
             })
         });
     }

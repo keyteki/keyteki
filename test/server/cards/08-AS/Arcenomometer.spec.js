@@ -24,6 +24,7 @@ describe('Arcenomometer', function () {
             this.player2.play(this.ritualOfBalance);
             expect(this.player2.amber).toBe(2);
             expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1.amber).toBe(1);
         });
 
         it('should only affect opponent, only for one turn', function () {
