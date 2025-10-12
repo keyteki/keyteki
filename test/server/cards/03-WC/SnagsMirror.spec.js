@@ -69,7 +69,7 @@ describe("Snag's Mirror", function () {
             this.player1.useAction(this.tachyonManifold);
         });
 
-        xit("should affect opponent's next turn", function () {
+        it("should affect opponent's next turn", function () {
             this.player1.endTurn();
             this.player1.clickPrompt('dis');
             this.player1.endTurn();

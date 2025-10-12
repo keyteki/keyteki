@@ -3,22 +3,40 @@ const Card = require('../../Card.js');
 class SnagsMirror extends Card {
     // After a player chooses an active house, their opponent cannot choose the same house as their active house on their next turn.
     setupCardAbilities(ability) {
-        // TODO: this only allows for the last house - doesn't work with multiple turns in a row
-        this.houseSelected = {};
-
-        this.persistentEffect({
-            targetController: 'any',
-            effect: ability.effects.stopHouseChoice((player) => this.houseSelected[player.uuid])
+        this.reaction({
+            when: {
+                onChooseActiveHouse: (event, context) => event.player === context.player
+            },
+            gameAction: ability.actions.duringOpponentNextTurn((context) => ({
+                targetController: 'opponent',
+                effect: ability.effects.stopHouseChoice(context.event.house)
+            })),
+            message:
+                '{0} uses {1} to prevent {2} from choosing {3} as their active house on their next turn',
+            messageArgs: (context) => [
+                context.player,
+                context.source,
+                context.player.opponent,
+                context.event.house
+            ]
         });
 
         this.reaction({
             when: {
-                onChooseActiveHouse: (event) => {
-                    this.houseSelected[event.player.opponent.uuid] = event.house;
-                }
+                onChooseActiveHouse: (event, context) => event.player !== context.player
             },
-            effect: 'none'
-            // TODO: this doesn't actually get printed, but without it the overall tests fail that there's no message, but switching to gameAction: doesn't work
+            gameAction: ability.actions.untilEndOfMyNextTurn((context) => ({
+                targetController: 'player',
+                effect: ability.effects.stopHouseChoice(context.event.house)
+            })),
+            message:
+                '{0} uses {1} to prevent {2} from choosing {3} as their active house on their next turn',
+            messageArgs: (context) => [
+                context.player.opponent,
+                context.source,
+                context.player,
+                context.event.house
+            ]
         });
     }
 }
