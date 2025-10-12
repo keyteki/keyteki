@@ -43,4 +43,38 @@ describe('Control the Weak', function () {
             expect(this.player2).not.toHavePromptButton('brobnar');
         });
     });
+
+    describe('after taking another turn', function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    amber: 0,
+                    house: 'dis',
+                    hand: ['control-the-weak'],
+                    inPlay: ['tachyon-manifold']
+                },
+                player2: {
+                    amber: 0,
+                    inPlay: [],
+                    hand: ['necromorph', 'azuretooth', 'shaffles']
+                }
+            });
+            this.tachyonManifold.printedHouse = 'dis';
+            this.tachyonManifold.maverick = 'dis';
+            this.player1.useAction(this.tachyonManifold);
+        });
+
+        it("should affect opponent's next turn", function () {
+            this.player1.play(this.controlTheWeak);
+            this.player1.clickPrompt('staralliance');
+            this.player1.endTurn();
+            this.player1.clickPrompt('dis');
+            this.player1.endTurn();
+            expect(this.player2).toHavePromptButton('staralliance');
+            expect(this.player2).not.toHavePromptButton('ekwidon');
+            expect(this.player2).not.toHavePromptButton('dis');
+            this.player2.clickPrompt('staralliance');
+            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+        });
+    });
 });

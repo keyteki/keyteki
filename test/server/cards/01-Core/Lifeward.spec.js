@@ -100,4 +100,41 @@ describe('Lifeward', function () {
             expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
         });
     });
+
+    describe('after taking another turn', function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    amber: 0,
+                    house: 'dis',
+                    hand: [],
+                    inPlay: ['tachyon-manifold', 'lifeward']
+                },
+                player2: {
+                    amber: 0,
+                    inPlay: [],
+                    hand: ['necromorph', 'azuretooth', 'shaffles']
+                }
+            });
+            this.tachyonManifold.printedHouse = 'dis';
+            this.tachyonManifold.maverick = 'dis';
+            this.player1.useAction(this.tachyonManifold);
+        });
+
+        it("should affect opponent's next turn", function () {
+            this.player1.clickCard(this.lifeward);
+            this.player1.clickPrompt("Use this card's Omni ability");
+            this.player1.endTurn();
+            this.player1.clickPrompt('dis');
+            this.player1.endTurn();
+            this.player2.clickPrompt('dis');
+            this.player2.clickCard(this.shaffles);
+            expect(this.player2).toHavePrompt('Shaffles');
+            expect(this.player2).toHavePromptButton('Discard this card');
+            expect(this.player2).toHavePromptButton('Cancel');
+            expect(this.player2).not.toHavePromptButton('Play this creature');
+            this.player2.clickPrompt('Discard this card');
+            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+        });
+    });
 });

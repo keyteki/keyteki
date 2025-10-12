@@ -61,4 +61,37 @@ describe('Lash of Broken Dreams', function () {
             expect(this.player1.player.amber).toBe(6);
         });
     });
+
+    describe('after taking another turn', function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    amber: 0,
+                    house: 'dis',
+                    hand: [],
+                    inPlay: ['tachyon-manifold', 'lash-of-broken-dreams']
+                },
+                player2: {
+                    amber: 9,
+                    inPlay: ['ember-imp'],
+                    hand: ['necromorph', 'azuretooth', 'shaffles']
+                }
+            });
+            this.tachyonManifold.printedHouse = 'dis';
+            this.tachyonManifold.maverick = 'dis';
+            this.player1.useAction(this.tachyonManifold);
+        });
+
+        it("should affect opponent's next turn", function () {
+            this.player1.useAction(this.lashOfBrokenDreams);
+            this.player1.endTurn();
+            this.player1.clickPrompt('dis');
+            this.player1.endTurn();
+            this.player2.forgeKey('Red');
+            this.player2.clickPrompt('dis');
+            expect(this.player2.amber).toBe(0);
+            expect(this.player1.amber).toBe(0);
+            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+        });
+    });
 });

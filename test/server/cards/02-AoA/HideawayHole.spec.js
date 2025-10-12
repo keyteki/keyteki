@@ -61,4 +61,6 @@ describe('HideawayHole', function () {
             expect(this.teliga.tokens.damage).toBe(2);
         });
     });
+
+    // TODO
 });

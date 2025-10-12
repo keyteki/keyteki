@@ -28,4 +28,37 @@ describe('Scrambler Storm', function () {
             expect(this.shoulderArmor.location).toBe('play area');
         });
     });
+
+    describe('after taking another turn', function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    amber: 0,
+                    house: 'logos',
+                    hand: ['scrambler-storm'],
+                    inPlay: ['tachyon-manifold']
+                },
+                player2: {
+                    amber: 0,
+                    inPlay: [],
+                    hand: ['necromorph', 'azuretooth', 'banish']
+                }
+            });
+            this.tachyonManifold.printedHouse = 'logos';
+            this.tachyonManifold.maverick = 'logos';
+            this.player1.useAction(this.tachyonManifold);
+        });
+
+        it("should affect opponent's next turn", function () {
+            this.player1.play(this.scramblerStorm);
+            this.player1.endTurn();
+            this.player1.clickPrompt('logos');
+            this.player1.endTurn();
+            this.player2.clickPrompt('dis');
+            this.player2.clickCard(this.banish);
+            expect(this.player2).not.toHavePrompt('Play this action');
+            this.player2.clickPrompt('Cancel');
+            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+        });
+    });
 });
