@@ -105,10 +105,11 @@ describe('Cauldron', function () {
                 );
                 expect(this.gangerChieftain.location).toBe('under');
                 this.player1.clickCard(this.witchOfTheEye);
+                expect(this.witchOfTheEye.location).toBe('under');
+                expect(this.witchOfTheEye.parent.name).toBe('Cauldron');
                 expect(this.player1).toHavePrompt('Choose a card to play');
                 // expect(this.witchOfTheEye.location).toBe('play area');
                 this.player1.clickCard(this.gangerChieftain);
-                expect(this.witchOfTheEye.location).toBe('under');
                 this.player1.clickPrompt('Right');
                 this.player1.clickPrompt('Done');
                 this.player1.clickCard(this.smith);
