@@ -14,9 +14,15 @@ class Cauldron extends Card {
             then: {
                 alwaysTriggers: true,
                 condition: (context) => context.source.childCards.length >= 3,
-                gameAction: ability.actions.sequentialPlay((context) => ({
-                    forEach: context.source.childCards
-                }))
+                gameAction: ability.actions.sequentialPlay((context) => {
+                    console.log(
+                        'cards to play:',
+                        context.source.childCards.map((c) => c.name)
+                    );
+                    return {
+                        forEach: context.source.childCards
+                    };
+                })
             }
         });
     }

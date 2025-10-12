@@ -7,7 +7,7 @@ class InterdimensionalGraft extends Card {
             condition: (context) => context.player.opponent,
             effect: 'take any remaining amber from {1} if they forge a key next turn',
             effectArgs: (context) => context.player.opponent,
-            gameAction: ability.actions.nextRoundEffect((context) => ({
+            gameAction: ability.actions.duringOpponentNextTurn((context) => ({
                 when: {
                     onForgeKey: (event) => event.player === context.player.opponent
                 },

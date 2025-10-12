@@ -8,14 +8,14 @@ class FeldarsPlan extends Card {
             effect: 'steal an amber each time {1} plays a card during their next turn',
             effectArgs: (context) => context.player.opponent,
             effectAlert: true,
-            gameAction: ability.actions.nextRoundEffect({
+            gameAction: ability.actions.duringOpponentNextTurn({
                 when: {
-                    onCardPlayed: (event, context) => event.player === context.player
+                    onCardPlayed: () => true
                 },
                 message: '{0} uses {1} to steal 1 amber from {2}',
                 messageArgs: (context) => [context.player.opponent, context.source, context.player],
                 gameAction: ability.actions.steal((context) => ({
-                    target: context.player
+                    targetController: context.player
                 }))
             })
         });

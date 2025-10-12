@@ -6,7 +6,7 @@ class WikoliaEvilTwin extends Card {
         this.reap({
             gameAction: [
                 ability.actions.exalt(),
-                ability.actions.nextRoundEffect({
+                ability.actions.duringOpponentNextTurn({
                     targetController: 'any',
                     effect: ability.effects.modifyKeyCost(4)
                 })

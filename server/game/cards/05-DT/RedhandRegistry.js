@@ -7,7 +7,7 @@ class RedhandRegistry extends Card {
             when: {
                 onStealAmber: (event, context) => event.player === context.player
             },
-            gameAction: ability.actions.untilEndOfMyNextTurn({
+            gameAction: ability.actions.duringOpponentNextTurn({
                 targetController: 'opponent',
                 effect: ability.effects.skipStep('key')
             })
