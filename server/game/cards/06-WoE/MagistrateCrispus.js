@@ -8,7 +8,6 @@ class MagistrateCrispus extends Card {
             when: {
                 onRoundEnded: (event, context) => context.player === this.game.activePlayer
             },
-            // TODO: This is probably fine?
             gameAction: ability.actions.sequentialCardLastingEffect((context) => ({
                 forEach: context.game.cardsInPlay.filter(
                     (card) =>

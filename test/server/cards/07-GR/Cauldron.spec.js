@@ -101,6 +101,7 @@ describe('Cauldron', function () {
                 expect(this.poke.location).toBe('under');
                 expect(this.cauldron.childCards.length).toBe(4);
                 this.player1.clickCard(this.witchOfTheEye);
+                expect(this.witchOfTheEye.location).toBe('play area');
                 this.player1.clickCard(this.gangerChieftain);
                 this.player1.clickPrompt('Right');
                 this.player1.clickPrompt('Done');

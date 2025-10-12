@@ -57,7 +57,7 @@ match: (card{{", context" if c.includes("context") }}) => {{c}},
 effect: {{formatEffectArray(ability.effects, refs) }}
 {%- endmacro -%}
 
-{# Sorts out effects that may be targetted or untargeted, sequential or interdependent.
+{# Sorts out effects that may be targetted or untargeted, sequential or interdependent. 
 
  The rule regarding resolving one sentence at a time, except for damage and replacement effects etc. is not implemented yet - and many existing cards don't follow it anyway. In particular, this doesn't generate any unconditional "thens" using alwaysTriggers #}
 {%- macro formatActions(actions, refs) -%}
@@ -206,11 +206,11 @@ ability.effects.gainAbility('reaction', {
 })
         {%- endif -%}
     {%- elif effect.name == 'terminalCondition' -%}
-ability.effects.terminalCondition({
-    {{formatActions(effect.actions, refs) | indent(4)}}
+ability.effects.terminalCondition({ 
+    {{formatActions(effect.actions, refs) | indent(4)}} 
 })
     {%- elif effect.name == 'gainKeywords' -%}
-ability.effects.addKeyword({
+ability.effects.addKeyword({ 
         {%- for keyword in effect.keywords %}
     {{keyword.name}}: {{keyword.count|default(1, true)}}{{"," if not loop.last }}
         {%- endfor %}
