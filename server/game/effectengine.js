@@ -17,7 +17,7 @@ class EffectEngine {
 
     add(effect) {
         //console.log('add', effect.source.name, effect.effect.type, effect.targets.map(t => t.name), effect.match.name);
-        if (effect.duration === 'duringOpponentNextTurn') {
+        if (['duringOpponentNextTurn'].includes(effect.duration)) {
             this.nextTurnEffects.push(effect);
         } else {
             this.effects.push(effect);
@@ -104,7 +104,7 @@ class EffectEngine {
         effectsRemoved =
             this.unapplyAndRemove(
                 (effect) =>
-                    effect.duration === 'untilNextTurn' &&
+                    effect.duration === 'untilNextTurnPassed' &&
                     effect.effectController === this.game.activePlayer
             ) || effectsRemoved;
 
@@ -113,6 +113,12 @@ class EffectEngine {
         // if (this.game.activePlayer.opponent && !this.game.activePlayer.anyEffect('anotherTurn')) {
         //     filterEndOfNextTurn = 'nextRoundEffect';
         // }
+
+        this.effects.forEach((effect) => {
+            if (effect.duration === 'untilNextTurn') {
+                effect.duration = 'untilNextTurnPassed';
+            }
+        });
 
         // Set next turn effects for next player
         this.nextTurnEffects = this.nextTurnEffects.filter((effect) => {
