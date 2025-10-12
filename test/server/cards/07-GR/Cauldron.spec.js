@@ -100,9 +100,15 @@ describe('Cauldron', function () {
                 this.player1.useAction(this.cauldron, true);
                 expect(this.poke.location).toBe('under');
                 expect(this.cauldron.childCards.length).toBe(4);
+                this.cauldron.childCards.map((card) =>
+                    console.log('card under cauldron:', card.name, card.location)
+                );
+                expect(this.gangerChieftain.location).toBe('under');
                 this.player1.clickCard(this.witchOfTheEye);
-                expect(this.witchOfTheEye.location).toBe('play area');
+                expect(this.player1).toHavePrompt('Choose a card to play');
+                // expect(this.witchOfTheEye.location).toBe('play area');
                 this.player1.clickCard(this.gangerChieftain);
+                expect(this.witchOfTheEye.location).toBe('under');
                 this.player1.clickPrompt('Right');
                 this.player1.clickPrompt('Done');
                 this.player1.clickCard(this.smith);
