@@ -313,4 +313,47 @@ describe('Shadow of Dis', function () {
             this.player2.endTurn();
         });
     });
+
+    describe('with The Callipygian Ideal in play,', function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'dis',
+                    hand: ['shadow-of-dis'],
+                    inPlay: ['shooler', 'dodger']
+                },
+                player2: {
+                    amber: 4,
+                    inPlay: ['hunting-witch'],
+                    hand: ['the-callipygian-ideal']
+                }
+            });
+            this.player1.endTurn();
+
+            this.player2.clickPrompt('saurian');
+            this.player2.playUpgrade(this.theCallipygianIdeal, this.huntingWitch);
+            this.huntingWitch.tokens.amber = 2;
+            this.player2.endTurn();
+
+            this.player1.clickPrompt('dis');
+        });
+
+        describe('before Shadow of Dis played,', function () {
+            it('opponent should be able to forge key', function () {
+                this.player1.endTurn();
+                expect(this.player2).toHavePrompt('Forge a key');
+            });
+        });
+
+        describe('after Shadow of Dis played,', function () {
+            beforeEach(function () {
+                this.player1.play(this.shadowOfDis);
+            });
+
+            it('opponent should not be able to forge key', function () {
+                this.player1.endTurn();
+                expect(this.player2).not.toHavePrompt('Forge a key');
+            });
+        });
+    });
 });
