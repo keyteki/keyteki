@@ -95,20 +95,18 @@ class EffectEngine {
     }
 
     onRoundEnded() {
-        // Remove current player's `for remainder of turn` effects
-        this.newEffect = this.unapplyAndRemove(
-            (effect) => effect.duration === 'forRemainderOfTurn'
+        // Remove current player's 'for remainder of turn' effects
+        let effectsRemoved = this.unapplyAndRemove((effect) =>
+            ['untilEndOfRound', 'forRemainderOfTurn'].includes(effect.duration)
         );
 
-        // Remove next player's `until next turn` effects
-        this.newEffect =
+        // Remove 'until next turn' effects for the player whose turn is starting
+        effectsRemoved =
             this.unapplyAndRemove(
                 (effect) =>
                     effect.duration === 'untilNextTurn' &&
-                    (this.game.activePlayer.anyEffect('anotherTurn')
-                        ? effect.effectController === this.game.activePlayer
-                        : effect.effectController !== this.game.activePlayer)
-            ) || this.newEffect;
+                    effect.effectController === this.game.activePlayer
+            ) || effectsRemoved;
 
         // Check if current player or opponent is taking next turn
         // let filterEndOfNextTurn = 'untilEndOfMyNextTurn';
@@ -128,26 +126,45 @@ class EffectEngine {
                     ? 'nextRoundEffect'
                     : 'untilEndOfMyNextTurn')
             ) {
+                // this.game.activePlayer !== effect.effectController
                 effect.duration === 'forRemainderOfTurn';
                 this.add(effect);
                 return false;
             }
 
-            //
-            if (
-                effect.duration === 'duringOpponentNextTurn' &&
-                // opponent exists
-                this.game.activePlayer.opponent &&
-                // no another turn effects
-                !this.game.activePlayer.anyEffect('anotherTurn')
-            ) {
-                effect.duration === 'forRemainderOfTurn';
-                this.add(effect);
-                return false;
-            }
+            // //
+            // if (
+            //     effect.duration === 'duringOpponentNextTurn' &&
+            //     // opponent exists
+            //     this.game.activePlayer.opponent &&
+            //     // no another turn effects
+            //     !this.game.activePlayer.anyEffect('anotherTurn')
+            // ) {
+            //     effect.duration === 'forRemainderOfTurn';
+            //     this.add(effect);
+            //     return false;
+            // }
+
+            // this.newEffect = effectsRemoved;
 
             return true;
         });
+
+        // Activate 'duringOpponentNextTurn' effects when switching to opponent
+        if (this.game.activePlayer.opponent && !this.game.activePlayer.anyEffect('anotherTurn')) {
+            this.nextTurnEffects = this.nextTurnEffects.filter((effect) => {
+                if (
+                    effect.duration === 'duringOpponentNextTurn' &&
+                    this.game.activePlayer !== effect.effectController
+                ) {
+                    // Change duration to 'forRemainderOfTurn' and activate
+                    effect.duration = 'forRemainderOfTurn';
+                    this.add(effect);
+                    return false; // Remove from nextTurnEffects
+                }
+                return true; // Keep in nextTurnEffects
+            });
+        }
 
         // TODO: what need to be done to add effects and set next turn effects?
         // eg duringOpponentNextTurn
@@ -187,6 +204,8 @@ class EffectEngine {
         //     }
         //     return false;
         // });
+
+        this.newEffect = effectsRemoved;
     }
 
     registerCustomDurationEvents(effect) {
