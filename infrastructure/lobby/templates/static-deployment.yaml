@@ -1,0 +1,50 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+    name: keyteki-static
+    # prettier-ignore
+    namespace: {{ .Values.namespace }}
+spec:
+    replicas: 2
+    selector:
+        matchLabels:
+            app: keyteki-static
+    template:
+        metadata:
+            labels:
+                app: keyteki-static
+        spec:
+            containers:
+                - name: nginx
+                  image: nginx:alpine
+                  ports:
+                      - containerPort: 80
+                  volumeMounts:
+                      - name: nginx-config
+                        mountPath: /etc/nginx/nginx.conf
+                        subPath: nginx.conf
+                      - name: static-assets
+                        mountPath: /usr/share/nginx/html/img
+                        readOnly: true
+            volumes:
+                - name: nginx-config
+                  configMap:
+                      name: keyteki-static-nginx-config
+                - name: static-assets
+                  persistentVolumeClaim:
+                  claimName: keyteki-static-assets
+---
+apiVersion: v1
+kind: Service
+metadata:
+    name: keyteki-static
+    # prettier-ignore
+    namespace: {{ .Values.namespace }}
+spec:
+    selector:
+        app: keyteki-static
+    ports:
+        - port: 80
+          targetPort: 80
+          protocol: TCP
+          name: http

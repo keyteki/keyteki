@@ -590,15 +590,20 @@ class Lobby {
         let user = socket.user.getWireSafeDetails();
         let authToken = jwt.sign(user, this.configService.getValue('secret'), { expiresIn: '5m' });
 
-        socket.send('handoff', {
-            address: gameNode.address,
+        const handoffData = {
             authToken: authToken,
             gameId: gameId,
             name: gameNode.identity,
             port: gameNode.port,
             protocol: gameNode.protocol,
             user: user
-        });
+        };
+
+        if (gameNode.address) {
+            handoffData.address = gameNode.address;
+        }
+
+        socket.send('handoff', handoffData);
     }
 
     onWatchGame(socket, gameId, password) {

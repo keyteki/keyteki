@@ -161,7 +161,10 @@ class CardImport {
                 }
 
                 halfSizePath = imagePath
-                    .replace(`${path.sep}cards`, `${path.sep}halfSize`)
+                    .replace(
+                        `${path.sep}cards${path.sep}`,
+                        `${path.sep}cards${path.sep}halfSize${path.sep}`
+                    )
                     .replace('.png', '.jpg');
                 if (!gigantic.some((x) => card.id.includes(x))) {
                     if (this.force || !fs.existsSync(halfSizePath)) {
@@ -183,7 +186,10 @@ class CardImport {
                 let imageLangDir = this.computeImagesDir(skipMkdir, language);
                 let imgPath = path.join(imageLangDir, card.id + '-complete.png');
                 let halfSizePath = imgPath
-                    .replace(`${path.sep}cards`, `${path.sep}halfSize`)
+                    .replace(
+                        `${path.sep}cards${path.sep}`,
+                        `${path.sep}cards${path.sep}halfSize${path.sep}`
+                    )
                     .replace('.png', '.jpg');
                 if (this.force || !fs.existsSync(imgPath)) {
                     await this.imageSource.buildGigantics(card.id, language, imageLangDir, imgPath);
@@ -222,7 +228,10 @@ class CardImport {
             } else {
                 imageLangDir = path.join(this.imageDir, language.replace('-', ''));
             }
-            halfSizeImageDir = imageLangDir.replace(`${path.sep}cards`, `${path.sep}halfSize`);
+            halfSizeImageDir = imageLangDir.replace(
+                `${path.sep}cards${path.sep}`,
+                `${path.sep}cards${path.sep}halfSize${path.sep}`
+            );
 
             mkdirp(imageLangDir);
             mkdirp(halfSizeImageDir);

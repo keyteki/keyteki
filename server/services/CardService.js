@@ -1,15 +1,13 @@
-const redis = require('redis');
-const { promisify } = require('util');
-
 const logger = require('../log.js');
 const db = require('../db');
+const RedisClientFactory = require('./RedisClientFactory');
 
 class CardService {
     constructor(configService) {
-        this.redis = redis.createClient(configService.getValue('redisUrl'));
+        const factory = new RedisClientFactory(configService);
+        this.redis = factory.createClient();
 
-        this.getAsync = promisify(this.redis.get).bind(this.redis);
-        this.setAsync = promisify(this.redis.set).bind(this.redis);
+        this.redis.connect();
 
         this.cardExpansionCache = {};
     }
@@ -122,7 +120,7 @@ class CardService {
             cardsById[card.id] = card;
         }
 
-        await this.setAsync('cards', JSON.stringify(cardsById));
+        await this.redis.set('cards', JSON.stringify(cardsById));
     }
 
     async getAllCards(options) {
@@ -130,7 +128,7 @@ class CardService {
             return this.cardCache;
         }
 
-        let redisCards = await this.getAsync('cards');
+        let redisCards = await this.redis.get('cards');
         if (redisCards) {
             logger.info('Found cached cards in redis');
 
@@ -174,7 +172,7 @@ class CardService {
         }
 
         logger.info('Cards loaded from database, sending to redis');
-        await this.setAsync('cards', JSON.stringify(retCards));
+        await this.redis.set('cards', JSON.stringify(retCards));
         this.cardCache = retCards;
 
         return retCards;
@@ -185,7 +183,7 @@ class CardService {
             return this.cardExpansionCache[expansionId];
         }
 
-        let redisCards = await this.getAsync(`cards:${expansionId}`);
+        let redisCards = await this.redis.get(`cards:${expansionId}`);
         if (redisCards) {
             logger.info(`Found cached cards for ${expansionId} in redis`);
 
@@ -229,14 +227,14 @@ class CardService {
         }
 
         logger.info('Cards loaded from database, sending to redis');
-        await this.setAsync(`cards:${expansionId}`, JSON.stringify(retCards));
+        await this.redis.set(`cards:${expansionId}`, JSON.stringify(retCards));
         this.cardExpansionCache[expansionId] = retCards;
 
         return retCards;
     }
 
-    shutdown() {
-        this.redis.quit();
+    async shutdown() {
+        await this.redis.disconnect();
     }
 
     mapCard(card, languages, options, locale) {

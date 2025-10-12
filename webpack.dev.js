@@ -1,5 +1,5 @@
 const webpack = require('webpack');
-const merge = require('webpack-merge');
+const { merge } = require('webpack-merge');
 const common = require('./webpack.common.js');
 
 module.exports = merge(common, {
@@ -13,16 +13,14 @@ module.exports = merge(common, {
         ]
     },
     output: {
-        filename: '[name].[hash].js'
+        filename: '[name].[fullhash].js'
     },
     mode: 'development',
     devtool: 'inline-source-map',
     devServer: {
-        contentBase: './dist',
+        static: './dist',
         hot: true,
-        inline: true,
-        historyApiFallback: true,
-        publicPath: '/'
+        historyApiFallback: true
     },
     plugins: [new webpack.HotModuleReplacementPlugin()]
 });

@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+    name: keyteki-static-assets
+    # prettier-ignore
+    namespace: {{ .Values.namespace }}
+spec:
+    accessModes:
+        - ReadWriteOnce
+    # prettier-ignore
+    storageClassName: {{ .Values.storage.className | default "local-path" }}
+    resources:
+        requests:
+            # prettier-ignore
+            storage: {{ .Values.storage.staticAssets | default "60Gi" }}

@@ -1,0 +1,54 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+    name: keyteki-fetchdata-{{ .Values.deployTime | default "0" }}
+    # prettier-ignore
+    namespace: {{ .Values.namespace }}
+    annotations:
+        'helm.sh/hook': post-install,post-upgrade
+        'helm.sh/hook-weight': '1'
+        'helm.sh/hook-delete-policy': before-hook-creation
+spec:
+    ttlSecondsAfterFinished: 300 # Auto-cleanup after 5 minutes
+    activeDeadlineSeconds: 3600 # Allow up to 1 hour for initial fetch
+    template:
+        metadata:
+            labels:
+                app: keyteki-fetchdata
+        spec:
+            restartPolicy: OnFailure
+            initContainers:
+                - name: copy-builtin-images
+                  image: '{{ .Values.image.repository }}:{{ .Values.image.tag }}'
+                  command:
+                      - sh
+                      - -c
+                      - |
+                          echo "Copying built-in card images to PVC..."
+                          if [ -d /usr/src/app/public/img/cards ] && [ "$(ls -A /usr/src/app/public/img/cards 2>/dev/null)" ]; then
+                              mkdir -p /data/img/cards
+                              cp -rn /usr/src/app/public/img/cards/* /data/img/cards/ 2>/dev/null || true
+                              echo "Built-in images copied (skipped existing files)."
+                          else
+                              echo "No built-in images found in container."
+                          fi
+                  volumeMounts:
+                      - name: static-assets
+                        mountPath: /data/img
+            containers:
+                - name: fetchdata
+                  image: '{{ .Values.image.repository }}:{{ .Values.image.tag }}'
+                  command: ['node', 'server/scripts/fetchdata.js']
+                  env:
+                      - name: NODE_CONFIG
+                        valueFrom:
+                            secretKeyRef:
+                                name: keyteki-lobby-secret
+                                key: node_config
+                  volumeMounts:
+                      - name: static-assets
+                        mountPath: /usr/src/app/public/img
+            volumes:
+                - name: static-assets
+                  persistentVolumeClaim:
+                      claimName: keyteki-static-assets

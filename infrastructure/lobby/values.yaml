@@ -1,0 +1,16 @@
+namespace: keyteki
+environment: production
+
+image:
+    repository: cryogen/keyteki-lobby
+    tag: latest
+
+deployTime: '0'
+
+nodeConfig: {}
+
+storage:
+    className: local-path
+    staticAssets: 60Gi
+
+resources: {}

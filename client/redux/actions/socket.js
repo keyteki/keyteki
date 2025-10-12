@@ -84,7 +84,10 @@ export function handoff(details) {
 
 export function handoffReceived(details) {
     return (dispatch, getState) => {
-        let url = '//' + details.address;
+        let url =
+            details.address && details.address !== 'undefined'
+                ? '//' + details.address
+                : '//' + window.location.hostname;
         let standardPorts = [80, 443];
         let state = getState();
 
@@ -111,7 +114,7 @@ export function nodeStatusReceived(status) {
     };
 }
 
-export function responseTimeReceived(responseTime) {
+export function lobbyResponseTimeReceived(responseTime) {
     return {
         type: 'RESPONSE_TIME_RECEIVED',
         responseTime: responseTime
@@ -158,7 +161,7 @@ export function connectLobby() {
         dispatch(lobbyConnecting(socket));
 
         socket.on('pong', (responseTime) => {
-            dispatch(responseTimeReceived(responseTime));
+            dispatch(lobbyResponseTimeReceived(responseTime));
         });
 
         socket.on('connect', () => {
