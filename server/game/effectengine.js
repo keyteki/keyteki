@@ -17,7 +17,7 @@ class EffectEngine {
 
     add(effect) {
         //console.log('add', effect.source.name, effect.effect.type, effect.targets.map(t => t.name), effect.match.name);
-        if (['duringOpponentNextTurn', 'nextRoundEffect'].includes(effect.duration)) {
+        if (['duringOpponentNextTurn'].includes(effect.duration)) {
             this.nextTurnEffects.push(effect);
         } else {
             this.effects.push(effect);
@@ -130,12 +130,6 @@ class EffectEngine {
                     effect.effectController !== this.game.activePlayer
                 );
             }) || effectsRemoved;
-
-        // Check if current player or opponent is taking next turn
-        // let filterEndOfNextTurn = 'untilEndOfMyNextTurn';
-        // if (this.game.activePlayer.opponent && !this.game.activePlayer.anyEffect('anotherTurn')) {
-        //     filterEndOfNextTurn = 'nextRoundEffect';
-        // }
 
         // Handle untilEndOfMyNextTurn effects - state machine approach
         this.effects.forEach((effect) => {

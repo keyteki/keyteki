@@ -11,7 +11,7 @@ class ControlTheWeak extends Card {
             },
             effect: 'force {1} to choose {2} as their active house on their next turn',
             effectArgs: (context) => [context.player.opponent, context.house],
-            gameAction: ability.actions.nextRoundEffect((context) => ({
+            gameAction: ability.actions.duringOpponentNextTurn((context) => ({
                 targetController: 'opponent',
                 effect: ability.effects.restrictHouseChoice([context.house])
             }))

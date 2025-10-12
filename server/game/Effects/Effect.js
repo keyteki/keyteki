@@ -37,11 +37,6 @@ class Effect {
         this.location = properties.location || 'play area';
         this.printedAbility = properties.printedAbility !== false;
         this.nextTurn = !!properties.nextTurn;
-
-        // TODO: remove
-        this.roundDuration = properties.roundDuration;
-        this.nextRound = !!properties.nextRound;
-
         this.effectController = properties.effectController;
         this.targets = [];
         this.effect = effect;

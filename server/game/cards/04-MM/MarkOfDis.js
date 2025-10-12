@@ -12,13 +12,13 @@ class MarkOfDis extends Card {
                         condition: () => context.target.location === 'play area',
                         trueGameAction:
                             context.player === context.target.controller
-                                ? ability.actions.nextRoundEffect({
+                                ? ability.actions.untilEndOfMyNextTurn({
                                       targetController: 'current',
                                       effect: ability.effects.restrictHouseChoice(
                                           context.target.getHouses()
                                       )
                                   })
-                                : ability.actions.untilEndOfMyNextTurn({
+                                : ability.actions.duringOpponentNextTurn({
                                       targetController: 'opponent',
                                       effect: ability.effects.restrictHouseChoice(
                                           context.target.getHouses()

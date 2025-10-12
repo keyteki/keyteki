@@ -144,8 +144,6 @@ const Actions = {
         new GameActions.LastingEffectAction(propertyFactory, 'forRemainderOfTurn'),
     duringOpponentNextTurn: (propertyFactory) =>
         new GameActions.LastingEffectAction(propertyFactory, 'duringOpponentNextTurn'),
-    nextRoundEffect: (propertyFactory) =>
-        new GameActions.LastingEffectAction(propertyFactory, 'nextRoundEffect'),
     untilNextTurn: (propertyFactory) =>
         new GameActions.LastingEffectAction(propertyFactory, 'untilNextTurn'),
     untilEndOfMyNextTurn: (propertyFactory) =>
