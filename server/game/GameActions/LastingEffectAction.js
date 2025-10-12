@@ -2,10 +2,9 @@ const GameAction = require('./GameAction');
 const Effects = require('../effects.js');
 
 class LastingEffectAction extends GameAction {
-    constructor(propertyFactory, roundDuration, nextRound = false) {
+    constructor(propertyFactory, duration) {
         super(propertyFactory);
-        this.roundDuration = roundDuration;
-        this.nextRound = nextRound;
+        this.duration = duration;
     }
 
     setDefaultProperties() {
@@ -58,12 +57,11 @@ class LastingEffectAction extends GameAction {
             condition: this.condition,
             context: context,
             effect: this.effect,
+            effectController: context.player,
             match: this.match,
-            targetController:
-                this.targetController || (this.roundDuration === 1 ? 'current' : 'opponent'),
-            until: this.until,
-            roundDuration: !this.until ? this.roundDuration : undefined,
-            nextRound: this.nextRound
+            duration: this.duration,
+            targetController: this.targetController,
+            until: this.until
         };
 
         return [
