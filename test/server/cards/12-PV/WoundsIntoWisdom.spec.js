@@ -15,6 +15,7 @@ describe('Wounds into Wisdom', function () {
                 },
                 player2: {
                     amber: 4,
+                    hand: ['hypnobeam', 'shark-bait'],
                     inPlay: ['troll', 'dust-pixie']
                 }
             });
@@ -50,6 +51,21 @@ describe('Wounds into Wisdom', function () {
             this.player2.clickPrompt('brobnar');
             this.player2.fightWith(this.troll, this.xenosBloodshadow);
             expect(this.troll.tokens.damage).toBe(6);
+            expect(this.parasiticArachnoid.location).toBe('under');
+            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+        });
+
+        it('should not fulfill when a stolen enemy creature is destroyed by damage', function () {
+            this.player1.activateProphecy(this.woundsIntoWisdom, this.parasiticArachnoid);
+            this.player1.endTurn();
+            this.player2.clickPrompt('mars');
+            this.player2.play(this.hypnobeam);
+            this.player2.clickCard(this.brabble);
+            this.player2.clickPrompt('Left');
+            this.player2.play(this.sharkBait);
+            this.player2.clickCard(this.brabble);
+            expect(this.player1.player.discard).toContain(this.brabble);
+            expect(this.brabble.location).toBe('discard');
             expect(this.parasiticArachnoid.location).toBe('under');
             expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
         });

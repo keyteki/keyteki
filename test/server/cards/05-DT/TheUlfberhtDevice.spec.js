@@ -19,9 +19,9 @@ describe('The Ulfberht Device', function () {
             this.player1.endTurn();
             this.player2.clickPrompt('untamed');
             this.player2.endTurn();
-            this.player1.clickPrompt('untamed');
+            this.player1.clickPrompt('logos');
             this.player1.endTurn();
-            this.player2.clickPrompt('logos');
+            this.player2.clickPrompt('untamed');
             this.player2.endTurn();
             this.player1.clickPrompt('logos');
         });
@@ -110,6 +110,39 @@ describe('The Ulfberht Device', function () {
                 this.player1.clickPrompt('untamed');
                 this.player1.endTurn();
             });
+        });
+    });
+
+    describe('after taking another turn', function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    amber: 0,
+                    hand: ['sensor-chief-garcia'],
+                    inPlay: ['tachyon-manifold', 'the-ulfberht-device', 'shaffles']
+                },
+                player2: {
+                    amber: 0,
+                    inPlay: [],
+                    hand: ['necromorph', 'azuretooth', 'shaffles']
+                }
+            });
+            this.player1.clickPrompt('ekwidon');
+            this.player1.useAction(this.tachyonManifold);
+        });
+
+        it("should affect player's next turn", function () {
+            this.player1.endTurn();
+            expect(this.player1).not.toHavePromptButton('ekwidon');
+            expect(this.player1).toHavePromptButton('dis');
+            expect(this.player1).toHavePromptButton('staralliance');
+            this.player1.clickPrompt('dis');
+            this.player1.endTurn();
+            expect(this.player2).not.toHavePromptButton('staralliance');
+            expect(this.player2).toHavePromptButton('dis');
+            expect(this.player2).toHavePromptButton('ekwidon');
+            this.player2.clickPrompt('dis');
+            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
         });
     });
 });

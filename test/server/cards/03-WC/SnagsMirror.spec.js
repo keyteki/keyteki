@@ -38,18 +38,46 @@ describe("Snag's Mirror", function () {
                 });
 
                 describe("and then snag's mirror goes away", function () {
-                    beforeEach(function () {
+                    it('should restrict house choice once more', function () {
                         this.player1.moveCard(this.snagSMirror, 'discard');
+                        expect(this.player2).not.toHavePromptButton('logos');
                         this.player2.clickPrompt('brobnar');
                         this.player2.endTurn();
-                    });
-
-                    it('should not restrict house choice anymore', function () {
                         expect(this.player1).toHavePromptButton('logos');
                         expect(this.player1).toHavePromptButton('brobnar');
                     });
                 });
             });
+        });
+    });
+
+    describe('after taking another turn', function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    amber: 0,
+                    hand: ['sensor-chief-garcia'],
+                    inPlay: ['tachyon-manifold', 'snag-s-mirror']
+                },
+                player2: {
+                    amber: 0,
+                    inPlay: [],
+                    hand: ['necromorph', 'azuretooth', 'shaffles']
+                }
+            });
+            this.player1.clickPrompt('ekwidon');
+            this.player1.useAction(this.tachyonManifold);
+        });
+
+        xit("should affect opponent's next turn", function () {
+            this.player1.endTurn();
+            this.player1.clickPrompt('dis');
+            this.player1.endTurn();
+            expect(this.player2).toHavePromptButton('staralliance');
+            expect(this.player2).not.toHavePromptButton('ekwidon');
+            expect(this.player2).not.toHavePromptButton('dis');
+            this.player2.clickPrompt('staralliance');
+            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
         });
     });
 });
