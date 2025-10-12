@@ -26,14 +26,15 @@ spec:
                       - |
                           echo "Copying built-in card images to PVC..."
                           if [ -d /usr/src/app/public/img/cards ] && [ "$(ls -A /usr/src/app/public/img/cards 2>/dev/null)" ]; then
-                              cp -rn /usr/src/app/public/img/cards/* /data/cards/ 2>/dev/null || true
+                              mkdir -p /data/img/cards
+                              cp -rn /usr/src/app/public/img/cards/* /data/img/cards/ 2>/dev/null || true
                               echo "Built-in images copied (skipped existing files)."
                           else
                               echo "No built-in images found in container."
                           fi
                   volumeMounts:
-                      - name: card-images
-                        mountPath: /data/cards
+                      - name: static-assets
+                        mountPath: /data/img
             containers:
                 - name: fetchdata
                   image: '{{ .Values.image.repository }}:{{ .Values.image.tag }}'
@@ -45,9 +46,9 @@ spec:
                                 name: keyteki-lobby-secret
                                 key: node_config
                   volumeMounts:
-                      - name: card-images
-                        mountPath: /usr/src/app/public/img/cards
+                      - name: static-assets
+                        mountPath: /usr/src/app/public/img
             volumes:
-                - name: card-images
+                - name: static-assets
                   persistentVolumeClaim:
-                      claimName: keyteki-card-images
+                      claimName: keyteki-static-assets

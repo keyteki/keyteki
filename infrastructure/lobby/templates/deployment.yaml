@@ -30,9 +30,9 @@ spec:
                                 name: keyteki-lobby-secret
                                 key: node_config
                   volumeMounts:
-                      - name: avatars
-                        mountPath: /usr/src/app/public/img/avatar
+                      - name: static-assets
+                        mountPath: /usr/src/app/public/img
             volumes:
-                - name: avatars
+                - name: static-assets
                   persistentVolumeClaim:
-                      claimName: keyteki-avatars
+                      claimName: keyteki-static-assets

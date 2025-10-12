@@ -10,7 +10,7 @@ spec:
         - websecure
     routes:
 {{- if eq .Values.environment "production" }}
-        - match: Host(`thecrucible.online`) && (PathPrefix(`/img/cards/`) || PathPrefix(`/img/avatar/`))
+        - match: Host(`thecrucible.online`) && PathPrefix(`/img/`)
           kind: Rule
           priority: 20
           services:
@@ -25,7 +25,7 @@ spec:
               - name: keyteki-lobby
                 port: 80
 {{- else }}
-        - match: Host(`{{ .Values.environment }}.thecrucible.online`) && (PathPrefix(`/img/cards/`) || PathPrefix(`/img/avatar/`))
+        - match: Host(`{{ .Values.environment }}.thecrucible.online`) && PathPrefix(`/img/`)
           kind: Rule
           priority: 20
           services:
@@ -65,7 +65,11 @@ metadata:
     # prettier-ignore
     namespace: {{ .Values.namespace }}
 spec:
+{{- if eq .Values.environment "production" }}
+    secretName: keyteki-lobby-tls
+{{- else }}
     secretName: keyteki-lobby-{{ .Values.environment }}-tls
+{{- end }}
     issuerRef:
         name: letsencrypt-prod
         kind: ClusterIssuer

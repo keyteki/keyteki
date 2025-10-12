@@ -43,15 +43,20 @@ data:
 
                 root /usr/share/nginx/html;
 
-                # Card images - cache for 7 days (immutable)
-                location /img/cards/ {
+                # All images under /img
+                location /img/ {
                     expires 7d;
                     add_header Cache-Control "public, immutable";
                     access_log off;
                 }
 
-                # Avatars - cache for 1 day (users can update)
                 location /img/avatar/ {
+                    expires 1d;
+                    add_header Cache-Control "public";
+                    access_log off;
+                }
+
+                location /img/bgs/ {
                     expires 1d;
                     add_header Cache-Control "public";
                     access_log off;
