@@ -51,13 +51,14 @@ describe('We Can ALL Win', function () {
             this.player1.useAction(this.tachyonManifold);
         });
 
-        it("should affect opponent's next turn", function () {
+        it("should not affect opponent's next turn", function () {
             this.player1.play(this.weCanAllWin);
             this.player1.endTurn();
             this.player1.clickPrompt('staralliance');
             expect(this.player1.player.getCurrentKeyCost()).toBe(4);
             expect(this.player2.player.getCurrentKeyCost()).toBe(4);
             this.player1.endTurn();
+            this.player2.clickPrompt('untamed');
             expect(this.player2.player.getCurrentKeyCost()).toBe(6);
             expect(this.player2.player.getForgedKeys()).toBe(0);
             expect(this.player2).toHavePrompt('Choose a card to play, discard or use');

@@ -57,11 +57,11 @@ class LastingEffectAction extends GameAction {
             condition: this.condition,
             context: context,
             effect: this.effect,
+            effectController: context.player,
             match: this.match,
             duration: this.duration,
             targetController: this.targetController,
-            until: this.until,
-            effectController: context.player
+            until: this.until
         };
 
         return [

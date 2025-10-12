@@ -137,7 +137,8 @@ const Actions = {
     transferAmber: (propertyFactory) => new GameActions.TransferAmberAction(propertyFactory), // amount = 1
     unforgeKey: (propertyFactory) => new GameActions.UnforgeAction(propertyFactory),
 
-    lastingEffect: (propertyFactory) => new GameActions.LastingEffectAction(propertyFactory),
+    lastingEffect: (propertyFactory) =>
+        new GameActions.LastingEffectAction(propertyFactory, 'custom'),
     forRemainderOfTurn: (propertyFactory) =>
         new GameActions.LastingEffectAction(propertyFactory, 'forRemainderOfTurn'),
     duringOpponentNextTurn: (propertyFactory) =>
