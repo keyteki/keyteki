@@ -32,13 +32,12 @@ class Effect {
         this.source = source;
         this.match = properties.match || (() => true);
         this.duration = properties.duration;
+        this.roundDuration = properties.roundDuration;
         this.until = properties.until || {};
         this.condition = properties.condition || (() => true);
         this.location = properties.location || 'play area';
         this.printedAbility = properties.printedAbility !== false;
-        this.nextTurn = !!properties.nextTurn;
-        this.roundDuration = properties.roundDuration;
-        this.effectController = properties.effectController;
+        this.nextRound = !!properties.nextRound;
         this.targets = [];
         this.effect = effect;
         this.refreshContext(properties.context);

@@ -124,10 +124,15 @@ const Actions = {
     purgeAtRandom: (propertyFactory) => new GameActions.RandomPurgeAction(propertyFactory), // amount = 1, location = hand
     draw: (propertyFactory) => new GameActions.DrawAction(propertyFactory), // amount = 1
     forgeKey: (propertyFactory) => new GameActions.ForgeAction(propertyFactory), // modifier = 0
+    forRemainderOfTurn: (propertyFactory) =>
+        new GameActions.LastingEffectAction(propertyFactory, 1),
     gainAmber: (propertyFactory) => new GameActions.ModifyAmberAction(propertyFactory), // amount = 1
     gainChains: (propertyFactory) => new GameActions.ModifyChainsActions(propertyFactory), // amount = 1
+    lastingEffect: (propertyFactory) => new GameActions.LastingEffectAction(propertyFactory),
     loseAmber: (propertyFactory) => new GameActions.LoseAmberAction(propertyFactory),
     mulligan: (propertyFactory) => new GameActions.MulliganAction(propertyFactory), // name
+    nextRoundEffect: (propertyFactory) =>
+        new GameActions.LastingEffectAction(propertyFactory, 2, true),
     raiseTide: (propertyFactory) => new GameActions.RaiseTideAction(propertyFactory),
     rearrangeCards: (propertFactory) => new GameActions.RearrangeCardsAction(propertFactory),
     resetTide: (propertyFactory) => new GameActions.ResetTideAction(propertyFactory),
@@ -136,20 +141,9 @@ const Actions = {
     steal: (propertyFactory) => new GameActions.StealAction(propertyFactory), // amount = 1
     transferAmber: (propertyFactory) => new GameActions.TransferAmberAction(propertyFactory), // amount = 1
     unforgeKey: (propertyFactory) => new GameActions.UnforgeAction(propertyFactory),
-
-    lastingEffect: (propertyFactory) =>
-        new GameActions.LastingEffectAction(propertyFactory, 'custom'),
-    forRemainderOfTurn: (propertyFactory) =>
-        new GameActions.LastingEffectAction(propertyFactory, 'forRemainderOfTurn'),
-    duringOpponentNextTurn: (propertyFactory) =>
-        new GameActions.LastingEffectAction(propertyFactory, 'duringOpponentNextTurn'),
-    nextRoundEffect: (propertyFactory) =>
-        new GameActions.LastingEffectAction(propertyFactory, 'nextRoundEffect'),
-    untilNextTurn: (propertyFactory) =>
-        new GameActions.LastingEffectAction(propertyFactory, 'untilNextTurn'),
     untilEndOfMyNextTurn: (propertyFactory) =>
-        new GameActions.LastingEffectAction(propertyFactory, 'untilEndOfMyNextTurn'),
-
+        new GameActions.LastingEffectAction(propertyFactory, 3),
+    untilNextTurn: (propertyFactory) => new GameActions.LastingEffectAction(propertyFactory, 2),
     // meta actions
     addEventToWindow: (propertyFactory) => new GameActions.AddEventToWindowAction(propertyFactory),
     allocateDamage: (propertyFactory) => new GameActions.AllocateDamageAction(propertyFactory),
