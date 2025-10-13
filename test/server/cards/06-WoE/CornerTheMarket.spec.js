@@ -178,4 +178,37 @@ describe('Corner the Market', function () {
             expect(this.player2.archives.length).toBe(0);
         });
     });
+
+    describe('after taking another turn', function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    amber: 0,
+                    house: 'ekwidon',
+                    hand: ['corner-the-market'],
+                    inPlay: ['tachyon-manifold']
+                },
+                player2: {
+                    amber: 0,
+                    inPlay: [],
+                    hand: ['fogbank']
+                }
+            });
+            this.player1.useAction(this.tachyonManifold);
+        });
+
+        it("should affect opponent's next turn", function () {
+            this.player1.play(this.cornerTheMarket);
+            this.player1.endTurn();
+            this.player1.clickPrompt('ekwidon');
+            this.player1.endTurn();
+            this.player2.clickPrompt('untamed');
+            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            this.player2.clickCard(this.fogbank);
+            expect(this.player2).not.toHavePrompt('Play this action');
+            this.player2.clickPrompt('Discard this card');
+            this.player2.clickPrompt('Fogbank');
+            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+        });
+    });
 });
