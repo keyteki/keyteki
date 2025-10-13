@@ -45,7 +45,7 @@ describe('Lifeward', function () {
                 player2: {
                     amber: 0,
                     inPlay: [],
-                    hand: ['necromorph', 'azuretooth', 'shaffles']
+                    hand: ['shaffles']
                 }
             });
             this.tachyonManifold.maverick = 'dis';

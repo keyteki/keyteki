@@ -118,13 +118,13 @@ describe('The Ulfberht Device', function () {
             this.setupTest({
                 player1: {
                     amber: 0,
-                    hand: ['sensor-chief-garcia'],
-                    inPlay: ['tachyon-manifold', 'the-ulfberht-device', 'shaffles']
+                    hand: [],
+                    inPlay: ['tachyon-manifold', 'the-ulfberht-device']
                 },
                 player2: {
                     amber: 0,
                     inPlay: [],
-                    hand: ['necromorph', 'azuretooth', 'shaffles']
+                    hand: []
                 }
             });
             this.player1.clickPrompt('ekwidon');

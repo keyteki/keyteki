@@ -56,7 +56,7 @@ describe('Control the Weak', function () {
                 player2: {
                     amber: 0,
                     inPlay: [],
-                    hand: ['necromorph', 'azuretooth', 'shaffles']
+                    hand: []
                 }
             });
             this.tachyonManifold.maverick = 'dis';
@@ -66,11 +66,11 @@ describe('Control the Weak', function () {
 
         it("should affect opponent's next turn", function () {
             this.player1.play(this.controlTheWeak);
-            this.player1.clickPrompt('staralliance');
+            this.player1.clickPrompt('untamed');
             this.player1.endTurn();
             this.player1.clickPrompt('dis');
             this.player1.endTurn();
-            expect(this.player2).toHavePromptButton('staralliance');
+            expect(this.player2).toHavePromptButton('untamed');
             expect(this.player2).not.toHavePromptButton('ekwidon');
             expect(this.player2).not.toHavePromptButton('dis');
             this.player2.clickPrompt('staralliance');

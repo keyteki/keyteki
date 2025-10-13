@@ -54,7 +54,7 @@ describe('Fogbank', function () {
                 player2: {
                     amber: 0,
                     inPlay: ['ember-imp'],
-                    hand: ['necromorph', 'azuretooth', 'shaffles']
+                    hand: []
                 }
             });
             this.tachyonManifold.maverick = 'untamed';

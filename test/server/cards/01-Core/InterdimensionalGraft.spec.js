@@ -114,8 +114,8 @@ describe('Interdimensional Graft', function () {
                 },
                 player2: {
                     amber: 9,
-                    inPlay: ['ember-imp'],
-                    hand: ['necromorph', 'azuretooth', 'shaffles']
+                    inPlay: [],
+                    hand: []
                 }
             });
             this.tachyonManifold.maverick = 'logos';
