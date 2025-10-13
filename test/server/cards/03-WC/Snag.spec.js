@@ -77,4 +77,37 @@ describe('Snag', function () {
             });
         });
     });
+
+    describe('after taking another turn', function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    amber: 0,
+                    house: 'dis',
+                    hand: [],
+                    inPlay: ['tachyon-manifold', 'snag']
+                },
+                player2: {
+                    amber: 0,
+                    hand: [],
+                    inPlay: ['batdrone', 'shaffles', 'dust-pixie']
+                }
+            });
+            this.tachyonManifold.maverick = 'dis';
+            this.tachyonManifold.printedHouse = 'dis';
+            this.player1.useAction(this.tachyonManifold);
+        });
+
+        it("should affect opponent's next turn", function () {
+            this.player1.fightWith(this.snag, this.batdrone);
+            this.player1.endTurn();
+            this.player1.clickPrompt('dis');
+            this.player1.endTurn();
+            expect(this.player2).toHavePromptButton('logos');
+            expect(this.player2).not.toHavePromptButton('dis');
+            expect(this.player2).not.toHavePromptButton('untamed');
+            this.player2.clickPrompt('logos');
+            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+        });
+    });
 });
