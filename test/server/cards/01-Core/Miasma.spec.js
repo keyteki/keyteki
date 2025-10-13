@@ -65,8 +65,8 @@ describe('Miasma', function () {
                     hand: ['necromorph', 'azuretooth', 'shaffles']
                 }
             });
-            this.tachyonManifold.printedHouse = 'shadows';
             this.tachyonManifold.maverick = 'shadows';
+            this.tachyonManifold.printedHouse = 'shadows';
             this.player1.useAction(this.tachyonManifold);
         });
 

@@ -54,4 +54,37 @@ describe('Seismo-Entangler', function () {
             expect(this.player2).toHavePromptButton('Reap with this creature');
         });
     });
+
+    describe('after taking another turn', function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    amber: 0,
+                    house: 'logos',
+                    hand: [],
+                    inPlay: ['tachyon-manifold', 'seismo-entangler', 'batdrone']
+                },
+                player2: {
+                    amber: 0,
+                    hand: [],
+                    inPlay: ['hunting-witch']
+                }
+            });
+            this.tachyonManifold.maverick = 'logos';
+            this.tachyonManifold.printedHouse = 'logos';
+            this.player1.useAction(this.tachyonManifold);
+        });
+
+        it("should affect opponent's next turn", function () {
+            this.player1.clickCard(this.seismoEntangler);
+            this.player1.clickPrompt("Use this card's Action ability");
+            this.player1.clickPrompt('untamed');
+            this.player1.endTurn();
+            this.player1.clickPrompt('logos');
+            this.player1.endTurn();
+            this.player2.clickPrompt('untamed');
+            this.player2.clickCard(this.huntingWitch);
+            expect(this.player2).not.toHavePromptButton('Reap with this creature');
+        });
+    });
 });

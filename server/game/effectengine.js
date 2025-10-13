@@ -95,6 +95,9 @@ class EffectEngine {
     }
 
     onRoundEnded() {
+        // Save another turn which is a 'for remainder of turn' effect
+        const anotherTurn = this.game.activePlayer.anyEffect('anotherTurn');
+
         // Remove 'for remainder of turn' effects
         let effectsRemoved = this.unapplyAndRemove((effect) =>
             ['forRemainderOfTurn', 'untilEndOfRound'].includes(effect.duration)
@@ -112,18 +115,18 @@ class EffectEngine {
         effectsRemoved =
             this.unapplyAndRemove(
                 (effect) =>
-                    effect.duration === 'untilNextTurnInitiated' &&
-                    effect.effectController === this.game.activePlayer
+                    (effect.duration === 'untilNextTurnInitiated' &&
+                        effect.effectController === this.game.activePlayer) ||
+                    // When the active player takes another turn
+                    (effect.duration === 'untilNextTurn' && anotherTurn)
             ) || effectsRemoved;
 
         // Label effects that were added this turn and should last until a future turn
         this.effects.forEach((effect) => {
-            // untilEndOfMyNextTurn state machine
             if (effect.duration === 'untilEndOfMyNextTurn') {
                 effect.duration = 'untilEndOfMyNextTurnInitiated';
             }
 
-            // Standard untilNextTurn effects
             if (effect.duration === 'untilNextTurn') {
                 effect.duration = 'untilNextTurnInitiated';
             }

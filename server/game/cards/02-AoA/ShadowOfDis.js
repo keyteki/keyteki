@@ -1,7 +1,7 @@
 const Card = require('../../Card.js');
 
 class ShadowOfDis extends Card {
-    // Play: Until your next turn, enemy creatures text boxes are considered blank (except for traits).
+    // Play: Until the start of your next turn, each enemy creature’s text box is considered blank (except for traits).
     setupCardAbilities(ability) {
         this.play({
             condition: (context) => !!context.player.opponent,

@@ -43,4 +43,34 @@ describe('Reckless Rizzo', function () {
             expect(this.recklessRizzo.getKeywordValue('elusive')).toBe(1);
         });
     });
+
+    describe('after taking another turn', function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    amber: 0,
+                    house: 'shadows',
+                    hand: [],
+                    inPlay: ['tachyon-manifold', 'reckless-rizzo']
+                },
+                player2: {
+                    amber: 0,
+                    hand: [],
+                    inPlay: ['teliga']
+                }
+            });
+            this.tachyonManifold.maverick = 'shadows';
+            this.tachyonManifold.printedHouse = 'shadows';
+            this.player1.useAction(this.tachyonManifold);
+        });
+
+        it("should not affect player's next turn", function () {
+            this.player1.useAction(this.recklessRizzo);
+            expect(this.recklessRizzo.getKeywordValue('elusive')).toBe(0);
+            this.player1.endTurn();
+            this.player1.clickPrompt('shadows');
+            expect(this.recklessRizzo.getKeywordValue('elusive')).toBe(1);
+            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+        });
+    });
 });

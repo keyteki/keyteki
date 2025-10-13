@@ -47,4 +47,35 @@ describe('Mutation of Instinct', function () {
             expect(this.flaxia.getKeywordValue('skirmish')).toBe(0);
         });
     });
+
+    describe('after taking another turn', function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    amber: 0,
+                    house: 'untamed',
+                    hand: ['mutation-of-instinct'],
+                    inPlay: ['tachyon-manifold', 'flaxia']
+                },
+                player2: {
+                    amber: 0,
+                    hand: [],
+                    inPlay: []
+                }
+            });
+            this.tachyonManifold.maverick = 'untamed';
+            this.tachyonManifold.printedHouse = 'untamed';
+            this.player1.useAction(this.tachyonManifold);
+        });
+
+        it("should not affect player's next turn", function () {
+            this.player1.play(this.mutationOfInstinct);
+            this.player1.clickCard(this.flaxia);
+            expect(this.flaxia.hasTrait('mutant')).toBe(true);
+            this.player1.endTurn();
+            this.player1.clickPrompt('untamed');
+            expect(this.flaxia.hasTrait('mutant')).toBe(false);
+            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+        });
+    });
 });

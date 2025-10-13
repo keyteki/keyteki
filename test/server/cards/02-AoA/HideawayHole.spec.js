@@ -62,5 +62,35 @@ describe('HideawayHole', function () {
         });
     });
 
-    // TODO
+    describe('after taking another turn', function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    amber: 0,
+                    house: 'shadows',
+                    hand: [],
+                    inPlay: ['tachyon-manifold', 'hideaway-hole', 'dodger']
+                },
+                player2: {
+                    amber: 0,
+                    hand: [],
+                    inPlay: ['teliga']
+                }
+            });
+            this.tachyonManifold.maverick = 'shadows';
+            this.tachyonManifold.printedHouse = 'shadows';
+            this.player1.useAction(this.tachyonManifold);
+        });
+
+        it("should not affect opponent's next turn", function () {
+            this.player1.useAction(this.hideawayHole, true);
+            this.player1.endTurn();
+            this.player1.clickPrompt('shadows');
+            this.player1.endTurn();
+            this.player2.clickPrompt('untamed');
+            this.player2.fightWith(this.teliga, this.dodger);
+            expect(this.dodger.tokens.damage).toBe(3);
+            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+        });
+    });
 });

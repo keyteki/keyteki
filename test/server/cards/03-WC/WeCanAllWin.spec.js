@@ -46,8 +46,8 @@ describe('We Can ALL Win', function () {
                     hand: []
                 }
             });
-            this.tachyonManifold.printedHouse = 'staralliance';
             this.tachyonManifold.maverick = 'staralliance';
+            this.tachyonManifold.printedHouse = 'staralliance';
             this.player1.useAction(this.tachyonManifold);
         });
 

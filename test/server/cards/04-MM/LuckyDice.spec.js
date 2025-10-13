@@ -112,8 +112,8 @@ describe('Lucky Dice', function () {
                     hand: ['particle-sweep']
                 }
             });
-            this.tachyonManifold.printedHouse = 'staralliance';
             this.tachyonManifold.maverick = 'staralliance';
+            this.tachyonManifold.printedHouse = 'staralliance';
             this.player1.useAction(this.tachyonManifold);
         });
 

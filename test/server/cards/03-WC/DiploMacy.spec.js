@@ -32,4 +32,36 @@ describe('Diplo-Macy', function () {
             this.player1.endTurn();
         });
     });
+
+    describe('after taking another turn', function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    amber: 0,
+                    house: 'saurian',
+                    hand: ['diplo-macy'],
+                    inPlay: ['tachyon-manifold', 'lamindra']
+                },
+                player2: {
+                    amber: 0,
+                    hand: [],
+                    inPlay: ['philophosaurus']
+                }
+            });
+            this.tachyonManifold.maverick = 'saurian';
+            this.tachyonManifold.printedHouse = 'saurian';
+        });
+
+        it("should not affect opponent's next turn", function () {
+            this.player1.play(this.diploMacy);
+            this.player1.useAction(this.tachyonManifold);
+            this.player1.endTurn();
+            this.player1.clickPrompt('saurian');
+            this.player1.endTurn();
+            this.player2.clickPrompt('saurian');
+            this.player2.fightWith(this.philophosaurus, this.lamindra);
+            expect(this.philophosaurus.amber).toBe(0);
+            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+        });
+    });
 });

@@ -82,8 +82,8 @@ describe('Sensor Chief Garcia', function () {
                     hand: ['remote-access']
                 }
             });
-            this.tachyonManifold.printedHouse = 'staralliance';
             this.tachyonManifold.maverick = 'staralliance';
+            this.tachyonManifold.printedHouse = 'staralliance';
             this.player1.useAction(this.tachyonManifold);
         });
 

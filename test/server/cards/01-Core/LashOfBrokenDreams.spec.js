@@ -77,8 +77,8 @@ describe('Lash of Broken Dreams', function () {
                     hand: ['necromorph', 'azuretooth', 'shaffles']
                 }
             });
-            this.tachyonManifold.printedHouse = 'dis';
             this.tachyonManifold.maverick = 'dis';
+            this.tachyonManifold.printedHouse = 'dis';
             this.player1.useAction(this.tachyonManifold);
         });
 

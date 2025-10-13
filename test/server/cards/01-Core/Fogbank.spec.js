@@ -57,8 +57,8 @@ describe('Fogbank', function () {
                     hand: ['necromorph', 'azuretooth', 'shaffles']
                 }
             });
-            this.tachyonManifold.printedHouse = 'untamed';
             this.tachyonManifold.maverick = 'untamed';
+            this.tachyonManifold.printedHouse = 'untamed';
             this.player1.useAction(this.tachyonManifold);
         });
 

@@ -118,8 +118,8 @@ describe('Interdimensional Graft', function () {
                     hand: ['necromorph', 'azuretooth', 'shaffles']
                 }
             });
-            this.tachyonManifold.printedHouse = 'logos';
             this.tachyonManifold.maverick = 'logos';
+            this.tachyonManifold.printedHouse = 'logos';
             this.player1.useAction(this.tachyonManifold);
         });
 
