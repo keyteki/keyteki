@@ -88,10 +88,10 @@ describe('Levy of Souls', function () {
                     house: 'dis',
                     hand: [],
                     token: 'catena-fiend',
-                    inPlay: ['tachyon-manifold', 'lash-of-broken-dreams']
+                    inPlay: ['tachyon-manifold', 'levy-of-souls']
                 },
                 player2: {
-                    amber: 9,
+                    amber: 7,
                     inPlay: [],
                     hand: []
                 }
@@ -102,7 +102,7 @@ describe('Levy of Souls', function () {
         });
 
         it("should affect opponent's next turn", function () {
-            this.player1.useAction(this.lashOfBrokenDreams);
+            this.player1.useAction(this.levyOfSouls);
             this.player1.endTurn();
             this.player1.clickPrompt('dis');
             expect(this.player1.player.getCurrentKeyCost()).toBe(6);
@@ -110,8 +110,8 @@ describe('Levy of Souls', function () {
             this.player1.endTurn();
             this.player2.forgeKey('Red');
             this.player2.clickPrompt('untamed');
-            expect(this.player1.player.getCurrentKeyCost()).toBe(9);
-            expect(this.player2.player.getCurrentKeyCost()).toBe(9);
+            expect(this.player1.player.getCurrentKeyCost()).toBe(7);
+            expect(this.player2.player.getCurrentKeyCost()).toBe(7);
             expect(this.player1.amber).toBe(0);
             expect(this.player2.amber).toBe(0);
             expect(this.player2).toHavePrompt('Choose a card to play, discard or use');

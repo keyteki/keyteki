@@ -36,4 +36,38 @@ describe("Feldar's Plan", function () {
             expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
         });
     });
+
+    describe('after taking another turn', function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    amber: 0,
+                    house: 'shadows',
+                    hand: ['feldar-s-plan'],
+                    inPlay: ['tachyon-manifold']
+                },
+                player2: {
+                    amber: 1,
+                    inPlay: [],
+                    hand: ['dew-faerie']
+                }
+            });
+            this.tachyonManifold.maverick = 'shadows';
+            this.tachyonManifold.printedHouse = 'shadows';
+            this.player1.useAction(this.tachyonManifold);
+        });
+
+        it("should affect opponent's next turn", function () {
+            this.player1.play(this.feldarSPlan);
+            this.player1.endTurn();
+            this.player1.clickPrompt('shadows');
+            this.player1.endTurn();
+            this.player2.clickPrompt('untamed');
+            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            this.player2.play(this.dewFaerie);
+            expect(this.player1.amber).toBe(2);
+            expect(this.player2.amber).toBe(0);
+            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+        });
+    });
 });
