@@ -133,21 +133,19 @@ class EffectEngine {
         });
 
         // Add 'during your opponent's next turn' effects when switching player's
-        if (this.game.activePlayer.opponent && !this.game.activePlayer.anyEffect('anotherTurn')) {
-            this.nextOpponentTurnEffects = this.nextOpponentTurnEffects.filter((effect) => {
-                if (
-                    effect.duration === 'duringOpponentNextTurn' &&
-                    this.game.activePlayer !== effect.effectController
-                ) {
-                    // Change effect duration to 'forRemainderOfTurn'
-                    effect.duration = 'forRemainderOfTurn';
-                    // Add effect
-                    this.add(effect);
-                    return false; // Remove from nextOpponentTurnEffects
-                }
-                return true; // Keep in nextOpponentTurnEffects
-            });
-        }
+        this.nextOpponentTurnEffects = this.nextOpponentTurnEffects.filter((effect) => {
+            if (
+                effect.duration === 'duringOpponentNextTurn' &&
+                this.game.activePlayer !== effect.effectController
+            ) {
+                // Change effect duration to 'forRemainderOfTurn'
+                effect.duration = 'forRemainderOfTurn';
+                // Add effect
+                this.add(effect);
+                return false; // Remove from nextOpponentTurnEffects
+            }
+            return true; // Keep in nextOpponentTurnEffects
+        });
 
         this.newEffect = effectsRemoved;
     }
