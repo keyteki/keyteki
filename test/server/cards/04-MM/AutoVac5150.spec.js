@@ -165,4 +165,40 @@ describe('Auto-Vac 5150', function () {
             expect(this.player2.player.amber).toBe(0);
         });
     });
+
+    describe('after taking another turn', function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    amber: 0,
+                    house: 'logos',
+                    hand: [],
+                    archives: ['groke'],
+                    inPlay: ['tachyon-manifold', 'auto-vac-5150']
+                },
+                player2: {
+                    amber: 6,
+                    inPlay: [],
+                    hand: []
+                }
+            });
+            this.tachyonManifold.maverick = 'logos';
+            this.tachyonManifold.printedHouse = 'logos';
+            this.player1.useAction(this.tachyonManifold);
+        });
+
+        it("should affect opponent's next turn", function () {
+            this.player1.clickCard(this.autoVac5150);
+            this.player1.clickPrompt("Use this card's Action ability");
+            this.player1.clickCard(this.groke);
+            this.player1.endTurn();
+            this.player1.clickPrompt('logos');
+            expect(this.player2.player.getCurrentKeyCost()).toBe(6);
+            this.player1.endTurn();
+            expect(this.player2.player.getCurrentKeyCost()).toBe(9);
+            expect(this.player2.player.getForgedKeys()).toBe(0);
+            this.player2.clickPrompt('untamed');
+            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+        });
+    });
 });

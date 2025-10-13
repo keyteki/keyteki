@@ -62,7 +62,7 @@ describe('Miasma', function () {
                 player2: {
                     amber: 6,
                     inPlay: [],
-                    hand: ['necromorph', 'azuretooth', 'shaffles']
+                    hand: []
                 }
             });
             this.tachyonManifold.maverick = 'shadows';
@@ -75,7 +75,7 @@ describe('Miasma', function () {
             this.player1.endTurn();
             this.player1.clickPrompt('shadows');
             this.player1.endTurn();
-            this.player2.clickPrompt('dis');
+            this.player2.clickPrompt('untamed');
             expect(this.player2.amber).toBe(6);
             expect(this.player2.player.keys.red).toBe(false);
             expect(this.player2.player.keys.blue).toBe(false);

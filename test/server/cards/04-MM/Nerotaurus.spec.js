@@ -63,4 +63,38 @@ describe('Nerotaurus', function () {
             expect(this.player2).toHavePromptButton("Use this card's Action ability");
         });
     });
+
+    describe('after taking another turn', function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    amber: 0,
+                    house: 'saurian',
+                    hand: [],
+                    inPlay: ['tachyon-manifold', 'nerotaurus']
+                },
+                player2: {
+                    amber: 0,
+                    inPlay: ['ember-imp'],
+                    hand: []
+                }
+            });
+            this.tachyonManifold.maverick = 'saurian';
+            this.tachyonManifold.printedHouse = 'saurian';
+            this.player1.useAction(this.tachyonManifold);
+        });
+
+        it("should affect opponent's next turn", function () {
+            this.player1.reap(this.nerotaurus);
+            this.player1.endTurn();
+            this.player1.clickPrompt('saurian');
+            this.player1.endTurn();
+            this.player2.clickPrompt('dis');
+            this.player2.clickCard(this.emberImp);
+            expect(this.player2).not.toHavePromptButton('Fight with this creature');
+            expect(this.player2).toHavePromptButton('Reap with this creature');
+            this.player2.clickPrompt('Reap with this creature');
+            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+        });
+    });
 });

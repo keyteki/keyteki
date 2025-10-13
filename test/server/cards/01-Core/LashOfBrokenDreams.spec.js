@@ -73,8 +73,8 @@ describe('Lash of Broken Dreams', function () {
                 },
                 player2: {
                     amber: 9,
-                    inPlay: ['ember-imp'],
-                    hand: ['necromorph', 'azuretooth', 'shaffles']
+                    inPlay: [],
+                    hand: []
                 }
             });
             this.tachyonManifold.maverick = 'dis';
@@ -86,11 +86,15 @@ describe('Lash of Broken Dreams', function () {
             this.player1.useAction(this.lashOfBrokenDreams);
             this.player1.endTurn();
             this.player1.clickPrompt('dis');
+            expect(this.player1.player.getCurrentKeyCost()).toBe(6);
+            expect(this.player2.player.getCurrentKeyCost()).toBe(6);
             this.player1.endTurn();
             this.player2.forgeKey('Red');
-            this.player2.clickPrompt('dis');
-            expect(this.player2.amber).toBe(0);
+            this.player2.clickPrompt('untamed');
+            expect(this.player1.player.getCurrentKeyCost()).toBe(9);
+            expect(this.player2.player.getCurrentKeyCost()).toBe(9);
             expect(this.player1.amber).toBe(0);
+            expect(this.player2.amber).toBe(0);
             expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
         });
     });

@@ -78,8 +78,8 @@ describe('Sensor Chief Garcia', function () {
                 },
                 player2: {
                     amber: 6,
-                    inPlay: ['dust-pixie'],
-                    hand: ['remote-access']
+                    inPlay: [],
+                    hand: []
                 }
             });
             this.tachyonManifold.maverick = 'staralliance';
