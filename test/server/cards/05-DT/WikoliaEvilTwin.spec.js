@@ -23,4 +23,37 @@ describe('Wikolia Evil Twin', function () {
             expect(this.player2.player.amber).toBe(9);
         });
     });
+
+    describe('after taking another turn', function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    amber: 0,
+                    house: 'unfathomable',
+                    hand: [],
+                    inPlay: ['tachyon-manifold', 'wikolia-evil-twin']
+                },
+                player2: {
+                    amber: 6,
+                    inPlay: [],
+                    hand: []
+                }
+            });
+            this.tachyonManifold.maverick = 'unfathomable';
+            this.tachyonManifold.printedHouse = 'unfathomable';
+            this.player1.useAction(this.tachyonManifold);
+        });
+
+        it("should affect opponent's next turn", function () {
+            this.player1.reap(this.wikoliaEvilTwin);
+            this.player1.endTurn();
+            this.player1.clickPrompt('unfathomable');
+            expect(this.player2.player.getCurrentKeyCost()).toBe(6);
+            this.player1.endTurn();
+            this.player2.clickPrompt('untamed');
+            expect(this.player2.player.getCurrentKeyCost()).toBe(10);
+            expect(this.player2.player.getForgedKeys()).toBe(0);
+            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+        });
+    });
 });

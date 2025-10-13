@@ -81,4 +81,38 @@ describe('Storm Surge', function () {
             });
         });
     });
+
+    describe('after taking another turn', function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    amber: 0,
+                    house: 'unfathomable',
+                    hand: ['storm-surge'],
+                    inPlay: ['tachyon-manifold']
+                },
+                player2: {
+                    amber: 0,
+                    inPlay: ['ember-imp'],
+                    hand: []
+                }
+            });
+            this.tachyonManifold.maverick = 'unfathomable';
+            this.tachyonManifold.printedHouse = 'unfathomable';
+            this.player1.useAction(this.tachyonManifold);
+        });
+
+        it("should affect opponent's next turn", function () {
+            this.player1.play(this.stormSurge);
+            this.player1.endTurn();
+            this.player1.clickPrompt('unfathomable');
+            this.player1.endTurn();
+            this.player2.clickPrompt('dis');
+            this.player2.reap(this.emberImp);
+            this.player2.endTurn();
+            this.player1.clickPrompt('unfathomable');
+            expect(this.emberImp.exhausted).toBe(true);
+            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+        });
+    });
 });

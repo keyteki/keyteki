@@ -62,7 +62,7 @@ describe("Snag's Mirror", function () {
                 player2: {
                     amber: 0,
                     inPlay: [],
-                    hand: []
+                    hand: ['necromorph', 'azuretooth', 'shaffles']
                 }
             });
             this.player1.clickPrompt('ekwidon');

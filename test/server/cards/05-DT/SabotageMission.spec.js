@@ -50,4 +50,37 @@ describe('Sabotage Mission', function () {
             expect(this.player2.player.amber).toBe(1);
         });
     });
+
+    describe('after taking another turn', function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    amber: 0,
+                    house: 'staralliance',
+                    hand: ['sabotage-mission'],
+                    inPlay: ['tachyon-manifold', 'doctor-driscoll']
+                },
+                player2: {
+                    amber: 6,
+                    inPlay: [],
+                    hand: []
+                }
+            });
+            this.tachyonManifold.maverick = 'staralliance';
+            this.tachyonManifold.printedHouse = 'staralliance';
+            this.player1.useAction(this.tachyonManifold);
+        });
+
+        it("should affect opponent's next turn", function () {
+            this.player1.play(this.sabotageMission);
+            this.player1.endTurn();
+            this.player1.clickPrompt('staralliance');
+            expect(this.player2.player.getCurrentKeyCost()).toBe(6);
+            this.player1.endTurn();
+            expect(this.player2.player.getCurrentKeyCost()).toBe(7);
+            expect(this.player2.player.getForgedKeys()).toBe(0);
+            this.player2.clickPrompt('untamed');
+            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+        });
+    });
 });

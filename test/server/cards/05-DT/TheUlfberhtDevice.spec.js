@@ -134,14 +134,14 @@ describe('The Ulfberht Device', function () {
         it("should affect player's next turn", function () {
             this.player1.endTurn();
             expect(this.player1).not.toHavePromptButton('ekwidon');
-            expect(this.player1).toHavePromptButton('dis');
             expect(this.player1).toHavePromptButton('staralliance');
-            this.player1.clickPrompt('dis');
+            expect(this.player1).toHavePromptButton('untamed');
+            this.player1.clickPrompt('staralliance');
             this.player1.endTurn();
             expect(this.player2).not.toHavePromptButton('staralliance');
-            expect(this.player2).toHavePromptButton('dis');
-            expect(this.player2).toHavePromptButton('ekwidon');
-            this.player2.clickPrompt('dis');
+            expect(this.player2).toHavePromptButton('sanctum');
+            expect(this.player2).toHavePromptButton('shadows');
+            this.player2.clickPrompt('sanctum');
             expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
         });
     });
