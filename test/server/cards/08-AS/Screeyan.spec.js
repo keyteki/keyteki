@@ -41,4 +41,38 @@ describe('Screeyan', function () {
             expect(this.player2).toHavePromptButton('brobnar');
         });
     });
+
+    describe('after taking another turn', function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    amber: 0,
+                    house: 'ekwidon',
+                    hand: [],
+                    inPlay: ['tachyon-manifold', 'screeyan']
+                },
+                player2: {
+                    amber: 0,
+                    inPlay: [],
+                    hand: ['umbra', 'troll']
+                }
+            });
+            this.tachyonManifold.maverick = 'ekwidon';
+            this.tachyonManifold.printedHouse = 'ekwidon';
+            this.player1.useAction(this.tachyonManifold);
+            this.player2.moveCard(this.umbra, 'deck');
+            this.player2.moveCard(this.troll, 'deck');
+        });
+
+        it("should affect opponent's next turn", function () {
+            this.player1.endTurn();
+            this.player1.clickPrompt('ekwidon');
+            this.player1.endTurn();
+            expect(this.player2).toHavePromptButton('untamed');
+            expect(this.player2).not.toHavePromptButton('shadows');
+            expect(this.player2).not.toHavePromptButton('brobnar');
+            this.player2.clickPrompt('untamed');
+            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+        });
+    });
 });

@@ -22,4 +22,37 @@ describe('Envyx Glider', function () {
             expect(this.player2.player.amber).toBe(2);
         });
     });
+
+    describe('after taking another turn', function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    amber: 0,
+                    house: 'mars',
+                    hand: [],
+                    inPlay: ['tachyon-manifold', 'envyx-glider']
+                },
+                player2: {
+                    amber: 6,
+                    inPlay: ['hunting-witch'],
+                    hand: []
+                }
+            });
+            this.tachyonManifold.maverick = 'mars';
+            this.tachyonManifold.printedHouse = 'mars';
+            this.player1.useAction(this.tachyonManifold);
+        });
+
+        it("should affect opponent's next turn", function () {
+            this.player1.fightWith(this.envyxGlider, this.huntingWitch);
+            this.player1.endTurn();
+            this.player1.clickPrompt('mars');
+            expect(this.player2.player.getCurrentKeyCost()).toBe(6);
+            this.player1.endTurn();
+            expect(this.player2.player.getCurrentKeyCost()).toBe(7);
+            expect(this.player2.player.getForgedKeys()).toBe(0);
+            this.player2.clickPrompt('untamed');
+            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+        });
+    });
 });

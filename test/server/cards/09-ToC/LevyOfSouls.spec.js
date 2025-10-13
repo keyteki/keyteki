@@ -79,4 +79,42 @@ describe('Levy of Souls', function () {
             expect(this.player1).toHavePrompt('Choose which house you want to activate this turn');
         });
     });
+
+    describe('after taking another turn', function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    amber: 0,
+                    house: 'dis',
+                    hand: [],
+                    token: 'catena-fiend',
+                    inPlay: ['tachyon-manifold', 'lash-of-broken-dreams']
+                },
+                player2: {
+                    amber: 9,
+                    inPlay: [],
+                    hand: []
+                }
+            });
+            this.tachyonManifold.maverick = 'dis';
+            this.tachyonManifold.printedHouse = 'dis';
+            this.player1.useAction(this.tachyonManifold);
+        });
+
+        it("should affect opponent's next turn", function () {
+            this.player1.useAction(this.lashOfBrokenDreams);
+            this.player1.endTurn();
+            this.player1.clickPrompt('dis');
+            expect(this.player1.player.getCurrentKeyCost()).toBe(6);
+            expect(this.player2.player.getCurrentKeyCost()).toBe(6);
+            this.player1.endTurn();
+            this.player2.forgeKey('Red');
+            this.player2.clickPrompt('untamed');
+            expect(this.player1.player.getCurrentKeyCost()).toBe(9);
+            expect(this.player2.player.getCurrentKeyCost()).toBe(9);
+            expect(this.player1.amber).toBe(0);
+            expect(this.player2.amber).toBe(0);
+            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+        });
+    });
 });
