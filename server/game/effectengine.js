@@ -9,7 +9,7 @@ class EffectEngine {
         this.events.register(['onPhaseEnded', 'onRoundEnded']);
         this.effects = [];
         this.delayedEffects = [];
-        this.nextOpponentTurnEffects = [];
+        this.duringOpponentNextTurnEffects = [];
         this.terminalConditions = [];
         this.customDurationEvents = [];
         this.newEffect = false;
@@ -18,7 +18,7 @@ class EffectEngine {
     add(effect) {
         //console.log('add', effect.source.name, effect.effect.type, effect.targets.map(t => t.name), effect.match.name);
         if (['duringOpponentNextTurn'].includes(effect.duration)) {
-            this.nextOpponentTurnEffects.push(effect);
+            this.duringOpponentNextTurnEffects.push(effect);
         } else {
             this.effects.push(effect);
             if (effect.duration === 'custom') {
@@ -133,7 +133,7 @@ class EffectEngine {
         });
 
         // Add 'during your opponent's next turn' effects when switching player's
-        this.nextOpponentTurnEffects = this.nextOpponentTurnEffects.filter((effect) => {
+        this.duringOpponentNextTurnEffects = this.duringOpponentNextTurnEffects.filter((effect) => {
             if (
                 effect.duration === 'duringOpponentNextTurn' &&
                 this.game.activePlayer !== effect.effectController
@@ -142,9 +142,9 @@ class EffectEngine {
                 effect.duration = 'forRemainderOfTurn';
                 // Add effect
                 this.add(effect);
-                return false; // Remove from nextOpponentTurnEffects
+                return false; // Remove from duringOpponentNextTurnEffects
             }
-            return true; // Keep in nextOpponentTurnEffects
+            return true; // Keep in duringOpponentNextTurnEffects
         });
 
         this.newEffect = effectsRemoved;
