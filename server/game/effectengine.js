@@ -108,6 +108,7 @@ class EffectEngine {
             this.unapplyAndRemove(
                 (effect) =>
                     effect.duration === 'untilEndOfMyNextTurnInitiated' &&
+                    // At this point active player has switched, so check for the opposite player
                     effect.effectController !== this.game.activePlayer
             ) || effectsRemoved;
 
@@ -132,7 +133,7 @@ class EffectEngine {
             }
         });
 
-        // Add 'during your opponent's next turn' effects when switching player's
+        // Add 'during your opponent's next turn' effects when switching players
         this.duringOpponentNextTurnEffects = this.duringOpponentNextTurnEffects.filter((effect) => {
             if (
                 effect.duration === 'duringOpponentNextTurn' &&
