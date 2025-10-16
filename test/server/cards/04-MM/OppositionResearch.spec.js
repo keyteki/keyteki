@@ -1,32 +1,33 @@
-describe('Foggify', function () {
-    describe("Foggify's ability", function () {
+describe('Opposition Research', function () {
+    describe("Opposition Research's ability", function () {
         beforeEach(function () {
             this.setupTest({
                 player1: {
                     house: 'logos',
-                    inPlay: ['dextre'],
-                    hand: ['foggify']
+                    inPlay: ['batdrone'],
+                    hand: ['opposition-research']
                 },
                 player2: {
                     inPlay: ['ember-imp']
                 }
             });
 
-            this.player1.play(this.foggify);
+            this.player1.play(this.oppositionResearch);
         });
 
-        it('own creatures should be able to fight', function () {
-            this.player1.fightWith(this.dextre, this.emberImp);
-            expect(this.dextre.tokens.damage).toBe(2);
-            expect(this.emberImp.location).toBe('discard');
+        it('own creatures should be able to reap', function () {
+            this.player1.reap(this.batdrone);
+            expect(this.player1.amber).toBe(1);
         });
 
-        it('creature not should be able to fight', function () {
+        it('opponent creatures should not be able to reap', function () {
             this.player1.endTurn();
             this.player2.clickPrompt('dis');
             this.player2.clickCard(this.emberImp);
-            expect(this.player2).toHavePromptButton('Reap with this creature');
-            expect(this.player2).not.toHavePromptButton('Fight with this creature');
+            expect(this.player2).not.toHavePromptButton('Reap with this creature');
+            expect(this.player2).toHavePromptButton('Fight with this creature');
+            this.player2.clickPrompt('Cancel');
+            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
         });
 
         it('should last for one turn only', function () {
@@ -39,6 +40,8 @@ describe('Foggify', function () {
             this.player2.clickCard(this.emberImp);
             expect(this.player2).toHavePromptButton('Reap with this creature');
             expect(this.player2).toHavePromptButton('Fight with this creature');
+            this.player2.clickPrompt('Cancel');
+            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
         });
     });
 
@@ -48,8 +51,8 @@ describe('Foggify', function () {
                 player1: {
                     amber: 0,
                     house: 'logos',
-                    hand: ['foggify'],
-                    inPlay: ['tachyon-manifold', 'niffle-ape']
+                    hand: ['opposition-research'],
+                    inPlay: ['tachyon-manifold', 'batdrone']
                 },
                 player2: {
                     amber: 0,
@@ -63,15 +66,15 @@ describe('Foggify', function () {
         });
 
         it("should affect opponent's next turn", function () {
-            this.player1.play(this.foggify);
+            this.player1.play(this.oppositionResearch);
             this.player1.endTurn();
             this.player1.clickPrompt('logos');
             this.player1.endTurn();
             this.player2.clickPrompt('dis');
             this.player2.clickCard(this.emberImp);
-            expect(this.player2).not.toHavePromptButton('Fight with this creature');
-            expect(this.player2).toHavePromptButton('Reap with this creature');
-            this.player2.clickPrompt('Reap with this creature');
+            expect(this.player2).not.toHavePromptButton('Reap with this creature');
+            expect(this.player2).toHavePromptButton('Fight with this creature');
+            this.player2.clickPrompt('Cancel');
             expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
         });
     });

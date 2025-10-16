@@ -105,4 +105,40 @@ describe('Redhand Registry', function () {
             });
         });
     });
+
+    describe('after taking another turn', function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    amber: 1,
+                    house: 'ekwidon',
+                    hand: [],
+                    inPlay: ['tachyon-manifold', 'redhand-registry']
+                },
+                player2: {
+                    amber: 5,
+                    inPlay: [],
+                    hand: ['urchin']
+                }
+            });
+        });
+
+        it("should affect opponent's next turn", function () {
+            this.player1.endTurn();
+            this.player2.clickPrompt('shadows');
+            this.player2.play(this.urchin);
+            this.player2.endTurn();
+            this.player1.clickPrompt('ekwidon');
+            this.player1.useAction(this.tachyonManifold);
+            this.player1.endTurn();
+            this.player1.clickPrompt('ekwidon');
+            this.player1.endTurn();
+            this.player2.clickPrompt('shadows');
+            expect(this.player2.amber).toBe(6);
+            expect(this.player2.player.keys.red).toBe(false);
+            expect(this.player2.player.keys.blue).toBe(false);
+            expect(this.player2.player.keys.yellow).toBe(false);
+            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+        });
+    });
 });

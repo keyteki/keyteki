@@ -61,4 +61,41 @@ describe('Monument to Faust', function () {
             expect(this.player2.player.getCurrentKeyCost()).toBe(6);
         });
     });
+
+    describe('after taking another turn', function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    amber: 0,
+                    house: 'saurian',
+                    hand: [],
+                    inPlay: ['tachyon-manifold', 'monument-to-faust']
+                },
+                player2: {
+                    amber: 7,
+                    inPlay: [],
+                    hand: []
+                }
+            });
+            this.tachyonManifold.maverick = 'saurian';
+            this.tachyonManifold.printedHouse = 'saurian';
+            this.player1.useAction(this.tachyonManifold);
+        });
+
+        it("should affect opponent's next turn", function () {
+            this.player1.useAction(this.monumentToFaust);
+            this.player1.endTurn();
+            this.player1.clickPrompt('saurian');
+            expect(this.player1.player.getCurrentKeyCost()).toBe(6);
+            expect(this.player2.player.getCurrentKeyCost()).toBe(6);
+            this.player1.endTurn();
+            this.player2.forgeKey('Red');
+            this.player2.clickPrompt('untamed');
+            expect(this.player1.player.getCurrentKeyCost()).toBe(7);
+            expect(this.player2.player.getCurrentKeyCost()).toBe(7);
+            expect(this.player1.amber).toBe(0);
+            expect(this.player2.amber).toBe(0);
+            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+        });
+    });
 });

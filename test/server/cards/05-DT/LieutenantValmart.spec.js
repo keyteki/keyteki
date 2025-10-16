@@ -86,4 +86,38 @@ describe('Lieutenant Valmart', function () {
             expect(this.player2.amber).toBe(1);
         });
     });
+
+    describe('after taking another turn', function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    amber: 0,
+                    house: 'staralliance',
+                    hand: ['lieutenant-valmart'],
+                    inPlay: ['tachyon-manifold']
+                },
+                player2: {
+                    amber: 6,
+                    inPlay: [],
+                    hand: []
+                }
+            });
+            this.tachyonManifold.maverick = 'staralliance';
+            this.tachyonManifold.printedHouse = 'staralliance';
+            this.player1.useAction(this.tachyonManifold);
+        });
+
+        it("should affect opponent's next turn", function () {
+            this.player1.raiseTide();
+            this.player1.play(this.lieutenantValmart);
+            this.player1.endTurn();
+            this.player1.clickPrompt('staralliance');
+            expect(this.player2.player.getCurrentKeyCost()).toBe(6);
+            this.player1.endTurn();
+            expect(this.player2.player.getCurrentKeyCost()).toBe(9);
+            expect(this.player2.player.getForgedKeys()).toBe(0);
+            this.player2.clickPrompt('untamed');
+            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+        });
+    });
 });

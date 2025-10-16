@@ -12,7 +12,7 @@ class Befuddle extends Card {
             effect: 'stop {1} from playing cards of houses other than {2}',
             effectArgs: (context) => [context.player.opponent, context.house],
             effectAlert: true,
-            gameAction: ability.actions.nextRoundEffect((context) => ({
+            gameAction: ability.actions.duringOpponentNextTurn((context) => ({
                 targetController: 'opponent',
                 effect: ability.effects.playerCannot(
                     'play',

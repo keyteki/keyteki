@@ -176,4 +176,38 @@ describe('Vapor Imp', function () {
             expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
         });
     });
+
+    describe('after taking another turn', function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    amber: 0,
+                    house: 'dis',
+                    hand: ['mark-of-dis'],
+                    inPlay: ['tachyon-manifold', 'vapor-imp']
+                },
+                player2: {
+                    amber: 0,
+                    inPlay: [],
+                    hand: ['fogbank']
+                }
+            });
+            this.tachyonManifold.maverick = 'dis';
+            this.tachyonManifold.printedHouse = 'dis';
+            this.player1.useAction(this.tachyonManifold);
+        });
+
+        it("should affect opponent's next turn", function () {
+            this.player1.reap(this.vaporImp);
+            this.player1.endTurn();
+            this.player1.clickPrompt('dis');
+            this.player1.endTurn();
+            this.player2.clickPrompt('untamed');
+            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            this.player2.clickCard(this.fogbank);
+            expect(this.player2).not.toHavePrompt('Play this action');
+            this.player2.clickPrompt('Cancel');
+            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+        });
+    });
 });

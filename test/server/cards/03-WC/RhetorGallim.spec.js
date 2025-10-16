@@ -33,7 +33,7 @@ describe('Rhetor Gallim', function () {
         });
     });
 
-    describe("Sensor Chief Garcia's ability", function () {
+    describe("Rhetor Gallim's ability", function () {
         beforeEach(function () {
             this.setupTest({
                 player1: {
@@ -66,6 +66,40 @@ describe('Rhetor Gallim', function () {
             this.player1.endTurn();
             expect(this.player2.player.getForgedKeys()).toBe(0);
             expect(this.player2.player.amber).toBe(6);
+        });
+    });
+
+    describe('after taking another turn', function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    amber: 0,
+                    house: 'saurian',
+                    hand: ['rhetor-gallim'],
+                    inPlay: ['tachyon-manifold']
+                },
+                player2: {
+                    amber: 0,
+                    hand: [],
+                    inPlay: []
+                }
+            });
+            this.tachyonManifold.maverick = 'saurian';
+            this.tachyonManifold.printedHouse = 'saurian';
+            this.player1.useAction(this.tachyonManifold);
+        });
+
+        it("should affect opponent's next turn", function () {
+            this.player1.play(this.rhetorGallim);
+            this.player1.endTurn();
+            this.player1.clickPrompt('saurian');
+            expect(this.player1.player.getCurrentKeyCost()).toBe(6);
+            expect(this.player2.player.getCurrentKeyCost()).toBe(6);
+            this.player1.endTurn();
+            this.player2.clickPrompt('untamed');
+            expect(this.player1.player.getCurrentKeyCost()).toBe(6);
+            expect(this.player2.player.getCurrentKeyCost()).toBe(9);
+            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
         });
     });
 });

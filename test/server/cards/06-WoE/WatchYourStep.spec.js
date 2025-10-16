@@ -45,4 +45,37 @@ describe('Watch Your Step', function () {
             expect(this.player1.player.creaturesInPlay[1].exhausted).toBe(false);
         });
     });
+
+    describe('after taking another turn', function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    amber: 0,
+                    house: 'unfathomable',
+                    token: 'fish',
+                    hand: ['watch-your-step'],
+                    inPlay: ['tachyon-manifold']
+                },
+                player2: {
+                    amber: 0,
+                    inPlay: [],
+                    hand: []
+                }
+            });
+            this.tachyonManifold.maverick = 'unfathomable';
+            this.tachyonManifold.printedHouse = 'unfathomable';
+            this.player1.useAction(this.tachyonManifold);
+        });
+
+        it("should affect opponent's next turn", function () {
+            this.player1.play(this.watchYourStep);
+            this.player1.clickPrompt('sanctum');
+            this.player1.endTurn();
+            this.player1.clickPrompt('unfathomable');
+            this.player1.endTurn();
+            this.player2.clickPrompt('untamed');
+            this.player2.clickPrompt('Right');
+            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+        });
+    });
 });
