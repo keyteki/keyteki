@@ -7,7 +7,7 @@ class FurtherTestingNeeded extends Card {
             target: {
                 location: 'play area',
                 controller: 'self',
-                GameAction: ability.actions.archive({ owner: true })
+                gameAction: ability.actions.archive({ owner: true })
             }
         });
     }
