@@ -18,7 +18,7 @@ describe('Further Testing Needed', function () {
             expect(this.player1).toBeAbleToSelect(this.troll);
             expect(this.player1).toBeAbleToSelect(this.krump);
             expect(this.player1).not.toBeAbleToSelect(this.dustPixie);
-            expect(this.player1).not.toBeAbleToSelect(this.gauntletOfCommand);
+            expect(this.player1).toBeAbleToSelect(this.gauntletOfCommand);
             this.player1.clickCard(this.troll);
             expect(this.troll.location).toBe('archives');
             expect(this.player1.archives).toContain(this.troll);
