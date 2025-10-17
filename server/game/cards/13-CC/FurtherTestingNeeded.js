@@ -5,16 +5,13 @@ class FurtherTestingNeeded extends Card {
     setupCardAbilities(ability) {
         this.play({
             target: {
-                cardType: 'creature',
+                location: 'play area',
                 controller: 'self',
-                gameAction: ability.actions.archive({
-                    owner: true
-                })
+                GameAction: ability.actions.archive({ owner: true })
             }
         });
     }
 }
-
 FurtherTestingNeeded.id = 'further-testing-needed';
 
 module.exports = FurtherTestingNeeded;
