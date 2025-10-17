@@ -43,4 +43,38 @@ describe('Distant Void Prober', function () {
             expect(this.urchin.tokens.amber).toBe(1);
         });
     });
+
+    describe('after taking another turn', function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    amber: 0,
+                    house: 'mars',
+                    hand: [],
+                    inPlay: ['tachyon-manifold', 'distant-void-prober'],
+                    discard: new Array(10).fill('poke')
+                },
+                player2: {
+                    amber: 6,
+                    inPlay: [],
+                    hand: []
+                }
+            });
+            this.tachyonManifold.maverick = 'mars';
+            this.tachyonManifold.printedHouse = 'mars';
+            this.player1.useAction(this.tachyonManifold);
+        });
+
+        it("should affect opponent's next turn", function () {
+            this.player1.reap(this.distantVoidProber);
+            this.player1.endTurn();
+            this.player1.clickPrompt('mars');
+            expect(this.player2.player.getCurrentKeyCost()).toBe(6);
+            this.player1.endTurn();
+            expect(this.player2.player.getCurrentKeyCost()).toBe(9);
+            expect(this.player2.player.getForgedKeys()).toBe(0);
+            this.player2.clickPrompt('untamed');
+            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+        });
+    });
 });

@@ -34,4 +34,36 @@ describe('Sow Salt', function () {
             expect(this.player1).toHavePromptButton('Reap with this creature');
         });
     });
+
+    describe('after taking another turn', function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    amber: 0,
+                    house: 'saurian',
+                    hand: ['sow-salt'],
+                    inPlay: ['tachyon-manifold']
+                },
+                player2: {
+                    amber: 0,
+                    hand: [],
+                    inPlay: ['teliga']
+                }
+            });
+            this.tachyonManifold.maverick = 'saurian';
+            this.tachyonManifold.printedHouse = 'saurian';
+        });
+
+        it("should not affect opponent's next turn", function () {
+            this.player1.play(this.sowSalt);
+            this.player1.useAction(this.tachyonManifold);
+            this.player1.endTurn();
+            this.player1.clickPrompt('saurian');
+            this.player1.endTurn();
+            this.player2.clickPrompt('untamed');
+            this.player2.reap(this.teliga);
+            expect(this.player2.amber).toBe(1);
+            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+        });
+    });
 });

@@ -313,4 +313,37 @@ describe('Shadow of Dis', function () {
             this.player2.endTurn();
         });
     });
+
+    describe('after taking another turn', function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    amber: 0,
+                    house: 'dis',
+                    hand: ['shadow-of-dis'],
+                    inPlay: ['tachyon-manifold']
+                },
+                player2: {
+                    amber: 0,
+                    hand: ['dew-faerie', 'hunting-witch'],
+                    inPlay: []
+                }
+            });
+            this.tachyonManifold.maverick = 'dis';
+            this.tachyonManifold.printedHouse = 'dis';
+            this.player1.useAction(this.tachyonManifold);
+        });
+
+        it("should not affect opponent's next turn", function () {
+            this.player1.play(this.shadowOfDis);
+            this.player1.endTurn();
+            this.player1.clickPrompt('dis');
+            this.player1.endTurn();
+            this.player2.clickPrompt('untamed');
+            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            this.player2.play(this.huntingWitch);
+            this.player2.play(this.dewFaerie);
+            expect(this.player2.amber).toBe(1);
+        });
+    });
 });

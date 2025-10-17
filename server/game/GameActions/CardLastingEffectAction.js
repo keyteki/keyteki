@@ -48,6 +48,7 @@ class CardLastingEffectAction extends CardGameAction {
             condition: this.condition,
             context: context,
             effect: effect,
+            effectController: context.player,
             match: card,
             targetLocation: this.targetLocation,
             until: this.until

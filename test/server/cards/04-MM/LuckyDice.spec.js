@@ -96,4 +96,41 @@ describe('Lucky Dice', function () {
             expect(this.troll.tokens.damage).toBe(4);
         });
     });
+
+    describe('after taking another turn', function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    amber: 0,
+                    house: 'staralliance',
+                    hand: ['subdue'],
+                    inPlay: ['tachyon-manifold', 'lucky-dice', 'sensor-chief-garcia']
+                },
+                player2: {
+                    amber: 0,
+                    inPlay: ['dust-pixie'],
+                    hand: ['particle-sweep']
+                }
+            });
+            this.tachyonManifold.maverick = 'staralliance';
+            this.tachyonManifold.printedHouse = 'staralliance';
+            this.player1.useAction(this.tachyonManifold);
+        });
+
+        it("should only affect opponent's next turn", function () {
+            this.player1.useAction(this.luckyDice, true);
+            expect(this.sensorChiefGarcia.tokens.damage).toBeUndefined();
+            this.player1.endTurn();
+            this.player1.clickPrompt('staralliance');
+            this.player1.play(this.subdue);
+            this.player1.clickCard(this.sensorChiefGarcia);
+            expect(this.sensorChiefGarcia.tokens.damage).toBe(1);
+            this.player1.endTurn();
+            this.player2.clickPrompt('staralliance');
+            this.player2.play(this.particleSweep);
+            this.player2.clickCard(this.sensorChiefGarcia);
+            expect(this.sensorChiefGarcia.tokens.damage).toBe(1);
+            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+        });
+    });
 });

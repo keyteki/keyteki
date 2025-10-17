@@ -8,7 +8,7 @@ class Fogbank extends Card {
             effect: 'stop {1} from fighting next turn',
             effectArgs: (context) => context.player.opponent,
             effectAlert: true,
-            gameAction: ability.actions.nextRoundEffect({
+            gameAction: ability.actions.duringOpponentNextTurn({
                 targetController: 'opponent',
                 effect: ability.effects.cardCannot('fight')
             })

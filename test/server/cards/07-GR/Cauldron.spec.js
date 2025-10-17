@@ -87,6 +87,7 @@ describe('Cauldron', function () {
                 this.player1.clickPrompt('untamed');
                 this.player1.useAction(this.cauldron, true);
                 this.player1.clickCard(this.witchOfTheEye);
+                expect(this.cauldron.childCards.length).toBe(3);
                 expect(this.witchOfTheEye.location).toBe('under');
                 this.player1.clickCard(this.gangerChieftain);
                 expect(this.gangerChieftain.location).toBe('under');

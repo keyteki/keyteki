@@ -1,11 +1,12 @@
-describe('Wikolia', function () {
-    describe("Wikolia's ability", function () {
+describe('Senator', function () {
+    describe("Senator's ability", function () {
         beforeEach(function () {
             this.setupTest({
                 player1: {
                     amber: 4,
-                    house: 'unfathomable',
-                    inPlay: ['wikolia']
+                    house: 'saurian',
+                    token: 'senator',
+                    inPlay: ['senator:curia-saurus']
                 },
                 player2: {
                     amber: 4,
@@ -14,13 +15,13 @@ describe('Wikolia', function () {
             });
         });
 
-        describe('after reap', function () {
+        describe('after action', function () {
             beforeEach(function () {
-                this.player1.reap(this.wikolia);
+                this.player1.useAction(this.senator);
             });
 
-            it('opponent should forge a key paying 8A', function () {
-                this.player2.amber = 8;
+            it('opponent should forge a key paying 7A', function () {
+                this.player2.amber = 7;
                 this.player1.endTurn();
                 this.player2.clickPrompt('red');
                 expect(this.player2.amber).toBe(0);
@@ -31,10 +32,10 @@ describe('Wikolia', function () {
                     this.player1.endTurn();
                     this.player2.clickPrompt('shadows');
                     this.player2.endTurn();
-                    this.player1.clickPrompt('unfathomable');
+                    this.player1.clickPrompt('saurian');
                 });
 
-                it('should forge a key paying 8A', function () {
+                it('should forge a key paying 7A', function () {
                     this.player2.amber = 6;
                     this.player1.endTurn();
                     this.player2.clickPrompt('red');
@@ -49,9 +50,10 @@ describe('Wikolia', function () {
             this.setupTest({
                 player1: {
                     amber: 0,
-                    house: 'unfathomable',
+                    house: 'saurian',
+                    token: 'senator',
                     hand: [],
-                    inPlay: ['tachyon-manifold', 'wikolia']
+                    inPlay: ['tachyon-manifold', 'senator:curia-saurus']
                 },
                 player2: {
                     amber: 6,
@@ -59,19 +61,19 @@ describe('Wikolia', function () {
                     hand: []
                 }
             });
-            this.tachyonManifold.maverick = 'unfathomable';
-            this.tachyonManifold.printedHouse = 'unfathomable';
+            this.tachyonManifold.maverick = 'saurian';
+            this.tachyonManifold.printedHouse = 'saurian';
             this.player1.useAction(this.tachyonManifold);
         });
 
         it("should affect opponent's next turn", function () {
-            this.player1.reap(this.wikolia);
+            this.player1.useAction(this.senator);
             this.player1.endTurn();
-            this.player1.clickPrompt('unfathomable');
+            this.player1.clickPrompt('saurian');
             expect(this.player2.player.getCurrentKeyCost()).toBe(6);
             this.player1.endTurn();
             this.player2.clickPrompt('untamed');
-            expect(this.player2.player.getCurrentKeyCost()).toBe(8);
+            expect(this.player2.player.getCurrentKeyCost()).toBe(7);
             expect(this.player2.player.getForgedKeys()).toBe(0);
             expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
         });

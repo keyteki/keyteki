@@ -49,4 +49,38 @@ describe('Lesser Oxtet', function () {
             });
         });
     });
+
+    describe('after taking another turn', function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    amber: 0,
+                    house: 'dis',
+                    hand: [],
+                    inPlay: ['tachyon-manifold', 'lesser-oxtet']
+                },
+                player2: {
+                    amber: 0,
+                    hand: [],
+                    inPlay: []
+                }
+            });
+            this.tachyonManifold.maverick = 'dis';
+            this.tachyonManifold.printedHouse = 'dis';
+            this.player1.useAction(this.tachyonManifold);
+        });
+
+        it("should affect opponent's next turn", function () {
+            this.player1.reap(this.lesserOxtet);
+            this.player1.endTurn();
+            this.player1.clickPrompt('dis');
+            expect(this.player1.player.getCurrentKeyCost()).toBe(6);
+            expect(this.player2.player.getCurrentKeyCost()).toBe(6);
+            this.player1.endTurn();
+            this.player2.clickPrompt('untamed');
+            expect(this.player1.player.getCurrentKeyCost()).toBe(9);
+            expect(this.player2.player.getCurrentKeyCost()).toBe(9);
+            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+        });
+    });
 });

@@ -9,7 +9,7 @@ class LuckyDice extends Card {
             effectAlert: true,
             gameAction: ability.actions.sequential([
                 ability.actions.destroy(),
-                ability.actions.nextRoundEffect({
+                ability.actions.duringOpponentNextTurn({
                     targetController: 'current',
                     effect: ability.effects.cardCannot('damage')
                 })

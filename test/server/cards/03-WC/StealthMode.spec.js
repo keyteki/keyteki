@@ -28,4 +28,38 @@ describe('Stealth Mode', function () {
             expect(this.shoulderArmor.location).toBe('play area');
         });
     });
+
+    describe('after taking another turn', function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    amber: 0,
+                    house: 'staralliance',
+                    hand: ['stealth-mode'],
+                    inPlay: ['tachyon-manifold']
+                },
+                player2: {
+                    amber: 0,
+                    inPlay: [],
+                    hand: ['fogbank']
+                }
+            });
+            this.tachyonManifold.maverick = 'staralliance';
+            this.tachyonManifold.printedHouse = 'staralliance';
+            this.player1.useAction(this.tachyonManifold);
+        });
+
+        it("should affect opponent's next turn", function () {
+            this.player1.play(this.stealthMode);
+            this.player1.endTurn();
+            this.player1.clickPrompt('staralliance');
+            this.player1.endTurn();
+            this.player2.clickPrompt('untamed');
+            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            this.player2.clickCard(this.fogbank);
+            expect(this.player2).not.toHavePrompt('Play this action');
+            this.player2.clickPrompt('Cancel');
+            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+        });
+    });
 });

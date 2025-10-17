@@ -10,13 +10,20 @@ class MarkOfDis extends Card {
                     ability.actions.dealDamage({ amount: 2 }),
                     ability.actions.conditional((context) => ({
                         condition: () => context.target.location === 'play area',
-                        trueGameAction: ability.actions.untilEndOfMyNextTurn({
-                            targetController:
-                                context.player === context.target.controller
-                                    ? 'current'
-                                    : 'opponent',
-                            effect: ability.effects.restrictHouseChoice(context.target.getHouses())
-                        })
+                        trueGameAction:
+                            context.player === context.target.controller
+                                ? ability.actions.untilEndOfMyNextTurn({
+                                      targetController: 'current',
+                                      effect: ability.effects.restrictHouseChoice(
+                                          context.target.getHouses()
+                                      )
+                                  })
+                                : ability.actions.duringOpponentNextTurn({
+                                      targetController: 'opponent',
+                                      effect: ability.effects.restrictHouseChoice(
+                                          context.target.getHouses()
+                                      )
+                                  })
                     }))
                 ])
             },

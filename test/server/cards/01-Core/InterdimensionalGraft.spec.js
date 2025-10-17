@@ -102,4 +102,37 @@ describe('Interdimensional Graft', function () {
             expect(this.player1.amber).toBe(1);
         });
     });
+
+    describe('after taking another turn', function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    amber: 0,
+                    house: 'logos',
+                    hand: ['interdimensional-graft'],
+                    inPlay: ['tachyon-manifold']
+                },
+                player2: {
+                    amber: 9,
+                    inPlay: [],
+                    hand: []
+                }
+            });
+            this.tachyonManifold.maverick = 'logos';
+            this.tachyonManifold.printedHouse = 'logos';
+            this.player1.useAction(this.tachyonManifold);
+        });
+
+        it("should affect opponent's next turn", function () {
+            this.player1.play(this.interdimensionalGraft);
+            this.player1.endTurn();
+            this.player1.clickPrompt('logos');
+            this.player1.endTurn();
+            this.player2.forgeKey('Red');
+            this.player2.clickPrompt('untamed');
+            expect(this.player2.amber).toBe(0);
+            expect(this.player1.amber).toBe(4);
+            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+        });
+    });
 });

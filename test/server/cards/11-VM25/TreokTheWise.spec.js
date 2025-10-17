@@ -40,4 +40,35 @@ describe('Treok, The Wise', function () {
             expect(this.huntingWitch.location).toBe('discard');
         });
     });
+
+    describe('after taking another turn', function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    amber: 0,
+                    house: 'brobnar',
+                    hand: [],
+                    inPlay: ['tachyon-manifold', 'treok-the-wise', 'troll']
+                },
+                player2: {
+                    amber: 0,
+                    hand: [],
+                    inPlay: ['teliga']
+                }
+            });
+            this.tachyonManifold.maverick = 'brobnar';
+            this.tachyonManifold.printedHouse = 'brobnar';
+            this.player1.useAction(this.tachyonManifold);
+        });
+
+        it("should not affect player's next turn", function () {
+            this.player1.reap(this.treokTheWise);
+            this.player1.clickCard(this.troll);
+            this.player1.endTurn();
+            this.player1.clickPrompt('brobnar');
+            this.player1.fightWith(this.troll, this.teliga);
+            expect(this.troll.tokens.damage).toBe(3);
+            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+        });
+    });
 });

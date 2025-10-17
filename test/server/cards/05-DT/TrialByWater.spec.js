@@ -45,4 +45,34 @@ describe('Trial by Water', function () {
             expect(this.player1.isTideHigh()).toBe(true);
         });
     });
+
+    describe('after taking another turn', function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    amber: 0,
+                    house: 'sanctum',
+                    hand: ['trial-by-water'],
+                    inPlay: ['tachyon-manifold']
+                },
+                player2: {
+                    amber: 0,
+                    hand: [],
+                    inPlay: []
+                }
+            });
+            this.tachyonManifold.maverick = 'sanctum';
+            this.tachyonManifold.printedHouse = 'sanctum';
+            this.player1.useAction(this.tachyonManifold);
+        });
+
+        it("should not affect player's next turn", function () {
+            this.player1.play(this.trialByWater);
+            expect(this.player1).not.toBeAbleToRaiseTide();
+            this.player1.endTurn();
+            this.player1.clickPrompt('sanctum');
+            expect(this.player1).toBeAbleToRaiseTide();
+            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+        });
+    });
 });

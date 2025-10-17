@@ -53,4 +53,37 @@ describe('Snaglet', function () {
             });
         });
     });
+
+    describe('after taking another turn', function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    amber: 0,
+                    house: 'dis',
+                    hand: [],
+                    inPlay: ['tachyon-manifold', 'snaglet']
+                },
+                player2: {
+                    amber: 2,
+                    hand: [],
+                    inPlay: ['troll']
+                }
+            });
+            this.tachyonManifold.maverick = 'dis';
+            this.tachyonManifold.printedHouse = 'dis';
+            this.player1.useAction(this.tachyonManifold);
+        });
+
+        it("should affect opponent's next turn", function () {
+            this.player1.useAction(this.snaglet);
+            this.player1.clickPrompt('brobnar');
+            this.player1.endTurn();
+            this.player1.clickPrompt('dis');
+            this.player1.endTurn();
+            this.player2.clickPrompt('brobnar');
+            expect(this.player1.amber).toBe(2);
+            expect(this.player2.amber).toBe(0);
+            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+        });
+    });
 });
