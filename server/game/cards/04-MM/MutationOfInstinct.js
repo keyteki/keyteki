@@ -8,7 +8,7 @@ class MutationOfInstinct extends Card {
             target: {
                 cardType: 'creature',
                 gameAction: ability.actions.cardLastingEffect({
-                    duration: 'untilNextTurn',
+                    duration: 'untilPlayerNextTurnStart',
                     effect: [
                         ability.effects.addKeyword({ skirmish: 1 }),
                         ability.effects.addTrait('mutant')

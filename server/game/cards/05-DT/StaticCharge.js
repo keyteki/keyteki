@@ -6,7 +6,7 @@ class StaticCharge extends Card {
         this.whileAttached({
             effect: ability.effects.gainAbility('reaction', {
                 when: {
-                    onBeginRound: (_event, context) => context.player === context.game.activePlayer
+                    onTurnStart: (_event, context) => context.player === context.game.activePlayer
                 },
                 gameAction: ability.actions.dealDamage((context) => ({
                     amount: 2,

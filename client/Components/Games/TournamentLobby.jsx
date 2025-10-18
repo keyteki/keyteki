@@ -1,24 +1,24 @@
-import React, { useState, useEffect } from 'react';
+import { faCircleNotch } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import React, { useEffect, useState } from 'react';
+import { Button, Col, Form, Row } from 'react-bootstrap';
 import ReactClipboard from 'react-clipboardjs-copy';
+import { Trans, useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import { toastr } from 'react-redux-toastr';
-import { Trans, useTranslation } from 'react-i18next';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCircleNotch } from '@fortawesome/free-solid-svg-icons';
-import { Col, Button, Form, Row } from 'react-bootstrap';
 
-import NewGame from './NewGame';
-import Panel from '../Site/Panel';
-import ApiStatus from '../Site/ApiStatus';
 import {
-    fetchTournaments,
-    fetchFullTournament,
     attachMatchLink,
-    navigate,
     clearApiStatus,
-    fetchMatches
+    fetchFullTournament,
+    fetchMatches,
+    fetchTournaments,
+    navigate
 } from '../../redux/actions';
 import { Challonge } from '../../redux/types';
+import ApiStatus from '../Site/ApiStatus';
+import Panel from '../Site/Panel';
+import NewGame from './NewGame';
 
 import './TournamentLobby.scss';
 
@@ -210,7 +210,7 @@ const TournamentLobby = () => {
                 <Row>
                     <Col>
                         {openMatches[0] && (
-                            <div className='match-round'>{'Round: ' + openMatches[0].round}</div>
+                            <div className='match-turn'>{'Turn: ' + openMatches[0].turn}</div>
                         )}
                         {openMatches.map((match, index) => {
                             const game = tournamentGames.find(

@@ -1,13 +1,13 @@
-import React from 'react';
 import classNames from 'classnames';
+import React from 'react';
 import { useSelector } from 'react-redux';
 
-import Avatar from '../Site/Avatar';
-import AlertPanel from '../Site/AlertPanel';
-import { Constants } from '../../constants';
 import AmberImage from '../../assets/img/amber.png';
-import TideImage from '../../assets/img/tide/tide.png';
 import CardBackImage from '../../assets/img/idbacks/cardback.jpg';
+import TideImage from '../../assets/img/tide/tide.png';
+import { Constants } from '../../constants';
+import AlertPanel from '../Site/AlertPanel';
+import Avatar from '../Site/Avatar';
 import CardImage from './CardImage';
 
 const keyImages = {};
@@ -80,7 +80,7 @@ const Messages = ({ messages, onCardMouseOver, onCardMouseOut }) => {
             if (key === 'alert') {
                 let message = formatMessageText(fragment.message);
                 switch (fragment.type) {
-                    case 'endofround':
+                    case 'endofturn':
                     case 'phasestart':
                         messages.push(
                             <div
@@ -93,7 +93,7 @@ const Messages = ({ messages, onCardMouseOver, onCardMouseOut }) => {
                             </div>
                         );
                         break;
-                    case 'startofround':
+                    case 'startofturn':
                         messages.push(
                             <div
                                 className={'font-weight-bold text-white separator ' + fragment.type}

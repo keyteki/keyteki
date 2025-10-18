@@ -40,7 +40,7 @@ const Actions = {
     attach: (propertyFactory) => new GameActions.AttachAction(propertyFactory), // upgrade
     capture: (propertyFactory) => new GameActions.CaptureAction(propertyFactory),
     cardLastingEffect: (propertyFactory) =>
-        new GameActions.CardLastingEffectAction(propertyFactory), // duration = 'untilEndOfRound', effect, targetLocation, condition, until
+        new GameActions.CardLastingEffectAction(propertyFactory), // duration = 'untilPlayerTurnEnd', effect, targetLocation, condition, until
     clearGrowthTokens: (propertyFactory) =>
         new GameActions.RemoveTokenAction(propertyFactory, 'growth'),
     clearGloryCounters: (propertyFactory) =>
@@ -140,14 +140,14 @@ const Actions = {
     lastingEffect: (propertyFactory) =>
         new GameActions.LastingEffectAction(propertyFactory, 'custom'),
 
-    forRemainderOfTurn: (propertyFactory) =>
-        new GameActions.LastingEffectAction(propertyFactory, 'forRemainderOfTurn'),
+    untilPlayerTurnEnd: (propertyFactory) =>
+        new GameActions.LastingEffectAction(propertyFactory, 'untilPlayerTurnEnd'),
     duringOpponentNextTurn: (propertyFactory) =>
         new GameActions.LastingEffectAction(propertyFactory, 'duringOpponentNextTurn'),
-    untilNextTurn: (propertyFactory) =>
-        new GameActions.LastingEffectAction(propertyFactory, 'untilNextTurn'),
-    untilEndOfMyNextTurn: (propertyFactory) =>
-        new GameActions.LastingEffectAction(propertyFactory, 'untilEndOfMyNextTurn'),
+    untilPlayerNextTurnStart: (propertyFactory) =>
+        new GameActions.LastingEffectAction(propertyFactory, 'untilPlayerNextTurnStart'),
+    untilPlayerNextTurnEnd: (propertyFactory) =>
+        new GameActions.LastingEffectAction(propertyFactory, 'untilPlayerNextTurnEnd'),
 
     // meta actions
     addEventToWindow: (propertyFactory) => new GameActions.AddEventToWindowAction(propertyFactory),

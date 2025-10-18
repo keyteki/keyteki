@@ -7,7 +7,7 @@ class TheEndIsNigh extends Card {
         this.creaturesDestroyed = [];
 
         this.tracker = new EventRegistrar(this.game, this);
-        this.tracker.register(['onRoundEnded', 'onCardDestroyed']);
+        this.tracker.register(['onTurnEnd', 'onCardDestroyed']);
 
         this.prophecyReaction({
             when: {
@@ -21,7 +21,7 @@ class TheEndIsNigh extends Card {
         });
     }
 
-    onRoundEnded() {
+    onTurnEnd() {
         this.creaturesDestroyed = [];
     }
 

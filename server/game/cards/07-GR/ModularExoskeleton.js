@@ -12,7 +12,7 @@ class ModularExoskeleton extends Card {
 
         this.reaction({
             when: {
-                onBeginRound: (_, context) => context.player === this.game.activePlayer
+                onTurnStart: (_, context) => context.player === this.game.activePlayer
             },
             optional: true,
             location: 'discard',

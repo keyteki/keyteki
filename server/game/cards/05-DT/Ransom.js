@@ -8,7 +8,7 @@ class Ransom extends Card {
                 ability.effects.cardCannot('use'),
                 ability.effects.gainAbility('reaction', {
                     when: {
-                        onBeginRound: (_event, context) =>
+                        onTurnStart: (_event, context) =>
                             context.player === context.game.activePlayer
                     },
                     condition: (context) => context.player.amber >= 2,

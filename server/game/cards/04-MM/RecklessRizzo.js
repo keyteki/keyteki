@@ -8,7 +8,7 @@ class RecklessRizzo extends Card {
             gameAction: [
                 ability.actions.steal({ amount: 2 }),
                 ability.actions.cardLastingEffect({
-                    duration: 'untilNextTurn',
+                    duration: 'untilPlayerNextTurnStart',
                     effect: ability.effects.removeKeyword('elusive')
                 })
             ]

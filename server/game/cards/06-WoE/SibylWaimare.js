@@ -6,7 +6,7 @@ class SibylWaimare extends Card {
     setupCardAbilities(ability) {
         this.reaction({
             when: {
-                onBeginRound: (_, context) =>
+                onTurnStart: (_, context) =>
                     context.player.opponent === this.game.activePlayer &&
                     context.player.opponent.deck.length > 0
             },

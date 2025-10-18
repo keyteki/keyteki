@@ -6,7 +6,7 @@ class RaiderOfThePeaks extends Card {
     setupCardAbilities(ability) {
         this.reaction({
             when: {
-                onBeginRound: (_, context) => context.player === this.game.activePlayer
+                onTurnStart: (_, context) => context.player === this.game.activePlayer
             },
             target: {
                 mode: 'mostStat',

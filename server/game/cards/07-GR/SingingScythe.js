@@ -21,9 +21,9 @@ class SingingScythe extends Card {
         // choice.
         this.reaction({
             when: {
-                onBeginRound: (event, context) =>
+                onTurnStart: (event, context) =>
                     event.player === context.player && context.player.isHaunted(),
-                onPhaseEnded: (event, context) =>
+                onPhaseEnd: (event, context) =>
                     event.phase === 'draw' &&
                     this.game.activePlayer === context.player &&
                     context.player.isHaunted()

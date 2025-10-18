@@ -139,7 +139,7 @@ class Game extends EventEmitter {
 
     /**
      * Adds a message to in-game chat with a graphical icon
-     * @param {String} one of: 'endofround', 'success', 'info', 'danger', 'warning'
+     * @param {String} one of: 'endofturn', 'success', 'info', 'danger', 'warning'
      * @param {String} message to display (can include {i} references to args)
      * @param {Array} args to match the references in @string
      */
@@ -893,7 +893,7 @@ class Game extends EventEmitter {
      * @returns {undefined}
      */
     beginRound() {
-        this.raiseEvent('onBeginRound', { player: this.activePlayer });
+        this.raiseEvent('onTurnStart', { player: this.activePlayer });
         this.activePlayer.beginRound();
         this.queueStep(new SimpleStep(this, () => this.finalizeBeginRound(0)));
         this.queueStep(new KeyPhase(this));
@@ -1311,7 +1311,7 @@ class Game extends EventEmitter {
     }
 
     raiseEndRoundEvent() {
-        this.raiseEvent('onRoundEnded', { player: this.activePlayer }, () => {
+        this.raiseEvent('onTurnEnd', { player: this.activePlayer }, () => {
             this.endRound();
         });
     }
@@ -1344,7 +1344,7 @@ class Game extends EventEmitter {
             .map((player) => `${player.name}: ${player.amber} amber (${this.playerKeys(player)})`)
             .join(' ');
 
-        this.addAlert('endofround', `End of turn ${this.round}`);
+        this.addAlert('endofturn', `End of turn ${this.round}`);
 
         if (
             !this.activePlayer.opponent ||
@@ -1354,7 +1354,7 @@ class Game extends EventEmitter {
         }
 
         this.addMessage(playerResources);
-        this.addAlert('startofround', `Turn ${this.round} - {0}`, this.activePlayer);
+        this.addAlert('startofturn', `Turn ${this.round} - {0}`, this.activePlayer);
         this.checkForTimeExpired();
     }
 

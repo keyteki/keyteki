@@ -11,7 +11,7 @@ class DimensionDoor extends Card {
         this.play({
             condition: (context) => !!context.player.opponent,
             effect: 'steal amber instead of gaining it while reaping for the remainder of the turn',
-            gameAction: ability.actions.forRemainderOfTurn({
+            gameAction: ability.actions.untilPlayerTurnEnd({
                 effect: ability.effects.customDetachedPlayer({
                     apply: (player) => (this.enabledForPlayers[player.uuid] = true),
                     unapply: (player) => (this.enabledForPlayers[player.uuid] = false)

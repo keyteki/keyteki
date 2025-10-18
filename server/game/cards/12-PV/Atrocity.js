@@ -7,7 +7,7 @@ class Atrocity extends Card {
     setupCardAbilities(ability) {
         this.reaction({
             when: {
-                onBeginRound: (_, context) =>
+                onTurnStart: (_, context) =>
                     context.source.controller.opponent === context.game.activePlayer
             },
             gameAction: [
@@ -30,7 +30,7 @@ class Atrocity extends Card {
             ],
             then: {
                 alwaysTriggers: true,
-                gameAction: ability.actions.forRemainderOfTurn((context) => ({
+                gameAction: ability.actions.untilPlayerTurnEnd((context) => ({
                     targetController: 'opponent',
                     effect: ability.effects.restrictHouseChoice(
                         context.preThenEvents.length > 1 && context.preThenEvents[0].card

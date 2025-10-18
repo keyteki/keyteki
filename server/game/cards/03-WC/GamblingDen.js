@@ -5,7 +5,7 @@ class GamblingDen extends Card {
     setupCardAbilities(ability) {
         this.reaction({
             when: {
-                onBeginRound: (event) => event.player && event.player.deck.length > 0
+                onTurnStart: (event) => event.player && event.player.deck.length > 0
             },
             useEventPlayer: true,
             optional: true,

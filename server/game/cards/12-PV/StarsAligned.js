@@ -5,7 +5,7 @@ class StarsAligned extends Card {
     setupCardAbilities(ability) {
         this.prophecyReaction({
             when: {
-                onBeginRound: (event, context) =>
+                onTurnStart: (event, context) =>
                     context.game.activePlayer === context.source.controller.opponent &&
                     context.game
                         .getPlayers()

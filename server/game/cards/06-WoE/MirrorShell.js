@@ -15,7 +15,7 @@ class MirrorShell extends Card {
             effect: ability.effects.gainAbility('fight', {
                 reap: true,
                 effect: 'make all friendly token creatures a copy of {0}',
-                gameAction: ability.actions.forRemainderOfTurn((context) => ({
+                gameAction: ability.actions.untilPlayerTurnEnd((context) => ({
                     controller: 'self',
                     match: (card) => card.isToken(),
                     effect: ability.effects.copyCard(context.source)

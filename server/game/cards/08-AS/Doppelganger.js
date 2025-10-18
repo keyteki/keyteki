@@ -7,7 +7,7 @@ class Doppelganger extends Card {
     setupCardAbilities(ability) {
         this.reaction({
             when: {
-                onBeginRound: (_, context) => context.player === this.game.activePlayer
+                onTurnStart: (_, context) => context.player === this.game.activePlayer
             },
             // The card doesn't say this ability it optional, but 2
             // next to each other leads to an infinite loop that can't
