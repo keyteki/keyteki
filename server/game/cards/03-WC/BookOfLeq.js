@@ -16,7 +16,7 @@ class BookOfLeQ extends Card {
                     trueGameAction: ability.actions.changeActiveHouse((context) => ({
                         house: context.player.deck[0].getHouses()
                     })),
-                    falseGameAction: ability.actions.forRemainderOfTurn({
+                    falseGameAction: ability.actions.untilPlayerTurnEnd({
                         targetController: 'current',
                         effect: [
                             ability.effects.skipStep('ready'),

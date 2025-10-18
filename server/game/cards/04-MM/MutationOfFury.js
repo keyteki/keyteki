@@ -8,7 +8,7 @@ class MutationOfFury extends Card {
             target: {
                 cardType: 'creature',
                 gameAction: ability.actions.cardLastingEffect({
-                    duration: 'untilNextTurn',
+                    duration: 'untilPlayerNextTurnStart',
                     effect: [
                         ability.effects.addKeyword({ assault: 3 }),
                         ability.effects.addTrait('mutant')

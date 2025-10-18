@@ -9,7 +9,7 @@ class PrototypeHarness extends Card {
                 ability.effects.modifyPower(6),
                 ability.effects.gainAbility('reaction', {
                     when: {
-                        onBeginRound: (_event, context) =>
+                        onTurnStart: (_event, context) =>
                             context.player === context.game.activePlayer
                     },
                     gameAction: ability.actions.dealDamage((context) => ({

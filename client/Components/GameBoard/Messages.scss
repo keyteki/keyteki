@@ -119,11 +119,11 @@
     color: #ff38c7;
 }
 
-.endofround {
+.endofturn {
     font-size: 0.9rem;
 }
 
-.startofround {
+.startofturn {
     font-size: 1.05rem;
     background-image: url('~assets/img/panel-primary.png');
     border-top: 1px solid theme-color('primary');
@@ -134,7 +134,7 @@
     margin: 0px -6px -7px -6px;
 }
 
-.startofround .username{
+.startofturn .username{
     text-transform: none;
     font-weight: 300 !important;
 }

@@ -7,7 +7,7 @@ class ThePromisedBlade extends Card {
     setupCardAbilities(ability) {
         this.movedThisRound = false;
         this.tracker = new EventRegistrar(this.game, this);
-        this.tracker.register(['onRoundEnded']);
+        this.tracker.register(['onTurnEnd']);
 
         this.omni({
             target: {
@@ -22,7 +22,7 @@ class ThePromisedBlade extends Card {
         // Even creature count, active player chooses
         this.reaction({
             when: {
-                onBeginRound: (_, context) =>
+                onTurnStart: (_, context) =>
                     !!context.source.controller.opponent &&
                     !this.movedThisRound &&
                     context.source.controller.creaturesInPlay.length ===
@@ -64,7 +64,7 @@ class ThePromisedBlade extends Card {
         // Uneven creature count, automatic
         this.reaction({
             when: {
-                onBeginRound: (_, context) =>
+                onTurnStart: (_, context) =>
                     !!context.source.controller.opponent &&
                     !this.movedThisRound &&
                     context.source.controller.creaturesInPlay.length >
@@ -81,7 +81,7 @@ class ThePromisedBlade extends Card {
         });
     }
 
-    onRoundEnded() {
+    onTurnEnd() {
         this.movedThisRound = false;
     }
 }

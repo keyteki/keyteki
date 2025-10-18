@@ -488,7 +488,7 @@ this.action({
 
 #### Lasting effects
 
-Unlike persistent effects, lasting effects are typically applied during an action, reaction or interrupt and expire after a specified period of time. Lasting effect use the same properties as persistent effects, above. Lasting effects are applied using the `cardLastingEffect`, `ringLastingEffect` or `playerLastingEffect`, depending on what they affect. They take a `duration:` property which is one of `untilEndOfConflict` (default), `untilEndOfPhase` or `untilEndOfRound`.
+Unlike persistent effects, lasting effects are typically applied during an action, reaction or interrupt and expire after a specified period of time. Lasting effect use the same properties as persistent effects, above. Lasting effects are applied using the `cardLastingEffect`, `ringLastingEffect` or `playerLastingEffect`, depending on what they affect. They take a `duration:` property which is one of `untilConflictEnd` (default), `untilPhaseEnd` or `untilPlayerTurnEnd`.
 
 ```javascript
 // Action: During a conflict, bow this character. Choose another [crane] character – that character
@@ -501,7 +501,7 @@ this.action({
         cardType: 'character',
         cardCondition: (card, context) => card !== context.source && card.isFaction('crane'),
         gameAction: ability.actions.cardLastingEffect(() => ({
-            duration: 'untilEndOfConflict',
+            duration: 'untilConflictEnd',
             effect: ability.effects.modifyPoliticalSkill(3)
         }))
     },
@@ -510,7 +510,7 @@ this.action({
 });
 ```
 
-To apply an effect to last until the end of the current phase, use `untilEndOfPhase`:
+To apply an effect to last until the end of the current phase, use `untilPhaseEnd`:
 
 ```javascript
 // Action: Reduce the cost of the next event you play this phase by 1.
@@ -518,16 +518,16 @@ this.action({
     title: 'Reduce cost of next event by 1',
     effect: 'reduce the cost of their next event by 1',
     gameAction: ability.actions.playerLastingEffect({
-        duration: 'untilEndOfPhase',
+        duration: 'untilPhaseEnd',
         effect: ability.effects.reduceNextPlayedCardCost(1, (card) => card.type === 'event')
     })
 });
 ```
 
-To apply an effect to last until the end of the round, use `untilEndOfRound`:
+To apply an effect to last until the end of the turn, use `untilPlayerTurnEnd`:
 
 ```javascript
-/// Action: Choose a holding you control – you may trigger each of that holding's triggered abilities an additional time this round (or specified period).
+/// Action: Choose a holding you control – you may trigger each of that holding's triggered abilities an additional time this turn (or specified period).
 this.action({
     title: 'Add an additional ability use to a holding',
     target: {
@@ -535,7 +535,7 @@ this.action({
         location: 'province',
         controller: 'self',
         gameAction: ability.actions.cardLastingEffect({
-            duration: 'untilEndOfPhase',
+            duration: 'untilPhaseEnd',
             targetLocation: 'province',
             effect: ability.effects.increaseLimitOnAbilities(1)
         })
@@ -633,7 +633,7 @@ this.forcedReaction({
     },
     effect: 'stop him being discarded or losing fate in this phase',
     gameAction: ability.actions.cardLastingEffect({
-        duration: 'untilEndOfPhase',
+        duration: 'untilPhaseEnd',
         effect: [
             ability.effects.cardCannot('removeFate'),
             ability.effects.cardCannot('discardFromPlay')
@@ -699,7 +699,7 @@ To limit an ability per conflict, use `ability.limit.perConflict(x)`.
 
 To limit an ability per phase, use `ability.limit.perPhase(x)`.
 
-To limit an ability per round, use `ability.limit.perRound(x)`.
+To limit an ability per turn, use `ability.limit.perTurn(x)`.
 
 In each case, `x` should be the number of times the ability is allowed to be used.
 

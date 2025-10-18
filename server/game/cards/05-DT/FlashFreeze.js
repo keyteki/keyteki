@@ -4,7 +4,7 @@ class FlashFreeze extends Card {
     // Play: For the remainder of the turn, after you play another card, exhaust a creature.
     setupCardAbilities(ability) {
         this.play({
-            gameAction: ability.actions.forRemainderOfTurn((context) => ({
+            gameAction: ability.actions.untilPlayerTurnEnd((context) => ({
                 when: {
                     onCardPlayed: (event) =>
                         event.player === context.player && event.card !== context.source

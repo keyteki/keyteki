@@ -6,7 +6,7 @@ class GezrahiBlacksmith extends Card {
     setupCardAbilities(ability) {
         this.reaction({
             when: {
-                onBeginRound: () => true
+                onTurnStart: () => true
             },
             useEventPlayer: true,
             targets: {

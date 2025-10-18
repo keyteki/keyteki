@@ -8,7 +8,7 @@ class Freelancer extends Card {
         this.whileAttached({
             effect: ability.effects.gainAbility('reaction', {
                 when: {
-                    onBeginRound: () => true
+                    onTurnStart: () => true
                 },
                 gameAction: ability.actions.cardLastingEffect((context) => ({
                     duration: 'lastingEffect',

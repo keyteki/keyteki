@@ -6,7 +6,7 @@ class TakeHostages extends Card {
     setupCardAbilities(ability) {
         this.play({
             effect: 'capture amber after fighting with a creature until the end of the turn',
-            gameAction: ability.actions.forRemainderOfTurn((context) => ({
+            gameAction: ability.actions.untilPlayerTurnEnd((context) => ({
                 when: {
                     onFight: (event) =>
                         event.attacker.controller === context.player &&

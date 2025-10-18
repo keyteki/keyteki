@@ -15,27 +15,27 @@ class EffectSource extends GameObject {
     /**
      * Applies an immediate effect which lasts until the end of the phase.
      */
-    untilEndOfPhase(propertyFactory) {
+    untilPhaseEnd(propertyFactory) {
         var properties = propertyFactory(AbilityDsl);
         return this.addEffectToEngine(
-            Object.assign({ duration: 'untilEndOfPhase', location: 'any' }, properties)
+            Object.assign({ duration: 'untilPhaseEnd', location: 'any' }, properties)
         );
     }
 
     /**
-     * Applies an immediate effect which lasts until the end of the round.
+     * Applies an immediate effect which lasts until the end of the turn.
      */
-    untilEndOfRound(propertyFactory) {
+    untilPlayerTurnEnd(propertyFactory) {
         var properties = propertyFactory(AbilityDsl);
         return this.addEffectToEngine(
-            Object.assign({ duration: 'untilEndOfRound', location: 'any' }, properties)
+            Object.assign({ duration: 'untilPlayerTurnEnd', location: 'any' }, properties)
         );
     }
 
-    untilNextTurn(propertyFactory) {
+    untilPlayerNextTurnStart(propertyFactory) {
         let properties = propertyFactory(AbilityDsl);
         return this.addEffectToEngine(
-            Object.assign({ duration: 'untilNextTurn', location: 'any' }, properties)
+            Object.assign({ duration: 'untilPlayerNextTurnStart', location: 'any' }, properties)
         );
     }
 

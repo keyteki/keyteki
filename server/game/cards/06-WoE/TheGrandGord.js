@@ -7,7 +7,7 @@ class TheGrandGord extends Card {
     setupCardAbilities(ability) {
         this.reaction({
             when: {
-                onBeginRound: (_, context) => {
+                onTurnStart: (_, context) => {
                     if (context.player !== this.game.activePlayer) {
                         return false;
                     }

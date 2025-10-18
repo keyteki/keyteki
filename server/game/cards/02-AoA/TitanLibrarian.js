@@ -5,7 +5,7 @@ class TitanLibrarian extends Card {
     setupCardAbilities(ability) {
         this.interrupt({
             when: {
-                onRoundEnded: (event, context) =>
+                onTurnEnd: (event, context) =>
                     context.player === this.game.activePlayer && !this.isOnFlank()
             },
             target: {

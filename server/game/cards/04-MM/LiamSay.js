@@ -6,7 +6,7 @@ class LiamSay extends Card {
     setupCardAbilities(ability) {
         this.reaction({
             when: {
-                onBeginRound: (_, context) => context.player === this.game.activePlayer
+                onTurnStart: (_, context) => context.player === this.game.activePlayer
             },
             optional: true,
             target: {

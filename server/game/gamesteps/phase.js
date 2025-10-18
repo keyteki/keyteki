@@ -24,7 +24,7 @@ class Phase extends BaseStepWithPipeline {
             this.game.currentPhase = this.name;
             if (this.name !== 'setup') {
                 this.game.addAlert(
-                    'endofround',
+                    'endofturn',
                     '{0} phase - {1}',
                     this.name.charAt(0).toUpperCase() + this.name.slice(1),
                     this.game.activePlayer
@@ -38,7 +38,7 @@ class Phase extends BaseStepWithPipeline {
     }
 
     endPhase() {
-        this.game.raiseEvent('onPhaseEnded', { phase: this.name }, () => {
+        this.game.raiseEvent('onPhaseEnd', { phase: this.name }, () => {
             this.game.resetThingsThisPhase();
         });
         this.game.currentPhase = '';

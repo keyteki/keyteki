@@ -21,7 +21,7 @@ class SonicWaver extends Card {
 
         this.interrupt({
             when: {
-                onRoundEnded: () => true
+                onTurnEnd: () => true
             },
             condition: (context) => !context.game.creaturesInPlay.some((card) => card.stunned),
             gameAction: ability.actions.purge((context) => ({

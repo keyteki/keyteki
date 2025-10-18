@@ -70,11 +70,11 @@ AbilityLimit.repeatable = function (max, eventName) {
 };
 
 AbilityLimit.perPhase = function (max) {
-    return new RepeatableAbilityLimit(max, 'onPhaseEnded');
+    return new RepeatableAbilityLimit(max, 'onPhaseEnd');
 };
 
-AbilityLimit.perRound = function (max) {
-    return new RepeatableAbilityLimit(max, 'onRoundEnded');
+AbilityLimit.perTurn = function (max) {
+    return new RepeatableAbilityLimit(max, 'onTurnEnd');
 };
 
 module.exports = AbilityLimit;

@@ -10,7 +10,7 @@ const EventToTitleFunc = {
             : ' leaving play'),
     onCharacterEntersPlay: (event) => event.card.name + ' entering play',
     onCardPlayed: (event) => event.card.name + ' being played',
-    onPhaseEnded: (event) => event.phase + ' phase ending',
+    onPhaseEnd: (event) => event.phase + ' phase ending',
     onPhaseStarted: (event) => event.phase + ' phase starting'
 };
 

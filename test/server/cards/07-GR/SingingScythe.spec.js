@@ -32,7 +32,7 @@ describe('Singing Scythe', function () {
             expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
         });
 
-        it('allows it to come back to hand when haunted at end of the round', function () {
+        it('allows it to come back to hand when haunted at end of the turn', function () {
             this.player1.scrap(this.singingScythe);
             this.player1.endTurn();
             this.player1.clickCard(this.singingScythe);
@@ -40,7 +40,7 @@ describe('Singing Scythe', function () {
             this.player2.clickPrompt('staralliance');
         });
 
-        it('can choose not to come back to hand when haunted at end of the round', function () {
+        it('can choose not to come back to hand when haunted at end of the turn', function () {
             this.player1.scrap(this.singingScythe);
             this.player1.endTurn();
             this.player1.clickPrompt('Done');
@@ -48,7 +48,7 @@ describe('Singing Scythe', function () {
             this.player2.clickPrompt('staralliance');
         });
 
-        it('can not come back to hand when not haunted at end of the round', function () {
+        it('can not come back to hand when not haunted at end of the turn', function () {
             this.player1.player.discard = [];
             this.player1.scrap(this.singingScythe);
             this.player1.endTurn();
@@ -56,7 +56,7 @@ describe('Singing Scythe', function () {
             this.player2.clickPrompt('staralliance');
         });
 
-        it('allows it to come back to hand when haunted at start of the round', function () {
+        it('allows it to come back to hand when haunted at start of the turn', function () {
             this.player1.scrap(this.singingScythe);
             this.player1.endTurn();
             this.player1.clickPrompt('Done');
@@ -67,7 +67,7 @@ describe('Singing Scythe', function () {
             this.player1.clickPrompt('geistoid');
         });
 
-        it('can choose not to come back to hand when haunted at start of the round', function () {
+        it('can choose not to come back to hand when haunted at start of the turn', function () {
             this.player1.scrap(this.singingScythe);
             this.player1.endTurn();
             this.player1.clickPrompt('Done');
@@ -78,7 +78,7 @@ describe('Singing Scythe', function () {
             this.player1.clickPrompt('geistoid');
         });
 
-        it('can not come back to hand when not haunted at start of the round', function () {
+        it('can not come back to hand when not haunted at start of the turn', function () {
             this.player1.player.discard = [];
             this.player1.scrap(this.singingScythe);
             this.player1.endTurn();
