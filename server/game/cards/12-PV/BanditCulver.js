@@ -7,7 +7,7 @@ class BanditCulver extends Card {
     setupCardAbilities(ability) {
         this.shadowsCardDiscarded = undefined;
         this.tracker = new EventRegistrar(this.game, this);
-        this.tracker.register(['onBeginRound', 'onCardDiscarded']);
+        this.tracker.register(['onTurnStart', 'onCardDiscarded']);
 
         this.reaction({
             when: {
@@ -30,7 +30,7 @@ class BanditCulver extends Card {
         }
     }
 
-    onBeginRound() {
+    onTurnStart() {
         this.shadowsCardDiscarded = undefined;
     }
 }

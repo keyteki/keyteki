@@ -5,7 +5,7 @@ class Sloth extends Card {
     setupCardAbilities(ability) {
         this.interrupt({
             when: {
-                onRoundEnded: (event, context) =>
+                onTurnEnd: (event, context) =>
                     context.player === this.game.activePlayer &&
                     context.game.cardsUsed.filter((card) => card.type === 'creature').length === 0
             },

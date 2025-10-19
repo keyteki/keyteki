@@ -17,7 +17,7 @@ class Bracchanalia extends Card {
 
         this.reaction({
             when: {
-                onBeginRound: (_, context) =>
+                onTurnStart: (_, context) =>
                     context.game.activePlayer &&
                     context.game.activePlayer.creaturesInPlay.filter((card) => card.amber).length >=
                         4

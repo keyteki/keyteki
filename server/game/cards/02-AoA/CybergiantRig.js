@@ -7,7 +7,7 @@ class CybergiantRig extends Card {
         this.whileAttached({
             effect: ability.effects.gainAbility('interrupt', {
                 when: {
-                    onRoundEnded: (_event, context) =>
+                    onTurnEnd: (_event, context) =>
                         context.player === context.game.activePlayer &&
                         context.source.hasToken('power')
                 },

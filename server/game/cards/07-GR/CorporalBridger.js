@@ -8,7 +8,7 @@ class CorporalBridger extends Card {
             fight: true,
             reap: true,
             effect: 'allow them to use one non staralliance creature this turn',
-            gameAction: ability.actions.forRemainderOfTurn({
+            gameAction: ability.actions.untilPlayerTurnEnd({
                 effect: ability.effects.canUseNonHouseCreature('staralliance')
             })
         });

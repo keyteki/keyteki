@@ -24,7 +24,7 @@ class Phantasmaquid extends Card {
 
         this.interrupt({
             when: {
-                onRoundEnded: (_, context) => context.player === this.game.activePlayer
+                onTurnEnd: (_, context) => context.player === this.game.activePlayer
             },
             condition: (context) =>
                 !context.player.opponent || context.player.opponent.creaturesInPlay.length === 0,

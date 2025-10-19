@@ -6,7 +6,7 @@ class HeadsIWin extends Card {
     setupCardAbilities(ability) {
         this.interrupt({
             when: {
-                onRoundEnded: (_, context) =>
+                onTurnEnd: (_, context) =>
                     context.player === this.game.activePlayer && context.source.activeProphecy
             },
             location: 'any',

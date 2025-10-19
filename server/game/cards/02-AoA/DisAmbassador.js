@@ -7,7 +7,7 @@ class DisAmbassador extends Card {
         this.fight({
             reap: true,
             effect: 'allow them to play or use one Dis card this turn',
-            gameAction: ability.actions.forRemainderOfTurn({
+            gameAction: ability.actions.untilPlayerTurnEnd({
                 effect: ability.effects.canPlayOrUseHouse('dis')
             })
         });

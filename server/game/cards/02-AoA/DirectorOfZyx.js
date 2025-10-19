@@ -6,7 +6,7 @@ class DirectorOfZyx extends Card {
     setupCardAbilities(ability) {
         this.reaction({
             when: {
-                onBeginRound: (_, context) => context.player === this.game.activePlayer
+                onTurnStart: (_, context) => context.player === this.game.activePlayer
             },
             gameAction: ability.actions.archive((context) => ({
                 target: context.player.deck[0]

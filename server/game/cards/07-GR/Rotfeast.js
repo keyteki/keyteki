@@ -7,7 +7,7 @@ class Rotfeast extends Card {
         this.play({
             effect:
                 'gain 1 amber each time a creature is dealt damage for the remainder of the turn',
-            gameAction: ability.actions.forRemainderOfTurn({
+            gameAction: ability.actions.untilPlayerTurnEnd({
                 when: {
                     onDamageApplied: (event) => event.amount > 0
                 },

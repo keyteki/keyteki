@@ -5,7 +5,7 @@ class TheEarlyBird extends Card {
     setupCardAbilities(ability) {
         this.prophecyInterrupt({
             when: {
-                onRoundEnded: (event, context) =>
+                onTurnEnd: (event, context) =>
                     context.game.activePlayer === context.source.controller.opponent &&
                     context.game.activePlayer.amber > context.source.controller.amber
             },

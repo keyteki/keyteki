@@ -6,7 +6,7 @@ class UnitedAction extends Card {
     setupCardAbilities(ability) {
         this.play({
             effect: 'allow them to play from any house ​for which they have a card in play',
-            gameAction: ability.actions.forRemainderOfTurn({
+            gameAction: ability.actions.untilPlayerTurnEnd({
                 effect: [
                     ability.effects.canPlay((card, context) => {
                         let housesInPlay = context.game.getHousesInPlay(

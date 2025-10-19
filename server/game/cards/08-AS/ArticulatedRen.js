@@ -6,7 +6,7 @@ class ArticulatedRen extends Card {
     setupCardAbilities(ability) {
         this.interrupt({
             when: {
-                onRoundEnded: (event, context) => context.player === this.game.activePlayer
+                onTurnEnd: (event, context) => context.player === this.game.activePlayer
             },
             target: {
                 optional: true,

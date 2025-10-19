@@ -6,7 +6,7 @@ class EffectEngine {
     constructor(game) {
         this.game = game;
         this.events = new EventRegistrar(game, this);
-        this.events.register(['onPhaseEnded', 'onRoundEnded']);
+        this.events.register(['onPhaseEnd', 'onTurnEnd']);
         this.effects = [];
         this.delayedEffects = [];
         this.duringOpponentNextTurnEffects = [];
@@ -90,24 +90,24 @@ class EffectEngine {
         return stateChanged;
     }
 
-    onPhaseEnded() {
-        this.newEffect = this.unapplyAndRemove((effect) => effect.duration === 'untilEndOfPhase');
+    onPhaseEnd() {
+        this.newEffect = this.unapplyAndRemove((effect) => effect.duration === 'untilPhaseEnd');
     }
 
-    onRoundEnded() {
+    onTurnEnd() {
         // Save another turn which is a 'for remainder of turn' effect
         const anotherTurn = this.game.activePlayer.anyEffect('anotherTurn');
 
         // Remove 'for remainder of turn' effects
         let effectsRemoved = this.unapplyAndRemove((effect) =>
-            ['forRemainderOfTurn', 'untilEndOfRound'].includes(effect.duration)
+            ['untilPlayerTurnEnd', 'untilPlayerTurnEnd'].includes(effect.duration)
         );
 
         // Remove 'until end of your next turn' effects for the player whose turn is ending
         effectsRemoved =
             this.unapplyAndRemove(
                 (effect) =>
-                    effect.duration === 'untilEndOfMyNextTurnInitiated' &&
+                    effect.duration === 'untilPlayerNextTurnEndInitiated' &&
                     // At this point active player has switched, so check for the opposite player
                     effect.effectController !== this.game.activePlayer
             ) || effectsRemoved;
@@ -116,20 +116,20 @@ class EffectEngine {
         effectsRemoved =
             this.unapplyAndRemove(
                 (effect) =>
-                    (effect.duration === 'untilNextTurnInitiated' &&
+                    (effect.duration === 'untilPlayerNextTurnStartInitiated' &&
                         effect.effectController === this.game.activePlayer) ||
                     // When the active player takes another turn
-                    (effect.duration === 'untilNextTurn' && anotherTurn)
+                    (effect.duration === 'untilPlayerNextTurnStart' && anotherTurn)
             ) || effectsRemoved;
 
         // Label effects that were added this turn and should last until a future turn
         this.effects.forEach((effect) => {
-            if (effect.duration === 'untilEndOfMyNextTurn') {
-                effect.duration = 'untilEndOfMyNextTurnInitiated';
+            if (effect.duration === 'untilPlayerNextTurnEnd') {
+                effect.duration = 'untilPlayerNextTurnEndInitiated';
             }
 
-            if (effect.duration === 'untilNextTurn') {
-                effect.duration = 'untilNextTurnInitiated';
+            if (effect.duration === 'untilPlayerNextTurnStart') {
+                effect.duration = 'untilPlayerNextTurnStartInitiated';
             }
         });
 
@@ -139,8 +139,8 @@ class EffectEngine {
                 effect.duration === 'duringOpponentNextTurn' &&
                 this.game.activePlayer !== effect.effectController
             ) {
-                // Change effect duration to 'forRemainderOfTurn'
-                effect.duration = 'forRemainderOfTurn';
+                // Change effect duration to 'untilPlayerTurnEnd'
+                effect.duration = 'untilPlayerTurnEnd';
                 // Add effect
                 this.add(effect);
                 return false; // Remove from duringOpponentNextTurnEffects
