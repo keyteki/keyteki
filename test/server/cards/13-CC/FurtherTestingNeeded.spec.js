@@ -5,7 +5,7 @@ describe('Further Testing Needed', function () {
                 player1: {
                     house: 'mars',
                     inPlay: ['troll', 'krump', 'gauntlet-of-command'],
-                    hand: ['further-testing-needed', 'hypnobeam']
+                    hand: ['jammer-pack', 'further-testing-needed', 'hypnobeam']
                 },
                 player2: {
                     inPlay: ['dust-pixie']
@@ -14,11 +14,13 @@ describe('Further Testing Needed', function () {
         });
 
         it('should archive a friendly card when played', function () {
+            this.player1.playUpgrade(this.jammerPack, this.troll);
             this.player1.play(this.furtherTestingNeeded);
             expect(this.player1).toBeAbleToSelect(this.troll);
             expect(this.player1).toBeAbleToSelect(this.krump);
+            expect(this.player1).toBeAbleToSelect(this.jammerPack);
             expect(this.player1).not.toBeAbleToSelect(this.dustPixie);
-            expect(this.player1).not.toBeAbleToSelect(this.gauntletOfCommand);
+            expect(this.player1).toBeAbleToSelect(this.gauntletOfCommand);
             this.player1.clickCard(this.troll);
             expect(this.troll.location).toBe('archives');
             expect(this.player1.archives).toContain(this.troll);
