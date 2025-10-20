@@ -5,8 +5,8 @@ describe('Overrun', function () {
                 player1: {
                     amber: 3,
                     house: 'brobnar',
-                    hand: ['overrun', 'ballcano'],
-                    inPlay: ['brammo', 'ganger-chieftain', 'foozle', 'culf-the-quiet']
+                    hand: ['overrun', 'ballcano', 'exile'],
+                    inPlay: ['brammo', 'ganger-chieftain', 'foozle', 'culf-the-quiet', 'wardrummer']
                 },
                 player2: {
                     amber: 5,
@@ -62,6 +62,20 @@ describe('Overrun', function () {
             expect(this.umbra.tokens.ward).toBeUndefined();
             this.player1.play(this.overrun);
             expect(this.player2.amber).toBe(5);
+        });
+
+        it('should cause the opponent to lose 2A for creatures that have changed control and die in a fight this turn', function () {
+            this.exile.maverick = 'brobnar';
+            this.exile.printedHouse = 'brobnar';
+            this.player1.play(this.exile);
+            this.player1.clickCard(this.wardrummer);
+            this.player1.clickPrompt('Left');
+            this.player1.fightWith(this.brammo, this.wardrummer);
+            this.player1.fightWith(this.gangerChieftain, this.badPenny);
+            this.player1.fightWith(this.foozle, this.umbra);
+            this.player1.play(this.overrun);
+            expect(this.player2.amber).toBe(3);
+            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
         });
     });
 });
