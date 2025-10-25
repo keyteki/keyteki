@@ -7,7 +7,7 @@ class MarsAmbassador extends Card {
         this.fight({
             reap: true,
             effect: 'allow them to play or use one Mars card this turn',
-            gameAction: ability.actions.forRemainderOfTurn({
+            gameAction: ability.actions.untilPlayerTurnEnd({
                 effect: ability.effects.canPlayOrUseHouse('mars')
             })
         });

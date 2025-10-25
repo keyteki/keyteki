@@ -20,7 +20,7 @@ class PrimalRelic extends Card {
         });
         this.reaction({
             when: {
-                onBeginRound: () => true
+                onTurnStart: () => true
             },
             gameAction: ability.actions.removeAmber({ all: true }),
             condition: (context) =>

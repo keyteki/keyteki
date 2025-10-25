@@ -6,7 +6,7 @@ class ZWaveEmitter extends Card {
         this.whileAttached({
             effect: ability.effects.gainAbility('reaction', {
                 when: {
-                    onBeginRound: (_event, context) => context.player === context.game.activePlayer
+                    onTurnStart: (_event, context) => context.player === context.game.activePlayer
                 },
                 gameAction: ability.actions.ward()
             })

@@ -5,7 +5,7 @@ class Mechabuoy extends Card {
     setupCardAbilities(ability) {
         this.reaction({
             when: {
-                onBeginRound: () => this.game.activePlayer.isTideHigh()
+                onTurnStart: () => this.game.activePlayer.isTideHigh()
             },
             gameAction: ability.actions.gainAmber(() => ({
                 target: this.game.activePlayer

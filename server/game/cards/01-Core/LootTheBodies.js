@@ -6,7 +6,7 @@ class LootTheBodies extends Card {
         this.play({
             effect:
                 'gain 1 amber each time an enemy creature is destroyed for the remainder of the turn',
-            gameAction: ability.actions.forRemainderOfTurn((context) => ({
+            gameAction: ability.actions.untilPlayerTurnEnd((context) => ({
                 when: {
                     onCardDestroyed: (event) =>
                         event.clone.type === 'creature' && event.clone.controller !== context.player

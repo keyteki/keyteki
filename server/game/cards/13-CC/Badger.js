@@ -7,7 +7,7 @@ class Badger extends Card {
             reap: true,
             effect:
                 'deal 3 damage to an enemy creature after playing a Brobnar creature for the remainder of the turn',
-            gameAction: ability.actions.forRemainderOfTurn((context) => ({
+            gameAction: ability.actions.untilPlayerTurnEnd((context) => ({
                 when: {
                     onCardPlayed: (event) =>
                         event.player === context.player &&

@@ -5,7 +5,7 @@ class GeneralOrder24 extends Card {
     setupCardAbilities(ability) {
         this.reaction({
             when: {
-                onBeginRound: () => true
+                onTurnStart: () => true
             },
             gameAction: ability.actions.destroy((context) => ({
                 target: context.game.activePlayer.creaturesInPlay.length === 0 ? context.source : []

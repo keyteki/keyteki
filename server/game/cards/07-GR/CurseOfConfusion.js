@@ -8,7 +8,7 @@ class CurseOfConfusion extends Card {
     setupCardAbilities(ability) {
         this.interrupt({
             when: {
-                onRoundEnded: (_, context) => context.player === this.game.activePlayer
+                onTurnEnd: (_, context) => context.player === this.game.activePlayer
             },
             gameAction: ability.actions.exhaust((context) => ({
                 target: context.player.creaturesInPlay.filter((card) =>

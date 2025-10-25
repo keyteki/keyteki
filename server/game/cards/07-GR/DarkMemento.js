@@ -9,7 +9,7 @@ class DarkMemento extends Card {
     setupCardAbilities(ability) {
         this.reaction({
             when: {
-                onBeginRound: (_, context) =>
+                onTurnStart: (_, context) =>
                     context.player === this.game.activePlayer && !context.player.isHaunted()
             },
             condition: (context) => context.player.deck.length > 0,

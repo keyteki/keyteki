@@ -8,7 +8,7 @@ class DeipnoSpymaster extends Card {
             target: {
                 cardType: 'creature',
                 controller: 'self',
-                gameAction: ability.actions.forRemainderOfTurn((context) => ({
+                gameAction: ability.actions.untilPlayerTurnEnd((context) => ({
                     effect: ability.effects.canUse((card) => card === context.target)
                 }))
             },

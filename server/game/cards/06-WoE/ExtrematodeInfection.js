@@ -15,7 +15,7 @@ class ExtrematodeInfection extends Card {
 
         this.reaction({
             when: {
-                onBeginRound: (event, context) => context.player === this.game.activePlayer
+                onTurnStart: (event, context) => context.player === this.game.activePlayer
             },
             gameAction: ability.actions.removeHatchCounter(() => ({
                 target: this

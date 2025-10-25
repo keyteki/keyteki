@@ -8,14 +8,14 @@ class NirborFlamewing extends Card {
     //
     // Destroyed: Make a token creature.
     setupCardAbilities(ability) {
-        this.leftPlaySinceStartOfRound = false;
+        this.leftPlaySinceStartOfTurn = false;
 
         this.tracker = new EventRegistrar(this.game, this);
-        this.tracker.register(['onBeginRound', 'onCardLeavesPlay', 'onCardEntersPlay']);
+        this.tracker.register(['onTurnStart', 'onCardLeavesPlay', 'onCardEntersPlay']);
 
         this.reaction({
             when: {
-                onBeginRound: (_, context) => context.player === this.game.activePlayer
+                onTurnStart: (_, context) => context.player === this.game.activePlayer
             },
             optional: true,
             location: 'discard',
@@ -35,7 +35,7 @@ class NirborFlamewing extends Card {
             }
         });
 
-        // If Nirbor enters the discard pile during the `onBeginRound`
+        // If Nirbor enters the discard pile during the `onTurnStart`
         // window (e.g., because another Nirbor Flamewing destroyed it, or
         // General Order 24, or something else that destroys creatures at the
         // "start of your turn", we can loop it back into play again by
@@ -43,14 +43,14 @@ class NirborFlamewing extends Card {
         //
         // It gets to have one instance of its resurrection ability
         // each time it re-enters the discard pile. (So, for instance, you
-        // shouldn't be able to pop a ward during `onBeginRound` and then
+        // shouldn't be able to pop a ward during `onTurnStart` and then
         // kill the same creature during `onFinalizeBeginRound` in order to
         // get resurrected.)  So each time it leaves play, it gets the ability,
         // and each time it re-enters play, it loses it again.
         this.interrupt({
             when: {
                 onFinalizeBeginRound: (_, context) =>
-                    context.player === this.game.activePlayer && this.leftPlaySinceStartOfRound
+                    context.player === this.game.activePlayer && this.leftPlaySinceStartOfTurn
             },
             optional: true,
             location: 'discard',
@@ -82,19 +82,19 @@ class NirborFlamewing extends Card {
         });
     }
 
-    onBeginRound() {
-        this.leftPlaySinceStartOfRound = false;
+    onTurnStart() {
+        this.leftPlaySinceStartOfTurn = false;
     }
 
     onCardLeavesPlay(event) {
         if (event.card === this) {
-            this.leftPlaySinceStartOfRound = true;
+            this.leftPlaySinceStartOfTurn = true;
         }
     }
 
     onCardEntersPlay(event) {
         if (event.card === this) {
-            this.leftPlaySinceStartOfRound = false;
+            this.leftPlaySinceStartOfTurn = false;
         }
     }
 }

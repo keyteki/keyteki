@@ -8,7 +8,7 @@ class Dredge extends Card {
         this.play({
             effect:
                 "give each friendly creature 'Reap: Return a card from your discard pile to the top of your deck' for the remainder of the turn",
-            gameAction: ability.actions.forRemainderOfTurn({
+            gameAction: ability.actions.untilPlayerTurnEnd({
                 match: (card) => card.type === 'creature',
                 effect: ability.effects.gainAbility('reap', {
                     target: {

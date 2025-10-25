@@ -5,7 +5,7 @@ class Commandeer extends Card {
     setupCardAbilities(ability) {
         this.play({
             effect: 'capture an amber after playing a card for the remainder of the turn',
-            gameAction: ability.actions.forRemainderOfTurn((context) => ({
+            gameAction: ability.actions.untilPlayerTurnEnd((context) => ({
                 when: {
                     onCardPlayed: (event) =>
                         event.player === context.player && event.card !== context.source

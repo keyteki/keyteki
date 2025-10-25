@@ -7,7 +7,7 @@ class DeadMansChest extends Card {
     setupCardAbilities(ability) {
         this.creatureDestroyed = [];
         this.tracker = new EventRegistrar(this.game, this);
-        this.tracker.register(['onRoundEnded', 'onCardDestroyed']);
+        this.tracker.register(['onTurnEnd', 'onCardDestroyed']);
 
         this.play({
             target: {
@@ -37,7 +37,7 @@ class DeadMansChest extends Card {
         });
     }
 
-    onRoundEnded() {
+    onTurnEnd() {
         this.creatureDestroyed = [];
     }
 

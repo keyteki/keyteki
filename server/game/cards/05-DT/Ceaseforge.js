@@ -14,7 +14,7 @@ class Ceaseforge extends Card {
 
         this.reaction({
             when: {
-                onBeginRound: (event, context) => context.player === this.game.activePlayer
+                onTurnStart: (event, context) => context.player === this.game.activePlayer
             },
             gameAction: ability.actions.removeTimeCounter((context) => ({
                 target: context.source

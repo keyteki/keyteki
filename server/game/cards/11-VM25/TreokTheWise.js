@@ -7,7 +7,7 @@ class TreokTheWise extends Card {
             target: {
                 cardType: 'creature',
                 gameAction: ability.actions.cardLastingEffect({
-                    duration: 'untilNextTurn',
+                    duration: 'untilPlayerNextTurnStart',
                     effect: ability.effects.addKeyword({ invulnerable: 1 })
                 })
             },

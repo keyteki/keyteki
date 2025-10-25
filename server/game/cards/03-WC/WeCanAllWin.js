@@ -5,7 +5,7 @@ class WeCanAllWin extends Card {
     setupCardAbilities(ability) {
         this.play({
             effect: 'reduce key cost by 2 until the end of their next turn',
-            gameAction: ability.actions.untilEndOfMyNextTurn({
+            gameAction: ability.actions.untilPlayerNextTurnEnd({
                 targetController: 'any',
                 effect: ability.effects.modifyKeyCost(-2)
             })

@@ -11,7 +11,7 @@ class Grondal extends Card {
 
         this.reaction({
             when: {
-                onBeginRound: (_, context) => context.player === this.game.activePlayer
+                onTurnStart: (_, context) => context.player === this.game.activePlayer
             },
             target: {
                 mode: 'mostStat',
