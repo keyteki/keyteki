@@ -59,7 +59,7 @@ describe('Miss Chievous', function () {
             expect(this.dustPixie.location).toBe('discard');
             expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
         });
-        it('trechery creatures will not trigger', function () {
+        it('treachery creatures will not trigger', function () {
             this.player1.playCreature(this.infiltrator);
             expect(this.gub.location).toBe('deck');
             expect(this.keyToDis.location).toBe('deck');
