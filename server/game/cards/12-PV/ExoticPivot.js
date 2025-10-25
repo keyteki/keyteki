@@ -18,7 +18,7 @@ class ExoticPivot extends Card {
 
         this.fate({
             effect: 'prevent creatures from being played this turn',
-            gameAction: ability.actions.forRemainderOfTurn({
+            gameAction: ability.actions.untilPlayerTurnEnd({
                 targetController: 'opponent',
                 effect: ability.effects.playerCannot(
                     'play',

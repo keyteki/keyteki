@@ -6,7 +6,7 @@ class RackOfRedemption extends Card {
     setupCardAbilities(ability) {
         this.mutantDestroyed = undefined;
         this.tracker = new EventRegistrar(this.game, this);
-        this.tracker.register(['onBeginRound', 'onCardDestroyed']);
+        this.tracker.register(['onTurnStart', 'onCardDestroyed']);
 
         this.reaction({
             when: {
@@ -31,7 +31,7 @@ class RackOfRedemption extends Card {
         });
     }
 
-    onBeginRound() {
+    onTurnStart() {
         this.mutantDestroyed = undefined;
     }
 

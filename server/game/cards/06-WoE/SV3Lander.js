@@ -13,7 +13,7 @@ class SV3Lander extends Card {
         this.omni({
             gameAction: [
                 ability.actions.sacrifice(),
-                ability.actions.forRemainderOfTurn({
+                ability.actions.untilPlayerTurnEnd({
                     effect: ability.effects.canUse(
                         (card) => card.type === 'creature' && card.isToken()
                     )

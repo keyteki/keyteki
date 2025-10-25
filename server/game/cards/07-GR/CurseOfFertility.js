@@ -8,7 +8,7 @@ class CurseOfFertility extends Card {
     setupCardAbilities(ability) {
         this.interrupt({
             when: {
-                onRoundEnded: (_, context) =>
+                onTurnEnd: (_, context) =>
                     context.player === this.game.activePlayer &&
                     !!context.player.opponent &&
                     this.game.cardsPlayed.filter((card) => card.type === 'creature').length === 0

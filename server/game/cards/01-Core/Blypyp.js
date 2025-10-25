@@ -5,7 +5,7 @@ class Blypyp extends Card {
     setupCardAbilities(ability) {
         this.reap({
             effect: 'make the next Mars creature played this turn enter play ready',
-            gameAction: ability.actions.forRemainderOfTurn((context) => ({
+            gameAction: ability.actions.untilPlayerTurnEnd((context) => ({
                 when: {
                     onCardPlayed: (event) =>
                         event.card.type === 'creature' &&

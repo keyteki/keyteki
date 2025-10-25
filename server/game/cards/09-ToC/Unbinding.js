@@ -7,7 +7,7 @@ class Unbinding extends Card {
     setupCardAbilities(ability) {
         this.creatureDestroyedControllerUuid = {};
         this.tracker = new EventRegistrar(this.game, this);
-        this.tracker.register(['onRoundEnded', 'onCardDestroyed']);
+        this.tracker.register(['onTurnEnd', 'onCardDestroyed']);
 
         this.play({
             gameAction: ability.actions.sequential([
@@ -29,7 +29,7 @@ class Unbinding extends Card {
         });
     }
 
-    onRoundEnded() {
+    onTurnEnd() {
         this.creatureDestroyedControllerUuid = {};
     }
 

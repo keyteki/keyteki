@@ -13,7 +13,7 @@ class ImprovisedAviation extends Card {
                         onCardEntersPlay: (event) =>
                             event.card.type === 'creature' &&
                             event.context.game.activePlayer === event.card.controller,
-                        onRoundEnded: () => true
+                        onTurnEnd: () => true
                     },
                     multipleTrigger: false,
                     effect: [
@@ -25,7 +25,7 @@ class ImprovisedAviation extends Card {
                         // is entering play, and let it last for the rest of
                         // the round.
                         ability.effects.entersPlayWithEffect({
-                            duration: 'untilEndOfRound',
+                            duration: 'untilPlayerTurnEnd',
                             builder: () =>
                                 ability.effects.gainAbility('fight', {
                                     target: {

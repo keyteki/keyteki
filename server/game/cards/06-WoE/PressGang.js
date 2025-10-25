@@ -12,7 +12,7 @@ class PressGang extends Card {
         }
 
         this.tracker = new EventRegistrar(this.game, this);
-        this.tracker.register(['onCardDestroyed', 'onBeginRound']);
+        this.tracker.register(['onCardDestroyed', 'onTurnStart']);
 
         this.play({
             gameAction: ability.actions.sequential([
@@ -41,7 +41,7 @@ class PressGang extends Card {
         }
     }
 
-    onBeginRound() {
+    onTurnStart() {
         this.creaturesDestroyed[this.game.activePlayer.uuid] = 0;
         if (this.game.activePlayer.opponent) {
             this.creaturesDestroyed[this.game.activePlayer.opponent.uuid] = 0;

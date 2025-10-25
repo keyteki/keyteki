@@ -32,9 +32,9 @@ class PlainTextGameChatFormatter {
                 let message = this.formatMessageFragment(fragment.message);
 
                 switch (fragment.type) {
-                    case 'endofround':
+                    case 'endofturn':
                     case 'phasestart':
-                    case 'startofround':
+                    case 'startofturn':
                         result += `${HeaderDivider} ${message} ${HeaderDivider}`;
                         break;
                     case 'success':

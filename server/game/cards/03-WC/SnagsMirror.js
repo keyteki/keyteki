@@ -25,7 +25,7 @@ class SnagsMirror extends Card {
             when: {
                 onChooseActiveHouse: (event, context) => event.player !== context.player
             },
-            gameAction: ability.actions.untilEndOfMyNextTurn((context) => ({
+            gameAction: ability.actions.untilPlayerNextTurnEnd((context) => ({
                 targetController: 'player',
                 effect: ability.effects.stopHouseChoice(context.event.house)
             })),

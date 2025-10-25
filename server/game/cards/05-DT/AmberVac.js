@@ -7,7 +7,7 @@ class AmberVac extends Card {
         this.whileAttached({
             effect: ability.effects.gainAbility('reaction', {
                 when: {
-                    onBeginRound: (_event, context) => context.player === context.game.activePlayer
+                    onTurnStart: (_event, context) => context.player === context.game.activePlayer
                 },
                 gameAction: ability.actions.capture((context) => ({
                     target: context.source,

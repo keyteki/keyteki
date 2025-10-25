@@ -15,7 +15,7 @@ class J43G3RV extends GiganticCard {
 
         this.reap({
             effect: 'allow them to reap with up to 2 non staralliance card this turn',
-            gameAction: ability.actions.forRemainderOfTurn({
+            gameAction: ability.actions.untilPlayerTurnEnd({
                 effect: [
                     ability.effects.canReapNonHouse('staralliance'),
                     ability.effects.canReapNonHouse('staralliance')
@@ -25,7 +25,7 @@ class J43G3RV extends GiganticCard {
 
         this.fight({
             effect: 'allow them to fight with up to 2 non staralliance card this turn',
-            gameAction: ability.actions.forRemainderOfTurn({
+            gameAction: ability.actions.untilPlayerTurnEnd({
                 effect: [
                     ability.effects.canFightNonHouse('staralliance'),
                     ability.effects.canFightNonHouse('staralliance')

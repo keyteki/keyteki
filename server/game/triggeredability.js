@@ -12,7 +12,7 @@ const TriggeredAbilityContext = require('./TriggeredAbilityContext.js');
  *           trigger the reaction when that event is fired. For example, to
  *           trigger only at the end of the challenge phase, you would do:
  *           when: {
- *               onPhaseEnded: event => event.phase === 'conflict'
+ *               onPhaseEnd: event => event.phase === 'conflict'
  *           }
  *           Multiple events may be specified for cards that have multiple
  *           possible triggers for the same reaction.

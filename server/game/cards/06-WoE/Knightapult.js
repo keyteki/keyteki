@@ -11,7 +11,7 @@ class Knightapult extends Card {
                         onCardEntersPlay: (event) =>
                             event.card.type === 'creature' &&
                             event.context.game.activePlayer === event.card.controller,
-                        onRoundEnded: () => true
+                        onTurnEnd: () => true
                     },
                     multipleTrigger: false,
                     effect: [ability.effects.enterPlayAnywhere(), ability.effects.entersPlayReady()]
