@@ -72,16 +72,24 @@ describe('Neffru', function () {
             expect(this.player2.amber).toBe(3);
         });
 
-        it('should not cause any player to gain additional amber when actions or upgrades result  in creature destruction', function () {
-            this.player1.playUpgrade(this.soulkeeper, this.neffru);
+        it('should not cause any player to gain additional amber when actions results in creature destruction', function () {
             this.player1.play(this.aGiftOfÆmber);
             this.player1.clickCard(this.ancientYurk);
             this.player1.clickCard(this.neffru);
             this.player1.clickPrompt('Done');
+            expect(this.player1.amber).toBe(2);
+            expect(this.player2.amber).toBe(3);
+        });
+
+        it('should not cause any player to gain additional amber when upgrades result  in creature destruction', function () {
+            this.player1.playUpgrade(this.soulkeeper, this.neffru);
+            this.player1.fightWith(this.neffru, this.dysania);
+            expect(this.neffru.location).toBe('discard');
+            expect(this.dysania.location).toBe('discard');
             expect(this.player1).toHavePrompt('Soulkeeper');
             expect(this.player1).toBeAbleToSelect(this.brainEater);
-            this.player1.clickCard(this.docBookton);
-            expect(this.player1.amber).toBe(2);
+            this.player1.clickCard(this.brainEater);
+            expect(this.player1.amber).toBe(0);
             expect(this.player2.amber).toBe(3);
         });
 
