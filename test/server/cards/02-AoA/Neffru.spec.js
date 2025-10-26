@@ -10,7 +10,8 @@ describe('Neffru', function () {
                         'ember-imp',
                         'harbinger-of-doom',
                         'obsidian-forge'
-                    ]
+                    ],
+                    hand: ['soulkeeper', 'a-gift-of-æmber']
                 },
                 player2: {
                     amber: 3,
@@ -67,6 +68,27 @@ describe('Neffru', function () {
             this.player2.clickPrompt('logos');
             this.player2.fightWith(this.brainEater, this.neffru);
             expect(this.neffru.location).toBe('discard');
+            expect(this.player1.amber).toBe(0);
+            expect(this.player2.amber).toBe(3);
+        });
+
+        it('should not cause any player to gain additional amber when actions results in creature destruction', function () {
+            this.player1.play(this.aGiftOfÆmber);
+            this.player1.clickCard(this.ancientYurk);
+            this.player1.clickCard(this.neffru);
+            this.player1.clickPrompt('Done');
+            expect(this.player1.amber).toBe(2);
+            expect(this.player2.amber).toBe(3);
+        });
+
+        it('should not cause any player to gain additional amber when upgrades result  in creature destruction', function () {
+            this.player1.playUpgrade(this.soulkeeper, this.neffru);
+            this.player1.fightWith(this.neffru, this.dysania);
+            expect(this.neffru.location).toBe('discard');
+            expect(this.dysania.location).toBe('discard');
+            expect(this.player1).toHavePrompt('Soulkeeper');
+            expect(this.player1).toBeAbleToSelect(this.brainEater);
+            this.player1.clickCard(this.brainEater);
             expect(this.player1.amber).toBe(0);
             expect(this.player2.amber).toBe(3);
         });
