@@ -1,50 +1,37 @@
-import React from 'react';
+// @ts-nocheck
+import React, { useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 
 import './TimeLimitClock.scss';
 
-class TimeLimitClock extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            timer: undefined,
-            timeLeft: undefined
-        };
-    }
+const TimeLimitClock = ({ timeLimitStarted, timeLimitStartedAt, timeLimit }) => {
+    const [timeLeft, setTimeLeft] = useState(undefined);
+    const timerRef = useRef(null);
 
-    componentDidMount() {
-        this.updateProps(this.props);
-    }
-
-    // eslint-disable-next-line camelcase
-    UNSAFE_componentWillReceiveProps(props) {
-        this.updateProps(props);
-    }
-
-    updateProps(props) {
-        if (props.timeLimitStarted && !this.state.timer) {
-            let timer = setInterval(() => {
-                let endTime = moment(this.props.timeLimitStartedAt).add(
-                    this.props.timeLimit,
-                    'minutes'
-                );
-                let time = moment.utc(endTime.diff(moment())).format('mm:ss');
-                this.setState({ timeLeft: time });
+    useEffect(() => {
+        if (timeLimitStarted && !timerRef.current) {
+            timerRef.current = setInterval(() => {
+                const endTime = moment(timeLimitStartedAt).add(timeLimit, 'minutes');
+                const time = moment.utc(endTime.diff(moment())).format('mm:ss');
+                setTimeLeft(time);
             }, 1000);
-
-            this.setState({ timer: timer });
         }
-    }
 
-    render() {
-        return (
-            <div className='time-limit-clock card bg-dark border-primary'>
-                <h1>{this.state.timeLeft}</h1>
-            </div>
-        );
-    }
-}
+        return () => {
+            if (timerRef.current) {
+                clearInterval(timerRef.current);
+                timerRef.current = null;
+            }
+        };
+    }, [timeLimitStarted, timeLimitStartedAt, timeLimit]);
+
+    return (
+        <div className='time-limit-clock card bg-dark border-primary'>
+            <h1>{timeLeft}</h1>
+        </div>
+    );
+};
 
 TimeLimitClock.displayName = 'TimeLimitClock';
 TimeLimitClock.propTypes = {

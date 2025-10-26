@@ -1,51 +1,57 @@
+// @ts-nocheck
 import React from 'react';
 import PropTypes from 'prop-types';
 
-class Input extends React.Component {
-    render() {
-        const inputControl = (
-            <div>
-                <label
-                    htmlFor={this.props.name}
-                    className={this.props.labelClass + ' control-label'}
-                >
-                    {this.props.label}
-                </label>
-                <div className={this.props.fieldClass}>
-                    <input
-                        name={this.props.name}
-                        type={this.props.type}
-                        className='form-control'
-                        id={this.props.name}
-                        placeholder={this.props.placeholder}
-                        value={this.props.value}
-                        onChange={this.props.onChange}
-                        onBlur={this.props.onBlur}
-                        autoFocus={this.props.autoFocus}
-                        {...this.props.validationAttributes}
-                    />
-                    <span
-                        className='text-danger'
-                        data-valmsg-replace='true'
-                        data-valmsg-for={this.props.name}
-                    />
-                </div>
-                {this.props.children}
+const Input = ({
+    name,
+    label,
+    labelClass = '',
+    fieldClass,
+    type,
+    placeholder,
+    value,
+    onChange,
+    onBlur,
+    autoFocus,
+    validationAttributes,
+    noGroup,
+    children
+}) => {
+    const inputControl = (
+        <div>
+            <label htmlFor={name} className={labelClass + ' control-label'}>
+                {label}
+            </label>
+            <div className={fieldClass}>
+                <input
+                    name={name}
+                    type={type}
+                    className='form-control'
+                    id={name}
+                    placeholder={placeholder}
+                    value={value}
+                    onChange={onChange}
+                    onBlur={onBlur}
+                    autoFocus={autoFocus}
+                    {...validationAttributes}
+                />
+                <span className='text-danger' data-valmsg-replace='true' data-valmsg-for={name} />
             </div>
-        );
+            {children}
+        </div>
+    );
 
-        if (this.props.noGroup) {
-            return inputControl;
-        }
-
-        return <div className='form-group'>{inputControl}</div>;
+    if (noGroup) {
+        return inputControl;
     }
-}
+
+    return <div className='form-group'>{inputControl}</div>;
+};
 
 Input.displayName = 'Input';
 Input.propTypes = {
     autoFocus: PropTypes.bool,
-    children: PropTypes.object,
+    children: PropTypes.node,
     fieldClass: PropTypes.string,
     label: PropTypes.string,
     labelClass: PropTypes.string,
@@ -57,9 +63,6 @@ Input.propTypes = {
     type: PropTypes.oneOf(['text', 'password']),
     validationAttributes: PropTypes.object,
     value: PropTypes.string
-};
-Input.defaultProps = {
-    labelClass: ''
 };
 
 export default Input;

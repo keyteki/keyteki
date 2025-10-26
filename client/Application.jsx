@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { useEffect, useRef, useState, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import $ from 'jquery';
-import { connect } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { Container } from 'react-bootstrap';
 
 import { Constants } from './constants';
@@ -16,31 +16,36 @@ import Background from './assets/img/bgs/keyforge.png';
 import BlankBg from './assets/img/bgs/blank.png';
 import MassMutationBg from './assets/img/bgs/massmutation.png';
 
-class Application extends React.Component {
-    constructor(props) {
-        super(props);
+const Application = ({ navigate }) => {
+    const dispatch = useDispatch();
 
-        this.router = new Router();
+    const currentGame = useSelector((state) => state.lobby.currentGame);
+    const path = useSelector((state) => state.navigation.path);
+    const user = useSelector((state) => state.account.user);
+    const windowBlurred = useSelector((state) => state.lobby.windowBlurred);
 
-        this.onFocusChange = this.onFocusChange.bind(this);
-        this.blinkTab = this.blinkTab.bind(this);
-        this.state = {};
-        this.bgRef = React.createRef();
+    const [incompatibleBrowser, setIncompatibleBrowser] = useState(false);
+    const [cannotLoad, setCannotLoad] = useState(false);
 
-        this.backgrounds = { blank: BlankBg };
+    const bgRef = useRef(null);
+    const router = new Router();
+    const blinkIntervalRef = useRef(null);
 
+    const backgrounds = useRef({
+        blank: BlankBg,
+        massmutation: MassMutationBg,
+        keyforge: Background
+    });
+
+    useEffect(() => {
         for (let i = 0; i < Constants.Houses.length; ++i) {
-            this.backgrounds[Constants.Houses[i]] = Constants.HouseBgPaths[Constants.Houses[i]];
+            backgrounds.current[Constants.Houses[i]] = Constants.HouseBgPaths[Constants.Houses[i]];
         }
+    }, []);
 
-        this.backgrounds.massmutation = MassMutationBg;
-        this.backgrounds.keyforge = Background;
-    }
-
-    // eslint-disable-next-line react/no-deprecated
-    componentWillMount() {
+    useEffect(() => {
         if (!localStorage) {
-            this.setState({ incompatibleBrowser: true });
+            setIncompatibleBrowser(true);
         } else {
             try {
                 let token = localStorage.getItem('token');
@@ -48,180 +53,163 @@ class Application extends React.Component {
                 if (refreshToken) {
                     const parsedToken = tryParseJSON(refreshToken);
                     if (parsedToken) {
-                        this.props.setAuthTokens(token, parsedToken);
-                        this.props.authenticate();
+                        dispatch(actions.setAuthTokens(token, parsedToken));
+                        dispatch(actions.authenticate());
                     }
                 }
             } catch (error) {
-                this.setState({ cannotLoad: true });
+                setCannotLoad(true);
             }
         }
 
-        this.props.loadCards();
-        this.props.loadFactions();
-        this.props.loadStandaloneDecks();
+        dispatch(actions.loadCards());
+        dispatch(actions.loadFactions());
+        dispatch(actions.loadStandaloneDecks());
 
         $(document).ajaxError((event, xhr) => {
             if (xhr.status === 403) {
-                this.props.navigate('/unauth');
+                navigate('/unauth');
             }
         });
 
-        this.props.connectLobby();
-        window.addEventListener('focus', this.onFocusChange);
-        window.addEventListener('blur', this.onFocusChange);
-    }
+        dispatch(actions.connectLobby());
+    }, [dispatch, navigate]);
 
-    componentDidUpdate(props) {
-        if (!props.windowBlurred || this.props.windowBlurred) {
-            this.blinkTab();
-        }
-    }
+    const onFocusChange = useCallback(
+        (event) => {
+            dispatch(actions.setWindowBlur(event.type));
+        },
+        [dispatch]
+    );
 
-    componentWillUnmount() {
-        window.removeEventListener('focus', this.onFocusChange);
-        window.removeEventListener('blur', this.onFocusChange);
-    }
+    useEffect(() => {
+        window.addEventListener('focus', onFocusChange);
+        window.addEventListener('blur', onFocusChange);
 
-    blinkTab() {
-        if (!this.props.currentGame || !this.props.currentGame.players) {
+        return () => {
+            window.removeEventListener('focus', onFocusChange);
+            window.removeEventListener('blur', onFocusChange);
+        };
+    }, [onFocusChange]);
+
+    const blinkTab = useCallback(() => {
+        if (!currentGame || !currentGame.players) {
             return;
         }
 
-        if (Object.keys(this.props.currentGame.players).length < 2) {
+        if (Object.keys(currentGame.players).length < 2) {
             return;
         }
 
-        const activePlayer = Object.values(this.props.currentGame.players).find(
-            (x) => x.activePlayer
-        );
+        const activePlayer = Object.values(currentGame.players).find((x) => x.activePlayer);
         if (
             document.title !== 'Alert!' &&
             activePlayer &&
-            this.props.user &&
-            activePlayer.name === this.props.user.username
+            user &&
+            activePlayer.name === user.username
         ) {
             let oldTitle = document.title;
             let msg = 'Alert!';
-            let timeoutId = false;
 
             let blink = function () {
                 document.title = document.title === msg ? oldTitle : msg;
 
                 if (document.hasFocus()) {
                     document.title = oldTitle;
-                    clearInterval(timeoutId);
+                    if (blinkIntervalRef.current) {
+                        clearInterval(blinkIntervalRef.current);
+                        blinkIntervalRef.current = null;
+                    }
                 }
             };
 
-            if (!timeoutId) {
-                timeoutId = setInterval(blink, 500);
+            if (!blinkIntervalRef.current) {
+                blinkIntervalRef.current = setInterval(blink, 500);
             }
         }
-    }
+    }, [currentGame, user]);
 
-    onFocusChange(event) {
-        this.props.setWindowBlur(event.type);
-    }
-
-    render() {
-        let gameBoardVisible =
-            this.props.currentGame && this.props.currentGame.started && this.props.path === '/play';
-
-        let component = this.router.resolvePath({
-            pathname: this.props.path,
-            user: this.props.user,
-            currentGame: this.props.currentGame
-        });
-
-        if (this.state.incompatibleBrowser) {
-            component = (
-                <AlertPanel
-                    type='error'
-                    message='Your browser does not provide the required functionality for this site to work.  Please upgrade your browser.  The site works best with a recent version of Chrome, Safari or Firefox.'
-                />
-            );
-        } else if (this.state.cannotLoad) {
-            component = (
-                <AlertPanel
-                    type='error'
-                    message='This site requires the ability to store cookies and local site data to function.  Please enable these features to use the site.'
-                />
-            );
+    useEffect(() => {
+        if (!windowBlurred) {
+            blinkTab();
         }
+    }, [windowBlurred, blinkTab]);
 
-        let background = 'keyforge';
-
-        if (gameBoardVisible && this.props.user) {
-            let houseIndex = Constants.HousesNames.indexOf(this.props.user.settings.background);
-            if (houseIndex === -1) {
-                background = `${this.props.user?.settings?.background}`;
-            } else {
-                background = `${Constants.Houses[houseIndex]}`;
+    useEffect(() => {
+        return () => {
+            if (blinkIntervalRef.current) {
+                clearInterval(blinkIntervalRef.current);
             }
+        };
+    }, []);
 
-            if (
-                this.bgRef.current &&
-                background === 'custom' &&
-                this.props.user.settings.customBackground
-            ) {
-                this.bgRef.current.style.backgroundImage = `url('/img/bgs/${this.props.user.settings.customBackground}.png')`;
-            } else if (this.bgRef.current) {
-                this.bgRef.current.style.backgroundImage = `url('${this.backgrounds[background]}')`;
-            }
-        } else if (this.bgRef.current) {
-            this.bgRef.current.style.backgroundImage = `url('${Background}')`;
-        }
+    let gameBoardVisible = currentGame && currentGame.started && path === '/play';
 
-        return (
-            <div className='bg' ref={this.bgRef}>
-                <Navigation appName='The Crucible Online' user={this.props.user} />
-                <div className='wrapper'>
-                    <Container className='content'>
-                        <ErrorBoundary
-                            navigate={this.props.navigate}
-                            errorPath={this.props.path}
-                            message={"We're sorry - something's gone wrong."}
-                        >
-                            {component}
-                        </ErrorBoundary>
-                    </Container>
-                </div>
-                <div className='keyforge-font' style={{ zIndex: -999 }}>
-                    &nbsp;
-                </div>
-            </div>
+    let component = router.resolvePath({
+        pathname: path,
+        user: user,
+        currentGame: currentGame
+    });
+
+    if (incompatibleBrowser) {
+        component = (
+            <AlertPanel
+                type='error'
+                message='Your browser does not provide the required functionality for this site to work.  Please upgrade your browser.  The site works best with a recent version of Chrome, Safari or Firefox.'
+            />
+        );
+    } else if (cannotLoad) {
+        component = (
+            <AlertPanel
+                type='error'
+                message='This site requires the ability to store cookies and local site data to function.  Please enable these features to use the site.'
+            />
         );
     }
-}
+
+    let background = 'keyforge';
+
+    if (gameBoardVisible && user) {
+        let houseIndex = Constants.HousesNames.indexOf(user.settings.background);
+        if (houseIndex === -1) {
+            background = `${user?.settings?.background}`;
+        } else {
+            background = `${Constants.Houses[houseIndex]}`;
+        }
+
+        if (bgRef.current && background === 'custom' && user.settings.customBackground) {
+            bgRef.current.style.backgroundImage = `url('/img/bgs/${user.settings.customBackground}.png')`;
+        } else if (bgRef.current) {
+            bgRef.current.style.backgroundImage = `url('${backgrounds.current[background]}')`;
+        }
+    } else if (bgRef.current) {
+        bgRef.current.style.backgroundImage = `url('${Background}')`;
+    }
+
+    return (
+        <div className='bg' ref={bgRef}>
+            <Navigation appName='The Crucible Online' user={user} />
+            <div className='wrapper'>
+                <Container className='content'>
+                    <ErrorBoundary
+                        navigate={navigate}
+                        errorPath={path}
+                        message={"We're sorry - something's gone wrong."}
+                    >
+                        {component}
+                    </ErrorBoundary>
+                </Container>
+            </div>
+            <div className='keyforge-font' style={{ zIndex: -999 }}>
+                &nbsp;
+            </div>
+        </div>
+    );
+};
 
 Application.displayName = 'Application';
 Application.propTypes = {
-    authenticate: PropTypes.func,
-    connectLobby: PropTypes.func,
-    currentGame: PropTypes.object,
-    loadCards: PropTypes.func,
-    loadFactions: PropTypes.func,
-    loadPacks: PropTypes.func,
-    loadRestrictedList: PropTypes.func,
-    loadStandaloneDecks: PropTypes.func,
-    navigate: PropTypes.func,
-    path: PropTypes.string,
-    setAuthTokens: PropTypes.func,
-    setWindowBlur: PropTypes.func,
-    token: PropTypes.string,
-    user: PropTypes.object,
-    windowBlurred: PropTypes.bool
+    navigate: PropTypes.func
 };
 
-function mapStateToProps(state) {
-    return {
-        currentGame: state.lobby.currentGame,
-        path: state.navigation.path,
-        token: state.account.token,
-        user: state.account.user,
-        windowBlurred: state.lobby.windowBlurred
-    };
-}
-
-export default connect(mapStateToProps, actions)(Application);
+export default Application;

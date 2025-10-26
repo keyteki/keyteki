@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
@@ -8,11 +8,26 @@ import Droppable from './Droppable';
 
 import './PlayerBoard.scss';
 
-class PlayerBoard extends React.Component {
-    getCardRows() {
-        let groupedCards = this.props.cardsInPlay.reduce((group, card) => {
+const PlayerBoard = ({
+    cardsInPlay,
+    cardBack,
+    cardSize,
+    hand,
+    isMe,
+    isSpectating,
+    manualMode,
+    onCardClick,
+    onDragDrop,
+    onMenuItemClick,
+    onMouseOut,
+    onMouseOver,
+    rowDirection = 'default',
+    tide,
+    user
+}) => {
+    const getCardRows = useCallback(() => {
+        let groupedCards = cardsInPlay.reduce((group, card) => {
             (group[card.type] = group[card.type] || []).push(card);
-
             return group;
         }, {});
 
@@ -27,11 +42,10 @@ class PlayerBoard extends React.Component {
             other = other.concat(groupedCards[key]);
         }
 
-        if (this.props.rowDirection === 'reverse') {
+        if (rowDirection === 'reverse') {
             if (other.length > 0) {
                 rows.push({ name: 'other', cards: other });
             }
-
             rows.push({ name: 'artifacts', cards: artifacts });
             rows.push({ name: 'creatures', cards: creatures });
         } else {
@@ -43,79 +57,94 @@ class PlayerBoard extends React.Component {
         }
 
         return rows;
-    }
+    }, [cardsInPlay, rowDirection]);
 
-    renderRows(rows) {
-        return rows.map((row, index) => (
-            <div className={`card-row ${row.name}`} key={`card-row-${index}`}>
-                {this.renderRow(row.cards)}
-            </div>
-        ));
-    }
-
-    renderRow(row) {
-        return row.map((card) => (
-            <Card
-                key={card.uuid}
-                cardBack={this.props.cardBack}
-                canDrag={this.props.manualMode}
-                card={card}
-                disableMouseOver={card.facedown && !card.code}
-                halfSize={this.props.user.settings.optionSettings.useHalfSizedCards}
-                isSpectating={this.props.isSpectating}
-                onClick={this.props.onCardClick}
-                onMenuItemClick={this.props.onMenuItemClick}
-                onMouseOut={this.props.onMouseOut}
-                onMouseOver={this.props.onMouseOver}
-                size={this.props.user.settings.cardSize}
-                source='play area'
-            />
-        ));
-    }
-
-    render() {
-        let rows = this.getCardRows();
-
-        let className = classNames('player-board', {
-            'our-side': this.props.rowDirection === 'default',
-            player: this.props.isMe,
-            'board-high-tide': this.props.tide === 'high',
-            'board-low-tide': this.props.tide === 'low'
-        });
-
-        return (
-            <div className={className}>
-                <Droppable
-                    onDragDrop={this.props.onDragDrop}
+    const renderRow = useCallback(
+        (row) => {
+            return row.map((card) => (
+                <Card
+                    key={card.uuid}
+                    cardBack={cardBack}
+                    canDrag={manualMode}
+                    card={card}
+                    disableMouseOver={card.facedown && !card.code}
+                    halfSize={user.settings.optionSettings.useHalfSizedCards}
+                    isSpectating={isSpectating}
+                    onClick={onCardClick}
+                    onMenuItemClick={onMenuItemClick}
+                    onMouseOut={onMouseOut}
+                    onMouseOver={onMouseOver}
+                    size={user.settings.cardSize}
                     source='play area'
-                    manualMode={this.props.manualMode}
-                >
-                    {this.renderRows(rows)}
-                </Droppable>
-                {this.props.isMe && (
-                    <PlayerRow
-                        cardBack={this.props.cardBack}
-                        cardSize={this.props.cardSize}
-                        hand={this.props.hand}
-                        isMe={this.props.isMe}
-                        manualMode={this.props.manualMode}
-                        onCardClick={this.props.onCardClick}
-                        onDragDrop={this.props.onDragDrop}
-                        onMouseOut={this.props.onMouseOut}
-                        onMouseOver={this.props.onMouseOver}
-                    />
-                )}
-            </div>
-        );
-    }
-}
+                />
+            ));
+        },
+        [
+            cardBack,
+            manualMode,
+            user.settings.optionSettings.useHalfSizedCards,
+            user.settings.cardSize,
+            isSpectating,
+            onCardClick,
+            onMenuItemClick,
+            onMouseOut,
+            onMouseOver
+        ]
+    );
+
+    const renderRows = useCallback(
+        (rows) => {
+            return rows.map((row, index) => (
+                <div className={`card-row ${row.name}`} key={`card-row-${index}`}>
+                    {renderRow(row.cards)}
+                </div>
+            ));
+        },
+        [renderRow]
+    );
+
+    const rows = useMemo(() => getCardRows(), [getCardRows]);
+
+    const className = classNames('player-board', {
+        'our-side': rowDirection === 'default',
+        player: isMe,
+        'board-high-tide': tide === 'high',
+        'board-low-tide': tide === 'low'
+    });
+
+    return (
+        <div className={className}>
+            <Droppable onDragDrop={onDragDrop} source='play area' manualMode={manualMode}>
+                {renderRows(rows)}
+            </Droppable>
+            {isMe && (
+                <PlayerRow
+                    cardBack={cardBack}
+                    cardSize={cardSize}
+                    hand={hand}
+                    isMe={isMe}
+                    manualMode={manualMode}
+                    onCardClick={onCardClick}
+                    onDragDrop={onDragDrop}
+                    onMouseOut={onMouseOut}
+                    onMouseOver={onMouseOver}
+                />
+            )}
+        </div>
+    );
+};
 
 PlayerBoard.displayName = 'PlayerBoard';
 PlayerBoard.propTypes = {
+    cardBack: PropTypes.string,
+    cardSize: PropTypes.string,
     cardsInPlay: PropTypes.array,
-    manualMode: PropTypes.bool,
+    hand: PropTypes.array,
+    isMe: PropTypes.bool,
     isSpectating: PropTypes.bool,
+    manualMode: PropTypes.bool,
     onCardClick: PropTypes.func,
+    onDragDrop: PropTypes.func,
     onMenuItemClick: PropTypes.func,
     onMouseOut: PropTypes.func,
     onMouseOver: PropTypes.func,

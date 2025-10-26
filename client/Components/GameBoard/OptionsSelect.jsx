@@ -1,76 +1,60 @@
-import React from 'react';
+// @ts-nocheck
+import React, { useCallback, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
+import { Button } from '@heroui/react';
 
-import { withTranslation } from 'react-i18next';
+import { useTranslation } from 'react-i18next';
 
-class OptionsSelect extends React.Component {
-    constructor(props) {
-        super(props);
+const OptionsSelect = ({ options, onOptionSelected }) => {
+    const { t } = useTranslation();
+    const [selectedOption, setSelectedOption] = useState(
+        options && options.length > 0 ? '' + options[0].arg : -1
+    );
 
-        this.state = {
-            selectedOption: null,
-            prevOptions: null
-        };
-
-        this.onChange = this.onChange.bind(this);
-        this.onDoneClicked = this.onDoneClicked.bind(this);
-    }
-
-    static getDerivedStateFromProps(props, state) {
-        if (props.options !== state.prevOptions) {
-            return {
-                selectedOption:
-                    props.options && props.options.length > 0 ? '' + props.options[0].arg : -1,
-                prevOptions: props.options
-            };
+    useEffect(() => {
+        if (options && options.length > 0) {
+            setSelectedOption('' + options[0].arg);
         }
+    }, [options]);
 
-        return null;
-    }
+    const onChange = useCallback((event) => {
+        setSelectedOption(event.target.value);
+    }, []);
 
-    onChange(event) {
-        this.setState({ selectedOption: event.target.value });
-    }
+    const onDoneClicked = useCallback(
+        (event) => {
+            event.preventDefault();
+            if (onOptionSelected) {
+                onOptionSelected(selectedOption);
+            }
+        },
+        [onOptionSelected, selectedOption]
+    );
 
-    onDoneClicked(event) {
-        event.preventDefault();
-
-        if (this.props.onOptionSelected) {
-            this.props.onOptionSelected(this.state.selectedOption);
-        }
-    }
-
-    render() {
-        return (
-            <div>
-                <select className='form-control' onChange={this.onChange}>
-                    {this.props.options.map((option) => (
-                        <option
-                            key={option.value}
-                            selected={this.state.selectedOption === '' + option.arg}
-                            value={option.arg}
-                        >
-                            {option.text}
-                        </option>
-                    ))}
-                </select>
-                <button
-                    className='btn btn-default prompt-button btn-stretch option-button'
-                    onClick={this.onDoneClicked}
-                >
-                    {this.props.t('Done')}
-                </button>
-            </div>
-        );
-    }
-}
+    return (
+        <div>
+            <select className='form-control' onChange={onChange} value={selectedOption}>
+                {options.map((option) => (
+                    <option key={option.value} value={option.arg}>
+                        {option.text}
+                    </option>
+                ))}
+            </select>
+            <Button
+                className='prompt-button btn-stretch option-button'
+                onClick={onDoneClicked}
+                color='default'
+            >
+                {t('Done')}
+            </Button>
+        </div>
+    );
+};
 
 OptionsSelect.displayName = 'OptionsSelect';
 OptionsSelect.propTypes = {
-    i18n: PropTypes.object,
     onOptionSelected: PropTypes.func,
-    options: PropTypes.array,
-    t: PropTypes.func
+    options: PropTypes.array
 };
 
-export default withTranslation()(OptionsSelect);
+export default OptionsSelect;
