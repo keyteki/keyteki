@@ -2,7 +2,6 @@ import React, { useEffect, useState, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { toastr } from 'react-redux-toastr';
 import { Trans, useTranslation } from 'react-i18next';
-import { Col } from 'react-bootstrap';
 import { Carousel } from 'react-responsive-carousel';
 
 import NewsComponent from '../Components/News/News';
@@ -91,8 +90,8 @@ const Lobby = () => {
             <SideBar>
                 <UserList users={users} />
             </SideBar>
-            <div>
-                <Col sm={{ span: 10, offset: 1 }}>
+            <div className='flex-1'>
+                <div className='mx-auto max-w-6xl px-4'>
                     <Carousel
                         autoPlay={true}
                         infiniteLoop={true}
@@ -117,25 +116,19 @@ const Lobby = () => {
                             );
                         })}
                     </Carousel>
-                </Col>
-            </div>
+                </div>
 
-            {motd?.message && (
-                <div>
-                    <Col sm={{ span: 10, offset: 1 }} className='banner'>
+                {motd?.message && (
+                    <div className='mx-auto max-w-6xl px-4 banner'>
                         <AlertPanel type={motd.motdType} message={motd.message}></AlertPanel>
-                    </Col>
-                </div>
-            )}
-            {bannerNotice && (
-                <div>
-                    <Col sm={{ span: 10, offset: 1 }} className='annoucement'>
+                    </div>
+                )}
+                {bannerNotice && (
+                    <div className='mx-auto max-w-6xl px-4 annoucement'>
                         <AlertPanel message={bannerNotice} type='error' />
-                    </Col>
-                </div>
-            )}
-            <div>
-                <Col sm={{ span: 10, offset: 1 }}>
+                    </div>
+                )}
+                <div className='mx-auto max-w-6xl px-4'>
                     <Panel title={t('Latest site news')}>
                         {apiState?.loading ? (
                             <div>
@@ -144,53 +137,53 @@ const Lobby = () => {
                         ) : null}
                         <NewsComponent news={news} />
                     </Panel>
-                </Col>
-            </div>
-            <Col sm={{ span: 10, offset: 1 }} className='chat-container'>
-                <Panel
-                    title={t('Lobby Chat ({{users}}) online', {
-                        users: users.length
-                    })}
-                >
-                    <div>
-                        <LobbyChat
-                            messages={messages}
-                            isModerator={user?.permissions?.canModerateChat}
-                            onRemoveMessageClick={(messageId) =>
-                                dispatch(removeLobbyMessage(messageId))
-                            }
-                        />
-                    </div>
-                </Panel>
-                <form
-                    className='form form-hozitontal chat-box-container'
-                    onSubmit={(event) => {
-                        event.preventDefault();
-                        sendMessage();
-                    }}
-                >
-                    <div className='form-group'>
-                        <div className='chat-box'>
-                            <Typeahead
-                                disabled={!isLoggedIn}
-                                ref={messageRef}
-                                value={message}
-                                placeholder={t(placeholder)}
-                                labelKey={'name'}
-                                onKeyDown={onKeyPress}
-                                options={users}
-                                onInputChange={(value) =>
-                                    setMessage(value.substring(0, Math.min(512, value.length)))
+                </div>
+                <div className='mx-auto max-w-6xl px-4 chat-container'>
+                    <Panel
+                        title={t('Lobby Chat ({{users}}) online', {
+                            users: users.length
+                        })}
+                    >
+                        <div>
+                            <LobbyChat
+                                messages={messages}
+                                isModerator={user?.permissions?.canModerateChat}
+                                onRemoveMessageClick={(messageId) =>
+                                    dispatch(removeLobbyMessage(messageId))
                                 }
-                                autoFocus
-                                dropup
-                                emptyLabel={''}
-                                minLength={2}
                             />
                         </div>
-                    </div>
-                </form>
-            </Col>
+                    </Panel>
+                    <form
+                        className='form form-hozitontal chat-box-container'
+                        onSubmit={(event) => {
+                            event.preventDefault();
+                            sendMessage();
+                        }}
+                    >
+                        <div className='form-group'>
+                            <div className='chat-box'>
+                                <Typeahead
+                                    disabled={!isLoggedIn}
+                                    ref={messageRef}
+                                    value={message}
+                                    placeholder={t(placeholder)}
+                                    labelKey={'name'}
+                                    onKeyDown={onKeyPress}
+                                    options={users}
+                                    onInputChange={(value) =>
+                                        setMessage(value.substring(0, Math.min(512, value.length)))
+                                    }
+                                    autoFocus
+                                    dropup
+                                    emptyLabel={''}
+                                    minLength={2}
+                                />
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
         </div>
     );
 };

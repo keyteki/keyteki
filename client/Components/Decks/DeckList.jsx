@@ -1,22 +1,16 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { Col, Form, Row } from 'react-bootstrap';
+import React, { useMemo, useEffect } from 'react';
 import moment from 'moment';
-import BootstrapTable from 'react-bootstrap-table-next';
-import paginationFactory from 'react-bootstrap-table2-paginator';
-import filterFactory, { textFilter, multiSelectFilter } from 'react-bootstrap-table2-filter';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
-import Select from 'react-select';
-import debounce from 'lodash.debounce';
-import $ from 'jquery';
-
-import CardBack from './CardBack.jsx';
-import { loadDecks, selectDeck, loadStandaloneDecks } from '../../redux/actions';
-
-import './DeckList.scss';
-import { Constants } from '../../constants';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheck } from '@fortawesome/free-solid-svg-icons';
+import { Button, Checkbox, CheckboxGroup } from '@heroui/react';
+import ReactTable from '../Table/ReactTable';
+import CardBack from './CardBack.jsx';
+import DeckStatus from './DeckStatus';
+import './DeckList.scss';
+import { Constants } from '../../constants';
+import { loadDecks, loadStandaloneDecks, selectDeck } from '../../redux/actions';
 
 /**
  * @typedef CardLanguage
@@ -86,280 +80,236 @@ import { faCheck } from '@fortawesome/free-solid-svg-icons';
 /**
  * @param {DeckListProps} props
  */
-const DeckList = ({
-    deckFilter,
-    onDeckSelected,
-    standaloneDecks = false,
-    expansions = Constants.Expansions
-}) => {
+const DeckList = ({ deckFilter, onDeckSelected, standaloneDecks = false }) => {
     const { t } = useTranslation();
-    const [pagingDetails, setPagingDetails] = useState({
-        pageSize: 10,
-        page: 1,
-        sort: 'lastUpdated',
-        sortDir: 'desc',
-        filter: deckFilter
-            ? Object.entries(deckFilter).map(([k, v]) => {
-                  return { name: k, value: v };
-              })
-            : []
-    });
-    const nameFilter = useRef(null);
-    const expansionFilter = useRef(null);
     const dispatch = useDispatch();
+    const decks = useSelector((state) =>
+        standaloneDecks ? state.cards.standaloneDecks : state.cards.decks
+    );
+    const numDecks = useSelector((state) => state.cards.numDecks);
+    const selectedDeck = useSelector((state) =>
+        standaloneDecks ? null : state.cards.selectedDeck
+    );
 
-    const { decks, numDecks, selectedDeck } = useSelector((state) => ({
-        decks: standaloneDecks ? state.cards.standaloneDecks : state.cards.decks,
-        numDecks: state.cards.numDecks,
-        selectedDeck: standaloneDecks ? null : state.cards.selectedDeck
-    }));
+    // Adapter hook to match ReactTable's dataLoadFn interface using existing redux actions/state
+    const useDecksDataLoad = (opts) => {
+        const { pageIndex = 0, pageSize = 10, sorting, columnFilters } = opts || {};
 
-    useEffect(() => {
-        if (standaloneDecks) {
-            dispatch(loadStandaloneDecks());
-        } else {
-            dispatch(loadDecks(pagingDetails));
-        }
+        // Ensure stable dependency tracking for deckFilter object contents
+        // String key of deckFilter contents for stable deps without mutating original
+        const deckFilterKey = JSON.stringify(deckFilter || {});
 
-        $('.filter-label').parent().parent().hide();
-    }, [pagingDetails, dispatch, standaloneDecks]);
+        const pagingDetails = useMemo(() => {
+            const pd = {
+                pageSize: pageSize,
+                page: pageIndex + 1, // Convert 0-indexed to 1-indexed
+                sort: sorting && sorting[0] ? sorting[0].id : 'lastUpdated',
+                sortDir: sorting && sorting[0] && sorting[0].desc ? 'desc' : 'asc',
+                // Explicit any[] to avoid TS inferring never[] under checkJS
+                filter: /** @type {any[]} */ ([])
+            };
 
-    const MultiSelectFilter = () => {
+            if (columnFilters && columnFilters.length > 0) {
+                pd.filter = columnFilters.map((/** @type {any} */ f) => ({
+                    name: f.id,
+                    value: f.value
+                }));
+            }
+
+            const df = deckFilterKey ? JSON.parse(deckFilterKey) : null;
+            if (df) {
+                for (const [k, v] of Object.entries(/** @type {any} */ (df))) {
+                    pd.filter.push({ name: k, value: v });
+                }
+            }
+
+            return pd;
+        }, [pageIndex, pageSize, sorting, columnFilters, deckFilterKey]);
+
+        useEffect(() => {
+            if (standaloneDecks) {
+                dispatch(loadStandaloneDecks());
+            } else {
+                dispatch(loadDecks(pagingDetails));
+            }
+        }, [pagingDetails]);
+
+        const refetch = useMemo(
+            () => () => {
+                if (standaloneDecks) {
+                    dispatch(/** @type {any} */ (loadStandaloneDecks()));
+                } else {
+                    dispatch(/** @type {any} */ (loadDecks(pagingDetails)));
+                }
+            },
+            [pagingDetails]
+        );
+
+        return {
+            data: { data: decks || [], totalCount: numDecks || 0 },
+            isLoading: false,
+            isError: false,
+            refetch
+        };
+    };
+
+    // Named cell renderers to satisfy react/display-name and improve DevTools labels
+    const IdCell = (info) => (
+        <div className='deck-image'>
+            <CardBack deck={info.row.original} size={'normal'} />
+        </div>
+    );
+
+    const NameCell = (info) => <span className='cursor-pointer'>{info.getValue()}</span>;
+
+    const SetCell = (info) => (
+        <img className='deck-expansion' src={Constants.SetIconPaths[info.getValue()]} />
+    );
+
+    const AddedCell = (info) => moment(info.getValue()).format('YYYY-MM-DD');
+
+    const WinRateCell = (info) => `${info.getValue()?.toFixed(2)}%`;
+
+    const AllianceCell = (info) =>
+        info.getValue() ? (
+            <div className='text-center'>
+                <FontAwesomeIcon icon={faCheck} />
+            </div>
+        ) : null;
+
+    const ValidityCell = (info) => (
+        <div className='flex justify-center'>
+            <DeckStatus status={info.row.original.status} />
+        </div>
+    );
+
+    const ExpansionGroupingFilter = ({ table, close }) => {
+        const column = table.getColumn('expansion');
+        const current = column.getFilterValue() || [];
+        const selected = new Set(current.map((e) => e.value));
+        const allKeys = new Set(Constants.Expansions.map((e) => e.value));
+
+        const setSelected = (keys) => {
+            if (!keys || keys.size === 0 || keys.size === allKeys.size) {
+                column.setFilterValue(undefined);
+            } else {
+                const values = Constants.Expansions.filter((e) => keys.has(e.value));
+                column.setFilterValue(values);
+            }
+        };
+
         return (
-            <Select
-                isMulti
-                options={expansions}
-                defaultValue={expansions}
-                value={pagingDetails.filter.find((f) => f.name === 'expansion')?.value}
-                onChange={(values) => expansionFilter.current(values.map((v) => v))}
-            />
+            <div className='p-2 w-64'>
+                <div className='flex justify-between items-center mb-2'>
+                    <span className='font-semibold'>{t('Filter by Set')}</span>
+                    <div className='flex gap-1'>
+                        <Button size='sm' variant='flat' onPress={() => setSelected(new Set())}>
+                            {t('None')}
+                        </Button>
+                        <Button size='sm' variant='flat' onPress={() => setSelected(allKeys)}>
+                            {t('All')}
+                        </Button>
+                    </div>
+                </div>
+                <CheckboxGroup
+                    orientation='vertical'
+                    value={Array.from(selected)}
+                    onValueChange={(vals) => setSelected(new Set(/** @type {any[]} */ (vals)))}
+                    classNames={{ wrapper: 'max-h-64 overflow-y-auto pr-2' }}
+                >
+                    {Constants.Expansions.map((/** @type {any} */ e) => (
+                        <Checkbox key={e.value} value={e.value}>
+                            <div className='flex items-center gap-2'>
+                                <img
+                                    className='h-5 w-5'
+                                    src={/** @type {any} */ (Constants.SetIconPaths)[e.value]}
+                                />
+                                <span>{e.label}</span>
+                            </div>
+                        </Checkbox>
+                    ))}
+                </CheckboxGroup>
+                <div className='flex justify-end mt-2'>
+                    <Button size='sm' color='primary' onPress={close}>
+                        {t('Close')}
+                    </Button>
+                </div>
+            </div>
         );
     };
 
-    const selectRow = {
-        mode: 'radio',
-        clickToSelect: true,
-        hideSelectColumn: true,
-        selected: decks && selectedDeck ? [decks.find((d) => d.id === selectedDeck.id)?.id] : [],
-        classes: 'selected-deck',
-        onSelect: (deck, isSelect) => {
-            if (isSelect) {
-                dispatch(selectDeck(deck));
+    const columns = useMemo(
+        () => [
+            {
+                accessorKey: 'none',
+                header: t('Id'),
+                cell: IdCell,
+                meta: { colWidth: '8%' },
+                enableSorting: false,
+                enableColumnFilter: false
+            },
+            {
+                accessorKey: 'name',
+                header: t('Name'),
+                cell: NameCell,
+                meta: { colWidth: '40%' }
+            },
+            {
+                accessorKey: 'expansion',
+                header: t('Set'),
+                cell: SetCell,
+                meta: {
+                    colWidth: '10%',
+                    className: 'text-center',
+                    groupingFilter: ExpansionGroupingFilter
+                },
+                enableSorting: false
+            },
+            {
+                accessorKey: 'lastUpdated',
+                header: t('Added'),
+                cell: AddedCell,
+                meta: { colWidth: '15%', className: 'text-center' }
+            },
+            {
+                accessorKey: 'winRate',
+                header: t('Win %'),
+                cell: WinRateCell,
+                meta: { colWidth: '12%', className: 'text-center max-sm:hidden' }
+            },
+            {
+                accessorKey: 'isAlliance',
+                header: t('A'),
+                cell: AllianceCell,
+                meta: { colWidth: '8%', className: 'text-center' }
+            },
+            {
+                id: 'status',
+                header: t('Validity'),
+                cell: ValidityCell,
+                meta: { colWidth: '10%', className: 'text-center' },
+                enableSorting: false,
+                enableColumnFilter: false
             }
-        }
-    };
-
-    const rowEvents = {
-        onClick: (event, deck) => {
-            onDeckSelected && onDeckSelected(deck);
-        }
-    };
-
-    const rowClasses = (row) => {
-        if (!row.status.basicRules) {
-            return 'invalid';
-        }
-
-        return '';
-    };
-
-    /**
-     * @param {any} type
-     * @param {PagingDetails} data
-     */
-    const onTableChange = (type, data) => {
-        let newPageData = Object.assign({}, pagingDetails);
-        switch (type) {
-            case 'pagination':
-                if (
-                    (pagingDetails.page !== data.page && data.page !== 0) ||
-                    (pagingDetails.pageSize !== data.sizePerPage && data.sizePerPage !== 0)
-                ) {
-                    newPageData.page = data.page || pagingDetails.page;
-                    newPageData.pageSize = data.sizePerPage;
-                }
-
-                break;
-            case 'sort':
-                newPageData.sort = data.sortField;
-                newPageData.sortDir = data.sortOrder;
-
-                break;
-            case 'filter':
-                newPageData.filter = Object.keys(data.filters).map((k) => ({
-                    name: k,
-                    value: data.filters[k].filterVal
-                }));
-
-                //filter comming from elsewhere than the table change
-                if (deckFilter) {
-                    newPageData.filter.push({ name: 'isAlliance', value: deckFilter.isAlliance });
-                    newPageData.filter.push({ name: 'expansion', value: deckFilter.expansion });
-                }
-
-                break;
-        }
-
-        setPagingDetails(newPageData);
-    };
-
-    const columns = [
-        {
-            dataField: 'none',
-            headerStyle: {
-                width: '12%'
-            },
-            text: t('Id'),
-            sort: false,
-            // eslint-disable-next-line react/display-name
-            formatter: (_, row) => (
-                <div className='deck-image'>
-                    <CardBack deck={row} size={'normal'} />
-                </div>
-            )
-        },
-        {
-            dataField: 'name',
-            text: t('Name'),
-            sort: !standaloneDecks,
-            style: {
-                fontSize: '0.8rem'
-            },
-            filter: textFilter({
-                getFilter: (filter) => {
-                    nameFilter.current = filter;
-                }
-            })
-        },
-        {
-            dataField: 'expansion',
-            text: t('Set'),
-            headerStyle: {
-                width: '13%'
-            },
-            align: 'center',
-            sort: !standaloneDecks,
-            // eslint-disable-next-line react/display-name
-            formatter: (cell) => (
-                <img className='deck-expansion' src={Constants.SetIconPaths[cell]} />
-            ),
-            filter: multiSelectFilter({
-                options: {},
-                getFilter: (filter) => {
-                    expansionFilter.current = filter;
-                }
-            })
-        },
-        {
-            dataField: 'lastUpdated',
-            headerStyle: {
-                width: '18%'
-            },
-            style: {
-                fontSize: '0.7rem'
-            },
-            align: 'center',
-            text: t('Added'),
-            sort: !standaloneDecks,
-            /**
-             * @param {Date} cell
-             */
-            formatter: (cell) => moment(cell).format('YYYY-MM-DD')
-        },
-        {
-            dataField: 'winRate',
-            align: 'center',
-            text: t('Win %'),
-            headerStyle: {
-                width: '18%'
-            },
-            style: {
-                fontSize: '0.8rem'
-            },
-            sort: !standaloneDecks,
-            hidden: standaloneDecks,
-            /**
-             * @param {number} cell
-             */
-            formatter: (cell) => `${cell?.toFixed(2)}%`
-        },
-        {
-            dataField: 'isAlliance',
-            align: 'center',
-            text: t('A'),
-            headerStyle: {
-                width: '11%'
-            },
-            style: {
-                fontSize: '0.8rem'
-            },
-            sort: true,
-            // eslint-disable-next-line react/display-name
-            formatter: (_, row) =>
-                row.isAlliance ? (
-                    <div>
-                        <FontAwesomeIcon icon={faCheck} />
-                    </div>
-                ) : null
-        }
-    ];
-
-    let onNameChange = debounce((event) => {
-        nameFilter.current(event.target.value.toLowerCase());
-    }, 500);
+        ],
+        [t]
+    );
 
     return (
         <div className='deck-list'>
-            {!standaloneDecks && (
-                <Col md={12}>
-                    <Form>
-                        <Row>
-                            <Form.Group as={Col} lg='6' controlId='formGridName'>
-                                <Form.Label>{t('Name')}</Form.Label>
-                                <Form.Control
-                                    name='name'
-                                    type='text'
-                                    onChange={(event) => {
-                                        event.persist();
-                                        onNameChange(event);
-                                    }}
-                                    placeholder={t('Filter by name')}
-                                />
-                            </Form.Group>
-                            <Form.Group as={Col} lg='6' controlId='formGridExpansion'>
-                                <Form.Label>{t('Expansion')}</Form.Label>
-                                <Form.Control as={MultiSelectFilter} />
-                            </Form.Group>
-                        </Row>
-                    </Form>
-                </Col>
-            )}
-            <Col md={12}>
-                <BootstrapTable
-                    bootstrap4
-                    remote
-                    hover
-                    keyField='id'
-                    data={decks}
-                    columns={columns}
-                    selectRow={selectRow}
-                    rowEvents={rowEvents}
-                    rowClasses={rowClasses}
-                    pagination={
-                        standaloneDecks
-                            ? null
-                            : paginationFactory({
-                                  page: pagingDetails.page,
-                                  sizePerPage: pagingDetails.pageSize,
-                                  totalSize: numDecks
-                              })
+            <ReactTable
+                columns={columns}
+                dataLoadFn={useDecksDataLoad}
+                remote
+                onRowClick={(row) => onDeckSelected && onDeckSelected(row.original)}
+                selectedRows={selectedDeck ? new Set([selectedDeck.id]) : new Set([])}
+                onRowSelectionChange={(rows) => {
+                    const deck = rows[0]?.original;
+                    if (deck) {
+                        dispatch(selectDeck(deck));
                     }
-                    filter={filterFactory()}
-                    filterPosition='top'
-                    onTableChange={onTableChange}
-                    defaultSorted={[{ dataField: 'datePublished', order: 'desc' }]}
-                />
-            </Col>
+                }}
+            />
         </div>
     );
 };

@@ -1,13 +1,13 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import moment from 'moment';
+import { Button } from '@heroui/react';
 
 import Form from '../Components/Form/Form';
 import Panel from '../Components/Site/Panel';
 import ApiStatus from '../Components/Site/ApiStatus';
 import AlertPanel from '../Components/Site/AlertPanel';
 import * as actions from '../redux/actions';
-import { Col } from 'react-bootstrap';
 
 const BanlistAdmin = () => {
     const dispatch = useDispatch();
@@ -94,33 +94,30 @@ const BanlistAdmin = () => {
                 <td>{moment(entry.added).format('YYYY-MM-DD')}</td>
                 <td>{entry.user}</td>
                 <td>
-                    <button
-                        type='button'
-                        className='btn btn-danger'
+                    <Button
+                        color='danger'
                         onClick={() => onDeleteClick(entry.id)}
+                        isLoading={apiDeleteState && apiDeleteState.loading}
                     >
-                        Delete{' '}
-                        {apiDeleteState && apiDeleteState.loading && (
-                            <span className='spinner button-spinner' />
-                        )}
-                    </button>
+                        Delete
+                    </Button>
                 </td>
             </tr>
         );
     });
 
     return (
-        <Col>
+        <div className='flex flex-col gap-4'>
             {statusBar}
             {successMessage && <AlertPanel type='success' message={successMessage} />}
             <Panel title='Banlist administration'>
-                <table className='table table-striped'>
+                <table className='table table-striped w-full'>
                     <thead>
                         <tr>
-                            <th className='col-sm-2'>Ip</th>
-                            <th className='col-sm-2'>Added</th>
-                            <th className='col-sm-3'>Added By</th>
-                            <th className='col-sm-2'>Action</th>
+                            <th className='w-1/4'>Ip</th>
+                            <th className='w-1/4'>Added</th>
+                            <th className='w-1/3'>Added By</th>
+                            <th className='w-1/6'>Action</th>
                         </tr>
                     </thead>
                     <tbody>{renderedBanlist}</tbody>
@@ -130,12 +127,12 @@ const BanlistAdmin = () => {
                 <Form
                     name='banlistAdmin'
                     apiLoading={apiAddState && apiAddState.loading}
-                    buttonClass='col-sm-offset-2 col-sm-4'
+                    buttonClass='ml-32 w-1/3'
                     buttonText='Add'
                     onSubmit={onAddBanlistClick}
                 />
             </Panel>
-        </Col>
+        </div>
     );
 };
 

@@ -1,7 +1,6 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useEffect } from 'react';
-import { NavDropdown } from 'react-bootstrap';
+import { Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, Button } from '@heroui/react';
 
 const languages = [
     {
@@ -66,25 +65,25 @@ const LanguageSelector = () => {
     }, [i18n]);
 
     return (
-        <NavDropdown
-            drop='left'
-            className='d-flex align-items-center'
-            id='nav-Lang'
-            onSelect={(lang) => {
-                i18n.changeLanguage(lang);
-            }}
-            title={i18n.language}
-        >
-            {languages.map((lang) => (
-                <NavDropdown.Item
-                    className='navbar-item interactable dropdown-child'
-                    key={lang.value}
-                    eventKey={lang.value}
-                >
-                    {lang.name}
-                </NavDropdown.Item>
-            ))}
-        </NavDropdown>
+        <Dropdown placement='bottom-end'>
+            <DropdownTrigger>
+                <Button variant='light' className='bg-transparent text-foreground'>
+                    {i18n.language}
+                </Button>
+            </DropdownTrigger>
+            <DropdownMenu
+                aria-label='Language selector'
+                selectedKeys={[i18n.language]}
+                selectionMode='single'
+                onAction={(key) => i18n.changeLanguage(String(key))}
+            >
+                {languages.map((lang) => (
+                    <DropdownItem key={lang.value} textValue={lang.name}>
+                        <span className='navbar-item interactable dropdown-child'>{lang.name}</span>
+                    </DropdownItem>
+                ))}
+            </DropdownMenu>
+        </Dropdown>
     );
 };
 

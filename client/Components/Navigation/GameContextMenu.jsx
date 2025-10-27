@@ -1,5 +1,4 @@
 import React from 'react';
-import { Nav } from 'react-bootstrap';
 import { useSelector, useDispatch } from 'react-redux';
 import { useTranslation, Trans } from 'react-i18next';
 import { toastr } from 'react-redux-toastr';
@@ -91,20 +90,25 @@ const GameContextMenu = () => {
             {showPopup && spectatorPopup}
             {!isSpectating && (
                 <li className='navbar-item'>
-                    <Nav.Link
+                    <button
+                        type='button'
                         onClick={() => dispatch(sendGameMessage('concede'))}
-                        className='navbar-item interactable'
+                        className='navbar-item interactable bg-transparent border-0'
                     >
                         <span>
                             <Trans>Concede</Trans>
                         </span>
-                    </Nav.Link>
+                    </button>
                 </li>
             )}
             <li className='navbar-item'>
-                <Nav.Link onClick={onLeaveClick} className='navbar-item interactable'>
+                <button
+                    type='button'
+                    onClick={onLeaveClick}
+                    className='navbar-item interactable bg-transparent border-0'
+                >
                     <Trans>Leave Game</Trans>
-                </Nav.Link>
+                </button>
             </li>
         </>
     );

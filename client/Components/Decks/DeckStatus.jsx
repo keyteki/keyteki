@@ -1,7 +1,7 @@
 import React from 'react';
 import classNames from 'classnames';
 import { useTranslation } from 'react-i18next';
-import { Popover, OverlayTrigger } from 'react-bootstrap';
+import { Popover, PopoverTrigger, PopoverContent } from '@heroui/react';
 
 import DeckStatusSummary from './DeckStatusSummary';
 
@@ -42,10 +42,13 @@ const DeckStatus = ({ status }) => {
         statusName = t('Valid');
     }
 
-    const popover = (
-        <Popover id='deck-status-popover'>
-            <Popover.Content>
-                <div>
+    return (
+        <Popover placement='right'>
+            <PopoverTrigger>
+                <span className={className}>{statusName}</span>
+            </PopoverTrigger>
+            <PopoverContent>
+                <div className='p-2'>
                     <DeckStatusSummary status={status} />
                     {status.extendedStatus && status.extendedStatus.length !== 0 && (
                         <ul className='deck-status-errors'>
@@ -55,14 +58,8 @@ const DeckStatus = ({ status }) => {
                         </ul>
                     )}
                 </div>
-            </Popover.Content>
+            </PopoverContent>
         </Popover>
-    );
-
-    return (
-        <OverlayTrigger placement='right' overlay={popover}>
-            <span className={className}>{statusName}</span>
-        </OverlayTrigger>
     );
 };
 

@@ -1,8 +1,7 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import ReactClipboard from 'react-clipboardjs-copy';
-import { Form } from 'react-bootstrap';
-import { Button } from '@heroui/react';
+import { Button, Input } from '@heroui/react';
 import { Trans, useTranslation } from 'react-i18next';
 import $ from 'jquery';
 
@@ -254,22 +253,20 @@ const PendingGame = () => {
                 >
                     <Messages messages={currentGame.messages} />
                 </div>
-                <Form>
-                    <Form.Group>
-                        <Form.Control
-                            type='text'
-                            placeholder={t('Enter a message...')}
-                            value={message}
-                            onKeyPress={(event) => {
-                                if (event.key === 'Enter') {
-                                    sendMessage();
-                                    event.preventDefault();
-                                }
-                            }}
-                            onChange={(event) => setMessage(event.target.value)}
-                        ></Form.Control>
-                    </Form.Group>
-                </Form>
+                <div className='mt-2'>
+                    <Input
+                        type='text'
+                        placeholder={t('Enter a message...')}
+                        value={message}
+                        onKeyDown={(event) => {
+                            if (event.key === 'Enter') {
+                                sendMessage();
+                                event.preventDefault();
+                            }
+                        }}
+                        onChange={(e) => setMessage(e.target.value)}
+                    />
+                </div>
             </Panel>
             {showModal && (
                 <SelectDeckModal

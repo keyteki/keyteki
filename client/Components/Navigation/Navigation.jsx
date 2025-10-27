@@ -10,7 +10,7 @@ import GameContextMenu from './GameContextMenu';
 
 import './Navigation.scss';
 import Link from './Link';
-import { Nav, Navbar, NavDropdown } from 'react-bootstrap';
+import { Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, Button } from '@heroui/react';
 
 import HeaderIcon from '../../assets/img/main_header_logo.png';
 import SmallHeaderIcon from '../../assets/img/header_icon.png';
@@ -99,23 +99,30 @@ const Navigation = (props) => {
 
             if (children && children.length > 0) {
                 return (
-                    <NavDropdown
-                        key={menuItem.title}
-                        id={`nav-${menuItem.title}`}
-                        title={t(menuItem.title)}
-                    >
-                        {children.map((childItem) =>
-                            childItem.path ? (
-                                <NavDropdown.Item
-                                    as={Link}
-                                    href={childItem.path}
-                                    className='navbar-item interactable dropdown-child'
-                                >
-                                    {t(childItem.title)}
-                                </NavDropdown.Item>
-                            ) : null
-                        )}
-                    </NavDropdown>
+                    <Dropdown key={menuItem.title} placement='bottom-start'>
+                        <DropdownTrigger>
+                            <Button variant='light' className='bg-transparent text-foreground'>
+                                {t(menuItem.title)}
+                            </Button>
+                        </DropdownTrigger>
+                        <DropdownMenu aria-label={t(menuItem.title)}>
+                            {children.map((childItem) =>
+                                childItem.path ? (
+                                    <DropdownItem
+                                        key={childItem.path}
+                                        textValue={t(childItem.title)}
+                                    >
+                                        <Link
+                                            href={childItem.path}
+                                            className='navbar-item interactable dropdown-child'
+                                        >
+                                            {t(childItem.title)}
+                                        </Link>
+                                    </DropdownItem>
+                                ) : null
+                            )}
+                        </DropdownMenu>
+                    </Dropdown>
                 );
             }
 
@@ -124,9 +131,9 @@ const Navigation = (props) => {
             }
             return (
                 <li key={menuItem.title}>
-                    <Nav.Link className='navbar-item interactable' as={Link} href={menuItem.path}>
+                    <Link className='navbar-item interactable' href={menuItem.path}>
                         {t(menuItem.title)}
-                    </Nav.Link>
+                    </Link>
                 </li>
             );
         });
@@ -139,62 +146,45 @@ const Navigation = (props) => {
     );
 
     return (
-        <Navbar bg='dark' color='dark' className='navbar-sm' fixed='top' expand='lg'>
-            <div className='d-flex justify-content-between flex-grow-1 d-lg-none'>
-                <div className='flex-basis-0 flex-grow-1'></div>
-                <Navbar.Brand className='navbar-brand bg-dark  mr-0' as={Link} href='/'>
-                    <img
-                        src={SmallHeaderIcon}
-                        height='32'
-                        className='d-inline-block align-top'
-                        alt='TCO Logo'
-                    />
-                </Navbar.Brand>
-                <div className='flex-grow-1 flex-basis-0 d-flex justify-content-end'>
-                    <Navbar.Toggle aria-controls='navbar' />
+        <nav className='navbar-sm fixed top-0 left-0 right-0 bg-dark text-foreground z-50'>
+            <div className='container mx-auto px-4'>
+                <div className='flex items-center justify-between py-2'>
+                    <ul className='flex items-center gap-4'>{renderMenuItems(LeftMenu)}</ul>
+
+                    <Link href='/' className='navbar-brand hidden lg:block'>
+                        <img
+                            src={currentGame?.started ? SmallHeaderIcon : HeaderIcon}
+                            height='32'
+                            className='d-inline-block align-top'
+                            alt='TCO Logo'
+                        />
+                    </Link>
+
+                    <ul className='flex items-center gap-4 text-nowrap'>
+                        <GameContextMenu />
+                        {!currentGame?.started && numGames}
+                        {currentGame?.started ? (
+                            <ServerStatus
+                                connected={gameConnected}
+                                connecting={gameConnecting}
+                                serverType='Game server'
+                                responseTime={gameResponse}
+                            />
+                        ) : (
+                            <ServerStatus
+                                connected={lobbySocketConnected}
+                                connecting={lobbySocketConnecting}
+                                serverType='Lobby'
+                                responseTime={lobbyResponse}
+                            />
+                        )}
+                        {renderMenuItems(RightMenu)}
+                        <ProfileDropdown menu={ProfileMenu} user={props.user} />
+                        <LanguageSelector />
+                    </ul>
                 </div>
             </div>
-
-            <Navbar.Collapse id='navbar' className='flex-grow-1 justify-content-between'>
-                <Nav className='mb-2 mb-lg-0 bg-dark flex-grow-1 flex-basis-0'>
-                    {renderMenuItems(LeftMenu)}
-                </Nav>
-                <Navbar.Brand
-                    className='navbar-brand bg-dark d-none d-lg-block mr-0'
-                    as={Link}
-                    href='/'
-                >
-                    <img
-                        src={currentGame?.started ? SmallHeaderIcon : HeaderIcon}
-                        height='32'
-                        className='d-inline-block align-top'
-                        alt='TCO Logo'
-                    />
-                </Navbar.Brand>
-                <Nav className='bg-dark flex-grow-1 flex-basis-0 d-flex justify-content-end text-nowrap'>
-                    <GameContextMenu />
-                    {!currentGame?.started && numGames}
-                    {currentGame?.started ? (
-                        <ServerStatus
-                            connected={gameConnected}
-                            connecting={gameConnecting}
-                            serverType='Game server'
-                            responseTime={gameResponse}
-                        />
-                    ) : (
-                        <ServerStatus
-                            connected={lobbySocketConnected}
-                            connecting={lobbySocketConnecting}
-                            serverType='Lobby'
-                            responseTime={lobbyResponse}
-                        />
-                    )}
-                    {renderMenuItems(RightMenu)}
-                    <ProfileDropdown menu={ProfileMenu} user={props.user} />
-                    <LanguageSelector />
-                </Nav>
-            </Navbar.Collapse>
-        </Navbar>
+        </nav>
     );
 };
 

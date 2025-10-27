@@ -1,6 +1,6 @@
 import React from 'react';
 import Panel from '../Site/Panel';
-import { Form, Row } from 'react-bootstrap';
+import { Switch } from '@heroui/react';
 import { useTranslation } from 'react-i18next';
 
 /**
@@ -21,35 +21,41 @@ const KeyforgeGameSettings = ({ formProps }) => {
 
     return (
         <Panel title={t('Game Settings')}>
-            <Row>
-                <Form.Check
+            <div className='flex flex-col gap-2'>
+                <Switch
                     id='orderForcedAbilities'
                     name='gameOptions.orderForcedAbilities'
-                    label={t('Prompt to order simultaneous abilities')}
-                    type='switch'
-                    checked={formProps.values.gameOptions.orderForcedAbilities}
-                    onChange={formProps.handleChange}
+                    isSelected={formProps.values.gameOptions.orderForcedAbilities}
+                    onValueChange={(checked) =>
+                        formProps.setFieldValue('gameOptions.orderForcedAbilities', checked)
+                    }
                     onBlur={formProps.handleBlur}
-                />
-                <Form.Check
+                >
+                    {t('Prompt to order simultaneous abilities')}
+                </Switch>
+                <Switch
                     id='confirmOneClick'
                     name='gameOptions.confirmOneClick'
-                    label={t('Show a prompt when initiating 1-click abilities')}
-                    type='switch'
-                    checked={formProps.values.gameOptions.confirmOneClick}
-                    onChange={formProps.handleChange}
+                    isSelected={formProps.values.gameOptions.confirmOneClick}
+                    onValueChange={(checked) =>
+                        formProps.setFieldValue('gameOptions.confirmOneClick', checked)
+                    }
                     onBlur={formProps.handleBlur}
-                />
-                <Form.Check
+                >
+                    {t('Show a prompt when initiating 1-click abilities')}
+                </Switch>
+                <Switch
                     id='useHalfSizedCards'
                     name='gameOptions.useHalfSizedCards'
-                    label={t('Use half sized card images')}
-                    type='switch'
-                    checked={formProps.values.gameOptions.useHalfSizedCards}
-                    onChange={formProps.handleChange}
+                    isSelected={formProps.values.gameOptions.useHalfSizedCards}
+                    onValueChange={(checked) =>
+                        formProps.setFieldValue('gameOptions.useHalfSizedCards', checked)
+                    }
                     onBlur={formProps.handleBlur}
-                />
-            </Row>
+                >
+                    {t('Use half sized card images')}
+                </Switch>
+            </div>
         </Panel>
     );
 };

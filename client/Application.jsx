@@ -2,7 +2,6 @@ import React, { useEffect, useRef, useState, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import $ from 'jquery';
 import { useSelector, useDispatch } from 'react-redux';
-import { Container } from 'react-bootstrap';
 
 import { Constants } from './constants';
 import ErrorBoundary from './Components/Site/ErrorBoundary';
@@ -190,7 +189,7 @@ const Application = ({ navigate }) => {
         <div className='bg' ref={bgRef}>
             <Navigation appName='The Crucible Online' user={user} />
             <div className='wrapper'>
-                <Container className='content'>
+                <div className='content container mx-auto px-4'>
                     <ErrorBoundary
                         navigate={navigate}
                         errorPath={path}
@@ -198,7 +197,7 @@ const Application = ({ navigate }) => {
                     >
                         {component}
                     </ErrorBoundary>
-                </Container>
+                </div>
             </div>
             <div className='keyforge-font' style={{ zIndex: -999 }}>
                 &nbsp;

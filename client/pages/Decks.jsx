@@ -1,7 +1,7 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Trans, useTranslation } from 'react-i18next';
-import { Col, Row } from 'react-bootstrap';
+import { Button } from '@heroui/react';
 
 import Panel from '../Components/Site/Panel';
 import Link from '../Components/Navigation/Link';
@@ -33,28 +33,32 @@ const DecksComponent = () => {
 
     return (
         <div className='full-height'>
-            <Col sm={12}>
+            <div className='w-full'>
                 <ApiStatus
                     state={apiState}
                     onClose={() => dispatch(clearApiStatus(Decks.DeleteDeck))}
                 />
-            </Col>
-            <Row>
-                <Col lg={6} className='full-height'>
+            </div>
+            <div className='grid grid-cols-1 lg:grid-cols-2 gap-4'>
+                <div className='full-height'>
                     <Panel title={t('Your decks')}>
-                        <Col className='text-center'>
-                            <Link className='btn btn-primary' href='/decks/import'>
-                                <Trans>Import Deck</Trans>
+                        <div className='text-center mb-4'>
+                            <Link href='/decks/import'>
+                                <Button color='primary'>
+                                    <Trans>Import Deck</Trans>
+                                </Button>
                             </Link>
-                            <Link className='btn btn-primary ml-2' href='/decks/alliance'>
-                                <Trans>Build Alliance Deck</Trans>
+                            <Link href='/decks/alliance' className='ml-2'>
+                                <Button color='primary'>
+                                    <Trans>Build Alliance Deck</Trans>
+                                </Button>
                             </Link>
-                        </Col>
+                        </div>
                         <DeckList />
                     </Panel>
-                </Col>
-                <Col lg={6}>{selectedDeck && <ViewDeck deck={selectedDeck} />}</Col>
-            </Row>
+                </div>
+                <div>{selectedDeck && <ViewDeck deck={selectedDeck} />}</div>
+            </div>
         </div>
     );
 };

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
-import { Modal } from 'react-bootstrap';
+import { Modal, ModalContent, ModalHeader, ModalBody } from '@heroui/react';
 
 import DeckList from '../Decks/DeckList.jsx';
 
@@ -18,12 +18,10 @@ const SelectDeckModal = ({
     const { t } = useTranslation();
 
     return (
-        <>
-            <Modal show={true} onHide={onClose}>
-                <Modal.Header closeButton>
-                    <Modal.Title>{t('Select Deck')}</Modal.Title>
-                </Modal.Header>
-                <Modal.Body>
+        <Modal isOpen={true} onClose={onClose} size='5xl' scrollBehavior='inside'>
+            <ModalContent>
+                <ModalHeader>{t('Select Deck')}</ModalHeader>
+                <ModalBody>
                     <div>
                         <DeckList
                             deckFilter={deckFilter}
@@ -39,9 +37,9 @@ const SelectDeckModal = ({
                             </div>
                         )}
                     </div>
-                </Modal.Body>
-            </Modal>
-        </>
+                </ModalBody>
+            </ModalContent>
+        </Modal>
     );
 };
 

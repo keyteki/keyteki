@@ -7,8 +7,7 @@ import Panel from '../Components/Site/Panel';
 import { useTranslation } from 'react-i18next';
 import { Account } from '../redux/types';
 import { clearApiStatus, forgotPassword } from '../redux/actions';
-import { Form, Col, Row } from 'react-bootstrap';
-import { Button } from '@heroui/react';
+import { Button, Input } from '@heroui/react';
 import { Formik } from 'formik';
 import * as yup from 'yup';
 import ApiStatus from '../Components/Site/ApiStatus';
@@ -43,7 +42,7 @@ const ForgotPassword = () => {
     });
 
     return (
-        <Col sm={{ span: 6, offset: 3 }}>
+        <div className='max-w-2xl mx-auto px-4'>
             <Panel title={t('Forgot password')}>
                 {!apiState && (
                     <AlertPanel
@@ -70,57 +69,51 @@ const ForgotPassword = () => {
                     initialValues={initialValues}
                 >
                     {(formProps) => (
-                        <Form
+                        <form
                             onSubmit={(event) => {
                                 event.preventDefault();
                                 formProps.handleSubmit(event);
                             }}
                         >
-                            <Row>
-                                <Form.Group as={Col} sm='8' controlId='formGridUsername'>
-                                    <Form.Label>{t('Username')}</Form.Label>
-                                    <Form.Control
-                                        name='username'
-                                        type='text'
-                                        placeholder={t('Enter your username or email address')}
-                                        value={formProps.values.username}
-                                        onChange={formProps.handleChange}
-                                        onBlur={formProps.handleBlur}
-                                        isInvalid={
-                                            formProps.touched.username &&
-                                            !!formProps.errors.username
-                                        }
-                                    />
-                                    <Form.Control.Feedback type='invalid'>
-                                        {formProps.errors.username}
-                                    </Form.Control.Feedback>
-                                </Form.Group>
-                            </Row>
-                            <Row>
-                                <Form.Group as={Col} sm={8}>
-                                    <ReCAPTCHA
-                                        className='is-invalid'
-                                        sitekey='6LdMGfYUAAAAAJN_sqZOBPn0URaFkWQ1QXvQqBbj'
-                                        theme='dark'
-                                        onChange={(value) =>
-                                            formProps.setFieldValue('captchaValue', value, true)
-                                        }
-                                    />
-                                    <Form.Control.Feedback type='invalid'>
+                            <div className='mb-4'>
+                                <Input
+                                    label={t('Username')}
+                                    name='username'
+                                    type='text'
+                                    placeholder={t('Enter your username or email address')}
+                                    value={formProps.values.username}
+                                    onChange={formProps.handleChange}
+                                    onBlur={formProps.handleBlur}
+                                    isInvalid={
+                                        formProps.touched.username && !!formProps.errors.username
+                                    }
+                                    errorMessage={formProps.errors.username}
+                                />
+                            </div>
+                            <div className='mb-4'>
+                                <ReCAPTCHA
+                                    sitekey='6LdMGfYUAAAAAJN_sqZOBPn0URaFkWQ1QXvQqBbj'
+                                    theme='dark'
+                                    onChange={(value) =>
+                                        formProps.setFieldValue('captchaValue', value, true)
+                                    }
+                                />
+                                {formProps.errors.captchaValue && (
+                                    <span className='text-danger text-xs'>
                                         {formProps.errors.captchaValue}
-                                    </Form.Control.Feedback>
-                                </Form.Group>
-                            </Row>
+                                    </span>
+                                )}
+                            </div>
                             <div className='text-center'>
                                 <Button color='primary' type='submit'>
                                     {t('Submit')}
                                 </Button>
                             </div>
-                        </Form>
+                        </form>
                     )}
                 </Formik>
             </Panel>
-        </Col>
+        </div>
     );
 };
 

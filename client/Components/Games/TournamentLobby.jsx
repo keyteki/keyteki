@@ -5,7 +5,6 @@ import { toastr } from 'react-redux-toastr';
 import { Trans, useTranslation } from 'react-i18next';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleNotch } from '@fortawesome/free-solid-svg-icons';
-import { Col, Form, Row } from 'react-bootstrap';
 import { Button } from '@heroui/react';
 
 import NewGame from './NewGame';
@@ -156,7 +155,7 @@ const TournamentLobby = () => {
     );
 
     return (
-        <Col md={{ span: 8, offset: 2 }}>
+        <div className='mx-auto max-w-4xl px-4'>
             <Panel title={t('Tournament Organizer Panel')}>
                 <ApiStatus
                     state={requestTournamentsState}
@@ -174,19 +173,17 @@ const TournamentLobby = () => {
                     state={attachmentState}
                     onClose={() => dispatch(clearApiStatus(Challonge.CreateAttachments))}
                 />
-                <Row>
-                    <Form.Group as={Col} sm='8'>
-                        <Form.Control
-                            as='select'
-                            value={tournament?.id}
-                            onChange={() => {
-                                let tournament = tournaments.find(
-                                    (t) => t.id === parseInt(event.target.value)
-                                );
-
-                                if (tournament) {
-                                    dispatch(fetchFullTournament(event.target.value));
-                                    setTournament(tournament);
+                <div className='grid grid-cols-1 sm:grid-cols-[2fr_1fr] gap-4 items-end'>
+                    <div>
+                        <select
+                            className='w-full border rounded p-2 bg-content1'
+                            value={tournament?.id || ''}
+                            onChange={(event) => {
+                                const id = parseInt(event.target.value);
+                                const tmt = tournaments.find((t) => t.id === id);
+                                if (tmt) {
+                                    dispatch(fetchFullTournament(id));
+                                    setTournament(tmt);
                                 }
                             }}
                         >
@@ -197,105 +194,104 @@ const TournamentLobby = () => {
                                     key={index}
                                 >{`${tournament.name} (${tournament.state})`}</option>
                             ))}
-                        </Form.Control>
-                    </Form.Group>
-                    <Col sm='4'>
+                        </select>
+                    </div>
+                    <div>
                         <Button color='primary' onClick={() => dispatch(fetchTournaments())}>
                             <Trans>Refresh Tournaments</Trans>
                             {requestTournamentsState?.loading && (
                                 <FontAwesomeIcon icon={faCircleNotch} spin />
                             )}
                         </Button>
-                    </Col>
-                </Row>
-                <Row>
-                    <Col>
-                        {openMatches[0] && (
-                            <div className='match-round'>{'Round: ' + openMatches[0].round}</div>
-                        )}
-                        {openMatches.map((match, index) => {
-                            const game = tournamentGames.find(
-                                (game) => game.challonge && game.challonge.matchId === match.id
-                            );
-                            return (
-                                <Row className='mb-1' key={index}>
-                                    <Col sm='5'>
-                                        Table {index + 1}: {getParticipantName(match.player1_id)} vs{' '}
-                                        {getParticipantName(match.player2_id)} (
-                                        {game && game.started ? 'In Progress' : 'Pending'})
-                                    </Col>
-                                    <Col sm='3'>
-                                        {game ? (
-                                            game.started ? (
-                                                <Button
-                                                    color='primary'
-                                                    value={game.id}
-                                                    onClick={(event) =>
-                                                        dispatch(
-                                                            navigate(
-                                                                '/play',
-                                                                `?gameId=${event.target.value}`
-                                                            )
+                    </div>
+                </div>
+                <div className='mt-4'>
+                    {openMatches[0] && (
+                        <div className='match-round'>{'Round: ' + openMatches[0].round}</div>
+                    )}
+                    {openMatches.map((match, index) => {
+                        const game = tournamentGames.find(
+                            (game) => game.challonge && game.challonge.matchId === match.id
+                        );
+                        return (
+                            <div
+                                className='grid grid-cols-1 sm:grid-cols-[5fr_3fr_3fr] gap-2 mb-1'
+                                key={index}
+                            >
+                                <div>
+                                    Table {index + 1}: {getParticipantName(match.player1_id)} vs{' '}
+                                    {getParticipantName(match.player2_id)} (
+                                    {game && game.started ? 'In Progress' : 'Pending'})
+                                </div>
+                                <div>
+                                    {game ? (
+                                        game.started ? (
+                                            <Button
+                                                color='primary'
+                                                value={game.id}
+                                                onClick={(event) =>
+                                                    dispatch(
+                                                        navigate(
+                                                            '/play',
+                                                            `?gameId=${event.target.value}`
                                                         )
-                                                    }
-                                                >
-                                                    <Trans>Watch</Trans>
-                                                </Button>
-                                            ) : (
-                                                <ReactClipboard text={getMatchLink(game)}>
-                                                    <Button color='primary'>Copy Game Link</Button>
-                                                </ReactClipboard>
-                                            )
-                                        ) : (
-                                            <Button
-                                                color='primary'
-                                                value={match.id}
-                                                onClick={createGames}
-                                            >
-                                                Create Game
-                                            </Button>
-                                        )}
-                                    </Col>
-                                    {index <= 0 && (
-                                        <Col sm='3'>
-                                            <Button
-                                                color='primary'
-                                                onClick={() =>
-                                                    dispatch(fetchMatches(tournament.id))
+                                                    )
                                                 }
                                             >
-                                                <Trans>Refresh Matches</Trans>
-                                                {matchState?.loading && (
-                                                    <FontAwesomeIcon icon={faCircleNotch} spin />
-                                                )}
+                                                <Trans>Watch</Trans>
                                             </Button>
-                                        </Col>
+                                        ) : (
+                                            <ReactClipboard text={getMatchLink(game)}>
+                                                <Button color='primary'>Copy Game Link</Button>
+                                            </ReactClipboard>
+                                        )
+                                    ) : (
+                                        <Button
+                                            color='primary'
+                                            value={match.id}
+                                            onClick={createGames}
+                                        >
+                                            Create Game
+                                        </Button>
                                     )}
-                                </Row>
-                            );
-                        })}
-                        <div className='text-center mt-3'>
-                            <Button
-                                color='primary'
-                                value='all'
-                                isDisabled={matchesWithNoGames.length <= 0}
-                                onClick={createGames}
-                            >
-                                <Trans>Create All Games</Trans>
-                            </Button>
-                            <Button
-                                color='primary'
-                                onClick={sendAttachment}
-                                isDisabled={matchesWithGames.length <= 0}
-                            >
-                                <Trans>Send Attachments</Trans>
-                                {attachmentState?.loading && (
-                                    <FontAwesomeIcon icon={faCircleNotch} spin />
+                                </div>
+                                {index <= 0 && (
+                                    <div>
+                                        <Button
+                                            color='primary'
+                                            onClick={() => dispatch(fetchMatches(tournament.id))}
+                                        >
+                                            <Trans>Refresh Matches</Trans>
+                                            {matchState?.loading && (
+                                                <FontAwesomeIcon icon={faCircleNotch} spin />
+                                            )}
+                                        </Button>
+                                    </div>
                                 )}
-                            </Button>
-                        </div>
-                    </Col>
-                </Row>
+                            </div>
+                        );
+                    })}
+                    <div className='text-center mt-3'>
+                        <Button
+                            color='primary'
+                            value='all'
+                            isDisabled={matchesWithNoGames.length <= 0}
+                            onClick={createGames}
+                        >
+                            <Trans>Create All Games</Trans>
+                        </Button>
+                        <Button
+                            color='primary'
+                            onClick={sendAttachment}
+                            isDisabled={matchesWithGames.length <= 0}
+                        >
+                            <Trans>Send Attachments</Trans>
+                            {attachmentState?.loading && (
+                                <FontAwesomeIcon icon={faCircleNotch} spin />
+                            )}
+                        </Button>
+                    </div>
+                </div>
             </Panel>
             {matchesToCreate?.length > 0 && (
                 <NewGame
@@ -308,7 +304,7 @@ const TournamentLobby = () => {
                     tournament={tournament}
                 />
             )}
-        </Col>
+        </div>
     );
 };
 

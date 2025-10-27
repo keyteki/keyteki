@@ -13,7 +13,7 @@ import {
     faCogs,
     faComment
 } from '@fortawesome/free-solid-svg-icons';
-import { Badge } from 'react-bootstrap';
+import { Chip } from '@heroui/react';
 
 import Avatar from '../Site/Avatar';
 import { Constants } from '../../constants';
@@ -326,7 +326,11 @@ const PlayerStats = ({
                     <div className='state'>
                         <a href='#' onClick={onMessagesClick} className='pl-1'>
                             <FontAwesomeIcon icon={faComment}></FontAwesomeIcon>
-                            {numMessages > 0 && <Badge color='danger'>{numMessages}</Badge>}
+                            {numMessages > 0 && (
+                                <Chip color='danger' size='sm' variant='solid'>
+                                    {numMessages}
+                                </Chip>
+                            )}
                         </a>
                     </div>
                 </div>

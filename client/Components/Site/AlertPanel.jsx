@@ -7,21 +7,8 @@ import {
     faCheckCircle,
     faBell
 } from '@fortawesome/free-solid-svg-icons';
-import { Alert } from 'react-bootstrap';
 
-/**
- * @typedef {'primary'
- | 'secondary'
- | 'success'
- | 'bell'
- | 'danger'
- | 'warning'
- | 'info'
- | 'dark'
- | 'light'} AlertType
-*/
-
-const AlertType = Object.freeze({
+export const AlertType = Object.freeze({
     Default: 'default',
     Primary: 'primary',
     Info: 'info',
@@ -42,9 +29,6 @@ const AlertType = Object.freeze({
  * @property {string} [type]
  */
 
-/**
- * @param {string} message
- */
 function getMessageWithLinks(message) {
     let links = message.match(/(https?:\/\/)?([^.\s]+)?[^.\s]+\.[^\s]+/gi);
     let retMessage = [];
@@ -61,9 +45,9 @@ function getMessageWithLinks(message) {
 
         retMessage.push(message.substring(lastIndex, index));
         retMessage.push(
-            <Alert.Link key={linkCount++} href={link}>
+            <a key={linkCount++} href={link} className='text-blue-600 hover:underline'>
                 {link}
-            </Alert.Link>
+            </a>
         );
 
         lastIndex += index + link.length;
@@ -74,46 +58,54 @@ function getMessageWithLinks(message) {
     return retMessage;
 }
 
-/**
- * @param {AlertPanelProps} props
- */
 const AlertPanel = ({ type = AlertType.Info, title, message, noIcon = false, children }) => {
     let icon;
-    /**
-     * @type {AlertType}
-     */
-    let alertType;
+    let bgColor;
+    let borderColor;
+    let textColor;
 
     switch (type) {
         case AlertType.Warning:
             icon = faExclamationTriangle;
-            alertType = 'warning';
+            bgColor = 'bg-yellow-50';
+            borderColor = 'border-yellow-400';
+            textColor = 'text-yellow-800';
             break;
         case AlertType.Danger:
             icon = faExclamationCircle;
-            alertType = 'danger';
+            bgColor = 'bg-red-50';
+            borderColor = 'border-red-400';
+            textColor = 'text-red-800';
             break;
         case AlertType.Info:
             icon = faInfoCircle;
-            alertType = 'info';
+            bgColor = 'bg-blue-50';
+            borderColor = 'border-blue-400';
+            textColor = 'text-blue-800';
             break;
         case AlertType.Success:
             icon = faCheckCircle;
-            alertType = 'success';
+            bgColor = 'bg-green-50';
+            borderColor = 'border-green-400';
+            textColor = 'text-green-800';
             break;
         case AlertType.Bell:
             icon = faBell;
-            alertType = 'primary';
+            bgColor = 'bg-indigo-50';
+            borderColor = 'border-indigo-400';
+            textColor = 'text-indigo-800';
             break;
     }
 
     return (
-        <Alert variant={alertType}>
-            {title && <Alert.Heading>{title}</Alert.Heading>}
-            {!noIcon && <FontAwesomeIcon icon={icon} />}
-            {message && <span id='alert-message'>&nbsp;{getMessageWithLinks(message)}</span>}
-            {children && <span>&nbsp;{children}</span>}
-        </Alert>
+        <div className={`${bgColor} ${borderColor} ${textColor} border-l-4 p-4 mb-4`} role='alert'>
+            {title && <div className='font-bold mb-2'>{title}</div>}
+            <div>
+                {!noIcon && <FontAwesomeIcon icon={icon} />}
+                {message && <span id='alert-message'>&nbsp;{getMessageWithLinks(message)}</span>}
+                {children && <span>&nbsp;{children}</span>}
+            </div>
+        </div>
     );
 };
 

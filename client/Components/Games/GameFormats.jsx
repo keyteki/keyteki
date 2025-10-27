@@ -1,6 +1,6 @@
 import React from 'react';
 import { Trans, useTranslation } from 'react-i18next';
-import { Form, Col, Row } from 'react-bootstrap';
+import { RadioGroup, Radio, Switch } from '@heroui/react';
 
 import './GameFormats.scss';
 
@@ -29,50 +29,33 @@ const GameFormats = ({ formProps }) => {
 
     return (
         <>
-            <Row>
-                <Col xs={12} className='font-weight-bold'>
-                    <Trans>Format</Trans>
-                </Col>
-                <Form.Group as={Col}>
-                    {formats.map((format) => (
-                        <Form.Check
-                            name='gameFormat'
-                            key={format.name}
-                            type='radio'
-                            id={format.name}
-                            label={format.label}
-                            inline
-                            onChange={formProps.handleChange}
-                            value={format.name}
-                            checked={formProps.values.gameFormat === format.name}
-                        ></Form.Check>
-                    ))}
-                    <Form.Control.Feedback type='invalid'>
-                        {formProps.errors.gameFormat}
-                    </Form.Control.Feedback>
-                </Form.Group>
-            </Row>
+            <div className='font-bold mb-2'>
+                <Trans>Format</Trans>
+            </div>
+            <RadioGroup
+                orientation='horizontal'
+                value={formProps.values.gameFormat}
+                onValueChange={(val) => formProps.setFieldValue('gameFormat', val)}
+                className='flex flex-wrap gap-3'
+            >
+                {formats.map((format) => (
+                    <Radio key={format.name} value={format.name}>
+                        {format.label}
+                    </Radio>
+                ))}
+            </RadioGroup>
             {formProps.values.gameFormat === 'sealed' && (
-                <Row>
-                    <Form.Group className='game-formats' as={Col}>
-                        {expansions.map((expansion) => {
-                            return (
-                                <>
-                                    <Form.Check
-                                        key={expansion.name}
-                                        type='switch'
-                                        id={expansion.name}
-                                        label={expansion.label}
-                                        inline
-                                        onChange={formProps.handleChange}
-                                        value='true'
-                                        checked={formProps.values[expansion.name]}
-                                    ></Form.Check>
-                                </>
-                            );
-                        })}
-                    </Form.Group>
-                </Row>
+                <div className='game-formats mt-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3'>
+                    {expansions.map((expansion) => (
+                        <Switch
+                            key={expansion.name}
+                            isSelected={!!formProps.values[expansion.name]}
+                            onValueChange={(val) => formProps.setFieldValue(expansion.name, val)}
+                        >
+                            {expansion.label}
+                        </Switch>
+                    ))}
+                </div>
             )}
         </>
     );

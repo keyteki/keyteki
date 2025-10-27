@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { Col, Row } from 'react-bootstrap';
 import { sortBy } from 'underscore';
 import { useTranslation, Trans } from 'react-i18next';
 
@@ -138,76 +137,68 @@ const DeckSummary = ({ deck }) => {
         });
 
     return (
-        <Col xs='12' className='deck-summary'>
-            <Row>
-                <Col xs='2' sm='3'>
+        <div className='w-full deck-summary'>
+            <div className='flex flex-wrap gap-4'>
+                <div className='w-1/6 sm:w-1/4'>
                     <CardBack deck={deck} size={'x-large'} />
-                </Col>
-                <Col xs='8' sm='5'>
-                    <Row>
-                        <Col xs='7'>
-                            <span>{t('Wins')}</span>
-                        </Col>
-                        <Col xs='5'>{deck.wins}</Col>
-                    </Row>
-                    <Row>
-                        <Col xs='7'>
-                            <span>{t('Losses')}</span>
-                        </Col>
-                        <Col xs='5'>{deck.losses}</Col>
-                    </Row>
-                    <Row>
-                        <Col xs='7'>
-                            <span>{t('Total')}</span>
-                        </Col>
-                        <Col xs='5'>{parseInt(deck.wins) + parseInt(deck.losses)}</Col>
-                    </Row>
-                    <Row>
-                        <Col xs='7'>
-                            <span>{t('Win Rate')}</span>
-                        </Col>
-                        <Col xs='5'>{deck.winRate?.toFixed(2)}%</Col>
-                    </Row>
+                </div>
+                <div className='flex-1'>
+                    <div className='flex justify-between mb-2'>
+                        <span>{t('Wins')}</span>
+                        <span>{deck.wins}</span>
+                    </div>
+                    <div className='flex justify-between mb-2'>
+                        <span>{t('Losses')}</span>
+                        <span>{deck.losses}</span>
+                    </div>
+                    <div className='flex justify-between mb-2'>
+                        <span>{t('Total')}</span>
+                        <span>{parseInt(deck.wins) + parseInt(deck.losses)}</span>
+                    </div>
+                    <div className='flex justify-between mb-2'>
+                        <span>{t('Win Rate')}</span>
+                        <span>{deck.winRate?.toFixed(2)}%</span>
+                    </div>
                     {Object.keys(enhancements).length > 0 ? (
-                        <Row className='deck-enhancements'>
-                            <Col xs='2' className='deck-enhancement'>
+                        <div className='flex gap-2 deck-enhancements'>
+                            <div className='deck-enhancement flex flex-col items-center'>
                                 <img src={AmberImage} className='deck-img-enhancement' />
                                 <span className='deck-text-enhancement'>
                                     {enhancements.amber || 0}
                                 </span>
-                            </Col>
-                            <Col xs='2' className='deck-enhancement'>
+                            </div>
+                            <div className='deck-enhancement flex flex-col items-center'>
                                 <img src={CaptureImage} className='deck-img-enhancement' />
                                 <span className='deck-text-enhancement'>
                                     {enhancements.capture || 0}
                                 </span>
-                            </Col>
-                            <Col xs='2' className='deck-enhancement'>
+                            </div>
+                            <div className='deck-enhancement flex flex-col items-center'>
                                 <img src={DrawImage} className='deck-img-enhancement' />
                                 <span className='deck-text-enhancement'>
                                     {enhancements.draw || 0}
                                 </span>
-                            </Col>
-                            <Col xs='2' className='deck-enhancement'>
+                            </div>
+                            <div className='deck-enhancement flex flex-col items-center'>
                                 <img src={DamageImage} className='deck-img-enhancement' />
                                 <span className='deck-text-enhancement'>
                                     {enhancements.damage || 0}
                                 </span>
-                            </Col>
-                            <Col xs='2' className='deck-enhancement'>
+                            </div>
+                            <div className='deck-enhancement flex flex-col items-center'>
                                 <img src={DiscardImage} className='deck-img-enhancement' />
                                 <span className='deck-text-enhancement'>
                                     {enhancements.discard || 0}
                                 </span>
-                            </Col>
-                        </Row>
+                            </div>
+                        </div>
                     ) : null}
-                </Col>
-            </Row>
-            <Row className='deck-houses'>
+                </div>
+            </div>
+            <div className='flex flex-wrap deck-houses'>
                 {deck.houses.map((house) => {
                     return (
-                        <Col key={house} sm='4'>
+                        <div key={house} className='w-full sm:w-1/3 text-center'>
                             <img
                                 className='deck-house-image img-fluid'
                                 src={Constants.HouseIconPaths[house]}
@@ -215,11 +206,11 @@ const DeckSummary = ({ deck }) => {
                             <span className='deck-house'>
                                 {t(house)[0].toUpperCase() + t(house).slice(1)}
                             </span>
-                        </Col>
+                        </div>
                     );
                 })}
-            </Row>
-            <Row className='deck-cards'>
+            </div>
+            <div className='deck-cards'>
                 {zoomCard && (
                     <div
                         className='decklist-card-zoom'
@@ -230,24 +221,22 @@ const DeckSummary = ({ deck }) => {
                 )}
                 {deck.houses.map((house) => {
                     return (
-                        <Col key={house} sm='4'>
+                        <div key={house} className='sm:w-1/3 inline-block'>
                             {cardsByHouse[house]}
-                        </Col>
+                        </div>
                     );
                 })}
-            </Row>
+            </div>
 
             {deck.cards.some((c) => c.isNonDeck && (!c.card || c.card.type !== 'archon power')) && (
-                <Row className='deck-houses'>
-                    <Col xs='12'>
-                        <Trans>Non-Deck Cards</Trans>
-                    </Col>
-                </Row>
+                <div className='deck-houses w-full'>
+                    <Trans>Non-Deck Cards</Trans>
+                </div>
             )}
-            <Row className='deck-cards'>
-                <Col sm='4'>{nonDeckCards}</Col>
-            </Row>
-        </Col>
+            <div className='deck-cards'>
+                <div className='sm:w-1/3'>{nonDeckCards}</div>
+            </div>
+        </div>
     );
 };
 

@@ -1,5 +1,4 @@
 import React, { useState, useRef } from 'react';
-import { Form, Alert, Col, Row, Spinner } from 'react-bootstrap';
 import { Button } from '@heroui/react';
 import { Formik } from 'formik';
 import { useTranslation } from 'react-i18next';
@@ -16,6 +15,7 @@ import BlankBg from '../../assets/img/bgs/blank.png';
 import MassMutationBg from '../../assets/img/bgs/massmutation.png';
 
 import './Profile.scss';
+import AlertPanel from '../Site/AlertPanel';
 
 /**
  * User profile settings
@@ -112,7 +112,12 @@ const Profile = ({ onSubmit, isLoading }) => {
     });
 
     if (!user) {
-        return <Alert color='danger'>{t('You need to be logged in to view your profile')}</Alert>;
+        return (
+            <AlertPanel
+                type='danger'
+                message={t('You need to be logged in to view your profile')}
+            />
+        );
     }
 
     initialValues.email = user.email;
@@ -198,63 +203,51 @@ const Profile = ({ onSubmit, isLoading }) => {
             initialValues={initialValues}
         >
             {(formProps) => (
-                <Form
+                <form
                     className='profile-form'
                     onSubmit={(event) => {
                         event.preventDefault();
                         formProps.handleSubmit(event);
                     }}
                 >
-                    <Row ref={topRowRef}>
-                        <Col sm='12'>
-                            <ProfileMain formProps={formProps} user={user} />
-                        </Col>
-                    </Row>
-                    <Row>
-                        <Col sm='12'>
-                            <ProfileBackground
-                                backgrounds={backgrounds}
-                                selectedBackground={localBackground || user.settings.background}
-                                customBackground={user.settings.customBackground}
-                                onBackgroundSelected={async (name, file) => {
-                                    if (name === 'custom') {
-                                        let base64File = await toBase64(file);
+                    <div ref={topRowRef} className='w-full'>
+                        <ProfileMain formProps={formProps} user={user} />
+                    </div>
+                    <div className='w-full'>
+                        <ProfileBackground
+                            backgrounds={backgrounds}
+                            selectedBackground={localBackground || user.settings.background}
+                            customBackground={user.settings.customBackground}
+                            onBackgroundSelected={async (name, file) => {
+                                if (name === 'custom') {
+                                    let base64File = await toBase64(file);
 
-                                        setCustomBg(base64File);
-                                    }
+                                    setCustomBg(base64File);
+                                }
 
-                                    setBackground(name);
-                                }}
-                            />
-                        </Col>
-                    </Row>
-                    <Row>
-                        <Col sm='6'>
-                            <ProfileCardSize
-                                cardSizes={cardSizes}
-                                selectedCardSize={localCardSize || user.settings.cardSize}
-                                onCardSizeSelected={(name) => setCardSize(name)}
-                            />
-                        </Col>
-                        <Col sm='6'>
-                            <KeyforgeGameSettings formProps={formProps} user={user} />
-                        </Col>
-                    </Row>
+                                setBackground(name);
+                            }}
+                        />
+                    </div>
+                    <div className='grid grid-cols-1 sm:grid-cols-2 gap-4'>
+                        <ProfileCardSize
+                            cardSizes={cardSizes}
+                            selectedCardSize={localCardSize || user.settings.cardSize}
+                            onCardSizeSelected={(name) => setCardSize(name)}
+                        />
+                        <KeyforgeGameSettings formProps={formProps} user={user} />
+                    </div>
                     <div className='text-center profile-submit'>
-                        <Button color='primary' type='submit' isDisabled={isLoading}>
-                            {isLoading ? (
-                                <Spinner
-                                    animation='border'
-                                    size='sm'
-                                    as={'span'}
-                                    role='status'
-                                    aria-hidden='true'
-                                />
-                            ) : null}
+                        <Button
+                            color='primary'
+                            type='submit'
+                            isDisabled={isLoading}
+                            isLoading={isLoading}
+                        >
                             {t('Save')}
                         </Button>
                     </div>
-                </Form>
+                </form>
             )}
         </Formik>
     );

@@ -1,12 +1,9 @@
-// @ts-nocheck
 import React, { useCallback, useEffect, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { Button } from '@heroui/react';
 
 import Panel from '../Components/Site/Panel';
-
 import { sendSocketMessage } from '../redux/actions';
-import { Col } from 'react-bootstrap';
-import { Button } from '@heroui/react';
 
 const NodeAdmin = () => {
     const dispatch = useDispatch();
@@ -96,7 +93,7 @@ const NodeAdmin = () => {
     }
 
     return (
-        <Col sm={{ span: 10, offset: 1 }}>
+        <div className='mx-auto max-w-6xl px-4'>
             <Panel title='Game Node Administration'>
                 {content}
 
@@ -104,7 +101,7 @@ const NodeAdmin = () => {
                     Refresh
                 </Button>
             </Panel>
-        </Col>
+        </div>
     );
 };
 

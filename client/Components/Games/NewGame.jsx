@@ -1,8 +1,7 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Trans, useTranslation } from 'react-i18next';
-import { Form, Row, Col } from 'react-bootstrap';
-import { Button } from '@heroui/react';
+import { Button, Input } from '@heroui/react';
 import { Formik } from 'formik';
 import * as yup from 'yup';
 
@@ -11,7 +10,6 @@ import AlertPanel from '../Site/AlertPanel';
 import GameOptions from './GameOptions';
 import GameFormats from './GameFormats';
 import GameTypes from './GameTypes';
-import { getStandardControlProps } from '../../util.jsx';
 import { cancelNewGame, sendSocketMessage } from '../../redux/actions';
 
 import './NewGame.scss';
@@ -137,7 +135,7 @@ const NewGame = ({
                 initialValues={initialValues}
             >
                 {(formProps) => (
-                    <Form
+                    <form
                         onSubmit={(event) => {
                             event.preventDefault();
 
@@ -174,23 +172,27 @@ const NewGame = ({
                         {!quickJoin && (
                             <>
                                 {!tournament && (
-                                    <Row>
-                                        <Form.Group as={Col} lg='8' controlId='formGridGameName'>
-                                            <Form.Label>{t('Name')}</Form.Label>
-                                            <Form.Label className='float-right'>
+                                    <div className='max-w-2xl'>
+                                        <div className='flex items-center justify-between mb-1'>
+                                            <label className='text-sm font-medium'>
+                                                {t('Name')}
+                                            </label>
+                                            <span className='text-xs text-foreground-500'>
                                                 {GameNameMaxLength - formProps.values.name.length}
-                                            </Form.Label>
-                                            <Form.Control
-                                                type='text'
-                                                placeholder={t('Game Name')}
-                                                maxLength={GameNameMaxLength}
-                                                {...getStandardControlProps(formProps, 'name')}
-                                            />
-                                            <Form.Control.Feedback type='invalid'>
-                                                {formProps.errors.name}
-                                            </Form.Control.Feedback>
-                                        </Form.Group>
-                                    </Row>
+                                            </span>
+                                        </div>
+                                        <Input
+                                            type='text'
+                                            placeholder={t('Game Name')}
+                                            maxLength={GameNameMaxLength}
+                                            value={formProps.values.name}
+                                            onChange={(e) =>
+                                                formProps.setFieldValue('name', e.target.value)
+                                            }
+                                            isInvalid={!!formProps.errors.name}
+                                            errorMessage={formProps.errors.name}
+                                        />
+                                    </div>
                                 )}
                                 <GameOptions formProps={formProps} />
                             </>
@@ -198,16 +200,17 @@ const NewGame = ({
                         <GameFormats formProps={formProps} />
                         {!tournament && <GameTypes formProps={formProps} />}
                         {!quickJoin && (
-                            <Row>
-                                <Form.Group as={Col} sm={8}>
-                                    <Form.Label>{t('Password')}</Form.Label>
-                                    <Form.Control
-                                        type='password'
-                                        placeholder={t('Enter a password')}
-                                        {...getStandardControlProps(formProps, 'password')}
-                                    />
-                                </Form.Group>
-                            </Row>
+                            <div className='max-w-xl mt-4'>
+                                <Input
+                                    type='password'
+                                    label={t('Password')}
+                                    placeholder={t('Enter a password')}
+                                    value={formProps.values.password}
+                                    onChange={(e) =>
+                                        formProps.setFieldValue('password', e.target.value)
+                                    }
+                                />
+                            </div>
                         )}
                         <div className='text-center newgame-buttons'>
                             <Button color='success' type='submit'>
@@ -225,7 +228,7 @@ const NewGame = ({
                                 <Trans>Cancel</Trans>
                             </Button>
                         </div>
-                    </Form>
+                    </form>
                 )}
             </Formik>
         </Panel>

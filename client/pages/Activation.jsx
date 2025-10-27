@@ -1,12 +1,11 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useTranslation } from 'react-i18next';
 
 import AlertPanel from '../Components/Site/AlertPanel';
+import ApiStatus from '../Components/Site/ApiStatus';
 import { activateAccount, clearApiStatus, navigate } from '../redux/actions';
 import { Account } from '../redux/types';
-import { useTranslation } from 'react-i18next';
-import { Col } from 'react-bootstrap';
-import ApiStatus from '../Components/Site/ApiStatus';
 
 const Activation = ({ id, token }) => {
     const dispatch = useDispatch();
@@ -43,13 +42,11 @@ const Activation = ({ id, token }) => {
     }
 
     return (
-        <div>
-            <Col sm={{ span: 6, offset: 3 }}>
-                <ApiStatus
-                    state={apiState}
-                    onClose={() => dispatch(clearApiStatus(Account.ActivateAccount))}
-                />
-            </Col>
+        <div className='max-w-3xl mx-auto px-4'>
+            <ApiStatus
+                state={apiState}
+                onClose={() => dispatch(clearApiStatus(Account.ActivateAccount))}
+            />
         </div>
     );
 };

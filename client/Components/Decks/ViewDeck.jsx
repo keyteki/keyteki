@@ -1,6 +1,6 @@
 import React from 'react';
 import { Trans } from 'react-i18next';
-import { ButtonGroup, Col } from 'react-bootstrap';
+import { ButtonGroup } from '@heroui/react';
 
 import ConfirmButton from '../Form/ConfirmButton';
 import DeckSummary from './DeckSummary';
@@ -25,13 +25,13 @@ const ViewDeck = ({ deck }) => {
 
     return (
         <Panel title={deck.name}>
-            <Col xs={12} className='text-center'>
+            <div className='w-full text-center'>
                 <ButtonGroup>
                     <ConfirmButton onClick={handleDeleteClick}>
                         <Trans>Delete</Trans>
                     </ConfirmButton>
                 </ButtonGroup>
-            </Col>
+            </div>
             <DeckSummary deck={deck} />
         </Panel>
     );

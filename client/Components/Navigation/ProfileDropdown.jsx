@@ -1,8 +1,8 @@
 import React from 'react';
 
 import Avatar from '../Site/Avatar';
-import { NavDropdown } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
+import { Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, Button } from '@heroui/react';
 import Link from './Link';
 
 /**
@@ -21,29 +21,31 @@ const ProfileMenu = ({ menu, user }) => {
         return null;
     }
 
-    const title = (
-        <span>
+    const trigger = (
+        <Button variant='light' className='flex items-center gap-2 bg-transparent text-foreground'>
             <Avatar imgPath={user.avatar} />
-            {user.username}
-        </span>
+            <span>{user.username}</span>
+        </Button>
     );
 
     return (
-        <NavDropdown id='nav-Profile' title={title} className='d-flex align-items-center'>
-            {menu.map((menuItem) =>
-                menuItem.path ? (
-                    <Link key={menuItem.path} href={menuItem.path}>
-                        <NavDropdown.Item
-                            className='navbar-item interactable dropdown-child'
-                            as={Link}
-                            href={menuItem.path}
-                        >
-                            {t(menuItem.title)}
-                        </NavDropdown.Item>
-                    </Link>
-                ) : null
-            )}
-        </NavDropdown>
+        <Dropdown placement='bottom-end'>
+            <DropdownTrigger>{trigger}</DropdownTrigger>
+            <DropdownMenu aria-label='Profile Menu'>
+                {menu.map((menuItem) =>
+                    menuItem.path ? (
+                        <DropdownItem key={menuItem.path} textValue={t(menuItem.title)}>
+                            <Link
+                                href={menuItem.path}
+                                className='navbar-item interactable dropdown-child'
+                            >
+                                {t(menuItem.title)}
+                            </Link>
+                        </DropdownItem>
+                    ) : null
+                )}
+            </DropdownMenu>
+        </Dropdown>
     );
 };
 

@@ -1,11 +1,11 @@
 import React from 'react';
-import { Col, Alert } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 import { useSelector, useDispatch } from 'react-redux';
 
 import Profile from '../Components/Profile/Profile';
 import { saveProfile, clearApiStatus } from '../redux/actions';
 import ApiStatus from '../Components/Site/ApiStatus';
+import AlertPanel, { AlertType } from '../Components/Site/AlertPanel';
 
 const ProfileContainer = () => {
     const dispatch = useDispatch();
@@ -28,19 +28,25 @@ const ProfileContainer = () => {
     });
 
     if (!user) {
-        return <Alert color='danger'>{t('You need to be logged in to view your profile')}</Alert>;
+        return (
+            <AlertPanel
+                type={AlertType.Danger}
+                message={t('You need to be logged in to view your profile')}
+            />
+        );
     }
 
     return (
-        <Col lg={{ span: 10, offset: 1 }}>
+        <div className='max-w-7xl mx-auto px-4'>
             <ApiStatus state={apiState} onClose={() => dispatch(clearApiStatus('SAVE_PROFILE'))} />
             <Profile
+                user={user}
                 onSubmit={(profile) => {
                     return dispatch(saveProfile(user.username, profile));
                 }}
                 isLoading={apiState?.loading}
             />
-        </Col>
+        </div>
     );
 };
 

@@ -5,7 +5,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { toastr } from 'react-redux-toastr';
 import moment from 'moment';
 import { Trans, useTranslation } from 'react-i18next';
-import { Col } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faLock } from '@fortawesome/free-solid-svg-icons';
 import { Button } from '@heroui/react';
@@ -367,20 +366,16 @@ const GameList = ({ games, gameFilter, onJoinOrWatchClick }) => {
 
     if (gameList.length === 0) {
         return (
-            <Col className='game-list' xs='12'>
+            <div className='game-list w-full'>
                 <AlertPanel
                     type='info'
                     message={t('There are no games matching the filters you have selected')}
                 />
-            </Col>
+            </div>
         );
     }
 
-    return (
-        <Col className='game-list' xs='12'>
-            {gameList}
-        </Col>
-    );
+    return <div className='game-list w-full'>{gameList}</div>;
 };
 
 GameList.displayName = 'GameList';

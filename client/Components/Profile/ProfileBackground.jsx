@@ -1,5 +1,4 @@
 import React, { useRef } from 'react';
-import { Row, Col, Form } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 import classNames from 'classnames';
 
@@ -39,12 +38,12 @@ const ProfileBackground = ({
 
     return (
         <Panel title={t('Game Board Background')}>
-            <Row>
+            <div className='grid grid-cols-1 sm:grid-cols-3 gap-4'>
                 {backgrounds.map((background) => (
-                    <Col
-                        sm={4}
+                    <div
                         onClick={() => onBackgroundSelected(background.name, null)}
                         key={background.name}
+                        className='cursor-pointer'
                     >
                         <img
                             className={classNames('img-fluid', {
@@ -53,9 +52,9 @@ const ProfileBackground = ({
                             src={background.imageUrl}
                         />
                         <span className='bg-label'>{background.label}</span>
-                    </Col>
+                    </div>
                 ))}
-                <Col sm={4}>
+                <div className='cursor-pointer'>
                     <img
                         className={classNames('img-fluid custom-bg', {
                             selected: selectedBackground === 'custom'
@@ -63,7 +62,7 @@ const ProfileBackground = ({
                         src={localCustomBg}
                         onClick={() => uploadRef.current?.click()}
                     />
-                    <Form.Control
+                    <input
                         name='avatar'
                         type='file'
                         accept='image/*'
@@ -92,11 +91,11 @@ const ProfileBackground = ({
                             }
                         }}
                         ref={uploadRef}
-                    ></Form.Control>
+                    />
                     {fileError && <span className='text-danger bg-error'>{fileError}</span>}
                     <span className='bg-label'>Custom</span>
-                </Col>
-            </Row>
+                </div>
+            </div>
         </Panel>
     );
 };

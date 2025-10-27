@@ -2,8 +2,7 @@ import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { toastr } from 'react-redux-toastr';
 import { Trans, useTranslation } from 'react-i18next';
-import { Col, Row, Form } from 'react-bootstrap';
-import { Button } from '@heroui/react';
+import { Button, Switch } from '@heroui/react';
 
 import NewGame from './NewGame';
 import GameList from './GameList';
@@ -94,7 +93,7 @@ const GameLobby = ({ gameId }) => {
     }, [currentGame, dispatch, gameId, games]);
 
     return (
-        <Col md={{ offset: 2, span: 8 }}>
+        <div className='mx-auto max-w-4xl px-4'>
             <div ref={topRef}>
                 {newGame && <NewGame quickJoin={quickJoin} />}
                 {currentGame?.started === false && <PendingGame />}
@@ -108,8 +107,8 @@ const GameLobby = ({ gameId }) => {
                         </AlertPanel>
                     </div>
                 )}
-                <Row className='game-buttons'>
-                    <Col sm={4} lg={3}>
+                <div className='game-buttons grid grid-cols-1 lg:grid-cols-4 gap-4'>
+                    <div className='flex flex-col gap-2'>
                         <Button
                             isDisabled={!user}
                             color='primary'
@@ -130,66 +129,53 @@ const GameLobby = ({ gameId }) => {
                         >
                             <Trans>Quick Join</Trans>
                         </Button>
-                    </Col>
-                    <Col sm={8} lg={9}>
+                    </div>
+                    <div className='lg:col-span-3'>
                         <Panel type='primary'>
-                            <Row>
+                            <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3'>
                                 {filters.map((filter) => {
                                     return (
-                                        <Col key={filter.name} sm={6} lg={4}>
-                                            <Form.Check
-                                                type='switch'
-                                                id={filter.name}
-                                                label={filter.label}
-                                                inline
-                                                onChange={(event) => {
-                                                    onFilterChecked(
-                                                        filter.name,
-                                                        event.target.checked
-                                                    );
-                                                }}
-                                                checked={currentFilter[filter.name]}
-                                            ></Form.Check>
-                                        </Col>
+                                        <div key={filter.name} className='flex items-center'>
+                                            <Switch
+                                                isSelected={!!currentFilter[filter.name]}
+                                                onValueChange={(val) =>
+                                                    onFilterChecked(filter.name, val)
+                                                }
+                                            >
+                                                {filter.label}
+                                            </Switch>
+                                        </div>
                                     );
                                 })}
-                            </Row>
-                            <Row>
-                                <Col>
-                                    <Form.Check
-                                        type='switch'
-                                        id='onlyShowNew'
-                                        label={t('Only show new games')}
-                                        inline
-                                        onChange={(event) => {
-                                            onFilterChecked('onlyShowNew', event.target.checked);
-                                        }}
-                                        checked={currentFilter['onlyShowNew']}
-                                    ></Form.Check>
-                                </Col>
-                            </Row>
+                            </div>
+                            <div className='mt-2'>
+                                <Switch
+                                    isSelected={!!currentFilter['onlyShowNew']}
+                                    onValueChange={(val) => onFilterChecked('onlyShowNew', val)}
+                                >
+                                    {t('Only show new games')}
+                                </Switch>
+                            </div>
                         </Panel>
-                    </Col>
-                </Row>
-                <Row>
-                    <Col xs='12' className='text-center'>
-                        {games.length === 0 ? (
-                            <AlertPanel type='info'>
-                                {t(
-                                    'No games are currently in progress. Click the buttons above to start one.'
-                                )}
-                            </AlertPanel>
-                        ) : (
-                            <GameList
-                                games={games}
-                                gameFilter={currentFilter}
-                                onJoinOrWatchClick={() => topRef.current.scrollIntoView(false)}
-                            />
-                        )}
-                    </Col>
-                </Row>
+                    </div>
+                </div>
+                <div className='text-center mt-4'>
+                    {games.length === 0 ? (
+                        <AlertPanel type='info'>
+                            {t(
+                                'No games are currently in progress. Click the buttons above to start one.'
+                            )}
+                        </AlertPanel>
+                    ) : (
+                        <GameList
+                            games={games}
+                            gameFilter={currentFilter}
+                            onJoinOrWatchClick={() => topRef.current.scrollIntoView(false)}
+                        />
+                    )}
+                </div>
             </Panel>
-        </Col>
+        </div>
     );
 };
 

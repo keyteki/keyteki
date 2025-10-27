@@ -1,7 +1,6 @@
 import React from 'react';
 import { Trans, useTranslation } from 'react-i18next';
-import { Col, Form, Row } from 'react-bootstrap';
-import { Button } from '@heroui/react';
+import { Button, Input } from '@heroui/react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Formik } from 'formik';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -74,7 +73,7 @@ const ImportDeck = () => {
 
     return (
         <div>
-            <Col md={{ span: 8, offset: 2 }} className='profile full-height'>
+            <div className='profile full-height mx-auto max-w-3xl px-4'>
                 <ApiStatus
                     state={apiState}
                     onClose={() => dispatch(clearApiStatus(Decks.SaveDeck))}
@@ -109,34 +108,30 @@ const ImportDeck = () => {
                         initialValues={initialValues}
                     >
                         {(formProps) => (
-                            <Form
+                            <form
                                 onSubmit={(event) => {
                                     event.preventDefault();
                                     formProps.handleSubmit(event);
                                 }}
                             >
-                                <Row>
-                                    <Form.Group as={Col} xs='9' controlId='formGridDeckLink'>
-                                        <Form.Label>{t('Deck Link')}</Form.Label>
-                                        <Form.Control
-                                            name='deckLink'
-                                            type='text'
-                                            placeholder={t('Enter the deck link')}
-                                            value={formProps.values.deckLink}
-                                            onChange={formProps.handleChange}
-                                            onBlur={formProps.handleBlur}
-                                            isInvalid={
-                                                formProps.touched.deckLink &&
-                                                !!formProps.errors.deckLink
-                                            }
-                                        />
-                                        <Form.Control.Feedback type='invalid'>
-                                            {formProps.errors.deckLink}
-                                        </Form.Control.Feedback>
-                                    </Form.Group>
-                                </Row>
+                                <div className='w-full md:w-3/4'>
+                                    <Input
+                                        label={t('Deck Link')}
+                                        name='deckLink'
+                                        type='text'
+                                        placeholder={t('Enter the deck link')}
+                                        value={formProps.values.deckLink}
+                                        onChange={formProps.handleChange}
+                                        onBlur={formProps.handleBlur}
+                                        isInvalid={
+                                            formProps.touched.deckLink &&
+                                            !!formProps.errors.deckLink
+                                        }
+                                        errorMessage={formProps.errors.deckLink}
+                                    />
+                                </div>
 
-                                <Col className='text-center'>
+                                <div className='text-center mt-4'>
                                     <Button color='secondary' type='submit'>
                                         {t('Import')}
                                         &nbsp;
@@ -144,12 +139,12 @@ const ImportDeck = () => {
                                             <FontAwesomeIcon icon={faCircleNotch} spin />
                                         )}
                                     </Button>
-                                </Col>
-                            </Form>
+                                </div>
+                            </form>
                         )}
                     </Formik>
                 </Panel>
-            </Col>
+            </div>
         </div>
     );
 };

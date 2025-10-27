@@ -1,7 +1,6 @@
 import React from 'react';
 import { Trans, useTranslation } from 'react-i18next';
-import { Form, Col, Row } from 'react-bootstrap';
-import { getStandardControlProps } from '../../util.jsx';
+import { Input, Switch } from '@heroui/react';
 
 const GameOptions = ({ formProps }) => {
     const { t } = useTranslation();
@@ -17,40 +16,34 @@ const GameOptions = ({ formProps }) => {
 
     return (
         <>
-            <Form.Group>
-                <Row>
-                    <Col xs={12} className='font-weight-bold'>
-                        <Trans>Options</Trans>
-                    </Col>
-                    {options.map((option) => (
-                        <Col key={option.name} lg='4'>
-                            <Form.Check
-                                type='switch'
-                                id={option.name}
-                                label={option.label}
-                                inline
-                                onChange={formProps.handleChange}
-                                value='true'
-                                checked={formProps.values[option.name]}
-                            ></Form.Check>
-                        </Col>
-                    ))}
-                </Row>
-            </Form.Group>
+            <div className='font-bold mb-2'>
+                <Trans>Options</Trans>
+            </div>
+            <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3'>
+                {options.map((option) => (
+                    <div key={option.name} className='flex items-center gap-2'>
+                        <Switch
+                            id={option.name}
+                            isSelected={!!formProps.values[option.name]}
+                            onValueChange={(val) => formProps.setFieldValue(option.name, val)}
+                        >
+                            {option.label}
+                        </Switch>
+                    </div>
+                ))}
+            </div>
             {formProps.values.useGameTimeLimit && (
-                <Row>
-                    <Form.Group as={Col} sm={4}>
-                        <Form.Label>{t('Time Limit')}</Form.Label>
-                        <Form.Control
-                            type='text'
-                            placeholder={t('Enter time limit')}
-                            {...getStandardControlProps(formProps, 'gameTimeLimit')}
-                        />
-                        <Form.Control.Feedback type='invalid'>
-                            {formProps.errors.gameTimeLimit}
-                        </Form.Control.Feedback>
-                    </Form.Group>
-                </Row>
+                <div className='mt-4 max-w-xs'>
+                    <Input
+                        type='number'
+                        label={t('Time Limit')}
+                        placeholder={t('Enter time limit')}
+                        value={formProps.values.gameTimeLimit}
+                        onChange={(e) => formProps.setFieldValue('gameTimeLimit', e.target.value)}
+                        isInvalid={!!formProps.errors.gameTimeLimit}
+                        errorMessage={formProps.errors.gameTimeLimit}
+                    />
+                </div>
             )}
         </>
     );

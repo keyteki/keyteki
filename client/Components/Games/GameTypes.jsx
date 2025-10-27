@@ -1,13 +1,13 @@
 import React from 'react';
 import { Trans, useTranslation } from 'react-i18next';
-import { Form, Col, Row } from 'react-bootstrap';
+import { RadioGroup, Radio } from '@heroui/react';
 
 import GameTypeInfo from './GameTypeInfo';
 
 const GameTypes = ({ formProps }) => {
     const { t } = useTranslation();
 
-    let types = [
+    const types = [
         { name: 'beginner', label: t('Beginner') },
         { name: 'casual', label: t('Casual') },
         { name: 'competitive', label: t('Competitive') }
@@ -15,31 +15,24 @@ const GameTypes = ({ formProps }) => {
 
     return (
         <>
-            <Row>
-                <Col xs={12}>
-                    <GameTypeInfo gameType={formProps.values.gameType} />
-                </Col>
-            </Row>
-            <Row>
-                <Col xs={12} className='font-weight-bold'>
-                    <Trans>Type</Trans>
-                </Col>
-                <Form.Group as={Col}>
-                    {types.map((type) => (
-                        <Form.Check
-                            name='gameType'
-                            key={type.name}
-                            type='radio'
-                            id={type.name}
-                            label={type.label}
-                            inline
-                            onChange={formProps.handleChange}
-                            value={type.name}
-                            checked={formProps.values.gameType === type.name}
-                        ></Form.Check>
-                    ))}
-                </Form.Group>
-            </Row>
+            <div className='mb-2'>
+                <GameTypeInfo gameType={formProps.values.gameType} />
+            </div>
+            <div className='font-bold mb-2'>
+                <Trans>Type</Trans>
+            </div>
+            <RadioGroup
+                orientation='horizontal'
+                value={formProps.values.gameType}
+                onValueChange={(val) => formProps.setFieldValue('gameType', val)}
+                className='flex flex-wrap gap-3'
+            >
+                {types.map((type) => (
+                    <Radio key={type.name} value={type.name}>
+                        {type.label}
+                    </Radio>
+                ))}
+            </RadioGroup>
         </>
     );
 };
