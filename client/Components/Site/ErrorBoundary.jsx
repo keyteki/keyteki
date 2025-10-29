@@ -16,11 +16,12 @@ class ErrorBoundary extends React.Component {
         this.onReturnClick = this.onReturnClick.bind(this);
     }
 
-    // eslint-disable-next-line camelcase
-    UNSAFE_componentWillReceiveProps(props) {
-        if (props.errorPath !== this.state.errorPath) {
-            this.setState({ error: null, errorPath: props.errorPath });
+    static getDerivedStateFromProps(props, state) {
+        // Reset error when navigating to a different path
+        if (props.errorPath !== state.errorPath) {
+            return { error: null, errorPath: props.errorPath };
         }
+        return null;
     }
 
     componentDidCatch(error, errorInfo) {

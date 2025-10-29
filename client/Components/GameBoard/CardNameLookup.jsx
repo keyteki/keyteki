@@ -1,7 +1,7 @@
 import React, { useState, useRef } from 'react';
 import { Trans } from 'react-i18next';
 import Typeahead from '../Form/Typeahead';
-import { Button } from '@heroui/react';
+import Button from '../HeroUI/Button';
 
 /**
  * @typedef CardNameLookupProps
@@ -35,7 +35,7 @@ const CardNameLookup = (props) => {
                 dropup
                 onChange={(cards) => setCardName(cards[0])}
             />
-            <Button color='primary' type='button' onClick={onDoneClick}>
+            <Button color='primary' type='button' onPress={onDoneClick}>
                 <Trans>Done</Trans>
             </Button>
         </div>

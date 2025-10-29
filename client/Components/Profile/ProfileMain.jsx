@@ -1,5 +1,6 @@
 import React, { useRef, useState } from 'react';
-import { Button, Input } from '@heroui/react';
+import Button from '../HeroUI/Button';
+import { Input } from '@heroui/react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
 
@@ -79,7 +80,7 @@ const ProfileMain = ({ user, formProps }) => {
                         ) : (
                             <Avatar imgPath={user?.avatar}></Avatar>
                         )}
-                        <Button color='secondary' onClick={onAvatarUploadClick}>
+                        <Button color='secondary' onPress={onAvatarUploadClick}>
                             {t('Change avatar')}
                         </Button>
                     </div>
@@ -121,7 +122,7 @@ const ProfileMain = ({ user, formProps }) => {
                                 {t('Link Account')}
                             </Button>
                         ) : (
-                            <Button color='secondary' onClick={() => dispatch(unlinkPatreon())}>
+                            <Button color='secondary' onPress={() => dispatch(unlinkPatreon())}>
                                 {t('Unlink Account')}
                             </Button>
                         )}

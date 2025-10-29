@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import LoadingSpinner from '../Site/LoadingSpinner';
-import { Button, Checkbox } from '@heroui/react';
+import Button from '../HeroUI/Button';
+import { Checkbox } from '@heroui/react';
 
 const TableGroupFilter = ({ args, fetchData, onOkClick, filter, onCancelClick }) => {
     const { data, isLoading, isError } = fetchData(args);

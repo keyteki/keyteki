@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React from 'react';
 import { Button as HB } from '@heroui/react';
 
@@ -11,32 +12,26 @@ const variantMap = {
     success: 'btn-texture-success'
 };
 
-/**
- * @param {...string} parts
- */
 function cx(...parts) {
     return parts.filter(Boolean).join(' ');
 }
 
-/**
- * @typedef {Object} TexturedButtonProps
- * @property {boolean} [texture]
- * @property {'primary'|'default'|'danger'|'success'} [textureColor]
- */
+export const Button = (props) => {
+    const { className, style, color = 'primary', ...forwardProps } = props;
 
-/**
- * @param {import('react').ComponentProps<typeof HB> & TexturedButtonProps} props
- */
-export const Button = ({ texture, textureColor = 'primary', className, style, ...props }) => {
-    const resolvedColor = textureColor || 'primary';
-    const textured = texture
-        ? cx(baseTextureClasses, variantMap[resolvedColor], className || '')
-        : className || '';
-    const textShadow = texture
-        ? '1px -1px 2px rgba(0,0,0,0.9), -1px 1px 2px rgba(0,0,0,0.9)'
-        : undefined;
+    const variantKey = Object.prototype.hasOwnProperty.call(variantMap, color) ? color : 'default';
+    const variantClass = variantMap[variantKey];
+    const texturedClasses = cx(baseTextureClasses, variantClass, className || '');
+    const textShadow = '1px -1px 2px rgba(0,0,0,0.9), -1px 1px 2px rgba(0,0,0,0.9)';
 
-    return <HB {...props} className={textured} style={{ textShadow, ...style }} />;
+    return (
+        <HB
+            {...forwardProps}
+            color={color}
+            className={texturedClasses}
+            style={{ textShadow, ...style }}
+        />
+    );
 };
 
 export default Button;

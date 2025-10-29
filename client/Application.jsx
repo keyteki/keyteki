@@ -186,10 +186,13 @@ const Application = ({ navigate }) => {
     }
 
     return (
-        <div className='bg' ref={bgRef}>
+        <>
             <Navigation appName='The Crucible Online' user={user} />
-            <div className='wrapper'>
-                <div className='content container mx-auto px-4'>
+            <main role='main'>
+                <div
+                    className='absolute bottom-0 left-0 right-0 top-[3rem] bg-cover bg-center bg-no-repeat overflow-y-auto'
+                    ref={bgRef}
+                >
                     <ErrorBoundary
                         navigate={navigate}
                         errorPath={path}
@@ -198,11 +201,11 @@ const Application = ({ navigate }) => {
                         {component}
                     </ErrorBoundary>
                 </div>
-            </div>
+            </main>
             <div className='keyforge-font' style={{ zIndex: -999 }}>
                 &nbsp;
             </div>
-        </div>
+        </>
     );
 };
 

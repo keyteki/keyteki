@@ -17,8 +17,7 @@ const About = () => {
                         href='https://github.com/keyteki/keyteki/issues'
                         target='_blank'
                         rel='noopener noreferrer'
-                        texture
-                        textureColor='danger'
+                        color='danger'
                     >
                         <Trans>Report Problems</Trans>
                     </Button>

@@ -1,7 +1,8 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import ReactClipboard from 'react-clipboardjs-copy';
-import { Button, Input } from '@heroui/react';
+import Button from '../HeroUI/Button';
+import { Input } from '@heroui/react';
 import { Trans, useTranslation } from 'react-i18next';
 import $ from 'jquery';
 
@@ -189,7 +190,7 @@ const PendingGame = () => {
                 <Button
                     color='success'
                     isDisabled={!canClickStart()}
-                    onClick={() => {
+                    onPress={() => {
                         setWaiting(true);
                         dispatch(startGame(currentGame.id));
                     }}
@@ -198,7 +199,7 @@ const PendingGame = () => {
                 </Button>
                 <Button
                     color='primary'
-                    onClick={() => {
+                    onPress={() => {
                         dispatch(leaveGame(currentGame.id));
                     }}
                 >

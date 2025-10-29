@@ -2,7 +2,8 @@ import React from 'react';
 
 import Avatar from '../Site/Avatar';
 import { useTranslation } from 'react-i18next';
-import { Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, Button } from '@heroui/react';
+import { Dropdown, DropdownTrigger, DropdownMenu, DropdownItem } from '@heroui/react';
+import Button from '../HeroUI/Button';
 import Link from './Link';
 
 /**

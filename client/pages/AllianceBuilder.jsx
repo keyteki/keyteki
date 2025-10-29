@@ -1,8 +1,8 @@
 import React, { useMemo, useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Trans, useTranslation } from 'react-i18next';
-import { Col, Row, Form } from 'react-bootstrap';
-import { Button } from '@heroui/react';
+import Button from '../Components/HeroUI/Button';
+import { Input } from '@heroui/react';
 
 import Panel from '../Components/Site/Panel';
 import ApiStatus from '../Components/Site/ApiStatus';
@@ -150,13 +150,13 @@ const AllianceBuilderPage = () => {
                 prophecyText.length > 40 ? prophecyText.substring(0, 37) + '...' : prophecyText;
             return (
                 <div
-                    className='mt-2 alliance-deck d-flex flex-column p-2'
+                    className='mt-2 alliance-deck flex flex-col p-2'
                     key={d.id}
                     onMouseOver={() => setCurrentDeck(d)}
                     onMouseOut={() => setCurrentDeck(undefined)}
                 >
                     <span>{d.name}</span>
-                    <div className='mt-2 d-flex align-items-center'>
+                    <div className='mt-2 flex items-center'>
                         {d.houses.sort().map((h) => {
                             let selection = [...selectedPods];
                             let selectionKey = `${d.uuid}:${h}`;
@@ -219,85 +219,79 @@ const AllianceBuilderPage = () => {
     }
 
     return (
-        <div className='full-height'>
-            <Row>
-                <Col lg={6} className='full-height'>
+        <div className='full-height max-w-7xl mx-auto'>
+            <div className='grid grid-cols-1 lg:grid-cols-2 gap-4'>
+                <div className='full-height'>
                     <Panel title={t('Alliance')}>
                         <ApiStatus
                             state={apiState}
                             onClose={() => dispatch(clearApiStatus(Decks.SaveAllianceDeck))}
                         />
-                        <Row>
-                            <Col sm={12}>
-                                <Button
-                                    isDisabled={isSaveDisabled()}
-                                    onClick={() => {
-                                        const allianceData = {
-                                            name: deckName,
-                                            pods: selectedPods,
-                                            token: selectedToken
-                                        };
 
-                                        // Add prophecy source deck if needed
-                                        if (selectedProphecyDeck) {
-                                            allianceData.prophecySourceDeck = selectedProphecyDeck;
-                                        }
+                        <div className='mb-4'>
+                            <Button
+                                isDisabled={isSaveDisabled()}
+                                onPress={() => {
+                                    const allianceData = {
+                                        name: deckName,
+                                        pods: selectedPods,
+                                        token: selectedToken
+                                    };
 
-                                        dispatch(saveAllianceDeck(allianceData));
-                                    }}
+                                    // Add prophecy source deck if needed
+                                    if (selectedProphecyDeck) {
+                                        allianceData.prophecySourceDeck = selectedProphecyDeck;
+                                    }
+
+                                    dispatch(saveAllianceDeck(allianceData));
+                                }}
+                            >
+                                <Trans>Save</Trans>
+                            </Button>
+                        </div>
+
+                        <div className='space-y-4'>
+                            <div className='max-w-md'>
+                                <Input
+                                    label={t('Deck Name')}
+                                    value={deckName}
+                                    onChange={(e) => setDeckName(e.target.value)}
+                                />
+                            </div>
+                            <div className='max-w-md'>
+                                <label className='block text-sm font-medium mb-1'>
+                                    <Trans>Set</Trans>
+                                </label>
+                                <select
+                                    className='w-full bg-transparent border border-gray-600 rounded px-3 py-2'
+                                    value={selectedExpansion || ''}
+                                    onChange={(event) => setSelectedExpansion(event.target.value)}
                                 >
-                                    <Trans>Save</Trans>
-                                </Button>
-                            </Col>
-                        </Row>
-                        <Row>
-                            <Col sm={12} className='mt-2'>
-                                <Form.Group>
-                                    <Form.Label>
-                                        <Trans>Deck Name</Trans>
-                                    </Form.Label>
-                                    <Form.Control
-                                        onChange={(event) => setDeckName(event.target.value)}
-                                        value={deckName}
-                                    ></Form.Control>
-                                </Form.Group>
-                                <Form.Group>
-                                    <Form.Label>
-                                        <Trans>Set</Trans>
-                                    </Form.Label>
-                                    <Form.Control
-                                        as='select'
-                                        onChange={(event) =>
-                                            setSelectedExpansion(event.target.value)
-                                        }
-                                    >
-                                        <option value={undefined}>{t('Please select')}</option>
-                                        {Constants.Expansions.map((e) => (
-                                            <option key={e.value} value={e.value}>
-                                                {e.label}
-                                            </option>
-                                        ))}
-                                    </Form.Control>
-                                </Form.Group>
-                                <Form.Group>
-                                    <Form.Label>
-                                        <Trans>Decks</Trans>
-                                    </Form.Label>
-
-                                    <div className='mt-2'>{decksList}</div>
-                                </Form.Group>
-                            </Col>
-                        </Row>
+                                    <option value=''>{t('Please select')}</option>
+                                    {Constants.Expansions.map((e) => (
+                                        <option key={e.value} value={e.value}>
+                                            {e.label}
+                                        </option>
+                                    ))}
+                                </select>
+                            </div>
+                            <div>
+                                <label className='block text-sm font-medium mb-1'>
+                                    <Trans>Decks</Trans>
+                                </label>
+                                <div className='mt-2'>{decksList}</div>
+                            </div>
+                        </div>
                     </Panel>
-                </Col>
-                <Col lg={6}>
+                </div>
+                <div>
                     {currentDeck && (
                         <Panel title={currentDeck.name}>
                             <DeckSummary deck={currentDeck} />
                         </Panel>
                     )}
-                </Col>
-            </Row>
+                </div>
+            </div>
             {zoomCard && (
                 <div
                     className='decklist-card-zoom'

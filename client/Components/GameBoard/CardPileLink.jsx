@@ -21,8 +21,8 @@ const CardPileLink = ({
     onMouseOver,
     onPopupChange,
     onTouchMove,
-    orientation,
-    popupLocation,
+    orientation = 'vertical',
+    popupLocation = 'bottom',
     popupMenu,
     size,
     source,
@@ -135,9 +135,5 @@ const CardPileLink = ({
 };
 
 CardPileLink.displayName = 'CardPileLink';
-CardPileLink.defaultProps = {
-    popupLocation: 'bottom',
-    orientation: 'vertical'
-};
 
 export default CardPileLink;

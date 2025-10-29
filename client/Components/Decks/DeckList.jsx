@@ -4,7 +4,8 @@ import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheck } from '@fortawesome/free-solid-svg-icons';
-import { Button, Checkbox, CheckboxGroup } from '@heroui/react';
+import Button from '../HeroUI/Button';
+import { Checkbox, CheckboxGroup } from '@heroui/react';
 import ReactTable from '../Table/ReactTable';
 import CardBack from './CardBack.jsx';
 import DeckStatus from './DeckStatus';
@@ -261,7 +262,11 @@ const DeckList = ({ deckFilter, onDeckSelected, standaloneDecks = false }) => {
                 meta: {
                     colWidth: '10%',
                     className: 'text-center',
-                    groupingFilter: ExpansionGroupingFilter
+                    // Wrapper needed to pass table and close args correctly
+                    // eslint-disable-next-line react/display-name
+                    groupingFilter: (table, close) => (
+                        <ExpansionGroupingFilter table={table} close={close} />
+                    )
                 },
                 enableSorting: false
             },

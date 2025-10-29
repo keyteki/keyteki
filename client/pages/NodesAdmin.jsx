@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Button } from '@heroui/react';
+import Button from '../Components/HeroUI/Button';
 
 import Panel from '../Components/Site/Panel';
 import { sendSocketMessage } from '../redux/actions';
@@ -51,14 +51,14 @@ const NodeAdmin = () => {
                         <Button
                             color='primary'
                             type='button'
-                            onClick={(e) => onToggleNodeClick(node, e)}
+                            onPress={(e) => onToggleNodeClick(node, e)}
                         >
                             {node.status === 'active' ? 'Disable' : 'Enable'}
                         </Button>
                         <Button
                             color='primary'
                             type='button'
-                            onClick={(e) => onRestartNodeClick(node, e)}
+                            onPress={(e) => onRestartNodeClick(node, e)}
                         >
                             Restart
                         </Button>
@@ -97,7 +97,7 @@ const NodeAdmin = () => {
             <Panel title='Game Node Administration'>
                 {content}
 
-                <Button color='secondary' onClick={onRefreshClick}>
+                <Button color='secondary' onPress={onRefreshClick}>
                     Refresh
                 </Button>
             </Panel>

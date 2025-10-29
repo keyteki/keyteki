@@ -17,8 +17,8 @@ import {
     faSearch
 } from '@fortawesome/free-solid-svg-icons';
 import FaIconButton from '../Site/FaIconButton';
+import Button from '../HeroUI/Button';
 import {
-    Button,
     Input,
     Pagination,
     Popover,

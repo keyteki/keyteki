@@ -1,7 +1,7 @@
 // @ts-nocheck
 import React, { useCallback, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { Button } from '@heroui/react';
+import Button from '../HeroUI/Button';
 
 import { useTranslation } from 'react-i18next';
 
@@ -42,7 +42,7 @@ const OptionsSelect = ({ options, onOptionSelected }) => {
             </select>
             <Button
                 className='prompt-button btn-stretch option-button'
-                onClick={onDoneClicked}
+                onPress={onDoneClicked}
                 color='default'
             >
                 {t('Done')}

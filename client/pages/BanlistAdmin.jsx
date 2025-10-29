@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import moment from 'moment';
-import { Button } from '@heroui/react';
+import Button from '../Components/HeroUI/Button';
 
 import Form from '../Components/Form/Form';
 import Panel from '../Components/Site/Panel';
@@ -96,7 +96,7 @@ const BanlistAdmin = () => {
                 <td>
                     <Button
                         color='danger'
-                        onClick={() => onDeleteClick(entry.id)}
+                        onPress={() => onDeleteClick(entry.id)}
                         isLoading={apiDeleteState && apiDeleteState.loading}
                     >
                         Delete

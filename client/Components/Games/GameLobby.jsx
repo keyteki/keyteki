@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { toastr } from 'react-redux-toastr';
 import { Trans, useTranslation } from 'react-i18next';
-import { Button, Switch } from '@heroui/react';
+import Button from '../HeroUI/Button';
+import { Switch } from '@heroui/react';
 
 import NewGame from './NewGame';
 import GameList from './GameList';
@@ -112,7 +113,7 @@ const GameLobby = ({ gameId }) => {
                         <Button
                             isDisabled={!user}
                             color='primary'
-                            onClick={() => {
+                            onPress={() => {
                                 setQuickJoin(false);
                                 dispatch(startNewGame());
                             }}
@@ -122,7 +123,7 @@ const GameLobby = ({ gameId }) => {
                         <Button
                             isDisabled={!user}
                             color='primary'
-                            onClick={() => {
+                            onPress={() => {
                                 setQuickJoin(true);
                                 dispatch(startNewGame());
                             }}

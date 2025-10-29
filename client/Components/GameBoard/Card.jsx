@@ -17,17 +17,17 @@ const Card = ({
     cardBack,
     className,
     disableMouseOver,
-    halfSize,
-    isSpectating,
+    halfSize = false,
+    isSpectating = true,
     onClick,
     onMenuItemClick,
     onMouseOut,
     onMouseOver,
-    orientation,
+    orientation = 'vertical',
     size,
     source,
     style,
-    wrapped
+    wrapped = true
 }) => {
     const { i18n } = useTranslation();
 
@@ -300,12 +300,5 @@ const Card = ({
 };
 
 Card.displayName = 'Card';
-
-Card.defaultProps = {
-    halfSize: false,
-    isSpectating: true,
-    orientation: 'vertical',
-    wrapped: true
-};
 
 export default Card;

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
 import { Trans } from 'react-i18next';
-import { Button } from '@heroui/react';
+import Button from '../HeroUI/Button';
 
 /**
  * @typedef ConfirmedButtonProps
@@ -36,11 +36,11 @@ const ConfirmButton = ({ children, onClick }) => {
 
     return (
         <>
-            <Button color='primary' onClick={handleClick}>
+            <Button color='primary' onPress={handleClick}>
                 {btnText}
             </Button>
             {showConfirm && (
-                <Button color='danger' onClick={handleConfirmClick}>
+                <Button color='danger' onPress={handleConfirmClick}>
                     <Trans>Confirm</Trans>
                 </Button>
             )}

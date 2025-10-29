@@ -1,6 +1,7 @@
 import React from 'react';
 import { Trans, useTranslation } from 'react-i18next';
-import { Button, Input } from '@heroui/react';
+import Button from '../HeroUI/Button';
+import { Input } from '@heroui/react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Formik } from 'formik';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';

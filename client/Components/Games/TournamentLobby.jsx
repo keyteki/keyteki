@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React, { useState, useEffect } from 'react';
 import ReactClipboard from 'react-clipboardjs-copy';
 import { useDispatch, useSelector } from 'react-redux';
@@ -5,7 +6,7 @@ import { toastr } from 'react-redux-toastr';
 import { Trans, useTranslation } from 'react-i18next';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleNotch } from '@fortawesome/free-solid-svg-icons';
-import { Button } from '@heroui/react';
+import Button from '../HeroUI/Button';
 
 import NewGame from './NewGame';
 import Panel from '../Site/Panel';
@@ -33,7 +34,7 @@ const TournamentLobby = () => {
     const games = useSelector((state) => state.lobby.games);
     const dispatch = useDispatch();
     const [tournament, setTournament] = useState();
-    const [matchesToCreate, setMatchesToCreate] = useState();
+    const [matchesToCreate, setMatchesToCreate] = useState([]);
     const { t } = useTranslation();
     const requestTournamentsState = useSelector((state) => {
         const retState = state.api[Challonge.RequestTournaments];
@@ -113,10 +114,13 @@ const TournamentLobby = () => {
         return participant ? participant.name : 'Unknown';
     };
 
-    const createGames = (event) => {
+    /**
+     * @param {string|number} value
+     */
+    const createGames = (value) => {
         let matches = matchesWithNoGames;
-        if (event.target.value !== 'all') {
-            matches = matches.filter((match) => match.id === parseInt(event.target.value));
+        if (value !== 'all') {
+            matches = matches.filter((match) => match.id === parseInt(value));
         }
 
         setMatchesToCreate(matches);
@@ -197,7 +201,7 @@ const TournamentLobby = () => {
                         </select>
                     </div>
                     <div>
-                        <Button color='primary' onClick={() => dispatch(fetchTournaments())}>
+                        <Button color='primary' onPress={() => dispatch(fetchTournaments())}>
                             <Trans>Refresh Tournaments</Trans>
                             {requestTournamentsState?.loading && (
                                 <FontAwesomeIcon icon={faCircleNotch} spin />
@@ -229,12 +233,9 @@ const TournamentLobby = () => {
                                             <Button
                                                 color='primary'
                                                 value={game.id}
-                                                onClick={(event) =>
+                                                onPress={() =>
                                                     dispatch(
-                                                        navigate(
-                                                            '/play',
-                                                            `?gameId=${event.target.value}`
-                                                        )
+                                                        navigate('/play', `?gameId=${game.id}`)
                                                     )
                                                 }
                                             >
@@ -249,7 +250,7 @@ const TournamentLobby = () => {
                                         <Button
                                             color='primary'
                                             value={match.id}
-                                            onClick={createGames}
+                                            onPress={() => createGames(match.id.toString())}
                                         >
                                             Create Game
                                         </Button>
@@ -259,7 +260,9 @@ const TournamentLobby = () => {
                                     <div>
                                         <Button
                                             color='primary'
-                                            onClick={() => dispatch(fetchMatches(tournament.id))}
+                                            onPress={() =>
+                                                tournament && dispatch(fetchMatches(tournament.id))
+                                            }
                                         >
                                             <Trans>Refresh Matches</Trans>
                                             {matchState?.loading && (
@@ -276,13 +279,13 @@ const TournamentLobby = () => {
                             color='primary'
                             value='all'
                             isDisabled={matchesWithNoGames.length <= 0}
-                            onClick={createGames}
+                            onPress={() => createGames('all')}
                         >
                             <Trans>Create All Games</Trans>
                         </Button>
                         <Button
                             color='primary'
-                            onClick={sendAttachment}
+                            onPress={sendAttachment}
                             isDisabled={matchesWithGames.length <= 0}
                         >
                             <Trans>Send Attachments</Trans>
@@ -293,7 +296,7 @@ const TournamentLobby = () => {
                     </div>
                 </div>
             </Panel>
-            {matchesToCreate?.length > 0 && (
+            {matchesToCreate.length > 0 && (
                 <NewGame
                     onClosed={() => setMatchesToCreate([])}
                     defaultGameType='competitive'

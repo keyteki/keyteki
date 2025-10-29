@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { Col, Form } from 'react-bootstrap';
-import { Button } from '@heroui/react';
+import Button from '../Components/HeroUI/Button';
+import { Textarea, Radio, RadioGroup } from '@heroui/react';
 import { useDispatch, useSelector } from 'react-redux';
 import { sendSocketMessage } from '../redux/actions';
 
@@ -22,39 +22,34 @@ const MotdAdmin = () => {
     const dispatch = useDispatch();
 
     return (
-        <Col sm={{ span: 8, offset: 2 }}>
+        <div className='max-w-4xl mx-auto'>
             <Panel title='Motd administration'>
-                <Form>
-                    <Form.Group controlId='motd' as={Col} xs={12}>
-                        <Form.Control
-                            as='textarea'
-                            rows={4}
-                            value={motdText}
-                            placeholder='Enter a motd message'
-                            onChange={(event) => setMotdText(event.target.value)}
-                        />
-                    </Form.Group>
-                    <Form.Group as={Col}>
+                <div className='space-y-4'>
+                    <Textarea
+                        label='MOTD Message'
+                        placeholder='Enter a motd message'
+                        value={motdText}
+                        onValueChange={setMotdText}
+                        minRows={4}
+                    />
+
+                    <RadioGroup
+                        label='Message Type'
+                        orientation='horizontal'
+                        value={motdType}
+                        onValueChange={setMotdType}
+                    >
                         {motdTypes.map((type) => (
-                            <Form.Check
-                                name='gameType'
-                                key={type.value}
-                                type='radio'
-                                id={type.value}
-                                label={type.label}
-                                inline
-                                onChange={() => setMotdType(type.value)}
-                                value={type.value}
-                                checked={motdType === type.value}
-                            ></Form.Check>
+                            <Radio key={type.value} value={type.value}>
+                                {type.label}
+                            </Radio>
                         ))}
-                    </Form.Group>
+                    </RadioGroup>
 
                     <div className='text-center'>
                         <Button
-                            className='btn btn-primary'
-                            type='button'
-                            onClick={() =>
+                            color='primary'
+                            onPress={() =>
                                 dispatch(
                                     sendSocketMessage('motd', {
                                         message: motdText,
@@ -66,9 +61,9 @@ const MotdAdmin = () => {
                             Save
                         </Button>
                     </div>
-                </Form>
+                </div>
             </Panel>
-        </Col>
+        </div>
     );
 };
 

@@ -1,10 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import moment from 'moment';
-import { Table, Form, Col } from 'react-bootstrap';
-import { Button } from '@heroui/react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCircleNotch } from '@fortawesome/free-solid-svg-icons';
+import Button from '../Components/HeroUI/Button';
+import { Textarea, Spinner } from '@heroui/react';
 
 import Panel from '../Components/Site/Panel';
 import { loadNews, saveNews, deleteNews, clearApiStatus, addNews } from '../redux/actions';
@@ -73,29 +71,22 @@ const NewsAdmin = () => {
 
     const renderedNews = news.map((newsItem) => {
         return (
-            <tr key={newsItem.id} className='d-flex'>
-                <td className='col-2'>{moment(newsItem.datePublished).format('YYYY-MM-DD')}</td>
-                <td className='col-2'>{newsItem.poster}</td>
-                <td className='col'>
+            <tr key={newsItem.id}>
+                <td className='p-2'>{moment(newsItem.datePublished).format('YYYY-MM-DD')}</td>
+                <td className='p-2'>{newsItem.poster}</td>
+                <td className='p-2'>
                     {editId === newsItem.id ? (
-                        <Form.Control
-                            as='textarea'
-                            rows={4}
-                            name='editText'
-                            value={editText}
-                            onChange={(event) => setEditText(event.target.value)}
-                        />
+                        <Textarea minRows={4} value={editText} onValueChange={setEditText} />
                     ) : (
                         newsItem.text
                     )}
                 </td>
-                <td className='col-3'>
-                    <div className='btn-group'>
+                <td className='p-2'>
+                    <div className='flex gap-2'>
                         {editId === newsItem.id ? (
                             <Button
                                 color='primary'
-                                type='button'
-                                onClick={() => {
+                                onPress={() => {
                                     dispatch(saveNews(editId, editText));
                                     setEditId(undefined);
                                     setEditText(undefined);
@@ -106,8 +97,7 @@ const NewsAdmin = () => {
                         ) : (
                             <Button
                                 color='primary'
-                                type='button'
-                                onClick={() => {
+                                onPress={() => {
                                     setEditId(newsItem.id);
                                     setEditText(newsItem.text);
                                 }}
@@ -115,11 +105,7 @@ const NewsAdmin = () => {
                                 Edit
                             </Button>
                         )}
-                        <Button
-                            color='danger'
-                            type='button'
-                            onClick={() => dispatch(deleteNews(newsItem.id))}
-                        >
+                        <Button color='danger' onPress={() => dispatch(deleteNews(newsItem.id))}>
                             Delete
                         </Button>
                     </div>
@@ -129,12 +115,12 @@ const NewsAdmin = () => {
     });
 
     return (
-        <div>
+        <div className='max-w-7xl mx-auto'>
             <Panel title='News Admin'>
                 {apiState?.loading && (
-                    <div>
+                    <div className='flex items-center gap-2'>
                         Please wait while the news is loaded...
-                        <FontAwesomeIcon icon={faCircleNotch} spin />
+                        <Spinner size='sm' />
                     </div>
                 )}
                 {!apiState?.loading && (
@@ -157,41 +143,38 @@ const NewsAdmin = () => {
                             state={deleteApiState}
                             onClose={() => dispatch(clearApiStatus(News.DeleteNews))}
                         />
-                        <Table striped>
-                            <thead>
-                                <tr className='d-flex'>
-                                    <th className='col-2'>Date</th>
-                                    <th className='col-2'>Poster</th>
-                                    <th className='col'>Text</th>
-                                    <th className='col-3'>Action</th>
-                                </tr>
-                            </thead>
-                            <tbody>{renderedNews}</tbody>
-                        </Table>
+                        <div className='overflow-x-auto'>
+                            <table className='w-full'>
+                                <thead>
+                                    <tr className='border-b border-gray-700'>
+                                        <th className='p-2 text-left w-32'>Date</th>
+                                        <th className='p-2 text-left w-32'>Poster</th>
+                                        <th className='p-2 text-left'>Text</th>
+                                        <th className='p-2 text-left w-64'>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>{renderedNews}</tbody>
+                            </table>
+                        </div>
 
-                        <Form>
-                            <Form.Group controlId='newsText' as={Col} xs={12}>
-                                <Form.Label>Add news item</Form.Label>
-                                <Form.Control
-                                    as='textarea'
-                                    rows={4}
-                                    name='newsText'
-                                    value={newsText}
-                                    onChange={(event) => setNewsText(event.target.value)}
-                                />
-                            </Form.Group>
+                        <div className='mt-6 space-y-4'>
+                            <Textarea
+                                label='Add news item'
+                                minRows={4}
+                                value={newsText}
+                                onValueChange={setNewsText}
+                            />
 
                             <Button
                                 color='primary'
-                                type='button'
-                                onClick={() => {
+                                onPress={() => {
                                     dispatch(addNews(newsText));
                                     setNewsText('');
                                 }}
                             >
                                 Add
                             </Button>
-                        </Form>
+                        </div>
                     </>
                 )}
             </Panel>

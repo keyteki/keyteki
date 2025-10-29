@@ -1,7 +1,8 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Trans, useTranslation } from 'react-i18next';
-import { Button, Input } from '@heroui/react';
+import Button from '../HeroUI/Button';
+import { Input } from '@heroui/react';
 import { Formik } from 'formik';
 import * as yup from 'yup';
 
@@ -218,7 +219,7 @@ const NewGame = ({
                             </Button>
                             <Button
                                 color='primary'
-                                onClick={() => {
+                                onPress={() => {
                                     dispatch(cancelNewGame());
                                     if (onClosed) {
                                         onClosed(false);

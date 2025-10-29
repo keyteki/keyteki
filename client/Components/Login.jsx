@@ -81,13 +81,7 @@ const Login = (props) => {
                     </Link>
 
                     <div className='text-center mt-4'>
-                        <Button
-                            color='primary'
-                            type='submit'
-                            size='md'
-                            texture
-                            textureColor='primary'
-                        >
+                        <Button color='primary' type='submit' size='md'>
                             {t('Login')}
                         </Button>
                     </div>

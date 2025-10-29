@@ -1,6 +1,6 @@
 import React from 'react';
 import { useTranslation, Trans } from 'react-i18next';
-import { Button } from '@heroui/react';
+import Button from '../HeroUI/Button';
 
 import Panel from '../Site/Panel';
 import DeckStatus from '../Decks/DeckStatus';
@@ -52,7 +52,7 @@ const PendingGamePlayers = ({ currentGame, user, onSelectDeck }) => {
                     status = <DeckStatus status={player.deck.status} />;
                 } else if (player && playerIsMe && !isSealed) {
                     selectLink = (
-                        <Button onClick={onSelectDeck}>
+                        <Button onPress={onSelectDeck}>
                             <Trans>Select Deck</Trans>
                         </Button>
                     );

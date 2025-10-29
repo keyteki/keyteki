@@ -1,8 +1,6 @@
 // This file contains styles that need assigning to a component but that component either doesn't exist yet or needs refactoring
 @import './variables';
 @import './colours';
-@import 'bootstrap/scss/functions';
-@import 'bootstrap/scss/variables';
 
 .panel {
     background-color: rgba(0, 0, 0, 0.65);
@@ -40,7 +38,11 @@
     width: 100%;
     height: 100%;
 
-    &.hand, &.deck, &.discard, &.archives, &.purged {
+    &.hand,
+    &.deck,
+    &.discard,
+    &.archives,
+    &.purged {
         display: flex;
         align-items: center;
     }

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { Col, Row, Form } from 'react-bootstrap';
-import { Button } from '@heroui/react';
+import Button from '../Components/HeroUI/Button';
+import { Radio, RadioGroup } from '@heroui/react';
 import Panel from '../Components/Site/Panel';
 import { useTranslation, Trans } from 'react-i18next';
 import AlertPanel from '../Components/Site/AlertPanel';
@@ -115,7 +115,7 @@ const ProphecyAssignment = () => {
     };
 
     return (
-        <Col md={{ span: 10, offset: 1 }} className='profile full-height'>
+        <div className='max-w-6xl mx-auto profile full-height'>
             <Panel title={`${t('Assign Prophecy Cards')} - ${selectedDeck.name}`}>
                 <ApiStatus
                     state={apiState}
@@ -139,129 +139,107 @@ const ProphecyAssignment = () => {
                     </div>
                 )}
 
-                <Row>
-                    <Col sm='12'>
-                        <div className='prophecy-assignment-form'>
-                            <h4>
-                                <Trans>First Prophecy Card:</Trans>
-                            </h4>
-                            <div className='first-prophecy-card'>
-                                <strong
+                <div className='prophecy-assignment-form'>
+                    <h4>
+                        <Trans>First Prophecy Card:</Trans>
+                    </h4>
+                    <div className='first-prophecy-card'>
+                        <strong
+                            className='prophecy-card-name'
+                            onMouseOver={(event) => handleCardHover(firstProphecy.card, event)}
+                            onMouseMove={(event) => handleCardHover(firstProphecy.card, event)}
+                            onMouseOut={handleCardMouseOut}
+                        >
+                            {firstProphecy.card.name}
+                        </strong>
+                    </div>
+
+                    <h5 className='mt-4'>
+                        <Trans>Select which prophecy is on the same physical card:</Trans>
+                    </h5>
+
+                    <RadioGroup
+                        value={selectedProphecyId}
+                        onValueChange={setSelectedProphecyId}
+                        className='gap-2'
+                    >
+                        {otherProphecies.map((prophecy) => (
+                            <Radio key={prophecy.card.id} value={prophecy.card.id} className='mb-2'>
+                                <span
                                     className='prophecy-card-name'
-                                    onMouseOver={(event) =>
-                                        handleCardHover(firstProphecy.card, event)
-                                    }
-                                    onMouseMove={(event) =>
-                                        handleCardHover(firstProphecy.card, event)
-                                    }
+                                    onMouseOver={(event) => handleCardHover(prophecy.card, event)}
+                                    onMouseMove={(event) => handleCardHover(prophecy.card, event)}
                                     onMouseOut={handleCardMouseOut}
                                 >
-                                    {firstProphecy.card.name}
-                                </strong>
-                            </div>
+                                    {prophecy.card.name}
+                                </span>
+                            </Radio>
+                        ))}
+                    </RadioGroup>
 
-                            <h5 className='mt-4'>
-                                <Trans>Select which prophecy is on the same physical card:</Trans>
-                            </h5>
-
-                            <Form>
-                                {otherProphecies.map((prophecy) => (
-                                    <Form.Check
-                                        key={prophecy.card.id}
-                                        type='radio'
-                                        id={prophecy.card.id}
-                                        name='prophecyPairing'
-                                        value={prophecy.card.id}
-                                        checked={selectedProphecyId === prophecy.card.id}
-                                        onChange={(e) => setSelectedProphecyId(e.target.value)}
-                                        label={
-                                            <span
-                                                className='prophecy-card-name'
-                                                onMouseOver={(event) =>
-                                                    handleCardHover(prophecy.card, event)
-                                                }
-                                                onMouseMove={(event) =>
-                                                    handleCardHover(prophecy.card, event)
-                                                }
-                                                onMouseOut={handleCardMouseOut}
-                                            >
-                                                {prophecy.card.name}
-                                            </span>
-                                        }
-                                        className='mb-2'
-                                    />
-                                ))}
-                            </Form>
-
-                            {selectedProphecyId && (
-                                <AlertPanel type='info' className='mt-4'>
-                                    <Trans i18nKey='prophecyAssignment.selectedPairing'>
-                                        You have selected{' '}
-                                        <strong>
-                                            <span
-                                                className='prophecy-card-name'
-                                                onMouseOver={(event) =>
-                                                    handleCardHover(firstProphecy.card, event)
-                                                }
-                                                onMouseMove={(event) =>
-                                                    handleCardHover(firstProphecy.card, event)
-                                                }
-                                                onMouseOut={handleCardMouseOut}
-                                            >
-                                                {firstProphecy.card.name}
-                                            </span>
-                                        </strong>{' '}
-                                        and{' '}
-                                        <strong>
-                                            <span
-                                                className='prophecy-card-name'
-                                                onMouseOver={(event) =>
-                                                    handleCardHover(
-                                                        otherProphecies.find(
-                                                            (p) => p.card.id === selectedProphecyId
-                                                        )?.card,
-                                                        event
-                                                    )
-                                                }
-                                                onMouseMove={(event) =>
-                                                    handleCardHover(
-                                                        otherProphecies.find(
-                                                            (p) => p.card.id === selectedProphecyId
-                                                        )?.card,
-                                                        event
-                                                    )
-                                                }
-                                                onMouseOut={handleCardMouseOut}
-                                            >
-                                                {
+                    {selectedProphecyId && (
+                        <div className='mt-4'>
+                            <AlertPanel type='info'>
+                                <Trans i18nKey='prophecyAssignment.selectedPairing'>
+                                    You have selected{' '}
+                                    <strong>
+                                        <span
+                                            className='prophecy-card-name'
+                                            onMouseOver={(event) =>
+                                                handleCardHover(firstProphecy.card, event)
+                                            }
+                                            onMouseMove={(event) =>
+                                                handleCardHover(firstProphecy.card, event)
+                                            }
+                                            onMouseOut={handleCardMouseOut}
+                                        >
+                                            {firstProphecy.card.name}
+                                        </span>
+                                    </strong>{' '}
+                                    and{' '}
+                                    <strong>
+                                        <span
+                                            className='prophecy-card-name'
+                                            onMouseOver={(event) =>
+                                                handleCardHover(
                                                     otherProphecies.find(
                                                         (p) => p.card.id === selectedProphecyId
-                                                    )?.card.name
-                                                }
-                                            </span>
-                                        </strong>{' '}
-                                        to be on the same physical card. The remaining two
-                                        prophecies will be paired together on the second card.
-                                    </Trans>
-                                </AlertPanel>
-                            )}
+                                                    )?.card,
+                                                    event
+                                                )
+                                            }
+                                            onMouseMove={(event) =>
+                                                handleCardHover(
+                                                    otherProphecies.find(
+                                                        (p) => p.card.id === selectedProphecyId
+                                                    )?.card,
+                                                    event
+                                                )
+                                            }
+                                            onMouseOut={handleCardMouseOut}
+                                        >
+                                            {
+                                                otherProphecies.find(
+                                                    (p) => p.card.id === selectedProphecyId
+                                                )?.card.name
+                                            }
+                                        </span>
+                                    </strong>{' '}
+                                    to be on the same physical card. The remaining two prophecies
+                                    will be paired together on the second card.
+                                </Trans>
+                            </AlertPanel>
                         </div>
-                    </Col>
-                </Row>
+                    )}
+                </div>
 
-                <Row>
-                    <Col className='text-center mt-4'>
-                        <Button
-                            color='primary'
-                            onClick={handleSave}
-                            isDisabled={!selectedProphecyId}
-                        >
-                            <Trans>Save Prophecy Assignments</Trans>
-                        </Button>
-                    </Col>
-                </Row>
+                <div className='text-center mt-4'>
+                    <Button color='primary' onPress={handleSave} isDisabled={!selectedProphecyId}>
+                        <Trans>Save Prophecy Assignments</Trans>
+                    </Button>
+                </div>
             </Panel>
-        </Col>
+        </div>
     );
 };
 

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Trans } from 'react-i18next';
 import Typeahead from '../Form/Typeahead';
-import { Button } from '@heroui/react';
+import Button from '../HeroUI/Button';
 
 /**
  * @typedef TypeaheadLookupProps
@@ -29,7 +29,7 @@ const TypeaheadLookup = (props) => {
                 dropup
                 onChange={(selectedValues) => setSelectedValue(selectedValues[0])}
             />
-            <Button color='primary' type='button' onClick={handleDoneClick}>
+            <Button color='primary' type='button' onPress={handleDoneClick}>
                 <Trans>Done</Trans>
             </Button>
         </div>

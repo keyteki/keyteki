@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button } from '@heroui/react';
+import Button from '../HeroUI/Button';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const FaIconButton = ({ icon, color = 'default', size = 'sm', variant = 'flat', onPress }) => {

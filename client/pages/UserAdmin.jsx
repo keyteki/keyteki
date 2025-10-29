@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Col, Form, Table, Spinner, Row } from 'react-bootstrap';
-import { Button } from '@heroui/react';
+import Button from '../Components/HeroUI/Button';
+import { Input, Switch, Spinner } from '@heroui/react';
 import moment from 'moment';
 import * as yup from 'yup';
 
@@ -113,29 +113,26 @@ const UserAdmin = () => {
     if (currentUser) {
         permissionsCheckBoxes = permissions.map((permission) => {
             return (
-                <Col key={`permissions.${permission.name}`} md='4'>
-                    <Form.Check
-                        type='switch'
-                        id={`permissions.${permission.name}`}
-                        label={permission.label}
-                        inline
-                        onChange={() => {
+                <div key={`permissions.${permission.name}`} className='mb-3'>
+                    <Switch
+                        isSelected={currentPermissions[permission.name]}
+                        onValueChange={() => {
                             currentPermissions[permission.name] = !currentPermissions[
                                 permission.name
                             ];
                             let newPermissions = Object.assign({}, currentPermissions);
                             setCurrentPermissions(newPermissions);
                         }}
-                        value='true'
-                        checked={currentPermissions[permission.name]}
-                    ></Form.Check>
-                </Col>
+                    >
+                        {permission.label}
+                    </Switch>
+                </div>
             );
         });
     }
 
     return (
-        <Col sm={{ span: 8, offset: 2 }}>
+        <div className='max-w-4xl mx-auto'>
             <ApiStatus state={apiState} onClose={() => dispatch(clearApiStatus(Admin.FindUser))} />
             <ApiStatus
                 state={apiSaveState}
@@ -149,102 +146,65 @@ const UserAdmin = () => {
                 initialValues={initialValues}
             >
                 {(formProps) => (
-                    <Form
+                    <form
                         onSubmit={(event) => {
                             event.preventDefault();
                             formProps.handleSubmit(event);
                         }}
                     >
                         <Panel title='User administration'>
-                            <Row>
-                                <Form.Group as={Col} md='6' controlId='formUsername'>
-                                    <Form.Label>{t('Username')}</Form.Label>
-                                    <Form.Control
-                                        name='username'
-                                        type='text'
-                                        placeholder={t('Enter a username')}
-                                        value={formProps.values.username}
-                                        onChange={formProps.handleChange}
-                                        onBlur={formProps.handleBlur}
-                                        isInvalid={
-                                            formProps.touched.username &&
-                                            !!formProps.errors.username
-                                        }
-                                    />
-                                    <Form.Control.Feedback type='invalid'>
-                                        {formProps.errors.username}
-                                    </Form.Control.Feedback>
-                                </Form.Group>
-                            </Row>
-                            <Row>
-                                <Col md={6}>
-                                    <Button type='submit' color='primary'>
-                                        Submit&nbsp;
-                                        {apiState?.loading && (
-                                            <Spinner
-                                                animation='border'
-                                                size='sm'
-                                                as={'span'}
-                                                role='status'
-                                                aria-hidden='true'
-                                            />
-                                        )}
-                                    </Button>
-                                </Col>
-                            </Row>
+                            <div className='mb-4 max-w-md'>
+                                <Input
+                                    name='username'
+                                    type='text'
+                                    label={t('Username')}
+                                    placeholder={t('Enter a username')}
+                                    value={formProps.values.username}
+                                    onChange={formProps.handleChange}
+                                    onBlur={formProps.handleBlur}
+                                    isInvalid={
+                                        formProps.touched.username && !!formProps.errors.username
+                                    }
+                                    errorMessage={formProps.errors.username}
+                                />
+                            </div>
+                            <div>
+                                <Button type='submit' color='primary'>
+                                    Submit&nbsp;
+                                    {apiState?.loading && <Spinner size='sm' color='current' />}
+                                </Button>
+                            </div>
                         </Panel>
                         {currentUser && (
                             <div>
                                 <Panel title={`${currentUser.username} - User details`}>
-                                    <dl>
-                                        <Row>
-                                            <Col md={3}>
-                                                <dt>Username:</dt>
-                                            </Col>
-                                            <Col md={3}>
-                                                <dd>{currentUser.username}</dd>
-                                            </Col>
-                                        </Row>
-                                        <Row>
-                                            <Col md={3}>
-                                                <dt>Email:</dt>
-                                            </Col>
-                                            <Col md={3}>
-                                                <dd>{currentUser.email}</dd>
-                                            </Col>
-                                        </Row>
-                                        <Row>
-                                            <Col md={3}>
-                                                <dt>Registered:</dt>
-                                            </Col>
-                                            <Col md={3}>
-                                                <dd>
-                                                    {moment(currentUser.registered).format(
-                                                        'YYYY-MM-DD HH:MM'
-                                                    )}
-                                                </dd>
-                                            </Col>
-                                        </Row>
+                                    <dl className='grid grid-cols-2 gap-y-2 max-w-2xl'>
+                                        <dt className='font-semibold'>Username:</dt>
+                                        <dd>{currentUser.username}</dd>
+                                        <dt className='font-semibold'>Email:</dt>
+                                        <dd>{currentUser.email}</dd>
+                                        <dt className='font-semibold'>Registered:</dt>
+                                        <dd>
+                                            {moment(currentUser.registered).format(
+                                                'YYYY-MM-DD HH:MM'
+                                            )}
+                                        </dd>
                                     </dl>
 
-                                    <Form.Check
-                                        type='switch'
-                                        id='disabled'
-                                        label={'Disabled'}
-                                        inline
-                                        onChange={() => setUserDisabled(!userDisabled)}
-                                        value='true'
-                                        checked={userDisabled}
-                                    ></Form.Check>
-                                    <Form.Check
-                                        type='switch'
-                                        id='verified'
-                                        label={'Verified'}
-                                        inline
-                                        onChange={() => setUserVerified(!userVerified)}
-                                        value='true'
-                                        checked={userVerified}
-                                    ></Form.Check>
+                                    <div className='mt-4 space-y-3'>
+                                        <Switch
+                                            isSelected={userDisabled}
+                                            onValueChange={setUserDisabled}
+                                        >
+                                            Disabled
+                                        </Switch>
+                                        <Switch
+                                            isSelected={userVerified}
+                                            onValueChange={setUserVerified}
+                                        >
+                                            Verified
+                                        </Switch>
+                                    </div>
                                 </Panel>
                                 {currentUser.linkedAccounts && (
                                     <Panel title='Possibly linked accounts'>
@@ -266,42 +226,46 @@ const UserAdmin = () => {
                                 )}
                                 {currentUser.tokens && (
                                     <Panel title='Sessions'>
-                                        <Table striped>
-                                            <thead>
-                                                <tr>
-                                                    <th>IP Address</th>
-                                                    <th>Last Used</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                {currentUser.tokens.map((token) => {
-                                                    return (
-                                                        <tr key={token.ip}>
-                                                            <td>{token.ip}</td>
-                                                            <td>
-                                                                {moment(token.lastUsed).format(
-                                                                    'YYYY-MM-DD HH:MM'
-                                                                )}
-                                                            </td>
-                                                        </tr>
-                                                    );
-                                                })}
-                                            </tbody>
-                                        </Table>
+                                        <div className='overflow-x-auto'>
+                                            <table className='w-full'>
+                                                <thead>
+                                                    <tr className='border-b border-gray-700'>
+                                                        <th className='p-2 text-left'>
+                                                            IP Address
+                                                        </th>
+                                                        <th className='p-2 text-left'>Last Used</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    {currentUser.tokens.map((token) => {
+                                                        return (
+                                                            <tr key={token.ip}>
+                                                                <td className='p-2'>{token.ip}</td>
+                                                                <td className='p-2'>
+                                                                    {moment(token.lastUsed).format(
+                                                                        'YYYY-MM-DD HH:MM'
+                                                                    )}
+                                                                </td>
+                                                            </tr>
+                                                        );
+                                                    })}
+                                                </tbody>
+                                            </table>
+                                        </div>
                                     </Panel>
                                 )}
                                 {user?.permissions.canManagePermissions ? (
                                     <Panel title='Permissions'>
-                                        <Form.Group>
-                                            <Row>{permissionsCheckBoxes}</Row>
-                                        </Form.Group>
+                                        <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4'>
+                                            {permissionsCheckBoxes}
+                                        </div>
                                     </Panel>
                                 ) : null}
-                                <div className='text-center'>
+                                <div className='text-center space-x-4'>
                                     <Button
                                         type='button'
-                                        className='btn btn-primary col-xs-3'
-                                        onClick={() =>
+                                        color='primary'
+                                        onPress={() =>
                                             dispatch(clearUserSessions(currentUser.username))
                                         }
                                     >
@@ -310,7 +274,7 @@ const UserAdmin = () => {
                                     <Button
                                         type='button'
                                         color='primary'
-                                        onClick={() => {
+                                        onPress={() => {
                                             currentUser.permissions = currentPermissions;
                                             currentUser.verified = userVerified;
                                             currentUser.disabled = userDisabled;
@@ -320,22 +284,16 @@ const UserAdmin = () => {
                                     >
                                         Save&nbsp;
                                         {apiSaveState?.loading && (
-                                            <Spinner
-                                                animation='border'
-                                                size='sm'
-                                                as={'span'}
-                                                role='status'
-                                                aria-hidden='true'
-                                            />
+                                            <Spinner size='sm' color='current' />
                                         )}
                                     </Button>
                                 </div>
                             </div>
                         )}
-                    </Form>
+                    </form>
                 )}
             </Formik>
-        </Col>
+        </div>
     );
 };
 

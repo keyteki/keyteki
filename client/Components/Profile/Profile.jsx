@@ -1,5 +1,5 @@
 import React, { useState, useRef } from 'react';
-import { Button } from '@heroui/react';
+import Button from '../HeroUI/Button';
 import { Formik } from 'formik';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';

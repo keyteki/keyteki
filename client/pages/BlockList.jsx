@@ -1,10 +1,10 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Form, Col, Table, Row } from 'react-bootstrap';
-import { Button } from '@heroui/react';
+import Button from '../Components/HeroUI/Button';
+import { Input, Spinner } from '@heroui/react';
 import { Formik } from 'formik';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTimes, faCircleNotch } from '@fortawesome/free-solid-svg-icons';
+import { faTimes } from '@fortawesome/free-solid-svg-icons';
 import * as yup from 'yup';
 import { Trans, useTranslation } from 'react-i18next';
 
@@ -95,19 +95,21 @@ const BlockList = () => {
                 <Trans>No users currently blocked</Trans>
             </div>
         ) : (
-            <Table striped className='blocklist'>
-                <thead>
-                    <tr>
-                        <th>
-                            <Trans>Username</Trans>
-                        </th>
-                        <th>
-                            <Trans>Remove</Trans>
-                        </th>
-                    </tr>
-                </thead>
-                <tbody>{blockListToRender}</tbody>
-            </Table>
+            <div className='overflow-x-auto'>
+                <table className='w-full blocklist'>
+                    <thead>
+                        <tr className='border-b border-gray-700'>
+                            <th className='p-2 text-left'>
+                                <Trans>Username</Trans>
+                            </th>
+                            <th className='p-2 text-left w-24'>
+                                <Trans>Remove</Trans>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>{blockListToRender}</tbody>
+                </table>
+            </div>
         );
 
     const schema = yup.object({
@@ -115,12 +117,12 @@ const BlockList = () => {
     });
 
     return (
-        <Col sm={{ offset: 2, span: 8 }}>
+        <div className='max-w-4xl mx-auto'>
             <Panel title={t('Block list')}>
                 {apiState?.loading && (
-                    <div>
+                    <div className='flex items-center gap-2'>
                         Please wait while the blocklist is loaded...
-                        <FontAwesomeIcon icon={faCircleNotch} spin />
+                        <Spinner size='sm' />
                     </div>
                 )}
                 {!apiState ||
@@ -143,7 +145,7 @@ const BlockList = () => {
                                     initialValues={initialValues}
                                 >
                                     {(formProps) => (
-                                        <Form
+                                        <form
                                             onSubmit={(event) => {
                                                 event.preventDefault();
                                                 formProps.handleSubmit(event);
@@ -158,53 +160,45 @@ const BlockList = () => {
                                                     their chat messages or their games.
                                                 </Trans>
                                             </p>
-                                            <Row>
-                                                <Form.Group
-                                                    as={Col}
-                                                    xs='9'
-                                                    controlId='formGridblockee'
-                                                >
-                                                    <Form.Label>{t('Username')}</Form.Label>
-                                                    <Form.Control
-                                                        name='blockee'
-                                                        type='text'
-                                                        placeholder={t('Enter username to block')}
-                                                        value={formProps.values.blockee}
-                                                        onChange={formProps.handleChange}
-                                                        onBlur={formProps.handleBlur}
-                                                        isInvalid={
-                                                            formProps.touched.blockee &&
-                                                            !!formProps.errors.blockee
-                                                        }
-                                                    />
-                                                    <Form.Control.Feedback type='invalid'>
-                                                        {formProps.errors.blockee}
-                                                    </Form.Control.Feedback>
-                                                </Form.Group>
-                                            </Row>
+                                            <div className='max-w-md mb-4'>
+                                                <Input
+                                                    name='blockee'
+                                                    type='text'
+                                                    label={t('Username')}
+                                                    placeholder={t('Enter username to block')}
+                                                    value={formProps.values.blockee}
+                                                    onChange={formProps.handleChange}
+                                                    onBlur={formProps.handleBlur}
+                                                    isInvalid={
+                                                        formProps.touched.blockee &&
+                                                        !!formProps.errors.blockee
+                                                    }
+                                                    errorMessage={formProps.errors.blockee}
+                                                />
+                                            </div>
 
                                             <Button color='primary' type='submit'>
                                                 <Trans>Add</Trans>
                                                 &nbsp;
                                                 {addState && addState.loading && (
-                                                    <FontAwesomeIcon icon={faCircleNotch} spin />
+                                                    <Spinner size='sm' className='ml-2' />
                                                 )}
                                             </Button>
 
-                                            <div className='mt-3'>
-                                                <h3 className='font-weight-bold'>
+                                            <div className='mt-6'>
+                                                <h3 className='font-bold text-lg mb-3'>
                                                     <Trans>Users Blocked</Trans>
                                                 </h3>
                                                 {table}
                                             </div>
-                                        </Form>
+                                        </form>
                                     )}
                                 </Formik>
                             </div>
                         </>
                     ))}
             </Panel>
-        </Col>
+        </div>
     );
 };
 

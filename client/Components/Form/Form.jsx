@@ -2,7 +2,7 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import $ from 'jquery';
 import PropTypes from 'prop-types';
-import { Button } from '@heroui/react';
+import Button from '../HeroUI/Button';
 
 import Input from './Input.jsx';
 

@@ -1,10 +1,6 @@
 @import 'colours';
 @import 'fonts';
 @import 'variables';
-@import 'bootstrap/scss/functions';
-@import 'bootstrap/scss/variables';
-
-@import 'bootstrap';
 
 @import './fixmeunassigned.scss';
 
@@ -16,6 +12,11 @@ body {
 .body,
 .container,
 #component {
+    height: 100%;
+}
+
+/* Ensure HeroUI/React Aria overlay container stretches full height */
+[data-overlay-container='true'] {
     height: 100%;
 }
 

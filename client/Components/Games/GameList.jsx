@@ -7,7 +7,7 @@ import moment from 'moment';
 import { Trans, useTranslation } from 'react-i18next';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faLock } from '@fortawesome/free-solid-svg-icons';
-import { Button } from '@heroui/react';
+import Button from '../HeroUI/Button';
 
 import Avatar from '../Site/Avatar';
 import AlertPanel from '../Site/AlertPanel';
@@ -171,7 +171,7 @@ const GameList = ({ games, gameFilter, onJoinOrWatchClick }) => {
                                 <Button
                                     color='success'
                                     className='gamelist-button img-fluid'
-                                    onClick={(event) => joinGame(event, game)}
+                                    onPress={(event) => joinGame(event, game)}
                                 >
                                     <Trans>Join</Trans>
                                 </Button>
@@ -292,7 +292,7 @@ const GameList = ({ games, gameFilter, onJoinOrWatchClick }) => {
                                     <Button
                                         color='primary'
                                         className='gamelist-button'
-                                        onClick={(event) => watchGame(event, game)}
+                                        onPress={(event) => watchGame(event, game)}
                                     >
                                         <Trans>Watch</Trans>
                                     </Button>
@@ -301,7 +301,7 @@ const GameList = ({ games, gameFilter, onJoinOrWatchClick }) => {
                                     <Button
                                         color='danger'
                                         className='gamelist-button'
-                                        onClick={(event) => removeGame(event, game)}
+                                        onPress={(event) => removeGame(event, game)}
                                     >
                                         <Trans>Remove</Trans>
                                     </Button>
