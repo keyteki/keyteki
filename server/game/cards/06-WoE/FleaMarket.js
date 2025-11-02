@@ -1,4 +1,4 @@
-fconst _ = require('underscore');
+const _ = require('underscore');
 const Card = require('../../Card.js');
 
 class FleaMarket extends Card {
