@@ -43,6 +43,7 @@ describe('Miss Chievous', function () {
             expect(this.dustPixie.location).toBe('discard');
             expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
         });
+
         it('discards top 2 cards for player when a friendly Geistoid enters play and opponent has no deck', function () {
             this.player2.player.deck = [];
             this.player1.playCreature(this.echofly);
@@ -50,6 +51,7 @@ describe('Miss Chievous', function () {
             expect(this.keyToDis.location).toBe('discard');
             expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
         });
+
         it('triggers for self', function () {
             this.player1.moveCard(this.missChievous, 'hand');
             this.player1.playCreature(this.missChievous);
@@ -59,6 +61,7 @@ describe('Miss Chievous', function () {
             expect(this.dustPixie.location).toBe('discard');
             expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
         });
+
         it('treachery creatures will not trigger', function () {
             this.player1.playCreature(this.infiltrator);
             expect(this.gub.location).toBe('deck');
@@ -66,6 +69,7 @@ describe('Miss Chievous', function () {
             expect(this.initiation.location).toBe('deck');
             expect(this.dustPixie.location).toBe('deck');
         });
+
         it('plays topmost creature from discard on reap', function () {
             this.player1.reap(this.missChievous);
             this.player1.clickPrompt('Right');
