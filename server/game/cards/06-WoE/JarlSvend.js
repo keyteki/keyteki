@@ -7,9 +7,7 @@ class JarlSvend extends Card {
         this.reaction({
             when: {
                 onCardDestroyed: (event, context) =>
-                    event.destroyedFighting &&
-                    event.card.location === 'discard' &&
-                    event.damageEvent.damageSource === context.source
+                    event.destroyedFighting && event.damageEvent.damageSource === context.source
             },
             gameAction: ability.actions.makeTokenCreature(),
             effect: 'make a token creature'
