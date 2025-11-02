@@ -1,4 +1,4 @@
-const _ = require('underscore');
+fconst _ = require('underscore');
 const Card = require('../../Card.js');
 
 class FleaMarket extends Card {
@@ -8,7 +8,6 @@ class FleaMarket extends Card {
             condition: (context) => context.player.opponent,
             effect: "reveal a random card from {1}'s hand and optionally pay 1 amber to play it",
             effectArgs: (context) => context.player.opponent,
-            alwaysTriggers: true,
             gameAction: ability.actions.reveal((context) => ({
                 location: 'hand',
                 chatMessage: true,
