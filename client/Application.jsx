@@ -9,7 +9,15 @@ import Navigation from './Components/Navigation/Navigation';
 import Router from './Router.jsx';
 import { tryParseJSON } from './util.jsx';
 import AlertPanel from './Components/Site/AlertPanel';
-import * as actions from './redux/actions';
+import { setAuthTokens } from './redux/slices/authSlice';
+import { authenticate } from './redux/actions/account';
+import { connectLobby } from './redux/actions/socket';
+import { setWindowBlur } from './redux/actions/misc';
+import {
+    useLoadCardsQuery,
+    useLoadFactionsQuery,
+    useLoadStandaloneDecksQuery
+} from './redux/slices/apiSlice';
 
 import Background from './assets/img/bgs/keyforge.png';
 import BlankBg from './assets/img/bgs/blank.png';
@@ -25,6 +33,11 @@ const Application = ({ navigate }) => {
 
     const [incompatibleBrowser, setIncompatibleBrowser] = useState(false);
     const [cannotLoad, setCannotLoad] = useState(false);
+
+    // Load reference data via RTK Query
+    useLoadCardsQuery(undefined);
+    useLoadFactionsQuery(undefined);
+    useLoadStandaloneDecksQuery(undefined);
 
     const bgRef = useRef(null);
     const router = new Router();
@@ -52,8 +65,8 @@ const Application = ({ navigate }) => {
                 if (refreshToken) {
                     const parsedToken = tryParseJSON(refreshToken);
                     if (parsedToken) {
-                        dispatch(actions.setAuthTokens(token, parsedToken));
-                        dispatch(actions.authenticate());
+                        dispatch(setAuthTokens(token, parsedToken));
+                        dispatch(authenticate());
                     }
                 }
             } catch (error) {
@@ -61,22 +74,18 @@ const Application = ({ navigate }) => {
             }
         }
 
-        dispatch(actions.loadCards());
-        dispatch(actions.loadFactions());
-        dispatch(actions.loadStandaloneDecks());
-
         $(document).ajaxError((event, xhr) => {
             if (xhr.status === 403) {
                 navigate('/unauth');
             }
         });
 
-        dispatch(actions.connectLobby());
+        dispatch(connectLobby());
     }, [dispatch, navigate]);
 
     const onFocusChange = useCallback(
         (event) => {
-            dispatch(actions.setWindowBlur(event.type));
+            dispatch(setWindowBlur(event.type));
         },
         [dispatch]
     );

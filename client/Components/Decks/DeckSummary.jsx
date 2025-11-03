@@ -12,8 +12,6 @@ import DrawImage from '../../assets/img/enhancements/drawui.png';
 import DamageImage from '../../assets/img/enhancements/damageui.png';
 import DiscardImage from '../../assets/img/enhancements/discardui.png';
 
-import './DeckSummary.scss';
-
 const DeckSummary = ({ deck }) => {
     const { t, i18n } = useTranslation();
     let [zoomCard, setZoomCard] = useState(null);
@@ -30,10 +28,10 @@ const DeckSummary = ({ deck }) => {
 
         for (const card of filteredCards) {
             for (let i = 0; i < card.count; i++) {
-                let cardClass = 'deck-card-link';
+                let cardClass = 'cursor-pointer text-secondary hover:text-sky-400';
 
                 if (card.card.enhancements) {
-                    cardClass += ' enhanced-card';
+                    cardClass += ' text-sky-700';
                     for (const e of card.card.enhancements) {
                         enhancements[e] = 1 + (enhancements[e] || 0);
                     }
@@ -60,10 +58,10 @@ const DeckSummary = ({ deck }) => {
                             ? card.card.locale[i18n.language].name
                             : card.card.name}
                         {card.card.maverick && (
-                            <img className='small-card-icon' src={Constants.MaverickIcon} />
+                            <img className='w-4 h-4' src={Constants.MaverickIcon} />
                         )}
                         {card.card.anomaly && (
-                            <img className='small-card-icon' src={Constants.AnomalyIcon} />
+                            <img className='w-4 h-4' src={Constants.AnomalyIcon} />
                         )}
                     </div>
                 );
@@ -109,7 +107,7 @@ const DeckSummary = ({ deck }) => {
             return (
                 <div
                     key={`${card.dbId}${i}`}
-                    className='deck-card-link'
+                    className='cursor-pointer text-secondary hover:text-sky-400'
                     onMouseOver={() => setZoomCard(card.card)}
                     onMouseMove={(event) => {
                         let y = event.clientY;
@@ -126,18 +124,14 @@ const DeckSummary = ({ deck }) => {
                     {card.card.locale && card.card.locale[i18n.language]
                         ? card.card.locale[i18n.language].name
                         : card.card.name}
-                    {card.card.maverick && (
-                        <img className='small-card-icon' src={Constants.MaverickIcon} />
-                    )}
-                    {card.card.anomaly && (
-                        <img className='small-card-icon' src={Constants.AnomalyIcon} />
-                    )}
+                    {card.card.maverick && <img className='w-4 h-4' src={Constants.MaverickIcon} />}
+                    {card.card.anomaly && <img className='w-4 h-4' src={Constants.AnomalyIcon} />}
                 </div>
             );
         });
 
     return (
-        <div className='w-full deck-summary'>
+        <div className='w-full mt-4'>
             <div className='flex flex-wrap gap-4'>
                 <div className='w-1/6 sm:w-1/4'>
                     <CardBack deck={deck} size={'x-large'} />
@@ -160,60 +154,47 @@ const DeckSummary = ({ deck }) => {
                         <span>{deck.winRate?.toFixed(2)}%</span>
                     </div>
                     {Object.keys(enhancements).length > 0 ? (
-                        <div className='flex gap-2 deck-enhancements'>
-                            <div className='deck-enhancement flex flex-col items-center'>
-                                <img src={AmberImage} className='deck-img-enhancement' />
-                                <span className='deck-text-enhancement'>
-                                    {enhancements.amber || 0}
-                                </span>
+                        <div className='flex gap-2 pl-3 pt-4'>
+                            <div className='px-0.5 flex flex-col items-center'>
+                                <img src={AmberImage} className='h-5 w-5' />
+                                <span className='pl-1'>{enhancements.amber || 0}</span>
                             </div>
-                            <div className='deck-enhancement flex flex-col items-center'>
-                                <img src={CaptureImage} className='deck-img-enhancement' />
-                                <span className='deck-text-enhancement'>
-                                    {enhancements.capture || 0}
-                                </span>
+                            <div className='px-0.5 flex flex-col items-center'>
+                                <img src={CaptureImage} className='h-5 w-5' />
+                                <span className='pl-1'>{enhancements.capture || 0}</span>
                             </div>
-                            <div className='deck-enhancement flex flex-col items-center'>
-                                <img src={DrawImage} className='deck-img-enhancement' />
-                                <span className='deck-text-enhancement'>
-                                    {enhancements.draw || 0}
-                                </span>
+                            <div className='px-0.5 flex flex-col items-center'>
+                                <img src={DrawImage} className='h-5 w-5' />
+                                <span className='pl-1'>{enhancements.draw || 0}</span>
                             </div>
-                            <div className='deck-enhancement flex flex-col items-center'>
-                                <img src={DamageImage} className='deck-img-enhancement' />
-                                <span className='deck-text-enhancement'>
-                                    {enhancements.damage || 0}
-                                </span>
+                            <div className='px-0.5 flex flex-col items-center'>
+                                <img src={DamageImage} className='h-5 w-5' />
+                                <span className='pl-1'>{enhancements.damage || 0}</span>
                             </div>
-                            <div className='deck-enhancement flex flex-col items-center'>
-                                <img src={DiscardImage} className='deck-img-enhancement' />
-                                <span className='deck-text-enhancement'>
-                                    {enhancements.discard || 0}
-                                </span>
+                            <div className='px-0.5 flex flex-col items-center'>
+                                <img src={DiscardImage} className='h-5 w-5' />
+                                <span className='pl-1'>{enhancements.discard || 0}</span>
                             </div>
                         </div>
                     ) : null}
                 </div>
             </div>
-            <div className='flex flex-wrap deck-houses'>
+            <div className='flex flex-wrap mt-4 py-1.5 bg-primary/40'>
                 {deck.houses.map((house) => {
                     return (
                         <div key={house} className='w-full sm:w-1/3 text-center'>
-                            <img
-                                className='deck-house-image img-fluid'
-                                src={Constants.HouseIconPaths[house]}
-                            />
-                            <span className='deck-house'>
+                            <img className='w-8 mx-auto' src={Constants.HouseIconPaths[house]} />
+                            <span className='pl-4'>
                                 {t(house)[0].toUpperCase() + t(house).slice(1)}
                             </span>
                         </div>
                     );
                 })}
             </div>
-            <div className='deck-cards'>
+            <div className='pt-4'>
                 {zoomCard && (
                     <div
-                        className='decklist-card-zoom'
+                        className='fixed z-50 w-80'
                         style={{ left: mousePos.x + 5 + 'px', top: mousePos.y + 'px' }}
                     >
                         <CardImage card={Object.assign({}, zoomCard)} />
@@ -229,11 +210,11 @@ const DeckSummary = ({ deck }) => {
             </div>
 
             {deck.cards.some((c) => c.isNonDeck && (!c.card || c.card.type !== 'archon power')) && (
-                <div className='deck-houses w-full'>
+                <div className='mt-4 py-1.5 bg-primary/40 w-full'>
                     <Trans>Non-Deck Cards</Trans>
                 </div>
             )}
-            <div className='deck-cards'>
+            <div className='pt-4'>
                 <div className='sm:w-1/3'>{nonDeckCards}</div>
             </div>
         </div>

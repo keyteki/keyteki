@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import Button from '../HeroUI/Button';
 import { Input } from '@heroui/react';
@@ -9,43 +9,35 @@ import { faCircleNotch } from '@fortawesome/free-solid-svg-icons';
 import * as yup from 'yup';
 
 import Panel from '../Site/Panel';
-import ApiStatus from '../Site/ApiStatus';
-import { Decks } from '../../redux/types';
-import { clearApiStatus, navigate, saveDeck } from '../../redux/actions';
+import AlertPanel from '../Site/AlertPanel';
+import { navigate } from '../../redux/slices/navigationSlice';
+import { useSaveDeckMutation } from '../../redux/slices/apiSlice';
 
 const ImportDeck = () => {
     const { t } = useTranslation();
     const dispatch = useDispatch();
     const selectedDeck = useSelector((state) => state.cards.selectedDeck);
-    const apiState = useSelector((state) => {
-        const retState = state.api[Decks.SaveDeck];
+    const [saveDeck, { isLoading, isSuccess, reset }] = useSaveDeckMutation();
 
-        if (retState && retState.success) {
-            retState.message = t('Deck added successfully');
-
-            // Check if deck has prophecy cards that need assignment
+    useEffect(() => {
+        if (isSuccess && selectedDeck) {
             const prophecyCards =
                 selectedDeck?.cards?.filter((c) => c.card.type === 'prophecy') || [];
             const prophecyCardsNeedingAssignment = prophecyCards.filter((c) => !c.prophecyId);
 
             if (prophecyCards.length === 4 && prophecyCardsNeedingAssignment.length === 4) {
-                retState.message = t(
-                    'Deck added successfully but the deck has prophecy cards. You will be redirected to a page that allows you to assign them to the correct physical cards.'
-                );
-                setTimeout(() => {
-                    dispatch(clearApiStatus(Decks.SaveDeck));
+                const timer = setTimeout(() => {
                     dispatch(navigate('/decks/prophecy-assignment'));
                 }, 3000);
+                return () => clearTimeout(timer);
             } else {
-                setTimeout(() => {
-                    dispatch(clearApiStatus(Decks.SaveDeck));
+                const timer = setTimeout(() => {
                     dispatch(navigate('/decks'));
                 }, 1000);
+                return () => clearTimeout(timer);
             }
         }
-
-        return retState;
-    });
+    }, [isSuccess, selectedDeck, dispatch]);
 
     const schema = yup.object({
         deckLink: yup
@@ -65,20 +57,43 @@ const ImportDeck = () => {
         deckLink: ''
     };
 
-    const onSubmit = (values) => {
+    const onSubmit = async (values) => {
         const regex = /[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}/;
         let uuid = values.deckLink.match(regex);
 
-        dispatch(saveDeck({ uuid: uuid[0] }));
+        try {
+            await saveDeck({ uuid: uuid[0] }).unwrap();
+        } catch (err) {
+            // Log and allow AlertPanels/toastr to surface any server errors
+            // eslint-disable-next-line no-console
+            console.error(err);
+        }
     };
+
+    const prophecyCards = selectedDeck?.cards?.filter((c) => c.card.type === 'prophecy') || [];
+    const prophecyCardsNeedingAssignment = prophecyCards.filter((c) => !c.prophecyId);
+    const hasProphecyAssignment =
+        prophecyCards.length === 4 && prophecyCardsNeedingAssignment.length === 4;
 
     return (
         <div>
             <div className='profile full-height mx-auto max-w-3xl px-4'>
-                <ApiStatus
-                    state={apiState}
-                    onClose={() => dispatch(clearApiStatus(Decks.SaveDeck))}
-                />
+                {isSuccess && (
+                    <AlertPanel
+                        type='success'
+                        title=''
+                        message={
+                            hasProphecyAssignment
+                                ? t(
+                                      'Deck added successfully but the deck has prophecy cards. You will be redirected to a page that allows you to assign them to the correct physical cards.'
+                                  )
+                                : t('Deck added successfully')
+                        }
+                        onClose={reset}
+                    >
+                        {null}
+                    </AlertPanel>
+                )}
                 <Panel title={t('Import Deck')}>
                     <Trans i18nKey='importdeck.enterlink'>
                         <p>
@@ -136,9 +151,7 @@ const ImportDeck = () => {
                                     <Button color='secondary' type='submit'>
                                         {t('Import')}
                                         &nbsp;
-                                        {apiState && apiState.loading && (
-                                            <FontAwesomeIcon icon={faCircleNotch} spin />
-                                        )}
+                                        {isLoading && <FontAwesomeIcon icon={faCircleNotch} spin />}
                                     </Button>
                                 </div>
                             </form>

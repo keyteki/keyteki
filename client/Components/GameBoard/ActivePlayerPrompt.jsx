@@ -6,8 +6,14 @@ import TraitNameLookup from './TraitNameLookup';
 import HouseSelect from './HouseSelect';
 import OptionsSelect from './OptionsSelect';
 import Panel from '../Site/Panel';
+import Button from '../HeroUI/Button';
 
-import './ActivePlayerPrompt.scss';
+import redKey from '../../assets/img/unforgedkeyred.png';
+import blueKey from '../../assets/img/unforgedkeyblue.png';
+import yellowKey from '../../assets/img/unforgedkeyyellow.png';
+import forgedRed from '../../assets/img/forgedkeyred.png';
+import forgedBlue from '../../assets/img/forgedkeyblue.png';
+import forgedYellow from '../../assets/img/forgedkeyyellow.png';
 import CardImage from './CardImage';
 
 /**
@@ -90,6 +96,15 @@ const ActivePlayerPrompt = (props) => {
         return t(text, values);
     };
 
+    const iconMap = {
+        unforgedkeyred: redKey,
+        unforgedkeyblue: blueKey,
+        unforgedkeyyellow: yellowKey,
+        forgedkeyred: forgedRed,
+        forgedkeyblue: forgedBlue,
+        forgedkeyyellow: forgedYellow
+    };
+
     const getButtons = () => {
         let buttonIndex = 0;
 
@@ -111,20 +126,29 @@ const ActivePlayerPrompt = (props) => {
             }
 
             let option = (
-                <button
+                <Button
                     key={button.command + buttonIndex.toString()}
-                    className='btn btn-default prompt-button btn-stretch'
+                    color='default'
                     title={originalButtonText}
-                    onClick={(event) =>
+                    onPress={(event) =>
                         onButtonClick(event, button.command, button.arg, button.uuid, button.method)
                     }
                     onMouseOver={() => onMouseOver(button.card)}
                     onMouseOut={() => onMouseOut(button.card)}
-                    disabled={button.disabled}
+                    isDisabled={button.disabled}
+                    className='w-full mb-1 justify-center'
                 >
-                    {buttonText}{' '}
-                    {button.icon && <div className={`button-icon icon-${button.icon}`} />}
-                </button>
+                    <span className='inline-flex items-center gap-2'>
+                        {buttonText}
+                        {button.icon && iconMap[button.icon] && (
+                            <img
+                                src={iconMap[button.icon]}
+                                alt={button.icon}
+                                className='inline-block w-3 h-3 align-middle'
+                            />
+                        )}
+                    </span>
+                </Button>
             );
 
             buttonIndex++;
@@ -226,7 +250,7 @@ const ActivePlayerPrompt = (props) => {
         let promptTitleText = safePromptText(props.promptTitle);
 
         promptTitle = (
-            <div className='menu-pane-source'>
+            <div className='text-center text-sm py-1 border-b border-slate-500'>
                 {localizedText(controlSource, promptTitleText, props.promptTitle.values)}
             </div>
         );
@@ -249,10 +273,10 @@ const ActivePlayerPrompt = (props) => {
     }
 
     return (
-        <Panel title={t(props.phase + ' phase')} titleClass='phase-indicator'>
+        <Panel title={t(props.phase + ' phase')} titleClass='uppercase'>
             {timer}
             {promptTitle}
-            <div className='menu-pane'>
+            <div className='text-center mt-5'>
                 <h4>{promptTexts}</h4>
                 {getControls()}
                 {getButtons()}

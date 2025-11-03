@@ -16,7 +16,6 @@ import { Constants } from '../../constants';
 
 import ChargeMp3 from '../../assets/sound/charge.mp3';
 import ChargeOgg from '../../assets/sound/charge.ogg';
-import './PendingGame.scss';
 
 function showNotification(notification) {
     if (window.Notification && Notification.permission === 'granted') {

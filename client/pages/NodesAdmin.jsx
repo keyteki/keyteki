@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import Button from '../Components/HeroUI/Button';
 
 import Panel from '../Components/Site/Panel';
-import { sendSocketMessage } from '../redux/actions';
+import { sendSocketMessage } from '../redux/actions/socket';
 
 const NodeAdmin = () => {
     const dispatch = useDispatch();

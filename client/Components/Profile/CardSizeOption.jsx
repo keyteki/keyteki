@@ -4,8 +4,6 @@ import classNames from 'classnames';
 
 import IdentityDefault from '../../assets/img/idbacks/identity.jpg';
 
-import './CardSizeOption.scss';
-
 function CardSizeOption(props) {
     let { name, label, selected, onSelect } = props;
 
@@ -16,7 +14,7 @@ function CardSizeOption(props) {
     };
 
     return (
-        <div key={name} className='card-settings' onClick={handleClick}>
+        <div key={name} className='inline-block mx-1' onClick={handleClick}>
             <div className={classNames('game-card', 'vertical', name, { selected: selected })}>
                 <img className={classNames('game-card', 'vertical', name)} src={IdentityDefault} />
             </div>

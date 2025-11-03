@@ -3,8 +3,6 @@ import { Trans } from 'react-i18next';
 
 import NewsItem from './NewsItem';
 
-import './News.scss';
-
 /**
  * @typedef News
  * @property {Date} datePublished When the news was published
@@ -49,7 +47,7 @@ const News = ({ news }) => {
         renderedNews.push(<Trans key='nonews'>There is no site news at the moment</Trans>);
     }
 
-    return <div className='news-container'>{renderedNews}</div>;
+    return <div className='max-h-32 min-h-32 overflow-y-auto'>{renderedNews}</div>;
 };
 
 News.displayName = 'News';

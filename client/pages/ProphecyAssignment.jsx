@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Button from '../Components/HeroUI/Button';
 import { Radio, RadioGroup } from '@heroui/react';
 import Panel from '../Components/Site/Panel';
@@ -7,11 +7,8 @@ import AlertPanel from '../Components/Site/AlertPanel';
 import { useSelector, useDispatch } from 'react-redux';
 import CardImage from '../Components/GameBoard/CardImage';
 
-import { navigate, saveProphecyAssignments, clearApiStatus } from '../redux/actions';
-import { Decks } from '../redux/types';
-import ApiStatus from '../Components/Site/ApiStatus';
-
-import './ProphecyAssignment.scss';
+import { navigate } from '../redux/slices/navigationSlice';
+import { useSaveProphecyAssignmentsMutation } from '../redux/slices/apiSlice';
 
 const ProphecyAssignment = () => {
     const { t } = useTranslation();
@@ -21,20 +18,19 @@ const ProphecyAssignment = () => {
     const [mousePos, setMousePosition] = useState({ x: 0, y: 0 });
     const dispatch = useDispatch();
     const selectedDeck = useSelector((state) => state.cards?.selectedDeck);
-    const apiState = useSelector((state) => {
-        const retState = state.api?.[Decks.SaveProphecyAssignments];
+    const [
+        saveProphecyAssignments,
+        { isLoading: isSaving, isSuccess: saveSuccess, reset: resetSave }
+    ] = useSaveProphecyAssignmentsMutation();
 
-        if (retState && retState.success) {
-            retState.message = t('Prophecy assignments saved successfully');
-
-            setTimeout(() => {
-                dispatch(clearApiStatus(Decks.SaveProphecyAssignments));
+    useEffect(() => {
+        if (saveSuccess) {
+            const timer = setTimeout(() => {
                 dispatch(navigate('/decks'));
             }, 3000);
+            return () => clearTimeout(timer);
         }
-
-        return retState;
-    });
+    }, [saveSuccess, dispatch]);
 
     if (!selectedDeck) {
         return (
@@ -63,7 +59,7 @@ const ProphecyAssignment = () => {
     const firstProphecy = prophecyCards[0];
     const otherProphecies = prophecyCards.slice(1);
 
-    const handleSave = () => {
+    const handleSave = async () => {
         if (!selectedProphecyId) {
             setErrorMessage(t('You must select which prophecy pairs with the first one.'));
             return;
@@ -95,7 +91,11 @@ const ProphecyAssignment = () => {
         setErrorMessage('');
 
         // Save the prophecy assignments
-        dispatch(saveProphecyAssignments(selectedDeck, assignments));
+        try {
+            await saveProphecyAssignments({ deck: selectedDeck, assignments }).unwrap();
+        } catch (err) {
+            // Error will be shown via toastr if present
+        }
     };
 
     const handleCardHover = (card, event) => {
@@ -115,37 +115,47 @@ const ProphecyAssignment = () => {
     };
 
     return (
-        <div className='max-w-6xl mx-auto profile full-height'>
+        <div className='max-w-6xl mx-auto min-h-full'>
             <Panel title={`${t('Assign Prophecy Cards')} - ${selectedDeck.name}`}>
-                <ApiStatus
-                    state={apiState}
-                    onClose={() => dispatch(clearApiStatus(Decks.SaveProphecyAssignments))}
-                />
-                <AlertPanel>
+                {saveSuccess && (
+                    <AlertPanel
+                        type='success'
+                        title=''
+                        message={t('Prophecy assignments saved successfully')}
+                        onClose={resetSave}
+                    >
+                        {null}
+                    </AlertPanel>
+                )}
+                <AlertPanel title='' message=''>
                     <Trans i18nKey='prophecyAssignment.alert'>
                         Your deck contains prophecy cards. Prophecy cards are double-sided, with
                         different prophecies on each physical card. Please select which prophecy is
                         paired with the first prophecy on the same physical card.
                     </Trans>
                 </AlertPanel>
-                {errorMessage && <AlertPanel type='danger' message={errorMessage} />}
+                {errorMessage && (
+                    <AlertPanel type='danger' title='' message={errorMessage}>
+                        {null}
+                    </AlertPanel>
+                )}
 
                 {zoomCard && (
                     <div
-                        className='prophecy-card-zoom'
+                        className='fixed top-0 left-0 z-50 w-96'
                         style={{ left: mousePos.x + 5 + 'px', top: mousePos.y + 'px' }}
                     >
                         <CardImage card={Object.assign({}, zoomCard)} />
                     </div>
                 )}
 
-                <div className='prophecy-assignment-form'>
+                <div>
                     <h4>
                         <Trans>First Prophecy Card:</Trans>
                     </h4>
-                    <div className='first-prophecy-card'>
+                    <div className='text-lg mb-4 p-2 bg-blue-500/10 rounded'>
                         <strong
-                            className='prophecy-card-name'
+                            className='cursor-pointer text-blue-600 hover:text-blue-700 hover:underline'
                             onMouseOver={(event) => handleCardHover(firstProphecy.card, event)}
                             onMouseMove={(event) => handleCardHover(firstProphecy.card, event)}
                             onMouseOut={handleCardMouseOut}
@@ -166,7 +176,7 @@ const ProphecyAssignment = () => {
                         {otherProphecies.map((prophecy) => (
                             <Radio key={prophecy.card.id} value={prophecy.card.id} className='mb-2'>
                                 <span
-                                    className='prophecy-card-name'
+                                    className='cursor-pointer text-blue-600 hover:text-blue-700 hover:underline'
                                     onMouseOver={(event) => handleCardHover(prophecy.card, event)}
                                     onMouseMove={(event) => handleCardHover(prophecy.card, event)}
                                     onMouseOut={handleCardMouseOut}
@@ -184,7 +194,7 @@ const ProphecyAssignment = () => {
                                     You have selected{' '}
                                     <strong>
                                         <span
-                                            className='prophecy-card-name'
+                                            className='cursor-pointer text-blue-600 hover:text-blue-700 hover:underline'
                                             onMouseOver={(event) =>
                                                 handleCardHover(firstProphecy.card, event)
                                             }
@@ -199,7 +209,7 @@ const ProphecyAssignment = () => {
                                     and{' '}
                                     <strong>
                                         <span
-                                            className='prophecy-card-name'
+                                            className='cursor-pointer text-blue-600 hover:text-blue-700 hover:underline'
                                             onMouseOver={(event) =>
                                                 handleCardHover(
                                                     otherProphecies.find(
@@ -234,7 +244,11 @@ const ProphecyAssignment = () => {
                 </div>
 
                 <div className='text-center mt-4'>
-                    <Button color='primary' onPress={handleSave} isDisabled={!selectedProphecyId}>
+                    <Button
+                        color='primary'
+                        onPress={handleSave}
+                        isDisabled={!selectedProphecyId || isSaving}
+                    >
                         <Trans>Save Prophecy Assignments</Trans>
                     </Button>
                 </div>

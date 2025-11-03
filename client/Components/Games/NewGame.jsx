@@ -13,8 +13,6 @@ import GameFormats from './GameFormats';
 import GameTypes from './GameTypes';
 import { cancelNewGame, sendSocketMessage } from '../../redux/actions';
 
-import './NewGame.scss';
-
 const GameNameMaxLength = 64;
 
 /**

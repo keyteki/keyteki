@@ -4,8 +4,6 @@ import { useSelector } from 'react-redux';
 import { Modal, ModalContent, ModalHeader, ModalBody } from '@heroui/react';
 
 import DeckList from '../Decks/DeckList.jsx';
-
-import './SelectDeckModal.scss';
 import { Constants } from '../../constants.js';
 
 const SelectDeckModal = ({

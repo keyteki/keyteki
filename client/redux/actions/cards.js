@@ -1,19 +1,18 @@
+// @ts-nocheck
+import { api } from '../slices/apiSlice';
+
+// Re-export RTK Query hooks
+export const { useLoadCardsQuery, useLoadFactionsQuery } = api;
+
+// Legacy action creators converted to dispatch RTK Query hooks
 export function loadCards() {
-    return {
-        types: ['REQUEST_CARDS', 'RECEIVE_CARDS'],
-        shouldCallAPI: (state) => {
-            return !state.cards.cards || Object.values(state.cards.cards).length === 0;
-        },
-        APIParams: { url: '/api/cards', cache: false }
+    return (dispatch) => {
+        dispatch(api.endpoints.loadCards.initiate());
     };
 }
 
 export function loadFactions() {
-    return {
-        types: ['REQUEST_FACTIONS', 'RECEIVE_FACTIONS'],
-        shouldCallAPI: (state) => {
-            return !state.cards.factions;
-        },
-        APIParams: { url: '/api/factions', cache: false }
+    return (dispatch) => {
+        dispatch(api.endpoints.loadFactions.initiate());
     };
 }

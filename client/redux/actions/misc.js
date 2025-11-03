@@ -1,18 +1,5 @@
-export function navigate(path, search = '', noHistory = false) {
-    return {
-        type: 'NAVIGATE',
-        newPath: path,
-        search: search,
-        noHistory: noHistory
-    };
-}
-
-export function setUrl(path) {
-    return {
-        type: 'SET_URL',
-        path: path
-    };
-}
+// Re-export navigation actions from slice
+export { navigate, setUrl } from '../slices/navigationSlice';
 
 export function receiveBannerNotice(notice) {
     return {

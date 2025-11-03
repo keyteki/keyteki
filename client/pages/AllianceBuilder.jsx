@@ -1,41 +1,32 @@
 import React, { useMemo, useEffect, useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { Trans, useTranslation } from 'react-i18next';
 import Button from '../Components/HeroUI/Button';
 import { Input } from '@heroui/react';
 
 import Panel from '../Components/Site/Panel';
-import ApiStatus from '../Components/Site/ApiStatus';
-import { Decks } from '../redux/types';
-import { clearApiStatus, navigate, saveAllianceDeck } from '../redux/actions';
-import { Constants } from '../constants';
-import { loadDecks } from '../redux/actions';
 import AlertPanel from '../Components/Site/AlertPanel';
+import { navigate } from '../redux/slices/navigationSlice';
+import { useLoadDecksQuery, useSaveAllianceDeckMutation } from '../redux/slices/apiSlice';
+import { Constants } from '../constants';
 import DeckSummary from '../Components/Decks/DeckSummary';
 import CardImage from '../Components/GameBoard/CardImage';
-
-import './AllianceBuilder.scss';
 
 const AllianceBuilderPage = () => {
     const { i18n, t } = useTranslation();
     const dispatch = useDispatch();
-    const apiState = useSelector((state) => {
-        const retState = state.api[Decks.SaveAllianceDeck];
-
-        if (retState && retState.success) {
-            retState.message = t('Deck added successfully');
-
-            setTimeout(() => {
-                dispatch(clearApiStatus(Decks.SaveAllianceDeck));
-                dispatch(navigate('/decks'));
-            }, 1000);
-        }
-
-        return retState;
+    const { data: dbDecks } = useLoadDecksQuery({
+        page: 1,
+        pageSize: 999999,
+        sort: 'lastUpdated',
+        sortDir: 'desc',
+        filter: [{ name: 'isAlliance', value: false }]
     });
-    const { dbDecks } = useSelector((state) => ({
-        dbDecks: state.cards.decks
-    }));
+    const [
+        saveAllianceDeck,
+        { isLoading: isSaving, isSuccess: saveSuccess, reset: resetSave }
+    ] = useSaveAllianceDeckMutation();
+
     const [selectedExpansion, setSelectedExpansion] = useState();
     const [currentDeck, setCurrentDeck] = useState();
     const [selectedPods, setSelectedPods] = useState([]);
@@ -44,6 +35,15 @@ const AllianceBuilderPage = () => {
     const [selectedProphecyDeck, setSelectedProphecyDeck] = useState();
     let [zoomCard, setZoomCard] = useState(null);
     let [mousePos, setMousePosition] = useState({ x: 0, y: 0 });
+
+    useEffect(() => {
+        if (saveSuccess) {
+            const timer = setTimeout(() => {
+                dispatch(navigate('/decks'));
+            }, 1000);
+            return () => clearTimeout(timer);
+        }
+    }, [saveSuccess, dispatch]);
 
     const renderToken = (deck) => {
         // Only render non-deck token creatures, not prophecy cards
@@ -99,19 +99,6 @@ const AllianceBuilderPage = () => {
         );
     };
 
-    useEffect(() => {
-        dispatch(
-            loadDecks({
-                page: 1,
-                pageSize: 999999,
-                sort: 'lastUpdated',
-                sortDir: 'desc',
-                filter: [{ name: 'isAlliance', value: false }]
-            })
-        );
-        dispatch(clearApiStatus(Decks.SaveAllianceDeck));
-    }, [dispatch]);
-
     let decks = useMemo(() => {
         return dbDecks ? dbDecks.filter((d) => d.expansion == selectedExpansion) : [];
     }, [dbDecks, selectedExpansion]);
@@ -150,7 +137,7 @@ const AllianceBuilderPage = () => {
                 prophecyText.length > 40 ? prophecyText.substring(0, 37) + '...' : prophecyText;
             return (
                 <div
-                    className='mt-2 alliance-deck flex flex-col p-2'
+                    className='mt-2 border border-sky-500 rounded-md flex flex-col p-2'
                     key={d.id}
                     onMouseOver={() => setCurrentDeck(d)}
                     onMouseOut={() => setCurrentDeck(undefined)}
@@ -160,10 +147,10 @@ const AllianceBuilderPage = () => {
                         {d.houses.sort().map((h) => {
                             let selection = [...selectedPods];
                             let selectionKey = `${d.uuid}:${h}`;
-                            let imgClass = 'alliance-house';
-                            if (selection.includes(selectionKey)) {
-                                imgClass += ' selected';
-                            }
+                            const isSelected = selection.includes(selectionKey);
+                            let imgClass = `h-12 w-12 cursor-pointer ${
+                                isSelected ? 'opacity-100' : 'opacity-30'
+                            }`;
                             return (
                                 <img
                                     className={imgClass}
@@ -191,18 +178,9 @@ const AllianceBuilderPage = () => {
                     {/* Prophecy selection row - only once per deck, after house icons, and only if a pod from this deck is selected */}
                     {hasProphecies && selectedPods.some((pod) => pod.startsWith(d.uuid + ':')) && (
                         <div
-                            className={`prophecy-row mt-1 ${
-                                isSelectedAsProphecy ? 'selected' : ''
+                            className={`mt-1 cursor-pointer font-semibold truncate max-w-xs ${
+                                isSelectedAsProphecy ? 'text-green-600' : 'text-green-700'
                             }`}
-                            style={{
-                                cursor: 'pointer',
-                                color: isSelectedAsProphecy ? '#28a745' : '#218838',
-                                fontWeight: 600,
-                                whiteSpace: 'nowrap',
-                                overflow: 'hidden',
-                                textOverflow: 'ellipsis',
-                                maxWidth: 260
-                            }}
                             title={prophecyText}
                             onClick={() =>
                                 setSelectedProphecyDeck(isSelectedAsProphecy ? null : d.uuid)
@@ -223,15 +201,21 @@ const AllianceBuilderPage = () => {
             <div className='grid grid-cols-1 lg:grid-cols-2 gap-4'>
                 <div className='full-height'>
                     <Panel title={t('Alliance')}>
-                        <ApiStatus
-                            state={apiState}
-                            onClose={() => dispatch(clearApiStatus(Decks.SaveAllianceDeck))}
-                        />
+                        {saveSuccess && (
+                            <AlertPanel
+                                type='success'
+                                title=''
+                                message={t('Deck added successfully')}
+                                onClose={resetSave}
+                            >
+                                {null}
+                            </AlertPanel>
+                        )}
 
                         <div className='mb-4'>
                             <Button
-                                isDisabled={isSaveDisabled()}
-                                onPress={() => {
+                                isDisabled={isSaveDisabled() || isSaving}
+                                onPress={async () => {
                                     const allianceData = {
                                         name: deckName,
                                         pods: selectedPods,
@@ -243,7 +227,11 @@ const AllianceBuilderPage = () => {
                                         allianceData.prophecySourceDeck = selectedProphecyDeck;
                                     }
 
-                                    dispatch(saveAllianceDeck(allianceData));
+                                    try {
+                                        await saveAllianceDeck(allianceData).unwrap();
+                                    } catch (err) {
+                                        // Error will be shown via toastr if present
+                                    }
                                 }}
                             >
                                 <Trans>Save</Trans>
@@ -294,7 +282,7 @@ const AllianceBuilderPage = () => {
             </div>
             {zoomCard && (
                 <div
-                    className='decklist-card-zoom'
+                    className='fixed top-0 left-0 z-50 w-96'
                     style={{ left: mousePos.x + 5 + 'px', top: mousePos.y + 'px' }}
                 >
                     <CardImage card={Object.assign({}, zoomCard)} />

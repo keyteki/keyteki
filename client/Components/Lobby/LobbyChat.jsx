@@ -5,8 +5,6 @@ import { faTimes } from '@fortawesome/free-solid-svg-icons';
 
 import Avatar from '../Site/Avatar';
 
-import './LobbyChat.scss';
-
 const LobbyChat = ({ messages, isModerator, onRemoveMessageClick }) => {
     const messageRef = useRef();
     const [canScroll, setCanScroll] = useState(true);
@@ -87,10 +85,8 @@ const LobbyChat = ({ messages, isModerator, onRemoveMessageClick }) => {
                     if (isModerator) {
                         messageText = (
                             <>
-                                <span className='message-deleted message-moderated'>
-                                    {message.message}
-                                </span>
-                                <span className='message-deleted'>
+                                <span className='italic line-through'>{message.message}</span>
+                                <span className='italic'>
                                     {' '}
                                     - (Message removed by {message.deletedBy})
                                 </span>
@@ -98,7 +94,7 @@ const LobbyChat = ({ messages, isModerator, onRemoveMessageClick }) => {
                         );
                     } else {
                         messageText = (
-                            <span className='message-deleted'>Message deleted by a moderator</span>
+                            <span className='italic'>Message deleted by a moderator</span>
                         );
                     }
                 } else {
@@ -106,12 +102,12 @@ const LobbyChat = ({ messages, isModerator, onRemoveMessageClick }) => {
                 }
 
                 return (
-                    <div key={message.user.username + i++} className='lobby-message'>
+                    <div key={message.user.username + i++} className='mb-1 mt-0.5 break-words pl-8'>
                         {messageText}
                         {isModerator && (
                             <a
                                 href='#'
-                                className='btn-icon icon-remove'
+                                className='text-red-500 px-1 hover:underline'
                                 onClick={() => onRemoveMessageClick(message.id)}
                             >
                                 <FontAwesomeIcon icon={faTimes} />
@@ -121,17 +117,17 @@ const LobbyChat = ({ messages, isModerator, onRemoveMessageClick }) => {
                 );
             });
 
-            let userClass =
-                'username' +
-                (firstMessage.user.role ? ` ${firstMessage.user.role.toLowerCase()}-role` : '');
+            let userClass = firstMessage.user.role
+                ? `${firstMessage.user.role.toLowerCase()}-role`
+                : '';
 
             return (
                 <div
                     key={timestamp + firstMessage.user.username + (index++).toString()}
-                    className='message-container'
+                    className='min-h-6'
                 >
                     <Avatar imgPath={firstMessage.user.avatar} float />
-                    <span className={userClass}>{firstMessage.user.username}</span>
+                    <span className={userClass + ' mr-1'}>{firstMessage.user.username}</span>
                     <span>{timestamp}</span>
                     {renderedMessages}
                 </div>
@@ -140,7 +136,11 @@ const LobbyChat = ({ messages, isModerator, onRemoveMessageClick }) => {
     };
 
     return (
-        <div className='lobby-messages' ref={messageRef} onScroll={onScroll}>
+        <div
+            className='absolute top-12 bottom-12 left-0 right-0 text-xs overflow-y-auto ml-1.5 mt-2.5'
+            ref={messageRef}
+            onScroll={onScroll}
+        >
             {getMessages()}
         </div>
     );

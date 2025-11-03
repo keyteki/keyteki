@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useState, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { toastr } from 'react-redux-toastr';
 import { Trans, useTranslation } from 'react-i18next';
@@ -7,14 +7,15 @@ import { Carousel } from 'react-responsive-carousel';
 import NewsComponent from '../Components/News/News';
 import AlertPanel from '../Components/Site/AlertPanel';
 import Panel from '../Components/Site/Panel';
-import Typeahead from '../Components/Form/Typeahead';
 import SideBar from '../Components/Lobby/SideBar';
 import UserList from '../Components/Lobby/UserList';
 import LobbyChat from '../Components/Lobby/LobbyChat';
-import { clearChatStatus, loadNews, removeLobbyMessage, sendSocketMessage } from '../redux/actions';
-import { News } from '../redux/types';
+import { Textarea } from '@heroui/react';
+import { clearChatStatus } from '../redux/actions/misc';
+import { removeLobbyMessage } from '../redux/actions/lobby';
+import { sendSocketMessage } from '../redux/actions/socket';
+import { useLoadNewsQuery } from '../redux/slices/apiSlice';
 
-import './Lobby.scss';
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
 
 const Lobby = () => {
@@ -27,20 +28,11 @@ const Lobby = () => {
         users: state.lobby.users
     }));
     const user = useSelector((state) => state.account.user);
-    const news = useSelector((state) => state.news.news);
-    const apiState = useSelector((state) => {
-        const retState = state.api[News.RequestNews];
-
-        return retState;
-    });
+    const { data: news = [], isLoading: newsLoading } = useLoadNewsQuery(undefined);
     const [popupError, setPopupError] = useState(false);
     const [message, setMessage] = useState('');
     const { t } = useTranslation();
     const messageRef = useRef(null);
-
-    useEffect(() => {
-        dispatch(loadNews({ limit: 3 }));
-    }, [dispatch]);
 
     if (!popupError && lobbyError) {
         setPopupError(true);
@@ -86,7 +78,7 @@ const Lobby = () => {
     ];
 
     return (
-        <div className='flex-container'>
+        <div className='flex flex-col h-full'>
             <SideBar>
                 <UserList users={users} />
             </SideBar>
@@ -109,7 +101,7 @@ const Lobby = () => {
                                     rel='noreferrer'
                                     href={banner.link || '#'}
                                 >
-                                    <div className='banner'>
+                                    <div>
                                         <img src={banner.img} />
                                     </div>
                                 </a>
@@ -119,18 +111,18 @@ const Lobby = () => {
                 </div>
 
                 {motd?.message && (
-                    <div className='mx-auto max-w-6xl px-4 banner'>
+                    <div className='mx-auto max-w-6xl px-4'>
                         <AlertPanel type={motd.motdType} message={motd.message}></AlertPanel>
                     </div>
                 )}
                 {bannerNotice && (
-                    <div className='mx-auto max-w-6xl px-4 annoucement'>
+                    <div className='mx-auto max-w-6xl px-4'>
                         <AlertPanel message={bannerNotice} type='error' />
                     </div>
                 )}
                 <div className='mx-auto max-w-6xl px-4'>
                     <Panel title={t('Latest site news')}>
-                        {apiState?.loading ? (
+                        {newsLoading ? (
                             <div>
                                 <Trans>News loading, please wait...</Trans>
                             </div>
@@ -138,13 +130,13 @@ const Lobby = () => {
                         <NewsComponent news={news} />
                     </Panel>
                 </div>
-                <div className='mx-auto max-w-6xl px-4 chat-container'>
+                <div className='mx-auto max-w-6xl px-4 flex flex-col flex-1 relative'>
                     <Panel
                         title={t('Lobby Chat ({{users}}) online', {
                             users: users.length
                         })}
                     >
-                        <div>
+                        <div className='flex-1 mb-2'>
                             <LobbyChat
                                 messages={messages}
                                 isModerator={user?.permissions?.canModerateChat}
@@ -155,15 +147,15 @@ const Lobby = () => {
                         </div>
                     </Panel>
                     <form
-                        className='form form-hozitontal chat-box-container'
+                        className='absolute bottom-0 left-4 right-4'
                         onSubmit={(event) => {
                             event.preventDefault();
                             sendMessage();
                         }}
                     >
-                        <div className='form-group'>
-                            <div className='chat-box'>
-                                <Typeahead
+                        <div>
+                            <div className='mx-1.5 mt-1.5'>
+                                <Textarea
                                     disabled={!isLoggedIn}
                                     ref={messageRef}
                                     value={message}

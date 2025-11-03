@@ -62,7 +62,7 @@ const HowToPlay = () => {
                     <Trans>Topics</Trans>
                 </h3>
 
-                <ul className='htp-main-list font-weight-bold mb-3'>
+                <ul className='list-none m-0 p-0 font-bold mb-3'>
                     <li>
                         <a href='#decks'>
                             <Trans>Adding Decks</Trans>

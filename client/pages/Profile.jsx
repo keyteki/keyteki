@@ -1,31 +1,15 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 import Profile from '../Components/Profile/Profile';
-import { saveProfile, clearApiStatus } from '../redux/actions';
-import ApiStatus from '../Components/Site/ApiStatus';
+import { useSaveProfileMutation } from '../redux/slices/apiSlice';
 import AlertPanel, { AlertType } from '../Components/Site/AlertPanel';
 
 const ProfileContainer = () => {
-    const dispatch = useDispatch();
     const { t } = useTranslation();
     const user = useSelector((state) => state.account.user);
-    const apiState = useSelector((state) => {
-        const retState = state.api['SAVE_PROFILE'];
-
-        if (retState?.success) {
-            retState.message = t(
-                'Profile saved successfully.  Please note settings changed here may only apply at the start of your next game.'
-            );
-
-            setTimeout(() => {
-                dispatch(clearApiStatus('SAVE_PROFILE'));
-            }, 5000);
-        }
-
-        return retState;
-    });
+    const [saveProfile, { isLoading, isSuccess, reset }] = useSaveProfileMutation();
 
     if (!user) {
         return (
@@ -38,13 +22,26 @@ const ProfileContainer = () => {
 
     return (
         <div className='max-w-7xl mx-auto px-4'>
-            <ApiStatus state={apiState} onClose={() => dispatch(clearApiStatus('SAVE_PROFILE'))} />
+            {isSuccess && (
+                <div className='bg-green-600 text-white p-3 rounded mb-4'>
+                    {t(
+                        'Profile saved successfully.  Please note settings changed here may only apply at the start of your next game.'
+                    )}
+                    <button onClick={reset} className='float-right'>
+                        ×
+                    </button>
+                </div>
+            )}
             <Profile
                 user={user}
-                onSubmit={(profile) => {
-                    return dispatch(saveProfile(user.username, profile));
+                onSubmit={async (profile) => {
+                    try {
+                        await saveProfile({ username: user.username, details: profile }).unwrap();
+                    } catch (err) {
+                        // Error handled by RTK Query
+                    }
                 }}
-                isLoading={apiState?.loading}
+                isLoading={isLoading}
             />
         </div>
     );

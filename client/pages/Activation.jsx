@@ -1,52 +1,59 @@
 import React, { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 
 import AlertPanel from '../Components/Site/AlertPanel';
-import ApiStatus from '../Components/Site/ApiStatus';
-import { activateAccount, clearApiStatus, navigate } from '../redux/actions';
-import { Account } from '../redux/types';
+import { navigate } from '../redux/slices/navigationSlice';
+import { useActivateAccountMutation } from '../redux/slices/apiSlice';
 
 const Activation = ({ id, token }) => {
     const dispatch = useDispatch();
     const { t } = useTranslation();
-    const apiState = useSelector((state) => {
-        const retState = state.api[Account.ActivateAccount];
+    const [activateAccount, { isSuccess, reset }] = useActivateAccountMutation();
 
-        if (retState && retState.success) {
-            retState.message = t(
-                'Your account has been activated.  You will shortly be redirected to the login page.'
-            );
+    useEffect(() => {
+        if (id && token) {
+            activateAccount({ id, token });
+        }
+    }, [id, token, activateAccount]);
 
-            setTimeout(() => {
-                dispatch(clearApiStatus(Account.ActivateAccount));
+    useEffect(() => {
+        if (isSuccess) {
+            const timer = setTimeout(() => {
                 dispatch(navigate('/login'));
             }, 3000);
+            return () => clearTimeout(timer);
         }
-
-        return retState;
-    });
-    useEffect(() => {
-        dispatch(activateAccount({ id: id, token: token }));
-    }, [dispatch, id, token]);
+    }, [isSuccess, dispatch]);
 
     if (!id || !token) {
         return (
             <AlertPanel
                 type='danger'
+                title=''
                 message={t(
                     'This page is not intended to be viewed directly.  Please click on the link in your email to activate your account'
                 )}
-            />
+            >
+                {null}
+            </AlertPanel>
         );
     }
 
     return (
         <div className='max-w-3xl mx-auto px-4'>
-            <ApiStatus
-                state={apiState}
-                onClose={() => dispatch(clearApiStatus(Account.ActivateAccount))}
-            />
+            {isSuccess && (
+                <AlertPanel
+                    type='success'
+                    title=''
+                    message={t(
+                        'Your account has been activated.  You will shortly be redirected to the login page.'
+                    )}
+                    onClose={reset}
+                >
+                    {null}
+                </AlertPanel>
+            )}
         </div>
     );
 };

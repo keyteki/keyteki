@@ -3,8 +3,6 @@ import { Trans } from 'react-i18next';
 
 import Avatar from '../Site/Avatar';
 
-import './UserList.scss';
-
 /**
  * @typedef UserSummary
  * @property {string} username The username of the user
@@ -33,7 +31,7 @@ const UserList = ({ users }) => {
 
     const userList = users.map((user) => {
         return (
-            <div className='user-row' key={user.name}>
+            <div className='text-left font-normal pt-1 pl-2.5 hover:bg-sky-500/20' key={user.name}>
                 <Avatar imgPath={user.avatar} />
                 <span>{user.name}</span>
             </div>
@@ -41,7 +39,7 @@ const UserList = ({ users }) => {
     });
 
     return (
-        <div className='userlist'>
+        <div className='text-center pt-1 pb-5 font-bold'>
             <Trans>Online Users</Trans>
             {userList}
         </div>

@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
@@ -58,6 +59,9 @@ function getMessageWithLinks(message) {
     return retMessage;
 }
 
+/**
+ * @param {AlertPanelProps} props
+ */
 const AlertPanel = ({ type = AlertType.Info, title, message, noIcon = false, children }) => {
     let icon;
     let bgColor;
@@ -101,7 +105,7 @@ const AlertPanel = ({ type = AlertType.Info, title, message, noIcon = false, chi
         <div className={`${bgColor} ${borderColor} ${textColor} border-l-4 p-4 mb-4`} role='alert'>
             {title && <div className='font-bold mb-2'>{title}</div>}
             <div>
-                {!noIcon && <FontAwesomeIcon icon={icon} />}
+                {!noIcon && <FontAwesomeIcon icon={icon || faInfoCircle} />}
                 {message && <span id='alert-message'>&nbsp;{getMessageWithLinks(message)}</span>}
                 {children && <span>&nbsp;{children}</span>}
             </div>

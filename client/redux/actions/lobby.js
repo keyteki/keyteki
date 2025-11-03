@@ -1,3 +1,6 @@
+// @ts-nocheck
+import { api } from '../slices/apiSlice';
+
 export function receiveUsers(users) {
     return {
         type: 'RECEIVE_USERS',
@@ -20,13 +23,7 @@ export function receiveLobbyMessages(messages) {
 }
 
 export function removeLobbyMessage(messageId) {
-    return {
-        types: ['REMOVE_MESSAGE', 'MESSAGE_REMOVED'],
-        shouldCallAPI: () => true,
-        APIParams: {
-            url: `/api/messages/${messageId}`,
-            cache: false,
-            type: 'DELETE'
-        }
+    return (dispatch) => {
+        return dispatch(api.endpoints.removeLobbyMessage.initiate(messageId));
     };
 }

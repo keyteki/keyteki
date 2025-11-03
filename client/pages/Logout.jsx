@@ -3,19 +3,17 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Trans } from 'react-i18next';
 import AlertPanel from '../Components/Site/AlertPanel';
 
-import { logout, navigate } from '../redux/actions';
+import { navigate } from '../redux/slices/navigationSlice';
+import { useLogoutMutation } from '../redux/slices/apiSlice';
 
 const Logout = () => {
     const dispatch = useDispatch();
-    const { apiMessage, apiSuccess, loggedOut } = useSelector((state) => ({
-        apiMessage: state.api.LOGOUT_ACCOUNT ? state.api.LOGOUT_ACCOUNT.message : undefined,
-        apiSuccess: state.api.LOGOUT_ACCOUNT ? state.api.LOGOUT_ACCOUNT.success : undefined,
-        loggedOut: state.account.loggedOut
-    }));
+    const loggedOut = useSelector((state) => state.account.loggedOut);
+    const [logoutAccount, { error }] = useLogoutMutation();
 
     useEffect(() => {
-        dispatch(logout());
-    }, [dispatch]);
+        logoutAccount();
+    }, [logoutAccount]);
 
     useEffect(() => {
         if (loggedOut) {
@@ -23,11 +21,13 @@ const Logout = () => {
         }
     }, [loggedOut, dispatch]);
 
-    const errorBar = apiSuccess === false ? <AlertPanel type='error' message={apiMessage} /> : null;
-
     return (
         <div className='col-sm-6 col-sm-offset-3'>
-            {errorBar}
+            {error && (
+                <AlertPanel type='error' title='' message={error.message || 'Logout failed'}>
+                    {null}
+                </AlertPanel>
+            )}
             <Trans>Logging you out of your account, please wait...</Trans>
         </div>
     );

@@ -2,16 +2,13 @@ import React, { useRef, useState } from 'react';
 import Button from '../HeroUI/Button';
 import { Input } from '@heroui/react';
 import { useTranslation } from 'react-i18next';
-import { useDispatch } from 'react-redux';
 
 import { PatreonStatus } from '../../types';
 import Panel from '../Site/Panel';
 import Avatar from '../Site/Avatar';
 import { PatreonClientId } from '../../constants';
-import { unlinkPatreon } from '../../redux/actions';
+import { useUnlinkPatreonMutation } from '../../redux/slices/apiSlice';
 import PatreonImage from '../../assets/img/Patreon_Mark_Coral.jpg';
-
-import './ProfileMain.scss';
 
 /**
  * @typedef { import('./Profile').ProfileDetails } ProfileDetails
@@ -30,7 +27,7 @@ const ProfileMain = ({ user, formProps }) => {
     const { t } = useTranslation();
     const inputFile = useRef(null);
     const [localAvatar, setAvatar] = useState(null);
-    const dispatch = useDispatch();
+    const [unlinkPatreon] = useUnlinkPatreonMutation();
 
     const onAvatarUploadClick = () => {
         if (!inputFile.current) {
@@ -73,7 +70,7 @@ const ProfileMain = ({ user, formProps }) => {
                     <div>
                         {!formProps.errors.avatar && localAvatar ? (
                             <img
-                                className='profile-avatar'
+                                className='w-16 h-16 rounded object-cover'
                                 src={localAvatar}
                                 alt={user?.username}
                             />
@@ -112,17 +109,13 @@ const ProfileMain = ({ user, formProps }) => {
                 <div className='md:col-span-1'>
                     <label className='block text-sm mb-1'>{t('Patreon')}</label>
                     <div>
-                        <img
-                            className='profile-patreon-icon'
-                            src={PatreonImage}
-                            alt={t('Patreon Logo')}
-                        />
+                        <img className='h-5' src={PatreonImage} alt={t('Patreon Logo')} />
                         {!user?.patreon || user?.patreon === PatreonStatus.Unlinked ? (
                             <Button color='secondary' href={patreonUrl}>
                                 {t('Link Account')}
                             </Button>
                         ) : (
-                            <Button color='secondary' onPress={() => dispatch(unlinkPatreon())}>
+                            <Button color='secondary' onPress={() => unlinkPatreon()}>
                                 {t('Unlink Account')}
                             </Button>
                         )}

@@ -11,7 +11,7 @@ import Button from '../HeroUI/Button';
 
 import Avatar from '../Site/Avatar';
 import AlertPanel from '../Site/AlertPanel';
-import { joinPasswordGame } from '../../redux/actions';
+import { joinPasswordGame } from '../../redux/slices/lobbySlice';
 import TimeLimitIcon from '../../assets/img/Timelimit.png';
 import ShowHandIcon from '../../assets/img/ShowHandIcon.png';
 import SealedIcon from '../../assets/img/sealed.png';
@@ -19,8 +19,6 @@ import ReversalIcon from '../../assets/img/reversal.png';
 import AdaptiveIcon from '../../assets/img/adaptive.png';
 import AllianceIcon from '../../assets/img/alliance.png';
 import UnchainedIcon from '../../assets/img/601.png';
-
-import './GameList.scss';
 
 const GameList = ({ games, gameFilter, onJoinOrWatchClick }) => {
     const { t } = useTranslation();
@@ -102,16 +100,10 @@ const GameList = ({ games, gameFilter, onJoinOrWatchClick }) => {
 
     const getPlayerCards = useCallback(
         (player, firstPlayer) => {
-            if (firstPlayer) {
-                return (
-                    <div className='game-faction-row first-player'>
-                        {getPlayerNameAndAvatar(player, firstPlayer)}
-                    </div>
-                );
-            }
-
+            const base = 'flex items-center flex-1 flex-col';
+            const side = firstPlayer ? 'mr-2.5 items-end' : 'ml-2.5 items-start';
             return (
-                <div className='game-faction-row other-player'>
+                <div className={`${base} ${side}`}>
                     {getPlayerNameAndAvatar(player, firstPlayer)}
                 </div>
             );
@@ -120,23 +112,22 @@ const GameList = ({ games, gameFilter, onJoinOrWatchClick }) => {
     );
 
     const getPlayerNameAndAvatar = useCallback((player, firstPlayer) => {
-        let userClass = 'username' + (player.role ? ` ${player.role.toLowerCase()}-role` : '');
-
+        const nameClass = 'text-base font-medium';
         if (firstPlayer) {
             return (
-                <div className='game-player-name'>
-                    <span className='gamelist-avatar'>
+                <div className='flex items-center text-base'>
+                    <span className='inline-block ml-1 mr-1'>
                         <Avatar imgPath={player.avatar} />
                     </span>
-                    <span className={userClass}>{player.name}</span>
+                    <span className={nameClass}>{player.name}</span>
                 </div>
             );
         }
 
         return (
-            <div className='game-player-name'>
-                <span className={userClass}>{player.name}</span>
-                <span className='gamelist-avatar'>
+            <div className='flex items-center text-base'>
+                <span className={nameClass}>{player.name}</span>
+                <span className='inline-block ml-1 mr-1'>
                     <Avatar imgPath={player.avatar} />
                 </span>
             </div>
@@ -147,10 +138,10 @@ const GameList = ({ games, gameFilter, onJoinOrWatchClick }) => {
         (game) => {
             let firstPlayer = true;
             let players = Object.values(game.players).map((player) => {
-                let classes = classNames('game-player-row', {
-                    'first-player': firstPlayer,
-                    'other-player': !firstPlayer
-                });
+                const classes = classNames(
+                    'flex flex-col flex-1',
+                    firstPlayer ? 'mr-2.5 items-end' : 'ml-2.5 items-start'
+                );
 
                 let retPlayer = (
                     <div key={player.name} className={classes}>
@@ -206,10 +197,16 @@ const GameList = ({ games, gameFilter, onJoinOrWatchClick }) => {
 
                 let players = getPlayers(game);
 
-                let rowClass = classNames('game-row', {
-                    [game.node]: game.node && isAdmin,
-                    ['private-game']: game.gamePrivate && isAdmin
-                });
+                const nodeBg =
+                    isAdmin && game.node === 'node1'
+                        ? 'bg-amber-500/20'
+                        : isAdmin && game.node === 'node2'
+                        ? 'bg-rose-500/20'
+                        : '';
+                let rowClass = classNames(
+                    'min-h-32 p-2.5 border border-transparent hover:border-sky-500 hover:bg-sky-500/20 transition-colors',
+                    nodeBg
+                );
 
                 let timeDifference = moment().diff(moment(game.createdAt));
                 if (timeDifference < 0) {
@@ -220,18 +217,16 @@ const GameList = ({ games, gameFilter, onJoinOrWatchClick }) => {
 
                 gamesToReturn.push(
                     <div key={game.id}>
-                        <hr />
+                        <hr className='border-slate-600 m-0' />
                         <div className={rowClass}>
-                            <div className='game-header-row'>
-                                <span className='game-title'>
-                                    <b>{game.name}</b>
-                                </span>
-                                <span className='game-time'>{`[${formattedTime}]`}</span>
-                                <span className='game-icons'>
+                            <div className='text-center text-base flex items-center justify-center gap-2 flex-wrap'>
+                                <span className='font-semibold'>{game.name}</span>
+                                <span className='opacity-75'>{`[${formattedTime}]`}</span>
+                                <span className='inline-flex items-center gap-1'>
                                     {game.showHand && (
                                         <img
                                             src={ShowHandIcon}
-                                            className='game-list-icon'
+                                            className='h-6 w-6 invert'
                                             alt={t('Show hands to spectators')}
                                             title={t('Show hands to spectators')}
                                         />
@@ -240,14 +235,14 @@ const GameList = ({ games, gameFilter, onJoinOrWatchClick }) => {
                                     {game.useGameTimeLimit && (
                                         <img
                                             src={TimeLimitIcon}
-                                            className='game-list-icon'
+                                            className='h-6 w-6 invert'
                                             alt={t('Time limit used')}
                                         />
                                     )}
                                     {game.gameFormat === 'sealed' && (
                                         <img
                                             src={SealedIcon}
-                                            className='game-list-icon'
+                                            className='h-6 w-6 invert'
                                             alt={t('Sealed game format')}
                                             title={t('Sealed game format')}
                                         />
@@ -255,7 +250,7 @@ const GameList = ({ games, gameFilter, onJoinOrWatchClick }) => {
                                     {game.gameFormat === 'alliance' && (
                                         <img
                                             src={AllianceIcon}
-                                            className='game-list-icon-no-invert'
+                                            className='h-6 w-6'
                                             alt={t('Alliance game format')}
                                             title={t('Alliance game format')}
                                         />
@@ -263,7 +258,7 @@ const GameList = ({ games, gameFilter, onJoinOrWatchClick }) => {
                                     {game.gameFormat === 'reversal' && (
                                         <img
                                             src={ReversalIcon}
-                                            className='game-list-icon'
+                                            className='h-6 w-6 invert'
                                             alt={t('Reversal game format')}
                                             title={t('Reversal game format')}
                                         />
@@ -271,7 +266,7 @@ const GameList = ({ games, gameFilter, onJoinOrWatchClick }) => {
                                     {game.gameFormat === 'adaptive-bo1' && (
                                         <img
                                             src={AdaptiveIcon}
-                                            className='game-list-icon'
+                                            className='h-6 w-6 invert'
                                             alt={t('Adaptive (Best of 1) game format')}
                                             title={t('Adaptive (Best of 1) game format')}
                                         />
@@ -279,15 +274,17 @@ const GameList = ({ games, gameFilter, onJoinOrWatchClick }) => {
                                     {game.gameFormat === 'unchained' && (
                                         <img
                                             src={UnchainedIcon}
-                                            className='game-list-icon'
+                                            className='h-6 w-6 invert'
                                             alt={t('Unchained game format')}
                                             title={t('Unchained game format')}
                                         />
                                     )}
                                 </span>
                             </div>
-                            <div className='game-middle-row'>{players}</div>
-                            <div className='game-row-buttons'>
+                            <div className='mt-2.5 mb-2.5 flex justify-center items-center'>
+                                {players}
+                            </div>
+                            <div className='text-center'>
                                 {canWatch(game) && (
                                     <Button
                                         color='primary'
@@ -312,22 +309,18 @@ const GameList = ({ games, gameFilter, onJoinOrWatchClick }) => {
                 );
             }
 
-            let gameHeaderClass = 'game-header';
-            switch (gameType) {
-                case 'beginner':
-                    gameHeaderClass += ' badge-success';
-                    break;
-                case 'casual':
-                    gameHeaderClass += ' badge-warning';
-                    break;
-                case 'competitive':
-                    gameHeaderClass += ' badge-danger';
-                    break;
-            }
+            const headerClass = classNames(
+                'px-2 py-1 text-center capitalize text-white',
+                gameType === 'beginner'
+                    ? 'bg-green-600'
+                    : gameType === 'casual'
+                    ? 'bg-amber-500'
+                    : 'bg-rose-600'
+            );
 
             return (
                 <div key={gameType}>
-                    <div className={gameHeaderClass}>
+                    <div className={headerClass}>
                         {t(gameType)} ({gamesToReturn.length})
                     </div>
                     {gamesToReturn}

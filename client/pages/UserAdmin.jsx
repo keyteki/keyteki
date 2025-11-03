@@ -6,13 +6,12 @@ import moment from 'moment';
 import * as yup from 'yup';
 
 import Panel from '../Components/Site/Panel';
-import ApiStatus from '../Components/Site/ApiStatus';
+import AlertPanel from '../Components/Site/AlertPanel';
 import { Formik } from 'formik';
 import { useTranslation } from 'react-i18next';
-import { Admin } from '../redux/types';
-import { clearApiStatus, findUser, clearUserSessions, saveUser } from '../redux/actions';
+import { useFindUserMutation, useSaveUserMutation } from '../redux/slices/apiSlice';
+import { clearUserSessions } from '../redux/actions/admin';
 
-import './UserAdmin.scss';
 import { useState } from 'react';
 
 const defaultPermissions = {
@@ -56,34 +55,15 @@ const permissions = [
 ];
 
 const UserAdmin = () => {
-    const currentUser = useSelector((state) => state.admin.currentUser);
+    const dispatch = useDispatch();
     const user = useSelector((state) => state.account.user);
     const { t } = useTranslation();
-    const apiState = useSelector((state) => {
-        const retState = state.api[Admin.FindUser];
+    const [
+        findUser,
+        { data: currentUser, isLoading: isFinding, error: findError, isSuccess: findSuccess }
+    ] = useFindUserMutation();
+    const [saveUser, { isLoading: isSaving, isSuccess: saveSuccess }] = useSaveUserMutation();
 
-        if (retState && retState.status === 404) {
-            retState.message = 'User was not found.';
-        } else if (retState && retState.success) {
-            retState.message = 'User details loaded';
-
-            setTimeout(() => dispatch(clearApiStatus(Admin.FindUser)), 3000);
-        }
-
-        return retState;
-    });
-    const apiSaveState = useSelector((state) => {
-        const retState = state.api[Admin.SaveUser];
-
-        if (retState && retState.success) {
-            retState.message = 'User details saved.';
-
-            setTimeout(() => dispatch(clearApiStatus(Admin.SaveUser)), 5000);
-        }
-
-        return retState;
-    });
-    const dispatch = useDispatch();
     const [currentPermissions, setCurrentPermissions] = useState(
         currentUser?.permissions || defaultPermissions
     );
@@ -133,15 +113,29 @@ const UserAdmin = () => {
 
     return (
         <div className='max-w-4xl mx-auto'>
-            <ApiStatus state={apiState} onClose={() => dispatch(clearApiStatus(Admin.FindUser))} />
-            <ApiStatus
-                state={apiSaveState}
-                onClose={() => dispatch(clearApiStatus(Admin.SaveUser))}
-            />
+            {findError && findError.status === 404 && (
+                <AlertPanel type='danger' title='' message='User was not found.'>
+                    {null}
+                </AlertPanel>
+            )}
+            {findSuccess && (
+                <AlertPanel type='success' title='' message='User details loaded'>
+                    {null}
+                </AlertPanel>
+            )}
+            {saveSuccess && (
+                <AlertPanel type='success' title='' message='User details saved.'>
+                    {null}
+                </AlertPanel>
+            )}
             <Formik
                 validationSchema={schema}
                 onSubmit={async (values) => {
-                    dispatch(findUser(values.username));
+                    try {
+                        await findUser({ username: values.username }).unwrap();
+                    } catch (err) {
+                        // Error handled by AlertPanel
+                    }
                 }}
                 initialValues={initialValues}
             >
@@ -171,7 +165,7 @@ const UserAdmin = () => {
                             <div>
                                 <Button type='submit' color='primary'>
                                     Submit&nbsp;
-                                    {apiState?.loading && <Spinner size='sm' color='current' />}
+                                    {isFinding && <Spinner size='sm' color='current' />}
                                 </Button>
                             </div>
                         </Panel>
@@ -208,13 +202,15 @@ const UserAdmin = () => {
                                 </Panel>
                                 {currentUser.linkedAccounts && (
                                     <Panel title='Possibly linked accounts'>
-                                        <ul className='list'>
+                                        <ul className='list-none m-0'>
                                             {currentUser.linkedAccounts.map((name) => {
                                                 return (
                                                     <li key={name}>
                                                         <a
                                                             href='javascript:void(0)'
-                                                            onClick={() => dispatch(findUser(name))}
+                                                            onClick={() =>
+                                                                findUser({ username: name })
+                                                            }
                                                         >
                                                             {name}
                                                         </a>
@@ -274,18 +270,21 @@ const UserAdmin = () => {
                                     <Button
                                         type='button'
                                         color='primary'
-                                        onPress={() => {
-                                            currentUser.permissions = currentPermissions;
-                                            currentUser.verified = userVerified;
-                                            currentUser.disabled = userDisabled;
-
-                                            dispatch(saveUser(currentUser));
+                                        onPress={async () => {
+                                            try {
+                                                await saveUser({
+                                                    ...currentUser,
+                                                    permissions: currentPermissions,
+                                                    verified: userVerified,
+                                                    disabled: userDisabled
+                                                }).unwrap();
+                                            } catch (err) {
+                                                // Error will be shown via toastr if present
+                                            }
                                         }}
                                     >
                                         Save&nbsp;
-                                        {apiSaveState?.loading && (
-                                            <Spinner size='sm' color='current' />
-                                        )}
+                                        {isSaving && <Spinner size='sm' color='current' />}
                                     </Button>
                                 </div>
                             </div>

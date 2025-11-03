@@ -11,8 +11,8 @@ import $ from 'jquery';
 import 'jquery-validation';
 import 'jquery-validation-unobtrusive';
 
-import configureStore from './configureStore';
-import { navigate } from './redux/actions';
+import configureStore from './store';
+import { navigate } from './redux/slices/navigationSlice';
 import Application from './Application';
 import ErrorBoundary from './Components/Site/ErrorBoundary';
 

@@ -11,8 +11,6 @@ import PendingGame from './PendingGame';
 import PasswordGame from './PasswordGame';
 import AlertPanel from '../Site/AlertPanel';
 import Panel from '../Site/Panel';
-
-import './GameLobby.scss';
 import { useEffect } from 'react';
 import { startNewGame, joinPasswordGame, sendSocketMessage, setUrl } from '../../redux/actions';
 import { useRef } from 'react';

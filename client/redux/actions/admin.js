@@ -1,10 +1,21 @@
-import { Admin } from '../types';
+// @ts-nocheck
+import { api } from '../slices/apiSlice';
+
+// Re-export RTK Query hooks
+export const {
+    useFindUserMutation,
+    useSaveUserMutation,
+    useClearUserSessionsMutation,
+    useLoadBanlistQuery,
+    useAddBanlistMutation,
+    useDeleteBanlistMutation,
+    useVerifyDeckMutation,
+    useVerifyAllDecksMutation
+} = api;
 
 export function findUser(username) {
-    return {
-        types: [Admin.FindUser, Admin.UserFound],
-        shouldCallAPI: () => true,
-        APIParams: { url: `/api/user/${username}`, cache: false }
+    return (dispatch) => {
+        return dispatch(api.endpoints.findUser.initiate(username));
     };
 }
 
@@ -21,39 +32,20 @@ export function clearUserSessions(username) {
 }
 
 export function saveUser(user) {
-    return {
-        types: [Admin.SaveUser, Admin.UserSaved],
-        shouldCallAPI: () => true,
-        APIParams: {
-            url: `/api/user/${user.username}`,
-            cache: false,
-            type: 'PUT',
-            data: JSON.stringify({ userToChange: user })
-        }
+    return (dispatch) => {
+        return dispatch(api.endpoints.saveUser.initiate(user));
     };
 }
 
 export function verifyDeck(deckId) {
-    return {
-        types: ['VERIFY_DECK', 'DECK_VERIFIED'],
-        shouldCallAPI: () => true,
-        APIParams: {
-            url: `/api/decks/${deckId}/verify`,
-            cache: false,
-            type: 'POST'
-        }
+    return (dispatch) => {
+        return dispatch(api.endpoints.verifyDeck.initiate(deckId));
     };
 }
 
 export function verifyAllDecks(username) {
-    return {
-        types: ['VERIFY_DECKS', 'DECKS_VERIFIED'],
-        shouldCallAPI: () => true,
-        APIParams: {
-            url: `/api/user/${username}/verifyDecks`,
-            cache: false,
-            type: 'POST'
-        }
+    return (dispatch) => {
+        return dispatch(api.endpoints.verifyAllDecks.initiate(username));
     };
 }
 

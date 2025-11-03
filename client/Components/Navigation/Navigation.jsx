@@ -8,7 +8,6 @@ import ProfileDropdown from './ProfileDropdown';
 import ServerStatus from './ServerStatus';
 import GameContextMenu from './GameContextMenu';
 
-import './Navigation.scss';
 import Link from './Link';
 import {
     Dropdown,
@@ -81,27 +80,30 @@ const Navigation = (props) => {
      * @param {User} user The logged in user
      * @returns {MenuItem[]} The filtered menu items
      */
-    const filterMenuItems = (menuItems, user) => {
-        const returnedItems = [];
+    const filterMenuItems = useCallback(
+        (menuItems, user) => {
+            const returnedItems = [];
 
-        for (const menuItem of menuItems) {
-            if (user && menuItem.showOnlyWhenLoggedOut) {
-                continue;
+            for (const menuItem of menuItems) {
+                if (user && menuItem.showOnlyWhenLoggedOut) {
+                    continue;
+                }
+
+                if (!user && menuItem.showOnlyWhenLoggedIn) {
+                    continue;
+                }
+
+                if (!userCanSeeMenu(menuItem, user)) {
+                    continue;
+                }
+
+                returnedItems.push(menuItem);
             }
 
-            if (!user && menuItem.showOnlyWhenLoggedIn) {
-                continue;
-            }
-
-            if (!userCanSeeMenu(menuItem, user)) {
-                continue;
-            }
-
-            returnedItems.push(menuItem);
-        }
-
-        return returnedItems;
-    };
+            return returnedItems;
+        },
+        [userCanSeeMenu]
+    );
 
     /**
      * Render a list of menu items to react components
@@ -132,7 +134,7 @@ const Navigation = (props) => {
                                         >
                                             <Link
                                                 href={childItem.path}
-                                                className='navbar-item interactable dropdown-child'
+                                                className='m-2 p-0 block no-underline text-white/80 hover:text-white transition-colors duration-300 font-[PoppinsMedium]'
                                             >
                                                 {t(childItem.title)}
                                             </Link>
@@ -149,7 +151,10 @@ const Navigation = (props) => {
                 }
                 return (
                     <li key={menuItem.title}>
-                        <Link className='navbar-item interactable' href={menuItem.path}>
+                        <Link
+                            className='px-3 py-1 no-underline text-white/80 hover:text-white transition-colors duration-300 font-[PoppinsMedium]'
+                            href={menuItem.path}
+                        >
                             {t(menuItem.title)}
                         </Link>
                     </li>

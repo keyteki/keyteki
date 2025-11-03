@@ -1,6 +1,6 @@
 // @ts-nocheck
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import React, { useCallback, useEffect, useMemo } from 'react';
+import { useSelector } from 'react-redux';
 import moment from 'moment';
 import { toastr } from 'react-redux-toastr';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -8,37 +8,27 @@ import { faTimes } from '@fortawesome/free-solid-svg-icons';
 
 import AlertPanel from '../Components/Site/AlertPanel';
 import Panel from '../Components/Site/Panel';
-import { loadActiveSessions, removeSession, clearSessionStatus } from '../redux/actions';
+import { useLoadActiveSessionsQuery, useRemoveSessionMutation } from '../redux/slices/apiSlice';
 
 import { Trans, useTranslation } from 'react-i18next';
+
 const Security = () => {
-    const dispatch = useDispatch();
     const { t } = useTranslation();
-    const [detailsLoaded, setDetailsLoaded] = useState(false);
-
-    const { apiError, loading, sessionRemoved, sessions, user } = useSelector((state) => ({
-        apiError: state.api.message,
-        loading: state.api.loading,
-        sessionRemoved: state.user.sessionRemoved,
-        sessions: state.user.sessions,
-        user: state.account.user
-    }));
-
-    useEffect(() => {
-        if (!detailsLoaded && user) {
-            dispatch(loadActiveSessions(user));
-            setDetailsLoaded(true);
-        }
-    }, [detailsLoaded, user, dispatch]);
+    const user = useSelector((state) => state.account.user);
+    const { data: sessions, isLoading, error } = useLoadActiveSessionsQuery(
+        { username: user?.username },
+        { skip: !user }
+    );
+    const [removeSession, { isSuccess: sessionRemoved, reset }] = useRemoveSessionMutation();
 
     useEffect(() => {
         if (sessionRemoved) {
-            const to = setTimeout(() => {
-                dispatch(clearSessionStatus());
+            const timer = setTimeout(() => {
+                reset();
             }, 5000);
-            return () => clearTimeout(to);
+            return () => clearTimeout(timer);
         }
-    }, [sessionRemoved, dispatch]);
+    }, [sessionRemoved, reset]);
 
     const onRemoveClick = useCallback(
         (session, event) => {
@@ -53,12 +43,12 @@ const Security = () => {
                     okText: t('Ok'),
                     cancelText: t('Cancel'),
                     onOk: () => {
-                        dispatch(removeSession(user.username, session.id));
+                        removeSession({ username: user.username, sessionId: session.id });
                     }
                 }
             );
         },
-        [dispatch, t, user]
+        [removeSession, t, user]
     );
 
     const sessionsRows = useMemo(() => {
@@ -103,7 +93,7 @@ const Security = () => {
             </table>
         );
 
-    if (loading) {
+    if (isLoading) {
         return (
             <div>
                 <Trans>Loading session details from the server...</Trans>
@@ -111,14 +101,25 @@ const Security = () => {
         );
     }
 
-    if (apiError) {
-        return <AlertPanel type='error' message={apiError} />;
+    if (error) {
+        return (
+            <AlertPanel type='error' title='' message={error.message || 'An error occurred'}>
+                {null}
+            </AlertPanel>
+        );
     }
 
     return (
         <div className='col-sm-8 col-sm-offset-2 profile full-height'>
             {sessionRemoved && (
-                <AlertPanel message={t('Session removed successfully')} type={'success'} />
+                <AlertPanel
+                    message={t('Session removed successfully')}
+                    type={'success'}
+                    title=''
+                    onClose={reset}
+                >
+                    {null}
+                </AlertPanel>
             )}
             <Panel title={t('Active Sessions')}>
                 <p className='help-block'>

@@ -1,6 +1,20 @@
 import io from 'socket.io-client';
 
 import * as actions from '.';
+import * as lobbyActions from '../slices/lobbySlice';
+import * as gamesActions from '../slices/gamesSlice';
+
+// Re-export slice actions
+export {
+    lobbyConnecting,
+    lobbyConnected,
+    lobbyDisconnected,
+    lobbyReconnecting,
+    lobbyMessageReceived,
+    responseTimeReceived as lobbyResponseTimeReceived
+} from '../slices/lobbySlice';
+
+export { handoffReceived as handoff } from '../slices/gamesSlice';
 
 export function socketMessageSent(message) {
     return {
@@ -31,40 +45,6 @@ export function sendGameMessage(message, ...args) {
     };
 }
 
-export function lobbyConnecting(socket) {
-    return {
-        type: 'LOBBY_CONNECTING',
-        socket: socket
-    };
-}
-
-export function lobbyConnected(socket) {
-    return {
-        type: 'LOBBY_CONNECTED',
-        socket: socket
-    };
-}
-
-export function lobbyDisconnected() {
-    return {
-        type: 'LOBBY_DISCONNECTED'
-    };
-}
-
-export function lobbyReconnecting() {
-    return {
-        type: 'LOBBY_RECONNECTING'
-    };
-}
-
-export function lobbyMessageReceived(message, ...args) {
-    return {
-        type: 'LOBBY_MESSAGE_RECEIVED',
-        message: message,
-        args
-    };
-}
-
 export function authenticateSocket() {
     return (dispatch, getState) => {
         let state = getState();
@@ -72,13 +52,6 @@ export function authenticateSocket() {
         if (state.lobby.socket && state.auth.token) {
             state.lobby.socket.emit('authenticate', state.auth.token);
         }
-    };
-}
-
-export function handoff(details) {
-    return {
-        type: 'HANDOFF_RECEIVED',
-        details: details
     };
 }
 
@@ -91,7 +64,7 @@ export function handoffReceived(details) {
         let standardPorts = [80, 443];
         let state = getState();
 
-        dispatch(handoff(details));
+        dispatch(gamesActions.handoffReceived({ gameId: details.gameId }));
 
         if (details.port && !standardPorts.some((p) => p === details.port)) {
             url += ':' + details.port;
@@ -111,13 +84,6 @@ export function nodeStatusReceived(status) {
     return {
         type: 'NODE_STATUS_RECEIVED',
         status: status
-    };
-}
-
-export function lobbyResponseTimeReceived(responseTime) {
-    return {
-        type: 'RESPONSE_TIME_RECEIVED',
-        responseTime: responseTime
     };
 }
 
@@ -158,38 +124,37 @@ export function connectLobby() {
             query: queryString
         });
 
-        dispatch(lobbyConnecting(socket));
+        dispatch(lobbyActions.lobbyConnecting(socket));
 
         socket.on('pong', (responseTime) => {
-            dispatch(lobbyResponseTimeReceived(responseTime));
+            dispatch(lobbyActions.responseTimeReceived(responseTime));
         });
 
         socket.on('connect', () => {
-            dispatch(lobbyConnected());
+            dispatch(lobbyActions.lobbyConnected());
         });
 
         socket.on('disconnect', () => {
-            dispatch(lobbyDisconnected());
+            dispatch(lobbyActions.lobbyDisconnected());
         });
 
         socket.on('reconnect', () => {
-            dispatch(lobbyReconnecting());
+            dispatch(lobbyActions.lobbyReconnecting());
         });
 
         for (const message of messages) {
             socket.on(message, (arg) => {
-                dispatch(lobbyMessageReceived(message, arg));
+                dispatch(lobbyActions.lobbyMessageReceived({ message, args: [arg] }));
             });
         }
 
         socket.on('gamestate', (game) => {
             state = getState();
             dispatch(
-                lobbyMessageReceived(
-                    'gamestate',
-                    game,
-                    state.account.user ? state.account.user.username : undefined
-                )
+                lobbyActions.lobbyMessageReceived({
+                    message: 'gamestate',
+                    args: [game, state.account.user ? state.account.user.username : undefined]
+                })
             );
         });
 
@@ -206,7 +171,12 @@ export function connectLobby() {
         });
 
         socket.on('removemessage', (messageId, deletedBy) => {
-            dispatch(lobbyMessageReceived('removemessage', messageId, deletedBy));
+            dispatch(
+                lobbyActions.lobbyMessageReceived({
+                    message: 'removemessage',
+                    args: [messageId, deletedBy]
+                })
+            );
         });
     };
 }

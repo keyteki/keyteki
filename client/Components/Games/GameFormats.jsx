@@ -2,8 +2,6 @@ import React from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import { RadioGroup, Radio, Switch } from '@heroui/react';
 
-import './GameFormats.scss';
-
 const GameFormats = ({ formProps }) => {
     const { t } = useTranslation();
 

@@ -1,8 +1,7 @@
 // @ts-nocheck
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import ReactClipboard from 'react-clipboardjs-copy';
 import { useDispatch, useSelector } from 'react-redux';
-import { toastr } from 'react-redux-toastr';
 import { Trans, useTranslation } from 'react-i18next';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleNotch } from '@fortawesome/free-solid-svg-icons';
@@ -10,100 +9,53 @@ import Button from '../HeroUI/Button';
 
 import NewGame from './NewGame';
 import Panel from '../Site/Panel';
-import ApiStatus from '../Site/ApiStatus';
+import AlertPanel from '../Site/AlertPanel';
+import { navigate } from '../../redux/slices/navigationSlice';
 import {
-    fetchTournaments,
-    fetchFullTournament,
-    attachMatchLink,
-    navigate,
-    clearApiStatus,
-    fetchMatches
-} from '../../redux/actions';
-import { Challonge } from '../../redux/types';
-
-import './TournamentLobby.scss';
+    useLoadChallongeTournamentsQuery,
+    useLoadChallongeFullTournamentMutation,
+    useLoadChallongeMatchesMutation,
+    useAttachChallongeMatchLinkMutation
+} from '../../redux/slices/apiSlice';
 
 const TournamentLobby = () => {
-    const { tournaments, matches, message, participants, success } = useSelector((state) => ({
-        matches: state.challonge.matches,
-        message: state.challonge.message,
-        success: state.challonge.success,
-        participants: state.challonge.participants,
-        tournaments: state.challonge.tournaments
-    }));
     const games = useSelector((state) => state.lobby.games);
     const dispatch = useDispatch();
     const [tournament, setTournament] = useState();
     const [matchesToCreate, setMatchesToCreate] = useState([]);
     const { t } = useTranslation();
-    const requestTournamentsState = useSelector((state) => {
-        const retState = state.api[Challonge.RequestTournaments];
 
-        if (retState && retState.success) {
-            retState.message = t('Tournaments fetched successfully');
+    // RTK Query hooks
+    const {
+        data: tournamentsResp,
+        isLoading: tournamentsLoading,
+        error: tournamentsError,
+        refetch: refetchTournaments
+    } = useLoadChallongeTournamentsQuery();
 
-            setTimeout(() => {
-                dispatch(clearApiStatus(Challonge.RequestTournaments));
-            }, 5000);
+    const [
+        loadFullTournament,
+        { data: fullData, isSuccess: fullSuccess, error: fullError }
+    ] = useLoadChallongeFullTournamentMutation();
+
+    const [
+        loadMatches,
+        {
+            data: matchesResp,
+            isLoading: matchesLoading,
+            isSuccess: matchesSuccess,
+            error: matchesError
         }
+    ] = useLoadChallongeMatchesMutation();
 
-        return retState;
-    });
-    const fullTournamentState = useSelector((state) => {
-        const retState = state.api[Challonge.RequestFullTournament];
+    const [
+        attachMatchLink,
+        { data: attachResp, isLoading: attachLoading, isSuccess: attachSuccess, error: attachError }
+    ] = useAttachChallongeMatchLinkMutation();
 
-        if (retState && retState.success) {
-            retState.message = t('Tournament fetched successfully');
-
-            setTimeout(() => {
-                dispatch(clearApiStatus(Challonge.RequestFullTournament));
-            }, 5000);
-        }
-
-        return retState;
-    });
-    const matchState = useSelector((state) => {
-        const retState = state.api[Challonge.RequestMatches];
-
-        if (retState && retState.success) {
-            retState.message = t('Matches fetched successfully');
-
-            setTimeout(() => {
-                dispatch(clearApiStatus(Challonge.RequestMatches));
-            }, 5000);
-        }
-
-        return retState;
-    });
-    const attachmentState = useSelector((state) => {
-        const retState = state.api[Challonge.CreateAttachments];
-
-        if (retState && retState.success) {
-            retState.message = t('Attachments created successfully');
-
-            setTimeout(() => {
-                dispatch(clearApiStatus(Challonge.CreateAttachments));
-            }, 5000);
-        }
-
-        return retState;
-    });
-
-    useEffect(() => {
-        if (!tournaments) {
-            dispatch(fetchTournaments());
-        }
-
-        if (matches?.length > 0) {
-            let tournament = tournaments.find((x) => x.id === matches[0].tournament_id);
-            setTournament(tournament);
-        }
-
-        if (message) {
-            const type = success ? 'success' : 'error';
-            toastr[type](type, t(message));
-        }
-    }, [tournaments, matches, message, dispatch, success, t]);
+    const tournaments = tournamentsResp?.data || [];
+    const participants = fullData?.participants || [];
+    const matches = matchesResp?.data || fullData?.matches || [];
 
     const getParticipantName = (id) => {
         if (!participants) {
@@ -141,7 +93,7 @@ const TournamentLobby = () => {
             };
         });
 
-        dispatch(attachMatchLink(matchData));
+        attachMatchLink(matchData);
     };
 
     let openMatches = matches?.filter((match) => match.state === 'open') || [];
@@ -161,22 +113,43 @@ const TournamentLobby = () => {
     return (
         <div className='mx-auto max-w-4xl px-4'>
             <Panel title={t('Tournament Organizer Panel')}>
-                <ApiStatus
-                    state={requestTournamentsState}
-                    onClose={() => dispatch(clearApiStatus(Challonge.RequestTournaments))}
-                />
-                <ApiStatus
-                    state={fullTournamentState}
-                    onClose={() => dispatch(clearApiStatus(Challonge.RequestFullTournament))}
-                />
-                <ApiStatus
-                    state={matchState}
-                    onClose={() => dispatch(clearApiStatus(Challonge.RequestMatches))}
-                />
-                <ApiStatus
-                    state={attachmentState}
-                    onClose={() => dispatch(clearApiStatus(Challonge.CreateAttachments))}
-                />
+                {tournamentsError && (
+                    <AlertPanel
+                        type='danger'
+                        title={t('Error')}
+                        message={tournamentsError?.data?.message || 'Error loading tournaments'}
+                    />
+                )}
+                {fullError && (
+                    <AlertPanel
+                        type='danger'
+                        title={t('Error')}
+                        message={fullError?.data?.message || 'Error fetching tournament'}
+                    />
+                )}
+                {matchesError && (
+                    <AlertPanel
+                        type='danger'
+                        title={t('Error')}
+                        message={matchesError?.data?.message || 'Error fetching matches'}
+                    />
+                )}
+                {attachError && (
+                    <AlertPanel
+                        type='danger'
+                        title={t('Error')}
+                        message={attachError?.data?.message || 'Error sending match links'}
+                    />
+                )}
+                {fullSuccess && fullData?.message && (
+                    <AlertPanel type='success' title='' message={fullData.message} />
+                )}
+                {matchesSuccess && matchesResp?.message && (
+                    <AlertPanel type='success' title='' message={matchesResp.message} />
+                )}
+                {attachSuccess && attachResp?.message && (
+                    <AlertPanel type='success' title='' message={attachResp.message} />
+                )}
                 <div className='grid grid-cols-1 sm:grid-cols-[2fr_1fr] gap-4 items-end'>
                     <div>
                         <select
@@ -186,7 +159,7 @@ const TournamentLobby = () => {
                                 const id = parseInt(event.target.value);
                                 const tmt = tournaments.find((t) => t.id === id);
                                 if (tmt) {
-                                    dispatch(fetchFullTournament(id));
+                                    loadFullTournament(id);
                                     setTournament(tmt);
                                 }
                             }}
@@ -201,17 +174,17 @@ const TournamentLobby = () => {
                         </select>
                     </div>
                     <div>
-                        <Button color='primary' onPress={() => dispatch(fetchTournaments())}>
+                        <Button color='primary' onPress={() => refetchTournaments()}>
                             <Trans>Refresh Tournaments</Trans>
-                            {requestTournamentsState?.loading && (
-                                <FontAwesomeIcon icon={faCircleNotch} spin />
-                            )}
+                            {tournamentsLoading && <FontAwesomeIcon icon={faCircleNotch} spin />}
                         </Button>
                     </div>
                 </div>
                 <div className='mt-4'>
                     {openMatches[0] && (
-                        <div className='match-round'>{'Round: ' + openMatches[0].round}</div>
+                        <div className='text-xl font-extrabold'>
+                            {'Round: ' + openMatches[0].round}
+                        </div>
                     )}
                     {openMatches.map((match, index) => {
                         const game = tournamentGames.find(
@@ -260,12 +233,10 @@ const TournamentLobby = () => {
                                     <div>
                                         <Button
                                             color='primary'
-                                            onPress={() =>
-                                                tournament && dispatch(fetchMatches(tournament.id))
-                                            }
+                                            onPress={() => tournament && loadMatches(tournament.id)}
                                         >
                                             <Trans>Refresh Matches</Trans>
-                                            {matchState?.loading && (
+                                            {matchesLoading && (
                                                 <FontAwesomeIcon icon={faCircleNotch} spin />
                                             )}
                                         </Button>
@@ -289,9 +260,7 @@ const TournamentLobby = () => {
                             isDisabled={matchesWithGames.length <= 0}
                         >
                             <Trans>Send Attachments</Trans>
-                            {attachmentState?.loading && (
-                                <FontAwesomeIcon icon={faCircleNotch} spin />
-                            )}
+                            {attachLoading && <FontAwesomeIcon icon={faCircleNotch} spin />}
                         </Button>
                     </div>
                 </div>

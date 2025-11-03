@@ -5,26 +5,34 @@ import { Popover, PopoverTrigger, PopoverContent } from '@heroui/react';
 
 import DeckStatusSummary from './DeckStatusSummary';
 
-import './DeckStatus.scss';
-
 const DeckStatus = ({ status }) => {
     const { t } = useTranslation();
 
     let statusName;
-    let className = classNames('deck-status', {
-        invalid: !status.basicRules,
-        'not-verified': status.basicRules && status.notVerified,
-        used: status.usageLevel === 1 && !status.verified,
-        popular: status.usageLevel === 2 && !status.verified,
-        notorious: status.usageLevel === 3 && !status.verified,
-        'casual-play': status.basicRules && status.impossible,
-        valid:
-            (status.usageLevel === 0 || status.verified) &&
-            status.basicRules &&
-            !status.notVerified &&
-            status.noUnreleasedCards &&
-            !status.impossible
-    });
+    const isInvalid = !status.basicRules;
+    const isNotVerified = status.basicRules && status.notVerified;
+    const isUsed = status.usageLevel === 1 && !status.verified;
+    const isPopular = status.usageLevel === 2 && !status.verified;
+    const isNotorious = status.usageLevel === 3 && !status.verified;
+    const isCasual = status.basicRules && status.impossible;
+    const isValid =
+        (status.usageLevel === 0 || status.verified) &&
+        status.basicRules &&
+        !status.notVerified &&
+        status.noUnreleasedCards &&
+        !status.impossible;
+
+    const baseBadge = 'inline-block text-center px-3 py-1.5 border border-black rounded text-black';
+    const bgClass = isValid
+        ? 'bg-green-500'
+        : isCasual || isUsed || isPopular
+        ? 'bg-amber-400'
+        : isNotorious || isInvalid
+        ? 'bg-red-500'
+        : isNotVerified
+        ? 'bg-sky-400'
+        : 'bg-gray-300';
+    const className = classNames(baseBadge, bgClass);
 
     if (!status.basicRules) {
         statusName = t('Invalid');
@@ -48,10 +56,10 @@ const DeckStatus = ({ status }) => {
                 <span className={className}>{statusName}</span>
             </PopoverTrigger>
             <PopoverContent>
-                <div className='p-2'>
+                <div className='p-2 bg-neutral-900 text-white rounded'>
                     <DeckStatusSummary status={status} />
                     {status.extendedStatus && status.extendedStatus.length !== 0 && (
-                        <ul className='deck-status-errors'>
+                        <ul className='list-none p-0 mt-1 space-y-1'>
                             {status.extendedStatus.map((error, index) => (
                                 <li key={index}>{error}</li>
                             ))}

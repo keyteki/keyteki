@@ -1,4 +1,16 @@
-import { Decks } from '../types';
+// @ts-nocheck
+import { api } from '../slices/apiSlice';
+
+// Re-export RTK Query hooks
+export const {
+    useLoadDecksQuery,
+    useDeleteDeckMutation,
+    useSaveAllianceDeckMutation,
+    useSaveProphecyAssignmentsMutation,
+    useSaveDeckMutation,
+    useLoadStandaloneDecksQuery,
+    useLoadDeckQuery
+} = api;
 
 /**
  * @typedef DeckFilter
@@ -19,26 +31,14 @@ import { Decks } from '../types';
  * @param {PagingOptions} options
  */
 export function loadDecks(options = {}) {
-    return {
-        types: [Decks.RequestDecks, Decks.DecksReceived],
-        shouldCallAPI: () => true,
-        APIParams: { url: '/api/decks', cache: false, data: options }
+    return (dispatch) => {
+        dispatch(api.endpoints.loadDecks.initiate(options));
     };
 }
 
 export function loadDeck(deckId) {
-    return {
-        types: ['REQUEST_DECK', 'RECEIVE_DECK'],
-        shouldCallAPI: (state) => {
-            let ret =
-                state.cards.decks.length === 0 ||
-                !state.cards.decks.some((deck) => {
-                    return deck.id === deckId;
-                });
-
-            return ret;
-        },
-        APIParams: { url: `/api/decks/${deckId}`, cache: false }
+    return (dispatch) => {
+        dispatch(api.endpoints.loadDeck.initiate(deckId));
     };
 }
 
@@ -50,43 +50,20 @@ export function selectDeck(deck) {
 }
 
 export function deleteDeck(deck) {
-    return {
-        types: [Decks.DeleteDeck, Decks.DeckDeleted],
-        shouldCallAPI: () => true,
-        APIParams: {
-            url: `/api/decks/${deck.id}`,
-            type: 'DELETE'
-        }
+    return (dispatch) => {
+        dispatch(api.endpoints.deleteDeck.initiate(deck.id));
     };
 }
 
 export function saveDeck(deck) {
-    let str = JSON.stringify({
-        uuid: deck.uuid
-    });
-
-    return {
-        types: [Decks.SaveDeck, Decks.DeckSaved],
-        shouldCallAPI: () => true,
-        APIParams: {
-            url: '/api/decks/',
-            type: 'POST',
-            data: str
-        }
+    return (dispatch) => {
+        dispatch(api.endpoints.saveDeck.initiate(deck));
     };
 }
 
 export function saveAllianceDeck(deck) {
-    let str = JSON.stringify(deck);
-
-    return {
-        types: [Decks.SaveAllianceDeck, Decks.AllianceDeckSaved],
-        shouldCallAPI: () => true,
-        APIParams: {
-            url: '/api/decks/alliance',
-            type: 'POST',
-            data: str
-        }
+    return (dispatch) => {
+        dispatch(api.endpoints.saveAllianceDeck.initiate(deck));
     };
 }
 
@@ -97,26 +74,13 @@ export function clearDeckStatus() {
 }
 
 export function loadStandaloneDecks() {
-    return {
-        types: ['LOAD_STANDALONE_DECKS', 'STANDALONE_DECKS_LOADED'],
-        shouldCallAPI: () => true,
-        APIParams: {
-            url: '/api/standalone-decks',
-            type: 'GET'
-        }
+    return (dispatch) => {
+        dispatch(api.endpoints.loadStandaloneDecks.initiate());
     };
 }
 
 export function saveProphecyAssignments(deck, assignments) {
-    let str = JSON.stringify({ assignments: assignments });
-
-    return {
-        types: [Decks.SaveProphecyAssignments, Decks.ProphecyAssignmentsSaved],
-        shouldCallAPI: () => true,
-        APIParams: {
-            url: `/api/decks/${deck.id}/prophecy-assignments`,
-            type: 'POST',
-            data: str
-        }
+    return (dispatch) => {
+        dispatch(api.endpoints.saveProphecyAssignments.initiate({ deckId: deck.id, assignments }));
     };
 }

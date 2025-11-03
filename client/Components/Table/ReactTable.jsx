@@ -236,7 +236,14 @@ function ReactTable({
             </div>
         </div>
     );
-    const tableClassNames = { ...{ base: 'h-full' }, ...classNames };
+    const tableClassNames = {
+        // Default Tailwind styling for border and spacing, can be overridden by caller
+        base: 'h-full',
+        table: 'border border-gray-300 border-r-0 border-b-0 border-separate border-spacing-0',
+        th: 'border border-t border-l border-gray-300',
+        td: 'border border-t border-l border-gray-300 py-1.5',
+        ...(classNames || {})
+    };
     return (
         <>
             <Table
@@ -361,7 +368,10 @@ function ReactTable({
                     }
                 >
                     {table.getRowModel().rows.map((row) => (
-                        <TableRow key={row.id}>
+                        <TableRow
+                            key={row.id}
+                            className='hover:bg-sky-50 data-[selected=true]:bg-primary/70'
+                        >
                             {row.getVisibleCells().map((cell) => (
                                 <TableCell
                                     key={cell.id}

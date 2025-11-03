@@ -1,36 +1,27 @@
-import React from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import React, { useEffect } from 'react';
 import ReCAPTCHA from 'react-google-recaptcha';
 
 import AlertPanel from '../Components/Site/AlertPanel';
 import Panel from '../Components/Site/Panel';
 import { useTranslation } from 'react-i18next';
-import { Account } from '../redux/types';
-import { clearApiStatus, forgotPassword } from '../redux/actions';
+import { useForgotPasswordMutation } from '../redux/slices/apiSlice';
 import Button from '../Components/HeroUI/Button';
 import { Input } from '@heroui/react';
 import { Formik } from 'formik';
 import * as yup from 'yup';
-import ApiStatus from '../Components/Site/ApiStatus';
 
 const ForgotPassword = () => {
     const { t } = useTranslation();
-    const dispatch = useDispatch();
-    const apiState = useSelector((state) => {
-        const retState = state.api[Account.ForgotPasswordRequest];
+    const [forgotPassword, { isLoading, isSuccess, reset }] = useForgotPasswordMutation();
 
-        if (retState && retState.success) {
-            retState.message = t(
-                'Your request was submitted.  If the username you entered is registered with the site, an email will be sent to the address registered on the account, detailing what to do next.'
-            );
-
-            setTimeout(() => {
-                dispatch(clearApiStatus(Account.ForgotPasswordRequest));
+    useEffect(() => {
+        if (isSuccess) {
+            const timer = setTimeout(() => {
+                reset();
             }, 3000);
+            return () => clearTimeout(timer);
         }
-
-        return retState;
-    });
+    }, [isSuccess, reset]);
 
     const initialValues = {
         username: '',
@@ -45,27 +36,40 @@ const ForgotPassword = () => {
     return (
         <div className='max-w-2xl mx-auto px-4'>
             <Panel title={t('Forgot password')}>
-                {!apiState && (
+                {!isSuccess && (
                     <AlertPanel
                         type='info'
+                        title=''
                         message={t(
                             'To start the password recovery process, please enter your username or email address and click the submit button.'
                         )}
-                    />
+                    >
+                        {null}
+                    </AlertPanel>
                 )}
-                <ApiStatus
-                    state={apiState}
-                    onClose={() => dispatch(clearApiStatus(Account.ForgotPasswordRequest))}
-                />
+                {isSuccess && (
+                    <AlertPanel
+                        type='success'
+                        title=''
+                        message={t(
+                            'Your request was submitted.  If the username you entered is registered with the site, an email will be sent to the address registered on the account, detailing what to do next.'
+                        )}
+                        onClose={reset}
+                    >
+                        {null}
+                    </AlertPanel>
+                )}
                 <Formik
                     validationSchema={schema}
-                    onSubmit={(values) => {
-                        dispatch(
-                            forgotPassword({
+                    onSubmit={async (values) => {
+                        try {
+                            await forgotPassword({
                                 username: values.username,
                                 captcha: values.captchaValue
-                            })
-                        );
+                            }).unwrap();
+                        } catch (err) {
+                            // Error will be shown via toastr if present
+                        }
                     }}
                     initialValues={initialValues}
                 >
@@ -106,7 +110,7 @@ const ForgotPassword = () => {
                                 )}
                             </div>
                             <div className='text-center'>
-                                <Button color='primary' type='submit'>
+                                <Button color='primary' type='submit' isLoading={isLoading}>
                                     {t('Submit')}
                                 </Button>
                             </div>

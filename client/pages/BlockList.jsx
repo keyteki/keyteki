@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import Button from '../Components/HeroUI/Button';
 import { Input, Spinner } from '@heroui/react';
@@ -9,17 +9,12 @@ import * as yup from 'yup';
 import { Trans, useTranslation } from 'react-i18next';
 
 import Panel from '../Components/Site/Panel';
+import { sendSocketMessage } from '../redux/actions/socket';
 import {
-    loadBlockList,
-    addBlockListEntry,
-    clearApiStatus,
-    removeBlockListEntry,
-    sendSocketMessage
-} from '../redux/actions';
-
-import './BlockList.scss';
-import { UserAction } from '../redux/types';
-import ApiStatus from '../Components/Site/ApiStatus';
+    useLoadBlocklistQuery,
+    useAddBlocklistEntryMutation,
+    useRemoveBlocklistEntryMutation
+} from '../redux/slices/apiSlice';
 
 const BlockList = () => {
     const { user, token } = useSelector((state) => ({
@@ -28,59 +23,45 @@ const BlockList = () => {
     }));
     const dispatch = useDispatch();
     const { t } = useTranslation();
-    const blockList = useSelector((state) => state.user.blockList);
-    const addState = useSelector((state) => {
-        const retState = state.api[UserAction.AddBlocklist];
 
-        if (retState && retState.success) {
-            retState.message = t('Blocklist entry added successfully');
-
-            setTimeout(() => {
-                dispatch(clearApiStatus(UserAction.AddBlocklist));
-            }, 5000);
-        }
-
-        return retState;
+    const { data: blockList = [], isLoading, error } = useLoadBlocklistQuery(user?.username, {
+        skip: !user
     });
-    const deleteState = useSelector((state) => {
-        const retState = state.api[UserAction.DeleteBlockList];
 
-        if (retState && retState.success) {
-            retState.message = t('Blocklist entry deleted successfully');
+    const [
+        addBlocklistEntry,
+        { isLoading: isAdding, isSuccess: addSuccess, reset: resetAdd }
+    ] = useAddBlocklistEntryMutation();
 
-            setTimeout(() => {
-                dispatch(clearApiStatus(UserAction.DeleteBlockList));
-                dispatch(sendSocketMessage('authenticate', token));
-            }, 5000);
-        }
-
-        return retState;
-    });
-    const apiState = useSelector((state) => state.api[UserAction.RequestBlocklist]);
-
-    useEffect(() => {
-        if (user) {
-            dispatch(loadBlockList(user));
-        }
-    }, [user, dispatch]);
+    const [
+        removeBlocklistEntry,
+        { isSuccess: deleteSuccess, reset: resetDelete }
+    ] = useRemoveBlocklistEntryMutation();
 
     const initialValues = {
         blockee: ''
     };
 
-    if (!blockList) {
-        return null;
-    }
-
     let blockListToRender = blockList.map((username) => {
         return (
             <tr key={username}>
-                <td>{username}</td>
-                <td>
+                <td className='align-middle'>{username}</td>
+                <td className='align-middle'>
                     <a
                         href='#'
-                        className='text-danger'
-                        onClick={() => dispatch(removeBlockListEntry(user, username))}
+                        className='text-red-500 hover:underline'
+                        onClick={async (e) => {
+                            e.preventDefault();
+                            try {
+                                await removeBlocklistEntry({
+                                    username: user.username,
+                                    blockedUsername: username
+                                }).unwrap();
+                                dispatch(sendSocketMessage('authenticate', token));
+                            } catch (err) {
+                                // Error handled by RTK Query
+                            }
+                        }}
                     >
                         <FontAwesomeIcon icon={faTimes} />
                     </a>
@@ -119,84 +100,100 @@ const BlockList = () => {
     return (
         <div className='max-w-4xl mx-auto'>
             <Panel title={t('Block list')}>
-                {apiState?.loading && (
+                {isLoading && (
                     <div className='flex items-center gap-2'>
                         Please wait while the blocklist is loaded...
                         <Spinner size='sm' />
                     </div>
                 )}
-                {!apiState ||
-                    (!apiState.loading && (
-                        <>
-                            <ApiStatus
-                                state={addState}
-                                onClose={() => dispatch(clearApiStatus(UserAction.AddBlocklist))}
-                            />
-                            <ApiStatus
-                                state={deleteState}
-                                onClose={() => dispatch(clearApiStatus(UserAction.DeleteBlockList))}
-                            />
-                            <div className='about-container'>
-                                <Formik
-                                    validationSchema={schema}
-                                    onSubmit={(values) => {
-                                        dispatch(addBlockListEntry(user, values.blockee));
-                                    }}
-                                    initialValues={initialValues}
-                                >
-                                    {(formProps) => (
-                                        <form
-                                            onSubmit={(event) => {
-                                                event.preventDefault();
-                                                formProps.handleSubmit(event);
-                                            }}
-                                        >
-                                            <p>
-                                                <Trans i18nKey='blocklist.explain'>
-                                                    It can sometimes become necessary to prevent
-                                                    someone joining your games, or stop seeing their
-                                                    messages, or both. Users on this list will not
-                                                    be able to join your games, and you will not see
-                                                    their chat messages or their games.
-                                                </Trans>
-                                            </p>
-                                            <div className='max-w-md mb-4'>
-                                                <Input
-                                                    name='blockee'
-                                                    type='text'
-                                                    label={t('Username')}
-                                                    placeholder={t('Enter username to block')}
-                                                    value={formProps.values.blockee}
-                                                    onChange={formProps.handleChange}
-                                                    onBlur={formProps.handleBlur}
-                                                    isInvalid={
-                                                        formProps.touched.blockee &&
-                                                        !!formProps.errors.blockee
-                                                    }
-                                                    errorMessage={formProps.errors.blockee}
-                                                />
-                                            </div>
-
-                                            <Button color='primary' type='submit'>
-                                                <Trans>Add</Trans>
-                                                &nbsp;
-                                                {addState && addState.loading && (
-                                                    <Spinner size='sm' className='ml-2' />
-                                                )}
-                                            </Button>
-
-                                            <div className='mt-6'>
-                                                <h3 className='font-bold text-lg mb-3'>
-                                                    <Trans>Users Blocked</Trans>
-                                                </h3>
-                                                {table}
-                                            </div>
-                                        </form>
-                                    )}
-                                </Formik>
+                {error && (
+                    <div className='text-red-500 mb-4'>
+                        Error loading blocklist: {error.message || 'Unknown error'}
+                    </div>
+                )}
+                {!isLoading && (
+                    <>
+                        {addSuccess && (
+                            <div className='bg-green-600 text-white p-3 rounded mb-4'>
+                                {t('Blocklist entry added successfully')}
+                                <button onClick={resetAdd} className='float-right'>
+                                    ×
+                                </button>
                             </div>
-                        </>
-                    ))}
+                        )}
+                        {deleteSuccess && (
+                            <div className='bg-green-600 text-white p-3 rounded mb-4'>
+                                {t('Blocklist entry deleted successfully')}
+                                <button onClick={resetDelete} className='float-right'>
+                                    ×
+                                </button>
+                            </div>
+                        )}
+                        <div className='max-w-3xl'>
+                            <Formik
+                                validationSchema={schema}
+                                onSubmit={async (values, { resetForm }) => {
+                                    try {
+                                        await addBlocklistEntry({
+                                            username: user.username,
+                                            blockedUsername: values.blockee
+                                        }).unwrap();
+                                        resetForm();
+                                    } catch (err) {
+                                        // Error handled by RTK Query
+                                    }
+                                }}
+                                initialValues={initialValues}
+                            >
+                                {(formProps) => (
+                                    <form
+                                        onSubmit={(event) => {
+                                            event.preventDefault();
+                                            formProps.handleSubmit(event);
+                                        }}
+                                    >
+                                        <p>
+                                            <Trans i18nKey='blocklist.explain'>
+                                                It can sometimes become necessary to prevent someone
+                                                joining your games, or stop seeing their messages,
+                                                or both. Users on this list will not be able to join
+                                                your games, and you will not see their chat messages
+                                                or their games.
+                                            </Trans>
+                                        </p>
+                                        <div className='max-w-md mb-4'>
+                                            <Input
+                                                name='blockee'
+                                                type='text'
+                                                label={t('Username')}
+                                                placeholder={t('Enter username to block')}
+                                                value={formProps.values.blockee}
+                                                onChange={formProps.handleChange}
+                                                onBlur={formProps.handleBlur}
+                                                isInvalid={
+                                                    formProps.touched.blockee &&
+                                                    !!formProps.errors.blockee
+                                                }
+                                                errorMessage={formProps.errors.blockee}
+                                            />
+                                        </div>
+
+                                        <Button color='primary' type='submit' isLoading={isAdding}>
+                                            <Trans>Add</Trans>
+                                        </Button>
+
+                                        <div className='mt-6'>
+                                            <h3 className='font-bold text-lg mb-3'>
+                                                <Trans>Users Blocked</Trans>
+                                            </h3>
+                                            {table}
+                                        </div>
+                                    </form>
+                                )}
+                            </Formik>
+                        </div>
+                    </>
+                )}
             </Panel>
         </div>
     );

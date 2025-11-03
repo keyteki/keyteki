@@ -1,90 +1,61 @@
-import React, { useState, useEffect, useCallback } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import React, { useCallback } from 'react';
 import moment from 'moment';
+import { Formik } from 'formik';
+import * as yup from 'yup';
+import { Input } from '@heroui/react';
 import Button from '../Components/HeroUI/Button';
-
-import Form from '../Components/Form/Form';
 import Panel from '../Components/Site/Panel';
-import ApiStatus from '../Components/Site/ApiStatus';
 import AlertPanel from '../Components/Site/AlertPanel';
-import * as actions from '../redux/actions';
+import {
+    useLoadBanlistQuery,
+    useAddBanlistMutation,
+    useDeleteBanlistMutation
+} from '../redux/slices/apiSlice';
 
 const BanlistAdmin = () => {
-    const dispatch = useDispatch();
-
-    const apiAddState = useSelector((state) => state.api.ADD_BANLIST);
-    const apiDeleteState = useSelector((state) => state.api.DELETE_BANLIST);
-    const apiState = useSelector((state) => state.api.REQUEST_BANLIST);
-    const banListAdded = useSelector((state) => state.admin.banlistAdded);
-    const banListDeleted = useSelector((state) => state.admin.banlistDeleted);
-    const banlist = useSelector((state) => state.admin.banlist);
-
-    const [currentRequest, setCurrentRequest] = useState('REQUEST_BANLIST');
-    const [successMessage, setSuccessMessage] = useState(undefined);
-
-    useEffect(() => {
-        dispatch(actions.loadBanlist());
-    }, [dispatch]);
-
-    useEffect(() => {
-        let clearStatus = false;
-
-        if (banListAdded) {
-            clearStatus = true;
-            setSuccessMessage('Banlist item added successfully.');
-        }
-
-        if (banListDeleted) {
-            clearStatus = true;
-            setSuccessMessage('Banlist item deleted successfully.');
-        }
-
-        if (clearStatus) {
-            const timeout = setTimeout(() => {
-                dispatch(actions.clearBanlistStatus());
-                setSuccessMessage(undefined);
-            }, 5000);
-
-            return () => clearTimeout(timeout);
-        }
-    }, [banListAdded, banListDeleted, dispatch]);
+    const { data: banlist = [], isLoading, error } = useLoadBanlistQuery(undefined);
+    const [
+        addBanlist,
+        { isLoading: isAdding, isSuccess: addSuccess, reset: resetAdd }
+    ] = useAddBanlistMutation();
+    const [
+        deleteBanlist,
+        { isLoading: isDeleting, isSuccess: deleteSuccess, reset: resetDelete }
+    ] = useDeleteBanlistMutation();
 
     const onAddBanlistClick = useCallback(
-        (state) => {
-            setCurrentRequest('ADD_BANLIST');
-            dispatch(actions.addBanlist(state.ip));
+        async (state) => {
+            try {
+                await addBanlist({ ip: state.ip }).unwrap();
+            } catch (err) {
+                // Error handled by RTK Query
+            }
         },
-        [dispatch]
+        [addBanlist]
     );
 
     const onDeleteClick = useCallback(
-        (id) => {
-            setCurrentRequest('DELETE_BANLIST');
-            dispatch(actions.deleteBanlist(id));
+        async (id) => {
+            try {
+                await deleteBanlist(id).unwrap();
+            } catch (err) {
+                // Error handled by RTK Query
+            }
         },
-        [dispatch]
+        [deleteBanlist]
     );
 
-    const handleClearStatus = useCallback(() => {
-        dispatch(actions.clearBanlistStatus());
-    }, [dispatch]);
-
-    if (apiState && apiState.loading) {
+    if (isLoading) {
         return 'Loading banlist, please wait...';
     }
 
-    let statusBar;
-
-    switch (currentRequest) {
-        case 'REQUEST_BANLIST':
-            statusBar = <ApiStatus state={apiState} onClose={handleClearStatus} />;
-            break;
-        case 'ADD_BANLIST':
-            statusBar = <ApiStatus state={apiAddState} onClose={handleClearStatus} />;
-            break;
-        case 'DELETE_BANLIST':
-            statusBar = <ApiStatus state={apiDeleteState} onClose={handleClearStatus} />;
-            break;
+    if (error) {
+        return (
+            <AlertPanel
+                type='error'
+                message={`Error loading banlist: ${error.message || 'Unknown error'}`}
+            />
+        );
     }
 
     let renderedBanlist = banlist.map((entry) => {
@@ -97,7 +68,7 @@ const BanlistAdmin = () => {
                     <Button
                         color='danger'
                         onPress={() => onDeleteClick(entry.id)}
-                        isLoading={apiDeleteState && apiDeleteState.loading}
+                        isLoading={isDeleting}
                     >
                         Delete
                     </Button>
@@ -108,8 +79,20 @@ const BanlistAdmin = () => {
 
     return (
         <div className='flex flex-col gap-4'>
-            {statusBar}
-            {successMessage && <AlertPanel type='success' message={successMessage} />}
+            {addSuccess && (
+                <AlertPanel
+                    type='success'
+                    message='Banlist item added successfully.'
+                    onClose={resetAdd}
+                />
+            )}
+            {deleteSuccess && (
+                <AlertPanel
+                    type='success'
+                    message='Banlist item deleted successfully.'
+                    onClose={resetDelete}
+                />
+            )}
             <Panel title='Banlist administration'>
                 <table className='table table-striped w-full'>
                     <thead>
@@ -124,13 +107,45 @@ const BanlistAdmin = () => {
                 </table>
             </Panel>
             <Panel title='Add new ip'>
-                <Form
-                    name='banlistAdmin'
-                    apiLoading={apiAddState && apiAddState.loading}
-                    buttonClass='ml-32 w-1/3'
-                    buttonText='Add'
-                    onSubmit={onAddBanlistClick}
-                />
+                <Formik
+                    initialValues={{ ip: '' }}
+                    validationSchema={yup.object({ ip: yup.string().required('IP is required') })}
+                    onSubmit={async (values, { setSubmitting, resetForm }) => {
+                        try {
+                            await onAddBanlistClick({ ip: values.ip });
+                            resetForm();
+                        } finally {
+                            setSubmitting(false);
+                        }
+                    }}
+                >
+                    {(form) => (
+                        <form
+                            className='flex items-end gap-4'
+                            onSubmit={(e) => {
+                                e.preventDefault();
+                                form.handleSubmit(e);
+                            }}
+                        >
+                            <div className='flex-1'>
+                                <Input
+                                    label='IP Address'
+                                    name='ip'
+                                    value={form.values.ip}
+                                    onChange={form.handleChange}
+                                    onBlur={form.handleBlur}
+                                    isInvalid={form.touched.ip && !!form.errors.ip}
+                                    errorMessage={form.errors.ip}
+                                />
+                            </div>
+                            <div>
+                                <Button color='primary' type='submit' isLoading={isAdding}>
+                                    Add
+                                </Button>
+                            </div>
+                        </form>
+                    )}
+                </Formik>
             </Panel>
         </div>
     );

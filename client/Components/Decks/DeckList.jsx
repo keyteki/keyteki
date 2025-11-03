@@ -9,9 +9,8 @@ import { Checkbox, CheckboxGroup } from '@heroui/react';
 import ReactTable from '../Table/ReactTable';
 import CardBack from './CardBack.jsx';
 import DeckStatus from './DeckStatus';
-import './DeckList.scss';
 import { Constants } from '../../constants';
-import { loadDecks, loadStandaloneDecks, selectDeck } from '../../redux/actions';
+import { loadDecks, loadStandaloneDecks, selectDeck } from '../../redux/actions/deck';
 
 /**
  * @typedef CardLanguage
@@ -92,26 +91,22 @@ const DeckList = ({ deckFilter, onDeckSelected, standaloneDecks = false }) => {
         standaloneDecks ? null : state.cards.selectedDeck
     );
 
-    // Adapter hook to match ReactTable's dataLoadFn interface using existing redux actions/state
     const useDecksDataLoad = (opts) => {
         const { pageIndex = 0, pageSize = 10, sorting, columnFilters } = opts || {};
 
-        // Ensure stable dependency tracking for deckFilter object contents
-        // String key of deckFilter contents for stable deps without mutating original
         const deckFilterKey = JSON.stringify(deckFilter || {});
 
         const pagingDetails = useMemo(() => {
             const pd = {
                 pageSize: pageSize,
-                page: pageIndex + 1, // Convert 0-indexed to 1-indexed
+                page: pageIndex + 1,
                 sort: sorting && sorting[0] ? sorting[0].id : 'lastUpdated',
                 sortDir: sorting && sorting[0] && sorting[0].desc ? 'desc' : 'asc',
-                // Explicit any[] to avoid TS inferring never[] under checkJS
-                filter: /** @type {any[]} */ ([])
+                filter: []
             };
 
             if (columnFilters && columnFilters.length > 0) {
-                pd.filter = columnFilters.map((/** @type {any} */ f) => ({
+                pd.filter = columnFilters.map((f) => ({
                     name: f.id,
                     value: f.value
                 }));
@@ -119,7 +114,7 @@ const DeckList = ({ deckFilter, onDeckSelected, standaloneDecks = false }) => {
 
             const df = deckFilterKey ? JSON.parse(deckFilterKey) : null;
             if (df) {
-                for (const [k, v] of Object.entries(/** @type {any} */ (df))) {
+                for (const [k, v] of Object.entries(df)) {
                     pd.filter.push({ name: k, value: v });
                 }
             }
@@ -138,9 +133,9 @@ const DeckList = ({ deckFilter, onDeckSelected, standaloneDecks = false }) => {
         const refetch = useMemo(
             () => () => {
                 if (standaloneDecks) {
-                    dispatch(/** @type {any} */ (loadStandaloneDecks()));
+                    dispatch(loadStandaloneDecks());
                 } else {
-                    dispatch(/** @type {any} */ (loadDecks(pagingDetails)));
+                    dispatch(loadDecks(pagingDetails));
                 }
             },
             [pagingDetails]
@@ -154,9 +149,8 @@ const DeckList = ({ deckFilter, onDeckSelected, standaloneDecks = false }) => {
         };
     };
 
-    // Named cell renderers to satisfy react/display-name and improve DevTools labels
     const IdCell = (info) => (
-        <div className='deck-image'>
+        <div className='w-8'>
             <CardBack deck={info.row.original} size={'normal'} />
         </div>
     );
@@ -164,7 +158,7 @@ const DeckList = ({ deckFilter, onDeckSelected, standaloneDecks = false }) => {
     const NameCell = (info) => <span className='cursor-pointer'>{info.getValue()}</span>;
 
     const SetCell = (info) => (
-        <img className='deck-expansion' src={Constants.SetIconPaths[info.getValue()]} />
+        <img className='w-4 h-auto m-0.5' src={Constants.SetIconPaths[info.getValue()]} />
     );
 
     const AddedCell = (info) => moment(info.getValue()).format('YYYY-MM-DD');
@@ -218,13 +212,10 @@ const DeckList = ({ deckFilter, onDeckSelected, standaloneDecks = false }) => {
                     onValueChange={(vals) => setSelected(new Set(/** @type {any[]} */ (vals)))}
                     classNames={{ wrapper: 'max-h-64 overflow-y-auto pr-2' }}
                 >
-                    {Constants.Expansions.map((/** @type {any} */ e) => (
+                    {Constants.Expansions.map((e) => (
                         <Checkbox key={e.value} value={e.value}>
                             <div className='flex items-center gap-2'>
-                                <img
-                                    className='h-5 w-5'
-                                    src={/** @type {any} */ (Constants.SetIconPaths)[e.value]}
-                                />
+                                <img className='h-5 w-5' src={Constants.SetIconPaths[e.value]} />
                                 <span>{e.label}</span>
                             </div>
                         </Checkbox>
@@ -262,7 +253,6 @@ const DeckList = ({ deckFilter, onDeckSelected, standaloneDecks = false }) => {
                 meta: {
                     colWidth: '10%',
                     className: 'text-center',
-                    // Wrapper needed to pass table and close args correctly
                     // eslint-disable-next-line react/display-name
                     groupingFilter: (table, close) => (
                         <ExpansionGroupingFilter table={table} close={close} />
@@ -301,7 +291,7 @@ const DeckList = ({ deckFilter, onDeckSelected, standaloneDecks = false }) => {
     );
 
     return (
-        <div className='deck-list'>
+        <div className='pt-4'>
             <ReactTable
                 columns={columns}
                 dataLoadFn={useDecksDataLoad}

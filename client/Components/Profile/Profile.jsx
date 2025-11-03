@@ -14,7 +14,6 @@ import { toBase64 } from '../../util.jsx';
 import BlankBg from '../../assets/img/bgs/blank.png';
 import MassMutationBg from '../../assets/img/bgs/massmutation.png';
 
-import './Profile.scss';
 import AlertPanel from '../Site/AlertPanel';
 
 /**

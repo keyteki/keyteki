@@ -1,86 +1,30 @@
-import { UserAction } from '../types';
+// Re-export RTK Query hooks as action creators for backward compatibility
+export {
+    useLoadActiveSessionsQuery,
+    useRemoveSessionMutation,
+    useLoadBlocklistQuery as loadBlockList,
+    useAddBlocklistEntryMutation as addBlockListEntry,
+    useRemoveBlocklistEntryMutation as removeBlockListEntry,
+    useSaveProfileMutation as saveProfile
+} from '../slices/apiSlice';
 
-export function loadActiveSessions(user) {
-    return {
-        types: ['REQUEST_SESSIONS', 'RECEIVE_SESSIONS'],
-        shouldCallAPI: () => true,
-        APIParams: {
-            cache: false,
-            url: `/api/account/${user.username}/sessions`
-        }
-    };
-}
-
-export function removeSession(username, sessionId) {
-    return {
-        types: ['REMOVE_SESSION', 'SESSION_REMOVED'],
-        shouldCallAPI: () => true,
-        APIParams: {
-            type: 'DELETE',
-            url: `/api/account/${username}/sessions/${sessionId}`
-        }
-    };
-}
-
-export function loadBlockList(user) {
-    return {
-        types: [UserAction.RequestBlocklist, UserAction.ReceiveBlocklist],
-        shouldCallAPI: () => true,
-        APIParams: {
-            cache: false,
-            url: `/api/account/${user.username}/blocklist`
-        }
-    };
-}
-
-export function addBlockListEntry(user, username) {
-    return {
-        types: [UserAction.AddBlocklist, UserAction.BlocklistAdded],
-        shouldCallAPI: () => true,
-        APIParams: {
-            url: `/api/account/${user.username}/blocklist`,
-            type: 'POST',
-            data: JSON.stringify({ username: username })
-        }
-    };
-}
-
-export function removeBlockListEntry(user, username) {
-    return {
-        types: [UserAction.DeleteBlockList, UserAction.BlocklistDeleted],
-        shouldCallAPI: () => true,
-        APIParams: {
-            url: `/api/account/${user.username}/blocklist/${username}`,
-            type: 'DELETE'
-        }
-    };
-}
-
+// Keep legacy actions that don't have RTK Query equivalents yet
 export function clearBlockListStatus() {
+    // Legacy stub - blocklist managed by RTK Query now
     return {
         type: 'CLEAR_BLOCKLIST_STATUS'
     };
 }
 
 export function clearSessionStatus() {
+    // Legacy stub - sessions managed by RTK Query now
     return {
         type: 'CLEAR_SESSION_STATUS'
     };
 }
 
-export function saveProfile(username, details) {
-    return {
-        types: ['SAVE_PROFILE', 'PROFILE_SAVED'],
-        shouldCallAPI: () => true,
-        APIParams: {
-            url: `/api/account/${username}`,
-            type: 'PUT',
-            data: JSON.stringify({ data: details })
-        }
-    };
-}
-
 export function clearProfileStatus() {
+    // Legacy stub - profile managed by RTK Query now
     return {
         type: 'CLEAR_PROFILE_STATUS'
     };

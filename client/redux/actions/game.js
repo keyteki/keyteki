@@ -1,5 +1,35 @@
+// @ts-nocheck
 import io from 'socket.io-client';
 import * as jsondiffpatch from 'jsondiffpatch';
+import * as gamesActions from '../slices/gamesSlice';
+import * as lobbyActions from '../slices/lobbySlice';
+import { api } from '../slices/apiSlice';
+
+// Re-export RTK Query hooks
+export const { useLoadUserGamesQuery } = api;
+
+// Re-export slice actions
+export {
+    gameSocketConnected,
+    gameSocketConnecting,
+    gameSocketConnectFailed,
+    gameSocketDisconnected,
+    gameSocketReconnecting,
+    gameSocketReconnected,
+    gameSocketClosed,
+    receiveUserGames,
+    gameSocketResponseTimeReceived
+} from '../slices/gamesSlice';
+
+export {
+    startNewGame,
+    cancelNewGame,
+    clearGameState,
+    joinPasswordGame,
+    cancelPasswordJoin,
+    gameStarting,
+    setRootState
+} from '../slices/lobbySlice';
 
 const patcher = jsondiffpatch.create({
     objectHash: (obj, index) => {
@@ -15,46 +45,19 @@ export function receiveGames(games) {
 }
 
 export function loadUserGames() {
-    return {
-        types: ['REQUEST_USERGAMES', 'RECEIVE_USERGAMES'],
-        shouldCallAPI: () => true,
-        APIParams: { url: '/api/games', cache: false }
-    };
-}
-
-export function startNewGame() {
-    return {
-        type: 'START_NEWGAME'
-    };
-}
-
-export function cancelNewGame() {
-    return {
-        type: 'CANCEL_NEWGAME'
-    };
-}
-
-export function clearGameState() {
-    return {
-        type: 'CLEAR_GAMESTATE'
+    return (dispatch) => {
+        return dispatch(api.endpoints.loadUserGames.initiate());
     };
 }
 
 export function receiveGameState(game, username) {
     return (dispatch) => {
-        dispatch({
-            type: 'LOBBY_MESSAGE_RECEIVED',
-            message: 'gamestate',
-            args: [game, username]
-        });
-    };
-}
-
-export function joinPasswordGame(game, type) {
-    return {
-        type: 'JOIN_PASSWORD_GAME',
-        game: game,
-        joinType: type
+        dispatch(
+            lobbyActions.lobbyMessageReceived({
+                message: 'gamestate',
+                args: [game, username]
+            })
+        );
     };
 }
 
@@ -62,64 +65,6 @@ export function receivePasswordError(message) {
     return {
         type: 'RECEIVE_PASSWORD_ERROR',
         message: message
-    };
-}
-
-export function cancelPasswordJoin() {
-    return {
-        type: 'CANCEL_PASSWORD_JOIN'
-    };
-}
-
-export function gameSocketConnecting(host, socket) {
-    return {
-        type: 'GAME_SOCKET_CONNECTING',
-        host: host,
-        socket: socket
-    };
-}
-
-export function gameSocketConnected(socket) {
-    return {
-        type: 'GAME_SOCKET_CONNECTED',
-        socket: socket
-    };
-}
-
-export function gameSocketConnectError() {
-    return {
-        type: 'GAME_SOCKET_CONNECT_ERROR'
-    };
-}
-
-export function gameSocketDisconnected() {
-    return {
-        type: 'GAME_SOCKET_DISCONNECTED'
-    };
-}
-
-export function gameSocketReconnecting() {
-    return {
-        type: 'GAME_SOCKET_RECONNECTING'
-    };
-}
-
-export function gameSocketReconnected() {
-    return {
-        type: 'GAME_SOCKET_RECONNECTED'
-    };
-}
-
-export function gameSocketConnectFailed() {
-    return {
-        type: 'GAME_SOCKET_CONNECT_FAILED'
-    };
-}
-
-export function responseTimeReceived(responseTime) {
-    return {
-        type: 'GAME_SOCKET_RESPONSE_TIME_RECEIVED',
-        responseTime: responseTime
     };
 }
 
@@ -137,13 +82,13 @@ export function connectGameSocket(url, name) {
         });
 
         gameSocket.on('pong', (responseTime) => {
-            dispatch(responseTimeReceived(responseTime));
+            dispatch(gamesActions.gameSocketResponseTimeReceived(responseTime));
         });
 
-        dispatch(gameSocketConnecting(url + '/' + name, gameSocket));
+        dispatch(gamesActions.gameSocketConnecting(url + '/' + name));
 
         gameSocket.on('connect', () => {
-            dispatch(gameSocketConnected(gameSocket));
+            dispatch(gamesActions.gameSocketConnected(gameSocket));
         });
 
         gameSocket.on('connect_error', (err) => {
@@ -155,19 +100,19 @@ export function connectGameSocket(url, name) {
         });
 
         gameSocket.on('disconnect', () => {
-            dispatch(gameSocketDisconnected(gameSocket.gameClosing));
+            dispatch(gamesActions.gameSocketDisconnected());
         });
 
-        gameSocket.on('reconnecting', (attemptNumber) => {
-            dispatch(gameSocketReconnecting(attemptNumber));
+        gameSocket.on('reconnecting', () => {
+            dispatch(gamesActions.gameSocketReconnecting());
         });
 
         gameSocket.on('reconnect', () => {
-            dispatch(gameSocketReconnected());
+            dispatch(gamesActions.gameSocketReconnected());
         });
 
         gameSocket.on('reconnect_failed', () => {
-            dispatch(gameSocketConnectFailed());
+            dispatch(gamesActions.gameSocketConnectFailed());
         });
 
         gameSocket.on('gamestate', (game) => {
@@ -179,7 +124,7 @@ export function connectGameSocket(url, name) {
                 gameState = patcher.patch(state.lobby.currentGame, game);
             } else {
                 gameState = game;
-                dispatch(setRootState(game));
+                dispatch(lobbyActions.setRootState(game));
             }
 
             dispatch(
@@ -188,28 +133,21 @@ export function connectGameSocket(url, name) {
         });
 
         gameSocket.on('cleargamestate', () => {
-            dispatch(clearGameState());
+            dispatch(lobbyActions.clearGameState());
         });
     };
 }
 
-export function setRootState(game) {
+export function gameSocketConnectError(err) {
     return {
-        type: 'SET_ROOT_STATE',
-        state: game
-    };
-}
-
-export function gameSocketClosed(message) {
-    return {
-        type: 'GAME_SOCKET_CLOSED',
-        message: message
+        type: 'GAME_SOCKET_CONNECT_ERROR',
+        error: err
     };
 }
 
 export function gameSocketClose() {
     return (dispatch) => {
-        return dispatch(gameSocketClosed());
+        return dispatch(gamesActions.gameSocketClosed());
     };
 }
 
@@ -222,13 +160,7 @@ export function closeGameSocket() {
             state.games.socket.close();
         }
 
-        return dispatch(gameSocketClosed());
-    };
-}
-
-export function gameStarting() {
-    return {
-        type: 'GAME_STARTING'
+        return dispatch(gamesActions.gameSocketClosed());
     };
 }
 
@@ -240,7 +172,7 @@ export function startGame(id) {
             state.lobby.socket.emit('startgame', id);
         }
 
-        return dispatch(gameStarting());
+        return dispatch(lobbyActions.gameStarting());
     };
 }
 

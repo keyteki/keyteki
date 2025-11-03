@@ -1,22 +1,20 @@
 // @ts-nocheck
-import React, { useCallback, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import React, { useCallback } from 'react';
+import { useSelector } from 'react-redux';
 import moment from 'moment';
 
 import AlertPanel from '../Components/Site/AlertPanel';
 import Panel from '../Components/Site/Panel';
-import { loadUserGames } from '../redux/actions';
+import { useLoadUserGamesQuery } from '../redux/slices/apiSlice';
 
 import { Trans, useTranslation } from 'react-i18next';
-const Matches = () => {
-    const dispatch = useDispatch();
-    const { t } = useTranslation();
 
-    const { apiLoading, apiMessage, apiSuccess, games } = useSelector((state) => ({
-        apiLoading: state.api.REQUEST_USERGAMES ? state.api.REQUEST_USERGAMES.loading : undefined,
-        apiMessage: state.api.REQUEST_USERGAMES ? state.api.REQUEST_USERGAMES.message : undefined,
-        apiSuccess: state.api.REQUEST_USERGAMES ? state.api.REQUEST_USERGAMES.success : undefined,
-        games:
+const Matches = () => {
+    const { t } = useTranslation();
+    const { isLoading, error } = useLoadUserGamesQuery();
+
+    const games = useSelector(
+        (state) =>
             state.games &&
             state.games.games &&
             state.games.games.filter(
@@ -26,11 +24,7 @@ const Matches = () => {
                     game.decks &&
                     game.decks.length === 2
             )
-    }));
-
-    useEffect(() => {
-        dispatch(loadUserGames());
-    }, [dispatch]);
+    );
 
     const computeKeys = useCallback((player) => {
         if (player.keys === null || player.keys === undefined) {
@@ -62,7 +56,7 @@ const Matches = () => {
         }
     }, []);
 
-    if (apiLoading) {
+    if (isLoading) {
         return (
             <div>
                 <Trans>Loading matches from the server...</Trans>
@@ -70,8 +64,12 @@ const Matches = () => {
         );
     }
 
-    if (!apiSuccess) {
-        return <AlertPanel type='error' message={apiMessage} />;
+    if (error) {
+        return (
+            <AlertPanel type='error' title='' message={error.message || 'An error occurred'}>
+                {null}
+            </AlertPanel>
+        );
     }
 
     const rows = games

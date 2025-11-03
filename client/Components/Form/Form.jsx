@@ -1,98 +1,113 @@
 // @ts-nocheck
-import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import $ from 'jquery';
+import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
+import { useTranslation } from 'react-i18next';
+import { Formik } from 'formik';
+import * as yup from 'yup';
+import { Input } from '@heroui/react';
 import Button from '../HeroUI/Button';
-
-import Input from './Input.jsx';
 
 import formFields from './formFields.json';
 
-import { useTranslation } from 'react-i18next';
-
 const Form = ({ name, children, buttonClass, apiLoading, buttonText, onSubmit }) => {
     const { t } = useTranslation();
-    const [state, setState] = useState({});
-    const formRef = useRef(null);
-    const validatorRef = useRef(null);
+    const fields = formFields[name] || [];
 
-    useEffect(() => {
-        $.validator.unobtrusive.parse('form');
-        validatorRef.current = $('form').validate();
+    const initialValues = useMemo(() => {
+        const init = {};
+        fields.forEach((f) => {
+            init[f.name] = '';
+        });
+        return init;
+    }, [fields]);
 
-        return () => {
-            if (validatorRef.current) {
-                validatorRef.current.destroy();
+    const validationSchema = useMemo(() => {
+        const shape = {};
+        const fieldNames = fields.map((f) => f.name);
+        fields.forEach((f) => {
+            const vp = f.validationProperties || {};
+            let s = yup.string();
+            if (vp['data-val-required']) {
+                s = s.required(t(vp['data-val-required']));
             }
-        };
-    }, []);
-
-    const onChange = useCallback((field, event) => {
-        setState((prev) => ({ ...prev, [field]: event.target.value }));
-    }, []);
-
-    const translateValidationProps = useCallback(
-        (field) => {
-            let validationAttributes = {};
-            if (field.validationProperties) {
-                for (let key of Object.keys(field.validationProperties)) {
-                    if (
-                        key === 'data-val-required' ||
-                        key === 'data-val-length' ||
-                        key === 'data-val-equalto' ||
-                        key === 'data-val-regex'
-                    ) {
-                        validationAttributes[key] = t(field.validationProperties[key]);
-                    } else {
-                        validationAttributes[key] = field.validationProperties[key];
-                    }
+            if (vp['data-val-length-min']) {
+                const msg = vp['data-val-length'] ? t(vp['data-val-length']) : undefined;
+                s = s.min(vp['data-val-length-min'], msg);
+            }
+            if (vp['data-val-length-max']) {
+                const msg = vp['data-val-length'] ? t(vp['data-val-length']) : undefined;
+                s = s.max(vp['data-val-length-max'], msg);
+            }
+            if (vp['data-val-regex-pattern']) {
+                const msg = vp['data-val-regex'] ? t(vp['data-val-regex']) : undefined;
+                s = s.matches(new RegExp(vp['data-val-regex-pattern']), msg);
+            }
+            if (vp['data-val-equalto-other']) {
+                let other = vp['data-val-equalto-other'];
+                if (!fieldNames.includes(other)) {
+                    if (fieldNames.includes('newPassword')) other = 'newPassword';
                 }
+                const msg = vp['data-val-equalto'] ? t(vp['data-val-equalto']) : undefined;
+                s = s.oneOf([yup.ref(other)], msg);
             }
-            return validationAttributes;
-        },
-        [t]
-    );
-
-    const fieldsToRender = useMemo(() => {
-        return formFields[name].map((field) => (
-            <Input
-                key={field.name}
-                name={field.name}
-                label={t(field.label)}
-                placeholder={t(field.placeholder)}
-                validationAttributes={translateValidationProps(field)}
-                fieldClass={field.fieldClass}
-                labelClass={field.labelClass}
-                type={field.inputType}
-                onChange={(e) => onChange(field.name, e)}
-                value={state[field.name]}
-            />
-        ));
-    }, [name, state, t, translateValidationProps, onChange]);
-
-    const handleSubmit = useCallback(
-        (event) => {
-            event.preventDefault();
-            if (!$('form').valid()) return;
-            if (onSubmit) {
-                onSubmit(state);
-            }
-        },
-        [onSubmit, state]
-    );
+            shape[f.name] = s;
+        });
+        return yup.object(shape);
+    }, [fields, t]);
 
     return (
-        <form ref={formRef} className='form form-horizontal' onSubmit={handleSubmit}>
-            {fieldsToRender}
-            {children}
-            <div className='form-group'>
-                <div className={buttonClass || 'col-sm-offset-4 col-sm-3'}>
-                    <Button color='primary' type='submit' isLoading={apiLoading}>
-                        {t(buttonText) || t('Submit')}
-                    </Button>
-                </div>
-            </div>
-        </form>
+        <Formik
+            initialValues={initialValues}
+            validationSchema={validationSchema}
+            onSubmit={async (values, { setSubmitting }) => {
+                try {
+                    await onSubmit?.(values);
+                } finally {
+                    setSubmitting(false);
+                }
+            }}
+        >
+            {(formProps) => (
+                <form
+                    className='space-y-4'
+                    onSubmit={(event) => {
+                        event.preventDefault();
+                        formProps.handleSubmit(event);
+                    }}
+                >
+                    {fields.map((field) => {
+                        const vp = field.validationProperties || {};
+                        const maxLength = vp.maxLength;
+                        const name = field.name;
+                        const type = field.inputType === 'password' ? 'password' : 'text';
+                        const error = formProps.errors[name];
+                        const touched = formProps.touched[name];
+                        return (
+                            <div key={name} className='flex flex-col gap-1'>
+                                <Input
+                                    label={t(field.label)}
+                                    name={name}
+                                    type={type}
+                                    placeholder={t(field.placeholder)}
+                                    value={formProps.values[name]}
+                                    onChange={formProps.handleChange}
+                                    onBlur={formProps.handleBlur}
+                                    isInvalid={touched && !!error}
+                                    errorMessage={error}
+                                    maxLength={maxLength}
+                                />
+                            </div>
+                        );
+                    })}
+                    {children}
+                    <div className={buttonClass || ''}>
+                        <Button color='primary' type='submit' isLoading={apiLoading}>
+                            {t(buttonText) || t('Submit')}
+                        </Button>
+                    </div>
+                </form>
+            )}
+        </Formik>
     );
 };
 

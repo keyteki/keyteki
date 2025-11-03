@@ -1,47 +1,46 @@
+// @ts-nocheck
 import { connectLobby, authenticateSocket } from '.';
-import { Account } from '../types';
+import { api } from '../slices/apiSlice';
 
-export function registerAccount(user) {
-    return {
-        types: ['REGISTER_ACCOUNT', 'ACCOUNT_REGISTERED'],
-        shouldCallAPI: () => true,
-        APIParams: {
-            url: '/api/account/register',
-            type: 'POST',
-            data: JSON.stringify({
-                username: user.username,
-                password: user.password,
-                email: user.email
-            }),
-            contentType: 'application/json'
-        }
-    };
-}
+// Re-export RTK Query hooks
+export const {
+    useLoginMutation,
+    useLogoutMutation,
+    useForgotPasswordMutation,
+    useResetPasswordMutation,
+    useActivateAccountMutation,
+    useVerifyAuthMutation,
+    useLinkPatreonMutation,
+    useUnlinkPatreonMutation
+} = api;
+
+// Re-export auth and account actions from slices
+export { setAuthTokens, accountLoggedIn, accountLoggedOut } from '../slices/authSlice';
+export {
+    registerAccount,
+    accountRegistered,
+    resetPasswordAccount,
+    accountPasswordReset,
+    activateAccount,
+    accountActivated,
+    accountAuthVerified,
+    profileSaved,
+    accountLinkResponse,
+    clearLinkStatus,
+    accountUnlinked
+} from '../slices/accountSlice';
 
 export function loginAccount(auth) {
-    return {
-        types: ['LOGIN_ACCOUNT', 'ACCOUNT_LOGGEDIN'],
-        shouldCallAPI: () => true,
-        APIParams: {
-            url: '/api/account/login',
-            type: 'POST',
-            data: JSON.stringify({ username: auth.username, password: auth.password }),
-            contentType: 'application/json',
-            skipAuth: true
-        }
+    return (dispatch) => {
+        return dispatch(
+            api.endpoints.login.initiate({ username: auth.username, password: auth.password })
+        );
     };
 }
 
 export function logoutAccount(tokenId) {
-    return {
-        types: ['LOGOUT_ACCOUNT', 'ACCOUNT_LOGGEDOUT'],
-        shouldCallAPI: () => true,
-        APIParams: {
-            url: '/api/account/logout',
-            type: 'POST',
-            data: JSON.stringify({ tokenId: tokenId }),
-            contentType: 'application/json'
-        }
+    return (dispatch) => {
+        return dispatch(api.endpoints.logout.initiate({ tokenId }));
     };
 }
 
@@ -72,65 +71,31 @@ export function forgotPassword(details) {
     localStorage.removeItem('token');
     localStorage.removeItem('refreshToken');
 
-    return {
-        types: [Account.ForgotPasswordRequest, Account.ForgotPasswordResponse],
-        shouldCallAPI: () => true,
-        APIParams: {
-            url: '/api/account/password-reset',
-            type: 'POST',
-            data: JSON.stringify({ username: details.username, captcha: details.captcha }),
-            contentType: 'application/json'
-        }
+    return (dispatch) => {
+        return dispatch(
+            api.endpoints.forgotPassword.initiate({
+                username: details.username,
+                captcha: details.captcha
+            })
+        );
     };
 }
 
 export function resetPassword(details) {
-    return {
-        types: ['RESETPASSWORD_ACCOUNT', 'ACCOUNT_PASSWORDRESET'],
-        shouldCallAPI: () => true,
-        APIParams: {
-            url: '/api/account/password-reset-finish',
-            type: 'POST',
-            data: JSON.stringify({
+    return (dispatch) => {
+        return dispatch(
+            api.endpoints.resetPassword.initiate({
                 id: details.id,
                 token: details.token,
                 newPassword: details.newPassword
-            }),
-            contentType: 'application/json'
-        }
-    };
-}
-
-export function activateAccount(details) {
-    return {
-        types: [Account.ActivateAccount, Account.AccountActivated],
-        shouldCallAPI: () => true,
-        APIParams: {
-            url: '/api/account/activate',
-            type: 'POST',
-            data: JSON.stringify({ id: details.id, token: details.token }),
-            contentType: 'application/json'
-        }
-    };
-}
-
-export function setAuthTokens(token, refreshToken, user) {
-    return {
-        type: 'SET_AUTH_TOKENS',
-        token: token,
-        refreshToken: refreshToken,
-        user: user
+            })
+        );
     };
 }
 
 export function verifyAuthentication() {
-    return {
-        types: ['ACCOUNT_VERIFY_AUTH', 'ACCOUNT_AUTH_VERIFIED'],
-        shouldCallAPI: () => true,
-        APIParams: {
-            url: '/api/account/checkauth',
-            type: 'POST'
-        }
+    return (dispatch) => {
+        return dispatch(api.endpoints.verifyAuth.initiate());
     };
 }
 
@@ -143,32 +108,13 @@ export function authenticate() {
 }
 
 export function linkPatreon(code) {
-    return {
-        types: ['ACCOUNT_LINK_REQUEST', 'ACCOUNT_LINK_RESPONSE'],
-        shouldCallAPI: () => true,
-        APIParams: {
-            url: '/api/account/linkPatreon',
-            type: 'POST',
-            data: JSON.stringify({ code: code }),
-            contentType: 'application/json'
-        }
+    return (dispatch) => {
+        return dispatch(api.endpoints.linkPatreon.initiate({ code }));
     };
 }
 
 export function unlinkPatreon() {
-    return {
-        types: ['UNLINK_ACCOUNT', 'ACCOUNT_UNLINKED'],
-        shouldCallAPI: () => true,
-        APIParams: {
-            url: '/api/account/unlinkPatreon',
-            type: 'POST',
-            contentType: 'application/json'
-        }
-    };
-}
-
-export function clearLinkStatus() {
-    return {
-        type: 'CLEAR_LINK_STATUS'
+    return (dispatch) => {
+        return dispatch(api.endpoints.unlinkPatreon.initiate());
     };
 }

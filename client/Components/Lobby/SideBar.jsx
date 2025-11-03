@@ -4,8 +4,6 @@ import classNames from 'classnames';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimes, faBars } from '@fortawesome/free-solid-svg-icons';
 
-import './Sidebar.scss';
-
 /**
  * @typedef SidebarProps
  * @property {import('react').ReactNode | import('react').ReactNodeArray} [children]
@@ -18,20 +16,23 @@ import './Sidebar.scss';
 const SideBar = ({ children }) => {
     const [expanded, setExpanded] = useState(false);
 
-    let sidebarClass = classNames('sidebar', {
-        expanded: expanded,
-        collapsed: !expanded
-    });
+    const sidebarClass = classNames(
+        'absolute left-0 top-16 bottom-0 bg-slate-900 z-50 overflow-y-auto transition-all duration-500 ease-in-out',
+        expanded ? 'w-52' : 'w-10'
+    );
 
-    let burgerClass = classNames('btn-icon', {
-        'float-right': expanded
-    });
+    const linkClass = expanded ? 'text-red-500' : 'text-sky-500';
+    const burgerClass = expanded ? 'float-right' : '';
 
     let icon = expanded ? faTimes : faBars;
 
     return (
         <div className={sidebarClass}>
-            <a href='#' className={burgerClass} onClick={() => setExpanded(!expanded)}>
+            <a
+                href='#'
+                className={`${linkClass} ${burgerClass}`}
+                onClick={() => setExpanded(!expanded)}
+            >
                 <FontAwesomeIcon icon={icon} />
             </a>
             {expanded && children}

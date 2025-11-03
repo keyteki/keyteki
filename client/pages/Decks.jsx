@@ -1,5 +1,5 @@
 import React from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { Trans, useTranslation } from 'react-i18next';
 import Button from '../Components/HeroUI/Button';
 
@@ -7,25 +7,13 @@ import Panel from '../Components/Site/Panel';
 import Link from '../Components/Navigation/Link';
 import DeckList from '../Components/Decks/DeckList';
 import ViewDeck from '../Components/Decks/ViewDeck';
-import ApiStatus from '../Components/Site/ApiStatus';
-import { Decks } from '../redux/types';
-import { clearApiStatus } from '../redux/actions';
+import AlertPanel from '../Components/Site/AlertPanel';
+import { useDeleteDeckMutation } from '../redux/slices/apiSlice';
 
 const DecksComponent = () => {
     const { t } = useTranslation();
-    const dispatch = useDispatch();
-    const apiState = useSelector((state) => {
-        const retState = state.api[Decks.DeleteDeck];
-
-        if (retState && retState.success) {
-            retState.message = t('Deck deleted successfully');
-
-            setTimeout(() => {
-                dispatch(clearApiStatus(Decks.DeleteDeck));
-            }, 1000);
-        }
-
-        return retState;
+    const [, { isSuccess: deleteSuccess, reset: resetDelete }] = useDeleteDeckMutation({
+        fixedCacheKey: 'delete-deck'
     });
     const { selectedDeck } = useSelector((state) => ({
         selectedDeck: state.cards.selectedDeck
@@ -34,10 +22,16 @@ const DecksComponent = () => {
     return (
         <div className='full-height'>
             <div className='w-full'>
-                <ApiStatus
-                    state={apiState}
-                    onClose={() => dispatch(clearApiStatus(Decks.DeleteDeck))}
-                />
+                {deleteSuccess && (
+                    <AlertPanel
+                        type='success'
+                        title=''
+                        message={t('Deck deleted successfully')}
+                        onClose={resetDelete}
+                    >
+                        {null}
+                    </AlertPanel>
+                )}
             </div>
             <div className='grid grid-cols-1 lg:grid-cols-2 gap-4'>
                 <div className='full-height'>
