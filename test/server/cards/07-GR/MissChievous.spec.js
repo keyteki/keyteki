@@ -4,7 +4,7 @@ describe('Miss Chievous', function () {
             this.setupTest({
                 player1: {
                     house: 'geistoid',
-                    hand: ['echofly'],
+                    hand: ['echofly', 'infiltrator'],
                     inPlay: ['miss-chievous'],
                     discard: [
                         'ritual-of-balance',
@@ -60,6 +60,14 @@ describe('Miss Chievous', function () {
             expect(this.initiation.location).toBe('discard');
             expect(this.dustPixie.location).toBe('discard');
             expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+        });
+
+        it('treachery creatures will not trigger', function () {
+            this.player1.playCreature(this.infiltrator);
+            expect(this.gub.location).toBe('deck');
+            expect(this.keyToDis.location).toBe('deck');
+            expect(this.initiation.location).toBe('deck');
+            expect(this.dustPixie.location).toBe('deck');
         });
 
         it('plays topmost creature from discard on reap', function () {
