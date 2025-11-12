@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import Button from '../Components/HeroUI/Button';
 import { Textarea, Radio, RadioGroup } from '@heroui/react';
 import { useDispatch, useSelector } from 'react-redux';
-import { sendSocketMessage } from '../redux/actions/socket';
+import { sendSetMotd } from '../redux/slices/lobbySlice';
 
 import Panel from '../Components/Site/Panel';
 
@@ -51,7 +51,7 @@ const MotdAdmin = () => {
                             color='primary'
                             onPress={() =>
                                 dispatch(
-                                    sendSocketMessage('motd', {
+                                    sendSetMotd({
                                         message: motdText,
                                         motdType: motdType
                                     })

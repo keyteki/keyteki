@@ -1,7 +1,6 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { useSelector, useDispatch } from 'react-redux';
-import { bindActionCreators } from 'redux';
+import { useSelector } from 'react-redux';
 import classNames from 'classnames';
 import { useTranslation, Trans } from 'react-i18next';
 
@@ -15,7 +14,7 @@ import GameConfigurationModal from './GameConfigurationModal';
 import PlayerBoard from './PlayerBoard';
 import PlayerStats from './PlayerStats';
 import TimeLimitClock from './TimeLimitClock';
-import * as actions from '../../redux/actions';
+// Legacy actions import removed; no longer passing bound actions to children
 
 import './GameBoard.scss';
 
@@ -40,7 +39,7 @@ const placeholderPlayer = {
 
 const GameBoard = ({ navigate, sendGameMessage }) => {
     const { t, i18n } = useTranslation();
-    const dispatch = useDispatch();
+    // No dispatch needed here after removing bound legacy actions
 
     const cards = useSelector((state) => state.cards.cards);
     const currentGame = useSelector((state) => state.lobby.currentGame);
@@ -573,8 +572,6 @@ const GameBoard = ({ navigate, sendGameMessage }) => {
     thisPlayer = defaultPlayerInfo(thisPlayer);
     otherPlayer = defaultPlayerInfo(otherPlayer);
 
-    let boundActionCreators = bindActionCreators(actions, dispatch);
-
     let boardClass = classNames('game-board', {
         'select-cursor': thisPlayer && thisPlayer.selectCard
     });
@@ -665,7 +662,6 @@ const GameBoard = ({ navigate, sendGameMessage }) => {
                 </div>
             </div>
             <PlayerStats
-                {...boundActionCreators}
                 activeHouse={thisPlayer.activeHouse}
                 activePlayer={thisPlayer.activePlayer}
                 cardBack={

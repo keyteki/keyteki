@@ -9,7 +9,8 @@ import $ from 'jquery';
 import Panel from '../Site/Panel';
 import Messages from '../GameBoard/Messages';
 import SelectDeckModal from './SelectDeckModal';
-import { startGame, leaveGame, sendSocketMessage } from '../../redux/actions';
+import { sendStartGame, sendLeaveGame } from '../../redux/slices/lobbySlice';
+import { sendGetSealedDeck, sendChat, sendSelectDeck } from '../../redux/slices/lobbySlice';
 import PendingGamePlayers from './PendingGamePlayers';
 import GameTypeInfo from './GameTypeInfo';
 import { Constants } from '../../constants';
@@ -93,7 +94,7 @@ const PendingGame = () => {
 
     useEffect(() => {
         if (currentGame && currentGame.gameFormat === 'sealed') {
-            dispatch(sendSocketMessage('getsealeddeck', currentGame.id));
+            dispatch(sendGetSealedDeck(currentGame.id));
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
@@ -174,7 +175,7 @@ const PendingGame = () => {
             return;
         }
 
-        dispatch(sendSocketMessage('chat', message));
+        dispatch(sendChat(message));
 
         setMessage('');
     };
@@ -191,7 +192,7 @@ const PendingGame = () => {
                     isDisabled={!canClickStart()}
                     onPress={() => {
                         setWaiting(true);
-                        dispatch(startGame(currentGame.id));
+                        dispatch(sendStartGame(currentGame.id));
                     }}
                 >
                     <Trans>Start</Trans>
@@ -199,7 +200,7 @@ const PendingGame = () => {
                 <Button
                     color='primary'
                     onPress={() => {
-                        dispatch(leaveGame(currentGame.id));
+                        dispatch(sendLeaveGame(currentGame.id));
                     }}
                 >
                     <Trans>Leave</Trans>
@@ -276,12 +277,11 @@ const PendingGame = () => {
                     onDeckSelected={(deck) => {
                         setShowModal(false);
                         dispatch(
-                            sendSocketMessage(
-                                'selectdeck',
-                                currentGame.id,
-                                deck.id,
-                                deck.isStandalone
-                            )
+                            sendSelectDeck({
+                                gameId: currentGame.id,
+                                deckId: deck.id,
+                                isStandalone: deck.isStandalone
+                            })
                         );
                     }}
                 />

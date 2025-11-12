@@ -2,21 +2,24 @@ import React, { useEffect, useRef, useState, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import $ from 'jquery';
 import { useSelector, useDispatch } from 'react-redux';
+import { useTranslation } from 'react-i18next';
+import classNames from 'classnames';
+import * as Sentry from '@sentry/react';
 
 import { Constants } from './constants';
-import ErrorBoundary from './Components/Site/ErrorBoundary';
 import Navigation from './Components/Navigation/Navigation';
 import Router from './Router.jsx';
 import { tryParseJSON } from './util.jsx';
 import AlertPanel from './Components/Site/AlertPanel';
-import { setAuthTokens } from './redux/slices/authSlice';
-import { authenticate } from './redux/actions/account';
-import { connectLobby } from './redux/actions/socket';
-import { setWindowBlur } from './redux/actions/misc';
+import ErrorMessage from './Components/Site/ErrorMessage';
+import { setAuthTokens, setUser } from './redux/slices/authSlice';
+import { connectLobby } from './redux/slices/lobbySlice';
+import { windowBlur, windowFocus, sendAuthenticate } from './redux/slices/lobbySlice';
 import {
     useLoadCardsQuery,
     useLoadFactionsQuery,
-    useLoadStandaloneDecksQuery
+    useLoadStandaloneDecksQuery,
+    useVerifyAuthMutation
 } from './redux/slices/apiSlice';
 
 import Background from './assets/img/bgs/keyforge.png';
@@ -25,10 +28,11 @@ import MassMutationBg from './assets/img/bgs/massmutation.png';
 
 const Application = ({ navigate }) => {
     const dispatch = useDispatch();
+    const { t } = useTranslation();
 
     const currentGame = useSelector((state) => state.lobby.currentGame);
     const path = useSelector((state) => state.navigation.path);
-    const user = useSelector((state) => state.account.user);
+    const { user } = useSelector((state) => state.auth);
     const windowBlurred = useSelector((state) => state.lobby.windowBlurred);
 
     const [incompatibleBrowser, setIncompatibleBrowser] = useState(false);
@@ -38,6 +42,7 @@ const Application = ({ navigate }) => {
     useLoadCardsQuery(undefined);
     useLoadFactionsQuery(undefined);
     useLoadStandaloneDecksQuery(undefined);
+    const [verifyAuth] = useVerifyAuthMutation();
 
     const bgRef = useRef(null);
     const router = new Router();
@@ -66,7 +71,21 @@ const Application = ({ navigate }) => {
                     const parsedToken = tryParseJSON(refreshToken);
                     if (parsedToken) {
                         dispatch(setAuthTokens(token, parsedToken));
-                        dispatch(authenticate());
+                        // Verify current auth token and set user if returned
+                        (async () => {
+                            try {
+                                const res = await verifyAuth().unwrap();
+                                if (res && res.user) {
+                                    dispatch(setUser(res.user));
+                                }
+                            } catch (e) {
+                                // ignore, baseQueryWithReauth will handle 401 -> navigate('/login')
+                            }
+                        })();
+                        // Send authenticate to lobby with current token
+                        if (token) {
+                            dispatch(sendAuthenticate(token));
+                        }
                     }
                 }
             } catch (error) {
@@ -81,11 +100,15 @@ const Application = ({ navigate }) => {
         });
 
         dispatch(connectLobby());
-    }, [dispatch, navigate]);
+    }, [dispatch, navigate, verifyAuth]);
 
     const onFocusChange = useCallback(
         (event) => {
-            dispatch(setWindowBlur(event.type));
+            if (event.type === 'blur') {
+                dispatch(windowBlur());
+            } else {
+                dispatch(windowFocus());
+            }
         },
         [dispatch]
     );
@@ -194,6 +217,10 @@ const Application = ({ navigate }) => {
         bgRef.current.style.backgroundImage = `url('${Background}')`;
     }
 
+    const containerClass = classNames('container h-full relative z-0', {
+        'max-w-full': gameBoardVisible
+    });
+
     return (
         <>
             <Navigation appName='The Crucible Online' user={user} />
@@ -202,13 +229,18 @@ const Application = ({ navigate }) => {
                     className='absolute bottom-0 left-0 right-0 top-[3rem] bg-cover bg-center bg-no-repeat overflow-y-auto'
                     ref={bgRef}
                 >
-                    <ErrorBoundary
-                        navigate={navigate}
-                        errorPath={path}
-                        message={"We're sorry - something's gone wrong."}
+                    <Sentry.ErrorBoundary
+                        fallback={
+                            <ErrorMessage
+                                title={t('Unexpected Error')}
+                                message={t('Report has been automatically submitted')}
+                            />
+                        }
                     >
-                        {component}
-                    </ErrorBoundary>
+                        <div className='w-full h-full'>
+                            <div className={containerClass}>{component}</div>
+                        </div>
+                    </Sentry.ErrorBoundary>
                 </div>
             </main>
             <div className='keyforge-font' style={{ zIndex: -999 }}>

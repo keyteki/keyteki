@@ -128,6 +128,13 @@ export const Constants = {
     EnhancementBaseImages: {},
     MaverickHouseImages: {},
     MaverickHouseAmberImages: {},
+    ColorClassByRole: {
+        admin: 'text-red-500',
+        contributor: 'text-blue-400',
+        supporter: 'text-green-500',
+        winner: 'text-yellow-200',
+        previouswinner: 'text-pink-500'
+    },
     EnhancementPips: {
         amber: amberImg,
         capture: captureImg,

@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Dropdown, DropdownTrigger, DropdownMenu, DropdownItem } from '@heroui/react';
-import Button from '../HeroUI/Button';
+import NavItem from './NavItem';
 
 const languages = [
     {
@@ -68,9 +68,7 @@ const LanguageSelector = () => {
     return (
         <Dropdown placement='bottom-end'>
             <DropdownTrigger>
-                <Button variant='light' className='bg-transparent text-foreground'>
-                    {i18n.language}
-                </Button>
+                <NavItem className='flex gap-1'>{i18n.language}</NavItem>
             </DropdownTrigger>
             <DropdownMenu
                 aria-label='Language selector'

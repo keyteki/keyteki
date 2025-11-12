@@ -6,7 +6,7 @@ import { Provider } from 'react-redux';
 import { DndProvider } from 'react-dnd';
 import { TouchBackend } from 'react-dnd-touch-backend';
 import { HeroUIProvider } from '@heroui/react';
-import ReduxToastr from 'react-redux-toastr';
+import { ToastProvider } from '@heroui/toast';
 import $ from 'jquery';
 import 'jquery-validation';
 import 'jquery-validation-unobtrusive';
@@ -106,19 +106,10 @@ const AppContent = isProduction ? (
 
 root.render(
     <HeroUIProvider>
+        <ToastProvider placement='top-right' />
         <DndProvider backend={TouchBackend} options={{ enableMouseEvents: true }}>
             <Provider store={store}>
-                <div className='body'>
-                    <ReduxToastr
-                        timeOut={4000}
-                        newestOnTop
-                        preventDuplicates
-                        position='top-right'
-                        transitionIn='fadeIn'
-                        transitionOut='fadeOut'
-                    />
-                    {AppContent}
-                </div>
+                <div className='body'>{AppContent}</div>
             </Provider>
         </DndProvider>
     </HeroUIProvider>

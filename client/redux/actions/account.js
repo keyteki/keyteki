@@ -1,5 +1,5 @@
 // @ts-nocheck
-import { connectLobby, authenticateSocket } from '.';
+import { connectLobby, sendAuthenticate } from '../slices/lobbySlice';
 import { api } from '../slices/apiSlice';
 
 // Re-export RTK Query hooks
@@ -16,19 +16,6 @@ export const {
 
 // Re-export auth and account actions from slices
 export { setAuthTokens, accountLoggedIn, accountLoggedOut } from '../slices/authSlice';
-export {
-    registerAccount,
-    accountRegistered,
-    resetPasswordAccount,
-    accountPasswordReset,
-    activateAccount,
-    accountActivated,
-    accountAuthVerified,
-    profileSaved,
-    accountLinkResponse,
-    clearLinkStatus,
-    accountUnlinked
-} from '../slices/accountSlice';
 
 export function loginAccount(auth) {
     return (dispatch) => {
@@ -100,10 +87,13 @@ export function verifyAuthentication() {
 }
 
 export function authenticate() {
-    return (dispatch) => {
+    return (dispatch, getState) => {
         dispatch(verifyAuthentication());
 
-        return dispatch(authenticateSocket());
+        const state = getState();
+        if (state.auth.token) {
+            return dispatch(sendAuthenticate(state.auth.token));
+        }
     };
 }
 

@@ -12,7 +12,9 @@ import PasswordGame from './PasswordGame';
 import AlertPanel from '../Site/AlertPanel';
 import Panel from '../Site/Panel';
 import { useEffect } from 'react';
-import { startNewGame, joinPasswordGame, sendSocketMessage, setUrl } from '../../redux/actions';
+import { startNewGame, joinPasswordGame } from '../../redux/slices/lobbySlice';
+import { setUrl } from '../../redux/slices/navigationSlice';
+import { sendJoinGame, sendWatchGame } from '../../redux/slices/lobbySlice';
 import { useRef } from 'react';
 
 const GameLobby = ({ gameId }) => {
@@ -77,13 +79,13 @@ const GameLobby = ({ gameId }) => {
                     if (game.needsPassword) {
                         dispatch(joinPasswordGame(game, 'Join'));
                     } else {
-                        dispatch(sendSocketMessage('joingame', gameId));
+                        dispatch(sendJoinGame(gameId));
                     }
                 } else {
                     if (game.needsPassword) {
                         dispatch(joinPasswordGame(game, 'Watch'));
                     } else {
-                        dispatch(sendSocketMessage('watchgame', game.id));
+                        dispatch(sendWatchGame(game.id));
                     }
                 }
             }

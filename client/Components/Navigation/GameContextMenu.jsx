@@ -2,14 +2,14 @@ import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useTranslation, Trans } from 'react-i18next';
 import { toastr } from 'react-redux-toastr';
-import { sendGameMessage, closeGameSocket } from '../../redux/actions';
+import { sendGameMessage, closeGameSocket } from '../../redux/slices/gamesSlice';
 import { useState } from 'react';
 
 import './GameContextMenu.scss';
 
 const GameContextMenu = () => {
     const currentGame = useSelector((state) => state.lobby.currentGame);
-    const user = useSelector((state) => state.account.user);
+    const user = useSelector((state) => state.auth.user);
     const { t } = useTranslation();
     const dispatch = useDispatch();
     const [showPopup, setShowPopup] = useState(false);

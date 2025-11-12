@@ -9,7 +9,7 @@ import * as yup from 'yup';
 import { Trans, useTranslation } from 'react-i18next';
 
 import Panel from '../Components/Site/Panel';
-import { sendSocketMessage } from '../redux/actions/socket';
+import { sendAuthenticate } from '../redux/slices/lobbySlice';
 import {
     useLoadBlocklistQuery,
     useAddBlocklistEntryMutation,
@@ -57,7 +57,7 @@ const BlockList = () => {
                                     username: user.username,
                                     blockedUsername: username
                                 }).unwrap();
-                                dispatch(sendSocketMessage('authenticate', token));
+                                dispatch(sendAuthenticate(token));
                             } catch (err) {
                                 // Error handled by RTK Query
                             }

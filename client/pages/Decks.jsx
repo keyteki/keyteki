@@ -9,6 +9,7 @@ import DeckList from '../Components/Decks/DeckList';
 import ViewDeck from '../Components/Decks/ViewDeck';
 import AlertPanel from '../Components/Site/AlertPanel';
 import { useDeleteDeckMutation } from '../redux/slices/apiSlice';
+import Page from './Page';
 
 const DecksComponent = () => {
     const { t } = useTranslation();
@@ -20,7 +21,7 @@ const DecksComponent = () => {
     }));
 
     return (
-        <div className='full-height'>
+        <Page size='large'>
             <div className='w-full'>
                 {deleteSuccess && (
                     <AlertPanel
@@ -33,27 +34,23 @@ const DecksComponent = () => {
                     </AlertPanel>
                 )}
             </div>
-            <div className='grid grid-cols-1 lg:grid-cols-2 gap-4'>
-                <div className='full-height'>
-                    <Panel title={t('Your decks')}>
-                        <div className='text-center mb-4'>
-                            <Link href='/decks/import'>
-                                <Button color='primary'>
-                                    <Trans>Import Deck</Trans>
-                                </Button>
-                            </Link>
-                            <Link href='/decks/alliance' className='ml-2'>
-                                <Button color='primary'>
-                                    <Trans>Build Alliance Deck</Trans>
-                                </Button>
-                            </Link>
-                        </div>
-                        <DeckList />
-                    </Panel>
+            <Panel className='w-1/2' title={t('Your decks')}>
+                <div className='text-center mb-4'>
+                    <Link href='/decks/import'>
+                        <Button color='primary'>
+                            <Trans>Import Deck</Trans>
+                        </Button>
+                    </Link>
+                    <Link href='/decks/alliance' className='ml-2'>
+                        <Button color='primary'>
+                            <Trans>Build Alliance Deck</Trans>
+                        </Button>
+                    </Link>
                 </div>
-                <div>{selectedDeck && <ViewDeck deck={selectedDeck} />}</div>
-            </div>
-        </div>
+                <DeckList />
+            </Panel>
+            <div>{selectedDeck && <ViewDeck deck={selectedDeck} />}</div>
+        </Page>
     );
 };
 

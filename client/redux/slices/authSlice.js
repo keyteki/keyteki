@@ -1,59 +1,77 @@
 import { createSlice } from '@reduxjs/toolkit';
 
+const initialState = {
+    token: undefined,
+    refreshToken: undefined,
+    user: undefined,
+    username: undefined
+};
+
 const authSlice = createSlice({
     name: 'auth',
-    initialState: {
-        token: undefined,
-        refreshToken: undefined,
-        user: undefined
-    },
-    reducers: {
-        setAuthTokens: {
-            reducer(state, action) {
-                const { token, refreshToken, user } = action.payload;
-                localStorage.setItem('token', token);
-                if (refreshToken) {
-                    localStorage.setItem('refreshToken', JSON.stringify(refreshToken));
-                }
-                state.token = token;
-                state.refreshToken = refreshToken;
-                if (user) {
-                    state.user = user;
-                }
+    initialState,
+    reducers: (create) => ({
+        profileSaved(state, action) {
+            state.token = action.payload.response.token;
+        },
+        blocklistAdded(state, action) {
+            state.user = action.payload.response.user;
+            state.username = action.payload.response.user.username;
+        },
+        blocklistDeleted(state, action) {
+            state.user = action.payload.response.user;
+            state.username = action.payload.response.user.username;
+        },
+        accountLoggedIn: create.preparedReducer(
+            (user, token, refreshToken) => {
+                return { payload: { user, token, refreshToken } };
             },
-            prepare(token, refreshToken, user) {
-                return { payload: { token, refreshToken, user } };
+            (state, action) => {
+                localStorage.setItem('token', action.payload.token);
+                localStorage.setItem('refreshToken', JSON.stringify(action.payload.refreshToken));
+
+                state.token = action.payload.token;
+                state.refreshToken = action.payload.refreshToken;
+                state.user = action.payload.user;
             }
-        },
-        accountLoggedIn(state, action) {
-            const { token, refreshToken } = action.payload.response;
-            localStorage.setItem('token', token);
-            localStorage.setItem('refreshToken', JSON.stringify(refreshToken));
-            state.token = token;
-            state.refreshToken = refreshToken;
-        },
+        ),
         accountLoggedOut(state) {
             localStorage.removeItem('token');
             localStorage.removeItem('refreshToken');
             state.token = undefined;
             state.refreshToken = undefined;
+            state.user = undefined;
         },
-        profileSaved(state, action) {
-            state.token = action.payload.response.token;
-        },
-        blocklistUpdated(state, action) {
-            state.user = action.payload.response.user;
-            state.username = action.payload.response.user.username;
+        setAuthTokens: create.preparedReducer(
+            (token, refreshToken) => {
+                return { payload: { token, refreshToken } };
+            },
+            (state, action) => {
+                localStorage.setItem('token', action.payload.token);
+                if (action.payload.refreshToken) {
+                    localStorage.setItem(
+                        'refreshToken',
+                        JSON.stringify(action.payload.refreshToken)
+                    );
+                }
+                state.token = action.payload.token;
+                state.refreshToken = action.payload.refreshToken;
+            }
+        ),
+        setUser(state, action) {
+            state.user = action.payload;
         }
-    }
+    })
 });
 
 export const {
-    setAuthTokens,
+    profileSaved,
+    blocklistAdded,
+    blocklistDeleted,
     accountLoggedIn,
     accountLoggedOut,
-    profileSaved,
-    blocklistUpdated
+    setAuthTokens,
+    setUser
 } = authSlice.actions;
 
 export default authSlice.reducer;

@@ -1,4 +1,4 @@
-import React, { useMemo, useEffect } from 'react';
+import React, { useMemo } from 'react';
 import moment from 'moment';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
@@ -10,83 +10,13 @@ import ReactTable from '../Table/ReactTable';
 import CardBack from './CardBack.jsx';
 import DeckStatus from './DeckStatus';
 import { Constants } from '../../constants';
-import { loadDecks, loadStandaloneDecks, selectDeck } from '../../redux/actions/deck';
+import { useLoadDecksQuery, useLoadStandaloneDecksQuery } from '../../redux/slices/apiSlice';
+import { selectDeckReducer } from '../../redux/slices/cardsSlice';
 
-/**
- * @typedef CardLanguage
- * @property {string} name
- */
-
-/**
- * @typedef Card
- * @property {string} id
- * @property {string} name
- * @property {string} type
- * @property {string} house
- * @property {string} rarity
- * @property {string} number
- * @property {string} image
- * @property {number} amber
- * @property {number} [armor]
- * @property {number} power
- * @property {number} expansion
- * @property {string} packCode
- * @property {string[]} traits
- * @property {string[]} keywords
- * @property {{[key: string]: CardLanguage}} locale
- */
-
-/**
- * @typedef DeckCard
- * @property {number} count
- * @property {string} id
- * @property {Card} card
- */
-
-/**
- * @typedef Deck
- * @property {number} id The database id of the deck
- * @property {string} name The name of the deck
- * @property {string[]} houses The houses in the deck
- * @property {Date} lastUpdated The date the deck was last saved
- * @property {DeckCard[]} cards The cards in the deck along with how many of each card
- * @property {number} expansion The expansion number
- * @property {string} losses The number of losses this deck has had
- * @property {string} username The owner of this deck
- * @property {string} uuid The unique identifier of the deck
- * @property {number} wins The number of wins this deck has had
- * @property {number} winRate The win rate of the deck
- * @property {number} usageLevel The usage level of the deck
- */
-
-/**
- * @typedef DeckListProps
- * @property {Deck} [activeDeck] The currently selected deck
- * @property {boolean} [noFilter] Whether or not to enable filtering
- * @property {function(Deck): void} [onDeckSelected] Callback fired when a deck is selected
- * @property {boolean} [standaloneDecks] Only load the standalong decks rather than the user decks
- */
-
-/**
- * @typedef PagingDetails
- * @property {number} page
- * @property {number} sizePerPage
- * @property {string} sortField
- * @property {string} sortOrder
- * @property {{ [key: string]: { filterVal: string; }; }} filters
- * @property {Expansion[]} expansions
- */
-
-/**
- * @param {DeckListProps} props
- */
 const DeckList = ({ deckFilter, onDeckSelected, standaloneDecks = false }) => {
     const { t } = useTranslation();
     const dispatch = useDispatch();
-    const decks = useSelector((state) =>
-        standaloneDecks ? state.cards.standaloneDecks : state.cards.decks
-    );
-    const numDecks = useSelector((state) => state.cards.numDecks);
+    // Selection state remains in cards slice, but data comes from RTK Query
     const selectedDeck = useSelector((state) =>
         standaloneDecks ? null : state.cards.selectedDeck
     );
@@ -94,58 +24,62 @@ const DeckList = ({ deckFilter, onDeckSelected, standaloneDecks = false }) => {
     const useDecksDataLoad = (opts) => {
         const { pageIndex = 0, pageSize = 10, sorting, columnFilters } = opts || {};
 
+        // Build query params for RTK Query
         const deckFilterKey = JSON.stringify(deckFilter || {});
-
-        const pagingDetails = useMemo(() => {
-            const pd = {
+        const queryParams = useMemo(() => {
+            const params = {
                 pageSize: pageSize,
                 page: pageIndex + 1,
                 sort: sorting && sorting[0] ? sorting[0].id : 'lastUpdated',
-                sortDir: sorting && sorting[0] && sorting[0].desc ? 'desc' : 'asc',
-                filter: []
+                sortDir: sorting && sorting[0] && sorting[0].desc ? 'desc' : 'asc'
             };
 
+            const filters = [];
             if (columnFilters && columnFilters.length > 0) {
-                pd.filter = columnFilters.map((f) => ({
-                    name: f.id,
-                    value: f.value
-                }));
+                for (const f of columnFilters) {
+                    filters.push({ name: f.id, value: f.value });
+                }
             }
-
             const df = deckFilterKey ? JSON.parse(deckFilterKey) : null;
             if (df) {
                 for (const [k, v] of Object.entries(df)) {
-                    pd.filter.push({ name: k, value: v });
+                    filters.push({ name: k, value: v });
                 }
             }
-
-            return pd;
+            if (filters.length > 0) {
+                params.filter = filters;
+            }
+            return params;
         }, [pageIndex, pageSize, sorting, columnFilters, deckFilterKey]);
 
-        useEffect(() => {
-            if (standaloneDecks) {
-                dispatch(loadStandaloneDecks());
-            } else {
-                dispatch(loadDecks(pagingDetails));
-            }
-        }, [pagingDetails]);
+        // Invoke appropriate query hook with params
+        const standaloneQueryResult = useLoadStandaloneDecksQuery(undefined, {
+            skip: !standaloneDecks,
+            refetchOnMountOrArgChange: true
+        });
+        const regularDecksQueryResult = useLoadDecksQuery(queryParams, {
+            skip: standaloneDecks,
+            refetchOnMountOrArgChange: true
+        });
 
-        const refetch = useMemo(
-            () => () => {
-                if (standaloneDecks) {
-                    dispatch(loadStandaloneDecks());
-                } else {
-                    dispatch(loadDecks(pagingDetails));
-                }
-            },
-            [pagingDetails]
-        );
+        // Use the appropriate query result based on standaloneDecks flag
+        const queryResult = standaloneDecks ? standaloneQueryResult : regularDecksQueryResult;
 
+        // Adapt to ReactTable expected shape
         return {
-            data: { data: decks || [], totalCount: numDecks || 0 },
-            isLoading: false,
-            isError: false,
-            refetch
+            data: {
+                data:
+                    (standaloneDecks
+                        ? queryResult.data || []
+                        : queryResult.data?.decks || queryResult.data || []) ?? [],
+                totalCount:
+                    (standaloneDecks
+                        ? queryResult.data?.length || 0
+                        : queryResult.data?.numDecks || 0) ?? 0
+            },
+            isLoading: queryResult.isLoading,
+            isError: !!queryResult.error,
+            refetch: queryResult.refetch
         };
     };
 
@@ -177,7 +111,6 @@ const DeckList = ({ deckFilter, onDeckSelected, standaloneDecks = false }) => {
             <DeckStatus status={info.row.original.status} />
         </div>
     );
-
     const ExpansionGroupingFilter = ({ table, close }) => {
         const column = table.getColumn('expansion');
         const current = column.getFilterValue() || [];
@@ -301,7 +234,7 @@ const DeckList = ({ deckFilter, onDeckSelected, standaloneDecks = false }) => {
                 onRowSelectionChange={(rows) => {
                     const deck = rows[0]?.original;
                     if (deck) {
-                        dispatch(selectDeck(deck));
+                        dispatch(selectDeckReducer(deck));
                     }
                 }}
             />

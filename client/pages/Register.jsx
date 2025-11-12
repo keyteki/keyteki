@@ -10,7 +10,7 @@ import Panel from '../Components/Site/Panel.jsx';
 import Link from '../Components/Navigation/Link.jsx';
 import Button from '../Components/HeroUI/Button';
 
-import { navigate } from '../redux/actions';
+import { navigate } from '../redux/slices/navigationSlice';
 import { useRegisterMutation } from '../redux/slices/apiSlice';
 
 const Register = () => {

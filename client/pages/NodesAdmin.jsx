@@ -3,20 +3,20 @@ import { useDispatch, useSelector } from 'react-redux';
 import Button from '../Components/HeroUI/Button';
 
 import Panel from '../Components/Site/Panel';
-import { sendSocketMessage } from '../redux/actions/socket';
+import { sendGetNodeStatus, sendToggleNode, sendRestartNode } from '../redux/slices/lobbySlice';
 
 const NodeAdmin = () => {
     const dispatch = useDispatch();
     const nodeStatus = useSelector((state) => state.admin.nodeStatus);
 
     useEffect(() => {
-        dispatch(sendSocketMessage('getnodestatus'));
+        dispatch(sendGetNodeStatus());
     }, [dispatch]);
 
     const onToggleNodeClick = useCallback(
         (node, event) => {
             event.preventDefault();
-            dispatch(sendSocketMessage('togglenode', node.name));
+            dispatch(sendToggleNode(node.name));
         },
         [dispatch]
     );
@@ -24,7 +24,7 @@ const NodeAdmin = () => {
     const onRefreshClick = useCallback(
         (event) => {
             event.preventDefault();
-            dispatch(sendSocketMessage('getnodestatus'));
+            dispatch(sendGetNodeStatus());
         },
         [dispatch]
     );
@@ -32,7 +32,7 @@ const NodeAdmin = () => {
     const onRestartNodeClick = useCallback(
         (node, event) => {
             event.preventDefault();
-            dispatch(sendSocketMessage('restartnode', node.name));
+            dispatch(sendRestartNode(node.name));
         },
         [dispatch]
     );

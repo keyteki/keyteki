@@ -7,7 +7,8 @@ import Panel from '../Site/Panel';
 import { Trans, useTranslation } from 'react-i18next';
 import { useState } from 'react';
 import Button from '../HeroUI/Button';
-import { cancelPasswordJoin, sendSocketMessage } from '../../redux/actions';
+import { cancelPasswordJoin } from '../../redux/slices/lobbySlice';
+import { sendPasswordJoinGame } from '../../redux/slices/lobbySlice';
 
 const PasswordGame = () => {
     const { t } = useTranslation();
@@ -43,11 +44,11 @@ const PasswordGame = () => {
                         color='primary'
                         onPress={() => {
                             dispatch(
-                                sendSocketMessage(
-                                    passwordJoinType === 'Join' ? 'joingame' : 'watchgame',
-                                    passwordGame.id,
-                                    password
-                                )
+                                sendPasswordJoinGame({
+                                    gameId: passwordGame.id,
+                                    password: password,
+                                    joinType: passwordJoinType === 'Join' ? 'joingame' : 'watchgame'
+                                })
                             );
                         }}
                     >

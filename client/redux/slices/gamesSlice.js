@@ -45,6 +45,14 @@ const gamesSlice = createSlice({
         },
         gameSocketResponseTimeReceived: (state, action) => {
             state.responseTime = action.payload;
+        },
+        // Action to initiate game socket connection - actual connection handled by middleware
+        connectGameSocket: () => {
+            // Connection establishment handled by gameSocketMiddleware
+        },
+        // Action to close game socket - actual closing handled by middleware
+        closeGameSocket: () => {
+            // Socket closing handled by gameSocketMiddleware
         }
     }
 });
@@ -59,7 +67,16 @@ export const {
     gameSocketClosed,
     handoffReceived,
     receiveUserGames,
-    gameSocketResponseTimeReceived
+    gameSocketResponseTimeReceived,
+    connectGameSocket,
+    closeGameSocket
 } = gamesSlice.actions;
+
+// Custom action creator for sendGameMessage that matches the old signature
+// Usage: dispatch(sendGameMessage('concede')) or dispatch(sendGameMessage('drop', uuid, source, target))
+export const sendGameMessage = (message, ...args) => ({
+    type: 'games/sendGameMessage',
+    payload: { message, args }
+});
 
 export default gamesSlice.reducer;

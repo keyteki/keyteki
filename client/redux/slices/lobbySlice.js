@@ -5,7 +5,8 @@ const defaultState = {
     games: [],
     users: [],
     messages: [],
-    windowBlurred: false
+    windowBlurred: false,
+    nodeStatus: null
 };
 
 const lobbySlice = createSlice({
@@ -29,6 +30,10 @@ const lobbySlice = createSlice({
             state.connected = false;
             state.connecting = true;
         },
+        nodeStatusReceived: (state, action) => {
+            state.nodeStatus = action.payload;
+        },
+        connectLobby: () => {},
         lobbyMessageReceived: (state, action) => {
             const { message, args } = action.payload;
             handleMessage(state, message, args);
@@ -54,11 +59,7 @@ const lobbySlice = createSlice({
         gameSocketDisconnected: (state) => {
             state.rootState = undefined;
         },
-        profileSavedLobby: (state, action) => {
-            if (state.socket) {
-                state.socket.emit('authenticate', action.payload);
-            }
-        },
+        profileSavedLobby: () => {},
         gameStarting: (state) => {
             state.gameError = undefined;
         },
@@ -86,7 +87,27 @@ const lobbySlice = createSlice({
         },
         setRootState: (state, action) => {
             state.rootState = action.payload;
-        }
+        },
+        sendLobbyChat: () => {},
+        sendAuthenticate: () => {},
+        sendGetNodeStatus: () => {},
+        sendToggleNode: () => {},
+        sendRestartNode: () => {},
+        sendSetMotd: () => {},
+        sendJoinGame: () => {},
+        sendWatchGame: () => {},
+        sendLeaveGame: () => {},
+        sendStartGame: (state) => {
+            state.gameError = undefined;
+        },
+        sendSelectDeck: () => {},
+        sendNewGame: () => {},
+        sendChatReadAcknowledge: () => {},
+        sendRemoveGame: () => {},
+        sendPasswordJoinGame: () => {},
+        sendChat: () => {},
+        sendGetSealedDeck: () => {},
+        sendClearUserSessions: () => {}
     }
 });
 
@@ -212,6 +233,8 @@ export const {
     lobbyConnected,
     lobbyDisconnected,
     lobbyReconnecting,
+    nodeStatusReceived,
+    connectLobby,
     lobbyMessageReceived,
     lobbyMessageDeleted,
     joinPasswordGame,
@@ -227,7 +250,26 @@ export const {
     windowBlur,
     windowFocus,
     responseTimeReceived,
-    setRootState
+    setRootState,
+    // Socket message senders
+    sendLobbyChat,
+    sendAuthenticate,
+    sendGetNodeStatus,
+    sendToggleNode,
+    sendRestartNode,
+    sendSetMotd,
+    sendJoinGame,
+    sendWatchGame,
+    sendLeaveGame,
+    sendStartGame,
+    sendSelectDeck,
+    sendNewGame,
+    sendChatReadAcknowledge,
+    sendRemoveGame,
+    sendPasswordJoinGame,
+    sendChat,
+    sendGetSealedDeck,
+    sendClearUserSessions
 } = lobbySlice.actions;
 
 export default lobbySlice.reducer;

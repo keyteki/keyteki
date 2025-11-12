@@ -81,7 +81,7 @@ const initialValues = {
  */
 const Profile = ({ onSubmit, isLoading }) => {
     const { t } = useTranslation();
-    const user = useSelector((state) => state.account.user);
+    const user = useSelector((state) => state.auth.user);
     const [localBackground, setBackground] = useState(user?.settings.background);
     const [localCardSize, setCardSize] = useState(user?.settings.cardSize);
     const [customBg, setCustomBg] = useState(null);

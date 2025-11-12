@@ -1,37 +1,43 @@
-import React from 'react';
+import React, { forwardRef } from 'react';
+import classNames from 'classnames';
 
 import { Card, CardHeader, CardBody } from '@heroui/react';
 
-/**
- * @typedef PanelProps
- * @property {import('react').ReactNode | import('react').ReactNodeArray} [children]
- * @property {string} [className]
- * @property {string} [title]
- * @property {string} [titleClass]
- */
+export const PanelType = Object.freeze({
+    Default: 'default',
+    Primary: 'primary',
+    Info: 'info',
+    Warning: 'warning',
+    Danger: 'danger'
+});
 
-/**
- * @param {PanelProps} props
- */
-const Panel = ({ title, titleClass, className, children }) => {
-    const panelClass = `${className || ''}`;
+const Panel = forwardRef(function Panel(
+    { className, type = PanelType.Primary, title, children },
+    ref
+) {
+    let border = 'border-default';
+    if (type === PanelType.Primary) {
+        border = 'border-primary';
+    } else if (type === PanelType.Info) {
+        border = 'border-info';
+    } else if (type === PanelType.Warning) {
+        border = 'border-warning';
+    } else if (type === PanelType.Danger) {
+        border = 'border-danger';
+    }
 
+    const cardClass = classNames('shadow-lg border-2 bg-black/65 h-full', className, border);
+    const titleClass = classNames(
+        'justify-center rounded-none font-bold',
+        `bg-${type} panel-texture-primary`
+    );
     return (
-        <Card
-            className={`${panelClass} bg-black/80 shadow-[3px_3px_5px_#371c1c] font-[Keyforge,_Helvetica,_sans-serif]`}
-            radius='sm'
-            shadow='sm'
-        >
-            {title && (
-                <CardHeader
-                    className={`text-center text-white panel-texture-primary ${titleClass || ''}`}
-                >
-                    {title}
-                </CardHeader>
-            )}
+        <Card className={cardClass} classNames={{ body: 'h-full overflow-y-auto' }} ref={ref}>
+            {title && <CardHeader className={titleClass}>{title}</CardHeader>}
+
             <CardBody>{children}</CardBody>
         </Card>
     );
-};
+});
 
 export default Panel;

@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
-import { navigate } from '../../redux/actions';
+import { navigate } from '../../redux/slices/navigationSlice';
 
 /**
  * @param {Object} props

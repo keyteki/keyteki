@@ -1,9 +1,8 @@
-// @ts-nocheck
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { setAuthTokens } from './authSlice';
 import { navigate } from './navigationSlice';
+import { sendAuthenticate } from './lobbySlice';
 
-// Base query with automatic token refresh
 const baseQuery = fetchBaseQuery({
     baseUrl: '/api',
     prepareHeaders: (headers, { getState }) => {
@@ -18,8 +17,7 @@ const baseQuery = fetchBaseQuery({
 const baseQueryWithReauth = async (args, api, extraOptions) => {
     let result = await baseQuery(args, api, extraOptions);
 
-    if (result.error && result.error.status === 401) {
-        // Try to refresh the token
+    if (result.error && result.error.originalStatus === 401) {
         const refreshToken = api.getState().auth.refreshToken;
 
         if (refreshToken) {
@@ -34,14 +32,14 @@ const baseQueryWithReauth = async (args, api, extraOptions) => {
             );
 
             if (refreshResult.data?.success) {
-                // Store the new token
                 const { token, user } = refreshResult.data;
                 api.dispatch(setAuthTokens(token, refreshToken, user));
 
-                // Retry the original query with new token
+                // Re-authenticate with lobby using the new token
+                api.dispatch(sendAuthenticate(token));
+
                 result = await baseQuery(args, api, extraOptions);
             } else {
-                // Refresh failed, redirect to login
                 api.dispatch(navigate('/login'));
             }
         } else {
@@ -71,7 +69,6 @@ export const api = createApi({
         'Factions'
     ],
     endpoints: (builder) => ({
-        // Account endpoints
         register: builder.mutation({
             query: (user) => ({
                 url: '/account/register',
@@ -133,8 +130,6 @@ export const api = createApi({
                 method: 'POST'
             })
         }),
-
-        // User profile endpoints
         saveProfile: builder.mutation({
             query: ({ username, details }) => ({
                 url: `/account/${username}`,
@@ -173,8 +168,6 @@ export const api = createApi({
             }),
             invalidatesTags: ['Blocklist']
         }),
-
-        // Deck endpoints
         loadDecks: builder.query({
             query: (options = {}) => ({
                 url: '/decks',
@@ -217,8 +210,6 @@ export const api = createApi({
             }),
             invalidatesTags: (result, error, { deckId }) => [{ type: 'Deck', id: deckId }]
         }),
-
-        // Admin deck verification endpoints
         verifyDeck: builder.mutation({
             query: (deckId) => ({
                 url: `/decks/${deckId}/verify`,
@@ -233,8 +224,6 @@ export const api = createApi({
             }),
             invalidatesTags: ['Decks']
         }),
-
-        // Challonge endpoints
         loadChallongeTournaments: builder.query({
             query: () => '/challonge/tournaments',
             providesTags: ['Challonge']
@@ -260,8 +249,6 @@ export const api = createApi({
                 body: attachments
             })
         }),
-
-        // Cards and reference data endpoints
         loadCards: builder.query({
             query: () => '/cards',
             providesTags: ['Cards']
@@ -275,14 +262,10 @@ export const api = createApi({
             query: () => '/standalone-decks',
             providesTags: ['StandaloneDecks']
         }),
-
-        // Game endpoints
         loadUserGames: builder.query({
             query: () => '/games',
             providesTags: ['Games']
         }),
-
-        // News endpoints
         loadNews: builder.query({
             query: () => '/news',
             providesTags: ['News']
@@ -310,16 +293,12 @@ export const api = createApi({
             }),
             invalidatesTags: ['News']
         }),
-
-        // Lobby endpoints
         removeLobbyMessage: builder.mutation({
             query: (messageId) => ({
                 url: `/messages/${messageId}`,
                 method: 'DELETE'
             })
         }),
-
-        // Admin endpoints
         findUser: builder.mutation({
             query: ({ username }) => ({
                 url: `/account/find/${username}`,
@@ -356,9 +335,7 @@ export const api = createApi({
     })
 });
 
-// Export hooks for usage in components
 export const {
-    // Account
     useRegisterMutation,
     useLoginMutation,
     useLogoutMutation,
@@ -368,16 +345,12 @@ export const {
     useVerifyAuthMutation,
     useLinkPatreonMutation,
     useUnlinkPatreonMutation,
-
-    // User profile
     useSaveProfileMutation,
     useLoadActiveSessionsQuery,
     useRemoveSessionMutation,
     useLoadBlocklistQuery,
     useAddBlocklistEntryMutation,
     useRemoveBlocklistEntryMutation,
-
-    // Decks
     useLoadDecksQuery,
     useLoadDeckQuery,
     useSaveDeckMutation,
@@ -385,37 +358,23 @@ export const {
     useDeleteDeckMutation,
     useLoadStandaloneDecksQuery,
     useSaveProphecyAssignmentsMutation,
-
-    // Games
     useLoadUserGamesQuery,
-
-    // News
     useLoadNewsQuery,
     useAddNewsMutation,
     useSaveNewsMutation,
     useDeleteNewsMutation,
-
-    // Admin
     useFindUserMutation,
     useSaveUserMutation,
     useLoadBanlistQuery,
     useAddBanlistMutation,
     useDeleteBanlistMutation,
-
-    // Challonge
     useLoadChallongeTournamentsQuery,
     useLoadChallongeFullTournamentMutation,
     useLoadChallongeMatchesMutation,
     useAttachChallongeMatchLinkMutation,
-
-    // Cards and reference data
     useLoadCardsQuery,
     useLoadFactionsQuery,
-
-    // Lobby
     useRemoveLobbyMessageMutation,
-
-    // Admin deck operations
     useVerifyDeckMutation,
     useVerifyAllDecksMutation
 } = api;

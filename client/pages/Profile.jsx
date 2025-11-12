@@ -8,7 +8,7 @@ import AlertPanel, { AlertType } from '../Components/Site/AlertPanel';
 
 const ProfileContainer = () => {
     const { t } = useTranslation();
-    const user = useSelector((state) => state.account.user);
+    const user = useSelector((state) => state.auth.user);
     const [saveProfile, { isLoading, isSuccess, reset }] = useSaveProfileMutation();
 
     if (!user) {

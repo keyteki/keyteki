@@ -1,14 +1,13 @@
 import React from 'react';
 import { Spinner } from '@heroui/react';
+import classNames from 'classnames';
 
-const LoadingSpinner = ({ label }) => {
+function LoadingSpinner({ label = 'Loading...', color = 'white', className, ...props }) {
     return (
-        <div className='flex items-center justify-center py-4 gap-2'>
-            <Spinner size='sm' />
-            {label && <span className='text-sm text-foreground-500'>{label}</span>}
+        <div className={classNames(className, 'flex justify-center items-center h-full')}>
+            <Spinner {...props} label={label} color={color} />
         </div>
     );
-};
+}
 
-LoadingSpinner.displayName = 'LoadingSpinner';
 export default LoadingSpinner;

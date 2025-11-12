@@ -1,7 +1,7 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
-import { sendGameMessage } from '../../redux/actions';
+import { sendGameMessage } from '../../redux/slices/gamesSlice';
 import { toastr } from 'react-redux-toastr';
 import classNames from 'classnames';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';

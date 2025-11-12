@@ -1,6 +1,6 @@
 import React, { forwardRef, useCallback } from 'react';
 import { useDispatch } from 'react-redux';
-import { navigate } from '../../redux/actions';
+import { navigate } from '../../redux/slices/navigationSlice';
 
 const NavigationLink = forwardRef(function NavigationLink({ href, className, children }, ref) {
     const dispatch = useDispatch();

@@ -11,7 +11,7 @@ import AlertPanel from '../Site/AlertPanel';
 import GameOptions from './GameOptions';
 import GameFormats from './GameFormats';
 import GameTypes from './GameTypes';
-import { cancelNewGame, sendSocketMessage } from '../../redux/actions';
+import { cancelNewGame, sendNewGame } from '../../redux/slices/lobbySlice';
 
 const GameNameMaxLength = 64;
 
@@ -93,7 +93,7 @@ const NewGame = ({
                     if (tournament) {
                         for (let match of matches) {
                             dispatch(
-                                sendSocketMessage('newgame', {
+                                sendNewGame({
                                     ...values,
                                     expansions: {
                                         aoa: values.aoa,
@@ -128,7 +128,7 @@ const NewGame = ({
                         };
                         values.quickJoin = quickJoin;
 
-                        dispatch(sendSocketMessage('newgame', values));
+                        dispatch(sendNewGame(values));
                     }
                 }}
                 initialValues={initialValues}

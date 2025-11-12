@@ -11,8 +11,7 @@ import {
 import Button from '../HeroUI/Button';
 import DeckSummary from './DeckSummary';
 import Panel from '../Site/Panel';
-import { deleteDeck } from '../../redux/actions/deck';
-import { useDispatch } from 'react-redux';
+import { useDeleteDeckMutation } from '../../redux/slices/apiSlice';
 
 /**
  * @typedef ViewDeckProps
@@ -23,11 +22,13 @@ import { useDispatch } from 'react-redux';
  * @param {ViewDeckProps} props
  */
 const ViewDeck = ({ deck }) => {
-    const dispatch = useDispatch();
+    const [deleteDeckMutation] = useDeleteDeckMutation();
     const [isConfirmOpen, setConfirmOpen] = useState(false);
 
     const handleDeleteClick = () => {
-        dispatch(deleteDeck(deck));
+        if (deck?.id) {
+            deleteDeckMutation(deck.id);
+        }
     };
 
     return (

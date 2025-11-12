@@ -10,7 +10,7 @@ import AlertPanel from '../Components/Site/AlertPanel';
 import { Formik } from 'formik';
 import { useTranslation } from 'react-i18next';
 import { useFindUserMutation, useSaveUserMutation } from '../redux/slices/apiSlice';
-import { clearUserSessions } from '../redux/actions/admin';
+import { sendClearUserSessions } from '../redux/slices/lobbySlice';
 
 import { useState } from 'react';
 
@@ -262,7 +262,7 @@ const UserAdmin = () => {
                                         type='button'
                                         color='primary'
                                         onPress={() =>
-                                            dispatch(clearUserSessions(currentUser.username))
+                                            dispatch(sendClearUserSessions(currentUser.username))
                                         }
                                     >
                                         Clear sessions

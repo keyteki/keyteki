@@ -2,9 +2,20 @@
 @plugin "../../hero.ts";
 @source '../../node_modules/@heroui/theme/dist/**/*.{js,ts,jsx,tsx}';
 
+@utility container {
+    margin-inline: auto;
+    padding-inline: 2rem;
+}
+
 @layer utilities {
     .text-balance {
         text-wrap: balance;
+    }
+}
+
+@layer base {
+    body {
+        @apply bg-background text-foreground;
     }
 }
 
@@ -59,6 +70,13 @@
 
     .panel-texture-primary {
         background-image: url('../assets/img/panel-primary.png');
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: cover;
+    }
+
+    .panel-texture-purple {
+        background-image: url('../assets/img/panel-purple.png');
         background-position: center;
         background-repeat: no-repeat;
         background-size: cover;
