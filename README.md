@@ -45,41 +45,66 @@ Check out the [About page](https://thecrucible.online/about) of Keyteki live dep
 If you have docker installed, you can use the containerised version of the site.
 
 #### MACOS Setup
-```
-brew install colima
-colima start
-# colima stop --force
-brew install docker-compose
-mkdir -p ~/.docker/cli-plugins 
-ln -sfn $HOMEBREW_PREFIX/opt/docker-compose/bin/docker-compose ~/.docker/cli-plugins/docker-compose
-brew install pyenv
-pyenv install 3.11.9
-pyenv init
-# exec above and reload shell, so you have pyenv available at your terminal
-pyenv shell 3.11.9
 
-```
+[Install Docker
+Desktop](https://docs.docker.com/desktop/setup/install/mac-install/), which
+includes the `docker` command line tool and the `docker-compose` plugin.
+
+Install [nvm](https://github.com/nvm-sh/nvm), [asdf](https://asdf-vm.com/), or
+another tool to manage your Node versions. **Follow your tool’s steps to
+download and install Node v16.20.2.**
+
+(If you’re using `asdf`, add `legacy_version_file = yes` to your `$HOME/.asdfrc`
+to automatically read the `.node-version` file in this repo.)
 
 Clone the repository, then run the following commands:
 
 ```
 git submodule init
 git submodule update
+
+node --version
+# should output 16.20.2
+
+npm --version
+# should output 8.19.4 or thereabouts
+
 npm install
-docker volume create --name=tco_dbdata
-docker-compose up --build
+
+docker compose up --build
 ```
 
+In another terminal, run the following command:
+
+```
+docker compose exec lobby node server/scripts/fetchdata
+```
+
+It is normal to see “Failed to add card” log errors about duplicates at the
+beginning.
+
+Fetchdata takes a while to run, and some images may error out due to API rate
+limits. If that happens, run it again. It will be faster the second time. Once
+finished, restart the server.
+
+You can now proceed to the Running and Testing section!
+
 #### Running with Hybrid Setup (Docker services + Local Node server)
+
+A hybrid setup is necessary to run the client in development mode. This enables
+hot reloading, as well as in-browser development tools like React DevTools and
+Redux DevTools.
 
 If you want to run the Node.js server locally while using Docker for Redis and PostgreSQL:
 
 1. Start only the database services:
+
 ```bash
 docker-compose up -d redis postgres
 ```
 
 2. Update `config/default.json5` to point to localhost:
+
 ```javascript
 redisUrl: 'redis://localhost:6379/',
 dbUser: 'keyteki',
@@ -90,23 +115,33 @@ dbPort: 54320,
 ```
 
 3. Run the Node.js server locally:
+
 ```bash
 npm start
 ```
 
+4. In another window, run the game node server locally:
+
+```bash
+npm run game
+```
+
 #### Troubleshooting
+
 ```bash
 # If you get memory allocation errors:
 docker builder prune
 ```
 
-In another terminal, run the following command:
+If `package-lock.json` changes when you `npm install` despite not making any
+changes to `package.json`, you are likely running with the wrong version of Node
+and npm. Make sure that Node is 16.20.2 and that npm is in version 8.
 
-```
-docker-compose exec lobby node server/scripts/fetchdata
-```
-
-Fetchdata takes a while to run, and some images may error out due to API rate limits. If that happens, run it again - it will be faster the second time. Once finished, restart the server.
+If you get `dlopen` errors when running `npm start` outside of a container, it
+is likely that your node modules were installed from within a container, which
+caused them to build with a different architecture. Deleting the packages from
+`node_modules` and re-running `npm install` outside of the container should
+fix it.
 
 ### Non Docker
 
