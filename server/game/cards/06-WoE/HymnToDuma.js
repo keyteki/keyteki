@@ -17,7 +17,7 @@ class HymnToDuma extends Card {
                         gameAction: ability.actions.capture({ amount: 2 })
                     },
                     message: '{0} uses {3} to capture 2 amber placing it on {2}',
-                    messageArgs: (context) => [this]
+                    messageArgs: () => [this]
                 }
             })
         });
