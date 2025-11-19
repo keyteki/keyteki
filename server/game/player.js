@@ -1197,13 +1197,19 @@ class Player extends GameObject {
         return this.prophecyCards[index - 1];
     }
 
-    // A prophecy can be activated if it is a prophecy card and not already active, and the flip side of the prophecy is not active.
+    // A prophecy can be activated if it is a prophecy card and not already active,
+    // and the flip side of the prophecy is not active. It must also be controlled
+    // by this player and it must be this player’s turn.
     canActivateProphecy(prophecyCard) {
         if (
             !prophecyCard.isProphecy() ||
             prophecyCard.activeProphecy ||
             prophecyCard.controller !== this ||
-            (this.game.propheciesActivatedThisPhase.length > 0 && !this.game.manualMode) ||
+            (!this.game.manualMode &&
+                (this.game.propheciesActivatedThisPhase.length > 0 ||
+                    // TODO(fionawhim): Also require that we’re in the main
+                    // step.
+                    this.game.activePlayer !== this)) ||
             this.hand.length === 0
         ) {
             return false;
