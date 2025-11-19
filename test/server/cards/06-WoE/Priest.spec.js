@@ -22,7 +22,7 @@ describe('Priest', function () {
             this.player1.useAction(priest1);
             expect(priest1.isToken()).toBe(true);
             expect(this.player1).toBeAbleToSelect(this.lupoTheScarred);
-            expect(this.player1).not.toBeAbleToSelect(this.kelpminder);
+            !expect(this.player1).toBeAbleToSelect(this.kelpminder);
             this.player1.clickCard(this.lupoTheScarred);
             expect(this.lupoTheScarred.exhausted).toBe(true);
         });
