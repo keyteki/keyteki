@@ -790,20 +790,6 @@ class DeckService {
         }
     }
 
-    async updateProphecyAssignments(deckId, assignments) {
-        try {
-            for (let [cardDbId, prophecyId] of Object.entries(assignments)) {
-                await db.query('UPDATE "DeckCards" SET "ProphecyId" = $2 WHERE "Id" = $1', [
-                    cardDbId,
-                    prophecyId
-                ]);
-            }
-        } catch (err) {
-            logger.error('Failed to update prophecy assignments', err);
-            throw new Error('Failed to update prophecy assignments');
-        }
-    }
-
     async delete(id) {
         try {
             await db.query('DELETE FROM "Decks" WHERE "Id" = $1', [id]);
@@ -983,6 +969,11 @@ class DeckService {
                 };
             }
 
+            // Store sort_override for prophecy cards
+            if (card.sort_override !== undefined && card.sort_override !== null) {
+                retCard.sortOverride = card.sort_override;
+            }
+
             if (card.is_enhanced) {
                 retCard.enhancements = [];
                 retCard.uuid = card.id;
@@ -1028,6 +1019,10 @@ class DeckService {
                     let cardToAdd = Object.assign({}, card);
 
                     cardToAdd.enhancements = enhancementsByCardId[card.uuid][i + 1];
+                    // Preserve sortOverride for enhanced cards
+                    if (card.sortOverride !== undefined) {
+                        cardToAdd.sortOverride = card.sortOverride;
+                    }
 
                     cardToAdd.count = 1;
                     toAdd.push(cardToAdd);
@@ -1039,6 +1034,30 @@ class DeckService {
         }
 
         cards = cards.concat(toAdd);
+
+        // Auto-assign prophecy IDs based on sort_override order (first two = 1, second two = 2)
+        const prophecyCards = cards.filter(
+            (card) => allCards[card.id] && allCards[card.id].type === 'prophecy'
+        );
+        if (prophecyCards.length === 4) {
+            // Sort prophecy cards by sort_override field from API
+            prophecyCards.sort((a, b) => {
+                const aSort =
+                    a.sortOverride !== undefined && a.sortOverride !== null
+                        ? a.sortOverride
+                        : Infinity;
+                const bSort =
+                    b.sortOverride !== undefined && b.sortOverride !== null
+                        ? b.sortOverride
+                        : Infinity;
+                return aSort - bSort;
+            });
+            // First two prophecies get prophecyId 1, second two get prophecyId 2
+            prophecyCards[0].prophecyId = 1;
+            prophecyCards[1].prophecyId = 1;
+            prophecyCards[2].prophecyId = 2;
+            prophecyCards[3].prophecyId = 2;
+        }
 
         let uuid = deckResponse.data.id;
         let anyIllegalCards = cards.find(
