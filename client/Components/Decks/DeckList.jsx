@@ -1,30 +1,151 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, useState } from 'react';
 import moment from 'moment';
-import { useTranslation } from 'react-i18next';
+import { useTranslation, Trans } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheck } from '@fortawesome/free-solid-svg-icons';
 import Button from '../HeroUI/Button';
-import { Checkbox, CheckboxGroup } from '@heroui/react';
+import {
+    Checkbox,
+    CheckboxGroup,
+    Modal,
+    ModalContent,
+    ModalHeader,
+    ModalBody,
+    ModalFooter,
+    Pagination,
+    Accordion,
+    AccordionItem
+} from '@heroui/react';
 import ReactTable from '../Table/ReactTable';
 import CardBack from './CardBack.jsx';
 import DeckStatus from './DeckStatus';
+import DeckSummary from './DeckSummary';
 import { Constants } from '../../constants';
-import { useLoadDecksQuery, useLoadStandaloneDecksQuery } from '../../redux/slices/apiSlice';
+import AmberImage from '../../assets/img/enhancements/amberui.png';
+import CaptureImage from '../../assets/img/enhancements/captureui.png';
+import DrawImage from '../../assets/img/enhancements/drawui.png';
+import DamageImage from '../../assets/img/enhancements/damageui.png';
+import DiscardImage from '../../assets/img/enhancements/discardui.png';
+import {
+    useLoadDecksQuery,
+    useLoadStandaloneDecksQuery,
+    useDeleteDeckMutation
+} from '../../redux/slices/apiSlice';
 import { selectDeckReducer } from '../../redux/slices/cardsSlice';
 
-const DeckList = ({ deckFilter, onDeckSelected, standaloneDecks = false }) => {
+const DeckList = ({ deckFilter, onDeckSelected, standaloneDecks = false, mode = 'table' }) => {
     const { t } = useTranslation();
     const dispatch = useDispatch();
-    // Selection state remains in cards slice, but data comes from RTK Query
+    const [page, setPage] = useState(1);
+    const [pageSize] = useState(10);
+    const [expandedDeckId, setExpandedDeckId] = useState(null);
+    const [deleteConfirmDeck, setDeleteConfirmDeck] = useState(null);
+    const [deleteDeck] = useDeleteDeckMutation();
     const selectedDeck = useSelector((state) =>
         standaloneDecks ? null : state.cards.selectedDeck
+    );
+
+    const deckFilterKey = JSON.stringify(deckFilter || {});
+    const accordionQueryParams = useMemo(() => {
+        const params = {
+            pageSize,
+            page,
+            sort: 'lastUpdated',
+            sortDir: 'desc'
+        };
+
+        const filters = [];
+        const df = deckFilterKey ? JSON.parse(deckFilterKey) : null;
+        if (df) {
+            for (const [k, v] of Object.entries(df)) {
+                filters.push({ name: k, value: v });
+            }
+        }
+        if (filters.length > 0) {
+            params.filter = filters;
+        }
+        return params;
+    }, [page, pageSize, deckFilterKey]);
+
+    const accordionQuery = useLoadDecksQuery(accordionQueryParams, {
+        skip: mode !== 'accordion' || standaloneDecks,
+        refetchOnMountOrArgChange: true
+    });
+
+    const cardsById = useSelector((state) => state.cards.cards || {});
+
+    const enrichDeck = useMemo(
+        () => (deck) => {
+            if (!deck || !Array.isArray(deck.cards)) return deck;
+            const mappedCards = deck.cards.map((c) => {
+                const base = cardsById[c.id] ? { ...cardsById[c.id] } : {};
+                const result = {
+                    count: c.count,
+                    card: base,
+                    id: c.id,
+                    maverick: c.maverick,
+                    anomaly: c.anomaly,
+                    house: c.house,
+                    image: c.image,
+                    enhancements: c.enhancements,
+                    dbId: c.dbId,
+                    prophecyId: c.prophecyId,
+                    isNonDeck: c.isNonDeck
+                };
+                result.card.image = c.image || c.id;
+                if (c.maverick) {
+                    result.card.house = c.maverick;
+                    result.card.maverick = c.maverick;
+                } else if (c.anomaly) {
+                    result.card.house = c.anomaly;
+                    result.card.anomaly = c.anomaly;
+                } else if (c.house) {
+                    result.card.house = c.house;
+                }
+                if (c.image) {
+                    result.card.image = c.image;
+                }
+                if (c.enhancements) {
+                    result.card.enhancements = c.enhancements;
+                }
+                return result;
+            });
+
+            let hasEnhancementsSet = true;
+            if (mappedCards.some((c) => c.enhancements && c.enhancements[0] === '')) {
+                hasEnhancementsSet = false;
+            }
+
+            const enhancementCounts = {};
+            for (const mc of mappedCards) {
+                const enh = mc.card.enhancements || [];
+                for (const e of enh) {
+                    enhancementCounts[e] = (enhancementCounts[e] || 0) + 1;
+                }
+            }
+
+            return {
+                ...deck,
+                cards: mappedCards,
+                enhancementCounts,
+                status: {
+                    basicRules: hasEnhancementsSet,
+                    flagged: !!deck.flagged,
+                    verified: !!deck.verified,
+                    usageLevel: deck.usageLevel,
+                    noUnreleasedCards: true,
+                    officialRole: true,
+                    extendedStatus: []
+                }
+            };
+        },
+        [cardsById]
     );
 
     const useDecksDataLoad = (opts) => {
         const { pageIndex = 0, pageSize = 10, sorting, columnFilters } = opts || {};
 
-        // Build query params for RTK Query
         const deckFilterKey = JSON.stringify(deckFilter || {});
         const queryParams = useMemo(() => {
             const params = {
@@ -52,7 +173,6 @@ const DeckList = ({ deckFilter, onDeckSelected, standaloneDecks = false }) => {
             return params;
         }, [pageIndex, pageSize, sorting, columnFilters, deckFilterKey]);
 
-        // Invoke appropriate query hook with params
         const standaloneQueryResult = useLoadStandaloneDecksQuery(undefined, {
             skip: !standaloneDecks,
             refetchOnMountOrArgChange: true
@@ -62,10 +182,8 @@ const DeckList = ({ deckFilter, onDeckSelected, standaloneDecks = false }) => {
             refetchOnMountOrArgChange: true
         });
 
-        // Use the appropriate query result based on standaloneDecks flag
         const queryResult = standaloneDecks ? standaloneQueryResult : regularDecksQueryResult;
 
-        // Adapt to ReactTable expected shape
         return {
             data: {
                 data:
@@ -223,6 +341,216 @@ const DeckList = ({ deckFilter, onDeckSelected, standaloneDecks = false }) => {
         [t]
     );
 
+    if (mode === 'accordion') {
+        const total = accordionQuery.data?.numDecks || 0;
+        const decks = accordionQuery.data?.decks || [];
+
+        return (
+            <div className='pt-2'>
+                {accordionQuery.isLoading && (
+                    <div className='text-center py-8'>
+                        <Trans>Loading...</Trans>
+                    </div>
+                )}
+                {accordionQuery.isError && (
+                    <div className='text-center py-8 text-danger'>
+                        <Trans>Error loading decks</Trans>
+                    </div>
+                )}
+
+                {!accordionQuery.isLoading && decks.length === 0 && (
+                    <div className='text-center py-8 text-default-500'>
+                        <Trans>No decks found</Trans>
+                    </div>
+                )}
+
+                {decks.length > 0 && (
+                    <>
+                        <Accordion
+                            selectedKeys={
+                                expandedDeckId ? new Set([expandedDeckId.toString()]) : new Set()
+                            }
+                            onSelectionChange={(keys) => {
+                                const arr = Array.from(keys);
+                                setExpandedDeckId(arr.length ? parseInt(arr[0]) : null);
+                            }}
+                        >
+                            {decks.map((deck) => {
+                                const fullDeck = enrichDeck(deck);
+                                return (
+                                    <AccordionItem
+                                        key={fullDeck.id}
+                                        aria-label={fullDeck.name}
+                                        title={
+                                            <div className='flex items-center gap-4 w-full'>
+                                                <div className='w-16 flex-shrink-0'>
+                                                    <CardBack
+                                                        deck={fullDeck}
+                                                        size={'normal'}
+                                                        zoom={false}
+                                                        showDeckName={false}
+                                                    />
+                                                </div>
+                                                <div className='flex-1 min-w-0'>
+                                                    <div className='font-semibold text-lg truncate'>
+                                                        {fullDeck.name}
+                                                    </div>
+                                                    <div className='flex gap-2 items-center text-sm text-default-500 flex-wrap'>
+                                                        <span>
+                                                            {moment(fullDeck.lastUpdated).format(
+                                                                'YYYY-MM-DD'
+                                                            )}
+                                                        </span>
+                                                        <span>•</span>
+                                                        <span>
+                                                            {t('Wins')}: {fullDeck.wins}
+                                                        </span>
+                                                        <span>•</span>
+                                                        <span>
+                                                            {t('Losses')}: {fullDeck.losses}
+                                                        </span>
+                                                        <span>•</span>
+                                                        <span>{fullDeck.winRate?.toFixed(1)}%</span>
+                                                    </div>
+                                                </div>
+                                                <div className='flex items-center gap-4 flex-shrink-0'>
+                                                    {/* Enhancement summary icons moved to header */}
+                                                    {fullDeck.enhancementCounts &&
+                                                        Object.keys(fullDeck.enhancementCounts)
+                                                            .length > 0 && (
+                                                            <div className='flex gap-2'>
+                                                                {[
+                                                                    'amber',
+                                                                    'capture',
+                                                                    'draw',
+                                                                    'damage',
+                                                                    'discard'
+                                                                ].map((type) => {
+                                                                    const count =
+                                                                        fullDeck.enhancementCounts[
+                                                                            type
+                                                                        ] || 0;
+                                                                    if (!count) return null;
+                                                                    const srcMap = {
+                                                                        amber: AmberImage,
+                                                                        capture: CaptureImage,
+                                                                        draw: DrawImage,
+                                                                        damage: DamageImage,
+                                                                        discard: DiscardImage
+                                                                    };
+                                                                    return (
+                                                                        <div
+                                                                            key={type}
+                                                                            className='flex items-center text-xs gap-1'
+                                                                        >
+                                                                            <img
+                                                                                src={srcMap[type]}
+                                                                                className='h-4 w-4'
+                                                                            />
+                                                                            <span>{count}</span>
+                                                                        </div>
+                                                                    );
+                                                                })}
+                                                            </div>
+                                                        )}
+                                                    <DeckStatus status={fullDeck.status} />
+                                                    {fullDeck.isAlliance && (
+                                                        <div
+                                                            className='text-success'
+                                                            title={t('Alliance Deck')}
+                                                        >
+                                                            <FontAwesomeIcon icon={faCheck} />
+                                                        </div>
+                                                    )}
+                                                </div>
+                                            </div>
+                                        }
+                                        classNames={{ title: 'w-full', trigger: 'py-4' }}
+                                    >
+                                        <div className='pb-4'>
+                                            <div className='mb-4 flex justify-end'>
+                                                <Button
+                                                    size='sm'
+                                                    color='danger'
+                                                    onPress={() => setDeleteConfirmDeck(fullDeck)}
+                                                >
+                                                    <Trans>Delete Deck</Trans>
+                                                </Button>
+                                            </div>
+                                            <DeckSummary deck={fullDeck} cardsOnly />
+                                        </div>
+                                    </AccordionItem>
+                                );
+                            })}
+                        </Accordion>
+
+                        {total > pageSize && (
+                            <div className='flex justify-center mt-4'>
+                                <Pagination
+                                    total={Math.ceil(total / pageSize)}
+                                    page={page}
+                                    onChange={setPage}
+                                    showControls
+                                />
+                            </div>
+                        )}
+
+                        <Modal
+                            isOpen={!!deleteConfirmDeck}
+                            onOpenChange={(open) => !open && setDeleteConfirmDeck(null)}
+                            placement='center'
+                        >
+                            <ModalContent>
+                                {(onClose) => (
+                                    <>
+                                        <ModalHeader>
+                                            <Trans>Confirm Deletion</Trans>
+                                        </ModalHeader>
+                                        <ModalBody>
+                                            <Trans>
+                                                Are you sure you want to delete this deck?
+                                            </Trans>
+                                            {deleteConfirmDeck && (
+                                                <div className='mt-2 font-semibold'>
+                                                    {deleteConfirmDeck.name}
+                                                </div>
+                                            )}
+                                        </ModalBody>
+                                        <ModalFooter>
+                                            <Button color='default' onPress={onClose}>
+                                                <Trans>Cancel</Trans>
+                                            </Button>
+                                            <Button
+                                                color='danger'
+                                                onPress={async () => {
+                                                    if (deleteConfirmDeck?.id) {
+                                                        try {
+                                                            await deleteDeck(
+                                                                deleteConfirmDeck.id
+                                                            ).unwrap();
+                                                            setExpandedDeckId(null);
+                                                            accordionQuery.refetch();
+                                                        } catch (e) {
+                                                            // ignore
+                                                        }
+                                                    }
+                                                    onClose();
+                                                }}
+                                            >
+                                                <Trans>Delete</Trans>
+                                            </Button>
+                                        </ModalFooter>
+                                    </>
+                                )}
+                            </ModalContent>
+                        </Modal>
+                    </>
+                )}
+            </div>
+        );
+    }
+
+    // Default table view (existing behavior)
     return (
         <div className='pt-4'>
             <ReactTable

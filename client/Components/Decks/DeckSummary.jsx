@@ -12,14 +12,17 @@ import DrawImage from '../../assets/img/enhancements/drawui.png';
 import DamageImage from '../../assets/img/enhancements/damageui.png';
 import DiscardImage from '../../assets/img/enhancements/discardui.png';
 
-const DeckSummary = ({ deck }) => {
+// cardsOnly: when true, suppress stats/enhancement summary; show only houses & card list
+const DeckSummary = ({ deck, cardsOnly = false }) => {
     const { t, i18n } = useTranslation();
     let [zoomCard, setZoomCard] = useState(null);
     let [mousePos, setMousePosition] = useState({ x: 0, y: 0 });
     const cardsByHouse = {};
     const enhancements = {};
 
-    for (const house of deck.houses.sort()) {
+    // Never mutate props (Redux state may be frozen). Sort a shallow copy.
+    for (const house of [...(deck.houses || [])].sort()) {
+        console.info(deck);
         cardsByHouse[house] = [];
         const filteredCards = sortBy(
             deck.cards.filter((c) => c.card.house === house && !c.isNonDeck),
@@ -132,53 +135,52 @@ const DeckSummary = ({ deck }) => {
 
     return (
         <div className='w-full mt-4'>
-            <div className='flex flex-wrap gap-4'>
-                <div className='w-1/6 sm:w-1/4'>
-                    <CardBack deck={deck} size={'x-large'} />
-                </div>
-                <div className='flex-1'>
-                    <div className='flex justify-between mb-2'>
-                        <span>{t('Wins')}</span>
-                        <span>{deck.wins}</span>
-                    </div>
-                    <div className='flex justify-between mb-2'>
-                        <span>{t('Losses')}</span>
-                        <span>{deck.losses}</span>
-                    </div>
-                    <div className='flex justify-between mb-2'>
-                        <span>{t('Total')}</span>
-                        <span>{parseInt(deck.wins) + parseInt(deck.losses)}</span>
-                    </div>
-                    <div className='flex justify-between mb-2'>
-                        <span>{t('Win Rate')}</span>
-                        <span>{deck.winRate?.toFixed(2)}%</span>
-                    </div>
-                    {Object.keys(enhancements).length > 0 ? (
-                        <div className='flex gap-2 pl-3 pt-4'>
-                            <div className='px-0.5 flex flex-col items-center'>
-                                <img src={AmberImage} className='h-5 w-5' />
-                                <span className='pl-1'>{enhancements.amber || 0}</span>
-                            </div>
-                            <div className='px-0.5 flex flex-col items-center'>
-                                <img src={CaptureImage} className='h-5 w-5' />
-                                <span className='pl-1'>{enhancements.capture || 0}</span>
-                            </div>
-                            <div className='px-0.5 flex flex-col items-center'>
-                                <img src={DrawImage} className='h-5 w-5' />
-                                <span className='pl-1'>{enhancements.draw || 0}</span>
-                            </div>
-                            <div className='px-0.5 flex flex-col items-center'>
-                                <img src={DamageImage} className='h-5 w-5' />
-                                <span className='pl-1'>{enhancements.damage || 0}</span>
-                            </div>
-                            <div className='px-0.5 flex flex-col items-center'>
-                                <img src={DiscardImage} className='h-5 w-5' />
-                                <span className='pl-1'>{enhancements.discard || 0}</span>
-                            </div>
+            {!cardsOnly && (
+                <div className='flex flex-wrap gap-4'>
+                    <div className='flex-1'>
+                        <div className='flex justify-between mb-2'>
+                            <span>{t('Wins')}</span>
+                            <span>{deck.wins}</span>
                         </div>
-                    ) : null}
+                        <div className='flex justify-between mb-2'>
+                            <span>{t('Losses')}</span>
+                            <span>{deck.losses}</span>
+                        </div>
+                        <div className='flex justify-between mb-2'>
+                            <span>{t('Total')}</span>
+                            <span>{parseInt(deck.wins) + parseInt(deck.losses)}</span>
+                        </div>
+                        <div className='flex justify-between mb-2'>
+                            <span>{t('Win Rate')}</span>
+                            <span>{deck.winRate?.toFixed(2)}%</span>
+                        </div>
+                        {Object.keys(enhancements).length > 0 ? (
+                            <div className='flex gap-2 pl-3 pt-4'>
+                                <div className='px-0.5 flex flex-col items-center'>
+                                    <img src={AmberImage} className='h-5 w-5' />
+                                    <span className='pl-1'>{enhancements.amber || 0}</span>
+                                </div>
+                                <div className='px-0.5 flex flex-col items-center'>
+                                    <img src={CaptureImage} className='h-5 w-5' />
+                                    <span className='pl-1'>{enhancements.capture || 0}</span>
+                                </div>
+                                <div className='px-0.5 flex flex-col items-center'>
+                                    <img src={DrawImage} className='h-5 w-5' />
+                                    <span className='pl-1'>{enhancements.draw || 0}</span>
+                                </div>
+                                <div className='px-0.5 flex flex-col items-center'>
+                                    <img src={DamageImage} className='h-5 w-5' />
+                                    <span className='pl-1'>{enhancements.damage || 0}</span>
+                                </div>
+                                <div className='px-0.5 flex flex-col items-center'>
+                                    <img src={DiscardImage} className='h-5 w-5' />
+                                    <span className='pl-1'>{enhancements.discard || 0}</span>
+                                </div>
+                            </div>
+                        ) : null}
+                    </div>
                 </div>
-            </div>
+            )}
             <div className='flex flex-wrap mt-4 py-1.5 bg-primary/40'>
                 {deck.houses.map((house) => {
                     return (
@@ -192,14 +194,6 @@ const DeckSummary = ({ deck }) => {
                 })}
             </div>
             <div className='pt-4'>
-                {zoomCard && (
-                    <div
-                        className='fixed z-50 w-80'
-                        style={{ left: mousePos.x + 5 + 'px', top: mousePos.y + 'px' }}
-                    >
-                        <CardImage card={Object.assign({}, zoomCard)} />
-                    </div>
-                )}
                 {deck.houses.map((house) => {
                     return (
                         <div key={house} className='sm:w-1/3 inline-block'>

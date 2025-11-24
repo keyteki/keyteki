@@ -1,12 +1,10 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
 import { Trans, useTranslation } from 'react-i18next';
 import Button from '../Components/HeroUI/Button';
 
 import Panel from '../Components/Site/Panel';
 import Link from '../Components/Navigation/Link';
 import DeckList from '../Components/Decks/DeckList';
-import ViewDeck from '../Components/Decks/ViewDeck';
 import AlertPanel from '../Components/Site/AlertPanel';
 import { useDeleteDeckMutation } from '../redux/slices/apiSlice';
 import Page from './Page';
@@ -16,12 +14,9 @@ const DecksComponent = () => {
     const [, { isSuccess: deleteSuccess, reset: resetDelete }] = useDeleteDeckMutation({
         fixedCacheKey: 'delete-deck'
     });
-    const { selectedDeck } = useSelector((state) => ({
-        selectedDeck: state.cards.selectedDeck
-    }));
 
     return (
-        <Page size='large'>
+        <Page>
             <div className='w-full'>
                 {deleteSuccess && (
                     <AlertPanel
@@ -34,7 +29,7 @@ const DecksComponent = () => {
                     </AlertPanel>
                 )}
             </div>
-            <Panel className='w-1/2' title={t('Your decks')}>
+            <Panel title={t('Your decks')}>
                 <div className='text-center mb-4'>
                     <Link href='/decks/import'>
                         <Button color='primary'>
@@ -47,9 +42,8 @@ const DecksComponent = () => {
                         </Button>
                     </Link>
                 </div>
-                <DeckList />
+                <DeckList mode='accordion' />
             </Panel>
-            <div>{selectedDeck && <ViewDeck deck={selectedDeck} />}</div>
         </Page>
     );
 };

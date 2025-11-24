@@ -1,73 +1,129 @@
-import React from 'react';
+import React, { useMemo, useState } from 'react';
 import classNames from 'classnames';
 import { useTranslation } from 'react-i18next';
-import { Popover, PopoverTrigger, PopoverContent } from '@heroui/react';
+import { Chip, Divider, Tooltip } from '@heroui/react';
 
 import DeckStatusSummary from './DeckStatusSummary';
+import LoadingSpinner from '../Site/LoadingSpinner';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {
+    faCircleCheck,
+    faExclamationCircle,
+    faXmarkCircle
+} from '@fortawesome/free-solid-svg-icons';
 
-const DeckStatus = ({ status }) => {
-    const { t } = useTranslation();
-
-    let statusName;
-    const isInvalid = !status.basicRules;
-    const isNotVerified = status.basicRules && status.notVerified;
-    const isUsed = status.usageLevel === 1 && !status.verified;
-    const isPopular = status.usageLevel === 2 && !status.verified;
-    const isNotorious = status.usageLevel === 3 && !status.verified;
-    const isCasual = status.basicRules && status.impossible;
-    const isValid =
-        (status.usageLevel === 0 || status.verified) &&
-        status.basicRules &&
-        !status.notVerified &&
-        status.noUnreleasedCards &&
-        !status.impossible;
-
-    const baseBadge = 'inline-block text-center px-3 py-1.5 border border-black rounded text-black';
-    const bgClass = isValid
-        ? 'bg-green-500'
-        : isCasual || isUsed || isPopular
-        ? 'bg-amber-400'
-        : isNotorious || isInvalid
-        ? 'bg-red-500'
-        : isNotVerified
-        ? 'bg-sky-400'
-        : 'bg-gray-300';
-    const className = classNames(baseBadge, bgClass);
+function deckStatusLabel(status) {
+    if (!status) {
+        return null;
+    }
 
     if (!status.basicRules) {
-        statusName = t('Invalid');
-    } else if (status.notVerified) {
-        statusName = t('Enhancements Not Verified');
-    } else if (status.usageLevel === 1 && !status.verified) {
-        statusName = t('Used');
-    } else if (status.usageLevel === 2 && !status.verified) {
-        statusName = t('Popular');
-    } else if (status.usageLevel === 3 && !status.verified) {
-        statusName = t('Notorious');
-    } else if (status.impossible) {
-        statusName = t('Impossible Deck');
-    } else {
-        statusName = t('Valid');
+        return 'Invalid';
+    }
+
+    if (!status.valid) {
+        return 'Not Legal';
+    }
+
+    if (!status.noUnreleasedCards) {
+        return 'Casual';
+    }
+
+    return 'Legal';
+}
+
+const DeckStatus = ({ className, showDeckDetails = true, compact = false, status }) => {
+    const { t } = useTranslation();
+    const [pointerType, setPointerType] = useState(false);
+
+    const statusInfo = (status) => {
+        const label = deckStatusLabel(status) || 'Loading...';
+        let icon = <LoadingSpinner size='sm' label={false} />;
+        switch (label) {
+            case 'Invalid':
+                icon = <FontAwesomeIcon icon={faExclamationCircle} />;
+                break;
+            case 'Not Legal':
+                icon = <FontAwesomeIcon icon={faXmarkCircle} />;
+                break;
+            case 'Casual':
+            case 'Legal':
+                icon = <FontAwesomeIcon icon={faCircleCheck} />;
+                break;
+        }
+
+        let color = 'default';
+        if (label === 'Invalid' || label === 'Not Legal') {
+            color = 'danger';
+        } else if (label === 'Casual') {
+            color = 'warning';
+        } else if (label === 'Legal') {
+            color = 'success';
+        }
+
+        return { label, icon, color };
+    };
+
+    const info = statusInfo(status);
+
+    const wrapperClass = useMemo(
+        () =>
+            classNames({
+                'select-none': ['touch', 'pen'].includes(pointerType) // Disables text selection on touch/pen devices, but not desktop
+            }),
+        [pointerType]
+    );
+
+    const chipClass = classNames('pointer-events-none h-8', className);
+
+    let labelClass = null;
+    // Compacts if true, or at the provided size step
+    if (compact === true) {
+        labelClass = 'hidden';
+    } else if (typeof compact === 'string') {
+        labelClass = `${compact}:hidden`;
     }
 
     return (
-        <Popover placement='right'>
-            <PopoverTrigger>
-                <span className={className}>{statusName}</span>
-            </PopoverTrigger>
-            <PopoverContent>
-                <div className='p-2 bg-neutral-900 text-white rounded'>
-                    <DeckStatusSummary status={status} />
-                    {status.extendedStatus && status.extendedStatus.length !== 0 && (
-                        <ul className='list-none p-0 mt-1 space-y-1'>
+        <Tooltip
+            placement={'right'}
+            showArrow={true}
+            closeDelay={100}
+            isOpen={!!pointerType}
+            content={
+                <div className='flex flex-col gap-1 max-w-64'>
+                    <span className={`text-${info.color} flex flex-row gap-1 items-center`}>
+                        {info.icon}
+                        <b>{info.label}</b>
+                    </span>
+                    <Divider />
+                    {/* <DeckStatusSummary status={status} /> */}
+                    {showDeckDetails && status.extendedStatus?.length > 0 && (
+                        <ul className='flex flex-col gap-1'>
                             {status.extendedStatus.map((error, index) => (
-                                <li key={index}>{error}</li>
+                                <li key={index}>
+                                    <Divider />
+                                    {error}
+                                </li>
                             ))}
                         </ul>
                     )}
                 </div>
-            </PopoverContent>
-        </Popover>
+            }
+        >
+            <div
+                className={wrapperClass}
+                onPointerEnter={(e) => setPointerType(e.pointerType)}
+                onPointerLeave={() => setPointerType(null)}
+            >
+                <Chip className={chipClass} color={info.color} radius='md'>
+                    <div className='flex flex-row gap-1 items-center'>
+                        <span>{info.icon}</span>
+                        <span className={labelClass}>{info.label}</span>
+                    </div>
+                </Chip>
+            </div>
+        </Tooltip>
     );
 };
 

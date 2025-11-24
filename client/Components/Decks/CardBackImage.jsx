@@ -25,7 +25,7 @@ const CardBackImage = ({ deck, showDeckName = true, size }) => {
         [deck.name, deck.uuid, showDeckName]
     );
 
-    return <canvas className='w-100 h-100' ref={ref} />;
+    return <canvas className='w-full! h-full!' ref={ref} />;
 };
 
 export default CardBackImage;
