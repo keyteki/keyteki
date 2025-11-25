@@ -106,17 +106,3 @@ export function loadStandaloneDecks() {
         }
     };
 }
-
-export function saveProphecyAssignments(deck, assignments) {
-    let str = JSON.stringify({ assignments: assignments });
-
-    return {
-        types: [Decks.SaveProphecyAssignments, Decks.ProphecyAssignmentsSaved],
-        shouldCallAPI: () => true,
-        APIParams: {
-            url: `/api/decks/${deck.id}/prophecy-assignments`,
-            type: 'POST',
-            data: str
-        }
-    };
-}

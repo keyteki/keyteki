@@ -215,37 +215,4 @@ module.exports.init = function (server) {
             res.send({ success: true, message: 'Deck verified successfully', deckId: id });
         })
     );
-
-    server.post(
-        '/api/decks/:id/prophecy-assignments',
-        passport.authenticate('jwt', { session: false }),
-        wrapAsync(async function (req, res) {
-            let id = req.params.id;
-
-            let deck = await deckService.getById(id);
-
-            if (!deck) {
-                return res.status(404).send({ success: false, message: 'No such deck' });
-            }
-
-            if (deck.username !== req.user.username) {
-                return res.status(401).send({ message: 'Unauthorized' });
-            }
-
-            if (!req.body.assignments) {
-                return res.send({ success: false, message: 'assignments must be specified' });
-            }
-
-            try {
-                await deckService.updateProphecyAssignments(id, req.body.assignments);
-                res.send({ success: true, message: 'Prophecy assignments saved successfully' });
-            } catch (error) {
-                logger.error('Failed to save prophecy assignments', error);
-                return res.send({
-                    success: false,
-                    message: 'Failed to save prophecy assignments'
-                });
-            }
-        })
-    );
 };

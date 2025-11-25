@@ -32,7 +32,7 @@ spec:
                       name: keyteki-static-nginx-config
                 - name: static-assets
                   persistentVolumeClaim:
-                  claimName: keyteki-static-assets
+                      claimName: keyteki-static-assets
 ---
 apiVersion: v1
 kind: Service

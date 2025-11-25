@@ -15,32 +15,16 @@ import { clearApiStatus, navigate, saveDeck } from '../../redux/actions';
 const ImportDeck = () => {
     const { t } = useTranslation();
     const dispatch = useDispatch();
-    const selectedDeck = useSelector((state) => state.cards.selectedDeck);
     const apiState = useSelector((state) => {
         const retState = state.api[Decks.SaveDeck];
 
         if (retState && retState.success) {
             retState.message = t('Deck added successfully');
 
-            // Check if deck has prophecy cards that need assignment
-            const prophecyCards =
-                selectedDeck?.cards?.filter((c) => c.card.type === 'prophecy') || [];
-            const prophecyCardsNeedingAssignment = prophecyCards.filter((c) => !c.prophecyId);
-
-            if (prophecyCards.length === 4 && prophecyCardsNeedingAssignment.length === 4) {
-                retState.message = t(
-                    'Deck added successfully but the deck has prophecy cards. You will be redirected to a page that allows you to assign them to the correct physical cards.'
-                );
-                setTimeout(() => {
-                    dispatch(clearApiStatus(Decks.SaveDeck));
-                    dispatch(navigate('/decks/prophecy-assignment'));
-                }, 3000);
-            } else {
-                setTimeout(() => {
-                    dispatch(clearApiStatus(Decks.SaveDeck));
-                    dispatch(navigate('/decks'));
-                }, 1000);
-            }
+            setTimeout(() => {
+                dispatch(clearApiStatus(Decks.SaveDeck));
+                dispatch(navigate('/decks'));
+            }, 1000);
         }
 
         return retState;
