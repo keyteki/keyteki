@@ -13,7 +13,8 @@ class Snarette extends Card {
 
         this.action({
             condition: (context) => context.source.hasToken('amber'),
-            effect: 'move all amber from Snarette to the common pool',
+            effect: 'move {1} amber from Snarette to the common pool',
+            effectArgs: (context) => context.source.amber,
             gameAction: ability.actions.removeAmber({
                 all: true
             })
