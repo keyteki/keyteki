@@ -11,6 +11,11 @@ class Yandylinx extends Card {
                 gameAction: ability.actions.discard()
             },
             then: {
+                message: '{0} uses {1} to make {4} lose {3} amber',
+                messageArgs: (context) => [
+                    context.player.opponent.amber >= 1 ? 1 : 0,
+                    context.player.opponent
+                ],
                 gameAction: ability.actions.loseAmber((context) => ({
                     amount: 1,
                     target: context.preThenEvent.clone.controller.opponent
