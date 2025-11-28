@@ -58,7 +58,7 @@ describe('Sonic Waver', function () {
         it('should purge itself at end of turn if no creatures are stunned', function () {
             this.player1.play(this.sonicWaver);
             this.player1.clickCard(this.culfTheQuiet);
-            this.culfTheQuiet.stunned = false;
+            this.culfTheQuiet.unstun();
             this.player1.endTurn();
             expect(this.sonicWaver.location).toBe('purged');
         });
@@ -69,7 +69,7 @@ describe('Sonic Waver', function () {
             this.player1.endTurn();
             expect(this.sonicWaver.location).toBe('play area');
             this.player2.clickPrompt('brobnar');
-            this.culfTheQuiet.stunned = false;
+            this.culfTheQuiet.unstun();
             this.player2.endTurn();
             expect(this.sonicWaver.location).toBe('purged');
         });
