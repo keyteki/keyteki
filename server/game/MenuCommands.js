@@ -75,7 +75,7 @@ class MenuCommands {
                 card.removeToken('amber', 1);
                 break;
             case 'stun':
-                if (card.stunned) {
+                if (card.tokens.stun) {
                     game.addAlert('danger', '{0} removes the stun from {1}', player, card);
                     card.unstun();
                 } else {

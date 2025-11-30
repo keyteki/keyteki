@@ -67,7 +67,7 @@ describe('main phase', function () {
         });
 
         it('should not allow a player to fight or reap but should remove the stun from a stunned creature', function () {
-            this.witchOfTheEye.stunned = true;
+            this.witchOfTheEye.stun();
             this.player1.clickCard('witch-of-the-eye');
             expect(this.player1).toHavePrompt('Witch of the Eye');
             expect(this.player1).not.toHavePromptButton('Fight with this creature');
@@ -128,7 +128,7 @@ describe('main phase', function () {
         });
 
         it('should resolve any Play: abilities on the creature', function () {
-            this.championAnaphiel.stunned = true;
+            this.championAnaphiel.stun();
             this.inkaTheSpider = this.player1.clickCard('inka-the-spider');
             this.player1.clickPrompt('Play this creature');
             expect(this.player1).toHavePrompt('Which flank do you want to place this creature on?');

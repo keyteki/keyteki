@@ -14,9 +14,9 @@ describe('Clear Mind', function () {
         });
 
         it('should unstun all friendly creatures', function () {
-            this.dodger.stunned = true;
-            this.silvertooth.stunned = true;
-            this.bulwark.stunned = true;
+            this.dodger.stun();
+            this.silvertooth.stun();
+            this.bulwark.stun();
             this.player1.play(this.clearMind);
             expect(this.dodger.stunned).toBe(false);
             expect(this.silvertooth.stunned).toBe(false);
@@ -25,7 +25,7 @@ describe('Clear Mind', function () {
         });
 
         it('should not unstun enemy creatures', function () {
-            this.batdrone.stunned = true;
+            this.batdrone.stun();
             this.player1.play(this.clearMind);
             expect(this.batdrone.stunned).toBe(true);
             expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
