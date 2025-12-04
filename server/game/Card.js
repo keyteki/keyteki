@@ -75,7 +75,6 @@ class Card extends EffectSource {
         this.printedArmor = cardData.armor;
         this.armorUsed = 0;
         this.exhausted = false;
-        this.stunned = false;
         this.moribund = false;
         this.isFighting = false;
         this.activeProphecy = false;
@@ -692,7 +691,6 @@ class Card extends EffectSource {
         }
 
         this.exhausted = false;
-        this.stunned = false;
         this.moribund = false;
         this.new = false;
         this.tokens = {};
@@ -1011,12 +1009,23 @@ class Card extends EffectSource {
         this.clearToken('enrage');
     }
 
+    get stunned() {
+        // v18-2 only refers to creatures when describing how stun affects
+        // cards. _E.g._ “While a creature is stunned, it cannot
+        // fight, reap, or use Action: or Omni: abilities.”
+        //
+        // See: https://github.com/keyteki/keyteki/issues/4673
+        return this.getType() === 'creature' && this.hasToken('stun');
+    }
+
     stun() {
-        this.stunned = true;
+        if (!this.hasToken('stun')) {
+            this.addToken('stun');
+        }
     }
 
     unstun() {
-        this.stunned = false;
+        this.clearToken('stun');
     }
 
     get warded() {

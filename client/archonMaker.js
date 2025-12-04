@@ -880,7 +880,7 @@ const getCircularText = (
 };
 
 const getCountersForCard = (card) => {
-    const singleValueCounters = ['ward', 'enrage', 'doom'];
+    const singleValueCounters = ['ward', 'enrage', 'doom', 'stun'];
     const order = [
         'amber',
         'damage',
@@ -927,9 +927,6 @@ const getCountersForCard = (card) => {
         counters = counters.concat(getCountersForCard(upgrade));
     }
 
-    if (card.stunned) {
-        counters.push({ name: 'stun', count: 1, showValue: false });
-    }
     counters = counters.filter((counter) => counter.count >= 0);
     counters = counters.sort((a, b) => order.indexOf(a.name) - order.indexOf(b.name));
 

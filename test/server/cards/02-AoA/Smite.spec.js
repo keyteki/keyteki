@@ -26,7 +26,7 @@ describe('Smite', function () {
         });
 
         it("should remove creature's stun", function () {
-            this.sequis.stunned = true;
+            this.sequis.stun();
             this.player1.play(this.smite);
             expect(this.player1).toHavePrompt('Smite');
             this.player1.clickCard(this.sequis);
@@ -35,7 +35,7 @@ describe('Smite', function () {
         });
 
         it("should remove creature's stun and not damage it", function () {
-            this.helperBot.stunned = true;
+            this.helperBot.stun();
             this.player1.play(this.smite);
             expect(this.player1).toHavePrompt('Smite');
             this.player1.clickCard(this.helperBot);

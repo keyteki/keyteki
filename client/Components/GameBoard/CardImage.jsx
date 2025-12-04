@@ -76,7 +76,11 @@ const CardImage = ({ card, cardBack, size, halfSize, onMouseOver, onMouseOut }) 
             card.tokens && card.tokens.hatch,
             card.tokens && card.tokens.paint,
             card.tokens && card.tokens.trade,
-            card.stunned,
+            // We need the dep to be on tokens.stun rather than card.stunned
+            // because a card can have the stun token without being considered
+            // “stunned” (e.g. a stunned creature made into an artifact with
+            // De-Animator).
+            card.tokens && card.tokens.stun,
             card.pseudoDamage,
             card.wardBroken,
             i18n.language

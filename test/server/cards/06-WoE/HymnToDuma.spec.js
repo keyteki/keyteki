@@ -63,6 +63,9 @@ describe('HymnToDuma,', function () {
                 it('should capture 2 amber', function () {
                     expect(this.flaxia.tokens.amber).toBe(2);
                     expect(this.player2.amber).toBe(1);
+                    expect(this).toHaveRecentChatMessage(
+                        'player1 uses Hymn to Duma to capture 2 amber, placing it on Flaxia'
+                    );
                 });
             });
         });
