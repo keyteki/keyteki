@@ -3,6 +3,9 @@ const _ = require('underscore');
 const GameActions = require('./GameActions');
 
 class GameObject {
+    /**
+     * @param {import('./game')} game
+     */
     constructor(game) {
         this.game = game;
         this.image = '';

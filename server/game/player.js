@@ -6,6 +6,7 @@ const Deck = require('./deck');
 const ClockSelector = require('./Clocks/ClockSelector');
 const PlayableLocation = require('./playablelocation');
 const PlayerPromptState = require('./playerpromptstate');
+const { EVENTS } = require('./Events/types');
 
 class Player extends GameObject {
     constructor(id, user, owner, game, clockdetails) {
@@ -201,7 +202,7 @@ class Player extends GameObject {
         if (this.isTopCardOfDeckVisible() && this.deck.length > 0) {
             this.addTopCardOfDeckVisibleMessage();
         }
-        this.game.raiseEvent('onDeckShuffled', {
+        this.game.raiseEvent(EVENTS.onDeckShuffled, {
             player: this,
             shuffledDiscardIntoDeck: shuffledDiscardIntoDeck
         });
@@ -574,7 +575,7 @@ class Player extends GameObject {
             card.image = card.id;
         }
 
-        this.game.raiseEvent('onCardPlaced', {
+        this.game.raiseEvent(EVENTS.onCardPlaced, {
             card: card,
             // Remember the card as it was originally (e.g.,
             // tokens that have left play need to be remembered as tokens).
@@ -584,7 +585,7 @@ class Player extends GameObject {
             drawn: options.drawn
         });
         if (composedPart) {
-            this.game.raiseEvent('onCardPlaced', {
+            this.game.raiseEvent(EVENTS.onCardPlaced, {
                 card: composedPart,
                 from: location,
                 to: targetLocation,
@@ -1227,7 +1228,7 @@ class Player extends GameObject {
         }
         this.game.prophecyActivated(prophecyCard);
         prophecyCard.activeProphecy = true;
-        this.game.raiseEvent('onProphecyActivated', { prophecyCard: prophecyCard });
+        this.game.raiseEvent(EVENTS.onProphecyActivated, { prophecyCard: prophecyCard });
 
         if (showMessage) {
             this.game.addMessage('{0} activates their prophecy {1}', this, prophecyCard);
@@ -1238,7 +1239,7 @@ class Player extends GameObject {
 
     deactivateProphecy(prophecyCard) {
         prophecyCard.activeProphecy = false;
-        this.game.raiseEvent('onProphecyDeactivated', { prophecyCard: prophecyCard });
+        this.game.raiseEvent(EVENTS.onProphecyDeactivated, { prophecyCard: prophecyCard });
     }
 
     flipProphecy(context, prophecyCard) {
@@ -1257,7 +1258,7 @@ class Player extends GameObject {
         flipSide.childCards.forEach((card) => {
             card.parent = flipSide;
         });
-        this.game.raiseEvent('onProphecyFlipped', { prophecyCard: flipSide });
+        this.game.raiseEvent(EVENTS.onProphecyFlipped, { prophecyCard: flipSide });
         return true;
     }
 }

@@ -1,3 +1,4 @@
+const { EVENTS } = require('../Events/types');
 const CardGameAction = require('./CardGameAction');
 
 class PlayUpgradeOnParentAction extends CardGameAction {
@@ -61,7 +62,7 @@ class PlayUpgradeOnParentAction extends CardGameAction {
             );
 
         return super.createEvent(
-            'unnamedEvent',
+            EVENTS.unnamedEvent,
             { card: card, context: context, player: context.player },
             () => {
                 if (playActions.length >= 1 && playActions[0].newWithParent) {

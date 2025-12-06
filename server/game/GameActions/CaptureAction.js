@@ -1,3 +1,4 @@
+const { EVENTS } = require('../Events/types');
 const CardAction = require('./CardGameAction');
 
 class CaptureAction extends CardAction {
@@ -58,7 +59,7 @@ class CaptureAction extends CardAction {
             card: card,
             amount: Math.min(this.amount, player.amber)
         };
-        return super.createEvent('onCapture', params, (event) => {
+        return super.createEvent(EVENTS.onCapture, params, (event) => {
             let amount = event.amount;
             if (!player.anyEffect('captureFromPool')) {
                 if (amount > player.amber) {

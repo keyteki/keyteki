@@ -16,6 +16,7 @@ const ResolveFightAction = require('./GameActions/ResolveFightAction');
 const ResolveReapAction = require('./GameActions/ResolveReapAction');
 const ReturnToHandFromDiscardAction = require('./BaseActions/ReturnToHandFromDiscardAction');
 const RemoveStun = require('./BaseActions/RemoveStun');
+const { EVENTS } = require('./Events/types.js');
 
 class Card extends EffectSource {
     constructor(owner, cardData) {
@@ -469,7 +470,7 @@ class Card extends EffectSource {
                     when: {
                         onCardLeavesPlay: (event, context) =>
                             event.triggeringEvent &&
-                            event.triggeringEvent.name === 'onCardDestroyed' &&
+                            event.triggeringEvent.name === EVENTS.onCardDestroyed &&
                             event.card === context.source
                     },
                     destroyed: true
@@ -786,7 +787,7 @@ class Card extends EffectSource {
         if (originalLocation !== targetLocation) {
             this.updateAbilityEvents(originalLocation, targetLocation);
             this.updateEffects(originalLocation, targetLocation);
-            this.game.emitEvent('onCardMoved', {
+            this.game.emitEvent(EVENTS.onCardMoved, {
                 card: this,
                 originalLocation: originalLocation,
                 newLocation: targetLocation

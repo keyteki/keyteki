@@ -1,3 +1,4 @@
+const { EVENTS } = require('../Events/types');
 const PlayerAction = require('./PlayerAction');
 
 class ChosenDiscardAction extends PlayerAction {
@@ -21,7 +22,7 @@ class ChosenDiscardAction extends PlayerAction {
     }
 
     getEvent(player, context) {
-        return super.createEvent('unnamedEvent', {}, () => {
+        return super.createEvent(EVENTS.unnamedEvent, {}, () => {
             if (player.hand.length > 0) {
                 let amount = Math.min(player.hand.length, this.amount);
                 if (amount > 0) {

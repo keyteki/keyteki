@@ -1,3 +1,4 @@
+const { EVENTS } = require('../Events/types');
 const PlayerAction = require('./PlayerAction');
 
 class ShuffleDeckAction extends PlayerAction {
@@ -12,10 +13,14 @@ class ShuffleDeckAction extends PlayerAction {
     }
 
     getEvent(player, context) {
-        return super.createEvent('unnamedEvent', { player: player, context: context }, (event) => {
-            event.player.shuffleDeck();
-            context.game.addMessage('{0} is shuffling their deck', player);
-        });
+        return super.createEvent(
+            EVENTS.unnamedEvent,
+            { player: player, context: context },
+            (event) => {
+                event.player.shuffleDeck();
+                context.game.addMessage('{0} is shuffling their deck', player);
+            }
+        );
     }
 }
 

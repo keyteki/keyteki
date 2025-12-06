@@ -1,3 +1,4 @@
+const { EVENTS } = require('../Events/types');
 const PlayerAction = require('./PlayerAction');
 
 class ModifyChainsAction extends PlayerAction {
@@ -29,7 +30,7 @@ class ModifyChainsAction extends PlayerAction {
             amount: this.amount,
             context: context
         };
-        return super.createEvent('onModifyBid', params, (event) => {
+        return super.createEvent(EVENTS.onModifyBid, params, (event) => {
             player.chains = Math.max(player.chains + event.amount, 0);
         });
     }

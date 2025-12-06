@@ -1,3 +1,4 @@
+const { EVENTS } = require('../Events/types');
 const PlayerAction = require('./PlayerAction');
 
 class DrawAction extends PlayerAction {
@@ -38,7 +39,7 @@ class DrawAction extends PlayerAction {
 
     getEventWithAmount(player, context, amount, refill, shedChains) {
         return super.createEvent(
-            'onDrawCards',
+            EVENTS.onDrawCards,
             {
                 player: player,
                 amount: amount,

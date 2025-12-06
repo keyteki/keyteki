@@ -1,7 +1,11 @@
+const { EVENTS } = require('../Events/types.js');
 const BaseStepWithPipeline = require('./basestepwithpipeline.js');
 const SimpleStep = require('./simplestep.js');
 
 class Phase extends BaseStepWithPipeline {
+    /**
+     * @param {import('../game')} game
+     */
     constructor(game, name) {
         super(game);
         this.name = name;
@@ -20,7 +24,7 @@ class Phase extends BaseStepWithPipeline {
             return;
         }
 
-        this.game.raiseEvent('onPhaseStarted', { phase: this.name }, () => {
+        this.game.raiseEvent(EVENTS.onPhaseStarted, { phase: this.name }, () => {
             this.game.currentPhase = this.name;
             if (this.name !== 'setup') {
                 this.game.addAlert(
@@ -38,7 +42,7 @@ class Phase extends BaseStepWithPipeline {
     }
 
     endPhase() {
-        this.game.raiseEvent('onPhaseEnd', { phase: this.name }, () => {
+        this.game.raiseEvent(EVENTS.onPhaseEnd, { phase: this.name }, () => {
             this.game.resetThingsThisPhase();
         });
         this.game.currentPhase = '';

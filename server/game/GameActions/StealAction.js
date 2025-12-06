@@ -1,3 +1,4 @@
+const { EVENTS } = require('../Events/types');
 const PlayerAction = require('./PlayerAction');
 
 class StealAction extends PlayerAction {
@@ -26,7 +27,7 @@ class StealAction extends PlayerAction {
             player: player,
             amount: Math.min(this.amount, player.amber)
         };
-        return super.createEvent('onStealAmber', params, (event) => {
+        return super.createEvent(EVENTS.onStealAmber, params, (event) => {
             if (!event.player.anyEffect('stealFromPool')) {
                 event.player.modifyAmber(-event.amount);
             }

@@ -1,5 +1,6 @@
 const ThenAbility = require('./ThenAbility');
 const DestroyAction = require('./GameActions/DestroyAction');
+const { EVENTS } = require('./Events/types');
 
 const HouseUseEffects = ['canUseHouse', 'canPlayOrUseHouse'];
 const NonHouseUseEffects = ['canPlayOrUseNonHouse', 'canUseNonHouse'];
@@ -49,7 +50,7 @@ const Costs = {
             );
         },
         payEvent: (context) =>
-            context.game.getEvent('unnamedEvent', {}, () => {
+            context.game.getEvent(EVENTS.unnamedEvent, {}, () => {
                 context.game.cardUsed(context.source);
                 if (context.ignoreHouse || context.player.checkConditions('canUse', context)) {
                     return true;
@@ -146,7 +147,7 @@ const Costs = {
             return false;
         },
         payEvent: (context) =>
-            context.game.getEvent('unnamedEvent', {}, () => {
+            context.game.getEvent(EVENTS.unnamedEvent, {}, () => {
                 if (context.ignoreHouse) {
                     return true;
                 }

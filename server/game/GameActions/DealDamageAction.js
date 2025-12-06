@@ -1,3 +1,4 @@
+const { EVENTS } = require('../Events/types');
 const CardGameAction = require('./CardGameAction');
 
 class DealDamageAction extends CardGameAction {
@@ -48,7 +49,7 @@ class DealDamageAction extends CardGameAction {
 
     getReplacementEvent(card, context, amount = this.computeAmount(card, context)) {
         return super.createEvent(
-            'unnamedEvent',
+            EVENTS.unnamedEvent,
             {
                 card: card,
                 context: context,
@@ -91,7 +92,8 @@ class DealDamageAction extends CardGameAction {
         for (let event of damageDealtEvent
             .getSimultaneousEvents()
             .filter(
-                (event) => event.name === 'onDamageDealt' && event.card === damageDealtEvent.card
+                (event) =>
+                    event.name === EVENTS.onDamageDealt && event.card === damageDealtEvent.card
             )) {
             event.cancel();
         }
@@ -134,7 +136,7 @@ class DealDamageAction extends CardGameAction {
             ignoreArmor: this.ignoreArmor
         };
 
-        return super.createEvent('onDamageDealt', params, (damageDealtEvent) => {
+        return super.createEvent(EVENTS.onDamageDealt, params, (damageDealtEvent) => {
             if (damageDealtEvent.card.warded) {
                 this.unwardAndCancel(context, damageDealtEvent);
                 return;
@@ -182,14 +184,18 @@ class DealDamageAction extends CardGameAction {
             };
 
             if (!armorUsed) {
-                armorEvent = super.createEvent('unnamedEvent', armorParams, (event) => {
+                armorEvent = super.createEvent(EVENTS.unnamedEvent, armorParams, (event) => {
                     event.addSubEvent(damageAppliedEvent);
                 });
             } else {
-                armorEvent = super.createEvent('onDamagePreventedByArmor', armorParams, (event) => {
-                    event.card.armorUsed += event.armorUsed;
-                    event.addSubEvent(damageAppliedEvent);
-                });
+                armorEvent = super.createEvent(
+                    EVENTS.onDamagePreventedByArmor,
+                    armorParams,
+                    (event) => {
+                        event.card.armorUsed += event.armorUsed;
+                        event.addSubEvent(damageAppliedEvent);
+                    }
+                );
             }
 
             damageDealtEvent.addSubEvent(armorEvent);

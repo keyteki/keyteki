@@ -1,4 +1,5 @@
 const Card = require('../../Card.js');
+const { EVENTS } = require('../../Events/types.js');
 const FightGameAction = require('../../GameActions/FightGameAction');
 const AbilityResolver = require('../../gamesteps/abilityresolver');
 const SimpleStep = require('../../gamesteps/simplestep');
@@ -41,7 +42,7 @@ class SmiteAbilityResolver extends AbilityResolver {
 
 class SmiteFightAction extends FightGameAction {
     getEvent(card, context) {
-        return super.createEvent('onInitiateFight', { card, context }, () => {
+        return super.createEvent(EVENTS.onInitiateFight, { card, context }, () => {
             let newContext;
             if (card.stunned) {
                 let removeStunAction = card

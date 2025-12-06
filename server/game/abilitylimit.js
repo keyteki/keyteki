@@ -1,3 +1,5 @@
+const { EVENTS } = require('./Events/types');
+
 class FixedAbilityLimit {
     constructor(max) {
         this.max = max;
@@ -70,11 +72,11 @@ AbilityLimit.repeatable = function (max, eventName) {
 };
 
 AbilityLimit.perPhase = function (max) {
-    return new RepeatableAbilityLimit(max, 'onPhaseEnd');
+    return new RepeatableAbilityLimit(max, EVENTS.onPhaseEnd);
 };
 
 AbilityLimit.perTurn = function (max) {
-    return new RepeatableAbilityLimit(max, 'onTurnEnd');
+    return new RepeatableAbilityLimit(max, EVENTS.onTurnEnd);
 };
 
 module.exports = AbilityLimit;

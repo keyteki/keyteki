@@ -1,5 +1,6 @@
 const GameAction = require('./GameAction');
 const Effects = require('../effects.js');
+const { EVENTS } = require('../Events/types');
 
 class LastingEffectAction extends GameAction {
     constructor(propertyFactory, duration) {
@@ -65,7 +66,7 @@ class LastingEffectAction extends GameAction {
         };
 
         return [
-            super.createEvent('applyLastingEffect', { context: context }, (event) =>
+            super.createEvent(EVENTS.applyLastingEffect, { context: context }, (event) =>
                 event.context.source.lastingEffect(() => properties)
             )
         ];

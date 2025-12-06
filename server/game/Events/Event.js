@@ -1,6 +1,9 @@
 const _ = require('underscore');
 
 class Event {
+    /**
+     * @param {import('./types').EventName} name
+     */
     constructor(name, params = {}, handler, gameAction) {
         this.name = name;
         this.cancelled = false;
