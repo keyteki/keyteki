@@ -12,8 +12,6 @@ describe('Flying Broomstick', function () {
                     inPlay: ['wretched-doll', 'umbra', 'gub']
                 }
             });
-            this.umbra.tokens.damage = 1;
-            this.umbra.amber = 1;
         });
 
         it('should heal', function () {
@@ -72,11 +70,22 @@ describe('Flying Broomstick', function () {
             this.player2.clickPrompt('dis');
             this.player2.endTurn();
             this.player1.clickPrompt('untamed');
+
+            this.umbra.addToken('damage', 1);
+            this.umbra.addToken('amber', 5);
+            // Being stunned counts as having a counter.
+            this.umbra.stun();
+
+            expect(this.umbra.amber).toBe(5);
+            expect(this.umbra.tokens.damage).toBe(1);
+            expect(this.umbra.stunned).toBe(true);
+
             this.player1.reap(this.tantadlin);
             this.player1.clickCard(this.umbra);
             expect(this.tantadlin.tokens.damage).toBe(1);
             expect(this.umbra.tokens.damage).toBe(undefined);
             expect(this.umbra.amber).toBe(0);
+            expect(this.umbra.stunned).toBe(false);
         });
     });
 });
