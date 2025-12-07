@@ -14,7 +14,10 @@ class BookOfLeQ extends Card {
                         context.player.deck.length > 0 &&
                         !context.player.deck[0].hasHouse('staralliance'),
                     trueGameAction: ability.actions.changeActiveHouse((context) => ({
-                        house: context.player.deck[0].getHouses()
+                        house:
+                            context.player.deck.length > 0
+                                ? context.player.deck[0].getHouses()
+                                : undefined
                     })),
                     falseGameAction: ability.actions.untilPlayerTurnEnd({
                         targetController: 'current',
