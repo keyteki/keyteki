@@ -1,3 +1,4 @@
+// @ts-nocheck
 const Card = require('../../Card.js');
 
 class ConsulPrimus extends Card {
@@ -13,13 +14,8 @@ class ConsulPrimus extends Card {
             then: (preContext) => ({
                 gameAction: ability.actions.placeAmber({
                     promptForSelect: {
-                        message: '{0} uses {1} to place {3} amber on {2}',
-                        messageArgs: (card) => [
-                            preContext.player,
-                            preContext.source,
-                            card,
-                            preContext.target.amber > 0 ? 1 : 0
-                        ],
+                        message: '{0} uses {1} to place 1 amber on {2}',
+                        messageArgs: (card) => [preContext.player, preContext.source, card],
                         cardType: 'creature',
                         activePromptTitle: 'Choose another creature',
                         cardCondition: (card) => card !== preContext.target
