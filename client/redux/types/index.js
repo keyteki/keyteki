@@ -21,6 +21,22 @@ export const Decks = Object.freeze({
     DecksReceived: 'DECKS_RECEIVED'
 });
 
+export const Tags = Object.freeze({
+    RequestTags: 'REQUEST_TAGS',
+    TagsReceived: 'TAGS_RECEIVED',
+    CreateTag: 'CREATE_TAG',
+    TagCreated: 'TAG_CREATED',
+    UpdateTag: 'UPDATE_TAG',
+    TagUpdated: 'TAG_UPDATED',
+    DeleteTag: 'DELETE_TAG',
+    TagDeleted: 'TAG_DELETED',
+    AssignTagToDeck: 'ASSIGN_TAG_TO_DECK',
+    TagAssignedToDeck: 'TAG_ASSIGNED_TO_DECK',
+    RemoveTagFromDeck: 'REMOVE_TAG_FROM_DECK',
+    TagRemovedFromDeck: 'TAG_REMOVED_FROM_DECK',
+    ClearTagStatus: 'CLEAR_TAG_STATUS'
+});
+
 export const UserAction = Object.freeze({
     RequestBlocklist: 'REQUEST_BLOCKLIST',
     ReceiveBlocklist: 'RECEIVE_BLOCKLIST',
