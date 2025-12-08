@@ -1,4 +1,3 @@
-// @ts-nocheck
 const Card = require('../../Card.js');
 
 class ConsulPrimus extends Card {
