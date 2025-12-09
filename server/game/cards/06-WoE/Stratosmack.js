@@ -14,7 +14,9 @@ class Stratosmack extends Card {
                     context.preThenEvent.destroyEvent &&
                     context.preThenEvent.destroyEvent.destroyedByDamageDealt &&
                     context.preThenEvent.destroyEvent.resolved,
-                gameAction: ability.actions.makeTokenCreature()
+                gameAction: ability.actions.makeTokenCreature(),
+                message: '{0} uses {1} to make a token creature',
+                messageArgs: (preContext) => [preContext.player, preContext.source]
             }
         });
     }
