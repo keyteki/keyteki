@@ -1,3 +1,4 @@
+const { EVENTS } = require('../Events/types');
 const GameAction = require('./GameAction');
 
 class ChangeEventAction extends GameAction {
@@ -12,7 +13,7 @@ class ChangeEventAction extends GameAction {
 
     getEventArray(context) {
         return [
-            super.createEvent('unnamedEvent', {}, () => {
+            super.createEvent(EVENTS.unnamedEvent, {}, () => {
                 let properties = this.propertyFactory(context);
                 if (properties.cancel) {
                     properties.event.cancel();

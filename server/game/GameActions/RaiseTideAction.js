@@ -1,4 +1,5 @@
 const Constants = require('../../constants');
+const { EVENTS } = require('../Events/types');
 const PlayerAction = require('./PlayerAction');
 
 class RaiseTideAction extends PlayerAction {
@@ -23,11 +24,11 @@ class RaiseTideAction extends PlayerAction {
 
     getEvent(player, context) {
         let raiseTideEvent = super.createEvent(
-            'onRaiseTide',
+            EVENTS.onRaiseTide,
             { player: player, context: context },
             (event) => {
                 if (event.player.isTideHigh()) {
-                    event.name = 'unnamedEvent';
+                    event.name = EVENTS.unnamedEvent;
                 }
                 context.game.changeTide(event.player, Constants.Tide.HIGH, this.showMessage);
             }

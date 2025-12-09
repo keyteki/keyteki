@@ -1,3 +1,4 @@
+const { EVENTS } = require('../Events/types');
 const CardGameAction = require('./CardGameAction');
 
 class DelayedEffectAction extends CardGameAction {
@@ -31,8 +32,10 @@ class DelayedEffectAction extends CardGameAction {
             target: card,
             context: context
         };
-        return super.createEvent('onEffectApplied', { card: card, context: context }, (event) =>
-            event.context.source.delayedEffect(() => properties)
+        return super.createEvent(
+            EVENTS.onEffectApplied,
+            { card: card, context: context },
+            (event) => event.context.source.delayedEffect(() => properties)
         );
     }
 }

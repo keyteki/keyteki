@@ -1,3 +1,4 @@
+const { EVENTS } = require('../Events/types');
 const CardGameAction = require('./CardGameAction');
 
 class DiscardCardAction extends CardGameAction {
@@ -82,7 +83,7 @@ class DiscardCardAction extends CardGameAction {
 
     getEvent(card, context) {
         let location = card.location;
-        return super.createEvent('onCardDiscarded', { card, context, location }, () => {
+        return super.createEvent(EVENTS.onCardDiscarded, { card, context, location }, () => {
             if (card.location === 'hand') {
                 context.game.cardDiscarded(card);
             }
@@ -110,7 +111,7 @@ class DiscardCardAction extends CardGameAction {
             }
 
             return [
-                context.game.getEvent('onOrderedDiscard', { cards: orderedTargets }, () => {
+                context.game.getEvent(EVENTS.onOrderedDiscard, { cards: orderedTargets }, () => {
                     // No chat message here; callers like ChosenDiscardAction/RandomDiscardAction already log
                     for (const card of orderedTargets) {
                         const evt = this.getEvent(card, context);

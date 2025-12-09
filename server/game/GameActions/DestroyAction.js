@@ -1,3 +1,4 @@
+const { EVENTS } = require('../Events/types');
 const CardGameAction = require('./CardGameAction');
 
 class DestroyAction extends CardGameAction {
@@ -25,11 +26,11 @@ class DestroyAction extends CardGameAction {
             context: context,
             damageEvent: this.damageEvent
         };
-        return super.createEvent('onCardDestroyed', params, (event) => {
+        return super.createEvent(EVENTS.onCardDestroyed, params, (event) => {
             event.card.moribund = true;
 
             event.leavesPlayEvent = context.game.getEvent(
-                'onCardLeavesPlay',
+                EVENTS.onCardLeavesPlay,
                 {
                     card: event.card,
                     context: context,

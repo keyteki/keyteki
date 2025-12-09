@@ -2,6 +2,7 @@ const BaseStepWithPipeline = require('../gamesteps/basestepwithpipeline.js');
 const ForcedTriggeredAbilityWindow = require('../gamesteps/forcedtriggeredabilitywindow.js');
 const DestroyedAbilityWindow = require('../gamesteps/DestroyedAbilityWindow.js');
 const SimpleStep = require('../gamesteps/simplestep.js');
+const { EVENTS } = require('./types.js');
 
 class EventWindow extends BaseStepWithPipeline {
     constructor(game, event) {
@@ -34,7 +35,7 @@ class EventWindow extends BaseStepWithPipeline {
 
         if (
             abilityType === 'interrupt' &&
-            events.some((event) => event.name === 'onCardLeavesPlay')
+            events.some((event) => event.name === EVENTS.onCardLeavesPlay)
         ) {
             this.queueStep(new DestroyedAbilityWindow(this.game, abilityType, this));
         } else {

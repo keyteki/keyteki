@@ -1,3 +1,4 @@
+const { EVENTS } = require('../Events/types');
 const CardGameAction = require('./CardGameAction');
 
 class ResolveReapAction extends CardGameAction {
@@ -16,12 +17,12 @@ class ResolveReapAction extends CardGameAction {
     }
 
     getEvent(card, context) {
-        let reapEvent = super.createEvent('onReap', { card: card, context: context }, () => {
+        let reapEvent = super.createEvent(EVENTS.onReap, { card: card, context: context }, () => {
             context.game.actions.gainAmber({ reap: true }).resolve(context.player, context);
         });
 
         reapEvent.addChildEvent(
-            context.game.getEvent('onUseCard', {
+            context.game.getEvent(EVENTS.onUseCard, {
                 card: card,
                 context: context,
                 reapEvent: reapEvent

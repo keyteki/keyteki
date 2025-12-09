@@ -1,3 +1,4 @@
+const { EVENTS } = require('../Events/types');
 const CardGameAction = require('./CardGameAction');
 
 class ApplyDamageAction extends CardGameAction {
@@ -32,7 +33,7 @@ class ApplyDamageAction extends CardGameAction {
             destroyEvent: null
         };
 
-        return super.createEvent('onDamageApplied', params, (event) => {
+        return super.createEvent(EVENTS.onDamageApplied, params, (event) => {
             event.noGameStateCheck = true;
 
             event.card.addToken('damage', event.amount);

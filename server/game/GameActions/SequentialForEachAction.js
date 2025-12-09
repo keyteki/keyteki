@@ -1,3 +1,4 @@
+const { EVENTS } = require('../Events/types');
 const GameAction = require('./GameAction');
 
 class SequentialForEachAction extends GameAction {
@@ -26,7 +27,7 @@ class SequentialForEachAction extends GameAction {
 
     getEventArray(context) {
         return [
-            super.createEvent('unnamedEvent', {}, () => {
+            super.createEvent(EVENTS.unnamedEvent, {}, () => {
                 if (this.forEach.length > 0) {
                     for (let element of this.forEach) {
                         let action = this.action;

@@ -3,6 +3,7 @@ const _ = require('underscore');
 const BaseStep = require('./basestep.js');
 const TriggeredAbilityWindowTitles = require('./triggeredabilitywindowtitles.js');
 const Optional = require('../optional.js');
+const { EVENTS } = require('../Events/types.js');
 
 class ForcedTriggeredAbilityWindow extends BaseStep {
     constructor(game, abilityType, window, eventsToExclude = []) {
@@ -236,21 +237,21 @@ class ForcedTriggeredAbilityWindow extends BaseStep {
         const event = context.event;
         const ability = context.ability;
         if (event) {
-            if (event.name === 'onCardPlayed' && !ability.properties.play) {
+            if (event.name === EVENTS.onCardPlayed && !ability.properties.play) {
                 return ability.properties.reap
                     ? ' (reap)'
                     : ability.properties.fight
                     ? ' (fight)'
                     : '';
             }
-            if (event.name === 'onFight' && !ability.properties.fight) {
+            if (event.name === EVENTS.onFight && !ability.properties.fight) {
                 return ability.properties.reap
                     ? ' (reap)'
                     : ability.properties.play
                     ? ' (play)'
                     : '';
             }
-            if (event.name === 'onReap' && !ability.properties.reap) {
+            if (event.name === EVENTS.onReap && !ability.properties.reap) {
                 return ability.properties.fight
                     ? ' (fight)'
                     : ability.properties.play

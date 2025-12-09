@@ -1,3 +1,4 @@
+const { EVENTS } = require('../Events/types');
 const CardGameAction = require('./CardGameAction');
 
 class CardLastingEffectAction extends CardGameAction {
@@ -54,8 +55,10 @@ class CardLastingEffectAction extends CardGameAction {
             until: this.until
         };
         let duration = this.until ? 'lastingEffect' : this.duration;
-        return super.createEvent('onEffectApplied', { card: card, context: context }, (event) =>
-            event.context.source[duration](() => properties)
+        return super.createEvent(
+            EVENTS.onEffectApplied,
+            { card: card, context: context },
+            (event) => event.context.source[duration](() => properties)
         );
     }
 }

@@ -1,3 +1,4 @@
+const { EVENTS } = require('../Events/types');
 const PlayerAction = require('./PlayerAction');
 
 class ModifyAmberAction extends PlayerAction {
@@ -23,7 +24,7 @@ class ModifyAmberAction extends PlayerAction {
     getEvent(player, context) {
         let params = { player: player, amount: this.amount, reap: this.reap, context: context };
 
-        return super.createEvent('onModifyAmber', params, (event) => {
+        return super.createEvent(EVENTS.onModifyAmber, params, (event) => {
             event.player.modifyAmber(event.amount);
         });
     }
