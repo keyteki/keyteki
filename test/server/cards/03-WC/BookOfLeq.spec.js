@@ -64,6 +64,31 @@ describe('Book of LeQ', function () {
             });
         });
 
+        describe('when the deck is empty', function () {
+            beforeEach(function () {
+                this.player1.player.deck = [];
+                this.player1.useAction(this.bookOfLeq);
+            });
+
+            it('should end the turn', function () {
+                expect(this.game.activePlayer).toBe(this.player2.player);
+            });
+
+            it('should not ready cards', function () {
+                expect(this.bookOfLeq.exhausted).toBe(true);
+            });
+
+            it('should allow opponent play to proceed as normal', function () {
+                this.player2.clickPrompt('logos');
+                this.player2.play(this.foggify);
+                this.player2.play(this.dimensionDoor);
+                this.player2.play(this.hexpion);
+                this.player2.play(this.fetchdrones);
+                this.player2.playUpgrade(this.rocketBoots, this.hexpion);
+                this.player2.playUpgrade(this.backupCopy, this.hexpion);
+            });
+        });
+
         describe('when the top card is a house-pipped star alliance card', function () {
             beforeEach(function () {
                 this.armsmasterMolina.enhacements = ['brobnar'];
