@@ -41,7 +41,7 @@ class DiscardCardAction extends CardGameAction {
         // until there are no remaining cards with Scrap abilities.
         this._remainingDiscardCards = this.target.slice();
         this._orderedDiscardCards = [];
-        this._orderedByPrompt = true;
+        this._orderedDiscardFromHandByPrompt = true;
 
         const promptForDiscardOrder = () => {
             const stillHasScrapToOrder = this._remainingDiscardCards.some(
@@ -81,6 +81,29 @@ class DiscardCardAction extends CardGameAction {
         this.chatMessage = true;
     }
 
+    canAffect(card, context) {
+        if (this._orderedDiscardFromHandByPrompt && card.location !== 'hand') {
+            // If we’re doing an ordered discard from hand, it means that
+            // “Scrap:” effects may be going off which can perhaps cause cards
+            // to get discarded (see Hazard Zerp).
+            //
+            // We therefore need to check that the card that was previously
+            // chosen to be discarded is still in fact in the player’s hand
+            // before we allow the event to resolve.
+            //
+            // Without this, discarding a card with Hazard Zerp while a full
+            // hand discard is happening will lead to that card getting
+            // discarded twice, which would trigger any “Scrap:” effect it had
+            // twice.
+            //
+            // See: https://github.com/keyteki/keyteki/issues/4663
+
+            return false;
+        }
+
+        return super.canAffect(card, context);
+    }
+
     getEvent(card, context) {
         let location = card.location;
         return super.createEvent(EVENTS.onCardDiscarded, { card, context, location }, () => {
@@ -98,7 +121,7 @@ class DiscardCardAction extends CardGameAction {
         }
 
         // If the target order was established via prompt, resolve discards sequentially in that order
-        if (this._orderedByPrompt) {
+        if (this._orderedDiscardFromHandByPrompt) {
             const orderedTargets = this.target.filter((t) => this.canAffect(t, context));
 
             if (orderedTargets.length > 0 && this.chatMessage) {
@@ -111,13 +134,18 @@ class DiscardCardAction extends CardGameAction {
             }
 
             return [
-                context.game.getEvent(EVENTS.onOrderedDiscard, { cards: orderedTargets }, () => {
-                    // No chat message here; callers like ChosenDiscardAction/RandomDiscardAction already log
-                    for (const card of orderedTargets) {
-                        const evt = this.getEvent(card, context);
-                        context.game.openEventWindow([evt]);
+                context.game.getEvent(
+                    EVENTS.onOrderedDiscard,
+                    { cards: orderedTargets, discardEvents: [] },
+                    (event) => {
+                        // No chat message here; callers like ChosenDiscardAction/RandomDiscardAction already log
+                        for (const card of orderedTargets) {
+                            const evt = this.getEvent(card, context);
+                            event.discardEvents.push(evt);
+                            context.game.openEventWindow([evt]);
+                        }
                     }
-                })
+                )
             ];
         }
 
@@ -135,5 +163,38 @@ class DiscardCardAction extends CardGameAction {
         return events;
     }
 }
+
+/**
+ * Function that, given an array of `preThenEvents` that one would get in a
+ * context inside of a `then` handler, returns cards actually discarded from
+ * those events.  Use this for effects that do things “for each card discarded
+ * this way” so that you get the right number of iterations.
+ *
+ * Handles when discards are from “normal” `onCardDiscarded` events as well as
+ * when, due to “Scrap:” effects, they come nested from an `onOrderedDiscard`
+ * event.
+ *
+ * Checks to make sure the discard events resolved successfully before including
+ * their cards.
+ *
+ * @param {Event[]} preThenEvents
+ */
+DiscardCardAction.collectDiscardedCards = function (preThenEvents) {
+    const successfullyDiscardedCards = preThenEvents
+        // Flatten the `onOrderedDiscard` events to their children, which will
+        // be `onCardDiscarded` events.
+        .flatMap((ev) => (ev.name === EVENTS.onOrderedDiscard ? ev.discardEvents : [ev]))
+        // We expect the events to be `onCardDiscarded`
+        // anyway, but this ensures it.
+        .filter((ev) => ev.name === EVENTS.onCardDiscarded)
+        // Check for resolved because some of the
+        // `onCardDiscarded` events initially created by
+        // `onOrderedDiscard` may have fizzled if a “Scrap:”
+        // effect discarded them early.
+        .filter((ev) => ev.resolved)
+        .map((ev) => ev.card);
+
+    return successfullyDiscardedCards;
+};
 
 module.exports = DiscardCardAction;

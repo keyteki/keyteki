@@ -735,7 +735,14 @@ const EVENTS = /** @type {const} */ ({
      * being discarded so that each can be resolved in turn.
      *
      * Params:
-     * * `cards` — An array of {@link Card}s being discarded.
+     * * `cards` — An array of {@link Card}s chosen to be discarded. Not all may
+     *   actually end up being discarded if they leave the hand for other
+     *   reasons before we get around to them.
+     * * `discardEvents` — An array of the `onCardDiscarded` events that are
+     *   generated / executed to actually discard the cards. Effects can consult
+     *   the events of this array to check how many cards actually did get
+     *   discarded as a result of them. (_E.g._ Cryptic Collapse) Use the
+     *   {@see DiscardCardAction.collectDiscardedCards} helper to get them.
      *
      * @see DiscardCardAction
      */
