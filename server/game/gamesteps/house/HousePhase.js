@@ -77,7 +77,7 @@ class HousePhase extends Phase {
                                 theyOwn
                             );
                             for (let card of this.game.activePlayer.archives) {
-                                if (oppCannotLeave && card.owner !== this.game.activeplayer) {
+                                if (oppCannotLeave && card.owner !== this.game.activePlayer) {
                                     continue;
                                 }
                                 this.game.activePlayer.moveCard(card, 'hand');
@@ -96,7 +96,7 @@ class HousePhase extends Phase {
                                 theyOwn
                             );
                             for (let card of cardParam) {
-                                if (oppCannotLeave && card.owner !== this.game.activeplayer) {
+                                if (oppCannotLeave && card.owner !== this.game.activePlayer) {
                                     continue;
                                 }
                                 this.game.activePlayer.moveCard(card, 'hand');
