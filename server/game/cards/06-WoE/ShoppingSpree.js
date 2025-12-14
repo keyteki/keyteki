@@ -1,4 +1,5 @@
 const Card = require('../../Card.js');
+const { DiscardCardAction } = require('../../GameActions/index.js');
 
 class ShoppingSpree extends Card {
     // Play: Discard your hand. Draw a card for each card discarded
@@ -9,14 +10,10 @@ class ShoppingSpree extends Card {
                 target: context.player.hand
             })),
             then: {
-                gameAction: ability.actions.draw((context) => {
-                    const events = context.preThenEvents || [];
-                    const cards = events.flatMap((e) =>
-                        (Array.isArray(e.cards) ? e.cards : []).concat(e.card ? [e.card] : [])
-                    );
-                    const amount = cards.length || events.length;
-                    return { amount };
-                })
+                gameAction: ability.actions.draw((context) => ({
+                    amount: DiscardCardAction.collectDiscardedCards(context.preThenEvents || [])
+                        .length
+                }))
             }
         });
     }
