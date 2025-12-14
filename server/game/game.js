@@ -1209,10 +1209,20 @@ class Game extends EventEmitter {
         player.socket = undefined;
     }
 
-    rematch() {
+    /**
+     * @param {boolean} swapDecks If true, swap decks in the rematch from what
+     * they were this game. Note that if the current game was a rematch with
+     * swapped decks, swapping for the 2nd rematch puts them back to where they
+     * were originally.
+     */
+    rematch(swapDecks = false) {
         if (!this.finishedAt) {
             this.finishedAt = new Date();
             this.winReason = 'rematch';
+        }
+
+        if (swapDecks) {
+            this.swap = !this.swap;
         }
 
         this.router.rematch(this);
