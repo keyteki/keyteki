@@ -72,7 +72,7 @@ const gigantic2s = [
 ];
 
 // The MV API doesn't provide proper per-house images for these cards.
-const houselessCards = ['build-your-champion', 'digging-up-the-monster', 'tomes-gigantic'];
+const houselessCards = ['build-your-champion', 'digging-up-the-monster', 'tomes-gigantica'];
 
 export const loadImage = (url) => {
     return new Promise((resolve) => {

@@ -104,7 +104,7 @@ class CardImport {
             874: {
                 'build-your-champion': true,
                 'digging-up-the-monster': true,
-                'tomes-gigantic': true
+                'tomes-gigantica': true
             },
             886: {
                 'avenging-aura': true,
