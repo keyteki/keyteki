@@ -1,10 +1,17 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 import './IdentityCard.scss';
 import './PlayerStats.scss';
 import IdentityCardImage from '../Decks/IdentityCardImage';
 import { Constants } from '../../constants';
 
 const IdentityCard = ({ deck, showDeckName, onMouseOut, onMouseOver }) => {
+    const user = useSelector((state) => state.account.user);
+    const showAccolades =
+        user?.settings?.optionSettings?.showAccolades !== undefined
+            ? user.settings.optionSettings.showAccolades
+            : true;
+
     if (!deck.name || !showDeckName) {
         return <div />;
     }
@@ -14,7 +21,7 @@ const IdentityCard = ({ deck, showDeckName, onMouseOut, onMouseOver }) => {
             className='state'
             onMouseOver={() =>
                 onMouseOver({
-                    image: <IdentityCardImage deck={deck} />,
+                    image: <IdentityCardImage deck={deck} showAccolades={showAccolades} />,
                     size: 'x-large',
                     orientation: 'horizontal'
                 })

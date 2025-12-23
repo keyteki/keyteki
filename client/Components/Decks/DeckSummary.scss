@@ -3,6 +3,18 @@
 @import '~bootstrap/scss/functions';
 @import '~bootstrap/scss/variables';
 
+.deck-accolades {
+    justify-content: flex-start;
+    margin-bottom: 0.5rem;
+    margin-top: 10px;
+}
+
+.deck-accolade-image {
+    width: 40px;
+    height: auto;
+    margin: 0 4px;
+}
+
 .deck-houses {
     margin-top: 15px;
     padding: 5px 0;

@@ -160,6 +160,19 @@ export default function (state = { decks: [], cards: {} }, action) {
             }
 
             return newState;
+        case 'REFRESH_ACCOLADES_RECEIVED':
+            newState = Object.assign({}, state);
+            if (newState.selectedDeck && action.response && action.response.success) {
+                newState.selectedDeck.accolades = action.response.accolades;
+                // Also update in decks array if present
+                const deckIndex = newState.decks.findIndex(
+                    (d) => d.id === newState.selectedDeck.id
+                );
+                if (deckIndex !== -1) {
+                    newState.decks[deckIndex].accolades = action.response.accolades;
+                }
+            }
+            return newState;
         case Decks.SaveDeck:
             newState = Object.assign({}, state, {
                 deckSaved: false

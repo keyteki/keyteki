@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Col, Row } from 'react-bootstrap';
 import { sortBy } from 'underscore';
 import { useTranslation, Trans } from 'react-i18next';
+import { useSelector } from 'react-redux';
 
 import { Constants } from '../../constants';
 import CardBack from './CardBack';
@@ -17,6 +18,11 @@ import './DeckSummary.scss';
 
 const DeckSummary = ({ deck }) => {
     const { t, i18n } = useTranslation();
+    const user = useSelector((state) => state.account.user);
+    const showAccolades =
+        user?.settings?.optionSettings?.showAccolades !== undefined
+            ? user.settings.optionSettings.showAccolades
+            : true;
     let [zoomCard, setZoomCard] = useState(null);
     let [mousePos, setMousePosition] = useState({ x: 0, y: 0 });
     const cardsByHouse = {};
@@ -204,6 +210,19 @@ const DeckSummary = ({ deck }) => {
                     ) : null}
                 </Col>
             </Row>
+            {showAccolades && deck.accolades && deck.accolades.length > 0 && (
+                <Row className='deck-accolades'>
+                    {deck.accolades.map((accolade, index) => (
+                        <img
+                            key={index}
+                            src={accolade.image}
+                            alt={accolade.name}
+                            title={accolade.name}
+                            className='deck-accolade-image'
+                        />
+                    ))}
+                </Row>
+            )}
             <Row className='deck-houses'>
                 {deck.houses.map((house) => {
                     return (

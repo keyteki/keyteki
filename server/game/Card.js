@@ -1391,7 +1391,8 @@ class Card extends EffectSource {
             isToken: !!tokenCard,
             activeProphecy: this.activeProphecy,
             canActivateProphecy:
-                this.type === 'prophecy' ? this.controller.canActivateProphecy(this) : false
+                this.type === 'prophecy' ? this.controller.canActivateProphecy(this) : false,
+            accolades: this.owner.deckData.accolades || []
         };
 
         if (tokenCard && isController) {

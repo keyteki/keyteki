@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useSelector } from 'react-redux';
 import { fabric } from 'fabric';
 import { buildCard } from '../../archonMaker';
 
@@ -18,6 +19,11 @@ import './CardImage.scss';
 const CardImage = ({ card, cardBack, size, halfSize, onMouseOver, onMouseOut }) => {
     let [cardImage, setCardImage] = useState(null);
     const { i18n } = useTranslation();
+    const user = useSelector((state) => state.account.user);
+    const showAccolades =
+        user?.settings?.optionSettings?.showAccolades !== undefined
+            ? user.settings.optionSettings.showAccolades
+            : true;
     const fabricRef = useRef();
 
     const ref = useCallback(
@@ -36,6 +42,7 @@ const CardImage = ({ card, cardBack, size, halfSize, onMouseOver, onMouseOut }) 
                             ...card,
                             size,
                             halfSize,
+                            showAccolades,
                             url: `/img/cards/${halfSize ? 'halfSize/' : ''}${
                                 i18n.language === 'en' ? '' : i18n.language
                             }/${card.image.replace(/\*/g, '_')}.${halfSize ? 'jpg' : 'png'}`
@@ -83,6 +90,7 @@ const CardImage = ({ card, cardBack, size, halfSize, onMouseOver, onMouseOut }) 
             card.tokens && card.tokens.stun,
             card.pseudoDamage,
             card.wardBroken,
+            showAccolades,
             i18n.language
         ]
         /* eslint-enable react-hooks/exhaustive-deps */

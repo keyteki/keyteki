@@ -106,3 +106,14 @@ export function loadStandaloneDecks() {
         }
     };
 }
+
+export function refreshAccolades(deckId) {
+    return {
+        types: ['REQUEST_REFRESH_ACCOLADES', 'REFRESH_ACCOLADES_RECEIVED'],
+        shouldCallAPI: () => true,
+        APIParams: {
+            url: `/api/decks/${deckId}/refresh-accolades`,
+            type: 'POST'
+        }
+    };
+}

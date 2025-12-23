@@ -14,6 +14,7 @@ const DeckCards = { halfSize: {}, cards: {} };
 const MaverickHouseImages = {};
 const MaverickHouseAmberImages = {};
 const EnhancementPipImages = {};
+const AccoladeImages = {};
 let AnomalyIcon;
 let DeckListIcon;
 let MaverickIcon;
@@ -285,7 +286,14 @@ const placeCardCompact = (canvas, card, language, x, y) => {
     canvas.add(number, title, rarity, typeIcon);
 };
 
-export const buildDeckList = async (canvas, deck, language, translate, size) => {
+export const buildDeckList = async (
+    canvas,
+    deck,
+    language,
+    translate,
+    size,
+    showAccolades = true
+) => {
     if (!cacheLoaded) {
         await cacheImages();
     }
@@ -375,6 +383,22 @@ export const buildDeckList = async (canvas, deck, language, translate, size) => 
     text.set({ left: 210, top: 72 });
     canvas.add(DeckListIcon, line1, line2, line3, QRCodeIcon, expansion, text, TCO);
 
+    // Preload accolade images in parallel (non-blocking) - start loading immediately
+    const accoladePromises = [];
+    if (showAccolades && deck.accolades && deck.accolades.length > 0) {
+        const maxAccolades = 4;
+        const accoladesToShow = deck.accolades.slice(0, maxAccolades);
+        for (const accolade of accoladesToShow) {
+            if (!AccoladeImages[accolade.image]) {
+                accoladePromises.push(
+                    loadImage(accolade.image).then((img) => {
+                        AccoladeImages[accolade.image] = img;
+                    })
+                );
+            }
+        }
+    }
+
     let name;
     try {
         name = new fabric.Textbox(deck.name, {
@@ -458,6 +482,44 @@ export const buildDeckList = async (canvas, deck, language, translate, size) => 
         placeCard(canvas, card, language, x, y);
 
         canvas.renderAll();
+    }
+
+    // Add accolades after main content is rendered (images loaded in parallel above)
+    if (
+        showAccolades &&
+        deck.accolades &&
+        deck.accolades.length > 0 &&
+        accoladePromises.length > 0
+    ) {
+        const maxAccolades = 4;
+        const accoladeSize = 50;
+        const accoladesToShow = deck.accolades.slice(0, maxAccolades);
+        const spacing = 8;
+        const startX = 450; // Just to the right of title box (which ends at x: 440)
+        const accoladeY = 35; // Shifted down to avoid border overlap
+
+        // Wait for all images to be loaded (they were preloaded in parallel above)
+        await Promise.all(accoladePromises);
+
+        for (const [index, accolade] of accoladesToShow.entries()) {
+            // Images are now guaranteed to be in cache
+            if (AccoladeImages[accolade.image]) {
+                const accoladeImage = new fabric.Image(
+                    AccoladeImages[accolade.image].toCanvasElement(),
+                    imgOptions
+                );
+                // Scale to fixed size (both width and height) to ensure consistent dimensions
+                // This prevents misalignment due to different aspect ratios
+                accoladeImage.scaleToWidth(accoladeSize);
+                accoladeImage.scaleToHeight(accoladeSize);
+                accoladeImage.set({
+                    left: startX + index * (accoladeSize + spacing),
+                    top: accoladeY,
+                    shadow: new fabric.Shadow(shadowProps)
+                });
+                canvas.add(accoladeImage);
+            }
+        }
     }
 
     applyFilters(canvas, size, width);
@@ -564,6 +626,7 @@ export const buildCard = async (
         halfSize,
         modifiedPower,
         tokens = {},
+        showAccolades = true,
         ...card
     }
 ) => {
@@ -668,6 +731,49 @@ export const buildCard = async (
             }
 
             canvas.add(pipImage);
+        }
+    }
+    // Add accolades positioned by card type, shifted left from right border
+    // Only show on zoomed/hovered cards, not on board cards
+    if (
+        showAccolades &&
+        card.accolades &&
+        card.accolades.length > 0 &&
+        !halfSize &&
+        card.location === 'zoom'
+    ) {
+        const maxAccolades = 3;
+        const accoladeSize = 40;
+        const accoladesToShow = card.accolades.slice(0, maxAccolades);
+        const accoladeX = 235; // Shifted further left from right border (card width is 300)
+        const spacing = 55; // Vertical spacing between accolades
+
+        // Position based on card type
+        let startY;
+        if (card.type === 'creature' || card.type === 'action') {
+            startY = 25; // Just under top border for creatures and actions
+        } else if (card.type === 'upgrade') {
+            startY = 200; // Just under bottom of text box for upgrades
+        } else {
+            startY = 65; // Default position for artifacts and others
+        }
+
+        for (const [index, accolade] of accoladesToShow.entries()) {
+            // Cache accolade images to avoid re-downloading on every render
+            if (!AccoladeImages[accolade.image]) {
+                AccoladeImages[accolade.image] = await loadImage(accolade.image);
+            }
+            const accoladeImage = new fabric.Image(
+                AccoladeImages[accolade.image].toCanvasElement(),
+                imgOptions
+            );
+            accoladeImage.scaleToWidth(accoladeSize);
+            accoladeImage.set({
+                left: accoladeX,
+                top: startY + index * spacing,
+                shadow: new fabric.Shadow(shadowProps)
+            });
+            canvas.add(accoladeImage);
         }
     }
     if (card.location === 'play area') {

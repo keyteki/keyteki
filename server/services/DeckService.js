@@ -463,6 +463,18 @@ class DeckService {
         );
         deck.houses = houses.map((house) => house.Code);
 
+        // Load accolades (only for non-standalone decks)
+        if (!standalone) {
+            let accolades = await db.query('SELECT * FROM "DeckAccolades" WHERE "DeckId" = $1', [
+                deck.id
+            ]);
+            deck.accolades = accolades.map((a) => ({
+                id: a.AccoladeId,
+                name: a.Name,
+                image: a.ImageUrl
+            }));
+        }
+
         deck.isStandalone = standalone;
     }
 
@@ -747,6 +759,21 @@ class DeckService {
                     '($1, (SELECT "Id" FROM "Houses" WHERE "Code" = $3)), ($1, (SELECT "Id" FROM "Houses" WHERE "Code" = $4))',
                 flatten([deck.id, deck.houses])
             );
+
+            // Insert accolades if they exist (only for user decks, not standalone)
+            if (user && deck.accolades && deck.accolades.length > 0) {
+                let accoladeParams = [];
+                for (let accolade of deck.accolades) {
+                    accoladeParams.push(deck.id, accolade.id, accolade.name, accolade.image);
+                }
+                await db.query(
+                    `INSERT INTO "DeckAccolades" ("DeckId", "AccoladeId", "Name", "ImageUrl") VALUES ${expand(
+                        deck.accolades.length,
+                        4
+                    )}`,
+                    accoladeParams
+                );
+            }
 
             await db.query('COMMIT');
         } catch (err) {
@@ -1076,6 +1103,11 @@ class DeckService {
             return undefined;
         }
 
+        // Extract accolades from API response
+        const accolades = (deckResponse._linked.accolades || [])
+            .filter((a) => a.visible)
+            .map((a) => ({ id: a.id, name: a.name, image: a.image }));
+
         return {
             expansion: deckResponse.data.expansion,
             username: username,
@@ -1090,8 +1122,78 @@ class DeckService {
                 house.replace(' ', '').toLowerCase()
             ),
             cards: cards,
+            accolades: accolades,
             lastUpdated: new Date()
         };
+    }
+
+    async refreshAccolades(deckId, user) {
+        // Get the deck to find its UUID
+        const deck = await this.getById(deckId);
+        if (!deck) {
+            throw new Error('Deck not found');
+        }
+
+        if (deck.username !== user.username) {
+            throw new Error('Unauthorized');
+        }
+
+        // Fetch deck data from Master Vault API
+        let deckResponse;
+        try {
+            let response = await util.httpRequest(
+                `https://www.keyforgegame.com/api/decks/${deck.uuid}/?links=cards`
+            );
+
+            if (response[0] === '<') {
+                logger.error('Failed to refresh accolades: %s %s', deck.uuid, response);
+                throw new Error('Invalid response from API. Please try again later.');
+            }
+
+            deckResponse = JSON.parse(response);
+        } catch (error) {
+            logger.error(`Unable to refresh accolades for deck ${deck.uuid}`, error);
+            throw new Error('Invalid response from API. Please try again later.');
+        }
+
+        if (!deckResponse || !deckResponse._linked || !deckResponse.data) {
+            throw new Error('Invalid response from API. Please try again later.');
+        }
+
+        // Extract accolades from API response
+        const accolades = (deckResponse._linked.accolades || [])
+            .filter((a) => a.visible)
+            .map((a) => ({ id: a.id, name: a.name, image: a.image }));
+
+        // Update accolades in database
+        await db.query('BEGIN');
+        try {
+            // Delete existing accolades
+            await db.query('DELETE FROM "DeckAccolades" WHERE "DeckId" = $1', [deckId]);
+
+            // Insert new accolades
+            if (accolades.length > 0) {
+                let accoladeParams = [];
+                for (let accolade of accolades) {
+                    accoladeParams.push(deckId, accolade.id, accolade.name, accolade.image);
+                }
+                await db.query(
+                    `INSERT INTO "DeckAccolades" ("DeckId", "AccoladeId", "Name", "ImageUrl") VALUES ${expand(
+                        accolades.length,
+                        4
+                    )}`,
+                    accoladeParams
+                );
+            }
+
+            await db.query('COMMIT');
+        } catch (err) {
+            await db.query('ROLLBACK');
+            logger.error('Failed to refresh accolades', err);
+            throw new Error('Failed to update accolades in database');
+        }
+
+        return accolades;
     }
 
     mapDeck(deck) {
