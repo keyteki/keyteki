@@ -383,7 +383,6 @@ export const buildDeckList = async (
     text.set({ left: 210, top: 72 });
     canvas.add(DeckListIcon, line1, line2, line3, QRCodeIcon, expansion, text, TCO);
 
-    // Preload accolade images in parallel (non-blocking) - start loading immediately
     const accoladePromises = [];
     if (showAccolades && deck.accolades && deck.accolades.length > 0) {
         const maxAccolades = 4;
@@ -484,29 +483,24 @@ export const buildDeckList = async (
         canvas.renderAll();
     }
 
-    // Add accolades after main content is rendered (images loaded in parallel above)
     if (showAccolades && deck.accolades && deck.accolades.length > 0) {
         const maxAccolades = 4;
         const accoladeSize = 50;
         const accoladesToShow = deck.accolades.slice(0, maxAccolades);
         const spacing = 8;
-        const startX = 450; // Just to the right of title box (which ends at x: 440)
-        const accoladeY = 35; // Shifted down to avoid border overlap
+        const startX = 450;
+        const accoladeY = 35;
 
-        // Wait for all images to be loaded if there are any pending promises
         if (accoladePromises.length > 0) {
             await Promise.all(accoladePromises);
         }
 
         for (const [index, accolade] of accoladesToShow.entries()) {
-            // Images should be in cache now (either from previous load or just loaded)
             if (AccoladeImages[accolade.image]) {
                 const accoladeImage = new fabric.Image(
                     AccoladeImages[accolade.image].toCanvasElement(),
                     imgOptions
                 );
-                // Scale to fixed size (both width and height) to ensure consistent dimensions
-                // This prevents misalignment due to different aspect ratios
                 accoladeImage.scaleToWidth(accoladeSize);
                 accoladeImage.scaleToHeight(accoladeSize);
                 accoladeImage.set({
@@ -730,8 +724,6 @@ export const buildCard = async (
             canvas.add(pipImage);
         }
     }
-    // Add accolades positioned by card type, shifted left from right border
-    // Only show on zoomed/hovered cards, not on board cards
     if (
         showAccolades &&
         card.accolades &&
@@ -742,21 +734,19 @@ export const buildCard = async (
         const maxAccolades = 3;
         const accoladeSize = 40;
         const accoladesToShow = card.accolades.slice(0, maxAccolades);
-        const accoladeX = 235; // Shifted further left from right border (card width is 300)
-        const spacing = 55; // Vertical spacing between accolades
+        const accoladeX = 235;
+        const spacing = 55;
 
-        // Position based on card type
         let startY;
         if (card.type === 'creature' || card.type === 'action') {
-            startY = 25; // Just under top border for creatures and actions
+            startY = 25;
         } else if (card.type === 'upgrade') {
-            startY = 200; // Just under bottom of text box for upgrades
+            startY = 200;
         } else {
-            startY = 65; // Default position for artifacts and others
+            startY = 65;
         }
 
         for (const [index, accolade] of accoladesToShow.entries()) {
-            // Cache accolade images to avoid re-downloading on every render
             if (!AccoladeImages[accolade.image]) {
                 AccoladeImages[accolade.image] = await loadImage(accolade.image);
             }

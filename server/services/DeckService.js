@@ -463,7 +463,6 @@ class DeckService {
         );
         deck.houses = houses.map((house) => house.Code);
 
-        // Load accolades (only for non-standalone decks)
         if (!standalone) {
             let accolades = await db.query('SELECT * FROM "DeckAccolades" WHERE "DeckId" = $1', [
                 deck.id
@@ -760,7 +759,6 @@ class DeckService {
                 flatten([deck.id, deck.houses])
             );
 
-            // Insert accolades if they exist (only for user decks, not standalone)
             if (user && deck.accolades && deck.accolades.length > 0) {
                 let accoladeParams = [];
                 for (let accolade of deck.accolades) {
@@ -1103,7 +1101,6 @@ class DeckService {
             return undefined;
         }
 
-        // Extract accolades from API response
         const accolades = (deckResponse._linked.accolades || [])
             .filter((a) => a.visible)
             .map((a) => ({ id: a.id, name: a.name, image: a.image }));
@@ -1128,7 +1125,6 @@ class DeckService {
     }
 
     async refreshAccolades(deckId, user) {
-        // Get the deck to find its UUID
         const deck = await this.getById(deckId);
         if (!deck) {
             throw new Error('Deck not found');
@@ -1138,7 +1134,6 @@ class DeckService {
             throw new Error('Unauthorized');
         }
 
-        // Fetch deck data from Master Vault API
         let deckResponse;
         try {
             let response = await util.httpRequest(
@@ -1160,18 +1155,14 @@ class DeckService {
             throw new Error('Invalid response from API. Please try again later.');
         }
 
-        // Extract accolades from API response
         const accolades = (deckResponse._linked.accolades || [])
             .filter((a) => a.visible)
             .map((a) => ({ id: a.id, name: a.name, image: a.image }));
 
-        // Update accolades in database
         await db.query('BEGIN');
         try {
-            // Delete existing accolades
             await db.query('DELETE FROM "DeckAccolades" WHERE "DeckId" = $1', [deckId]);
 
-            // Insert new accolades
             if (accolades.length > 0) {
                 let accoladeParams = [];
                 for (let accolade of accolades) {
