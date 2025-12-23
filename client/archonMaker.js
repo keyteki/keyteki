@@ -485,12 +485,7 @@ export const buildDeckList = async (
     }
 
     // Add accolades after main content is rendered (images loaded in parallel above)
-    if (
-        showAccolades &&
-        deck.accolades &&
-        deck.accolades.length > 0 &&
-        accoladePromises.length > 0
-    ) {
+    if (showAccolades && deck.accolades && deck.accolades.length > 0) {
         const maxAccolades = 4;
         const accoladeSize = 50;
         const accoladesToShow = deck.accolades.slice(0, maxAccolades);
@@ -498,11 +493,13 @@ export const buildDeckList = async (
         const startX = 450; // Just to the right of title box (which ends at x: 440)
         const accoladeY = 35; // Shifted down to avoid border overlap
 
-        // Wait for all images to be loaded (they were preloaded in parallel above)
-        await Promise.all(accoladePromises);
+        // Wait for all images to be loaded if there are any pending promises
+        if (accoladePromises.length > 0) {
+            await Promise.all(accoladePromises);
+        }
 
         for (const [index, accolade] of accoladesToShow.entries()) {
-            // Images are now guaranteed to be in cache
+            // Images should be in cache now (either from previous load or just loaded)
             if (AccoladeImages[accolade.image]) {
                 const accoladeImage = new fabric.Image(
                     AccoladeImages[accolade.image].toCanvasElement(),
