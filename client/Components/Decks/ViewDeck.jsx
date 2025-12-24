@@ -23,10 +23,7 @@ const ViewDeck = ({ deck }) => {
     const { t } = useTranslation();
     const user = useSelector((state) => state.account.user);
     const [isRefreshing, setIsRefreshing] = useState(false);
-    const showAccolades =
-        user?.settings?.optionSettings?.showAccolades !== undefined
-            ? user.settings.optionSettings.showAccolades
-            : true;
+    const showAccolades = user?.settings?.optionSettings?.showAccolades ?? true;
 
     const handleDeleteClick = () => {
         dispatch(deleteDeck(deck));

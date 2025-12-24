@@ -464,13 +464,15 @@ class DeckService {
         deck.houses = houses.map((house) => house.Code);
 
         if (!standalone) {
-            let accolades = await db.query('SELECT * FROM "DeckAccolades" WHERE "DeckId" = $1', [
-                deck.id
-            ]);
+            let accolades = await db.query(
+                'SELECT * FROM "DeckAccolades" WHERE "DeckId" = $1 ORDER BY "Id"',
+                [deck.id]
+            );
             deck.accolades = accolades.map((a) => ({
                 id: a.AccoladeId,
                 name: a.Name,
-                image: a.ImageUrl
+                image: a.ImageUrl,
+                shown: a.Shown
             }));
         }
 
@@ -761,13 +763,15 @@ class DeckService {
 
             if (user && deck.accolades && deck.accolades.length > 0) {
                 let accoladeParams = [];
-                for (let accolade of deck.accolades) {
-                    accoladeParams.push(deck.id, accolade.id, accolade.name, accolade.image);
+                for (let i = 0; i < deck.accolades.length; i++) {
+                    const accolade = deck.accolades[i];
+                    const shown = i < 3;
+                    accoladeParams.push(deck.id, accolade.id, accolade.name, accolade.image, shown);
                 }
                 await db.query(
-                    `INSERT INTO "DeckAccolades" ("DeckId", "AccoladeId", "Name", "ImageUrl") VALUES ${expand(
+                    `INSERT INTO "DeckAccolades" ("DeckId", "AccoladeId", "Name", "ImageUrl", "Shown") VALUES ${expand(
                         deck.accolades.length,
-                        4
+                        5
                     )}`,
                     accoladeParams
                 );
@@ -1159,19 +1163,38 @@ class DeckService {
             .filter((a) => a.visible)
             .map((a) => ({ id: a.id, name: a.name, image: a.image }));
 
+        const existingAccolades = await db.query(
+            'SELECT "AccoladeId", "Shown" FROM "DeckAccolades" WHERE "DeckId" = $1',
+            [deckId]
+        );
+        const shownMap = {};
+        for (const existing of existingAccolades) {
+            shownMap[existing.AccoladeId] = existing.Shown;
+        }
+
+        const resultShownMap = {};
         await db.query('BEGIN');
         try {
             await db.query('DELETE FROM "DeckAccolades" WHERE "DeckId" = $1', [deckId]);
 
             if (accolades.length > 0) {
+                let shownCount = 0;
                 let accoladeParams = [];
-                for (let accolade of accolades) {
-                    accoladeParams.push(deckId, accolade.id, accolade.name, accolade.image);
+                for (const accolade of accolades) {
+                    let shown = shownMap[accolade.id];
+                    if (shown === undefined) {
+                        shown = shownCount < 3;
+                        if (shown) {
+                            shownCount++;
+                        }
+                    }
+                    resultShownMap[accolade.id] = shown;
+                    accoladeParams.push(deckId, accolade.id, accolade.name, accolade.image, shown);
                 }
                 await db.query(
-                    `INSERT INTO "DeckAccolades" ("DeckId", "AccoladeId", "Name", "ImageUrl") VALUES ${expand(
+                    `INSERT INTO "DeckAccolades" ("DeckId", "AccoladeId", "Name", "ImageUrl", "Shown") VALUES ${expand(
                         accolades.length,
-                        4
+                        5
                     )}`,
                     accoladeParams
                 );
@@ -1184,7 +1207,36 @@ class DeckService {
             throw new Error('Failed to update accolades in database');
         }
 
-        return accolades;
+        return accolades.map((a) => ({
+            ...a,
+            shown: resultShownMap[a.id] || false
+        }));
+    }
+
+    async updateAccoladeShown(deckId, accoladeId, shown, user) {
+        const deck = await this.getById(deckId);
+        if (!deck) {
+            throw new Error('Deck not found');
+        }
+
+        if (deck.username !== user.username) {
+            throw new Error('Unauthorized');
+        }
+
+        if (shown) {
+            const shownCount = await db.query(
+                'SELECT COUNT(*) as count FROM "DeckAccolades" WHERE "DeckId" = $1 AND "Shown" = true',
+                [deckId]
+            );
+            if (shownCount[0].count >= 3) {
+                throw new Error('Maximum of 3 accolades can be shown');
+            }
+        }
+
+        await db.query(
+            'UPDATE "DeckAccolades" SET "Shown" = $1 WHERE "DeckId" = $2 AND "AccoladeId" = $3',
+            [shown, deckId, accoladeId]
+        );
     }
 
     mapDeck(deck) {

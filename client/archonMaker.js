@@ -384,10 +384,9 @@ export const buildDeckList = async (
     canvas.add(DeckListIcon, line1, line2, line3, QRCodeIcon, expansion, text, TCO);
 
     const accoladePromises = [];
-    if (showAccolades && deck.accolades && deck.accolades.length > 0) {
-        const maxAccolades = 4;
-        const accoladesToShow = deck.accolades.slice(0, maxAccolades);
-        for (const accolade of accoladesToShow) {
+    if (showAccolades && deck.accolades?.length > 0) {
+        const shownAccolades = deck.accolades.filter((a) => a.shown);
+        for (const accolade of shownAccolades) {
             if (!AccoladeImages[accolade.image]) {
                 accoladePromises.push(
                     loadImage(accolade.image).then((img) => {
@@ -483,33 +482,47 @@ export const buildDeckList = async (
         canvas.renderAll();
     }
 
-    if (showAccolades && deck.accolades && deck.accolades.length > 0) {
-        const maxAccolades = 4;
+    if (showAccolades && deck.accolades?.length > 0) {
+        const shownAccolades = deck.accolades.filter((a) => a.shown);
+        if (shownAccolades.length === 0) {
+            applyFilters(canvas, size, width);
+            return;
+        }
+
         const accoladeSize = 50;
-        const accoladesToShow = deck.accolades.slice(0, maxAccolades);
+        const accoladesToShow = shownAccolades.slice(0, 4);
         const spacing = 8;
         const startX = 450;
         const accoladeY = 35;
 
-        if (accoladePromises.length > 0) {
-            await Promise.all(accoladePromises);
+        const promisesToWait = [];
+        for (const accolade of accoladesToShow) {
+            if (!AccoladeImages[accolade.image]) {
+                promisesToWait.push(
+                    loadImage(accolade.image).then((img) => {
+                        AccoladeImages[accolade.image] = img;
+                    })
+                );
+            }
+        }
+
+        if (promisesToWait.length > 0) {
+            await Promise.all(promisesToWait);
         }
 
         for (const [index, accolade] of accoladesToShow.entries()) {
-            if (AccoladeImages[accolade.image]) {
-                const accoladeImage = new fabric.Image(
-                    AccoladeImages[accolade.image].toCanvasElement(),
-                    imgOptions
-                );
-                accoladeImage.scaleToWidth(accoladeSize);
-                accoladeImage.scaleToHeight(accoladeSize);
-                accoladeImage.set({
-                    left: startX + index * (accoladeSize + spacing),
-                    top: accoladeY,
-                    shadow: new fabric.Shadow(shadowProps)
-                });
-                canvas.add(accoladeImage);
-            }
+            const accoladeImage = new fabric.Image(
+                AccoladeImages[accolade.image].toCanvasElement(),
+                imgOptions
+            );
+            accoladeImage.scaleToWidth(accoladeSize);
+            accoladeImage.scaleToHeight(accoladeSize);
+            accoladeImage.set({
+                left: startX + index * (accoladeSize + spacing),
+                top: accoladeY,
+                shadow: new fabric.Shadow(shadowProps)
+            });
+            canvas.add(accoladeImage);
         }
     }
 
@@ -724,16 +737,14 @@ export const buildCard = async (
             canvas.add(pipImage);
         }
     }
-    if (
-        showAccolades &&
-        card.accolades &&
-        card.accolades.length > 0 &&
-        !halfSize &&
-        card.location === 'zoom'
-    ) {
-        const maxAccolades = 3;
+    if (showAccolades && card.accolades?.length > 0 && !halfSize && card.location === 'zoom') {
+        const shownAccolades = card.accolades.filter((a) => a.shown);
+        if (shownAccolades.length === 0) {
+            return canvas;
+        }
+
         const accoladeSize = 40;
-        const accoladesToShow = card.accolades.slice(0, maxAccolades);
+        const accoladesToShow = shownAccolades.slice(0, 3);
         const accoladeX = 235;
         const spacing = 55;
 

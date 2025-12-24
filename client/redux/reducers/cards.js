@@ -164,7 +164,6 @@ export default function (state = { decks: [], cards: {} }, action) {
             newState = Object.assign({}, state);
             if (newState.selectedDeck && action.response && action.response.success) {
                 newState.selectedDeck.accolades = action.response.accolades;
-                // Also update in decks array if present
                 const deckIndex = newState.decks.findIndex(
                     (d) => d.id === newState.selectedDeck.id
                 );
@@ -173,6 +172,30 @@ export default function (state = { decks: [], cards: {} }, action) {
                 }
             }
             return newState;
+        case 'UPDATE_ACCOLADE_SHOWN_RECEIVED': {
+            newState = Object.assign({}, state);
+            if (!newState.selectedDeck || !action.response?.success || !action.accoladeId) {
+                return newState;
+            }
+
+            const accolade = newState.selectedDeck.accolades?.find(
+                (a) => a.id === action.accoladeId
+            );
+            if (accolade) {
+                accolade.shown = action.shown;
+            }
+
+            const deckIndex = newState.decks.findIndex((d) => d.id === newState.selectedDeck.id);
+            if (deckIndex !== -1) {
+                const deckAccolade = newState.decks[deckIndex].accolades?.find(
+                    (a) => a.id === action.accoladeId
+                );
+                if (deckAccolade) {
+                    deckAccolade.shown = action.shown;
+                }
+            }
+            return newState;
+        }
         case Decks.SaveDeck:
             newState = Object.assign({}, state, {
                 deckSaved: false

@@ -5,6 +5,7 @@ CREATE TABLE public."DeckAccolades"
     "AccoladeId" text COLLATE pg_catalog."default" NOT NULL,
     "Name" text COLLATE pg_catalog."default" NOT NULL,
     "ImageUrl" text COLLATE pg_catalog."default" NOT NULL,
+    "Shown" boolean DEFAULT false,
     CONSTRAINT "PK_DeckAccolades" PRIMARY KEY ("Id"),
     CONSTRAINT "FK_DeckAccolades_Decks" FOREIGN KEY ("DeckId")
         REFERENCES public."Decks" ("Id") MATCH SIMPLE

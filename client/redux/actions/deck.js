@@ -117,3 +117,19 @@ export function refreshAccolades(deckId) {
         }
     };
 }
+
+export function updateAccoladeShown(deckId, accoladeId, shown) {
+    return {
+        types: ['REQUEST_UPDATE_ACCOLADE_SHOWN', 'UPDATE_ACCOLADE_SHOWN_RECEIVED'],
+        shouldCallAPI: () => true,
+        payload: {
+            accoladeId,
+            shown
+        },
+        APIParams: {
+            url: `/api/decks/${deckId}/accolades/${accoladeId}/shown`,
+            type: 'POST',
+            data: JSON.stringify({ shown })
+        }
+    };
+}

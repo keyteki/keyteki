@@ -5,6 +5,7 @@
 
 .deck-accolades {
     justify-content: flex-start;
+    flex-wrap: wrap;
     margin-bottom: 0.5rem;
     margin-top: 10px;
 }
@@ -13,6 +14,22 @@
     width: 40px;
     height: auto;
     margin: 0 4px;
+    opacity: 0.5;
+    transition: opacity 0.2s;
+
+    &.selected {
+        opacity: 1;
+        box-shadow: 0 0 0 1px theme-color('info');
+        border-radius: 4px;
+    }
+
+    &.disabled {
+        opacity: 0.3;
+    }
+
+    &:hover:not(.disabled) {
+        opacity: 0.8;
+    }
 }
 
 .deck-houses {
