@@ -55,6 +55,7 @@ describe('Revo Hooligans', function () {
             this.player1.reap(this.revoHooligans);
             this.player1.clickCard(this.shardOfKnowledge);
             expect(this.shardOfKnowledge.tokens.paint).toBe(1);
+            expect(this.shardOfKnowledge.hasHouse('mars')).toBe(true);
             let handSize = this.player1.hand.length;
             this.player1.useAction(this.shardOfKnowledge);
             expect(this.player1.hand.length).toBe(handSize + 1);
@@ -68,6 +69,9 @@ describe('Revo Hooligans', function () {
             this.player1.reap(this.envoyOfEkwirrĕ);
             this.player1.clickCard(this.shardOfKnowledge);
             expect(this.envoyOfEkwirrĕ.tokens.paint).toBe(1);
+            expect(this.envoyOfEkwirrĕ.hasHouse('ekwidon')).toBe(true);
+            expect(this.envoyOfEkwirrĕ.hasHouse('mars')).toBe(false);
+            expect(this.shardOfKnowledge.hasHouse('mars')).toBe(false);
             this.player1.endTurn();
             this.player2.clickPrompt('shadows');
             this.player2.endTurn();
