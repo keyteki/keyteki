@@ -745,16 +745,17 @@ export const buildCard = async (
 
         const accoladeSize = 40;
         const accoladesToShow = shownAccolades.slice(0, 3);
-        const accoladeX = 235;
         const spacing = 55;
 
-        let startY;
-        if (card.type === 'creature' || card.type === 'action') {
+        let accoladeX = 235;
+        let startY = 65;
+        if (card.type === 'prophecy') {
+            accoladeX = 255;
+            startY = 10;
+        } else if (card.type === 'creature' || card.type === 'action') {
             startY = 25;
         } else if (card.type === 'upgrade') {
             startY = 200;
-        } else {
-            startY = 65;
         }
 
         for (const [index, accolade] of accoladesToShow.entries()) {
