@@ -24,6 +24,7 @@ CREATE TABLE public."Users"
     "ActivationToken" text COLLATE pg_catalog."default",
     "ActivationTokenExpiry" timestamp without time zone,
     "RegisterIp" text COLLATE pg_catalog."default",
+    "Settings_ShowAccolades" boolean DEFAULT true,
     CONSTRAINT "PK_Users" PRIMARY KEY ("Id")
 )
 
