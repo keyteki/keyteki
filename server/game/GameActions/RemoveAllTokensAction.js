@@ -37,7 +37,7 @@ class RemoveAllTokensAction extends CardGameAction {
                                 })
                         )
                     )
-                    .resolve(context.source, context);
+                    .resolve(event.card, context);
             }
         );
     }
