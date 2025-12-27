@@ -37,7 +37,10 @@ class Mimicry extends Card {
                 }
 
                 return {
-                    targetLocation: 'hand',
+                    // Since Mimicry could be played from hand, but also from
+                    // top of deck by e.g. Wild Wormhole, we need to allow "any"
+                    // for the location.
+                    allowedLocations: 'any',
                     effect: effects
                 };
             })

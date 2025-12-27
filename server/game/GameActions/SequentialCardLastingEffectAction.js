@@ -8,7 +8,7 @@ class SequentialCardLastingEffectAction extends GameAction {
         this.condition = null;
         this.until = null;
         this.effectForEach = [];
-        this.targetLocation = null;
+        this.allowedLocations = ['play area'];
     }
 
     setup() {
@@ -35,7 +35,7 @@ class SequentialCardLastingEffectAction extends GameAction {
             condition: this.condition,
             until: this.until,
             effect: effect,
-            targetLocation: this.targetLocation
+            allowedLocations: this.allowedLocations
         });
 
         context.game.queueSimpleStep(() => {

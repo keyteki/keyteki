@@ -19,11 +19,11 @@ const _ = require('underscore');
  * targetController - string that determines which player's cards are targeted.
  *                    Can be 'current' (default), 'opponent' or 'any'. For player
  *                    effects it determines which player(s) are affected.
- * targetLocation   - string that determines the location of cards that can be
- *                    applied by the effect. Can be 'play area' (default),
- *                    'province', or a specific location (e.g. 'stronghold province'
- *                    or 'hand'). This has no effect if a specific card is passed
- *                    to match.  Card effects only.
+ * targetLocation   - string that determines the location of cards that are
+ *                    candidates for the effect, or 'any' if all cards are valid.
+ *                    This has no effect if a specific card is passed as `match`
+ *                    (such as how CardLastingEffectAction creates Effects).
+ *                    Card effects only.
  * effect           - object representing the effect to be applied.
  */
 class Effect {

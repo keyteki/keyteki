@@ -7,7 +7,18 @@ class CardLastingEffectAction extends CardGameAction {
         this.condition = null;
         this.until = null;
         this.effect = [];
-        this.targetLocation = null;
+        /**
+         * Controls the location that the target card must have for the lasting
+         * effect event to be created. Has no effect over when the effect is
+         * actually active (though see {@link Card#updateEffects} for specifics
+         * about adding/removing effects based on location). Defaults to `["play
+         * area"]`, meaning the card must be in play to get the effect added.
+         *
+         * May be an array of locations or "any."
+         *
+         * @type string[] | "any"
+         */
+        this.allowedLocations = ['play area'];
     }
 
     setup() {
@@ -27,7 +38,6 @@ class CardLastingEffectAction extends CardGameAction {
             condition: this.condition,
             context: context,
             duration: this.duration,
-            targetLocation: this.targetLocation,
             until: this.until
         };
         this.effect = effect.map((factory) =>
@@ -36,8 +46,10 @@ class CardLastingEffectAction extends CardGameAction {
     }
 
     canAffect(card, context) {
-        if (card.location !== 'play area' && !this.targetLocation) {
-            return false;
+        if (this.allowedLocations !== 'any') {
+            if (!this.allowedLocations.includes(card.location)) {
+                return false;
+            }
         }
 
         return super.canAffect(card, context);
@@ -51,7 +63,6 @@ class CardLastingEffectAction extends CardGameAction {
             effect: effect,
             effectController: context.player,
             match: card,
-            targetLocation: this.targetLocation,
             until: this.until
         };
         let duration = this.until ? 'lastingEffect' : this.duration;
