@@ -31,7 +31,7 @@ class FlipAction extends CardGameAction {
                     context.game.actions
                         .cardLastingEffect({
                             target: card,
-                            targetLocation: 'play area',
+                            allowedLocations: 'any',
                             duration: 'lastingEffect',
                             effect: [
                                 context.game.effects.flipToken(),

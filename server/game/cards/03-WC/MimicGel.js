@@ -22,7 +22,7 @@ class MimicGel extends Card {
                 cardType: 'creature',
                 gameAction: ability.actions.cardLastingEffect((context) => ({
                     target: context.source,
-                    targetLocation: 'hand',
+                    allowedLocations: 'any',
                     duration: 'lastingEffect',
                     effect: [
                         ability.effects.copyCard(context.target.getBottomCard()),

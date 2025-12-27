@@ -49,7 +49,7 @@ class MakeTokenCreatureAction extends CardGameAction {
                     .sequential([
                         context.game.actions.cardLastingEffect({
                             target: card,
-                            targetLocation: card.location,
+                            allowedLocations: 'any',
                             duration: 'lastingEffect',
                             effect: [
                                 context.game.effects.flipToken(),

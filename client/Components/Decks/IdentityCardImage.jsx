@@ -13,7 +13,7 @@ import { buildDeckList } from '../../archonMaker';
 /**
  * @param {IdentityCardProps} props
  */
-const IdentityCardImage = ({ deck, size }) => {
+const IdentityCardImage = ({ deck, size, showAccolades = true }) => {
     const fabricRef = useRef();
     const { t, i18n } = useTranslation();
 
@@ -28,12 +28,19 @@ const IdentityCardImage = ({ deck, size }) => {
                 }
 
                 if (canvas) {
-                    fabricRef.current = await buildDeckList(canvas, deck, i18n.language, t, size);
+                    fabricRef.current = await buildDeckList(
+                        canvas,
+                        deck,
+                        i18n.language,
+                        t,
+                        size,
+                        showAccolades
+                    );
                 }
             }
         },
         // eslint-disable-next-line react-hooks/exhaustive-deps
-        [deck.uuid, i18n.language, t]
+        [deck.uuid, i18n.language, t, showAccolades]
     );
 
     return <canvas className='w-100 h-100' ref={ref} />;

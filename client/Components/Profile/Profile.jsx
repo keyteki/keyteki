@@ -72,7 +72,8 @@ const initialValues = {
     gameOptions: {
         confirmOneClick: false,
         orderForcedAbilities: false,
-        useHalfSizedCards: false
+        useHalfSizedCards: false,
+        showAccolades: true
     }
 };
 

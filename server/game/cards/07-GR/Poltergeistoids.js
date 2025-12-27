@@ -28,9 +28,11 @@ class Poltergeistoids extends Card {
                             upgrade: context.source,
                             target: context.target
                         })),
+                        // This must come after the `attach` so that card is
+                        // already in the "play area" when we add its lasting
+                        // effect.
                         ability.actions.cardLastingEffect((context) => ({
                             target: context.source,
-                            targetLocation: 'play area',
                             duration: 'lastingEffect',
                             effect: ability.effects.changeType('upgrade')
                         }))

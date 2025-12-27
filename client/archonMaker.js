@@ -14,6 +14,7 @@ const DeckCards = { halfSize: {}, cards: {} };
 const MaverickHouseImages = {};
 const MaverickHouseAmberImages = {};
 const EnhancementPipImages = {};
+const AccoladeImages = {};
 let AnomalyIcon;
 let DeckListIcon;
 let MaverickIcon;
@@ -71,8 +72,39 @@ const gigantic2s = [
     'horizon-saber2'
 ];
 
+const skybeasts = [
+    'akugyo',
+    'alien-puffer',
+    'anvil-crawler',
+    'beehemoth',
+    'blue-æmberdrake',
+    'colossipede',
+    'falcron',
+    'grinder-swarm',
+    'grizzled-wyvern',
+    'hungry-hippogriff',
+    'icarus-20',
+    'impzilla',
+    'lancet',
+    'malifi-dragon',
+    'naja',
+    'red-æmberdrake',
+    'rorqual',
+    'screeyan',
+    'sentient-cloud',
+    'titanarpon',
+    'tyrannus-aquilae',
+    'volax',
+    'yellow-æmberdrake'
+];
+
 // The MV API doesn't provide proper per-house images for these cards.
-const houselessCards = ['build-your-champion', 'digging-up-the-monster', 'tomes-gigantic'];
+const houselessCards = [
+    'build-your-champion',
+    'digging-up-the-monster',
+    'tomes-gigantica',
+    ...skybeasts
+];
 
 export const loadImage = (url) => {
     return new Promise((resolve) => {
@@ -285,7 +317,14 @@ const placeCardCompact = (canvas, card, language, x, y) => {
     canvas.add(number, title, rarity, typeIcon);
 };
 
-export const buildDeckList = async (canvas, deck, language, translate, size) => {
+export const buildDeckList = async (
+    canvas,
+    deck,
+    language,
+    translate,
+    size,
+    showAccolades = true
+) => {
     if (!cacheLoaded) {
         await cacheImages();
     }
@@ -375,6 +414,20 @@ export const buildDeckList = async (canvas, deck, language, translate, size) => 
     text.set({ left: 210, top: 72 });
     canvas.add(DeckListIcon, line1, line2, line3, QRCodeIcon, expansion, text, TCO);
 
+    const accoladePromises = [];
+    if (showAccolades && deck.accolades?.length > 0) {
+        const shownAccolades = deck.accolades.filter((a) => a.shown);
+        for (const accolade of shownAccolades) {
+            if (!AccoladeImages[accolade.image]) {
+                accoladePromises.push(
+                    loadImage(accolade.image).then((img) => {
+                        AccoladeImages[accolade.image] = img;
+                    })
+                );
+            }
+        }
+    }
+
     let name;
     try {
         name = new fabric.Textbox(deck.name, {
@@ -458,6 +511,50 @@ export const buildDeckList = async (canvas, deck, language, translate, size) => 
         placeCard(canvas, card, language, x, y);
 
         canvas.renderAll();
+    }
+
+    if (showAccolades && deck.accolades?.length > 0) {
+        const shownAccolades = deck.accolades.filter((a) => a.shown);
+        if (shownAccolades.length === 0) {
+            applyFilters(canvas, size, width);
+            return;
+        }
+
+        const accoladeSize = 50;
+        const accoladesToShow = shownAccolades.slice(0, 4);
+        const spacing = 8;
+        const startX = 450;
+        const accoladeY = 35;
+
+        const promisesToWait = [];
+        for (const accolade of accoladesToShow) {
+            if (!AccoladeImages[accolade.image]) {
+                promisesToWait.push(
+                    loadImage(accolade.image).then((img) => {
+                        AccoladeImages[accolade.image] = img;
+                    })
+                );
+            }
+        }
+
+        if (promisesToWait.length > 0) {
+            await Promise.all(promisesToWait);
+        }
+
+        for (const [index, accolade] of accoladesToShow.entries()) {
+            const accoladeImage = new fabric.Image(
+                AccoladeImages[accolade.image].toCanvasElement(),
+                imgOptions
+            );
+            accoladeImage.scaleToWidth(accoladeSize);
+            accoladeImage.scaleToHeight(accoladeSize);
+            accoladeImage.set({
+                left: startX + index * (accoladeSize + spacing),
+                top: accoladeY,
+                shadow: new fabric.Shadow(shadowProps)
+            });
+            canvas.add(accoladeImage);
+        }
     }
 
     applyFilters(canvas, size, width);
@@ -564,6 +661,7 @@ export const buildCard = async (
         halfSize,
         modifiedPower,
         tokens = {},
+        showAccolades = true,
         ...card
     }
 ) => {
@@ -668,6 +766,44 @@ export const buildCard = async (
             }
 
             canvas.add(pipImage);
+        }
+    }
+    if (showAccolades && card.accolades?.length > 0 && !halfSize && card.location === 'zoom') {
+        const shownAccolades = card.accolades.filter((a) => a.shown);
+        if (shownAccolades.length === 0) {
+            return canvas;
+        }
+
+        const accoladeSize = 40;
+        const accoladesToShow = shownAccolades.slice(0, 3);
+        const spacing = 55;
+
+        let accoladeX = 235;
+        let startY = 65;
+        if (card.type === 'prophecy') {
+            accoladeX = 255;
+            startY = 10;
+        } else if (card.type === 'creature' || card.type === 'action') {
+            startY = 25;
+        } else if (card.type === 'upgrade') {
+            startY = 200;
+        }
+
+        for (const [index, accolade] of accoladesToShow.entries()) {
+            if (!AccoladeImages[accolade.image]) {
+                AccoladeImages[accolade.image] = await loadImage(accolade.image);
+            }
+            const accoladeImage = new fabric.Image(
+                AccoladeImages[accolade.image].toCanvasElement(),
+                imgOptions
+            );
+            accoladeImage.scaleToWidth(accoladeSize);
+            accoladeImage.set({
+                left: accoladeX,
+                top: startY + index * spacing,
+                shadow: new fabric.Shadow(shadowProps)
+            });
+            canvas.add(accoladeImage);
         }
     }
     if (card.location === 'play area') {

@@ -40,7 +40,7 @@ const Actions = {
     attach: (propertyFactory) => new GameActions.AttachAction(propertyFactory), // upgrade
     capture: (propertyFactory) => new GameActions.CaptureAction(propertyFactory),
     cardLastingEffect: (propertyFactory) =>
-        new GameActions.CardLastingEffectAction(propertyFactory), // duration = 'untilPlayerTurnEnd', effect, targetLocation, condition, until
+        new GameActions.CardLastingEffectAction(propertyFactory), // duration = 'untilPlayerTurnEnd', effect, allowedLocations, condition, until
     clearGrowthTokens: (propertyFactory) =>
         new GameActions.RemoveTokenAction(propertyFactory, 'growth'),
     clearGloryCounters: (propertyFactory) =>
