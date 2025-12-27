@@ -1,7 +1,8 @@
 const defaultOptionSettings = {
     orderForcedAbilities: false,
     confirmOneClick: true,
-    useHalfSizedCards: false
+    useHalfSizedCards: false,
+    showAccolades: true
 };
 
 const defaultSettings = {
