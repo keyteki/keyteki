@@ -71,8 +71,39 @@ const gigantic2s = [
     'horizon-saber2'
 ];
 
+const skybeasts = [
+    'akugyo',
+    'alien-puffer',
+    'anvil-crawler',
+    'beehemoth',
+    'blue-æmberdrake',
+    'colossipede',
+    'falcron',
+    'grinder-swarm',
+    'grizzled-wyvern',
+    'hungry-hippogriff',
+    'icarus-20',
+    'impzilla',
+    'lancet',
+    'malifi-dragon',
+    'naja',
+    'red-æmberdrake',
+    'rorqual',
+    'screeyan',
+    'sentient-cloud',
+    'titanarpon',
+    'tyrannus-aquilae',
+    'volax',
+    'yellow-æmberdrake'
+];
+
 // The MV API doesn't provide proper per-house images for these cards.
-const houselessCards = ['build-your-champion', 'digging-up-the-monster', 'tomes-gigantica'];
+const houselessCards = [
+    'build-your-champion',
+    'digging-up-the-monster',
+    'tomes-gigantica',
+    ...skybeasts
+];
 
 export const loadImage = (url) => {
     return new Promise((resolve) => {
