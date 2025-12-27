@@ -215,4 +215,64 @@ module.exports.init = function (server) {
             res.send({ success: true, message: 'Deck verified successfully', deckId: id });
         })
     );
+
+    server.post(
+        '/api/decks/:id/refresh-accolades',
+        passport.authenticate('jwt', { session: false }),
+        wrapAsync(async function (req, res) {
+            let id = req.params.id;
+
+            let deck = await deckService.getById(id);
+
+            if (!deck) {
+                return res.status(404).send({ success: false, message: 'No such deck' });
+            }
+
+            if (deck.username !== req.user.username) {
+                return res.status(401).send({ message: 'Unauthorized' });
+            }
+
+            try {
+                const accolades = await deckService.refreshAccolades(id, req.user);
+                res.send({ success: true, accolades: accolades });
+            } catch (error) {
+                logger.error('Failed to refresh accolades', error);
+                return res.send({
+                    success: false,
+                    message: error.message || 'Failed to refresh accolades'
+                });
+            }
+        })
+    );
+
+    server.post(
+        '/api/decks/:id/accolades/:accoladeId/shown',
+        passport.authenticate('jwt', { session: false }),
+        wrapAsync(async function (req, res) {
+            let id = req.params.id;
+            let accoladeId = req.params.accoladeId;
+            let shown = req.body.shown === true;
+
+            let deck = await deckService.getById(id);
+
+            if (!deck) {
+                return res.status(404).send({ success: false, message: 'No such deck' });
+            }
+
+            if (deck.username !== req.user.username) {
+                return res.status(401).send({ message: 'Unauthorized' });
+            }
+
+            try {
+                await deckService.updateAccoladeShown(id, accoladeId, shown, req.user);
+                res.send({ success: true });
+            } catch (error) {
+                logger.error('Failed to update accolade shown status', error);
+                return res.send({
+                    success: false,
+                    message: error.message || 'Failed to update accolade shown status'
+                });
+            }
+        })
+    );
 };

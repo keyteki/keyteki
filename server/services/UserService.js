@@ -165,7 +165,7 @@ class UserService extends EventEmitter {
         let query =
             'UPDATE "Users" SET "Username" = $1, "Email" = $2, "Verified" = $3, "Disabled" = $4, "Settings_Avatar" = $5, ' +
             '"Settings_CardSize" = $6, "Settings_Background" = $7, "Settings_OrderAbilities" = $8, "Settings_ConfirmOneClick" = $9, "Settings_UseHalfSizedCards" = $10, ' +
-            '"PatreonToken" = $11, "Settings_CustomBackground" = $12 WHERE "Id" = $13';
+            '"Settings_ShowAccolades" = $11, "PatreonToken" = $12, "Settings_CustomBackground" = $13 WHERE "Id" = $14';
 
         try {
             await db.queryTran(client, query, [
@@ -179,6 +179,9 @@ class UserService extends EventEmitter {
                 user.settings.optionSettings.orderForcedAbilities,
                 user.settings.optionSettings.confirmOneClick,
                 user.settings.optionSettings.useHalfSizedCards,
+                user.settings.optionSettings.showAccolades !== undefined
+                    ? user.settings.optionSettings.showAccolades
+                    : true,
                 user.patreon ? JSON.stringify(user.patreon) : null,
                 user.settings.customBackground,
                 user.id
@@ -592,7 +595,11 @@ class UserService extends EventEmitter {
                 optionSettings: {
                     orderForcedAbilities: dbUser.Settings_OrderAbilities,
                     confirmOneClick: dbUser.Settings_ConfirmOneClick,
-                    useHalfSizedCards: dbUser.Settings_UseHalfSizedCards
+                    useHalfSizedCards: dbUser.Settings_UseHalfSizedCards,
+                    showAccolades:
+                        dbUser.Settings_ShowAccolades !== undefined
+                            ? dbUser.Settings_ShowAccolades
+                            : true
                 }
             },
             verified: dbUser.Verified,
