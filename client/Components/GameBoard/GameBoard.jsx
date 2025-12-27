@@ -7,6 +7,7 @@ import { withTranslation, Trans } from 'react-i18next';
 
 import ActivePlayerPrompt from './ActivePlayerPrompt';
 import CardBack from '../Decks/CardBack';
+import CardImage from './CardImage';
 import CardMenu from './CardMenu';
 import CardZoom from './CardZoom';
 import { Constants } from '../../constants';
@@ -340,10 +341,14 @@ export class GameBoard extends React.Component {
                                             }
                                             onMouseOver={() => {
                                                 this.onMouseOver({
-                                                    image: (
+                                                    image: card.facedown ? (
                                                         <img
                                                             src={img}
                                                             className='card-zoom normal'
+                                                        />
+                                                    ) : (
+                                                        <CardImage
+                                                            card={{ ...card, location: 'zoom' }}
                                                         />
                                                     ),
                                                     size: 'normal'
@@ -387,14 +392,13 @@ export class GameBoard extends React.Component {
                                                         }}
                                                         onMouseOver={() => {
                                                             if (isController) {
-                                                                const faceUpImg = `/img/cards/${
-                                                                    locale === 'en' ? '' : locale
-                                                                }/${childCard.image}.png`;
                                                                 this.onMouseOver({
                                                                     image: (
-                                                                        <img
-                                                                            src={faceUpImg}
-                                                                            className='card-zoom normal'
+                                                                        <CardImage
+                                                                            card={{
+                                                                                ...childCard,
+                                                                                location: 'zoom'
+                                                                            }}
                                                                         />
                                                                     ),
                                                                     size: 'normal'
