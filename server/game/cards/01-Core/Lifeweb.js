@@ -11,7 +11,7 @@ class Lifeweb extends Card {
         }
 
         this.tracker = new EventRegistrar(this.game, this);
-        this.tracker.register(['onCardPlayed', 'onCardAttached', 'onPhaseStarted']);
+        this.tracker.register(['onCardPlayed', 'onCardAttached', 'onTurnStart']);
 
         this.play({
             condition: (context) =>
@@ -35,10 +35,8 @@ class Lifeweb extends Card {
         );
     }
 
-    onPhaseStarted(event) {
-        if (event.phase === 'main') {
-            this.creaturesPlayed[this.game.activePlayer.uuid] = [];
-        }
+    onTurnStart() {
+        this.creaturesPlayed[this.game.activePlayer.uuid] = [];
     }
 }
 
