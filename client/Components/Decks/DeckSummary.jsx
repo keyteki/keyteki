@@ -14,6 +14,7 @@ import CaptureImage from '../../assets/img/enhancements/captureui.png';
 import DrawImage from '../../assets/img/enhancements/drawui.png';
 import DamageImage from '../../assets/img/enhancements/damageui.png';
 import DiscardImage from '../../assets/img/enhancements/discardui.png';
+import DeckTags from '../Tags/DeckTags';
 
 import './DeckSummary.scss';
 
@@ -284,6 +285,9 @@ const DeckSummary = ({ deck }) => {
             <Row className='deck-cards'>
                 <Col sm='4'>{nonDeckCards}</Col>
             </Row>
+
+            {/* Tag management section */}
+            <DeckTags deck={deck} />
         </Col>
     );
 };

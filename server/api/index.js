@@ -7,6 +7,7 @@ const user = require('./user');
 const messages = require('./messages');
 const banlist = require('./banlist');
 const challonge = require('./challonge');
+const tags = require('./tags');
 
 module.exports.init = function (server, options) {
     account.init(server, options);
@@ -18,4 +19,5 @@ module.exports.init = function (server, options) {
     messages.init(server);
     banlist.init(server);
     challonge.init(server);
+    tags.init(server);
 };
