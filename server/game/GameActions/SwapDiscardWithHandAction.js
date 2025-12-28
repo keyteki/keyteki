@@ -1,3 +1,4 @@
+const { EVENTS } = require('../Events/types');
 const CardGameAction = require('./CardGameAction');
 
 class SwapDiscardWithHandAction extends CardGameAction {
@@ -31,16 +32,20 @@ class SwapDiscardWithHandAction extends CardGameAction {
     }
 
     getEvent(card, context) {
-        return super.createEvent('onSwapDiscardWithHand', { card: card, context: context }, () => {
-            let discardIndex = this.discardCard.controller.discard.indexOf(this.discardCard);
-            let cardIndex = card.controller.hand.indexOf(card);
-            if (discardIndex >= 0 && cardIndex >= 0) {
-                this.discardCard.controller.discard.splice(discardIndex, 1, card);
-                card.location = 'discard';
-                card.controller.hand.splice(cardIndex, 1, this.discardCard);
-                this.discardCard.location = 'hand';
+        return super.createEvent(
+            EVENTS.onSwapDiscardWithHand,
+            { card: card, context: context },
+            () => {
+                let discardIndex = this.discardCard.controller.discard.indexOf(this.discardCard);
+                let cardIndex = card.controller.hand.indexOf(card);
+                if (discardIndex >= 0 && cardIndex >= 0) {
+                    this.discardCard.controller.discard.splice(discardIndex, 1, card);
+                    card.location = 'discard';
+                    card.controller.hand.splice(cardIndex, 1, this.discardCard);
+                    this.discardCard.location = 'hand';
+                }
             }
-        });
+        );
     }
 }
 

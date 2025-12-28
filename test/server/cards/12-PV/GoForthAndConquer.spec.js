@@ -11,12 +11,12 @@ describe('Go Forth and Conquer', function () {
                         'expect-the-unexpected'
                     ],
                     hand: ['parasitic-arachnoid'],
-                    inPlay: ['mushroom-man']
+                    inPlay: ['mushroom-man', 'dew-faerie', 'briar-grubbling']
                 },
                 player2: {
                     amber: 5,
                     hand: ['spoo-key-charge'],
-                    inPlay: ['hunting-witch', 'dust-pixie']
+                    inPlay: ['hunting-witch', 'dust-pixie', 'ancient-bear']
                 }
             });
         });
@@ -26,6 +26,37 @@ describe('Go Forth and Conquer', function () {
             this.player1.endTurn();
             this.player2.clickPrompt('untamed');
             this.player2.fightWith(this.huntingWitch, this.mushroomMan);
+            expect(this.player2).toBeAbleToSelect(this.dustPixie);
+            this.player2.clickCard(this.dustPixie);
+            expect(this.player2.amber).toBe(3);
+            expect(this.dustPixie.amber).toBe(2);
+            expect(this.parasiticArachnoid.location).toBe('discard');
+            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+        });
+
+        it('should fulfill when opponent uses a creature to fight and the fight ends early to assault', function () {
+            this.player1.activateProphecy(this.goForthAndConquer, this.parasiticArachnoid);
+            this.player1.endTurn();
+            this.player2.clickPrompt('untamed');
+            // Ancient Bear has assault 2, which damages through Dew Faerie’s
+            // elusive and kills it.
+            this.player2.fightWith(this.ancientBear, this.dewFaerie);
+            expect(this.dewFaerie.location).toBe('discard');
+            expect(this.player2).toBeAbleToSelect(this.dustPixie);
+            this.player2.clickCard(this.dustPixie);
+            expect(this.player2.amber).toBe(3);
+            expect(this.dustPixie.amber).toBe(2);
+            expect(this.parasiticArachnoid.location).toBe('discard');
+            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+        });
+
+        it('should fulfill when opponent uses a creature to fight and the fight ends early to hazardous', function () {
+            this.player1.activateProphecy(this.goForthAndConquer, this.parasiticArachnoid);
+            this.player1.endTurn();
+            this.player2.clickPrompt('untamed');
+            // Briar Grubbling has hazardous 5, Hunting Witch will die on impact.
+            this.player2.fightWith(this.huntingWitch, this.briarGrubbling);
+            expect(this.huntingWitch.location).toBe('discard');
             expect(this.player2).toBeAbleToSelect(this.dustPixie);
             this.player2.clickCard(this.dustPixie);
             expect(this.player2.amber).toBe(3);

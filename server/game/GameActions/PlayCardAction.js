@@ -1,3 +1,4 @@
+const { EVENTS } = require('../Events/types');
 const CardGameAction = require('./CardGameAction');
 
 class PlayCardAction extends CardGameAction {
@@ -52,7 +53,7 @@ class PlayCardAction extends CardGameAction {
             );
 
         return super.createEvent(
-            'playCardEvent',
+            EVENTS.playCardEvent,
             { card: card, context: context, player: context.player },
             (event) => {
                 if (playActions.length > 1) {

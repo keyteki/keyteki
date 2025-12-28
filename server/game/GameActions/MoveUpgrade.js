@@ -1,3 +1,4 @@
+const { EVENTS } = require('../Events/types');
 const CardGameAction = require('./CardGameAction');
 
 class MoveUpgrade extends CardGameAction {
@@ -56,7 +57,7 @@ class MoveUpgrade extends CardGameAction {
 
     getEvent(card, context, upgrade) {
         return super.createEvent(
-            'onUpgradeMoved',
+            EVENTS.onUpgradeMoved,
             { card: upgrade, parent: card, player: context.player, context: context },
             (event) => {
                 event.card.parent.removeAttachment(event.card);

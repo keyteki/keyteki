@@ -1,3 +1,4 @@
+const { EVENTS } = require('../Events/types');
 const CardGameAction = require('./CardGameAction');
 
 class AttachAction extends CardGameAction {
@@ -43,7 +44,7 @@ class AttachAction extends CardGameAction {
 
     getEvent(card, context) {
         return super.createEvent(
-            'onCardAttached',
+            EVENTS.onCardAttached,
             { card: this.upgrade, parent: card, player: context.player, context: context },
             (event) => {
                 if (event.card.location === 'play area') {

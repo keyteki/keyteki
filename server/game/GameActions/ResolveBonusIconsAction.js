@@ -1,3 +1,4 @@
+const { EVENTS } = require('../Events/types');
 const CardGameAction = require('./CardGameAction');
 
 class ResolveBonusIconsAction extends CardGameAction {
@@ -133,7 +134,7 @@ class ResolveBonusIconsAction extends CardGameAction {
 
     getEvent(card, context) {
         return super.createEvent(
-            'onResolveBonusIcons',
+            EVENTS.onResolveBonusIcons,
             { card: card, context: context },
             (event) => {
                 for (let icon of event.card.bonusIcons) {

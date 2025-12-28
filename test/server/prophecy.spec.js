@@ -74,6 +74,17 @@ describe('Prophecy', function () {
             expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
         });
 
+        it('should ignore prophecy clicks on opponent’s turn', function () {
+            this.player1.endTurn();
+            this.player2.clickPrompt('untamed');
+            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+
+            this.game.clickProphecy(this.player1.name, this.theCardsWillTell.uuid);
+            this.game.continue();
+
+            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+        });
+
         it("should resolve fate effects on opponent's turn", function () {
             this.player1.activateProphecy(this.expectTheUnexpected, this.parasiticArachnoid);
             this.player1.endTurn();

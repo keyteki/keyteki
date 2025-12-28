@@ -1,3 +1,4 @@
+const { EVENTS } = require('../Events/types');
 const CardGameAction = require('./CardGameAction');
 
 class RearrangeBattlelineAction extends CardGameAction {
@@ -44,7 +45,7 @@ class RearrangeBattlelineAction extends CardGameAction {
     }
 
     getEvent(card, context) {
-        return super.createEvent('unnamedEvent', { card, context }, () => {});
+        return super.createEvent(EVENTS.unnamedEvent, { card, context }, () => {});
     }
 }
 

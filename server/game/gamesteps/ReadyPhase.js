@@ -1,13 +1,17 @@
+const { EVENTS } = require('../Events/types.js');
 const Phase = require('./phase.js');
 const SimpleStep = require('./simplestep.js');
 
 class ReadyPhase extends Phase {
+    /**
+     * @param {import('../game')} game
+     */
     constructor(game) {
         super(game, 'ready');
         this.initialise([
             new SimpleStep(game, () =>
                 game.raiseEvent(
-                    'onCardsReadied',
+                    EVENTS.onCardsReadied,
                     {
                         player: game.activePlayer,
                         cards: game.activePlayer.cardsInPlay,

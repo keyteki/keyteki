@@ -1,4 +1,5 @@
 const Event = require('../Events/Event.js');
+const { EVENTS } = require('../Events/types.js');
 
 class GameAction {
     constructor(propertyFactory = {}) {
@@ -81,7 +82,7 @@ class GameAction {
         }
 
         this.preEventHandler(context);
-        let dummyEvent = context.game.getEvent('unnamedEvent');
+        let dummyEvent = context.game.getEvent(EVENTS.unnamedEvent);
         context.game.queueSimpleStep(() => {
             for (let event of this.getEventArray(context)) {
                 dummyEvent.addChildEvent(event);
@@ -127,6 +128,9 @@ class GameAction {
             .map((target) => this.getEvent(target, context));
     }
 
+    /**
+     * @param {import("../Events/types.js").EventName} name
+     */
     createEvent(name, params, handler) {
         if (this.noGameStateCheck) {
             params.noGameStateCheck = true;

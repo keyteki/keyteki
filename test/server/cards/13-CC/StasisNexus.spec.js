@@ -29,8 +29,8 @@ describe('Stasis Nexus', function () {
         });
 
         it('should reduce key cost by 1 for each stunned creature', function () {
-            this.troll.stunned = true;
-            this.dustPixie.stunned = true;
+            this.troll.stun();
+            this.dustPixie.stun();
             this.player1.useAction(this.stasisNexus);
             this.player1.clickPrompt('Yes');
             this.player1.forgeKey('red');

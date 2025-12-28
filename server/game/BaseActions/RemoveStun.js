@@ -1,6 +1,7 @@
 const AbilityContext = require('../AbilityContext');
 const BaseAbility = require('../baseability.js');
 const Costs = require('../costs.js');
+const { EVENTS } = require('../Events/types');
 
 class RemoveStun extends BaseAbility {
     constructor(card) {
@@ -44,9 +45,9 @@ class RemoveStun extends BaseAbility {
             context.player,
             context.source
         );
-        context.game.raiseEvent('onRemoveStun', { card: this.card, context: context }, () => {
+        context.game.raiseEvent(EVENTS.onRemoveStun, { card: this.card, context: context }, () => {
             context.source.unstun();
-            context.game.raiseEvent('onUseCard', {
+            context.game.raiseEvent(EVENTS.onUseCard, {
                 card: this.card,
                 context: context,
                 unstun: true

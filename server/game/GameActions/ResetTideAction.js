@@ -1,4 +1,5 @@
 const Constants = require('../../constants');
+const { EVENTS } = require('../Events/types');
 const PlayerAction = require('./PlayerAction');
 
 class ResetTideAction extends PlayerAction {
@@ -21,7 +22,7 @@ class ResetTideAction extends PlayerAction {
     }
 
     getEvent(player, context) {
-        return super.createEvent('onResetTide', { player: player, context: context }, () => {
+        return super.createEvent(EVENTS.onResetTide, { player: player, context: context }, () => {
             context.game.changeTide(player, Constants.Tide.NEUTRAL);
         });
     }

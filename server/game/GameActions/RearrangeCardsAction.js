@@ -1,3 +1,4 @@
+const { EVENTS } = require('../Events/types');
 const PlayerAction = require('./PlayerAction');
 
 class RearrangeCardsAction extends PlayerAction {
@@ -52,7 +53,7 @@ class RearrangeCardsAction extends PlayerAction {
 
     getEvent(player, context) {
         return super.createEvent(
-            'unnamedEvent',
+            EVENTS.unnamedEvent,
             { player: player, cards: this.orderedCards, context: context },
             () => {
                 player.deck.splice(0, this.amount, ...this.orderedCards);

@@ -26,6 +26,7 @@ const HouseTieBreakPrompt = require('./gamesteps/HouseTieBreakPrompt');
 const GameActions = require('./GameActions');
 const Effects = require('./effects.js');
 const Event = require('./Events/Event');
+const { EVENTS } = require('./Events/types');
 const EventWindow = require('./Events/EventWindow');
 const AbilityResolver = require('./gamesteps/abilityresolver');
 const SimultaneousEffectWindow = require('./gamesteps/SimultaneousEffectWindow');
@@ -34,6 +35,10 @@ const MenuCommands = require('./MenuCommands');
 const TimeLimit = require('./TimeLimit');
 const PlainTextGameChatFormatter = require('./PlainTextGameChatFormatter');
 const CardVisibility = require('./CardVisibility');
+
+/**
+ * @import {EventName} from './Events/types');
+ */
 
 class Game extends EventEmitter {
     constructor(details, options = {}) {
@@ -229,7 +234,7 @@ class Game extends EventEmitter {
 
     /**
      * Returns the visitbility of the card for a given player.
-     * @param {Card} card
+     * @param {import('./Card')} card
      * @param {Player} player
      */
     isCardVisible(card, player) {
@@ -893,7 +898,7 @@ class Game extends EventEmitter {
      * @returns {undefined}
      */
     beginRound() {
-        this.raiseEvent('onTurnStart', { player: this.activePlayer });
+        this.raiseEvent(EVENTS.onTurnStart, { player: this.activePlayer });
         this.activePlayer.beginRound();
         this.queueStep(new SimpleStep(this, () => this.finalizeBeginRound(0)));
         this.queueStep(new KeyPhase(this));
@@ -917,7 +922,7 @@ class Game extends EventEmitter {
             return;
         }
         this.raiseEvent(
-            'onFinalizeBeginRound',
+            EVENTS.onFinalizeBeginRound,
             { player: this.activePlayer, somethingChanged: false },
             (event) => {
                 if (event.somethingChanged) {
@@ -952,7 +957,7 @@ class Game extends EventEmitter {
      * @returns {undefined}
      */
     resolveAbility(context) {
-        this.raiseEvent('onResolveAbility', { context }, () => {
+        this.raiseEvent(EVENTS.onResolveAbility, { context }, () => {
             this.queueStep(new AbilityResolver(this, context));
         });
     }
@@ -963,13 +968,18 @@ class Game extends EventEmitter {
         this.queueStep(window);
     }
 
+    /**
+     * Returns a new {@link Event} that’s not explicitly tied to an action.
+     *
+     * @param {EventName} eventName
+     */
     getEvent(eventName, params, handler) {
         return new Event(eventName, params, handler);
     }
 
     /**
      * Creates a game Event, and opens a window for it.
-     * @param {String} eventName
+     * @param {EventName} eventName
      * @param {Object} params - parameters for this event
      * @param {Function} handler - (Event + params) => undefined
      * @returns {Event} - this allows the caller to track Event.resolved and
@@ -981,6 +991,12 @@ class Game extends EventEmitter {
         return event;
     }
 
+    /**
+     * Creates a game Event and `emit`s it to all our event listeners.
+     *
+     * @param {EventName} eventName
+     * @param {Object} params - parameters for this event
+     */
     emitEvent(eventName, params = {}) {
         let event = this.getEvent(eventName, params);
         this.emit(event.name, event);
@@ -1096,7 +1112,7 @@ class Game extends EventEmitter {
             player.cardsInPlay.push(card);
         }
         card.updateEffectContexts();
-        this.raiseEvent('onTakeControl', { player, card });
+        this.raiseEvent(EVENTS.onTakeControl, { player, card });
     }
 
     watch(socketId, user) {
@@ -1193,10 +1209,20 @@ class Game extends EventEmitter {
         player.socket = undefined;
     }
 
-    rematch() {
+    /**
+     * @param {boolean} swapDecks If true, swap decks in the rematch from what
+     * they were this game. Note that if the current game was a rematch with
+     * swapped decks, swapping for the 2nd rematch puts them back to where they
+     * were originally.
+     */
+    rematch(swapDecks = false) {
         if (!this.finishedAt) {
             this.finishedAt = new Date();
             this.winReason = 'rematch';
+        }
+
+        if (swapDecks) {
+            this.swap = !this.swap;
         }
 
         this.router.rematch(this);
@@ -1311,7 +1337,7 @@ class Game extends EventEmitter {
     }
 
     raiseEndRoundEvent() {
-        this.raiseEvent('onTurnEnd', { player: this.activePlayer }, () => {
+        this.raiseEvent(EVENTS.onTurnEnd, { player: this.activePlayer }, () => {
             this.endRound();
         });
     }

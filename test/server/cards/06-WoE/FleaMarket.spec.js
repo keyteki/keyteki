@@ -30,6 +30,7 @@ describe('Flea Market', function () {
         it('does not prompt if there is no amber', function () {
             this.player1.amber = 0;
             this.player1.useAction(this.fleaMarket);
+            expect(this).toHaveRecentChatMessage('Flea Market reveals Selwyn the Fence');
             expect(this.player1).not.toHavePromptButton('Yes');
             expect(this.player1).not.toHavePromptButton('No');
             expect(this.player1.amber).toBe(0);

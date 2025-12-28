@@ -2,6 +2,7 @@ const _ = require('underscore');
 
 const CardAbility = require('./CardAbility.js');
 const TriggeredAbilityContext = require('./TriggeredAbilityContext.js');
+const { EVENTS } = require('./Events/types.js');
 
 /**
  * Represents a reaction/interrupt ability provided by card text.
@@ -54,7 +55,7 @@ class TriggeredAbility extends CardAbility {
         if (
             this.useEventPlayer ||
             (!this.isLastingAbilityTrigger &&
-                event.name === 'onCardPlayed' &&
+                event.name === EVENTS.onCardPlayed &&
                 this.card.type === 'action')
         ) {
             player = event.player;
@@ -93,9 +94,9 @@ class TriggeredAbility extends CardAbility {
             return false;
         } else if (this.properties.play || this.properties.fight || this.properties.reap) {
             if (
-                (event.name === 'onCardPlayed' && !this.isPlay()) ||
-                (event.name === 'onFight' && !this.isFight()) ||
-                (event.name === 'onReap' && !this.isReap())
+                (event.name === EVENTS.onCardPlayed && !this.isPlay()) ||
+                (event.name === EVENTS.onFight && !this.isFight()) ||
+                (event.name === EVENTS.onReap && !this.isReap())
             ) {
                 return false;
             }

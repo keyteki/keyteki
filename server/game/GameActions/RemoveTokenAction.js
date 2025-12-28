@@ -1,3 +1,4 @@
+const { EVENTS } = require('../Events/types');
 const CardGameAction = require('./CardGameAction');
 
 class RemoveTokenAction extends CardGameAction {
@@ -42,7 +43,7 @@ class RemoveTokenAction extends CardGameAction {
 
     getEvent(card, context) {
         return super.createEvent(
-            'onRemoveToken',
+            EVENTS.onRemoveToken,
             {
                 type: this.type,
                 card: card,

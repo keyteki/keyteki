@@ -6,6 +6,7 @@ const AdaptiveDeckSelectionPrompt = require('./AdaptiveDeckSelectionPrompt');
 const FirstPlayerSelection = require('./FirstPlayerSelection');
 const GameStartPrompt = require('./GameStartPrompt');
 const Effects = require('../../effects.js');
+const { EVENTS } = require('../../Events/types.js');
 
 class SetupPhase extends Phase {
     constructor(game) {
@@ -83,7 +84,7 @@ class SetupPhase extends Phase {
         _.each(this.game.getPlayers(), (player) => {
             player.readyToStart = true;
         });
-        this.game.raiseEvent('onGameStarted');
+        this.game.raiseEvent(EVENTS.onGameStarted);
     }
 }
 

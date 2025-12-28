@@ -1,5 +1,6 @@
 const CardAbility = require('./CardAbility.js');
 const Costs = require('./costs.js');
+const { EVENTS } = require('./Events/types.js');
 
 /**
  * Represents an action ability provided by card text.
@@ -88,7 +89,7 @@ class CardAction extends CardAbility {
     executeHandler(context) {
         if (!this.reap && !this.fight) {
             context.game.raiseEvent(
-                'onUseCard',
+                EVENTS.onUseCard,
                 { card: this.card, context: context, action: true, omni: this.omni },
                 () => {}
             );
