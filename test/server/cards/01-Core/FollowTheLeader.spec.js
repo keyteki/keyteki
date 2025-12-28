@@ -8,7 +8,6 @@ describe('Follow the Leader', function () {
                     inPlay: ['sequis', 'doc-bookton']
                 },
                 player2: {
-                    amber: 1,
                     inPlay: ['ember-imp', 'charette']
                 }
             });

@@ -8,7 +8,6 @@ describe('Hebe the Huge', function () {
                     inPlay: ['troll', 'bumpsy']
                 },
                 player2: {
-                    amber: 1,
                     inPlay: ['bumpsy', 'ember-imp']
                 }
             });

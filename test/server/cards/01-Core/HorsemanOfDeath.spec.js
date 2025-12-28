@@ -35,9 +35,7 @@ describe('Horseman of Death', function () {
                     hand: ['horseman-of-death'],
                     discard: ['troll']
                 },
-                player2: {
-                    amber: 1
-                }
+                player2: {}
             });
         });
 

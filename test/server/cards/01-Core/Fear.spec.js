@@ -8,7 +8,6 @@ describe('Fear', function () {
                     inPlay: ['ember-imp']
                 },
                 player2: {
-                    amber: 1,
                     inPlay: ['troll']
                 }
             });
@@ -33,9 +32,7 @@ describe('Fear', function () {
                     hand: ['fear'],
                     inPlay: ['ember-imp']
                 },
-                player2: {
-                    amber: 1
-                }
+                player2: {}
             });
         });
 

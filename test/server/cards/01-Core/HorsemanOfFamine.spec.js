@@ -8,7 +8,6 @@ describe('Horseman of Famine', function () {
                     inPlay: ['troll']
                 },
                 player2: {
-                    amber: 1,
                     inPlay: ['ember-imp', 'bumpsy']
                 }
             });
@@ -35,7 +34,6 @@ describe('Horseman of Famine', function () {
                     inPlay: ['horseman-of-famine', 'troll']
                 },
                 player2: {
-                    amber: 1,
                     inPlay: ['ember-imp', 'bumpsy']
                 }
             });
