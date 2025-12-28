@@ -38,5 +38,11 @@ describe('Unity Prism', function () {
             this.player1.scrap(this.unityPrism);
             expect(this.player1.amber).toBe(4);
         });
+
+        it('should gain amber for house enhancements in hand when scrapped', function () {
+            this.poke.enhancements = ['shadows'];
+            this.player1.scrap(this.unityPrism);
+            expect(this.player1.amber).toBe(5);
+        });
     });
 });

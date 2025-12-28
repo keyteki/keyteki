@@ -20,6 +20,13 @@ describe('Tangrant', function () {
             expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
         });
 
+        it('should allow playing a house enhanced Mars card', function () {
+            this.virtuousWorks.enhancements = ['mars'];
+            this.player1.play(this.virtuousWorks);
+            this.player1.clickCard(this.etherSpider);
+            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+        });
+
         it('should stack with Phase Shift', function () {
             this.player1.play(this.phaseShift);
             this.player1.play(this.virtuousWorks);
