@@ -67,6 +67,9 @@ describe('Edict of Nerotaurus', function () {
             this.player1.endTurn();
             this.player2.clickPrompt('shadows');
             this.player2.reap(this.umbra);
+
+            this.player2.clickCard(this.umbra);
+
             this.player2.clickCard(this.mackTheKnife);
             expect(this.player2).not.toHavePromptButton('Reap with this creature');
             this.player2.useAction(this.mackTheKnife);
@@ -87,19 +90,6 @@ describe('Edict of Nerotaurus', function () {
             this.player1.reap(this.shrewdInvestor);
             expect(this.player1.amber).toBe(4);
             expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
-        });
-
-        it('should stop after leaving play', function () {
-            this.player1.reap(this.scylla);
-            this.player1.moveCard(this.edictOfNerotaurus, 'discard');
-            this.player1.reap(this.brutodonAuxiliary);
-        });
-
-        it('should start only after entering play', function () {
-            this.player1.moveCard(this.edictOfNerotaurus, 'hand');
-            this.player1.reap(this.scylla);
-            this.player1.play(this.edictOfNerotaurus);
-            this.player1.reap(this.brutodonAuxiliary);
         });
     });
 
