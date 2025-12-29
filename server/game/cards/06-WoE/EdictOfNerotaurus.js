@@ -32,7 +32,8 @@ class EdictOfNerotaurus extends Card {
         });
 
         this.play(() => {
-            (this.lastCreatureReaped = false), (this.lastCreatureFought = false);
+            this.lastCreatureReaped = false;
+            this.lastCreatureFought = false;
         });
     }
 
