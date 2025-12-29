@@ -6,6 +6,7 @@ class FightGameAction extends CardGameAction {
         this.fightCardCondition = null;
         this.resolveFightPostHandler = null;
         this.ignoreTaunt = false;
+        this.ignoreExhausted = false;
     }
 
     setup() {
@@ -20,7 +21,12 @@ class FightGameAction extends CardGameAction {
             : card.getFightAction(this.fightCardCondition);
         let newContext = fightAction.createContext(context.player);
         newContext.ignoreHouse = true;
-        if (fightAction.meetsRequirements(newContext, ['stunned'])) {
+        let ignoredRequirements = ['stunned'];
+        if (this.ignoreExhausted) {
+            ignoredRequirements.push('exhausted');
+        }
+        let meetsReqResult = fightAction.meetsRequirements(newContext, ignoredRequirements);
+        if (meetsReqResult) {
             return false;
         }
         return card.checkRestrictions('use', context) && super.canAffect(card, context);
@@ -29,6 +35,10 @@ class FightGameAction extends CardGameAction {
     checkEventCondition(event) {
         if (event.card.stunned) {
             return true;
+        }
+        // Even if ignoreExhausted is set for targeting, the creature must be ready to actually fight
+        if (event.card.exhausted) {
+            return false;
         }
         let fightAction = event.card.getFightAction();
         let newContext = fightAction.createContext(event.context.player);

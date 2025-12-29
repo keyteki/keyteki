@@ -138,7 +138,8 @@ describe('Ganger Chieftain', function () {
             expect(this.awakenedTitan.exhausted).toBe(true);
             this.player1.playCreature(this.gangerChieftain, true);
             this.player1.clickCard(this.awakenedTitan); // click to position
-            expect(this.player1).toHavePrompt('Choose a creature to fight with');
+            expect(this.player1).toHavePrompt('Any reactions to Ganger Chieftain being played?');
+            this.player1.clickCard(this.gangerChieftain);
             expect(this.player1).toBeAbleToSelect(this.awakenedTitan);
             this.player1.clickCard(this.awakenedTitan); // click to fail ready
             expect(this.awakenedTitan.exhausted).toBe(true);

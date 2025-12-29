@@ -93,9 +93,10 @@ class BaseAbility {
 
     /**
      * @param {*} context
+     * @param {Array} ignoredRequirements
      * @returns {String}
      */
-    meetsRequirements(context) {
+    meetsRequirements(context, ignoredRequirements = []) {
         // check legal targets exist
         // check costs can be paid
         // check for potential to change game state
@@ -107,7 +108,7 @@ class BaseAbility {
             action.reset();
         }
 
-        if (!this.canPayCosts(context)) {
+        if (!this.canPayCosts(context, ignoredRequirements)) {
             return 'cost';
         } else if (
             this.checkThenAbilities() ||
@@ -133,10 +134,16 @@ class BaseAbility {
     /**
      * Return whether all costs are capable of being paid for the ability.
      *
+     * @param {*} context
+     * @param {Array} ignoredRequirements
      * @returns {Boolean}
      */
-    canPayCosts(context) {
+    canPayCosts(context, ignoredRequirements = []) {
         let cost = this.cost.concat(context.player.getAdditionalCosts(context));
+        // Filter out exhaust cost if 'exhausted' is in ignoredRequirements
+        if (ignoredRequirements.includes('exhausted')) {
+            cost = cost.filter((c) => c.type !== 'exhaust');
+        }
         let aggregatedCost = {};
         return cost.every((cost) => cost.canPay(context, aggregatedCost));
     }

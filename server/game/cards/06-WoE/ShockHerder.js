@@ -11,7 +11,7 @@ class ShockHerder extends Card {
                 cardCondition: (card, context) => context.source.neighbors.includes(card),
                 gameAction: ability.actions.sequential([
                     ability.actions.ready(),
-                    ability.actions.fight()
+                    ability.actions.fight({ ignoreExhausted: true })
                 ])
             },
             effect: 'ready and fight with a neighboring creature'

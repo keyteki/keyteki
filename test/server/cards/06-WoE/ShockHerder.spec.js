@@ -44,7 +44,9 @@ describe('Shock Herder', function () {
             expect(this.awakenedTitan.exhausted).toBe(true);
             this.player1.playCreature(this.shockHerder, true, true);
             this.player1.clickCard(this.awakenedTitan); // click to position
-            expect(this.player1).toHavePrompt('Choose a creature to fight with');
+            expect(this.player1).toHavePrompt('Choose a creature');
+            expect(this.player1).toBeAbleToSelect(this.awakenedTitan);
+            expect(this.player1).toBeAbleToSelect(this.ancientBear);
             this.player1.clickCard(this.awakenedTitan); // click to fail ready
             expect(this.awakenedTitan.exhausted).toBe(true);
             expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
