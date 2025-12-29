@@ -20,12 +20,7 @@ class Knightapult extends Card {
                     },
                     match: (card) => card.type === 'creature',
                     multipleTrigger: false,
-                    effect: [
-                        ability.effects.enterPlayAnywhere(),
-                        ability.effects.entersPlayReady(
-                            (card) => card.controller === this.controller
-                        )
-                    ]
+                    effect: [ability.effects.enterPlayAnywhere(), ability.effects.entersPlayReady()]
                 })
             ]
         });
