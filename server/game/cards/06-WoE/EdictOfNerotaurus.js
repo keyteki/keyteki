@@ -30,10 +30,6 @@ class EdictOfNerotaurus extends Card {
                 effect: ability.effects.cardCannot('fight')
             })
         });
-
-        this.play(() => {
-            (this.lastCreatureReaped = false), (this.lastCreatureFought = false);
-        });
     }
 
     onUseCard(event) {
