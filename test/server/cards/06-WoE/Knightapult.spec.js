@@ -7,8 +7,7 @@ describe('Knightapult', function () {
                     amber: 3,
                     token: 'cleric',
                     inPlay: ['chelonia', 'flaxia', 'knightapult'],
-                    hand: ['holdfast', 'berinon', 'gorm-of-omm', 'exo-shell-system'],
-                    decks: ['flaxia']
+                    hand: ['holdfast', 'berinon', 'gorm-of-omm', 'exo-shell-system']
                 },
                 player2: {
                     inPlay: ['troll', 'gub']
