@@ -67,7 +67,6 @@ describe('Edict of Nerotaurus', function () {
             this.player1.endTurn();
             this.player2.clickPrompt('shadows');
             this.player2.reap(this.umbra);
-            this.player2.clickCard(this.umbra);
             this.player2.clickCard(this.mackTheKnife);
             expect(this.player2).not.toHavePromptButton('Reap with this creature');
             this.player2.useAction(this.mackTheKnife);
