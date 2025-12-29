@@ -4,7 +4,8 @@ class Knightapult extends Card {
     // Action: The next time a friendly creature enters play this turn, you may have it enter anywhere in your battleline, ready.
     setupCardAbilities(ability) {
         this.action({
-            effect: 'have the next friendly creature enter play anywhere in your battleline, ready',
+            effect:
+                'have the next friendly creature enter play anywhere in their battleline, ready',
             gameAction: [
                 ability.actions.lastingEffect({
                     target: {
@@ -17,12 +18,13 @@ class Knightapult extends Card {
                             event.context.game.activePlayer === event.card.controller,
                         onTurnEnd: () => true
                     },
+                    match: (card) => card.type === 'creature',
                     multipleTrigger: false,
                     effect: [
                         ability.effects.enterPlayAnywhere(),
-                        ability.effects.entersPlayReady((card) => {
-                            return card.type !== 'artifact' && card.controller === this.controller;
-                        })
+                        ability.effects.entersPlayReady(
+                            (card) => card.controller === this.controller
+                        )
                     ]
                 })
             ]

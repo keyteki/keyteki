@@ -60,31 +60,30 @@ describe('Knightapult', function () {
             });
         });
 
-        describe('should cause the next artifact played', function () {
+        describe('should not cause artifacts played', function () {
             beforeEach(function () {
                 this.player1.clickCard(this.gormOfOmm);
                 this.player1.clickPrompt('Play this artifact');
+            });
 
+            it('to be ready', function () {
+                expect(this.gormOfOmm.exhausted).toBe(true);
+            });
+
+            it('should ready token creatures created by playing artifacts', function () {
                 this.exoShellSystem.maverick = 'sanctum';
                 this.exoShellSystem.printedHouse = 'sanctum';
                 this.player1.clickCard(this.exoShellSystem);
                 this.player1.clickPrompt('Play this artifact');
                 this.player1.clickPrompt('Left');
-            });
-
-            it('to not be ready', function () {
-                expect(this.gormOfOmm.exhausted).toBe(true);
                 expect(this.exoShellSystem.exhausted).toBe(true);
                 let tokenCreature = this.player1.inPlay[0];
                 expect(tokenCreature.isToken()).toBe(true);
                 expect(tokenCreature.exhausted).toBe(false);
-            });
-
-            it('and the next creature to be ready', function () {
                 this.player1.clickCard(this.holdfast);
                 this.player1.clickPrompt('Play this creature');
-                // this.player1.clickPrompt('Deploy Left');
-                expect(this.holdfast.exhausted).toBe(false);
+                this.player1.clickPrompt('Right');
+                expect(this.holdfast.exhausted).toBe(true);
             });
         });
 
