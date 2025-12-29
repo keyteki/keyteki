@@ -6,7 +6,6 @@ class FightGameAction extends CardGameAction {
         this.fightCardCondition = null;
         this.resolveFightPostHandler = null;
         this.ignoreTaunt = false;
-        this.ignoreExhausted = false;
     }
 
     setup() {
@@ -21,10 +20,7 @@ class FightGameAction extends CardGameAction {
             : card.getFightAction(this.fightCardCondition);
         let newContext = fightAction.createContext(context.player);
         newContext.ignoreHouse = true;
-        let ignoredRequirements = ['stunned'];
-        if (this.ignoreExhausted) {
-            ignoredRequirements.push('exhausted');
-        }
+        let ignoredRequirements = ['stunned', 'exhausted'];
         let meetsReqResult = fightAction.meetsRequirements(newContext, ignoredRequirements);
         if (meetsReqResult) {
             return false;

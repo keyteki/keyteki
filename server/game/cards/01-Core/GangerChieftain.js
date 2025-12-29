@@ -11,7 +11,7 @@ class GangerChieftain extends Card {
                 cardCondition: (card, context) => context.source.neighbors.includes(card),
                 gameAction: ability.actions.sequential([
                     ability.actions.ready(),
-                    ability.actions.fight({ ignoreExhausted: true })
+                    ability.actions.fight()
                 ])
             },
             effect: 'ready and fight with a neighboring creature'
