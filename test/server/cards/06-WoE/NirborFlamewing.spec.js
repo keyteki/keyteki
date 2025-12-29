@@ -7,10 +7,10 @@ describe('Nirbor Flamewing', function () {
                     house: 'brobnar',
                     token: 'grunt',
                     inPlay: ['nirbor-flamewing', 'pelf'],
-                    hand: ['nirbor-flamewing']
+                    hand: ['nirbor-flamewing', 'sidekick']
                 },
                 player2: {
-                    inPlay: ['kelifi-dragon']
+                    inPlay: ['kelifi-dragon', 'troll']
                 }
             });
 
@@ -114,6 +114,42 @@ describe('Nirbor Flamewing', function () {
 
             this.player1.clickPrompt('brobnar');
             expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+        });
+
+        /**
+         * Regression test for https://github.com/keyteki/keyteki/issues/3483
+         */
+        it('works if the Nirbor died as a token', function () {
+            this.player1.endTurn();
+            this.player2.clickPrompt('brobnar');
+            this.player2.endTurn();
+
+            // Make a token creature (Grunt) out of the Nirbor Flamewing in our
+            // hand.
+            this.player1.clickPrompt('geistoid');
+            this.player1.play(this.sidekick);
+            this.player1.clickCard(this.nirborFlamewing2);
+            this.player1.clickPrompt('left');
+            this.player1.endTurn();
+
+            this.player2.clickPrompt('brobnar');
+            expect(this.nirborFlamewing2.isToken()).toBe(true);
+            this.player2.fightWith(this.troll, this.nirborFlamewing2);
+            // 3 damage because the Flamewing was a Grunt token at the time
+            expect(this.troll.tokens.damage).toBe(3);
+            expect(this.nirborFlamewing2.location).toBe('discard');
+            expect(this.nirborFlamewing2.isToken()).toBe(false);
+            this.player2.endTurn();
+
+            // Nirbor 2 (the former token) is in the discard and should be
+            // available to activate at this point.
+            expect(this.player1).toHavePrompt('Any reactions?');
+            this.player1.clickCard(this.nirborFlamewing2);
+            expect(this.player1).toBeAbleToSelect(this.pelf);
+            this.player1.clickCard(this.pelf);
+            this.player1.clickPrompt('Right');
+
+            expect(this.player1).toHavePrompt('House Choice');
         });
     });
 });
