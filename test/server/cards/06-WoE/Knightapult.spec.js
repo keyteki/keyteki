@@ -5,8 +5,10 @@ describe('Knightapult', function () {
                 player1: {
                     house: 'sanctum',
                     amber: 3,
+                    token: 'cleric',
                     inPlay: ['chelonia', 'flaxia', 'knightapult'],
-                    hand: ['holdfast', 'berinon']
+                    hand: ['holdfast', 'berinon', 'gorm-of-omm', 'exo-shell-system'],
+                    decks: ['flaxia']
                 },
                 player2: {
                     inPlay: ['troll', 'gub']
@@ -36,6 +38,7 @@ describe('Knightapult', function () {
                 expect(this.holdfast.exhausted).toBe(false);
             });
         });
+
         describe('should cause the 2nd next creature played', function () {
             beforeEach(function () {
                 this.player1.play(this.holdfast);
@@ -54,6 +57,48 @@ describe('Knightapult', function () {
                 this.player1.clickPrompt('Left');
 
                 expect(this.berinon.exhausted).toBe(true);
+            });
+        });
+
+        describe('should cause the next artifact played', function () {
+            beforeEach(function () {
+                this.player1.clickCard(this.gormOfOmm);
+                this.player1.clickPrompt('Play this artifact');
+
+                this.exoShellSystem.maverick = 'sanctum';
+                this.exoShellSystem.printedHouse = 'sanctum';
+                this.player1.clickCard(this.exoShellSystem);
+                this.player1.clickPrompt('Play this artifact');
+                this.player1.clickPrompt('Left');
+            });
+
+            it('to not be ready', function () {
+                expect(this.gormOfOmm.exhausted).toBe(true);
+                expect(this.exoShellSystem.exhausted).toBe(true);
+                let tokenCreature = this.player1.inPlay[0];
+                expect(tokenCreature.isToken()).toBe(true);
+                expect(tokenCreature.exhausted).toBe(false);
+            });
+
+            it('and the next creature to be ready', function () {
+                this.player1.clickCard(this.holdfast);
+                this.player1.clickPrompt('Play this creature');
+                // this.player1.clickPrompt('Deploy Left');
+                expect(this.holdfast.exhausted).toBe(false);
+            });
+        });
+
+        describe('should not affect the next turn', function () {
+            it('the next creature to not be ready', function () {
+                this.player1.endTurn();
+                this.player2.clickPrompt('brobnar');
+                this.player2.endTurn();
+                this.player1.clickPrompt('sanctum');
+
+                this.player1.clickCard(this.holdfast);
+                this.player1.clickPrompt('Play this creature');
+                this.player1.clickPrompt('Left');
+                expect(this.holdfast.exhausted).toBe(true);
             });
         });
     });
