@@ -132,19 +132,19 @@ describe('Edict of Nerotaurus', function () {
             this.grammaticusThrax.tokens.ward = 1;
             this.player2.endTurn();
 
-            // Strange Gizmo causes Jargogle to play orator hissaro after forging a key
+            // Strange Gizmo causes Jargogle to play Edict of Nerotaurus after forging a key
             this.player1.clickPrompt('red');
-            this.player1.clickCard(this.jargogle1);
-            this.player1.clickCard(this.jargogle2);
+            this.player1.clickCard(this.jargogle1); // Edict of Nerotaurus
+            this.player1.clickCard(this.jargogle2); // Ghosthawk deploys right of Brillix Ponder
             this.player1.clickPrompt('deploy right');
             this.player1.clickCard(this.brillixPonder);
-            this.player1.clickCard(this.brillixPonder);
-            expect(this.daughter.exhausted).toBe(false);
+            this.player1.clickCard(this.brillixPonder); // Reap with Brillix Ponder
+            expect(this.daughter.exhausted).toBe(false); // Edict of Nerotaurus prevents Daughter's reap
             this.player1.clickPrompt('logos');
             expect(this.player1.amber).toBe(3);
             this.player1.clickCard(this.daughter);
             expect(this.player1).not.toHavePromptButton('Reap with this creature');
-            expect(this.player1).toHavePromptButton('Fight with this creature');
+            expect(this.player1).toHavePromptButton('Fight with this creature'); // Daughter is still ready and can fight
             this.player1.clickPrompt('cancel');
             expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
         });
