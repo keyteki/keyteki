@@ -1,61 +1,33 @@
 describe('Flaxia', function () {
-    describe("Flaxia's ability with more creatures", function () {
+    describe("Flaxia's play ability", function () {
         beforeEach(function () {
             this.setupTest({
                 player1: {
                     house: 'untamed',
-                    hand: ['flaxia'],
-                    inPlay: ['dust-pixie', 'dew-faerie']
+                    hand: ['ancient-bear', 'dew-faerie', 'flaxia']
                 },
                 player2: {
-                    inPlay: ['troll']
+                    inPlay: ['troll', 'krump']
                 }
             });
         });
 
-        it('should gain 2 amber when controlling more creatures', function () {
-            this.player1.play(this.flaxia);
-            expect(this.player1.amber).toBe(2);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
-        });
-    });
-
-    describe("Flaxia's ability with fewer creatures", function () {
-        beforeEach(function () {
-            this.setupTest({
-                player1: {
-                    house: 'untamed',
-                    hand: ['flaxia'],
-                    inPlay: ['dust-pixie']
-                },
-                player2: {
-                    inPlay: ['troll', 'bumpsy']
-                }
-            });
-        });
-
-        it('should not gain amber when controlling fewer creatures', function () {
+        it('should not gain amber when controlling fewer creatures after play', function () {
             this.player1.play(this.flaxia);
             expect(this.player1.amber).toBe(0);
             expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
         });
-    });
 
-    describe("Flaxia's ability with equal creatures", function () {
-        beforeEach(function () {
-            this.setupTest({
-                player1: {
-                    house: 'untamed',
-                    hand: ['flaxia'],
-                    inPlay: ['dust-pixie']
-                },
-                player2: {
-                    inPlay: ['troll']
-                }
-            });
+        it('should not gain amber when controlling equal number of creatures after play', function () {
+            this.player1.play(this.ancientBear);
+            this.player1.play(this.flaxia);
+            expect(this.player1.amber).toBe(0);
+            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
         });
 
-        it('should gain amber when played with equal creatures', function () {
+        it('should gain 2 amber when controlling more creatures after play', function () {
+            this.player1.play(this.ancientBear);
+            this.player1.play(this.dewFaerie);
             this.player1.play(this.flaxia);
             expect(this.player1.amber).toBe(2);
             expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
