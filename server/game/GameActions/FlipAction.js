@@ -2,6 +2,11 @@ const { EVENTS } = require('../Events/types');
 const CardGameAction = require('./CardGameAction');
 
 class FlipAction extends CardGameAction {
+    setDefaultProperties() {
+        /** May be "any", "face-down", or "face-up". */
+        this.direction = 'any';
+    }
+
     setup() {
         this.name = 'flip';
         this.targetType = ['creature'];
@@ -11,6 +16,9 @@ class FlipAction extends CardGameAction {
     canAffect(card, context) {
         return (
             card.location === 'play area' &&
+            (this.direction === 'any' ||
+                (this.direction === 'face-down' && !card.isToken()) ||
+                (this.direction === 'face-up' && card.isToken())) &&
             card.checkRestrictions('flip', context) &&
             super.canAffect(card, context)
         );
