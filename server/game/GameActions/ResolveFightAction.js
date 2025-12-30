@@ -1,3 +1,4 @@
+const { EVENTS } = require('../Events/types');
 const CardGameAction = require('./CardGameAction');
 
 class ResolveFightAction extends CardGameAction {
@@ -53,7 +54,7 @@ class ResolveFightAction extends CardGameAction {
             destroyed: [],
             cancelFight: false
         };
-        let fightEvent = super.createEvent('onFight', params, (event) => {
+        let fightEvent = super.createEvent(EVENTS.onFight, params, (event) => {
             if (!this.canAffect(event.card, event.context)) {
                 return;
             }
@@ -161,7 +162,7 @@ class ResolveFightAction extends CardGameAction {
 
         fightEvent.addChildEvent(
             context.game.getEvent(
-                'onUseCard',
+                EVENTS.onUseCard,
                 {
                     card: params.attacker,
                     fightEvent: fightEvent,

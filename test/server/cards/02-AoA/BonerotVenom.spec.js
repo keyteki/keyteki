@@ -50,7 +50,7 @@ describe('Bonerot Venom', function () {
             this.player1.playUpgrade(this.bonerotVenom, this.mackTheKnife);
             expect(this.mackTheKnife.location).toBe('play area');
             expect(this.mackTheKnife.upgrades).toContain(this.bonerotVenom);
-            this.mackTheKnife.stunned = true;
+            this.mackTheKnife.stun();
             this.player1.clickCard(this.mackTheKnife);
             this.player1.clickPrompt("Remove this creature's stun");
             expect(this.mackTheKnife.tokens.damage).toBe(2);
@@ -61,7 +61,7 @@ describe('Bonerot Venom', function () {
             this.player1.playUpgrade(this.bonerotVenom, this.brendTheFanatic);
             expect(this.brendTheFanatic.location).toBe('play area');
             expect(this.brendTheFanatic.upgrades).toContain(this.bonerotVenom);
-            this.brendTheFanatic.stunned = true;
+            this.brendTheFanatic.stun();
             this.player1.clickCard(this.brendTheFanatic);
             this.player1.clickPrompt("Remove this creature's stun");
             expect(this.brendTheFanatic.tokens.damage).toBe(2);

@@ -1,3 +1,4 @@
+const { EVENTS } = require('../Events/types');
 const CardGameAction = require('./CardGameAction');
 
 class MakeTokenCreatureAction extends CardGameAction {
@@ -41,14 +42,14 @@ class MakeTokenCreatureAction extends CardGameAction {
 
     getEvent(card, context) {
         return super.createEvent(
-            'onMakeToken',
+            EVENTS.onMakeToken,
             { card, context, player: this.targetPlayer(context) },
             (event) => {
                 context.game.actions
                     .sequential([
                         context.game.actions.cardLastingEffect({
                             target: card,
-                            targetLocation: card.location,
+                            allowedLocations: 'any',
                             duration: 'lastingEffect',
                             effect: [
                                 context.game.effects.flipToken(),

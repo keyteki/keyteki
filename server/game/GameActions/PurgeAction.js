@@ -1,3 +1,4 @@
+const { EVENTS } = require('../Events/types');
 const CardGameAction = require('./CardGameAction');
 
 const locationsHiddenFromPurge = ['hand', 'archives'];
@@ -35,9 +36,9 @@ class PurgeAction extends CardGameAction {
     }
 
     getEvent(card, context) {
-        return super.createEvent('onCardPurged', { card: card, context: context }, () => {
+        return super.createEvent(EVENTS.onCardPurged, { card: card, context: context }, () => {
             if (card.location === 'play area') {
-                context.game.raiseEvent('onCardLeavesPlay', { card, context }, () =>
+                context.game.raiseEvent(EVENTS.onCardLeavesPlay, { card, context }, () =>
                     this.purge(card)
                 );
             } else {

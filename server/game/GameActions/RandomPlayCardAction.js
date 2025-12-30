@@ -1,3 +1,4 @@
+const { EVENTS } = require('../Events/types');
 const PlayerAction = require('./PlayerAction');
 const _ = require('underscore');
 
@@ -23,7 +24,7 @@ class RandomPlayCardAction extends PlayerAction {
 
     getEvent(player, context) {
         return super.createEvent(
-            'unnamedEvent',
+            EVENTS.unnamedEvent,
             { player, context, amount: this.amount },
             (event) => {
                 if (this.location === 'archives') {

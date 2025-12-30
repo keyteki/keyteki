@@ -134,5 +134,16 @@ describe('De-Animator', function () {
             expect(this.rocketBoots.parent).toBe(this.botBookton);
             expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
         });
+
+        it('should allow stunned creatures to use their new destroy action', function () {
+            this.botBookton.stun();
+            this.player1.playCreature(this.deAnimator);
+            this.player1.clickCard(this.botBookton);
+            expect(this.botBookton.type).toBe('artifact');
+            this.player1.clickCard(this.botBookton);
+            this.player1.clickPrompt("Use this card's Action ability");
+            expect(this.botBookton.location).toBe('discard');
+            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+        });
     });
 });

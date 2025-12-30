@@ -27,7 +27,6 @@ import Privacy from './pages/Privacy';
 import BanlistAdmin from './pages/BanlistAdmin';
 import Patreon from './pages/Patreon';
 import AllianceBuilderPage from './pages/AllianceBuilder';
-import ProphecyAssignment from './pages/ProphecyAssignment';
 
 const routes = [
     { path: '/', action: () => <Lobby key='lobby' /> },
@@ -41,10 +40,6 @@ const routes = [
     { path: '/blocklist', action: () => <BlockList key='blocklist' /> },
     { path: '/decks', action: () => <Decks key='decks' /> },
     { path: '/decks/import', action: () => <ImportDeck key='importDecks' /> },
-    {
-        path: '/decks/prophecy-assignment',
-        action: () => <ProphecyAssignment key='prophecyassignment' />
-    },
     { path: '/decks/alliance', action: () => <AllianceBuilderPage key='alliancebuilder' /> },
     { path: '/forgot', action: () => <ForgotPassword key='forgotpassword' /> },
     { path: '/how-to-play', action: () => <HowToPlay key='howtoplay' /> },

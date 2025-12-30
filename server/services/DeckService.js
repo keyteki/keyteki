@@ -463,6 +463,19 @@ class DeckService {
         );
         deck.houses = houses.map((house) => house.Code);
 
+        if (!standalone) {
+            let accolades = await db.query(
+                'SELECT * FROM "DeckAccolades" WHERE "DeckId" = $1 ORDER BY "Id"',
+                [deck.id]
+            );
+            deck.accolades = accolades.map((a) => ({
+                id: a.AccoladeId,
+                name: a.Name,
+                image: a.ImageUrl,
+                shown: a.Shown
+            }));
+        }
+
         deck.isStandalone = standalone;
     }
 
@@ -748,6 +761,22 @@ class DeckService {
                 flatten([deck.id, deck.houses])
             );
 
+            if (user && deck.accolades && deck.accolades.length > 0) {
+                let accoladeParams = [];
+                for (let i = 0; i < deck.accolades.length; i++) {
+                    const accolade = deck.accolades[i];
+                    const shown = i < 3;
+                    accoladeParams.push(deck.id, accolade.id, accolade.name, accolade.image, shown);
+                }
+                await db.query(
+                    `INSERT INTO "DeckAccolades" ("DeckId", "AccoladeId", "Name", "ImageUrl", "Shown") VALUES ${expand(
+                        deck.accolades.length,
+                        5
+                    )}`,
+                    accoladeParams
+                );
+            }
+
             await db.query('COMMIT');
         } catch (err) {
             logger.error('Failed to add deck', err);
@@ -787,20 +816,6 @@ class DeckService {
                     throw new Error('Failed to update deck');
                 }
             }
-        }
-    }
-
-    async updateProphecyAssignments(deckId, assignments) {
-        try {
-            for (let [cardDbId, prophecyId] of Object.entries(assignments)) {
-                await db.query('UPDATE "DeckCards" SET "ProphecyId" = $2 WHERE "Id" = $1', [
-                    cardDbId,
-                    prophecyId
-                ]);
-            }
-        } catch (err) {
-            logger.error('Failed to update prophecy assignments', err);
-            throw new Error('Failed to update prophecy assignments');
         }
     }
 
@@ -909,7 +924,7 @@ class DeckService {
                 'dark-æmber-vault': true,
                 'build-your-champion': true,
                 'digging-up-the-monster': true,
-                'tomes-gigantic': true
+                'tomes-gigantica': true
             },
             886: {
                 'avenging-aura': true,
@@ -983,6 +998,11 @@ class DeckService {
                 };
             }
 
+            // Store sort_override for prophecy cards
+            if (card.sort_override !== undefined && card.sort_override !== null) {
+                retCard.sortOverride = card.sort_override;
+            }
+
             if (card.is_enhanced) {
                 retCard.enhancements = [];
                 retCard.uuid = card.id;
@@ -1028,6 +1048,10 @@ class DeckService {
                     let cardToAdd = Object.assign({}, card);
 
                     cardToAdd.enhancements = enhancementsByCardId[card.uuid][i + 1];
+                    // Preserve sortOverride for enhanced cards
+                    if (card.sortOverride !== undefined) {
+                        cardToAdd.sortOverride = card.sortOverride;
+                    }
 
                     cardToAdd.count = 1;
                     toAdd.push(cardToAdd);
@@ -1039,6 +1063,30 @@ class DeckService {
         }
 
         cards = cards.concat(toAdd);
+
+        // Auto-assign prophecy IDs based on sort_override order (first two = 1, second two = 2)
+        const prophecyCards = cards.filter(
+            (card) => allCards[card.id] && allCards[card.id].type === 'prophecy'
+        );
+        if (prophecyCards.length === 4) {
+            // Sort prophecy cards by sort_override field from API
+            prophecyCards.sort((a, b) => {
+                const aSort =
+                    a.sortOverride !== undefined && a.sortOverride !== null
+                        ? a.sortOverride
+                        : Infinity;
+                const bSort =
+                    b.sortOverride !== undefined && b.sortOverride !== null
+                        ? b.sortOverride
+                        : Infinity;
+                return aSort - bSort;
+            });
+            // First two prophecies get prophecyId 1, second two get prophecyId 2
+            prophecyCards[0].prophecyId = 1;
+            prophecyCards[1].prophecyId = 1;
+            prophecyCards[2].prophecyId = 2;
+            prophecyCards[3].prophecyId = 2;
+        }
 
         let uuid = deckResponse.data.id;
         let anyIllegalCards = cards.find(
@@ -1057,6 +1105,10 @@ class DeckService {
             return undefined;
         }
 
+        const accolades = (deckResponse._linked.accolades || [])
+            .filter((a) => a.visible)
+            .map((a) => ({ id: a.id, name: a.name, image: a.image }));
+
         return {
             expansion: deckResponse.data.expansion,
             username: username,
@@ -1071,8 +1123,120 @@ class DeckService {
                 house.replace(' ', '').toLowerCase()
             ),
             cards: cards,
+            accolades: accolades,
             lastUpdated: new Date()
         };
+    }
+
+    async refreshAccolades(deckId, user) {
+        const deck = await this.getById(deckId);
+        if (!deck) {
+            throw new Error('Deck not found');
+        }
+
+        if (deck.username !== user.username) {
+            throw new Error('Unauthorized');
+        }
+
+        let deckResponse;
+        try {
+            let response = await util.httpRequest(
+                `https://www.keyforgegame.com/api/decks/${deck.uuid}/?links=cards`
+            );
+
+            if (response[0] === '<') {
+                logger.error('Failed to refresh accolades: %s %s', deck.uuid, response);
+                throw new Error('Invalid response from API. Please try again later.');
+            }
+
+            deckResponse = JSON.parse(response);
+        } catch (error) {
+            logger.error(`Unable to refresh accolades for deck ${deck.uuid}`, error);
+            throw new Error('Invalid response from API. Please try again later.');
+        }
+
+        if (!deckResponse || !deckResponse._linked || !deckResponse.data) {
+            throw new Error('Invalid response from API. Please try again later.');
+        }
+
+        const accolades = (deckResponse._linked.accolades || [])
+            .filter((a) => a.visible)
+            .map((a) => ({ id: a.id, name: a.name, image: a.image }));
+
+        const existingAccolades = await db.query(
+            'SELECT "AccoladeId", "Shown" FROM "DeckAccolades" WHERE "DeckId" = $1',
+            [deckId]
+        );
+        const shownMap = {};
+        for (const existing of existingAccolades) {
+            shownMap[existing.AccoladeId] = existing.Shown;
+        }
+
+        const resultShownMap = {};
+        await db.query('BEGIN');
+        try {
+            await db.query('DELETE FROM "DeckAccolades" WHERE "DeckId" = $1', [deckId]);
+
+            if (accolades.length > 0) {
+                let shownCount = 0;
+                let accoladeParams = [];
+                for (const accolade of accolades) {
+                    let shown = shownMap[accolade.id];
+                    if (shown === undefined) {
+                        shown = shownCount < 3;
+                        if (shown) {
+                            shownCount++;
+                        }
+                    }
+                    resultShownMap[accolade.id] = shown;
+                    accoladeParams.push(deckId, accolade.id, accolade.name, accolade.image, shown);
+                }
+                await db.query(
+                    `INSERT INTO "DeckAccolades" ("DeckId", "AccoladeId", "Name", "ImageUrl", "Shown") VALUES ${expand(
+                        accolades.length,
+                        5
+                    )}`,
+                    accoladeParams
+                );
+            }
+
+            await db.query('COMMIT');
+        } catch (err) {
+            await db.query('ROLLBACK');
+            logger.error('Failed to refresh accolades', err);
+            throw new Error('Failed to update accolades in database');
+        }
+
+        return accolades.map((a) => ({
+            ...a,
+            shown: resultShownMap[a.id] || false
+        }));
+    }
+
+    async updateAccoladeShown(deckId, accoladeId, shown, user) {
+        const deck = await this.getById(deckId);
+        if (!deck) {
+            throw new Error('Deck not found');
+        }
+
+        if (deck.username !== user.username) {
+            throw new Error('Unauthorized');
+        }
+
+        if (shown) {
+            const shownCount = await db.query(
+                'SELECT COUNT(*) as count FROM "DeckAccolades" WHERE "DeckId" = $1 AND "Shown" = true',
+                [deckId]
+            );
+            if (shownCount[0].count >= 3) {
+                throw new Error('Maximum of 3 accolades can be shown');
+            }
+        }
+
+        await db.query(
+            'UPDATE "DeckAccolades" SET "Shown" = $1 WHERE "DeckId" = $2 AND "AccoladeId" = $3',
+            [shown, deckId, accoladeId]
+        );
     }
 
     mapDeck(deck) {

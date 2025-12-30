@@ -107,16 +107,29 @@ export function loadStandaloneDecks() {
     };
 }
 
-export function saveProphecyAssignments(deck, assignments) {
-    let str = JSON.stringify({ assignments: assignments });
-
+export function refreshAccolades(deckId) {
     return {
-        types: [Decks.SaveProphecyAssignments, Decks.ProphecyAssignmentsSaved],
+        types: ['REQUEST_REFRESH_ACCOLADES', 'REFRESH_ACCOLADES_RECEIVED'],
         shouldCallAPI: () => true,
         APIParams: {
-            url: `/api/decks/${deck.id}/prophecy-assignments`,
+            url: `/api/decks/${deckId}/refresh-accolades`,
+            type: 'POST'
+        }
+    };
+}
+
+export function updateAccoladeShown(deckId, accoladeId, shown) {
+    return {
+        types: ['REQUEST_UPDATE_ACCOLADE_SHOWN', 'UPDATE_ACCOLADE_SHOWN_RECEIVED'],
+        shouldCallAPI: () => true,
+        payload: {
+            accoladeId,
+            shown
+        },
+        APIParams: {
+            url: `/api/decks/${deckId}/accolades/${accoladeId}/shown`,
             type: 'POST',
-            data: str
+            data: JSON.stringify({ shown })
         }
     };
 }

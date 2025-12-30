@@ -1,3 +1,4 @@
+const { EVENTS } = require('../Events/types');
 const CardGameAction = require('./CardGameAction');
 
 class PutIntoPlayAction extends CardGameAction {
@@ -174,7 +175,7 @@ class PutIntoPlayAction extends CardGameAction {
 
     getEvent(card, context) {
         return super.createEvent(
-            'onCardEntersPlay',
+            EVENTS.onCardEntersPlay,
             {
                 card: card,
                 context: context
@@ -242,7 +243,16 @@ class PutIntoPlayAction extends CardGameAction {
                     context.game.actions
                         .cardLastingEffect({
                             target: card,
-                            targetLocation: 'play area',
+                            // This was previously `targetLocation: "play
+                            // area"`, but the old version of
+                            // `cardLastingEffect` actually ignored the value of
+                            // `targetLocation` and merely used its presence to
+                            // disable the requirement that the target of the
+                            // effect was in the `"play area"` location.
+                            //
+                            // `allowedLocations: "any"` is equivalent behavior
+                            // to the old `targetLocation: "play area"`.
+                            allowedLocations: 'any',
                             duration: e.duration,
                             effect: e.builder()
                         })

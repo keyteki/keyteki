@@ -1,3 +1,4 @@
+const { EVENTS } = require('../Events/types');
 const CardListSelector = require('./CardListSelector');
 const GameAction = require('./GameAction');
 
@@ -7,7 +8,7 @@ class SequentialCardLastingEffectAction extends GameAction {
         this.condition = null;
         this.until = null;
         this.effectForEach = [];
-        this.targetLocation = null;
+        this.allowedLocations = ['play area'];
     }
 
     setup() {
@@ -34,7 +35,7 @@ class SequentialCardLastingEffectAction extends GameAction {
             condition: this.condition,
             until: this.until,
             effect: effect,
-            targetLocation: this.targetLocation
+            allowedLocations: this.allowedLocations
         });
 
         context.game.queueSimpleStep(() => {
@@ -74,7 +75,7 @@ class SequentialCardLastingEffectAction extends GameAction {
 
     getEventArray(context) {
         return [
-            super.createEvent('unnamedEvent', {}, () => {
+            super.createEvent(EVENTS.unnamedEvent, {}, () => {
                 this.filterAndApplyAction(context, this.forEach, this.effectForEach);
             })
         ];

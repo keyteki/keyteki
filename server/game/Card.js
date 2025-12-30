@@ -16,6 +16,7 @@ const ResolveFightAction = require('./GameActions/ResolveFightAction');
 const ResolveReapAction = require('./GameActions/ResolveReapAction');
 const ReturnToHandFromDiscardAction = require('./BaseActions/ReturnToHandFromDiscardAction');
 const RemoveStun = require('./BaseActions/RemoveStun');
+const { EVENTS } = require('./Events/types.js');
 
 class Card extends EffectSource {
     constructor(owner, cardData) {
@@ -75,7 +76,6 @@ class Card extends EffectSource {
         this.printedArmor = cardData.armor;
         this.armorUsed = 0;
         this.exhausted = false;
-        this.stunned = false;
         this.moribund = false;
         this.isFighting = false;
         this.activeProphecy = false;
@@ -470,7 +470,7 @@ class Card extends EffectSource {
                     when: {
                         onCardLeavesPlay: (event, context) =>
                             event.triggeringEvent &&
-                            event.triggeringEvent.name === 'onCardDestroyed' &&
+                            event.triggeringEvent.name === EVENTS.onCardDestroyed &&
                             event.card === context.source
                     },
                     destroyed: true
@@ -692,7 +692,6 @@ class Card extends EffectSource {
         }
 
         this.exhausted = false;
-        this.stunned = false;
         this.moribund = false;
         this.new = false;
         this.tokens = {};
@@ -788,7 +787,7 @@ class Card extends EffectSource {
         if (originalLocation !== targetLocation) {
             this.updateAbilityEvents(originalLocation, targetLocation);
             this.updateEffects(originalLocation, targetLocation);
-            this.game.emitEvent('onCardMoved', {
+            this.game.emitEvent(EVENTS.onCardMoved, {
                 card: this,
                 originalLocation: originalLocation,
                 newLocation: targetLocation
@@ -1011,12 +1010,23 @@ class Card extends EffectSource {
         this.clearToken('enrage');
     }
 
+    get stunned() {
+        // v18-2 only refers to creatures when describing how stun affects
+        // cards. _E.g._ “While a creature is stunned, it cannot
+        // fight, reap, or use Action: or Omni: abilities.”
+        //
+        // See: https://github.com/keyteki/keyteki/issues/4673
+        return this.getType() === 'creature' && this.hasToken('stun');
+    }
+
     stun() {
-        this.stunned = true;
+        if (!this.hasToken('stun')) {
+            this.addToken('stun');
+        }
     }
 
     unstun() {
-        this.stunned = false;
+        this.clearToken('stun');
     }
 
     get warded() {
@@ -1381,7 +1391,8 @@ class Card extends EffectSource {
             isToken: !!tokenCard,
             activeProphecy: this.activeProphecy,
             canActivateProphecy:
-                this.type === 'prophecy' ? this.controller.canActivateProphecy(this) : false
+                this.type === 'prophecy' ? this.controller.canActivateProphecy(this) : false,
+            accolades: (this.owner.deckData.accolades || []).filter((a) => a.shown)
         };
 
         if (tokenCard && isController) {

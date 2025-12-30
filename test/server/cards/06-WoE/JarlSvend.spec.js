@@ -10,7 +10,7 @@ describe('Jarl Svend', function () {
                 },
                 player2: {
                     token: 'grunt',
-                    inPlay: ['mother', 'earthshaker', 'grunt:labwork']
+                    inPlay: ['mother', 'earthshaker', 'grunt:labwork', 'bad-penny']
                 }
             });
         });
@@ -19,6 +19,14 @@ describe('Jarl Svend', function () {
             this.player1.fightWith(this.jarlSvend, this.mother);
             expect(this.jarlSvend.tokens.damage).toBe(5);
             expect(this.mother.location).toBe('discard');
+            this.player1.clickPrompt('Left');
+            expect(this.player1.player.creaturesInPlay.length).toBe(2);
+        });
+
+        it('should make a token creature even if creature destoryed does not go to discard', function () {
+            this.player1.fightWith(this.jarlSvend, this.badPenny);
+            expect(this.jarlSvend.tokens.damage).toBe(1);
+            expect(this.badPenny.location).toBe('hand');
             this.player1.clickPrompt('Left');
             expect(this.player1.player.creaturesInPlay.length).toBe(2);
         });

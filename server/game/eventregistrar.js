@@ -1,6 +1,10 @@
 const _ = require('underscore');
 
 /**
+ * @import {EventName} from './Events/types');
+ */
+
+/**
  * Simplifies event registration given an event emitter to listen to events and
  * a context object to bind handlers on.
  */
@@ -25,8 +29,8 @@ class EventRegistrar {
      * // Listen to event 'eventName' and bind context.methodName as the handler.
      * this.register([{ eventName: 'methodName' }]);
      *
-     * @param {Array} events - A list containing a mix of event names and
-     * event-to-method mappings.
+     * @param {Array<EventName | {[k in EventName]: string}>} events - A list
+     * containing a mix of event names and event-to-method mappings.
      */
     register(events) {
         _.each(events, (event) => {
@@ -43,7 +47,7 @@ class EventRegistrar {
     /**
      * Registers a single event handler.
      *
-     * @param {string} eventName - the name of the event to be listened on.
+     * @param {EventName} eventName - the name of the event to be listened on.
      * @param {string} methodName An optional  name of the method to bind as a
      * handler. If not provided, the event name will be used as the method name.
      */

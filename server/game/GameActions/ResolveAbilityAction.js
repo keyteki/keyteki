@@ -1,6 +1,7 @@
 const CardAction = require('./CardGameAction');
 const AbilityResolver = require('../gamesteps/abilityresolver.js');
 const SimpleStep = require('../gamesteps/simplestep.js');
+const { EVENTS } = require('../Events/types');
 
 class NoCostsAbilityResolver extends AbilityResolver {
     initialise() {
@@ -32,7 +33,7 @@ class ResolveAbilityAction extends CardAction {
     }
 
     getEvent(card, context) {
-        return super.createEvent('onAction', { card: card, context: context }, () => {
+        return super.createEvent(EVENTS.onAction, { card: card, context: context }, () => {
             let ability = this.ability;
             if (typeof ability === 'function') {
                 let cardAbilites = card.actions.concat(card.reactions);

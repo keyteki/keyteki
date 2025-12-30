@@ -1,3 +1,4 @@
+const { EVENTS } = require('../Events/types');
 const PlayerAction = require('./PlayerAction');
 
 class DeactivateProphecyAction extends PlayerAction {
@@ -27,7 +28,7 @@ class DeactivateProphecyAction extends PlayerAction {
     }
 
     getEvent(player, context) {
-        return super.createEvent('onDeactivateProphecy', { player, context }, (event) => {
+        return super.createEvent(EVENTS.onDeactivateProphecy, { player, context }, (event) => {
             // Discard any cards under the prophecy
             if (this.prophecyCard.childCards && this.prophecyCard.childCards.length > 0) {
                 let childCard = this.prophecyCard.childCards[0];

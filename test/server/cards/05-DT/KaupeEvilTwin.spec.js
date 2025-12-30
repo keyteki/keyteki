@@ -187,6 +187,7 @@ describe('Kaupe Evil Twin', function () {
                         'access-denied',
                         'detention-coil',
                         'stealth-mode',
+                        'hazard-zerp',
                         'galactic-census'
                     ]
                 },
@@ -241,6 +242,35 @@ describe('Kaupe Evil Twin', function () {
                     this.player1.endTurn();
                 });
             });
+        });
+
+        it('should correctly count when discarding a Scrap effect', function () {
+            this.player1.fightWith(this.kaupeEvilTwin, this.lamindra);
+            this.player1.clickCard(this.hazardZerp);
+            this.player1.clickCard(this.doctorDriscoll);
+            this.player1.clickCard(this.detentionCoil);
+            this.player1.clickPrompt('Done');
+
+            // Now we need to select the discard order. If we do Zerp first, we
+            // don’t have to choose Detention Coil.
+            this.player1.clickCard(this.hazardZerp);
+
+            expect(this.player1).toHavePrompt('Hazard Zerp');
+            // Discard the Detention Coil
+            this.player1.clickCard(this.detentionCoil);
+            // Damage the Troll
+            expect(this.player1).toBeAbleToSelect(this.troll);
+            this.player1.clickCard(this.troll);
+
+            // There were two successful discards, so two instances of damage.
+            expect(this.player1).toHavePrompt('Kaupe');
+            expect(this.player1).toBeAbleToSelect(this.troll);
+            this.player1.clickCard(this.troll);
+            expect(this.player1).toHavePrompt('Kaupe');
+            expect(this.player1).toBeAbleToSelect(this.troll);
+            this.player1.clickCard(this.troll);
+
+            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
         });
     });
 });
