@@ -21,7 +21,15 @@ class Doppelganger extends Card {
                         ability.effects.addTrait(trait)
                     );
 
-                    const printedAbilities = Object.values(context.target.abilities).reduce(
+                    // Pull the abilities from the
+                    // actions/reactions/persistentEffects properties because
+                    // they’re sensitive to the CopyCard effect (used for token
+                    // creatures).
+                    const printedAbilities = [
+                        context.target.actions,
+                        context.target.reactions,
+                        context.target.persistentEffects
+                    ].reduce(
                         (result, array) =>
                             result.concat(array.filter((ability) => ability.printedAbility)),
                         []
