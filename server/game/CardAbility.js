@@ -14,7 +14,7 @@ class CardAbility extends ThenAbility {
             : this.location.includes(this.card.location);
     }
 
-    meetsRequirements(context, ignoredRequirements = []) {
+    meetsRequirements(context, ignoredRequirements) {
         if (!this.card.checkRestrictions('triggerAbilities', context)) {
             return 'cannotTrigger';
         }

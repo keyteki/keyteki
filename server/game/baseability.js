@@ -96,7 +96,7 @@ class BaseAbility {
      * @param {Array} ignoredRequirements
      * @returns {String}
      */
-    meetsRequirements(context, ignoredRequirements = []) {
+    meetsRequirements(context, ignoredRequirements) {
         // check legal targets exist
         // check costs can be paid
         // check for potential to change game state
@@ -138,7 +138,7 @@ class BaseAbility {
      * @param {Array} ignoredRequirements
      * @returns {Boolean}
      */
-    canPayCosts(context, ignoredRequirements = []) {
+    canPayCosts(context, ignoredRequirements) {
         let cost = this.cost.concat(context.player.getAdditionalCosts(context));
         // Filter out exhaust cost if 'exhausted' is in ignoredRequirements
         if (ignoredRequirements.includes('exhausted')) {

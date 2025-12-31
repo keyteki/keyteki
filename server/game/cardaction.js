@@ -48,7 +48,7 @@ class CardAction extends CardAbility {
         this.cost = this.cost.concat(Costs.exhaust(), Costs.use());
     }
 
-    meetsRequirements(context = this.createContext(), ignoredRequirements = []) {
+    meetsRequirements(context = this.createContext(), ignoredRequirements) {
         if (
             !this.card.checkRestrictions('useAction', context) ||
             !context.player.checkRestrictions('useAction', context)
