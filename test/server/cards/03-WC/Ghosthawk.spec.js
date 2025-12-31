@@ -70,13 +70,13 @@ describe('Ghosthawk', function () {
                 this.player1.clickCard(this.dewFaerie);
             });
 
-            it('should prompt to reap with exhausted creatures', function () {
+            it('should prompt to reap with both creatures', function () {
                 expect(this.player1).toBeAbleToSelect(this.troll);
                 expect(this.player1).toBeAbleToSelect(this.dewFaerie);
                 expect(this.player1).not.toBeAbleToSelect(this.snufflegator);
                 expect(this.player1).not.toBeAbleToSelect(this.inkaTheSpider);
-                this.player1.clickCard(this.troll);
                 this.player1.clickCard(this.dewFaerie);
+                this.player1.clickCard(this.troll);
                 expect(this.player1.amber).toBe(1);
                 expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
             });
