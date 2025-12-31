@@ -1,5 +1,5 @@
 describe('Senator', function () {
-    describe("Senator's action ability", function () {
+    describe("Senator's ability", function () {
         beforeEach(function () {
             this.setupTest({
                 player1: {
