@@ -54,7 +54,7 @@ class MakeTokenCreatureAction extends CardGameAction {
                             effect: [
                                 context.game.effects.flipToken(),
                                 context.game.effects.changeType('creature'),
-                                context.game.effects.copyCard(event.player.tokenCard, false)
+                                context.game.effects.copyCard(event.player.tokenCard, true)
                             ]
                         }),
                         context.game.actions.putIntoPlay({

@@ -34,6 +34,19 @@ class Card extends EffectSource {
         this.tokens = {};
         this.gigantic = false;
 
+        /**
+         * Abilities that this card has.
+         *
+         * **IMPORTANT NOTE:** These arrays will include the _sum_ of abilities
+         * put on the card. Specifically, if a card is copying another card (for
+         * example, it’s face-down as a token creature), these arrays will have
+         * both the original card’s effects and the token creature’s effects.
+         *
+         * You in general will want to look at the
+         * actions/reactions/persistentEffects properties instead, as those will
+         * reflect what is actually active in the game, since they are sensitive
+         * both to text box blanking effects as well as copy card effects.
+         */
         this.abilities = {
             actions: [],
             reactions: [],
