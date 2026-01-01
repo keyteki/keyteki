@@ -21,7 +21,7 @@ class AncestralTimekeeper extends Card {
                 then: {
                     message: '{0} uses {1} to take another turn after this one',
                     gameAction: ability.actions.untilPlayerTurnEnd({
-                        effect: ability.effects.anotherTurn()
+                        effect: ability.effects.anotherTurn(1)
                     })
                 }
             }

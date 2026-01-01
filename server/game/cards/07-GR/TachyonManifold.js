@@ -9,7 +9,7 @@ class TachyonManifold extends Card {
             effectAlert: true,
             gameAction: [
                 ability.actions.untilPlayerTurnEnd({
-                    effect: ability.effects.anotherTurn()
+                    effect: ability.effects.anotherTurn(1)
                 }),
                 ability.actions.conditional((context) => ({
                     condition: !!context.player.opponent,
