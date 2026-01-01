@@ -19,6 +19,7 @@ describe('Jehu the Bureaucrat', function () {
             expect(this.player1.amber).toBe(0);
             this.player1.clickPrompt('sanctum');
             expect(this.player1.amber).toBe(2);
+            expect(this.player2.amber).toBe(0);
             expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
         });
 
@@ -29,6 +30,7 @@ describe('Jehu the Bureaucrat', function () {
             expect(this.player1.amber).toBe(0);
             this.player1.clickPrompt('logos');
             expect(this.player1.amber).toBe(0);
+            expect(this.player2.amber).toBe(0);
             expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
         });
 
@@ -36,6 +38,7 @@ describe('Jehu the Bureaucrat', function () {
             this.player1.endTurn();
             this.player2.clickPrompt('sanctum');
             expect(this.player1.amber).toBe(0);
+            expect(this.player2.amber).toBe(0);
             expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
         });
     });

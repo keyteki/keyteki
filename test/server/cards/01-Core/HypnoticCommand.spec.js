@@ -14,6 +14,7 @@ describe('Hypnotic Command', function () {
         });
 
         it('should do nothing if no Mars creatures in play', function () {
+            this.player1.play(this.hypnoticCommand);
             expect(this.player2.amber).toBe(2);
             expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
         });
