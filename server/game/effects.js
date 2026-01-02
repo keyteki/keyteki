@@ -121,7 +121,7 @@ const Effects = {
             unapply: (player, context, ability) => ability.unregisterEvents()
         }),
     additionalCost: (costFactory) => EffectBuilder.player.static('additionalCost', costFactory),
-    anotherTurn: (amount) => EffectBuilder.player.static('anotherTurn', amount),
+    anotherTurn: () => EffectBuilder.player.static('anotherTurn'),
     canFight: (match) => EffectBuilder.player.static('canUse', new CanUse(match, true)),
     canPlay: (match) => EffectBuilder.player.static('canPlay', match),
     canPlayFromOwn: (location) =>
