@@ -11,8 +11,8 @@ class Tolas extends Card {
             gameAction: ability.actions.gainAmber((context) => ({
                 target: context.event.clone.controller.opponent
             })),
-            effect: 'make {1} gain 1 amber due to {2} being destroyed',
-            effectArgs: (context) => [context.event.clone.controller.opponent, context.event.clone]
+            message: 'make {0} gain 1 amber due to {1} being destroyed',
+            messageArgs: (context) => [context.event.clone.controller.opponent, context.event.clone]
         });
     }
 }
