@@ -7,7 +7,8 @@ describe("Snag's Mirror", function () {
                     inPlay: ['snag-s-mirror', 'krump', 'professor-sutterkin']
                 },
                 player2: {
-                    inPlay: ['snufflegator', 'troll', 'brain-eater']
+                    hand: ['blossom-drake'],
+                    inPlay: ['troll', 'brain-eater']
                 }
             });
         });
@@ -26,12 +27,9 @@ describe("Snag's Mirror", function () {
             });
 
             describe('and a house is chosen by the other player', function () {
-                beforeEach(function () {
+                it('should not let the other player choose that house', function () {
                     this.player1.clickPrompt('logos');
                     this.player1.endTurn();
-                });
-
-                it('should not let the other player choose that house', function () {
                     expect(this.player2).not.toHavePromptButton('logos');
                     expect(this.player2).toHavePromptButton('brobnar');
                     expect(this.player2).toHavePromptButton('untamed');
@@ -39,7 +37,23 @@ describe("Snag's Mirror", function () {
 
                 describe("and then snag's mirror goes away", function () {
                     it('should restrict house choice once more', function () {
+                        this.player1.clickPrompt('logos');
                         this.player1.moveCard(this.snagSMirror, 'discard');
+                        this.player1.endTurn();
+                        expect(this.player2).not.toHavePromptButton('logos');
+                        this.player2.clickPrompt('brobnar');
+                        this.player2.endTurn();
+                        expect(this.player1).toHavePromptButton('logos');
+                        expect(this.player1).toHavePromptButton('brobnar');
+                    });
+                });
+
+                describe("and then snag's mirror is blanked", function () {
+                    it('should restrict house choice once more', function () {
+                        this.player1.clickPrompt('logos');
+                        this.player2.moveCard(this.blossomDrake, 'play area');
+                        expect(this.blossomDrake.location).toBe('play area');
+                        this.player1.endTurn();
                         expect(this.player2).not.toHavePromptButton('logos');
                         this.player2.clickPrompt('brobnar');
                         this.player2.endTurn();

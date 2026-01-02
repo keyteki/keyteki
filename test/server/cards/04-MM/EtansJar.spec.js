@@ -11,7 +11,7 @@ describe("Etan's Jar", function () {
                 player2: {
                     amber: 2,
                     inPlay: ['knuckles-bolton', 'pip-pip'],
-                    hand: ['bad-penny']
+                    hand: ['bad-penny', 'blossom-drake']
                 }
             });
         });
@@ -46,7 +46,7 @@ describe("Etan's Jar", function () {
                     expect(this.player2).not.toHavePromptButton('Play this creature');
                 });
 
-                describe('when etans jar leaves play', function () {
+                describe("when Etan's Jar leaves play", function () {
                     beforeEach(function () {
                         this.player1.player.moveCard(this.etanSJar, 'discard');
                     });
@@ -54,6 +54,17 @@ describe("Etan's Jar", function () {
                     it('should be able to play cards of that name again', function () {
                         this.player2.clickCard(this.badPenny);
                         expect(this.player2).toHavePromptButton('Play this creature');
+                    });
+                });
+
+                describe("when an in-play Etan's Jar is blanked", function () {
+                    beforeEach(function () {
+                        this.player2.player.moveCard(this.blossomDrake, 'play area');
+                    });
+
+                    it('should not be able to play cards of that name', function () {
+                        this.player2.clickCard(this.badPenny);
+                        expect(this.player2).not.toHavePromptButton('Play this creature');
                     });
                 });
             });
