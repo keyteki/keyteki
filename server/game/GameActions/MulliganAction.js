@@ -17,7 +17,7 @@ class MulliganAction extends PlayerAction {
             EVENTS.unnamedEvent,
             { player: player, context: context },
             (event) => {
-                context.game.addMessage('{0} mulligans their hand', this);
+                context.game.addMessage('{0} mulligans their hand', player);
                 event.player.takeMulligan();
             }
         );
