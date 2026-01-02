@@ -209,7 +209,7 @@ class Player extends GameObject {
     }
 
     /**
-     * Mulligans the players starting hand
+     * Mulligans the players starting hand, emitting an event and displaying a message in chat
      */
     takeMulligan() {
         let size = this.hand.length;
