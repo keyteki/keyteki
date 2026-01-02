@@ -9,12 +9,14 @@ describe('Neffru', function () {
                         'neffru',
                         'ember-imp',
                         'harbinger-of-doom',
-                        'obsidian-forge'
+                        'obsidian-forge',
+                        'daughter'
                     ]
                 },
                 player2: {
                     amber: 3,
-                    inPlay: ['doc-bookton', 'brain-eater', 'dysania', 'helper-bot', 'dodger']
+                    inPlay: ['doc-bookton', 'brain-eater', 'dysania', 'helper-bot', 'dodger'],
+                    hand: ['harland-mindlock']
                 }
             });
         });
@@ -54,15 +56,20 @@ describe('Neffru', function () {
         });
 
         it('should cause the owner of a destroyed creature to gain an amber when it attacks and kills it', function () {
-            this.player1.fightWith(this.neffru, this.helperBot);
+            this.player1.endTurn();
+            this.player2.clickPrompt('logos');
+            this.player2.play(this.harlandMindlock);
+            this.player2.clickCard(this.daughter);
+            this.player2.clickPrompt('Right');
+            this.player2.fightWith(this.daughter, this.neffru);
             expect(this.neffru.location).toBe('play area');
-            expect(this.helperBot.location).toBe('discard');
-            expect(this.neffru.tokens.damage).toBe(1);
-            expect(this.player1.amber).toBe(0);
-            expect(this.player2.amber).toBe(4);
+            expect(this.daughter.location).toBe('discard');
+            expect(this.neffru.tokens.damage).toBe(2);
+            expect(this.player1.amber).toBe(1);
+            expect(this.player2.amber).toBe(3);
         });
 
-        it('should not cause its owner to gain an amber when it is destroyed', function () {
+        it('should not cause its owner to gain an amber when neffru is destroyed', function () {
             this.player1.endTurn();
             this.player2.clickPrompt('logos');
             this.player2.fightWith(this.brainEater, this.neffru);
