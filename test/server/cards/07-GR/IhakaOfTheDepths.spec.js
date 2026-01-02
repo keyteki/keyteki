@@ -78,5 +78,41 @@ describe('Ihaka of the Depths', function () {
             expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
             expect(this.player2.player.hand.length).toBe(p2len + 1);
         });
+
+        it('should allow drawing the cards placed back on deck', function () {
+            this.player1.player.deck = [];
+            this.player1.moveCard(this.vulka, 'deck');
+            expect(this.player1.player.hand.length).toBe(2); // hallafast, standardized testing
+            expect(this.player1.player.deck.length).toBe(1); // vulka
+            expect(this.player1.player.discard.length).toBe(3); // poke, bubbles, troll
+            this.player1.endTurn();
+
+            expect(this.player1).toHavePrompt('Any reactions?'); // Ihaka prompt
+            expect(this.player1.player.hand.length).toBe(3); // drew vulka
+            expect(this.player1.player.deck.length).toBe(0);
+            expect(this.player1.player.discard.length).toBe(3);
+            this.player1.clickCard(this.ihakaOfTheDepths); // return poke
+
+            expect(this.player1).toHavePrompt('Any reactions?');
+            expect(this.player1.player.hand.length).toBe(4); // drew poke
+            expect(this.player1.player.deck.length).toBe(0);
+            expect(this.player1.player.discard.length).toBe(2);
+            this.player1.clickCard(this.ihakaOfTheDepths); // return bubbles
+
+            expect(this.player1).toHavePrompt('Any reactions?');
+            expect(this.player1.player.hand.length).toBe(5); // drew bubbles
+            expect(this.player1.player.deck.length).toBe(0);
+            expect(this.player1.player.discard.length).toBe(1);
+            this.player1.clickCard(this.ihakaOfTheDepths); // return troll
+
+            // no more discard, no more prompts
+            expect(this.player1.player.hand.length).toBe(6); // drew troll
+            expect(this.player1.player.deck.length).toBe(0);
+            expect(this.player1.player.discard.length).toBe(0);
+
+            this.player2.clickPrompt('untamed');
+            this.player1.player.hand.length = 6;
+            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+        });
     });
 });
