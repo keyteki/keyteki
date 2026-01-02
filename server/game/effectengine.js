@@ -97,7 +97,9 @@ class EffectEngine {
     onTurnEnd() {
         // Check for another turn effects which are normally removed with 'for remainder of turn' effects
         const anotherTurnEffects = this.effects.filter(
-            (effect) => effect.effect.type === 'anotherTurn'
+            (effect) =>
+                effect.effectController === this.game.activePlayer &&
+                effect.effect.type === 'anotherTurn'
         );
         const anotherTurn = anotherTurnEffects.length > 0;
 
