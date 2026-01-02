@@ -25,38 +25,38 @@ describe('Edict of Nerotaurus', function () {
             });
         });
 
-        xit('should not allow two reaps in a row', function () {
+        it('should not allow two reaps in a row', function () {
             this.player1.reap(this.scylla);
             this.player1.clickCard(this.brutodonAuxiliary);
             expect(this.player1).not.toHavePromptButton('Reap with this creature');
         });
 
-        xit('should not allow two fights in a row', function () {
+        it('should not allow two fights in a row', function () {
             this.player1.fightWith(this.cornicenOctavia, this.urchin);
             this.player1.clickCard(this.brutodonAuxiliary);
             expect(this.player1).not.toHavePromptButton('Fight with this creature');
         });
 
-        xit('should not allow two fights in a row if opponent dies in first fight from assault', function () {
+        it('should not allow two fights in a row if opponent dies in first fight from assault', function () {
             this.player1.fightWith(this.scylla, this.urchin);
             expect(this.urchin.location).toBe('discard');
             this.player1.clickCard(this.brutodonAuxiliary);
             expect(this.player1).not.toHavePromptButton('Fight with this creature');
         });
 
-        xit('should allow another reap after a fight', function () {
+        it('should allow another reap after a fight', function () {
             this.player1.reap(this.scylla);
             this.player1.fightWith(this.brutodonAuxiliary, this.urchin);
             this.player1.reap(this.cornicenOctavia);
         });
 
-        xit('should allow another fight after a reap', function () {
+        it('should allow another fight after a reap', function () {
             this.player1.fightWith(this.scylla, this.urchin);
             this.player1.reap(this.brutodonAuxiliary);
             this.player1.fightWith(this.cornicenOctavia, this.dodger);
         });
 
-        xit('should allow another reap after an omni', function () {
+        it('should allow another reap after an omni', function () {
             this.player1.reap(this.scylla);
             this.player1.useAction(this.saurianEgg, true);
             this.player1.clickPrompt('Right');
@@ -64,17 +64,18 @@ describe('Edict of Nerotaurus', function () {
             this.player1.reap(this.cornicenOctavia);
         });
 
-        xit('should allow another reap after an action', function () {
+        it('should allow another reap after an action', function () {
             this.player1.reap(this.scylla);
             this.player1.useAction(this.cornicenOctavia);
             this.player1.reap(this.brutodonAuxiliary);
         });
 
-        xit('should work against the opponent too', function () {
+        it('should work against the opponent too', function () {
             this.player1.reap(this.scylla);
             this.player1.endTurn();
             this.player2.clickPrompt('shadows');
             this.player2.reap(this.urchin);
+            this.player2.clickCard('Urchin');
             this.player2.clickCard(this.mackTheKnife);
             expect(this.player2).not.toHavePromptButton('Reap with this creature');
             this.player2.useAction(this.mackTheKnife);
@@ -82,7 +83,7 @@ describe('Edict of Nerotaurus', function () {
             this.player2.reap(this.dodger);
         });
 
-        xit('should allow another reap after an action that destroys the creatures', function () {
+        it('should allow another reap after an action that destroys the creatures', function () {
             this.player1.endTurn();
             this.player2.clickPrompt('shadows');
             this.player2.endTurn();
@@ -107,19 +108,23 @@ describe('Edict of Nerotaurus', function () {
                         'brutodon-auxiliary',
                         'cornicen-octavia',
                         'censor-philo',
-                        'dark-centurion'
+                        'dark-centurion',
+                        'bot-bookton'
                     ],
                     hand: ['edict-of-nerotaurus', 'blossom-drake']
                 },
                 player2: {
+                    hand: ['universal-translator'],
                     inPlay: ['urchin', 'dodger', 'mack-the-knife']
                 }
             });
             this.blossomDrake.maverick = 'saurian';
             this.blossomDrake.printedHouse = 'saurian';
+            this.botBookton.maverick = 'saurian';
+            this.botBookton.printedHouse = 'saurian';
         });
 
-        xit('should not track reap/fight before coming into play', function () {
+        it('should not track reap/fight before coming into play', function () {
             this.player1.reap(this.brutodonAuxiliary);
             this.player1.play(this.edictOfNerotaurus);
             this.player1.clickCard(this.cornicenOctavia);
@@ -129,7 +134,7 @@ describe('Edict of Nerotaurus', function () {
             expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
         });
 
-        xit('should block reap/fight once after leaving play', function () {
+        it('should block reap/fight once after leaving play', function () {
             this.player1.play(this.edictOfNerotaurus);
             this.player1.reap(this.brutodonAuxiliary);
             this.player1.moveCard(this.edictOfNerotaurus, 'hand');
@@ -157,7 +162,43 @@ describe('Edict of Nerotaurus', function () {
             expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
         });
 
-        // Edict is played in middle of reap ala bot bookton
+        it('should block next reap if Edict is played mid-reap', function () {
+            this.player1.moveCard(this.edictOfNerotaurus, 'deck');
+            this.player1.reap(this.botBookton);
+            this.player1.clickCard(this.cornicenOctavia);
+            expect(this.player1).not.toHavePromptButton('Reap with this creature');
+            expect(this.player1).toHavePromptButton('Fight with this creature');
+        });
+
+        it('should allow ordering effects if Edict is played mid-reap with multiple after reap effects', function () {
+            this.player1.endTurn();
+            this.player2.clickPrompt('staralliance');
+            this.player2.playUpgrade(this.universalTranslator, this.botBookton);
+            this.player2.endTurn();
+            this.player1.clickPrompt('saurian');
+            this.player1.moveCard(this.edictOfNerotaurus, 'deck');
+
+            // Bot Bookton's reap effect will play Edict of Nerotaurus, but Universal Translator will allow a neighbor to reap. The player should be prompted to choose the order between Translator and Edict being applied, allowing them to reap with Cornicen Octavia.
+            this.player1.reap(this.botBookton);
+            // expect(this.player1.prompt).toBe('Which ability would you like to use?');
+            expect(this.player1).toHavePromptButton('Bot Bookton');
+            expect(this.player1).toHavePromptButton('Universal Translator');
+            this.player1.clickPrompt('Bot Bookton'); // Play Edict of Nerotaurus
+            this.player1.clickCard(this.botBookton); // Use Universal Translator
+            this.player1.clickCard(this.cornicenOctavia);
+            expect(this.player1).toHavePromptButton('Reap with this creature'); // Edict has not procced yet so reap is still available
+            expect(this.player1).toHavePromptButton('Fight with this creature');
+            this.player1.clickPrompt('Fight with this creature');
+            this.player1.clickCard(this.urchin);
+
+            // Edict now procs both its after reap from Bot Bookton and after fight from Cornicen Octavia effects to block fighting and reaping
+            this.player1.clickCard(this.darkCenturion);
+            expect(this.player1).toHavePrompt('Choose an ability:');
+            expect(this.player1).not.toHavePromptButton('Reap with this creature');
+            expect(this.player1).not.toHavePromptButton('Fight with this creature');
+            expect(this.player1).toHavePromptButton("Use this card's Action ability");
+            this.player1.clickPrompt('Cancel');
+        });
     });
 
     describe("Edict of Nerotaurus's ability outside of the main phase", function () {
@@ -186,7 +227,7 @@ describe('Edict of Nerotaurus', function () {
             this.jargogle2 = this.player1.player.hand[1];
         });
 
-        xit('should count creatures that reap during start of turn', function () {
+        it('should count creatures that reap during start of turn', function () {
             this.player1.play(this.jargogle1);
             this.player1.clickCard(this.edictOfNerotaurus);
             this.player1.play(this.jargogle2);
