@@ -6,27 +6,29 @@ class EdictOfNerotaurus extends Card {
     //
     // After a creature fights, the next creature used this turn cannot fight.
     setupCardAbilities(ability) {
-        this.lastCreatureReaped = false;
-        this.lastCreatureFought = false;
+        this.nextCreatureUsedCannotReap = false;
+        this.nextCreatureUsedCannotFight = false;
         this.tracker = new EventRegistrar(this.game, this);
-        this.tracker.register(['onPhaseStarted', 'onUseCard']);
+        this.tracker.register(['onTurnStart', 'onUseCard']);
 
         this.persistentEffect({
+            location: 'any',
             targetController: 'any',
             match: (card) => card.type === 'creature',
             effect: ability.effects.gainAbility('persistentEffect', {
                 targetController: 'any',
-                condition: () => this.lastCreatureReaped,
+                condition: () => this.nextCreatureUsedCannotReap,
                 effect: ability.effects.cardCannot('reap')
             })
         });
 
         this.persistentEffect({
+            location: 'any',
             targetController: 'any',
             match: (card) => card.type === 'creature',
             effect: ability.effects.gainAbility('persistentEffect', {
                 targetController: 'any',
-                condition: () => this.lastCreatureFought,
+                condition: () => this.nextCreatureUsedCannotFight,
                 effect: ability.effects.cardCannot('fight')
             })
         });
@@ -36,23 +38,29 @@ class EdictOfNerotaurus extends Card {
         if (event.card.type !== 'creature') {
             return;
         }
-        if (event.reapEvent) {
-            this.lastCreatureReaped = true;
-        } else {
-            this.lastCreatureReaped = false;
+
+        this.nextCreatureUsedCannotReap = false;
+        if (event.reapEvent && this.location === 'play area' && !this.isBlank()) {
+            this.nextCreatureUsedCannotReap = true;
         }
-        if (event.fightEvent) {
-            this.lastCreatureFought = true;
-        } else {
-            this.lastCreatureFought = false;
+
+        this.nextCreatureUsedCannotFight = false;
+        if (event.fightEvent && this.location === 'play area' && !this.isBlank()) {
+            this.nextCreatureUsedCannotFight = true;
         }
+
+        console.log(
+            `EdictOfNerotaurus onUseCard reap=${this.nextCreatureUsedCannotReap} fight=${
+                this.nextCreatureUsedCannotFight
+            } ${event.card.name} ${event.name} ${event.reapEvent ? event.reapEvent.name : ''} ${
+                event.fightEvent ? event.fightEvent.name : ''
+            } location=${this.location} isBlank=${this.isBlank()}`
+        );
     }
 
-    onPhaseStarted(event) {
-        if (event.phase === 'main') {
-            this.lastCreatureReaped = false;
-            this.lastCreatureFought = false;
-        }
+    onTurnStart() {
+        this.nextCreatureUsedCannotFight = false;
+        this.nextCreatureUsedCannotReap = false;
     }
 }
 
