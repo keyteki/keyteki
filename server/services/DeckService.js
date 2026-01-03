@@ -223,6 +223,38 @@ class DeckService {
             dbExpansions.push(800);
         }
 
+        if (expansions.toc) {
+            dbExpansions.push(855);
+        }
+
+        if (expansions.momu) {
+            dbExpansions.push(874);
+        }
+
+        if (expansions.disc) {
+            dbExpansions.push(907);
+        }
+
+        if (expansions.vm2023) {
+            dbExpansions.push(609);
+        }
+
+        if (expansions.vm2024) {
+            dbExpansions.push(737);
+        }
+
+        if (expansions.vm2025) {
+            dbExpansions.push(939);
+        }
+
+        if (expansions.pv) {
+            dbExpansions.push(886);
+        }
+
+        if (expansions.cc) {
+            dbExpansions.push(918);
+        }
+
         let deck;
         let expansionStr = dbExpansions.join(',');
         try {
@@ -684,7 +716,7 @@ class DeckService {
                         deck.uuid,
                         deck.identity,
                         deck.name,
-                        false,
+                        !deck.isAlliance,
                         deck.lastUpdated,
                         deck.expansion,
                         deck.isAlliance
