@@ -24,7 +24,15 @@ const GameFormats = ({ formProps }) => {
         { name: 'dt', label: t('Dark Tidings') },
         { name: 'woe', label: t('Winds of Exchange') },
         { name: 'gr', label: t('Grim Reminders') },
-        { name: 'as', label: t('Amber Skies') }
+        { name: 'as', label: t('Æmber Skies') },
+        { name: 'toc', label: t('Tokens of Change') },
+        { name: 'momu', label: t('More Mutation') },
+        { name: 'disc', label: t('Discovery') },
+        { name: 'vm2023', label: t('Vault Masters 2023') },
+        { name: 'vm2024', label: t('Vault Masters 2024') },
+        { name: 'vm2025', label: t('Vault Masters 2025') },
+        { name: 'pv', label: t('Prophetic Visions') },
+        { name: 'cc', label: t('Crucible Clash') }
     ];
 
     return (
@@ -57,18 +65,15 @@ const GameFormats = ({ formProps }) => {
                     <Form.Group className='game-formats' as={Col}>
                         {expansions.map((expansion) => {
                             return (
-                                <>
-                                    <Form.Check
-                                        key={expansion.name}
-                                        type='switch'
-                                        id={expansion.name}
-                                        label={expansion.label}
-                                        inline
-                                        onChange={formProps.handleChange}
-                                        value='true'
-                                        checked={formProps.values[expansion.name]}
-                                    ></Form.Check>
-                                </>
+                                <Form.Check
+                                    key={expansion.name}
+                                    type='switch'
+                                    id={expansion.name}
+                                    label={expansion.label}
+                                    onChange={formProps.handleChange}
+                                    value='true'
+                                    checked={formProps.values[expansion.name]}
+                                ></Form.Check>
                             );
                         })}
                     </Form.Group>
