@@ -43,6 +43,7 @@ describe('Insurance Policy', function () {
             this.player1.endTurn();
             this.player2.clickPrompt('brobnar');
             this.player2.fightWith(this.bumpsy, this.antiquitiesDealer);
+            this.player2.clickPrompt('Autoresolve');
             expect(this.antiquitiesDealer.location).toBe('discard');
             expect(this.player1.amber).toBe(8);
         });

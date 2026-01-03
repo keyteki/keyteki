@@ -49,6 +49,7 @@ describe('FOF Transponder', function () {
             this.player1.playUpgrade(this.fofTransponder2, this.helmsmanSpears);
             this.player1.play(this.particleSweep);
             this.player1.clickCard(this.helmsmanSpears);
+            this.player1.clickPrompt('Autoresolve');
             this.player1.clickPrompt('Right');
             this.player1.clickPrompt('Right');
             expect(this.helmsmanSpears.location).toBe('discard');
