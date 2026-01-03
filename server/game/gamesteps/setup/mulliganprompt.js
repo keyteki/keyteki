@@ -4,6 +4,7 @@ class MulliganPrompt extends AllPlayerPrompt {
     constructor(game) {
         super(game);
         this.takenMulligan = {};
+        this.mulliganedPlayers = [];
     }
 
     completionCondition(player) {
@@ -34,6 +35,7 @@ class MulliganPrompt extends AllPlayerPrompt {
 
         if (arg === 'no') {
             player.takeMulligan();
+            this.mulliganedPlayers.push(player);
             this.takenMulligan[player.uuid] = true;
             return true;
         } else if (arg === 'yes') {
@@ -42,6 +44,22 @@ class MulliganPrompt extends AllPlayerPrompt {
         }
 
         return false;
+    }
+
+    onCompleted() {
+        // Display a message for each player that mulliganed in player order
+        if (this.mulliganedPlayers.includes(this.game.activePlayer)) {
+            this.game.addMessage('{0} mulligans their starting hand', this.game.activePlayer);
+        } else {
+            this.game.addMessage('{0} keeps their starting hand', this.game.activePlayer);
+        }
+
+        const otherPlayer = this.game.getOtherPlayer(this.game.activePlayer);
+        if (otherPlayer && this.mulliganedPlayers.includes(otherPlayer)) {
+            this.game.addMessage('{0} mulligans their starting hand', otherPlayer);
+        } else if (otherPlayer) {
+            this.game.addMessage('{0} keeps their starting hand', otherPlayer);
+        }
     }
 }
 
