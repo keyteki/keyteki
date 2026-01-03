@@ -10,7 +10,7 @@ describe('Echoing Deathknell', function () {
                 },
                 player2: {
                     amber: 3,
-                    inPlay: ['batdrone', 'flaxia']
+                    inPlay: ['batdrone', 'flaxia', 'briar-grubbling']
                 }
             });
         });
@@ -29,6 +29,19 @@ describe('Echoing Deathknell', function () {
             expect(this.skullbackCrab.location).toBe('discard');
             expect(this.oldBruno.location).toBe('discard');
             expect(this.batdrone.location).toBe('discard');
+            expect(this.briarGrubbling.location).toBe('discard');
+            expect(this.flaxia.location).toBe('discard');
+            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+        });
+
+        it('with ward repeats one damage as long as something is destroyed', function () {
+            this.briarGrubbling.tokens.ward = true;
+            this.player1.playCreature(this.skullbackCrab);
+            this.player1.play(this.echoingDeathknell);
+            expect(this.skullbackCrab.location).toBe('discard');
+            expect(this.oldBruno.location).toBe('discard');
+            expect(this.batdrone.location).toBe('discard');
+            expect(this.briarGrubbling.location).toBe('discard');
             expect(this.flaxia.location).toBe('discard');
             expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
         });
