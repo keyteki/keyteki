@@ -15,7 +15,6 @@ class ForcedTriggeredAbilityWindow extends BaseStep {
         this.abilityType = abilityType;
         this.currentPlayer = this.game.activePlayer;
         this.resolvedAbilities = [];
-        this.skippedAbilities = [];
         this.pressedDone = false;
         this.cancelled = false;
         this.autoResolve = false;
@@ -50,9 +49,6 @@ class ForcedTriggeredAbilityWindow extends BaseStep {
             !this.resolvedAbilities.some(
                 (resolved) =>
                     resolved.ability === context.ability && resolved.event === context.event
-            ) &&
-            !this.skippedAbilities.some(
-                (skipped) => skipped.ability === context.ability && skipped.event === context.event
             )
         ) {
             this.choices.push(context);
@@ -67,9 +63,6 @@ class ForcedTriggeredAbilityWindow extends BaseStep {
             !this.resolvedAbilities.some(
                 (resolved) =>
                     resolved.ability === context.ability && resolved.event === context.event
-            ) &&
-            !this.skippedAbilities.some(
-                (skipped) => skipped.ability === context.ability && skipped.event === context.event
             ) &&
             !this.deferredChoices.some(
                 (deferred) =>
