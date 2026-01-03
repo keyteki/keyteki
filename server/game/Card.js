@@ -785,8 +785,19 @@ class Card extends EffectSource {
         }
 
         if (originalLocation !== targetLocation) {
-            this.updateAbilityEvents(originalLocation, targetLocation);
+            // We want to update effects first, then unregister/re-register
+            // events. This ordering is important for _e.g._ token creatures,
+            // since we need to remove the tokenizing `CopyCard` effect first
+            // (which will happen when updateEffects clears out all lasting
+            // effects), then register any reactions for the card in its new
+            // location.
+            //
+            // If the order is reversed, updateAbilityEvents would try to
+            // register any of the _token’s_ reactions for the new location,
+            // even if the tokenness is about to go away.
             this.updateEffects(originalLocation, targetLocation);
+            this.updateAbilityEvents(originalLocation, targetLocation);
+
             this.game.emitEvent(EVENTS.onCardMoved, {
                 card: this,
                 originalLocation: originalLocation,
