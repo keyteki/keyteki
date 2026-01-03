@@ -10,7 +10,7 @@ describe('Echoing Deathknell', function () {
                 },
                 player2: {
                     amber: 3,
-                    inPlay: ['batdrone', 'flaxia', 'briar-grubbling']
+                    inPlay: ['batdrone', 'briar-grubbling', 'flaxia']
                 }
             });
         });
@@ -19,6 +19,7 @@ describe('Echoing Deathknell', function () {
             this.player1.play(this.echoingDeathknell);
             expect(this.oldBruno.tokens.damage).toBe(1);
             expect(this.batdrone.tokens.damage).toBe(1);
+            expect(this.briarGrubbling.tokens.damage).toBe(1);
             expect(this.flaxia.tokens.damage).toBe(1);
             expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
         });
