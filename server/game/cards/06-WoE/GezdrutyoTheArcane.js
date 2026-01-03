@@ -6,7 +6,7 @@ class GezdrutyoTheArcane extends Card {
         this.action({
             gameAction: ability.actions.sequential([
                 ability.actions.steal({ amount: 2 }),
-                ability.actions.flip()
+                ability.actions.flip({ direction: 'face-down' })
             ]),
             effect: 'Steal 2 amber and flip {0} facedown'
         });
