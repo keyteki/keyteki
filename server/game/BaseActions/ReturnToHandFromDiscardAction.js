@@ -17,12 +17,12 @@ class ReturnToHandFromDiscardAction extends BaseAbility {
         });
     }
 
-    meetsRequirements(context = this.createContext()) {
+    meetsRequirements(context = this.createContext(), ignoredRequirements) {
         if (context.game.currentPhase !== 'main') {
             return 'phase';
         }
 
-        return super.meetsRequirements(context);
+        return super.meetsRequirements(context, ignoredRequirements);
     }
 
     executeHandler(context) {

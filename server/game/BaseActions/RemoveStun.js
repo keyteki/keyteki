@@ -12,7 +12,7 @@ class RemoveStun extends BaseAbility {
         this.omni = false;
     }
 
-    meetsRequirements(context = this.createContext(), ignoredRequirements = []) {
+    meetsRequirements(context = this.createContext(), ignoredRequirements) {
         if (
             !this.card.checkRestrictions('use', context) ||
             !context.player.checkRestrictions('use', context)
@@ -27,7 +27,7 @@ class RemoveStun extends BaseAbility {
             return 'stunned';
         }
 
-        return super.meetsRequirements(context);
+        return super.meetsRequirements(context, ignoredRequirements);
     }
 
     createContext(player = this.card.controller) {

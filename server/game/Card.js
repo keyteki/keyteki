@@ -1148,7 +1148,7 @@ class Card extends EffectSource {
         actions = actions.filter((action) => {
             let context = action.createContext(player);
             context.ignoreHouse = ignoreHouse;
-            return !action.meetsRequirements(context);
+            return !action.meetsRequirements(context, []);
         });
         let canFight =
             actions.findIndex((action) => action.title === 'Fight with this creature') >= 0;

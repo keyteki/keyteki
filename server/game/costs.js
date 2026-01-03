@@ -12,6 +12,7 @@ const NonHousePlayEffects = ['canPlayNonHouse', 'canPlayOrUseNonHouse'];
 
 const Costs = {
     exhaust: () => ({
+        type: 'exhaust',
         canPay: (context) => !context.source.exhausted,
         payEvent: (context) => context.game.actions.exhaust().getEvent(context.source, context)
     }),

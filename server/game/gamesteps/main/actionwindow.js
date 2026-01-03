@@ -36,7 +36,7 @@ class ActionWindow extends UiPrompt {
             } else if (to === 'discard') {
                 let discardAction = new DiscardAction(card);
                 let context = discardAction.createContext(player);
-                if (!discardAction.meetsRequirements(context)) {
+                if (!discardAction.meetsRequirements(context, [])) {
                     this.game.resolveAbility(context);
                 }
             } else {
