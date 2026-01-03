@@ -1,12 +1,12 @@
-describe('Chota Hazri', function () {
-    describe("Chota Hazri's ability", function () {
+describe('Key Charge', function () {
+    describe("Key Charge's ability", function () {
         beforeEach(function () {
             this.setupTest({
                 player1: {
                     amber: 7,
                     house: 'untamed',
                     hand: [
-                        'chota-hazri',
+                        'key-charge',
                         'fog-murmook',
                         'fog-murmook',
                         'fog-murmook',
@@ -28,7 +28,7 @@ describe('Chota Hazri', function () {
         });
 
         it('should lose 1 amber and allow forging a key', function () {
-            this.player1.play(this.chotaHazri);
+            this.player1.play(this.keyCharge);
             expect(this.player1).toHavePrompt('Do you wish to forge a key?');
             this.player1.clickPrompt('Yes');
             this.player1.clickPrompt('Red');
@@ -40,7 +40,7 @@ describe('Chota Hazri', function () {
         });
 
         it('should lose 1 amber and allow declining to forge', function () {
-            this.player1.play(this.chotaHazri);
+            this.player1.play(this.keyCharge);
             expect(this.player1).toHavePrompt('Do you wish to forge a key?');
             this.player1.clickPrompt('No');
             expect(this.player1.amber).toBe(6);
@@ -53,7 +53,7 @@ describe('Chota Hazri', function () {
 
         it('should lose 1 amber and not forge without enough amber', function () {
             this.player1.amber = 6;
-            this.player1.play(this.chotaHazri);
+            this.player1.play(this.keyCharge);
             expect(this.player1.amber).toBe(5);
             expect(this.player1.player.keys.red).toBe(false);
             expect(this.player1.player.keys.blue).toBe(false);
@@ -73,7 +73,7 @@ describe('Chota Hazri', function () {
             this.player1.playCreature(this.bigtwig);
             expect(this.player1.amber).toBe(0);
             expect(this.player2.player.getCurrentKeyCost()).toBe(0);
-            this.player1.play(this.chotaHazri);
+            this.player1.play(this.keyCharge);
             expect(this.player1.amber).toBe(0);
             expect(this.player1.player.keys.red).toBe(false);
             expect(this.player1.player.keys.blue).toBe(false);

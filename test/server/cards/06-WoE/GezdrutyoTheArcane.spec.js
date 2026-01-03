@@ -48,4 +48,54 @@ describe('Gĕzdrutyŏ the Arcane', function () {
             });
         });
     });
+
+    describe('token creatures becoming Gĕzdrutyŏ', function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'staralliance',
+                    amber: 1,
+                    token: 'scholar',
+                    hand: ['senator-shrix', 'mirror-shell'],
+                    inPlay: ['gĕzdrutyŏ-the-arcane', 'scholar:aristotlmimus']
+                },
+                player2: {
+                    amber: 5,
+                    inPlay: ['gub', 'krump']
+                }
+            });
+        });
+
+        /**
+         * Because Gĕzdrutyŏ specifically says “flip facedown,” if a token
+         * creature gets its ability it should _not_ flip face-up.
+         */
+        it('does not allow token creatures to flip face-up', function () {
+            this.player1.playUpgrade(this.mirrorShell, this.gĕzdrutyŏTheArcane);
+            this.player1.clickPrompt('left');
+            this.player1.endTurn();
+
+            this.player2.clickPrompt('brobnar');
+            this.player2.endTurn();
+
+            this.player1.clickPrompt('ekwidon');
+
+            // After this reap, our Scholars become Gĕzdrutyŏs.
+            this.player1.reap(this.gĕzdrutyŏTheArcane);
+            // 2 from the reap
+            expect(this.player1.amber).toBe(2);
+
+            expect(this.scholar.name).toBe('Gĕzdrutyŏ the Arcane');
+            expect(this.scholar.isToken()).toBe(true);
+
+            this.player1.clickCard(this.scholar);
+            this.player1.clickPrompt("Use this card's Action ability");
+            // Stole 2 æmber
+            expect(this.player1.amber).toBe(4);
+            expect(this.player2.amber).toBe(3);
+
+            // Should not flip, should stay “facedown.”
+            expect(this.scholar.isToken()).toBe(true);
+        });
+    });
 });
