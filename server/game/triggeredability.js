@@ -71,15 +71,15 @@ class TriggeredAbility extends CardAbility {
         if (this.card.reactions.includes(this) || this.isLastingAbilityTrigger) {
             if (this.isTriggeredByEvent(event, context)) {
                 let requirementResult = this.meetsRequirements(context);
-                // For destroyed abilities, we allow 'condition' failures to be added to choices
-                // because the condition might change based on the order of resolution
-                // (e.g., gain amber from one ability before forging a key with another).
-                // The condition will be re-checked when the ability actually resolves.
-                if (
-                    requirementResult === '' ||
-                    (requirementResult === 'condition' && this.properties.destroyed)
-                ) {
+                if (requirementResult === '') {
                     window.addChoice(context);
+                } else if (requirementResult === 'condition' && this.properties.destroyed) {
+                    // For destroyed abilities, we allow 'condition' failures to be added to choices
+                    // because the condition might change based on the order of resolution
+                    // (e.g., gain amber from one ability before forging a key with another).
+                    // We add these as "deferred" choices that will be filtered later if the
+                    // condition still fails after other abilities resolve.
+                    window.addDeferredChoice(context);
                 }
             }
         }

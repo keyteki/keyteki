@@ -53,6 +53,9 @@ describe("Flint's Stash", function () {
             // KeyFrog should be selectable (has 2 abilities to choose from)
             this.player1.clickPrompt('Flint’s Stash');
             this.player1.clickPrompt('Red');
+            expect(this.player1.player.keys.red).toBe(true);
+            expect(this.player1.amber).toBe(0);
+
             expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
             // expect(this.player1).toBeAbleToSelect(this.keyfrog);
         });
@@ -67,6 +70,7 @@ describe("Flint's Stash", function () {
             // Then KeyFrog ability triggers (forge key at 6 cost)
             expect(this.player1.player.keys.red).toBe(true);
             expect(this.player1.amber).toBe(0);
+            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
         });
     });
 });
