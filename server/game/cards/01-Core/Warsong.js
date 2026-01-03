@@ -11,7 +11,6 @@ class Warsong extends Card {
                     // Clone the event bc controller reverts to owner if creature dies in fight
                     onFight: () => context.event.clone.controller === context.player
                 },
-                // context.event.clone.controller.opponent
                 gameAction: ability.actions.gainAmber((context) => ({ target: context.player }))
             }))
         });
