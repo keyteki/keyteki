@@ -14,7 +14,7 @@ class StaticEffect {
 
     apply(target) {
         target.addEffect(this);
-        this.value.apply(target, this.state, this.context);
+        this.value.apply(target, this.state);
     }
 
     unapply(target) {

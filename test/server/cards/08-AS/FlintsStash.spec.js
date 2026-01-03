@@ -46,28 +46,11 @@ describe("Flint's Stash", function () {
             });
         });
 
-        it('should allow choosing between KeyFrog printed destroyed and Flint Stash gained destroyed', function () {
-            // Debug - check what destroyed reactions KeyFrog has
+        it('should allow choosing Flint Stash to gain amber before Keyfrog triggers', function () {
             this.player1.fightWith(this.keyfrog, this.troll);
-            // Should prompt to choose between the two destroyed abilities
-            // KeyFrog should be selectable (has 2 abilities to choose from)
-            this.player1.clickPrompt('Flint’s Stash');
-            this.player1.clickPrompt('Red');
-            expect(this.player1.player.keys.red).toBe(true);
-            expect(this.player1.amber).toBe(0);
-
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
-            // expect(this.player1).toBeAbleToSelect(this.keyfrog);
-        });
-
-        it('should allow forging when Flint Stash triggers first to gain amber', function () {
-            this.player1.fightWith(this.keyfrog, this.troll);
-            // Choose Flint's Stash ability first (gain 2 amber)
-            this.player1.clickCard(this.keyfrog);
             this.player1.clickPrompt('Flint’s Stash');
             expect(this.player1.amber).toBe(6);
-            this.player1.clickPrompt('Red');
-            // Then KeyFrog ability triggers (forge key at 6 cost)
+            this.player1.clickPrompt('Red'); // Keyfrog
             expect(this.player1.player.keys.red).toBe(true);
             expect(this.player1.amber).toBe(0);
             expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
