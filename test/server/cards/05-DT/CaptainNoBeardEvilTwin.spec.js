@@ -22,6 +22,7 @@ describe('Captain No-Beard', function () {
         it('when opponent has no amber, should not capture when destroyed', function () {
             this.player1.amber = 0;
             this.player1.fightWith(this.narp, this.captainNoBeardEvilTwin);
+
             expect(this.captainNoBeardEvilTwin.location).toBe('discard');
             expect(this.lamindra.amber).toBe(0);
             expect(this.captainNoBeard.amber).toBe(0);

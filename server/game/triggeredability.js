@@ -68,12 +68,19 @@ class TriggeredAbility extends CardAbility {
         }
 
         let context = this.createContext(player, event);
-        // For simultaneous triggered abilities, we add to choices without checking meetsRequirements.
-        // The requirements will be checked when the ability actually resolves, allowing the player
-        // to choose the order of resolution (e.g., gain amber before forging a key).
         if (this.card.reactions.includes(this) || this.isLastingAbilityTrigger) {
             if (this.isTriggeredByEvent(event, context)) {
-                window.addChoice(context);
+                let requirementResult = this.meetsRequirements(context);
+                // For destroyed abilities, we allow 'condition' failures to be added to choices
+                // because the condition might change based on the order of resolution
+                // (e.g., gain amber from one ability before forging a key with another).
+                // The condition will be re-checked when the ability actually resolves.
+                if (
+                    requirementResult === '' ||
+                    (requirementResult === 'condition' && this.properties.destroyed)
+                ) {
+                    window.addChoice(context);
+                }
             }
         }
     }
