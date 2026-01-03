@@ -2,7 +2,7 @@ const Card = require('../../Card.js');
 
 class LionBautrem extends Card {
     // Deploy. (This creature can enter play anywhere in your battleline.)
-    // Lion Bautrems neighbors get +2power.
+    // Lion Bautrems neighbors get +2 power.
     setupCardAbilities(ability) {
         this.persistentEffect({
             match: (card, context) => context.source.neighbors.includes(card),

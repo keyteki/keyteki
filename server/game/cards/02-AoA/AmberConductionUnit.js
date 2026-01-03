@@ -6,7 +6,7 @@ class AmberConductionUnit extends Card {
     setupCardAbilities(ability) {
         this.creaturesReaped = 0;
         this.tracker = new EventRegistrar(this.game, this);
-        this.tracker.register(['onPhaseStarted', 'onReap']);
+        this.tracker.register(['onTurnStart', 'onReap']);
 
         this.reaction({
             when: {
@@ -27,10 +27,8 @@ class AmberConductionUnit extends Card {
         }
     }
 
-    onPhaseStarted(event) {
-        if (event.phase === 'main') {
-            this.creaturesReaped = 0;
-        }
+    onTurnStart() {
+        this.creaturesReaped = 0;
     }
 }
 
