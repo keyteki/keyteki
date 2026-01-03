@@ -24,7 +24,7 @@ describe('Soleft', function () {
             expect(this.trader.location).toBe('discard');
             expect(this.mother.location).toBe('play area');
             expect(this.helperBot.location).toBe('play area');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
     });
 
@@ -49,7 +49,7 @@ describe('Soleft', function () {
             this.player1.clickCard(this.soleft);
             expect(this.seabringerKekoa.location).toBe('play area');
             expect(this.nexus.location).toBe('play area');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
     });
 });

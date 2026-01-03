@@ -20,7 +20,7 @@ describe('Cover Operation', function () {
             this.player1.play(this.coverOperation);
             expect(this.stooge1.location).toBe('play area');
             expect(this.stooge1.exhausted).toBe(false);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
     });
 });

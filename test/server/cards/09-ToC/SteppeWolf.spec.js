@@ -24,7 +24,7 @@ describe('Steppe Wolf', function () {
             this.player1.clickPrompt('Right');
             expect(this.steppeWolf1.getPower()).toBe(3);
             expect(this.steppeWolf2.getPower()).toBe(3);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
     });
 });

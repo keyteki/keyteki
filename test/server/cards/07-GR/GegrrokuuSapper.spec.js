@@ -24,7 +24,7 @@ describe('Gegrrokuu Sapper', function () {
             this.player1.clickPrompt('Left');
             expect(this.quixxleStone.controller).toBe(this.player1.player);
             expect(this.gegrrŏkŭŭSapper.controller).toBe(this.player2.player);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('swaps itself with an artifact on fight', function () {
@@ -45,7 +45,7 @@ describe('Gegrrokuu Sapper', function () {
             this.player2.clickPrompt('Right');
             expect(this.seekerNeedle.controller).toBe(this.player2.player);
             expect(this.gegrrŏkŭŭSapper.controller).toBe(this.player1.player);
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player2);
         });
 
         it('can destroy friendly and enemy artifact on scrap', function () {
@@ -60,7 +60,7 @@ describe('Gegrrokuu Sapper', function () {
             expect(this.player1).toBeAbleToSelect(this.quixxleStone);
             this.player1.clickCard(this.quixxleStone);
             expect(this.quixxleStone.location).toBe('discard');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('must destroy friendly artifact to destroy enemy artifact on scrap', function () {
@@ -68,7 +68,7 @@ describe('Gegrrokuu Sapper', function () {
             this.player1.moveCard(this.uncommonCurrency, 'discard');
             this.player1.clickCard(this.gegrrŏkŭŭSapper);
             this.player1.clickPrompt('Discard this card');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
     });
 });

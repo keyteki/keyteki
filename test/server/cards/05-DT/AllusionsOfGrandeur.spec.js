@@ -62,7 +62,7 @@ describe('Allusions of Grandeur', function () {
             this.player1.endTurn();
             this.player2.clickPrompt('untamed');
             expect(this.player1.amber).toBe(4);
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player2);
         });
     });
 });

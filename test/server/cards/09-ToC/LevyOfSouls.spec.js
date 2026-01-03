@@ -25,7 +25,7 @@ describe('Levy of Souls', function () {
         it('should make a token on action', function () {
             expect(this.toad1.location).toBe('play area');
             expect(this.player1.player.creaturesInPlay[0]).toBe(this.toad2);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('should increase key costs next turn', function () {
@@ -35,7 +35,7 @@ describe('Levy of Souls', function () {
             this.player2.fightWith(this.keyfrog, this.toad1);
             this.player2.forgeKey('blue');
             expect(this.player2.amber).toBe(0);
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player2);
         });
 
         it('should increase key costs dynamically during turn', function () {
@@ -47,7 +47,7 @@ describe('Levy of Souls', function () {
             this.player2.fightWith(this.keyfrog, this.shooler);
             this.player2.forgeKey('blue');
             expect(this.player2.amber).toBe(2);
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player2);
         });
     });
 
@@ -114,7 +114,7 @@ describe('Levy of Souls', function () {
             expect(this.player2.player.getCurrentKeyCost()).toBe(7);
             expect(this.player1.amber).toBe(0);
             expect(this.player2.amber).toBe(0);
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player2);
         });
     });
 });

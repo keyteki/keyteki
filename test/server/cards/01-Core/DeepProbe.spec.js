@@ -20,7 +20,7 @@ describe('Deep Probe', function () {
             expect(this.cannon.location).toBe('hand');
             expect(this.urchin.location).toBe('discard');
             expect(this.dodger.location).toBe('discard');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
     });
 });

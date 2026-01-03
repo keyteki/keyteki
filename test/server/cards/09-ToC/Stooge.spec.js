@@ -25,7 +25,7 @@ describe('Stooge', function () {
             expect(this.stooge3.location).toBe('play area');
             this.player1.useAction(this.stooge2);
             expect(this.stooge4.location).toBe('deck');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
     });
 });

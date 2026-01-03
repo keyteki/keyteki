@@ -61,7 +61,7 @@ describe('Diplo-Macy', function () {
             this.player2.clickPrompt('saurian');
             this.player2.fightWith(this.philophosaurus, this.lamindra);
             expect(this.philophosaurus.amber).toBe(0);
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player2);
         });
     });
 });

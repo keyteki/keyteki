@@ -39,7 +39,7 @@ describe('Talent Scout', function () {
             this.player1.playCreature(this.talentScout);
             expect(this.player1.amber).toBe(3);
             expect(this.player2.amber).toBe(2);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
             expect(this.player1.player.cardsInPlay).not.toContain(this.talentScout);
             expect(this.player2.player.cardsInPlay).toContain(this.talentScout);
             expect(this).toHaveRecentChatMessage('Talent Scout reveals Too Much to Protect', 2);

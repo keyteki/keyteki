@@ -25,7 +25,7 @@ describe('Junkyard Cemetery', function () {
             expect(this.player1).not.toBeAbleToSelect(this.echofly);
             this.player1.clickCard(this.gub);
             expect(this.gub.location).toBe('purged');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('counts purged cards for hauntedness', function () {

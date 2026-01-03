@@ -74,7 +74,7 @@ describe('Zephon the Opulent', function () {
         it('should not be usable', function () {
             this.player1.clickCard(this.zephonTheOpulent);
 
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
     });
 });

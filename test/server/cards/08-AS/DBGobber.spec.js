@@ -19,7 +19,7 @@ describe('D.B. Gobber', function () {
             this.player1.reap(this.dbGobber);
             expect(this.player1.amber).toBe(8);
             expect(this.player2.amber).toBe(8);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('makes each player with >= 7 amber lose 2', function () {
@@ -27,7 +27,7 @@ describe('D.B. Gobber', function () {
             expect(this.dbGobber.location).toBe('discard');
             expect(this.player1.amber).toBe(5);
             expect(this.player2.amber).toBe(7);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('only affects players with >= 7 amber', function () {
@@ -35,7 +35,7 @@ describe('D.B. Gobber', function () {
             this.player1.scrap(this.dbGobber);
             expect(this.player1.amber).toBe(6);
             expect(this.player2.amber).toBe(7);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
     });
 });

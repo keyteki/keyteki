@@ -28,7 +28,7 @@ describe('Plan 10', function () {
             expect(this.johnSmyth.location).toBe('play area');
             expect(this.ironyxRebel.location).toBe('play area');
             expect(this.plan10.childCards.length).toBe(3);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('triggers leave play effects', function () {

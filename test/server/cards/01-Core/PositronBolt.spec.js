@@ -15,7 +15,7 @@ describe('Positron Bolt', function () {
         it('should not prompt for creature when there are no creatures in play', function () {
             this.player1.play(this.positronBolt);
             expect(this.player1.amber).toBe(1);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
     });
 
@@ -42,7 +42,7 @@ describe('Positron Bolt', function () {
             expect(this.player1).toBeAbleToSelect(this.troll);
             this.player1.clickCard(this.troll);
             expect(this.troll.tokens.damage).toBe(3);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
     });
 
@@ -71,7 +71,7 @@ describe('Positron Bolt', function () {
             this.player1.clickCard(this.troll);
             expect(this.troll.tokens.damage).toBe(3);
             expect(this.krump.tokens.damage).toBe(2);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
     });
 
@@ -106,7 +106,7 @@ describe('Positron Bolt', function () {
             expect(this.krump.tokens.damage).toBe(1);
             expect(this.redlock.tokens.damage).toBeUndefined();
             expect(this.lamindra.tokens.damage).toBeUndefined();
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it("should be able to select the Spectral Tunneler's target and a neighbor with no other neighbor", function () {
@@ -133,7 +133,7 @@ describe('Positron Bolt', function () {
             expect(this.krump.tokens.damage).toBeUndefined();
             expect(this.redlock.tokens.damage).toBeUndefined();
             expect(this.lamindra.tokens.damage).toBeUndefined();
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it("should be able to select the Spectral Tunneler's target and a neighbor with another neighbor ", function () {
@@ -160,7 +160,7 @@ describe('Positron Bolt', function () {
             expect(this.redlock.tokens.damage).toBe(1);
             expect(this.troll.tokens.damage).toBeUndefined();
             expect(this.lamindra.tokens.damage).toBeUndefined();
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
     });
 });

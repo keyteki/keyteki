@@ -35,7 +35,7 @@ describe('Windrow Composting', function () {
             expect(this.dustPixie.location).toBe('discard');
             expect(this.ectoCharge.location).toBe('discard');
             expect(shuffled).toBe(this.player1.player);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('should shuffle both players discard piles into their decks when fate is triggered', function () {
@@ -54,7 +54,7 @@ describe('Windrow Composting', function () {
             expect(this.windrowComposting.location).toBe('discard');
             expect(shuffled).toContain(this.player1.player);
             expect(shuffled).toContain(this.player2.player);
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player2);
         });
     });
 });

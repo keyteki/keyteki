@@ -20,7 +20,7 @@ describe('Skippy the Glorious', function () {
         it('should archive the top of your deck on play', function () {
             this.player1.play(this.skippyTheGlorious);
             expect(this.pelf.location).toBe('archives');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('should archive the top of your deck on reap', function () {
@@ -28,7 +28,7 @@ describe('Skippy the Glorious', function () {
             this.skippyTheGlorious.exhausted = false;
             this.player1.reap(this.skippyTheGlorious);
             expect(this.gub.location).toBe('archives');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('should use an enemy artifact and draw a card on scrap', function () {
@@ -37,14 +37,14 @@ describe('Skippy the Glorious', function () {
             expect(this.player1).not.toBeAbleToSelect(this.wretchedDoll);
             this.player1.clickCard(this.libraryOfBabble);
             expect(this.player1.player.hand.length).toBe(3);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('should do nothing on scrap if no enemy artifacts', function () {
             this.player2.moveCard(this.libraryOfBabble, 'discard');
             this.player1.scrap(this.skippyTheGlorious);
             expect(this.player1.player.hand.length).toBe(1);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('should do nothing on scrap if no ready enemy artifacts', function () {
@@ -52,7 +52,7 @@ describe('Skippy the Glorious', function () {
             this.player1.scrap(this.skippyTheGlorious);
             this.player1.clickCard(this.libraryOfBabble);
             expect(this.player1.player.hand.length).toBe(1);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('should do nothing on scrap if no usuable enemy artifacts', function () {
@@ -61,7 +61,7 @@ describe('Skippy the Glorious', function () {
             this.player1.scrap(this.skippyTheGlorious);
             this.player1.clickCard(this.quixxleStone);
             expect(this.player1.player.hand.length).toBe(1);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('should draw a card for using a deanimated creature', function () {
@@ -71,7 +71,7 @@ describe('Skippy the Glorious', function () {
             this.player1.clickCard(this.helperBot);
             expect(this.helperBot.location).toBe('discard');
             expect(this.player1.player.hand.length).toBe(1);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
     });
 });

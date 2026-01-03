@@ -53,7 +53,7 @@ describe('Pupgrade', function () {
             expect(this.pupgrade.type).toBe('creature');
             expect(this.player2.player.creaturesInPlay[2].name).toBe('Pupgrade');
             expect(this.pupgrade.exhausted).toBe(false);
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player2);
         });
 
         it('should be destroyable', function () {
@@ -68,7 +68,7 @@ describe('Pupgrade', function () {
             expect(this.pupgrade.location).toBe('discard');
             expect(this.player1.player.creaturesInPlay.length).toBe(2);
             this.player2.clickPrompt('Done');
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player2);
         });
     });
 });

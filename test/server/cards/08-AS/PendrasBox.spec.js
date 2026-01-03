@@ -22,7 +22,7 @@ describe("Pendra's Box", function () {
             expect(this.groggins.amber).toBe(1);
             expect(this.groke.amber).toBe(1);
             expect(this.ironyxRebel.amber).toBe(0);
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player2);
         });
     });
 });

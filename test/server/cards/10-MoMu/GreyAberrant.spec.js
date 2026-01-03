@@ -28,7 +28,7 @@ describe('Grey Aberrant', function () {
             expect(this.lamindra.getTraits().length).toBe(0);
             expect(this.chonkers.getTraits().length).toBe(1);
             expect(this.greyAberrant.hasTrait('mutant')).toBe(false);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
     });
 });

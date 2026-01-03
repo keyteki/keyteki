@@ -40,7 +40,7 @@ describe('Fiery Jark', function () {
             this.player1.clickCard(this.troll);
             expect(this.troll.location).toBe('discard');
             expect(this.huntingWitch.location).toBe('discard');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
             expect(this.fieryJark.location).toBe('play area');
         });
 
@@ -54,7 +54,7 @@ describe('Fiery Jark', function () {
             expect(this.troll.location).toBe('play area');
             expect(this.huntingWitch.location).toBe('play area');
             expect(this.fieryJark.location).toBe('play area');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('stops when it destroys self', function () {
@@ -66,7 +66,7 @@ describe('Fiery Jark', function () {
             expect(this.troll.location).toBe('play area');
             expect(this.huntingWitch.location).toBe('play area');
             expect(this.fieryJark.location).toBe('discard');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
     });
 });

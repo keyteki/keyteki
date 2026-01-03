@@ -31,7 +31,7 @@ describe('Sleight', function () {
             expect(this.mooncurser.location).toBe('deck');
             expect(this.murkens.location).toBe('deck');
             expect(this.krump.location).toBe('deck');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('should shuffle a friendly creature for each enemy Shadows creature when fate is triggered', function () {
@@ -61,7 +61,7 @@ describe('Sleight', function () {
             expect(this.mooncurser.location).toBe('deck');
             expect(this.murkens.location).toBe('deck');
             expect(this.krump.location).toBe('play area');
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player2);
         });
     });
 });

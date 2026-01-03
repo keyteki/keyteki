@@ -25,7 +25,7 @@ describe('Murkens', function () {
             this.player1.play(this.murkens);
             expect(this.player1).not.toHavePromptButton('Top of deck');
             expect(this.player1).not.toHavePromptButton('Random card from archives');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('when deck is empty, still provide option, and allow playing archived card', function () {

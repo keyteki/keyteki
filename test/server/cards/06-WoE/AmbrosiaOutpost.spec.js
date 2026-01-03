@@ -18,7 +18,7 @@ describe('Ambrosia Outpost', function () {
         it('should not prompt for any creature, since there is no friendly creature.', function () {
             this.player1.useAction(this.æmbrosiaOutpost);
             this.player1.clickCard(this.galeatops);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
             expect(this.player1.amber).toBe(1);
         });
 
@@ -26,7 +26,7 @@ describe('Ambrosia Outpost', function () {
             this.player1.playCreature(this.paraguardian);
             this.player1.useAction(this.æmbrosiaOutpost);
             this.player1.clickCard(this.galeatops);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
             expect(this.player1.amber).toBe(1);
         });
 

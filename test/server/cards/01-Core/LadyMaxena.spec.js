@@ -18,7 +18,7 @@ describe('Lady Maxena', function () {
             expect(this.player1).toHavePrompt('Lady Maxena');
             this.player1.clickCard(this.troll);
             expect(this.troll.stunned).toBe(true);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('should return to hand on action', function () {
@@ -30,7 +30,7 @@ describe('Lady Maxena', function () {
             this.player1.clickPrompt('sanctum');
             this.player1.useAction(this.ladyMaxena);
             expect(this.ladyMaxena.location).toBe('hand');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
     });
 });

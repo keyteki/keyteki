@@ -25,7 +25,7 @@ describe('Sabira the Medium', function () {
             this.player1.play(this.helpFromFutureSelf);
             this.player1.clickCard(this.timetraveller);
             this.player1.clickPrompt('Done');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
             expect(this.poke.location).toBe('deck');
             expect(this.player1.amber).toBe(5);
         });
@@ -61,14 +61,14 @@ describe('Sabira the Medium', function () {
             this.player1.player.discard = [];
             this.player1.play(this.helpFromFutureSelf);
             this.player1.clickPrompt('Done');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
             expect(this.player1.amber).toBe(5);
         });
 
         it('does trigger on empty discard pile (Spoo-key Charge)', function () {
             this.player1.player.discard = [];
             this.player1.play(this.spooKeyCharge);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
             expect(this.player1.amber).toBe(4);
         });
 
@@ -79,7 +79,7 @@ describe('Sabira the Medium', function () {
             this.player1.clickPrompt('untamed');
             this.player1.play(this.invigoratingShower);
             this.player1.clickPrompt('logos');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
             expect(this.player1.amber).toBe(4);
         });
 
@@ -87,7 +87,7 @@ describe('Sabira the Medium', function () {
             this.player1.endTurn();
             this.player2.clickPrompt('untamed');
             this.player2.play(this.tillTheEarth);
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player2);
             expect(this.player1.amber).toBe(4);
         });
 
@@ -96,7 +96,7 @@ describe('Sabira the Medium', function () {
             this.player2.clickPrompt('untamed');
             this.player2.play(this.warfaline);
             this.player2.clickPrompt("Opponent's");
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player2);
             expect(this.player1.amber).toBe(4);
         });
 
@@ -105,7 +105,7 @@ describe('Sabira the Medium', function () {
             this.player1.discard = [];
             this.player2.clickPrompt('untamed');
             this.player2.play(this.tillTheEarth);
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player2);
             expect(this.player1.amber).toBe(4);
         });
     });

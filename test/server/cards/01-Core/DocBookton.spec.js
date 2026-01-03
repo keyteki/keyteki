@@ -14,7 +14,7 @@ describe('Doc Bookton', function () {
             const handSize = this.player1.hand.length;
             this.player1.reap(this.docBookton);
             expect(this.player1.hand.length).toBe(handSize + 1);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
     });
 });

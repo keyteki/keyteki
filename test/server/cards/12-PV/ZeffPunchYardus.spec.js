@@ -22,7 +22,7 @@ describe('Zeff "Punch" Yardus', function () {
             expect(this.helperBot.location).toBe('archives');
             expect(this.drainingTouch.location).toBe('archives');
             expect(this.troll.location).toBe('discard');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('should work with no discard pile', function () {
@@ -35,7 +35,7 @@ describe('Zeff "Punch" Yardus', function () {
             expect(this.helperBot.location).toBe('deck');
             expect(this.drainingTouch.location).toBe('deck');
             expect(this.troll.location).toBe('archives');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
     });
 });

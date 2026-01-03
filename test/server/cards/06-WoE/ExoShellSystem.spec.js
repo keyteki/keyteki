@@ -19,7 +19,7 @@ describe('Exo-shell System', function () {
             this.player1.play(this.exoShellSystem);
             this.player1.clickPrompt('Right');
             expect(this.player1.player.creaturesInPlay.length).toBe(4);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('gives friendly tokens elusive', function () {

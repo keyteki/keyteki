@@ -25,7 +25,7 @@ describe('Brass Klein', function () {
             this.player1.playCreature(this.brassKlein);
             expect(this.brassKlein.hasKeyword('skirmish')).toBe(true);
             expect(this.brassKlein.hasKeyword('taunt')).toBe(false);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('should gain taunt while not on a flank', function () {
@@ -33,7 +33,7 @@ describe('Brass Klein', function () {
             this.player1.playCreature(this.ruthlessAvenger);
             expect(this.brassKlein.hasKeyword('taunt')).toBe(true);
             expect(this.brassKlein.hasKeyword('skirmish')).toBe(false);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('should prevent friendly creatures from fighting when fate is triggered', function () {

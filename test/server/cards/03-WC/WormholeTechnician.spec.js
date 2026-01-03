@@ -30,7 +30,7 @@ describe('Wormhole Technician', function () {
         it('should do nothing if deck is empty', function () {
             this.player1.player.deck = [];
             this.player1.reap(this.wormholeTechnician);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('should not play the card if it is of house Logos and it is alpha', function () {

@@ -32,7 +32,7 @@ describe('Spendthrift', function () {
             this.player1.clickCard(this.urchin);
             expect(this.urchin.tokens.amber).toBe(1);
             expect(this.player1.amber).toBe(5);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('should move amber from enemy creatures to their pool when fate is triggered', function () {
@@ -47,7 +47,7 @@ describe('Spendthrift', function () {
             expect(this.huntingWitch.tokens.amber).toBeUndefined();
             expect(this.urchin.tokens.amber).toBeUndefined();
             expect(this.player1.amber).toBe(7);
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player2);
         });
     });
 });

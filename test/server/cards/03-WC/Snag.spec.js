@@ -107,7 +107,7 @@ describe('Snag', function () {
             expect(this.player2).not.toHavePromptButton('dis');
             expect(this.player2).not.toHavePromptButton('untamed');
             this.player2.clickPrompt('logos');
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player2);
         });
     });
 });

@@ -29,7 +29,7 @@ describe('Divine Seal', function () {
             this.player1.clickCard(this.krump);
             expect(this.krump.location).toBe('deck');
             expect(this.player2.player.deck[this.player2.player.deck.length - 1]).toBe(this.krump);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('should purge the bottom card of your deck when fate is triggered', function () {
@@ -43,7 +43,7 @@ describe('Divine Seal', function () {
             this.player2.reap(this.krump);
             expect(this.troll.location).toBe('purged');
             expect(this.divineSeal.location).toBe('discard');
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player2);
         });
     });
 });

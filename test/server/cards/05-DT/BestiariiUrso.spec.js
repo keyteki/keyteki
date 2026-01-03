@@ -24,7 +24,7 @@ describe('Bestiarii Urso', function () {
 
         it('should be optional', function () {
             this.player1.clickPrompt('Done');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('should unstun a creature', function () {
@@ -62,7 +62,7 @@ describe('Bestiarii Urso', function () {
 
         it('should be optional', function () {
             this.player1.clickPrompt('Done');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('should unstun a creature', function () {

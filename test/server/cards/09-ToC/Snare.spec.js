@@ -21,7 +21,7 @@ describe('Snare', function () {
             this.player1.fightWith(this.snare, this.troll);
             expect(this.player1.amber).toBe(1);
             expect(this.player2.amber).toBe(0);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('should not gain amber if destroyed on your turn', function () {
@@ -30,7 +30,7 @@ describe('Snare', function () {
             this.player2.fightWith(this.troll, this.snare);
             expect(this.player1.amber).toBe(1);
             expect(this.player2.amber).toBe(1);
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player2);
         });
     });
 });

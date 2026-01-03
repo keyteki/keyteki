@@ -30,7 +30,7 @@ describe('Cognitive Assumptions', function () {
         it('should allow revealing 0 cards', function () {
             this.player1.clickPrompt('Done');
             expect(this.player1.player.creaturesInPlay.length).toBe(0);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('should allow revealing 1 card', function () {
@@ -43,7 +43,7 @@ describe('Cognitive Assumptions', function () {
             this.player1.clickPrompt('Done');
             expect(this.player1.player.creaturesInPlay.length).toBe(1);
             expect(this.alphaGamma1.location).toBe('play area');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('should allow revealing 3 cards', function () {
@@ -57,7 +57,7 @@ describe('Cognitive Assumptions', function () {
             expect(this.alphaGamma1.location).toBe('play area');
             expect(this.alphaGamma2.location).toBe('play area');
             expect(this.alphaGamma3.location).toBe('play area');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
     });
 });

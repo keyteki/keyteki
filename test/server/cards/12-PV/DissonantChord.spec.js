@@ -27,7 +27,7 @@ describe('Dissonant Chord', function () {
             expect(this.emberImp.location).toBe('discard');
             expect(this.troll.stunned).toBe(true);
             expect(this.flaxia.stunned).toBe(true);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('should not stun neighbors when not destroying a creature', function () {
@@ -37,7 +37,7 @@ describe('Dissonant Chord', function () {
             expect(this.troll.tokens.damage).toBe(3);
             expect(this.emberImp.stunned).toBe(false);
             expect(this.flaxia.stunned).toBe(false);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('should stun friendly creatures with amber when fate is triggered', function () {
@@ -52,7 +52,7 @@ describe('Dissonant Chord', function () {
             expect(this.troll.stunned).toBe(false);
             expect(this.flaxia.stunned).toBe(false);
             expect(this.dissonantChord.location).toBe('discard');
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player2);
         });
     });
 });

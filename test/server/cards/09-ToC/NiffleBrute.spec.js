@@ -28,7 +28,7 @@ describe('Niffle Brute', function () {
             expect(this.player1).not.toBeAbleToSelect(this.troll);
             this.player1.clickCard(this.niffleSanctuary);
             expect(this.niffleSanctuary.location).toBe('hand');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('should return a Niffle card to hand if no sanctuary', function () {
@@ -42,7 +42,7 @@ describe('Niffle Brute', function () {
             expect(this.player1).not.toBeAbleToSelect(this.troll);
             this.player1.clickCard(this.niffleApe);
             expect(this.niffleApe.location).toBe('hand');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
     });
 });

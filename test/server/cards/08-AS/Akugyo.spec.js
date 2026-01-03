@@ -24,7 +24,7 @@ describe('Akugyo', function () {
             this.player2.play(this.virtuousWorks);
             expect(this.player2.amber).toBe(1);
             expect(this.akugyo.amber).toBe(4);
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player2);
         });
 
         it('should move 2 amber to your pool on fight', function () {
@@ -32,7 +32,7 @@ describe('Akugyo', function () {
             this.player1.fightWith(this.akugyo, this.staunchKnight);
             expect(this.player1.amber).toBe(3);
             expect(this.akugyo.amber).toBe(2);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('should move 1 amber to your pool on fight if only 1', function () {
@@ -40,14 +40,14 @@ describe('Akugyo', function () {
             this.player1.fightWith(this.akugyo, this.staunchKnight);
             expect(this.player1.amber).toBe(2);
             expect(this.akugyo.amber).toBe(0);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('should do nothing if no amber on it', function () {
             this.player1.fightWith(this.akugyo, this.staunchKnight);
             expect(this.player1.amber).toBe(1);
             expect(this.akugyo.amber).toBe(0);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
     });
 });

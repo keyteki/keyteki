@@ -24,7 +24,7 @@ describe('Colossipede', function () {
             expect(this.colossipede.amber).toBe(1);
             expect(this.helperBot.amber).toBe(4);
             expect(this.knucklesBolton.amber).toBe(1);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('should give friendly creatures a fight effect to move amber to pool', function () {
@@ -32,7 +32,7 @@ describe('Colossipede', function () {
             this.player1.fightWith(this.helperBot, this.knucklesBolton);
             expect(this.helperBot.amber).toBe(0);
             expect(this.player1.amber).toBe(5);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('should not give enemy creatures a fight effect', function () {
@@ -43,7 +43,7 @@ describe('Colossipede', function () {
             expect(this.knucklesBolton.amber).toBe(1);
             expect(this.player1.amber).toBe(1);
             expect(this.player2.amber).toBe(1);
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player2);
         });
     });
 });

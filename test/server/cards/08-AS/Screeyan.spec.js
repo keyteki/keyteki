@@ -72,7 +72,7 @@ describe('Screeyan', function () {
             expect(this.player2).not.toHavePromptButton('shadows');
             expect(this.player2).not.toHavePromptButton('brobnar');
             this.player2.clickPrompt('untamed');
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player2);
         });
     });
 });

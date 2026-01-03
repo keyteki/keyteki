@@ -16,19 +16,19 @@ describe('Corporal Bridger', function () {
 
         it('should allow creature use on play', function () {
             this.player1.play(this.corporalBridger);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
             expect(this.player1).not.toBeAbleToPlay(this.batdrone);
             this.player1.reap(this.dustPixie);
             expect(this.player1.amber).toBe(2);
             this.player1.clickCard(this.flaxia);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('should not allow artifact use on play', function () {
             this.player1.play(this.corporalBridger);
             this.player1.clickCard(this.libraryOfBabble);
             expect(this.player1.hand.length).toBe(1);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('should allow creature use on reap', function () {
@@ -38,12 +38,12 @@ describe('Corporal Bridger', function () {
             this.player2.endTurn();
             this.player1.clickPrompt('staralliance');
             this.player1.reap(this.corporalBridger);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
             expect(this.player1).not.toBeAbleToPlay(this.batdrone);
             this.player1.reap(this.flaxia);
             expect(this.player1.amber).toBe(3);
             this.player1.clickCard(this.dustPixie);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('should allow creature use on fight', function () {
@@ -53,12 +53,12 @@ describe('Corporal Bridger', function () {
             this.player2.endTurn();
             this.player1.clickPrompt('staralliance');
             this.player1.fightWith(this.corporalBridger, this.timetraveller);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
             expect(this.player1).not.toBeAbleToPlay(this.batdrone);
             this.player1.reap(this.flaxia);
             expect(this.player1.amber).toBe(2);
             this.player1.clickCard(this.dustPixie);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
     });
 });

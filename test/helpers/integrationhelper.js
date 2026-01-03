@@ -230,6 +230,14 @@ beforeEach(function () {
     };
 
     /**
+     * Checks that the current user is ready to take a new action during the main phase of their turn.
+     * @param {Object} player - The player wrapper to check
+     */
+    this.expectReadyToTakeAction = function (player) {
+        expect(player).toHavePrompt('Choose a card to play, discard or use');
+    };
+
+    /**
      * Factory method. Creates a new simulation of a game.
      * @param {Object} [options = {}] - specifies the state of the game
      */

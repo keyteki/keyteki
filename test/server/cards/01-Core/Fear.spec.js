@@ -20,7 +20,7 @@ describe('Fear', function () {
             expect(this.player1).not.toBeAbleToSelect(this.emberImp);
             this.player1.clickCard(this.troll);
             expect(this.troll.location).toBe('hand');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
     });
 
@@ -38,7 +38,7 @@ describe('Fear', function () {
 
         it('should not prompt when there are no enemy creatures', function () {
             this.player1.play(this.fear);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
     });
 });

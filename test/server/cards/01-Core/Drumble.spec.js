@@ -16,7 +16,7 @@ describe('Drumble', function () {
             this.player1.play(this.drumble);
             expect(this.drumble.amber).toBe(7);
             expect(this.player2.amber).toBe(0);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('should not capture amber if opponent has less than 7', function () {
@@ -24,7 +24,7 @@ describe('Drumble', function () {
             this.player1.play(this.drumble);
             expect(this.drumble.amber).toBe(0);
             expect(this.player2.amber).toBe(6);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
     });
 });

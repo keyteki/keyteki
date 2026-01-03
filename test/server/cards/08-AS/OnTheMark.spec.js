@@ -29,27 +29,27 @@ describe('On the Mark', function () {
             this.player1.clickCard(this.lamindra);
             expect(this.shockHerder.amber).toBe(0);
             expect(this.lamindra.amber).toBe(3);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('should work if friendly creature has no amber', function () {
             this.player1.play(this.onTheMark);
             this.player1.clickCard(this.gangerChieftain);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('should work if there are no friendly creatures', function () {
             this.player1.moveCard(this.shockHerder, 'discard');
             this.player1.moveCard(this.gangerChieftain, 'discard');
             this.player1.play(this.onTheMark);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('should work if there are no enemy creatures', function () {
             this.player1.moveCard(this.lamindra, 'discard');
             this.player1.moveCard(this.dewFaerie, 'discard');
             this.player1.play(this.onTheMark);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
     });
 });

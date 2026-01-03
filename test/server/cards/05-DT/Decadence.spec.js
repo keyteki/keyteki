@@ -17,7 +17,7 @@ describe('Decadence', function () {
         });
 
         it('should not prompt', function () {
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
     });
 

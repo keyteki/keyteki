@@ -18,7 +18,7 @@ describe('Amphora Captura', function () {
 
         it('should not trigger if no bonus', function () {
             this.player1.play(this.wildBounty);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
             expect(this.player1.amber).toBe(0);
         });
 
@@ -37,7 +37,7 @@ describe('Amphora Captura', function () {
             expect(this.senatorShrix.amber).toBe(1);
             expect(this.player1.amber).toBe(1);
             expect(this.player2.amber).toBe(1);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('should ask to replace enhanced bonus icon with capture', function () {
@@ -69,7 +69,7 @@ describe('Amphora Captura', function () {
 
             expect(this.player1.amber).toBe(1);
             expect(this.player2.amber).toBe(0);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
     });
 });

@@ -23,7 +23,7 @@ describe('Harvest Skimmer', function () {
             this.player1.reap(this.harvestSkimmer);
             expect(this.shadys.location).toBe('discard');
             expect(this.player1.amber).toBe(3);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('gains nothing for discarding a non-creature', function () {
@@ -31,14 +31,14 @@ describe('Harvest Skimmer', function () {
             this.player1.reap(this.harvestSkimmer);
             expect(this.fullMoon.location).toBe('discard');
             expect(this.player1.amber).toBe(2);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('does nothing with no deck', function () {
             this.player1.player.deck = [];
             this.player1.reap(this.harvestSkimmer);
             expect(this.player1.amber).toBe(2);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
     });
 });

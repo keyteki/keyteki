@@ -34,7 +34,7 @@ describe('Essence Entangler', function () {
             expect(this.charette.amber).toBe(1);
             expect(this.senatorShrix.amber).toBe(1);
             expect(this.essenceEntangler.location).toBe('discard');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
     });
 });

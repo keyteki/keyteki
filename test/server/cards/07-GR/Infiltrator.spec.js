@@ -18,14 +18,14 @@ describe('Infiltrator', function () {
 
         it('enters play under opponent control', function () {
             expect(this.player2.player.creaturesInPlay).toContain(this.infiltrator);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('can be used with any house', function () {
             this.player1.endTurn();
             this.player2.clickPrompt('dis');
             this.player2.reap(this.infiltrator);
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player2);
         });
 
         it('has skirmish', function () {
@@ -34,7 +34,7 @@ describe('Infiltrator', function () {
             this.player2.fightWith(this.infiltrator, this.flaxia);
             expect(this.infiltrator.tokens.damage).toBe(undefined);
             expect(this.flaxia.location).toBe('discard');
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player2);
         });
 
         it('destroys its neighbors at the end of the turn', function () {

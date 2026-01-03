@@ -25,7 +25,7 @@ describe("Ol' Paddy Evil Twin", function () {
                 });
 
                 it('should not prompt to destroy any card', function () {
-                    expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+                    this.expectReadyToTakeAction(this.player1);
                 });
             });
 
@@ -36,7 +36,7 @@ describe("Ol' Paddy Evil Twin", function () {
                 });
 
                 it('should not prompt to destroy any card', function () {
-                    expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+                    this.expectReadyToTakeAction(this.player1);
                 });
             });
         });
@@ -64,7 +64,7 @@ describe("Ol' Paddy Evil Twin", function () {
                     expect(this.player1).not.toBeAbleToSelect(this.senatorShrix);
                     this.player1.clickCard(this.murmook);
                     expect(this.murmook.location).toBe('discard');
-                    expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+                    this.expectReadyToTakeAction(this.player1);
                 });
             });
 
@@ -86,7 +86,7 @@ describe("Ol' Paddy Evil Twin", function () {
                     expect(this.player1).not.toBeAbleToSelect(this.senatorShrix);
                     this.player1.clickCard(this.murmook);
                     expect(this.murmook.location).toBe('discard');
-                    expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+                    this.expectReadyToTakeAction(this.player1);
                 });
             });
         });
@@ -107,7 +107,7 @@ describe("Ol' Paddy Evil Twin", function () {
                 });
 
                 it('should not prompt to destroy any card', function () {
-                    expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+                    this.expectReadyToTakeAction(this.player1);
                 });
             });
 
@@ -122,7 +122,7 @@ describe("Ol' Paddy Evil Twin", function () {
                 });
 
                 it('should not prompt to destroy any card', function () {
-                    expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+                    this.expectReadyToTakeAction(this.player1);
                 });
             });
         });
@@ -156,7 +156,7 @@ describe("Ol' Paddy Evil Twin", function () {
                     expect(this.player1).not.toBeAbleToSelect(this.senatorShrix);
                     this.player1.clickCard(this.chainGang);
                     expect(this.chainGang.location).toBe('discard');
-                    expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+                    this.expectReadyToTakeAction(this.player1);
                 });
             });
 

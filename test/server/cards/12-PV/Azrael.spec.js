@@ -22,7 +22,7 @@ describe('Azrael', function () {
             expect(this.ancientBear.tokens.damage).toBe(2);
             this.player1.fightWith(this.troll, this.dustPixie);
             expect(this.dustPixie.location).toBe('discard');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
     });
 });

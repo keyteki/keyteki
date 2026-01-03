@@ -19,7 +19,7 @@ describe('Navigator Ketarr', function () {
             expect(this.player1.player.hand.length).toBe(3);
             this.player1.clickCard(this.bosunCreen);
             expect(this.bosunCreen.location).toBe('archives');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('should do nothing while not on flank', function () {
@@ -27,7 +27,7 @@ describe('Navigator Ketarr', function () {
             this.player1.reap(this.navigatorKetarr);
             expect(this.player1.player.hand.length).toBe(0);
             expect(this.player1.player.archives.length).toBe(0);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
     });
 });

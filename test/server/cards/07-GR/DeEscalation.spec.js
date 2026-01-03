@@ -29,7 +29,7 @@ describe('De-escalation', function () {
             expect(this.stealthMode.location).toBe('archives');
             expect(this.timetraveller.location).toBe('archives');
             expect(this.rogueOperation.location).toBe('archives');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('can archive less than 3 for opponent', function () {
@@ -38,7 +38,7 @@ describe('De-escalation', function () {
             this.player1.play(this.deEscalation);
             expect(this.player2.player.archives.length).toBe(1);
             expect(this.stealthMode.location).toBe('archives');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
     });
 });

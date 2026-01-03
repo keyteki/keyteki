@@ -32,7 +32,7 @@ describe('Ask Again Later', function () {
             expect(this.troll.amber).toBe(2);
             expect(this.medicIngram.location).toBe('deck');
             expect(this.parasiticArachnoid.location).toBe('discard');
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player2);
         });
 
         it('should allow fate to change house on fulfillment', function () {
@@ -46,7 +46,7 @@ describe('Ask Again Later', function () {
             this.player2.reap(this.urchin);
             expect(this.player2.amber).toBe(5);
             expect(this.gleamingTheCube.location).toBe('discard');
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player2);
         });
 
         it('should not fulfill when revealed card matches named house', function () {
@@ -57,7 +57,7 @@ describe('Ask Again Later', function () {
             this.player2.clickPrompt('staralliance');
             expect(this.medicIngram.location).toBe('deck');
             expect(this.parasiticArachnoid.location).toBe('under');
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player2);
         });
 
         it('should only allow choosing houses from identity', function () {

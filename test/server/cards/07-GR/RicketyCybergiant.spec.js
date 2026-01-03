@@ -19,7 +19,7 @@ describe('Rickety Cybergiant', function () {
             expect(this.groke.tokens.damage).toBe(undefined);
             expect(this.flaxia.tokens.damage).toBe(undefined);
             expect(this.cpoZytar.location).toBe('discard');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
     });
 });

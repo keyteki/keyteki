@@ -18,7 +18,7 @@ describe('Distributor Janŏŏnt', function () {
         it('should not prompt for any creature, since no other creature to place amber', function () {
             this.distributorJanŏŏnt.tokens.amber = 9;
             this.player1.reap(this.distributorJanŏŏnt);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
     });
 });
@@ -169,7 +169,7 @@ describe("Distributor Janŏŏnt's fight/reap ability", function () {
 
         this.player1.clickCard(this.dextre);
 
-        expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+        this.expectReadyToTakeAction(this.player1);
 
         expect(this.dextre.tokens.amber).toBeUndefined();
     });

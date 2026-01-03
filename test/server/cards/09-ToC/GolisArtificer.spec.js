@@ -21,7 +21,7 @@ describe('Golis Artificer', function () {
             this.player1.reap(this.golisArtificer);
             this.player1.clickPrompt('Left');
             expect(this.alphaGamma1.location).toBe('play area');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
     });
 });

@@ -23,7 +23,7 @@ describe('Triangulator Newsome', function () {
             expect(this.cpoZytar.amber).toBe(2);
             expect(this.batdrone.amber).toBe(10);
             expect(this.player1.amber).toBe(2);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('moves amber from neighbors to your pool when haunted', function () {
@@ -34,7 +34,7 @@ describe('Triangulator Newsome', function () {
             expect(this.cpoZytar.amber).toBe(0);
             expect(this.batdrone.amber).toBe(10);
             expect(this.player1.amber).toBe(8);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
     });
 });

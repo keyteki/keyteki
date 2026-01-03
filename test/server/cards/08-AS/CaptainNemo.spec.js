@@ -31,7 +31,7 @@ describe('Captain Nemo', function () {
             this.player1.clickCard(this.dustPixie);
             expect(this.ritualOfBalance.location).toBe('discard');
             expect(this.dustPixie.location).toBe('discard');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('should destroy a creature on fight even if no artifacts', function () {
@@ -40,7 +40,7 @@ describe('Captain Nemo', function () {
             this.player1.fightWith(this.captainNemo, this.lamindra);
             this.player1.clickCard(this.dustPixie);
             expect(this.dustPixie.location).toBe('discard');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
     });
 });

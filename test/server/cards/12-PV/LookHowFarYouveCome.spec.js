@@ -30,7 +30,7 @@ describe("Look How Far You've Come", function () {
             expect(this.player2.amber).toBe(2);
             expect(this.troll.amber).toBe(2);
             expect(this.parasiticArachnoid.location).toBe('discard');
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player2);
         });
 
         it('should not fulfill when opponent plays a non-creature card', function () {
@@ -39,14 +39,14 @@ describe("Look How Far You've Come", function () {
             this.player2.clickPrompt('brobnar');
             this.player2.play(this.gauntletOfCommand);
             expect(this.parasiticArachnoid.location).toBe('under');
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player2);
         });
 
         it('should not fulfill when you play a creature during your turn', function () {
             this.player1.activateProphecy(this.lookHowFarYouVeCome, this.parasiticArachnoid);
             this.player1.playCreature(this.emberImp);
             expect(this.parasiticArachnoid.location).toBe('under');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('should allow active player to choose order of play effect', function () {
@@ -64,7 +64,7 @@ describe("Look How Far You've Come", function () {
             expect(this.player2.amber).toBe(0);
             expect(this.chotaHazri.amber).toBe(1);
             expect(this.parasiticArachnoid.location).toBe('discard');
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player2);
         });
     });
 });

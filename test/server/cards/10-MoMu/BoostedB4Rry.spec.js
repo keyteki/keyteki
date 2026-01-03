@@ -51,7 +51,7 @@ describe('Boosted B4-RRY', function () {
             expect(this.player1.player.hand.length).toBe(1);
             expect(this.player1.amber).toBe(1);
             expect(this.player2.player.discard.length).toBe(0);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('should allow stolen artifact to go back to original house when control is lost', function () {
@@ -64,14 +64,14 @@ describe('Boosted B4-RRY', function () {
             this.player2.playCreature(this.sneklifter);
             this.player2.clickCard(this.libraryOfBabble);
             this.player2.clickCard(this.libraryOfBabble);
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player2);
             this.player2.endTurn();
             this.player1.clickPrompt('shadows');
             this.player1.endTurn();
             this.player2.clickPrompt('logos');
             this.player2.clickPrompt('No');
             this.player2.useAction(this.libraryOfBabble);
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player2);
         });
 
         it('should be able to play an archived card on play', function () {
@@ -80,7 +80,7 @@ describe('Boosted B4-RRY', function () {
             expect(this.player1.player.hand.length).toBe(0);
             expect(this.player1.amber).toBe(2);
             expect(this.player2.player.discard.length).toBe(1);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('should be able to play an archived card on reap', function () {
@@ -92,7 +92,7 @@ describe('Boosted B4-RRY', function () {
             expect(this.player1.player.hand.length).toBe(0);
             expect(this.player1.amber).toBe(4);
             expect(this.player2.player.discard.length).toBe(2);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('should be able to play an archived card on fight', function () {
@@ -104,7 +104,7 @@ describe('Boosted B4-RRY', function () {
             expect(this.player1.player.hand.length).toBe(0);
             expect(this.player1.amber).toBe(3);
             expect(this.player2.player.discard.length).toBe(3);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
     });
 });

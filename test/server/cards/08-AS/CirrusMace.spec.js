@@ -26,7 +26,7 @@ describe('Cirrus Mace', function () {
             expect(this.alaka.tokens.damage).toBe(2);
             expect(this.dewFaerie.location).toBe('discard');
             expect(this.nexus.tokens.damage).toBe(undefined);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('gives 2 +1 counters to an enemy creature and damages neighbors', function () {
@@ -34,7 +34,7 @@ describe('Cirrus Mace', function () {
             this.player1.clickCard(this.nexus);
             expect(this.nexus.power).toBe(5);
             expect(this.umbra.location).toBe('discard');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('does not break with no creatures in play', function () {
@@ -44,7 +44,7 @@ describe('Cirrus Mace', function () {
             this.player2.moveCard(this.umbra, 'discard');
             this.player2.moveCard(this.nexus, 'discard');
             this.player1.useAction(this.cirrusMace);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
     });
 });

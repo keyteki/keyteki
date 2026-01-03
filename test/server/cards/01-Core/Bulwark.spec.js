@@ -13,7 +13,7 @@ describe('Bulwark', function () {
         it('should give +2 armor to neighbors', function () {
             expect(this.dodger.armor).toBe(2);
             expect(this.silvertooth.armor).toBe(2);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
     });
 });

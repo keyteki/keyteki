@@ -42,7 +42,7 @@ describe('Treat Each Action as Your Last', function () {
             expect(this.player2.amber).toBe(3);
             expect(this.rowdySkald.amber).toBe(2);
             expect(this.parasiticArachnoid.location).toBe('discard');
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player2);
         });
 
         it('should fulfill when opponent plays their second action from Wild Wormhole', function () {
@@ -58,7 +58,7 @@ describe('Treat Each Action as Your Last', function () {
             expect(this.player2.amber).toBe(4);
             expect(this.rowdySkald.amber).toBe(2);
             expect(this.parasiticArachnoid.location).toBe('discard');
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player2);
         });
 
         it('should fulfill when opponent plays an action that changes type', function () {
@@ -76,7 +76,7 @@ describe('Treat Each Action as Your Last', function () {
             expect(this.player2.amber).toBe(3);
             expect(this.rowdySkald.amber).toBe(2);
             expect(this.parasiticArachnoid.location).toBe('discard');
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player2);
         });
     });
 });

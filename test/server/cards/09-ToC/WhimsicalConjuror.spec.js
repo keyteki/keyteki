@@ -30,7 +30,7 @@ describe('Whimsical Conjuror', function () {
             expect(this.niffleBrute1.location).toBe('play area');
             expect(this.niffleBrute2.location).toBe('play area');
             expect(this.player1.amber).toBe(1);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('should allow resolving amber', function () {
@@ -40,7 +40,7 @@ describe('Whimsical Conjuror', function () {
             expect(this.niffleBrute1.location).toBe('deck');
             expect(this.niffleBrute2.location).toBe('deck');
             expect(this.player1.amber).toBe(3);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
     });
 });

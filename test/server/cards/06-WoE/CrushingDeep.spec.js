@@ -71,7 +71,7 @@ describe('Crushing Deep', function () {
             expect(this.player2.player.getCurrentKeyCost()).toBe(9);
             expect(this.player2.player.getForgedKeys()).toBe(1);
             this.player2.clickPrompt('untamed');
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player2);
         });
     });
 });

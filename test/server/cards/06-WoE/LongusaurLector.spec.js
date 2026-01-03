@@ -18,7 +18,7 @@ describe('Longusaur Lector', function () {
             this.player1.clickPrompt('Done');
             expect(this.longusaurLector.amber).toBe(0);
             expect(this.player1.player.creaturesInPlay.length).toBe(1);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('should allow for making a token on play', function () {
@@ -27,7 +27,7 @@ describe('Longusaur Lector', function () {
             this.player1.clickPrompt('Right');
             expect(this.longusaurLector.amber).toBe(1);
             expect(this.player1.player.creaturesInPlay.length).toBe(2);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('should allow for not making a token on reap', function () {
@@ -42,7 +42,7 @@ describe('Longusaur Lector', function () {
             this.player1.clickPrompt('Done');
             expect(this.longusaurLector.amber).toBe(0);
             expect(this.player1.player.creaturesInPlay.length).toBe(1);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('should allow for making a token on reap', function () {
@@ -58,7 +58,7 @@ describe('Longusaur Lector', function () {
             this.player1.clickPrompt('Right');
             expect(this.longusaurLector.amber).toBe(1);
             expect(this.player1.player.creaturesInPlay.length).toBe(2);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
     });
 });

@@ -16,7 +16,7 @@ describe('Haunting Deck', function () {
 
         it('does nothing if not haunted', function () {
             this.player1.play(this.hauntingDeck);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
             expect(this.player1.player.purged.length).toBe(0);
             expect(this.player1.player.discard.length).toBe(10);
             expect(this.player2.player.purged.length).toBe(0);
@@ -36,7 +36,7 @@ describe('Haunting Deck', function () {
             expect(this.player1.player.discard.length).toBe(11);
             expect(this.player2.player.purged.length).toBe(1);
 
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
     });
 });

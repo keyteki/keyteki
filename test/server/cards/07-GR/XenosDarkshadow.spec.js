@@ -19,7 +19,7 @@ describe('Xenos Darkshadow', function () {
             this.player1.player.discard = [];
             this.player1.playCreature(this.xenosDarkshadow);
             expect(this.xenosDarkshadow.location).toBe('discard');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('has power equal to the discard length', function () {
@@ -62,14 +62,14 @@ describe('Xenos Darkshadow', function () {
             it('does not archive on destroy if not haunted', function () {
                 this.player1.fightWith(this.xenosDarkshadow, this.thingFromTheDeep);
                 expect(this.xenosDarkshadow.location).toBe('discard');
-                expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+                this.expectReadyToTakeAction(this.player1);
             });
 
             it('archives on destroy if haunted', function () {
                 this.player1.play(this.stormSurge);
                 this.player1.fightWith(this.xenosDarkshadow, this.thingFromTheDeep);
                 expect(this.xenosDarkshadow.location).toBe('archives');
-                expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+                this.expectReadyToTakeAction(this.player1);
             });
         });
     });

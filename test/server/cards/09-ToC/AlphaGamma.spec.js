@@ -19,7 +19,7 @@ describe('Alpha-Gamma', function () {
         it('should archive itself when destroyed', function () {
             this.player1.fightWith(this.alphaGamma1, this.troll);
             expect(this.alphaGamma1.location).toBe('archives');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
     });
 });

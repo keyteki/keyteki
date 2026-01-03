@@ -18,7 +18,7 @@ describe('Congregate', function () {
             this.player1.selectTrait('giant');
 
             expect(this.player1.amber).toBe(2);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('should not gain amber when there are less than 2 friendly creatures with the chosen trait', function () {
@@ -26,7 +26,7 @@ describe('Congregate', function () {
             this.player1.selectTrait('martian');
 
             expect(this.player1.amber).toBe(0);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
     });
 });

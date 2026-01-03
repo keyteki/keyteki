@@ -24,7 +24,7 @@ describe('Nice to Greet You', function () {
             expect(this.blypyp.exhausted).toBe(false);
             expect(this.myxTheTallminded.exhausted).toBe(false);
             expect(this.mindwarper.exhausted).toBe(false);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
     });
 });

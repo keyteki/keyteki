@@ -25,7 +25,7 @@ describe("Trenk's Creed", function () {
 
             expect(this.krump.tokens.amber).toBe(3);
             expect(this.player2.amber).toBe(0);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('should allow moving amber from most powerful creature to common supply', function () {
@@ -40,7 +40,7 @@ describe("Trenk's Creed", function () {
 
             expect(this.krump.tokens.amber).toBeUndefined();
             expect(this.player2.amber).toBe(3);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
     });
 });

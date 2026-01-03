@@ -24,7 +24,7 @@ describe('Watched Closely', function () {
             this.player2.clickPrompt('untamed');
             this.player2.reap(this.dustPixie);
             expect(this.wrangler1.location).toBe('play area');
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player2);
         });
     });
 });

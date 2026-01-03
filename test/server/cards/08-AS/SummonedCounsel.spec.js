@@ -29,7 +29,7 @@ describe('Summoned Counsel', function () {
             expect(this.echofly.location).toBe('deck');
             expect(this.gub.location).toBe('discard');
             expect(shuffled).toBe(this.player1.player);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('shuffles a friendly purged card back in', function () {
@@ -41,7 +41,7 @@ describe('Summoned Counsel', function () {
             this.player1.clickCard(this.ectoCharge);
             expect(this.ectoCharge.location).toBe('deck');
             expect(shuffled).toBe(this.player1.player);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
     });
 });

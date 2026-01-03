@@ -20,7 +20,7 @@ describe('John Smyth', function () {
             expect(this.player1).not.toBeAbleToSelect(this.agentHooMan);
             this.player1.clickCard(this.zorg);
             expect(this.zorg.exhausted).toBe(false);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('should ready a non-Agent Mars creature on fight', function () {
@@ -31,7 +31,7 @@ describe('John Smyth', function () {
             expect(this.player1).not.toBeAbleToSelect(this.agentHooMan);
             this.player1.clickCard(this.zorg);
             expect(this.zorg.exhausted).toBe(false);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
     });
 });

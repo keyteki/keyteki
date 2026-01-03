@@ -22,7 +22,7 @@ describe('Designer Crick', function () {
             expect(this.player1.hand.length).toBe(player1Hand + 1);
             expect(this.designerCrick.amber).toBe(1);
             expect(this.player2.amber).toBe(1);
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player2);
         });
 
         it('should draw a card and capture 1 amber for each card discarded', function () {
@@ -34,14 +34,14 @@ describe('Designer Crick', function () {
             expect(this.player1.player.discard.length).toBe(6);
             expect(this.designerCrick.amber).toBe(2);
             expect(this.player2.amber).toBe(0);
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player2);
         });
 
         it('should not trigger when controller discards', function () {
             this.player1.scrap(this.poke);
             expect(this.player1.hand.length).toBe(0);
             expect(this.designerCrick.amber).toBe(0);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
     });
 });

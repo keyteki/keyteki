@@ -28,7 +28,7 @@ describe('Key Abduction', function () {
             expect(this.mindwarper.location).toBe('hand');
             expect(this.blypyp.location).toBe('hand');
             expect(this.zorg.location).toBe('hand');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('should prompt to forge a key if the player has enough amber', function () {
@@ -41,7 +41,7 @@ describe('Key Abduction', function () {
             expect(this.player1.player.keys.blue).toBe(false);
             expect(this.player1.player.keys.yellow).toBe(false);
             expect(this.player1.amber).toBe(1);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('should prompt to forge a key even if no mars creatures are returned to hand', function () {
@@ -59,7 +59,7 @@ describe('Key Abduction', function () {
             expect(this.player1.player.keys.blue).toBe(false);
             expect(this.player1.player.keys.yellow).toBe(false);
             expect(this.player1.amber).toBe(0);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
     });
 });

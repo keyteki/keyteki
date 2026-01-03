@@ -23,7 +23,7 @@ describe('Destructive Analysis', function () {
             this.player1.clickCard(this.troll);
             expect(this.troll.location).toBe('archives');
             expect(this.player1.archives).toContain(this.troll);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
         it('should allow purging of any number of cards to deal 2D to a creature', function () {
             expect(this.tunk.location).toBe('archives');

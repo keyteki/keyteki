@@ -21,7 +21,7 @@ describe('Admirable Neophyte', function () {
             this.player1.playCreature(this.admirableNeophyte);
             this.player1.clickPrompt('Right');
             expect(this.zealot1.location).toBe('play area');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
     });
 });

@@ -28,7 +28,7 @@ describe('Causal Loop', function () {
             this.player1.play(this.virtuousWorks);
             this.player1.play(this.causalLoop);
 
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
             expect(this.causalLoop.location).toBe('archives');
         });
     });

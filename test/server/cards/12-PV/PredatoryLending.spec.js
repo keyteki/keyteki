@@ -26,7 +26,7 @@ describe('Predatory Lending', function () {
             this.player1.clickCard(this.krump);
             expect(this.krump.tokens.amber).toBe(1);
             expect(this.krump.enraged).toBe(true);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('should pay opponent 1 amber for each enemy Shadows creature when fate is triggered', function () {
@@ -37,7 +37,7 @@ describe('Predatory Lending', function () {
             expect(this.player1.amber).toBe(4);
             expect(this.player2.amber).toBe(3);
             expect(this.predatoryLending.location).toBe('discard');
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player2);
         });
     });
 });

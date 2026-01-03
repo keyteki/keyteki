@@ -15,7 +15,7 @@ describe('Tidal Wave', function () {
 
         it('should not destroy anything if the tide is not high', function () {
             this.player1.play(this.tidalWave);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
             expect(this.player2.isTideHigh()).toBe(true);
         });
         it('should destroy a creature and its neighbors then raise the opponents tide', function () {

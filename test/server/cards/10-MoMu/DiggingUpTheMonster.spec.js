@@ -33,7 +33,7 @@ describe('Digging Up The Monster', function () {
             expect(this.deusillus2.location).toBe('deck');
             expect(this.player1.player.deck[1]).toBe(this.deusillus);
             expect(this.player1.player.deck[0]).toBe(this.deusillus2);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('should be able to order based on click order', function () {
@@ -47,7 +47,7 @@ describe('Digging Up The Monster', function () {
             expect(this.deusillus2.location).toBe('deck');
             expect(this.player1.player.deck[0]).toBe(this.deusillus);
             expect(this.player1.player.deck[1]).toBe(this.deusillus2);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('should work when 1 part is already archived', function () {
@@ -62,7 +62,7 @@ describe('Digging Up The Monster', function () {
             expect(this.deusillus.location).toBe('deck');
             expect(this.deusillus2.location).toBe('hand');
             expect(this.player1.player.deck[0]).toBe(this.deusillus);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('should be able to fail the search', function () {
@@ -72,7 +72,7 @@ describe('Digging Up The Monster', function () {
             this.player1.clickPrompt('Done');
             expect(this.deusillus.location).toBe('deck');
             expect(this.deusillus2.location).toBe('discard');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
     });
 });

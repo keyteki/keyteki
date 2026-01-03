@@ -19,7 +19,7 @@ describe('Offering to Kiligog', function () {
             expect(this.player1).not.toBeAbleToSelect(this.skullbackCrab);
             this.player1.clickCard(this.pelf);
             expect(this.offeringToKiligog.childCards).toContain(this.pelf);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('should destroy a friendly creature and pick a different once to put underneath', function () {
@@ -29,7 +29,7 @@ describe('Offering to Kiligog', function () {
             this.player1.clickCard(this.skullbackCrab);
             expect(this.offeringToKiligog.childCards).toContain(this.skullbackCrab);
             expect(this.pelf.location).toBe('discard');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('should place cards out as tokens', function () {
@@ -61,7 +61,7 @@ describe('Offering to Kiligog', function () {
             expect(this.skullbackCrab.location).toBe('play area');
             expect(this.skullbackCrab.name).toBe('Grumpus');
             expect(this.offeringToKiligog.childCards.length).toBe(0);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('should fizzle with no more friendly creatures', function () {
@@ -84,7 +84,7 @@ describe('Offering to Kiligog', function () {
             this.player1.clickPrompt('unfathomable');
 
             this.player1.useAction(this.offeringToKiligog, true);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
     });
 });

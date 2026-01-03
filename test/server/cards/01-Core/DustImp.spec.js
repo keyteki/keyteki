@@ -16,7 +16,7 @@ describe('Dust Imp', function () {
             this.player1.fightWith(this.dustImp, this.dodger);
             expect(this.player1.amber).toBe(2);
             expect(this.dustImp.location).toBe('discard');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
     });
 });

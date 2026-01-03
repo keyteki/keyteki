@@ -87,7 +87,7 @@ describe('Into the Night', function () {
             this.player2.clickPrompt('untamed');
             this.player2.fightWith(this.teliga, this.dodger);
             expect(this.dodger.tokens.damage).toBe(3);
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player2);
         });
     });
 });

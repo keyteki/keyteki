@@ -26,7 +26,7 @@ describe('Falcron', function () {
             this.player1.reap(this.rowdySkald);
             expect(this.player1.amber).toBe(7);
             expect(this.player2.amber).toBe(2);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
     });
 });

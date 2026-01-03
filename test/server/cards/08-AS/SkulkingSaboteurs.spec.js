@@ -15,7 +15,7 @@ describe('Skulking Saboteurs', function () {
 
         it('should do nothing if no keys forged', function () {
             this.player1.reap(this.skulkingSaboteurs);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('should destroy an enemy creature if red key forged', function () {
@@ -26,7 +26,7 @@ describe('Skulking Saboteurs', function () {
             expect(this.player1).not.toBeAbleToSelect(this.skulkingSaboteurs);
             this.player1.clickCard(this.troll);
             expect(this.troll.location).toBe('discard');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('should destroy an enemy artifact if yellow key forged', function () {
@@ -37,7 +37,7 @@ describe('Skulking Saboteurs', function () {
             expect(this.player1).not.toBeAbleToSelect(this.quixxleStone);
             this.player1.clickCard(this.libraryOfBabble);
             expect(this.libraryOfBabble.location).toBe('discard');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('should destroy an enemy upgrade if blue key forged', function () {
@@ -52,7 +52,7 @@ describe('Skulking Saboteurs', function () {
             expect(this.player1).toBeAbleToSelect(this.bonecrusher);
             this.player1.clickCard(this.bonecrusher);
             expect(this.bonecrusher.location).toBe('discard');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('should destroy an enemy upgrade on friendly creature if blue key forged', function () {
@@ -67,7 +67,7 @@ describe('Skulking Saboteurs', function () {
             expect(this.player1).toBeAbleToSelect(this.bonecrusher);
             this.player1.clickCard(this.bonecrusher);
             expect(this.bonecrusher.location).toBe('discard');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('should destroy an enemy creature and artifact if red and yellow keys are forged', function () {
@@ -77,7 +77,7 @@ describe('Skulking Saboteurs', function () {
             this.player1.clickCard(this.libraryOfBabble);
             expect(this.troll.location).toBe('discard');
             expect(this.libraryOfBabble.location).toBe('discard');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('should destroy an enemy creature and upgrade if red and blue keys forged', function () {
@@ -94,7 +94,7 @@ describe('Skulking Saboteurs', function () {
             expect(this.bonecrusher.location).toBe('discard');
             expect(this.krump.location).toBe('discard');
             expect(this.troll.location).toBe('play area');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
     });
 });

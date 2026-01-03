@@ -19,7 +19,7 @@ describe('Graphton', function () {
         it('should archive the top card of the deck on reap', function () {
             this.player1.reap(this.graphton);
             expect(this.poke.location).toBe('archives');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
     });
 });

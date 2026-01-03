@@ -167,7 +167,7 @@ describe('Kaupe Evil Twin', function () {
             this.player1.clickCard(this.doctorDriscoll);
             this.player1.clickPrompt('Done');
             expect(this.doctorDriscoll.location).toBe('discard');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
             this.player1.endTurn();
         });
     });
@@ -270,7 +270,7 @@ describe('Kaupe Evil Twin', function () {
             expect(this.player1).toBeAbleToSelect(this.troll);
             this.player1.clickCard(this.troll);
 
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
     });
 });

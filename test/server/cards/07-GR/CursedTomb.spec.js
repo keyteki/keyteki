@@ -18,7 +18,7 @@ describe('Cursed Tomb', function () {
         it('purges friendly creatures without amber on them on destroy', function () {
             this.player1.fightWith(this.echofly, this.thingFromTheDeep);
             expect(this.echofly.location).toBe('purged');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('does not purge creatures with amber on them on destroy', function () {
@@ -26,13 +26,13 @@ describe('Cursed Tomb', function () {
             this.player1.fightWith(this.echofly, this.thingFromTheDeep);
             expect(this.echofly.location).toBe('discard');
             expect(this.player2.amber).toBe(2);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('purges enemy creatures without amber on them on destroy', function () {
             this.player1.fightWith(this.echofly, this.dustPixie);
             expect(this.dustPixie.location).toBe('purged');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('does not purge creatures with amber on them on destroy', function () {
@@ -40,7 +40,7 @@ describe('Cursed Tomb', function () {
             this.player1.fightWith(this.echofly, this.dustPixie);
             expect(this.dustPixie.location).toBe('discard');
             expect(this.player1.amber).toBe(2);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('purges itself when there are no creatures in play', function () {
@@ -51,7 +51,7 @@ describe('Cursed Tomb', function () {
             expect(this.player1.player.purged.length).toBe(4);
             expect(this.player2.player.purged.length).toBe(2);
             expect(this.cursedTomb.location).toBe('purged');
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player2);
         });
     });
 });

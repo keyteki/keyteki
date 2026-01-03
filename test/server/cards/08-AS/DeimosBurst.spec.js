@@ -23,7 +23,7 @@ describe('Deimos Burst', function () {
             expect(this.airlock.location).toBe('discard');
             expect(this.comOfficerPalik.location).toBe('play area');
             expect(this.player1.amber).toBe(5);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('should not count wards', function () {
@@ -37,7 +37,7 @@ describe('Deimos Burst', function () {
             expect(this.airlock.location).toBe('discard');
             expect(this.comOfficerPalik.location).toBe('play area');
             expect(this.player1.amber).toBe(4);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
     });
 });

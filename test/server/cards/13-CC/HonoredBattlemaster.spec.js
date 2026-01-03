@@ -30,7 +30,7 @@ describe('Honored Battlemaster', function () {
             expect(this.troll.exhausted).toBe(true);
             expect(this.batdrone.location).toBe('discard');
             expect(this.troll.tokens.damage).toBe(7);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('should allow fighting with a ready neighbor', function () {
@@ -42,7 +42,7 @@ describe('Honored Battlemaster', function () {
             expect(this.batdrone.location).toBe('discard');
             expect(this.ancientBear.exhausted).toBe(true);
             expect(this.ancientBear.tokens.damage).toBeUndefined(); // assault
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('should not allow targeting when no neighbors exist', function () {
@@ -50,7 +50,7 @@ describe('Honored Battlemaster', function () {
             this.player1.moveCard(this.ancientBear, 'discard');
             this.player1.moveCard(this.umbra, 'discard');
             this.player1.useAction(this.honoredBattlemaster);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
     });
 });

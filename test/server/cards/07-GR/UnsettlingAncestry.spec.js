@@ -20,7 +20,7 @@ describe('Unsettling Ancestry', function () {
             expect(this.player1).toBeAbleToSelect(this.umbra);
             expect(this.player1).toBeAbleToSelect(this.huntingWitch);
             this.player1.clickCard(this.umbra);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
             expect(this.umbra.stunned).toBe(true);
             expect(this.umbra.exhausted).toBe(true);
             expect(this.unsettlingAncestry.location).toBe('discard');
@@ -30,7 +30,7 @@ describe('Unsettling Ancestry', function () {
             this.player1.play(this.crushingDeep);
             this.player1.play(this.unsettlingAncestry);
             this.player1.clickCard(this.umbra);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
             expect(this.umbra.stunned).toBe(true);
             expect(this.umbra.exhausted).toBe(true);
             expect(this.unsettlingAncestry.location).toBe('archives');

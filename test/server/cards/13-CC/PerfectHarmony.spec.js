@@ -28,7 +28,7 @@ describe('Perfect Harmony', function () {
             // Should gain 2 amber
             expect(this.player1.amber).toBe(3);
             expect(this.bringLow.location).toBe('archives');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('should not trigger when controlling less than 3 different houses', function () {
@@ -38,7 +38,7 @@ describe('Perfect Harmony', function () {
             expect(this.player1.hand.length).toBe(handSize - 1); // Only -1 for Perfect Harmony
             expect(this.player1.amber).toBe(1);
             // Should not archive a card
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
     });
 });

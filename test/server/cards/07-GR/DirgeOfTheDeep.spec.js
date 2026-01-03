@@ -25,7 +25,7 @@ describe('Dirge of the Deep', function () {
             expect(this.batdrone.exhausted).toBe(false);
             expect(this.urchin.exhausted).toBe(false);
             expect(this.groke.exhausted).toBe(false);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('does nothing if deck is empty', function () {
@@ -37,7 +37,7 @@ describe('Dirge of the Deep', function () {
             expect(this.batdrone.exhausted).toBe(false);
             expect(this.urchin.exhausted).toBe(false);
             expect(this.groke.exhausted).toBe(false);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
     });
 });

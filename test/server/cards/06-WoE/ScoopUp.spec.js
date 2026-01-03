@@ -58,7 +58,7 @@ describe('Scoop Up', function () {
             this.player1.clickCard(this.pelf);
             expect(this.pelf.location).toBe('archives');
             expect(this.player1.archives).toContain(this.pelf);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('should put opponent-owned friendly creatures in our archive', function () {

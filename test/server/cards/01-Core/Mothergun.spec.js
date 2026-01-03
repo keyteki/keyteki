@@ -29,7 +29,7 @@ describe('Mothergun', function () {
         it('should allow the player to select 0 cards', function () {
             expect(this.player1.currentButtons).toContain('Done');
             this.player1.clickPrompt('Done');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('should deal the correct amount of damage', function () {
@@ -47,7 +47,7 @@ describe('Mothergun', function () {
             expect(this.player1).toBeAbleToSelect(this.troll);
             this.player1.clickCard(this.troll);
             expect(this.troll.tokens.damage).toBe(3);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
     });
 });

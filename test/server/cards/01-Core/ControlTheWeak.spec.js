@@ -74,7 +74,7 @@ describe('Control the Weak', function () {
             expect(this.player2).not.toHavePromptButton('ekwidon');
             expect(this.player2).not.toHavePromptButton('dis');
             this.player2.clickPrompt('untamed');
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player2);
         });
     });
 });

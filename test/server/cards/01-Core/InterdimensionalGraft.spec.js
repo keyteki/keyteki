@@ -59,7 +59,7 @@ describe('Interdimensional Graft', function () {
             expect(this.player2.player.keys.yellow).toBe(false);
             expect(this.player2.amber).toBe(0);
             expect(this.player1.amber).toBe(3);
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player2);
         });
 
         it('should trigger multiple times on forging a key', function () {
@@ -83,7 +83,7 @@ describe('Interdimensional Graft', function () {
             expect(this.player2.player.keys.yellow).toBe(false);
             expect(this.player2.amber).toBe(0);
             expect(this.player1.amber).toBe(15);
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player2);
         });
 
         it('should not trigger on subsequent turns', function () {
@@ -132,7 +132,7 @@ describe('Interdimensional Graft', function () {
             this.player2.clickPrompt('untamed');
             expect(this.player2.amber).toBe(0);
             expect(this.player1.amber).toBe(4);
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player2);
         });
     });
 });

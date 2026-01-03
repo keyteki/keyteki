@@ -24,7 +24,7 @@ describe('Cleaner', function () {
             expect(this.player1).toBeAbleToSelect(this.troll);
             this.player1.clickCard(this.troll);
             expect(this.troll.tokens.damage).toBe(3);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
     });
 });

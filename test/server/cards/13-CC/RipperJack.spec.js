@@ -18,7 +18,7 @@ describe('Ripper Jack', function () {
             this.player1.play(this.ripperJack);
             expect(this.player1.amber).toBe(1);
             expect(this.player2.amber).toBe(2);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('should return to hand after fighting', function () {
@@ -27,7 +27,7 @@ describe('Ripper Jack', function () {
             this.player1.fightWith(this.ripperJack, this.lamindra);
             expect(this.ripperJack.location).toBe('hand');
             expect(this.player1.player.hand).toContain(this.ripperJack);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
     });
 });

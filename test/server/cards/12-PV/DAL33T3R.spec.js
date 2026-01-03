@@ -33,7 +33,7 @@ describe('DAL-33-T3R', function () {
             expect(this.brutodonAuxiliary.location).toBe('hand');
             expect(this.krump.location).toBe('hand');
             expect(this.emberImp.location).toBe('play area');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('should purge the most powerful friendly creature when fate is triggered', function () {
@@ -50,7 +50,7 @@ describe('DAL-33-T3R', function () {
             expect(this.brutodonAuxiliary.location).toBe('purged');
             expect(this.krump.location).toBe('play area');
             expect(this.dal33T3r.location).toBe('discard');
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player2);
         });
     });
 });

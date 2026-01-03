@@ -15,7 +15,7 @@ describe('Favor of Rex', function () {
         it('should not prompt for creature', function () {
             this.player1.play(this.favorOfRex);
             expect(this.player1).not.toHavePrompt('Choose a creature');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
     });
 
@@ -44,7 +44,7 @@ describe('Favor of Rex', function () {
             expect(this.player2.amber).toBe(4);
             expect(this.chotaHazri.tokens.power).toBeUndefined();
             expect(this.charette.amber).toBe(0);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('should duplicate play effect of a friendly creature', function () {

@@ -18,7 +18,7 @@ describe('Instant Transmission', function () {
             this.player1.useAction(this.instantTransmission, true);
             expect(this.player1.hand.length).toBe(player1Hand + 3);
             expect(this.instantTransmission.location).toBe('discard');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
     });
 });

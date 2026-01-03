@@ -28,7 +28,7 @@ describe('Reassembly Required', function () {
             this.player1.clickCard(this.helperBot);
             expect(this.helperBot.location).toBe('archives');
             expect(this.player1.archives).toContain(this.helperBot);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('should discard archives when fate is triggered', function () {
@@ -40,7 +40,7 @@ describe('Reassembly Required', function () {
             expect(this.poke.location).toBe('discard');
             expect(this.batdrone.location).toBe('discard');
             expect(this.reassemblyRequired.location).toBe('discard');
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player2);
         });
     });
 });

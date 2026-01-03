@@ -78,7 +78,7 @@ describe('Dino-Bot', function () {
             this.player1.moveCard(this.soulkeeper, 'deck');
             this.player1.reap(this.dinoBot);
             expect(this.player1.amber).toBe(1);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
             this.player1.clickCard(this.soulkeeper);
             expect(this.soulkeeper.location).toBe('deck');
             expect(this.player1.hand.length).toBe(0);

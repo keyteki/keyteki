@@ -31,7 +31,7 @@ describe('Jahneerie', function () {
             expect(this.charette.amber).toBe(3);
             expect(this.player1.amber).toBe(4);
             expect(this.player2.amber).toBe(5);
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player2);
         });
 
         it('should let creature gain the ability if they get amber on them during the reap', function () {
@@ -39,7 +39,7 @@ describe('Jahneerie', function () {
             expect(this.ælbiaStray.amber).toBe(0);
             expect(this.player1.amber).toBe(3);
             expect(this.player2.amber).toBe(3);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
     });
 });

@@ -18,7 +18,7 @@ describe('Rampaging Brutodon', function () {
             this.player1.playCreature(this.rampagingBrutodon);
             this.player1.clickPrompt('Right');
             expect(this.player1.player.creaturesInPlay.length).toBe(2);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
     });
 
@@ -44,7 +44,7 @@ describe('Rampaging Brutodon', function () {
             this.player1.clickCard(this.pelf);
             expect(this.player1.amber).toBe(2);
             expect(this.pelf.location).toBe('discard');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('should pop wards but not allow use of Brutodon', function () {
@@ -57,7 +57,7 @@ describe('Rampaging Brutodon', function () {
             expect(this.pelf.location).toBe('play area');
             expect(this.pelf.tokens.ward).toBe(undefined);
             expect(this.rampagingBrutodon.exhausted).toBe(false);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('should be able to destroy itself', function () {
@@ -66,7 +66,7 @@ describe('Rampaging Brutodon', function () {
             this.player1.clickCard(this.rampagingBrutodon);
             expect(this.player1.amber).toBe(1);
             expect(this.rampagingBrutodon.location).toBe('discard');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
     });
 });

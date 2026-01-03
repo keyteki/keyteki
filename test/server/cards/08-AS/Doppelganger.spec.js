@@ -93,7 +93,7 @@ describe('Doppelganger', function () {
 
             // Doppelganger should _not_ be prompting for Bulleteye’s After Reap
             // of destroying a flank creature.
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
     });
 });

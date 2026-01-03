@@ -23,7 +23,7 @@ describe('Shard of Courage', function () {
             this.player1.clickCard(this.bosunCreen);
             this.player1.clickCard(this.dustPixie);
             expect(this.dustPixie.location).toBe('discard');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('should ready and fight with 1 ready creature', function () {
@@ -32,7 +32,7 @@ describe('Shard of Courage', function () {
             this.player1.clickCard(this.troll);
             this.player1.clickCard(this.dustPixie);
             expect(this.dustPixie.location).toBe('discard');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('should ready and fight with 2 different creatures', function () {
@@ -47,7 +47,7 @@ describe('Shard of Courage', function () {
             expect(this.umbra.location).toBe('discard');
             expect(this.bosunCreen.tokens.damage).toBe(1);
             expect(this.troll.tokens.damage).toBe(2);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('should ready and fight with the same creature twice', function () {
@@ -61,7 +61,7 @@ describe('Shard of Courage', function () {
             expect(this.dustPixie.location).toBe('discard');
             expect(this.umbra.location).toBe('discard');
             expect(this.bosunCreen.location).toBe('discard');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
     });
 });

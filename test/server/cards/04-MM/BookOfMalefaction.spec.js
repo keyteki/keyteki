@@ -18,7 +18,7 @@ describe('Book of Malefaction', function () {
         it('should not do anything when used with no counters', function () {
             this.player1.clickCard(this.bookOfMalefaction);
             this.player1.clickPrompt("Use this card's Omni ability");
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('should add warrant counters on steal, and remove one on use', function () {

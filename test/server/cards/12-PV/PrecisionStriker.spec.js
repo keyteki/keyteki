@@ -31,7 +31,7 @@ describe('Precision Striker', function () {
             expect(this.anger.location).toBe('discard');
             expect(this.unchartedLands.location).toBe('discard');
             expect(this.krump.location).toBe('deck');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('should discard top 3 cards and put one on bottom after fight', function () {
@@ -45,7 +45,7 @@ describe('Precision Striker', function () {
             expect(this.anger.location).toBe('deck');
             expect(this.unchartedLands.location).toBe('discard');
             expect(this.krump.location).toBe('discard');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('should discard top 3 cards and put one on bottom after reap', function () {
@@ -59,7 +59,7 @@ describe('Precision Striker', function () {
             expect(this.anger.location).toBe('discard');
             expect(this.unchartedLands.location).toBe('deck');
             expect(this.krump.location).toBe('discard');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('should not prompt for selection if opponent has fewer than 3 cards in deck', function () {
@@ -67,7 +67,7 @@ describe('Precision Striker', function () {
             this.player1.reap(this.precisionStriker);
             this.player1.clickCard(this.anger);
             expect(this.player2.deck[this.player2.deck.length - 1]).toBe(this.anger);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
     });
 });

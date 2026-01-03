@@ -18,7 +18,7 @@ describe('Puzzling Trinket', function () {
 
         it('should not trigger if no bonus', function () {
             this.player1.play(this.pelf);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         // Amber -> amber
@@ -71,7 +71,7 @@ describe('Puzzling Trinket', function () {
             expect(this.player1.amber).toBe(0);
             expect(this.troll.tokens.damage).toBe(2);
             expect(this.player1.hand.length).toBe(3);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
     });
 });

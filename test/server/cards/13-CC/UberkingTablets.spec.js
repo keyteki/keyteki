@@ -46,7 +46,7 @@ describe('Überking Tablets', function () {
                 this.player1.clickCard(this.brammo);
                 expect(this.brammo.exhausted).toBe(false);
                 expect(this.brammo.tokens.damage).toBe(1); // armor
-                expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+                this.expectReadyToTakeAction(this.player1);
             });
         });
 

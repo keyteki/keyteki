@@ -24,14 +24,14 @@ describe('Grabber Jammer', function () {
             this.player1.fightWith(this.grabberJammer, this.emberImp);
             expect(this.grabberJammer.amber).toBe(1);
             expect(this.player2.amber).toBe(5);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('should capture 1 amber on reap', function () {
             this.player1.reap(this.grabberJammer);
             expect(this.grabberJammer.amber).toBe(1);
             expect(this.player2.amber).toBe(5);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
     });
 });

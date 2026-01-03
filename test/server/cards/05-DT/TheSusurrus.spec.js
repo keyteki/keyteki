@@ -47,7 +47,7 @@ describe('The Susurrus', function () {
 
             this.player1.clickCard(this.scyphos);
             expect(this.scyphos.exhausted).toBe(true);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('can exhaust just 2 creatures', function () {

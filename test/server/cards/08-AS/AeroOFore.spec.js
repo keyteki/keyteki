@@ -15,7 +15,7 @@ describe("Aero O'Fore", function () {
         it('should do nothing if not in center', function () {
             this.player2.moveCard(this.troll, 'discard');
             this.player1.reap(this.aeroOFore);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('should rearrange battleline and capture onto flank creatures when in center', function () {
@@ -36,7 +36,7 @@ describe("Aero O'Fore", function () {
             expect(this.troll.amber).toBe(2);
             expect(this.krump.amber).toBe(2);
             expect(this.player2.amber).toBe(2);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('should be able to rearrange itself to flank and capture', function () {
@@ -48,7 +48,7 @@ describe("Aero O'Fore", function () {
             expect(this.aeroOFore.amber).toBe(2);
             expect(this.krump.amber).toBe(2);
             expect(this.player2.amber).toBe(2);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('should be able to distribute less than 4 amber between flank creatures', function () {
@@ -61,7 +61,7 @@ describe("Aero O'Fore", function () {
             expect(this.gub.amber).toBe(2);
             expect(this.krump.amber).toBe(1);
             expect(this.player2.amber).toBe(0);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
     });
 });

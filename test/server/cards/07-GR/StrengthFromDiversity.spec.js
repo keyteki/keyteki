@@ -22,7 +22,7 @@ describe('Strength from Diversity', function () {
             expect(this.cpoZytar.amber).toBe(0);
             expect(this.urchin.amber).toBe(1);
             expect(this.helmsmanSpears.amber).toBe(0);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('allows choosing where to capture', function () {

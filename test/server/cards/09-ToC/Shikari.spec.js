@@ -21,7 +21,7 @@ describe('Shikari', function () {
             this.player1.play(this.shikari);
             this.player1.clickPrompt('Right');
             expect(this.wrangler1.location).toBe('play area');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('should return to hand on fight', function () {
@@ -31,7 +31,7 @@ describe('Shikari', function () {
             this.player1.fightWith(this.shikari, this.dustPixie);
             expect(this.shikari.location).toBe('hand');
             expect(this.player1.player.hand).toContain(this.shikari);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('should not return to hand when destroyed in fight', function () {
@@ -40,7 +40,7 @@ describe('Shikari', function () {
             this.shikari.exhausted = false;
             this.player1.fightWith(this.shikari, this.troll);
             expect(this.shikari.location).toBe('discard');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
     });
 });

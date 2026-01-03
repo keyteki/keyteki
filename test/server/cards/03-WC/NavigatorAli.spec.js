@@ -51,7 +51,7 @@ describe('Navigator Ali', function () {
                     });
 
                     it('should have correct prompt', function () {
-                        expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+                        this.expectReadyToTakeAction(this.player1);
                     });
                 });
             });
@@ -81,7 +81,7 @@ describe('Navigator Ali', function () {
                 });
 
                 it('should have correct prompt', function () {
-                    expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+                    this.expectReadyToTakeAction(this.player1);
                 });
             });
         });
@@ -98,7 +98,7 @@ describe('Navigator Ali', function () {
             });
 
             it('should have correct prompt', function () {
-                expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+                this.expectReadyToTakeAction(this.player1);
             });
         });
 
@@ -113,7 +113,7 @@ describe('Navigator Ali', function () {
             });
 
             it('should have correct prompt', function () {
-                expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+                this.expectReadyToTakeAction(this.player1);
             });
         });
     });

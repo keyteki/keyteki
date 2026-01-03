@@ -21,7 +21,7 @@ describe('Spade Teller', function () {
             this.player1.clickPrompt('brobnar');
             expect(this.player1.amber).toBe(2);
             expect(this.pelf.location).toBe('discard');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('should not gain amber if the house guess is wrong on play', function () {
@@ -31,7 +31,7 @@ describe('Spade Teller', function () {
             this.player1.clickPrompt('staralliance');
             expect(this.player1.amber).toBe(1);
             expect(this.pelf.location).toBe('discard');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('should gain amber if the house guess is correct after fight', function () {
@@ -40,7 +40,7 @@ describe('Spade Teller', function () {
             this.player1.clickPrompt('brobnar');
             expect(this.player1.amber).toBe(2);
             expect(this.pelf.location).toBe('discard');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('should not gain amber if the house guess is wrong after fight', function () {
@@ -49,7 +49,7 @@ describe('Spade Teller', function () {
             this.player1.clickPrompt('staralliance');
             expect(this.player1.amber).toBe(1);
             expect(this.pelf.location).toBe('discard');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('should gain amber if the house guess is correct after reap', function () {
@@ -58,7 +58,7 @@ describe('Spade Teller', function () {
             this.player1.clickPrompt('brobnar');
             expect(this.player1.amber).toBe(3);
             expect(this.pelf.location).toBe('discard');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('should not gain amber if the house guess is wrong after reap', function () {
@@ -67,7 +67,7 @@ describe('Spade Teller', function () {
             this.player1.clickPrompt('staralliance');
             expect(this.player1.amber).toBe(2);
             expect(this.pelf.location).toBe('discard');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
     });
 });

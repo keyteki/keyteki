@@ -21,7 +21,7 @@ describe('Plunder', function () {
                 expect(this.batdrone.location).toBe('hand');
                 expect(this.troll.location).toBe('discard');
             }
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('should reveal 2 cards and discard the last one', function () {
@@ -34,7 +34,7 @@ describe('Plunder', function () {
                 expect(this.batdrone.location).toBe('hand');
                 expect(this.troll.location).toBe('discard');
             }
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('can reveal all cards without discarding any', function () {
@@ -43,7 +43,7 @@ describe('Plunder', function () {
             this.player1.clickPrompt('Repeat this effect');
             expect(this.batdrone.location).toBe('hand');
             expect(this.troll.location).toBe('hand');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('should be playable twice to discard both cards', function () {
@@ -53,7 +53,7 @@ describe('Plunder', function () {
             this.player1.moveCard(this.plunder, 'hand');
             this.player1.play(this.plunder);
             this.player1.clickPrompt('Discard this card');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
     });
 });

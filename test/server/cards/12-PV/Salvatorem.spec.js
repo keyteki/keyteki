@@ -30,14 +30,14 @@ describe('Salvatorem', function () {
             expect(this.raidingKnight.location).toBe('play area');
             expect(this.raidingKnight.tokens.damage).toBeUndefined();
             expect(this.troll.tokens.damage).toBe(4);
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player2);
         });
 
         it('should not prevent damage to exhausted creatures with amber', function () {
             this.player1.fightWith(this.raidingKnight, this.troll);
             expect(this.raidingKnight.location).toBe('discard');
             expect(this.troll.tokens.damage).toBe(4);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('should not prevent damage to ready creatures without amber', function () {
@@ -46,7 +46,7 @@ describe('Salvatorem', function () {
             this.player2.fightWith(this.troll, this.theGreyRider);
             expect(this.theGreyRider.location).toBe('discard');
             expect(this.troll.tokens.damage).toBe(2);
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player2);
         });
 
         it('should be put into play under opponent control when fate is triggered', function () {
@@ -57,7 +57,7 @@ describe('Salvatorem', function () {
             this.player2.reap(this.krump);
             expect(this.salvatorem.location).toBe('play area');
             expect(this.salvatorem.controller).toBe(this.player1.player);
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player2);
         });
     });
 });

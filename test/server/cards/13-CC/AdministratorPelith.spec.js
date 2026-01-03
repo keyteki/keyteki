@@ -27,13 +27,13 @@ describe('Administrator Pelith', function () {
             this.player1.clickPrompt('Right');
             expect(this.barristerJoya.neighbors).toContain(this.troll);
             expect(this.barristerJoya.neighbors).toContain(this.blypyp);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('should be optional', function () {
             this.player1.reap(this.administratorPelith);
             this.player1.clickPrompt('Done');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
     });
 });

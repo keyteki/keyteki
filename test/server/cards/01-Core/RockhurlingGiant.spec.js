@@ -49,7 +49,7 @@ describe('Rock-Hurling Giant', function () {
             this.player2.clickPrompt('dis');
             this.player2.play(this.mindBarb);
             expect(this.player1.hand.length).toBe(1);
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player2);
         });
     });
 });

@@ -18,7 +18,7 @@ describe('Old Boomy', function () {
             this.player1.reap(this.oldBoomy);
             expect(this.oldBoomy.tokens.damage).toBe(2);
             expect(this.troll.location).toBe('archives');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('should archive the card and prompt the player if the first card is not brobnar', function () {
@@ -35,7 +35,7 @@ describe('Old Boomy', function () {
             this.player1.clickPrompt('Stop');
             expect(this.oldBoomy.hasToken('damage')).toBe(false);
             expect(this.player1.player.deck[0]).toBe(this.troll);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('should continue to resolve the ability until a brobnar card is revealed', function () {
@@ -52,7 +52,7 @@ describe('Old Boomy', function () {
             this.player1.clickPrompt('Reveal top card');
             expect(this.oldBoomy.tokens.damage).toBe(2);
             expect(this.troll.location).toBe('archives');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
     });
 });

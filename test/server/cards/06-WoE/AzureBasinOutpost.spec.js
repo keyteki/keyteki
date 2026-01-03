@@ -38,7 +38,7 @@ describe('Azure Basin Outpost', function () {
             this.player1.fightWith(this.kaupe, this.gatekeeper);
             this.player1.fightWith(this.hookmaster, this.gatekeeper);
             this.player1.useAction(this.azureBasinOutpost);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
     });
 });

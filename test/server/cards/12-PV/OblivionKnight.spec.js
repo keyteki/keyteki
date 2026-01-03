@@ -23,20 +23,20 @@ describe('Oblivion Knight', function () {
         it('should purge the creature it fights', function () {
             this.player1.fightWith(this.oblivionKnight, this.flaxia);
             expect(this.flaxia.location).toBe('purged');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('should not purge the creature it fights if that creature was destroyed', function () {
             this.player1.fightWith(this.oblivionKnight, this.dustPixie);
             expect(this.dustPixie.location).toBe('discard');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('should not purge the creature it fights if it does not survive', function () {
             this.player1.fightWith(this.oblivionKnight, this.troll);
             expect(this.oblivionKnight.location).toBe('discard');
             expect(this.troll.location).toBe('play area');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('should purge the most powerful friendly creature when fate is triggered', function () {
@@ -51,7 +51,7 @@ describe('Oblivion Knight', function () {
             expect(this.dustPixie.location).toBe('play area');
             expect(this.krump.location).toBe('play area');
             expect(this.oblivionKnight.location).toBe('discard');
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player2);
         });
     });
 });

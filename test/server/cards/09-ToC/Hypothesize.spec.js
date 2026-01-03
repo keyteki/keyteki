@@ -26,7 +26,7 @@ describe('Hypothesize', function () {
             this.player1.clickPrompt('Left');
             expect(this.alphaGamma1.location).toBe('play area');
             expect(this.hypothesize.location).toBe('discard');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('should make a token creature and archive with 3 Logos cards (the token counts)', function () {
@@ -35,7 +35,7 @@ describe('Hypothesize', function () {
             this.player1.clickPrompt('Left');
             expect(this.alphaGamma1.location).toBe('play area');
             expect(this.hypothesize.location).toBe('archives');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('should make a token creature and not archive with an opponent Logos upgrade', function () {
@@ -48,7 +48,7 @@ describe('Hypothesize', function () {
             this.player1.clickPrompt('Left');
             expect(this.alphaGamma1.location).toBe('play area');
             expect(this.hypothesize.location).toBe('discard');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
     });
 });

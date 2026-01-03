@@ -19,7 +19,7 @@ describe('EMP Blast', function () {
             expect(this.mother.stunned).toBe(true);
             expect(this.blypyp.stunned).toBe(true);
             expect(this.crystalHive.location).toBe('discard');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
     });
 });

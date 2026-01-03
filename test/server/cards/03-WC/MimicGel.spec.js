@@ -562,7 +562,7 @@ describe('Mimic Gel', function () {
             expect(this.lycoThief.location).toBe('discard');
             expect(this.player1.amber).toBe(2);
             expect(this.player2.amber).toBe(5);
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player2);
         });
     });
 

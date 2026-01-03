@@ -20,14 +20,14 @@ describe('Replicative Growth', function () {
             this.player1.reap(this.echofly);
             expect(this.player1.amber).toBe(4);
             expect(this.echofly.amber).toBe(0);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('does nothing if no amber on creature', function () {
             this.player1.play(this.replicativeGrowth);
             this.player1.reap(this.echofly);
             expect(this.player1.amber).toBe(3);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
     });
 });

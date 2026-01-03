@@ -141,7 +141,7 @@ describe('Menu Commands', function () {
                 expect(this.player1.inPlay).not.toContain(this.niffleApe);
                 expect(this.player2.inPlay).toContain(this.niffleApe);
                 expect(this.niffleApe.controller).toBe(this.player2.player);
-                expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+                this.expectReadyToTakeAction(this.player1);
                 expect(this.player2).toHavePrompt('Waiting for opponent');
             });
 
@@ -153,7 +153,7 @@ describe('Menu Commands', function () {
                 expect(this.player1.inPlay).toContain(this.batdrone);
                 expect(this.player2.inPlay).not.toContain(this.batdrone);
                 expect(this.batdrone.controller).toBe(this.player1.player);
-                expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+                this.expectReadyToTakeAction(this.player1);
                 expect(this.player2).toHavePrompt('Waiting for opponent');
             });
         });
@@ -172,7 +172,7 @@ describe('Menu Commands', function () {
                 expect(this.player1.inPlay).not.toContain(this.niffleApe);
                 expect(this.player2.inPlay).toContain(this.niffleApe);
                 expect(this.niffleApe.controller).toBe(this.player2.player);
-                expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+                this.expectReadyToTakeAction(this.player2);
                 expect(this.player1).toHavePrompt('Waiting for opponent');
             });
 
@@ -184,7 +184,7 @@ describe('Menu Commands', function () {
                 expect(this.player1.inPlay).toContain(this.batdrone);
                 expect(this.player2.inPlay).not.toContain(this.batdrone);
                 expect(this.batdrone.controller).toBe(this.player1.player);
-                expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+                this.expectReadyToTakeAction(this.player2);
                 expect(this.player1).toHavePrompt('Waiting for opponent');
             });
         });

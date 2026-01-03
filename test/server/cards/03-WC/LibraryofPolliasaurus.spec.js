@@ -18,7 +18,7 @@ describe('Library of Polliasaurus', function () {
         it('should not prompt for any creature, since there is no friendly creature.', function () {
             this.player1.useAction(this.libraryOfPolliasaurus);
 
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
             expect(this.player1.amber).toBe(1);
         });
 
@@ -26,7 +26,7 @@ describe('Library of Polliasaurus', function () {
             this.player1.playCreature(this.questorJarta);
             this.player1.useAction(this.libraryOfPolliasaurus);
 
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
             expect(this.player1.amber).toBe(1);
         });
     });

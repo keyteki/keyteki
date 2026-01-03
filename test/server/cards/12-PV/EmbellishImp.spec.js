@@ -28,7 +28,7 @@ describe('Embellish Imp', function () {
             this.player1.clickPrompt('Done');
             expect(this.player2.amber).toBe(3);
             expect(this.player1.amber).toBe(2);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('should steal 2 amber when 2 enemy creatures are destroyed', function () {
@@ -40,7 +40,7 @@ describe('Embellish Imp', function () {
             this.player1.clickCard(this.dustPixie); // order of steal
             expect(this.player2.amber).toBe(2);
             expect(this.player1.amber).toBe(3);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('should not steal amber when a friendly creature is destroyed', function () {
@@ -51,7 +51,7 @@ describe('Embellish Imp', function () {
             this.player1.clickPrompt('Done');
             expect(this.player2.amber).toBe(4);
             expect(this.player1.amber).toBe(1);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('should destroy the most powerful friendly creature when fate is triggered', function () {
@@ -69,7 +69,7 @@ describe('Embellish Imp', function () {
             expect(this.dustPixie.location).toBe('play area');
             expect(this.urchin.location).toBe('play area');
             expect(this.embellishImp.location).toBe('discard');
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player2);
         });
     });
 });

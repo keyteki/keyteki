@@ -17,7 +17,7 @@ describe('Flame-Wreathed', function () {
             this.player1.playUpgrade(this.flameWreathed, this.emberImp);
             expect(this.emberImp.power).toBe(4);
             expect(this.emberImp.getKeywordValue('hazardous')).toBe(2);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
     });
 });

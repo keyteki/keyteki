@@ -30,7 +30,7 @@ describe('Legerdemain', function () {
             expect(this.player1.player.hand).toContain(this.flaxia);
             expect(this.gub.location).toBe('play area');
             expect(this.krump.location).toBe('play area');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('should return an enemy damaged creture to hand to gain one', function () {
@@ -42,7 +42,7 @@ describe('Legerdemain', function () {
             expect(this.player2.player.hand).toContain(this.krump);
             expect(this.gub.location).toBe('play area');
             expect(this.flaxia.location).toBe('play area');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('should work on swapped creatures', function () {
@@ -60,7 +60,7 @@ describe('Legerdemain', function () {
             expect(this.player1.player.hand).toContain(this.flaxia);
             expect(this.gub.location).toBe('play area');
             expect(this.krump.location).toBe('play area');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('should not grant amber for warded creatures', function () {
@@ -76,7 +76,7 @@ describe('Legerdemain', function () {
             expect(this.gub.location).toBe('play area');
             expect(this.krump.location).toBe('play area');
             expect(this.krump.tokens.ward).toBe(undefined);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
     });
 });

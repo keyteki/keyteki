@@ -19,7 +19,7 @@ describe('Safe Port', function () {
             this.player1.play(this.safePort);
             expect(this.player1.amber).toBe(2);
             expect(this.player2.amber).toBe(4);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('should capture 2 if your yellow key forged', function () {
@@ -32,7 +32,7 @@ describe('Safe Port', function () {
             expect(this.player1.amber).toBe(2);
             expect(this.player2.amber).toBe(2);
             expect(this.dustPixie.amber).toBe(2);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('should steal 1 if their yellow key forged', function () {
@@ -40,7 +40,7 @@ describe('Safe Port', function () {
             this.player1.play(this.safePort);
             expect(this.player1.amber).toBe(3);
             expect(this.player2.amber).toBe(3);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('should do both if both yellow keys forged', function () {
@@ -51,7 +51,7 @@ describe('Safe Port', function () {
             expect(this.player1.amber).toBe(3);
             expect(this.player2.amber).toBe(1);
             expect(this.dustPixie.amber).toBe(2);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('should only steal if both yellow keys forged but no friendly creatures', function () {
@@ -62,7 +62,7 @@ describe('Safe Port', function () {
             this.player1.play(this.safePort);
             expect(this.player1.amber).toBe(3);
             expect(this.player2.amber).toBe(3);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
     });
 });

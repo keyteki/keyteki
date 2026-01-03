@@ -32,7 +32,7 @@ describe('Relegated Relics', function () {
             expect(this.krump.location).toBe('play area');
             expect(shuffled).toContain(this.player1.player);
             expect(shuffled).toContain(this.player2.player);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('should purge all artifacts when fate is triggered', function () {
@@ -46,7 +46,7 @@ describe('Relegated Relics', function () {
             expect(this.raidingKnight.location).toBe('play area');
             expect(this.primalRelic.location).toBe('purged');
             expect(this.krump.location).toBe('play area');
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player2);
         });
     });
 });

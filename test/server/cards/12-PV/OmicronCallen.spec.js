@@ -31,7 +31,7 @@ describe('Omicron Callen', function () {
 
             // Omicron Callen should survive
             expect(this.omicronCallen.location).toBe('play area');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('should destroy friendly creatures without matching neighbors when fate is triggered', function () {
@@ -47,7 +47,7 @@ describe('Omicron Callen', function () {
             expect(this.titanGuardian.location).toBe('play area');
             expect(this.titanMechanic.location).toBe('play area');
             expect(this.omicronCallen.location).toBe('discard');
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player2);
         });
     });
 });

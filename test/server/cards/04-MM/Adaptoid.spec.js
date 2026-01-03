@@ -32,7 +32,7 @@ describe('Adaptoid', function () {
             expect(this.player1.amber).toBe(1);
             expect(this.player2.amber).toBe(4);
             expect(this.lamindra.location).toBe('play area');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('after playing an action card with bonus icon, should be prompted for options', function () {
@@ -45,7 +45,7 @@ describe('Adaptoid', function () {
             expect(this.player1.amber).toBe(2);
             expect(this.player2.amber).toBe(4);
             expect(this.lamindra.location).toBe('play area');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('after playing an upgrade card with bonus icon, should be prompted for options', function () {
@@ -58,7 +58,7 @@ describe('Adaptoid', function () {
             expect(this.player1.amber).toBe(2);
             expect(this.player2.amber).toBe(4);
             expect(this.lamindra.location).toBe('discard');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('after playing a creature card with bonus icon, should be prompted for options', function () {
@@ -71,7 +71,7 @@ describe('Adaptoid', function () {
             expect(this.player1.amber).toBe(2);
             expect(this.player2.amber).toBe(3);
             expect(this.lamindra.location).toBe('play area');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('armor effects should stack', function () {
@@ -81,7 +81,7 @@ describe('Adaptoid', function () {
             this.player1.clickPrompt('+2 armor');
             expect(this.adaptoid.getKeywordValue('assault')).toBe(0);
             expect(this.adaptoid.armor).toBe(4);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('assault effects should stack', function () {
@@ -91,7 +91,7 @@ describe('Adaptoid', function () {
             this.player1.clickPrompt('Assault 2');
             expect(this.adaptoid.getKeywordValue('assault')).toBe(4);
             expect(this.adaptoid.armor).toBe(0);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('fight effects should stack', function () {
@@ -105,7 +105,7 @@ describe('Adaptoid', function () {
             this.player1.clickCard(this.adaptoid);
             expect(this.player1.amber).toBe(4);
             expect(this.player2.amber).toBe(2);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('different effects should stack', function () {
@@ -124,7 +124,7 @@ describe('Adaptoid', function () {
             expect(this.adaptoid.tokens.damage).toBe(2);
             expect(this.player1.amber).toBe(5);
             expect(this.player2.amber).toBe(3);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('should last for one turn only', function () {
@@ -151,14 +151,14 @@ describe('Adaptoid', function () {
             expect(this.lamindra.location).toBe('play area');
             expect(this.player1.amber).toBe(4);
             expect(this.player2.amber).toBe(4);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it("should not trigger during opponent's turn", function () {
             this.player1.endTurn();
             this.player2.clickPrompt('shadows');
             this.player2.play(this.whistlingDarts);
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player2);
         });
     });
 });

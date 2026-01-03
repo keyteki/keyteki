@@ -32,7 +32,7 @@ describe('Fortune Reverser', function () {
         it('blanks creature with the upgrade', function () {
             this.player1.playUpgrade(this.fortuneReverser, this.theOldTinker);
             this.player1.reap(this.theOldTinker);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('blanks future "this creature gains" upgrades', function () {
@@ -43,7 +43,7 @@ describe('Fortune Reverser', function () {
             this.theOldTinker.amber = 10;
             this.player2.endTurn();
             this.player1.clickPrompt('ekwidon');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('does not blank enrage tokens', function () {

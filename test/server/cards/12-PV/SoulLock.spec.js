@@ -21,9 +21,9 @@ describe('Soul Lock', function () {
             this.player1.endTurn();
             this.player2.clickPrompt('brobnar');
             this.player2.clickCard(this.krump);
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player2);
             this.player2.clickCard(this.gauntletOfCommand);
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player2);
         });
 
         it('should prevent opponent from using cards of a different house as cards under it', function () {
@@ -34,7 +34,7 @@ describe('Soul Lock', function () {
             this.player1.endTurn();
             this.player2.clickPrompt('logos');
             this.player2.reap(this.dextre);
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player2);
         });
 
         it('should discard all cards under it when used', function () {
@@ -48,7 +48,7 @@ describe('Soul Lock', function () {
             this.player1.clickCard(this.dextre);
             expect(this.troll.location).toBe('discard');
             expect(this.dextre.location).toBe('under');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('should be usable by opponent via scrap', function () {
@@ -62,7 +62,7 @@ describe('Soul Lock', function () {
             this.player2.clickCard(this.searine);
             expect(this.soulLock.exhausted).toBe(true);
             expect(this.searine.location).toBe('under');
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player2);
         });
 
         it('should allow use of other cards triggered by cards of the locked house', function () {
@@ -75,7 +75,7 @@ describe('Soul Lock', function () {
             this.player2.clickCard(this.troll);
             this.player2.clickCard(this.searine);
             expect(this.searine.location).toBe('discard');
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player2);
         });
     });
 });

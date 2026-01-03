@@ -31,7 +31,7 @@ describe('Gabos Longarms', function () {
             this.player2.fightWith(this.championAnaphiel, this.gabosLongarms);
             expect(this.gabosLongarms.location).toBe('discard');
             expect(this.championAnaphiel.tokens.damage).toBe(4);
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player2);
         });
     });
 });

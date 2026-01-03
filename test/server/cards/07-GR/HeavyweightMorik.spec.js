@@ -44,7 +44,7 @@ describe('Heavyweight Morik', function () {
             expect(this.troll.tokens.damage).toBe(2);
             expect(this.oldBruno.tokens.damage).toBe(undefined);
             expect(this.dustPixie.location).toBe('play area');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
     });
 });

@@ -115,7 +115,7 @@ describe('T3r 35a', function () {
         it('should apply the effect only to itself', function () {
             this.player1.reap(this.t3r35a);
             this.player1.clickCard(this.armsmasterMolina);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
             this.player1.endTurn();
         });
     });
@@ -235,7 +235,7 @@ describe('T3r 35a', function () {
             this.player1.playUpgrade(this.t3r35a, this.armsmasterMolina);
             expect(this.player1).not.toBeAbleToSelect(this.dustPixie);
             this.player1.clickCard(this.dustPixie);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
             this.player1.endTurn();
         });
     });

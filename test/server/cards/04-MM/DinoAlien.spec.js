@@ -17,7 +17,7 @@ describe('Dino-Alien', function () {
         it('should choose to not exalt after play', function () {
             this.player1.play(this.dinoAlien);
             this.player1.clickPrompt('Done');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('should choose to exalt after play', function () {
@@ -30,7 +30,7 @@ describe('Dino-Alien', function () {
             this.player1.clickCard(this.shooler);
             expect(this.dinoAlien.amber).toBe(1);
             expect(this.shooler.tokens.damage).toBe(3);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
     });
 
@@ -57,7 +57,7 @@ describe('Dino-Alien', function () {
         it('should not prompt for cards is deck is empty', function () {
             this.player1.player.deck = [];
             this.player1.fightWith(this.dinoAlien, this.lamindra);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('should prompt for a single card if deck has only 1 card', function () {
@@ -67,7 +67,7 @@ describe('Dino-Alien', function () {
             expect(this.player1).toHavePromptCardButton(this.archimedes);
             this.player1.clickPrompt('archimedes');
             expect(this.archimedes.location).toBe('hand');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('should prompt for a card to go to hand and one to bottom of deck', function () {
@@ -84,7 +84,7 @@ describe('Dino-Alien', function () {
             this.player1.clickPrompt('eyegor');
             expect(this.player1.player.deck[0]).toBe(this.titanMechanic);
             expect(this.player1.player.deck[this.player1.player.deck.length - 1]).toBe(this.eyegor);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
     });
 });

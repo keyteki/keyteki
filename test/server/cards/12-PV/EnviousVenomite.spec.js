@@ -23,14 +23,14 @@ describe('Envious Venomite', function () {
         it('should gain poison when opponent has more amber', function () {
             this.player1.fightWith(this.enviousVenomite, this.krump);
             expect(this.krump.location).toBe('discard');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('should not gain poison when opponent has less amber', function () {
             this.player2.amber = 1;
             this.player1.fightWith(this.enviousVenomite, this.krump);
             expect(this.krump.location).toBe('play area');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('should give poison to enemy creatures when fate is triggered', function () {
@@ -41,7 +41,7 @@ describe('Envious Venomite', function () {
             this.player2.reap(this.krump);
             this.player2.fightWith(this.troll, this.emberImp);
             expect(this.troll.location).toBe('discard');
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player2);
         });
     });
 });

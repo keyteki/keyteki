@@ -46,7 +46,7 @@ describe('Retrotechnician Le', function () {
             this.player1.playCreature(this.retrotechnicianLe);
             this.player1.reap(this.retrotechnicianLe);
             this.player1.clickPrompt('Done');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
     });
 });

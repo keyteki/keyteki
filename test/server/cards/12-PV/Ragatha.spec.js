@@ -23,7 +23,7 @@ describe('Ragatha', function () {
             expect(this.researchSmoko.tokens.damage).toBeUndefined();
             expect(this.researchSmoko.location).toBe('play area');
             expect(this.dustPixie.location).toBe('discard');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
     });
 });

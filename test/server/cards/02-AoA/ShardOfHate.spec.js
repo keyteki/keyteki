@@ -38,7 +38,7 @@ describe('Shard of Hate', function () {
             expect(this.mindwarper.stunned).toBe(false);
             expect(this.mindworm.stunned).toBe(false);
 
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('should work properly when Remote Accessed', function () {
@@ -61,7 +61,7 @@ describe('Shard of Hate', function () {
             expect(this.mindwarper.stunned).toBe(true);
             expect(this.mindworm.stunned).toBe(true);
 
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player2);
         });
 
         it('should work properly when Borrowed', function () {
@@ -84,7 +84,7 @@ describe('Shard of Hate', function () {
             expect(this.mindwarper.stunned).toBe(true);
             expect(this.mindworm.stunned).toBe(true);
 
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player2);
         });
 
         describe('when there are no enemy creatures in play', function () {
@@ -96,7 +96,7 @@ describe('Shard of Hate', function () {
 
             it('should not prompt', function () {
                 this.player1.useAction(this.shardOfHate);
-                expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+                this.expectReadyToTakeAction(this.player1);
             });
         });
     });

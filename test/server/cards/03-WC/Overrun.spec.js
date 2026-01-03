@@ -75,7 +75,7 @@ describe('Overrun', function () {
             this.player1.fightWith(this.foozle, this.umbra);
             this.player1.play(this.overrun);
             expect(this.player2.amber).toBe(3);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
     });
 });

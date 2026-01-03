@@ -17,7 +17,7 @@ describe('Champion Tabris', function () {
             this.player1.fightWith(this.championTabris, this.dodger);
             expect(this.championTabris.amber).toBe(1);
             expect(this.player2.amber).toBe(1);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
     });
 });

@@ -173,7 +173,7 @@ describe('Corner the Market', function () {
             this.player1.endTurn();
             this.player2.clickPrompt('shadows');
             this.player2.useAction(this.subtleMaul);
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player2);
             expect(this.player2.hand.length).toBe(2);
             expect(this.player2.archives.length).toBe(0);
         });
@@ -203,12 +203,12 @@ describe('Corner the Market', function () {
             this.player1.clickPrompt('ekwidon');
             this.player1.endTurn();
             this.player2.clickPrompt('untamed');
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player2);
             this.player2.clickCard(this.fogbank);
             expect(this.player2).not.toHavePrompt('Play this action');
             this.player2.clickPrompt('Discard this card');
             this.player2.clickPrompt('Fogbank');
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player2);
         });
     });
 });

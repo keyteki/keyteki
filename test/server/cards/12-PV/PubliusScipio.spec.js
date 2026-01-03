@@ -32,7 +32,7 @@ describe('Publius Scipio', function () {
             expect(this.publiusScipio.location).toBe('discard');
             expect(this.urchin.location).toBe('play area');
             expect(this.huntingWitch.location).toBe('play area');
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player2);
         });
     });
 });

@@ -37,7 +37,7 @@ describe('Kaju Zhan', function () {
             this.player1.clickCard(this.emberImp);
             expect(this.emberImp.location).toBe('deck');
             expect(this.player2.player.deck[0]).toBe(this.emberImp);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
     });
 });

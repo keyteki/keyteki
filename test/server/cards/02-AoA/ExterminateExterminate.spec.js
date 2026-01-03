@@ -29,7 +29,7 @@ describe('Exterminate!Exterminate!', function () {
             expect(this.player1).not.toBeAbleToSelect(this.yxiloBolter);
             this.player1.clickCard(this.troll);
             expect(this.troll.location).toBe('discard');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
     });
 });

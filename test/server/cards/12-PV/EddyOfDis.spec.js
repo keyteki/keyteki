@@ -51,7 +51,7 @@ describe('Eddy of Dis', function () {
             expect(this.player1.hand.length).toBe(7);
             expect(this.eddyOfDis.location).toBe('discard');
             expect(shuffled).toContain(this.player1.player);
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player2);
         });
     });
 });

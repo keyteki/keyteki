@@ -36,7 +36,7 @@ describe('Titan Outpost', function () {
             expect(this.dustPixie.location).toBe('archives');
             expect(this.player1.player.archives.length).toBe(1);
             expect(this.alphaGamma1.location).toBe('play area');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('should do nothing if a creature is not moved', function () {
@@ -46,7 +46,7 @@ describe('Titan Outpost', function () {
             expect(this.flaxia.location).toBe('play area');
             expect(this.player1.player.archives.length).toBe(0);
             expect(this.alphaGamma1.location).toBe('deck');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
     });
 });

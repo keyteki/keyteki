@@ -23,7 +23,7 @@ describe('DataForge', function () {
         it('should not prompt to forge when the player has insufficient amber', function () {
             this.player1.play(this.dataForge);
             expect(this.player1.amber).toBe(1);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('should prompt to forge a key if the player has enough amber', function () {
@@ -36,7 +36,7 @@ describe('DataForge', function () {
             expect(this.player1.player.keys.red).toBe(true);
             expect(this.player1.player.keys.blue).toBe(false);
             expect(this.player1.player.keys.yellow).toBe(false);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
     });
 });

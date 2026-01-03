@@ -72,7 +72,7 @@ describe('Fogbank', function () {
             expect(this.player2).not.toHavePromptButton('Fight with this creature');
             expect(this.player2).toHavePromptButton('Reap with this creature');
             this.player2.clickPrompt('Reap with this creature');
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player2);
         });
     });
 });

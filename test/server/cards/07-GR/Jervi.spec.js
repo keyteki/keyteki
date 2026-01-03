@@ -32,7 +32,7 @@ describe('Jervi', function () {
             this.player1.clickPrompt('Done');
             expect(this.huntingWitch.location).toBe('hand');
             expect(shuffled).toBe(this.player1.player);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('can archive a card from discard on scrap', function () {
@@ -44,7 +44,7 @@ describe('Jervi', function () {
             expect(this.player1).not.toBeAbleToSelect(this.huntingWitch);
             expect(this.player1).not.toBeAbleToSelect(this.poke);
             this.player1.clickCard(this.dustPixie);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
             expect(this.dustPixie.location).toBe('archives');
             expect(this.player1.player.archives).toContain(this.dustPixie);
         });

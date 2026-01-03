@@ -43,14 +43,14 @@ describe('Friendly Guide', function () {
 
         it('should only work on neighboring creatures', function () {
             this.player1.reap(this.rustgnawer);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('should not work for opponent after a swap', function () {
             this.player1.endTurn();
             this.player2.clickPrompt('ekwidon');
             this.player2.fightWith(this.shĭzyokŭSwopper, this.niffleApe);
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player2);
         });
 
         it('should allow use on action ability that removes from play', function () {

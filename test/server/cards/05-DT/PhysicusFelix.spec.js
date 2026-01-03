@@ -19,7 +19,7 @@ describe('Physicus Felix', function () {
             });
 
             it('should not prompt to exalt a creature', function () {
-                expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+                this.expectReadyToTakeAction(this.player1);
             });
         });
 
@@ -30,7 +30,7 @@ describe('Physicus Felix', function () {
             });
 
             it('should not prompt to exalt a creature', function () {
-                expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+                this.expectReadyToTakeAction(this.player1);
             });
         });
 
@@ -42,7 +42,7 @@ describe('Physicus Felix', function () {
 
             it('should be optional to exalt a creature', function () {
                 this.player1.clickPrompt('Done');
-                expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+                this.expectReadyToTakeAction(this.player1);
                 expect(this.bulwark.amber).toBe(0);
                 expect(this.dextre.amber).toBe(0);
                 expect(this.archimedes.amber).toBe(0);
@@ -85,7 +85,7 @@ describe('Physicus Felix', function () {
             });
 
             it('should not prompt to exalt a creature', function () {
-                expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+                this.expectReadyToTakeAction(this.player1);
             });
         });
 
@@ -96,7 +96,7 @@ describe('Physicus Felix', function () {
             });
 
             it('should not prompt to exalt a creature', function () {
-                expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+                this.expectReadyToTakeAction(this.player1);
             });
         });
 
@@ -108,7 +108,7 @@ describe('Physicus Felix', function () {
 
             it('should be optional to exalt a creature', function () {
                 this.player1.clickPrompt('Done');
-                expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+                this.expectReadyToTakeAction(this.player1);
                 expect(this.bulwark.amber).toBe(0);
                 expect(this.dextre.amber).toBe(0);
                 expect(this.archimedes.amber).toBe(0);

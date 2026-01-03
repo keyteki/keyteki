@@ -18,7 +18,7 @@ describe('Wild Grumpus', function () {
             this.player1.playCreature(this.wildGrumpus);
             expect(this.wildGrumpus.hasKeyword('skirmish')).toBe(true);
             expect(this.wildGrumpus.hasKeyword('taunt')).toBe(false);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('should gain taunt while not on a flank', function () {
@@ -26,7 +26,7 @@ describe('Wild Grumpus', function () {
             this.player1.playCreature(this.troll);
             expect(this.wildGrumpus.hasKeyword('taunt')).toBe(true);
             expect(this.wildGrumpus.hasKeyword('skirmish')).toBe(false);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
     });
 });

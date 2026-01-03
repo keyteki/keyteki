@@ -18,7 +18,7 @@ describe('Vivid Faerie', function () {
             this.player1.playCreature(this.dewFaerie, true);
             this.player1.reap(this.vividFaerie);
             expect(this.player1.amber).toBe(3);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('should gain 2 amber for 2 untamed neighbors when reaping', function () {
@@ -26,13 +26,13 @@ describe('Vivid Faerie', function () {
             this.player1.moveCard(this.emberImp, 'discard');
             this.player1.reap(this.vividFaerie);
             expect(this.player1.amber).toBe(4);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('should not gain amber for non-untamed neighbors', function () {
             this.player1.reap(this.vividFaerie);
             expect(this.player1.amber).toBe(2);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
     });
 });

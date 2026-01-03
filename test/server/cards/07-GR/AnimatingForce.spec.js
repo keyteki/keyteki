@@ -26,12 +26,12 @@ describe('Animating Force', function () {
             expect(this.animatingForce.parent).toBe(this.libraryOfBabble);
             expect(this.animatingForce.location).toBe('play area');
             this.player1.clickPrompt('Right');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
             this.player1.reap(this.libraryOfBabble);
             expect(this.player1.amber).toBe(2);
             expect(this.libraryOfBabble.power).toBe(4);
             expect(this.libraryOfBabble.neighbors[0]).toBe(this.charette);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('takes control of friendly artifact and turns it into a creature', function () {
@@ -45,7 +45,7 @@ describe('Animating Force', function () {
             this.player1.clickCard(this.charette);
             this.player1.clickPrompt('Reap with this creature');
             expect(this.player1.amber).toBe(2);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('is unaffected when removing the upgrade', function () {
@@ -58,14 +58,14 @@ describe('Animating Force', function () {
             expect(this.dominatorBauble.location).toBe('play area');
             expect(this.dominatorBauble.power).toBe(4);
             expect(this.dominatorBauble.neighbors[0]).toBe(this.charette);
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player2);
         });
 
         it('can gain an amber on scrap', function () {
             this.player1.clickCard(this.animatingForce);
             this.player1.clickPrompt('Discard this card');
             expect(this.player1.amber).toBe(2);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('can can be used after opponent takes control', function () {
@@ -78,7 +78,7 @@ describe('Animating Force', function () {
             this.player2.clickPrompt('Right');
             this.player2.reap(this.dominatorBauble);
             expect(this.player2.amber).toBe(1);
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player2);
         });
     });
 });

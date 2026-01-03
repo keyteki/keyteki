@@ -21,7 +21,7 @@ describe('Hayyel the Merchant', function () {
             this.player2.clickPrompt('dis');
             this.player2.play(this.dominatorBauble);
             expect(this.player1.amber).toBe(1);
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player2);
         });
     });
 });

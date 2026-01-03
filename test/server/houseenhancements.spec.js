@@ -52,14 +52,14 @@ describe('house enhancements', function () {
             expect(this.helperBot.location).toBe('discard');
             expect(this.daughter.location).toBe('play area');
             expect(this.cpoZytar.location).toBe('discard');
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player2);
         });
 
         it('can call house from enhancement even if not in deck houses', function () {
             this.cpoZytar.enhancements = ['saurian'];
             this.player1.endTurn();
             this.player2.clickPrompt('saurian');
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player2);
         });
     });
 });

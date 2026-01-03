@@ -25,7 +25,7 @@ describe('A Strong Feeling', function () {
             expect(this.cpoZytar.exhausted).toBe(false);
             expect(this.helmsmanSpears.exhausted).toBe(true);
             expect(this.culfTheQuiet.exhausted).toBe(false);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('removes 1 amber from each friendly creature', function () {
@@ -34,7 +34,7 @@ describe('A Strong Feeling', function () {
             expect(this.helmsmanSpears.amber).toBe(0);
             expect(this.culfTheQuiet.amber).toBe(4);
             expect(this.charette.amber).toBe(3);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
     });
 });

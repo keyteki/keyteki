@@ -99,7 +99,7 @@ describe('Hapsis', function () {
             this.player1.moveCard(this.bullWark, 'discard');
             let handSize = this.player1.hand.length;
             this.player1.fightWith(this.hapsis, this.darkMinion);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
             expect(this.darkMinion.location).toBe('discard');
             expect(this.hapsis.tokens.damage).toBe(2);
             expect(this.player1.hand.length).toBe(handSize + 1);
@@ -128,7 +128,7 @@ describe('Hapsis', function () {
             expect(this.hapsis.tokens.damage).toBe(2);
             expect(this.player1.hand.length).toBe(handSize + 1);
             expect(this.hapsis.hasToken('ward')).toBe(false);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
     });
 });

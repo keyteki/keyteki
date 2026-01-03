@@ -21,7 +21,7 @@ describe('Longfused Mines', function () {
             expect(this.troll.tokens.damage).toBeUndefined(); // Left flank
             expect(this.krump.tokens.damage).toBe(3); // Center
             expect(this.bumpsy.tokens.damage).toBeUndefined(); // Right flank
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
     });
 });

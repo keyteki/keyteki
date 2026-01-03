@@ -95,7 +95,7 @@ describe('Lash of Broken Dreams', function () {
             expect(this.player2.player.getCurrentKeyCost()).toBe(9);
             expect(this.player1.amber).toBe(0);
             expect(this.player2.amber).toBe(0);
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player2);
         });
     });
 });

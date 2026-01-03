@@ -33,7 +33,7 @@ describe('Creed of Nurture', function () {
             expect(this.player1).toBeAbleToSelect(this.briarGrubbling);
             expect(this.player1).toBeAbleToSelect(this.troll);
             this.player1.clickCard(this.firespitter);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
             expect(this.firespitter.hasTrait('witch')).toBe(true);
             expect(this.firespitter.getKeywordValue('assault')).toBe(3);
         });
@@ -65,7 +65,7 @@ describe('Creed of Nurture', function () {
             this.player1.clickCard(this.briarGrubbling);
             expect(this.firespitter.tokens.damage).toBe(4);
             expect(this.briarGrubbling.location).toBe('discard');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
     });
 });

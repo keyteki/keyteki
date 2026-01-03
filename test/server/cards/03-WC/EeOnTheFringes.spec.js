@@ -18,7 +18,7 @@ describe('E’e on the Fringes', function () {
             this.player1.play(this.redlock);
             expect(this.player1.amber).toBe(4);
             expect(this.player2.amber).toBe(5);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('when a non-Dis card is discarded, should have no prompt', function () {
@@ -26,7 +26,7 @@ describe('E’e on the Fringes', function () {
             this.player1.clickPrompt('Discard this card');
             expect(this.player1.amber).toBe(4);
             expect(this.player2.amber).toBe(5);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
     });
 

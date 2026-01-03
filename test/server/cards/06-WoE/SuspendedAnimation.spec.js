@@ -15,7 +15,7 @@ describe('Suspended Animation', function () {
 
         it('should do nothing when the opponent has no damaged creatures', function () {
             this.player1.play(this.suspendedAnimation);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('should put damaged enemy creatures in the archive', function () {

@@ -23,20 +23,20 @@ describe('Duma the Returned', function () {
             expect(this.huntingWitch.location).toBe('hand');
             expect(this.fullMoon.location).toBe('hand');
             expect(this.player1.player.discard.length).toBe(10);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('does not archive on destroy if not haunted', function () {
             this.player1.fightWith(this.dumaTheReturned, this.troll);
             expect(this.dumaTheReturned.location).toBe('discard');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('archives on destroy if haunted', function () {
             this.player1.play(this.callToAction);
             this.player1.fightWith(this.dumaTheReturned, this.troll);
             expect(this.dumaTheReturned.location).toBe('archives');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
     });
 });

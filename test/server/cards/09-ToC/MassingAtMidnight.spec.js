@@ -26,7 +26,7 @@ describe('Massing at Midnight', function () {
             expect(this.niffleBrute2.location).toBe('play area');
             expect(this.niffleBrute3.location).toBe('play area');
             expect(this.massingAtMidnight.location).toBe('purged');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
     });
 });

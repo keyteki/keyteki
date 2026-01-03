@@ -17,7 +17,7 @@ describe('Island of Misfit Toys', function () {
             expect(this.aStrongFeeling.location).toBe('hand');
             expect(this.echofly.location).toBe('hand');
             expect(this.islandOfMisfitToys.location).toBe('purged');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
     });
 });

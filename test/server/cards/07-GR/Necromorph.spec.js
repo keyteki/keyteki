@@ -16,7 +16,7 @@ describe('Necromorph', function () {
         it('destroys the one non-staralliance neighbor instead', function () {
             this.player1.fightWith(this.troll, this.necromorph);
             this.player1.clickCard(this.huntingWitch);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
             expect(this.necromorph.location).toBe('play area');
             expect(this.huntingWitch.location).toBe('discard');
             expect(this.troll.tokens.damage).toBe(5);
@@ -28,7 +28,7 @@ describe('Necromorph', function () {
             expect(this.necromorph.tokens.damage).toBe(1);
             this.player1.fightWith(this.troll, this.necromorph);
             this.player1.clickCard(this.huntingWitch);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
             expect(this.necromorph.location).toBe('play area');
             expect(this.necromorph.tokens.damage).toBe(undefined);
         });
@@ -37,7 +37,7 @@ describe('Necromorph', function () {
             this.player1.fightWith(this.culfTheQuiet, this.cpoZytar);
             this.player1.fightWith(this.troll, this.necromorph);
             this.player1.clickCard(this.flaxia);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
             expect(this.necromorph.location).toBe('play area');
             expect(this.huntingWitch.location).toBe('play area');
             expect(this.flaxia.location).toBe('discard');
@@ -47,7 +47,7 @@ describe('Necromorph', function () {
         it('gets destroyed with no non-staralliance neighbors', function () {
             this.player1.fightWith(this.culfTheQuiet, this.huntingWitch);
             this.player1.fightWith(this.troll, this.necromorph);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
             expect(this.necromorph.location).toBe('discard');
         });
     });

@@ -36,7 +36,7 @@ describe('They Tell No Tales', function () {
             expect(this.troll.location).toBe('discard');
             expect(this.krump.location).toBe('discard');
             expect(this.player1.player.chains).toBe(2);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
     });
 });

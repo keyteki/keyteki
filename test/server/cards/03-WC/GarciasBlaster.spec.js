@@ -34,7 +34,7 @@ describe('Garcia’s Blaster', function () {
             expect(this.player1).toHavePrompt('Triggered Abilities');
             expect(this.player1).toHavePromptButton('Done');
             this.player1.clickPrompt('Done');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('reap ability should allow dealing 2 damages to a creature', function () {
@@ -165,7 +165,7 @@ describe('Garcia’s Blaster', function () {
             expect(this.player1).toHavePromptButton('Deal 2 damage');
             expect(this.player1).toHavePromptButton('Move Garcia’s Blaster');
             this.player1.clickPrompt('Move Garcia’s Blaster');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('fight ability should default to deal damage when officer is not in play', function () {
@@ -212,7 +212,7 @@ describe('Garcia’s Blaster', function () {
             this.player1.clickPrompt('Garcia’s Blaster');
             this.player1.clickPrompt('Move Garcia’s Blaster');
             // There are no valid targets.
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
             expect(this.sensorChiefGarcia1.upgrades).toContain(this.garciaSBlaster);
 
             expect(this.player1.amber).toBe(3);

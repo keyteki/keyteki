@@ -54,7 +54,7 @@ describe('Ritual of Balance', function () {
             expect(this.ritualOfBalance.exhausted).toBe(true);
             expect(this.player1.amber).toBe(5);
             expect(this.player2.amber).toBe(7);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
     });
 
@@ -78,7 +78,7 @@ describe('Ritual of Balance', function () {
             expect(this.player1).toBeAbleToSelect(this.ritualOfBalance);
             this.player1.clickCard(this.ritualOfBalance);
             expect(this.ritualOfBalance.exhausted).toBe(true);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
     });
 
@@ -100,7 +100,7 @@ describe('Ritual of Balance', function () {
             this.player1.play(this.remoteAccess);
             this.player1.clickCard(this.ritualOfBalance);
             expect(this.ritualOfBalance.exhausted).toBe(true);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
     });
 });

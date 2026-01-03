@@ -40,7 +40,7 @@ describe('Cosmic Recompense', function () {
             expect(this.troll.tokens.damage).toBe(3);
             expect(this.player1.amber).toBe(3);
             expect(this.player2.amber).toBe(1);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('should not steal amber if first creature is destroyed', function () {
@@ -51,7 +51,7 @@ describe('Cosmic Recompense', function () {
             expect(this.player1.amber).toBe(2);
             expect(this.player2.amber).toBe(2);
             expect(this.krump.tokens.damage).toBe(3);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('should not steal amber if second creature is destroyed', function () {
@@ -61,7 +61,7 @@ describe('Cosmic Recompense', function () {
             expect(this.emberImp.location).toBe('discard');
             expect(this.player1.amber).toBe(2);
             expect(this.player2.amber).toBe(2);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('should prevent playing, using, or discarding cards when fate is triggered', function () {
@@ -71,9 +71,9 @@ describe('Cosmic Recompense', function () {
             this.player2.reap(this.krump);
             expect(this.cosmicRecompense.location).toBe('discard');
             this.player2.clickCard(this.anger);
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player2);
             this.player2.clickCard(this.troll);
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player2);
         });
     });
 });

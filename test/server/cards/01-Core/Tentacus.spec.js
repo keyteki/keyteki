@@ -17,14 +17,14 @@ describe('Tentacus', function () {
             this.player1.play(this.anomalyExploiter);
             expect(this.anomalyExploiter.location).toBe('play area');
             this.player1.clickCard(this.libraryOfBabble);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
             this.player1.play(this.remoteAccess);
             expect(this.etherSpider.amber).toBe(1);
             expect(this.player1).toHavePrompt('Remote Access');
             expect(this.player1).toBeAbleToSelect(this.dominatorBauble);
             this.player1.clickCard(this.dominatorBauble);
             expect(this.dominatorBauble.exhausted).toBe(false);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('should pay an amber to the opponent when they use an artifact', function () {

@@ -21,7 +21,7 @@ describe('Ensign El-Samra', function () {
             expect(this.player1).not.toBeAbleToSelect(this.ensignElSamra);
             this.player1.clickCard(this.tautauVapors);
             expect(this.tautauVapors.location).toBe('hand');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
             expect(this.player1.amber).toBe(0);
         });
 
@@ -32,7 +32,7 @@ describe('Ensign El-Samra', function () {
             expect(this.player1).not.toBeAbleToSelect(this.ensignElSamra);
             this.player1.clickCard(this.virtuousWorks);
             expect(this.virtuousWorks.location).toBe('hand');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
             expect(this.player1.amber).toBe(3);
         });
 
@@ -47,7 +47,7 @@ describe('Ensign El-Samra', function () {
             expect(this.player1).toBeAbleToSelect(this.ensignElSamra);
             expect(this.player1).toBeAbleToSelect(this.troll);
             this.player1.clickCard(this.troll);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
             expect(this.virtuousWorks.location).toBe('hand');
             expect(this.player1.amber).toBe(4);
             expect(this.player1.player.hand.length).toBe(3);

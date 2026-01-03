@@ -21,7 +21,7 @@ describe('Sil-A-T8', function () {
             this.player1.playCreature(this.silAT8);
             this.silAT8.exhausted = false;
             this.player1.reap(this.silAT8);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('should ready 1 creature when it has 1 Star Alliance neighbor', function () {
@@ -35,7 +35,7 @@ describe('Sil-A-T8', function () {
             expect(this.player1).toBeAbleToSelect(this.urchin);
             this.player1.clickCard(this.emberImp);
             expect(this.emberImp.exhausted).toBe(false);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('should ready 2 creatures when it has 2 Star Alliance neighbors', function () {
@@ -48,7 +48,7 @@ describe('Sil-A-T8', function () {
             this.player1.clickCard(this.krump);
             expect(this.emberImp.exhausted).toBe(false);
             expect(this.krump.exhausted).toBe(false);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('should work after fighting', function () {
@@ -58,7 +58,7 @@ describe('Sil-A-T8', function () {
             this.player1.fightWith(this.silAT8, this.urchin);
             this.player1.clickCard(this.emberImp);
             expect(this.emberImp.exhausted).toBe(false);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
     });
 });

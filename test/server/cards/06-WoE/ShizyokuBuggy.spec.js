@@ -23,7 +23,7 @@ describe('Shĭzyokŭ Buggy', function () {
             expect(this.conductorJărroyă.location).toBe('discard');
             expect(this.antiquitiesDealer.location).toBe('discard');
             expect(this.player1.player.creaturesInPlay.length).toBe(1);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('it should do nothing if the revealed cards do not share a house', function () {
@@ -37,7 +37,7 @@ describe('Shĭzyokŭ Buggy', function () {
             expect(this.pelf.location).toBe('hand');
             expect(this.antiquitiesDealer.location).toBe('hand');
             expect(this.player1.player.creaturesInPlay.length).toBe(0);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
     });
 });

@@ -28,7 +28,7 @@ describe('Charge!', function () {
             this.player1.clickCard(this.ogopogo);
             expect(this.troll.tokens.damage).toBe(2);
             expect(this.ogopogo.tokens.damage).toBe(2);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
     });
 });

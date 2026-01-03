@@ -22,7 +22,7 @@ describe('Empyrean Charge', function () {
             expect(this.player2.player.archives.length).toBe(0);
             expect(this.player1.player.discard.length).toBe(4);
             expect(this.player2.player.discard.length).toBe(3);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('should discard archives even if no key is forged', function () {
@@ -33,7 +33,7 @@ describe('Empyrean Charge', function () {
             expect(this.player2.player.archives.length).toBe(0);
             expect(this.player1.player.discard.length).toBe(4);
             expect(this.player2.player.discard.length).toBe(3);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
     });
 });

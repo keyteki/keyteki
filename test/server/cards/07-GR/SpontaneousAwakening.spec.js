@@ -25,7 +25,7 @@ describe('Spontaneous Awakening', function () {
 
         it('does nothing when opponent is not haunted', function () {
             this.player1.play(this.spontaneousAwakening);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         describe('when opponent is haunted', function () {
@@ -51,7 +51,7 @@ describe('Spontaneous Awakening', function () {
                 expect(this.mother.tokens.ward).toBe(1);
                 expect(this.faustTheGreat.tokens.ward).toBe(1);
                 expect(this.oldEgad.exhausted).toBe(true);
-                expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+                this.expectReadyToTakeAction(this.player1);
             });
 
             it('can destroy an enemy robot and play it', function () {
@@ -63,7 +63,7 @@ describe('Spontaneous Awakening', function () {
                 expect(this.mother.upgrades).toContain(this.spontaneousAwakening);
                 expect(this.spontaneousAwakening.parent).toBe(this.mother);
                 expect(this.mother.exhausted).toBe(true);
-                expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+                this.expectReadyToTakeAction(this.player1);
             });
 
             it('can destroy an enemy artifact and play it', function () {
@@ -74,7 +74,7 @@ describe('Spontaneous Awakening', function () {
                 expect(this.libraryOfBabble.upgrades).toContain(this.spontaneousAwakening);
                 expect(this.spontaneousAwakening.parent).toBe(this.libraryOfBabble);
                 expect(this.libraryOfBabble.exhausted).toBe(true);
-                expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+                this.expectReadyToTakeAction(this.player1);
             });
 
             it('can make the enemy artifact geistoid', function () {
@@ -87,7 +87,7 @@ describe('Spontaneous Awakening', function () {
                 let p1hand = this.player1.player.hand.length;
                 this.player1.useAction(this.libraryOfBabble);
                 expect(this.player1.player.hand.length).toBe(p1hand + 1);
-                expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+                this.expectReadyToTakeAction(this.player1);
             });
 
             it('card stays in play when upgrade is gone, but no longer geistoid', function () {
@@ -102,7 +102,7 @@ describe('Spontaneous Awakening', function () {
                 this.player1.clickPrompt('logos');
                 this.player1.reap(this.mother);
                 expect(this.player1.amber).toBe(3);
-                expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+                this.expectReadyToTakeAction(this.player1);
             });
         });
     });

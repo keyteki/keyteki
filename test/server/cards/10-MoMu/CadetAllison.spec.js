@@ -43,7 +43,7 @@ describe('Cadet Allison', function () {
             this.player1.playCreature(this.cadetAllison);
             expect(this.player1.player.discard.length).toBe(1);
             this.player1.reap(this.umbra);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('should discard random card on reap, and change active house', function () {
@@ -55,7 +55,7 @@ describe('Cadet Allison', function () {
             this.player1.reap(this.cadetAllison);
             expect(this.player1.player.discard.length).toBe(2);
             this.player1.reap(this.umbra);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
     });
 });

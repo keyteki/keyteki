@@ -20,7 +20,7 @@ describe('Hysteria', function () {
             expect(this.shooler.location).toBe('hand');
             expect(this.troll.location).toBe('hand');
             expect(this.krump.location).toBe('play area');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
     });
 });

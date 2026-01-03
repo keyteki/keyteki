@@ -17,7 +17,7 @@ describe('Lyco-Saurus', function () {
             this.player1.play(this.lycoSaurus);
             this.player1.clickPrompt('Done');
             expect(this.lycoSaurus.amber).toBe(0);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('should be able to exalt itself and deal 3D to a creature', function () {
@@ -30,7 +30,7 @@ describe('Lyco-Saurus', function () {
             this.player1.clickCard(this.troll);
             expect(this.lycoSaurus.amber).toBe(1);
             expect(this.troll.tokens.damage).toBe(3);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
     });
 });

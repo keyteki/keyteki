@@ -47,7 +47,7 @@ describe('Double Doom', function () {
         });
 
         it('discard random card', function () {
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
             expect(this.badPenny.location).toBe('discard');
         });
     });

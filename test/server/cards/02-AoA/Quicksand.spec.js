@@ -38,7 +38,7 @@ describe('Quicksand', function () {
             this.player1.clickCard(this.commanderRemiel);
             expect(this.troll.location).toBe('discard');
             expect(this.commanderRemiel.location).toBe('discard');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('should prompt the player where two creatures are tied', function () {
@@ -55,7 +55,7 @@ describe('Quicksand', function () {
             expect(this.player1).not.toBeAbleToSelect(this.inkaTheSpider);
             this.player1.clickCard(this.commanderRemiel);
             expect(this.commanderRemiel.location).toBe('discard');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('should destroy the most powerful creature where only one player has an exhausted untamed creature', function () {
@@ -71,7 +71,7 @@ describe('Quicksand', function () {
             expect(this.player1).not.toBeAbleToSelect(this.inkaTheSpider);
             this.player1.clickCard(this.troll);
             expect(this.troll.location).toBe('discard');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('should not resolve if both players have a ready untamed creature', function () {
@@ -82,7 +82,7 @@ describe('Quicksand', function () {
             expect(this.commanderRemiel.location).toBe('play area');
             expect(this.dextre.location).toBe('play area');
             expect(this.inkaTheSpider.location).toBe('play area');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
     });
 });

@@ -26,7 +26,7 @@ describe('Overclocked Shock Collar', function () {
             expect(this.groggins.stunned).toBe(true);
             expect(this.groke.stunned).toBe(true);
             expect(this.ironyxRebel.stunned).toBe(false);
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player2);
         });
 
         it('unstun all mars creatures on scrap', function () {
@@ -38,7 +38,7 @@ describe('Overclocked Shock Collar', function () {
             expect(this.johnSmyth.stunned).toBe(false);
             expect(this.tunk.stunned).toBe(false);
             expect(this.flaxia.stunned).toBe(true);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
     });
 });

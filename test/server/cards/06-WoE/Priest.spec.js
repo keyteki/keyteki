@@ -25,7 +25,7 @@ describe('Priest', function () {
             expect(this.player1).not.toBeAbleToSelect(this.kelpminder);
             this.player1.clickCard(this.lupoTheScarred);
             expect(this.lupoTheScarred.exhausted).toBe(true);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
     });
 });

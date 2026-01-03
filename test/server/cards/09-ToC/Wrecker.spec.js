@@ -25,7 +25,7 @@ describe('Wrecker', function () {
             this.player1.clickPrompt('Mine');
             expect(this.p1card.location).toBe('discard');
             expect(this.p2card.location).toBe('deck');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('should discard a card from opponent deck', function () {
@@ -35,7 +35,7 @@ describe('Wrecker', function () {
             this.player1.clickPrompt("Opponent's");
             expect(this.p2card.location).toBe('discard');
             expect(this.p1card.location).toBe('deck');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
     });
 });

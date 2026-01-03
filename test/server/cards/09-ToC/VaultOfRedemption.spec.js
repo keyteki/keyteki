@@ -20,7 +20,7 @@ describe('Vault of Redemption', function () {
             this.player1.play(this.gatewayToDis);
             this.player1.clickPrompt('Autoresolve');
             expect(this.player1.player.hand.length).toBe(3);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
     });
 });

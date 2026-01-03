@@ -138,7 +138,7 @@ describe('Redhand Registry', function () {
             expect(this.player2.player.keys.red).toBe(false);
             expect(this.player2.player.keys.blue).toBe(false);
             expect(this.player2.player.keys.yellow).toBe(false);
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player2);
         });
     });
 });

@@ -23,7 +23,7 @@ describe('Closed-Door Negotiation', function () {
             expect(this.player2.amber).toBe(0);
             expect(this.ancientBear.location).toBe('hand');
             expect(this.player2.deck.length).toBe(deckSize - 1);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('should always steal and draw until player has more amber', function () {
@@ -33,7 +33,7 @@ describe('Closed-Door Negotiation', function () {
             expect(this.player1.amber).toBe(7);
             expect(this.player2.amber).toBe(6);
             expect(this.player2.deck.length).toBe(deckSize - 5);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('should stop after one draw if stealing is not allowed', function () {
@@ -50,7 +50,7 @@ describe('Closed-Door Negotiation', function () {
             expect(this.player2.amber).toBe(11);
             expect(this.ancientBear.location).toBe('hand');
             expect(this.player2.deck.length).toBe(deckSize - 1);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
     });
 });

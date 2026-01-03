@@ -30,7 +30,7 @@ describe('Kasheek Fall', function () {
             expect(this.groupthinkTank.location).toBe('discard');
             expect(this.titanGuardian.location).toBe('discard');
             expect(this.titanMechanic.location).toBe('play area');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('should destroy creatures with less powerful neighbors when fate is triggered', function () {
@@ -47,7 +47,7 @@ describe('Kasheek Fall', function () {
             expect(this.titanGuardian.location).toBe('discard');
             expect(this.titanMechanic.location).toBe('discard');
             expect(this.kasheekFall.location).toBe('discard');
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player2);
         });
     });
 });

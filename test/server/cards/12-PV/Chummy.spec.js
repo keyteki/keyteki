@@ -24,7 +24,7 @@ describe('Chummy', function () {
             this.player1.fightWith(this.chummy, this.dewFaerie);
             expect(this.player1.amber).toBe(1);
             expect(this.player2.amber).toBe(2);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('should steal 1 amber when fighting the least powerful enemy creature when dying', function () {
@@ -33,14 +33,14 @@ describe('Chummy', function () {
             expect(this.player1.amber).toBe(1);
             expect(this.player2.amber).toBe(2);
             expect(this.chummy.location).toBe('discard');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('should not steal amber when fighting a more powerful enemy creature', function () {
             this.player1.fightWith(this.chummy, this.krump);
             expect(this.player1.amber).toBe(0);
             expect(this.player2.amber).toBe(3);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('should pay 2 amber to opponent when fate is triggered', function () {
@@ -52,7 +52,7 @@ describe('Chummy', function () {
             expect(this.player2.amber).toBe(2);
             expect(this.player1.amber).toBe(2);
             expect(this.chummy.location).toBe('discard');
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player2);
         });
     });
 });

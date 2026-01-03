@@ -46,7 +46,7 @@ describe('Suggestion Box', function () {
             expect(this.oldBruno.location).toBe('discard');
             expect(this.badPenny.location).toBe('discard');
             expect(this.swindle.location).toBe('deck');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('should work with only one card in deck', function () {
@@ -56,7 +56,7 @@ describe('Suggestion Box', function () {
             expect(this.player1).toHavePromptCardButton(this.exchangeProgram);
             this.player1.clickPrompt('exchange program');
             expect(this.exchangeProgram.location).toBe('hand');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
     });
 });

@@ -70,7 +70,7 @@ describe('Overlord Greking', function () {
             expect(this.overlordGreking.tokens.damage).toBe(3);
             expect(this.dextre.hasToken('damage')).toBe(false);
             expect(this.dextre.location).toBe('deck');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
             expect(this.dextre.controller).toBe(this.player2.player);
         });
 

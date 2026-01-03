@@ -24,7 +24,7 @@ describe('Thing from the Deep', function () {
         it('can be played without Open the Seal in the discard', function () {
             this.player1.play(this.openTheSeal);
             this.player1.playCreature(this.thingFromTheDeep);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('steals 2 on fight', function () {

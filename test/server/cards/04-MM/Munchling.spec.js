@@ -60,7 +60,7 @@ describe('munchling', function () {
             });
 
             it('should end effect', function () {
-                expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+                this.expectReadyToTakeAction(this.player1);
             });
         });
     });

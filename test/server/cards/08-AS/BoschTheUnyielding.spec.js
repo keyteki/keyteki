@@ -19,7 +19,7 @@ describe('Bosch the Unyielding', function () {
             expect(this.boschTheUnyielding.tokens.damage).toBe(undefined);
             expect(this.boschTheUnyielding.location).toBe('play area');
             expect(this.alaka.tokens.damage).toBe(1);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('heals all damage after fighting', function () {
@@ -29,7 +29,7 @@ describe('Bosch the Unyielding', function () {
             expect(this.boschTheUnyielding.tokens.damage).toBe(undefined);
             expect(this.boschTheUnyielding.location).toBe('play area');
             expect(this.alaka.tokens.damage).toBe(1);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('does not heal after fighting when it dies', function () {
@@ -37,7 +37,7 @@ describe('Bosch the Unyielding', function () {
             expect(this.troll.location).toBe('play area');
             expect(this.boschTheUnyielding.location).toBe('discard');
             expect(this.alaka.tokens.damage).toBe(1);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
     });
 });

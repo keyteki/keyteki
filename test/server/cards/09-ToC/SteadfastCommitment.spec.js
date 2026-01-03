@@ -25,7 +25,7 @@ describe('Steadfast Commitment', function () {
             expect(this.troll.location).toBe('deck');
             expect(this.player1.player.deck[this.player1.player.deck.length - 1]).toBe(this.troll);
             expect(this.zealot1.location).toBe('play area');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('should make a token with an empty discard', function () {
@@ -33,7 +33,7 @@ describe('Steadfast Commitment', function () {
             this.player1.play(this.steadfastCommitment);
             this.player1.clickPrompt('Right');
             expect(this.zealot1.location).toBe('play area');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('should make a token out of the moved card if deck is empty', function () {
@@ -42,7 +42,7 @@ describe('Steadfast Commitment', function () {
             this.player1.clickPrompt('Right');
             expect(this.troll.location).toBe('play area');
             expect(this.troll.name).toBe('Zealot');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
     });
 });

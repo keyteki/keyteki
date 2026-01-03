@@ -21,7 +21,7 @@ describe('Corsair', function () {
             this.player1.fightWith(this.corsair1, this.troll);
             expect(this.corsair1.location).toBe('discard');
             expect(this.troll.tokens.damage).toBe(2);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('should give skirmish and +1 power with red key', function () {
@@ -32,7 +32,7 @@ describe('Corsair', function () {
             this.player1.fightWith(this.buxBastian, this.troll);
             expect(this.buxBastian.location).toBe('discard');
             expect(this.troll.tokens.damage).toBe(6);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
     });
 });

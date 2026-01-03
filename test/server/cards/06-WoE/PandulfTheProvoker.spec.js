@@ -25,7 +25,7 @@ describe('Pandulf the Provoker', function () {
             expect(this.krump.enraged).toBe(true);
             expect(this.troll.enraged).toBe(false);
             expect(this.flaxia.enraged).toBe(false);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
     });
 });

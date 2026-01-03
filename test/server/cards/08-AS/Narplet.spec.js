@@ -17,7 +17,7 @@ describe('Narplet', function () {
         it('should give neighbors versatile', function () {
             this.player1.playCreature(this.narplet);
             this.player1.clickCard(this.nexus);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
             this.player1.reap(this.dustPixie);
             expect(this.player1.amber).toBe(2);
             this.player1.playCreature(this.rowdySkald);
@@ -29,10 +29,10 @@ describe('Narplet', function () {
 
             this.player1.clickPrompt('shadows');
             this.player1.clickCard(this.narplet);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
             this.player1.reap(this.rowdySkald);
             expect(this.player1.amber).toBe(3);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
     });
 });

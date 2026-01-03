@@ -32,7 +32,7 @@ describe('Webstur', function () {
             expect(this.player1.player.discard.length).toBe(0);
             expect(this.player2.player.discard.length).toBe(1);
             expect(this.webstur.tokens.damage).toBe(1);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('allows player to discard the top card of each deck when it has one damage', function () {
@@ -47,7 +47,7 @@ describe('Webstur', function () {
             expect(this.player1.player.discard.length).toBe(1);
             expect(this.player2.player.discard.length).toBe(2);
             expect(this.webstur.tokens.damage).toBe(1);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('resets between uses', function () {
@@ -65,7 +65,7 @@ describe('Webstur', function () {
             expect(this.player1.player.discard.length).toBe(2);
             expect(this.player2.player.discard.length).toBe(3);
             expect(this.webstur.tokens.damage).toBe(1);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('allows player to sometimes discard the top card of each deck when it has multiple damage', function () {
@@ -83,7 +83,7 @@ describe('Webstur', function () {
             expect(this.player1.player.discard.length).toBe(3);
             expect(this.player2.player.discard.length).toBe(4);
             expect(this.webstur.tokens.damage).toBe(7);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('works if only one player has a deck', function () {
@@ -99,7 +99,7 @@ describe('Webstur', function () {
             expect(this.player1.player.discard.length).toBe(0);
             expect(this.player2.player.discard.length).toBe(4);
             expect(this.webstur.tokens.damage).toBe(7);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('does nothing with no damage', function () {
@@ -113,7 +113,7 @@ describe('Webstur', function () {
             expect(this.player1.player.discard.length).toBe(0);
             expect(this.player2.player.discard.length).toBe(0);
             expect(this.webstur.tokens.damage).toBe(undefined);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
     });
 });

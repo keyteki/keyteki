@@ -21,7 +21,7 @@ describe('Wild Bounty', function () {
 
         it('should not trigger twice before Wild Bounty is played', function () {
             this.player1.play(this.fertilityChant);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
             expect(this.player1.amber).toBe(4);
             expect(this.player2.amber).toBe(4);
         });
@@ -30,7 +30,7 @@ describe('Wild Bounty', function () {
             this.player1.play(this.wildBounty);
             expect(this.player1.amber).toBe(0);
             this.player1.play(this.fertilityChant);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
             expect(this.player1.amber).toBe(8);
             expect(this.player2.amber).toBe(4);
         });
@@ -40,7 +40,7 @@ describe('Wild Bounty', function () {
             expect(this.player1.amber).toBe(0);
             this.player1.play(this.fertilityChant);
             this.player1.play(this.dustPixie);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
             expect(this.player1.amber).toBe(10);
             expect(this.player2.amber).toBe(4);
         });
@@ -52,7 +52,7 @@ describe('Wild Bounty', function () {
             expect(this.player1.amber).toBe(8);
             this.player1.moveCard(this.fertilityChant, 'hand');
             this.player1.play(this.fertilityChant);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
             expect(this.player1.amber).toBe(12);
             expect(this.player2.amber).toBe(6);
         });
@@ -70,7 +70,7 @@ describe('Wild Bounty', function () {
             expect(this.player1).toBeAbleToSelect(this.flaxia);
             expect(this.player1).toBeAbleToSelect(this.troll);
             this.player1.clickCard(this.troll);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
             expect(this.player1.amber).toBe(6);
             expect(this.player1.player.hand.length).toBe(5);
             expect(this.troll.tokens.damage).toBe(2);
@@ -124,7 +124,7 @@ describe('Wild Bounty', function () {
 
             this.player1.play(this.dustPixie);
 
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
             expect(this.player1.amber).toBe(12);
             expect(this.player2.amber).toBe(4);
         });
@@ -158,7 +158,7 @@ describe('Wild Bounty', function () {
             this.player1.play(this.dataForge);
             expect(this.player1.amber).toBe(4);
 
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
     });
 });

@@ -25,7 +25,7 @@ describe('Chaosodon', function () {
             expect(this.umbra.location).toBe('discard');
             expect(this.charette.location).toBe('play area');
             expect(this.charette.tokens.damage).toBe(3);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
     });
 });

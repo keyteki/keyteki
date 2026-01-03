@@ -16,7 +16,7 @@ describe('Collector Boren', function () {
             expect(this.collectorBoren.exhausted).toBe(true);
             this.player1.playUpgrade(this.echoReflector, this.collectorBoren);
             expect(this.collectorBoren.exhausted).toBe(false);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('should get an upgrade from discard when played', function () {
@@ -27,7 +27,7 @@ describe('Collector Boren', function () {
             this.player1.playCreature(this.collectorBoren);
             this.player1.clickCard(this.echoReflector);
             expect(this.echoReflector.location).toBe('hand');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
     });
 });

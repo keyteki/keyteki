@@ -34,7 +34,7 @@ describe('Mender', function () {
             expect(this.player1).not.toBeAbleToSelect(this.awayTeam);
             this.player1.clickCard(this.crushingDeep);
             expect(this.crushingDeep.location).toBe('purged');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('heals and wards all robot creatures on play', function () {
@@ -52,7 +52,7 @@ describe('Mender', function () {
             expect(this.thingFromTheDeep.warded).toBe(false);
             expect(this.awayTeam.tokens.damage).toBe(undefined);
             expect(this.awayTeam.warded).toBe(true);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('also works on reap', function () {
@@ -78,7 +78,7 @@ describe('Mender', function () {
             expect(this.thingFromTheDeep.warded).toBe(false);
             expect(this.awayTeam.tokens.damage).toBe(undefined);
             expect(this.awayTeam.warded).toBe(true);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
     });
 });

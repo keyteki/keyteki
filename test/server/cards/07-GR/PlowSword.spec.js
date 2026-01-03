@@ -42,7 +42,7 @@ describe('Plow-Sword', function () {
             expect(this.player1).not.toBeAbleToSelect(this.controlTheWeak);
             this.player1.clickCard(this.cpoZytar);
             expect(this.cpoZytar.tokens.damage).toBe(2);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('does nothing if you did not move a creature', function () {
@@ -50,7 +50,7 @@ describe('Plow-Sword', function () {
             this.player1.moveCard(this.medicIngram, 'deck');
             this.player1.useAction(this.plowSword);
             this.player1.clickCard(this.echofly);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
     });
 });

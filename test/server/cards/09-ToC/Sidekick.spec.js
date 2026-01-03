@@ -22,14 +22,14 @@ describe('Sidekick', function () {
             this.player1.clickPrompt('Left');
             expect(this.touchstone.name).toBe('Minion');
             expect(this.touchstone.location).toBe('play area');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('should do nothing if hand is empty', function () {
             this.player1.scrap(this.aStrongFeeling);
             this.player1.scrap(this.touchstone);
             this.player1.playCreature(this.sidekick);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
     });
 });

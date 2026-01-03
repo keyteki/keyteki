@@ -20,7 +20,7 @@ describe('Dark Heart of the Forest', function () {
         it('skips forge a key step for haunted opponent', function () {
             this.player1.endTurn();
             this.player2.clickPrompt('untamed');
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player2);
             expect(this.player2.player.keys.red).toBe(false);
             expect(this.player2.player.keys.blue).toBe(false);
             expect(this.player2.player.keys.yellow).toBe(false);
@@ -32,7 +32,7 @@ describe('Dark Heart of the Forest', function () {
             this.player2.clickPrompt('untamed');
             this.player2.endTurn();
             this.player1.clickPrompt('untamed');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
             expect(this.player1.player.keys.red).toBe(false);
             expect(this.player1.player.keys.blue).toBe(false);
             expect(this.player1.player.keys.yellow).toBe(false);

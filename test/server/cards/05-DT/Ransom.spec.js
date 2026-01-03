@@ -22,7 +22,7 @@ describe('Ransom', function () {
 
             it('should not be able to use the creature', function () {
                 this.player1.clickCard(this.sacroThief);
-                expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+                this.expectReadyToTakeAction(this.player1);
             });
 
             it('should not affect opponent', function () {
@@ -71,7 +71,7 @@ describe('Ransom', function () {
                         expect(this.player2.amber).toBe(1);
                         expect(this.ransom.location).not.toBe('discard');
                         this.player1.clickCard(this.sacroThief);
-                        expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+                        this.expectReadyToTakeAction(this.player1);
                         this.player1.endTurn();
                     });
                 });
@@ -115,7 +115,7 @@ describe('Ransom', function () {
                 it('should not be able to use the creature', function () {
                     this.player2.clickPrompt('untamed');
                     this.player2.clickCard(this.collectorWorm);
-                    expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+                    this.expectReadyToTakeAction(this.player2);
                     this.player2.endTurn();
                 });
 
@@ -149,7 +149,7 @@ describe('Ransom', function () {
                         expect(this.player2.amber).toBe(5);
                         expect(this.ransom.location).not.toBe('discard');
                         this.player2.clickCard(this.collectorWorm);
-                        expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+                        this.expectReadyToTakeAction(this.player2);
                         this.player2.endTurn();
                     });
                 });

@@ -25,7 +25,7 @@ describe('Growland', function () {
             expect(this.player1).not.toBeAbleToSelect(this.urchin);
             this.player1.clickCard(this.citizenShrix);
             expect(this.citizenShrix.location).toBe('discard');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('should allow destroying a Mutant creature after reaping', function () {
@@ -33,14 +33,14 @@ describe('Growland', function () {
             this.player1.clickCard(this.growland);
             this.player1.clickCard(this.citizenShrix);
             expect(this.citizenShrix.location).toBe('discard');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('should be optional', function () {
             this.player1.reap(this.growland);
             this.player1.clickPrompt('Done');
             expect(this.citizenShrix.location).toBe('play area');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('should fully heal each friendly Mutant creature when scrapped', function () {
@@ -52,7 +52,7 @@ describe('Growland', function () {
             expect(this.yurk.tokens.damage).toBe(1);
             expect(this.citizenShrix.tokens.damage).toBe(1);
             expect(this.fandangle.tokens.damage).toBeUndefined();
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
     });
 });

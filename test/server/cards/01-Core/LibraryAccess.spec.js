@@ -22,7 +22,7 @@ describe('Library Access', function () {
             this.player1.clickPrompt('Library Access'); // Draw for Wild Wormhole
             this.player1.clickPrompt('Library Access'); // Draw for Foggify
             expect(this.player1.hand.length).toBe(handSize);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
     });
 });

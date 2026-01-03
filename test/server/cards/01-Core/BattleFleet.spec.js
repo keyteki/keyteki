@@ -27,7 +27,7 @@ describe('Battle Fleet', function () {
         it('should allow the player to select 0 cards', function () {
             expect(this.player1.currentButtons).toContain('Done');
             this.player1.clickPrompt('Done');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('should draw the correct number of cards', function () {
@@ -35,7 +35,7 @@ describe('Battle Fleet', function () {
             this.player1.clickCard(this.combatPheromones);
             this.player1.clickCard(this.softLanding);
             this.player1.clickPrompt('Done');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
             expect(this.player1.hand.length).toBe(7);
         });
     });

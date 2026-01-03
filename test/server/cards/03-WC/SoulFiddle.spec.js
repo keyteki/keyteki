@@ -38,7 +38,7 @@ describe('Soul Fiddle', function () {
             this.player1.moveCard(this.dextre, 'discard');
             this.player2.moveCard(this.mightyTiger, 'discard');
             this.player1.useAction(this.soulFiddle);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
     });
 });

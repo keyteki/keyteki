@@ -28,7 +28,7 @@ describe('Cryptic Collapse', function () {
             expect(this.troll.amber).toBe(1);
             expect(this.dustPixie.amber).toBe(1);
             expect(this.player2.amber).toBe(2);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('should not capture amber if no cards in hand', function () {
@@ -38,7 +38,7 @@ describe('Cryptic Collapse', function () {
             expect(this.troll.amber).toBe(0);
             expect(this.dustPixie.amber).toBe(0);
             expect(this.player2.amber).toBe(4);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         /**
@@ -93,7 +93,7 @@ describe('Cryptic Collapse', function () {
 
             // CC only actually discarded one card, so it should be fully
             // resolved now and we’re back to the normal game loop.
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('should correctly count æmber when scrap didn’t discard a card', function () {
@@ -130,7 +130,7 @@ describe('Cryptic Collapse', function () {
             expect(this.player1).toHavePrompt('Choose a creature to capture 1 amber');
             this.player1.clickCard(this.dustPixie);
 
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
     });
 });

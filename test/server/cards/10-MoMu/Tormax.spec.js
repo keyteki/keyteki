@@ -49,7 +49,7 @@ describe('Tormax', function () {
             expect(this.player1.player.hand.length).toBe(0);
             expect(this.player2.player.hand.length).toBe(4);
             expect(this.player2.player.purged.length).toBe(2);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('should discard hand and purge 2 opponent cards on reap', function () {
@@ -60,7 +60,7 @@ describe('Tormax', function () {
             expect(this.player1.player.hand.length).toBe(0);
             expect(this.player2.player.hand.length).toBe(2);
             expect(this.player2.player.purged.length).toBe(4);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('should discard hand and purge 2 opponent cards on fight', function () {
@@ -71,7 +71,7 @@ describe('Tormax', function () {
             expect(this.player1.player.hand.length).toBe(0);
             expect(this.player2.player.hand.length).toBe(2);
             expect(this.player2.player.purged.length).toBe(4);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
     });
 });

@@ -17,7 +17,7 @@ describe('Vigor', function () {
             this.player1.play(this.vigor);
             expect(this.player1.amber).toBe(1);
             this.player1.clickCard(this.mightyTiger);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('should gain an amber if healing is less than 1', function () {
@@ -28,7 +28,7 @@ describe('Vigor', function () {
             this.player1.clickPrompt('1');
             expect(this.mightyTiger.hasToken('damage')).toBe(false);
             expect(this.player1.amber).toBe(1);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('should gain 2 amber when healing 3 damage', function () {
@@ -39,7 +39,7 @@ describe('Vigor', function () {
             this.player1.clickPrompt('3');
             expect(this.mightyTiger.hasToken('damage')).toBe(false);
             expect(this.player1.amber).toBe(2);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
     });
 });

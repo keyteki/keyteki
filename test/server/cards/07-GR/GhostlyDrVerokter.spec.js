@@ -28,7 +28,7 @@ describe('Ghostly Dr. Verokter', function () {
             this.player1.clickCard(this.fullMoon);
             expect(this.fullMoon.location).toBe('deck');
             expect(this.player1.player.deck[0]).toBe(this.fullMoon);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         describe('after play', function () {
@@ -45,20 +45,20 @@ describe('Ghostly Dr. Verokter', function () {
                 this.player1.clickCard(this.flaxia);
                 expect(this.flaxia.location).toBe('deck');
                 expect(this.player1.player.deck[0]).toBe(this.flaxia);
-                expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+                this.expectReadyToTakeAction(this.player1);
             });
 
             it('does not archive on destroy if not haunted', function () {
                 this.player1.fightWith(this.ghostlyDrVerokter, this.troll);
                 expect(this.ghostlyDrVerokter.location).toBe('discard');
-                expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+                this.expectReadyToTakeAction(this.player1);
             });
 
             it('archives on destroy if haunted', function () {
                 this.player1.play(this.oppositionResearch);
                 this.player1.fightWith(this.ghostlyDrVerokter, this.troll);
                 expect(this.ghostlyDrVerokter.location).toBe('archives');
-                expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+                this.expectReadyToTakeAction(this.player1);
             });
         });
     });

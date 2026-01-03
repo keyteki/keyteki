@@ -62,7 +62,7 @@ describe('Bawretchadontius', function () {
             expect(this.troll.amber).toBe(0);
             expect(this.player1.amber).toBe(1);
             expect(this.player2.amber).toBe(1);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('should exalt a friendly and 2 enemy creatures on reap', function () {
@@ -96,7 +96,7 @@ describe('Bawretchadontius', function () {
             expect(this.troll.amber).toBe(0);
             expect(this.player1.amber).toBe(2);
             expect(this.player2.amber).toBe(1);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('should exalt a friendly and 2 enemy creatures on fight', function () {
@@ -130,7 +130,7 @@ describe('Bawretchadontius', function () {
             expect(this.troll.amber).toBe(0);
             expect(this.player1.amber).toBe(1);
             expect(this.player2.amber).toBe(1);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('should give creatures with amber on them a reap ability to do 4 damage', function () {
@@ -149,7 +149,7 @@ describe('Bawretchadontius', function () {
             this.player1.clickCard(this.troll);
             expect(this.troll.tokens.damage).toBe(4);
             this.player1.reap(this.tricerianLegionary);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
     });
 });

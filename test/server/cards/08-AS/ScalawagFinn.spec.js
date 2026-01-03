@@ -17,7 +17,7 @@ describe('Scalawag Finn', function () {
         it('should heal 3 damage on fight', function () {
             this.player1.fightWith(this.scalawagFinn, this.lamindra);
             expect(this.scalawagFinn.tokens.damage).toBe(2);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
     });
 });

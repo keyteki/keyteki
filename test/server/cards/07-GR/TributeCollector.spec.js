@@ -25,7 +25,7 @@ describe('Tribute Collector', function () {
             this.player1.clickCard(this.echofly);
             expect(this.echofly.amber).toBe(1);
             expect(this.player2.amber).toBe(2);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('captures 1 A on a friendly creature on fight', function () {
@@ -39,7 +39,7 @@ describe('Tribute Collector', function () {
             this.player1.clickCard(this.tributeCollector);
             expect(this.tributeCollector.amber).toBe(1);
             expect(this.player2.amber).toBe(1);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
     });
 });

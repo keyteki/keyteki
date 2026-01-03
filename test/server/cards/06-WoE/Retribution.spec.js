@@ -26,7 +26,7 @@ describe('Retribution', function () {
         it('should do nothing when opponent does not have more creatures', function () {
             this.player1.play(this.holdfast);
             this.player1.play(this.retribution);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
     });
 });

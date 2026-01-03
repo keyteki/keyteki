@@ -29,7 +29,7 @@ describe('Red Aeronaut', function () {
             this.player1.moveCard(this.nautilixian, 'hand');
             this.player1.playCreature(this.nautilixian);
             this.player1.playCreature(this.redAeronaut);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('should allow the search to fail', function () {

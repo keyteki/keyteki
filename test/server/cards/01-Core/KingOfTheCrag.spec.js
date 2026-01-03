@@ -20,7 +20,7 @@ describe('King of the Crag', function () {
             expect(this.krump.power).toBe(4); // 6 - 2
             expect(this.pingleWhoAnnoys.location).toBe('discard'); // Power 0, destroyed
             expect(this.kingOfTheCrag.tokens.damage).toBe(undefined); // No damage taken from Pingle
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
     });
 });

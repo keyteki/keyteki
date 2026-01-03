@@ -23,7 +23,7 @@ describe('Unbinding', function () {
             this.player1.clickPrompt('Left');
             expect(this.toad1.location).toBe('play area');
             expect(this.player1.player.creaturesInPlay[0]).toBe(this.toad1);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('should archive if a friendly creature was destroyed', function () {
@@ -32,7 +32,7 @@ describe('Unbinding', function () {
             this.player1.clickPrompt('Right');
             expect(this.unbinding.location).toBe('archives');
             expect(this.player1.player.archives.length).toBe(1);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('should not archive if just an enemy creature was destroyed', function () {
@@ -40,7 +40,7 @@ describe('Unbinding', function () {
             this.player1.play(this.unbinding);
             this.player1.clickPrompt('Right');
             expect(this.unbinding.location).toBe('discard');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
     });
 });

@@ -22,7 +22,7 @@ describe('Looter Goblin', function () {
             expect(this.lamindra.location).toBe('discard');
             expect(this.silvertooth.location).toBe('discard');
             expect(this.player1.amber).toBe(3);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('should not gain amber for friendly creature destroyed', function () {
@@ -32,7 +32,7 @@ describe('Looter Goblin', function () {
             this.player1.clickCard(this.wardrummer);
             expect(this.wardrummer.location).toBe('discard');
             expect(this.player1.amber).toBe(2);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('should still gain amber if looter goblin leaves play', function () {
@@ -47,7 +47,7 @@ describe('Looter Goblin', function () {
             expect(this.lamindra.location).toBe('discard');
             expect(this.silvertooth.location).toBe('discard');
             expect(this.player1.amber).toBe(4);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
     });
 });

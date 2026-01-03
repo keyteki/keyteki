@@ -31,7 +31,7 @@ describe('Vĕsted Harŏld', function () {
             expect(this.dustPixie.location).toBe('archives');
             expect(this.player2.player.archives).toContain(this.dustPixie);
             expect(this.infurnace.location).toBe('play area');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('should archive into owner archives', function () {
@@ -47,7 +47,7 @@ describe('Vĕsted Harŏld', function () {
             expect(this.dustPixie.location).toBe('archives');
             expect(this.player2.player.archives).toContain(this.dustPixie);
             expect(this.infurnace.location).toBe('play area');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
     });
 });

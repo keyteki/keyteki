@@ -16,13 +16,13 @@ describe('Scrivener Favian', function () {
 
         it('should not trigger if no bonus', function () {
             this.player1.play(this.wildBounty);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
             expect(this.player1.amber).toBe(0);
         });
 
         it('should not trigger if no capture', function () {
             this.player1.play(this.fertilityChant);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
             expect(this.player1.amber).toBe(4);
         });
 
@@ -38,7 +38,7 @@ describe('Scrivener Favian', function () {
             expect(this.player1.amber).toBe(3);
             expect(this.player2.amber).toBe(1);
             expect(this.player1.player.hand.length).toBe(3);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('should ask to replace capture with steal, and steal, if selected', function () {
@@ -51,7 +51,7 @@ describe('Scrivener Favian', function () {
             expect(this.player1.amber).toBe(4);
             expect(this.player2.amber).toBe(1);
             expect(this.player1.player.hand.length).toBe(3);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
     });
 
@@ -103,7 +103,7 @@ describe('Scrivener Favian', function () {
             expect(this.player1.amber).toBe(3);
             expect(this.player2.amber).toBe(2);
             expect(this.player1.player.hand.length).toBe(3);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
     });
 });

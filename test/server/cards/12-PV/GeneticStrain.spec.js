@@ -30,7 +30,7 @@ describe('Genetic Strain', function () {
             expect(this.fandangle.amber).toBe(1);
             expect(this.searine.amber).toBe(0);
             expect(this.player1.amber).toBe(2);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('should make opponent gain 2 amber when fate is triggered if they have Mutants', function () {
@@ -40,7 +40,7 @@ describe('Genetic Strain', function () {
             this.player2.reap(this.fandangle);
             expect(this.player1.amber).toBe(4);
             expect(this.geneticStrain.location).toBe('discard');
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player2);
         });
 
         it('should not make opponent gain amber when fate is triggered if they have no Mutants', function () {
@@ -51,7 +51,7 @@ describe('Genetic Strain', function () {
             this.player2.reap(this.fandangle);
             expect(this.player1.amber).toBe(4);
             expect(this.geneticStrain.location).toBe('discard');
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player2);
         });
     });
 });

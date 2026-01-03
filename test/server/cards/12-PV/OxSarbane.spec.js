@@ -21,7 +21,7 @@ describe('Ox Sarbane', function () {
             expect(this.shockHerder.exhausted).toBe(true);
             expect(this.troll.exhausted).toBe(false);
             expect(this.dustPixie.exhausted).toBe(false);
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player2);
         });
 
         it('should exhaust friendly creatures that share a house after reap', function () {
@@ -31,7 +31,7 @@ describe('Ox Sarbane', function () {
             expect(this.troll.exhausted).toBe(false);
             expect(this.shockHerder.exhausted).toBe(true);
             expect(this.dustPixie.exhausted).toBe(false);
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player2);
         });
     });
 });

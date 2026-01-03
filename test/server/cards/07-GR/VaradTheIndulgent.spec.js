@@ -25,7 +25,7 @@ describe('Varad the Indulgent', function () {
             expect(this.varadTheIndulgent.power).toBe(5);
             expect(this.varadTheIndulgent.amber).toBe(1);
             expect(this.player2.amber).toBe(1);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('does not capture when a friendly non-Geistoid creature fights', function () {
@@ -37,7 +37,7 @@ describe('Varad the Indulgent', function () {
             expect(this.varadTheIndulgent.power).toBe(4);
             expect(this.varadTheIndulgent.amber).toBe(0);
             expect(this.player2.amber).toBe(2);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
     });
 });

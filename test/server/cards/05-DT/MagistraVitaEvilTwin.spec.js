@@ -30,7 +30,7 @@ describe('Magistra Vita Evil Twin', function () {
             this.player1.clickCard(this.murkens);
             expect(this.shooler.tokens.damage).toBe(2);
             expect(this.shooler.tokens.amber).toBe(1);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
     });
 
@@ -60,7 +60,7 @@ describe('Magistra Vita Evil Twin', function () {
             this.player1.clickCard(this.murkens);
             expect(this.shooler.tokens.damage).toBe(2);
             expect(this.shooler.tokens.amber).toBe(1);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
     });
 });

@@ -26,7 +26,7 @@ describe('Phantom Drummernaut', function () {
             expect(this.player1).not.toBeAbleToSelect(this.thingFromTheDeep);
             this.player1.clickCard(this.troll);
             expect(this.troll.location).toBe('hand');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         describe('after play', function () {
@@ -44,20 +44,20 @@ describe('Phantom Drummernaut', function () {
                 this.player1.fightWith(this.phantomDrummernaut, this.huntingWitch);
                 this.player1.clickCard(this.troll);
                 expect(this.troll.location).toBe('hand');
-                expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+                this.expectReadyToTakeAction(this.player1);
             });
 
             it('does not archive on destroy if not haunted', function () {
                 this.player1.fightWith(this.phantomDrummernaut, this.thingFromTheDeep);
                 expect(this.phantomDrummernaut.location).toBe('discard');
-                expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+                this.expectReadyToTakeAction(this.player1);
             });
 
             it('archives on destroy if haunted', function () {
                 this.player1.play(this.pressGang);
                 this.player1.fightWith(this.phantomDrummernaut, this.thingFromTheDeep);
                 expect(this.phantomDrummernaut.location).toBe('archives');
-                expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+                this.expectReadyToTakeAction(this.player1);
             });
         });
     });

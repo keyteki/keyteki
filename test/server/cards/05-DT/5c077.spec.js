@@ -201,9 +201,7 @@ describe('5C077', function () {
                         it('should add +1 power counters', function () {
                             expect(this['5c077'].tokens.power).toBe(1);
                             expect(this['5c077'].power).toBe(3);
-                            expect(this.player1).toHavePrompt(
-                                'Choose a card to play, discard or use'
-                            );
+                            this.expectReadyToTakeAction(this.player1);
                         });
 
                         describe('and reap again', function () {
@@ -229,9 +227,7 @@ describe('5C077', function () {
                                 it('should remove its power counters', function () {
                                     expect(this['5c077'].tokens.power).toBeUndefined();
                                     expect(this['5c077'].power).toBe(2);
-                                    expect(this.player1).toHavePrompt(
-                                        'Choose a card to play, discard or use'
-                                    );
+                                    this.expectReadyToTakeAction(this.player1);
                                 });
                             });
                         });

@@ -65,7 +65,7 @@ describe('Look Over There', function () {
             this.player1.play(this.lookOverThere);
             expect(this.player1.amber).toBe(0);
             expect(this.player2.amber).toBe(1);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
     });
 

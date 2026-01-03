@@ -23,7 +23,7 @@ describe("Razor's Gambit", function () {
             this.player1.clickCard(this.bosunCreen);
             this.player1.clickCard(this.dustPixie);
             expect(this.dustPixie.location).toBe('discard');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('should repeat if blue key is forged', function () {
@@ -41,7 +41,7 @@ describe("Razor's Gambit", function () {
             this.player1.clickCard(this.bosunCreen);
             this.player1.clickCard(this.huntingWitch);
             expect(this.huntingWitch.location).toBe('discard');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
     });
 });

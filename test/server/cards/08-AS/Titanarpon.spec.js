@@ -28,7 +28,7 @@ describe('Titanarpon', function () {
             this.player2.clickPrompt('brobnar');
             this.player2.playCreature(this.troll);
             expect(this.troll.exhausted).toBe(true);
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player2);
         });
 
         it('should make itself enter play ready if first', function () {
@@ -37,7 +37,7 @@ describe('Titanarpon', function () {
             expect(this.titanarpon.exhausted).toBe(false);
             this.player1.playCreature(this.gub);
             expect(this.gub.exhausted).toBe(true);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('should not make itself enter play ready if second', function () {
@@ -46,7 +46,7 @@ describe('Titanarpon', function () {
             expect(this.gub.exhausted).toBe(true);
             this.player1.playCreature(this.titanarpon);
             expect(this.titanarpon.exhausted).toBe(true);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('should not ready token creatures', function () {
@@ -57,7 +57,7 @@ describe('Titanarpon', function () {
             expect(tokenCreature.exhausted).toBe(true);
             this.player1.playCreature(this.gub);
             expect(this.gub.exhausted).toBe(false);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('should not ready an artifact', function () {
@@ -65,7 +65,7 @@ describe('Titanarpon', function () {
             expect(this.dominatorBauble.exhausted).toBe(true);
             this.player1.playCreature(this.gub);
             expect(this.gub.exhausted).toBe(false);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
     });
 });

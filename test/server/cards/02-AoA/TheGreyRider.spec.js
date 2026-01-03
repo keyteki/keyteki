@@ -29,7 +29,7 @@ describe('The Grey Rider', function () {
             this.player1.clickCard(this.batdrone);
             expect(this.sequis.location).toBe('play area');
             expect(this.batdrone.location).toBe('discard');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('on play, it should allow fighting with a non-house creature', function () {
@@ -46,7 +46,7 @@ describe('The Grey Rider', function () {
             expect(this.batdrone.location).toBe('discard');
             expect(this.ancientBear.exhausted).toBe(true);
             expect(this.ancientBear.hasToken('damage')).toBe(false);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it("on play, it should ready creatures who can't fight", function () {
@@ -64,7 +64,7 @@ describe('The Grey Rider', function () {
             expect(this.player1).not.toBeAbleToSelect(this.ancientBear);
             this.player1.clickCard(this.sequis);
             expect(this.sequis.exhausted).toBe(false);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
     });
     describe("The Grey Rider's ability", function () {
@@ -91,7 +91,7 @@ describe('The Grey Rider', function () {
             this.player1.clickCard(this.sequis);
             expect(this.sequis.exhausted).toBe(false);
             this.player1.reap(this.sequis);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
             expect(this.player1.amber).toBe(2);
         });
     });

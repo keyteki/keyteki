@@ -34,7 +34,7 @@ describe('Governess Silvina', function () {
             this.player1.clickCard(this.krump);
             expect(this.oratorHissaro.tokens.amber).toBeUndefined();
             expect(this.krump.tokens.amber).toBe(2);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('should stun 2 creatures with no amber on them when scrapped', function () {
@@ -53,7 +53,7 @@ describe('Governess Silvina', function () {
             expect(this.krump.stunned).toBe(false);
             expect(this.dustPixie.stunned).toBe(true);
             expect(this.culfTheQuiet.stunned).toBe(true);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('should do nothing if there are no enemy creatures', function () {
@@ -63,7 +63,7 @@ describe('Governess Silvina', function () {
             this.player2.moveCard(this.culfTheQuiet, 'discard');
             this.player1.playCreature(this.governessSilvina);
             expect(this.oratorHissaro.tokens.amber).toBe(2);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
     });
 });

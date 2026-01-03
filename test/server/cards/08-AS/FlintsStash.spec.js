@@ -25,7 +25,7 @@ describe("Flint's Stash", function () {
             this.player1.clickCard(this.scalawagFinn);
             expect(this.player1.amber).toBe(5); // destroyed ordering
             expect(this.player2.amber).toBe(3);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
     });
 
@@ -51,7 +51,7 @@ describe("Flint's Stash", function () {
             this.player1.clickPrompt('Red'); // Keyfrog
             expect(this.player1.player.keys.red).toBe(true);
             expect(this.player1.amber).toBe(0);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
     });
 });

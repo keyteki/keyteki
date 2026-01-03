@@ -29,7 +29,7 @@ describe('Exchange Program', function () {
             expect(this.player1.player.cardsInPlay).not.toContain(this.antiquitiesDealer);
             expect(this.player2.player.cardsInPlay).not.toContain(this.bumpsy);
             expect(this.player2.player.cardsInPlay).toContain(this.antiquitiesDealer);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('does nothing if no creatures in play one side', function () {
@@ -39,7 +39,7 @@ describe('Exchange Program', function () {
             expect(this.player1).not.toBeAbleToSelect(this.selwynTheFence);
             expect(this.player1).not.toBeAbleToSelect(this.flaxia);
             expect(this.player1).not.toBeAbleToSelect(this.bumpsy);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
     });
 

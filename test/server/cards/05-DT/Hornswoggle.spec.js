@@ -26,7 +26,7 @@ describe('Hornswoggle', function () {
             this.player1.clickCard(this.murkens);
             expect(this.murkens.exhausted).toBe(false);
             expect(this.gauntletOfCommand.exhausted).toBe(true);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('should not trigger when there are no artifacts', function () {
@@ -36,7 +36,7 @@ describe('Hornswoggle', function () {
             expect(this.gormOfOmm.location).toBe('discard');
             expect(this.gauntletOfCommand.location).toBe('discard');
             this.player1.play(this.hornswoggle);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
     });
 });

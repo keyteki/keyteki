@@ -24,7 +24,7 @@ describe('Bux Bastian', function () {
             this.player1.clickCard(this.troll);
             expect(this.troll.amber).toBe(1);
             expect(this.pelf.amber).toBe(0);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
     });
 });

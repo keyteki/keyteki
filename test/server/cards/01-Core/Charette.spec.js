@@ -16,7 +16,7 @@ describe('Charette', function () {
             this.player1.play(this.charette);
             expect(this.charette.amber).toBe(3);
             expect(this.player2.amber).toBe(2);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
     });
 });

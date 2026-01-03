@@ -44,7 +44,7 @@ describe('Draining Touch', function () {
         });
         it('should fizzle when there are no creatures without amber', function () {
             this.player1.play(this.drainingTouch);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
     });
 });

@@ -24,7 +24,7 @@ describe('Portal Guardian', function () {
             expect(this.portalGuardian.location).toBe('discard');
             expect(this.krump.amber).toBe(2);
             expect(this.player2.amber).toBe(1);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('capture 2 on a friendly creature when opponent destroys it', function () {
@@ -39,7 +39,7 @@ describe('Portal Guardian', function () {
             expect(this.portalGuardian.location).toBe('discard');
             expect(this.krump.amber).toBe(2);
             expect(this.player2.amber).toBe(1);
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player2);
         });
     });
 });

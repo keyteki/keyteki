@@ -21,14 +21,14 @@ describe('Chauncey', function () {
             this.player1.clickCard(this.shooler);
             expect(this.shooler.location).toBe('discard');
             expect(this.chauncey.location).toBe('discard');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('should cause 3 amber gain', function () {
             this.player1.useAction(this.chauncey);
             this.player1.clickCard(this.shooler);
             expect(this.player1.amber).toBe(4);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('should not give amber if no other creature is destroyed', function () {
@@ -36,7 +36,7 @@ describe('Chauncey', function () {
             this.player1.useAction(this.chauncey);
             expect(this.chauncey.location).toBe('discard');
             expect(this.player1.amber).toBe(1);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('should not give amber if Chauncey ward stop destruction', function () {
@@ -46,7 +46,7 @@ describe('Chauncey', function () {
             expect(this.chauncey.location).toBe('play area');
             expect(this.shooler.location).toBe('discard');
             expect(this.player1.amber).toBe(1);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('should not give amber if other ward stop destruction', function () {
@@ -56,7 +56,7 @@ describe('Chauncey', function () {
             expect(this.chauncey.location).toBe('discard');
             expect(this.shooler.location).toBe('play area');
             expect(this.player1.amber).toBe(1);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
     });
 });

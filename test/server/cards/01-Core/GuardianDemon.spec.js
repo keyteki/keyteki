@@ -42,7 +42,7 @@ describe('Guardian Demon', function () {
             this.player1.clickCard(this.emberImp);
             expect(this.theTerror.tokens.damage).toBe(2);
             expect(this.emberImp.location).toBe('discard');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
             this.player1.play(this.poltergeist);
             expect(this.player1).toHavePrompt('Poltergeist');
             this.player1.clickCard(this.gauntletOfCommand);
@@ -73,12 +73,12 @@ describe('Guardian Demon', function () {
             this.player1.clickCard(this.sequis);
             expect(this.guardianDemon.tokens.damage).toBe(1);
             expect(this.sequis.location).toBe('discard');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('should not trigger when there are no damaged creatures', function () {
             this.player1.play(this.guardianDemon);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('should not prompt to target a second creature if the first was not healed', function () {
@@ -90,7 +90,7 @@ describe('Guardian Demon', function () {
             expect(this.player1).toBeAbleToSelect(this.guardianDemon);
             expect(this.player1).toHavePromptButton('Done');
             this.player1.clickCard(this.guardianDemon);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('should deal 1 damage when only 1 damage is healed', function () {

@@ -16,7 +16,7 @@ describe('Font of the eye', function () {
 
         it('not allow a capture if no creatures have been destroyed', function () {
             this.player1.useAction(this.fontOfTheEye, true);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('allow a friendly creature to capture 1 if an enemy was destroyed', function () {

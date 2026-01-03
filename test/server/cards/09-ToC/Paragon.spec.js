@@ -22,7 +22,7 @@ describe('Paragon', function () {
             this.player1.useAction(this.ornateTalkingTray, true);
             expect(this.paragon1.location).toBe('play area');
             expect(this.paragon1.enraged).toBe(false);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('should enter play enraged if a mutant in play', function () {
@@ -31,7 +31,7 @@ describe('Paragon', function () {
             this.player1.clickPrompt('Right');
             expect(this.paragon1.location).toBe('play area');
             expect(this.paragon1.enraged).toBe(true);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('should enter play enraged if enemy mutant in play', function () {
@@ -39,7 +39,7 @@ describe('Paragon', function () {
             this.player1.useAction(this.ornateTalkingTray, true);
             expect(this.paragon1.location).toBe('play area');
             expect(this.paragon1.enraged).toBe(true);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
     });
 });

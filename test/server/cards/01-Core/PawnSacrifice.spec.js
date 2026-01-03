@@ -52,7 +52,7 @@ describe('Pawn Sacrifice', function () {
             expect(this.player1).toHavePrompt('Choose 2 creatures');
             this.player1.clickPrompt('Done');
             expect(this.batdrone.location).toBe('discard');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('should work correctly when there are no creatures to damage', function () {
@@ -71,7 +71,7 @@ describe('Pawn Sacrifice', function () {
             expect(this.player1).not.toBeAbleToSelect(this.batdrone);
             this.player1.clickCard(this.urchin);
             expect(this.urchin.location).toBe('discard');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
     });
 });

@@ -19,7 +19,7 @@ describe('Vendor Hyertula', function () {
             expect(this.player1).toBeAbleToSelect(this.vendorHyertula);
             this.player1.clickPrompt('Done');
             expect(this.vendorHyertula.location).toBe('play area');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('should allow you to take control of an artifact', function () {
@@ -35,7 +35,7 @@ describe('Vendor Hyertula', function () {
             this.player1.useAction(this.ritualOfBalance);
             expect(this.player1.amber).toBe(3);
             expect(this.player2.amber).toBe(5);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('should revert the artifact to its original house after losing control', function () {
@@ -48,13 +48,13 @@ describe('Vendor Hyertula', function () {
             this.player2.useAction(this.uncommonCurrency);
             this.player2.clickCard(this.ritualOfBalance);
             this.player2.clickCard(this.ritualOfBalance);
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player2);
             this.player2.endTurn();
             this.player1.clickPrompt('ekwidon');
             this.player1.endTurn();
             this.player2.clickPrompt('untamed');
             this.player2.useAction(this.ritualOfBalance);
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player2);
         });
     });
 });

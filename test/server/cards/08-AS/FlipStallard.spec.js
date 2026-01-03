@@ -17,13 +17,13 @@ describe('Flip Stallard', function () {
         it('should blank enemy creature destroyed effects', function () {
             this.player1.fightWith(this.brabble, this.troll);
             expect(this.player2.amber).toBe(2);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('should not blank friendly creature destroyed effects', function () {
             this.player1.fightWith(this.lilithal, this.badPenny);
             expect(this.badPenny.location).toBe('hand');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('should not blank enemy creature fight effects', function () {
@@ -34,7 +34,7 @@ describe('Flip Stallard', function () {
             expect(this.flipStallard.location).toBe('discard');
             this.player1.fightWith(this.brabble, this.troll);
             expect(this.player2.amber).toBe(1);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
     });
 });

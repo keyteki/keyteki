@@ -20,7 +20,7 @@ describe("Yondar's Log", function () {
             expect(this.player1.player.archives).toContain(this.krump);
             expect(this.player1.player.archives).toContain(this.emberImp);
             expect(this.player1.player.archives).toContain(this.medicIngram);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('should not archive any cards when there are not more enemy creatures', function () {
@@ -30,7 +30,7 @@ describe("Yondar's Log", function () {
             this.player1.play(this.yondarSLog);
             expect(this.player1.player.hand.length).toBe(3);
             expect(this.player1.player.archives.length).toBe(0);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('should not archive any cards when there are equal numbers of creatures', function () {
@@ -39,7 +39,7 @@ describe("Yondar's Log", function () {
             this.player1.play(this.yondarSLog);
             expect(this.player1.player.hand.length).toBe(3);
             expect(this.player1.player.archives.length).toBe(0);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
     });
 });

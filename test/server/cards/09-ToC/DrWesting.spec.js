@@ -22,14 +22,14 @@ describe('Dr. Westing', function () {
             this.player1.reap(this.drWesting);
             this.player1.clickPrompt('Left');
             expect(this.alphaGamma1.location).toBe('play area');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('should not make a token on reap when not on flank', function () {
             this.player1.playCreature(this.helperBot);
             this.player1.reap(this.drWesting);
             expect(this.alphaGamma1.location).toBe('deck');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
     });
 });

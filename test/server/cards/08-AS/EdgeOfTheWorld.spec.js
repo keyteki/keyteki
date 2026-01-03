@@ -27,7 +27,7 @@ describe('Edge of the World', function () {
             expect(this.player1.player.creaturesInPlay[1]).toBe(this.gub);
             expect(this.player1.amber).toBe(3);
             expect(this.player2.amber).toBe(1);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('should move enemy creatures and steal', function () {
@@ -37,7 +37,7 @@ describe('Edge of the World', function () {
             expect(this.player2.player.creaturesInPlay[2]).toBe(this.eldestBear);
             expect(this.player1.amber).toBe(3);
             expect(this.player2.amber).toBe(1);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
     });
 });

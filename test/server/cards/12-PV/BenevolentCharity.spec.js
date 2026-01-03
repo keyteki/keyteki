@@ -34,7 +34,7 @@ describe('Benevolent Charity', function () {
             expect(this.searine.amber).toBe(1);
             expect(this.player1.amber).toBe(2);
             expect(this.player2.amber).toBe(4);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('should make enemy creatures with amber capture 1 amber when fate is triggered', function () {
@@ -47,7 +47,7 @@ describe('Benevolent Charity', function () {
             expect(this.searine.amber).toBe(1);
             expect(this.player2.amber).toBe(3);
             expect(this.benevolentCharity.location).toBe('discard');
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player2);
         });
     });
 });

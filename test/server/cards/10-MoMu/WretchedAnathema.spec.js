@@ -50,7 +50,7 @@ describe('Wretched Anathema', function () {
             expect(this.gub.location).toBe('discard');
             expect(this.narp.location).toBe('play area');
             expect(this.wretchedAnathema.location).toBe('play area');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('should destroy two other creatures on reap', function () {
@@ -73,7 +73,7 @@ describe('Wretched Anathema', function () {
             expect(this.gub.location).toBe('discard');
             expect(this.narp.location).toBe('play area');
             expect(this.wretchedAnathema.location).toBe('play area');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('should not gain an action if not only friendly creature', function () {
@@ -86,7 +86,7 @@ describe('Wretched Anathema', function () {
             this.player1.clickCard(this.wretchedAnathema);
             expect(this.player1).not.toHavePromptButton("Use this card's Ability action");
             this.player1.clickPrompt('Cancel');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('should have an action to gain 4 amber if no other friendly creatures', function () {
@@ -98,7 +98,7 @@ describe('Wretched Anathema', function () {
 
             this.player1.useAction(this.wretchedAnathema);
             expect(this.player1.amber).toBe(6);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
     });
 });

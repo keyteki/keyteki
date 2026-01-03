@@ -37,7 +37,7 @@ describe('Belcher', function () {
             expect(this.bloodOfTitans.location).toBe('discard');
             expect(this.theWarchest.location).toBe('discard');
             expect(this.gangerChieftain.location).toBe('discard');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('does not work with no creatures in the deck', function () {
@@ -50,7 +50,7 @@ describe('Belcher', function () {
             expect(this.bloodOfTitans.location).toBe('discard');
             expect(this.theWarchest.location).toBe('discard');
             expect(this.player1.player.deck.length).toBe(0);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
     });
 });

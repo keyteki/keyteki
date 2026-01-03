@@ -14,7 +14,7 @@ describe('Dr. Escotera', function () {
             this.player2.player.keys = { blue: true, red: true, yellow: false };
             this.player1.play(this.drEscotera);
             expect(this.player1.amber).toBe(2);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
     });
 });

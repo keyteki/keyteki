@@ -25,7 +25,7 @@ describe('Recreational Jettison', function () {
             this.player1.clickCard(this.dustPixie);
             expect(this.dustPixie.location).toBe('discard');
             expect(this.player1.amber).toBe(4);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('should repeat if your yellow key is forged', function () {
@@ -41,7 +41,7 @@ describe('Recreational Jettison', function () {
             expect(this.player2.amber).toBe(1);
             expect(this.flaxia.amber).toBe(1);
             expect(this.controlTheWeak.location).toBe('discard');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('should repeat if opponent yellow key is forged', function () {
@@ -57,7 +57,7 @@ describe('Recreational Jettison', function () {
             expect(this.player2.amber).toBe(1);
             expect(this.flaxia.amber).toBe(1);
             expect(this.controlTheWeak.location).toBe('discard');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
     });
 });

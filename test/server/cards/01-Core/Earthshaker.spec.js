@@ -18,7 +18,7 @@ describe('Earthshaker', function () {
             expect(this.umbra.location).toBe('discard');
             expect(this.dodger.location).toBe('play area');
             expect(this.krump.location).toBe('play area');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
     });
 });

@@ -22,7 +22,7 @@ describe('Symposium', function () {
             this.player1.clickCard(this.pelf);
             this.player1.clickPrompt('Reap with this creature');
             expect(this.pelf.amber).toBe(1);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('should repeat if you use a token first', function () {
@@ -33,7 +33,7 @@ describe('Symposium', function () {
             this.player1.clickCard(this.pelf);
             this.player1.clickPrompt('Reap with this creature');
             expect(this.pelf.amber).toBe(1);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('optionally do nothing after using a token', function () {
@@ -42,7 +42,7 @@ describe('Symposium', function () {
             this.player1.clickPrompt('Reap with this creature');
             expect(this.grumpus.amber).toBe(1);
             this.player1.clickPrompt('Done');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
     });
 
@@ -75,7 +75,7 @@ describe('Symposium', function () {
             this.player1.clickPrompt('Reap with this creature');
             expect(this.pelf.amber).toBe(1);
             expect(this.player1.amber).toBe(2);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
     });
 });

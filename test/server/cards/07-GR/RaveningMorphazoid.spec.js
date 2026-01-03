@@ -20,7 +20,7 @@ describe('Ravening Morphazoid', function () {
             expect(this.player1.player.hand.length).toBe(3);
             this.player1.clickCard(this.auctionOff);
             expect(this.auctionOff.location).toBe('discard');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('draws a card and discards a card on fight', function () {
@@ -28,14 +28,14 @@ describe('Ravening Morphazoid', function () {
             expect(this.player1.player.hand.length).toBe(3);
             this.player1.clickCard(this.auctionOff);
             expect(this.auctionOff.location).toBe('discard');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('should not give poison and skirmish when not haunted', function () {
             this.player1.fightWith(this.raveningMorphazoid, this.troll);
             expect(this.raveningMorphazoid.location).toBe('discard');
             expect(this.troll.location).toBe('play area');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('should give poison and skirmish when haunted', function () {
@@ -46,7 +46,7 @@ describe('Ravening Morphazoid', function () {
             expect(this.player1.player.hand.length).toBe(2);
             this.player1.clickCard(this.massBuyout);
             expect(this.massBuyout.location).toBe('discard');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
     });
 });

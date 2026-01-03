@@ -26,7 +26,7 @@ describe('Zavel Archaeologist', function () {
             this.player1.clickCard(this.ornateTalkingTray);
             expect(this.player1.amber).toBe(3);
             expect(this.ornateTalkingTray.location).toBe('play area');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('gains no amber from an artifact played from hand', function () {
@@ -34,14 +34,14 @@ describe('Zavel Archaeologist', function () {
             this.player1.clickPrompt('Done');
             this.player1.play(this.sandhopper);
             expect(this.player1.amber).toBe(1);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('is optional', function () {
             this.player1.playCreature(this.zavelArchaeologist);
             this.player1.clickPrompt('Done');
             expect(this.player1.amber).toBe(1);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('plays an artifact from discard and gains 1 on reap', function () {
@@ -55,7 +55,7 @@ describe('Zavel Archaeologist', function () {
             this.player1.clickCard(this.luckyDice);
             expect(this.player1.amber).toBe(4);
             expect(this.luckyDice.location).toBe('play area');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
     });
 });

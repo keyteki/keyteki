@@ -23,7 +23,7 @@ describe('Nagoo Yani', function () {
             expect(this.player1).toBeAbleToSelect(this.troll);
             this.player1.clickCard(this.troll);
             expect(this.troll.tokens.damage).toBe(4);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('should deal 4 damage to an enemy creature on fight', function () {
@@ -38,7 +38,7 @@ describe('Nagoo Yani', function () {
             expect(this.player1).toBeAbleToSelect(this.troll);
             this.player1.clickCard(this.troll);
             expect(this.troll.location).toBe('discard');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('should deal 2 damage to enemy flank creatures on scrap', function () {
@@ -48,7 +48,7 @@ describe('Nagoo Yani', function () {
             expect(this.nexus.tokens.damage).toBe(undefined);
             expect(this.dewFaerie.location).toBe('play area');
             expect(this.dustPixie.location).toBe('play area');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
     });
 });

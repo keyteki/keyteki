@@ -88,7 +88,7 @@ describe('Tolas', function () {
             this.player1.clickCard(this.harbingerOfDoom);
             this.player1.clickPrompt('Done');
             expect(this.tolas.location).toBe('discard');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
             expect(this.player1.amber).toBe(0);
             expect(this.player2.amber).toBe(3);
         });
@@ -100,7 +100,7 @@ describe('Tolas', function () {
             this.player1.clickCard(this.harbingerOfDoom);
             this.player1.clickPrompt('Done');
             expect(this.tolas.location).toBe('discard');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
             expect(this.player1.amber).toBe(0);
             expect(this.player2.amber).toBe(3);
         });
@@ -115,14 +115,14 @@ describe('Tolas', function () {
             this.player1.fightWith(this.alaka, this.titanMechanic);
             expect(this.titanMechanic.location).toBe('play area');
             expect(this.alaka.location).toBe('discard');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
             expect(this.player1.amber).toBe(0);
             expect(this.player2.amber).toBe(0);
         });
 
         it('should happen after destroyed effects', function () {
             this.player1.fightWith(this.ancientYurk, this.brendTheFanatic);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
             expect(this.player1.amber).toBe(1);
             expect(this.player2.amber).toBe(3);
         });

@@ -33,7 +33,7 @@ describe('Cacophonous Riot', function () {
             expect(this.dustPixie.enraged).toBe(false);
             expect(this.dewFaerie.enraged).toBe(false);
             expect(this.flaxia.enraged).toBe(false);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('can ready and enrage enemy creatures', function () {
@@ -45,7 +45,7 @@ describe('Cacophonous Riot', function () {
             expect(this.groke.enraged).toBe(false);
             expect(this.cpoZytar.enraged).toBe(false);
             expect(this.troll.enraged).toBe(false);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
     });
 });

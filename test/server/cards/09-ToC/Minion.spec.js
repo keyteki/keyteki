@@ -22,7 +22,7 @@ describe('Minion', function () {
             let p = this.player1.discard[0];
             this.player1.reap(this.minion);
             expect(p.location).toBe('discard');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('should work for one haunted player', function () {
@@ -30,7 +30,7 @@ describe('Minion', function () {
             this.player1.reap(this.minion);
             expect(this.aStrongFeeling.location).toBe('deck');
             expect(this.player1.player.deck[0]).toBe(this.aStrongFeeling);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('should work for haunted opponent', function () {
@@ -43,7 +43,7 @@ describe('Minion', function () {
             expect(this.helperBot.location).toBe('deck');
             expect(this.player2.player.deck[0]).toBe(this.helperBot);
             expect(this.aStrongFeeling.location).toBe('discard');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
     });
 });

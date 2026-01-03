@@ -20,7 +20,7 @@ describe('Long Way Home', function () {
             expect(this.charette.location).toBe('play area'); // Not Skyborn
             expect(this.lamindra.location).toBe('play area'); // Enemy creature
             expect(this.nantucket.location).toBe('play area'); // Enemy Skyborn creature
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
     });
 });

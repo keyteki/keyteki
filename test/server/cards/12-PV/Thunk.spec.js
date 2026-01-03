@@ -29,7 +29,7 @@ describe('Thunk', function () {
             this.player1.clickCard(this.krump);
             expect(this.krump.tokens.damage).toBe(2);
             expect(this.krump.exhausted).toBe(true);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('should destroy each exhausted creature when fate is triggered', function () {
@@ -42,7 +42,7 @@ describe('Thunk', function () {
             expect(this.emberImp.location).toBe('play area');
             expect(this.urchin.location).toBe('discard');
             expect(this.thunk.location).toBe('discard');
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player2);
         });
     });
 });

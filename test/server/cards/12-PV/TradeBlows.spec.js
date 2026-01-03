@@ -24,7 +24,7 @@ describe('Trade Blows', function () {
             this.player1.clickCard(this.flaxia);
             expect(this.flaxia.tokens.damage).toBe(1);
             this.player1.clickPrompt('Done');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('should not repeat if enemy creature is destroyed', function () {
@@ -32,7 +32,7 @@ describe('Trade Blows', function () {
             this.player1.play(this.tradeBlows);
             this.player1.clickCard(this.flaxia);
             expect(this.flaxia.location).toBe('discard');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('should repeat if enemy creature survives and player chooses to damage friendly creature', function () {
@@ -44,7 +44,7 @@ describe('Trade Blows', function () {
             this.player1.clickCard(this.searine);
             expect(this.searine.tokens.damage).toBe(1);
             this.player1.clickPrompt('Done');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('should repeat if enemy creature was warded', function () {
@@ -57,7 +57,7 @@ describe('Trade Blows', function () {
             this.player1.clickCard(this.searine);
             expect(this.searine.tokens.damage).toBe(1);
             this.player1.clickPrompt('Done');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
     });
 });

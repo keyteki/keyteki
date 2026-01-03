@@ -19,7 +19,7 @@ describe('Ezra Paws', function () {
                 2
             );
             expect(this.player1.player.hand.length).toBe(1);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('should reveal opponent hand and draw a card on reap', function () {
@@ -31,7 +31,7 @@ describe('Ezra Paws', function () {
                 2
             );
             expect(this.player1.player.hand.length).toBe(2);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
     });
 });

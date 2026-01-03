@@ -26,34 +26,34 @@ describe('Cauterize Vitality', function () {
             expect(this.player1).toBeAbleToSelect(this.niffleGrounds);
             this.player1.clickCard(this.dustPixie);
             expect(this.dustPixie.location).toBe('discard');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('should destroy an artifact', function () {
             this.player1.clickCard(this.niffleGrounds);
             expect(this.niffleGrounds.location).toBe('discard');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('should cause opponent to lose amber for bonus amber', function () {
             this.player1.clickCard(this.dustPixie);
             expect(this.player1.amber).toBe(1);
             expect(this.player2.amber).toBe(2);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('should cause opponent to lose amber for other bonus icons', function () {
             this.player1.clickCard(this.niffleGrounds);
             expect(this.player1.amber).toBe(1);
             expect(this.player2.amber).toBe(2);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('should cause opponent to lose amber for friendly destruction', function () {
             this.player1.clickCard(this.wretchedDoll);
             expect(this.player1.amber).toBe(1);
             expect(this.player2.amber).toBe(3);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
     });
 });

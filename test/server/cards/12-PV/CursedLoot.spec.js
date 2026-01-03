@@ -20,7 +20,7 @@ describe('Cursed Loot', function () {
             this.player2.play(this.emberImp);
 
             expect(this.player2.player.hand.length).toBe(1);
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player2);
         });
 
         it('should destroy itself if controller has no cards in hand', function () {
@@ -31,7 +31,7 @@ describe('Cursed Loot', function () {
             this.player2.play(this.emberImp);
             expect(this.player2.player.hand.length).toBe(0);
             expect(this.cursedLoot.location).toBe('discard');
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player2);
         });
 
         it('should destroy itself if controller has no cards in hand, even without a discard', function () {
@@ -43,7 +43,7 @@ describe('Cursed Loot', function () {
             this.player2.play(this.emberImp);
             expect(this.player2.player.hand.length).toBe(0);
             expect(this.cursedLoot.location).toBe('discard');
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player2);
         });
 
         it('should let the player avoid a discard if purging the artifact', function () {
@@ -55,7 +55,7 @@ describe('Cursed Loot', function () {
             this.player2.clickPrompt(this.reclaimedByNature.name);
             this.player2.clickCard(this.cursedLoot);
             expect(this.player2.player.hand.length).toBe(3);
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player2);
         });
     });
 });

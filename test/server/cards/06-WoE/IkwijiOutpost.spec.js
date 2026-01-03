@@ -24,7 +24,7 @@ describe('Ikwijĭ Outpost', function () {
         it('should fizzle with no creatures in play', function () {
             this.player1.fightWith(this.antiquitiesDealer, this.kelifiDragon);
             this.player1.useAction(this.ikwijĭOutpost);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
     });
 });

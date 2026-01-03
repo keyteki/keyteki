@@ -31,7 +31,7 @@ describe('Catch and Release', function () {
             expect(this.player2.player.creaturesInPlay.length).toBe(0);
             expect(this.player2.player.hand.length).toBe(6);
             expect(this.player2.player.discard.length).toBe(discardLength2 + 3);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
             expect(this.player1.chains).toBe(2);
             expect(this.player2.chains).toBe(0);
         });
@@ -49,7 +49,7 @@ describe('Catch and Release', function () {
             expect(this.pelf.tokens.ward).toBe(undefined);
             expect(this.player2.player.hand.length).toBe(6);
             expect(this.player2.player.discard.length).toBe(discardLength2 + 2);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
 
         it('should not discard if you have fewer than 6 cards total', function () {
@@ -67,7 +67,7 @@ describe('Catch and Release', function () {
             expect(this.player2.player.creaturesInPlay.length).toBe(0);
             expect(this.player2.player.hand.length).toBe(6);
             expect(this.player2.player.discard.length).toBe(discardLength2 + 3);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
     });
 });

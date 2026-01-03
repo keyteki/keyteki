@@ -29,7 +29,7 @@ describe('Veil of Ectoplasm', function () {
             expect(this.echofly.amber).toBe(2);
             expect(this.flaxia.amber).toBe(1);
             expect(this.player2.amber).toBe(3);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player1);
         });
     });
 });

@@ -33,7 +33,7 @@ describe('Chasm Vespid', function () {
             expect(this.charette.location).toBe('play area');
             expect(this.emberImp.location).toBe('play area');
             expect(this.chasmVespid.location).toBe('discard');
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            this.expectReadyToTakeAction(this.player2);
         });
     });
 });
