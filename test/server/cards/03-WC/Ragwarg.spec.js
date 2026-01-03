@@ -45,4 +45,46 @@ describe('Ragwarg', function () {
             expect(this.murkens.location).toBe('discard');
         });
     });
+
+    describe("Ragwarg's ability outside of the main phase", function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'logos',
+                    hand: ['jargogle', 'ghosthawk', 'daughter', 'brillix-ponder', 'strange-gizmo'],
+                    amber: 6
+                },
+                player2: {
+                    inPlay: ['ragwarg'],
+                    amber: 0
+                }
+            });
+        });
+
+        it('should count creatures reaping during start of turn', function () {
+            this.player1.play(this.jargogle);
+            this.player1.clickCard(this.ghosthawk);
+            this.player1.play(this.brillixPonder);
+            this.player1.play(this.daughter);
+            this.player1.play(this.strangeGizmo);
+            this.brillixPonder.tokens.ward = 1;
+            this.daughter.tokens.ward = 1;
+            this.player1.endTurn();
+            this.player2.clickPrompt('untamed');
+            this.player2.endTurn();
+
+            // Strange Gizmo causes Jargogle to play ghosthawk after forging a key
+            this.player1.clickPrompt('red');
+            this.player1.clickPrompt('deploy right');
+            this.player1.clickCard(this.brillixPonder); // Deploy ghosthawk right of Brillix Ponder
+            this.player1.clickCard(this.brillixPonder); // Reap with Brillix Ponder and damage from Ragwarg
+            this.player1.clickCard(this.daughter); // Reap with Daughter
+            this.player1.clickPrompt('logos');
+            expect(this.brillixPonder.location).toBe('play area');
+            expect(this.brillixPonder.tokens.damage).toBe(2); // Reaped first and damaged by Ragwarg
+            expect(this.daughter.location).toBe('play area'); // Reaped second and not damaged by Ragwarg
+            expect(this.daughter.tokens.damage).toBe(undefined);
+            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+        });
+    });
 });

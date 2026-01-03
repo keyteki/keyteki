@@ -39,7 +39,7 @@ class CopyCard extends EffectValue {
         return result;
     }
 
-    unnaplyValue(target, abilities, states) {
+    unapplyValue(target, abilities, states) {
         for (var i = 0; i < abilities.length; ++i) {
             abilities[i].unapply(target, states[i]);
         }
@@ -64,9 +64,9 @@ class CopyCard extends EffectValue {
     }
 
     unapply(target, state) {
-        this.unnaplyValue(target, this.actions, state[target.uuid].actions);
-        this.unnaplyValue(target, this.reactions, state[target.uuid].reactions);
-        this.unnaplyValue(target, this.persistentEffects, state[target.uuid].persistentEffects);
+        this.unapplyValue(target, this.actions, state[target.uuid].actions);
+        this.unapplyValue(target, this.reactions, state[target.uuid].reactions);
+        this.unapplyValue(target, this.persistentEffects, state[target.uuid].persistentEffects);
     }
 
     getActions(target) {
