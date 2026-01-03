@@ -20,8 +20,12 @@ class GainAbility extends EffectValue {
         return state[target.uuid];
     }
 
-    apply(target, state) {
+    apply(target, state, context) {
         const value = (state[target.uuid] = target[this.type](this.properties));
+        // Store the source that granted this ability for later identification
+        if (context && context.source) {
+            value.grantedBy = context.source;
+        }
         if (this.type === 'persistentEffect') {
             if (value.location === 'any' || value.location === target.location) {
                 value.ref = target.addEffectToEngine(value);
