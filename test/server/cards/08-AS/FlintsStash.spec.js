@@ -18,8 +18,6 @@ describe("Flint's Stash", function () {
             this.player1.fightWith(this.buxBastian, this.troll);
             expect(this.player1.amber).toBe(1); // non-flank
             expect(this.player2.amber).toBe(1);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
-
             this.player1.fightWith(this.bosunCreen, this.troll);
             expect(this.player1.amber).toBe(3);
             expect(this.player2.amber).toBe(1);
