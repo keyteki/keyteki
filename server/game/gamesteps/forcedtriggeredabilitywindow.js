@@ -59,6 +59,22 @@ class ForcedTriggeredAbilityWindow extends BaseStep {
             return true;
         }
 
+        // Re-check conditions for destroyed abilities that were added with a 'condition' failure.
+        // This filters out abilities whose condition still fails after other abilities have resolved.
+        // For example, Captain No-Beard Evil Twin's capture ability should be filtered out if
+        // opponent still has 0 amber after other destroyed abilities resolved.
+        this.choices = this.choices.filter((context) => {
+            if (context.ability.properties && context.ability.properties.destroyed) {
+                return context.ability.meetsRequirements(context) === '';
+            }
+
+            return true;
+        });
+
+        if (this.choices.length === 0) {
+            return true;
+        }
+
         let autoResolveChoice = this.choices.find((context) => context.ability.autoResolve);
         if (autoResolveChoice) {
             this.resolveAbility(autoResolveChoice);
