@@ -9,7 +9,7 @@ class EdictOfNerotaurus extends Card {
         this.lastCreatureReaped = false;
         this.lastCreatureFought = false;
         this.tracker = new EventRegistrar(this.game, this);
-        this.tracker.register(['onPhaseStarted', 'onUseCard']);
+        this.tracker.register(['onTurnStart', 'onUseCard']);
 
         this.persistentEffect({
             targetController: 'any',
@@ -48,11 +48,9 @@ class EdictOfNerotaurus extends Card {
         }
     }
 
-    onPhaseStarted(event) {
-        if (event.phase === 'main') {
-            this.lastCreatureReaped = false;
-            this.lastCreatureFought = false;
-        }
+    onTurnStart() {
+        this.lastCreatureReaped = false;
+        this.lastCreatureFought = false;
     }
 }
 
