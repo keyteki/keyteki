@@ -29,7 +29,7 @@ describe("Flint's Stash", function () {
         });
     });
 
-    describe('with KeyFrog', function () {
+    describe('with Keyfrog', function () {
         beforeEach(function () {
             this.setupTest({
                 player1: {

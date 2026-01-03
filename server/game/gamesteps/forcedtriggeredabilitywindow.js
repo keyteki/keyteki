@@ -60,8 +60,8 @@ class ForcedTriggeredAbilityWindow extends BaseStep {
     }
 
     addDeferredChoice(context) {
-        // Deferred choices are destroyed abilities whose condition currently fails
-        // but might pass if another ability changes the game state first.
+        // Deferred choices are abilities whose meetsRequirements condition
+        // initially fails but might pass if another ability changes the game state first.
         // They are only added to choices if there are other valid choices.
         if (
             !this.resolvedAbilities.some(
@@ -91,36 +91,6 @@ class ForcedTriggeredAbilityWindow extends BaseStep {
 
         if (this.choices.length === 0 || this.pressedDone) {
             return true;
-        }
-
-        // Re-check conditions for destroyed abilities that were added with a 'condition' failure.
-        // This filters out abilities whose condition still fails after other abilities have resolved.
-        // For example, Captain No-Beard Evil Twin's capture ability should be filtered out if
-        // opponent still has 0 amber after other destroyed abilities resolved.
-        // We only do this after at least one ability has resolved, so that on the first pass
-        // we allow the player to choose the order (e.g., Flint's Stash before KeyFrog).
-        if (this.resolvedAbilities.length > 0) {
-            let stillValid = [];
-            for (let context of this.choices) {
-                if (context.ability.properties && context.ability.properties.destroyed) {
-                    if (context.ability.meetsRequirements(context) === '') {
-                        stillValid.push(context);
-                    } else {
-                        // Track skipped abilities so they don't get re-added by emitEvents
-                        this.skippedAbilities.push({
-                            ability: context.ability,
-                            event: context.event
-                        });
-                    }
-                } else {
-                    stillValid.push(context);
-                }
-            }
-            this.choices = stillValid;
-
-            if (this.choices.length === 0) {
-                return true;
-            }
         }
 
         let autoResolveChoice = this.choices.find((context) => context.ability.autoResolve);
