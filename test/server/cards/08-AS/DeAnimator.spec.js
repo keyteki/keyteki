@@ -145,5 +145,20 @@ describe('De-Animator', function () {
             expect(this.botBookton.location).toBe('discard');
             expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
         });
+
+        it('should send æmber on destroyed creatures as artifacts to the common supply', function () {
+            this.botBookton.tokens.amber = 4;
+
+            this.player1.playCreature(this.deAnimator);
+            this.player1.clickCard(this.botBookton);
+            expect(this.botBookton.type).toBe('artifact');
+
+            this.player1.clickCard(this.botBookton);
+            this.player1.clickPrompt("Use this card's Action ability");
+            expect(this.botBookton.location).toBe('discard');
+
+            expect(this.player1.amber).toBe(2);
+            expect(this.player2.amber).toBe(1);
+        });
     });
 });
