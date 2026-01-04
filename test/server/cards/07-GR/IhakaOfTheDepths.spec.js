@@ -112,7 +112,7 @@ describe('Ihaka of the Depths', function () {
 
             this.player2.clickPrompt('untamed');
             this.player1.player.hand.length = 6;
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player2).isReadyToTakeAction();
         });
     });
 });
