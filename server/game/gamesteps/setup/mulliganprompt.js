@@ -3,20 +3,20 @@ const AllPlayerPrompt = require('../allplayerprompt.js');
 class MulliganPrompt extends AllPlayerPrompt {
     constructor(game) {
         super(game);
-        this.takenMulligan = {};
-        this.mulliganedPlayers = [];
+        this.mulliganDecided = {}; // The state of whether or not a player has chosen to mulligan
+        this.otherPlayerMulliganChoice = {}; // The mulligan choice of the other player for deferred logging
     }
 
     completionCondition(player) {
-        return this.takenMulligan[player.uuid];
+        return this.mulliganDecided[player.uuid];
     }
 
     activePrompt() {
         return {
             menuTitle: 'Keep Starting Hand?',
             buttons: [
-                { arg: 'yes', text: 'Keep Hand' },
-                { arg: 'no', text: 'Mulligan' }
+                { arg: 'keep', text: 'Keep Hand' },
+                { arg: 'mulligan', text: 'Mulligan' }
             ],
             promptTitle: 'Mulligan'
         };
@@ -29,36 +29,43 @@ class MulliganPrompt extends AllPlayerPrompt {
     }
 
     menuCommand(player, arg) {
-        if (this.takenMulligan[player.uuid]) {
+        if (this.mulliganDecided[player.uuid]) {
             return false;
         }
 
-        if (arg === 'no') {
-            player.takeMulligan();
-            this.mulliganedPlayers.push(player);
-            this.takenMulligan[player.uuid] = true;
-            return true;
-        } else if (arg === 'yes') {
-            this.takenMulligan[player.uuid] = true;
-            return true;
+        if (arg !== 'keep' && arg !== 'mulligan') {
+            return false;
         }
 
-        return false;
+        // Log mulligan choice for first player and defer it for second player
+        if (player === this.game.activePlayer) {
+            this.logMulligan(player, arg);
+        } else {
+            this.otherPlayerMulliganChoice[player.uuid] = arg;
+        }
+
+        // Handle mulligan choice
+        if (arg === 'mulligan') {
+            player.takeMulligan();
+        }
+
+        this.mulliganDecided[player.uuid] = true;
+        return true;
     }
 
     onCompleted() {
-        // Display a message for each player that mulliganed in player order
-        if (this.mulliganedPlayers.includes(this.game.activePlayer)) {
-            this.game.addMessage('{0} mulligans their starting hand', this.game.activePlayer);
-        } else {
-            this.game.addMessage('{0} keeps their starting hand', this.game.activePlayer);
-        }
-
         const otherPlayer = this.game.getOtherPlayer(this.game.activePlayer);
-        if (otherPlayer && this.mulliganedPlayers.includes(otherPlayer)) {
-            this.game.addMessage('{0} mulligans their starting hand', otherPlayer);
-        } else if (otherPlayer) {
-            this.game.addMessage('{0} keeps their starting hand', otherPlayer);
+        if (otherPlayer) {
+            this.logMulligan(otherPlayer, this.otherPlayerMulliganChoice[otherPlayer.uuid]);
+        }
+    }
+
+    logMulligan(player, arg) {
+        if (arg === 'keep') {
+            this.game.addMessage('{0} keeps their starting hand', player);
+        }
+        if (arg === 'mulligan') {
+            this.game.addMessage('{0} mulligans their starting hand', player);
         }
     }
 }
