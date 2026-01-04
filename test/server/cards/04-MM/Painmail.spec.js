@@ -72,23 +72,24 @@ describe('Painmail', function () {
                     inPlay: ['ember-imp']
                 }
             });
-            this.painmail1 = this.player1.hand[0];
-            this.painmail2 = this.player1.hand[1];
+            this.painmail0 = this.player1.hand[0];
+            this.painmail1 = this.player1.hand[1];
         });
 
         it('should allow choosing which Painmail to trigger first', function () {
+            this.player1.playUpgrade(this.painmail0, this.shooler);
             this.player1.playUpgrade(this.painmail1, this.shooler);
-            this.player1.playUpgrade(this.painmail2, this.shooler);
             this.player1.endTurn();
             this.player2.clickPrompt('dis');
-            // Should prompt to choose between the two Painmails
-            expect(this.player2).toHavePromptButton('Painmail');
-            // Both Painmails should be clickable options
-            this.player2.clickPrompt('Painmail');
+            // Prompt to choose between the two Painmails
+            expect(this.player2.currentPrompt().buttons[0].values.card).toBe('Painmail');
+            expect(this.player2.currentPrompt().buttons[1].values.card).toBe('Painmail');
+            expect(this.player2.currentPrompt().buttons[2].text).toBe('Autoresolve');
+            this.player2.clickPrompt('Painmail', 1);
             expect(this.player1.player.archives).toContain(this.painmail1);
-            expect(this.painmail2.location).toBe('discard');
+            expect(this.painmail0.location).toBe('discard');
             expect(this.shooler.location).toBe('discard');
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player2).isReadyToTakeAction();
         });
     });
 });
