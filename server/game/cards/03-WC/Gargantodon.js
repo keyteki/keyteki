@@ -24,7 +24,7 @@ class Gargantodon extends Card {
                 cancel: true
             })),
             then: (preThenContext) => ({
-                alwaysTrigger: true,
+                alwaysTriggers: true,
                 target: {
                     cardType: 'creature',
                     cardCondition: (card, context) => card.controller === context.game.activePlayer,

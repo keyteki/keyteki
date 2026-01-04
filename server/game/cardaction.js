@@ -48,7 +48,7 @@ class CardAction extends CardAbility {
         this.cost = this.cost.concat(Costs.exhaust(), Costs.use());
     }
 
-    meetsRequirements(context = this.createContext(), ignoredRequirements = []) {
+    meetsRequirements(context = this.createContext(), ignoredRequirements) {
         if (
             !this.card.checkRestrictions('useAction', context) ||
             !context.player.checkRestrictions('useAction', context)
@@ -65,9 +65,11 @@ class CardAction extends CardAbility {
             return 'condition';
         } else if (!ignoredRequirements.includes('stunned') && this.card.stunned) {
             return 'stunned';
+        } else if (!ignoredRequirements.includes('exhausted') && this.card.exhausted) {
+            return 'exhausted';
         }
 
-        return super.meetsRequirements(context);
+        return super.meetsRequirements(context, ignoredRequirements);
     }
 
     /**
