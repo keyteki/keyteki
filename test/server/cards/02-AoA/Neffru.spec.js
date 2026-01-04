@@ -37,7 +37,7 @@ describe('Neffru', function () {
             expect(this.player2.amber).toBe(3);
         });
 
-        it('should not cause anyone to gain an amber when it attacks and they both die', function () {
+        it('should not cause anyone to gain an amber when Neffru attacks and they both die', function () {
             this.player1.fightWith(this.neffru, this.dysania);
             expect(this.neffru.location).toBe('discard');
             expect(this.dysania.location).toBe('discard');
@@ -45,7 +45,7 @@ describe('Neffru', function () {
             expect(this.player2.amber).toBe(3);
         });
 
-        it('should not cause anyone to gain an amber when it is attacked and they both die', function () {
+        it('should not cause anyone to gain an amber when Neffru is attacked and they both die', function () {
             this.player1.endTurn();
             this.player2.clickPrompt('logos');
             this.player2.fightWith(this.dysania, this.neffru);
@@ -55,7 +55,16 @@ describe('Neffru', function () {
             expect(this.player2.amber).toBe(3);
         });
 
-        it('should cause the owner of a destroyed creature to gain an amber when it attacks and kills it', function () {
+        it('should cause the owner of a destroyed creature to gain an amber when Neffru attacks and kills it', function () {
+            this.player1.fightWith(this.neffru, this.helperBot);
+            expect(this.neffru.location).toBe('play area');
+            expect(this.helperBot.location).toBe('discard');
+            expect(this.neffru.tokens.damage).toBe(1);
+            expect(this.player1.amber).toBe(0);
+            expect(this.player2.amber).toBe(4);
+        });
+
+        it('should cause the owner of a creature that changed controller and dies in a fight to gain an aember', function () {
             this.player1.endTurn();
             this.player2.clickPrompt('logos');
             this.player2.play(this.harlandMindlock);
@@ -69,7 +78,7 @@ describe('Neffru', function () {
             expect(this.player2.amber).toBe(3);
         });
 
-        it('should not cause its owner to gain an amber when neffru is destroyed', function () {
+        it("should not cause Neffru's owner to gain an amber when Neffru is destroyed", function () {
             this.player1.endTurn();
             this.player2.clickPrompt('logos');
             this.player2.fightWith(this.brainEater, this.neffru);

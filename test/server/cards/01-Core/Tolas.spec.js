@@ -161,7 +161,7 @@ describe('Tolas', function () {
             expect(this.infiltrator.location).toBe('discard');
             expect(this.player1.amber).toBe(2); // Tolas and Boo
             expect(this.player2.amber).toBe(0);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });
