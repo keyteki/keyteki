@@ -19,7 +19,7 @@ describe('Future Booster', function () {
             expect(this.player1).toHavePromptButton('Leave on top of deck');
             this.player1.clickPrompt('Leave on top of deck');
             expect(this.player1.deck[0]).toBe(this.batdrone);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should allow moving the card to the bottom', function () {
@@ -28,13 +28,13 @@ describe('Future Booster', function () {
             expect(this.player1.player.deck[this.player1.player.deck.length - 1]).toBe(
                 this.batdrone
             );
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should do nothing with an empty deck', function () {
             this.player1.player.deck = [];
             this.player1.useAction(this.futureBooster, true);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

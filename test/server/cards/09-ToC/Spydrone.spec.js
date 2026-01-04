@@ -19,7 +19,7 @@ describe('Spydrone', function () {
         it('should draw a card on action', function () {
             this.player1.useAction(this.spydrone);
             expect(this.player1.player.hand.length).toBe(1);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

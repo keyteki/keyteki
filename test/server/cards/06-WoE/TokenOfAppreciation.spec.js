@@ -20,7 +20,7 @@ describe('Token of Appreciation', function () {
             expect(this.player1.player.keys.blue).toBe(false);
             expect(this.player1.player.keys.yellow).toBe(false);
             expect(this.player1.amber).toBe(0);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should make a token and fail to forge a key if you do not have enough amber', function () {
@@ -31,7 +31,7 @@ describe('Token of Appreciation', function () {
             expect(this.player1.player.keys.blue).toBe(false);
             expect(this.player1.player.keys.yellow).toBe(false);
             expect(this.player1.amber).toBe(7);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

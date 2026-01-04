@@ -19,7 +19,7 @@ describe('Follow the Leader', function () {
             expect(this.emberImp.location).toBe('discard');
             this.player1.fightWith(this.docBookton, this.charette);
             expect(this.charette.location).toBe('discard');
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
 
             this.player1.endTurn();
             this.player2.clickPrompt('dis');

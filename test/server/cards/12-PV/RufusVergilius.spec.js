@@ -24,7 +24,7 @@ describe('Rufus Vergilius', function () {
             expect(this.urchin.tokens.amber).toBe(1);
             expect(this.urchin.warded).toBe(true);
             expect(this.player2.amber).toBe(3);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

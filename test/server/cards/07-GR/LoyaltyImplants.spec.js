@@ -22,14 +22,14 @@ describe('Loyalty Implants', function () {
             this.player1.fightWith(this.tunk, this.dustPixie);
             expect(this.player1.amber).toBe(3);
             expect(this.dustPixie.location).toBe('discard');
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('does not allow playing Mars cards on an off-house turn', function () {
             this.player1.useAction(this.loyaltyImplants, true);
             this.player1.clickCard(this.cloneHome);
             expect(this.cloneHome.location).toBe('hand');
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

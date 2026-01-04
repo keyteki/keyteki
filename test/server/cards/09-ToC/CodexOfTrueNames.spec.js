@@ -25,7 +25,7 @@ describe('Codex of True Names', function () {
             expect(this.lamindra.location).toBe('play area');
             expect(this.umbra.location).toBe('play area');
             expect(this.oldBruno.location).toBe('play area');
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('return one token to hand and one enemy creature', function () {
@@ -42,7 +42,7 @@ describe('Codex of True Names', function () {
             expect(this.lamindra.location).toBe('play area');
             expect(this.umbra.location).toBe('hand');
             expect(this.oldBruno.location).toBe('play area');
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('return two tokens to hand and two enemy creatures', function () {
@@ -67,7 +67,7 @@ describe('Codex of True Names', function () {
             expect(this.gub.location).toBe('play area');
             expect(this.lamindra.location).toBe('play area');
             expect(this.oldBruno.location).toBe('hand');
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should not count warded Fiends', function () {
@@ -89,7 +89,7 @@ describe('Codex of True Names', function () {
             expect(this.gub.location).toBe('play area');
             expect(this.lamindra.location).toBe('play area');
             expect(this.oldBruno.location).toBe('play area');
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should be able to pop warded enemy creatures with two returns', function () {
@@ -120,7 +120,7 @@ describe('Codex of True Names', function () {
             expect(this.gub.location).toBe('play area');
             expect(this.lamindra.location).toBe('play area');
             expect(this.oldBruno.location).toBe('play area');
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

@@ -142,7 +142,7 @@ describe('The Ulfberht Device', function () {
             expect(this.player2).toHavePromptButton('sanctum');
             expect(this.player2).toHavePromptButton('shadows');
             this.player2.clickPrompt('sanctum');
-            this.expectReadyToTakeAction(this.player2);
+            expect(this.player2).isReadyToTakeAction();
         });
     });
 });

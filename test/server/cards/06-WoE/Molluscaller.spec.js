@@ -23,7 +23,7 @@ describe('Molluscaller', function () {
             expect(this.strangeShell.power).toBe(1);
             this.player1.reap(this.molluscaller);
             expect(this.strangeShell.power).toBe(4);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should blank Strange Shells', function () {

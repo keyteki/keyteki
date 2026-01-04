@@ -18,7 +18,7 @@ describe('Tomwa of the Glow Evil Twin', function () {
         describe('when the tide is neutral', function () {
             it('should do nothing', function () {
                 this.player1.reap(this.tomwaOfTheGlowEvilTwin);
-                this.expectReadyToTakeAction(this.player1);
+                expect(this.player1).isReadyToTakeAction();
             });
         });
 
@@ -29,7 +29,7 @@ describe('Tomwa of the Glow Evil Twin', function () {
 
             it('should do nothing', function () {
                 this.player1.reap(this.tomwaOfTheGlowEvilTwin);
-                this.expectReadyToTakeAction(this.player1);
+                expect(this.player1).isReadyToTakeAction();
             });
         });
 
@@ -47,7 +47,7 @@ describe('Tomwa of the Glow Evil Twin', function () {
 
                 it("should discard a random card from opponent's hand", function () {
                     expect(this.player2.player.hand.length).toBe(5);
-                    this.expectReadyToTakeAction(this.player1);
+                    expect(this.player1).isReadyToTakeAction();
                 });
             });
 
@@ -64,7 +64,7 @@ describe('Tomwa of the Glow Evil Twin', function () {
                     this.player1.clickCard(this.gamgee);
                     expect(this.gamgee.exhausted).toBe(true);
                     expect(this.player2.player.hand.length).toBe(5);
-                    this.expectReadyToTakeAction(this.player1);
+                    expect(this.player1).isReadyToTakeAction();
                 });
             });
         });

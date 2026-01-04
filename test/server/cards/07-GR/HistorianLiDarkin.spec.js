@@ -23,7 +23,7 @@ describe('Historian Li-Darkin', function () {
             expect(this.stealthMode.location).toBe('hand');
             expect(this.timetraveller.location).toBe('discard');
             expect(this.player2.player.hand).toContain(this.stealthMode);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('works if a discard is empty', function () {
@@ -35,7 +35,7 @@ describe('Historian Li-Darkin', function () {
             expect(this.stealthMode.location).toBe('hand');
             expect(this.timetraveller.location).toBe('discard');
             expect(this.player2.player.hand).toContain(this.stealthMode);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

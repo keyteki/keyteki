@@ -23,7 +23,7 @@ describe('Call of Need', function () {
             this.player1.clickCard(this.dominatorBauble);
             this.player1.clickPrompt('Done');
             expect(this.dominatorBauble.location).toBe('discard');
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
             expect(shuffled).toBe(this.player1.player);
         });
     });

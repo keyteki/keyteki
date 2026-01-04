@@ -35,7 +35,7 @@ describe('Strange Torpedo', function () {
             expect(this.titanGuardian.tokens.damage).toBe(undefined);
             expect(this.umbra.tokens.damage).toBe(undefined);
             expect(this.bubbles.tokens.damage).toBe(undefined);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should deal damage, and stun and exhaust damaged creatures, when opponent is haunted', function () {
@@ -51,7 +51,7 @@ describe('Strange Torpedo', function () {
             expect(this.umbra.tokens.damage).toBe(1);
             expect(this.umbra.stunned).toBe(true);
             expect(this.umbra.exhausted).toBe(true);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

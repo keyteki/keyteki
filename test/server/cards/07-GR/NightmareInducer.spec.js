@@ -30,7 +30,7 @@ describe('Nightmare Inducer', function () {
             expect(this.player2.player.deck[this.player2.player.deck.length - 1]).toBe(
                 this.huntingWitch
             );
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('does not exhaust friendly creatures', function () {
@@ -45,7 +45,7 @@ describe('Nightmare Inducer', function () {
             expect(this.player2.player.deck[this.player2.player.deck.length - 1]).toBe(
                 this.crushingDeep
             );
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('does nothing with no enemy discard', function () {
@@ -57,7 +57,7 @@ describe('Nightmare Inducer', function () {
             expect(this.player1).not.toBeAbleToSelect(this.huntingWitch);
             expect(this.player1).not.toBeAbleToSelect(this.poke);
             expect(this.player1).not.toBeAbleToSelect(this.stomp);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

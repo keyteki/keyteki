@@ -21,7 +21,7 @@ describe('Looping Dirge', function () {
         it('should do nothing if not haunted', function () {
             this.player1.play(this.loopingDirge);
             expect(this.minion1.location).toBe('deck');
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should make a token creature if haunted', function () {
@@ -29,7 +29,7 @@ describe('Looping Dirge', function () {
             this.player1.play(this.loopingDirge);
             this.player1.clickPrompt('Left');
             expect(this.minion1.location).toBe('play area');
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

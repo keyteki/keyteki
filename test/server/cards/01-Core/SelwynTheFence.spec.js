@@ -34,13 +34,13 @@ describe('Selwyn The Fence', function () {
 
         it('should not add Amber to pool when reaping if none is captured.', function () {
             this.player1.reap(this.selwynTheFence);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
             expect(this.player1.amber).toBe(1);
         });
 
         it('should not add Amber to pool when fighting if none is captured.', function () {
             this.player1.fightWith(this.selwynTheFence, this.urchin);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
             expect(this.player1.amber).toBe(0);
         });
     });

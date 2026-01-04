@@ -34,7 +34,7 @@ describe('Too Low', function () {
             expect(this.dustPixie.location).toBe('discard');
             expect(this.krump.location).toBe('play area');
             expect(this.tantadlin.location).toBe('play area');
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should destroy friendly creatures with the lowest power when fate is triggered', function () {
@@ -47,7 +47,7 @@ describe('Too Low', function () {
             expect(this.krump.location).toBe('play area');
             expect(this.dustPixie.location).toBe('discard');
             expect(this.tantadlin.location).toBe('play area');
-            this.expectReadyToTakeAction(this.player2);
+            expect(this.player2).isReadyToTakeAction();
         });
     });
 });

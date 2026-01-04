@@ -19,7 +19,7 @@ describe('Help from Future Self', function () {
             expect(this.player1).toBeAbleToSelect(this.timetraveller);
             this.player1.clickCard(this.timetraveller);
             this.player1.clickPrompt('Done');
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
             expect(this.timetraveller.location).toBe('hand');
         });
 
@@ -30,7 +30,7 @@ describe('Help from Future Self', function () {
             expect(this.player1).toBeAbleToSelect(this.timetraveller);
             this.player1.clickCard(this.timetraveller);
             this.player1.clickPrompt('Done');
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
             expect(this.timetraveller.location).toBe('hand');
         });
 
@@ -39,7 +39,7 @@ describe('Help from Future Self', function () {
             expect(this.player1).toHavePrompt('Help From Future Self');
             expect(this.player1).toBeAbleToSelect(this.timetraveller);
             this.player1.clickPrompt('Done');
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
             expect(this.timetraveller.location).toBe('deck');
         });
 
@@ -49,7 +49,7 @@ describe('Help from Future Self', function () {
             expect(this.player1).toHavePrompt('Help From Future Self');
             expect(this.player1).not.toBeAbleToSelect(this.timetraveller);
             this.player1.clickPrompt('Done');
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
             expect(this.timetraveller.location).toBe('hand');
         });
     });

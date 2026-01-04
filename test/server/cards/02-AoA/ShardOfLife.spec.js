@@ -98,7 +98,7 @@ describe('Shard of Life', function () {
 
             it('should not prompt', function () {
                 this.player1.useAction(this.shardOfLife);
-                this.expectReadyToTakeAction(this.player1);
+                expect(this.player1).isReadyToTakeAction();
             });
         });
     });

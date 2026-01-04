@@ -26,7 +26,7 @@ describe('Feats of Strength', function () {
             this.player1.play(this.punch);
             this.player1.clickCard(this.batdrone);
             expect(this.player1.player.creaturesInPlay.length).toBe(2);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should stack', function () {

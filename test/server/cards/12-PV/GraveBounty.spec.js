@@ -32,7 +32,7 @@ describe('Grave Bounty', function () {
             this.player1.clickCard(this.dustPixie);
             expect(this.dustPixie.location).toBe('purged');
             expect(this.player2.amber).toBe(2);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should purge top 2 cards when fate is triggered', function () {
@@ -45,7 +45,7 @@ describe('Grave Bounty', function () {
             expect(this.seekerNeedle.location).toBe('purged');
             expect(this.anger.location).toBe('discard');
             expect(this.graveBounty.location).toBe('discard');
-            this.expectReadyToTakeAction(this.player2);
+            expect(this.player2).isReadyToTakeAction();
         });
     });
 });

@@ -23,7 +23,7 @@ describe('Ragatha', function () {
             expect(this.researchSmoko.tokens.damage).toBeUndefined();
             expect(this.researchSmoko.location).toBe('play area');
             expect(this.dustPixie.location).toBe('discard');
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

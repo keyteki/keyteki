@@ -14,14 +14,14 @@ describe('Crystal Hive', function () {
             this.player1.useAction(this.crystalHive);
             this.player1.reap(this.mindwarper);
             expect(this.player1.amber).toBe(2);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should not gain extra amber before using Crystal Hive action', function () {
             this.player1.reap(this.mindwarper);
             this.player1.useAction(this.crystalHive);
             expect(this.player1.amber).toBe(1);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

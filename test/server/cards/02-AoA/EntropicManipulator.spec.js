@@ -32,7 +32,7 @@ describe('Entropic Manipulator', function () {
             this.player1.clickCard(this.sequis);
             this.player1.clickCard(this.sequis);
             expect(this.sequis.tokens.damage).toBe(3);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should allow a player to put more than lethal damage on a creature', function () {
@@ -57,7 +57,7 @@ describe('Entropic Manipulator', function () {
             expect(this.batdrone.tokens.damage).toBe(5);
             this.player1.clickCard(this.batdrone);
             expect(this.batdrone.location).toBe('discard');
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should protect a creature with Armageddon Cloak', function () {
@@ -78,7 +78,7 @@ describe('Entropic Manipulator', function () {
             this.player1.clickCard(this.batdrone);
             expect(this.armageddonCloak.location).toBe('discard');
             expect(this.batdrone.location).toBe('play area');
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should kill a warded creature', function () {
@@ -93,7 +93,7 @@ describe('Entropic Manipulator', function () {
             expect(this.batdrone.tokens.damage).toBe(5);
             this.player1.clickCard(this.batdrone);
             expect(this.batdrone.location).toBe('discard');
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

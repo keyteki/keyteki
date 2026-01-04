@@ -27,7 +27,7 @@ describe('Digital Signal', function () {
             expect(this.troll.location).toBe('discard');
             expect(this.umbra.location).toBe('discard');
             expect(this.huntingWitch.location).toBe('discard');
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

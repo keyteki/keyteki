@@ -30,7 +30,7 @@ describe('Soul Exchange', function () {
             this.player1.clickCard(this.dustImp);
             expect(this.dustImp.location).toBe('discard');
             expect(this.player1.amber).toBe(3);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('returns a creature from the opponent discard and destroys a creature', function () {
@@ -46,7 +46,7 @@ describe('Soul Exchange', function () {
             expect(this.player1).not.toBeAbleToSelect(this.faustTheGreat);
             this.player1.clickCard(this.groke);
             expect(this.groke.location).toBe('discard');
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('destroys a creature when there are no creatures to return', function () {
@@ -65,7 +65,7 @@ describe('Soul Exchange', function () {
             expect(this.player1).not.toBeAbleToSelect(this.faustTheGreat);
             this.player1.clickCard(this.groke);
             expect(this.groke.location).toBe('discard');
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

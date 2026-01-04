@@ -20,7 +20,7 @@ describe('Hebe the Huge', function () {
             expect(this.bumpsy.tokens.damage).toBe(2);
             expect(this.bumpsy.tokens.damage).toBe(2);
             expect(this.emberImp.location).toBe('discard');
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

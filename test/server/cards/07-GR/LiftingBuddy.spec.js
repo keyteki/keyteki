@@ -27,7 +27,7 @@ describe('Lifting Buddy', function () {
             it('on play', function () {
                 expect(this.liftingBuddy.power).toBe(7);
                 expect(this.groke.power).toBe(7);
-                this.expectReadyToTakeAction(this.player1);
+                expect(this.player1).isReadyToTakeAction();
             });
 
             describe('on next turn', function () {
@@ -43,7 +43,7 @@ describe('Lifting Buddy', function () {
                     this.player1.clickCard(this.cpoZytar);
                     expect(this.liftingBuddy.power).toBe(9);
                     expect(this.cpoZytar.power).toBe(6);
-                    this.expectReadyToTakeAction(this.player1);
+                    expect(this.player1).isReadyToTakeAction();
                 });
 
                 it('on fight', function () {
@@ -51,7 +51,7 @@ describe('Lifting Buddy', function () {
                     this.player1.clickCard(this.cpoZytar);
                     expect(this.liftingBuddy.power).toBe(9);
                     expect(this.cpoZytar.power).toBe(6);
-                    this.expectReadyToTakeAction(this.player1);
+                    expect(this.player1).isReadyToTakeAction();
                 });
             });
         });

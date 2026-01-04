@@ -31,7 +31,7 @@ describe('Tyrannus Aquilae', function () {
             this.player1.fightWith(this.tyrannusAquilae, this.lamindra);
             expect(this.player1.amber).toBe(2);
             expect(this.tyrannusAquilae.amber).toBe(0);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

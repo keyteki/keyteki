@@ -22,14 +22,14 @@ describe('Ihaka of the Depths', function () {
             this.player1.clickCard(this.ihakaOfTheDepths);
             expect(this.poke.location).toBe('deck');
             expect(this.player1.player.deck[this.player1.player.deck.length - 1]).toBe(this.poke);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should be optional', function () {
             this.player1.reap(this.docBookton);
             this.player1.clickPrompt('Done');
             expect(this.poke.location).toBe('discard');
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should not trigger when choosing a card from the deck', function () {
@@ -42,7 +42,7 @@ describe('Ihaka of the Depths', function () {
             this.player1.clickCard(this.vulka);
             this.player1.clickPrompt('Done');
             expect(this.poke.location).toBe('discard');
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should trigger on end-of-turn draws', function () {
@@ -66,7 +66,7 @@ describe('Ihaka of the Depths', function () {
             this.player1.endTurn();
             this.player2.clickPrompt('untamed');
             this.player2.play(this.punctuatedEquilibrium);
-            this.expectReadyToTakeAction(this.player2);
+            expect(this.player2).isReadyToTakeAction();
         });
 
         it('should not trigger when opponent draws during our turn', function () {
@@ -75,7 +75,7 @@ describe('Ihaka of the Depths', function () {
             this.player1.play(this.standardizedTesting);
             expect(this.thoughtcatcher.location).toBe('discard');
             expect(this.player1.amber).toBe(2);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
             expect(this.player2.player.hand.length).toBe(p2len + 1);
         });
     });

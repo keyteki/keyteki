@@ -25,7 +25,7 @@ describe('Stratowise', function () {
             expect(this.helperBot.location).toBe('discard');
             expect(this.stratowise.amber).toBe(0);
             expect(this.player2.amber).toBe(2);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('allows a card discard on fight', function () {
@@ -34,7 +34,7 @@ describe('Stratowise', function () {
             expect(this.helperBot.location).toBe('discard');
             expect(this.stratowise.amber).toBe(0);
             expect(this.player2.amber).toBe(2);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('captures if haunted', function () {
@@ -44,7 +44,7 @@ describe('Stratowise', function () {
             expect(this.helperBot.location).toBe('discard');
             expect(this.stratowise.amber).toBe(1);
             expect(this.player2.amber).toBe(1);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

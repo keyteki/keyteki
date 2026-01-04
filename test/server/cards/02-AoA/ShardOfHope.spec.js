@@ -39,7 +39,7 @@ describe('Shard of Hope', function () {
             expect(this.player1.amber).toBe(4);
             expect(this.player2.amber).toBe(2);
 
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should work properly when Remote Accessed', function () {
@@ -60,7 +60,7 @@ describe('Shard of Hope', function () {
             expect(this.player1.amber).toBe(2);
             expect(this.player2.amber).toBe(6);
 
-            this.expectReadyToTakeAction(this.player2);
+            expect(this.player2).isReadyToTakeAction();
         });
 
         it('should work properly when Borrowed', function () {
@@ -81,7 +81,7 @@ describe('Shard of Hope', function () {
             expect(this.player1.amber).toBe(2);
             expect(this.player2.amber).toBe(6);
 
-            this.expectReadyToTakeAction(this.player2);
+            expect(this.player2).isReadyToTakeAction();
         });
 
         describe('when opponent has no amber', function () {
@@ -91,7 +91,7 @@ describe('Shard of Hope', function () {
 
             it('should not prompt', function () {
                 this.player1.useAction(this.shardOfHope);
-                this.expectReadyToTakeAction(this.player1);
+                expect(this.player1).isReadyToTakeAction();
             });
         });
 
@@ -108,7 +108,7 @@ describe('Shard of Hope', function () {
                 expect(this.player1.amber).toBe(4);
                 expect(this.player2.amber).toBe(0);
 
-                this.expectReadyToTakeAction(this.player1);
+                expect(this.player1).isReadyToTakeAction();
             });
         });
     });

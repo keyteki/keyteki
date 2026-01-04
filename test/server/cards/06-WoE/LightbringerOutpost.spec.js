@@ -62,7 +62,7 @@ describe('Lightbringer Outpost', function () {
             it('should not prompt to use the ability', function () {
                 this.player1.useAction(this.lightbringerOutpost);
 
-                this.expectReadyToTakeAction(this.player1);
+                expect(this.player1).isReadyToTakeAction();
             });
         });
         describe('with only one friendly creatures in play', function () {
@@ -83,7 +83,7 @@ describe('Lightbringer Outpost', function () {
                 this.player1.useAction(this.lightbringerOutpost);
                 this.player1.clickCard(this.chelonia);
 
-                this.expectReadyToTakeAction(this.player1);
+                expect(this.player1).isReadyToTakeAction();
             });
         });
     });

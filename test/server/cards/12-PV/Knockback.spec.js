@@ -31,7 +31,7 @@ describe('Knockback', function () {
             this.player1.clickCard(this.flaxia);
             expect(this.flaxia.location).toBe('deck');
             expect(this.player2.deck[0]).toBe(this.flaxia);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should discard cards until a creature is found when fate is triggered', function () {
@@ -46,7 +46,7 @@ describe('Knockback', function () {
             expect(this.urchin.location).toBe('discard');
             expect(this.drainingTouch.location).toBe('deck');
             expect(this.knockback.location).toBe('discard');
-            this.expectReadyToTakeAction(this.player2);
+            expect(this.player2).isReadyToTakeAction();
         });
 
         it('should discard all cards if no creature is found', function () {
@@ -60,7 +60,7 @@ describe('Knockback', function () {
             expect(this.player2.deck.length).toBe(0);
             expect(this.player2.discard.length).toBe(3);
             expect(this.knockback.location).toBe('discard');
-            this.expectReadyToTakeAction(this.player2);
+            expect(this.player2).isReadyToTakeAction();
         });
     });
 });

@@ -24,7 +24,7 @@ describe('Hunter of Legend', function () {
             this.player1.clickPrompt('Right');
             expect(this.buxBastian.tokens.damage).toBe(undefined);
             expect(this.wrangler1.location).toBe('play area');
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

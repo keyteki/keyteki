@@ -31,7 +31,7 @@ describe('Crystalline Harvest', function () {
             expect(this.player1.amber).toBe(5);
             this.player1.play(this.dewFaerie);
             expect(this.player1.amber).toBe(5);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should lose 1 amber when playing an action card after fate is triggered', function () {
@@ -44,7 +44,7 @@ describe('Crystalline Harvest', function () {
             expect(this.player2.amber).toBe(4);
             this.player2.play(this.troll);
             expect(this.player2.amber).toBe(4);
-            this.expectReadyToTakeAction(this.player2);
+            expect(this.player2).isReadyToTakeAction();
         });
     });
 });

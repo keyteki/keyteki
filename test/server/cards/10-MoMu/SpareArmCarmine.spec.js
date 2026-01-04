@@ -19,7 +19,7 @@ describe('Spare Arm Carmine', function () {
             this.player1.reap(this.spareArmCarmine);
             expect(this.player1.amber).toBe(3);
             expect(this.player2.amber).toBe(2);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should steal 2 if more friendly mutants', function () {
@@ -27,7 +27,7 @@ describe('Spare Arm Carmine', function () {
             this.player1.reap(this.spareArmCarmine);
             expect(this.player1.amber).toBe(4);
             expect(this.player2.amber).toBe(1);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

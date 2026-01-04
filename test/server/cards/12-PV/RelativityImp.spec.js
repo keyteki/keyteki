@@ -25,7 +25,7 @@ describe('Relativity Imp', function () {
             this.player1.forgeKey('Blue');
             this.player1.clickPrompt('dis');
             expect(this.player1.amber).toBe(12);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should not allow forging a third key in the same turn', function () {
@@ -39,7 +39,7 @@ describe('Relativity Imp', function () {
             this.player1.clickPrompt('dis');
             this.player1.useAction(this.obsidianForge);
             this.player1.clickPrompt('Done');
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

@@ -36,7 +36,7 @@ describe('Xyp the Implanter', function () {
             expect(this.player1).toBeAbleToSelect(this.flaxia);
             this.player1.clickCard(this.flaxia);
             expect(this.flaxia.location).toBe('discard');
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('destroys a friendly creature without taking an enemy creature', function () {
@@ -46,7 +46,7 @@ describe('Xyp the Implanter', function () {
             this.player1.reap(this.xypTheImplanter);
             this.player1.clickCard(this.flaxia);
             expect(this.flaxia.location).toBe('discard');
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

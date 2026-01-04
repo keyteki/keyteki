@@ -19,7 +19,7 @@ describe('Ezra Paws', function () {
                 2
             );
             expect(this.player1.player.hand.length).toBe(1);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should reveal opponent hand and draw a card on reap', function () {
@@ -31,7 +31,7 @@ describe('Ezra Paws', function () {
                 2
             );
             expect(this.player1.player.hand.length).toBe(2);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

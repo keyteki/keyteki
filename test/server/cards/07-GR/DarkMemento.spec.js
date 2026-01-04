@@ -65,7 +65,7 @@ describe('Dark Memento', function () {
             this.player1.clickPrompt('Mine');
             expect(this.player1.player.discard.length).toBe(10);
             expect(this.dominatorBauble.location).toBe('discard');
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('can discard cards top of opponent deck on scrap, until haunted', function () {
@@ -78,7 +78,7 @@ describe('Dark Memento', function () {
             expect(this.player2.player.discard.length).toBe(10);
             expect(this.flaxia.location).toBe('discard');
             expect(this.huntingWitch.location).toBe('deck');
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('can discard cards top of both decks on scrap, until one player is haunted', function () {
@@ -97,7 +97,7 @@ describe('Dark Memento', function () {
             expect(this.huntingWitch.location).toBe('deck');
             expect(this.charette.location).toBe('deck');
             expect(this.dominatorBauble.location).toBe('deck');
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

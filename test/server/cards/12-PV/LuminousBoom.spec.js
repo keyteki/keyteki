@@ -26,14 +26,14 @@ describe('Luminous Boom', function () {
             this.player1.clickCard(this.championTabris);
             expect(this.championTabris.amber).toBe(4);
             expect(this.player2.amber).toBe(0);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should not capture amber if no Sanctum card is discarded', function () {
             this.player1.play(this.luminousBoom);
             this.player1.clickPrompt('Done');
             expect(this.player2.amber).toBe(4);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

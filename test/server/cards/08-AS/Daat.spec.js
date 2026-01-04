@@ -33,7 +33,7 @@ describe('Daat', function () {
             this.player1.reap(this.ancientBear);
             expect(this.player1.amber).toBe(3);
             this.player1.clickCard(this.shooler);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

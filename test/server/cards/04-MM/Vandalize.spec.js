@@ -55,7 +55,7 @@ describe('Vandalize', function () {
                     });
 
                     it('should have correct prompt', function () {
-                        this.expectReadyToTakeAction(this.player1);
+                        expect(this.player1).isReadyToTakeAction();
                     });
                 });
             });
@@ -88,7 +88,7 @@ describe('Vandalize', function () {
                 });
 
                 it('should have correct prompt', function () {
-                    this.expectReadyToTakeAction(this.player1);
+                    expect(this.player1).isReadyToTakeAction();
                 });
             });
         });
@@ -117,7 +117,7 @@ describe('Vandalize', function () {
                 });
 
                 it('should have correct prompt', function () {
-                    this.expectReadyToTakeAction(this.player1);
+                    expect(this.player1).isReadyToTakeAction();
                 });
             });
         });
@@ -135,7 +135,7 @@ describe('Vandalize', function () {
             });
 
             it('should have correct prompt', function () {
-                this.expectReadyToTakeAction(this.player1);
+                expect(this.player1).isReadyToTakeAction();
             });
         });
     });

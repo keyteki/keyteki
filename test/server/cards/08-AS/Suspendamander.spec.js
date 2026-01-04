@@ -45,7 +45,7 @@ describe('Suspendamander', function () {
             this.player1.endTurn();
             this.player2.clickPrompt('shadows');
             this.player2.play(this.tooMuchToProtect);
-            this.expectReadyToTakeAction(this.player2);
+            expect(this.player2).isReadyToTakeAction();
         });
 
         it('should not prevent opponent from other card types', function () {
@@ -54,7 +54,7 @@ describe('Suspendamander', function () {
             this.player1.endTurn();
             this.player2.clickPrompt('shadows');
             this.player2.playCreature(this.umbra);
-            this.expectReadyToTakeAction(this.player2);
+            expect(this.player2).isReadyToTakeAction();
         });
 
         it('should not prevent opponent from playing actions of a different house', function () {
@@ -63,7 +63,7 @@ describe('Suspendamander', function () {
             this.player1.endTurn();
             this.player2.clickPrompt('untamed');
             this.player2.play(this.theCircleOfLife);
-            this.expectReadyToTakeAction(this.player2);
+            expect(this.player2).isReadyToTakeAction();
         });
     });
 
@@ -94,11 +94,11 @@ describe('Suspendamander', function () {
             this.player1.clickPrompt('dis');
             this.player1.endTurn();
             this.player2.clickPrompt('untamed');
-            this.expectReadyToTakeAction(this.player2);
+            expect(this.player2).isReadyToTakeAction();
             this.player2.clickCard(this.fogbank);
             expect(this.player2).not.toHavePrompt('Play this action');
             this.player2.clickPrompt('Cancel');
-            this.expectReadyToTakeAction(this.player2);
+            expect(this.player2).isReadyToTakeAction();
         });
     });
 });

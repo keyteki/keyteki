@@ -24,7 +24,7 @@ describe('Harmonic Pack', function () {
             this.player1.clickPrompt("Opponent's");
             expect(this.brikkNastee.location).toBe('discard');
             expect(this.crimTorchtooth.tokens.damage).toBe(5);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should only do 2 damage if no card was discarded from archives (also it should let you choose an archive which has no cards in it)', function () {
@@ -33,18 +33,18 @@ describe('Harmonic Pack', function () {
             this.player1.clickPrompt('Mine');
             expect(this.brikkNastee.location).toBe('archives');
             expect(this.crimTorchtooth.tokens.damage).toBe(2);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should discard from archives even if there was no creature to damage', function () {
             this.player2.moveCard(this.gangerChieftain, 'discard');
             this.player2.moveCard(this.crimTorchtooth, 'discard');
             this.player1.moveCard(this.cpoZytar, 'discard');
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
             this.player1.play(this.harmonicPack);
             this.player1.clickPrompt("Opponent's");
             expect(this.brikkNastee.location).toBe('discard');
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should leave discarded card on top of a destroyed creature', function () {
@@ -55,7 +55,7 @@ describe('Harmonic Pack', function () {
             expect(this.brikkNastee.location).toBe('discard');
             expect(this.gangerChieftain.location).toBe('discard');
             expect(this.player2.player.discard[0]).toBe(this.brikkNastee);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

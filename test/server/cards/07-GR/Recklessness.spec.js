@@ -23,7 +23,7 @@ describe('Recklessness', function () {
             expect(this.rogueOperation.location).toBe('discard');
             expect(this.player1.player.hand.length).toBe(3);
             expect(this.player2.player.hand.length).toBe(3);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

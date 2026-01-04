@@ -69,7 +69,7 @@ describe('Trojan Sauropod', function () {
                     this.player2.clickCard(this.citizenShrix);
                     this.player2.clickPrompt('Right');
                     expect(this.citizenShrix.location).toBe('play area');
-                    this.expectReadyToTakeAction(this.player2);
+                    expect(this.player2).isReadyToTakeAction();
                     expect(this.player1.player.hand.length).toBe(6);
                     expect(this.gub.location).toBe('hand');
                     expect(this.gatewayToDis.location).toBe('hand');

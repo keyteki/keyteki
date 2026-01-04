@@ -20,13 +20,13 @@ describe('Incensed', function () {
         it('should allows creature to gain 1 on fight this turn', function () {
             this.player1.fightWith(this.troll, this.flaxia);
             expect(this.player1.amber).toBe(3);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should not gain 1 if creature dies during the fight', function () {
             this.player1.fightWith(this.looterGoblin, this.flaxia);
             expect(this.player1.amber).toBe(2);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should not work for opponent or on your next turn', function () {
@@ -38,7 +38,7 @@ describe('Incensed', function () {
             this.player1.clickPrompt('brobnar');
             this.player1.fightWith(this.troll, this.flaxia);
             expect(this.player1.amber).toBe(2);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

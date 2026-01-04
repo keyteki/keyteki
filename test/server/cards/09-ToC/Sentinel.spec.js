@@ -23,7 +23,7 @@ describe('Sentinel', function () {
             expect(this.player1).not.toBeAbleToSelect(this.intrepidExemplar);
             this.player1.clickCard(this.dustPixie);
             expect(this.dustPixie.stunned).toBe(true);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should destroy a stunned enemy creature on action', function () {
@@ -32,7 +32,7 @@ describe('Sentinel', function () {
             this.player1.useAction(this.sentinel2);
             this.player1.clickCard(this.dustPixie);
             expect(this.dustPixie.location).toBe('discard');
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

@@ -34,7 +34,7 @@ describe('Future is Past', function () {
             expect(shuffled.length).toBe(2);
             expect(shuffled).toContain(this.player1.player);
             expect(shuffled).toContain(this.player2.player);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

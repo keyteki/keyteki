@@ -16,7 +16,7 @@ describe('Imperial Road', function () {
         it('should not prompt for creature', function () {
             this.player1.useAction(this.imperialRoad, true);
             expect(this.player1).not.toHavePrompt('Choose a creature');
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 
@@ -46,7 +46,7 @@ describe('Imperial Road', function () {
             this.player1.clickCard(this.grimlocusDux);
             expect(this.grimlocusDux.location).toBe('play area');
             expect(this.grimlocusDux.stunned).toBe(true);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
             this.player1.endTurn();
             this.player2.clickPrompt('brobnar');
             this.player2.endTurn();
@@ -65,7 +65,7 @@ describe('Imperial Road', function () {
             this.player1.clickPrompt('untamed');
             this.player1.useAction(this.imperialRoad, true);
             expect(this.player1).not.toHavePrompt('Choose a creature');
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
             expect(this.imperialRoad.exhausted).toBe(true);
         });
     });

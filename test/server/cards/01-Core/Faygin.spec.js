@@ -16,7 +16,7 @@ describe('Faygin', function () {
             this.player1.reap(this.faygin);
             this.player1.clickCard(this.urchin);
             expect(this.urchin.location).toBe('hand');
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should return urchin from discard', function () {
@@ -24,7 +24,7 @@ describe('Faygin', function () {
             this.player1.reap(this.faygin);
             this.player1.clickCard(this.urchin);
             expect(this.urchin.location).toBe('hand');
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

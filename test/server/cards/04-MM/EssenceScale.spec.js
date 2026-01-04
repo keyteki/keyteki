@@ -93,7 +93,7 @@ describe('Essence Scale', function () {
             expect(this.player1).toBeAbleToSelect(this.lordInvidius);
             this.player1.clickCard(this.lordInvidius);
             expect(this.lordInvidius.warded).toBe(false);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

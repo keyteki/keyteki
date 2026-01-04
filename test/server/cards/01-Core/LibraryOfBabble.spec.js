@@ -14,7 +14,7 @@ describe('Library of Babble', function () {
             let handSize = this.player1.hand.length;
             this.player1.useAction(this.libraryOfBabble);
             expect(this.player1.hand.length).toBe(handSize + 1);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

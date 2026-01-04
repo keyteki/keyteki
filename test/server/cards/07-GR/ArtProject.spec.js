@@ -19,7 +19,7 @@ describe('Art Project', function () {
             this.player1.play(this.artProject);
             expect(this.artProject.location).toBe('discard');
             expect(this.player2.player.hand.length).toBe(p2hand);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('unforges a key, purges self, draws opponent ten cards', function () {
@@ -35,7 +35,7 @@ describe('Art Project', function () {
             expect(this.player2.player.keys.red).toBe(false);
             expect(this.player2.player.keys.blue).toBe(false);
             expect(this.player2.player.keys.yellow).toBe(false);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

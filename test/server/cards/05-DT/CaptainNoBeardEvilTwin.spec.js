@@ -29,7 +29,7 @@ describe('Captain No-Beard', function () {
             expect(this.jackieTar.amber).toBe(0);
             expect(this.player1.amber).toBe(0);
             expect(this.player2.amber).toBe(4);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('when opponent has 1 amber, should prompt the neighbor', function () {
@@ -50,7 +50,7 @@ describe('Captain No-Beard', function () {
             expect(this.jackieTar.amber).toBe(0);
             expect(this.player1.amber).toBe(0);
             expect(this.player2.amber).toBe(4);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('when opponent has more than 2 ambers, both neighbors should capture', function () {
@@ -62,7 +62,7 @@ describe('Captain No-Beard', function () {
             expect(this.jackieTar.amber).toBe(1);
             expect(this.player1.amber).toBe(3);
             expect(this.player2.amber).toBe(4);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

@@ -20,7 +20,7 @@ describe('Raiding Party', function () {
             this.player1.fightWith(this.raidingParty, this.lamindra);
             expect(this.player1.amber).toBe(2);
             expect(this.player2.amber).toBe(3);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should steal 2 on fight if a common key forged', function () {
@@ -29,7 +29,7 @@ describe('Raiding Party', function () {
             this.player1.fightWith(this.raidingParty, this.lamindra);
             expect(this.player1.amber).toBe(3);
             expect(this.player2.amber).toBe(2);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

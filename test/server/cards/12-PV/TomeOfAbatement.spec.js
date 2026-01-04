@@ -40,7 +40,7 @@ describe('Tome of Abatement', function () {
             this.player2.clickPrompt('staralliance');
             this.player2.playUpgrade(this.cloakingDongle, this.macisAsp);
             expect(this.macisAsp.hasKeyword('elusive')).toBe(false);
-            this.expectReadyToTakeAction(this.player2);
+            expect(this.player2).isReadyToTakeAction();
         });
     });
 });

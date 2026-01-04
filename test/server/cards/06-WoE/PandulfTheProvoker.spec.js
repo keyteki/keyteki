@@ -25,7 +25,7 @@ describe('Pandulf the Provoker', function () {
             expect(this.krump.enraged).toBe(true);
             expect(this.troll.enraged).toBe(false);
             expect(this.flaxia.enraged).toBe(false);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

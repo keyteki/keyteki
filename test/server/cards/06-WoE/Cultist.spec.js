@@ -26,7 +26,7 @@ describe('Cultist', function () {
             expect(this.player1).not.toBeAbleToSelect(this.batdrone);
             this.player1.clickCard(this.vulka);
             expect(this.vulka.tokens.ward).toBe(1);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

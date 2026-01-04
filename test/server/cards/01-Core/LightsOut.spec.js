@@ -27,7 +27,7 @@ describe('Lights Out', function () {
             expect(this.troll.location).toBe('hand');
             expect(this.krump.location).toBe('hand');
             expect(this.bumpsy.location).toBe('play area');
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

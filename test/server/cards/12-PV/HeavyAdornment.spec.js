@@ -21,7 +21,7 @@ describe('Heavy Adornment', function () {
             expect(this.corrosiveMonk.amber).toBe(0);
             expect(this.ancientBear.amber).toBe(0);
             expect(this.dustPixie.amber).toBe(0);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

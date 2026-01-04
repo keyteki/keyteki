@@ -22,20 +22,20 @@ describe('Nerve Blast', function () {
             expect(this.player1).toBeAbleToSelect(this.silvertooth);
             this.player1.clickCard(this.silvertooth);
             expect(this.silvertooth.location).toBe('discard');
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should not trigger damage when there are no creatures in play', function () {
             this.player1.play(this.nerveBlast);
             expect(this.player1.amber).toBe(1);
             expect(this.player2.amber).toBe(1);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should not do anything if you cannot steal', function () {
             this.player2.amber = 0;
             this.player1.play(this.nerveBlast);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

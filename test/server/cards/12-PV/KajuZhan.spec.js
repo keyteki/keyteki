@@ -37,7 +37,7 @@ describe('Kaju Zhan', function () {
             this.player1.clickCard(this.emberImp);
             expect(this.emberImp.location).toBe('deck');
             expect(this.player2.player.deck[0]).toBe(this.emberImp);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

@@ -71,7 +71,7 @@ describe('Shard of Strength', function () {
 
             it('should not prompt', function () {
                 this.player1.useAction(this.shardOfStrength);
-                this.expectReadyToTakeAction(this.player1);
+                expect(this.player1).isReadyToTakeAction();
             });
         });
     });

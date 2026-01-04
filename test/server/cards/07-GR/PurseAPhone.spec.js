@@ -41,7 +41,7 @@ describe('Purse-A-Phone', function () {
             this.player1.clickCard(this.shadys);
             expect(this.shadys.location).toBe('hand');
             expect(this.purseAPhone.location).toBe('discard');
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('allows a choice between multiple Shadyses when destroyed', function () {
@@ -54,14 +54,14 @@ describe('Purse-A-Phone', function () {
             expect(this.shadys.location).toBe('discard');
             expect(this.shadys2.location).toBe('hand');
             expect(this.purseAPhone.location).toBe('discard');
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('does nothing if no Shadys is present', function () {
             this.player1.moveCard(this.shadys, 'deck');
             this.player1.fightWith(this.purseAPhone, this.thingFromTheDeep);
             expect(this.purseAPhone.location).toBe('discard');
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

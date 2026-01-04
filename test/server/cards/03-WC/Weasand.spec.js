@@ -205,7 +205,7 @@ describe('Weasand', function () {
             expect(this.brammo.location).toBe('play area');
             expect(this.redlock.location).toBe('play area');
             expect(this.brammo.controller).toBe(this.player1.player);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should not be destroyed when mindlock controlled creature return to owner and does leave Weasand on a flank', function () {
@@ -225,7 +225,7 @@ describe('Weasand', function () {
             expect(this.brammo.location).toBe('play area');
             expect(this.redlock.location).toBe('play area');
             expect(this.brammo.controller).toBe(this.player1.player);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should be destroyed when taken control and put on a flank', function () {
@@ -237,7 +237,7 @@ describe('Weasand', function () {
             this.player2.playUpgrade(this.collarOfSubordination, this.weasand);
             this.player2.clickPrompt('Left');
             expect(this.weasand.location).toBe('discard');
-            this.expectReadyToTakeAction(this.player2);
+            expect(this.player2).isReadyToTakeAction();
         });
     });
 });

@@ -22,7 +22,7 @@ describe('Zeff "Punch" Yardus', function () {
             expect(this.helperBot.location).toBe('archives');
             expect(this.drainingTouch.location).toBe('archives');
             expect(this.troll.location).toBe('discard');
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should work with no discard pile', function () {
@@ -35,7 +35,7 @@ describe('Zeff "Punch" Yardus', function () {
             expect(this.helperBot.location).toBe('deck');
             expect(this.drainingTouch.location).toBe('deck');
             expect(this.troll.location).toBe('archives');
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

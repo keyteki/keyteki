@@ -37,14 +37,14 @@ describe('Yipyax Abductor', function () {
                 this.player1.clickCard(this.observUMax);
                 expect(this.observUMax.location).toBe('archives');
                 expect(this.player1.player.archives).toContain(this.observUMax);
-                this.expectReadyToTakeAction(this.player1);
+                expect(this.player1).isReadyToTakeAction();
             });
 
             it('can put a friendly upgrade into archives on play', function () {
                 this.player1.clickCard(this.jammerPack);
                 expect(this.jammerPack.location).toBe('archives');
                 expect(this.player1.player.archives).toContain(this.jammerPack);
-                this.expectReadyToTakeAction(this.player1);
+                expect(this.player1).isReadyToTakeAction();
             });
 
             describe('and waiting a turn', function () {
@@ -61,7 +61,7 @@ describe('Yipyax Abductor', function () {
                     this.player1.clickPrompt('Yes');
                     expect(this.observUMax.location).toBe('hand');
                     expect(this.player2.player.hand).toContain(this.observUMax);
-                    this.expectReadyToTakeAction(this.player1);
+                    expect(this.player1).isReadyToTakeAction();
                 });
 
                 it('can put a friendly artifact into archives on fight', function () {
@@ -70,7 +70,7 @@ describe('Yipyax Abductor', function () {
                     this.player1.clickCard(this.jammerPack);
                     expect(this.jammerPack.location).toBe('archives');
                     expect(this.player1.player.archives).toContain(this.jammerPack);
-                    this.expectReadyToTakeAction(this.player1);
+                    expect(this.player1).isReadyToTakeAction();
                 });
             });
         });
@@ -93,7 +93,7 @@ describe('Yipyax Abductor', function () {
             this.player1.clickCard(this.cameBackWrong);
             expect(this.tunk.power).toBe(6);
             expect(this.player1.player.archives).toContain(this.cameBackWrong);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

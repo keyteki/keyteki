@@ -16,14 +16,14 @@ describe('Lomir Flamefist', function () {
         it('should make opponent lose 2 amber when they have 7+ amber', function () {
             this.player1.playCreature(this.lomirFlamefist);
             expect(this.player2.amber).toBe(5);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should not affect opponent with less than 7 amber', function () {
             this.player2.amber = 6;
             this.player1.playCreature(this.lomirFlamefist);
             expect(this.player2.amber).toBe(6);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

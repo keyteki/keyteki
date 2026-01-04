@@ -22,7 +22,7 @@ describe('Horseman of Famine', function () {
             expect(this.player1).not.toBeAbleToSelect(this.troll);
             this.player1.clickCard(this.emberImp);
             expect(this.emberImp.location).toBe('discard');
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 
@@ -48,7 +48,7 @@ describe('Horseman of Famine', function () {
             expect(this.player1).not.toBeAbleToSelect(this.troll);
             this.player1.clickCard(this.emberImp);
             expect(this.emberImp.location).toBe('discard');
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should destroy the least powerful creature after fight', function () {
@@ -60,7 +60,7 @@ describe('Horseman of Famine', function () {
             expect(this.player1).not.toBeAbleToSelect(this.troll);
             this.player1.clickCard(this.bumpsy);
             expect(this.bumpsy.location).toBe('discard');
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

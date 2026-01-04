@@ -34,7 +34,7 @@ describe('The Mysticeti', function () {
                 this.player1.useAction(this.theMysticeti);
                 expect(this.player1).not.toBeAbleToSelect(this.theMysticeti);
                 expect(this.player1).not.toBeAbleToSelect(this.murkens);
-                this.expectReadyToTakeAction(this.player1);
+                expect(this.player1).isReadyToTakeAction();
                 expect(this.theMysticeti.type).toBe('artifact');
                 expect(this.theMysticeti.tokens.power).toBeUndefined();
             });
@@ -67,7 +67,7 @@ describe('The Mysticeti', function () {
 
                 this.player1.clickPrompt('Done');
 
-                this.expectReadyToTakeAction(this.player1);
+                expect(this.player1).isReadyToTakeAction();
                 expect(this.theMysticeti.type).toBe('artifact');
                 expect(this.theMysticeti.tokens.power).toBeUndefined();
             });
@@ -87,7 +87,7 @@ describe('The Mysticeti', function () {
                 this.player1.clickCard(this.dustPixie);
                 this.player1.clickPrompt('Done');
 
-                this.expectReadyToTakeAction(this.player1);
+                expect(this.player1).isReadyToTakeAction();
                 expect(this.theMysticeti.type).toBe('artifact');
                 expect(this.theMysticeti.tokens.power).toBeUndefined();
             });
@@ -112,7 +112,7 @@ describe('The Mysticeti', function () {
                 this.player1.clickCard(this.bumblebird);
                 this.player1.clickPrompt('Left');
 
-                this.expectReadyToTakeAction(this.player1);
+                expect(this.player1).isReadyToTakeAction();
                 expect(this.theMysticeti.type).toBe('creature');
                 expect(this.theMysticeti.tokens.power).toBe(6);
                 expect(this.theMysticeti.hasKeyword('taunt')).toBe(true);
@@ -138,7 +138,7 @@ describe('The Mysticeti', function () {
                 this.player1.clickCard(this.dustPixie);
                 this.player1.clickPrompt('Left');
 
-                this.expectReadyToTakeAction(this.player1);
+                expect(this.player1).isReadyToTakeAction();
                 expect(this.theMysticeti.type).toBe('creature');
                 expect(this.theMysticeti.tokens.power).toBe(12);
                 expect(this.theMysticeti.hasKeyword('taunt')).toBe(true);

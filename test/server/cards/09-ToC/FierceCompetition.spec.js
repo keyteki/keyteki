@@ -19,13 +19,13 @@ describe('Fierce Competition', function () {
         it('should make a token creature on play', function () {
             this.player1.play(this.fierceCompetition);
             expect(this.wrangler1.location).toBe('play area');
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should archive if both players have 0 keys', function () {
             this.player1.play(this.fierceCompetition);
             expect(this.fierceCompetition.location).toBe('archives');
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should archive if both players have 1 key', function () {
@@ -33,7 +33,7 @@ describe('Fierce Competition', function () {
             this.player2.player.keys = { red: false, blue: true, yellow: false };
             this.player1.play(this.fierceCompetition);
             expect(this.fierceCompetition.location).toBe('archives');
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should archive if both players have 2 keys', function () {
@@ -41,7 +41,7 @@ describe('Fierce Competition', function () {
             this.player2.player.keys = { red: false, blue: true, yellow: true };
             this.player1.play(this.fierceCompetition);
             expect(this.fierceCompetition.location).toBe('archives');
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should not archive if players have different number of keys', function () {
@@ -49,7 +49,7 @@ describe('Fierce Competition', function () {
             this.player2.player.keys = { red: false, blue: true, yellow: true };
             this.player1.play(this.fierceCompetition);
             expect(this.fierceCompetition.location).toBe('discard');
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

@@ -35,7 +35,7 @@ describe('Vial of Mutation', function () {
             expect(this.troll.hasTrait('mutant')).toBe(false);
             expect(this.fandangle.hasTrait('mutant')).toBe(true);
 
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should remove the Mutant trait when the card is discarded', function () {

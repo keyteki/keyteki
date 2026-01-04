@@ -19,7 +19,7 @@ describe('Emerald Duelist', function () {
             expect(this.bulwark.amber).toBe(1);
             expect(this.yurk.amber).toBe(1);
             expect(this.player2.amber).toBe(2);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

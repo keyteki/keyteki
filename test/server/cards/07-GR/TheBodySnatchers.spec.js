@@ -20,7 +20,7 @@ describe('The Body Snatchers', function () {
             expect(this.dustPixie.location).toBe('play area');
             expect(this.player1.player.creaturesInPlay).toContain(this.dustPixie);
             expect(this.dustPixie.exhausted).toBe(false);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('heals the destroyed enemy creatures', function () {
@@ -34,7 +34,7 @@ describe('The Body Snatchers', function () {
             expect(this.thingFromTheDeep.tokens.damage).toBeUndefined();
             expect(this.player1.player.creaturesInPlay).toContain(this.thingFromTheDeep);
             expect(this.thingFromTheDeep.exhausted).toBe(false);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('only lasts for a turn', function () {
@@ -43,7 +43,7 @@ describe('The Body Snatchers', function () {
             this.player2.clickPrompt('untamed');
             this.player2.fightWith(this.dustPixie, this.tunk);
             expect(this.dustPixie.location).toBe('discard');
-            this.expectReadyToTakeAction(this.player2);
+            expect(this.player2).isReadyToTakeAction();
         });
 
         it('only affects creatures', function () {
@@ -56,7 +56,7 @@ describe('The Body Snatchers', function () {
             expect(this.thingFromTheDeep.tokens.damage).toBeUndefined();
             expect(this.player1.player.creaturesInPlay).toContain(this.thingFromTheDeep);
             expect(this.ritualOfBalance.location).toBe('discard');
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

@@ -18,7 +18,7 @@ describe('Instant Transmission', function () {
             this.player1.useAction(this.instantTransmission, true);
             expect(this.player1.hand.length).toBe(player1Hand + 3);
             expect(this.instantTransmission.location).toBe('discard');
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

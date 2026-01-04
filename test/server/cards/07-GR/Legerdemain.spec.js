@@ -30,7 +30,7 @@ describe('Legerdemain', function () {
             expect(this.player1.player.hand).toContain(this.flaxia);
             expect(this.gub.location).toBe('play area');
             expect(this.krump.location).toBe('play area');
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should return an enemy damaged creture to hand to gain one', function () {
@@ -42,7 +42,7 @@ describe('Legerdemain', function () {
             expect(this.player2.player.hand).toContain(this.krump);
             expect(this.gub.location).toBe('play area');
             expect(this.flaxia.location).toBe('play area');
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should work on swapped creatures', function () {
@@ -60,7 +60,7 @@ describe('Legerdemain', function () {
             expect(this.player1.player.hand).toContain(this.flaxia);
             expect(this.gub.location).toBe('play area');
             expect(this.krump.location).toBe('play area');
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should not grant amber for warded creatures', function () {
@@ -76,7 +76,7 @@ describe('Legerdemain', function () {
             expect(this.gub.location).toBe('play area');
             expect(this.krump.location).toBe('play area');
             expect(this.krump.tokens.ward).toBe(undefined);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

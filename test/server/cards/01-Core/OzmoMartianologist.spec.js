@@ -15,12 +15,12 @@ describe('Ozmo Martianologist', function () {
 
         it('after reap should not show any prompt when there are not mars in play', function () {
             this.player1.reap(this.ozmoMartianologist);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('after fight should not show any prompt when there are not mars in play', function () {
             this.player1.fightWith(this.ozmoMartianologist, this.lamindra);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 

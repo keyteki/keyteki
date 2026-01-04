@@ -29,7 +29,7 @@ describe('Wild Wormhole', function () {
             this.player1.clickPrompt('Right');
             expect(this.dextre.location).toBe('play area');
             expect(this.player1.amber).toBe(1);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should play an artifact on top of the deck', function () {
@@ -38,7 +38,7 @@ describe('Wild Wormhole', function () {
             this.player1.play(this.wildWormhole);
             expect(this.gauntletOfCommand.location).toBe('play area');
             expect(this.player1.amber).toBe(1);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should play an upgrade on top of the deck', function () {
@@ -48,7 +48,7 @@ describe('Wild Wormhole', function () {
             expect(this.player1).toHavePrompt('Way of the Bear');
             this.player1.clickCard(this.ganymedeArchivist);
             expect(this.wayOfTheBear.location).toBe('play area');
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
             expect(this.player1.amber).toBe(2);
         });
 
@@ -62,7 +62,7 @@ describe('Wild Wormhole', function () {
             this.player1.clickCard(this.inkaTheSpider);
             expect(this.ganymedeArchivist.location).toBe('discard');
             expect(this.anger.location).toBe('discard');
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
             expect(this.player1.amber).toBe(2);
         });
 
@@ -73,7 +73,7 @@ describe('Wild Wormhole', function () {
             this.player1.moveCard(this.wayOfTheBear, 'deck');
             expect(this.wayOfTheBear.location).toBe('deck');
             this.player1.play(this.wildWormhole);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
             expect(this.player1.amber).toBe(1);
             expect(this.wayOfTheBear.location).toBe('deck');
         });
@@ -81,7 +81,7 @@ describe('Wild Wormhole', function () {
         it('should keep an alpha card on the top of the deck', function () {
             this.player1.moveCard(this.eureka, 'deck');
             this.player1.play(this.wildWormhole);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
             expect(this.player1.amber).toBe(1);
             expect(this.eureka.location).toBe('deck');
         });
@@ -89,7 +89,7 @@ describe('Wild Wormhole', function () {
         it('should keep Kelifi Dragon on the top of the deck if not enough amber', function () {
             this.player1.moveCard(this.kelifiDragon, 'deck');
             this.player1.play(this.wildWormhole);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
             expect(this.player1.amber).toBe(1);
             expect(this.kelifiDragon.location).toBe('deck');
         });
@@ -98,7 +98,7 @@ describe('Wild Wormhole', function () {
             this.player1.moveCard(this.dextre, 'deck');
             this.player1.play(this.archimedes);
             this.player1.play(this.wildWormhole);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
             expect(this.player1.amber).toBe(1);
             expect(this.dextre.location).toBe('deck');
         });
@@ -137,7 +137,7 @@ describe('Wild Wormhole', function () {
             this.player1.clickPrompt('Library Access');
             expect(this.dextre.location).toBe('hand');
             expect(this.gauntletOfCommand.location).toBe('deck');
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should interact correctly with Library Access when playing an action', function () {

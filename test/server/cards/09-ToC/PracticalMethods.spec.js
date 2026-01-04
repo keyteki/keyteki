@@ -40,7 +40,7 @@ describe('Practical Methods', function () {
             this.player1.clickCard(this.troll);
             expect(this.gub.location).toBe('discard');
             expect(this.troll.location).toBe('discard');
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

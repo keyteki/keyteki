@@ -28,7 +28,7 @@ describe('Gracchan Reform', function () {
             expect(this.dustPixie.location).toBe('play area');
             expect(this.dustPixie.controller).toBe(this.player1.player);
             expect(this.player1.amber).toBe(7);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should archive top 2 cards of opponent deck on fate', function () {
@@ -43,7 +43,7 @@ describe('Gracchan Reform', function () {
             expect(this.huntingWitch.location).toBe('archives');
             expect(this.player1.player.archives.length).toBe(2);
             expect(this.gracchanReform.location).toBe('discard');
-            this.expectReadyToTakeAction(this.player2);
+            expect(this.player2).isReadyToTakeAction();
         });
     });
 });

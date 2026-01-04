@@ -24,7 +24,7 @@ describe('Gaius', function () {
             expect(this.emberImp.warded).toBe(false);
             expect(this.gaius.warded).toBe(false);
             expect(this.krump.warded).toBe(false);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should ward a friendly creature when scrapped', function () {
@@ -38,7 +38,7 @@ describe('Gaius', function () {
             expect(this.raidingKnight.warded).toBe(true);
             expect(this.almsmaster.warded).toBe(false);
             expect(this.emberImp.warded).toBe(false);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

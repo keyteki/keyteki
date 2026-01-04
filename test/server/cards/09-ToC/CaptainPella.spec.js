@@ -20,7 +20,7 @@ describe('Captain Pella', function () {
             this.player1.reap(this.captainPella);
             this.player1.clickPrompt('Right');
             expect(this.wrangler1.location).toBe('play area');
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

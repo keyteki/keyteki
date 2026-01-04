@@ -99,7 +99,7 @@ describe('Rhetor Gallim', function () {
             this.player2.clickPrompt('untamed');
             expect(this.player1.player.getCurrentKeyCost()).toBe(6);
             expect(this.player2.player.getCurrentKeyCost()).toBe(9);
-            this.expectReadyToTakeAction(this.player2);
+            expect(this.player2).isReadyToTakeAction();
         });
     });
 });

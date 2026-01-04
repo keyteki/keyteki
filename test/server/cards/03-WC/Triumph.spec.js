@@ -23,7 +23,7 @@ describe('Triumph', function () {
             expect(this.troll.amber).toBe(0);
             expect(this.krump.amber).toBe(0);
             expect(this.shooler.amber).toBe(0);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
             expect(this.player1.player.getForgedKeys()).toBe(0);
             expect(this.player1.amber).toBe(5);
         });
@@ -36,7 +36,7 @@ describe('Triumph', function () {
             expect(this.urchin.amber).toBe(1);
             expect(this.troll.amber).toBe(1);
             expect(this.krump.amber).toBe(1);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
             expect(this.player1.player.getForgedKeys()).toBe(0);
             expect(this.player1.amber).toBe(5);
         });

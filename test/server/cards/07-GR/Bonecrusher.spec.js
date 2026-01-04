@@ -25,7 +25,7 @@ describe('Bonecrusher', function () {
             expect(this.huntingWitch.location).toBe('discard');
             expect(this.foozle.location).toBe('play area');
             expect(this.cpoZytar.location).toBe('play area');
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

@@ -162,7 +162,7 @@ describe('PullUpStakes,', function () {
                 });
 
                 it('should be the end of the effect', function () {
-                    this.expectReadyToTakeAction(this.player1);
+                    expect(this.player1).isReadyToTakeAction();
                 });
             });
         });

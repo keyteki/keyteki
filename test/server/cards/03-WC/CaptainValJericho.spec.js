@@ -36,7 +36,7 @@ describe('Captain Val Jericho', function () {
             this.player1.clickCard(this.chuffApe);
             expect(this.captainValJericho.isInCenter()).toBe(false);
             this.player1.clickCard(this.chuffApe);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
             this.player1.play(this.armsmasterMolina, false);
             expect(this.captainValJericho.isInCenter()).toBe(true);
             this.player1.clickCard(this.chuffApe);
@@ -50,7 +50,7 @@ describe('Captain Val Jericho', function () {
             this.player1.play(this.commanderChan, false);
             expect(this.captainValJericho.isInCenter()).toBe(true);
             this.player1.clickCard(this.flaxia);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 

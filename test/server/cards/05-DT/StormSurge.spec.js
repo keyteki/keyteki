@@ -112,7 +112,7 @@ describe('Storm Surge', function () {
             this.player2.endTurn();
             this.player1.clickPrompt('unfathomable');
             expect(this.emberImp.exhausted).toBe(true);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

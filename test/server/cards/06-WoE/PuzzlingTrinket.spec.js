@@ -18,7 +18,7 @@ describe('Puzzling Trinket', function () {
 
         it('should not trigger if no bonus', function () {
             this.player1.play(this.pelf);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         // Amber -> amber
@@ -71,7 +71,7 @@ describe('Puzzling Trinket', function () {
             expect(this.player1.amber).toBe(0);
             expect(this.troll.tokens.damage).toBe(2);
             expect(this.player1.hand.length).toBe(3);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

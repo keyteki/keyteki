@@ -93,7 +93,7 @@ describe('Doppelganger', function () {
 
             // Doppelganger should _not_ be prompting for Bulleteye’s After Reap
             // of destroying a flank creature.
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

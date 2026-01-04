@@ -19,7 +19,7 @@ describe('Irradiated Æmber', function () {
             expect(this.troll.tokens.damage).toBe(3);
             expect(this.krump.tokens.damage).toBe(3);
             expect(this.zorg.tokens.damage).toBeUndefined();
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should do nothing when opponent has less than 6 amber', function () {
@@ -28,7 +28,7 @@ describe('Irradiated Æmber', function () {
             expect(this.troll.tokens.damage).toBeUndefined();
             expect(this.krump.tokens.damage).toBeUndefined();
             expect(this.zorg.tokens.damage).toBeUndefined();
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

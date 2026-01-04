@@ -21,7 +21,7 @@ describe('Gauntlet of Command', function () {
             expect(this.player1).toHavePrompt('Choose a creature to attack');
             this.player1.clickCard(this.emberImp);
             expect(this.emberImp.location).toBe('discard');
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 
@@ -42,7 +42,7 @@ describe('Gauntlet of Command', function () {
             expect(this.player1).toHavePrompt('Choose a creature');
             expect(this.player1).toBeAbleToSelect(this.dextre);
             this.player1.clickCard(this.dextre);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
             expect(this.dextre.exhausted).toBe(false);
         });
     });

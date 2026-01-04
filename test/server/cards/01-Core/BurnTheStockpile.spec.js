@@ -14,14 +14,14 @@ describe('Burn The Stockpile', function () {
             this.player2.amber = 8;
             this.player1.play(this.burnTheStockpile);
             expect(this.player2.amber).toBe(4);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should not make opponent lose amber if they have less than 7', function () {
             this.player2.amber = 6;
             this.player1.play(this.burnTheStockpile);
             expect(this.player2.amber).toBe(6);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

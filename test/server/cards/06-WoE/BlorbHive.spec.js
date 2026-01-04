@@ -53,7 +53,7 @@ describe('Blorb Hive', function () {
             expect(this.player1.player.creaturesInPlay[0].name).toBe('Blorb');
             expect(this.player1.player.creaturesInPlay[1].name).toBe('Blorb');
             expect(this.player1.player.getForgedKeys()).toBe(0);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should forge a key if there are at least 10 blorbs', function () {
@@ -71,7 +71,7 @@ describe('Blorb Hive', function () {
             this.player1.clickPrompt('Right');
 
             // Only 9, no key yet.
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
 
             this.player1.endTurn();
             this.player2.clickPrompt('shadows');
@@ -86,7 +86,7 @@ describe('Blorb Hive', function () {
             expect(this.player1.amber).toBe(5);
             expect(this.player1.player.getForgedKeys()).toBe(1);
             expect(this.blorbHive.location).toBe('discard');
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should not let opponent make blorbs with no blorb token', function () {
@@ -102,7 +102,7 @@ describe('Blorb Hive', function () {
             expect(this.umbra.location).toBe('discard');
             expect(this.player2.player.creaturesInPlay.length).toBe(1);
             expect(this.player2.player.getForgedKeys()).toBe(0);
-            this.expectReadyToTakeAction(this.player2);
+            expect(this.player2).isReadyToTakeAction();
         });
     });
 });

@@ -36,7 +36,7 @@ describe('Mournful Barn-Burner', function () {
                 expect(this.troll.location).toBe('discard');
                 expect(this.flaxia.location).toBe('deck');
                 expect(this.dustPixie.location).toBe('deck');
-                this.expectReadyToTakeAction(this.player1);
+                expect(this.player1).isReadyToTakeAction();
             });
 
             it('can discard 2 from opponent deck', function () {
@@ -45,7 +45,7 @@ describe('Mournful Barn-Burner', function () {
                 expect(this.troll.location).toBe('deck');
                 expect(this.flaxia.location).toBe('discard');
                 expect(this.dustPixie.location).toBe('discard');
-                this.expectReadyToTakeAction(this.player1);
+                expect(this.player1).isReadyToTakeAction();
             });
         });
 
@@ -56,7 +56,7 @@ describe('Mournful Barn-Burner', function () {
             expect(this.troll.location).toBe('deck');
             expect(this.flaxia.location).toBe('deck');
             expect(this.dustPixie.location).toBe('discard');
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

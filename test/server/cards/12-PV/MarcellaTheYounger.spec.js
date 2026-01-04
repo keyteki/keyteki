@@ -20,7 +20,7 @@ describe('Marcella, the Younger', function () {
             this.player1.clickCard(this.marcellaTheYounger);
             expect(this.marcellaTheYounger.tokens.amber).toBe(1);
             expect(this.player1.hand.length).toBe(4);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should exalt and draw 2 cards after reap', function () {
@@ -28,7 +28,7 @@ describe('Marcella, the Younger', function () {
             this.player1.clickCard(this.marcellaTheYounger);
             expect(this.marcellaTheYounger.tokens.amber).toBe(1);
             expect(this.player1.hand.length).toBe(4);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should not draw cards if exalt is declined', function () {
@@ -36,7 +36,7 @@ describe('Marcella, the Younger', function () {
             this.player1.clickPrompt('Done');
             expect(this.marcellaTheYounger.tokens.amber).toBeUndefined();
             expect(this.player1.hand.length).toBe(2);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

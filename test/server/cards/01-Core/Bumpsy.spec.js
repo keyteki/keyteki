@@ -15,7 +15,7 @@ describe('Bumpsy', function () {
         it('should make opponent lose 1 amber on play', function () {
             this.player1.play(this.bumpsy);
             expect(this.player2.amber).toBe(2);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

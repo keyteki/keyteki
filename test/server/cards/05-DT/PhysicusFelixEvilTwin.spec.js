@@ -19,7 +19,7 @@ describe('Physicus Felix Evil Twin', function () {
             });
 
             it('should not prompt to exalt a creature', function () {
-                this.expectReadyToTakeAction(this.player1);
+                expect(this.player1).isReadyToTakeAction();
             });
         });
 
@@ -30,7 +30,7 @@ describe('Physicus Felix Evil Twin', function () {
             });
 
             it('should not prompt to exalt a creature', function () {
-                this.expectReadyToTakeAction(this.player1);
+                expect(this.player1).isReadyToTakeAction();
             });
         });
 
@@ -42,7 +42,7 @@ describe('Physicus Felix Evil Twin', function () {
 
             it('should be optional to exalt a creature', function () {
                 this.player1.clickPrompt('Done');
-                this.expectReadyToTakeAction(this.player1);
+                expect(this.player1).isReadyToTakeAction();
                 expect(this.bulwark.amber).toBe(0);
                 expect(this.dextre.amber).toBe(0);
                 expect(this.archimedes.amber).toBe(0);
@@ -85,7 +85,7 @@ describe('Physicus Felix Evil Twin', function () {
             });
 
             it('should not prompt to exalt a creature', function () {
-                this.expectReadyToTakeAction(this.player1);
+                expect(this.player1).isReadyToTakeAction();
             });
         });
 
@@ -96,7 +96,7 @@ describe('Physicus Felix Evil Twin', function () {
             });
 
             it('should not prompt to exalt a creature', function () {
-                this.expectReadyToTakeAction(this.player1);
+                expect(this.player1).isReadyToTakeAction();
             });
         });
 
@@ -108,7 +108,7 @@ describe('Physicus Felix Evil Twin', function () {
 
             it('should be optional to exalt a creature', function () {
                 this.player1.clickPrompt('Done');
-                this.expectReadyToTakeAction(this.player1);
+                expect(this.player1).isReadyToTakeAction();
                 expect(this.bulwark.amber).toBe(0);
                 expect(this.dextre.amber).toBe(0);
                 expect(this.archimedes.amber).toBe(0);

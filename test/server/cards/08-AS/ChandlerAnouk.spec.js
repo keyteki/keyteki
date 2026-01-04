@@ -33,7 +33,7 @@ describe('Chandler Anouk', function () {
             expect(this.chandlerAnouk.hasKeyword('taunt')).toBe(false);
             expect(this.bosunCreen.armor).toBe(2);
             expect(this.bosunCreen.hasKeyword('taunt')).toBe(true);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

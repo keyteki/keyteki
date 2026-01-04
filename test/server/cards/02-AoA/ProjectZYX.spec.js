@@ -25,7 +25,7 @@ describe('Project Z.Y.X.', function () {
             this.player1.moveCard(this.entropicSwirl, 'archives');
             this.player1.reap(this.projectZyx);
             this.player1.clickPrompt('Done');
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should be able optional to play a card after fight', function () {
@@ -33,7 +33,7 @@ describe('Project Z.Y.X.', function () {
             this.player1.moveCard(this.entropicSwirl, 'archives');
             this.player1.fightWith(this.projectZyx, this.lamindra);
             this.player1.clickPrompt('Done');
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should be able to play an archived card after reap', function () {
@@ -86,7 +86,7 @@ describe('Project Z.Y.X.', function () {
             expect(this.duskwitch.exhausted).toBe(false);
             expect(this.player2).toHavePrompt('Choose which house you want to activate this turn');
             this.player2.clickPrompt('shadows');
-            this.expectReadyToTakeAction(this.player2);
+            expect(this.player2).isReadyToTakeAction();
         });
     });
 });

@@ -22,7 +22,7 @@ describe('Ganymede Outpost', function () {
             expect(this.comOfficerKirby.location).toBe('deck');
             expect(this.pelf.location).toBe('archives');
             expect(this.quixxleStone.location).toBe('archives');
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('put a creature on the bottom of your deck and archive one card', function () {
@@ -34,13 +34,13 @@ describe('Ganymede Outpost', function () {
             this.player1.clickPrompt('Done');
             expect(this.comOfficerKirby.location).toBe('deck');
             expect(this.pelf.location).toBe('archives');
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should fizzle with no creatures in play', function () {
             this.player1.fightWith(this.comOfficerKirby, this.kelifiDragon);
             this.player1.useAction(this.ganymedeOutpost);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

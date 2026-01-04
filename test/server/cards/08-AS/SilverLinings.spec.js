@@ -17,14 +17,14 @@ describe('Silver Linings', function () {
         it('should gain 1 extra amber when 1 house among friendly flank creatures', function () {
             this.player1.play(this.silverLinings);
             expect(this.player1.amber).toBe(3);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should gain 2 extra amber when 2 houses among friendly flank creatures', function () {
             this.player1.playCreature(this.bosunCreen);
             this.player1.play(this.silverLinings);
             expect(this.player1.amber).toBe(4);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should gain 3 extra amber when 2 houses among friendly flank creatures', function () {
@@ -32,7 +32,7 @@ describe('Silver Linings', function () {
             this.player1.playCreature(this.bosunCreen);
             this.player1.play(this.silverLinings);
             expect(this.player1.amber).toBe(5);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

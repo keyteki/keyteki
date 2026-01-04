@@ -19,7 +19,7 @@ describe('Titan Sentry', function () {
             expect(this.player1.player.archives.length).toBe(1);
             expect(this.player2.player.hand.length).toBe(2);
             expect(this.player2.player.archives.length).toBe(0);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should cause a random card from opponent hand to be archived on play', function () {
@@ -29,7 +29,7 @@ describe('Titan Sentry', function () {
             expect(this.player1.player.archives.length).toBe(0);
             expect(this.player2.player.hand.length).toBe(1);
             expect(this.player2.player.archives.length).toBe(1);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should cause a random card from own hand to be archived on reap', function () {
@@ -42,7 +42,7 @@ describe('Titan Sentry', function () {
             expect(this.player1.player.archives.length).toBe(2);
             expect(this.player2.player.hand.length).toBe(2);
             expect(this.player2.player.archives.length).toBe(0);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should prevent both players from taking archives', function () {
@@ -51,10 +51,10 @@ describe('Titan Sentry', function () {
             this.player1.moveCard(this.charette, 'archives');
             this.player1.endTurn();
             this.player2.clickPrompt('dis');
-            this.expectReadyToTakeAction(this.player2);
+            expect(this.player2).isReadyToTakeAction();
             this.player2.endTurn();
             this.player1.clickPrompt('logos');
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

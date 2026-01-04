@@ -21,7 +21,7 @@ describe('Impzilla', function () {
             expect(this.player1).not.toBeAbleToSelect(this.impzilla);
             this.player1.clickCard(this.countrysideCrusher);
             expect(this.countrysideCrusher.location).toBe('discard');
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

@@ -54,7 +54,7 @@ describe('Parallel Thinking', function () {
             expect(this.player1.player.discard.length).toBe(3);
             expect(this.player1.amber).toBe(2); // steal
             expect(this.player2.amber).toBe(2);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should discard 2 cards from my archives', function () {
@@ -65,7 +65,7 @@ describe('Parallel Thinking', function () {
             expect(this.player1.player.discard.length).toBe(3);
             expect(this.player1.amber).toBe(0); // no steal
             expect(this.player2.amber).toBe(4);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it("should discard 2 cards from opponent's deck", function () {
@@ -77,7 +77,7 @@ describe('Parallel Thinking', function () {
             expect(this.player2.player.deck.length).toBe(1);
             expect(this.player2.player.archives.length).toBe(2);
             expect(this.player2.player.discard.length).toBe(2);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it("should discard 2 cards from opponent's archives", function () {
@@ -86,7 +86,7 @@ describe('Parallel Thinking', function () {
             expect(this.player2.player.deck.length).toBe(3);
             expect(this.player2.player.archives.length).toBe(0);
             expect(this.player2.player.discard.length).toBe(2);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should not steal if only 1 card is discarded', function () {
@@ -95,7 +95,7 @@ describe('Parallel Thinking', function () {
             this.player1.clickPrompt('My Archives');
             expect(this.player1.amber).toBe(0);
             expect(this.player2.amber).toBe(4);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

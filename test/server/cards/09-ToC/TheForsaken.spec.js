@@ -25,13 +25,13 @@ describe('The Forsaken', function () {
             this.player1.reap(this.tocsin);
             expect(this.toad1.location).toBe('play area');
             expect(this.player1.player.creaturesInPlay[0]).toBe(this.toad1);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should not cause a token to be made on the left when we discard a card', function () {
             this.player1.scrap(this.gub);
             expect(this.toad1.location).toBe('deck');
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should cause a token to be made on the left when opponent discards a card', function () {
@@ -40,7 +40,7 @@ describe('The Forsaken', function () {
             this.player2.scrap(this.troll);
             expect(this.toad1.location).toBe('play area');
             expect(this.player1.player.creaturesInPlay[0]).toBe(this.toad1);
-            this.expectReadyToTakeAction(this.player2);
+            expect(this.player2).isReadyToTakeAction();
         });
 
         it('should cause a token to be made on the left when opponent discards multiple card', function () {
@@ -54,7 +54,7 @@ describe('The Forsaken', function () {
             expect(this.player1.player.creaturesInPlay[1]).toBe(this.toad2);
             expect(this.player1.player.creaturesInPlay[2]).toBe(this.toad1);
             expect(this.player1.player.creaturesInPlay.length).toBe(5);
-            this.expectReadyToTakeAction(this.player2);
+            expect(this.player2).isReadyToTakeAction();
         });
     });
 });

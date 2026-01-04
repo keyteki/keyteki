@@ -17,7 +17,7 @@ describe('Full Moon', function () {
             expect(this.player1.amber).toBe(3);
             this.player1.play(this.dewFaerie);
             expect(this.player1.amber).toBe(4);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

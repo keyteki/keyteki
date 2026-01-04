@@ -23,7 +23,7 @@ describe('Awakened Titan', function () {
             this.player1.clickCard(this.gangerChieftain);
             this.player1.clickCard(this.awakenedTitan);
             expect(this.awakenedTitan.exhausted).toBe(true);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('does ready if haunted', function () {

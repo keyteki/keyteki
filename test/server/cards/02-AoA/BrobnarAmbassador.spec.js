@@ -117,18 +117,18 @@ describe('Brobnar Ambassador', function () {
             this.player1.reap(this.brobnarAmbassador);
             this.player1.play(this.smith);
             this.player1.clickCard(this.brammo);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
             this.player1.clickCard(this.cowfyne);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should not allow play or use after first brobnar use', function () {
             this.player1.fightWith(this.brobnarAmbassador, this.lamindra);
             this.player1.fightWith(this.cowfyne, this.lamindra);
             this.player1.clickCard(this.brammo);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
             this.player1.clickCard(this.theWarchest);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

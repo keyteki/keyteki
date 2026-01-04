@@ -77,7 +77,7 @@ describe("Snag's Mirror", function () {
             expect(this.player2).not.toHavePromptButton('ekwidon');
             expect(this.player2).not.toHavePromptButton('dis');
             this.player2.clickPrompt('staralliance');
-            this.expectReadyToTakeAction(this.player2);
+            expect(this.player2).isReadyToTakeAction();
         });
     });
 });

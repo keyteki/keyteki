@@ -34,7 +34,7 @@ describe('Space Invaders', function () {
             this.player1.play(this.spaceInvaders);
             expect(this.player1.currentButtons).toContain('Done');
             this.player1.clickPrompt('Done');
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should make the correct amount of tokens', function () {
@@ -48,7 +48,7 @@ describe('Space Invaders', function () {
             expect(this.zorg.location).toBe('play area');
             expect(this.zorg.name).toBe('Grumpus');
             expect(this.pelf.location).toBe('play area');
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
             expect(this.pelf.name).toBe('Grumpus');
         });
 

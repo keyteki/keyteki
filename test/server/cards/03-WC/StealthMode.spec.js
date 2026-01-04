@@ -16,7 +16,7 @@ describe('Stealth Mode', function () {
             this.player1.play(this.stealthMode);
             this.player1.endTurn();
             this.player2.clickPrompt('sanctum');
-            this.expectReadyToTakeAction(this.player2);
+            expect(this.player2).isReadyToTakeAction();
             this.player2.clickCard(this.virtuousWorks);
             expect(this.player2).not.toHavePrompt('Play this action');
             this.player2.clickPrompt('Cancel');
@@ -55,11 +55,11 @@ describe('Stealth Mode', function () {
             this.player1.clickPrompt('staralliance');
             this.player1.endTurn();
             this.player2.clickPrompt('untamed');
-            this.expectReadyToTakeAction(this.player2);
+            expect(this.player2).isReadyToTakeAction();
             this.player2.clickCard(this.fogbank);
             expect(this.player2).not.toHavePrompt('Play this action');
             this.player2.clickPrompt('Cancel');
-            this.expectReadyToTakeAction(this.player2);
+            expect(this.player2).isReadyToTakeAction();
         });
     });
 });

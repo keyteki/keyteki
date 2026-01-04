@@ -37,7 +37,7 @@ describe('Cooperative Hunting', function () {
             expect(this.troll.location).toBe('play area');
             expect(this.mightyTiger.location).toBe('play area');
             expect(this.inkaTheSpider.location).toBe('discard');
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

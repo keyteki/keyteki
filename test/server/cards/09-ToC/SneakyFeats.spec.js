@@ -22,20 +22,20 @@ describe('Sneaky Feats', function () {
         it('should make a token on play', function () {
             this.player1.play(this.sneakyFeats);
             expect(this.stooge1.location).toBe('play area');
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should not archive if no steals this turn', function () {
             this.player1.play(this.sneakyFeats);
             expect(this.sneakyFeats.location).toBe('discard');
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should archive if you stole this turn', function () {
             this.player1.play(this.nerveBlast);
             this.player1.play(this.sneakyFeats);
             expect(this.sneakyFeats.location).toBe('archives');
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should not archive if your opponent stole the previous turn', function () {
@@ -46,7 +46,7 @@ describe('Sneaky Feats', function () {
             this.player1.clickPrompt('shadows');
             this.player1.play(this.sneakyFeats);
             expect(this.sneakyFeats.location).toBe('discard');
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should not archive if only opponent stole this turn', function () {
@@ -56,7 +56,7 @@ describe('Sneaky Feats', function () {
             this.player1.clickCard(this.umbraFiend);
             this.player1.play(this.sneakyFeats);
             expect(this.sneakyFeats.location).toBe('discard');
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should not archive if you stole the previous turn', function () {
@@ -67,7 +67,7 @@ describe('Sneaky Feats', function () {
             this.player1.clickPrompt('shadows');
             this.player1.play(this.sneakyFeats);
             expect(this.sneakyFeats.location).toBe('discard');
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

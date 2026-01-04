@@ -25,7 +25,7 @@ describe('Stooge', function () {
             expect(this.stooge3.location).toBe('play area');
             this.player1.useAction(this.stooge2);
             expect(this.stooge4.location).toBe('deck');
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

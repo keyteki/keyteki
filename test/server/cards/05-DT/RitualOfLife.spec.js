@@ -22,7 +22,7 @@ describe('Ritual of Life', function () {
             });
 
             it('should not do anything', function () {
-                this.expectReadyToTakeAction(this.player1);
+                expect(this.player1).isReadyToTakeAction();
             });
         });
 

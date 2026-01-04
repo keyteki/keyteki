@@ -22,7 +22,7 @@ describe('Lictor Justinian', function () {
             expect(this.krump.tokens.damage).toBe(1);
             expect(this.ancientBear.tokens.damage).toBe(1);
             expect(this.emberImp.tokens.damage).toBe(1);
-            this.expectReadyToTakeAction(this.player2);
+            expect(this.player2).isReadyToTakeAction();
         });
 
         it('should not deal damage when controller plays a card', function () {
@@ -30,7 +30,7 @@ describe('Lictor Justinian', function () {
 
             expect(this.krump.tokens.damage).toBeUndefined();
             expect(this.ancientBear.tokens.damage).toBeUndefined();
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

@@ -36,7 +36,7 @@ describe('Cursed Relic', function () {
             this.player1.reap(this.theOldTinker);
             this.player1.clickCard(this.cursedRelic);
             expect(this.cursedRelic.location).toBe('discard');
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

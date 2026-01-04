@@ -28,7 +28,7 @@ describe('Grey Aberrant', function () {
             expect(this.lamindra.getTraits().length).toBe(0);
             expect(this.chonkers.getTraits().length).toBe(1);
             expect(this.greyAberrant.hasTrait('mutant')).toBe(false);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

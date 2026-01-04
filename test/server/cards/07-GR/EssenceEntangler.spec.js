@@ -34,7 +34,7 @@ describe('Essence Entangler', function () {
             expect(this.charette.amber).toBe(1);
             expect(this.senatorShrix.amber).toBe(1);
             expect(this.essenceEntangler.location).toBe('discard');
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

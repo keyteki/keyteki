@@ -25,7 +25,7 @@ describe('Shoulder Id', function () {
 
         it('should steal 1 amber instead of dealing defense damage', function () {
             this.player1.fightWith(this.fuzzyGruen, this.shoulderId);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
             expect(this.fuzzyGruen.location).toBe('play area');
             expect(this.fuzzyGruen.tokens.damage).toBeUndefined();
             expect(this.shoulderId.tokens.damage).toBe(5);
@@ -36,7 +36,7 @@ describe('Shoulder Id', function () {
         it('should steal 2 amber instead of dealing hazardous and defense damage', function () {
             this.player1.playUpgrade(this.wayOfThePorcupine, this.shoulderId);
             this.player1.fightWith(this.fuzzyGruen, this.shoulderId);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
             expect(this.fuzzyGruen.location).toBe('play area');
             expect(this.fuzzyGruen.tokens.damage).toBeUndefined();
             expect(this.shoulderId.tokens.damage).toBe(5);
@@ -47,7 +47,7 @@ describe('Shoulder Id', function () {
         it('should not steal A if it dies due to Assault', function () {
             this.shoulderId.tokens.damage = 5;
             this.player1.fightWith(this.ancientBear, this.shoulderId);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
             expect(this.ancientBear.location).toBe('play area');
             expect(this.shoulderId.location).toBe('discard');
             expect(this.ancientBear.tokens.damage).toBeUndefined();
@@ -59,7 +59,7 @@ describe('Shoulder Id', function () {
             this.fuzzyGruen.ward();
             expect(this.fuzzyGruen.warded).toBe(true);
             this.player1.fightWith(this.fuzzyGruen, this.shoulderId);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
             expect(this.fuzzyGruen.location).toBe('play area');
             expect(this.fuzzyGruen.warded).toBe(true);
             expect(this.fuzzyGruen.tokens.damage).toBeUndefined();

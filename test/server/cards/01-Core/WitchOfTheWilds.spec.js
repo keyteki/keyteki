@@ -17,7 +17,7 @@ describe('Witch of the Wilds', function () {
             this.player1.play(this.ancientBear);
             expect(this.ancientBear.location).toBe('play area');
             this.player1.clickCard(this.snufflegator);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should stack with Phase Shift', function () {
@@ -27,7 +27,7 @@ describe('Witch of the Wilds', function () {
             this.player1.play(this.ancientBear);
             expect(this.ancientBear.location).toBe('play area');
             this.player1.clickCard(this.snufflegator);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should have DEF effect on GHI', function () {});

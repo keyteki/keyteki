@@ -24,7 +24,7 @@ describe('Phantasm', function () {
             expect(this.player1).not.toBeAbleToSelect(this.helperBot);
             this.player1.clickCard(this.touchstone);
             expect(this.touchstone.location).toBe('discard');
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

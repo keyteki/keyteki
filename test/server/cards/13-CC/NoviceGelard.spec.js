@@ -23,12 +23,12 @@ describe('Novice Gelard', function () {
             this.player1.clickCard(this.barristerJoya);
             expect(this.barristerJoya.exhausted).toBe(true);
             expect(this.player1.amber).toBe(2);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should not allow selecting non-Sanctum neighboring creatures', function () {
             this.player1.playCreature(this.noviceGelard, true);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

@@ -30,7 +30,7 @@ describe('Wasteful Regret', function () {
             expect(this.player2.amber).toBe(2);
             expect(this.rowdySkald.amber).toBe(2);
             expect(this.parasiticArachnoid.location).toBe('discard');
-            this.expectReadyToTakeAction(this.player2);
+            expect(this.player2).isReadyToTakeAction();
         });
 
         it('should fulfill once when opponent discards multiple cards', function () {
@@ -44,7 +44,7 @@ describe('Wasteful Regret', function () {
             expect(this.player2.amber).toBe(3);
             expect(this.rowdySkald.amber).toBe(2);
             expect(this.parasiticArachnoid.location).toBe('discard');
-            this.expectReadyToTakeAction(this.player2);
+            expect(this.player2).isReadyToTakeAction();
         });
 
         it('should not trigger when opponent discards card from your hand', function () {
@@ -54,7 +54,7 @@ describe('Wasteful Regret', function () {
             this.player2.play(this.mindfire);
             expect(this.player1.player.hand.length).toBe(5);
             expect(this.parasiticArachnoid.location).toBe('under');
-            this.expectReadyToTakeAction(this.player2);
+            expect(this.player2).isReadyToTakeAction();
         });
     });
 });

@@ -64,7 +64,7 @@ describe('Dive Deep', function () {
 
         it('should fizzle after discard', function () {
             expect(this.troll.location).toBe('discard');
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 
@@ -88,7 +88,7 @@ describe('Dive Deep', function () {
         });
 
         it('should fizzle', function () {
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

@@ -25,7 +25,7 @@ describe('Nexus', function () {
             this.player1.clickCard(this.nexus);
             expect(this.nexus.exhausted).toBe(false);
             expect(this.gauntletOfCommand.exhausted).toBe(true);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it("should trigger when reaping, and allow using an opponent's artifact even if it has no effect", function () {
@@ -40,14 +40,14 @@ describe('Nexus', function () {
             expect(this.player1.player.keys.red).toBe(false);
             expect(this.player1.player.keys.blue).toBe(false);
             expect(this.player1.player.keys.yellow).toBe(false);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should not trigger when there are no artifacts', function () {
             this.player1.moveCard(this.gauntletOfCommand, 'discard');
             this.player1.moveCard(this.epicQuest, 'discard');
             this.player1.reap(this.nexus);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

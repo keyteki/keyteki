@@ -22,7 +22,7 @@ describe('Treasure Island', function () {
             expect(this.player1.amber).toBe(2);
             expect(this.player2.amber).toBe(1);
             expect(this.bosunCreen.amber).toBe(2);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should do nothing when non-Skyborn creature reaps', function () {
@@ -34,7 +34,7 @@ describe('Treasure Island', function () {
             expect(this.treasureIsland.amber).toBe(0);
             expect(this.player1.amber).toBe(3);
             expect(this.player2.amber).toBe(1);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should do nothing when enemy Skyborn creature reaps', function () {
@@ -44,7 +44,7 @@ describe('Treasure Island', function () {
             expect(this.treasureIsland.amber).toBe(0);
             expect(this.player1.amber).toBe(2);
             expect(this.player2.amber).toBe(2);
-            this.expectReadyToTakeAction(this.player2);
+            expect(this.player2).isReadyToTakeAction();
         });
 
         it('should allow spending amber on it for keys', function () {

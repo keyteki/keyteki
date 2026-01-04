@@ -16,14 +16,14 @@ describe('Prognosticating Witch', function () {
         it('should draw 2 cards when played with fewer than 3 cards in hand', function () {
             this.player1.play(this.prognosticatingWitch);
             expect(this.player1.hand.length).toBe(4);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should draw 2 cards when played with exactly 3 cards in hand', function () {
             this.player1.moveCard(this.badPenny, 'hand');
             this.player1.play(this.prognosticatingWitch);
             expect(this.player1.hand.length).toBe(5);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should not draw cards when played with more than 3 cards in hand', function () {
@@ -32,7 +32,7 @@ describe('Prognosticating Witch', function () {
             expect(this.player1.hand.length).toBe(5);
             this.player1.play(this.prognosticatingWitch);
             expect(this.player1.hand.length).toBe(4);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should draw 2 cards when reaped with 3 or fewer cards in hand', function () {
@@ -41,7 +41,7 @@ describe('Prognosticating Witch', function () {
             this.prognosticatingWitch.exhausted = false;
             this.player1.reap(this.prognosticatingWitch);
             expect(this.player1.hand.length).toBe(2);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

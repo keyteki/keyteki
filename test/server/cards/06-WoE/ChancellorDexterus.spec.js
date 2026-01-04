@@ -40,7 +40,7 @@ describe('Chancellor Dexterus', function () {
             this.player1.clickPrompt('Done');
             expect(this.pelf.amber).toBe(0);
             this.player1.clickCard(this.pelf);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('does nothing with no right neighbor', function () {
@@ -48,7 +48,7 @@ describe('Chancellor Dexterus', function () {
             this.player1.clickCard(this.pelf);
             this.player1.clickCard(this.bumpsy);
             this.player1.reap(this.chancellorDexterus);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('works correctly with no left neighbor', function () {

@@ -19,7 +19,7 @@ describe('Rickety Cybergiant', function () {
             expect(this.groke.tokens.damage).toBe(undefined);
             expect(this.flaxia.tokens.damage).toBe(undefined);
             expect(this.cpoZytar.location).toBe('discard');
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

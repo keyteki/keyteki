@@ -18,7 +18,7 @@ describe('Trust No One', function () {
             this.player1.play(this.trustNoOne);
             expect(this.player1.amber).toBe(5);
             expect(this.player2.amber).toBe(4);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 
@@ -40,7 +40,7 @@ describe('Trust No One', function () {
             this.player1.play(this.trustNoOne);
             expect(this.player1.amber).toBe(4);
             expect(this.player2.amber).toBe(5);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 
@@ -63,7 +63,7 @@ describe('Trust No One', function () {
             this.player1.play(this.trustNoOne);
             expect(this.player1.amber).toBe(5);
             expect(this.player2.amber).toBe(4);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 
@@ -86,7 +86,7 @@ describe('Trust No One', function () {
             this.player1.play(this.trustNoOne);
             expect(this.player1.amber).toBe(6);
             expect(this.player2.amber).toBe(3);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 
@@ -109,7 +109,7 @@ describe('Trust No One', function () {
             this.player1.play(this.trustNoOne);
             expect(this.player1.amber).toBe(7);
             expect(this.player2.amber).toBe(2);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

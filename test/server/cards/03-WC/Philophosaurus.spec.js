@@ -28,7 +28,7 @@ describe('Philophosaurus', function () {
 
         it('should be able to cancel', function () {
             this.player1.clickPrompt('Done');
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should prompt the top 3 cards from the deck', function () {

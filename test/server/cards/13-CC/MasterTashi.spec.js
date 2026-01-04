@@ -21,7 +21,7 @@ describe('Master Tashi', function () {
             expect(this.player1).not.toBeAbleToSelect(this.dustPixie);
             this.player1.clickCard(this.troll);
             expect(this.player1.amber).toBe(1);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should ready and fight with a neighboring creature after reaping', function () {
@@ -33,7 +33,7 @@ describe('Master Tashi', function () {
             this.player1.clickCard(this.troll);
             this.player1.clickCard(this.dustPixie);
             expect(this.dustPixie.location).toBe('discard');
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

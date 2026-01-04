@@ -29,7 +29,7 @@ describe('Driving Courage', function () {
             this.player1.clickCard(this.researchSmoko);
             this.player1.clickPrompt('Reap with this creature');
             expect(this.player1.amber).toBe(3);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should exhaust each friendly non-Mutant creature when fate is triggered', function () {
@@ -42,7 +42,7 @@ describe('Driving Courage', function () {
             expect(this.researchSmoko.exhausted).toBe(false);
             expect(this.fandangle.exhausted).toBe(false);
             expect(this.krump.exhausted).toBe(true);
-            this.expectReadyToTakeAction(this.player2);
+            expect(this.player2).isReadyToTakeAction();
         });
     });
 });

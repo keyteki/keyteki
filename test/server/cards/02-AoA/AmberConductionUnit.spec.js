@@ -85,7 +85,7 @@ describe('AmberConductionUnit', function () {
             expect(this.brillixPonder.tokens.stun).toBe(1);
             expect(this.daughter.location).toBe('play area');
             expect(this.daughter.tokens.stun).toBe(undefined);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

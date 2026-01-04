@@ -21,7 +21,7 @@ describe('Hadrianus Lorica', function () {
             this.player1.clickPrompt('Done');
             expect(this.raidingKnight.armor).toBe(5);
             expect(this.almsmaster.armor).toBe(1);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should allow optional exalt when played', function () {
@@ -29,7 +29,7 @@ describe('Hadrianus Lorica', function () {
             this.player1.clickCard(this.hadrianusLorica);
             expect(this.hadrianusLorica.tokens.amber).toBe(1);
             expect(this.hadrianusLorica.armor).toBe(3);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should not require exalt when played', function () {
@@ -37,7 +37,7 @@ describe('Hadrianus Lorica', function () {
             this.player1.clickPrompt('Done');
             expect(this.hadrianusLorica.tokens.amber).toBeUndefined();
             expect(this.hadrianusLorica.armor).toBe(0);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

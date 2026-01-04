@@ -31,11 +31,11 @@ describe('Prophecy', function () {
             expect(this.ancientBear.location).toBe('under');
             expect(this.expectTheUnexpected.childCards.length).toBe(1);
             expect(this.expectTheUnexpected.childCards[0]).toBe(this.ancientBear);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
             this.game.clickProphecy(this.player1.name, this.expectTheUnexpected.uuid);
             expect(this.parasiticArachnoid.location).toBe('hand');
             expect(this.expectTheUnexpected.childCards.length).toBe(1);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should not allow activating more than one prophecy in a turn', function () {
@@ -46,7 +46,7 @@ describe('Prophecy', function () {
             this.game.clickProphecy(this.player1.name, this.theCardsWillTell.uuid);
             expect(this.parasiticArachnoid.location).toBe('hand');
             expect(this.theCardsWillTell.childCards.length).toBe(0);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should be able to activate a second prophecy on the next turn', function () {
@@ -59,7 +59,7 @@ describe('Prophecy', function () {
             expect(this.parasiticArachnoid.location).toBe('under');
             expect(this.theCardsWillTell.childCards.length).toBe(1);
             expect(this.theCardsWillTell.childCards[0]).toBe(this.parasiticArachnoid);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should not be able to activate the flip side of an activated prophecy', function () {
@@ -71,18 +71,18 @@ describe('Prophecy', function () {
             this.game.clickProphecy(this.player1.name, this.forgeAheadWithConfidence.uuid);
             expect(this.parasiticArachnoid.location).toBe('hand');
             expect(this.forgeAheadWithConfidence.childCards.length).toBe(0);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should ignore prophecy clicks on opponent’s turn', function () {
             this.player1.endTurn();
             this.player2.clickPrompt('untamed');
-            this.expectReadyToTakeAction(this.player2);
+            expect(this.player2).isReadyToTakeAction();
 
             this.game.clickProphecy(this.player1.name, this.theCardsWillTell.uuid);
             this.game.continue();
 
-            this.expectReadyToTakeAction(this.player2);
+            expect(this.player2).isReadyToTakeAction();
         });
 
         it("should resolve fate effects on opponent's turn", function () {
@@ -96,7 +96,7 @@ describe('Prophecy', function () {
             this.player2.clickCard(this.umbra);
             expect(this.umbra.amber).toBe(2);
             expect(this.player2.amber).toBe(3);
-            this.expectReadyToTakeAction(this.player2);
+            expect(this.player2).isReadyToTakeAction();
             expect(this.parasiticArachnoid.location).toBe('discard');
         });
 
@@ -106,7 +106,7 @@ describe('Prophecy', function () {
             expect(this.ancientBear.location).toBe('under');
             expect(this.expectTheUnexpected.childCards.length).toBe(1);
             expect(this.expectTheUnexpected.childCards[0]).toBe(this.ancientBear);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should not trigger during your turn when you meet the condition', function () {
@@ -116,7 +116,7 @@ describe('Prophecy', function () {
             expect(this.ancientBear.location).toBe('under');
             expect(this.expectTheUnexpected.childCards.length).toBe(1);
             expect(this.expectTheUnexpected.childCards[0]).toBe(this.ancientBear);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it("should not trigger during your opponent's turn when you meet the condition", function () {
@@ -129,7 +129,7 @@ describe('Prophecy', function () {
             expect(this.ancientBear.location).toBe('under');
             expect(this.expectTheUnexpected.childCards.length).toBe(1);
             expect(this.expectTheUnexpected.childCards[0]).toBe(this.ancientBear);
-            this.expectReadyToTakeAction(this.player2);
+            expect(this.player2).isReadyToTakeAction();
         });
     });
 });

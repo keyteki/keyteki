@@ -20,14 +20,14 @@ describe('Replicative Growth', function () {
             this.player1.reap(this.echofly);
             expect(this.player1.amber).toBe(4);
             expect(this.echofly.amber).toBe(0);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('does nothing if no amber on creature', function () {
             this.player1.play(this.replicativeGrowth);
             this.player1.reap(this.echofly);
             expect(this.player1.amber).toBe(3);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

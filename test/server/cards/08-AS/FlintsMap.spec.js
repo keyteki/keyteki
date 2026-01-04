@@ -28,7 +28,7 @@ describe("Flint's Map", function () {
             this.player1.clickPrompt('Done');
             expect(this.treasureIsland.location).toBe('archives');
             expect(this.player1.player.archives.length).toBe(1);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should search deck for and archive a Flint card on omni', function () {
@@ -46,14 +46,14 @@ describe("Flint's Map", function () {
             expect(this.treasureIsland.location).toBe('archives');
             expect(this.player1.player.archives.length).toBe(1);
             expect(shuffled).toBe(this.player1.player);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should be optional', function () {
             this.player1.useAction(this.flintSMap, true);
             this.player1.clickPrompt('Done');
             expect(this.player1.player.archives.length).toBe(0);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

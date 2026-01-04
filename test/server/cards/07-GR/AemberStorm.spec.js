@@ -25,7 +25,7 @@ describe('Aember Storm', function () {
             this.player1.clickCard(this.troll);
             this.player1.clickCard(this.troll);
             this.player1.clickCard(this.troll);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
             expect(this.troll.tokens.damage).toBe(3);
             expect(this.umbra.location).toBe('discard');
         });
@@ -37,7 +37,7 @@ describe('Aember Storm', function () {
             this.player1.clickCard(this.umbra);
             this.player1.clickCard(this.umbra);
             this.player1.clickCard(this.umbra);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
             expect(this.troll.tokens.damage).toBe(undefined);
             expect(this.umbra.location).toBe('discard');
         });

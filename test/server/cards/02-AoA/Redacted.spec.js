@@ -54,7 +54,7 @@ describe('[Redacted]', function () {
             expect(this['[redacted]'].location).toBe('discard');
             expect(this.player1.amber).toBe(5);
             expect(this.player1.player.getForgedKeys()).toBe(1);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

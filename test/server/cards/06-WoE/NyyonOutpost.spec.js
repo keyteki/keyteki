@@ -20,13 +20,13 @@ describe('Nyyon Outpost', function () {
             this.player1.clickPrompt('Left');
             expect(this.blypyp.location).toBe('deck');
             expect(this.player1.player.creaturesInPlay.length).toBe(2);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should fizzle with no creatures in play', function () {
             this.player1.fightWith(this.blypyp, this.kelifiDragon);
             this.player1.useAction(this.nyyonOutpost);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

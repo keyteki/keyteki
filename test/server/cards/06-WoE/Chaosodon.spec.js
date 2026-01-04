@@ -25,7 +25,7 @@ describe('Chaosodon', function () {
             expect(this.umbra.location).toBe('discard');
             expect(this.charette.location).toBe('play area');
             expect(this.charette.tokens.damage).toBe(3);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

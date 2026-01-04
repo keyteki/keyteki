@@ -31,7 +31,7 @@ describe('Clipped Wings', function () {
                 expect(this.dustPixie.location).toBe('purged');
             }
             expect(this.player2.player.archives.length).toBe(2);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should shuffle opponent archives into their deck', function () {
@@ -44,7 +44,7 @@ describe('Clipped Wings', function () {
             expect(this.windsOfDeath.location).toBe('deck');
             expect(this.keyAbduction.location).toBe('deck');
             expect(shuffled).toBe(this.player2.player);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

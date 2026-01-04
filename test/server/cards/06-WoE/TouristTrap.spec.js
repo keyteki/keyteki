@@ -19,7 +19,7 @@ describe('Tourist Trap', function () {
             this.player1.play(this.touristTrap);
             this.player1.clickPrompt('Right');
             expect(this.player1.player.creaturesInPlay.length).toBe(3);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 

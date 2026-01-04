@@ -28,7 +28,7 @@ describe('Dredging Druid', function () {
             });
 
             it('should not prompt for creatures', function () {
-                this.expectReadyToTakeAction(this.player1);
+                expect(this.player1).isReadyToTakeAction();
             });
         });
 
@@ -39,7 +39,7 @@ describe('Dredging Druid', function () {
             });
 
             it('should not prompt for creatures', function () {
-                this.expectReadyToTakeAction(this.player1);
+                expect(this.player1).isReadyToTakeAction();
             });
         });
 
@@ -61,7 +61,7 @@ describe('Dredging Druid', function () {
 
             it('should be able to not choose any creature', function () {
                 this.player1.clickPrompt('Done');
-                this.expectReadyToTakeAction(this.player1);
+                expect(this.player1).isReadyToTakeAction();
             });
 
             it('should be able to select up to 3', function () {
@@ -69,7 +69,7 @@ describe('Dredging Druid', function () {
                 this.player1.clickCard(this.chotaHazri);
                 this.player1.clickCard(this.archimedes);
                 this.player1.clickPrompt('Done');
-                this.expectReadyToTakeAction(this.player1);
+                expect(this.player1).isReadyToTakeAction();
                 expect(this.player1.player.deck[0]).toBe(this.archimedes);
                 expect(this.player1.player.deck[1]).toBe(this.chotaHazri);
                 expect(this.player1.player.deck[2]).toBe(this.cephaloist);

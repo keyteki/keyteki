@@ -30,7 +30,7 @@ describe('Coup de Grâce', function () {
             expect(this.krump.location).toBe('discard');
             expect(this.xenosBloodshadow.location).toBe('play area');
             expect(this.dustPixie.location).toBe('play area');
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should deal 4 damage to each friendly creature when fate is triggered', function () {
@@ -45,7 +45,7 @@ describe('Coup de Grâce', function () {
             expect(this.xenosBloodshadow.location).toBe('play area');
             expect(this.charette.tokens.damage).toBeUndefined();
             expect(this.xenosBloodshadow.tokens.damage).toBeUndefined();
-            this.expectReadyToTakeAction(this.player2);
+            expect(this.player2).isReadyToTakeAction();
         });
     });
 });

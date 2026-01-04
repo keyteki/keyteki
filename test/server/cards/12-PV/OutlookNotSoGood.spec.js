@@ -29,7 +29,7 @@ describe('Outlook Not So Good', function () {
             expect(this.player2.amber).toBe(2);
             expect(this.hardSimpson.amber).toBe(2);
             expect(this.parasiticArachnoid.location).toBe('discard');
-            this.expectReadyToTakeAction(this.player2);
+            expect(this.player2).isReadyToTakeAction();
         });
 
         it('should not fulfill when opponent chooses a house with cards in play', function () {
@@ -37,7 +37,7 @@ describe('Outlook Not So Good', function () {
             this.player1.endTurn();
             this.player2.clickPrompt('shadows');
             expect(this.parasiticArachnoid.location).toBe('under');
-            this.expectReadyToTakeAction(this.player2);
+            expect(this.player2).isReadyToTakeAction();
         });
 
         it('should not fulfill when opponent chooses a house with upgrades in play', function () {
@@ -46,7 +46,7 @@ describe('Outlook Not So Good', function () {
             this.player1.endTurn();
             this.player2.clickPrompt('dis');
             expect(this.parasiticArachnoid.location).toBe('under');
-            this.expectReadyToTakeAction(this.player2);
+            expect(this.player2).isReadyToTakeAction();
         });
 
         it('should not fulfill when you choose a house with no cards in play', function () {
@@ -56,7 +56,7 @@ describe('Outlook Not So Good', function () {
             this.player2.endTurn();
             this.player1.clickPrompt('dis');
             expect(this.parasiticArachnoid.location).toBe('under');
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

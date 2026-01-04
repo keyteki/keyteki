@@ -27,7 +27,7 @@ describe('Grat Tattuu', function () {
             expect(this.umbra.power).toBe(2);
             expect(this.shockHerder.power).toBe(3);
 
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should work with house enhancements', function () {

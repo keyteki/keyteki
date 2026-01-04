@@ -20,7 +20,7 @@ describe('Ornar Skullface', function () {
             this.player1.clickCard(this.flaxia);
             expect(this.flaxia.tokens.damage).toBe(3);
             expect(this.troll.tokens.damage).toBe(undefined);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

@@ -26,7 +26,7 @@ describe('Quintrino Warp', function () {
             expect(this.dustPixie.location).toBe('play area');
             expect(this.player1.chains).toBe(1);
             expect(this.player2.chains).toBe(0);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should destroy all creatures with the multiple houses', function () {
@@ -45,7 +45,7 @@ describe('Quintrino Warp', function () {
             expect(this.batdrone.location).toBe('play area');
             expect(this.player1.chains).toBe(1);
             expect(this.player2.chains).toBe(0);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

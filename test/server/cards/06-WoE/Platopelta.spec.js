@@ -19,7 +19,7 @@ describe('Platopelta', function () {
             this.player1.clickCard(this.curseOfVanity);
             expect(this.player1.player.hand.length).toBe(2);
             expect(this.player1.player.archives.length).toBe(3);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('does everything when there is a wisdom counter', function () {
@@ -32,7 +32,7 @@ describe('Platopelta', function () {
             expect(this.aristotlmimus.tokens.wisdom).toBe(1);
             expect(this.player1.hand.length).toBe(3); // Draws from both, plus one unarchived card
             expect(this.player1.archives.length).toBe(3);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('choose to not place a wisdom counter', function () {
@@ -45,7 +45,7 @@ describe('Platopelta', function () {
             expect(this.aristotlmimus.tokens.wisdom).toBe(undefined);
             expect(this.player1.hand.length).toBe(3); // Draws from both, plus one unarchived card
             expect(this.player1.archives.length).toBe(3);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

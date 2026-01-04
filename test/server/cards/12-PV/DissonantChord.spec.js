@@ -27,7 +27,7 @@ describe('Dissonant Chord', function () {
             expect(this.emberImp.location).toBe('discard');
             expect(this.troll.stunned).toBe(true);
             expect(this.flaxia.stunned).toBe(true);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should not stun neighbors when not destroying a creature', function () {
@@ -37,7 +37,7 @@ describe('Dissonant Chord', function () {
             expect(this.troll.tokens.damage).toBe(3);
             expect(this.emberImp.stunned).toBe(false);
             expect(this.flaxia.stunned).toBe(false);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should stun friendly creatures with amber when fate is triggered', function () {
@@ -52,7 +52,7 @@ describe('Dissonant Chord', function () {
             expect(this.troll.stunned).toBe(false);
             expect(this.flaxia.stunned).toBe(false);
             expect(this.dissonantChord.location).toBe('discard');
-            this.expectReadyToTakeAction(this.player2);
+            expect(this.player2).isReadyToTakeAction();
         });
     });
 });

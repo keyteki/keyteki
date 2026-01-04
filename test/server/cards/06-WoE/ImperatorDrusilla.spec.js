@@ -24,7 +24,7 @@ describe('Imperator Drusilla', function () {
             expect(this.oratorHissaro.location).toBe('discard');
             expect(this.aquiliaLoneHero.location).toBe('play area');
             expect(this.imperatorDrusilla.location).toBe('play area');
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('gets splash-attack 4 when there are more enemies', function () {

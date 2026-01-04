@@ -59,7 +59,7 @@ describe('Interdimensional Graft', function () {
             expect(this.player2.player.keys.yellow).toBe(false);
             expect(this.player2.amber).toBe(0);
             expect(this.player1.amber).toBe(3);
-            this.expectReadyToTakeAction(this.player2);
+            expect(this.player2).isReadyToTakeAction();
         });
 
         it('should trigger multiple times on forging a key', function () {
@@ -83,7 +83,7 @@ describe('Interdimensional Graft', function () {
             expect(this.player2.player.keys.yellow).toBe(false);
             expect(this.player2.amber).toBe(0);
             expect(this.player1.amber).toBe(15);
-            this.expectReadyToTakeAction(this.player2);
+            expect(this.player2).isReadyToTakeAction();
         });
 
         it('should not trigger on subsequent turns', function () {
@@ -132,7 +132,7 @@ describe('Interdimensional Graft', function () {
             this.player2.clickPrompt('untamed');
             expect(this.player2.amber).toBe(0);
             expect(this.player1.amber).toBe(4);
-            this.expectReadyToTakeAction(this.player2);
+            expect(this.player2).isReadyToTakeAction();
         });
     });
 });

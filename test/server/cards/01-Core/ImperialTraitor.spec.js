@@ -21,7 +21,7 @@ describe('Imperial Traitor', function () {
             this.player1.clickCard(this.championAnaphiel);
             this.player1.clickPrompt('Done');
             expect(this.championAnaphiel.location).toBe('purged');
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should allow choosing not to purge', function () {
@@ -29,7 +29,7 @@ describe('Imperial Traitor', function () {
             this.player1.clickPrompt('Done');
             expect(this.championAnaphiel.location).toBe('hand');
             expect(this.ladyMaxena.location).toBe('hand');
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

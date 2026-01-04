@@ -22,7 +22,7 @@ describe('Lieutenant Gorvenal', function () {
 
         it('should capture an amber after it fights and survives', function () {
             this.player1.fightWith(this.lieutenantGorvenal, this.silvertooth);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
             expect(this.lieutenantGorvenal.amber).toBe(1);
             expect(this.sequis.amber).toBe(0);
             expect(this.player2.amber).toBe(2);
@@ -30,7 +30,7 @@ describe('Lieutenant Gorvenal', function () {
 
         it('should capture an amber after killing by assault', function () {
             this.player1.fightWith(this.bullWark, this.gamgee);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
             expect(this.lieutenantGorvenal.amber).toBe(1);
             expect(this.bullWark.amber).toBe(0);
             expect(this.bullWark.tokens.damage).toBeUndefined();
@@ -39,7 +39,7 @@ describe('Lieutenant Gorvenal', function () {
 
         it('should capture an amber after dying by hazardous', function () {
             this.player1.fightWith(this.disAmbassador, this.briarGrubbling);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
             expect(this.lieutenantGorvenal.amber).toBe(1);
             expect(this.briarGrubbling.tokens.damage).toBeUndefined();
             expect(this.disAmbassador.location).toBe('discard');
@@ -48,7 +48,7 @@ describe('Lieutenant Gorvenal', function () {
 
         it('should not capture an amber after it fights and dies', function () {
             this.player1.fightWith(this.lieutenantGorvenal, this.troll);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
             expect(this.lieutenantGorvenal.location).toBe('discard');
             expect(this.player1.amber).toBe(3);
             expect(this.player2.amber).toBe(3);
@@ -56,7 +56,7 @@ describe('Lieutenant Gorvenal', function () {
 
         it('should capture an amber after a friendly creature fights and survives', function () {
             this.player1.fightWith(this.sequis, this.silvertooth);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
             expect(this.lieutenantGorvenal.amber).toBe(1);
             expect(this.sequis.amber).toBe(0);
             expect(this.player2.amber).toBe(2);
@@ -64,7 +64,7 @@ describe('Lieutenant Gorvenal', function () {
 
         it('should capture an amber after a friendly creature fights and dies', function () {
             this.player1.fightWith(this.disAmbassador, this.silvertooth);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
             expect(this.lieutenantGorvenal.amber).toBe(1);
             expect(this.sequis.amber).toBe(0);
             expect(this.player2.amber).toBe(2);
@@ -74,7 +74,7 @@ describe('Lieutenant Gorvenal', function () {
             this.player1.endTurn();
             this.player2.clickPrompt('shadows');
             this.player2.fightWith(this.silvertooth, this.disAmbassador);
-            this.expectReadyToTakeAction(this.player2);
+            expect(this.player2).isReadyToTakeAction();
             expect(this.lieutenantGorvenal.amber).toBe(0);
             expect(this.sequis.amber).toBe(0);
             expect(this.player2.amber).toBe(3);

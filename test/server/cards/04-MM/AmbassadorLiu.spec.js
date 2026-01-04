@@ -46,7 +46,7 @@ describe('Ambassador Liu', function () {
             expect(this.medicIngram.location).toBe('discard');
             expect(this.player1.amber).toBe(2);
             expect(this.player2.amber).toBe(6);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 

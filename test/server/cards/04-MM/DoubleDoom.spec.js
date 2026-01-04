@@ -47,7 +47,7 @@ describe('Double Doom', function () {
         });
 
         it('discard random card', function () {
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
             expect(this.badPenny.location).toBe('discard');
         });
     });

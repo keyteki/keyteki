@@ -47,7 +47,7 @@ describe('R-Evolution', function () {
             this.player2.endTurn();
             this.player1.clickPrompt('brobnar');
             this.player1.reap(this.pelf);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

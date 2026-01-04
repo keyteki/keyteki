@@ -33,7 +33,7 @@ describe('Rockatiel', function () {
             expect(shuffled.length).toBe(2);
             expect(shuffled).toContain(this.player1.player);
             expect(shuffled).toContain(this.player2.player);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should shuffle two creatures in on reap', function () {
@@ -58,7 +58,7 @@ describe('Rockatiel', function () {
             expect(shuffled.length).toBe(2);
             expect(shuffled).toContain(this.player1.player);
             expect(shuffled).toContain(this.player2.player);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should allow shuffling in fewer than 2 creatures', function () {
@@ -77,7 +77,7 @@ describe('Rockatiel', function () {
             expect(this.fandangle.location).toBe('deck');
             expect(shuffled.length).toBe(1);
             expect(shuffled).toContain(this.player2.player);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

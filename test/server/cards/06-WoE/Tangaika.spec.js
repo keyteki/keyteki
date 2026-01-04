@@ -31,7 +31,7 @@ describe('Tangaika', function () {
 
         it('should be playable with at least 4 cultists', function () {
             this.player1.playCreature(this.tangaika);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should not be playable without 4 cultists', function () {

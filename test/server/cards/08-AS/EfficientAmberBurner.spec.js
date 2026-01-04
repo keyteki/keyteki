@@ -24,7 +24,7 @@ describe('Efficient Amber Burner', function () {
             this.player1.forgeKey('red');
             expect(this.player1.amber).toBe(4);
             this.player1.clickPrompt('skyborn');
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should make creature exalt on reap', function () {
@@ -37,7 +37,7 @@ describe('Efficient Amber Burner', function () {
             this.player1.forgeKey('red');
             expect(this.player1.amber).toBe(5);
             this.player1.clickPrompt('skyborn');
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

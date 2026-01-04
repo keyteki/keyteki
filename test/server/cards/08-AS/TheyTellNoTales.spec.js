@@ -36,7 +36,7 @@ describe('They Tell No Tales', function () {
             expect(this.troll.location).toBe('discard');
             expect(this.krump.location).toBe('discard');
             expect(this.player1.player.chains).toBe(2);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

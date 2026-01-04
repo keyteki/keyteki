@@ -15,7 +15,7 @@ describe('Quantum Fingertrap', function () {
 
         it('should not prompt for any creature if owner and opponent only have less than 2 creatures in play', function () {
             this.player1.useAction(this.quantumFingertrap);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 
@@ -37,7 +37,7 @@ describe('Quantum Fingertrap', function () {
             this.player1.useAction(this.quantumFingertrap);
             expect(this.player1).toHavePrompt('Choose a creature');
             this.player1.clickCard(this.archimedes);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 
@@ -59,7 +59,7 @@ describe('Quantum Fingertrap', function () {
             this.player1.useAction(this.quantumFingertrap);
             expect(this.player1).toHavePrompt('Choose a creature');
             this.player1.clickCard(this.urchin);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 
@@ -103,7 +103,7 @@ describe('Quantum Fingertrap', function () {
             expect(this.player1.player.creaturesInPlay[0]).toBe(this.cowfyne);
             expect(this.player1.player.creaturesInPlay[3]).toBe(this.brobnarAmbassador);
 
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it("should allow swapping any creature in opponent's battleline", function () {
@@ -126,7 +126,7 @@ describe('Quantum Fingertrap', function () {
             expect(this.player2.player.creaturesInPlay[0]).toBe(this.lamindra);
             expect(this.player2.player.creaturesInPlay[1]).toBe(this.urchin);
 
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

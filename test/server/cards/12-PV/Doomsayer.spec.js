@@ -46,7 +46,7 @@ describe('Doomsayer', function () {
             expect(this.flaxia.tokens.damage).toBe(2);
             expect(this.searine.tokens.damage).toBe(2);
 
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

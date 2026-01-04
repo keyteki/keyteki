@@ -33,7 +33,7 @@ describe('Tealnar', function () {
             expect(this.tealnar.tokens.damage).toBe(1);
             expect(this.troll.tokens.damage).toBe(1);
             expect(this.culfTheQuiet.tokens.damage).toBeUndefined();
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should fully heal creatures and give opponent amber when fate is triggered', function () {
@@ -48,7 +48,7 @@ describe('Tealnar', function () {
             expect(this.player1.amber).toBe(4);
             expect(this.player2.amber).toBe(5);
             expect(this.tealnar.location).toBe('discard');
-            this.expectReadyToTakeAction(this.player2);
+            expect(this.player2).isReadyToTakeAction();
         });
     });
 });

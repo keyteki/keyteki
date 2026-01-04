@@ -17,7 +17,7 @@ describe('Titanarpon', function () {
         it('should double amber on destroy', function () {
             this.player1.fightWith(this.volax, this.thingFromTheDeep);
             expect(this.player1.amber).toBe(10);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

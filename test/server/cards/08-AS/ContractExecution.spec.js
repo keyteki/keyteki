@@ -29,12 +29,12 @@ describe('Contract Execution', function () {
             expect(this.troll.tokens.damage).toBe(2);
 
             this.player1.play(this.ornateTalkingTray);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
 
             this.player1.playCreature(this.theOldTinker);
             this.player1.clickCard(this.gemcoatVendor);
             expect(this.gemcoatVendor.tokens.damage).toBe(2);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

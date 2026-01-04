@@ -21,7 +21,7 @@ describe('Skeleton Key', function () {
             expect(this.player2.amber).toBe(1);
             expect(this.player1.amber).toBe(0);
             expect(this.nexus.tokens.amber).toBe(1);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should not capture an amber when there are no creatures in play', function () {
@@ -29,7 +29,7 @@ describe('Skeleton Key', function () {
             this.player1.clickPrompt("Use this card's Action ability");
             expect(this.player1.amber).toBe(0);
             expect(this.player2.amber).toBe(2);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should not capture an amber when the opponent has 0', function () {
@@ -40,7 +40,7 @@ describe('Skeleton Key', function () {
             expect(this.player2.amber).toBe(0);
             expect(this.player1.amber).toBe(0);
             expect(this.nexus.hasToken('amber')).toBe(false);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

@@ -20,7 +20,7 @@ describe('Bandit Culver', function () {
             this.player1.scrap(this.urchin);
             expect(this.player1.amber).toBe(2);
             expect(this.player2.amber).toBe(2);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should not steal 1 amber when discarding from deck', function () {
@@ -29,7 +29,7 @@ describe('Bandit Culver', function () {
             this.player1.play(this.ransack);
             expect(this.player1.amber).toBe(3); // only steal 2 from ransack
             expect(this.player2.amber).toBe(1);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should not steal amber when discarding second Shadows card', function () {
@@ -37,7 +37,7 @@ describe('Bandit Culver', function () {
             this.player1.scrap(this.umbra);
             expect(this.player1.amber).toBe(2);
             expect(this.player2.amber).toBe(2);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should not steal amber when discarding non-Shadows card', function () {
@@ -48,7 +48,7 @@ describe('Bandit Culver', function () {
             this.player1.scrap(this.duskwitch);
             expect(this.player1.amber).toBe(1);
             expect(this.player2.amber).toBe(3);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should not steal amber when opponent discards Shadows card', function () {
@@ -57,7 +57,7 @@ describe('Bandit Culver', function () {
             this.player2.scrap(this.nerveBlast);
             expect(this.player1.amber).toBe(1);
             expect(this.player2.amber).toBe(3);
-            this.expectReadyToTakeAction(this.player2);
+            expect(this.player2).isReadyToTakeAction();
         });
 
         it('should reset counter at start of turn', function () {
@@ -69,7 +69,7 @@ describe('Bandit Culver', function () {
             this.player1.scrap(this.umbra);
             expect(this.player1.amber).toBe(3);
             expect(this.player2.amber).toBe(1);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

@@ -24,7 +24,7 @@ describe('Bux Bastian', function () {
             this.player1.clickCard(this.troll);
             expect(this.troll.amber).toBe(1);
             expect(this.pelf.amber).toBe(0);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

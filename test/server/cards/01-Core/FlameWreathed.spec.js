@@ -17,7 +17,7 @@ describe('Flame-Wreathed', function () {
             this.player1.playUpgrade(this.flameWreathed, this.emberImp);
             expect(this.emberImp.power).toBe(4);
             expect(this.emberImp.getKeywordValue('hazardous')).toBe(2);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

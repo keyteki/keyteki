@@ -24,7 +24,7 @@ describe('Invasion Portal', function () {
             expect(this.emberImp.location).toBe('discard');
             expect(this.zorg.location).toBe('hand');
             expect(this.dustImp.location).toBe('deck');
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should discard entire deck if no Mars creature found', function () {
@@ -40,7 +40,7 @@ describe('Invasion Portal', function () {
             expect(this.zorg.location).toBe('play area');
             expect(this.dustImp.location).toBe('discard');
             expect(this.player1.deck.length).toBe(0);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

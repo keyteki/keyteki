@@ -25,7 +25,7 @@ describe('Poised Strike', function () {
             this.player1.reap(this.emberImp);
             expect(this.emberImp.location).toBe('play area');
             expect(this.poisedStrike.location).toBe('play area');
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should destroy the creature when it readies at end of turn', function () {

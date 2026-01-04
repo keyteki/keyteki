@@ -36,7 +36,7 @@ describe('Intentional Discharge', function () {
             this.ironyxVatminder.ward();
             this.player1.play(this.intentionalDischarge);
             this.player1.clickCard(this.ironyxVatminder);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
             expect(this.ironyxVatminder.location).toBe('play area');
         });
     });

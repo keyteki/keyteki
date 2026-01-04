@@ -65,7 +65,7 @@ describe('Technorachnophobia', function () {
             expect(this.huntingWitch.location, 'discard');
             expect(this.masterOf3.location, 'discard');
             expect(this.fleaMarket.location, 'discard');
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('steals 2 if exactly 5 cards of one house', function () {
@@ -95,7 +95,7 @@ describe('Technorachnophobia', function () {
             expect(this.huntingWitch.location, 'discard');
             expect(this.freelancer.location, 'discard');
             expect(this.fleaMarket.location, 'discard');
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('steals 2 if 2 houses have exactly 5 cards', function () {
@@ -125,7 +125,7 @@ describe('Technorachnophobia', function () {
             expect(this.huntingWitch.location, 'discard');
             expect(this.freelancer.location, 'discard');
             expect(this.fleaMarket.location, 'discard');
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('steals 2 if more than 5 cards of one house', function () {
@@ -155,7 +155,7 @@ describe('Technorachnophobia', function () {
             expect(this.hireOn.location, 'discard');
             expect(this.freelancer.location, 'discard');
             expect(this.fleaMarket.location, 'discard');
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('steals 2 if 10 cards of one house', function () {
@@ -185,7 +185,7 @@ describe('Technorachnophobia', function () {
             expect(this.massBuyout.location, 'discard');
             expect(this.outnegotiate.location, 'discard');
             expect(this.sandhopper.location, 'discard');
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

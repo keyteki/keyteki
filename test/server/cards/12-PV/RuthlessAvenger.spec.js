@@ -31,7 +31,7 @@ describe('Ruthless Avenger', function () {
             expect(this.player2.deck.length).toBe(p2DeckLength + 1);
             expect(this.player2.player.purged.length).toBe(2);
             expect(this.ruthlessAvenger.location).toBe('discard');
-            this.expectReadyToTakeAction(this.player2);
+            expect(this.player2).isReadyToTakeAction();
         });
     });
 });

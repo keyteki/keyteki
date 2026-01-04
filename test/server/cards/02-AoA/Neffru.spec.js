@@ -76,7 +76,7 @@ describe('Neffru', function () {
             this.player1.clickCard(this.harbingerOfDoom);
             this.player1.clickPrompt('Done');
             expect(this.neffru.location).toBe('discard');
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
             expect(this.player1.amber).toBe(0);
             expect(this.player2.amber).toBe(3);
         });
@@ -88,7 +88,7 @@ describe('Neffru', function () {
             this.player1.clickCard(this.harbingerOfDoom);
             this.player1.clickPrompt('Done');
             expect(this.neffru.location).toBe('discard');
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
             expect(this.player1.amber).toBe(0);
             expect(this.player2.amber).toBe(3);
         });
@@ -97,7 +97,7 @@ describe('Neffru', function () {
             this.player1.endTurn();
             this.player2.clickPrompt('shadows');
             this.player2.fightWith(this.dodger, this.emberImp);
-            this.expectReadyToTakeAction(this.player2);
+            expect(this.player2).isReadyToTakeAction();
             expect(this.player1.amber).toBe(0);
             expect(this.player2.amber).toBe(4);
         });

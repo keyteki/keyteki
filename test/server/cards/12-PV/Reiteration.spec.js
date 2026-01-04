@@ -32,7 +32,7 @@ describe('Reiteration', function () {
             expect(this.player1.deck.length).toBe(p1DeckLength); // 2 initial -2 drawn + 2 returned
             expect(this.player1.deck[this.player1.deck.length - 2]).toBe(this.flaxia);
             expect(this.player1.deck[this.player1.deck.length - 1]).toBe(this.searine);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should discard 2 random cards from hand when fate is triggered', function () {
@@ -45,7 +45,7 @@ describe('Reiteration', function () {
             expect(this.player2.hand.length).toBe(p2HandLength - 2); // 4 initial - 2 discarded
             expect(this.player2.discard.length).toBe(p2DiscardLength + 2); // 2 initial + 2 discarded
             expect(this.reiteration.location).toBe('discard');
-            this.expectReadyToTakeAction(this.player2);
+            expect(this.player2).isReadyToTakeAction();
         });
     });
 });

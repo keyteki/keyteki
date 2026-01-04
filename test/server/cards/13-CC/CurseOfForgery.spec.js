@@ -24,7 +24,7 @@ describe('Curse of Forgery', function () {
             expect(this.player2.player.keys.red).toBe(false);
             expect(this.curseOfForgery.location).toBe('purged');
             expect(this.player2.amber).toBe(6); // No amber spent
-            this.expectReadyToTakeAction(this.player2);
+            expect(this.player2).isReadyToTakeAction();
         });
 
         it('should not prevent key forging for the controller', function () {
@@ -35,7 +35,7 @@ describe('Curse of Forgery', function () {
             this.player1.forgeKey('Red');
             expect(this.player1.player.keys.red).toBe(true);
             expect(this.curseOfForgery.location).toBe('play area');
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

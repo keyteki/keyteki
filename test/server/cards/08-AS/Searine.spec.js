@@ -19,13 +19,13 @@ describe('Searine', function () {
             expect(this.player1).not.toBeAbleToSelect(this.dustPixie);
             this.player1.clickCard(this.troll);
             expect(this.troll.tokens.damage).toBe(2);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('does nothing on discard with no friendly creatures', function () {
             this.player1.moveCard(this.troll, 'discard');
             this.player1.scrap(this.searine);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

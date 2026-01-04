@@ -20,7 +20,7 @@ describe('P.K.E. Syphonator', function () {
             expect(this.player1.amber).toBe(3);
             expect(this.charette.location).toBe('discard');
             expect(this.shooler.location).toBe('discard');
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should give amber for abducted cards as well', function () {
@@ -37,7 +37,7 @@ describe('P.K.E. Syphonator', function () {
             expect(this.charette.location).toBe('discard');
             expect(this.shooler.location).toBe('discard');
             expect(this.gub.location).toBe('hand');
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

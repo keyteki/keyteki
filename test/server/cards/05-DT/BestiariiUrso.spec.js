@@ -24,7 +24,7 @@ describe('Bestiarii Urso', function () {
 
         it('should be optional', function () {
             this.player1.clickPrompt('Done');
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should unstun a creature', function () {
@@ -62,7 +62,7 @@ describe('Bestiarii Urso', function () {
 
         it('should be optional', function () {
             this.player1.clickPrompt('Done');
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should unstun a creature', function () {

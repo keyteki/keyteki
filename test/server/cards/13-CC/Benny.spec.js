@@ -22,7 +22,7 @@ describe('Benny', function () {
             expect(this.iyxrenuTheClever.exhausted).toBe(false);
             expect(this.number612.exhausted).toBe(true);
             expect(this.benny.exhausted).toBe(true);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should purge itself when destroyed if no other friendly Mars creatures', function () {
@@ -31,7 +31,7 @@ describe('Benny', function () {
             this.player1.moveCard(this.number612, 'discard');
             this.player1.fightWith(this.benny, this.troll);
             expect(this.benny.location).toBe('purged');
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should not purge itself when destroyed if there are other friendly Mars creatures', function () {
@@ -39,7 +39,7 @@ describe('Benny', function () {
             this.player1.moveCard(this.iyxrenuTheClever, 'discard');
             this.player1.fightWith(this.benny, this.troll);
             expect(this.benny.location).toBe('discard');
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

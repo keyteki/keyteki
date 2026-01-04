@@ -27,7 +27,7 @@ describe('Brutal Consequences', function () {
             expect(this.player1).toBeAbleToSelect(this.huntingWitch);
             this.player1.clickCard(this.dustPixie);
             expect(this.dustPixie.location).toBe('purged');
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should not purge if not destroyed', function () {
@@ -35,7 +35,7 @@ describe('Brutal Consequences', function () {
             this.player1.clickCard(this.krump);
             expect(this.krump.location).toBe('play area');
             expect(this.krump.tokens.damage).toBe(3);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should purge an exhausted friendly creature when fate is triggered', function () {
@@ -50,7 +50,7 @@ describe('Brutal Consequences', function () {
             this.player2.clickCard(this.krump);
             expect(this.krump.location).toBe('purged');
             expect(this.brutalConsequences.location).toBe('discard');
-            this.expectReadyToTakeAction(this.player2);
+            expect(this.player2).isReadyToTakeAction();
         });
     });
 });

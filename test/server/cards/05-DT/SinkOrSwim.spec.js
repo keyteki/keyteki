@@ -17,7 +17,7 @@ describe('Sink or Swim', function () {
         });
 
         it('should not prompt', function () {
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 
@@ -140,7 +140,7 @@ describe('Sink or Swim', function () {
             });
 
             it('should not prompt for creatures', function () {
-                this.expectReadyToTakeAction(this.player1);
+                expect(this.player1).isReadyToTakeAction();
             });
         });
     });

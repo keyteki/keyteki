@@ -32,7 +32,7 @@ describe('Paleogene Society', function () {
             this.player1.clickCard(this.urchin);
             expect(this.urchin.location).toBe('hand');
             expect(this.paleogeneSociety.location).toBe('purged');
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should ward each enemy creature on fate', function () {
@@ -46,7 +46,7 @@ describe('Paleogene Society', function () {
             expect(this.dustPixie.warded).toBe(false);
             expect(this.emberImp.warded).toBe(false);
             expect(this.paleogeneSociety.location).toBe('discard');
-            this.expectReadyToTakeAction(this.player2);
+            expect(this.player2).isReadyToTakeAction();
         });
     });
 });

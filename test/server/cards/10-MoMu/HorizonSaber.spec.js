@@ -57,7 +57,7 @@ describe('Horizon Saber', function () {
             expect(shuffled.length).toBe(2);
             expect(shuffled[0]).toBe(this.player1.player);
             expect(shuffled[1]).toBe(this.player1.player);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should search for a card and archive, and shuffle discard into deck, on reap', function () {
@@ -81,7 +81,7 @@ describe('Horizon Saber', function () {
             expect(shuffled.length).toBe(2);
             expect(shuffled[0]).toBe(this.player1.player);
             expect(shuffled[1]).toBe(this.player1.player);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should search for a card and archive, and shuffle discard into deck, on fight', function () {
@@ -105,7 +105,7 @@ describe('Horizon Saber', function () {
             expect(shuffled.length).toBe(2);
             expect(shuffled[0]).toBe(this.player1.player);
             expect(shuffled[1]).toBe(this.player1.player);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

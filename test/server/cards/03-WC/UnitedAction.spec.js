@@ -48,9 +48,9 @@ describe('United Action', function () {
         });
 
         it('should not allow an out of house card that is not represented in play to be played', function () {
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
             this.player1.clickCard(this.phaseShift);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 
@@ -132,9 +132,9 @@ describe('United Action', function () {
             });
 
             it('should not allow an out of house card represented by the upgrade to be played', function () {
-                this.expectReadyToTakeAction(this.player1);
+                expect(this.player1).isReadyToTakeAction();
                 this.player1.clickCard(this.phaseShift);
-                this.expectReadyToTakeAction(this.player1);
+                expect(this.player1).isReadyToTakeAction();
             });
         });
     });

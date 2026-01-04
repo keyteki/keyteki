@@ -43,7 +43,7 @@ describe('Ingram’s Blaster', function () {
 
         it('should not prompt for healing when attached to the non associated officer', function () {
             this.player1.playUpgrade(this.ingramSBlaster, this.techivorePulpate);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('reap ability should allow choosing for an action and cancel', function () {
@@ -53,7 +53,7 @@ describe('Ingram’s Blaster', function () {
             expect(this.player1).toHavePrompt('Triggered Abilities');
             expect(this.player1).toHavePromptButton('Done');
             this.player1.clickPrompt('Done');
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('reap ability should allow dealing 2 damages to a creature', function () {
@@ -186,7 +186,7 @@ describe('Ingram’s Blaster', function () {
             expect(this.player1).toHavePromptButton('Deal 2 damage');
             expect(this.player1).toHavePromptButton('Move Ingram’s Blaster');
             this.player1.clickPrompt('Move Ingram’s Blaster');
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('fight ability should default to deal damage when officer is not in play', function () {

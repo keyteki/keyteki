@@ -33,7 +33,7 @@ describe('Sedimentary Nap', function () {
             this.player1.clickCard(this.urchin);
             expect(shuffled).toBe(this.player1.player);
             expect(this.urchin.location).toBe('deck');
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it("should shuffle the most powerful friendly creature into its owner's deck when fate is triggered", function () {
@@ -50,7 +50,7 @@ describe('Sedimentary Nap', function () {
             expect(this.culfTheQuiet.location).toBe('deck');
             expect(this.krump.location).toBe('play area');
             expect(shuffled).toBe(this.player2.player);
-            this.expectReadyToTakeAction(this.player2);
+            expect(this.player2).isReadyToTakeAction();
         });
     });
 });

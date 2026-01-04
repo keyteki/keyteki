@@ -52,7 +52,7 @@ describe("Helmsman Spears'", function () {
             // Damage Helmsman Spears (sorry guy, you’re the only creature in play.)
             this.player1.clickCard(this.helmsmanSpears);
 
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
             expect(this.soulkeeper.location).toBe('discard');
             expect(this.tautauVapors.location).toBe('discard');
             expect(this.hazardZerp.location).toBe('discard');

@@ -32,7 +32,7 @@ describe('Spinnertech', function () {
             this.player1.clickCard(this.fullMoon);
             this.player1.clickPrompt('Left');
             expect(this.fullMoon.location).toBe('play area');
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should put a card on top and make a token on destroyed', function () {
@@ -51,7 +51,7 @@ describe('Spinnertech', function () {
             this.player1.clickCard(this.dustPixie);
             this.player1.clickPrompt('Left');
             expect(this.dustPixie.location).toBe('play area');
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should work with no cards in discard', function () {
@@ -59,7 +59,7 @@ describe('Spinnertech', function () {
             this.player1.playCreature(this.spinnertech);
             this.player1.clickPrompt('Left');
             expect(this.minion1.location).toBe('play area');
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

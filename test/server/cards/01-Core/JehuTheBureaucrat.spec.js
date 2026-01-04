@@ -20,7 +20,7 @@ describe('Jehu the Bureaucrat', function () {
             this.player1.clickPrompt('sanctum');
             expect(this.player1.amber).toBe(2);
             expect(this.player2.amber).toBe(0);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should not gain amber when a different house is chosen by controller', function () {
@@ -31,7 +31,7 @@ describe('Jehu the Bureaucrat', function () {
             this.player1.clickPrompt('logos');
             expect(this.player1.amber).toBe(0);
             expect(this.player2.amber).toBe(0);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should not gain amber when opponent chooses Sanctum', function () {
@@ -39,7 +39,7 @@ describe('Jehu the Bureaucrat', function () {
             this.player2.clickPrompt('sanctum');
             expect(this.player1.amber).toBe(0);
             expect(this.player2.amber).toBe(0);
-            this.expectReadyToTakeAction(this.player2);
+            expect(this.player2).isReadyToTakeAction();
         });
     });
 });

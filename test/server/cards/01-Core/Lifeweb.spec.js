@@ -181,7 +181,7 @@ describe('Lifeweb', function () {
             this.player2.play(this.lifeweb);
             expect(this.player1.amber).toBe(0);
             expect(this.player2.amber).toBe(3);
-            this.expectReadyToTakeAction(this.player2);
+            expect(this.player2).isReadyToTakeAction();
         });
     });
 });

@@ -23,7 +23,7 @@ describe('Dimo, Elderghast', function () {
             this.player1.fightWith(this.echofly, this.thingFromTheDeep);
             expect(this.echofly.location).toBe('discard');
             expect(this.player1.amber).toBe(1);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         describe('when haunted', function () {
@@ -36,14 +36,14 @@ describe('Dimo, Elderghast', function () {
                 this.player1.fightWith(this.echofly, this.thingFromTheDeep);
                 expect(this.echofly.location).toBe('discard');
                 expect(this.player1.amber).toBe(2);
-                this.expectReadyToTakeAction(this.player1);
+                expect(this.player1).isReadyToTakeAction();
             });
 
             it('gains amber for friendly creatures with amber when they are destroyed', function () {
                 this.player1.fightWith(this.echofly, this.thingFromTheDeep);
                 expect(this.echofly.location).toBe('discard');
                 expect(this.player1.amber).toBe(4);
-                this.expectReadyToTakeAction(this.player1);
+                expect(this.player1).isReadyToTakeAction();
             });
 
             it('does nothing for haunted enemy creatures when they are destroyed', function () {
@@ -53,7 +53,7 @@ describe('Dimo, Elderghast', function () {
                 expect(this.dustPixie.location).toBe('discard');
                 expect(this.player1.amber).toBe(3);
                 expect(this.player2.amber).toBe(1);
-                this.expectReadyToTakeAction(this.player1);
+                expect(this.player1).isReadyToTakeAction();
             });
 
             it('works on the opponents turn as well', function () {

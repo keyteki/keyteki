@@ -18,7 +18,7 @@ describe('Dthoshră, Recruiter', function () {
             expect(this.player1.amber).toBe(3);
             this.player1.clickPrompt('Right');
             expect(this.player1.player.creaturesInPlay.length).toBe(3);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

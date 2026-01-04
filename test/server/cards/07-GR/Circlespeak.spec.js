@@ -26,7 +26,7 @@ describe('Circlespeak', function () {
             expect(this.player1.amber).toBe(4);
             expect(this.player2.amber).toBe(3);
             expect(this.flaxia.tokens.amber).toBe(undefined);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('captures nothing onto friendly creature if no player is haunted', function () {
@@ -35,7 +35,7 @@ describe('Circlespeak', function () {
             expect(this.player1.amber).toBe(4);
             expect(this.player2.amber).toBe(3);
             expect(this.bubbles.tokens.amber).toBe(undefined);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('captures 2 onto enemy creature if one player is haunted', function () {
@@ -45,7 +45,7 @@ describe('Circlespeak', function () {
             expect(this.player1.amber).toBe(4);
             expect(this.player2.amber).toBe(1);
             expect(this.flaxia.tokens.amber).toBe(2);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('captures 2 onto friendly creature if one player is haunted', function () {
@@ -55,7 +55,7 @@ describe('Circlespeak', function () {
             expect(this.player1.amber).toBe(4);
             expect(this.player2.amber).toBe(1);
             expect(this.bubbles.tokens.amber).toBe(2);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('captures 4 onto enemy creature if both players are haunted', function () {
@@ -66,7 +66,7 @@ describe('Circlespeak', function () {
             expect(this.player1.amber).toBe(3);
             expect(this.player2.amber).toBe(1);
             expect(this.flaxia.tokens.amber).toBe(4);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('captures 4 onto friendly creature if both players are haunted', function () {
@@ -77,7 +77,7 @@ describe('Circlespeak', function () {
             expect(this.player1.amber).toBe(3);
             expect(this.player2.amber).toBe(1);
             expect(this.bubbles.tokens.amber).toBe(4);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

@@ -73,7 +73,7 @@ describe('Shard of Pain', function () {
 
             it('should not prompt', function () {
                 this.player1.useAction(this.shardOfPain);
-                this.expectReadyToTakeAction(this.player1);
+                expect(this.player1).isReadyToTakeAction();
             });
         });
     });

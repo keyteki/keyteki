@@ -23,7 +23,7 @@ describe('Boiler', function () {
             expect(this.thingFromTheDeep.tokens.damage).toBe(2);
             expect(this.troll.tokens.damage).toBe(6);
             expect(this.flaxia.tokens.damage).toBe(undefined);
-            this.expectReadyToTakeAction(this.player2);
+            expect(this.player2).isReadyToTakeAction();
         });
 
         it('deals 1 damage to each enemy creature on scrap', function () {
@@ -32,7 +32,7 @@ describe('Boiler', function () {
             expect(this.thingFromTheDeep.tokens.damage).toBe(1);
             expect(this.troll.tokens.damage).toBe(1);
             expect(this.flaxia.tokens.damage).toBe(undefined);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

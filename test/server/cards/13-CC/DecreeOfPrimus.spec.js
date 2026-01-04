@@ -27,7 +27,7 @@ describe('Decree of Primus', function () {
             this.player1.clickCard(this.gub);
             expect(this.charette.tokens.amber).toBeUndefined();
             expect(this.gub.tokens.amber).toBe(4);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should work with creatures that have no amber', function () {
@@ -37,7 +37,7 @@ describe('Decree of Primus', function () {
             this.player1.clickCard(this.gub);
             expect(this.charette.tokens.amber).toBeUndefined();
             expect(this.gub.tokens.amber).toBe(2);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should work with enemy creatures', function () {
@@ -48,7 +48,7 @@ describe('Decree of Primus', function () {
             this.player1.clickCard(this.lamindra);
             expect(this.charette.tokens.amber).toBeUndefined();
             expect(this.lamindra.tokens.amber).toBe(3);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

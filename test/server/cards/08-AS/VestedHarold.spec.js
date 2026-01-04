@@ -31,7 +31,7 @@ describe('Vĕsted Harŏld', function () {
             expect(this.dustPixie.location).toBe('archives');
             expect(this.player2.player.archives).toContain(this.dustPixie);
             expect(this.infurnace.location).toBe('play area');
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should archive into owner archives', function () {
@@ -47,7 +47,7 @@ describe('Vĕsted Harŏld', function () {
             expect(this.dustPixie.location).toBe('archives');
             expect(this.player2.player.archives).toContain(this.dustPixie);
             expect(this.infurnace.location).toBe('play area');
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

@@ -34,7 +34,7 @@ describe('Mogg', function () {
             expect(this.mogg.tokens.damage).toBeUndefined();
             expect(this.emberImp.location).toBe('play area');
             expect(this.emberImp.tokens.damage).toBeUndefined();
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should stun each friendly creature with power 5 or higher when fate is triggered', function () {
@@ -48,7 +48,7 @@ describe('Mogg', function () {
             expect(this.emberImp.stunned).toBe(false);
             expect(this.troll.stunned).toBe(false);
             expect(this.mogg.location).toBe('discard');
-            this.expectReadyToTakeAction(this.player2);
+            expect(this.player2).isReadyToTakeAction();
         });
     });
 });

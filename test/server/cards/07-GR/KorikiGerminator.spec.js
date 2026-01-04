@@ -22,7 +22,7 @@ describe('Koriki Germinator', function () {
             expect(this.player1.player.deck[this.player1.player.deck.length - 1]).toBe(
                 this.oldBruno
             );
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('puts an enemy discard card on bottom of deck on play', function () {
@@ -32,7 +32,7 @@ describe('Koriki Germinator', function () {
             expect(this.player2.player.deck[this.player2.player.deck.length - 1]).toBe(
                 this.batdrone
             );
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('puts a friendly discard card on bottom of deck on reap', function () {
@@ -48,7 +48,7 @@ describe('Koriki Germinator', function () {
             expect(this.player1.player.deck[this.player1.player.deck.length - 1]).toBe(
                 this.oldBruno
             );
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

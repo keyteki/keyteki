@@ -27,7 +27,7 @@ describe('Aerial Pedlar', function () {
             this.player1.fightWith(this.umbra, this.aerialPedlar);
             expect(this.player1.amber).toBe(3);
             expect(this.player2.amber).toBe(0);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
             this.player1.endTurn();
             expect(this.aerialPedlar.exhausted).toBe(true);
 
@@ -37,7 +37,7 @@ describe('Aerial Pedlar', function () {
             expect(this.player1).toHavePromptButton('shadows');
             this.player1.clickPrompt('ekwidon');
             this.player1.clickCard(this.umbra);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should take control of creatures bigger than itself', function () {
@@ -50,7 +50,7 @@ describe('Aerial Pedlar', function () {
             this.player1.reap(this.flaxia);
             expect(this.player1.amber).toBe(3);
             expect(this.player2.amber).toBe(1);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

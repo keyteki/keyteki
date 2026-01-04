@@ -28,7 +28,7 @@ describe('Echo Guardian', function () {
             expect(this.sinder.location).toBe('discard');
             expect(this.echoGuardian.tokens.damage).toBe(2);
             expect(this.echoGuardian.location).toBe('play area');
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

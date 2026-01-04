@@ -32,18 +32,18 @@ describe('Countryside Crusher', function () {
                 this.player1.clickCard(this.slimyJark);
                 this.player1.clickCard(this.dustPixie);
                 expect(this.dustPixie.location).toBe('discard');
-                this.expectReadyToTakeAction(this.player1);
+                expect(this.player1).isReadyToTakeAction();
             });
 
             it('does nothing when opponent is not haunted', function () {
                 this.player1.fightWith(this.countrysideCrusher, this.dewFaerie);
-                this.expectReadyToTakeAction(this.player1);
+                expect(this.player1).isReadyToTakeAction();
             });
 
             it('is optional', function () {
                 this.player1.fightWith(this.countrysideCrusher, this.flaxia);
                 this.player1.clickPrompt('Done');
-                this.expectReadyToTakeAction(this.player1);
+                expect(this.player1).isReadyToTakeAction();
             });
         });
 
@@ -54,7 +54,7 @@ describe('Countryside Crusher', function () {
             expect(this.player1).not.toBeAbleToSelect(this.troll);
             this.player1.clickCard(this.slimyJark);
             this.player1.clickCard(this.flaxia);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

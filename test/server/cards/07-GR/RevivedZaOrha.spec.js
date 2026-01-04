@@ -21,21 +21,21 @@ describe('Revived Za-Orha', function () {
             this.player1.forgeKey('red');
             expect(this.player1.amber).toBe(0);
             expect(this.revivedZăOrhă.location).toBe('purged');
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('forges does nothing if opponent does not have more keys', function () {
             this.player1.player.keys.red = true;
             this.player1.playCreature(this.revivedZăOrhă);
             expect(this.revivedZăOrhă.location).toBe('play area');
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('forges does nothing without enough amber to forge', function () {
             this.player1.amber = 5;
             this.player1.playCreature(this.revivedZăOrhă);
             expect(this.revivedZăOrhă.location).toBe('play area');
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         describe('after play', function () {
@@ -51,14 +51,14 @@ describe('Revived Za-Orha', function () {
             it('does not archive on destroy if not haunted', function () {
                 this.player1.fightWith(this.revivedZăOrhă, this.thingFromTheDeep);
                 expect(this.revivedZăOrhă.location).toBe('discard');
-                this.expectReadyToTakeAction(this.player1);
+                expect(this.player1).isReadyToTakeAction();
             });
 
             it('archives on destroy if haunted', function () {
                 this.player1.play(this.hireOn);
                 this.player1.fightWith(this.revivedZăOrhă, this.thingFromTheDeep);
                 expect(this.revivedZăOrhă.location).toBe('archives');
-                this.expectReadyToTakeAction(this.player1);
+                expect(this.player1).isReadyToTakeAction();
             });
         });
     });

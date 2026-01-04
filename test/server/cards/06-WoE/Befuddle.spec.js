@@ -86,7 +86,7 @@ describe('Befuddle', function () {
             this.player2.clickCard(this.batdrone);
             this.player2.clickPrompt('Right');
             expect(this.batdrone.location).toBe('play area');
-            this.expectReadyToTakeAction(this.player2);
+            expect(this.player2).isReadyToTakeAction();
         });
     });
 
@@ -117,11 +117,11 @@ describe('Befuddle', function () {
             this.player1.clickPrompt('unfathomable');
             this.player1.endTurn();
             this.player2.clickPrompt('untamed');
-            this.expectReadyToTakeAction(this.player2);
+            expect(this.player2).isReadyToTakeAction();
             this.player2.clickCard(this.fogbank);
             expect(this.player2).not.toHavePrompt('Play this action');
             this.player2.clickPrompt('Cancel');
-            this.expectReadyToTakeAction(this.player2);
+            expect(this.player2).isReadyToTakeAction();
         });
     });
 });

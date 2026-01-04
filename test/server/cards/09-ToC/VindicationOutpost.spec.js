@@ -28,7 +28,7 @@ describe('Vindication Outpost', function () {
             expect(this.player1).toBeAbleToSelect(this.dustPixie);
             this.player1.clickCard(this.dustPixie);
             expect(this.dustPixie.location).toBe('discard');
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

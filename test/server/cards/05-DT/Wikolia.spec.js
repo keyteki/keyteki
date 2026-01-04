@@ -73,7 +73,7 @@ describe('Wikolia', function () {
             this.player2.clickPrompt('untamed');
             expect(this.player2.player.getCurrentKeyCost()).toBe(8);
             expect(this.player2.player.getForgedKeys()).toBe(0);
-            this.expectReadyToTakeAction(this.player2);
+            expect(this.player2).isReadyToTakeAction();
         });
     });
 });

@@ -22,7 +22,7 @@ describe('Offering to Invidius', function () {
             expect(this.player1).toBeAbleToSelect(this.troll);
             this.player1.clickCard(this.pitlord);
             expect(this.pitlord.location).toBe('purged');
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should purge a creature from opponent discard pile when played', function () {
@@ -30,7 +30,7 @@ describe('Offering to Invidius', function () {
             expect(this.player1).toHavePrompt('Offering to Invidius');
             this.player1.clickCard(this.batdrone);
             expect(this.batdrone.location).toBe('purged');
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should not be able to target non-creature cards', function () {
@@ -49,7 +49,7 @@ describe('Offering to Invidius', function () {
             expect(this.player1).toBeAbleToSelect(this.troll);
             this.player1.clickCard(this.troll);
             expect(this.troll.location).toBe('purged');
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

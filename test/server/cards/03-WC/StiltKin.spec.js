@@ -26,7 +26,7 @@ describe('stilt-kin', function () {
         it('should not ready and fights when non-giant is played adjacent', function () {
             this.player1.reap(this.stiltKin);
             this.player1.play(this.littleRapscal);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

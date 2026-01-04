@@ -32,7 +32,7 @@ describe('Requisition Writ', function () {
             this.player1.clickCard(this.flaxia);
             this.player1.clickPrompt('Right');
             expect(this.player1.player.creaturesInPlay).toContain(this.flaxia);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should work on enemy creature', function () {
@@ -49,7 +49,7 @@ describe('Requisition Writ', function () {
             this.player2.clickCard(this.ironHeidy);
             this.player2.clickPrompt('Right');
             expect(this.player2.player.creaturesInPlay).toContain(this.ironHeidy);
-            this.expectReadyToTakeAction(this.player2);
+            expect(this.player2).isReadyToTakeAction();
         });
 
         it('should not work if you have no amber', function () {
@@ -59,7 +59,7 @@ describe('Requisition Writ', function () {
             this.player1.reap(this.ironHeidy);
             expect(this.player1.amber).toBe(0);
             expect(this.player2.amber).toBe(2);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

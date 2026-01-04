@@ -26,7 +26,7 @@ describe('Shadys', function () {
             expect(this.charette.location).toBe('play area');
             expect(this.charette.amber).toBe(3);
             expect(this.player2.amber).toBe(1);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('destroys self when choosing Purse-A-Phone', function () {
@@ -35,7 +35,7 @@ describe('Shadys', function () {
             this.player1.clickPrompt('Right');
             expect(this.purseAPhone.location).toBe('play area');
             expect(this.shadys.location).toBe('discard');
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

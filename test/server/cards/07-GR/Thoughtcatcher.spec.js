@@ -20,7 +20,7 @@ describe('Thoughtcatcher', function () {
             this.player1.fightWith(this.echofly, this.thingFromTheDeep);
             expect(this.player1.player.hand.length).toBe(p1hand + 1);
             expect(this.player2.amber).toBe(2);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('does not draw a card for creatures without amber on them on destroy', function () {
@@ -28,7 +28,7 @@ describe('Thoughtcatcher', function () {
             this.player1.fightWith(this.echofly, this.thingFromTheDeep);
             expect(this.player1.player.hand.length).toBe(p1hand);
             expect(this.echofly.location).toBe('discard');
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('does not draw a card for enemy creatures with amber on them on destroy', function () {
@@ -38,7 +38,7 @@ describe('Thoughtcatcher', function () {
             expect(this.player2.player.hand.length).toBe(p2hand);
             expect(this.dustPixie.location).toBe('discard');
             expect(this.player1.amber).toBe(2);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

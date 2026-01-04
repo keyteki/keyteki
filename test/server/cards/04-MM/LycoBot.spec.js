@@ -27,7 +27,7 @@ describe('Lyco-Bot', function () {
             this.player1.moveCard(this.soulkeeper, 'deck');
             this.player1.reap(this.lycoBot);
             expect(this.player1.amber).toBe(1);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
             this.player1.clickCard(this.soulkeeper);
             expect(this.soulkeeper.location).toBe('deck');
             expect(this.player1.hand.length).toBe(0);

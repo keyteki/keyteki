@@ -19,7 +19,7 @@ describe('Maleficorn', function () {
             this.bindingIrons.enhancements = ['damage', 'damage'];
 
             this.player1.play(this.guiltyHearts);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
             expect(this.player1.amber).toBe(1);
         });
 
@@ -41,7 +41,7 @@ describe('Maleficorn', function () {
             expect(this.player1).toBeAbleToSelect(this.groggins);
             this.player1.clickCard(this.groggins);
             expect(this.groggins.tokens.damage).toBe(2);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should not deal extra damage is prevented by armor', function () {
@@ -63,7 +63,7 @@ describe('Maleficorn', function () {
             this.player1.clickCard(this.brammo);
             expect(this.brammo.tokens.damage).toBeUndefined();
             expect(this.brammo.armorUsed).toBe(1);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should not deal extra damage it passes armor', function () {
@@ -85,7 +85,7 @@ describe('Maleficorn', function () {
             expect(this.player1).toBeAbleToSelect(this.groggins);
             this.player1.clickCard(this.brammo);
             expect(this.brammo.tokens.damage).toBe(2);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should not deal extra damage when selecting a friendly creature', function () {
@@ -106,7 +106,7 @@ describe('Maleficorn', function () {
             expect(this.player1).toBeAbleToSelect(this.groggins);
             this.player1.clickCard(this.troll);
             expect(this.troll.tokens.damage).toBe(2);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should not deal extra damage when damage is not from bonus', function () {
@@ -118,7 +118,7 @@ describe('Maleficorn', function () {
             expect(this.player1).toBeAbleToSelect(this.groggins);
             this.player1.clickCard(this.brammo);
             expect(this.brammo.tokens.damage).toBe(2);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should deal 1D + 1D when opponent target their own creature', function () {
@@ -133,7 +133,7 @@ describe('Maleficorn', function () {
             expect(this.player2).toBeAbleToSelect(this.groggins);
             this.player2.clickCard(this.alaka);
             expect(this.alaka.tokens.damage).toBe(2);
-            this.expectReadyToTakeAction(this.player2);
+            expect(this.player2).isReadyToTakeAction();
         });
 
         it('should not deal 1D when opponent target my creature', function () {
@@ -148,7 +148,7 @@ describe('Maleficorn', function () {
             expect(this.player2).toBeAbleToSelect(this.groggins);
             this.player2.clickCard(this.troll);
             expect(this.troll.tokens.damage).toBe(1);
-            this.expectReadyToTakeAction(this.player2);
+            expect(this.player2).isReadyToTakeAction();
         });
     });
 });

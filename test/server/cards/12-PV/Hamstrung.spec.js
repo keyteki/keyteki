@@ -18,7 +18,7 @@ describe('Hamstrung', function () {
             this.player1.play(this.hamstrung);
             this.player1.clickPrompt('Mine');
             expect(this.ancientBear.location).toBe('purged');
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should discard top card and not purge it if it is not a creature', function () {
@@ -26,7 +26,7 @@ describe('Hamstrung', function () {
             this.player1.play(this.hamstrung);
             this.player1.clickPrompt('Mine');
             expect(this.infinityStrop.location).toBe('discard');
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should work on opponent deck for a creature', function () {
@@ -34,7 +34,7 @@ describe('Hamstrung', function () {
             this.player1.play(this.hamstrung);
             this.player1.clickPrompt("Opponent's");
             expect(this.huntingWitch.location).toBe('purged');
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should not work on opponent deck for a non-creature', function () {
@@ -42,7 +42,7 @@ describe('Hamstrung', function () {
             this.player1.play(this.hamstrung);
             this.player1.clickPrompt("Opponent's");
             expect(this.keyCharge.location).toBe('discard');
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should do nothing if the deck is empty', function () {
@@ -52,7 +52,7 @@ describe('Hamstrung', function () {
             this.player1.clickPrompt("Opponent's");
             expect(this.player1.deck.length).toBe(p1DeckLen);
             expect(this.huntingWitch.location).toBe('discard');
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

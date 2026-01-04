@@ -37,7 +37,7 @@ describe('The End Is Nigh', function () {
             expect(this.player2.amber).toBe(2);
             expect(this.troll.amber).toBe(2);
             expect(this.parasiticArachnoid.location).toBe('discard');
-            this.expectReadyToTakeAction(this.player2);
+            expect(this.player2).isReadyToTakeAction();
         });
 
         it('should fulfill when 3 or more creatures including by splash-attack', function () {
@@ -52,7 +52,7 @@ describe('The End Is Nigh', function () {
             expect(this.player2.amber).toBe(2);
             expect(this.troll.amber).toBe(2);
             expect(this.parasiticArachnoid.location).toBe('discard');
-            this.expectReadyToTakeAction(this.player2);
+            expect(this.player2).isReadyToTakeAction();
         });
 
         it('should not fulfill when less than 3 creatures are destroyed', function () {
@@ -62,7 +62,7 @@ describe('The End Is Nigh', function () {
             this.player2.fightWith(this.urchin, this.xenosBloodshadow);
             this.player2.fightWith(this.umbra, this.xenosBloodshadow);
             expect(this.parasiticArachnoid.location).toBe('under');
-            this.expectReadyToTakeAction(this.player2);
+            expect(this.player2).isReadyToTakeAction();
         });
 
         it('should not fulfill when a ward prevents the destruction of a creature', function () {
@@ -74,7 +74,7 @@ describe('The End Is Nigh', function () {
             this.urchin.ward();
             this.player2.fightWith(this.urchin, this.huntingWitch);
             expect(this.parasiticArachnoid.location).toBe('under');
-            this.expectReadyToTakeAction(this.player2);
+            expect(this.player2).isReadyToTakeAction();
         });
 
         it('should reset creature count at the start of each turn', function () {
@@ -89,7 +89,7 @@ describe('The End Is Nigh', function () {
             this.player2.clickPrompt('shadows');
             this.player2.fightWith(this.nexus, this.xenosBloodshadow);
             expect(this.parasiticArachnoid.location).toBe('under');
-            this.expectReadyToTakeAction(this.player2);
+            expect(this.player2).isReadyToTakeAction();
         });
     });
 });

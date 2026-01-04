@@ -19,7 +19,7 @@ describe('EMP Blast', function () {
             expect(this.mother.stunned).toBe(true);
             expect(this.blypyp.stunned).toBe(true);
             expect(this.crystalHive.location).toBe('discard');
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

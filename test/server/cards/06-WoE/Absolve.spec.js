@@ -67,7 +67,7 @@ describe('Absolve', function () {
             expect(this.holdfast.hasToken('amber')).toBe(false);
             expect(this.krump.tokens.amber).toBe(1);
 
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

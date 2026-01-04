@@ -35,7 +35,7 @@ describe('Barter and Games', function () {
             expect(this.player1.discard.length).toBe(3);
             expect(this.player2.hand.length).toBe(1);
             expect(this.player2.discard.length).toBe(4);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should reveal a card from each archive', function () {
@@ -54,7 +54,7 @@ describe('Barter and Games', function () {
             expect(this.player1.discard.length).toBe(2);
             expect(this.player2.hand.length).toBe(2);
             expect(this.player2.discard.length).toBe(2);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should work with no cards in hand', function () {
@@ -73,7 +73,7 @@ describe('Barter and Games', function () {
             expect(this.player1.discard.length).toBe(2);
             expect(this.player2.hand.length).toBe(1);
             expect(this.player2.discard.length).toBe(3);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should work with no cards in hand going second', function () {
@@ -92,7 +92,7 @@ describe('Barter and Games', function () {
             expect(this.player1.discard.length).toBe(2);
             expect(this.player2.hand.length).toBe(1);
             expect(this.player2.discard.length).toBe(3);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should work with opponent cards in your archive', function () {
@@ -118,7 +118,7 @@ describe('Barter and Games', function () {
             expect(this.huntingWitch.location).toBe('play area');
             expect(this.player1.discard.length).toBe(3);
             expect(this.player2.archives.length).toBe(0);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

@@ -32,7 +32,7 @@ describe('Drosera Relic', function () {
             expect(this.emberImp.location).toBe('discard');
             expect(this.player1.amber).toBe(4);
             expect(this.player2.amber).toBe(2);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should not steal amber if no creature is destroyed', function () {
@@ -42,7 +42,7 @@ describe('Drosera Relic', function () {
             expect(this.emberImp.location).toBe('play area');
             expect(this.player1.amber).toBe(2);
             expect(this.player2.amber).toBe(4);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should destroy the least powerful friendly creature and pay opponent 2 amber when fate is triggered', function () {
@@ -61,7 +61,7 @@ describe('Drosera Relic', function () {
             expect(this.umbra.location).toBe('discard');
             expect(this.player1.amber).toBe(4);
             expect(this.player2.amber).toBe(3);
-            this.expectReadyToTakeAction(this.player2);
+            expect(this.player2).isReadyToTakeAction();
         });
     });
 });

@@ -32,7 +32,7 @@ describe('Chanel the Wise', function () {
             expect(this.player1).not.toBeAbleToSelect(this.searine);
             this.player1.clickCard(this.emberImp);
             expect(this.emberImp.power).toBe(7);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

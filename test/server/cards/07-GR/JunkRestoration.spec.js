@@ -35,7 +35,7 @@ describe('Junkyard Restoration', function () {
             expect(this.player1).toHavePromptButton('Done');
             this.player1.clickCard(this.flaxia);
             expect(this.flaxia.location).toBe('hand');
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('allows player to not put one discarded card into hand', function () {
@@ -44,7 +44,7 @@ describe('Junkyard Restoration', function () {
             expect(this.flaxia.location).toBe('discard');
             expect(this.shadys.location).toBe('discard');
             expect(this.fullMoon.location).toBe('discard');
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

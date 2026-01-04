@@ -22,14 +22,14 @@ describe('Intrepid Exemplar', function () {
             this.player1.fightWith(this.intrepidExemplar, this.umbra);
             this.player1.clickPrompt('Right');
             expect(this.zealot1.location).toBe('play area');
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should make a token on destroy', function () {
             this.player1.fightWith(this.intrepidExemplar, this.troll);
             this.player1.clickPrompt('Right');
             expect(this.zealot1.location).toBe('play area');
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

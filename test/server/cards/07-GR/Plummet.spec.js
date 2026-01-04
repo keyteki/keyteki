@@ -19,7 +19,7 @@ describe('Plummet', function () {
             expect(this.player1.player.hand.length).toBe(0);
             expect(this.shoppingSpree.location).toBe('discard');
             expect(this.pressGang.location).toBe('discard');
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('deals 2 damage to all creatures', function () {
@@ -28,7 +28,7 @@ describe('Plummet', function () {
             expect(this.cpoZytar.tokens.damage).toBe(1);
             expect(this.troll.tokens.damage).toBe(2);
             expect(this.batdrone.location).toBe('discard');
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('deals 1 damage to all creatures', function () {
@@ -38,7 +38,7 @@ describe('Plummet', function () {
             expect(this.cpoZytar.tokens.damage).toBe(undefined);
             expect(this.troll.tokens.damage).toBe(1);
             expect(this.batdrone.tokens.damage).toBe(1);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('deals no damage to all creatures', function () {
@@ -49,7 +49,7 @@ describe('Plummet', function () {
             expect(this.cpoZytar.tokens.damage).toBe(undefined);
             expect(this.troll.tokens.damage).toBe(undefined);
             expect(this.batdrone.tokens.damage).toBe(undefined);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

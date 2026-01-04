@@ -21,14 +21,14 @@ describe('Clear Mind', function () {
             expect(this.dodger.stunned).toBe(false);
             expect(this.silvertooth.stunned).toBe(false);
             expect(this.bulwark.stunned).toBe(false);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should not unstun enemy creatures', function () {
             this.batdrone.stun();
             this.player1.play(this.clearMind);
             expect(this.batdrone.stunned).toBe(true);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

@@ -24,7 +24,7 @@ describe('Banshee Suit', function () {
             expect(this.windsOfDeath.location).toBe('discard');
             expect(this.bansheeSuit.location).toBe('discard');
             expect(this.player1.player.archives.length).toBe(3);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('archives the creature and 2 discard cards when opponent destroys it', function () {
@@ -37,7 +37,7 @@ describe('Banshee Suit', function () {
             expect(this.windsOfDeath.location).toBe('discard');
             expect(this.bansheeSuit.location).toBe('discard');
             expect(this.player1.player.archives.length).toBe(3);
-            this.expectReadyToTakeAction(this.player2);
+            expect(this.player2).isReadyToTakeAction();
         });
     });
 });

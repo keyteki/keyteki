@@ -130,7 +130,7 @@ describe('Lucky Dice', function () {
             this.player2.play(this.particleSweep);
             this.player2.clickCard(this.sensorChiefGarcia);
             expect(this.sensorChiefGarcia.tokens.damage).toBe(1);
-            this.expectReadyToTakeAction(this.player2);
+            expect(this.player2).isReadyToTakeAction();
         });
     });
 });

@@ -23,7 +23,7 @@ describe('Vapor Imp', function () {
             this.player1.reap(this.vaporImp);
             expect(this.player1.player.hand.length).toBe(3);
             expect(this.player1.player.discard.length).toBe(1);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('prevents opponents from playing creatures', function () {
@@ -60,7 +60,7 @@ describe('Vapor Imp', function () {
             this.player1.endTurn();
             this.player2.clickPrompt('untamed');
             this.player2.playCreature(this.dustPixie);
-            this.expectReadyToTakeAction(this.player2);
+            expect(this.player2).isReadyToTakeAction();
         });
 
         it('prevents opponents from playing actions', function () {
@@ -99,7 +99,7 @@ describe('Vapor Imp', function () {
             this.player1.endTurn();
             this.player2.clickPrompt('untamed');
             this.player2.play(this.theCircleOfLife);
-            this.expectReadyToTakeAction(this.player2);
+            expect(this.player2).isReadyToTakeAction();
         });
 
         it('prevents opponents from playing artifacts', function () {
@@ -136,7 +136,7 @@ describe('Vapor Imp', function () {
             this.player1.endTurn();
             this.player2.clickPrompt('untamed');
             this.player2.play(this.ritualOfBalance);
-            this.expectReadyToTakeAction(this.player2);
+            expect(this.player2).isReadyToTakeAction();
         });
 
         it('prevents opponents from playing upgrades', function () {
@@ -173,7 +173,7 @@ describe('Vapor Imp', function () {
             this.player1.endTurn();
             this.player2.clickPrompt('untamed');
             this.player2.playUpgrade(this.wayOfTheWolf, this.flaxia);
-            this.expectReadyToTakeAction(this.player2);
+            expect(this.player2).isReadyToTakeAction();
         });
     });
 
@@ -203,11 +203,11 @@ describe('Vapor Imp', function () {
             this.player1.clickPrompt('dis');
             this.player1.endTurn();
             this.player2.clickPrompt('untamed');
-            this.expectReadyToTakeAction(this.player2);
+            expect(this.player2).isReadyToTakeAction();
             this.player2.clickCard(this.fogbank);
             expect(this.player2).not.toHavePrompt('Play this action');
             this.player2.clickPrompt('Cancel');
-            this.expectReadyToTakeAction(this.player2);
+            expect(this.player2).isReadyToTakeAction();
         });
     });
 });

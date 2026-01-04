@@ -40,7 +40,7 @@ describe('Tempting Offer', function () {
             this.player1.play(this.temptingOffer);
             expect(this.player1).not.toBeAbleToSelect(this.lamindra);
             expect(this.player1).not.toBeAbleToSelect(this.recklessRizzo);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
             expect(this.lamindra.location).toBe('discard');
             expect(this.player2.amber).toBe(3);
         });

@@ -25,7 +25,7 @@ describe('Rich Score', function () {
             expect(this.stooge3.location).toBe('play area');
             expect(this.player1.amber).toBe(3);
             expect(this.player2.amber).toBe(2);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

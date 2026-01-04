@@ -33,7 +33,7 @@ describe('Yardbird', function () {
             this.player1.clickCard(this.yardbird1);
             expect(this.yardbird2.location).toBe('discard');
             this.player1.reap(this.yardbird);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

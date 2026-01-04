@@ -28,7 +28,7 @@ describe('Administrator Rivet', function () {
             expect(this.minion1.amber).toBe(0);
             expect(this.minion2.amber).toBe(0);
             expect(this.player2.amber).toBe(4);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should make a token and capture on each token on play if haunted', function () {
@@ -39,7 +39,7 @@ describe('Administrator Rivet', function () {
             expect(this.minion1.amber).toBe(1);
             expect(this.minion2.amber).toBe(1);
             expect(this.player2.amber).toBe(2);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

@@ -15,7 +15,7 @@ describe('Suspended Animation', function () {
 
         it('should do nothing when the opponent has no damaged creatures', function () {
             this.player1.play(this.suspendedAnimation);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should put damaged enemy creatures in the archive', function () {

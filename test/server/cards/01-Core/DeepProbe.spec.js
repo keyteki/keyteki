@@ -20,7 +20,7 @@ describe('Deep Probe', function () {
             expect(this.cannon.location).toBe('hand');
             expect(this.urchin.location).toBe('discard');
             expect(this.dodger.location).toBe('discard');
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

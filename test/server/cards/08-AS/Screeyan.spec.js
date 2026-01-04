@@ -72,7 +72,7 @@ describe('Screeyan', function () {
             expect(this.player2).not.toHavePromptButton('shadows');
             expect(this.player2).not.toHavePromptButton('brobnar');
             this.player2.clickPrompt('untamed');
-            this.expectReadyToTakeAction(this.player2);
+            expect(this.player2).isReadyToTakeAction();
         });
     });
 });

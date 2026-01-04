@@ -31,7 +31,7 @@ describe('Unity Prism', function () {
             this.player1.clickPrompt('Cancel');
 
             this.player1.clickCard(this.drainingTouch);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should gain amber for each house in hand when scrapped', function () {

@@ -21,7 +21,7 @@ describe('Key to Dis', function () {
             expect(this.dextre.location).toBe('deck');
             expect(this.troll.location).toBe('discard');
             expect(this.krump.location).toBe('discard');
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

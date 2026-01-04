@@ -25,7 +25,7 @@ describe("Namel's Confession", function () {
             this.player1.clickCard(this.troll);
             expect(this.troll.location).toBe('discard');
             expect(this.player1.amber).toBe(7);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should round down', function () {
@@ -33,7 +33,7 @@ describe("Namel's Confession", function () {
             this.player1.clickCard(this.shockHerder);
             expect(this.shockHerder.location).toBe('discard');
             expect(this.player1.amber).toBe(4);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should not gain amber if no creature is destroyed', function () {
@@ -42,7 +42,7 @@ describe("Namel's Confession", function () {
             this.player1.moveCard(this.troll, 'discard');
             this.player1.play(this.namelSConfession);
             expect(this.player1.amber).toBe(3);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should work on Picaroon', function () {
@@ -51,7 +51,7 @@ describe("Namel's Confession", function () {
             this.player1.clickCard(this.picaroon);
             expect(this.picaroon.location).toBe('discard');
             expect(this.player1.amber).toBe(8);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

@@ -40,7 +40,7 @@ describe('Aurascope', function () {
             expect(this.player1).not.toBeAbleToSelect(this.markOfDis);
             this.player1.clickCard(this.infurnace);
             expect(this.infurnace.location).toBe('purged');
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

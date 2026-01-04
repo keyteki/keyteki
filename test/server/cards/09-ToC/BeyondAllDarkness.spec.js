@@ -27,7 +27,7 @@ describe('Beyond All Darkness', function () {
             this.player1.fightWith(this.gub, this.dustPixie);
             this.player1.clickPrompt('Right');
             expect(this.toad2.location).toBe('play area');
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should cause a token to be made when friendly creatures are destroyed', function () {
@@ -38,7 +38,7 @@ describe('Beyond All Darkness', function () {
             this.player1.clickPrompt('Right');
             expect(this.toad1.location).toBe('play area');
             expect(this.toad2.location).toBe('play area');
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

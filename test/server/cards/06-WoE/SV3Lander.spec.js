@@ -31,15 +31,15 @@ describe('SV3 Lander', function () {
             this.player2.endTurn();
             this.player1.clickPrompt('staralliance');
             this.player1.clickCard(this.grumpus);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
             this.player1.useAction(this.sv3Lander, true);
             expect(this.sv3Lander.location).toBe('discard');
             this.player1.reap(this.grumpus);
             this.player1.reap(token2);
             this.player1.clickCard(this.bumpsy);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
             this.player1.clickCard(this.grunt);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
             expect(this.player1.amber).toBe(3);
         });
     });

@@ -17,7 +17,7 @@ describe('Blue Amberdrake', function () {
         it('should gain 4 when destroyed', function () {
             this.player1.fightWith(this.blueÆmberdrake, this.thingFromTheDeep);
             expect(this.player1.amber).toBe(5);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should forge blue key on destroyed if possible', function () {
@@ -25,7 +25,7 @@ describe('Blue Amberdrake', function () {
             this.player1.fightWith(this.blueÆmberdrake, this.thingFromTheDeep);
             expect(this.player1.amber).toBe(1);
             expect(this.player1.player.keys.blue).toBe(true);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should forge blue key on opponent destroyed', function () {
@@ -36,7 +36,7 @@ describe('Blue Amberdrake', function () {
             expect(this.player1.amber).toBe(0);
             expect(this.player2.amber).toBe(2); // steals the last one
             expect(this.player1.player.keys.blue).toBe(true);
-            this.expectReadyToTakeAction(this.player2);
+            expect(this.player2).isReadyToTakeAction();
         });
 
         it('should not forge any keys if blue is already forged', function () {
@@ -44,7 +44,7 @@ describe('Blue Amberdrake', function () {
             this.player1.amber = 3;
             this.player1.fightWith(this.blueÆmberdrake, this.thingFromTheDeep);
             expect(this.player1.amber).toBe(7);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should win the game if other two keys are forged', function () {

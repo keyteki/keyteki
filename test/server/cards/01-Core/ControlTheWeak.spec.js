@@ -74,7 +74,7 @@ describe('Control the Weak', function () {
             expect(this.player2).not.toHavePromptButton('ekwidon');
             expect(this.player2).not.toHavePromptButton('dis');
             this.player2.clickPrompt('untamed');
-            this.expectReadyToTakeAction(this.player2);
+            expect(this.player2).isReadyToTakeAction();
         });
     });
 });

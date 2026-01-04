@@ -35,7 +35,7 @@ describe('Frane’s Blaster', function () {
             expect(this.player1).toHavePrompt('Triggered Abilities');
             expect(this.player1).toHavePromptButton('Done');
             this.player1.clickPrompt('Done');
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('reap ability should allow dealing 2 damages to a creature', function () {
@@ -170,7 +170,7 @@ describe('Frane’s Blaster', function () {
             expect(this.player1).toHavePromptButton('Deal 2 damage');
             expect(this.player1).toHavePromptButton('Move Frane’s Blaster');
             this.player1.clickPrompt('Move Frane’s Blaster');
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('fight ability should default to deal damage when officer is not in play', function () {
@@ -215,7 +215,7 @@ describe('Frane’s Blaster', function () {
 
             this.player1.clickPrompt('Move Frane’s Blaster');
             // There are no valid targets.
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
             expect(this.firstOfficerFrane1.upgrades).toContain(this.franeSBlaster);
         });
     });

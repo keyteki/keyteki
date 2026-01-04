@@ -70,7 +70,7 @@ describe('Reckless Rizzo', function () {
             this.player1.endTurn();
             this.player1.clickPrompt('shadows');
             expect(this.recklessRizzo.getKeywordValue('elusive')).toBe(1);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

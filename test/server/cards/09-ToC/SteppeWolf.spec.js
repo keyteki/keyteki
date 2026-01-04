@@ -24,7 +24,7 @@ describe('Steppe Wolf', function () {
             this.player1.clickPrompt('Right');
             expect(this.steppeWolf1.getPower()).toBe(3);
             expect(this.steppeWolf2.getPower()).toBe(3);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

@@ -17,7 +17,7 @@ describe("altruistSRostrum's play ability", function () {
         it('should not prompt for any creature, since no other creature to place amber', function () {
             this.archimedes.tokens.amber = 9;
             this.player1.useAction(this.altruistSRostrum);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 
@@ -131,7 +131,7 @@ describe("altruistSRostrum's play ability", function () {
 
             this.player1.clickCard(this.dextre);
 
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
 
             expect(this.dextre.tokens.amber).toBeUndefined();
         });

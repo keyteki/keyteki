@@ -20,13 +20,13 @@ describe('Slayer', function () {
             expect(this.slayer.tokens.damage).toBe(undefined);
             expect(this.huntingWitch.location).toBe('discard');
             expect(this.dustPixie.location).toBe('discard');
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should be destroyed when there are no opponent creatures', function () {
             this.player1.fightWith(this.slayer, this.huntingWitch);
             expect(this.slayer.location).toBe('discard');
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

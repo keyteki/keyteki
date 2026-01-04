@@ -22,7 +22,7 @@ describe('Sonic Waver', function () {
             expect(this.player1).toBeAbleToSelect(this.witchOfTheEye);
             this.player1.clickCard(this.troll);
             expect(this.troll.stunned).toBe(true);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should make opponent non-Mars creatures enter play stunned', function () {
@@ -32,7 +32,7 @@ describe('Sonic Waver', function () {
             this.player2.clickPrompt('brobnar');
             this.player2.play(this.krump);
             expect(this.krump.stunned).toBe(true);
-            this.expectReadyToTakeAction(this.player2);
+            expect(this.player2).isReadyToTakeAction();
         });
 
         it('should make own non-Mars creatures enter play stunned', function () {
@@ -44,7 +44,7 @@ describe('Sonic Waver', function () {
             this.player1.clickPrompt('brobnar');
             this.player1.playCreature(this.shorty);
             expect(this.shorty.stunned).toBe(true);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should not make Mars creatures enter play stunned', function () {
@@ -52,7 +52,7 @@ describe('Sonic Waver', function () {
             this.player1.clickCard(this.culfTheQuiet);
             this.player1.playCreature(this.blypyp);
             expect(this.blypyp.stunned).toBe(false);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should purge itself at end of turn if no creatures are stunned', function () {

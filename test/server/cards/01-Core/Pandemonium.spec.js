@@ -26,7 +26,7 @@ describe('Pandemonium', function () {
             expect(this.zorg.tokens.amber).toBe(1);
             expect(this.nexus.hasToken('amber')).toBe(false);
             expect(this.mother.hasToken('amber')).toBe(false);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should prompt the player to pick creatures when there is insufficient amber', function () {
@@ -60,7 +60,7 @@ describe('Pandemonium', function () {
             expect(this.dextre.hasToken('amber')).toBe(false);
             expect(this.batdrone.hasToken('amber')).toBe(false);
             expect(this.mother.hasToken('amber')).toBe(false);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

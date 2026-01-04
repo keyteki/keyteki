@@ -24,7 +24,7 @@ describe('Suzerain', function () {
             expect(this.p1deck1.location).toBe('purged');
             this.player1.clickPrompt('Left');
             expect(this.player1.player.creaturesInPlay[0]).toBe(this.p1deck2);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should purge opponent top of deck on reap', function () {
@@ -33,7 +33,7 @@ describe('Suzerain', function () {
             expect(this.p2deck1.location).toBe('purged');
             this.player1.clickPrompt('Left');
             expect(this.player1.player.creaturesInPlay[0]).toBe(this.p1deck1);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should not make a token if no card was purged', function () {
@@ -41,7 +41,7 @@ describe('Suzerain', function () {
             this.player1.reap(this.suzerain);
             this.player1.clickPrompt("Opponent's");
             expect(this.player2.player.purged.length).toBe(0);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

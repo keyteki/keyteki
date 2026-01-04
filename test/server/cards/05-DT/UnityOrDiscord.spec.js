@@ -31,7 +31,7 @@ describe('UnityOrDiscord', function () {
             });
 
             it('should not do anything', function () {
-                this.expectReadyToTakeAction(this.player1);
+                expect(this.player1).isReadyToTakeAction();
             });
         });
 
@@ -42,7 +42,7 @@ describe('UnityOrDiscord', function () {
 
             it('should click Done and not do anything', function () {
                 this.player1.clickPrompt('Done');
-                this.expectReadyToTakeAction(this.player1);
+                expect(this.player1).isReadyToTakeAction();
             });
         });
     });
@@ -95,7 +95,7 @@ describe('UnityOrDiscord', function () {
                 });
 
                 it('should not do anything', function () {
-                    this.expectReadyToTakeAction(this.player1);
+                    expect(this.player1).isReadyToTakeAction();
                 });
             });
         });
@@ -121,13 +121,13 @@ describe('UnityOrDiscord', function () {
                     expect(this.lamindra.location).toBe('play area');
                     expect(this.rocketeerTryska.location).toBe('play area');
                     expect(this.badPenny.location).toBe('play area');
-                    this.expectReadyToTakeAction(this.player1);
+                    expect(this.player1).isReadyToTakeAction();
                 });
 
                 it('should be able to select one creature', function () {
                     this.player1.clickCard(this.lamindra);
                     this.player1.clickPrompt('Done');
-                    this.expectReadyToTakeAction(this.player1);
+                    expect(this.player1).isReadyToTakeAction();
                     expect(this.lamindra.location).toBe('hand');
                     expect(this.mole.location).toBe('hand');
                     expect(this.rocketeerTryska.location).toBe('play area');
@@ -137,7 +137,7 @@ describe('UnityOrDiscord', function () {
                     this.player1.clickCard(this.lamindra);
                     this.player1.clickCard(this.rocketeerTryska);
                     this.player1.clickPrompt('Done');
-                    this.expectReadyToTakeAction(this.player1);
+                    expect(this.player1).isReadyToTakeAction();
                     expect(this.lamindra.location).toBe('hand');
                     expect(this.accessDenied.location).toBe('hand');
                     expect(this.rocketeerTryska.location).toBe('hand');

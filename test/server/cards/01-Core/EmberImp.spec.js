@@ -22,7 +22,7 @@ describe('Ember Imp', function () {
             this.player1.clickPrompt('Cancel');
             this.player1.fightWith(this.bulleteye, this.emberImp);
             this.player1.play(this.dodger);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

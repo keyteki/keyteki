@@ -26,7 +26,7 @@ describe('Resonant Orb', function () {
             expect(this.krump.location).toBe('discard');
             expect(this.player1.player.creaturesInPlay).toContain(this.dustPixie);
             expect(this.anger.location).toBe('discard');
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should repeat the effect if the second discarded card is also a creature', function () {
@@ -45,7 +45,7 @@ describe('Resonant Orb', function () {
             expect(this.troll.location).toBe('discard');
             expect(this.player1.player.creaturesInPlay).toContain(this.dewFaerie);
             expect(this.anger.location).toBe('deck');
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should do nothing if first discarded card is not a creature', function () {
@@ -53,7 +53,7 @@ describe('Resonant Orb', function () {
             this.player1.moveCard(this.anger, 'deck');
             this.player1.reap(this.resonantOrb);
             expect(this.anger.location).toBe('discard');
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

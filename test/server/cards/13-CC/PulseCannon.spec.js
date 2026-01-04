@@ -28,7 +28,7 @@ describe('Pulse Cannon', function () {
             expect(this.blypyp.stunned).toBe(true);
             expect(this.dustPixie.stunned).toBe(false);
             expect(this.silvertooth.stunned).toBe(false);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should stun a creature with only one neighbor', function () {

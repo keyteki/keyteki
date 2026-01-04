@@ -20,7 +20,7 @@ describe('Cincinnatus Resurrexit', function () {
         it('captures 2 and exalts on play', function () {
             expect(this.cincinnatusResurrexit.amber).toBe(3);
             expect(this.player2.amber).toBe(3);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('gains power for each amber on it', function () {
@@ -40,20 +40,20 @@ describe('Cincinnatus Resurrexit', function () {
                 expect(this.cincinnatusResurrexit.amber).toBe(6);
                 expect(this.player2.amber).toBe(1);
                 expect(this.cincinnatusResurrexit.power).toBe(12);
-                this.expectReadyToTakeAction(this.player1);
+                expect(this.player1).isReadyToTakeAction();
             });
 
             it('does not archive on destroy if not haunted', function () {
                 this.player1.fightWith(this.cincinnatusResurrexit, this.thingFromTheDeep);
                 expect(this.cincinnatusResurrexit.location).toBe('discard');
-                this.expectReadyToTakeAction(this.player1);
+                expect(this.player1).isReadyToTakeAction();
             });
 
             it('archives on destroy if haunted', function () {
                 this.player1.play(this.recruit);
                 this.player1.fightWith(this.cincinnatusResurrexit, this.thingFromTheDeep);
                 expect(this.cincinnatusResurrexit.location).toBe('archives');
-                this.expectReadyToTakeAction(this.player1);
+                expect(this.player1).isReadyToTakeAction();
             });
         });
     });

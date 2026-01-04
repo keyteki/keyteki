@@ -14,7 +14,7 @@ describe('Mighty Lance', function () {
 
         it('should not prompt for creature when there are no creatures in play', function () {
             this.player1.play(this.mightyLance);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 
@@ -40,7 +40,7 @@ describe('Mighty Lance', function () {
             expect(this.player1).toBeAbleToSelect(this.troll);
             this.player1.clickCard(this.troll);
             expect(this.troll.tokens.damage).toBe(3);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 
@@ -73,7 +73,7 @@ describe('Mighty Lance', function () {
             this.player1.clickCard(this.krump);
             expect(this.troll.tokens.damage).toBe(3);
             expect(this.krump.tokens.damage).toBe(3);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

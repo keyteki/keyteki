@@ -38,7 +38,7 @@ describe('Chan’s Blaster', function () {
 
         it('should not prompt for using another creature when attached to the non associated officer', function () {
             this.player1.playUpgrade(this.chanSBlaster, this.techivorePulpate);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('reap ability should allow choosing for an action and cancel', function () {
@@ -48,7 +48,7 @@ describe('Chan’s Blaster', function () {
             expect(this.player1).toHavePrompt('Triggered Abilities');
             expect(this.player1).toHavePromptButton('Done');
             this.player1.clickPrompt('Done');
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('reap ability should allow dealing 2 damages to a creature', function () {
@@ -175,7 +175,7 @@ describe('Chan’s Blaster', function () {
             expect(this.player1).toHavePromptButton('Deal 2 damage');
             expect(this.player1).toHavePromptButton('Move Chan’s Blaster');
             this.player1.clickPrompt('Move Chan’s Blaster');
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('fight ability should default to deal damage when officer is not in play', function () {

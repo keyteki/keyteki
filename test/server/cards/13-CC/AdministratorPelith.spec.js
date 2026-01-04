@@ -27,13 +27,13 @@ describe('Administrator Pelith', function () {
             this.player1.clickPrompt('Right');
             expect(this.barristerJoya.neighbors).toContain(this.troll);
             expect(this.barristerJoya.neighbors).toContain(this.blypyp);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should be optional', function () {
             this.player1.reap(this.administratorPelith);
             this.player1.clickPrompt('Done');
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

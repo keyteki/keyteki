@@ -20,7 +20,7 @@ describe('Terrance Surefoot', function () {
             expect(this.player1.amber).toBe(8);
             expect(this.player2.amber).toBe(4);
             expect(this.terranceSurefoot.amber).toBe(1);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
         it('captures one on play', function () {
             this.player1.moveCard(this.terranceSurefoot, 'hand');
@@ -28,7 +28,7 @@ describe('Terrance Surefoot', function () {
             expect(this.player1.amber).toBe(7);
             expect(this.player2.amber).toBe(4);
             expect(this.terranceSurefoot.amber).toBe(1);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
         it('moves one aember to the common supply on opponent reap', function () {
             this.terranceSurefoot.tokens.amber = 1;
@@ -37,7 +37,7 @@ describe('Terrance Surefoot', function () {
             this.player2.reap(this.kelpminder);
             expect(this.player2.amber).toBe(6);
             expect(this.terranceSurefoot.amber).toBe(0);
-            this.expectReadyToTakeAction(this.player2);
+            expect(this.player2).isReadyToTakeAction();
         });
     });
 });

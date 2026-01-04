@@ -24,7 +24,7 @@ describe('Further Testing Needed', function () {
             this.player1.clickCard(this.troll);
             expect(this.troll.location).toBe('archives');
             expect(this.player1.archives).toContain(this.troll);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should archive a friendly opponent-owned creature when played', function () {
@@ -35,7 +35,7 @@ describe('Further Testing Needed', function () {
             this.player1.clickCard(this.dustPixie);
             expect(this.dustPixie.location).toBe('archives');
             expect(this.player2.archives).toContain(this.dustPixie);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

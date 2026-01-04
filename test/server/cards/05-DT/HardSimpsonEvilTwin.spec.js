@@ -18,7 +18,7 @@ describe("Hard Simpson Evil Twin's ability", function () {
 
         it('should not capture amber', function () {
             this.player1.reap(this.hardSimpsonEvilTwin);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         describe('when tide is low', function () {
@@ -28,7 +28,7 @@ describe("Hard Simpson Evil Twin's ability", function () {
 
             it('should not capture amber', function () {
                 this.player1.reap(this.hardSimpsonEvilTwin);
-                this.expectReadyToTakeAction(this.player1);
+                expect(this.player1).isReadyToTakeAction();
             });
         });
 
@@ -46,7 +46,7 @@ describe("Hard Simpson Evil Twin's ability", function () {
                 expect(this.lamindra.amber).toBe(0);
                 expect(this.player1.amber).toBe(5);
                 expect(this.player2.amber).toBe(2);
-                this.expectReadyToTakeAction(this.player1);
+                expect(this.player1).isReadyToTakeAction();
             });
 
             it('should capture amber on friendly creature', function () {
@@ -58,7 +58,7 @@ describe("Hard Simpson Evil Twin's ability", function () {
                 expect(this.shooler.amber).toBe(1);
                 expect(this.player1.amber).toBe(4);
                 expect(this.player2.amber).toBe(3);
-                this.expectReadyToTakeAction(this.player1);
+                expect(this.player1).isReadyToTakeAction();
             });
         });
     });

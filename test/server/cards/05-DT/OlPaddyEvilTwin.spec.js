@@ -25,7 +25,7 @@ describe("Ol' Paddy Evil Twin", function () {
                 });
 
                 it('should not prompt to destroy any card', function () {
-                    this.expectReadyToTakeAction(this.player1);
+                    expect(this.player1).isReadyToTakeAction();
                 });
             });
 
@@ -36,7 +36,7 @@ describe("Ol' Paddy Evil Twin", function () {
                 });
 
                 it('should not prompt to destroy any card', function () {
-                    this.expectReadyToTakeAction(this.player1);
+                    expect(this.player1).isReadyToTakeAction();
                 });
             });
         });
@@ -64,7 +64,7 @@ describe("Ol' Paddy Evil Twin", function () {
                     expect(this.player1).not.toBeAbleToSelect(this.senatorShrix);
                     this.player1.clickCard(this.murmook);
                     expect(this.murmook.location).toBe('discard');
-                    this.expectReadyToTakeAction(this.player1);
+                    expect(this.player1).isReadyToTakeAction();
                 });
             });
 
@@ -86,7 +86,7 @@ describe("Ol' Paddy Evil Twin", function () {
                     expect(this.player1).not.toBeAbleToSelect(this.senatorShrix);
                     this.player1.clickCard(this.murmook);
                     expect(this.murmook.location).toBe('discard');
-                    this.expectReadyToTakeAction(this.player1);
+                    expect(this.player1).isReadyToTakeAction();
                 });
             });
         });
@@ -107,7 +107,7 @@ describe("Ol' Paddy Evil Twin", function () {
                 });
 
                 it('should not prompt to destroy any card', function () {
-                    this.expectReadyToTakeAction(this.player1);
+                    expect(this.player1).isReadyToTakeAction();
                 });
             });
 
@@ -122,7 +122,7 @@ describe("Ol' Paddy Evil Twin", function () {
                 });
 
                 it('should not prompt to destroy any card', function () {
-                    this.expectReadyToTakeAction(this.player1);
+                    expect(this.player1).isReadyToTakeAction();
                 });
             });
         });
@@ -156,7 +156,7 @@ describe("Ol' Paddy Evil Twin", function () {
                     expect(this.player1).not.toBeAbleToSelect(this.senatorShrix);
                     this.player1.clickCard(this.chainGang);
                     expect(this.chainGang.location).toBe('discard');
-                    this.expectReadyToTakeAction(this.player1);
+                    expect(this.player1).isReadyToTakeAction();
                 });
             });
 

@@ -25,7 +25,7 @@ describe('Permanent Record', function () {
             expect(this.gemcoatVendor.exhausted).toBe(false);
             expect(this.player1.amber).toBe(3);
             expect(this.player2.amber).toBe(1);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('does nothing if you choose an exhausted creature', function () {
@@ -39,7 +39,7 @@ describe('Permanent Record', function () {
             expect(this.gemcoatVendor.exhausted).toBe(true);
             expect(this.player1.amber).toBe(2);
             expect(this.player2.amber).toBe(3);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('does nothing with no friendly creatures', function () {
@@ -48,7 +48,7 @@ describe('Permanent Record', function () {
             this.player1.play(this.permanentRecord);
             expect(this.player1.amber).toBe(1);
             expect(this.player2.amber).toBe(3);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

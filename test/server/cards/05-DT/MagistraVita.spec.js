@@ -29,7 +29,7 @@ describe('Magistra Vita', function () {
             this.player1.clickCard(this.shooler);
             expect(this.player1.amber).toBe(5);
             expect(this.shooler.tokens.amber).toBe(1);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 
@@ -58,7 +58,7 @@ describe('Magistra Vita', function () {
             this.player1.clickCard(this.shooler);
             expect(this.player1.amber).toBe(6);
             expect(this.shooler.tokens.amber).toBe(1);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

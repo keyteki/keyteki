@@ -16,7 +16,7 @@ describe('Fertility Chant', function () {
             this.player1.play(this.fertilityChant);
             expect(this.player1.amber).toBe(4);
             expect(this.player2.amber).toBe(2);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

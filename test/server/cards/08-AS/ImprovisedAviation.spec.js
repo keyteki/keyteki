@@ -26,7 +26,7 @@ describe('Improvised Aviation', function () {
             expect(this.troll.exhausted).toBe(false);
             this.player1.playCreature(this.krump);
             expect(this.krump.exhausted).toBe(true);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('gives a fight ability to shuffle an artifact', function () {
@@ -37,7 +37,7 @@ describe('Improvised Aviation', function () {
 
             // No fight effect until a creature is played.
             this.player1.fightWith(this.gangerChieftain, this.urchin);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
 
             this.player1.playCreature(this.troll);
             this.player1.fightWith(this.troll, this.lamindra);
@@ -62,7 +62,7 @@ describe('Improvised Aviation', function () {
 
             // No fight effects for other creatures after it's played..
             this.player1.fightWith(this.shockHerder, this.harmonia);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
 
             this.player1.endTurn();
             this.player2.clickPrompt('untamed');
@@ -71,7 +71,7 @@ describe('Improvised Aviation', function () {
 
             // No more fight effect.
             this.player1.fightWith(this.troll, this.lamindra);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

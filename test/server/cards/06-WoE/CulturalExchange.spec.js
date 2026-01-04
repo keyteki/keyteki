@@ -46,7 +46,7 @@ describe('Cultural Exchange', function () {
             this.player1.clickPrompt('staralliance');
             this.player1.play(this.culturalExchange);
             expect(this.player1.amber).toBe(2);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

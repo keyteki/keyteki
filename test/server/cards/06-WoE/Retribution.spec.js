@@ -26,7 +26,7 @@ describe('Retribution', function () {
         it('should do nothing when opponent does not have more creatures', function () {
             this.player1.play(this.holdfast);
             this.player1.play(this.retribution);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

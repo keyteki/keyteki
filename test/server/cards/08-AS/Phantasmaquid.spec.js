@@ -24,7 +24,7 @@ describe('Phantasmaquid', function () {
             expect(this.player2).toHavePromptButton('Left');
             expect(this.player2).not.toHavePromptButton('Right');
             this.player2.clickPrompt('Left');
-            this.expectReadyToTakeAction(this.player2);
+            expect(this.player2).isReadyToTakeAction();
         });
 
         it('should not prevent opponent from deploying creatures on the right when not on right flank', function () {
@@ -42,7 +42,7 @@ describe('Phantasmaquid', function () {
             expect(this.player2).not.toBeAbleToSelect(this.dustPixie);
             this.player2.clickCard(this.ancientBear);
             this.player2.clickCard(this.ancientBear);
-            this.expectReadyToTakeAction(this.player2);
+            expect(this.player2).isReadyToTakeAction();
         });
 
         it('should not prevent opponent from putting creatures into play on the right flank', function () {
@@ -53,7 +53,7 @@ describe('Phantasmaquid', function () {
             expect(this.player2).toHavePromptButton('Right');
             this.player2.clickPrompt('Right');
             this.player2.clickCard(this.phantasmaquid);
-            this.expectReadyToTakeAction(this.player2);
+            expect(this.player2).isReadyToTakeAction();
         });
 
         it('should prevent opponent from putting creatures into play at all if they have no creatures', function () {
@@ -63,7 +63,7 @@ describe('Phantasmaquid', function () {
             this.player2.clickCard(this.ancientBear);
             expect(this.player2).not.toHavePromptButton('Play this creature');
             this.player2.clickPrompt('Discard this card');
-            this.expectReadyToTakeAction(this.player2);
+            expect(this.player2).isReadyToTakeAction();
         });
 
         it('should be destroyed at end of turn if no creatures in play', function () {

@@ -21,7 +21,7 @@ describe('Fog Murmook', function () {
             this.player2.clickPrompt('untamed');
             this.player2.endTurn();
             this.player1.clickPrompt('untamed');
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should reduce key cost when not on a flank', function () {
@@ -39,7 +39,7 @@ describe('Fog Murmook', function () {
             this.player1.play(this.fogMurmook);
             this.player1.endTurn();
             this.player2.clickPrompt('shadows');
-            this.expectReadyToTakeAction(this.player2);
+            expect(this.player2).isReadyToTakeAction();
         });
 
         it('should reduce opponent key cost when not on a flank', function () {

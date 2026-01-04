@@ -107,7 +107,7 @@ describe('Snag', function () {
             expect(this.player2).not.toHavePromptButton('dis');
             expect(this.player2).not.toHavePromptButton('untamed');
             this.player2.clickPrompt('logos');
-            this.expectReadyToTakeAction(this.player2);
+            expect(this.player2).isReadyToTakeAction();
         });
     });
 });

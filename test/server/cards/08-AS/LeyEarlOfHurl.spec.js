@@ -21,14 +21,14 @@ describe('Ley, Earl of Hurl', function () {
             expect(this.leyEarlOfHurl.exhausted).toBe(true);
             expect(this.leyEarlOfHurl.warded).toBe(true);
             expect(this.player1.player.creaturesInPlay[2]).toBe(this.leyEarlOfHurl);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should do nothing on destroy when on a flank', function () {
             this.player1.moveCard(this.umbra, 'discard');
             this.player1.fightWith(this.leyEarlOfHurl, this.troll);
             expect(this.leyEarlOfHurl.location).toBe('discard');
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should be moved/exhausted/warded/healed by opponent on destroy when not on a flank', function () {
@@ -40,7 +40,7 @@ describe('Ley, Earl of Hurl', function () {
             expect(this.leyEarlOfHurl.exhausted).toBe(true);
             expect(this.leyEarlOfHurl.warded).toBe(true);
             expect(this.player1.player.creaturesInPlay[2]).toBe(this.leyEarlOfHurl);
-            this.expectReadyToTakeAction(this.player2);
+            expect(this.player2).isReadyToTakeAction();
         });
     });
 });

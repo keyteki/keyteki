@@ -16,7 +16,7 @@ describe('Saucer 149', function () {
         it('should exalt 4 times on play', function () {
             this.player1.playCreature(this.saucer149);
             expect(this.saucer149.amber).toBe(4);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should move 2 amber as an action', function () {
@@ -29,7 +29,7 @@ describe('Saucer 149', function () {
             this.player1.clickCard(this.dustPixie);
             expect(this.saucer149.amber).toBe(2);
             expect(this.dustPixie.amber).toBe(2);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should move 1 amber if there is only 1', function () {
@@ -40,7 +40,7 @@ describe('Saucer 149', function () {
             this.player1.clickCard(this.dustPixie);
             expect(this.saucer149.amber).toBe(0);
             expect(this.dustPixie.amber).toBe(1);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

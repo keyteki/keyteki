@@ -20,7 +20,7 @@ describe('Skipper Huko', function () {
             expect(this.troll.amber).toBe(1);
             expect(this.flaxia.amber).toBe(1);
             expect(this.pelf.amber).toBe(0);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should not exalt enemy flank creatures if nothing is captured', function () {
@@ -29,7 +29,7 @@ describe('Skipper Huko', function () {
             expect(this.skipperHukŏ.amber).toBe(0);
             expect(this.troll.amber).toBe(0);
             expect(this.flaxia.amber).toBe(0);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

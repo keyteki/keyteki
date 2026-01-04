@@ -26,7 +26,7 @@ describe('Broken Intent', function () {
             expect(this.yurk.location).toBe('discard');
             expect(this.flaxia.location).toBe('discard');
             expect(this.searine.location).toBe('discard');
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should allow discarding just opponent archives', function () {
@@ -37,7 +37,7 @@ describe('Broken Intent', function () {
             expect(this.player2.player.archives.length).toBe(0);
             expect(this.flaxia.location).toBe('discard');
             expect(this.searine.location).toBe('discard');
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should allow purging an action card from discard', function () {
@@ -50,7 +50,7 @@ describe('Broken Intent', function () {
             this.player1.clickCard(this.anger);
             expect(this.anger.location).toBe('purged');
             expect(this.brokenIntent.location).toBe('discard');
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

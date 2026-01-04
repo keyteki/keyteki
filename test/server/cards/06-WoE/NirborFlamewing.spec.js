@@ -113,7 +113,7 @@ describe('Nirbor Flamewing', function () {
             expect(this.player1.player.creaturesInPlay.length).toBe(5);
 
             this.player1.clickPrompt('brobnar');
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         /**

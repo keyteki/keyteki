@@ -17,18 +17,18 @@ describe('Katha the Wise', function () {
             this.player1.useAction(this.kathaTheWise, true);
             this.player1.playCreature(this.fuzzyGruen);
             expect(this.fuzzyGruen.location).toBe('play area');
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should not allow playing non-Untamed creatures', function () {
             this.player1.useAction(this.kathaTheWise, true);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
             this.player1.clickCard(this.helperBot);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
             this.player1.clickCard(this.lostInTheWoods);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
             this.player1.playCreature(this.eunoia);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

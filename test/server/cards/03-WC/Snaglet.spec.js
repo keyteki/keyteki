@@ -83,7 +83,7 @@ describe('Snaglet', function () {
             this.player2.clickPrompt('brobnar');
             expect(this.player1.amber).toBe(2);
             expect(this.player2.amber).toBe(0);
-            this.expectReadyToTakeAction(this.player2);
+            expect(this.player2).isReadyToTakeAction();
         });
     });
 });

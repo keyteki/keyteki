@@ -19,7 +19,7 @@ describe('Trihard', function () {
             expect(this.player1.discard.length).toBe(0);
             expect(this.player2.hand.length).toBe(5);
             expect(this.player2.discard.length).toBe(2);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

@@ -32,7 +32,7 @@ describe('Winds of Death', function () {
             expect(this.flaxia.location).toBe('discard');
             expect(this.charette.location).toBe('discard');
             expect(this.cpoZytar.location).toBe('discard');
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

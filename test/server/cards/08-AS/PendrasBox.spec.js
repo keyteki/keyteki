@@ -22,7 +22,7 @@ describe("Pendra's Box", function () {
             expect(this.groggins.amber).toBe(1);
             expect(this.groke.amber).toBe(1);
             expect(this.ironyxRebel.amber).toBe(0);
-            this.expectReadyToTakeAction(this.player2);
+            expect(this.player2).isReadyToTakeAction();
         });
     });
 });

@@ -18,7 +18,7 @@ describe('Duskrunner', function () {
             this.player1.reap(this.dodger);
             expect(this.player1.amber).toBe(2);
             expect(this.player2.amber).toBe(1);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

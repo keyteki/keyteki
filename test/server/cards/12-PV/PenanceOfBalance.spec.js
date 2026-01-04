@@ -18,7 +18,7 @@ describe('Penance of Balance', function () {
         it('should not be playable if enemy creatures <= opponent amber', function () {
             this.player2.amber = 4;
             this.player1.play(this.penanceOfBalance);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should destroy X enemy creatures when that option is chosen', function () {
@@ -37,7 +37,7 @@ describe('Penance of Balance', function () {
             expect(this.troll.location).toBe('play area');
             expect(this.helperBot.location).toBe('play area');
             expect(this.player2.amber).toBe(2);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should make opponent lose X amber when that option is chosen', function () {
@@ -45,7 +45,7 @@ describe('Penance of Balance', function () {
             this.player1.clickPrompt('Opponent loses amber');
             expect(this.player2.player.creaturesInPlay.length).toBe(4);
             expect(this.player2.amber).toBe(0);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

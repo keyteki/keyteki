@@ -14,7 +14,7 @@ describe('Giant Sloth', function () {
         it('should be able to use after discarding an Untamed card', function () {
             this.player1.clickCard(this.giantSloth);
             expect(this.player1).not.toHavePromptButton('Reap with this creature');
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
             this.player1.clickCard(this.dustPixie);
             this.player1.clickPrompt('Discard this card');
             this.player1.clickCard(this.giantSloth);
@@ -22,7 +22,7 @@ describe('Giant Sloth', function () {
             expect(this.player1).not.toHavePrompt('Choose a card to play, discard or use');
             this.player1.useAction(this.giantSloth);
             expect(this.player1.amber).toBe(3);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

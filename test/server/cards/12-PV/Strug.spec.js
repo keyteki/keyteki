@@ -40,7 +40,7 @@ describe('Strug', function () {
             this.player2.reap(this.krump);
             expect(this.player2.amber).toBe(3);
             expect(this.strug.location).toBe('discard');
-            this.expectReadyToTakeAction(this.player2);
+            expect(this.player2).isReadyToTakeAction();
         });
     });
 });

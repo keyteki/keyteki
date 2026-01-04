@@ -43,7 +43,7 @@ describe('Eater of the Dead', function () {
         it('should not trigger when there are no creatures in discard', function () {
             this.player1.moveCard(this.pitlord, 'hand');
             this.player1.reap(this.eaterOfTheDead);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

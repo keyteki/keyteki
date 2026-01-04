@@ -22,7 +22,7 @@ describe('Legate Scipio', function () {
             expect(this.troll.tokens.amber).toBeUndefined();
             expect(this.lamindra.tokens.amber).toBeUndefined();
             expect(this.tricerianLegionary.tokens.amber).toBe(1);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should be optional', function () {
@@ -34,7 +34,7 @@ describe('Legate Scipio', function () {
             expect(this.troll.tokens.amber).toBeUndefined();
             expect(this.lamindra.tokens.amber).toBeUndefined();
             expect(this.tricerianLegionary.tokens.amber).toBeUndefined();
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

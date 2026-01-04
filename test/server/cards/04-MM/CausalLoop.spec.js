@@ -28,7 +28,7 @@ describe('Causal Loop', function () {
             this.player1.play(this.virtuousWorks);
             this.player1.play(this.causalLoop);
 
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
             expect(this.causalLoop.location).toBe('archives');
         });
     });

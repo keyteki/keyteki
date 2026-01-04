@@ -26,7 +26,7 @@ describe('Bellatoran Recruiter', function () {
             this.player1.clickCard(this.krump);
             expect(this.krump.location).toBe('discard');
             expect(this.charette.tokens.damage).toBe(4);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
             this.player1.endTurn();
             expect(this.charette.location).toBe('discard');
         });
@@ -45,7 +45,7 @@ describe('Bellatoran Recruiter', function () {
             this.player1.clickCard(this.krump);
             expect(this.krump.location).toBe('discard');
             expect(this.charette.tokens.damage).toBe(4);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
             this.player1.endTurn();
             expect(this.charette.location).toBe('discard');
         });

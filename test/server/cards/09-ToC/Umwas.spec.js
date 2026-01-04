@@ -30,7 +30,7 @@ describe('Umwas', function () {
             expect(this.dustPixie.getPower()).toBe(1);
             expect(this.umwas.getPower()).toBe(4);
             expect(this.propsector1.getPower()).toBe(1);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

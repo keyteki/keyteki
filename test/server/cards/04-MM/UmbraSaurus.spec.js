@@ -16,7 +16,7 @@ describe('Umbra-Saurus', function () {
             this.player1.play(this.umbraSaurus);
             this.player1.clickPrompt('Done');
             expect(this.umbraSaurus.amber).toBe(0);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should deal 3D if exalted', function () {

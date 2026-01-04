@@ -20,7 +20,7 @@ describe('Governor Gridelk', function () {
             this.player1.clickPrompt('Right');
             expect(this.troll.location).toBe('play area');
             expect(this.troll.controller).toBe(this.player1.player);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should put fought and destroyed creature into play', function () {
@@ -28,13 +28,13 @@ describe('Governor Gridelk', function () {
             this.player1.clickPrompt('Right');
             expect(this.dustPixie.location).toBe('play area');
             expect(this.dustPixie.controller).toBe(this.player1.player);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should do nothing if opponent discard is empty', function () {
             this.player2.player.discard = [];
             this.player1.fightWith(this.governorGridelk, this.urchin);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

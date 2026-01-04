@@ -21,7 +21,7 @@ describe('Special Agent Tnega', function () {
             this.player1.moveCard(this.troll, 'discard');
             this.player1.playCreature(this.number612, true);
             expect(this.specialAgentTnega.power).toBe(6);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

@@ -59,7 +59,7 @@ describe('GenerousOffer,', function () {
         });
 
         it('should do nothing', function () {
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
             expect(this.player1.amber).toBe(1);
             expect(this.player2.amber).toBe(3);
         });

@@ -30,7 +30,7 @@ describe('Weigh the Anchor', function () {
             expect(this.dustPixie.stunned).toBe(true);
             expect(this.lamindra.stunned).toBe(false);
             expect(this.umbra.stunned).toBe(true);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should do nothing if you have more creatures', function () {
@@ -39,7 +39,7 @@ describe('Weigh the Anchor', function () {
             this.player2.moveCard(this.umbra, 'discard');
             this.player1.play(this.weighTheAnchor);
             expect(this.helperBot.stunned).toBe(false);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

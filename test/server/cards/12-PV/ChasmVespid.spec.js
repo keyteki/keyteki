@@ -33,7 +33,7 @@ describe('Chasm Vespid', function () {
             expect(this.charette.location).toBe('play area');
             expect(this.emberImp.location).toBe('play area');
             expect(this.chasmVespid.location).toBe('discard');
-            this.expectReadyToTakeAction(this.player2);
+            expect(this.player2).isReadyToTakeAction();
         });
     });
 });

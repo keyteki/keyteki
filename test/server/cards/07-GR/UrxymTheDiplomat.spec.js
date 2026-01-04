@@ -34,7 +34,7 @@ describe('Urxym the Diplomat', function () {
             expect(this.player1).not.toBeAbleToSelect(this.urxymTheDiplomat);
             this.player1.clickCard(this.thingFromTheDeep);
             expect(this.thingFromTheDeep.location).toBe('discard');
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('stops when out of enemy non-Mars creatures', function () {
@@ -42,7 +42,7 @@ describe('Urxym the Diplomat', function () {
             this.player1.reap(this.urxymTheDiplomat);
             this.player1.clickCard(this.dustPixie);
             expect(this.dustPixie.location).toBe('discard');
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

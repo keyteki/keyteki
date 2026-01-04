@@ -23,7 +23,7 @@ describe('All Hands on Deck', function () {
             expect(this.player1).not.toBeAbleToSelect(this.plowSword);
             this.player1.clickCard(this.troll);
             expect(this.troll.tokens.damage).toBe(3);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('destroys a creature if haunted', function () {
@@ -35,7 +35,7 @@ describe('All Hands on Deck', function () {
             expect(this.player1).not.toBeAbleToSelect(this.plowSword);
             this.player1.clickCard(this.troll);
             expect(this.troll.location).toBe('discard');
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

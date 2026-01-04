@@ -17,7 +17,7 @@ describe('Cmd. Prompt', function () {
             this.player1.reap(this.cmdPrompt);
             this.player1.playCreature(this.umbra);
             this.player1.clickCard(this.lamindra);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

@@ -19,7 +19,7 @@ describe('Helper Bot', function () {
             this.player1.clickPrompt('Play this action');
             expect(this.player1.amber).toBe(3);
             this.player1.clickCard(this.punch);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should stack', function () {
@@ -39,7 +39,7 @@ describe('Helper Bot', function () {
             this.player2.endTurn();
             this.player1.clickPrompt('logos');
             this.player1.clickCard(this.virtuousWorks);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
             expect(this.player1.amber).toBe(0);
         });
 

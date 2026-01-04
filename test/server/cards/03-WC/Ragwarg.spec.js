@@ -84,7 +84,7 @@ describe('Ragwarg', function () {
             expect(this.brillixPonder.tokens.damage).toBe(2); // Reaped first and damaged by Ragwarg
             expect(this.daughter.location).toBe('play area'); // Reaped second and not damaged by Ragwarg
             expect(this.daughter.tokens.damage).toBe(undefined);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

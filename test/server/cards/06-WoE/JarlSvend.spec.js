@@ -45,7 +45,7 @@ describe('Jarl Svend', function () {
             expect(this.jarlSvend.location).toBe('discard');
             expect(this.earthshaker.location).toBe('discard');
             expect(this.player1.player.creaturesInPlay.length).toBe(0);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should make a token creature when destroying a token creature', function () {

@@ -24,7 +24,7 @@ describe('Red Skies', function () {
             this.player1.clickPrompt('Right');
             expect(this.player1.player.creaturesInPlay[2]).toBe(this.bosunCreen);
             expect(this.bosunCreen.exhausted).toBe(false);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should repeat if your red key is forged', function () {
@@ -41,7 +41,7 @@ describe('Red Skies', function () {
             this.player1.clickPrompt('Left');
             expect(this.player1.player.creaturesInPlay[0]).toBe(this.leyEarlOfHurl);
             expect(this.leyEarlOfHurl.exhausted).toBe(false);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should repeat if opponent red key is forged', function () {
@@ -58,7 +58,7 @@ describe('Red Skies', function () {
             this.player1.clickPrompt('Left');
             expect(this.player1.player.creaturesInPlay[0]).toBe(this.leyEarlOfHurl);
             expect(this.leyEarlOfHurl.exhausted).toBe(false);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

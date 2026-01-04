@@ -23,7 +23,7 @@ describe('CWO Tucheay', function () {
             this.player1.clickPrompt('Reap with this creature');
             expect(this.krump.tokens.damage).toBeUndefined();
             expect(this.krump.exhausted).toBe(true);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should fully heal and use a friendly creature when reaping', function () {
@@ -37,7 +37,7 @@ describe('CWO Tucheay', function () {
             this.player1.clickPrompt('Reap with this creature');
             expect(this.emberImp.tokens.damage).toBeUndefined();
             expect(this.emberImp.exhausted).toBe(true);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

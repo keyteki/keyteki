@@ -35,7 +35,7 @@ describe('Chonk Evermore', function () {
             expect(this.krump.tokens.power).toBe(2);
             expect(this.troll.tokens.power).toBe(4);
             expect(this.cpoZytar.tokens.power).toBeUndefined();
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should give each enemy creature two power counters when fate is triggered', function () {
@@ -48,7 +48,7 @@ describe('Chonk Evermore', function () {
             expect(this.krump.tokens.power).toBeUndefined();
             expect(this.cpoZytar.tokens.power).toBeUndefined();
             expect(this.chonkEvermore.location).toBe('discard');
-            this.expectReadyToTakeAction(this.player2);
+            expect(this.player2).isReadyToTakeAction();
         });
     });
 });

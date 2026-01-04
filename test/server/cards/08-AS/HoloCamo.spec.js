@@ -21,14 +21,14 @@ describe('Holo Camo', function () {
             this.player1.clickPrompt('Done');
             expect(this.helperBot.tokens.damage).toBe(undefined);
             expect(this.helperBot.location).toBe('play area');
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should not affect an exhausted creature', function () {
             this.player1.playUpgrade(this.holoCamo, this.helperBot);
             this.player1.fightWith(this.helperBot, this.troll);
             expect(this.helperBot.location).toBe('discard');
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

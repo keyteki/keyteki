@@ -91,7 +91,7 @@ describe('Mimicry', function () {
             expect(this.player2.amber).toBe(5);
             expect(this.mimicry.location).toBe('hand');
             expect(this.swindle.location).toBe('discard');
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 

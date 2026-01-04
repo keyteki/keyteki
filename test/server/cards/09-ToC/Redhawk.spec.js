@@ -23,7 +23,7 @@ describe('Redhawk', function () {
             expect(this.player2.amber).toBe(4);
             expect(this.player1.player.creaturesInPlay.length).toBe(2);
             expect(this.wrangler1.location).toBe('play area');
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

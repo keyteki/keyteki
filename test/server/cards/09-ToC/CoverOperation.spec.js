@@ -20,7 +20,7 @@ describe('Cover Operation', function () {
             this.player1.play(this.coverOperation);
             expect(this.stooge1.location).toBe('play area');
             expect(this.stooge1.exhausted).toBe(false);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

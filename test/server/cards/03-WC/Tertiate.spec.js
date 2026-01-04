@@ -25,7 +25,7 @@ describe('Tertiate', function () {
         it('should only gain the card amber', function () {
             this.player1.play(this.tertiate);
 
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
             expect(this.player1.amber).toBe(1);
         });
     });
@@ -59,7 +59,7 @@ describe('Tertiate', function () {
 
             expect(this.player1).toHavePrompt('Choose a creature');
             this.player1.clickCard(this.skullion);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
             expect(this.skullion.location).toBe('discard');
         });
     });

@@ -17,10 +17,10 @@ describe('Mothership Support', function () {
             this.player1.fightWith(this.mindwarper, this.troll);
             this.player1.fightWith(this.johnSmyth, this.troll);
             this.player1.fightWith(this.ulyqMegamouth, this.bumpsy);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
             this.player1.play(this.mothershipSupport);
             expect(this.mothershipSupport.location).toBe('discard');
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should trigger and deal damage for each ready mars creature', function () {
@@ -48,7 +48,7 @@ describe('Mothership Support', function () {
             this.player1.clickCard(this.troll);
             expect(this.troll.tokens.damage).toBe(4);
             expect(this.mindwarper.location).toBe('discard');
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

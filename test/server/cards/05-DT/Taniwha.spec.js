@@ -25,7 +25,7 @@ describe('Taniwha', function () {
             expect(this.shooler.location).toBe('discard');
             expect(this.player1.amber).toBe(5);
             expect(this.player2.amber).toBe(4);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should destroy a friendly creature and gain 1A after reap', function () {
@@ -39,7 +39,7 @@ describe('Taniwha', function () {
             expect(this.shooler.location).toBe('discard');
             expect(this.player1.amber).toBe(6);
             expect(this.player2.amber).toBe(4);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

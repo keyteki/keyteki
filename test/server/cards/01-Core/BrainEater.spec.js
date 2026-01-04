@@ -92,7 +92,7 @@ describe('Brain Eater', function () {
             this.player1.moveCard(this.bullWark, 'discard');
             let handSize = this.player1.hand.length;
             this.player1.fightWith(this.brainEater, this.darkMinion);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
             expect(this.darkMinion.location).toBe('discard');
             expect(this.brainEater.tokens.damage).toBe(2);
             expect(this.player1.hand.length).toBe(handSize + 1);

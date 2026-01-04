@@ -23,7 +23,7 @@ describe('Scaethe', function () {
             expect(this.player1).not.toBeAbleToSelect(this.scaethe);
             this.player1.clickCard(this.shockHerder);
             expect(this.shockHerder.location).toBe('discard');
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

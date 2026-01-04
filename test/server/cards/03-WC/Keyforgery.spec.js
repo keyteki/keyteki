@@ -60,7 +60,7 @@ describe('Keyforgery', function () {
             this.player1.clickPrompt('red');
             expect(this.player2.player.getForgedKeys()).toBe(1);
             expect(this.keyforgery.location).toBe('play area');
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 

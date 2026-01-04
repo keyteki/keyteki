@@ -17,7 +17,7 @@ describe('Island of Misfit Toys', function () {
             expect(this.aStrongFeeling.location).toBe('hand');
             expect(this.echofly.location).toBe('hand');
             expect(this.islandOfMisfitToys.location).toBe('purged');
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

@@ -60,7 +60,7 @@ describe('Forge Ahead With Confidence', function () {
             this.player2.clickPrompt('Red');
             expect(this.player1.getForgedKeys()).toBe(1);
             expect(this.parasiticArachnoid.location).toBe('under');
-            this.expectReadyToTakeAction(this.player2);
+            expect(this.player2).isReadyToTakeAction();
         });
     });
 });

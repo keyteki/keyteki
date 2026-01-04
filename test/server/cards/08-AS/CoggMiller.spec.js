@@ -25,7 +25,7 @@ describe('Cogg Miller', function () {
             expect(this.player2.player.hand.length).toBe(2);
             expect(this.player1.player.archives.length).toBe(0);
             expect(this.player2.player.archives.length).toBe(0);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('allows destroying an enemy artifact and archiving a card of theirs', function () {
@@ -43,7 +43,7 @@ describe('Cogg Miller', function () {
                 expect(this.wayOfTheWolf.location).toBe('hand');
                 expect(this.theCircleOfLife.location).toBe('archives');
             }
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('allows destroying an enemy artifact and archiving a card of theirs', function () {
@@ -61,7 +61,7 @@ describe('Cogg Miller', function () {
                 expect(this.gub.location).toBe('hand');
                 expect(this.markOfDis.location).toBe('archives');
             }
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

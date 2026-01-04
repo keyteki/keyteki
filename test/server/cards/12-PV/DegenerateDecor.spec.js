@@ -25,7 +25,7 @@ describe('Degenerate Decor', function () {
             this.player1.clickCard(this.krump);
             expect(this.krump.tokens.amber).toBe(3);
             expect(this.angwish.tokens.amber).toBeUndefined();
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should make the most powerful friendly creature capture 3 amber', function () {
@@ -39,7 +39,7 @@ describe('Degenerate Decor', function () {
             expect(this.raidingKnight.tokens.amber).toBe(3);
             expect(this.krump.tokens.amber).toBeUndefined();
             expect(this.player2.amber).toBe(1);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

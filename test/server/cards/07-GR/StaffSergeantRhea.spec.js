@@ -19,9 +19,9 @@ describe('Staff Sergeant Rhea', function () {
             this.player1.reap(this.charette);
             expect(this.player1.amber).toBe(2);
             this.player1.clickCard(this.gub);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
             this.player1.reap(this.cpoZytar);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('can still use neighbors as their original house', function () {
@@ -29,7 +29,7 @@ describe('Staff Sergeant Rhea', function () {
             this.player1.endTurn();
             this.player2.clickPrompt('staralliance');
             this.player2.clickCard(this.charette);
-            this.expectReadyToTakeAction(this.player2);
+            expect(this.player2).isReadyToTakeAction();
             this.player2.endTurn();
             this.player1.clickPrompt('dis');
             this.player1.reap(this.charette);
@@ -40,7 +40,7 @@ describe('Staff Sergeant Rhea', function () {
             this.player1.clickCard(this.charette);
             this.player1.clickPrompt('Reap with this creature');
             expect(this.player1.amber).toBe(2);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
             expect(this.staffSergeantRhea.location).toBe('discard');
         });
     });

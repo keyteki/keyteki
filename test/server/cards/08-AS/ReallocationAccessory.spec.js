@@ -31,7 +31,7 @@ describe('Reallocation Accessory', function () {
             this.player1.clickCard(this.huntingWitch);
             expect(this.troll.tokens.damage).toBe(1);
             expect(this.huntingWitch.tokens.damage).toBe(1);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should archive a card and deal damage based on opponent archives', function () {
@@ -44,7 +44,7 @@ describe('Reallocation Accessory', function () {
             this.player1.clickCard(this.huntingWitch);
             expect(this.troll.tokens.damage).toBe(2);
             expect(this.huntingWitch.tokens.damage).toBe(1);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

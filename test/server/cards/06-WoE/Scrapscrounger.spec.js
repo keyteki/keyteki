@@ -28,13 +28,13 @@ describe('Scrapscrounger', function () {
         it('fizzles with no discarded artifact', function () {
             this.lifeward.location = 'deck';
             this.player1.reap(this.scrapscrounger);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('fizzles with empty hand', function () {
             this.player1.hand = [];
             this.player1.reap(this.scrapscrounger);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

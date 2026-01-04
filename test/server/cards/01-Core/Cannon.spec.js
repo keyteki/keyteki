@@ -16,7 +16,7 @@ describe('Cannon', function () {
             this.player1.useAction(this.cannon);
             this.player1.clickCard(this.dodger);
             expect(this.dodger.tokens.damage).toBe(2);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

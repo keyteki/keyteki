@@ -40,7 +40,7 @@ describe("Dodger's 10", function () {
             this.player1.playCreature(this.dodgerS10);
             expect(this.player1.amber).toBe(6);
             expect(this.player2.amber).toBe(6);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should be able to steal half opponent amber on reap', function () {
@@ -51,7 +51,7 @@ describe("Dodger's 10", function () {
             this.player1.reap(this.dodgerS10);
             expect(this.player1.amber).toBe(6);
             expect(this.player2.amber).toBe(4);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should be able to steal half opponent amber on fight', function () {
@@ -62,7 +62,7 @@ describe("Dodger's 10", function () {
             this.player1.fightWith(this.dodgerS10, this.lamindra);
             expect(this.player1.amber).toBe(5);
             expect(this.player2.amber).toBe(4);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

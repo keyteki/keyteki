@@ -28,7 +28,7 @@ describe('Plan 10', function () {
             expect(this.johnSmyth.location).toBe('play area');
             expect(this.ironyxRebel.location).toBe('play area');
             expect(this.plan10.childCards.length).toBe(3);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('triggers leave play effects', function () {

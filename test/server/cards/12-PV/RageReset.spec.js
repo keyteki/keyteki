@@ -41,7 +41,7 @@ describe('Rage Reset', function () {
             expect(this.troll.location).toBe('discard');
             expect(this.dextre.location).toBe('play area');
             expect(this.player1.player.hand.length).toBe(4); // Drew 2 cards
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should not draw for warded creatures', function () {
@@ -55,7 +55,7 @@ describe('Rage Reset', function () {
             expect(this.troll.warded).toBe(false);
             expect(this.dextre.location).toBe('play area');
             expect(this.player1.player.hand.length).toBe(3); // Drew 1 card
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should allow destroying no creatures', function () {
@@ -65,7 +65,7 @@ describe('Rage Reset', function () {
             expect(this.troll.location).toBe('play area');
             expect(this.krump.location).toBe('play area');
             expect(this.player1.player.hand.length).toBe(2); // No cards drawn
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should discard half of hand when fate is triggered', function () {
@@ -76,7 +76,7 @@ describe('Rage Reset', function () {
             expect(this.player2.player.hand.length).toBe(3); // Discarded 2 cards (half of 5 rounded down)
             expect(this.rageReset.location).toBe('discard');
             expect(this.player2.player.discard.length).toBe(2);
-            this.expectReadyToTakeAction(this.player2);
+            expect(this.player2).isReadyToTakeAction();
         });
     });
 });

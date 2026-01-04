@@ -51,7 +51,7 @@ describe('Duma The Martyr', function () {
             this.player1.endTurn();
             this.player2.clickPrompt('mars');
             this.player2.play(this.ammoniaClouds);
-            this.expectReadyToTakeAction(this.player2);
+            expect(this.player2).isReadyToTakeAction();
             expect(this.dumaTheMartyr.location).toBe('discard');
             expect(this.theGreyRider.location).toBe('discard');
             expect(this.sequis.tokens.damage).toBeUndefined();

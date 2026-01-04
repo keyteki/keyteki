@@ -80,7 +80,7 @@ describe('Midyear Festivities', function () {
             expect(this.ironyxRebel.location).toBe('play area');
             expect(this.mindwarper.location).toBe('play area');
 
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('can destroy fewer than 9 creatures', function () {
@@ -112,7 +112,7 @@ describe('Midyear Festivities', function () {
             expect(this.dustPixie.location).toBe('discard');
             expect(this.huntingWitch.location).toBe('discard');
 
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

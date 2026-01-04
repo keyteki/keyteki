@@ -38,7 +38,7 @@ describe('Azure Basin Outpost', function () {
             this.player1.fightWith(this.kaupe, this.gatekeeper);
             this.player1.fightWith(this.hookmaster, this.gatekeeper);
             this.player1.useAction(this.azureBasinOutpost);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

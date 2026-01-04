@@ -28,7 +28,7 @@ describe('Bog Spitter', function () {
             this.player1.clickPrompt("Opponent's");
             expect(this.mindBarb.location).toBe('discard');
             expect(this.poke.location).toBe('hand');
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('can discard controller card on fight', function () {
@@ -41,14 +41,14 @@ describe('Bog Spitter', function () {
             this.player1.clickPrompt('Mine');
             expect(this.poke.location).toBe('discard');
             expect(this.mindBarb.location).toBe('hand');
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('can steal 1 on scrap', function () {
             this.player1.scrap(this.bogSpitter);
             expect(this.player1.amber).toBe(2);
             expect(this.player2.amber).toBe(5);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('cannot steal 1 on scrap if opponent has less than 6', function () {
@@ -58,7 +58,7 @@ describe('Bog Spitter', function () {
             this.player1.scrap(this.bogSpitter);
             expect(this.player1.amber).toBe(2);
             expect(this.player2.amber).toBe(5);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

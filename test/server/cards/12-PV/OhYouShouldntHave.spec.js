@@ -29,7 +29,7 @@ describe("Oh You Shouldn't Have", function () {
             expect(this.player1.amber).toBe(4);
             expect(this.player2.amber).toBe(5);
             expect(this.ohYouShouldnTHave.location).toBe('discard');
-            this.expectReadyToTakeAction(this.player2);
+            expect(this.player2).isReadyToTakeAction();
         });
     });
 });

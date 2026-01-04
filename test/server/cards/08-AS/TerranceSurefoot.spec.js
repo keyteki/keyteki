@@ -36,7 +36,7 @@ describe('Terrance Surefoot', function () {
             expect(this.terranceSurefoot.tokens.amber).toBe(undefined);
             expect(this.player1.amber).toBe(7);
             expect(this.player2.amber).toBe(5);
-            this.expectReadyToTakeAction(this.player2);
+            expect(this.player2).isReadyToTakeAction();
         });
 
         it('does not remove 1 when friendly creature reaps', function () {
@@ -44,7 +44,7 @@ describe('Terrance Surefoot', function () {
             expect(this.terranceSurefoot.tokens.amber).toBe(1);
             expect(this.player1.amber).toBe(8);
             expect(this.player2.amber).toBe(4);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

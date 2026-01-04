@@ -49,7 +49,7 @@ describe('Lateral Shift', function () {
             expect(this.player2.player.cardsInPlay).not.toContain(this.shooler);
             expect(this.player1.amber).toBe(3);
             expect(this.player2.amber).toBe(5);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it("should be able to play an artifact from opponent's hand", function () {
@@ -59,7 +59,7 @@ describe('Lateral Shift', function () {
             expect(this.gormOfOmm.location).toBe('play area');
             expect(this.player1.player.cardsInPlay).toContain(this.gormOfOmm);
             expect(this.player2.player.cardsInPlay).not.toContain(this.gormOfOmm);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it("should be able to play an action from opponent's hand", function () {
@@ -70,7 +70,7 @@ describe('Lateral Shift', function () {
             expect(this.lateralShift.location).toBe('discard');
             expect(this.player1.player.discard).not.toContain(this.virtuousWorks);
             expect(this.player2.player.discard).toContain(this.virtuousWorks);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should not be able to play an upgrade since there is no creature in play', function () {
@@ -90,7 +90,7 @@ describe('Lateral Shift', function () {
             this.player1.clickCard(this.armageddonCloak);
             this.player1.clickCard(this.troll);
             expect(this.armageddonCloak.controller).toBe(this.player1.player);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should not be able to play Collar on opponent creature and take control of it', function () {

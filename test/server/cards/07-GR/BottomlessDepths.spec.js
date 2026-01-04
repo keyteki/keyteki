@@ -21,7 +21,7 @@ describe('Bottomless Depths', function () {
             expect(this.bottomlessDepths.childCards.length).toBe(1);
             expect(this.bottomlessDepths.childCards).toContain(this.crushingDeep);
             expect(this.player1.player.discard.length).toBe(0);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('works on opponent turn', function () {
@@ -33,7 +33,7 @@ describe('Bottomless Depths', function () {
             expect(this.bottomlessDepths.childCards.length).toBe(6);
             expect(this.bottomlessDepths.childCards).toContain(this.crushingDeep);
             expect(this.player1.player.discard.length).toBe(0);
-            this.expectReadyToTakeAction(this.player2);
+            expect(this.player2).isReadyToTakeAction();
         });
     });
 });

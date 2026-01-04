@@ -27,7 +27,7 @@ describe('Security Detail', function () {
             expect(this.theOldTinker.amber).toBe(1);
             expect(this.medicIngram.amber).toBe(1);
             expect(this.gemcoatVendor.amber).toBe(0);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('can choose if only one amber', function () {
@@ -45,7 +45,7 @@ describe('Security Detail', function () {
             expect(this.theOldTinker.amber).toBe(0);
             expect(this.medicIngram.amber).toBe(0);
             expect(this.gemcoatVendor.amber).toBe(0);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('can choose if only two amber', function () {
@@ -65,7 +65,7 @@ describe('Security Detail', function () {
             expect(this.theOldTinker.amber).toBe(0);
             expect(this.medicIngram.amber).toBe(1);
             expect(this.gemcoatVendor.amber).toBe(0);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

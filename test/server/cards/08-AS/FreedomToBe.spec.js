@@ -20,7 +20,7 @@ describe('Freedom to Be', function () {
             this.player1.play(this.freedomToBe);
             this.player1.forgeKey('red');
             expect(this.player1.amber).toBe(0);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should forge a key at +3 cost with one Skyborn flank creature', function () {
@@ -29,7 +29,7 @@ describe('Freedom to Be', function () {
             this.player1.play(this.freedomToBe);
             this.player1.forgeKey('red');
             expect(this.player1.amber).toBe(1);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should forge a key at +2 cost with one Skyborn flank creature', function () {
@@ -39,7 +39,7 @@ describe('Freedom to Be', function () {
             this.player1.play(this.freedomToBe);
             this.player1.forgeKey('red');
             expect(this.player1.amber).toBe(2);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should forge a key at +1 cost with three Skyborn flank creatures', function () {
@@ -48,7 +48,7 @@ describe('Freedom to Be', function () {
             this.player1.play(this.freedomToBe);
             this.player1.forgeKey('red');
             expect(this.player1.amber).toBe(3);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

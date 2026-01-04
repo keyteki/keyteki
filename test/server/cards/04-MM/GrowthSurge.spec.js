@@ -15,7 +15,7 @@ describe('Growth Surge', function () {
         it('should not prompt for creature when there are no creatures in play', function () {
             this.player1.play(this.growthSurge);
             expect(this.player1.amber).toBe(1);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 
@@ -42,7 +42,7 @@ describe('Growth Surge', function () {
             expect(this.player1).toBeAbleToSelect(this.troll);
             this.player1.clickCard(this.troll);
             expect(this.troll.tokens.power).toBe(3);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 
@@ -71,7 +71,7 @@ describe('Growth Surge', function () {
             this.player1.clickCard(this.troll);
             expect(this.troll.tokens.power).toBe(3);
             expect(this.krump.tokens.power).toBe(2);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 
@@ -107,7 +107,7 @@ describe('Growth Surge', function () {
             expect(this.krump.tokens.power).toBe(1);
             expect(this.redlock.tokens.power).toBeUndefined();
             expect(this.lamindra.tokens.power).toBeUndefined();
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it("should be able to select the Spectral Tunneler's target and a neighbor with no other neighbor", function () {
@@ -135,7 +135,7 @@ describe('Growth Surge', function () {
             expect(this.krump.tokens.power).toBeUndefined();
             expect(this.redlock.tokens.power).toBeUndefined();
             expect(this.lamindra.tokens.power).toBeUndefined();
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it("should be able to select the Spectral Tunneler's target and a neighbor with another neighbor ", function () {
@@ -163,7 +163,7 @@ describe('Growth Surge', function () {
             expect(this.redlock.tokens.power).toBe(1);
             expect(this.troll.tokens.power).toBeUndefined();
             expect(this.lamindra.tokens.power).toBeUndefined();
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

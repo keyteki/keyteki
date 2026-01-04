@@ -28,7 +28,7 @@ describe('Indignant Tone', function () {
             expect(this.yurk.tokens.enrage).toBeUndefined();
             expect(this.flaxia.tokens.enrage).toBeUndefined();
             expect(this.emberImp.tokens.enrage).toBeUndefined();
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should not enrage neighbors if creature is not destroyed', function () {
@@ -38,7 +38,7 @@ describe('Indignant Tone', function () {
             expect(this.searine.location).toBe('play area');
             expect(this.dustPixie.tokens.enrage).toBeUndefined();
             expect(this.cephaloist.tokens.enrage).toBeUndefined();
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

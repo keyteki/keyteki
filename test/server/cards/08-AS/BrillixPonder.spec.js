@@ -13,7 +13,7 @@ describe('Brillix Ponder', function () {
         it('draws a card on scrap', function () {
             this.player1.scrap(this.brillixPonder);
             expect(this.player1.player.hand.length).toBe(1);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

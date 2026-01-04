@@ -35,7 +35,7 @@ describe("Remmy's Horror", function () {
             expect(this.seekerNeedle.location).toBe('play area');
             expect(this.player2.player.hand.length).toBe(1);
             expect(this.player2.player.purged.length).toBe(1);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should work when there are no artifacts', function () {
@@ -48,7 +48,7 @@ describe("Remmy's Horror", function () {
             expect(this.urchin.location).toBe('play area');
             expect(this.player2.player.hand.length).toBe(1);
             expect(this.player2.player.purged.length).toBe(1);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should work when there are no creatures', function () {
@@ -61,7 +61,7 @@ describe("Remmy's Horror", function () {
             expect(this.ritualOfBalance.location).toBe('play area');
             expect(this.player2.player.hand.length).toBe(1);
             expect(this.player2.player.purged.length).toBe(1);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should work when there is nothing to destroy', function () {
@@ -73,7 +73,7 @@ describe("Remmy's Horror", function () {
             this.player1.play(this.remmySHorror);
             expect(this.player2.player.hand.length).toBe(1);
             expect(this.player2.player.purged.length).toBe(1);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

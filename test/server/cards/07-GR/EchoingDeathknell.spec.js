@@ -21,7 +21,7 @@ describe('Echoing Deathknell', function () {
             expect(this.batdrone.tokens.damage).toBe(1);
             expect(this.briarGrubbling.tokens.damage).toBe(1);
             expect(this.flaxia.tokens.damage).toBe(1);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('repeats one damage as long as something is destroyed', function () {
@@ -32,7 +32,7 @@ describe('Echoing Deathknell', function () {
             expect(this.batdrone.location).toBe('discard');
             expect(this.briarGrubbling.location).toBe('discard');
             expect(this.flaxia.location).toBe('discard');
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('with ward repeats one damage as long as something is destroyed', function () {
@@ -44,7 +44,7 @@ describe('Echoing Deathknell', function () {
             expect(this.batdrone.location).toBe('discard');
             expect(this.briarGrubbling.location).toBe('discard');
             expect(this.flaxia.location).toBe('discard');
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

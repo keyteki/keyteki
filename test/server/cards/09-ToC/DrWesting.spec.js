@@ -22,14 +22,14 @@ describe('Dr. Westing', function () {
             this.player1.reap(this.drWesting);
             this.player1.clickPrompt('Left');
             expect(this.alphaGamma1.location).toBe('play area');
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should not make a token on reap when not on flank', function () {
             this.player1.playCreature(this.helperBot);
             this.player1.reap(this.drWesting);
             expect(this.alphaGamma1.location).toBe('deck');
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

@@ -15,14 +15,14 @@ describe('The Visible Hand', function () {
             this.player1.play(this.theVisibleHand);
             this.player1.clickPrompt('Left');
             expect(this.player1.player.creaturesInPlay.length).toBe(2);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('works with no deck', function () {
             this.player1.player.deck = [];
             this.player1.play(this.theVisibleHand);
             expect(this.player1.player.creaturesInPlay.length).toBe(0);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

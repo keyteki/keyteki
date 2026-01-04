@@ -21,7 +21,7 @@ describe('Signal Faerie', function () {
             this.player1.playCreature(this.signalFaerie);
             this.player1.clickPrompt('Right');
             expect(this.niffleBrute1.location).toBe('play area');
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should make a token creature on reap', function () {
@@ -31,7 +31,7 @@ describe('Signal Faerie', function () {
             this.player1.reap(this.signalFaerie);
             this.player1.clickPrompt('Right');
             expect(this.niffleBrute2.location).toBe('play area');
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

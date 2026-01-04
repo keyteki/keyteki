@@ -16,7 +16,7 @@ describe('Nogi Smartfist', function () {
         it('should draw 2 cards and discard 2 cards when fight', function () {
             this.player1.fightWith(this.nogiSmartfist, this.duskwitch);
             expect(this.player1.player.discard.length).toBe(2);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 
@@ -62,7 +62,7 @@ describe('Nogi Smartfist', function () {
 
             expect(this.player1.player.discard.length).toBe(3);
             expect(this.player1.hand.length).toBe(0);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

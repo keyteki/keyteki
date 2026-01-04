@@ -19,7 +19,7 @@ describe('Trading Frenzy', function () {
             this.player1.play(this.tradingFrenzy);
             this.player1.clickCard(this.pelf);
             this.player1.clickCard(this.bumpsy);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
             expect(this.player1.amber).toBe(2);
             expect(this.player2.amber).toBe(0);
             expect(this.pelf.tokens.amber).toBe(3);

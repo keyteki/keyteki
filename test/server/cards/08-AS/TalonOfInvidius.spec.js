@@ -18,7 +18,7 @@ describe('Talon of Invidius', function () {
         it('should exalt 3 times on play', function () {
             this.player1.playCreature(this.talonOfInvidius, false);
             expect(this.talonOfInvidius.amber).toBe(3);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should move all amber to an enemy creature on destroyed', function () {
@@ -33,7 +33,7 @@ describe('Talon of Invidius', function () {
             this.player1.clickCard(this.dustPixie);
             expect(this.player1.amber).toBe(5);
             expect(this.player2.amber).toBe(1);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

@@ -35,7 +35,7 @@ describe('Ensign Clark', function () {
             expect(this.gauntletOfCommand.location).toBe('discard');
             expect(this.quixxleStone.location).toBe('play area');
             expect(this.ensignClark.location).toBe('discard');
-            this.expectReadyToTakeAction(this.player2);
+            expect(this.player2).isReadyToTakeAction();
         });
     });
 });

@@ -94,7 +94,7 @@ describe('Nerotaurus', function () {
             expect(this.player2).not.toHavePromptButton('Fight with this creature');
             expect(this.player2).toHavePromptButton('Reap with this creature');
             this.player2.clickPrompt('Reap with this creature');
-            this.expectReadyToTakeAction(this.player2);
+            expect(this.player2).isReadyToTakeAction();
         });
     });
 });

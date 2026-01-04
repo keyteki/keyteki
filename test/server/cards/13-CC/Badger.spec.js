@@ -26,14 +26,14 @@ describe('Badger', function () {
             expect(this.player1).not.toBeAbleToSelect(this.badger);
             this.player1.clickCard(this.troll);
             expect(this.troll.tokens.damage).toBe(6);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should not trigger for action cards', function () {
             this.player1.play(this.badger);
             this.player1.clickCard(this.troll);
             this.player1.play(this.rantAndRive);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
             expect(this.troll.tokens.damage).toBe(3);
             expect(this.flaxia.tokens.damage).toBeUndefined();
         });
@@ -48,7 +48,7 @@ describe('Badger', function () {
             this.player1.play(this.culfTheQuiet);
             this.player1.clickCard(this.flaxia);
             expect(this.flaxia.tokens.damage).toBe(3);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should trigger after reaping', function () {
@@ -58,7 +58,7 @@ describe('Badger', function () {
             this.player1.play(this.shorty);
             this.player1.clickCard(this.troll);
             expect(this.troll.tokens.damage).toBe(3);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

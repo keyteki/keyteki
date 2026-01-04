@@ -30,7 +30,7 @@ describe('Infernal Terran', function () {
             expect(this.dewFaerie.location).toBe('discard');
             expect(this.player1.amber).toBe(2);
             expect(this.player2.amber).toBe(3);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should discard a card and steal an amber on reap', function () {
@@ -41,7 +41,7 @@ describe('Infernal Terran', function () {
             this.player1.clickCard(this.dustPixie);
             expect(this.player1.amber).toBe(4);
             expect(this.player2.amber).toBe(2);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should steal an amber when hand is empty', function () {
@@ -52,7 +52,7 @@ describe('Infernal Terran', function () {
             this.player1.playCreature(this.infernalTerran);
             expect(this.player1.amber).toBe(2);
             expect(this.player2.amber).toBe(3);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should discard hand and steal amber on scrap', function () {
@@ -63,7 +63,7 @@ describe('Infernal Terran', function () {
             expect(this.controlTheWeak.location).toBe('discard');
             expect(this.player1.amber).toBe(4);
             expect(this.player2.amber).toBe(1);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should discard hand and steal amber on scrap when there is another scrap ability', function () {
@@ -76,7 +76,7 @@ describe('Infernal Terran', function () {
             expect(this.controlTheWeak.location).toBe('discard');
             expect(this.player1.amber).toBe(4);
             expect(this.player2.amber).toBe(1);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

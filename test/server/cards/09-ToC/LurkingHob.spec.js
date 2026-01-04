@@ -20,7 +20,7 @@ describe('Lurking Hob', function () {
             this.player1.reap(this.lurkingHob);
             this.player1.clickPrompt('Right');
             expect(this.stooge1.location).toBe('play area');
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

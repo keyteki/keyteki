@@ -16,7 +16,7 @@ describe('Commpod', function () {
         it('should allow to select no cards', function () {
             this.player1.useAction(this.commpod);
             this.player1.clickPrompt('Done');
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should allow selecting many cards', function () {
@@ -49,7 +49,7 @@ describe('Commpod', function () {
             this.player1.clickCard(this.blypyp);
             expect(this.blypyp.exhausted).toBe(false);
             this.player1.clickPrompt('Done');
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

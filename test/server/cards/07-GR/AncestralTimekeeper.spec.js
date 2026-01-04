@@ -40,7 +40,7 @@ describe('AncestralTimekeeper', function () {
             this.player1.endTurn();
             expect(this.ancestralTimekeeper.location).toBe('purged');
             this.player1.clickPrompt('geistoid');
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

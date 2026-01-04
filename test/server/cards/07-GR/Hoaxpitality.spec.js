@@ -28,19 +28,19 @@ describe('Hoaxpitality', function () {
             this.player2.endTurn();
             this.player1.clickPrompt('ekwidon');
             expect(this.gemcoatVendor.power).toBe(6);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('does nothing if no friendly creatures', function () {
             this.player1.moveCard(this.gemcoatVendor, 'discard');
             this.player1.play(this.hoaxpitality);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('does nothing if no enemy creatures', function () {
             this.player2.moveCard(this.timetraveller, 'discard');
             this.player1.play(this.hoaxpitality);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

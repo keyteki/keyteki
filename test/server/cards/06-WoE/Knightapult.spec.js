@@ -126,7 +126,7 @@ describe('Knightapult', function () {
 
             it('should place the replacement where Gebuk was, with no prompt', function () {
                 expect(this.player1.inPlay[1]).toBe(this.sequis);
-                this.expectReadyToTakeAction(this.player1);
+                expect(this.player1).isReadyToTakeAction();
                 expect(this.player1).not.toHavePrompt(
                     'Which flank do you want to place this creature on?'
                 );

@@ -19,7 +19,7 @@ describe('Curiosity', function () {
             expect(this.krump.location).toBe('play area');
             expect(this.mother.location).toBe('discard');
             expect(this.dodger.location).toBe('play area');
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

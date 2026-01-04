@@ -18,7 +18,7 @@ describe('Earthshaker', function () {
             expect(this.umbra.location).toBe('discard');
             expect(this.dodger.location).toBe('play area');
             expect(this.krump.location).toBe('play area');
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

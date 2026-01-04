@@ -19,7 +19,7 @@ describe('Lorica Infantry', function () {
             this.player1.clickCard(this.loricaInfantry);
             expect(this.loricaInfantry.tokens.amber).toBe(1);
             expect(this.player2.amber).toBe(2);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should not make opponent lose amber if exalt is declined', function () {
@@ -27,7 +27,7 @@ describe('Lorica Infantry', function () {
             this.player1.clickPrompt('Done');
             expect(this.loricaInfantry.tokens.amber).toBeUndefined();
             expect(this.player2.amber).toBe(4);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

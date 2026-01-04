@@ -24,7 +24,7 @@ describe('Soul Bomb', function () {
             expect(this.flaxia.tokens.damage).toBe(undefined);
             expect(this.mollymawk.tokens.damage).toBe(undefined);
             expect(this.soulBomb.location).toBe('discard');
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('deals 4 damage to each creature if haunted', function () {
@@ -35,7 +35,7 @@ describe('Soul Bomb', function () {
             expect(this.flaxia.location).toBe('discard');
             expect(this.mollymawk.tokens.damage).toBe(4);
             expect(this.soulBomb.location).toBe('discard');
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

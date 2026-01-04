@@ -24,7 +24,7 @@ describe('Glimmerspore', function () {
             this.player1.clickCard(this.ritualOfBalance);
             expect(this.ritualOfBalance.location).toBe('archives');
             expect(this.player1.player.archives).toContain(this.ritualOfBalance);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('can put a friendly artifact into archives', function () {
@@ -32,7 +32,7 @@ describe('Glimmerspore', function () {
             this.player1.clickCard(this.quixxleStone);
             expect(this.quixxleStone.location).toBe('archives');
             expect(this.player1.player.archives).toContain(this.quixxleStone);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('returns enemy artifact to the owner when taking archives', function () {
@@ -46,7 +46,7 @@ describe('Glimmerspore', function () {
             this.player1.clickPrompt('Yes');
             expect(this.ritualOfBalance.location).toBe('hand');
             expect(this.player2.player.hand).toContain(this.ritualOfBalance);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('can put a self-controlled, opponent-owned artifact into archives', function () {
@@ -59,7 +59,7 @@ describe('Glimmerspore', function () {
             this.player1.clickCard(this.curseOfFertility);
             expect(this.curseOfFertility.location).toBe('archives');
             expect(this.player1.player.archives).toContain(this.curseOfFertility);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

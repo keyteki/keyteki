@@ -20,7 +20,7 @@ describe('Darklamp', function () {
             this.player1.playCreature(this.darklamp);
             expect(this.darklamp.amber).toBe(1);
             expect(this.player2.amber).toBe(2);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('makes friendly creatures with amber on them elusive', function () {
@@ -31,7 +31,7 @@ describe('Darklamp', function () {
             expect(this.thingFromTheDeep.tokens.damage).toBe(undefined);
             expect(this.charette.tokens.damage).toBe(undefined);
             expect(this.charette.location).toBe('play area');
-            this.expectReadyToTakeAction(this.player2);
+            expect(this.player2).isReadyToTakeAction();
         });
 
         it('does not affect friendly creatures without amber on them', function () {
@@ -41,7 +41,7 @@ describe('Darklamp', function () {
             this.player2.fightWith(this.thingFromTheDeep, this.echofly);
             expect(this.thingFromTheDeep.tokens.damage).toBe(2);
             expect(this.echofly.location).toBe('discard');
-            this.expectReadyToTakeAction(this.player2);
+            expect(this.player2).isReadyToTakeAction();
         });
 
         it('does not affect enemy creatures', function () {
@@ -50,7 +50,7 @@ describe('Darklamp', function () {
             this.player1.fightWith(this.echofly, this.thingFromTheDeep);
             expect(this.thingFromTheDeep.tokens.damage).toBe(2);
             expect(this.echofly.location).toBe('discard');
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

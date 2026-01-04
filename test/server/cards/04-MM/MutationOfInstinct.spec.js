@@ -75,7 +75,7 @@ describe('Mutation of Instinct', function () {
             this.player1.endTurn();
             this.player1.clickPrompt('untamed');
             expect(this.flaxia.hasTrait('mutant')).toBe(false);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

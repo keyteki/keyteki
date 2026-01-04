@@ -23,7 +23,7 @@ describe('Outflank', function () {
             expect(this.lamindra.hasToken('amber')).toBe(false);
             expect(this.player1.amber).toBe(3);
             expect(this.player2.amber).toBe(2);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

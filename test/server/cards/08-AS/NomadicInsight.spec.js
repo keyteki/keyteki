@@ -22,7 +22,7 @@ describe('Nomadic Insight', function () {
             expect(this.umbra.amber).toBe(1);
             expect(this.troll.amber).toBe(0);
             expect(this.dustPixie.amber).toBe(0);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should allow choosing a friendly flank creature if only 1 amber', function () {
@@ -34,7 +34,7 @@ describe('Nomadic Insight', function () {
             expect(this.umbra.amber).toBe(1);
             expect(this.troll.amber).toBe(0);
             expect(this.dustPixie.amber).toBe(0);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

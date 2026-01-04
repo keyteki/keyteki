@@ -27,7 +27,7 @@ describe('Replay Pod', function () {
             expect(this.replayPod.childCards).toContain(this.blypyp);
             expect(this.pelf.location).toBe('discard');
             expect(this.yxiliMarauder.location).toBe('discard');
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should cause upgrades to fall off', function () {
@@ -37,7 +37,7 @@ describe('Replay Pod', function () {
             this.player1.clickCard(this.johnSmyth);
             expect(this.jammerPack.location).toBe('discard');
             expect(this.jammerPack.parent).toBe(null);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should return cards to hand and purge itself', function () {
@@ -80,7 +80,7 @@ describe('Replay Pod', function () {
             expect(this.replayPod.childCards).toContain(this.blypyp);
             expect(this.pelf.location).toBe('discard');
             expect(this.yxiliMarauder.location).toBe('discard');
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should allow opponent to choose which replay pod to use', function () {
@@ -92,7 +92,7 @@ describe('Replay Pod', function () {
             this.player2.clickCard(this.yxiloBolter);
             this.player2.clickPrompt(this.replayPod.name, 1);
             expect(this.replayPod2.childCards).toContain(this.yxiloBolter);
-            this.expectReadyToTakeAction(this.player2);
+            expect(this.player2).isReadyToTakeAction();
         });
     });
 });

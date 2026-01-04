@@ -22,7 +22,7 @@ describe('Library Access', function () {
             this.player1.clickPrompt('Library Access'); // Draw for Wild Wormhole
             this.player1.clickPrompt('Library Access'); // Draw for Foggify
             expect(this.player1.hand.length).toBe(handSize);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

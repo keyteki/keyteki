@@ -51,7 +51,7 @@ describe('Playing the Grim Reaper:', function () {
         expect(this.player1).toHavePrompt('Choose a friendly creature to purge');
         this.player1.clickCard(this.theGrimReaper);
         expect(this.theGrimReaper.location).toBe('purged');
-        this.expectReadyToTakeAction(this.player1);
+        expect(this.player1).isReadyToTakeAction();
     });
 
     it('should ask to purge a friendly and an enemy creature', function () {
@@ -70,6 +70,6 @@ describe('Playing the Grim Reaper:', function () {
         this.player1.clickCard(this.troll);
         expect(this.groggins.location).toBe('purged');
         expect(this.troll.location).toBe('purged');
-        this.expectReadyToTakeAction(this.player1);
+        expect(this.player1).isReadyToTakeAction();
     });
 });

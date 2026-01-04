@@ -90,7 +90,7 @@ describe('HideawayHole', function () {
             this.player2.clickPrompt('untamed');
             this.player2.fightWith(this.teliga, this.dodger);
             expect(this.dodger.tokens.damage).toBe(3);
-            this.expectReadyToTakeAction(this.player2);
+            expect(this.player2).isReadyToTakeAction();
         });
     });
 });

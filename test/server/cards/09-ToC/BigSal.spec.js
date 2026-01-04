@@ -23,7 +23,7 @@ describe('Big Sal', function () {
             this.player1.clickPrompt('Right');
             expect(this.stooge1.location).toBe('play area');
             expect(this.stooge2.location).toBe('play area');
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

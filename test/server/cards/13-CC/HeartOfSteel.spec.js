@@ -23,7 +23,7 @@ describe('Heart of Steel', function () {
             this.player1.clickCard(this.aeroOFore);
             expect(this.aeroOFore.location).toBe('play area');
             expect(this.player1.player.creaturesInPlay).toContain(this.aeroOFore);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

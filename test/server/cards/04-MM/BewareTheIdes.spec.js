@@ -20,7 +20,7 @@ describe('Beware the Ides', function () {
 
         it('should not prompt for any card if no card is in center of battleline', function () {
             this.player1.play(this.bewareTheIdes);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should allow selecting a friendly card in center of battle line', function () {
@@ -39,7 +39,7 @@ describe('Beware the Ides', function () {
             expect(this.player1).not.toBeAbleToSelect(this.lamindra);
             this.player1.clickCard(this.deusillus);
             expect(this.deusillus.tokens.damage).toBe(23);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should allow selecting an enemy card in center of battle line', function () {
@@ -50,7 +50,7 @@ describe('Beware the Ides', function () {
             expect(this.player1).toBeAbleToSelect(this.troll);
             this.player1.clickCard(this.troll);
             expect(this.troll.location).toBe('discard');
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

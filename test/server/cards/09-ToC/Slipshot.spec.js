@@ -21,7 +21,7 @@ describe('Slipshot', function () {
             this.player1.playCreature(this.slipshot);
             this.player1.clickPrompt('Right');
             expect(this.stooge1.location).toBe('play area');
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should ready when a neighbor is destroyed', function () {
@@ -32,7 +32,7 @@ describe('Slipshot', function () {
             expect(this.stooge1.location).toBe('discard');
             expect(this.slipshot.exhausted).toBe(false);
             this.player1.reap(this.slipshot);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should not ready when a non-neighbor is destroyed', function () {
@@ -41,7 +41,7 @@ describe('Slipshot', function () {
             this.player1.useAction(this.seekerNeedle);
             this.player1.clickCard(this.dustPixie);
             expect(this.slipshot.exhausted).toBe(true);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

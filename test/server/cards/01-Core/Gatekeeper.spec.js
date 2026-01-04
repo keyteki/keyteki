@@ -16,7 +16,7 @@ describe('Gatekeeper', function () {
             this.player1.play(this.gatekeeper);
             expect(this.gatekeeper.amber).toBe(4);
             expect(this.player2.amber).toBe(5);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 
@@ -37,7 +37,7 @@ describe('Gatekeeper', function () {
             this.player1.play(this.gatekeeper);
             expect(this.gatekeeper.amber).toBe(0);
             expect(this.player2.amber).toBe(6);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 
@@ -58,7 +58,7 @@ describe('Gatekeeper', function () {
             this.player1.play(this.gatekeeper);
             expect(this.gatekeeper.amber).toBe(2);
             expect(this.player2.amber).toBe(5);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

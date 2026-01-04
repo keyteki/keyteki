@@ -32,7 +32,7 @@ describe('Fate Laughs at Your Plans', function () {
             expect(this.player2.amber).toBe(2);
             expect(this.yurk.amber).toBe(2);
             expect(this.parasiticArachnoid.location).toBe('discard');
-            this.expectReadyToTakeAction(this.player2);
+            expect(this.player2).isReadyToTakeAction();
         });
 
         it('should not fulfill when player adds archives to hand', function () {
@@ -44,7 +44,7 @@ describe('Fate Laughs at Your Plans', function () {
             this.player1.clickPrompt('dis');
             this.player1.clickPrompt('Yes');
             expect(this.parasiticArachnoid.location).toBe('under');
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

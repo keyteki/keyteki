@@ -29,7 +29,7 @@ describe('Tormented Badge', function () {
             this.player1.clickPrompt('Right');
             expect(this.researchSmoko.controller).toBe(this.player1.player);
             expect(this.player1.player.creaturesInPlay).toContain(this.researchSmoko);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should give control of the most powerful friendly creature to opponent when fate is triggered', function () {
@@ -45,7 +45,7 @@ describe('Tormented Badge', function () {
             this.player2.clickPrompt('Right');
             expect(this.ancientBear.controller).toBe(this.player1.player);
             expect(this.player1.player.creaturesInPlay).toContain(this.ancientBear);
-            this.expectReadyToTakeAction(this.player2);
+            expect(this.player2).isReadyToTakeAction();
         });
     });
 });

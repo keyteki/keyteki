@@ -22,7 +22,7 @@ describe('Thrall', function () {
             this.player1.fightWith(this.thrall, this.troll);
             expect(this.player2.hand.length).toBe(1);
             expect(this.player2.discard.length).toBe(1);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

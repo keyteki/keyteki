@@ -25,7 +25,7 @@ describe('Lash Out', function () {
             expect(this.mollymawk.tokens.damage).toBe(undefined);
             expect(this.flaxia.tokens.damage).toBe(3);
             expect(this.dustPixie.location).toBe('play area');
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('also does 3 splash when haunted', function () {
@@ -35,7 +35,7 @@ describe('Lash Out', function () {
             expect(this.mollymawk.tokens.damage).toBe(3);
             expect(this.flaxia.tokens.damage).toBe(3);
             expect(this.dustPixie.location).toBe('discard');
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

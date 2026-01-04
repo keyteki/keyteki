@@ -61,7 +61,7 @@ describe('Diplo-Macy', function () {
             this.player2.clickPrompt('saurian');
             this.player2.fightWith(this.philophosaurus, this.lamindra);
             expect(this.philophosaurus.amber).toBe(0);
-            this.expectReadyToTakeAction(this.player2);
+            expect(this.player2).isReadyToTakeAction();
         });
     });
 });

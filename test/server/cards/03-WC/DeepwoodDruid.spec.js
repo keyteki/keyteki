@@ -27,7 +27,7 @@ describe('Deepwood Druid', function () {
             expect(this.player1).not.toBeAbleToSelect(this.rustgnawer);
             this.player1.clickCard(this.silvertooth);
             expect(this.silvertooth.tokens.damage).toBe(undefined);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
     describe("Deepwood Druid's ability", function () {
@@ -57,7 +57,7 @@ describe('Deepwood Druid', function () {
             expect(this.player1).not.toBeAbleToSelect(this.brainEater);
             this.player1.clickCard(this.rustgnawer);
             expect(this.rustgnawer.tokens.damage).toBe(undefined);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

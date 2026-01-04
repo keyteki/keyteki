@@ -21,7 +21,7 @@ describe('Singing Scythe', function () {
             this.player1.clickCard(this.singingScythe);
             this.player1.clickPrompt('Return this card to hand');
             expect(this.singingScythe.location).toBe('hand');
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('can not come back to hand when not haunted in main phase', function () {
@@ -29,7 +29,7 @@ describe('Singing Scythe', function () {
             this.player1.scrap(this.singingScythe);
             this.player1.clickCard(this.singingScythe);
             expect(this.singingScythe.location).toBe('discard');
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('allows it to come back to hand when haunted at end of the turn', function () {
@@ -99,13 +99,13 @@ describe('Singing Scythe', function () {
             expect(this.player1).not.toBeAbleToSelect(this.cpoZytar);
             this.player1.clickCard(this.stealthMode);
             expect(this.stealthMode.location).toBe('purged');
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('does nothing when not haunted on reap', function () {
             this.player1.playUpgrade(this.singingScythe, this.echofly);
             this.player1.reap(this.echofly);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('is not affected by rule of 6 when returning to hand', function () {
@@ -114,7 +114,7 @@ describe('Singing Scythe', function () {
                 this.player1.clickCard(this.singingScythe);
                 this.player1.clickPrompt('Return this card to hand');
                 expect(this.singingScythe.location).toBe('hand');
-                this.expectReadyToTakeAction(this.player1);
+                expect(this.player1).isReadyToTakeAction();
             }
         });
     });

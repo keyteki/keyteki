@@ -17,7 +17,7 @@ describe('Transporter Platform', function () {
             this.player1.moveCard(this.medicIngram, 'discard');
             this.player1.moveCard(this.captainValJericho, 'discard');
             this.player1.useAction(this.transporterPlatform);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it("should return creature to owner's hand", function () {
@@ -169,7 +169,7 @@ describe('Transporter Platform', function () {
 
             this.player1.clickPrompt('staralliance');
             this.player1.clickCard(this.transporterPlatform);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

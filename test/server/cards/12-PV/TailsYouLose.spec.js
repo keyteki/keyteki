@@ -31,7 +31,7 @@ describe('Tails, You Lose', function () {
             expect(this.player2.amber).toBe(2);
             expect(this.troll.amber).toBe(2);
             expect(this.parasiticArachnoid.location).toBe('discard');
-            this.expectReadyToTakeAction(this.player2);
+            expect(this.player2).isReadyToTakeAction();
         });
 
         it('should not fulfill when opponent plays a creature adjacent to a creature of the same house', function () {
@@ -41,7 +41,7 @@ describe('Tails, You Lose', function () {
             this.player2.clickPrompt('brobnar');
             this.player2.playCreature(this.troll, true);
             expect(this.parasiticArachnoid.location).toBe('under');
-            this.expectReadyToTakeAction(this.player2);
+            expect(this.player2).isReadyToTakeAction();
         });
 
         it('should allow flipping at the end of your turn', function () {

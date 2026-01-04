@@ -17,7 +17,7 @@ describe('Nantucket', function () {
         it('gain 1A for one Skyborn neighbor on reap', function () {
             this.player1.reap(this.nantucket);
             expect(this.player1.amber).toBe(3);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('gain 2A for two Skyborn neighbors on reap', function () {
@@ -25,13 +25,13 @@ describe('Nantucket', function () {
             this.player1.playCreature(this.bosunCreen);
             this.player1.reap(this.nantucket);
             expect(this.player1.amber).toBe(4);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('gain 1A for one Skyborn neighbor on fight', function () {
             this.player1.fightWith(this.nantucket, this.lamindra);
             expect(this.player1.amber).toBe(2);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

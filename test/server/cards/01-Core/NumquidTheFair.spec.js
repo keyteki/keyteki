@@ -25,7 +25,7 @@ describe('Numquid the Fair', function () {
             this.player1.clickCard(this.umbra);
             expect(this.urchin.location).toBe('discard');
             expect(this.umbra.location).toBe('discard');
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('continue to destroy through warded creatures', function () {
@@ -37,7 +37,7 @@ describe('Numquid the Fair', function () {
             this.player1.clickCard(this.umbra);
             expect(this.urchin.location).toBe('discard');
             expect(this.umbra.location).toBe('discard');
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

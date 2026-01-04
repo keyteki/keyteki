@@ -18,7 +18,7 @@ describe('Jammer Pack', function () {
             expect(this.player2.player.getCurrentKeyCost()).toBe(6);
             this.player1.playUpgrade(this.jammerPack, this.mindwarper);
             expect(this.player2.player.getCurrentKeyCost()).toBe(8);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

@@ -27,7 +27,7 @@ describe('Corrosive Monk', function () {
             this.player2.clickPrompt('sanctum');
             this.player2.playUpgrade(this.protectTheWeak, this.researchSmoko);
             expect(this.researchSmoko.armor).toBe(0);
-            this.expectReadyToTakeAction(this.player2);
+            expect(this.player2).isReadyToTakeAction();
         });
 
         it('should destroy a friendly creature for each enemy Mutant when fate is triggered', function () {
@@ -53,7 +53,7 @@ describe('Corrosive Monk', function () {
             expect(this.dustPixie.location).toBe('play area');
             expect(this.bullWark.location).toBe('play area');
             expect(this.corrosiveMonk.location).toBe('discard');
-            this.expectReadyToTakeAction(this.player2);
+            expect(this.player2).isReadyToTakeAction();
         });
     });
 });

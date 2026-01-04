@@ -23,7 +23,7 @@ describe('De-Doss', function () {
             this.player2.clickCard(this.krump);
             expect(this.player2).not.toHavePromptButton('Play this creature');
             this.player2.clickPrompt('Discard this card');
-            this.expectReadyToTakeAction(this.player2);
+            expect(this.player2).isReadyToTakeAction();
         });
 
         it('does not prevent opponent from playing equal power creatures', function () {
@@ -34,7 +34,7 @@ describe('De-Doss', function () {
             expect(this.player2).not.toHavePromptButton('Play this creature');
             this.player2.clickPrompt('Discard this card');
             this.player2.playCreature(this.harmalAtoon);
-            this.expectReadyToTakeAction(this.player2);
+            expect(this.player2).isReadyToTakeAction();
         });
 
         it('handles changes in power', function () {
@@ -43,7 +43,7 @@ describe('De-Doss', function () {
             this.player2.clickPrompt('brobnar');
             this.player2.playUpgrade(this.bloodOfTitans, this.titanGuardian);
             this.player2.playCreature(this.krump);
-            this.expectReadyToTakeAction(this.player2);
+            expect(this.player2).isReadyToTakeAction();
         });
 
         it('should consider only the power of the parent creature, not the creature putting the other creature into play', function () {
@@ -55,7 +55,7 @@ describe('De-Doss', function () {
             this.player2.clickCard(this.blypyp);
             this.player2.clickPrompt('Right');
             expect(this.blypyp.location).toBe('play area');
-            this.expectReadyToTakeAction(this.player2);
+            expect(this.player2).isReadyToTakeAction();
         });
     });
 
@@ -80,7 +80,7 @@ describe('De-Doss', function () {
             this.player2.clickPrompt('staralliance');
             this.player2.playUpgrade(this.shieldULater, this.cxoTaber);
             expect(this.cxoTaber.upgrades).toContain(this.shieldULater);
-            this.expectReadyToTakeAction(this.player2);
+            expect(this.player2).isReadyToTakeAction();
         });
     });
 });

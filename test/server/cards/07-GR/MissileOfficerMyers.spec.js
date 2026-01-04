@@ -39,7 +39,7 @@ describe('Missile Officer Myers', function () {
 
         it('allow a card from the non-active house to be played on scrap', function () {
             this.player1.scrap(this.missileOfficerMyers);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
 
             this.player1.play(this.exhume);
             this.player1.clickCard(this.gub);
@@ -49,10 +49,10 @@ describe('Missile Officer Myers', function () {
             expect(this.missileOfficerMyers.location).toBe('discard');
             expect(this.exhume.location).toBe('discard');
             expect(this.gub.location).toBe('play area');
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
 
             this.player1.clickCard(this.legerdemain);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

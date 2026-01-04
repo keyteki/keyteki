@@ -30,21 +30,21 @@ describe('Put in a Spin', function () {
 
             this.player1.clickPrompt('saurian');
             expect(this.player1.amber).toBe(4);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('cannot gain amber from incorrect guess', function () {
             this.player1.play(this.putInASpin);
             this.player1.clickPrompt('brobnar');
             expect(this.player1.amber).toBe(0);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('does nothing if no amber to lose', function () {
             this.player1.amber = 0;
             this.player1.play(this.putInASpin);
             expect(this.player1.amber).toBe(0);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

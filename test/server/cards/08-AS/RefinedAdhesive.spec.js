@@ -24,14 +24,14 @@ describe('Refined Adhesive', function () {
             this.player2.scrap(this.huntingWitch);
             expect(this.huntingWitch.location).toBe('under');
             expect(this.flaxia.childCards).toContain(this.huntingWitch);
-            this.expectReadyToTakeAction(this.player2);
+            expect(this.player2).isReadyToTakeAction();
         });
 
         it('should stop scrap effects', function () {
             this.player1.playUpgrade(this.refinedAdhesive, this.flaxia);
             this.player1.scrap(this.buxBastian);
             expect(this.troll.amber).toBe(0);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

@@ -19,14 +19,14 @@ describe('Haunted House', function () {
         it('does nothing on omni if not haunted', function () {
             this.player1.useAction(this.hauntedHouse, true);
             expect(this.player1.amber).toBe(1);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('gains 1 amber on omni if haunted', function () {
             this.player1.play(this.aStrongFeeling);
             this.player1.useAction(this.hauntedHouse, true);
             expect(this.player1.amber).toBe(2);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('discards the top card of players deck if not haunted at start of turn', function () {

@@ -17,7 +17,7 @@ describe('Monument to Primus', function () {
 
         it('should not prompt for any creature, since no other creatures in play', function () {
             this.player1.useAction(this.monumentToPrimus);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 
@@ -39,7 +39,7 @@ describe('Monument to Primus', function () {
 
         it('should not prompt for any creature, since no other friendly creature in play and Consul Primus is not on discard', function () {
             this.player1.useAction(this.monumentToPrimus);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 
@@ -192,7 +192,7 @@ describe('Monument to Primus', function () {
 
             this.player1.clickCard(this.dextre);
 
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
 
             expect(this.dextre.tokens.amber).toBeUndefined();
         });
@@ -209,7 +209,7 @@ describe('Monument to Primus', function () {
 
             this.player1.clickCard(this.gub);
 
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
 
             expect(this.gub.tokens.amber).toBeUndefined();
         });

@@ -22,7 +22,7 @@ describe('Niffle Sanctuary', function () {
             this.player1.useAction(this.niffleSanctuary);
             this.player1.clickPrompt('Right');
             expect(this.niffleBrute2.location).toBe('play area');
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should give a fight ability to gain 1 amber for the rest of turn', function () {
@@ -41,7 +41,7 @@ describe('Niffle Sanctuary', function () {
             this.player1.fightWith(this.niffleBrute1, this.oldBruno);
             expect(this.player1.amber).toBe(2);
             expect(this.player2.amber).toBe(2);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

@@ -32,7 +32,7 @@ describe('Agamignus', function () {
             this.player2.playCreature(this.fandangle); // Gain
             this.player2.playCreature(this.toad); // No gain
             expect(this.player1.amber).toBe(3);
-            this.expectReadyToTakeAction(this.player2);
+            expect(this.player2).isReadyToTakeAction();
         });
 
         it('should destroy each non-Mutant creature when fate is triggered', function () {
@@ -44,7 +44,7 @@ describe('Agamignus', function () {
             expect(this.krump.location).toBe('discard');
             expect(this.emberImp.location).toBe('discard');
             expect(this.agamignus.location).toBe('discard');
-            this.expectReadyToTakeAction(this.player2);
+            expect(this.player2).isReadyToTakeAction();
         });
     });
 });

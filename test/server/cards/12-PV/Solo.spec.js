@@ -43,7 +43,7 @@ describe('Solo', function () {
             expect(this.emberImp.location).toBe('discard');
             expect(this.mightyTiger.location).toBe('discard');
             expect(this.huntingWitch.location).toBe('discard');
-            this.expectReadyToTakeAction(this.player2);
+            expect(this.player2).isReadyToTakeAction();
         });
     });
 });

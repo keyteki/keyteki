@@ -30,7 +30,7 @@ describe('Uxlyx the Zookeeper', function () {
             this.player1.clickCard(this.batdrone);
             expect(this.batdrone.location).toBe('discard');
             this.player1.reap(this.uxlyxTheZookeeper);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it("should return creatures to their owner's hand", function () {

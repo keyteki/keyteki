@@ -31,7 +31,7 @@ describe('Incarnation Pod', function () {
                 expect(this.player1.player.deck[this.player1.player.deck.length - 1]).toBe(
                     this.generousOffer
                 );
-                this.expectReadyToTakeAction(this.player1);
+                expect(this.player1).isReadyToTakeAction();
             });
 
             it('can put a card from opponent discard on bottom of deck', function () {
@@ -43,7 +43,7 @@ describe('Incarnation Pod', function () {
                 expect(this.player2.player.deck[this.player2.player.deck.length - 1]).toBe(
                     this.cursedRelic
                 );
-                this.expectReadyToTakeAction(this.player1);
+                expect(this.player1).isReadyToTakeAction();
             });
         });
 
@@ -60,7 +60,7 @@ describe('Incarnation Pod', function () {
             this.player1.clickPrompt('Discard this card');
             expect(this.generousOffer.location).toBe('purged');
             expect(this.cursedRelic.location).toBe('purged');
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

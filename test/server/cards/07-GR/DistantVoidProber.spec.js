@@ -74,7 +74,7 @@ describe('Distant Void Prober', function () {
             expect(this.player2.player.getCurrentKeyCost()).toBe(9);
             expect(this.player2.player.getForgedKeys()).toBe(0);
             this.player2.clickPrompt('untamed');
-            this.expectReadyToTakeAction(this.player2);
+            expect(this.player2).isReadyToTakeAction();
         });
     });
 });

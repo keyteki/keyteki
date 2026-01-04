@@ -67,7 +67,7 @@ describe('Inky Gloom', function () {
             expect(this.player2).not.toHavePromptButton('Reap with this creature');
             expect(this.player2).toHavePromptButton('Fight with this creature');
             this.player2.clickPrompt('Cancel');
-            this.expectReadyToTakeAction(this.player2);
+            expect(this.player2).isReadyToTakeAction();
         });
     });
 });

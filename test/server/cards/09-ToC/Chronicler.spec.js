@@ -20,7 +20,7 @@ describe('Chronicler', function () {
         it('should archive the top card of the deck on reap', function () {
             this.player1.reap(this.chronicler);
             expect(this.p1deck.location).toBe('archives');
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

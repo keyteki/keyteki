@@ -30,7 +30,7 @@ describe('Overreach', function () {
             expect(this.player2.amber).toBe(3);
             expect(this.rowdySkald.amber).toBe(2);
             expect(this.parasiticArachnoid.location).toBe('discard');
-            this.expectReadyToTakeAction(this.player2);
+            expect(this.player2).isReadyToTakeAction();
         });
 
         it('should fulfill when opponent fights with a creature', function () {
@@ -39,14 +39,14 @@ describe('Overreach', function () {
             this.player2.clickPrompt('brobnar');
             this.player2.fightWith(this.rowdySkald, this.emberImp);
             expect(this.parasiticArachnoid.location).toBe('under');
-            this.expectReadyToTakeAction(this.player2);
+            expect(this.player2).isReadyToTakeAction();
         });
 
         it('should not fulfill when player reaps with a creature', function () {
             this.player1.activateProphecy(this.overreach, this.parasiticArachnoid);
             this.player1.reap(this.emberImp);
             expect(this.parasiticArachnoid.location).toBe('under');
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

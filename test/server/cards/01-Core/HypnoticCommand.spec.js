@@ -16,7 +16,7 @@ describe('Hypnotic Command', function () {
         it('should do nothing if no Mars creatures in play', function () {
             this.player1.play(this.hypnoticCommand);
             expect(this.player2.amber).toBe(2);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should make enemy creatures capture amber for each Mars creature', function () {
@@ -34,7 +34,7 @@ describe('Hypnotic Command', function () {
             expect(this.troll.amber).toBe(1);
             expect(this.krump.amber).toBe(1);
             expect(this.player2.amber).toBe(0);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should stop capturing if opponent runs out of aember to capture', function () {
@@ -53,7 +53,7 @@ describe('Hypnotic Command', function () {
             expect(this.troll.amber).toBe(2);
             expect(this.krump.amber).toBe(0);
             expect(this.player2.amber).toBe(0);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

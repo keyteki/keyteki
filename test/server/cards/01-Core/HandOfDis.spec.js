@@ -20,7 +20,7 @@ describe('Hand of Dis', function () {
             expect(this.player1).not.toBeAbleToSelect(this.krump);
             this.player1.clickCard(this.bumpsy);
             expect(this.bumpsy.location).toBe('discard');
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 
@@ -39,7 +39,7 @@ describe('Hand of Dis', function () {
 
         it('should not prompt when all creatures are on flanks', function () {
             this.player1.play(this.handOfDis);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

@@ -31,7 +31,7 @@ describe('Game Changer', function () {
             this.player1.clickPrompt('untamed');
             this.player1.reap(this.ancientBear);
             expect(this.player1.amber).toBe(2);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should give friendly Ekwidon creatures a steal ability', function () {
@@ -54,7 +54,7 @@ describe('Game Changer', function () {
             this.player1.clickCard(this.ancientBear);
             expect(this.player1).not.toHavePromptButton("Use this card's Action ability");
             this.player1.clickPrompt('Cancel');
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

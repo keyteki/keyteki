@@ -24,7 +24,7 @@ describe('Rumor-sower', function () {
             expect(this.player1).not.toBeAbleToSelect(this.medicIngram);
             this.player1.clickCard(this.batdrone);
             expect(this.batdrone.stunned).toBe(true);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('does not allow stunning a friendly creature', function () {
@@ -38,14 +38,14 @@ describe('Rumor-sower', function () {
             this.player1.clickCard(this.cpoZytar);
             expect(this.cpoZytar.stunned).toBe(true);
             expect(this.medicIngram.stunned).toBe(false);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('does nothing if no matching creatures', function () {
             this.player2.moveCard(this.groke, 'deck');
             this.player1.reap(this.rumorSower);
             expect(this.groke.location).toBe('discard');
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

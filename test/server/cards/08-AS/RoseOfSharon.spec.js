@@ -28,7 +28,7 @@ describe('Rose of Sharon', function () {
             expect(this.flaxia.tokens.damage).toBe(undefined);
             expect(this.roseOfSharon.tokens.damage).toBe(undefined);
             expect(this.flaxia.location).toBe('play area');
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should repeat if red key is forged', function () {
@@ -49,7 +49,7 @@ describe('Rose of Sharon', function () {
             expect(this.troll.tokens.damage).toBe(6);
             expect(this.huntingWitch.tokens.damage).toBe(undefined);
             expect(this.huntingWitch.location).toBe('play area');
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

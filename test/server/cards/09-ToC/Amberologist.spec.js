@@ -19,7 +19,7 @@ describe('Amberologist', function () {
             this.player1.useAction(this.amberologist);
             expect(this.amberologist.amber).toBe(1);
             expect(this.player2.amber).toBe(1);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

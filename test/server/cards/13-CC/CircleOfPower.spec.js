@@ -24,7 +24,7 @@ describe('Circle of Power', function () {
         it('should affect newly played Untamed creatures', function () {
             this.player1.play(this.witchOfTheEye);
             expect(this.witchOfTheEye.power).toBe(5);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

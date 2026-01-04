@@ -28,7 +28,7 @@ describe('Wurm Tunnel', function () {
             expect(this.player1.player.hand.length).toBe(2);
             expect(this.player1.amber).toBe(1);
             expect(this.player2.amber).toBe(1);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should move an amber to common supply from enemy creature and draw 2 cards', function () {
@@ -38,7 +38,7 @@ describe('Wurm Tunnel', function () {
             expect(this.player1.player.hand.length).toBe(2);
             expect(this.player1.amber).toBe(1);
             expect(this.player2.amber).toBe(1);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should not draw cards if no amber was removed', function () {
@@ -47,7 +47,7 @@ describe('Wurm Tunnel', function () {
             expect(this.player1.player.hand.length).toBe(0);
             expect(this.player1.amber).toBe(1);
             expect(this.player2.amber).toBe(1);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

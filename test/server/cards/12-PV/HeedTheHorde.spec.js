@@ -24,7 +24,7 @@ describe('Heed the Horde', function () {
         it('should make opponent lose 1 amber for each friendly Mutant creature', function () {
             this.player1.play(this.heedTheHorde);
             expect(this.player2.amber).toBe(2);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should make enemy Mutant creatures capture 1 amber when fate is triggered', function () {
@@ -39,7 +39,7 @@ describe('Heed the Horde', function () {
             expect(this.krump.amber).toBe(0);
             expect(this.player2.amber).toBe(3);
             expect(this.player1.amber).toBe(2);
-            this.expectReadyToTakeAction(this.player2);
+            expect(this.player2).isReadyToTakeAction();
         });
     });
 });

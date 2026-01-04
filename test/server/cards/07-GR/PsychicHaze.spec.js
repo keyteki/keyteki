@@ -19,7 +19,7 @@ describe('Psychic Haze', function () {
             expect(this.johnSmyth.enraged).toBe(false);
             expect(this.tunk.enraged).toBe(true);
             expect(this.gub.enraged).toBe(true);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('disallows enraged enemy creatures from attacking friendly Mars creatures', function () {
@@ -32,7 +32,7 @@ describe('Psychic Haze', function () {
             expect(this.player2).not.toBeAbleToSelect(this.johnSmyth);
             this.player2.clickCard(this.echofly);
             expect(this.gub.location).toBe('discard');
-            this.expectReadyToTakeAction(this.player2);
+            expect(this.player2).isReadyToTakeAction();
         });
 
         it('allows unenraged enemy creatures to attack friendly Mars creatures', function () {
@@ -46,7 +46,7 @@ describe('Psychic Haze', function () {
             expect(this.player2).toBeAbleToSelect(this.echofly);
             expect(this.player2).toBeAbleToSelect(this.johnSmyth);
             this.player2.clickCard(this.johnSmyth);
-            this.expectReadyToTakeAction(this.player2);
+            expect(this.player2).isReadyToTakeAction();
         });
 
         it('does not affect friendly enraged Mars creatures', function () {
@@ -57,7 +57,7 @@ describe('Psychic Haze', function () {
             expect(this.player1).toBeAbleToSelect(this.gub);
             this.player1.clickCard(this.tunk);
             expect(this.johnSmyth.location).toBe('discard');
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

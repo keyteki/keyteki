@@ -41,13 +41,13 @@ describe('Oracle Zan', function () {
             this.player1.clickCard(this.ancientBear);
             expect(this.ancientBear.tokens.damage).toBe(2);
 
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should do nothing if there is no amber to move', function () {
             this.player1.reap(this.oracleZan);
             this.player1.clickCard(this.troll);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

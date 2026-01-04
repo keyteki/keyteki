@@ -68,7 +68,7 @@ describe('Treok, The Wise', function () {
             this.player1.clickPrompt('brobnar');
             this.player1.fightWith(this.troll, this.teliga);
             expect(this.troll.tokens.damage).toBe(3);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

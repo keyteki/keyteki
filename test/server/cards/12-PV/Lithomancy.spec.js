@@ -19,7 +19,7 @@ describe('Lithomancy', function () {
             this.player1.useAction(this.lithomancy);
             expect(this.player1.amber).toBe(2);
             expect(this.dustPixie.location).toBe('discard');
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should not discard the top card or gain amber when top card does not match active house', function () {
@@ -27,7 +27,7 @@ describe('Lithomancy', function () {
             this.player1.useAction(this.lithomancy);
             expect(this.player1.amber).toBe(0);
             expect(this.krump.location).toBe('deck');
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

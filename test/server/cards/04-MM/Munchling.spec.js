@@ -60,7 +60,7 @@ describe('munchling', function () {
             });
 
             it('should end effect', function () {
-                this.expectReadyToTakeAction(this.player1);
+                expect(this.player1).isReadyToTakeAction();
             });
         });
     });

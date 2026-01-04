@@ -29,7 +29,7 @@ describe('Red Aeronaut', function () {
             this.player1.moveCard(this.nautilixian, 'hand');
             this.player1.playCreature(this.nautilixian);
             this.player1.playCreature(this.redAeronaut);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should allow the search to fail', function () {

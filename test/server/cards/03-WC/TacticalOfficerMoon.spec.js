@@ -60,7 +60,7 @@ describe('Tactical Officer Moon', function () {
                 });
 
                 it('the resolution finishes', function () {
-                    this.expectReadyToTakeAction(this.player1);
+                    expect(this.player1).isReadyToTakeAction();
                 });
             });
         });

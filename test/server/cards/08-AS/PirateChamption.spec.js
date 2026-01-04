@@ -18,14 +18,14 @@ describe('Pirate Champion', function () {
             this.player1.clickPrompt('Yes');
             this.player1.clickPrompt('Right');
             expect(this.player1.player.creaturesInPlay[2]).toBe(this.pirateChampion);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should be optional', function () {
             this.player1.fightWith(this.pirateChampion, this.lamindra);
             this.player1.clickPrompt('No');
             expect(this.player1.player.creaturesInPlay[1]).toBe(this.pirateChampion);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

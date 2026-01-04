@@ -92,7 +92,7 @@ describe('Blast from the past', function () {
                     expect(this.deusillus2.location).toBe('archives');
                     expect(this.player1).not.toBeAbleToSelect(this.bulwark);
                     expect(this.player1).not.toBeAbleToSelect(this.troll);
-                    this.expectReadyToTakeAction(this.player1);
+                    expect(this.player1).isReadyToTakeAction();
                 });
             });
         });

@@ -17,7 +17,7 @@ describe('Grenade Snib', function () {
             this.player1.fightWith(this.grenadeSnib, this.troll);
             expect(this.grenadeSnib.location).toBe('discard');
             expect(this.player2.amber).toBe(1);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

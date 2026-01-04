@@ -23,14 +23,14 @@ describe('Empathic Malice', function () {
             this.player1.clickCard(this.charette);
             expect(this.charette.amber).toBe(3);
             expect(this.player2.amber).toBe(1);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('goes to discard if not haunted', function () {
             this.player1.play(this.empathicMalice);
             this.player1.clickCard(this.charette);
             expect(this.empathicMalice.location).toBe('discard');
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('goes to bottom of deck if haunted', function () {
@@ -41,7 +41,7 @@ describe('Empathic Malice', function () {
             expect(this.player1.player.deck[this.player1.player.deck.length - 1]).toBe(
                 this.empathicMalice
             );
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

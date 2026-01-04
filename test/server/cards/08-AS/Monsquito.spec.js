@@ -31,7 +31,7 @@ describe('Monsquito', function () {
             this.player1.fightWith(this.monsquito, this.flaxia);
             expect(this.flaxia.location).toBe('play area');
             expect(this.monsquito.location).toBe('discard');
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('deals 2 damage to a creature after fighting', function () {
@@ -41,7 +41,7 @@ describe('Monsquito', function () {
             expect(this.player1).toBeAbleToSelect(this.flaxia);
             this.player1.clickCard(this.flaxia);
             expect(this.flaxia.tokens.damage).toBe(2);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

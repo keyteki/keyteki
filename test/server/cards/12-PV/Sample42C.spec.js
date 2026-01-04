@@ -29,7 +29,7 @@ describe('Sample 42-C', function () {
             this.player1.useAction(this.sample42C);
             expect(this.player2.amber).toBe(3);
             expect(this.sample42C.amber).toBe(1);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should forge a key and purge itself when it has 4 or more amber', function () {
@@ -43,7 +43,7 @@ describe('Sample 42-C', function () {
             expect(this.player1.amber).toBe(6);
             expect(this.player1.getForgedKeys()).toBe(1);
             expect(this.sample42C.location).toBe('purged');
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should have the most powerful enemy creature capture half of your amber when fate is triggered', function () {
@@ -62,7 +62,7 @@ describe('Sample 42-C', function () {
             expect(this.culfTheQuiet.amber).toBe(2);
             expect(this.player2.amber).toBe(3);
             expect(this.sample42C.location).toBe('discard');
-            this.expectReadyToTakeAction(this.player2);
+            expect(this.player2).isReadyToTakeAction();
         });
     });
 });

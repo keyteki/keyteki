@@ -39,7 +39,7 @@ describe('De-Animator', function () {
             expect(this.player1).not.toHavePromptButton('Fight with this creature');
             this.player1.clickPrompt("Use this card's Action ability");
             expect(this.botBookton.location).toBe('discard');
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should mineralize a creature on reap', function () {
@@ -61,7 +61,7 @@ describe('De-Animator', function () {
             this.player2.clickPrompt("Use this card's Action ability", 0);
             expect(this.player1.amber).toBe(2);
             expect(this.player2.amber).toBe(2);
-            this.expectReadyToTakeAction(this.player2);
+            expect(this.player2).isReadyToTakeAction();
         });
 
         it('should let mineralized creatures go back to being creatures when it leaves play', function () {
@@ -80,7 +80,7 @@ describe('De-Animator', function () {
             this.player1.clickCard(this.botBookton);
             expect(this.noddyTheThief.type).toBe('artifact');
             expect(this.botBookton.type).toBe('artifact');
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should keep mineralized creatures if one leaves play but another is still in play ', function () {
@@ -95,7 +95,7 @@ describe('De-Animator', function () {
             expect(this.deAnimator2.location).toBe('discard');
             expect(this.noddyTheThief.type).toBe('artifact');
             expect(this.botBookton.type).toBe('artifact');
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should allow mineralized creatures to stack actions', function () {
@@ -112,7 +112,7 @@ describe('De-Animator', function () {
             this.player2.clickCard(this.memroxTheRed);
             this.player2.clickPrompt("Use this card's Action ability", 1);
             expect(this.memroxTheRed.location).toBe('discard');
-            this.expectReadyToTakeAction(this.player2);
+            expect(this.player2).isReadyToTakeAction();
         });
 
         it('should not allow wards to affect the creature as an artifact', function () {
@@ -123,7 +123,7 @@ describe('De-Animator', function () {
             this.player1.clickCard(this.noddyTheThief);
             this.player1.clickCard(this.botBookton);
             expect(this.botBookton.location).toBe('discard');
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should keep upgrades on de-animated creatures', function () {
@@ -132,7 +132,7 @@ describe('De-Animator', function () {
             this.player1.clickCard(this.botBookton);
             expect(this.rocketBoots.location).toBe('play area');
             expect(this.rocketBoots.parent).toBe(this.botBookton);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should allow stunned creatures to use their new destroy action', function () {
@@ -143,7 +143,7 @@ describe('De-Animator', function () {
             this.player1.clickCard(this.botBookton);
             this.player1.clickPrompt("Use this card's Action ability");
             expect(this.botBookton.location).toBe('discard');
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should send æmber on destroyed creatures as artifacts to the common supply', function () {

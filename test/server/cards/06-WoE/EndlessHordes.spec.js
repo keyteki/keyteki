@@ -52,7 +52,7 @@ describe('Endless Hordes', function () {
             this.player1.clickCard(this.championAnaphiel);
             expect(this.player1.player.creaturesInPlay.length).toBe(1);
             expect(this.dustPixie.location).toBe('discard');
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
 
             // Ignoring taunt shouldn't persist.
             this.player1.play(this.anger);
@@ -102,7 +102,7 @@ describe('Endless Hordes', function () {
                 this.player1.player.creaturesInPlay[this.player1.player.creaturesInPlay.length - 1]
                     .exhausted
             ).toBe(false);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 
@@ -145,7 +145,7 @@ describe('Endless Hordes', function () {
             expect(this.comOfficerKirby.tokens.damage).toBe(2);
             expect(this.kirby2.tokens.damage).toBe(2);
             expect(this.titanGuardian.tokens.damage).toBe(1);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

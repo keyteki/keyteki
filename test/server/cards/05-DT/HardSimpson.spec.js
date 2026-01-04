@@ -24,7 +24,7 @@ describe("Hard Simpson's ability", function () {
             expect(this.hardSimpson.tokens.damage).toBe(1);
             expect(this.player1.amber).toBe(5);
             expect(this.player2.amber).toBe(2);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should not steal 1 amber if destroyed', function () {
@@ -32,7 +32,7 @@ describe("Hard Simpson's ability", function () {
             expect(this.hardSimpson.location).toBe('discard');
             expect(this.player1.amber).toBe(4);
             expect(this.player2.amber).toBe(3);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should not steal 1 amber if damage prevented by armor', function () {
@@ -40,7 +40,7 @@ describe("Hard Simpson's ability", function () {
             expect(this.hardSimpson.location).toBe('play area');
             expect(this.player1.amber).toBe(4);
             expect(this.player2.amber).toBe(3);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should not steal 1 amber if damage prevented by effect', function () {
@@ -49,7 +49,7 @@ describe("Hard Simpson's ability", function () {
             expect(this.hardSimpson.location).toBe('play area');
             expect(this.player1.amber).toBe(5);
             expect(this.player2.amber).toBe(3);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should not steal 1 amber if warded', function () {
@@ -59,7 +59,7 @@ describe("Hard Simpson's ability", function () {
             expect(this.hardSimpson.warded).toBe(false);
             expect(this.player1.amber).toBe(4);
             expect(this.player2.amber).toBe(3);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         describe('when tide is high', function () {
@@ -72,7 +72,7 @@ describe("Hard Simpson's ability", function () {
                 expect(this.hardSimpson.tokens.damage).toBe(1);
                 expect(this.player1.amber).toBe(5);
                 expect(this.player2.amber).toBe(2);
-                this.expectReadyToTakeAction(this.player1);
+                expect(this.player1).isReadyToTakeAction();
             });
         });
 
@@ -86,7 +86,7 @@ describe("Hard Simpson's ability", function () {
                 expect(this.hardSimpson.tokens.damage).toBe(1);
                 expect(this.player1.amber).toBe(3);
                 expect(this.player2.amber).toBe(4);
-                this.expectReadyToTakeAction(this.player1);
+                expect(this.player1).isReadyToTakeAction();
             });
         });
     });

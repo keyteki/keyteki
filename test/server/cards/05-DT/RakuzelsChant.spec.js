@@ -63,7 +63,7 @@ describe("Rakuzel's Chant", function () {
                 expect(this.flaxia.exhausted).toBe(true);
                 expect(this.gub.exhausted).toBe(true);
                 expect(this.krump.exhausted).toBe(true);
-                this.expectReadyToTakeAction(this.player1);
+                expect(this.player1).isReadyToTakeAction();
             });
         });
 

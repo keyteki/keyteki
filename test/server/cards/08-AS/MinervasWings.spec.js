@@ -21,7 +21,7 @@ describe("Minerva's Wings", function () {
             expect(this.player1).not.toHavePromptButton('Fight with this creature');
             this.player1.clickPrompt("Use this card's Action ability");
             expect(this.player1.player.hand.length).toBe(2);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should prevent fights and reaps on enemy creature, while giving a draw 2 action', function () {
@@ -33,7 +33,7 @@ describe("Minerva's Wings", function () {
             expect(this.player2).not.toHavePromptButton('Fight with this creature');
             this.player2.clickPrompt("Use this card's Action ability");
             expect(this.player2.player.hand.length).toBe(2);
-            this.expectReadyToTakeAction(this.player2);
+            expect(this.player2).isReadyToTakeAction();
         });
     });
 });

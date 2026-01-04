@@ -23,20 +23,20 @@ describe('Duma the Returned', function () {
             expect(this.huntingWitch.location).toBe('hand');
             expect(this.fullMoon.location).toBe('hand');
             expect(this.player1.player.discard.length).toBe(10);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('does not archive on destroy if not haunted', function () {
             this.player1.fightWith(this.dumaTheReturned, this.troll);
             expect(this.dumaTheReturned.location).toBe('discard');
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('archives on destroy if haunted', function () {
             this.player1.play(this.callToAction);
             this.player1.fightWith(this.dumaTheReturned, this.troll);
             expect(this.dumaTheReturned.location).toBe('archives');
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

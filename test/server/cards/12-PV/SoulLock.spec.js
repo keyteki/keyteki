@@ -21,9 +21,9 @@ describe('Soul Lock', function () {
             this.player1.endTurn();
             this.player2.clickPrompt('brobnar');
             this.player2.clickCard(this.krump);
-            this.expectReadyToTakeAction(this.player2);
+            expect(this.player2).isReadyToTakeAction();
             this.player2.clickCard(this.gauntletOfCommand);
-            this.expectReadyToTakeAction(this.player2);
+            expect(this.player2).isReadyToTakeAction();
         });
 
         it('should prevent opponent from using cards of a different house as cards under it', function () {
@@ -34,7 +34,7 @@ describe('Soul Lock', function () {
             this.player1.endTurn();
             this.player2.clickPrompt('logos');
             this.player2.reap(this.dextre);
-            this.expectReadyToTakeAction(this.player2);
+            expect(this.player2).isReadyToTakeAction();
         });
 
         it('should discard all cards under it when used', function () {
@@ -48,7 +48,7 @@ describe('Soul Lock', function () {
             this.player1.clickCard(this.dextre);
             expect(this.troll.location).toBe('discard');
             expect(this.dextre.location).toBe('under');
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should be usable by opponent via scrap', function () {
@@ -62,7 +62,7 @@ describe('Soul Lock', function () {
             this.player2.clickCard(this.searine);
             expect(this.soulLock.exhausted).toBe(true);
             expect(this.searine.location).toBe('under');
-            this.expectReadyToTakeAction(this.player2);
+            expect(this.player2).isReadyToTakeAction();
         });
 
         it('should allow use of other cards triggered by cards of the locked house', function () {
@@ -75,7 +75,7 @@ describe('Soul Lock', function () {
             this.player2.clickCard(this.troll);
             this.player2.clickCard(this.searine);
             expect(this.searine.location).toBe('discard');
-            this.expectReadyToTakeAction(this.player2);
+            expect(this.player2).isReadyToTakeAction();
         });
     });
 });

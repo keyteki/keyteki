@@ -31,7 +31,7 @@ describe('Clonal Witch', function () {
             // Clonal Witch should be on top of the deck
             expect(this.clonalWitch.location).toBe('deck');
             expect(this.player1.deck[0]).toBe(this.clonalWitch);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

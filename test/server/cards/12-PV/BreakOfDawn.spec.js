@@ -24,7 +24,7 @@ describe('Break of Dawn', function () {
             expect(this.flaxia.location).toBe('hand');
             expect(this.dewFaerie.location).toBe('hand');
             expect(this.krump.location).toBe('deck');
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

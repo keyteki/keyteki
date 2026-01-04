@@ -18,7 +18,7 @@ describe('Porter Cilla', function () {
             this.player1.reap(this.porterCilla);
             expect(this.player2.player.hand.length).toBe(2);
             expect(this.player2.player.deck.length).toBe(p2DeckLength + 1);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should not trigger if opponent has no cards in hand', function () {
@@ -28,7 +28,7 @@ describe('Porter Cilla', function () {
             this.player2.moveCard(this.krump, 'discard');
             this.player1.reap(this.porterCilla);
             expect(this.player2.deck.length).toBe(p2DeckLength);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

@@ -60,7 +60,7 @@ describe('Wrath or Ruin', function () {
             expect(this.player1).toHavePromptButton('Destroy a flank creature');
             expect(this.player1).toHavePromptButton('Return 2 enemy creatures to hand');
             this.player1.clickPrompt('Return 2 enemy creatures to hand');
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

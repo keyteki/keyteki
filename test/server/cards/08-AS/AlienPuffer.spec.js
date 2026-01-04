@@ -17,7 +17,7 @@ describe('Alien Puffer', function () {
         it('should gain 2 on destroyed', function () {
             this.player1.fightWith(this.alienPuffer, this.troll);
             expect(this.player1.amber).toBe(3);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

@@ -69,7 +69,7 @@ describe('Near-Future Lens', function () {
             // New top card after shuffle is faceup to both players.
             expect(this.player1.deck[0].getSummary(this.player1.player).facedown).toBe(false);
             expect(this.player1.deck[0].getSummary(this.player2.player).facedown).toBe(false);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should add a chat message for the next top card of the deck for uprades', function () {

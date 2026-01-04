@@ -24,7 +24,7 @@ describe('Nice to Greet You', function () {
             expect(this.blypyp.exhausted).toBe(false);
             expect(this.myxTheTallminded.exhausted).toBe(false);
             expect(this.mindwarper.exhausted).toBe(false);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

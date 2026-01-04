@@ -18,7 +18,7 @@ describe('Power Up', function () {
             this.player1.clickCard(this.badPenny);
             expect(this.badPenny.getPower()).toBe(3);
             expect(this.powerUp.location).toBe('discard');
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should archive itself when target becomes the most powerful', function () {
@@ -27,7 +27,7 @@ describe('Power Up', function () {
             this.player1.clickCard(this.badPenny);
             expect(this.powerUp.location).toBe('archives');
             expect(this.player1.player.archives).toContain(this.powerUp);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

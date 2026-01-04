@@ -26,7 +26,7 @@ describe('Plancina, Hidden Agent', function () {
             expect(this.plancinaHiddenAgent.location).toBe('discard');
             expect(this.oratorHissaro.location).toBe('discard');
             expect(this.umbra.location).toBe('play area');
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should put itself into play under your control on fate', function () {
@@ -38,7 +38,7 @@ describe('Plancina, Hidden Agent', function () {
             this.player2.clickPrompt('Right');
             expect(this.plancinaHiddenAgent.location).toBe('play area');
             expect(this.plancinaHiddenAgent.controller).toBe(this.player2.player);
-            this.expectReadyToTakeAction(this.player2);
+            expect(this.player2).isReadyToTakeAction();
         });
     });
 });

@@ -20,13 +20,13 @@ describe('Sandwyrm', function () {
             expect(this.sandwyrm.location).toBe('deck');
             expect(this.troll.location).toBe('discard');
             expect(shuffled).toBe(this.player1.player);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('does nothing after dying in fight', function () {
             this.player1.fightWith(this.sandwyrm, this.thingFromTheDeep);
             expect(this.sandwyrm.location).toBe('discard');
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

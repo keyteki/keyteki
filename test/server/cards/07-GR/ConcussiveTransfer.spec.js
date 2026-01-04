@@ -30,7 +30,7 @@ describe('Concussive Transfer', function () {
             this.player1.clickCard(this.troll);
             this.player1.clickCard(this.troll);
             this.player1.clickCard(this.cpoZytar);
-            this.expectReadyToTakeAction(this.player1);
+            expect(this.player1).isReadyToTakeAction();
             expect(this.troll.tokens.damage).toBe(5);
             expect(this.foozle.tokens.damage).toBe(undefined);
             expect(this.cpoZytar.tokens.damage).toBe(1);

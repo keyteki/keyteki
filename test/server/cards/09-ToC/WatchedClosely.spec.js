@@ -24,7 +24,7 @@ describe('Watched Closely', function () {
             this.player2.clickPrompt('untamed');
             this.player2.reap(this.dustPixie);
             expect(this.wrangler1.location).toBe('play area');
-            this.expectReadyToTakeAction(this.player2);
+            expect(this.player2).isReadyToTakeAction();
         });
     });
 });
