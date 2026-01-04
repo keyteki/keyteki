@@ -30,7 +30,7 @@ describe('Wounds into Wisdom', function () {
             expect(this.player2.amber).toBe(2);
             expect(this.troll.amber).toBe(2);
             expect(this.parasiticArachnoid.location).toBe('discard');
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player2).isReadyToTakeAction();
         });
 
         it('should fulfill after destroyed effects', function () {
@@ -42,7 +42,7 @@ describe('Wounds into Wisdom', function () {
             expect(this.troll.amber).toBe(1); // player2 lost 3A, so only 1A left to capture
             expect(this.player2.amber).toBe(0);
             expect(this.parasiticArachnoid.location).toBe('discard');
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player2).isReadyToTakeAction();
         });
 
         it('should not fulfill when an enemy creature is dealt damage', function () {
@@ -52,7 +52,7 @@ describe('Wounds into Wisdom', function () {
             this.player2.fightWith(this.troll, this.xenosBloodshadow);
             expect(this.troll.tokens.damage).toBe(6);
             expect(this.parasiticArachnoid.location).toBe('under');
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player2).isReadyToTakeAction();
         });
 
         it('should not fulfill when a stolen enemy creature is destroyed by damage', function () {
@@ -67,7 +67,7 @@ describe('Wounds into Wisdom', function () {
             expect(this.player1.player.discard).toContain(this.brabble);
             expect(this.brabble.location).toBe('discard');
             expect(this.parasiticArachnoid.location).toBe('under');
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player2).isReadyToTakeAction();
         });
     });
 });

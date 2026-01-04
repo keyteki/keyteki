@@ -24,7 +24,7 @@ describe('Efficient Amber Burner', function () {
             this.player1.forgeKey('red');
             expect(this.player1.amber).toBe(4);
             this.player1.clickPrompt('skyborn');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should make creature exalt on reap', function () {
@@ -37,7 +37,7 @@ describe('Efficient Amber Burner', function () {
             this.player1.forgeKey('red');
             expect(this.player1.amber).toBe(5);
             this.player1.clickPrompt('skyborn');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

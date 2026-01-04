@@ -5,8 +5,9 @@ describe('Titanarpon', function () {
                 player1: {
                     amber: 1,
                     house: 'dis',
+                    token: 'facet',
                     inPlay: ['titanarpon'],
-                    hand: ['dust-imp', 'gub']
+                    hand: ['dust-imp', 'gub', 'dominator-bauble', 'unbinding']
                 },
                 player2: {
                     amber: 3,
@@ -27,7 +28,7 @@ describe('Titanarpon', function () {
             this.player2.clickPrompt('brobnar');
             this.player2.playCreature(this.troll);
             expect(this.troll.exhausted).toBe(true);
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player2).isReadyToTakeAction();
         });
 
         it('should make itself enter play ready if first', function () {
@@ -36,7 +37,7 @@ describe('Titanarpon', function () {
             expect(this.titanarpon.exhausted).toBe(false);
             this.player1.playCreature(this.gub);
             expect(this.gub.exhausted).toBe(true);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should not make itself enter play ready if second', function () {
@@ -45,7 +46,26 @@ describe('Titanarpon', function () {
             expect(this.gub.exhausted).toBe(true);
             this.player1.playCreature(this.titanarpon);
             expect(this.titanarpon.exhausted).toBe(true);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
+        });
+
+        it('should not ready token creatures', function () {
+            this.player1.play(this.unbinding);
+            this.player1.clickPrompt('Left');
+            let tokenCreature = this.player1.inPlay[0];
+            expect(tokenCreature.isToken()).toBe(true);
+            expect(tokenCreature.exhausted).toBe(true);
+            this.player1.playCreature(this.gub);
+            expect(this.gub.exhausted).toBe(false);
+            expect(this.player1).isReadyToTakeAction();
+        });
+
+        it('should not ready an artifact', function () {
+            this.player1.play(this.dominatorBauble);
+            expect(this.dominatorBauble.exhausted).toBe(true);
+            this.player1.playCreature(this.gub);
+            expect(this.gub.exhausted).toBe(false);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

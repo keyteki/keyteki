@@ -17,7 +17,7 @@ describe('Paradox Shield', function () {
         it('discards cards from deck instead of destroying', function () {
             let deckLen = this.player1.player.deck.length;
             this.player1.fightWith(this.cpoZytar, this.troll);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
             expect(this.cpoZytar.location).toBe('play area');
             expect(this.paradoxShield.location).toBe('discard');
             expect(this.troll.tokens.damage).toBe(4);
@@ -32,7 +32,7 @@ describe('Paradox Shield', function () {
             expect(this.cpoZytar.tokens.damage).toBe(1);
             let deckLen = this.player1.player.deck.length;
             this.player1.fightWith(this.cpoZytar, this.troll);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
             expect(this.cpoZytar.location).toBe('play area');
             expect(this.paradoxShield.location).toBe('discard');
             expect(this.troll.tokens.damage).toBe(4);
@@ -45,7 +45,7 @@ describe('Paradox Shield', function () {
             this.player1.playUpgrade(this.zRayBlaster, this.cpoZytar);
             let deckLen = this.player1.player.deck.length;
             this.player1.fightWith(this.cpoZytar, this.troll);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
             expect(this.cpoZytar.location).toBe('play area');
             expect(this.paradoxShield.location).toBe('discard');
             expect(this.troll.tokens.damage).toBe(7);
@@ -57,7 +57,7 @@ describe('Paradox Shield', function () {
         it('does nothing if not enough cards in deck', function () {
             this.player1.player.deck = this.player1.player.deck.slice(0, 3);
             this.player1.fightWith(this.cpoZytar, this.troll);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
             expect(this.cpoZytar.location).toBe('discard');
             expect(this.paradoxShield.location).toBe('discard');
             expect(this.troll.tokens.damage).toBe(4);

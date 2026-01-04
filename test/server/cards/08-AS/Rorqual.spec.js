@@ -19,21 +19,21 @@ describe('Rorqual', function () {
             this.player1.reap(this.rorqual);
             expect(this.rorqual.amber).toBe(4);
             expect(this.rorqual.getPower()).toBe(9);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should exalt on fight', function () {
             this.player1.fightWith(this.rorqual, this.lamindra);
             expect(this.rorqual.amber).toBe(4);
             expect(this.rorqual.getPower()).toBe(9);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should move all amber to pool on action', function () {
             this.player1.useAction(this.rorqual);
             expect(this.rorqual.amber).toBe(0);
             expect(this.player1.amber).toBe(4);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

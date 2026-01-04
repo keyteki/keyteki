@@ -105,7 +105,7 @@ describe('FOF Transponder', function () {
             this.player1.clickPrompt('Prospector');
             expect(this.player1.player.deck.length).toBe(1);
             this.player1.clickPrompt('Right');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should allow you to try to make a token on an empty deck before drawing', function () {
@@ -116,7 +116,7 @@ describe('FOF Transponder', function () {
             this.player1.clickPrompt('FOF Transponder');
             expect(this.player1.player.creaturesInPlay.length).toBe(0);
             expect(this.helmsmanSpears.location).toBe('discard');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should allow you to order even if no token can be made', function () {
@@ -128,7 +128,7 @@ describe('FOF Transponder', function () {
             this.player1.clickPrompt('FOF Transponder');
             expect(this.player1.player.creaturesInPlay.length).toBe(0);
             expect(this.helmsmanSpears.location).toBe('discard');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

@@ -91,7 +91,7 @@ describe('Jargogle', function () {
             expect(this.duskwitch.exhausted).toBe(false);
             expect(this.player2).toHavePrompt('Choose which house you want to activate this turn');
             this.player2.clickPrompt('brobnar');
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player2).isReadyToTakeAction();
         });
 
         it('should end turn after destroyed by action and playing omega', function () {
@@ -103,7 +103,7 @@ describe('Jargogle', function () {
             expect(this.duskwitch.exhausted).toBe(false);
             expect(this.player2).toHavePrompt('Choose which house you want to activate this turn');
             this.player2.clickPrompt('brobnar');
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player2).isReadyToTakeAction();
         });
 
         it('should not end turn after playing omega due to Strange Gizmo', function () {
@@ -119,7 +119,7 @@ describe('Jargogle', function () {
             expect(this.jargogle.location).toBe('discard');
             expect(this.duskwitch.location).toBe('play area');
             expect(this.duskwitch.exhausted).toBe(false);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

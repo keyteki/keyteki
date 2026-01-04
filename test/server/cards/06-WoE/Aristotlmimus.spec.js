@@ -21,14 +21,14 @@ describe('Aristotlmimus', function () {
             expect(this.bumpsy.location).toBe('play area');
             expect(this.player1.player.creaturesInPlay.length).toBe(4);
             expect(this.player2.amber).toBe(0);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('play an action card from archives when there are no wisdom counters', function () {
             this.player1.reap(this.aristotlmimus);
             this.player1.clickCard(this.rantAndRive);
             expect(this.rantAndRive.location).toBe('discard');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('allow not playing a card from archives when there are no wisdom counters', function () {
@@ -36,7 +36,7 @@ describe('Aristotlmimus', function () {
             this.player1.clickPrompt('Done');
             expect(this.player1.player.creaturesInPlay.length).toBe(3);
             expect(this.player2.amber).toBe(1);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('does everything when there is a wisdom counter', function () {
@@ -53,7 +53,7 @@ describe('Aristotlmimus', function () {
             expect(this.player1.archives.length).toBe(4);
             expect(this.player1.player.creaturesInPlay.length).toBe(4);
             expect(this.player2.amber).toBe(0);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('can play the card it archives that turn', function () {
@@ -74,7 +74,7 @@ describe('Aristotlmimus', function () {
             expect(this.player1.player.creaturesInPlay.length).toBe(3);
             expect(this.player2.amber).toBe(0);
             expect(this.platopelta.amber).toBe(1);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

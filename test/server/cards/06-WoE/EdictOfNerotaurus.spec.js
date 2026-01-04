@@ -86,7 +86,67 @@ describe('Edict of Nerotaurus', function () {
             expect(this.player2.amber).toBe(0);
             this.player1.reap(this.shrewdInvestor);
             expect(this.player1.amber).toBe(4);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
+        });
+    });
+
+    describe("Edict of Nerotaurus's ability outside of the main phase", function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'logos',
+                    hand: [
+                        'jargogle',
+                        'jargogle',
+                        'ghosthawk',
+                        'daughter',
+                        'brillix-ponder',
+                        'strange-gizmo',
+                        'edict-of-nerotaurus'
+                    ],
+                    amber: 6
+                },
+                player2: {
+                    hand: ['edict-of-nerotaurus', 'grammaticus-thrax'],
+                    amber: 0
+                }
+            });
+
+            this.jargogle1 = this.player1.player.hand[0];
+            this.jargogle2 = this.player1.player.hand[1];
+        });
+
+        it('should count creatures that reap during start of turn', function () {
+            this.player1.play(this.jargogle1);
+            this.player1.clickCard(this.edictOfNerotaurus);
+            this.player1.play(this.jargogle2);
+            this.player1.clickCard(this.ghosthawk);
+            this.player1.play(this.brillixPonder);
+            this.player1.play(this.daughter);
+            this.player1.play(this.strangeGizmo);
+            this.brillixPonder.tokens.ward = 1;
+            this.daughter.tokens.ward = 1;
+            this.player1.endTurn();
+            this.player2.clickPrompt('saurian');
+            this.player2.play(this.grammaticusThrax);
+            this.grammaticusThrax.tokens.ward = 1;
+            this.player2.endTurn();
+
+            // Strange Gizmo causes Jargogle to play Edict of Nerotaurus after forging a key
+            this.player1.clickPrompt('red');
+            this.player1.clickCard(this.jargogle1); // Edict of Nerotaurus
+            this.player1.clickCard(this.jargogle2); // Ghosthawk deploys right of Brillix Ponder
+            this.player1.clickPrompt('deploy right');
+            this.player1.clickCard(this.brillixPonder);
+            this.player1.clickCard(this.brillixPonder); // Reap with Brillix Ponder
+            expect(this.daughter.exhausted).toBe(false); // Edict of Nerotaurus prevents Daughter's reap
+            this.player1.clickPrompt('logos');
+            expect(this.player1.amber).toBe(3);
+            this.player1.clickCard(this.daughter);
+            expect(this.player1).not.toHavePromptButton('Reap with this creature');
+            expect(this.player1).toHavePromptButton('Fight with this creature'); // Daughter is still ready and can fight
+            this.player1.clickPrompt('cancel');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

@@ -27,7 +27,7 @@ describe('Event Horizon', function () {
             this.player1.moveCard(this.dustPixie, 'deck');
 
             this.player1.play(this.eventHorizon);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
             expect(this.huntingWitch.location).toBe('play area');
             expect(this.dustPixie.location).toBe('discard');
             expect(this.flaxia.location).toBe('discard');
@@ -44,7 +44,7 @@ describe('Event Horizon', function () {
             this.player1.moveCard(this.dustPixie, 'deck');
 
             this.player1.play(this.eventHorizon);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
             expect(this.huntingWitch.location).toBe('discard');
             expect(this.dustPixie.location).toBe('discard');
             expect(this.flaxia.location).toBe('discard');
@@ -56,7 +56,7 @@ describe('Event Horizon', function () {
         it('should do nothing with no cards in the deck', function () {
             this.player1.player.deck = [];
             this.player1.play(this.eventHorizon);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
             expect(this.huntingWitch.location).toBe('discard');
             expect(this.dustPixie.location).toBe('discard');
             expect(this.flaxia.location).toBe('discard');

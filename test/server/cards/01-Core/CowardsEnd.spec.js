@@ -21,7 +21,7 @@ describe('Cowards End', function () {
             expect(this.silvertooth.location).toBe('discard');
             expect(this.krump.location).toBe('play area');
             expect(this.urchin.location).toBe('discard');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

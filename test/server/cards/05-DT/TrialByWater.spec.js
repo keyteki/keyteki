@@ -72,7 +72,7 @@ describe('Trial by Water', function () {
             this.player1.endTurn();
             this.player1.clickPrompt('sanctum');
             expect(this.player1).toBeAbleToRaiseTide();
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

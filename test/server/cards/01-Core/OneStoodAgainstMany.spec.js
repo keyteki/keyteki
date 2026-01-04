@@ -12,7 +12,7 @@ describe('One Stood Against Many', function () {
 
         it('should not prompt to choose a creature', function () {
             this.player1.play(this.oneStoodAgainstMany);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 
@@ -31,7 +31,7 @@ describe('One Stood Against Many', function () {
 
         it('should not prompt to choose a creature', function () {
             this.player1.play(this.oneStoodAgainstMany);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 
@@ -55,7 +55,7 @@ describe('One Stood Against Many', function () {
             expect(this.bulwark.exhausted).toBe(false);
             this.player1.reap(this.bulwark);
             expect(this.player1.amber).toBe(3);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 
@@ -85,7 +85,7 @@ describe('One Stood Against Many', function () {
             expect(this.bulwark.tokens.damage).toBeUndefined();
             expect(this.bulwark.tokens.armor).toBeUndefined();
             expect(this.huntingWitch.location).toBe('discard');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 
@@ -130,7 +130,7 @@ describe('One Stood Against Many', function () {
             expect(this.bulwark.exhausted).toBe(false);
             expect(this.bulwark.tokens.damage).toBe(3);
             expect(this.niffleApe.location).toBe('discard');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 
@@ -192,7 +192,7 @@ describe('One Stood Against Many', function () {
             expect(this.troll.exhausted).toBe(true);
             expect(this.troll.tokens.damage).toBe(4);
             expect(this.bumblebird.location).toBe('discard');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should unstun and prompt twice if creature is stunned', function () {
@@ -230,7 +230,7 @@ describe('One Stood Against Many', function () {
             expect(this.troll.exhausted).toBe(true);
             expect(this.troll.tokens.damage).toBe(2);
             expect(this.bumblebird.location).toBe('discard');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 
@@ -292,7 +292,7 @@ describe('One Stood Against Many', function () {
             expect(this.troll.exhausted).toBe(true);
             expect(this.troll.tokens.damage).toBe(4);
             expect(this.bumblebird.location).toBe('discard');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should unstun and prompt twice if creature is stunned', function () {
@@ -330,7 +330,7 @@ describe('One Stood Against Many', function () {
             expect(this.troll.exhausted).toBe(true);
             expect(this.troll.tokens.damage).toBe(2);
             expect(this.bumblebird.location).toBe('discard');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 
@@ -387,7 +387,7 @@ describe('One Stood Against Many', function () {
             expect(this.troll.tokens.armor).toBe(2);
             expect(this.troll.exhausted).toBe(true);
             expect(this.glimmer.location).toBe('play area');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 
@@ -415,7 +415,7 @@ describe('One Stood Against Many', function () {
             this.player1.clickCard(this.groggins);
 
             expect(this.groggins.exhausted).toBe(false);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 
@@ -469,7 +469,7 @@ describe('One Stood Against Many', function () {
             expect(this.shooler.tokens.damage).toBeUndefined();
             expect(this.glimmer.tokens.damage).toBeUndefined();
             expect(this.bulwark.exhausted).toBe(true);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 
@@ -528,7 +528,7 @@ describe('One Stood Against Many', function () {
             expect(this.ardentHero.tokens.damage).toBeUndefined();
 
             expect(this.troll.exhausted).toBe(true);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

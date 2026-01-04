@@ -17,7 +17,7 @@ describe('Forgive or Forget', function () {
         });
 
         it('should not prompt', function () {
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 
@@ -50,7 +50,7 @@ describe('Forgive or Forget', function () {
             });
 
             it('should not prompt for anything', function () {
-                expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+                expect(this.player1).isReadyToTakeAction();
             });
         });
 
@@ -77,7 +77,7 @@ describe('Forgive or Forget', function () {
                 expect(this.fidgit.location).toBe('discard');
                 expect(this.troll.location).toBe('discard');
 
-                expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+                expect(this.player1).isReadyToTakeAction();
             });
 
             it('should be able to select 1', function () {
@@ -89,7 +89,7 @@ describe('Forgive or Forget', function () {
                 expect(this.fidgit.location).toBe('discard');
                 expect(this.troll.location).toBe('discard');
 
-                expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+                expect(this.player1).isReadyToTakeAction();
             });
 
             it('should be able to select up to 2', function () {
@@ -102,7 +102,7 @@ describe('Forgive or Forget', function () {
                 expect(this.fidgit.location).toBe('purged');
                 expect(this.troll.location).toBe('discard');
 
-                expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+                expect(this.player1).isReadyToTakeAction();
             });
         });
     });
@@ -265,7 +265,7 @@ describe('Forgive or Forget', function () {
                 this.player1.clickPrompt('Done');
                 expect(this.player1).toHavePrompt("Select up to 2 cards from opponent's discard");
                 this.player1.clickPrompt('Done');
-                expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+                expect(this.player1).isReadyToTakeAction();
             });
 
             it('they purge owner and opponent cards when selected', function () {

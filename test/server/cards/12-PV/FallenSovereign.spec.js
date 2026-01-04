@@ -27,7 +27,7 @@ describe('Fallen Sovereign', function () {
             expect(this.yurk.hasTrait('mutant')).toBe(false);
             this.player1.playCreature(this.ruthlessAvenger, true);
             expect(this.ruthlessAvenger.hasTrait('mutant')).toBe(true);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should put itself into play when fate is triggered', function () {
@@ -40,7 +40,7 @@ describe('Fallen Sovereign', function () {
             expect(this.fallenSovereign.controller).toBe(this.player2.player);
             expect(this.fallenSovereign.exhausted).toBe(true);
             expect(this.searine.hasTrait('mutant')).toBe(true);
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player2).isReadyToTakeAction();
         });
     });
 });

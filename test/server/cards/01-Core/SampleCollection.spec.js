@@ -18,9 +18,9 @@ describe('Sample Collection', function () {
 
         it('should do nothing when the opponent has 0 keys', function () {
             this.player2.player.keys = { red: false, blue: false, yellow: false };
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
             this.player1.play(this.sampleCollection);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should prompt to choose a creature and archive it when the opponent has 1 key', function () {
@@ -34,7 +34,7 @@ describe('Sample Collection', function () {
             this.player1.clickCard(this.troll);
             expect(this.troll.location).toBe('archives');
             expect(this.player1.archives).toContain(this.troll);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should prompt to choose two creatures and archive them sequentially when the opponent has 2 keys', function () {
@@ -56,7 +56,7 @@ describe('Sample Collection', function () {
             this.player1.clickCard(this.bumpsy);
             expect(this.bumpsy.location).toBe('archives');
             expect(this.player1.archives).toContain(this.bumpsy);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
         it('should return creatures to the opponents hand when you pick up your archives', function () {
             this.player2.player.keys = { red: true, blue: true, yellow: false };

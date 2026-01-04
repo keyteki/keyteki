@@ -23,7 +23,7 @@ describe('Taxing Journey', function () {
 
             it('should not capture any amber', function () {
                 expect(this.player2.amber).toBe(0);
-                expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+                expect(this.player1).isReadyToTakeAction();
             });
         });
 
@@ -37,7 +37,7 @@ describe('Taxing Journey', function () {
                 expect(this.angryMob.amber).toBe(0);
                 expect(this.barristerJoya.amber).toBe(0);
                 expect(this.player2.amber).toBe(0);
-                expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+                expect(this.player1).isReadyToTakeAction();
             });
         });
 
@@ -60,7 +60,7 @@ describe('Taxing Journey', function () {
 
                 it('should not prompt to capture more ambers', function () {
                     expect(this.barristerJoya.amber).toBe(0);
-                    expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+                    expect(this.player1).isReadyToTakeAction();
                 });
             });
         });
@@ -88,7 +88,7 @@ describe('Taxing Journey', function () {
                     it('should not prompt to capture more ambers', function () {
                         expect(this.barristerJoya.amber).toBe(1);
                         expect(this.player2.amber).toBe(0);
-                        expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+                        expect(this.player1).isReadyToTakeAction();
                     });
                 });
             });
@@ -118,7 +118,7 @@ describe('Taxing Journey', function () {
                         expect(this.barristerJoya.amber).toBe(1);
                         expect(this.challeTheSafeguard.amber).toBe(0);
                         expect(this.player2.amber).toBe(0);
-                        expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+                        expect(this.player1).isReadyToTakeAction();
                     });
                 });
             });
@@ -147,7 +147,7 @@ describe('Taxing Journey', function () {
                     it('should not prompt to capture more ambers', function () {
                         expect(this.barristerJoya.amber).toBe(1);
                         expect(this.player2.amber).toBe(1);
-                        expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+                        expect(this.player1).isReadyToTakeAction();
                     });
                 });
             });
@@ -180,7 +180,7 @@ describe('Taxing Journey', function () {
                         expect(this.barristerJoya.amber).toBe(1);
                         expect(this.challeTheSafeguard.amber).toBe(1);
                         expect(this.player2.amber).toBe(0);
-                        expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+                        expect(this.player1).isReadyToTakeAction();
                     });
                 });
             });

@@ -19,7 +19,7 @@ describe('Brawling Grounds', function () {
             this.player1.fightWith(this.troll, this.flaxia);
             expect(this.player2.player.hand.length).toBe(1);
             expect(this.fullMoon.location).toBe('hand');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('causes opponent to discard at random when creature is destroyed', function () {
@@ -27,7 +27,7 @@ describe('Brawling Grounds', function () {
             this.player1.fightWith(this.troll, this.flaxia);
             expect(this.player2.player.hand.length).toBe(0);
             expect(this.fullMoon.location).toBe('discard');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('causes self to discard at random when creature is destroyed', function () {
@@ -40,7 +40,7 @@ describe('Brawling Grounds', function () {
             expect(this.berserkerSlam.location).toBe('discard');
             expect(this.player2.player.hand.length).toBe(0);
             expect(this.fullMoon.location).toBe('discard');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

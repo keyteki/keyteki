@@ -24,7 +24,7 @@ describe('Tectonic Shift', function () {
             expect(this.murkens.location).toBe('discard');
             expect(this.umbra.location).toBe('play area');
             expect(this.charette.location).toBe('play area');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should destroy right half of each battleline', function () {
@@ -37,7 +37,7 @@ describe('Tectonic Shift', function () {
             expect(this.murkens.location).toBe('play area');
             expect(this.umbra.location).toBe('discard');
             expect(this.charette.location).toBe('discard');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should destroy mixes halves of each battleline', function () {
@@ -50,7 +50,7 @@ describe('Tectonic Shift', function () {
             expect(this.murkens.location).toBe('play area');
             expect(this.umbra.location).toBe('discard');
             expect(this.charette.location).toBe('discard');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should destroy handle odd numbered battlelines', function () {
@@ -74,7 +74,7 @@ describe('Tectonic Shift', function () {
             expect(this.umbra.location).toBe('discard');
             expect(this.charette.location).toBe('discard');
             expect(this.flaxia.location).toBe('discard');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should empty opponent battleline', function () {
@@ -87,7 +87,7 @@ describe('Tectonic Shift', function () {
             this.player1.clickPrompt('Left');
             expect(this.pelf.location).toBe('discard');
             expect(this.bumpsy.location).toBe('play area');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should handle empty friendly battleline', function () {
@@ -99,7 +99,7 @@ describe('Tectonic Shift', function () {
             expect(this.murkens.location).toBe('discard');
             expect(this.umbra.location).toBe('play area');
             expect(this.charette.location).toBe('play area');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

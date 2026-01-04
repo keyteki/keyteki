@@ -22,7 +22,7 @@ describe('Nautilus', function () {
             expect(this.helperBot.warded).toBe(true);
             expect(this.nautilus.warded).toBe(false);
             expect(this.player1.player.hand.length).toBe(1);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should ward a creature and draw a card on fight', function () {
@@ -37,7 +37,7 @@ describe('Nautilus', function () {
             expect(this.helperBot.warded).toBe(true);
             expect(this.nautilus.warded).toBe(true);
             expect(this.player1.player.hand.length).toBe(2);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

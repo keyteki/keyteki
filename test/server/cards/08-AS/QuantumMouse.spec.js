@@ -18,7 +18,7 @@ describe('Quantum Mouse', function () {
 
         it('should not trigger if no bonus', function () {
             this.player1.play(this.archimedes);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should ask to replace draw icon but not amber or capture', function () {
@@ -40,7 +40,7 @@ describe('Quantum Mouse', function () {
             expect(this.quantumMouse.amber).toBe(1);
             expect(this.player2.amber).toBe(1);
 
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

@@ -47,7 +47,7 @@ describe('R-Evolution', function () {
             this.player2.endTurn();
             this.player1.clickPrompt('brobnar');
             this.player1.reap(this.pelf);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

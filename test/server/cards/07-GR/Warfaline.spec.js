@@ -32,7 +32,7 @@ describe('Warfaline', function () {
             expect(this.urchin.location).toBe('deck');
             expect(this.umbra.location).toBe('discard');
             expect(shuffled).toBe(this.player1.player);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('shuffles top 5 of discard in for opponent on play ', function () {
@@ -48,7 +48,7 @@ describe('Warfaline', function () {
             expect(this.spoilsOfBattle.location).toBe('deck');
             expect(this.tremor.location).toBe('deck');
             expect(shuffled).toBe(this.player2.player);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('shuffles top 5 of discard in for player on fight ', function () {
@@ -72,7 +72,7 @@ describe('Warfaline', function () {
             expect(this.urchin.location).toBe('deck');
             expect(this.umbra.location).toBe('discard');
             expect(shuffled).toBe(this.player1.player);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('shuffles nothing for empty discard ', function () {
@@ -82,7 +82,7 @@ describe('Warfaline', function () {
             this.player1.play(this.warfaline);
             this.player1.clickPrompt('Mine');
             expect(shuffled).toBe(this.player1.player);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

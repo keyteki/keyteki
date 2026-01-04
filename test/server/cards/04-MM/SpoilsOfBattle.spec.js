@@ -36,7 +36,7 @@ describe('spoils-of-battle', function () {
             expect(this.urchin.tokens.amber).toBe(2);
             expect(this.player2.amber).toBe(4);
 
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should capture on other creatures that have amber without a prompt when there are fewer creatures than ameber', function () {
@@ -54,7 +54,7 @@ describe('spoils-of-battle', function () {
             expect(this.player1.amber).toBe(4);
             expect(this.player2.amber).toBe(3);
 
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should prompt the player to pick creatures when there is insufficient amber', function () {
@@ -113,7 +113,7 @@ describe('spoils-of-battle', function () {
             expect(this.player1.amber).toBe(0);
             expect(this.player2.amber).toBe(0);
 
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

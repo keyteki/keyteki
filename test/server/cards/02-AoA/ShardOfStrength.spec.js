@@ -71,7 +71,7 @@ describe('Shard of Strength', function () {
 
             it('should not prompt', function () {
                 this.player1.useAction(this.shardOfStrength);
-                expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+                expect(this.player1).isReadyToTakeAction();
             });
         });
     });

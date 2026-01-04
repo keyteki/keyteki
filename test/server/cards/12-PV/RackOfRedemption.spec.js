@@ -31,13 +31,13 @@ describe('Rack of Redemption', function () {
             this.player2.fightWith(this.fandangle, this.ruthlessAvenger);
             expect(this.fandangle.location).toBe('discard');
             expect(this.player2.amber).toBe(3);
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player2).isReadyToTakeAction();
         });
 
         it('should not give amber if no Mutant is destroyed', function () {
             this.player1.fightWith(this.ruthlessAvenger, this.troll);
             expect(this.player1.amber).toBe(1);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should allow player to choose which creature gives amber', function () {
@@ -48,7 +48,7 @@ describe('Rack of Redemption', function () {
             expect(this.player1.amber).toBe(2);
             expect(this.fandangle.location).toBe('discard');
             expect(this.doomsayer.location).toBe('discard');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should know about destructions from before it was put into play', function () {
@@ -57,7 +57,7 @@ describe('Rack of Redemption', function () {
             this.player1.play(this.rackOfRedemption);
             this.player1.fightWith(this.intrepidExemplar, this.troll);
             expect(this.player1.amber).toBe(1);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should give amber if creature with mutation counter is destroyed', function () {
@@ -67,7 +67,7 @@ describe('Rack of Redemption', function () {
             this.player1.clickPrompt('Done');
             this.player1.fightWith(this.ruthlessAvenger, this.troll);
             expect(this.player1.amber).toBe(3);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });
