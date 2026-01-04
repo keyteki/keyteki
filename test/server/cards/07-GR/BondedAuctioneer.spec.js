@@ -35,7 +35,7 @@ describe('Bonded Auctioneer', function () {
                 expect(this.seekerNeedle.location).toBe('discard');
                 expect(this.player1.amber).toBe(3);
                 expect(this.player2.amber).toBe(1);
-                expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+                expect(this.player1).isReadyToTakeAction();
             });
 
             it('destroys opponent artifact and gains self 1 A', function () {
@@ -44,7 +44,7 @@ describe('Bonded Auctioneer', function () {
                 expect(this.quixxleStone.location).toBe('discard');
                 expect(this.player1.amber).toBe(2);
                 expect(this.player2.amber).toBe(2);
-                expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+                expect(this.player1).isReadyToTakeAction();
             });
 
             it('destroys stolen artifact and gains controller 1 A', function () {
@@ -55,7 +55,7 @@ describe('Bonded Auctioneer', function () {
                 expect(this.quixxleStone.location).toBe('discard');
                 expect(this.player1.amber).toBe(3);
                 expect(this.player2.amber).toBe(1);
-                expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+                expect(this.player1).isReadyToTakeAction();
             });
         });
 
@@ -68,7 +68,7 @@ describe('Bonded Auctioneer', function () {
             this.player1.clickCard(this.seekerNeedle);
             expect(this.player1.player.hand).toContain(this.seekerNeedle);
             expect(this.seekerNeedle.location).toBe('hand');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('can return opponent artifact to hand on scrap', function () {
@@ -76,7 +76,7 @@ describe('Bonded Auctioneer', function () {
             this.player1.clickCard(this.quixxleStone);
             expect(this.quixxleStone.location).toBe('hand');
             expect(this.player2.player.hand).toContain(this.quixxleStone);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('can return stolen artifact to hand on scrap', function () {
@@ -86,7 +86,7 @@ describe('Bonded Auctioneer', function () {
             this.player1.clickCard(this.quixxleStone);
             expect(this.quixxleStone.location).toBe('hand');
             expect(this.player2.player.hand).toContain(this.quixxleStone);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

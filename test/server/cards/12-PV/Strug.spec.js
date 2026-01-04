@@ -40,7 +40,7 @@ describe('Strug', function () {
             this.player2.reap(this.krump);
             expect(this.player2.amber).toBe(3);
             expect(this.strug.location).toBe('discard');
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player2).isReadyToTakeAction();
         });
     });
 });

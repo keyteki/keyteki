@@ -57,7 +57,7 @@ describe('Parasitic Arachnoid', function () {
             this.player2.clickCard(this.troll);
             expect(this.troll.amber).toBe(2);
             expect(this.player2.amber).toBe(0);
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player2).isReadyToTakeAction();
             expect(this.parasiticArachnoid.location).toBe('discard');
         });
     });

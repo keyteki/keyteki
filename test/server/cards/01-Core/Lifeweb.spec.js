@@ -143,4 +143,45 @@ describe('Lifeweb', function () {
             expect(this.player2.amber).toBe(1);
         });
     });
+
+    describe("Lifeweb's ability and creature played outside of the main phase", function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'logos',
+                    inPlay: ['strange-gizmo'],
+                    hand: ['binate-rupture', 'jargogle', 'ember-imp', 'doc-bookton', 'bot-bookton'],
+                    amber: 4
+                },
+                player2: {
+                    hand: ['lifeweb'],
+                    amber: 0
+                }
+            });
+        });
+
+        it('should count creatures played during start of turn', function () {
+            this.player1.play(this.binateRupture);
+            this.player1.play(this.jargogle);
+            this.player1.clickCard(this.emberImp);
+            this.player1.endTurn();
+            this.player2.clickPrompt('untamed');
+            this.player2.endTurn();
+
+            // Strange Gizmo causes Jargogle to play ember imp after forging a key
+            this.player1.clickPrompt('red');
+            this.player1.clickPrompt('right');
+            expect(this.emberImp.location).toBe('play area');
+            this.player1.clickPrompt('logos');
+            this.player1.play(this.docBookton);
+            this.player1.play(this.botBookton);
+            this.player1.endTurn();
+
+            this.player2.clickPrompt('untamed');
+            this.player2.play(this.lifeweb);
+            expect(this.player1.amber).toBe(0);
+            expect(this.player2.amber).toBe(3);
+            expect(this.player2).isReadyToTakeAction();
+        });
+    });
 });

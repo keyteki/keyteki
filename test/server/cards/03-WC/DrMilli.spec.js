@@ -27,7 +27,7 @@ describe('Dr. Milli', function () {
             this.player1.play(this.groupthinkTank);
             this.player1.play(this.drMilli);
             expect(this.player1).not.toHavePrompt('Dr. Milli');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
         it('should cause the player not to get archive prompt as player has more creatures than opponent not including Dr. Milli', function () {
             this.player1.play(this.mother);
@@ -37,7 +37,7 @@ describe('Dr. Milli', function () {
             this.player1.play(this.babblingBibliophile);
             this.player1.play(this.drMilli);
             expect(this.player1).not.toHavePrompt('Dr. Milli');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
         it('should cause the player to archive 4 cards if the opponent has 4 creatures on the board, and dr milli is the only card in play', function () {
             this.player1.play(this.drMilli);

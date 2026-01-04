@@ -31,7 +31,7 @@ describe('Lateral Thrusters', function () {
             expect(this.player2.player.creaturesInPlay[3]).toBe(this.buxBastian);
             this.player2.clickPrompt('Done');
             this.player2.clickPrompt('skyborn');
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player2).isReadyToTakeAction();
         });
     });
 });

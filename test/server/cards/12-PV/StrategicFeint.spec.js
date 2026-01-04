@@ -52,13 +52,13 @@ describe('Strategic Feint', function () {
             this.player2.play(this.anger);
             this.player2.clickCard(this.krump);
             this.player2.clickCard(this.emberImp);
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player2).isReadyToTakeAction();
             this.player2.endTurn();
             this.player1.clickPrompt('staralliance');
             this.player1.endTurn();
             this.player2.clickPrompt('brobnar');
             this.player2.playCreature(this.brammo);
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player2).isReadyToTakeAction();
         });
     });
 });

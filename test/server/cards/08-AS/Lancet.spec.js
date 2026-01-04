@@ -24,7 +24,7 @@ describe('Lancet', function () {
             this.player1.fightWith(this.lancet, this.lamindra);
             expect(this.gub.amber).toBe(1);
             expect(this.player2.amber).toBe(1);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

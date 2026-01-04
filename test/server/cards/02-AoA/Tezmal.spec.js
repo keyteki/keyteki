@@ -56,7 +56,7 @@ describe('Tezmal', function () {
             expect(this.player2).toHavePromptButton('untamed');
             expect(this.player2).not.toHavePromptButton('logos');
             this.player2.clickPrompt('untamed');
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player2).isReadyToTakeAction();
         });
     });
 });

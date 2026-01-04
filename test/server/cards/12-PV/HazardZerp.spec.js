@@ -23,7 +23,7 @@ describe('Hazard Zerp', function () {
             this.player1.clickCard(this.krump);
             expect(this.krump.tokens.damage).toBe(3);
             expect(this.player1.hand.length).toBe(1); // Only the card from start
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should draw a card if the damaged creature is destroyed', function () {
@@ -39,7 +39,7 @@ describe('Hazard Zerp', function () {
             this.player1.clickCard(this.krump);
             expect(this.krump.tokens.damage).toBe(3);
             expect(this.flaxia.location).toBe('discard');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should fire scrap even when no card is discarded', function () {
@@ -47,7 +47,7 @@ describe('Hazard Zerp', function () {
             this.player1.scrap(this.hazardZerp);
             this.player1.clickCard(this.krump);
             expect(this.krump.tokens.damage).toBe(3);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });
