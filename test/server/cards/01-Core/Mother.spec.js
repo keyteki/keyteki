@@ -1,10 +1,10 @@
-describe('Daughter', function () {
-    describe('Play ability', function () {
+describe('Mother', function () {
+    describe("Mother's ability", function () {
         beforeEach(function () {
             this.setupTest({
                 player1: {
                     house: 'logos',
-                    inPlay: ['daughter']
+                    inPlay: ['mother']
                 },
                 player2: {}
             });
