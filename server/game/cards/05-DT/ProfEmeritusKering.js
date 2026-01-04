@@ -15,7 +15,7 @@ class ProfEmeritusKering extends Card {
             },
             then: (preThenContext) => ({
                 condition: (context) => context.player.isTideHigh(),
-                alwaysTrigger: true,
+                alwaysTriggers: true,
                 gameAction: ability.actions.use((context) => ({
                     target: preThenContext.cardStateWhenInitiated.clonedNeighbors.filter(
                         (c) => c !== context.preThenEvent.card

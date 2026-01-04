@@ -12,7 +12,7 @@ class Vandalize extends Card {
                 }
             })),
             then: {
-                alwaysTrigger: true,
+                alwaysTriggers: true,
                 gameAction: ability.actions.rearrangeCards((context) => ({
                     target: context.player.opponent,
                     amount: 2

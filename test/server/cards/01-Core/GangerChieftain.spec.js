@@ -118,4 +118,31 @@ describe('Ganger Chieftain', function () {
             expect(this.player2.amber).toBe(2);
         });
     });
+
+    describe("Ganger Chieftain's ability", function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'brobnar',
+                    hand: ['ganger-chieftain'],
+                    inPlay: ['awakened-titan']
+                },
+                player2: {
+                    inPlay: ['batdrone', 'dextre']
+                }
+            });
+        });
+
+        it('on play, it should allow selecting a creature that cannot ready', function () {
+            this.player1.reap(this.awakenedTitan);
+            expect(this.awakenedTitan.exhausted).toBe(true);
+            this.player1.playCreature(this.gangerChieftain, true);
+            expect(this.player1).toHavePrompt('Any reactions to Ganger Chieftain being played?');
+            this.player1.clickCard(this.gangerChieftain);
+            expect(this.player1).toBeAbleToSelect(this.awakenedTitan);
+            this.player1.clickCard(this.awakenedTitan); // click to fail ready
+            expect(this.awakenedTitan.exhausted).toBe(true);
+            expect(this.player1).isReadyToTakeAction();
+        });
+    });
 });
