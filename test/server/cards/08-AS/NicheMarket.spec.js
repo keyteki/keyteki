@@ -24,7 +24,7 @@ describe('Niche Market', function () {
             this.player1.clickPrompt('Reap with this creature');
             expect(this.player1.amber).toBe(4);
             expect(this.player2.amber).toBe(1);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
             this.player1.endTurn();
 
             this.player2.clickPrompt('brobnar');
@@ -37,7 +37,7 @@ describe('Niche Market', function () {
             this.player2.clickPrompt('Reap with this creature');
             expect(this.player1.amber).toBe(3);
             expect(this.player2.amber).toBe(3);
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player2).isReadyToTakeAction();
         });
 
         it('should transfer to next-lowest creature', function () {
@@ -45,7 +45,7 @@ describe('Niche Market', function () {
             this.player1.useAction(this.ironHeidy);
             expect(this.player1.amber).toBe(3);
             expect(this.player2.amber).toBe(1);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

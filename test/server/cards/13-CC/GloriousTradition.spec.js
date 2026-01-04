@@ -19,7 +19,7 @@ describe('Glorious Tradition', function () {
             expect(this.krump.tokens.amber).toBeUndefined();
             expect(this.charette.tokens.amber).toBeUndefined();
             expect(this.gub.tokens.amber).toBeUndefined();
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

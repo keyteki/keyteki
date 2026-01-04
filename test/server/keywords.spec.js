@@ -19,7 +19,7 @@ describe('keywords', function () {
         });
 
         it('should not allow attacking neighboring creatures without taunt', function () {
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
             this.player1.fightWith(this.francus);
             expect(this.player1).toHavePrompt('Choose a creature to attack');
             expect(this.player1).toBeAbleToSelect(this.bulwark);

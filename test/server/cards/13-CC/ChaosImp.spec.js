@@ -21,7 +21,7 @@ describe('Chaos Imp', function () {
             expect(this.chaosImp.location).toBe('discard');
             expect(this.player2.amber).toBe(2); // 3 - 1 = 2
             expect(this.player1.amber).toBe(1); // Unchanged
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should archive itself when destroyed and opponent has no amber', function () {
@@ -31,7 +31,7 @@ describe('Chaos Imp', function () {
             expect(this.chaosImp.location).toBe('archives');
             expect(this.player2.amber).toBe(0); // Still 0
             expect(this.player1.amber).toBe(1); // Unchanged
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should work correctly when opponent has exactly 1 amber', function () {
@@ -41,7 +41,7 @@ describe('Chaos Imp', function () {
             expect(this.chaosImp.location).toBe('archives');
             expect(this.player2.amber).toBe(0); // 1 - 1 = 0
             expect(this.player1.amber).toBe(1); // Unchanged
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should work when destroyed by opponent', function () {
@@ -52,7 +52,7 @@ describe('Chaos Imp', function () {
             expect(this.chaosImp.location).toBe('discard');
             expect(this.player2.amber).toBe(3); // 3 - 1 = 2
             expect(this.player1.amber).toBe(1); // Unchanged
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player2).isReadyToTakeAction();
         });
     });
 });

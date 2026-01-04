@@ -24,7 +24,7 @@ describe('Reclaimed by Nature', function () {
             expect(this.player1).not.toBeAbleToSelect(this.troll);
             this.player1.clickCard(this.customsOffice);
             expect(this.customsOffice.location).toBe('purged');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
             expect(this.player1.amber).toBe(1);
         });
 
@@ -37,7 +37,7 @@ describe('Reclaimed by Nature', function () {
             expect(this.player1).not.toBeAbleToSelect(this.troll);
             this.player1.clickCard(this.vineappleTree);
             expect(this.vineappleTree.location).toBe('purged');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
             expect(this.player1.amber).toBe(2);
         });
 
@@ -53,7 +53,7 @@ describe('Reclaimed by Nature', function () {
             expect(this.player1).toBeAbleToSelect(this.gebuk);
             expect(this.player1).toBeAbleToSelect(this.troll);
             this.player1.clickCard(this.troll);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
             expect(this.evasionSigil.location).toBe('purged');
             expect(this.player1.amber).toBe(3);
             expect(this.player1.player.hand.length).toBe(2);

@@ -31,7 +31,7 @@ describe('Build Your Champion', function () {
             this.player1.clickPrompt('Done');
             expect(this.deusillus.location).toBe('archives');
             expect(this.deusillus2.location).toBe('archives');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should work when 1 part is already archived', function () {
@@ -45,7 +45,7 @@ describe('Build Your Champion', function () {
             this.player1.clickPrompt('Done');
             expect(this.deusillus.location).toBe('archives');
             expect(this.deusillus2.location).toBe('hand');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should be able to fail the search', function () {
@@ -55,7 +55,7 @@ describe('Build Your Champion', function () {
             this.player1.clickPrompt('Done');
             expect(this.deusillus.location).toBe('deck');
             expect(this.deusillus2.location).toBe('discard');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

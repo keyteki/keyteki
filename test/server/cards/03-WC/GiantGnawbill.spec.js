@@ -19,7 +19,7 @@ describe('Giant Gnawbill', function () {
         it('should NOT prompt a player to destroy an artifact of the chosen house when a selection is made when there isnt one in play', function () {
             this.player1.endTurn();
             this.player2.clickPrompt('untamed');
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player2).isReadyToTakeAction();
         });
 
         it('should prompt a player to destroy an artifact of the chosen house when a selection is made when there is one in play', function () {

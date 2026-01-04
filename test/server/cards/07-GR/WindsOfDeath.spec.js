@@ -32,7 +32,7 @@ describe('Winds of Death', function () {
             expect(this.flaxia.location).toBe('discard');
             expect(this.charette.location).toBe('discard');
             expect(this.cpoZytar.location).toBe('discard');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

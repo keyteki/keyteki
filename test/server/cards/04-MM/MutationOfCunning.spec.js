@@ -77,7 +77,7 @@ describe('Mutation of Cunning', function () {
             this.player1.endTurn();
             this.player1.clickPrompt('untamed');
             expect(this.flaxia.hasTrait('mutant')).toBe(false);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

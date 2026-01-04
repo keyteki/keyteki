@@ -22,7 +22,7 @@ describe('Spectral Ruth', function () {
             expect(this.player1.player.keys.blue).toBe(false);
             expect(this.player1.player.keys.yellow).toBe(false);
             expect(this.player1.player.discard.length).toBe(9);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('archives discard pile on play if a key forged this turn', function () {
@@ -37,7 +37,7 @@ describe('Spectral Ruth', function () {
             expect(this.flaxia.location).toBe('archives');
             expect(this.fullMoon.location).toBe('archives');
             expect(this.poke.location).toBe('archives');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('does not archive on destroy if not haunted', function () {
@@ -45,7 +45,7 @@ describe('Spectral Ruth', function () {
             this.player1.play(this.pound);
             this.player1.clickCard(this.spectralRuth);
             expect(this.spectralRuth.location).toBe('discard');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('archives on destroy if haunted', function () {
@@ -54,7 +54,7 @@ describe('Spectral Ruth', function () {
             this.player1.play(this.pound);
             this.player1.clickCard(this.spectralRuth);
             expect(this.spectralRuth.location).toBe('archives');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

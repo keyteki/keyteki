@@ -27,7 +27,7 @@ describe('Unleash the Beast', function () {
             this.player1.clickCard(this.troll);
             expect(this.krump.exhausted).toBe(true);
             expect(this.troll.tokens.damage).toBe(6);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should work with creatures that have power counters', function () {
@@ -37,7 +37,7 @@ describe('Unleash the Beast', function () {
             this.player1.clickCard(this.troll);
             expect(this.krump.exhausted).toBe(true);
             expect(this.troll.location).toBe('discard');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

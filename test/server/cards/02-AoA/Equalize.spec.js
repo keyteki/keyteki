@@ -21,7 +21,7 @@ describe('Equalize', function () {
             this.player2.clickPrompt('Red');
             this.player2.clickPrompt('sanctum');
             this.player2.play(this.equalize);
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player2).isReadyToTakeAction();
         });
 
         it('should let a player redistribute all amber', function () {
@@ -51,7 +51,7 @@ describe('Equalize', function () {
             this.player2.clickCard(this.drumble);
             this.player2.clickCard(this.tentacus);
             this.player2.clickCard(this.charette);
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player2).isReadyToTakeAction();
             expect(this.drumble.tokens.amber).toBe(10);
             expect(this.tentacus.tokens.amber).toBe(1);
             expect(this.charette.tokens.amber).toBe(1);
@@ -92,7 +92,7 @@ describe('Equalize', function () {
             this.player2.clickCard(this.drumble);
             this.player2.clickCard(this.tentacus);
             this.player2.clickCard(this.charette);
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player2).isReadyToTakeAction();
             expect(this.drumble.tokens.amber).toBe(10);
             expect(this.tentacus.tokens.amber).toBe(1);
             expect(this.charette.tokens.amber).toBe(1);

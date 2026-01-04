@@ -33,7 +33,7 @@ describe('Render Guilt', function () {
 
             this.player1.clickCard(this.silvertooth);
             expect(this.silvertooth.tokens.damage).toBe(1);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should deal damage based on total amber on the creature after capture', function () {
@@ -53,14 +53,14 @@ describe('Render Guilt', function () {
             expect(this.dustPixie.location).toBe('discard');
             expect(this.silvertooth.tokens.damage).toBe(1);
             expect(this.troll.tokens.damage).toBe(1);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should not deal damage if creature has no amber after capture', function () {
             this.player2.amber = 0;
             this.player1.play(this.renderGuilt);
             this.player1.clickCard(this.blypyp);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

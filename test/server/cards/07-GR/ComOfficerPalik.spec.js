@@ -20,7 +20,7 @@ describe('Com Officer Palik', function () {
             expect(this.player1).toBeAbleToSelect(this.batdrone);
             expect(this.player1).not.toBeAbleToSelect(this.urchin);
             this.player1.clickCard(this.comOfficerPalik);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
             expect(this.comOfficerPalik.amber).toBe(1);
             expect(this.player2.amber).toBe(1);
         });
@@ -28,7 +28,7 @@ describe('Com Officer Palik', function () {
         it('capture 1 on self on fight', function () {
             this.player1.fightWith(this.comOfficerPalik, this.urchin);
             this.player1.clickCard(this.comOfficerPalik);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
             expect(this.comOfficerPalik.amber).toBe(1);
             expect(this.player2.amber).toBe(1);
         });
@@ -36,7 +36,7 @@ describe('Com Officer Palik', function () {
         it('capture 1 on another creature on reap', function () {
             this.player1.reap(this.comOfficerPalik);
             this.player1.clickCard(this.batdrone);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
             expect(this.batdrone.amber).toBe(1);
             expect(this.player2.amber).toBe(1);
         });
@@ -48,7 +48,7 @@ describe('Com Officer Palik', function () {
             this.player1.clickPrompt('logos');
             this.player1.reap(this.comOfficerPalik);
             this.player1.clickCard(this.comOfficerPalik);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
             expect(this.comOfficerPalik.amber).toBe(1);
             expect(this.player2.amber).toBe(1);
         });

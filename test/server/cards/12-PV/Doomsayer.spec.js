@@ -46,7 +46,7 @@ describe('Doomsayer', function () {
             expect(this.flaxia.tokens.damage).toBe(2);
             expect(this.searine.tokens.damage).toBe(2);
 
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

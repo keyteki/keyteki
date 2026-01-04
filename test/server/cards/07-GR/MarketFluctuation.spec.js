@@ -35,14 +35,14 @@ describe('Market Fluctuation', function () {
             this.player1.play(this.marketFluctuation);
             expect(this.player1.player.hand.length).toBe(6);
             expect(this.player2.player.hand.length).toBe(6);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('causes each non-haunted player to discard 3 at random', function () {
             this.player1.play(this.marketFluctuation);
             expect(this.player1.player.hand.length).toBe(1);
             expect(this.player2.player.hand.length).toBe(0);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('causes one haunted player to draw 3, and one non-haunted player to discard 3 at random', function () {
@@ -50,7 +50,7 @@ describe('Market Fluctuation', function () {
             this.player1.play(this.marketFluctuation);
             expect(this.player1.player.hand.length).toBe(6);
             expect(this.player2.player.hand.length).toBe(0);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('can cause a haunted player to become unhaunted', function () {
@@ -60,7 +60,7 @@ describe('Market Fluctuation', function () {
             expect(this.player1.player.hand.length).toBe(3);
             expect(this.player1.player.discard.length).toBe(4);
             expect(this.player2.player.hand.length).toBe(0);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });
