@@ -3,10 +3,13 @@ describe('Daughter', function () {
         beforeEach(function () {
             this.setupTest({
                 player1: {
+                    amber: 4,
                     house: 'logos',
-                    inPlay: ['daughter']
+                    inPlay: ['daughter', 'troll']
                 },
-                player2: {}
+                player2: {
+                    inPlay: ['umbra', 'nexus']
+                }
             });
         });
 
