@@ -40,7 +40,7 @@ describe('Gamma Blaster', function () {
             expect(this.player2).toBeAbleToSelect(this.grabberJammer);
             this.player2.clickCard(this.brashGrabber);
             expect(this.brashGrabber.location).toBe('discard');
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player2).isReadyToTakeAction();
         });
     });
 });

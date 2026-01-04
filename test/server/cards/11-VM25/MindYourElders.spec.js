@@ -29,7 +29,7 @@ describe('Mind Your Elders', function () {
             this.player2.amber = 3;
             this.player2.moveCard(this.zorg, 'discard');
             this.player1.play(this.mindYourElders);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
             expect(this.player2.amber).toBe(3);
             expect(this.zorg.tokens.amber).toBeUndefined();
         });
@@ -53,7 +53,7 @@ describe('Mind Your Elders', function () {
             this.player2.amber = 3;
             this.player1.moveCard(this.johnSmyth, 'discard');
             this.player1.play(this.mindYourElders);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
             expect(this.player2.amber).toBe(3);
             expect(this.zorg.tokens.amber).toBeUndefined();
         });

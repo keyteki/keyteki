@@ -39,7 +39,7 @@ describe('Shell of a Ghost', function () {
             expect(this.player1.player.creaturesInPlay).toContain(this.dustPixie);
             expect(this.player1.amber).toBe(1);
             expect(this.player1.chains).toBe(2);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should gain 2 chains even if there is nothing to play', function () {
@@ -49,7 +49,7 @@ describe('Shell of a Ghost', function () {
             this.player2.moveCard(this.huntingWitch, 'hand');
             this.player1.play(this.shellOfAGhost);
             expect(this.player1.chains).toBe(2);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

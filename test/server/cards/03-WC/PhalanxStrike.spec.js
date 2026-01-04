@@ -55,7 +55,7 @@ describe('Phalanx Strike', function () {
             expect(this.player1).toBeAbleToSelect(this.urchin);
             this.player1.clickCard(this.urchin);
             expect(this.urchin.location).toBe('discard');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should prompt the player to repeat the ability if they exalt a friendly creature - but refuse', function () {
@@ -71,7 +71,7 @@ describe('Phalanx Strike', function () {
             expect(this.player1).toBeAbleToSelect(this.brainEater);
             expect(this.player1).toHavePromptButton('Done');
             this.player1.clickPrompt('Done');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should prompt the player to repeat the ability if they exalt a friendly creature, even if first target was warded', function () {
@@ -84,7 +84,7 @@ describe('Phalanx Strike', function () {
             expect(this.player1).toBeAbleToSelect(this.brainEater);
             expect(this.player1).toHavePromptButton('Done');
             this.player1.clickPrompt('Done');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

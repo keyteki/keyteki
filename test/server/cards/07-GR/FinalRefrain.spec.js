@@ -98,7 +98,7 @@ describe('Final Refrain', function () {
             expect(this.thingFromTheDeep.tokens.damage).toBe(13);
             expect(this.helmsmanSpears.location).toBe('discard');
 
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('destroys each creature after the fights', function () {
@@ -121,7 +121,7 @@ describe('Final Refrain', function () {
             expect(this.medicIngram.tokens.ward).toBe(undefined);
             expect(this.helmsmanSpears.location).toBe('discard');
             expect(this.troll.location).toBe('discard');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('handles creatures that cannot be put into play', function () {
@@ -151,7 +151,7 @@ describe('Final Refrain', function () {
             expect(this.medicIngram.tokens.ward).toBe(undefined);
             expect(this.helmsmanSpears.location).toBe('discard');
             expect(this.troll.location).toBe('discard');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

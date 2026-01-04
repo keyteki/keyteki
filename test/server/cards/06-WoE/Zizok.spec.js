@@ -24,7 +24,7 @@ describe('Zizok', function () {
             expect(this.zizok.location).toBe('play area');
             this.player1.clickCard(this.urchin); // 2 cards died from splash
             expect(this.zizok.exhausted).toBe(false);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should not ready when no creature destroyed by its splash attack', function () {
@@ -35,7 +35,7 @@ describe('Zizok', function () {
             expect(this.zizok.location).toBe('play area');
             expect(this.witchOfTheEye.tokens.damage).toBe(1);
             expect(this.zizok.exhausted).toBe(true);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it("should not ready when creature destroyed by another creature's splash attack", function () {
@@ -46,7 +46,7 @@ describe('Zizok', function () {
             expect(this.dustPixie.location).toBe('discard');
             expect(this.zizok.location).toBe('play area');
             expect(this.zizok.exhausted).toBe(true);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

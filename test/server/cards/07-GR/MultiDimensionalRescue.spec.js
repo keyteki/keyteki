@@ -65,7 +65,7 @@ describe('Multi-Dimensional Rescue', function () {
             this.player1.clickCard(this.worldTree);
             this.player1.clickCard(this.bigtwig);
             this.player1.clickCard(this.earthbind);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
 
             expect(this.player1).toBeAbleToPlay(this.regrowth);
             expect(this.player1).toBeAbleToPlay(this.worldTree);

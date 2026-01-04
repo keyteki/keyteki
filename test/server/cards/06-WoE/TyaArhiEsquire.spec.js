@@ -27,7 +27,7 @@ describe('Tya Arhi Esquire', function () {
             expect(this.bumpsy.location).toBe('discard');
             expect(this.player1.player.creaturesInPlay.length).toBe(3);
             expect(this.player2.player.creaturesInPlay.length).toBe(1);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('makes token creatures after a board wipe', function () {
@@ -42,7 +42,7 @@ describe('Tya Arhi Esquire', function () {
             expect(this.bumpsy.location).toBe('discard');
             expect(this.player1.player.creaturesInPlay.length).toBe(2);
             expect(this.player2.player.creaturesInPlay.length).toBe(0);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

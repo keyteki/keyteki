@@ -17,7 +17,7 @@ describe('Doorstep to Heaven', function () {
             this.player1.play(this.doorstepToHeaven);
             expect(this.player1.amber).toBe(5);
             expect(this.player2.amber).toBe(5);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should not make players with less than 6 amber lose any', function () {
@@ -26,7 +26,7 @@ describe('Doorstep to Heaven', function () {
             this.player1.play(this.doorstepToHeaven);
             expect(this.player1.amber).toBe(4);
             expect(this.player2.amber).toBe(3);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

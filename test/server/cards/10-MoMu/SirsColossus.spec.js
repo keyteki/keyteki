@@ -54,7 +54,7 @@ describe('Sirs Colossus', function () {
             expect(this.sirsColossus.amber).toBe(4);
             expect(this.lamindra.amber).toBe(0);
             expect(this.player2.amber).toBe(0);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should remove amber from a creature on fight', function () {
@@ -78,7 +78,7 @@ describe('Sirs Colossus', function () {
             expect(this.lamindra.amber).toBe(0);
             expect(this.player1.amber).toBe(2);
             expect(this.player2.amber).toBe(0);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

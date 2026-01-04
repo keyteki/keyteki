@@ -23,7 +23,7 @@ describe('SoundTheHorns', function () {
 
         it('gets brobnar creature', function () {
             this.player1.play(this.soundTheHorns);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
             expect(this.seekerNeedle.location).toBe('discard');
             expect(this.theWarchest.location).toBe('discard');
             expect(this.gangerChieftain.location).toBe('hand');
