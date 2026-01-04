@@ -29,7 +29,7 @@ class Player extends GameObject {
 
         this.deckData = {};
         this.tokenCard = null;
-        this.takenMulligan = false;
+        this.mulliganDecided = false;
 
         this.chains = 0;
         this.keysForgedThisRound = [];
@@ -220,7 +220,7 @@ class Player extends GameObject {
 
         this.shuffleDeck();
         this.drawCardsToHand(size - 1);
-        this.takenMulligan = true;
+        this.mulliganDecided = true;
     }
 
     /**
