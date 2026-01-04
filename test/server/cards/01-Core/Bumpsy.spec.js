@@ -15,7 +15,7 @@ describe('Bumpsy', function () {
         it('should make opponent lose 1 amber on play', function () {
             this.player1.play(this.bumpsy);
             expect(this.player2.amber).toBe(2);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

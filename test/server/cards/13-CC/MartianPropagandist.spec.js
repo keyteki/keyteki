@@ -22,7 +22,7 @@ describe('Martian Propagandist', function () {
             expect(this.flaxia.hasHouse('mars')).toBe(false);
             this.player1.reap(this.krump);
             expect(this.player1.amber).toBe(1);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should make neighbors belong to house Mars after reaping', function () {
@@ -39,7 +39,7 @@ describe('Martian Propagandist', function () {
             expect(this.troll.hasHouse('mars')).toBe(false);
             this.player1.reap(this.culfTheQuiet);
             expect(this.player1.amber).toBe(2);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

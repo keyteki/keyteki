@@ -124,7 +124,7 @@ describe('5C077 Evil Twin', function () {
                     it('should add +1 power counters', function () {
                         expect(this['5c077EvilTwin'].tokens.power).toBe(1);
                         expect(this['5c077EvilTwin'].power).toBe(3);
-                        expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+                        expect(this.player1).isReadyToTakeAction();
                     });
 
                     describe('and reap again', function () {

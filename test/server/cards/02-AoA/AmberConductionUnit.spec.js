@@ -85,7 +85,7 @@ describe('AmberConductionUnit', function () {
             expect(this.brillixPonder.tokens.stun).toBe(1);
             expect(this.daughter.location).toBe('play area');
             expect(this.daughter.tokens.stun).toBe(undefined);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

@@ -108,7 +108,7 @@ describe('Chronus', function () {
 
             this.player1.play(this.dextre);
             expect(this.player1).not.toBeAbleToSelect(this.chronus);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
             expect(this.player1.amber).toBe(2);
         });
 
@@ -117,7 +117,7 @@ describe('Chronus', function () {
             this.player1.endTurn();
             this.player2.clickPrompt('untamed');
             this.player2.play(this.mabTheMad);
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player2).isReadyToTakeAction();
         });
     });
 });

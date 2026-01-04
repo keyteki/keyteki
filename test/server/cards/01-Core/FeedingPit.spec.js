@@ -18,7 +18,7 @@ describe('Feeding Pit', function () {
             this.player1.clickCard(this.emberImp);
             expect(this.emberImp.location).toBe('discard');
             expect(this.player1.amber).toBe(1);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 
@@ -38,7 +38,7 @@ describe('Feeding Pit', function () {
             this.player1.useAction(this.feedingPit);
             expect(this.fear.location).toBe('hand');
             expect(this.player1.amber).toBe(0);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

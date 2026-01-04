@@ -32,14 +32,14 @@ describe('Sandhopper', function () {
             this.player1.clickPrompt('Done');
             expect(this.antiquitiesDealer.location).toBe('hand');
             expect(this.pelf.location).toBe('hand');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should fizzle with no creatures in play', function () {
             this.antiquitiesDealer.location = 'discard';
             this.umbra.location = 'discard';
             this.player1.useAction(this.sandhopper);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should fizzle with a warded creature', function () {
@@ -59,7 +59,7 @@ describe('Sandhopper', function () {
             expect(this.player1).not.toBeAbleToSelect(this.pelf);
             expect(this.player1).not.toBeAbleToSelect(this.vowOfBlood);
             expect(this.player1).not.toBeAbleToSelect(this.conductorJărroyă);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

@@ -20,7 +20,7 @@ describe('Prowler', function () {
             this.player1.reap(this.prowler1);
             expect(this.player1.amber).toBe(3);
             expect(this.player2.amber).toBe(2);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should not steal on reap if opponent does not have more amber', function () {
@@ -28,7 +28,7 @@ describe('Prowler', function () {
             this.player1.reap(this.prowler1);
             expect(this.player1.amber).toBe(2);
             expect(this.player2.amber).toBe(2);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

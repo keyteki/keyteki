@@ -18,14 +18,14 @@ describe('Snippy', function () {
             expect(this.batdrone.location).toBe('discard');
             expect(this.shadys.location).toBe('discard');
             expect(this.player1.player.discard.length).toBe(11);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('does nothing with no deck when not haunted', function () {
             this.player1.player.deck = [];
             this.player1.reap(this.touchstone);
             expect(this.player1.player.discard.length).toBe(9);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('draws 2 cards of the deck when haunted', function () {
@@ -34,7 +34,7 @@ describe('Snippy', function () {
             expect(this.batdrone.location).toBe('hand');
             expect(this.shadys.location).toBe('hand');
             expect(this.player1.player.hand.length).toBe(2);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

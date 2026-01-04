@@ -34,7 +34,7 @@ describe('Broken Axe Outpost', function () {
         it('should fizzle with no creatures in play', function () {
             this.player1.fightWith(this.bumpsy, this.kelifiDragon);
             this.player1.useAction(this.brokenAxeOutpost);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

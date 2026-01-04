@@ -22,7 +22,7 @@ describe('High Street Churn', function () {
             this.player1.clickPrompt('dis');
             expect(this.player2.player.hand.length).toBe(6);
             expect(this.player2.player.discard.length).not.toBe(0);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should work when opponent has no cards of that house', function () {
@@ -31,7 +31,7 @@ describe('High Street Churn', function () {
             this.player1.clickPrompt('dis');
             expect(this.player2.player.hand.length).toBe(6);
             expect(this.player2.player.discard.length).toBe(4);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should work when opponent has no cards in hand', function () {
@@ -43,7 +43,7 @@ describe('High Street Churn', function () {
             this.player1.clickPrompt('dis');
             expect(this.player2.player.hand.length).toBe(6);
             expect(this.player2.player.discard.length).toBe(4);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

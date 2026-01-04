@@ -30,7 +30,7 @@ describe('Prince Bufo', function () {
             expect(this.player1.getForgedKeys()).toBe(1);
             expect(this.player2.getForgedKeys()).toBe(0);
             expect(this.princeBufo.location).toBe('discard');
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player2).isReadyToTakeAction();
         });
     });
 });

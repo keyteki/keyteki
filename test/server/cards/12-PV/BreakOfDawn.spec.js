@@ -24,7 +24,7 @@ describe('Break of Dawn', function () {
             expect(this.flaxia.location).toBe('hand');
             expect(this.dewFaerie.location).toBe('hand');
             expect(this.krump.location).toBe('deck');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

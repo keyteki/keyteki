@@ -29,7 +29,7 @@ describe('4CR "Foreseer"', function () {
             expect(this.searine.location).toBe('deck');
             expect(this.drainingTouch.location).toBe('deck');
             expect(this.helperBot.location).toBe('hand');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should allow choosing a card to put in hand when reaped', function () {

@@ -24,7 +24,7 @@ describe('Emeritus Darn', function () {
             expect(this.searine.location).toBe('deck');
             expect(this.drainingTouch.location).toBe('archives');
             expect(this.helperBot.location).toBe('archives');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should archive fewer cards if deck has less than 2 cards', function () {
@@ -33,7 +33,7 @@ describe('Emeritus Darn', function () {
             this.player1.reap(this.emeritusDarn);
             expect(this.searine.location).toBe('archives');
             expect(this.player1.player.archives.length).toBe(1);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

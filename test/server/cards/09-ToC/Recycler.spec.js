@@ -36,7 +36,7 @@ describe('Recycler', function () {
             expect(this.junkRestoration.location).toBe('discard');
             this.player1.clickPrompt('Left');
             expect(this.player1.player.creaturesInPlay[0]).toBe(this.minion1);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should discard top 3 cards and make 2 tokens for 2 creatures', function () {
@@ -48,7 +48,7 @@ describe('Recycler', function () {
             this.player1.clickPrompt('Left');
             expect(this.player1.player.creaturesInPlay[0]).toBe(this.minion2);
             expect(this.player1.player.creaturesInPlay[1]).toBe(this.minion1);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should discard top 3 cards and make 0 tokens for 0 creatures', function () {
@@ -56,7 +56,7 @@ describe('Recycler', function () {
             this.player1.moveCard(this.fullMoon, 'deck');
             this.player1.moveCard(this.junkRestoration, 'deck');
             this.player1.reap(this.recycler);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

@@ -26,7 +26,7 @@ describe("Flint's Legend", function () {
             expect(this.player2.amber).toBe(1);
             expect(this.treasureIsland.amber).toBe(1);
             expect(this.treasureIsland2.amber).toBe(0);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should move an amber from opponent pool to opponent Treasure Island', function () {
@@ -35,7 +35,7 @@ describe("Flint's Legend", function () {
             expect(this.player2.amber).toBe(1);
             expect(this.treasureIsland.amber).toBe(0);
             expect(this.treasureIsland2.amber).toBe(1);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should do nothing if no Treasure Islands', function () {
@@ -43,7 +43,7 @@ describe("Flint's Legend", function () {
             this.player1.moveCard(this.treasureIsland2, 'discard');
             this.player1.play(this.flintSLegend);
             expect(this.player2.amber).toBe(2);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should do nothing if no opponent has no amber', function () {
@@ -53,7 +53,7 @@ describe("Flint's Legend", function () {
             expect(this.player2.amber).toBe(0);
             expect(this.treasureIsland.amber).toBe(0);
             expect(this.treasureIsland2.amber).toBe(0);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

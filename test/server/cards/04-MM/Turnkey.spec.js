@@ -20,7 +20,7 @@ describe('Turnkey', function () {
             expect(this.player2.player.keys.red).toBe(false);
             expect(this.player2.player.keys.blue).toBe(false);
             expect(this.player2.player.keys.yellow).toBe(false);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it("should unforge an opponent's key when they have one", function () {
@@ -30,7 +30,7 @@ describe('Turnkey', function () {
             expect(this.player2.player.keys.red).toBe(false);
             expect(this.player2.player.keys.blue).toBe(false);
             expect(this.player2.player.keys.yellow).toBe(false);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it("should unforge an opponent's key when they have two", function () {
@@ -46,7 +46,7 @@ describe('Turnkey', function () {
             expect(this.player2.player.keys.red).toBe(true);
             expect(this.player2.player.keys.blue).toBe(false);
             expect(this.player2.player.keys.yellow).toBe(false);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
             expect(this.player2.amber).toBe(0);
         });
 
@@ -68,7 +68,7 @@ describe('Turnkey', function () {
             expect(this.player2.player.keys.red).toBe(true);
             expect(this.player2.player.keys.blue).toBe(false);
             expect(this.player2.player.keys.yellow).toBe(true);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
             expect(this.player2.amber).toBe(0);
         });
 
@@ -92,7 +92,7 @@ describe('Turnkey', function () {
             expect(this.player2.player.keys.red).toBe(true);
             expect(this.player2.player.keys.blue).toBe(false);
             expect(this.player2.player.keys.yellow).toBe(true);
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player2).isReadyToTakeAction();
             expect(this.player2.amber).toBe(0);
         });
 
@@ -118,7 +118,7 @@ describe('Turnkey', function () {
             expect(this.player2.player.keys.red).toBe(true);
             expect(this.player2.player.keys.blue).toBe(false);
             expect(this.player2.player.keys.yellow).toBe(true);
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player2).isReadyToTakeAction();
             expect(this.player2.amber).toBe(0);
         });
     });

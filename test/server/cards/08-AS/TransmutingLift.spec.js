@@ -25,7 +25,7 @@ describe('TransmutingLift', function () {
             this.player1.clickCard(this.flaxia);
             this.player1.clickPrompt('Right');
             expect(this.player1.player.creaturesInPlay[1]).toBe(this.bosunCreen);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

@@ -18,7 +18,7 @@ describe('Inka the Spider', function () {
             expect(this.player1).toHavePrompt('Inka the Spider');
             this.player1.clickCard(this.troll);
             expect(this.troll.stunned).toBe(true);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should stun a creature on reap', function () {
@@ -33,7 +33,7 @@ describe('Inka the Spider', function () {
             this.player1.clickCard(this.troll);
             expect(this.krump.stunned).toBe(true);
             expect(this.troll.stunned).toBe(true);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should poison a creature on fight', function () {
@@ -46,7 +46,7 @@ describe('Inka the Spider', function () {
             this.player1.fightWith(this.inkaTheSpider);
             this.player1.clickCard(this.troll);
             expect(this.troll.location).toBe('discard');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

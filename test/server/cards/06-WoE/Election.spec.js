@@ -62,7 +62,7 @@ describe('Election', function () {
             this.player1.endTurn();
             this.player2.clickPrompt('shadows');
             this.player2.reap(this.umbra);
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player2).isReadyToTakeAction();
         });
 
         it('should work on opponents turn too', function () {

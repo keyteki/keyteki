@@ -19,14 +19,14 @@ describe('Knowledge is Power', function () {
             expect(this.player1).toBeAbleToSelect(this.batdrone);
             this.player1.clickCard(this.dextre);
             expect(this.dextre.location).toBe('archives');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should gain amber equal to archived cards', function () {
             this.player1.play(this.knowledgeIsPower);
             this.player1.clickPrompt('Gain amber');
             expect(this.player1.amber).toBe(2);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

@@ -22,7 +22,7 @@ describe('Third of Cliff', function () {
             expect(this.player1).not.toBeAbleToSelect(this.thirdOfCliff);
             this.player1.clickCard(this.troll);
             expect(this.troll.location).toBe('discard');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('destroy all enemy flank creatures if red key', function () {
@@ -34,7 +34,7 @@ describe('Third of Cliff', function () {
             expect(this.groke.location).toBe('play area');
             expect(this.flaxia.location).toBe('play area');
             expect(this.thirdOfCliff.location).toBe('play area');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

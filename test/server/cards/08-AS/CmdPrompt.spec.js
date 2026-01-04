@@ -17,7 +17,7 @@ describe('Cmd. Prompt', function () {
             this.player1.reap(this.cmdPrompt);
             this.player1.playCreature(this.umbra);
             this.player1.clickCard(this.lamindra);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

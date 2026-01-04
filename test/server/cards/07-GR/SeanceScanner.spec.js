@@ -17,7 +17,7 @@ describe('Seance Scanner', function () {
 
         it('should do nothing when not haunted', function () {
             this.player1.useAction(this.séanceScanner);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should allow a non-SA use when haunted', function () {
@@ -30,7 +30,7 @@ describe('Seance Scanner', function () {
             this.player1.clickCard(this.urchin);
             this.player1.clickPrompt('Reap with this creature');
             expect(this.player1.amber).toBe(3);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

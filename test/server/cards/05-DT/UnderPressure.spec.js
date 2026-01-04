@@ -34,7 +34,7 @@ describe('Under Pressure', function () {
             this.player1.play(this.anger);
             this.player1.clickCard(this.hookmaster);
             expect(this.hookmaster.exhausted).toBe(true);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

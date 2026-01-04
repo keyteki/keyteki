@@ -23,7 +23,7 @@ describe('Raise Your Glass', function () {
             this.player1.clickCard(this.dewFaerie);
             this.player1.clickPrompt('Reap with this creature');
             expect(this.player1.amber).toBe(4);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should choose a creature if there is a tie', function () {
@@ -36,7 +36,7 @@ describe('Raise Your Glass', function () {
             this.player1.clickPrompt('Fight with this creature');
             this.player1.clickCard(this.dustPixie);
             expect(this.dustPixie.location).toBe('discard');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

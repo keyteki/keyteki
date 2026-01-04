@@ -39,7 +39,7 @@ describe('Commander Remiel', function () {
             expect(this.troll.location).toBe('discard');
             expect(this.inkaTheSpider.location).toBe('discard');
             this.player1.reap(this.commanderRemiel);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

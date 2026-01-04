@@ -32,7 +32,7 @@ describe('Miss Chievous', function () {
             expect(this.keyToDis.location).toBe('discard');
             expect(this.initiation.location).toBe('discard');
             expect(this.dustPixie.location).toBe('discard');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('discards top 2 cards for opponent when a friendly Geistoid enters play and player has no deck', function () {
@@ -41,7 +41,7 @@ describe('Miss Chievous', function () {
             this.player1.playCreature(this.echofly);
             expect(this.initiation.location).toBe('discard');
             expect(this.dustPixie.location).toBe('discard');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('discards top 2 cards for player when a friendly Geistoid enters play and opponent has no deck', function () {
@@ -49,7 +49,7 @@ describe('Miss Chievous', function () {
             this.player1.playCreature(this.echofly);
             expect(this.gub.location).toBe('discard');
             expect(this.keyToDis.location).toBe('discard');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('triggers for self', function () {
@@ -59,7 +59,7 @@ describe('Miss Chievous', function () {
             expect(this.keyToDis.location).toBe('discard');
             expect(this.initiation.location).toBe('discard');
             expect(this.dustPixie.location).toBe('discard');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('treachery creatures will not trigger', function () {
@@ -76,7 +76,7 @@ describe('Miss Chievous', function () {
             expect(this.charette.location).toBe('play area');
             expect(this.charette.amber).toBe(3);
             expect(this.player2.amber).toBe(1);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

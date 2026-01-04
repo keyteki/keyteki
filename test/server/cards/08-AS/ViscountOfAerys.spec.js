@@ -25,7 +25,7 @@ describe('Viscount of Aerys', function () {
             this.player2.clickPrompt('untamed');
             this.player2.playCreature(this.mushroomMan);
             expect(this.mushroomMan.stunned).toBe(false);
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player2).isReadyToTakeAction();
         });
 
         it('should stun enemy creatures on play if yellow key is unforged', function () {
@@ -35,7 +35,7 @@ describe('Viscount of Aerys', function () {
             expect(this.huntingWitch.stunned).toBe(true);
             expect(this.charette.stunned).toBe(false);
             expect(this.viscountOfAerys.stunned).toBe(false);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should cause enemy creatures to enter plan stunned when yellow key is forged', function () {
@@ -47,7 +47,7 @@ describe('Viscount of Aerys', function () {
             this.player2.clickPrompt('untamed');
             this.player2.playCreature(this.mushroomMan);
             expect(this.mushroomMan.stunned).toBe(true);
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player2).isReadyToTakeAction();
         });
     });
 });

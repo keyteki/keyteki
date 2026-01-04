@@ -20,7 +20,7 @@ describe('Genetic Blast', function () {
         it('should deal 2 damage to each creature with that name', function () {
             this.player1.play(this.geneticBlast);
             this.player1.clickCard(this.pelf2);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
             expect(this.pelf.tokens.damage).toBe(2);
             expect(this.pelf2.tokens.damage).toBe(2);
             expect(this.pelf3.tokens.damage).toBe(undefined);
@@ -32,7 +32,7 @@ describe('Genetic Blast', function () {
         it('should be able to target friendly creatures', function () {
             this.player1.play(this.geneticBlast);
             this.player1.clickCard(this.pelf);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
             expect(this.pelf.tokens.damage).toBe(2);
             expect(this.pelf2.tokens.damage).toBe(2);
             expect(this.pelf3.tokens.damage).toBe(undefined);

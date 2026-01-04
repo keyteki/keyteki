@@ -19,7 +19,7 @@ describe('Indigo Halyard', function () {
             expect(this.huntingWitch.hasKeyword('taunt')).toBe(false);
             expect(this.indigoHalyard.hasKeyword('taunt')).toBe(false);
             expect(this.bosunCreen.hasKeyword('taunt')).toBe(false);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should ready and fight with another creature if own blue key forged', function () {
@@ -36,7 +36,7 @@ describe('Indigo Halyard', function () {
             expect(this.huntingWitch.hasKeyword('taunt')).toBe(false);
             expect(this.indigoHalyard.hasKeyword('taunt')).toBe(false);
             expect(this.bosunCreen.hasKeyword('taunt')).toBe(false);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should give neighbors taunt if opponent blue key forged', function () {
@@ -45,7 +45,7 @@ describe('Indigo Halyard', function () {
             expect(this.huntingWitch.hasKeyword('taunt')).toBe(true);
             expect(this.indigoHalyard.hasKeyword('taunt')).toBe(false);
             expect(this.bosunCreen.hasKeyword('taunt')).toBe(true);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

@@ -21,7 +21,7 @@ describe('Impzilla', function () {
             expect(this.player1).not.toBeAbleToSelect(this.impzilla);
             this.player1.clickCard(this.countrysideCrusher);
             expect(this.countrysideCrusher.location).toBe('discard');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

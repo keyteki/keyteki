@@ -22,7 +22,7 @@ describe('Borka Rikk', function () {
             this.player2.clickPrompt('Left');
             expect(this.player1.player.creaturesInPlay.length).toBe(3);
             expect(this.player1.player.creaturesInPlay[0].name).toBe('Grumpus');
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player2).isReadyToTakeAction();
         });
 
         it('When a mars card is discarded by self, make a token creature', function () {
@@ -31,7 +31,7 @@ describe('Borka Rikk', function () {
             this.player1.clickPrompt('Left');
             expect(this.player1.player.creaturesInPlay.length).toBe(3);
             expect(this.player1.player.creaturesInPlay[0].name).toBe('Grumpus');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('When a non-mars card is discarded by self, nothing happens', function () {
@@ -44,7 +44,7 @@ describe('Borka Rikk', function () {
             this.player1.clickCard(this.umbra);
             expect(this.umbra.location).toBe('discard');
             expect(this.player1.player.creaturesInPlay.length).toBe(2);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

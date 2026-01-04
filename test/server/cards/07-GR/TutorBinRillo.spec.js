@@ -36,7 +36,7 @@ describe('Tutor Bin-Rillo', function () {
             expect(this.theOldTinker.location).toBe('hand');
             expect(this.player1.player.hand.length).toBe(1);
             expect(this.player2.player.hand.length).toBe(2);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('can discard 1 on play and opponent draws one', function () {
@@ -54,7 +54,7 @@ describe('Tutor Bin-Rillo', function () {
             expect(this.theOldTinker.location).toBe('hand');
             expect(this.player1.player.hand.length).toBe(3);
             expect(this.player2.player.hand.length).toBe(2);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('can discard 0 on play and opponent draws one', function () {
@@ -71,14 +71,14 @@ describe('Tutor Bin-Rillo', function () {
             expect(this.theOldTinker.location).toBe('hand');
             expect(this.player1.player.hand.length).toBe(4);
             expect(this.player2.player.hand.length).toBe(2);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('can draw one for each player scrap', function () {
             this.player1.scrap(this.tutorBinRillo);
             expect(this.player1.player.hand.length).toBe(5);
             expect(this.player2.player.hand.length).toBe(2);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

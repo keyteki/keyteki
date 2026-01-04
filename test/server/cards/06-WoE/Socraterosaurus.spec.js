@@ -19,7 +19,7 @@ describe('Socraterosaurus', function () {
         it('draw a card', function () {
             this.player1.reap(this.socraterosaurus);
             expect(this.player1.player.hand.length).toBe(4);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('place a wisdom counter', function () {
@@ -28,7 +28,7 @@ describe('Socraterosaurus', function () {
             this.player1.clickCard(this.platopelta);
             expect(this.platopelta.tokens.wisdom).toBe(1);
             expect(this.player1.hand.length).toBe(3);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('choose to not place a wisdom counter', function () {
@@ -37,7 +37,7 @@ describe('Socraterosaurus', function () {
             this.player1.clickPrompt('Done');
             expect(this.platopelta.tokens.wisdom).toBe(undefined);
             expect(this.player1.hand.length).toBe(3);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('place a wisdom counter on enemy creature', function () {
@@ -50,7 +50,7 @@ describe('Socraterosaurus', function () {
             this.player1.clickCard(this.platopelta2);
             expect(this.platopelta2.tokens.wisdom).toBe(1);
             expect(this.player1.hand.length).toBe(7); // drew at start of turn
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

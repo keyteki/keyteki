@@ -18,7 +18,7 @@ describe('Hoodwink', function () {
             expect(this.player1.amber).toBe(2);
             expect(this.player2.amber).toBe(2);
             expect(this.hoodwink.location).toBe('purged');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should not steal amber if all cards are Shadows', function () {
@@ -28,14 +28,14 @@ describe('Hoodwink', function () {
             expect(this.player1.amber).toBe(0);
             expect(this.player2.amber).toBe(4);
             expect(this.hoodwink.location).toBe('purged');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should purge itself after stealing', function () {
             this.player1.play(this.hoodwink);
             expect(this.hoodwink.location).toBe('purged');
             expect(this.player1.discard).not.toContain(this.hoodwink);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

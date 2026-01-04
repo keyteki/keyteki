@@ -34,7 +34,7 @@ describe('Qyxxlyxx Grave Master', function () {
             expect(this.flaxia.tokens.damage).toBe(undefined);
             expect(this.qyxxlyxxGraveMaster.location).toBe('play area');
             expect(this.qyxxlyxxGraveMaster.tokens.damage).toBe(undefined);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('purges a creature from player discard and deals 2 to each creature that shares a trait', function () {
@@ -51,7 +51,7 @@ describe('Qyxxlyxx Grave Master', function () {
             expect(this.flaxia.tokens.damage).toBe(undefined);
             expect(this.qyxxlyxxGraveMaster.location).toBe('play area');
             expect(this.qyxxlyxxGraveMaster.tokens.damage).toBe(2);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         describe('after play', function () {
@@ -67,7 +67,7 @@ describe('Qyxxlyxx Grave Master', function () {
             it('does not archive on destroy if not haunted', function () {
                 this.player1.fightWith(this.qyxxlyxxGraveMaster, this.flaxia);
                 expect(this.qyxxlyxxGraveMaster.location).toBe('discard');
-                expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+                expect(this.player1).isReadyToTakeAction();
             });
 
             it('archives on destroy if haunted', function () {
@@ -75,7 +75,7 @@ describe('Qyxxlyxx Grave Master', function () {
                 this.player1.play(this.psychicNetwork);
                 this.player1.fightWith(this.qyxxlyxxGraveMaster, this.flaxia);
                 expect(this.qyxxlyxxGraveMaster.location).toBe('archives');
-                expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+                expect(this.player1).isReadyToTakeAction();
             });
         });
     });

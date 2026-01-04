@@ -161,7 +161,7 @@ describe('Tireless Crocag', function () {
             expect(this.gangerChieftain.location).toBe('play area');
             expect(this.brammo.location).toBe('play area');
             expect(this.brammo.controller).toBe(this.player1.player);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 
@@ -199,7 +199,7 @@ describe('Tireless Crocag', function () {
             expect(this.gamgee.location).toBe('play area');
             expect(this.gamgee.controller).toBe(this.player2.player);
             expect(this.brammo.location).toBe('play area');
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player2).isReadyToTakeAction();
         });
     });
 
@@ -224,7 +224,7 @@ describe('Tireless Crocag', function () {
             expect(this.lamindra.location).toBe('discard');
             expect(this.gebuk.location).toBe('discard');
             expect(this.tirelessCrocag.location).toBe('discard');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should not be destroyed after put in play, if opponent has creature', function () {
@@ -233,7 +233,7 @@ describe('Tireless Crocag', function () {
             expect(this.lamindra.location).toBe('play area');
             expect(this.gebuk.location).toBe('discard');
             expect(this.tirelessCrocag.location).toBe('play area');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

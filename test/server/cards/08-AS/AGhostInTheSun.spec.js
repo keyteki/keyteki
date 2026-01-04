@@ -17,14 +17,14 @@ describe('A Ghost in the Sun', function () {
 
         it('should do nothing if no keys are forged', function () {
             this.player1.play(this.aGhostInTheSun);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should do nothing if no creatures in discard', function () {
             this.player1.player.discard = [];
             this.player2.player.keys = { red: true, blue: false, yellow: false };
             this.player1.play(this.aGhostInTheSun);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should put one creature into play if opponent has one forged key', function () {
@@ -38,7 +38,7 @@ describe('A Ghost in the Sun', function () {
             expect(this.charette.location).toBe('play area');
             expect(this.player1.player.creaturesInPlay).toContain(this.charette);
             expect(this.charette.amber).toBe(0);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should put two creatures into play if opponent has two forged keys', function () {
@@ -55,7 +55,7 @@ describe('A Ghost in the Sun', function () {
             expect(this.echofly.location).toBe('play area');
             expect(this.player1.player.creaturesInPlay).toContain(this.charette);
             expect(this.player1.player.creaturesInPlay).toContain(this.echofly);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

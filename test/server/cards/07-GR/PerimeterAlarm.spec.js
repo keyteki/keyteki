@@ -45,7 +45,7 @@ describe('Perimeter Alarm', function () {
             this.player1.clickCard(this.dustPixie);
             this.player1.play(this.perimeterAlarm);
             expect(this.perimeterAlarm.location).toBe('archives');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

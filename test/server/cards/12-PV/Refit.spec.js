@@ -36,13 +36,13 @@ describe('Refit', function () {
             expect(this.cloakingDongle.parent).toBe(this.troll);
             expect(this.troll.upgrades).toContain(this.cloakingDongle);
             expect(this.cloakingDongle.controller).toBe(this.player1.player);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should be optional', function () {
             this.player1.play(this.refit);
             this.player1.clickPrompt('Done');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should destroy an upgrade when fate is triggered', function () {
@@ -54,7 +54,7 @@ describe('Refit', function () {
             expect(this.player2).toBeAbleToSelect(this.blastShielding);
             this.player2.clickCard(this.blastShielding);
             expect(this.blastShielding.location).toBe('discard');
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player2).isReadyToTakeAction();
         });
 
         it('should work on Animating Force', function () {
@@ -70,7 +70,7 @@ describe('Refit', function () {
             this.player1.clickCard(this.brammo);
             expect(this.brammo.upgrades).toContain(this.animatingForce);
             expect(this.player2.player.creaturesInPlay).toContain(this.gauntletOfCommand); // still a creature
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

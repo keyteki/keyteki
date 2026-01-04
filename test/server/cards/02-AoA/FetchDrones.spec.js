@@ -37,7 +37,7 @@ describe('Fetchdrones', function () {
             expect(this.batdrone.location).toBe('discard');
             expect(this.anger.location).toBe('deck');
 
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should not prompt for capture when no cards in deck', function () {
@@ -47,7 +47,7 @@ describe('Fetchdrones', function () {
             this.player1.play(this.dextre);
             this.player1.useAction(this.fetchdrones);
 
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should not prompt for capture if cards are not logos', function () {
@@ -59,7 +59,7 @@ describe('Fetchdrones', function () {
 
             this.player1.useAction(this.fetchdrones);
 
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should prompt for a single creature if just one card is logos', function () {
@@ -79,7 +79,7 @@ describe('Fetchdrones', function () {
             expect(this.batdrone.amber).toBe(2);
             expect(this.player2.amber).toBe(8);
 
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should prompt for two creature if two card are logos', function () {
@@ -103,7 +103,7 @@ describe('Fetchdrones', function () {
             expect(this.archimedes.amber).toBe(2);
             expect(this.player2.amber).toBe(6);
 
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should allow selecting the same creature if two card are logos', function () {
@@ -126,7 +126,7 @@ describe('Fetchdrones', function () {
             expect(this.batdrone.amber).toBe(4);
             expect(this.player2.amber).toBe(6);
 
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should prompt for a single creature when only one logos in deck', function () {
@@ -145,7 +145,7 @@ describe('Fetchdrones', function () {
             expect(this.batdrone.amber).toBe(2);
             expect(this.player2.amber).toBe(8);
 
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should prompt for a single creature when opponent has 1 amber', function () {
@@ -166,7 +166,7 @@ describe('Fetchdrones', function () {
             expect(this.batdrone.amber).toBe(1);
             expect(this.player2.amber).toBe(0);
 
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should prompt for a two creatures when opponent has 3 amber', function () {
@@ -189,7 +189,7 @@ describe('Fetchdrones', function () {
             expect(this.archimedes.amber).toBe(1);
             expect(this.player2.amber).toBe(0);
 
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

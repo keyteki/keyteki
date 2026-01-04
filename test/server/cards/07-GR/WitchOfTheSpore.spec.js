@@ -20,13 +20,13 @@ describe('Witch of the Spore', function () {
             expect(this.player1).not.toBeAbleToSelect(this.dustPixie);
             this.player1.clickCard(this.troll);
             expect(this.troll.tokens.damage).toBe(3);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('does nothing on discard with no enemy creatures', function () {
             this.player2.moveCard(this.troll, 'discard');
             this.player1.scrap(this.witchOfTheSpore);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

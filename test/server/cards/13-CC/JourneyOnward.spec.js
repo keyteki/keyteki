@@ -25,7 +25,7 @@ describe('Journey Onward', function () {
             this.player1.clickCard(this.lamindra);
             expect(this.player1.amber).toBe(2);
             expect(this.player2.amber).toBe(2);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should not give the ability to other creatures', function () {
@@ -37,7 +37,7 @@ describe('Journey Onward', function () {
             this.player1.fightWith(this.buxBastian, this.tantadlin);
             expect(this.player1.amber).toBe(2);
             expect(this.player2.amber).toBe(2);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should lose the ability after the turn ends', function () {

@@ -45,7 +45,7 @@ describe('Jarl Svend', function () {
             expect(this.jarlSvend.location).toBe('discard');
             expect(this.earthshaker.location).toBe('discard');
             expect(this.player1.player.creaturesInPlay.length).toBe(0);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should make a token creature when destroying a token creature', function () {

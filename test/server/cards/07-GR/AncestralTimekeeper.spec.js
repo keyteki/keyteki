@@ -40,7 +40,7 @@ describe('AncestralTimekeeper', function () {
             this.player1.endTurn();
             expect(this.ancestralTimekeeper.location).toBe('purged');
             this.player1.clickPrompt('geistoid');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

@@ -142,7 +142,7 @@ describe('Hunter or Hunted?', function () {
             expect(this.player1).toBeAbleToSelect(this.krump);
             expect(this.player1).toBeAbleToSelect(this.redlock);
             this.player1.clickCard(this.redlock);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
             expect(this.redlock.tokens.ward).toBeUndefined();
         });
     });

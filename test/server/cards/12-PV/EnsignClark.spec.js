@@ -35,7 +35,7 @@ describe('Ensign Clark', function () {
             expect(this.gauntletOfCommand.location).toBe('discard');
             expect(this.quixxleStone.location).toBe('play area');
             expect(this.ensignClark.location).toBe('discard');
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player2).isReadyToTakeAction();
         });
     });
 });

@@ -31,7 +31,7 @@ describe('Seeker of Truth', function () {
             this.troll.exhausted = true;
             this.player1.fightWith(this.seekerOfTruth, this.lamindra);
             this.player1.clickPrompt('Done');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

@@ -20,14 +20,14 @@ describe('Synchronizer', function () {
             this.player1.fightWith(this.ancestralTimekeeper, this.thingFromTheDeep);
             expect(this.ancestralTimekeeper.location).toBe('discard');
             expect(this.synchronizer.tokens.time).toBe(2);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('rounds up the moved time tokens', function () {
             this.player1.fightWith(this.chronometer, this.thingFromTheDeep);
             expect(this.chronometer.location).toBe('discard');
             expect(this.synchronizer.tokens.time).toBe(2);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('moves time tokens to friendly clock as omni', function () {

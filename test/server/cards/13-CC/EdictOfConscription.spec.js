@@ -27,7 +27,7 @@ describe('Edict of Conscription', function () {
             expect(this.lamindra.hasHouse('saurian')).toBe(false);
             this.player1.reap(this.gub);
             expect(this.player1.amber).toBe(1);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should only affect friendly creatures', function () {
@@ -38,7 +38,7 @@ describe('Edict of Conscription', function () {
         it('should not affect artifacts', function () {
             this.player1.useAction(this.edictOfConscription);
             expect(this.gauntletOfCommand.hasHouse('saurian')).toBe(false);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should last until end of turn', function () {

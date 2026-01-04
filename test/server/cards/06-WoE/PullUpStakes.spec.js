@@ -162,7 +162,7 @@ describe('PullUpStakes,', function () {
                 });
 
                 it('should be the end of the effect', function () {
-                    expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+                    expect(this.player1).isReadyToTakeAction();
                 });
             });
         });

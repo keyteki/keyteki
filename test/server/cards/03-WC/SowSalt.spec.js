@@ -63,7 +63,7 @@ describe('Sow Salt', function () {
             this.player2.clickPrompt('untamed');
             this.player2.reap(this.teliga);
             expect(this.player2.amber).toBe(1);
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player2).isReadyToTakeAction();
         });
     });
 });

@@ -16,7 +16,7 @@ describe('Exile', function () {
 
         it('should not ask for a creature if none is in play', function () {
             this.player1.play(this.exile);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
             expect(this.player1.amber).toBe(1);
         });
 

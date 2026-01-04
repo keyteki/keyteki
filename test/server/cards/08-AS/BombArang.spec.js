@@ -27,14 +27,14 @@ describe('Bomb-Arang', function () {
             expect(this.player1).toBeAbleToSelect(this.huntingWitch);
             this.player1.clickCard(this.huntingWitch);
             expect(this.huntingWitch.tokens.damage).toBe(1);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should deal 3 damage to an enemy creature and stop if destroyed', function () {
             this.player1.play(this.bombArang);
             this.player1.clickCard(this.pelf);
             expect(this.pelf.location).toBe('discard');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should not count wards as destruction', function () {
@@ -45,7 +45,7 @@ describe('Bomb-Arang', function () {
             expect(this.pelf.location).toBe('play area');
             expect(this.pelf.tokens.damage).toBe(undefined);
             expect(this.huntingWitch.tokens.damage).toBe(1);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

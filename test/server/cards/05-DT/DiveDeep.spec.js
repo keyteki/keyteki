@@ -64,7 +64,7 @@ describe('Dive Deep', function () {
 
         it('should fizzle after discard', function () {
             expect(this.troll.location).toBe('discard');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 
@@ -88,7 +88,7 @@ describe('Dive Deep', function () {
         });
 
         it('should fizzle', function () {
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

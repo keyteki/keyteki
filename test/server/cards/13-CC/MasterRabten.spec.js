@@ -24,7 +24,7 @@ describe('Master Rabten', function () {
             expect(this.reveredMonk.tokens.amber).toBeUndefined();
             expect(this.player2.amber).toBe(4);
             expect(this.player1.amber).toBe(0);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should make each friendly Monk creature capture 1 amber after reaping', function () {
@@ -38,7 +38,7 @@ describe('Master Rabten', function () {
             expect(this.troll.tokens.amber).toBeUndefined();
             expect(this.player2.amber).toBe(2);
             expect(this.player1.amber).toBe(1);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

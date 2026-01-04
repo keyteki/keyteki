@@ -22,7 +22,7 @@ describe('Paradrone', function () {
             this.player1.clickCard(this.troll);
             expect(this.troll.amber).toBe(1);
             expect(this.player2.amber).toBe(2);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

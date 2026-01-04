@@ -18,7 +18,7 @@ describe('Dreadstarr the Lone', function () {
         it('should cause opponent to lose one on fight', function () {
             this.player1.fightWith(this.dreadstarrTheLone, this.lamindra);
             expect(this.player2.amber).toBe(1);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should have versatile if no other friendly Brobnar creatures', function () {
@@ -28,7 +28,7 @@ describe('Dreadstarr the Lone', function () {
             this.player1.clickPrompt('untamed');
             this.player1.reap(this.dreadstarrTheLone);
             expect(this.player1.amber).toBe(2);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should not have versatile if other friendly Brobnar creatures', function () {
@@ -38,7 +38,7 @@ describe('Dreadstarr the Lone', function () {
             this.player2.endTurn();
             this.player1.clickPrompt('untamed');
             this.player1.clickCard(this.dreadstarrTheLone);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

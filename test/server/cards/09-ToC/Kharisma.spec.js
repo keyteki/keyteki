@@ -26,7 +26,7 @@ describe('Kharisma', function () {
             this.player1.clickPrompt('Right');
             expect(this.dustPixie.location).toBe('hand');
             expect(this.niffleBrute1.location).toBe('play area');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should not make a token if no creature was returned', function () {
@@ -35,7 +35,7 @@ describe('Kharisma', function () {
             this.player1.clickCard(this.dustPixie);
             expect(this.dustPixie.location).toBe('play area');
             expect(this.niffleBrute1.location).toBe('deck');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

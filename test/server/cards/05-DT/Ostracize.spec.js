@@ -30,7 +30,7 @@ describe('Ostracize', function () {
             this.player1.play(this.ostracize);
             expect(this.player1.amber).toBe(0);
             expect(this.player2.amber).toBe(4);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

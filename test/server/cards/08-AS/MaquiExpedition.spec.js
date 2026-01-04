@@ -23,7 +23,7 @@ describe('Maqui Expedition', function () {
             this.player1.clickCard(this.troll);
             this.player1.clickPrompt('Right');
             expect(this.player1.player.creaturesInPlay[2]).toBe(this.troll);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

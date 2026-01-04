@@ -23,7 +23,7 @@ describe('Fancy Donavon', function () {
             this.player1.clickCard(this.dustPixie);
             expect(this.flaxia.tokens.damage).toBe(1);
             expect(this.dustPixie.location).toBe('discard');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

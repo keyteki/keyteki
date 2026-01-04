@@ -37,7 +37,7 @@ describe('Well of Memory', function () {
             expect(this.player1).not.toHavePrompt('Done');
             this.player1.clickCard(this.charette);
             expect(this.charette.location).toBe('hand');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('can purge all card from hand to return 1 from discard for each', function () {
@@ -57,13 +57,13 @@ describe('Well of Memory', function () {
             expect(this.charette.location).toBe('hand');
             expect(this.ritualOfBalance.location).toBe('hand');
             expect(this.fullMoon.location).toBe('hand');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('can purge 0 cards from hand', function () {
             this.player1.play(this.wellOfMemory);
             this.player1.clickPrompt('Done');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('can destroy itself as an action', function () {
@@ -75,7 +75,7 @@ describe('Well of Memory', function () {
             this.player1.clickPrompt('geistoid');
             this.player1.useAction(this.wellOfMemory);
             expect(this.wellOfMemory.location).toBe('discard');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

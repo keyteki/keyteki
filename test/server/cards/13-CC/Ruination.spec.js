@@ -29,7 +29,7 @@ describe('Ruination', function () {
             expect(this.player1).toBeAbleToSelect(this.dustPixie2);
             expect(this.player1).toBeAbleToSelect(this.gauntletOfCommand2);
             this.player1.clickCard(this.troll);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
             expect(this.troll.location).toBe('discard');
             expect(this.troll2.location).toBe('discard');
             expect(this.dustPixie.location).toBe('play area');
@@ -38,7 +38,7 @@ describe('Ruination', function () {
             expect(this.bumpsy.upgrades).toContain(this.painmail);
             expect(this.gauntletOfCommand.location).toBe('play area');
             expect(this.gauntletOfCommand2.location).toBe('play area');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should work with artifacts', function () {
@@ -52,7 +52,7 @@ describe('Ruination', function () {
             expect(this.dustPixie2.location).toBe('play area');
             expect(this.bumpsy.location).toBe('play area');
             expect(this.bumpsy.upgrades).toContain(this.painmail);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should work with upgrades', function () {
@@ -60,7 +60,7 @@ describe('Ruination', function () {
             this.player1.clickCard(this.painmail);
             expect(this.painmail.location).toBe('discard');
             expect(this.bumpsy.location).toBe('play area');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

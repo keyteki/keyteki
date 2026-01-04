@@ -29,7 +29,7 @@ describe('Gone Pear Shaped', function () {
             expect(this.huntingWitch.location).toBe('discard');
             expect(this.troll.location).toBe('discard');
             expect(this.gangerChieftain.location).toBe('discard');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should prevent creatures from reaping for the remainder of the turn when fate is triggered', function () {
@@ -41,7 +41,7 @@ describe('Gone Pear Shaped', function () {
             this.player2.clickCard(this.shockHerder);
             expect(this.player2).not.toHavePromptButton('Reap with this creature');
             this.player2.clickPrompt('Cancel');
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player2).isReadyToTakeAction();
             expect(this.gonePearShaped.location).toBe('discard');
         });
     });

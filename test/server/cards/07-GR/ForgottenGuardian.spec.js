@@ -47,7 +47,7 @@ describe('Forgotten Guardian', function () {
             this.player1.scrap(this.forgottenGuardian);
             expect(this.player1).toBeAbleToSelect(this.cursedRelic);
             this.player1.clickCard(this.cursedRelic);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
             expect(this.cursedRelic.location).toBe('deck');
             expect(this.player2.player.deck).toContain(this.cursedRelic);
         });
@@ -59,7 +59,7 @@ describe('Forgotten Guardian', function () {
             expect(this.forgottenGuardian.location).toBe('discard');
             this.player1.clickCard(this.forgottenGuardian);
             expect(this.cursedRelic.location).toBe('purged');
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player2).isReadyToTakeAction();
         });
     });
 });

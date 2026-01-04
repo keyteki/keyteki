@@ -18,7 +18,7 @@ describe('Black Tempest', function () {
             this.player1.fightWith(this.blackTempest, this.lamindra);
             expect(this.player1.amber).toBe(4);
             expect(this.player2.amber).toBe(3);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should steal 2 on fight with 1 forged key', function () {
@@ -26,7 +26,7 @@ describe('Black Tempest', function () {
             this.player1.fightWith(this.blackTempest, this.lamindra);
             expect(this.player1.amber).toBe(3);
             expect(this.player2.amber).toBe(4);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should steal 2 on fight with 2 forged keys', function () {
@@ -34,7 +34,7 @@ describe('Black Tempest', function () {
             this.player1.fightWith(this.blackTempest, this.lamindra);
             expect(this.player1.amber).toBe(3);
             expect(this.player2.amber).toBe(4);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

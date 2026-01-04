@@ -23,7 +23,7 @@ describe('Savant', function () {
             expect(this.player1).toBeAbleToSelect(this.drMilli);
             this.player1.clickCard(this.drMilli);
             expect(this.drMilli.location).toBe('hand');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should be optional, and instead archive a card', function () {
@@ -33,7 +33,7 @@ describe('Savant', function () {
             this.player1.clickCard(this.drumble);
             expect(this.drumble.location).toBe('archives');
             expect(this.player1.player.archives.length).toBe(2);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

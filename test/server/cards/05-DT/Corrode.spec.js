@@ -11,7 +11,7 @@ describe('Corrode', function () {
                 }
             });
             this.player1.play(this.corrode);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 
@@ -37,7 +37,7 @@ describe('Corrode', function () {
 
         it('does not force you to destroy something', function () {
             this.player1.clickPrompt('Destroy an artifact');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
             expect(this.agentSepdia.location).toBe('play area');
             expect(this.almsmaster.location).toBe('play area');
         });
@@ -164,7 +164,7 @@ describe('Corrode', function () {
             expect(this.flaxia.location).toBe('play area');
             expect(this.krump.location).toBe('play area');
 
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
             expect(this.pentacorder.location).toBe('discard');
         });
     });

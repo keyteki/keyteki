@@ -29,7 +29,7 @@ describe('Unstable Dale', function () {
             expect(this.emberImp.location).toBe('discard');
             expect(this.troll.tokens.damage).toBe(3);
             expect(this.krump.tokens.damage).toBe(3);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should deal 3 damage to each friendly creature when fate is triggered', function () {
@@ -42,7 +42,7 @@ describe('Unstable Dale', function () {
             expect(this.troll.tokens.damage).toBe(3);
             expect(this.krump.tokens.damage).toBe(3);
             expect(this.unstableDale.location).toBe('discard');
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player2).isReadyToTakeAction();
         });
     });
 });

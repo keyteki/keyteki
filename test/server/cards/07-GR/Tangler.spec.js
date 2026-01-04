@@ -37,7 +37,7 @@ describe('Tangler', function () {
                 expect(this.dustPixie.stunned).toBe(false);
                 expect(this.missChievous.stunned).toBe(false);
                 expect(this.tangler.stunned).toBe(false);
-                expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+                expect(this.player1).isReadyToTakeAction();
             });
 
             it('can stun a friendly creature and its neighbors', function () {
@@ -48,7 +48,7 @@ describe('Tangler', function () {
                 expect(this.dustPixie.stunned).toBe(false);
                 expect(this.missChievous.stunned).toBe(true);
                 expect(this.tangler.stunned).toBe(true);
-                expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+                expect(this.player1).isReadyToTakeAction();
             });
         });
 
@@ -66,7 +66,7 @@ describe('Tangler', function () {
             expect(this.dustPixie.stunned).toBe(false);
             expect(this.missChievous.stunned).toBe(false);
             expect(this.tangler.stunned).toBe(false);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

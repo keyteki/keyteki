@@ -19,7 +19,7 @@ describe('Duck, Duck, Superb Duck', function () {
             expect(this.player1.player.archives.length).toBe(2);
             expect(this.player1.player.hand.length).toBe(1);
             expect(this.player1.amber).toBe(0);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should gain 2 amber when that option is chosen', function () {
@@ -27,7 +27,7 @@ describe('Duck, Duck, Superb Duck', function () {
             this.player1.clickPrompt('Gain 2');
             expect(this.player1.player.hand.length).toBe(3);
             expect(this.player1.amber).toBe(2);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

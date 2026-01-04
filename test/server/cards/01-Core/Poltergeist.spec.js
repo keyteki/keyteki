@@ -155,7 +155,7 @@ describe("Poltergeist's", function () {
             expect(this.player1).toHavePrompt('Poltergeist');
             expect(this.player1).toBeAbleToSelect(this.theGoldenSpiral);
             this.player1.clickCard(this.theGoldenSpiral);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
             expect(this.theGoldenSpiral.location).toBe('discard');
         });
 
@@ -176,7 +176,7 @@ describe("Poltergeist's", function () {
             expect(this.player1).toHavePrompt('Dust Imp');
             this.player1.clickPrompt('Reap with this creature');
             expect(this.player1.amber).toBe(2);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
             expect(this.theGoldenSpiral.location).toBe('discard');
         });
     });
@@ -202,13 +202,13 @@ describe("Poltergeist's", function () {
         });
 
         it('should cause Domination Bauble to fizzle, then get destroyed', function () {
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player2).isReadyToTakeAction();
             expect(this.dominatorBauble.controller).toBe(this.player1.player);
             this.player2.play(this.poltergeist);
             expect(this.player2).toHavePrompt('Poltergeist');
             expect(this.player2).toBeAbleToSelect(this.dominatorBauble);
             this.player2.clickCard(this.dominatorBauble);
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player2).isReadyToTakeAction();
             expect(this.dominatorBauble.location).toBe('discard');
         });
 
@@ -228,7 +228,7 @@ describe("Poltergeist's", function () {
             expect(this.player2).toHavePrompt('Dust Imp');
             this.player2.clickPrompt('Reap with this creature');
             expect(this.player2.amber).toBe(2);
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player2).isReadyToTakeAction();
             expect(this.dominatorBauble.location).toBe('discard');
         });
     });

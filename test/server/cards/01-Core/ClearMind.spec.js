@@ -21,14 +21,14 @@ describe('Clear Mind', function () {
             expect(this.dodger.stunned).toBe(false);
             expect(this.silvertooth.stunned).toBe(false);
             expect(this.bulwark.stunned).toBe(false);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should not unstun enemy creatures', function () {
             this.batdrone.stun();
             this.player1.play(this.clearMind);
             expect(this.batdrone.stunned).toBe(true);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

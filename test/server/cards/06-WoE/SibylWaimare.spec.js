@@ -25,7 +25,7 @@ describe('Sibyl Waimare', function () {
             expect(this.urchin.exhausted).toBe(false);
             expect(this.groke.exhausted).toBe(false);
             this.player2.clickPrompt('brobnar');
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player2).isReadyToTakeAction();
         });
 
         it('should not discard card at beginning of controller turn', function () {
@@ -42,7 +42,7 @@ describe('Sibyl Waimare', function () {
             expect(this.urchin.exhausted).toBe(false);
             expect(this.groke.exhausted).toBe(false);
             this.player1.clickPrompt('unfathomable');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

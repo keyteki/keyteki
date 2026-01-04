@@ -37,7 +37,7 @@ describe('Quintrino Flux', function () {
             expect(this.gamgee.location).toBe('discard');
             expect(this.lieutenantKhrkhar.location).toBe('play area');
             expect(this.yantzeeGang.location).toBe('play area');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 
@@ -68,7 +68,7 @@ describe('Quintrino Flux', function () {
             expect(this.kalochStonefather.location).toBe('discard');
             expect(this.cowfyne.location).toBe('play area');
             expect(this.alaka.location).toBe('discard');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should work with warded creatures even when both creatures have the same power', function () {
@@ -84,7 +84,7 @@ describe('Quintrino Flux', function () {
             expect(this.kalochStonefather.location).toBe('discard');
             expect(this.cowfyne.location).toBe('play area');
             expect(this.alaka.location).toBe('play area');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 
@@ -108,7 +108,7 @@ describe('Quintrino Flux', function () {
             this.player1.clickCard(this.nurseSoto);
             expect(this.nurseSoto.location).toBe('discard');
             expect(this.navigatorAli.location).toBe('discard');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 
@@ -135,7 +135,7 @@ describe('Quintrino Flux', function () {
             expect(this.silvertooth.location).toBe('discard');
             expect(this.gamgee.location).toBe('discard');
             expect(this.yantzeeGang.location).toBe('play area');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 
@@ -152,7 +152,7 @@ describe('Quintrino Flux', function () {
 
         it('should be able to play when no creatures are in play', function () {
             this.player1.play(this.quintrinoFlux);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

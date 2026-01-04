@@ -24,7 +24,7 @@ describe('Crop Circles', function () {
             this.player1.clickCard(this.troll);
             expect(this.troll.location).toBe('archives');
             expect(this.player1.archives).toContain(this.troll);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should allow purging of any number of cards to capture', function () {
@@ -106,7 +106,7 @@ describe('Crop Circles', function () {
             this.player1.clickCard(this.urchin);
             this.player1.clickPrompt('Done');
             expect(this.urchin.tokens.amber).toBe(undefined);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

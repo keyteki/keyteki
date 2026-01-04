@@ -17,7 +17,7 @@ describe('Unguarded Camp', function () {
         it('should not trigger when the player has equal creatures', function () {
             this.player1.play(this.unguardedCamp);
             expect(this.player1.amber).toBe(1);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should trigger and prompt the player to choose creatures to capture', function () {

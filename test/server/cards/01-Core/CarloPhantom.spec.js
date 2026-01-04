@@ -19,28 +19,28 @@ describe('Carlo Phantom', function () {
             this.player1.play(this.libraryOfBabble);
             expect(this.player1.amber).toBe(1);
             expect(this.player2.amber).toBe(1);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should not steal 1 amber when a creature is played', function () {
             this.player1.play(this.batdrone);
             expect(this.player1.amber).toBe(0);
             expect(this.player2.amber).toBe(2);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should not steal 1 amber when an action is played', function () {
             this.player1.play(this.foggify);
             expect(this.player1.amber).toBe(1);
             expect(this.player2.amber).toBe(2);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should not steal 1 amber when an upgrade is played', function () {
             this.player1.playUpgrade(this.rocketBoots, this.carloPhantom);
             expect(this.player1.amber).toBe(0);
             expect(this.player2.amber).toBe(2);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should not steal 1 amber when opponent plays a creature', function () {
@@ -49,7 +49,7 @@ describe('Carlo Phantom', function () {
             this.player2.play(this.cannon);
             expect(this.player1.amber).toBe(0);
             expect(this.player2.amber).toBe(2);
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player2).isReadyToTakeAction();
         });
     });
 });

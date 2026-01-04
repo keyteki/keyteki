@@ -36,7 +36,7 @@ describe('Intentional Discharge', function () {
             this.ironyxVatminder.ward();
             this.player1.play(this.intentionalDischarge);
             this.player1.clickCard(this.ironyxVatminder);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
             expect(this.ironyxVatminder.location).toBe('play area');
         });
     });

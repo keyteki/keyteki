@@ -60,7 +60,7 @@ describe('Forge Ahead With Confidence', function () {
             this.player2.clickPrompt('Red');
             expect(this.player1.getForgedKeys()).toBe(1);
             expect(this.parasiticArachnoid.location).toBe('under');
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player2).isReadyToTakeAction();
         });
     });
 });

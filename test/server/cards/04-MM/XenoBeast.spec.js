@@ -22,7 +22,7 @@ describe('Xeno-Beast', function () {
         it('should not prompt for cards is deck is empty', function () {
             this.player1.player.deck = [];
             this.player1.fightWith(this.xenoBeast, this.lamindra);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should prompt for a single card if deck has only 1 card', function () {
@@ -32,7 +32,7 @@ describe('Xeno-Beast', function () {
             expect(this.player1).toHavePromptCardButton(this.archimedes);
             this.player1.clickPrompt('archimedes');
             expect(this.archimedes.location).toBe('hand');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should prompt for a card to go to hand and one to bottom of deck', function () {
@@ -49,7 +49,7 @@ describe('Xeno-Beast', function () {
             this.player1.clickPrompt('eyegor');
             expect(this.player1.player.deck[0]).toBe(this.titanMechanic);
             expect(this.player1.player.deck[this.player1.player.deck.length - 1]).toBe(this.eyegor);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

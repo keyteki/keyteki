@@ -20,7 +20,7 @@ describe('Watch Your Step', function () {
             this.player1.endTurn();
             this.player2.clickPrompt('logos');
             expect(this.player1.player.creaturesInPlay.length).toBe(0);
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player2).isReadyToTakeAction();
         });
 
         it('should not make tokens if the opponent does follow instructions and deck is empty', function () {
@@ -30,7 +30,7 @@ describe('Watch Your Step', function () {
             this.player1.player.deck = [];
             this.player2.clickPrompt('logos');
             expect(this.player1.player.creaturesInPlay.length).toBe(0);
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player2).isReadyToTakeAction();
         });
 
         it('should gain make 2 ready tokens if the opponent does not follow instructions', function () {
@@ -75,7 +75,7 @@ describe('Watch Your Step', function () {
             this.player1.endTurn();
             this.player2.clickPrompt('untamed');
             this.player2.clickPrompt('Right');
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player2).isReadyToTakeAction();
         });
     });
 });

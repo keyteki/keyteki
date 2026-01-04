@@ -20,7 +20,7 @@ describe('Hebe the Huge', function () {
             expect(this.bumpsy.tokens.damage).toBe(2);
             expect(this.bumpsy.tokens.damage).toBe(2);
             expect(this.emberImp.location).toBe('discard');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

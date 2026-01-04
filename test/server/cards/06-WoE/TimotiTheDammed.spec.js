@@ -47,7 +47,7 @@ describe('Timoti the Dammed', function () {
             expect(this.player2.player.keys.red).toBe(false);
             expect(this.player2.player.keys.blue).toBe(false);
             expect(this.player2.player.keys.yellow).toBe(false);
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player2).isReadyToTakeAction();
         });
 
         it('should not stop forging once the tokens die', function () {
@@ -64,7 +64,7 @@ describe('Timoti the Dammed', function () {
             expect(this.player2.player.keys.red).toBe(true);
             expect(this.player2.player.keys.blue).toBe(false);
             expect(this.player2.player.keys.yellow).toBe(false);
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player2).isReadyToTakeAction();
         });
     });
 });

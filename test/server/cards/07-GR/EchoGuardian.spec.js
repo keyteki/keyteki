@@ -28,7 +28,7 @@ describe('Echo Guardian', function () {
             expect(this.sinder.location).toBe('discard');
             expect(this.echoGuardian.tokens.damage).toBe(2);
             expect(this.echoGuardian.location).toBe('play area');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

@@ -27,7 +27,7 @@ describe('Skollenbuzzz', function () {
             expect(this.blypyp.location).toBe('under');
             expect(this.skŏllĕnbŭzzz.childCards).toContain(this.blypyp);
             expect(this.skŏllĕnbŭzzz.childCards.length).toBe(1);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should be optional', function () {
@@ -36,7 +36,7 @@ describe('Skollenbuzzz', function () {
             expect(this.blypyp.location).toBe('hand');
             expect(this.charette.location).toBe('hand');
             expect(this.skŏllĕnbŭzzz.childCards.length).toBe(0);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should allow putting a creature from hand under it on reap', function () {
@@ -54,7 +54,7 @@ describe('Skollenbuzzz', function () {
             expect(this.charette.location).toBe('under');
             expect(this.skŏllĕnbŭzzz.childCards).toContain(this.charette);
             expect(this.skŏllĕnbŭzzz.childCards.length).toBe(2);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should put creatures into play on destroyed', function () {
@@ -78,7 +78,7 @@ describe('Skollenbuzzz', function () {
             expect(this.skŏllĕnbŭzzz.location).toBe('deck');
             expect(this.player1.player.deck[0]).toBe(this.skŏllĕnbŭzzz);
             expect(this.player1.player.creaturesInPlay.length).toBe(3);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should put creatures into play for opponent when opponent controls it', function () {
@@ -107,7 +107,7 @@ describe('Skollenbuzzz', function () {
             expect(this.player1.player.deck[0]).toBe(this.skŏllĕnbŭzzz);
             expect(this.player1.player.creaturesInPlay.length).toBe(0);
             expect(this.player2.player.creaturesInPlay.length).toBe(2);
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player2).isReadyToTakeAction();
         });
     });
 });

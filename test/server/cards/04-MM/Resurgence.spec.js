@@ -17,13 +17,13 @@ describe('Resurgence', function () {
 
         it('should not pick any card if discard is empty', function () {
             this.player1.play(this.resurgence);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should not pick any card if discard does not have a creature', function () {
             this.player1.moveCard(this.regrowth, 'discard');
             this.player1.play(this.resurgence);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should pick a single card if only one non-mutant is in discard', function () {
@@ -31,7 +31,7 @@ describe('Resurgence', function () {
             this.player1.moveCard(this.regrowth, 'discard');
             this.player1.play(this.resurgence);
             this.player1.clickCard(this.flaxia);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
             expect(this.flaxia.location).toBe('hand');
         });
 
@@ -40,7 +40,7 @@ describe('Resurgence', function () {
             this.player1.moveCard(this.regrowth, 'discard');
             this.player1.play(this.resurgence);
             this.player1.clickCard(this.bullWark);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
             expect(this.bullWark.location).toBe('hand');
         });
 
@@ -49,7 +49,7 @@ describe('Resurgence', function () {
             this.player1.moveCard(this.bullWark, 'discard');
             this.player1.play(this.resurgence);
             this.player1.clickCard(this.flaxia);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
             expect(this.flaxia.location).toBe('hand');
         });
 
@@ -59,7 +59,7 @@ describe('Resurgence', function () {
             this.player1.play(this.resurgence);
             this.player1.clickCard(this.bullWark);
             this.player1.clickCard(this.flaxia);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
             expect(this.bullWark.location).toBe('hand');
             expect(this.flaxia.location).toBe('hand');
         });

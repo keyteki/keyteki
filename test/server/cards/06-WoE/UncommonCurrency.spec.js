@@ -32,7 +32,7 @@ describe('Uncommon Currency', function () {
             this.player2.moveCard(this.bearFlute, 'discard');
             this.player1.useAction(this.uncommonCurrency);
             expect(this.uncommonCurrency.controller).toBe(this.player1.player);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

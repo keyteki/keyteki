@@ -29,7 +29,7 @@ describe('bot-bookton', function () {
             this.player1.clickPrompt('Right');
             expect(this.dextre.location).toBe('play area');
             expect(this.player1.amber).toBe(1);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should play an artifact on top of the deck', function () {
@@ -38,7 +38,7 @@ describe('bot-bookton', function () {
             this.player1.reap(this.botBookton);
             expect(this.gauntletOfCommand.location).toBe('play area');
             expect(this.player1.amber).toBe(1);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should play an upgrade on top of the deck', function () {
@@ -48,7 +48,7 @@ describe('bot-bookton', function () {
             expect(this.player1).toHavePrompt('Way of the Bear');
             this.player1.clickCard(this.botBookton);
             expect(this.wayOfTheBear.location).toBe('play area');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
             expect(this.player1.amber).toBe(2);
         });
 
@@ -72,7 +72,7 @@ describe('bot-bookton', function () {
             expect(this.player1).not.toHavePrompt('Choose a creature to attack');
             expect(this.botBookton.exhausted).toBe(false);
             expect(this.anger.location).toBe('discard');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should play an action from the top of the deck', function () {
@@ -85,14 +85,14 @@ describe('bot-bookton', function () {
             this.player1.clickCard(this.inkaTheSpider);
             expect(this.botBookton.location).toBe('discard');
             expect(this.anger.location).toBe('discard');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
             expect(this.player1.amber).toBe(2);
         });
 
         it('should keep an alpha card on the top of the deck', function () {
             this.player1.moveCard(this.eureka, 'deck');
             this.player1.reap(this.botBookton);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
             expect(this.player1.amber).toBe(1);
             expect(this.eureka.location).toBe('deck');
         });
@@ -100,7 +100,7 @@ describe('bot-bookton', function () {
         it('should keep Kelifi Dragon on the top of the deck if not enough amber', function () {
             this.player1.moveCard(this.kelifiDragon, 'deck');
             this.player1.reap(this.botBookton);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
             expect(this.player1.amber).toBe(1);
             expect(this.kelifiDragon.location).toBe('deck');
         });
@@ -121,7 +121,7 @@ describe('bot-bookton', function () {
             this.player1.clickCard(this.botBookton);
             expect(this.wayOfTheBear.location).toBe('play area');
             expect(this.player1.amber).toBe(2);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should not allow playing creatures when Lifeward is in effect', function () {
@@ -137,7 +137,7 @@ describe('bot-bookton', function () {
             this.player1.reap(this.botBookton);
             expect(this.dextre.location).toBe('deck');
             expect(this.player1.amber).toBe(1);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 
@@ -167,21 +167,21 @@ describe('bot-bookton', function () {
             this.player1.moveCard(this.dextre, 'deck');
             this.player1.reap(this.botBookton);
             expect(this.dextre.location).toBe('deck');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should allow playing an artifact from deck', function () {
             this.player1.moveCard(this.gauntletOfCommand, 'deck');
             this.player1.reap(this.botBookton);
             expect(this.gauntletOfCommand.location).toBe('play area');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should allow playing an action from deck', function () {
             this.player1.moveCard(this.foggify, 'deck');
             this.player1.reap(this.botBookton);
             expect(this.foggify.location).toBe('discard');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

@@ -23,7 +23,7 @@ describe('Horseman of Death', function () {
             expect(this.horsemanOfPestilence.location).toBe('hand');
             expect(this.horsemanOfWar.location).toBe('deck');
             expect(this.troll.location).toBe('discard');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 
@@ -42,7 +42,7 @@ describe('Horseman of Death', function () {
         it('should not return non-Horseman creatures', function () {
             this.player1.play(this.horsemanOfDeath);
             expect(this.troll.location).toBe('discard');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

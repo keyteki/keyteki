@@ -86,7 +86,7 @@ describe('Edict of Nerotaurus', function () {
             expect(this.player2.amber).toBe(0);
             this.player1.reap(this.shrewdInvestor);
             expect(this.player1.amber).toBe(4);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 
@@ -146,7 +146,7 @@ describe('Edict of Nerotaurus', function () {
             expect(this.player1).not.toHavePromptButton('Reap with this creature');
             expect(this.player1).toHavePromptButton('Fight with this creature'); // Daughter is still ready and can fight
             this.player1.clickPrompt('cancel');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

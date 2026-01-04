@@ -26,7 +26,7 @@ describe('main phase', function () {
     });
 
     it('should prompt the active player to play cards', function () {
-        expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+        expect(this.player1).isReadyToTakeAction();
     });
 
     describe('when the player clicks on a creature of the active house', function () {
@@ -38,7 +38,7 @@ describe('main phase', function () {
             expect(this.player1).toHavePromptButton('Cancel');
             expect(this.player1).not.toHavePromptButton("Remove this creature's stun");
             this.player1.clickPrompt('Cancel');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should prompt for a target if they choose to fight', function () {
@@ -61,7 +61,7 @@ describe('main phase', function () {
             expect(this.player1.amber).toBe(1);
             expect(this.player1).toHavePrompt('Witch of the Eye');
             this.ancientBear = this.player1.clickCard('ancient-bear', 'discard');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
             expect(this.ancientBear.location).toBe('hand');
             expect(this.player1.hand).toContain(this.ancientBear);
         });
@@ -83,7 +83,7 @@ describe('main phase', function () {
     describe('when a player clicks a creature of a non-active house', function () {
         it('should prompt the player to play, use or discard a card', function () {
             this.player1.clickCard(this.championAnaphiel);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 
@@ -99,7 +99,7 @@ describe('main phase', function () {
         it('should discard the card if the player clicks that option', function () {
             this.regrowth = this.player1.clickCard('regrowth');
             this.player1.clickPrompt('Discard this card');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
             expect(this.regrowth.location).toBe('discard');
         });
 
@@ -112,7 +112,7 @@ describe('main phase', function () {
             this.player1.clickCard(this.ancientBear);
             expect(this.ancientBear.location).toBe('hand');
             expect(this.player1.amber).toBe(1);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
             expect(this.regrowth.location).toBe('discard');
         });
 
@@ -143,7 +143,7 @@ describe('main phase', function () {
             expect(this.player1).toBeAbleToSelect(this.inkaTheSpider);
             expect(this.player1).toBeAbleToSelect(this.championAnaphiel);
             this.player1.clickCard(this.batdrone);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
             expect(this.batdrone.stunned).toBe(true);
         });
 
@@ -156,7 +156,7 @@ describe('main phase', function () {
             this.player1.clickPrompt('Play this artifact');
             expect(this.nepentheSeed.location).toBe('play area');
             expect(this.nepentheSeed.exhausted).toBe(true);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it("should prompt for a creature to attach to if it's an upgrade", function () {
@@ -174,7 +174,7 @@ describe('main phase', function () {
             expect(this.championAnaphiel.upgrades).toContain(this.wayOfTheBear);
             expect(this.wayOfTheBear.location).toBe('play area');
             expect(this.wayOfTheBear.exhausted).toBe(false);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

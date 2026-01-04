@@ -23,7 +23,7 @@ describe('End Turn Prophecy Prompt', function () {
 
         it('should prompt when ending turn with available prophecies', function () {
             // Player has prophecies they could activate but haven't
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
             this.player1.clickPrompt('End Turn');
             expect(this.player1).toHavePrompt('Are you sure you want to end your turn?');
             this.player1.clickPrompt('Yes');
@@ -34,7 +34,7 @@ describe('End Turn Prophecy Prompt', function () {
             this.player1.clickPrompt('End Turn');
             expect(this.player1).toHavePrompt('Are you sure you want to end your turn?');
             this.player1.clickPrompt('No');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

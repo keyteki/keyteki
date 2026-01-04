@@ -21,7 +21,7 @@ describe('Moon Light Special', function () {
             expect(this.umbra.location).toBe('discard');
             expect(this.player1.amber).toBe(3);
             expect(this.player2.amber).toBe(1);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should not gain an amber if no cards to discard', function () {
@@ -31,7 +31,7 @@ describe('Moon Light Special', function () {
             expect(this.player2.player.hand.length).toBe(1);
             expect(this.umbra.location).toBe('discard');
             expect(this.player1.amber).toBe(2);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

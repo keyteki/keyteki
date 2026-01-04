@@ -24,7 +24,7 @@ describe('Placeholder', function () {
             this.player1.clickCard(this.lamindra);
             this.player1.clickPrompt('Right');
             expect(this.lamindra.location).toBe('discard');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('repeats if first effect does not kill creature', function () {
@@ -45,7 +45,7 @@ describe('Placeholder', function () {
             expect(this.troll.location).toBe('play area');
             expect(this.troll.tokens.damage).toBe(4);
             expect(this.player2.player.creaturesInPlay[1]).toBe(this.troll);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

@@ -20,7 +20,7 @@ describe('Marketeer', function () {
             this.player1.clickCard(this.marketeer1);
             expect(this.player1).not.toHavePromptButton("Use this card's Action ability");
             this.player1.clickPrompt('Cancel');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should gain 2 and destroy self with the blue key forged', function () {
@@ -34,7 +34,7 @@ describe('Marketeer', function () {
             this.player1.clickCard(this.buxBastian);
             expect(this.player1).not.toHavePromptButton("Use this card's Action ability");
             this.player1.clickPrompt('Cancel');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

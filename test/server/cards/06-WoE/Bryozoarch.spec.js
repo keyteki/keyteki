@@ -24,7 +24,7 @@ describe('Bryozoarch', function () {
             expect(this.bryozoarch.location).toBe('play area');
             expect(this.player1.player.archives.length).toBe(0);
             expect(this.player1.amber).toBe(2);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should not blank my actions', function () {
@@ -33,7 +33,7 @@ describe('Bryozoarch', function () {
             this.player2.play(this.initiation);
             this.player2.clickPrompt('Right');
             expect(this.player2.player.creaturesInPlay.length).toBe(3);
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player2).isReadyToTakeAction();
         });
 
         xit('should not return actions via Torvus', function () {
@@ -69,7 +69,7 @@ describe('Bryozoarch', function () {
             expect(this.bryozoarch2.location).toBe('play area');
             expect(this.player1.player.archives.length).toBe(0);
             expect(this.player1.amber).toBe(2);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should resolve bonus icons before replacing the event', function () {
@@ -85,7 +85,7 @@ describe('Bryozoarch', function () {
             expect(this.player1.player.archives.length).toBe(1);
             expect(this.player1.amber).toBe(2);
             expect(this.labwork.location).toBe('discard');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

@@ -23,7 +23,7 @@ describe('Aedile Tullia', function () {
             this.player1.clickCard(this.questorJarta);
             this.player1.clickPrompt('Right');
             expect(this.player1.player.creaturesInPlay.length).toBe(4);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('does not make a token creature when exalting a token creature', function () {
@@ -31,7 +31,7 @@ describe('Aedile Tullia', function () {
             this.player1.clickCard(this.grumpus);
             this.player1.clickCard(this.questorJarta2);
             expect(this.player1.player.creaturesInPlay.length).toBe(3);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('does not make a token creature when enemy creature exalts', function () {
@@ -40,7 +40,7 @@ describe('Aedile Tullia', function () {
             this.player2.reap(this.questorJarta2);
             this.player2.clickCard(this.questorJarta2);
             expect(this.player1.player.creaturesInPlay.length).toBe(3);
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player2).isReadyToTakeAction();
         });
 
         it('make 2 token creatures when exalting twice', function () {
@@ -50,7 +50,7 @@ describe('Aedile Tullia', function () {
             this.player1.clickPrompt('Right');
             this.player1.clickPrompt('Right');
             expect(this.player1.player.creaturesInPlay.length).toBe(6);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('does not make a token creature when enemy exalts your creature', function () {
@@ -60,7 +60,7 @@ describe('Aedile Tullia', function () {
             this.player2.clickCard(this.questorJarta2);
             this.player2.clickCard(this.questorJarta);
             expect(this.player1.player.creaturesInPlay.length).toBe(3);
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player2).isReadyToTakeAction();
         });
     });
 });

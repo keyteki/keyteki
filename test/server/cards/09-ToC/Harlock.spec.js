@@ -21,26 +21,26 @@ describe('Harlock', function () {
             this.player1.fightWith(this.harlock, this.umbra);
             this.player1.clickPrompt('Right');
             expect(this.niffleBrute1.location).toBe('play area');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should not make a token creature if fought creature was not destroyed', function () {
             this.player1.fightWith(this.harlock, this.oldBruno);
             expect(this.niffleBrute1.location).toBe('deck');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should not make a token creature if fought creature was warded', function () {
             this.umbra.ward();
             this.player1.fightWith(this.harlock, this.umbra);
             expect(this.niffleBrute1.location).toBe('deck');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should be playable without breaking everything', function () {
             this.player1.moveCard(this.harlock, 'hand');
             this.player1.playCreature(this.harlock);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

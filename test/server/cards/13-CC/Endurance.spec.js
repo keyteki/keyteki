@@ -18,7 +18,7 @@ describe('Endurance', function () {
             this.player1.clickCard(this.umbra);
             expect(this.umbra.location).toBe('discard');
             expect(this.aeroOFore.exhausted).toBe(true);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
 
             this.player1.reap(this.blackTempest);
             expect(this.player1).toHavePrompt('Choose a creature to attack');
@@ -26,7 +26,7 @@ describe('Endurance', function () {
             expect(this.nantucket.location).toBe('discard');
             expect(this.blackTempest.tokens.damage).toBe(2);
             expect(this.blackTempest.exhausted).toBe(true);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should not affect non-Skyborn neighbors', function () {
@@ -37,13 +37,13 @@ describe('Endurance', function () {
             this.player1.moveCard(this.blackTempest, 'discard');
             this.player1.reap(this.charette);
             expect(this.charette.exhausted).toBe(true);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should not affect non-neighbor Skyborn creatures', function () {
             this.player1.reap(this.buxBastian);
             expect(this.buxBastian.exhausted).toBe(true);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

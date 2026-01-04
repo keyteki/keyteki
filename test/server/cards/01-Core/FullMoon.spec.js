@@ -17,7 +17,7 @@ describe('Full Moon', function () {
             expect(this.player1.amber).toBe(3);
             this.player1.play(this.dewFaerie);
             expect(this.player1.amber).toBe(4);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

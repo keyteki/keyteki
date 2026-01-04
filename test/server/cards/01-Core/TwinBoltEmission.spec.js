@@ -48,7 +48,7 @@ describe('Twin Bolt Emission', function () {
             expect(this.inkaTheSpider.location).toBe('discard');
             expect(this.docBookton.location).toBe('discard');
             this.player1.play(this.twinBoltEmission);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
             expect(this.player1.amber).toBe(1);
         });
     });

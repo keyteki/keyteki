@@ -22,7 +22,7 @@ describe('Conscription', function () {
             expect(this.player1.player.creaturesInPlay.length).toBe(
                 this.player2.player.creaturesInPlay.length
             );
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should make no tokens when equal', function () {
@@ -33,7 +33,7 @@ describe('Conscription', function () {
             expect(this.player1.player.creaturesInPlay.length).toBe(
                 this.player2.player.creaturesInPlay.length
             );
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should make a single token when one less creature', function () {
@@ -44,7 +44,7 @@ describe('Conscription', function () {
             expect(this.player1.player.creaturesInPlay.length).toBe(
                 this.player2.player.creaturesInPlay.length
             );
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

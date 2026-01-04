@@ -22,14 +22,14 @@ describe('Crunch', function () {
             expect(this.player1).not.toBeAbleToSelect(this.lamindra);
             this.player1.clickCard(this.huntingWitch);
             expect(this.crunch.power).toBe(4);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should add power counters on fight', function () {
             this.player1.fightWith(this.crunch, this.lamindra);
             this.player1.clickCard(this.dustPixie);
             expect(this.crunch.power).toBe(3);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

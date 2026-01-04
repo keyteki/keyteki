@@ -32,7 +32,7 @@ describe('Gleaming the Cube', function () {
             this.player1.clickPrompt('Reap with this creature');
             expect(this.emberImp.exhausted).toBe(true);
             expect(this.player1.amber).toBe(4);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should discard top card and change active house when fate is triggered', function () {
@@ -44,7 +44,7 @@ describe('Gleaming the Cube', function () {
             expect(this.gleamingTheCube.location).toBe('discard');
             this.player2.reap(this.huntingWitch);
             expect(this.player2.amber).toBe(6);
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player2).isReadyToTakeAction();
         });
 
         it('should not change house if deck is empty', function () {
@@ -55,7 +55,7 @@ describe('Gleaming the Cube', function () {
             this.player2.reap(this.krump);
             expect(this.gleamingTheCube.location).toBe('discard');
             this.player2.clickCard(this.huntingWitch);
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player2).isReadyToTakeAction();
         });
     });
 });

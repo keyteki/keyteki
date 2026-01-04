@@ -35,7 +35,7 @@ describe('Heads, I Win', function () {
             expect(this.dustPixie.amber).toBe(2);
             expect(this.player2.amber).toBe(5);
             expect(this.parasiticArachnoid.location).toBe('discard');
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player2).isReadyToTakeAction();
         });
 
         it('should not fulfill when opponent plays a creature not adjacent to a creature of the same house', function () {
@@ -45,14 +45,14 @@ describe('Heads, I Win', function () {
             this.player2.clickPrompt('brobnar');
             this.player2.playCreature(this.troll);
             expect(this.parasiticArachnoid.location).toBe('under');
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player2).isReadyToTakeAction();
         });
 
         it('should not fulfill when you play a creature adjacent to a creature of the same house', function () {
             this.player1.activateProphecy(this.headsIWin, this.parasiticArachnoid);
             this.player1.playCreature(this.ancientBear);
             expect(this.parasiticArachnoid.location).toBe('under');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should not fulfill when opponent plays a non-creature card', function () {
@@ -62,7 +62,7 @@ describe('Heads, I Win', function () {
             this.player2.clickPrompt('untamed');
             this.player2.play(this.spooKeyCharge);
             expect(this.parasiticArachnoid.location).toBe('under');
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player2).isReadyToTakeAction();
         });
 
         it('should be able to flip at the end of your turn', function () {

@@ -19,7 +19,7 @@ describe('Honorable Claim', function () {
             expect(this.sequis.amber).toBe(1);
             expect(this.troll.amber).toBe(0);
             expect(this.player2.amber).toBe(1);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 
@@ -40,7 +40,7 @@ describe('Honorable Claim', function () {
         it('should not capture amber when there are no Knights', function () {
             this.player1.play(this.honorableClaim);
             expect(this.player2.amber).toBe(3);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 
@@ -69,7 +69,7 @@ describe('Honorable Claim', function () {
             expect(this.sequis.amber).toBe(0);
             expect(this.troll.amber).toBe(0);
             expect(this.player2.amber).toBe(0);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

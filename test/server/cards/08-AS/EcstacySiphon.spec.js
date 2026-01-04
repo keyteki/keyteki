@@ -25,7 +25,7 @@ describe('Ecstacy Siphon', function () {
             this.player1.clickCard(this.duskwitch);
             expect(this.troll.tokens.damage).toBe(2);
             expect(this.duskwitch.location).toBe('discard');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

@@ -91,7 +91,7 @@ describe('Mimicry', function () {
             expect(this.player2.amber).toBe(5);
             expect(this.mimicry.location).toBe('hand');
             expect(this.swindle.location).toBe('discard');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 

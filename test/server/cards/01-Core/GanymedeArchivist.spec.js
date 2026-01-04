@@ -17,7 +17,7 @@ describe('Ganymede Archivist', function () {
             expect(this.player1).toBeAbleToSelect(this.dextre);
             this.player1.clickCard(this.dextre);
             expect(this.dextre.location).toBe('archives');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 
@@ -35,7 +35,7 @@ describe('Ganymede Archivist', function () {
 
         it('should not prompt when there are no cards in hand', function () {
             this.player1.reap(this.ganymedeArchivist);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

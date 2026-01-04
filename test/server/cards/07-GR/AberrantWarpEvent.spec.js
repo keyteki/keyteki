@@ -68,7 +68,7 @@ describe('AberrantWarpEvent', function () {
             expect(this.crazyKillingMachine.location).toBe('discard');
             expect(this.daughter.location).toBe('play area');
             expect(this.mother.location).toBe('discard');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('plays with creatures only in opponent deck', function () {
@@ -101,7 +101,7 @@ describe('AberrantWarpEvent', function () {
             expect(this.crazyKillingMachine.location).toBe('discard');
             expect(this.daughter.location).toBe('play area');
             expect(this.mother.location).toBe('discard');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('play the creature with no neighbors to destroy', function () {
@@ -136,7 +136,7 @@ describe('AberrantWarpEvent', function () {
             expect(this.crazyKillingMachine.location).toBe('discard');
             expect(this.daughter.location).toBe('play area');
             expect(this.mother.location).toBe('discard');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('plays with no cards in own deck', function () {
@@ -156,7 +156,7 @@ describe('AberrantWarpEvent', function () {
             this.player1.clickCard(this.mother);
             expect(this.daughter.location).toBe('play area');
             expect(this.mother.location).toBe('discard');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

@@ -19,7 +19,7 @@ describe('Mobius Scroll', function () {
             expect(this.player1).toHavePrompt('Mobius Scroll');
             expect(this.player1).toHavePromptButton('Done');
             this.player1.clickPrompt('Done');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
             expect(this.mobiusScroll.location).toBe('archives');
         });
 
@@ -29,7 +29,7 @@ describe('Mobius Scroll', function () {
             this.player1.clickCard(this.batdrone);
             this.player1.clickCard(this.docBookton);
             this.player1.clickPrompt('Done');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
             expect(this.mobiusScroll.location).toBe('archives');
             expect(this.batdrone.location).toBe('archives');
             expect(this.docBookton.location).toBe('archives');
@@ -57,7 +57,7 @@ describe('Mobius Scroll', function () {
             this.player1.clickCard(this.batdrone);
             this.player1.clickCard(this.docBookton);
             this.player1.clickPrompt('Done');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
             expect(this.mobiusScroll.location).toBe('archives');
             expect(this.batdrone.location).toBe('archives');
             expect(this.docBookton.location).toBe('archives');
@@ -88,7 +88,7 @@ describe('Mobius Scroll', function () {
             this.player1.clickCard(this.batdrone);
             this.player1.clickCard(this.docBookton);
             this.player1.clickPrompt('Done');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
             expect(this.mobiusScroll.location).toBe('archives');
             expect(this.batdrone.location).toBe('archives');
             expect(this.docBookton.location).toBe('archives');

@@ -46,7 +46,7 @@ describe('Expect The Unexpected', function () {
             this.player2.clickCard(this.umbra);
             expect(this.umbra.amber).toBe(2);
             expect(this.player2.amber).toBe(3);
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player2).isReadyToTakeAction();
             expect(this.parasiticArachnoid.location).toBe('discard');
         });
 
@@ -62,7 +62,7 @@ describe('Expect The Unexpected', function () {
             this.player2.clickCard(this.umbra);
             expect(this.umbra.amber).toBe(2);
             expect(this.player2.amber).toBe(3);
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player2).isReadyToTakeAction();
             expect(this.parasiticArachnoid.location).toBe('discard');
         });
 
@@ -72,7 +72,7 @@ describe('Expect The Unexpected', function () {
             this.player2.clickPrompt('untamed');
             this.player2.playCreature(this.warfaline);
             this.player2.clickPrompt("Opponent's");
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player2).isReadyToTakeAction();
             expect(this.parasiticArachnoid.location).toBe('under');
         });
 
@@ -90,7 +90,7 @@ describe('Expect The Unexpected', function () {
             this.player2.clickCard(this.witchOfTheEye);
             expect(this.witchOfTheEye.amber).toBe(2);
             expect(this.player2.amber).toBe(4);
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player2).isReadyToTakeAction();
             expect(this.parasiticArachnoid.location).toBe('discard');
         });
     });

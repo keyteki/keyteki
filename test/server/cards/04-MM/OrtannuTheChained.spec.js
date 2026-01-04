@@ -27,7 +27,7 @@ describe('Ortannu The Chained', function () {
         it('should return no card from discard', function () {
             this.player1.reap(this.ortannuTheChained);
             expect(this.player1.amber).toBe(1);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should return all bindings from discard and apply the 2D for each returned card', function () {
@@ -52,7 +52,7 @@ describe('Ortannu The Chained', function () {
             expect(this.troll.tokens.damage).toBe(4);
             expect(this.alaka.tokens.damage).toBe(2);
             expect(this.brammo.tokens.damage).toBeUndefined();
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should allow dealing damage to same creature', function () {
@@ -67,7 +67,7 @@ describe('Ortannu The Chained', function () {
             expect(this.troll.tokens.damage).toBe(4);
             expect(this.alaka.location).toBe('discard');
             expect(this.brammo.tokens.damage).toBeUndefined();
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should remove ward cards simultanously', function () {
@@ -86,7 +86,7 @@ describe('Ortannu The Chained', function () {
             expect(this.troll.tokens.damage).toBeUndefined();
             expect(this.alaka.tokens.damage).toBe(2);
             expect(this.brammo.tokens.damage).toBeUndefined();
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

@@ -189,6 +189,23 @@ var customMatchers = {
                 return result;
             }
         };
+    },
+    isReadyToTakeAction: function () {
+        return {
+            compare: function (player) {
+                let result = {};
+                result.pass = player.hasPrompt('Choose a card to play, discard or use');
+
+                if (result.pass) {
+                    result.message = `Expected ${player.name} not to be ready to take action, but it was.`;
+                } else {
+                    let currentPrompt = player.currentPrompt();
+                    result.message = `Expected ${player.name} to be ready to take action, but it had menuTitle "${currentPrompt.menuTitle}" and promptTitle "${currentPrompt.promptTitle}".`;
+                }
+
+                return result;
+            }
+        };
     }
 };
 

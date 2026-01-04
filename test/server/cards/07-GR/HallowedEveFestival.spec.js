@@ -50,14 +50,14 @@ describe('Hallowed Eve Festival', function () {
             expect(this.echofly.amber).toBe(3);
             expect(this.flaxia.amber).toBe(1);
             expect(this.player2.amber).toBe(2);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('does nothing with no deck', function () {
             this.player1.player.deck = [];
             this.player1.play(this.hallowedEveFestival);
             expect(this.player2.amber).toBe(6);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

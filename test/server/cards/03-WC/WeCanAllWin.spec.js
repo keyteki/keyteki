@@ -27,7 +27,7 @@ describe('We Can ALL Win', function () {
             this.player1.clickPrompt('staralliance');
             this.player1.endTurn();
             this.player2.clickPrompt('Dis');
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player2).isReadyToTakeAction();
         });
     });
 
@@ -61,7 +61,7 @@ describe('We Can ALL Win', function () {
             this.player2.clickPrompt('untamed');
             expect(this.player2.player.getCurrentKeyCost()).toBe(6);
             expect(this.player2.player.getForgedKeys()).toBe(0);
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player2).isReadyToTakeAction();
         });
     });
 });

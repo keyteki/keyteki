@@ -28,7 +28,7 @@ describe('Lieutenant Halasta', function () {
             expect(this.player1).toBeAbleToSelect(this.dustPixie);
             this.player1.clickCard(this.dustPixie);
             expect(this.dustPixie.stunned).toBe(true);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('can stun the most powerful enemy creature on scrap', function () {
@@ -41,7 +41,7 @@ describe('Lieutenant Halasta', function () {
             this.player1.clickCard(this.senatorShrix);
             expect(this.senatorShrix.stunned).toBe(true);
             expect(this.lieutenantHalasta.location).toBe('discard');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

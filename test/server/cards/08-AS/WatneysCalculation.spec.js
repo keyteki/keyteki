@@ -30,7 +30,7 @@ describe("Watney's Calculation", function () {
             this.player1.reap(this.glylyxWeaponsmith);
             this.player1.play(this.watneySCalculation);
             expect(this.player1.amber).toBe(2);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

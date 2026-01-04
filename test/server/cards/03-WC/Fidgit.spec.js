@@ -27,7 +27,7 @@ describe('Fidgit', function () {
             this.player1.reap(this.fidgit);
             expect(this.player1).not.toHavePromptButton('Top of deck');
             expect(this.player1).not.toHavePromptButton('Random card from archives');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('when deck is empty, still provide option, and allow playing archived card', function () {
@@ -102,7 +102,7 @@ describe('Fidgit', function () {
             this.player1.clickPrompt('Top of deck');
 
             expect(this.theWarchest.location).toBe('discard');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('when archives is selected, discards a random creature card from archives', function () {
@@ -164,7 +164,7 @@ describe('Fidgit', function () {
             expect(this.mother.location).toBe('archives');
             this.player2.endTurn();
             this.player1.clickPrompt('shadows');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
             expect(this.player2.archives.length).toBe(1);
             this.player1.clickCard(this.fidgit);
             expect(this.player1).toHavePrompt('Choose an ability:');

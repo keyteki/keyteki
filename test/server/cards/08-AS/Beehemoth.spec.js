@@ -38,7 +38,7 @@ describe('Beehemoth', function () {
             this.player1.clickCard(this.flaxia);
             this.player1.clickPrompt('Left');
             expect(this.player1.player.creaturesInPlay[2]).toBe(this.beehemoth);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should move remove neighbor power counters and gain amber on reap', function () {
@@ -50,7 +50,7 @@ describe('Beehemoth', function () {
             expect(this.player1.amber).toBe(7);
             expect(this.flaxia.tokens.power).toBe(undefined);
             expect(this.huntingWitch.tokens.power).toBe(undefined);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should move remove one neighbor power counters and gain amber on reap', function () {
@@ -61,7 +61,7 @@ describe('Beehemoth', function () {
             expect(this.player1.amber).toBe(5);
             expect(this.flaxia.tokens.power).toBe(undefined);
             expect(this.huntingWitch.tokens.power).toBe(undefined);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should do nothing with no neighbors', function () {
@@ -72,7 +72,7 @@ describe('Beehemoth', function () {
             this.player1.clickCard(this.beehemoth);
             this.player1.clickPrompt('Left');
             expect(this.player1.amber).toBe(2);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

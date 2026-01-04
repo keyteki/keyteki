@@ -26,7 +26,7 @@ describe('Fight to the End', function () {
             this.player1.clickCard(this.groke);
             this.player1.clickCard(this.batdrone);
             expect(this.groke.tokens.damage).toBe(2);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('give the friendly creature skirmish when haunted until it leaves play', function () {
@@ -61,14 +61,14 @@ describe('Fight to the End', function () {
             this.player1.clickPrompt('brobnar');
             this.player1.fightWith(this.groke, this.umbra);
             expect(this.groke.tokens.damage).toBe(2);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('can be played with no friendly creatures', function () {
             this.player1.moveCard(this.groke, 'discard');
             this.player1.moveCard(this.cpoZytar, 'discard');
             this.player1.play(this.fightToTheEnd);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

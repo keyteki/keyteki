@@ -32,7 +32,7 @@ describe("Plublio's Decree", function () {
             this.player1.reap(this.almsmaster);
             this.player1.reap(this.emberImp);
             expect(this.player1.amber).toBe(8);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should exalt and change house of less than 3 friendly creatures', function () {
@@ -45,7 +45,7 @@ describe("Plublio's Decree", function () {
             this.player1.reap(this.raidingKnight);
             this.player1.clickCard(this.emberImp);
             expect(this.player1.amber).toBe(6);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should not require selecting any creatures', function () {
@@ -54,7 +54,7 @@ describe("Plublio's Decree", function () {
             expect(this.raidingKnight.tokens.amber).toBeUndefined();
             expect(this.almsmaster.tokens.amber).toBeUndefined();
             expect(this.emberImp.tokens.amber).toBeUndefined();
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

@@ -24,7 +24,7 @@ describe('Hunter of Legend', function () {
             this.player1.clickPrompt('Right');
             expect(this.buxBastian.tokens.damage).toBe(undefined);
             expect(this.wrangler1.location).toBe('play area');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

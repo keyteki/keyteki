@@ -20,13 +20,13 @@ describe('Soul Vial', function () {
             this.player1.fightWith(this.echofly, this.thingFromTheDeep);
             expect(this.echofly.location).toBe('archives');
             expect(this.player2.amber).toBe(2);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('does not archive creatures without amber on them on destroy', function () {
             this.player1.fightWith(this.echofly, this.thingFromTheDeep);
             expect(this.echofly.location).toBe('discard');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('does not archive creatures with amber on them on destroy', function () {
@@ -34,7 +34,7 @@ describe('Soul Vial', function () {
             this.player1.fightWith(this.echofly, this.dustPixie);
             expect(this.dustPixie.location).toBe('discard');
             expect(this.player1.amber).toBe(2);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

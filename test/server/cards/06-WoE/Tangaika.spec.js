@@ -31,7 +31,7 @@ describe('Tangaika', function () {
 
         it('should be playable with at least 4 cultists', function () {
             this.player1.playCreature(this.tangaika);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should not be playable without 4 cultists', function () {

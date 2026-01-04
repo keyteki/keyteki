@@ -29,7 +29,7 @@ describe('Bouncing Death Quark', function () {
             this.player1.clickCard(this.mother);
             expect(this.mother.location).toBe('discard');
             expect(this.macisAsp.location).toBe('discard');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should prompt the player to repeat the ability when more targets exist', function () {
@@ -41,7 +41,7 @@ describe('Bouncing Death Quark', function () {
             expect(this.macisAsp.location).toBe('discard');
             expect(this.player1).toHavePrompt('Do you wish to repeat this effect?');
             this.player1.clickPrompt('No');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should repeat 3 times', function () {
@@ -63,7 +63,7 @@ describe('Bouncing Death Quark', function () {
             this.player1.clickCard(this.docBookton);
             expect(this.silvertooth.location).toBe('discard');
             expect(this.docBookton.location).toBe('discard');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should kill only an enemy creature if there are no friendly creatures', function () {
@@ -76,7 +76,7 @@ describe('Bouncing Death Quark', function () {
             expect(this.player1).toBeAbleToSelect(this.urchin);
             this.player1.clickCard(this.urchin);
             expect(this.urchin.location).toBe('discard');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should kill only a friendly creature if there are no enemy creatures', function () {
@@ -95,7 +95,7 @@ describe('Bouncing Death Quark', function () {
             expect(this.player1).toBeAbleToSelect(this.batdrone);
             this.player1.clickCard(this.batdrone);
             expect(this.batdrone.location).toBe('discard');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });
