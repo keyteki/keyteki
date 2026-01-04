@@ -22,7 +22,7 @@ describe('Warsong', function () {
             expect(this.player1.amber).toBe(1);
             this.player1.fightWith(this.krump, this.brainEater);
             expect(this.player1.amber).toBe(2);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should not gain amber when opponent creature fights', function () {
@@ -32,7 +32,7 @@ describe('Warsong', function () {
             this.player2.clickPrompt('logos');
             this.player2.fightWith(this.brainEater, this.troll);
             expect(this.player1.amber).toBe(0);
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player2).isReadyToTakeAction();
         });
 
         it('should not gain amber from fights on the next turn', function () {
@@ -44,7 +44,7 @@ describe('Warsong', function () {
             this.player1.clickPrompt('brobnar');
             this.player1.fightWith(this.krump, this.brainEater);
             expect(this.player1.amber).toBe(0);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should gain amber from creatures you take control of and die in fight', function () {
@@ -57,7 +57,7 @@ describe('Warsong', function () {
             this.player1.clickCard(this.lamindra); // will die in fight, reverting control in the discard
             this.player1.clickCard(this.brainEater); // fight
             expect(this.player1.amber).toBe(2); // 1 for anger + 1 for warsong fight
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

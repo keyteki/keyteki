@@ -23,7 +23,7 @@ describe('Mercurial Wormhole', function () {
             expect(this.ancientBear.location).toBe('play area');
             this.player1.reap(this.dustPixie);
             expect(this.player1.amber).toBe(3);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should not change active house if no card is played', function () {
@@ -31,7 +31,7 @@ describe('Mercurial Wormhole', function () {
             this.player1.play(this.mercurialWormhole);
             this.player1.reap(this.dextre);
             expect(this.player1.amber).toBe(3);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should not change active house if the card cannot be played', function () {
@@ -41,7 +41,7 @@ describe('Mercurial Wormhole', function () {
             expect(this.ancientBear.location).toBe('deck');
             this.player1.reap(this.dextre);
             expect(this.player1.amber).toBe(3);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

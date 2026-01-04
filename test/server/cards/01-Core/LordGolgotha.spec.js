@@ -16,7 +16,7 @@ describe('Lord Golgotha', function () {
             this.player1.fightWith(this.lordGolgotha, this.krump);
             expect(this.troll.tokens.damage).toBe(3);
             expect(this.bumpsy.tokens.damage).toBe(3);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should deal 3 damage to single neighbor when fighting a flank', function () {
@@ -24,7 +24,7 @@ describe('Lord Golgotha', function () {
             expect(this.troll.tokens.damage).toBe(5);
             expect(this.krump.tokens.damage).toBe(3);
             expect(this.bumpsy.tokens.damage).toBeUndefined();
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

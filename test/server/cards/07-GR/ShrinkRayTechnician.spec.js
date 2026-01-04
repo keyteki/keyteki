@@ -33,7 +33,7 @@ describe('Shrink-Ray Technician', function () {
                 expect(this.firespitter.power).toBe(3);
                 expect(this.firespitter.armor).toBe(1);
                 expect(this.foozle.power).toBe(5);
-                expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+                expect(this.player1).isReadyToTakeAction();
                 this.player1.endTurn();
                 expect(this.firespitter.power).toBe(5);
             });
@@ -41,7 +41,7 @@ describe('Shrink-Ray Technician', function () {
             it('destroy an enemy creature with 2 or less power', function () {
                 this.player1.clickCard(this.dustPixie);
                 expect(this.dustPixie.location).toBe('discard');
-                expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+                expect(this.player1).isReadyToTakeAction();
             });
         });
 
@@ -57,7 +57,7 @@ describe('Shrink-Ray Technician', function () {
             expect(this.foozle.power).toBe(5);
             expect(this.dustPixie.power).toBe(1);
             expect(this.dustPixie.location).toBe('play area');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

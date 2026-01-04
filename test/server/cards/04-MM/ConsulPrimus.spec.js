@@ -18,7 +18,7 @@ describe('Consul Primus', function () {
         it('should not prompt for any creature, since no other creature to place amber', function () {
             this.consulPrimus.tokens.amber = 9;
             this.player1.reap(this.consulPrimus);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });
@@ -169,7 +169,7 @@ describe("Consul Primus's reap ability", function () {
 
         this.player1.clickCard(this.dextre);
 
-        expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+        expect(this.player1).isReadyToTakeAction();
 
         expect(this.dextre.tokens.amber).toBeUndefined();
     });

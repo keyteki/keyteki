@@ -33,7 +33,7 @@ describe('Demonic Shelf', function () {
             expect(this.player1).toBeAbleToSelect(this.dustPixie);
             this.player1.clickCard(this.troll);
             expect(this.troll.tokens.damage).toBe(3);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
 
             this.demonicShelf.exhausted = false;
             this.player1.useAction(this.demonicShelf);
@@ -43,7 +43,7 @@ describe('Demonic Shelf', function () {
             this.player1.clickCard(this.rowdySkald);
             expect(this.troll.tokens.damage).toBe(6);
             expect(this.rowdySkald.tokens.damage).toBe(3);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should work with no friendly creatures', function () {
@@ -55,7 +55,7 @@ describe('Demonic Shelf', function () {
             this.player1.useAction(this.demonicShelf);
             this.player1.clickCard(this.troll);
             expect(this.troll.tokens.damage).toBe(6);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

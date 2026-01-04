@@ -29,7 +29,7 @@ describe('Lost in the Woods', function () {
             expect(this.krump.location).toBe('deck');
             expect(this.inkaTheSpider.location).toBe('play area');
             expect(this.bumpsy.location).toBe('play area');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

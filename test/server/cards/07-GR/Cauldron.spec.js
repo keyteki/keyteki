@@ -46,7 +46,7 @@ describe('Cauldron', function () {
                 this.player1.clickCard(this.gangerChieftain);
                 this.player1.clickPrompt('Right');
                 this.player1.clickPrompt('Done');
-                expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+                expect(this.player1).isReadyToTakeAction();
                 expect(this.player1.amber).toBe(4);
                 expect(this.cauldron.childCards.length).toBe(0);
                 expect(this.witchOfTheEye.location).toBe('play area');
@@ -60,7 +60,7 @@ describe('Cauldron', function () {
                 this.player1.clickCard(this.witchOfTheEye);
                 this.player1.clickPrompt('Right');
                 this.player1.clickPrompt('Done');
-                expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+                expect(this.player1).isReadyToTakeAction();
                 expect(this.player1.amber).toBe(2);
             });
 
@@ -107,7 +107,7 @@ describe('Cauldron', function () {
                 this.player1.clickPrompt('Done');
                 this.player1.clickCard(this.smith);
                 this.player1.clickCard(this.umbra); // Poke
-                expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+                expect(this.player1).isReadyToTakeAction();
                 expect(this.player1.amber).toBe(5);
                 expect(this.cauldron.childCards.length).toBe(0);
                 expect(this.witchOfTheEye.location).toBe('play area');
@@ -115,7 +115,7 @@ describe('Cauldron', function () {
                 expect(this.smith.location).toBe('discard');
                 expect(this.poke.location).toBe('discard');
                 expect(this.umbra.tokens.damage).toBe(1);
-                expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+                expect(this.player1).isReadyToTakeAction();
             });
         });
 

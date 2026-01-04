@@ -167,7 +167,7 @@ describe('Ultra Gravitron', function () {
             this.ultraGravitron.exhausted = false;
             this.player1.player.archives = [];
             this.player1.reap(this.ultraGravitron);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
             expect(this.player1.amber).toBe(1);
         });
 
@@ -177,7 +177,7 @@ describe('Ultra Gravitron', function () {
             this.player1.player.archives = [];
             this.player1.fightWith(this.ultraGravitron2, this.zorg);
             expect(this.zorg.location).toBe('discard');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
             expect(this.player1.amber).toBe(0);
         });
 

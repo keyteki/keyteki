@@ -25,7 +25,7 @@ describe('Ghostform', function () {
             this.player2.clickCard(this.urchin);
             expect(this.urchin.hasToken('damage')).toBe(false);
             expect(this.urchin.location).toBe('play area');
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player2).isReadyToTakeAction();
         });
     });
 });

@@ -30,7 +30,7 @@ describe('Shard of Resurgence', function () {
             this.player1.clickCard(this.touchstone);
             expect(this.touchstone.location).toBe('archives');
             expect(this.player1.player.archives.length).toBe(2);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

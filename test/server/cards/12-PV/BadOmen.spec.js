@@ -42,7 +42,7 @@ describe('Bad Omen', function () {
             this.player2.endTurn();
             expect(this.parasiticArachnoid.location).toBe('under');
             this.player1.clickPrompt('untamed');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should not fulfill when opponent has more than 6 amber at end of their turn', function () {
@@ -53,7 +53,7 @@ describe('Bad Omen', function () {
             this.player2.endTurn();
             expect(this.parasiticArachnoid.location).toBe('under');
             this.player1.clickPrompt('untamed');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should not fulfill when you have exactly 6 amber at end of your turn', function () {
@@ -71,7 +71,7 @@ describe('Bad Omen', function () {
             this.player2.amber = 6;
             this.player2.play(this.spooKeyCharge);
             expect(this.parasiticArachnoid.location).toBe('under');
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player2).isReadyToTakeAction();
         });
     });
 });

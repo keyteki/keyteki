@@ -16,7 +16,7 @@ describe('Spoo-key Charge', function () {
             this.player1.reap(this.dustPixie);
             let deckLen = this.player1.player.deck.length;
             this.player1.play(this.spooKeyCharge);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
             expect(this.spooKeyCharge.location).toBe('discard');
             expect(this.player1.player.discard.length).toBe(1);
             expect(this.player1.player.deck.length).toBe(deckLen + 9);
@@ -28,7 +28,7 @@ describe('Spoo-key Charge', function () {
             this.player1.clickPrompt('Discard this card');
             let deckLen = this.player1.player.deck.length;
             this.player1.play(this.spooKeyCharge);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
             expect(this.spooKeyCharge.location).toBe('discard');
             expect(this.theCommonCold.location).toBe('deck');
             expect(this.player1.player.discard.length).toBe(1);
@@ -45,7 +45,7 @@ describe('Spoo-key Charge', function () {
             expect(this.player1.player.keys.blue).toBe(false);
             expect(this.player1.player.keys.yellow).toBe(false);
             expect(this.player1.amber).toBe(0);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
             expect(this.spooKeyCharge.location).toBe('discard');
             expect(this.dustPixie.location).toBe('deck');
             expect(this.theCommonCold.location).toBe('deck');

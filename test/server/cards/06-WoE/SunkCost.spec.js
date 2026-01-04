@@ -24,7 +24,7 @@ describe('Sunk Cost', function () {
             this.player1.clickPrompt('logos');
             expect(this.player2.player.hand.length).toBe(2);
             expect(this.player1.player.creaturesInPlay.length).toBe(0);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should make a token if the discard does match house call', function () {
@@ -35,7 +35,7 @@ describe('Sunk Cost', function () {
             this.player1.clickPrompt('logos');
             expect(this.player2.player.hand.length).toBe(1);
             expect(this.player1.player.creaturesInPlay.length).toBe(1);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

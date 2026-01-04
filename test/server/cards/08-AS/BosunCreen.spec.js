@@ -25,7 +25,7 @@ describe('Bosun Creen', function () {
             this.player1.clickCard(this.gub);
             this.player1.clickPrompt('Right');
             expect(this.player1.player.creaturesInPlay[2]).toBe(this.gub);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should move an enemy creature to a flank on scrap', function () {
@@ -33,7 +33,7 @@ describe('Bosun Creen', function () {
             this.player1.clickCard(this.pelf);
             this.player1.clickPrompt('Left');
             expect(this.player2.player.creaturesInPlay[0]).toBe(this.pelf);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

@@ -36,7 +36,7 @@ describe('Stars Aligned', function () {
             this.player1.endTurn();
             this.player2.clickPrompt('brobnar');
             expect(this.parasiticArachnoid.location).toBe('under');
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player2).isReadyToTakeAction();
         });
 
         it('should fulfill when both players have the same number of creatures at the start of player turn', function () {
