@@ -17,7 +17,7 @@ describe('Laurel Wreath', function () {
         it('should exalt the creature when played', function () {
             this.player1.playUpgrade(this.laurelWreath, this.charette);
             expect(this.charette.tokens.amber).toBe(1);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should give +1 power for each amber on the creature', function () {
@@ -31,7 +31,7 @@ describe('Laurel Wreath', function () {
             this.player1.clickCard(this.charette);
             expect(this.charette.power).toBe(7);
             expect(this.player2.amber).toBe(0);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

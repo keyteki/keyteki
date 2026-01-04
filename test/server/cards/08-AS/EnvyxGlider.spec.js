@@ -52,7 +52,7 @@ describe('Envyx Glider', function () {
             expect(this.player2.player.getCurrentKeyCost()).toBe(7);
             expect(this.player2.player.getForgedKeys()).toBe(0);
             this.player2.clickPrompt('untamed');
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player2).isReadyToTakeAction();
         });
     });
 });

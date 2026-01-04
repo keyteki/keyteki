@@ -22,7 +22,7 @@ describe('Snippy', function () {
             expect(this.player1).toBeAbleToSelect(this.flaxia);
             this.player1.clickCard(this.flaxia);
             expect(this.flaxia.tokens.damage).toBe(2);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('destroys an enemy flank creature on scrap', function () {
@@ -34,7 +34,7 @@ describe('Snippy', function () {
             this.player1.clickCard(this.thingFromTheDeep);
             expect(this.thingFromTheDeep.location).toBe('discard');
             expect(this.snippy.location).toBe('discard');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

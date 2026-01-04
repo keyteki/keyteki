@@ -21,7 +21,7 @@ describe('Shae Cloudkicker', function () {
             this.player1.clickCard(this.flaxia);
             expect(this.player1.player.creaturesInPlay[0]).toBe(this.shaeCloudkicker);
             expect(this.player1.player.creaturesInPlay[2]).toBe(this.flaxia);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should swap with another creature on reap', function () {
@@ -35,7 +35,7 @@ describe('Shae Cloudkicker', function () {
             this.player1.clickCard(this.flaxia);
             expect(this.player1.player.creaturesInPlay[2]).toBe(this.shaeCloudkicker);
             expect(this.player1.player.creaturesInPlay[0]).toBe(this.flaxia);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

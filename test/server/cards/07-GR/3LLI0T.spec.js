@@ -21,7 +21,7 @@ describe('3LL-I0T', function () {
             expect(this.player1).toBeAbleToSelect(this.lightOfTheArchons);
             expect(this.player1).toBeAbleToSelect(this.insurancePolicy);
             this.player1.clickCard(this.lightOfTheArchons);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
             expect(this.player1.amber).toBe(2);
             expect(this.lightOfTheArchons.location).toBe('play area');
             expect(this.lightOfTheArchons.parent).toBe(this['3llI0t']);
@@ -30,7 +30,7 @@ describe('3LL-I0T', function () {
         it('gets the Play: ability of the played upgrade', function () {
             this.player1.playCreature(this['3llI0t']);
             this.player1.clickCard(this.insurancePolicy);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
             expect(this.player1.amber).toBe(0);
             expect(this.insurancePolicy.location).toBe('play area');
             expect(this.insurancePolicy.parent).toBe(this['3llI0t']);
@@ -46,7 +46,7 @@ describe('3LL-I0T', function () {
             this.player1.clickPrompt('staralliance');
             this.player1.clickCard(this['3llI0t']);
             this.player1.clickPrompt('Discard this card');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
             expect(this.officerSBlaster.location).toBe('deck');
             expect(this.officerSBlaster.parent).toBe(null);
             expect(this.player1.player.deck).toContain(this.officerSBlaster);

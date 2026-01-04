@@ -26,7 +26,7 @@ describe('Antanagoge', function () {
                 this.player1.clickCard(this.nexus);
                 expect(this.nexus.parent).toBe(this.antanagoge);
                 expect(this.nexus.location).toBe('grafted');
-                expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+                expect(this.player1).isReadyToTakeAction();
             });
         });
 
@@ -51,7 +51,7 @@ describe('Antanagoge', function () {
                 expect(this.daughter.tokens.damage).toBeUndefined();
                 expect(this.daughter.location).toBe('discard');
                 expect(this.antanagoge.tokens.damage).toBe(1);
-                expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+                expect(this.player1).isReadyToTakeAction();
             });
 
             it('should not deal damage if no creature is grafted', function () {
@@ -59,7 +59,7 @@ describe('Antanagoge', function () {
                 this.player1.reap(this.antanagoge);
                 expect(this.troll.tokens.damage).toBeUndefined();
                 expect(this.bumpsy.tokens.damage).toBeUndefined();
-                expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+                expect(this.player1).isReadyToTakeAction();
             });
         });
 
@@ -91,7 +91,7 @@ describe('Antanagoge', function () {
                 expect(this.bumpsy.location).toBe('discard');
                 expect(this.daughter.location).toBe('discard');
                 expect(this.antanagoge.location).toBe('discard');
-                expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+                expect(this.player1).isReadyToTakeAction();
             });
         });
     });

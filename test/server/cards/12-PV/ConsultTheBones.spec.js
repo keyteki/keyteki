@@ -28,7 +28,7 @@ describe('Consult the Bones', function () {
             expect(this.player1.amber).toBe(1);
             expect(this.player2.amber).toBe(1);
             expect(this.krump.amber).toBe(1);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should not resolve bonus icons if no cards are discarded', function () {
@@ -37,7 +37,7 @@ describe('Consult the Bones', function () {
             this.player1.play(this.consultTheBones);
             expect(this.player1.amber).toBe(0);
             expect(this.player2.amber).toBe(2);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

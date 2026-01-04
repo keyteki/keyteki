@@ -17,7 +17,7 @@ describe('Doctor Driscoll', function () {
             this.player1.useAction(this.doctorDriscoll);
             this.player1.clickCard(this.doctorDriscoll);
             expect(this.player1.amber).toBe(0);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should gain 1 amber when only 1 damage can be healed', function () {
@@ -26,7 +26,7 @@ describe('Doctor Driscoll', function () {
             this.player1.clickCard(this.crashMuldoon);
             expect(this.crashMuldoon.hasToken('damage')).toBe(false);
             expect(this.player1.amber).toBe(1);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should gain 2 amber when 2 damage is healed', function () {
@@ -35,7 +35,7 @@ describe('Doctor Driscoll', function () {
             this.player1.clickCard(this.flaxia);
             expect(this.flaxia.tokens.damage).toBe(1);
             expect(this.player1.amber).toBe(2);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

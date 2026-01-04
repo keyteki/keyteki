@@ -50,7 +50,7 @@ describe('Walls’ Blaster', function () {
 
         it('should not prompt for stunning when attached to the non associated officer', function () {
             this.player1.playUpgrade(this.wallsBlaster, this.techivorePulpate);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('reap ability should allow choosing for an action and cancel', function () {
@@ -60,7 +60,7 @@ describe('Walls’ Blaster', function () {
             expect(this.player1).toHavePrompt('Triggered Abilities');
             expect(this.player1).toHavePromptButton('Done');
             this.player1.clickPrompt('Done');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('reap ability should allow dealing 2 damages to a creature', function () {
@@ -193,7 +193,7 @@ describe('Walls’ Blaster', function () {
             expect(this.player1).toHavePromptButton('Deal 2 damage');
             expect(this.player1).toHavePromptButton('Move Walls’ Blaster');
             this.player1.clickPrompt('Move Walls’ Blaster');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('fight ability should default to deal damage when officer is not in play', function () {
@@ -241,7 +241,7 @@ describe('Walls’ Blaster', function () {
 
             this.player1.clickPrompt('Move Walls’ Blaster');
             // There are no valid targets.
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
             expect(this.chiefEngineerWalls1.upgrades).toContain(this.wallsBlaster);
         });
     });

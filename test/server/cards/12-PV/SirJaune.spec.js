@@ -24,7 +24,7 @@ describe('Sir Jaune', function () {
             this.player1.play(this.sirJaune);
             expect(this.sirJaune.tokens.amber).toBe(3); // 9/3 = 3
             expect(this.player2.amber).toBe(6);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should lose one third of amber when fate is triggered', function () {
@@ -36,7 +36,7 @@ describe('Sir Jaune', function () {
             this.player2.reap(this.krump);
             expect(this.player2.amber).toBe(6); // 9/3 = 3 lost
             expect(this.sirJaune.location).toBe('discard');
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player2).isReadyToTakeAction();
         });
 
         it('should round down when calculating amber amounts', function () {

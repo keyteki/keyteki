@@ -26,7 +26,7 @@ describe('Lambent Mycelium', function () {
             this.player1.playCreature(this.lambentMycelium);
             this.player1.playCreature(this.dewFaerie);
             expect(this.lambentMycelium.power).toBe(4);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should gain 2 power counters when enemy creature enters play', function () {
@@ -35,13 +35,13 @@ describe('Lambent Mycelium', function () {
             this.player2.clickPrompt('brobnar');
             this.player2.playCreature(this.troll);
             expect(this.lambentMycelium.power).toBe(4);
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player2).isReadyToTakeAction();
         });
 
         it('should not gain power counters when itself enters play', function () {
             this.player1.playCreature(this.lambentMycelium);
             expect(this.lambentMycelium.power).toBe(2);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should give taunt to most powerful enemy creature when fate is triggered', function () {
@@ -61,7 +61,7 @@ describe('Lambent Mycelium', function () {
             expect(this.player2).not.toBeAbleToSelect(this.darkHarbinger);
             expect(this.player2).not.toBeAbleToSelect(this.dustPixie);
             this.player2.clickCard(this.cpoZytar);
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player2).isReadyToTakeAction();
         });
 
         it('should give taunt to most powerful enemy creature only for the remainder of the turn', function () {
@@ -80,7 +80,7 @@ describe('Lambent Mycelium', function () {
             expect(this.player2).toBeAbleToSelect(this.darkHarbinger);
             expect(this.player2).toBeAbleToSelect(this.dustPixie);
             this.player2.clickCard(this.darkHarbinger);
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player2).isReadyToTakeAction();
         });
     });
 });

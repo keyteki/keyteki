@@ -7,9 +7,7 @@ describe('Tangrant', function () {
                     inPlay: ['tangrant'],
                     hand: ['phase-shift', 'glylyx-weaponsmith', 'ether-spider', 'virtuous-works']
                 },
-                player2: {
-                    inPlay: []
-                }
+                player2: {}
             });
         });
 
@@ -17,17 +15,26 @@ describe('Tangrant', function () {
             this.player1.play(this.glylyxWeaponsmith);
             expect(this.glylyxWeaponsmith.location).toBe('play area');
             this.player1.clickCard(this.etherSpider);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
+        });
+
+        it('should allow playing a house enhanced Mars card', function () {
+            this.virtuousWorks.enhancements = ['mars'];
+            this.player1.play(this.virtuousWorks);
+            expect(this.player1.amber).toBe(3);
+            this.player1.clickCard(this.etherSpider);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should stack with Phase Shift', function () {
             this.player1.play(this.phaseShift);
             this.player1.play(this.virtuousWorks);
+            expect(this.player1.amber).toBe(3);
             expect(this.virtuousWorks.location).toBe('discard');
             this.player1.play(this.glylyxWeaponsmith);
             expect(this.glylyxWeaponsmith.location).toBe('play area');
             this.player1.clickCard(this.etherSpider);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

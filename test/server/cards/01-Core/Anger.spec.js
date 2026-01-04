@@ -53,7 +53,7 @@ describe('Anger', function () {
             this.player1.play(this.anger);
             expect(this.player1).toHavePrompt('Anger');
             this.player1.clickCard(this.troll);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
             expect(this.troll.exhausted).toBe(false);
         });
 

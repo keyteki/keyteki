@@ -20,7 +20,7 @@ describe('Iyxrenu The Clever', function () {
             this.player1.useAction(this.yxlixMesmerist);
             this.player1.clickCard(this.etherSpider);
             this.player1.useAction(this.iyxrenuTheClever);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('moves all amber from a creature to your pool if you lose 1', function () {

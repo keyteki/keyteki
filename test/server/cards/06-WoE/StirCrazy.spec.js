@@ -25,7 +25,7 @@ describe('Stir-Crazy', function () {
             expect(this.helperBot.amber).toBe(1);
             expect(this.nexus.amber).toBe(0);
             expect(this.mother.amber).toBe(0);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should prompt the player to pick creatures when there is insufficient amber', function () {
@@ -48,7 +48,7 @@ describe('Stir-Crazy', function () {
             expect(this.nexus.amber).toBe(0);
             expect(this.mother.amber).toBe(0);
             expect(this.zorg.amber).toBe(0);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

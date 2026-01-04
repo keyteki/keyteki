@@ -25,7 +25,7 @@ describe('Stand and Fight', function () {
             expect(this.charette.tokens.damage).toBe(2);
             expect(this.charette.exhausted).toBe(true);
             expect(this.player1.amber).toBe(1);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

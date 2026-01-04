@@ -58,7 +58,7 @@ describe('Inspiration', function () {
             this.player1.play(this.inspiration);
             expect(this.player1).toHavePrompt('Inspiration');
             this.player1.clickCard(this.championAnaphiel);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
             expect(this.championAnaphiel.exhausted).toBe(false);
         });
 

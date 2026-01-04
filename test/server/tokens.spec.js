@@ -32,7 +32,7 @@ describe('Token', function () {
             this.player1.player.deck = [];
             this.player1.play(this.hireOn);
             expect(this.player1.player.creaturesInPlay.length).toBe(0);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should lose token abilities after destroyed', function () {
