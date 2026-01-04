@@ -20,9 +20,8 @@ class FightGameAction extends CardGameAction {
             : card.getFightAction(this.fightCardCondition);
         let newContext = fightAction.createContext(context.player);
         newContext.ignoreHouse = true;
-        let ignoredRequirements = ['exhausted', 'stunned'];
-        let meetsReqResult = fightAction.meetsRequirements(newContext, ignoredRequirements);
-        if (meetsReqResult) {
+        const ignoredRequirements = ['exhausted', 'stunned'];
+        if (fightAction.meetsRequirements(newContext, ignoredRequirements)) {
             return false;
         }
         return card.checkRestrictions('use', context) && super.canAffect(card, context);
@@ -36,7 +35,7 @@ class FightGameAction extends CardGameAction {
         if (event.card.exhausted) {
             return false;
         }
-        let fightAction = event.card.getFightAction();
+        const fightAction = event.card.getFightAction();
         let newContext = fightAction.createContext(event.context.player);
         newContext.ignoreHouse = true;
         return (

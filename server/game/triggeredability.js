@@ -70,10 +70,10 @@ class TriggeredAbility extends CardAbility {
         let context = this.createContext(player, event);
         if (this.card.reactions.includes(this) || this.isLastingAbilityTrigger) {
             if (this.isTriggeredByEvent(event, context)) {
-                if (this.meetsRequirements(context) === '') {
+                if (this.meetsRequirements(context, []) === '') {
                     window.addChoice(context);
                 } else if (
-                    this.meetsRequirements(context) === 'condition' &&
+                    this.meetsRequirements(context, []) === 'condition' &&
                     this.properties.destroyed
                 ) {
                     // For destroyed abilities, allow 'condition' failures to be added to choices because the condition might change based on the order of resolution.
