@@ -2,7 +2,7 @@ const Card = require('../../Card.js');
 
 class OptioGorkus extends Card {
     // Elusive.
-    // Each of Optio Gorkuss neighbors gains, Destroyed: Move each A on this creature to a neighboring Optio Gorkus.
+    // Each of Optio Gorkus's neighbors gains, "Destroyed: Move each A on this creature to a neighboring Optio Gorkus."
     setupCardAbilities(ability) {
         this.persistentEffect({
             match: (card, context) => card.amber > 0 && context.source.neighbors.includes(card),
