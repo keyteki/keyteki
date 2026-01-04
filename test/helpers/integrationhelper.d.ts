@@ -8,5 +8,6 @@ declare module jasmine {
         toHavePromptButton(expected: string | number): boolean;
         toBeAbleToPlay(expected: object): boolean;
         toHavePromptCardButton(expected: object): boolean;
+        isReadyToTakeAction(): boolean;
     }
 }
