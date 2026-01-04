@@ -21,7 +21,7 @@ describe('Hoist Operations', function () {
             this.player1.clickCard(this.dustPixie);
             expect(this.dustPixie.location).toBe('archives');
             expect(this.player1.player.archives).toContain(this.dustPixie);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should put an enemy creature in their archives', function () {
@@ -29,7 +29,7 @@ describe('Hoist Operations', function () {
             this.player1.clickCard(this.troll);
             expect(this.troll.location).toBe('archives');
             expect(this.player2.player.archives).toContain(this.troll);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should put a swapped creature in their archives', function () {
@@ -40,7 +40,7 @@ describe('Hoist Operations', function () {
             this.player1.clickCard(this.troll);
             expect(this.troll.location).toBe('archives');
             expect(this.player2.player.archives).toContain(this.troll);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

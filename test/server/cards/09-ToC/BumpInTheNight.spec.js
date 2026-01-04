@@ -27,7 +27,7 @@ describe('Bump in the Night', function () {
             expect(this.player1).not.toBeAbleToSelect(this.touchstone);
             this.player1.clickCard(this.troll);
             expect(this.troll.tokens.damage).toBe(2);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should deal 2 damage once to kill a creature and make a token once, if not haunted', function () {
@@ -36,7 +36,7 @@ describe('Bump in the Night', function () {
             expect(this.dustPixie.location).toBe('discard');
             this.player1.clickPrompt('Left');
             expect(this.player1.player.creaturesInPlay[0]).toBe(this.minion1);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should deal 2 damage twice if haunted', function () {
@@ -50,7 +50,7 @@ describe('Bump in the Night', function () {
             expect(this.player1).not.toBeAbleToSelect(this.touchstone);
             this.player1.clickCard(this.troll);
             expect(this.troll.tokens.damage).toBe(4);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should deal 2 damage to kill a creature and make a token twice, if haunted', function () {
@@ -64,7 +64,7 @@ describe('Bump in the Night', function () {
             this.player1.clickPrompt('Left');
             expect(this.player1.player.creaturesInPlay[1]).toBe(this.minion1);
             expect(this.player1.player.creaturesInPlay[0]).toBe(this.minion2);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should repeat if haunted, even if no tokens are made', function () {
@@ -76,7 +76,7 @@ describe('Bump in the Night', function () {
             this.player1.clickCard(this.huntingWitch);
             expect(this.huntingWitch.location).toBe('discard');
             expect(this.player1.player.creaturesInPlay.length).toBe(1);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

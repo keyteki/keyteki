@@ -51,7 +51,7 @@ describe('Titanic Bumblebird', function () {
             expect(this.player1).toBeAbleToSelect(this.titanicBumblebird);
             this.player1.clickCard(this.flaxia);
             expect(this.flaxia.getPower()).toBe(6);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should be able to destroy an enemy creature and give power counters to a friendly creature on reap', function () {
@@ -69,7 +69,7 @@ describe('Titanic Bumblebird', function () {
             expect(this.player1).toBeAbleToSelect(this.titanicBumblebird);
             this.player1.clickCard(this.titanicBumblebird);
             expect(this.titanicBumblebird.getPower()).toBe(9);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

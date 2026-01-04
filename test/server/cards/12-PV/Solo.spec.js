@@ -43,7 +43,7 @@ describe('Solo', function () {
             expect(this.emberImp.location).toBe('discard');
             expect(this.mightyTiger.location).toBe('discard');
             expect(this.huntingWitch.location).toBe('discard');
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player2).isReadyToTakeAction();
         });
     });
 });

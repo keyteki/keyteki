@@ -19,7 +19,7 @@ describe('Amber Airhart', function () {
             this.player1.reap(this.æmberAirhart);
             expect(shuffled).toBe(this.player1.player);
             expect(this.æmberAirhart.location).toBe('deck');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should shuffle itself into deck on fight', function () {
@@ -28,7 +28,7 @@ describe('Amber Airhart', function () {
             this.player1.fightWith(this.æmberAirhart, this.lamindra);
             expect(shuffled).toBe(this.player1.player);
             expect(this.æmberAirhart.location).toBe('deck');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

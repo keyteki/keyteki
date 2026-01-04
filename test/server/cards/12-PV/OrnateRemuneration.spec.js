@@ -27,7 +27,7 @@ describe('Ornate Remuneration', function () {
             expect(this.raidingKnight.amber).toBe(0);
             expect(this.almsmaster.amber).toBe(1);
             expect(this.player1.amber).toBe(6);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should allow a friendly creature to capture 3 amber', function () {
@@ -36,7 +36,7 @@ describe('Ornate Remuneration', function () {
             this.player1.clickCard(this.raidingKnight);
             expect(this.raidingKnight.amber).toBe(3);
             expect(this.player2.amber).toBe(1);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

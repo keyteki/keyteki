@@ -19,7 +19,7 @@ describe('Memette', function () {
 
         it('archives the top card of discard pile on play', function () {
             expect(this.flaxia.location).toBe('archives');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('archives the top card of discard pile on destroy', function () {
@@ -28,7 +28,7 @@ describe('Memette', function () {
             this.player2.fightWith(this.thingFromTheDeep, this.memette);
             expect(this.memette.location).toBe('discard');
             expect(this.shadys.location).toBe('archives');
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player2).isReadyToTakeAction();
         });
     });
 });

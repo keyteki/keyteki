@@ -45,7 +45,7 @@ describe('Defense Initiative', function () {
             expect(this.senatorShrix.amber).toBe(1);
             expect(this.legatusRaptor.tokens.ward).toBe(1);
             expect(this.dracoPraeco.tokens.ward).toBe(1);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should be able to ward exalt an enemy creature', function () {
@@ -54,7 +54,7 @@ describe('Defense Initiative', function () {
             expect(this.gub.tokens.ward).toBe(1);
             this.player1.clickPrompt('Yes');
             expect(this.gub.amber).toBe(1);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

@@ -21,7 +21,7 @@ describe('Collective Calm', function () {
             this.player2.clickPrompt('untamed');
             this.player2.reap(this.flaxia);
             expect(this.player2.amber).toBe(6);
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player2).isReadyToTakeAction();
         });
 
         it('should be destroyed after a friendly creature fights', function () {
@@ -29,7 +29,7 @@ describe('Collective Calm', function () {
             expect(this.collectiveCalm.location).toBe('discard');
             this.player1.reap(this.championTabris);
             expect(this.player1.amber).toBe(3);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should not be destroyed after an enemy creature fights', function () {
@@ -37,7 +37,7 @@ describe('Collective Calm', function () {
             this.player2.clickPrompt('untamed');
             this.player2.fightWith(this.flaxia, this.bulwark);
             expect(this.collectiveCalm.location).toBe('play area');
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player2).isReadyToTakeAction();
         });
     });
 });

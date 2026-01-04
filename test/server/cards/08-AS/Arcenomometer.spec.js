@@ -23,7 +23,7 @@ describe('Arcenomometer', function () {
             expect(this.player2.amber).toBe(3);
             this.player2.play(this.ritualOfBalance);
             expect(this.player2.amber).toBe(2);
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player2).isReadyToTakeAction();
             expect(this.player1.amber).toBe(1);
         });
 
@@ -43,7 +43,7 @@ describe('Arcenomometer', function () {
             this.player2.clickPrompt('untamed');
             this.player2.play(this.ritualOfBalance);
             expect(this.player2.amber).toBe(3);
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player2).isReadyToTakeAction();
         });
     });
 
@@ -75,7 +75,7 @@ describe('Arcenomometer', function () {
             this.player2.clickPrompt('untamed');
             this.player2.playCreature(this.dustPixie);
             expect(this.player2.amber).toBe(1);
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player2).isReadyToTakeAction();
         });
     });
 });

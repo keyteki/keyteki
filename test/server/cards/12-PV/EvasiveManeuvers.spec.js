@@ -30,7 +30,7 @@ describe('Evasive Maneuvers', function () {
             this.player2.clickPrompt('brobnar');
             this.player2.fightWith(this.krump, this.emberImp);
             expect(this.emberImp.location).toBe('discard');
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player2).isReadyToTakeAction();
         });
 
         it('should deal 2 damage to each friendly creature when fate is triggered', function () {
@@ -43,7 +43,7 @@ describe('Evasive Maneuvers', function () {
             expect(this.urchin.location).toBe('play area');
             expect(this.emberImp.location).toBe('play area');
             expect(this.evasiveManeuvers.location).toBe('discard');
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player2).isReadyToTakeAction();
         });
     });
 });

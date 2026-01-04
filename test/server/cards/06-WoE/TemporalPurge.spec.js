@@ -60,6 +60,34 @@ describe('Temporal Purge', function () {
             expect(p2c2.name).toBe('Malison');
             expect(p2c2.location).toBe('play area');
         });
+
+        /**
+         * Captured æmber only goes to the opponent’s pool if a _creature_
+         * leaves play. In the case of non-creature tokens for Temporal Purge,
+         * they should not be considered creatures at the moment they go to
+         * the discard, so any tokens on them return to the supply.
+         *
+         * Regression test for https://github.com/keyteki/keyteki/issues/3957
+         */
+        it('should send Æmber on Action cards to the pool', function () {
+            let anger = this.player2.inPlay[0];
+            anger.tokens.amber = 3;
+
+            expect(anger.name).toBe('Grumpus');
+
+            expect(this.player1.amber).toBe(1);
+            expect(this.player2.amber).toBe(1);
+
+            this.player1.play(this.temporalPurge);
+
+            expect(anger.location).toBe('discard');
+
+            // Player 1 should get an æmber because of Temporal Purge’s pip, but
+            // the æmber captured on to the Anger-Grumpus should go to the
+            // common supply.
+            expect(this.player1.amber).toBe(2);
+            expect(this.player2.amber).toBe(1);
+        });
     });
 
     describe('and persistent effects', function () {

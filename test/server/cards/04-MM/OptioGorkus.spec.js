@@ -46,7 +46,7 @@ describe('Optio Gorkus', function () {
             expect(this.player1.amber).toBe(0);
             expect(this.player2.amber).toBe(4);
 
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it("should not be prompted if destroyed card has no Optio Gorkus' neighbor", function () {
@@ -64,7 +64,7 @@ describe('Optio Gorkus', function () {
             expect(this.player1.amber).toBe(0);
             expect(this.player2.amber).toBe(8);
 
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it("should prompt if card has amber and one Optio Gorkus' neighbor", function () {
@@ -90,7 +90,7 @@ describe('Optio Gorkus', function () {
             expect(this.player1.amber).toBe(0);
             expect(this.player2.amber).toBe(4);
 
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it("should prompt if card has amber and two Optio Gorkus' neighbor", function () {
@@ -115,7 +115,7 @@ describe('Optio Gorkus', function () {
             expect(this.player1.amber).toBe(0);
             expect(this.player2.amber).toBe(4);
 
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it("when destroyed by opponent, should prompt if card has amber and two Optio Gorkus' neighbor", function () {
@@ -142,7 +142,7 @@ describe('Optio Gorkus', function () {
             expect(this.player1.amber).toBe(0);
             expect(this.player2.amber).toBe(4);
 
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player2).isReadyToTakeAction();
         });
     });
 });

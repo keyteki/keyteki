@@ -27,7 +27,7 @@ describe('Delta P', function () {
             expect(this.player1).not.toBeAbleToSelect(this.dewFaerie);
             this.player1.clickCard(this.troll);
             expect(this.troll.location).toBe('discard');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should kill wards for free', function () {
@@ -39,7 +39,7 @@ describe('Delta P', function () {
             expect(this.krump.location).toBe('discard');
             this.player1.clickCard(this.troll);
             expect(this.troll.location).toBe('discard');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should always destroy one creature', function () {
@@ -49,7 +49,7 @@ describe('Delta P', function () {
             this.player1.play(this.deltaP);
             this.player1.clickCard(this.krump);
             expect(this.krump.location).toBe('discard');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

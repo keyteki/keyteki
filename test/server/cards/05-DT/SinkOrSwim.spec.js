@@ -17,7 +17,7 @@ describe('Sink or Swim', function () {
         });
 
         it('should not prompt', function () {
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 
@@ -140,7 +140,7 @@ describe('Sink or Swim', function () {
             });
 
             it('should not prompt for creatures', function () {
-                expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+                expect(this.player1).isReadyToTakeAction();
             });
         });
     });

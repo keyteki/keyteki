@@ -35,7 +35,7 @@ describe('Immortal Greking', function () {
             this.player1.clickPrompt('Left');
             expect(this.echofly.leftNeighbor()).toBe(this.batdrone);
             expect(this.dustPixie.rightNeighbor()).toBe(this.batdrone);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('makes the stolen creature the same house as Greking', function () {
@@ -45,7 +45,7 @@ describe('Immortal Greking', function () {
             this.player1.clickPrompt('Left');
             this.player1.reap(this.batdrone);
             expect(this.player1.amber).toBe(2);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         describe('after play', function () {
@@ -63,20 +63,20 @@ describe('Immortal Greking', function () {
             it('stolen creature loses house on destroy', function () {
                 this.player1.fightWith(this.immortalGreking, this.thingFromTheDeep);
                 this.player1.clickCard(this.batdrone);
-                expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+                expect(this.player1).isReadyToTakeAction();
             });
 
             it('does not archive on destroy if not haunted', function () {
                 this.player1.fightWith(this.immortalGreking, this.thingFromTheDeep);
                 expect(this.immortalGreking.location).toBe('discard');
-                expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+                expect(this.player1).isReadyToTakeAction();
             });
 
             it('archives on destroy if haunted', function () {
                 this.player1.play(this.aStrongFeeling);
                 this.player1.fightWith(this.immortalGreking, this.thingFromTheDeep);
                 expect(this.immortalGreking.location).toBe('archives');
-                expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+                expect(this.player1).isReadyToTakeAction();
             });
         });
     });
