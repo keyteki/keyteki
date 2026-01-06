@@ -11,6 +11,7 @@ const defaultFiller = {
     dis: 'hand-of-dis',
     ekwidon: 'corner-the-market',
     geistoid: 'echofly',
+    keyraken: 'ascending-jet',
     logos: 'foggify',
     mars: 'ammonia-clouds',
     redemption: 'redeemer-amara',
