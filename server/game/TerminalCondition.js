@@ -26,15 +26,36 @@ class TerminalCondition {
     }
 
     checkCondition() {
-        return (
-            this.condition(this.context) &&
-            (!this.gameAction || this.gameAction.canAffect(this.target, this.context)) &&
-            (!this.event ||
-                this.event.cancelled ||
-                (this.event.leavesPlayEvent &&
-                    this.event.leavesPlayEvent.resolved &&
-                    this.event.card !== this.target))
-        );
+        let conditionResult = this.condition(this.context);
+        let canAffectResult =
+            !this.gameAction || this.gameAction.canAffect(this.target, this.context);
+
+        // Check if we should allow re-triggering based on the previous event
+        let eventCheck =
+            !this.event ||
+            this.event.cancelled ||
+            // ArmageddonCloak case: event was redirected to a different card and that card left play
+            (this.event.leavesPlayEvent &&
+                this.event.leavesPlayEvent.resolved &&
+                this.event.card !== this.target) ||
+            // Ward case: event resolved for target but card is still in play
+            (this.event.resolved &&
+                this.event.card === this.target &&
+                this.target.location === 'play area' &&
+                !this.event.leavesPlayEvent);
+
+        // For ward, clear the event so it retriggers
+        if (
+            this.event &&
+            this.event.resolved &&
+            this.event.card === this.target &&
+            this.target.location === 'play area' &&
+            !this.event.leavesPlayEvent
+        ) {
+            this.event = null;
+        }
+
+        return conditionResult && canAffectResult && eventCheck;
     }
 
     getEvent() {
