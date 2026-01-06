@@ -26,12 +26,12 @@ class TerminalCondition {
     }
 
     checkCondition() {
-        let conditionResult = this.condition(this.context);
-        let canAffectResult =
+        const conditionResult = this.condition(this.context);
+        const canAffectResult =
             !this.gameAction || this.gameAction.canAffect(this.target, this.context);
 
         // Check if we should allow re-triggering based on the previous event
-        let eventCheck =
+        const eventCheck =
             !this.event ||
             this.event.cancelled ||
             // ArmageddonCloak case: event was redirected to a different card and that card left play
