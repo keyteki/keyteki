@@ -42,7 +42,7 @@ INSERT INTO public."Expansions" ("Id", "ExpansionId", "Code", "Name") VALUES (15
 INSERT INTO public."Expansions" ("Id", "ExpansionId", "Code", "Name") VALUES (16, 939, 'VM2025', 'Vault Masters 2025');
 INSERT INTO public."Expansions" ("Id", "ExpansionId", "Code", "Name") VALUES (17, 886, 'PV', 'Prophetic Visions');
 INSERT INTO public."Expansions" ("Id", "ExpansionId", "Code", "Name") VALUES (18, 918, 'CC', 'Crucible Clash');
-INSERT INTO public."Expansions" ("Id", "ExpansionId", "Code", "Name") VALUES (19, 722, 'MG', 'Menagerie');
+INSERT INTO public."Expansions" ("Id", "ExpansionId", "Code", "Name") VALUES (19, 722, 'MG2024', 'Menagerie');
 
 --
 -- Name: Expansions_Id_seq; Type: SEQUENCE SET; Schema: public; Owner: keyteki
