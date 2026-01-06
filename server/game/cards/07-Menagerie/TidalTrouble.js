@@ -13,8 +13,10 @@ class TidalTrouble extends Card {
                 gameAction: ability.actions.stun((context) => ({
                     target: context.game.creaturesInPlay.filter(
                         (card) =>
-                            card !== context.parentContext.target &&
-                            card.hasHouse(context.parentContext.target.printedHouse)
+                            card !== context.preThenEvent.card &&
+                            card
+                                .getHouses()
+                                .some((house) => context.preThenEvent.card.hasHouse(house))
                     )
                 }))
             }
