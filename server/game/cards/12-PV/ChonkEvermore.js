@@ -5,11 +5,23 @@ class ChonkEvermore extends Card {
     // Fate: Give each enemy creature two +1 power counters.
     setupCardAbilities(ability) {
         this.play({
-            target: {
-                cardType: 'creature',
-                mode: 'upTo',
-                numCards: 2,
-                gameAction: ability.actions.addPowerCounter()
+            targets: {
+                select: {
+                    mode: 'select',
+                    activePromptTitle:
+                        'Give two creatures a +1 power counter before doubling power counters?',
+                    choices: {
+                        'Power counters': () => true,
+                        Continue: () => true
+                    }
+                },
+                'Power counters': {
+                    cardType: 'creature',
+                    dependsOn: 'select',
+                    gameAction: ability.actions.addPowerCounter(),
+                    mode: 'exactly',
+                    numCards: 2
+                }
             },
             then: {
                 alwaysTriggers: true,
@@ -17,8 +29,10 @@ class ChonkEvermore extends Card {
                     target: context.game.creaturesInPlay.filter((card) => !!card.tokens.power),
                     multiplier: 2
                 })),
-                message: '{0} uses {1} to double the number of +1 power counters on each creature',
-                messageArgs: (context) => [context.player, context.source]
+                message: '{0} uses {1} to double the number of +1 power counters on {3}',
+                messageArgs: (context) => [
+                    context.game.creaturesInPlay.filter((card) => !!card.tokens.power)
+                ]
             }
         });
 
