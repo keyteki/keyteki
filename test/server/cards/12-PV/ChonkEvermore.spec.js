@@ -51,7 +51,7 @@ describe('Chonk Evermore', function () {
             expect(this.player1).isReadyToTakeAction();
         });
 
-        it('should not allow selecting only 1 creature', function () {
+        it('should only allow selecting exactly 2 creatures', function () {
             this.player1.play(this.chonkEvermore);
             expect(this.player1).toHavePrompt('Chonk Evermore');
             this.player1.clickPrompt('Power counters');
@@ -59,12 +59,13 @@ describe('Chonk Evermore', function () {
             this.player1.clickCard(this.emberImp);
             expect(this.player1).toHavePrompt('Chonk Evermore');
             expect(this.player1).not.toHavePromptButton('Done');
-            this.player1.clickCard(this.troll);
+            this.player1.clickCard(this.krump);
+            this.player1.clickCard(this.cpoZytar); // trying to select a third creature should do nothing
             expect(this.player1).toHavePromptButton('Done');
             this.player1.clickPrompt('Done');
             expect(this.emberImp.tokens.power).toBe(2);
-            expect(this.krump.tokens.power).toBe(undefined);
-            expect(this.troll.tokens.power).toBe(2);
+            expect(this.troll.tokens.power).toBe(undefined);
+            expect(this.krump.tokens.power).toBe(2);
             expect(this.cpoZytar.tokens.power).toBe(6);
             expect(this.player1).isReadyToTakeAction();
         });
