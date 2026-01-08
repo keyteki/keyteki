@@ -14,7 +14,9 @@ class RenewedLife extends Card {
             then: {
                 gameAction: ability.actions.makeTokenCreature((context) => ({
                     amount: context.preThenEvent.amount
-                }))
+                })),
+                message: '{0} uses {1} to make {3} token creatures',
+                messageArgs: (context) => [context.preThenEvent.amount]
             }
         });
     }
