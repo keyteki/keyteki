@@ -1,24 +1,24 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import { faLock } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import classNames from 'classnames';
+import moment from 'moment';
+import PropTypes from 'prop-types';
+import React from 'react';
+import { Col } from 'react-bootstrap';
+import { Trans, withTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
 import { toastr } from 'react-redux-toastr';
-import moment from 'moment';
-import { withTranslation, Trans } from 'react-i18next';
-import { Col } from 'react-bootstrap';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faLock } from '@fortawesome/free-solid-svg-icons';
 
-import Avatar from '../Site/Avatar';
-import AlertPanel from '../Site/AlertPanel';
-import * as actions from '../../redux/actions';
-import TimeLimitIcon from '../../assets/img/Timelimit.png';
+import UnchainedIcon from '../../assets/img/601.png';
 import ShowHandIcon from '../../assets/img/ShowHandIcon.png';
-import SealedIcon from '../../assets/img/sealed.png';
-import ReversalIcon from '../../assets/img/reversal.png';
+import TimeLimitIcon from '../../assets/img/Timelimit.png';
 import AdaptiveIcon from '../../assets/img/adaptive.png';
 import AllianceIcon from '../../assets/img/alliance.png';
-import UnchainedIcon from '../../assets/img/601.png';
+import ReversalIcon from '../../assets/img/reversal.png';
+import SealedIcon from '../../assets/img/sealed.png';
+import * as actions from '../../redux/actions';
+import AlertPanel from '../Site/AlertPanel';
+import Avatar from '../Site/Avatar';
 
 import './GameList.scss';
 
@@ -175,7 +175,7 @@ class GameList extends React.Component {
         return players;
     }
 
-    getGamesForType(gameType, games) {
+    getGamesForPlaystyle(gamePlaystile, games) {
         let gamesToReturn = [];
         let t = this.props.t;
 
@@ -261,14 +261,6 @@ class GameList extends React.Component {
                                         title={t('Adaptive (Best of 1) game format')}
                                     />
                                 )}
-                                {game.gameFormat === 'unchained' && (
-                                    <img
-                                        src={UnchainedIcon}
-                                        className='game-list-icon'
-                                        alt={t('Unchained game format')}
-                                        title={t('Unchained game format')}
-                                    />
-                                )}
                             </span>
                         </div>
                         <div className='game-middle-row'>{players}</div>
@@ -296,7 +288,7 @@ class GameList extends React.Component {
         }
 
         let gameHeaderClass = 'game-header';
-        switch (gameType) {
+        switch (gamePlaystile) {
             case 'beginner':
                 gameHeaderClass += ' badge-success';
                 break;
@@ -306,12 +298,15 @@ class GameList extends React.Component {
             case 'competitive':
                 gameHeaderClass += ' badge-danger';
                 break;
+            case 'uncharted-lands':
+                gameHeaderClass += ' badge-dark';
+                break;
         }
 
         return (
             <div>
                 <div className={gameHeaderClass}>
-                    {t(gameType)} ({gamesToReturn.length})
+                    {t(gamePlaystile)} ({gamesToReturn.length})
                 </div>
                 {gamesToReturn}
             </div>
@@ -329,18 +324,18 @@ class GameList extends React.Component {
                 continue;
             }
 
-            if (!groupedGames[game.gameType]) {
-                groupedGames[game.gameType] = [game];
+            if (!groupedGames[game.gamePlaystile]) {
+                groupedGames[game.gamePlaystile] = [game];
             } else {
-                groupedGames[game.gameType].push(game);
+                groupedGames[game.gamePlaystile].push(game);
             }
         }
 
         let gameList = [];
 
-        for (const gameType of ['beginner', 'casual', 'competitive']) {
-            if (this.props.gameFilter[gameType] && groupedGames[gameType]) {
-                gameList.push(this.getGamesForType(gameType, groupedGames[gameType]));
+        for (const gamePlaystile of ['beginner', 'casual', 'competitive', 'uncharted-lands']) {
+            if (this.props.gameFilter[gamePlaystile] && groupedGames[gamePlaystile]) {
+                gameList.push(this.getGamesForPlaystyle(gamePlaystile, groupedGames[gamePlaystile]));
             }
         }
 

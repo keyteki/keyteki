@@ -23,12 +23,12 @@ const GameLobby = ({ gameId }) => {
         { name: 'beginner', label: t('Beginner') },
         { name: 'casual', label: t('Casual') },
         { name: 'competitive', label: t('Competitive') },
-        { name: 'normal', label: t('Normal') },
-        { name: 'sealed', label: t('Sealed') },
-        { name: 'reversal', label: t('Reversal') },
-        { name: 'adaptive-bo1', label: t('Adaptive (Bo1)') },
+        { name: 'uncharted-lands', label: t('Uncharted Lands') },
+        { name: 'archon', label: t('Archon') },
         { name: 'alliance', label: t('Alliance') },
-        { name: 'unchained', label: t('Unchained') }
+        { name: 'sealed', label: t('Sealed') },
+        { name: 'adaptive-bo1', label: t('Adaptive - Bo1') },
+        { name: 'reversal', label: t('Reversal') },
     ];
     const filterDefaults = {};
 

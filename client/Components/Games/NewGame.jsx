@@ -9,7 +9,7 @@ import Panel from '../Site/Panel';
 import AlertPanel from '../Site/AlertPanel';
 import GameOptions from './GameOptions';
 import GameFormats from './GameFormats';
-import GameTypes from './GameTypes';
+import GamePlaystyles from './GamePlaystyles';
 import { getStandardControlProps } from '../../util';
 import { cancelNewGame, sendSocketMessage } from '../../redux/actions';
 
@@ -21,7 +21,7 @@ const GameNameMaxLength = 64;
  * @typedef NewGameProps
  * @property {boolean} [quickJoin] The new game is quick join
  * @property {any} [tournament] Whether or not we're operating under the tournament UI
- * @property {import("../../typedefs").GameType} [defaultGameType] The default game type to use
+ * @property {import("../../typedefs").GamePlaystyle} [defaultGamePlaystyle] The default game type to use
  * @property {number} [defaultTimeLimit] The default time limit to use
  * @property {boolean} [defaultPrivate] Whether or not the game defaults to private
  * @property {function(string): string} [getParticipantName] A function to get the participant name of a participant in a tournament
@@ -35,7 +35,7 @@ const GameNameMaxLength = 64;
 const NewGame = ({
     quickJoin,
     tournament,
-    defaultGameType,
+    defaultGamePlaystyle,
     defaultPrivate,
     defaultTimeLimit,
     getParticipantName,
@@ -61,7 +61,7 @@ const NewGame = ({
             .min(10, t('Games must be at least 10 minutes long'))
             .max(120, t('Games must be less than 2 hours')),
         gameFormat: yup.string().required(),
-        gameType: yup.string().required()
+        gamePlaystyle: yup.string().required()
     });
 
     const initialValues = {
@@ -69,11 +69,11 @@ const NewGame = ({
         password: '',
         allowSpectators: true,
         gameFormat: 'normal',
-        gameType: defaultGameType || 'casual',
+        gamePlaystyle: defaultGamePlaystyle || 'casual',
         useGameTimeLimit: !!defaultTimeLimit,
         gameTimeLimit: defaultTimeLimit || 45,
         gamePrivate: defaultPrivate,
-        as: true
+        pv: true
     };
 
     if (!lobbySocket) {
@@ -105,7 +105,15 @@ const NewGame = ({
                                         dt: values.dt,
                                         woe: values.woe,
                                         gr: values.gr,
-                                        as: values.as
+                                        as: values.as,
+                                        toc: values.toc,
+                                        momu: values.momu,
+                                        disc: values.disc,
+                                        vm2023: values.vm2023,
+                                        vm2024: values.vm2024,
+                                        vm2025: values.vm2025,
+                                        pv: values.pv,
+                                        cc: values.cc
                                     },
                                     name: `${getParticipantName(
                                         match.player1_id
@@ -126,7 +134,15 @@ const NewGame = ({
                             dt: values.dt,
                             woe: values.woe,
                             gr: values.gr,
-                            as: values.as
+                            as: values.as,
+                            toc: values.toc,
+                            momu: values.momu,
+                            disc: values.disc,
+                            vm2023: values.vm2023,
+                            vm2024: values.vm2024,
+                            vm2025: values.vm2025,
+                            pv: values.pv,
+                            cc: values.cc
                         };
                         values.quickJoin = quickJoin;
 
@@ -149,7 +165,15 @@ const NewGame = ({
                                 !formProps.values.dt &&
                                 !formProps.values.woe &&
                                 !formProps.values.gr &&
-                                !formProps.values.as
+                                !formProps.values.as &&
+                                !formProps.values.toc &&
+                                !formProps.values.momu &&
+                                !formProps.values.disc &&
+                                !formProps.values.vm2023 &&
+                                !formProps.values.vm2024 &&
+                                !formProps.values.vm2025 &&
+                                !formProps.values.pv &&
+                                !formProps.values.cc
                             ) {
                                 formProps.setFieldError(
                                     'gameFormat',
@@ -195,7 +219,7 @@ const NewGame = ({
                             </>
                         )}
                         <GameFormats formProps={formProps} />
-                        {!tournament && <GameTypes formProps={formProps} />}
+                        {!tournament && <GamePlaystyles formProps={formProps} />}
                         {!quickJoin && (
                             <Row>
                                 <Form.Group as={Col} sm={8}>

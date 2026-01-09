@@ -1,17 +1,17 @@
 /**
- * @typedef {'canEditNews' | 
-    'canManageUsers' | 
-    'canManagePermissions' | 
-    'canManageGames' | 
+ * @typedef {'canEditNews' |
+    'canManageUsers' |
+    'canManagePermissions' |
+    'canManageGames' |
     'canManageNodes' |
-    'canModerateChat' | 
-    'canVerifyDecks' | 
-    'canManageBanlist' | 
-    'canManageMotd' | 
-    'canManageTournaments' | 
-    'isAdmin' | 
-    'isContributor' | 
-    'isSupporter' | 
+    'canModerateChat' |
+    'canVerifyDecks' |
+    'canManageBanlist' |
+    'canManageMotd' |
+    'canManageTournaments' |
+    'isAdmin' |
+    'isContributor' |
+    'isSupporter' |
     'isWinner'} Permission
  */
 
@@ -27,11 +27,11 @@
  */
 
 /**
- * @typedef {'normal' | 'sealed'| 'reversal' | 'adaptive-bo1'} GameFormat
+ * @typedef {'archon' | 'alliance' | 'sealed' | 'adaptive-bo1' | 'reversal'} GameFormat
  */
 
 /**
- * @typedef {'casual' | 'beginner'| 'competitive' | 'adaptive-bo1'} GameType
+ * @typedef {'casual' | 'beginner'| 'competitive' | 'uncharted-lands'} GamePlaystyle
  */
 
 /**
@@ -67,7 +67,7 @@
  * @property {Date} createdAt When the game was created
  * @property {GameFormat} gameFormat The format of the game
  * @property {boolean} gamePrivate Whether or not the game is private
- * @property {GameType} gameType The type of game
+ * @property {GamePlaystyle} gamePlaystyle The type of game
  * @property {string} id The game id guid
  * @property {any[]} messages The game chat messages
  * @property {boolean} muteSpectators Whether or not spectators are muted (unable to chat)

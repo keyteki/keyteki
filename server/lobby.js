@@ -486,7 +486,7 @@ class Lobby {
             let gameToJoin = sortedGames.find(
                 (game) =>
                     !game.started &&
-                    game.gameType === gameDetails.gameType &&
+                    game.gamePlaystyle === gameDetails.gamePlaystyle &&
                     game.gameFormat === gameDetails.gameFormat &&
                     Object.values(game.players).length < 2 &&
                     !game.password &&
@@ -919,7 +919,7 @@ class Lobby {
             adaptive: game.adaptive,
             gameFormat: game.gameFormat,
             gameTimeLimit: game.gameTimeLimit,
-            gameType: game.gameType,
+            gamePlaystyle: game.gamePlaystyle,
             hideDeckLists: game.hideDeckLists,
             showHand: game.showHand,
             allowSpectators: game.allowSpectators,
@@ -1022,7 +1022,7 @@ class Lobby {
             adaptive: game.adaptive,
             gameFormat: game.gameFormat,
             gameTimeLimit: game.gameTimeLimit,
-            gameType: game.gameType,
+            gamePlaystyle: game.gamePlaystyle,
             hideDeckLists: game.hideDeckLists,
             showHand: game.showHand,
             allowSpectators: game.allowSpectators,
@@ -1184,7 +1184,7 @@ class Lobby {
             syncGame.createdAt = game.startedAt;
             syncGame.gameFormat = game.gameFormat;
             syncGame.gamePrivate = game.gamePrivate;
-            syncGame.gameType = game.gameType;
+            syncGame.gamePlaystyle = game.gamePlaystyle;
             syncGame.id = game.id;
             syncGame.node = this.router.workers[nodeName];
             syncGame.password = game.password;

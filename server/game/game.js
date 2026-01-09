@@ -59,7 +59,7 @@ class Game extends EventEmitter {
         this.gameFormat = details.gameFormat;
         this.gamePrivate = details.gamePrivate;
         this.gameTimeLimit = details.gameTimeLimit;
-        this.gameType = details.gameType;
+        this.gamePlaystyle = details.gamePlaystyle;
         this.hideDeckLists = details.hideDeckLists;
         this.id = details.id;
         this.manualMode = false;
@@ -1504,7 +1504,7 @@ class Game extends EventEmitter {
             gameFormat: this.gameFormat,
             gameId: this.id,
             gamePrivate: this.gamePrivate,
-            gameType: this.gameType,
+            gamePlaystyle: this.gamePlaystyle,
             id: this.savedGameId,
             players: players,
             previousWinner: this.previousWinner,
@@ -1603,7 +1603,7 @@ class Game extends EventEmitter {
             createdAt: this.createdAt,
             gameFormat: this.gameFormat,
             gamePrivate: this.gamePrivate,
-            gameType: this.gameType,
+            gamePlaystyle: this.gamePlaystyle,
             id: this.id,
             manualMode: this.manualMode,
             messages: this.gameChat.messages,

@@ -1,17 +1,17 @@
-import React, { useRef, useState, useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import ReactClipboard from 'react-clipboardjs-copy';
-import { Button, Form } from 'react-bootstrap';
-import { Trans, useTranslation } from 'react-i18next';
 import $ from 'jquery';
+import React, { useEffect, useRef, useState } from 'react';
+import { Button, Form } from 'react-bootstrap';
+import ReactClipboard from 'react-clipboardjs-copy';
+import { Trans, useTranslation } from 'react-i18next';
+import { useDispatch, useSelector } from 'react-redux';
 
-import Panel from '../Site/Panel';
-import Messages from '../GameBoard/Messages';
-import SelectDeckModal from './SelectDeckModal';
-import { startGame, leaveGame, sendSocketMessage } from '../../redux/actions';
-import PendingGamePlayers from './PendingGamePlayers';
-import GameTypeInfo from './GameTypeInfo';
 import { Constants } from '../../constants';
+import { leaveGame, sendSocketMessage, startGame } from '../../redux/actions';
+import Messages from '../GameBoard/Messages';
+import Panel from '../Site/Panel';
+import GamePlaystyleInfo from './GamePlaystyleInfo';
+import PendingGamePlayers from './PendingGamePlayers';
+import SelectDeckModal from './SelectDeckModal';
 
 import ChargeMp3 from '../../assets/sound/charge.mp3';
 import ChargeOgg from '../../assets/sound/charge.ogg';
@@ -214,7 +214,7 @@ const PendingGame = () => {
                     </ReactClipboard>
                 </div>
                 <div className='mt-3'>
-                    <GameTypeInfo gameType={currentGame.gameType} />
+                    <GamePlaystyleInfo gamePlaystyle={currentGame.gamePlaystyle} />
                 </div>
                 <div className='game-status'>{getGameStatus()}</div>
             </Panel>
