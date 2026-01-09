@@ -36,7 +36,7 @@ describe('Chonk Evermore', function () {
         it('should give two creatures a power counter and double all power counters', function () {
             this.player1.play(this.chonkEvermore);
             expect(this.player1).toHavePrompt('Chonk Evermore');
-            this.player1.clickPrompt('Power counters');
+            this.player1.clickPrompt('Add power counters');
             expect(this.player1).toBeAbleToSelect(this.emberImp);
             expect(this.player1).toBeAbleToSelect(this.troll);
             expect(this.player1).toBeAbleToSelect(this.krump);
@@ -54,7 +54,7 @@ describe('Chonk Evermore', function () {
         it('should only allow selecting exactly 2 creatures', function () {
             this.player1.play(this.chonkEvermore);
             expect(this.player1).toHavePrompt('Chonk Evermore');
-            this.player1.clickPrompt('Power counters');
+            this.player1.clickPrompt('Add power counters');
             expect(this.player1).not.toHavePromptButton('Done');
             this.player1.clickCard(this.emberImp);
             expect(this.player1).toHavePrompt('Chonk Evermore');

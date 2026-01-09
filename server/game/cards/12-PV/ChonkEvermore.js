@@ -11,11 +11,11 @@ class ChonkEvermore extends Card {
                     activePromptTitle:
                         'Give two creatures a +1 power counter before doubling power counters?',
                     choices: {
-                        'Power counters': () => true,
+                        'Add power counters': () => true,
                         Continue: () => true
                     }
                 },
-                'Power counters': {
+                'Add power counters': {
                     cardType: 'creature',
                     dependsOn: 'select',
                     gameAction: ability.actions.addPowerCounter(),
