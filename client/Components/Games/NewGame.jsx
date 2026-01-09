@@ -73,7 +73,7 @@ const NewGame = ({
         useGameTimeLimit: !!defaultTimeLimit,
         gameTimeLimit: defaultTimeLimit || 45,
         gamePrivate: defaultPrivate,
-        as: true
+        pv: true
     };
 
     if (!lobbySocket) {
@@ -105,7 +105,15 @@ const NewGame = ({
                                         dt: values.dt,
                                         woe: values.woe,
                                         gr: values.gr,
-                                        as: values.as
+                                        as: values.as,
+                                        toc: values.toc,
+                                        momu: values.momu,
+                                        disc: values.disc,
+                                        vm2023: values.vm2023,
+                                        vm2024: values.vm2024,
+                                        vm2025: values.vm2025,
+                                        pv: values.pv,
+                                        cc: values.cc
                                     },
                                     name: `${getParticipantName(
                                         match.player1_id
@@ -126,7 +134,15 @@ const NewGame = ({
                             dt: values.dt,
                             woe: values.woe,
                             gr: values.gr,
-                            as: values.as
+                            as: values.as,
+                            toc: values.toc,
+                            momu: values.momu,
+                            disc: values.disc,
+                            vm2023: values.vm2023,
+                            vm2024: values.vm2024,
+                            vm2025: values.vm2025,
+                            pv: values.pv,
+                            cc: values.cc
                         };
                         values.quickJoin = quickJoin;
 
@@ -149,7 +165,15 @@ const NewGame = ({
                                 !formProps.values.dt &&
                                 !formProps.values.woe &&
                                 !formProps.values.gr &&
-                                !formProps.values.as
+                                !formProps.values.as &&
+                                !formProps.values.toc &&
+                                !formProps.values.momu &&
+                                !formProps.values.disc &&
+                                !formProps.values.vm2023 &&
+                                !formProps.values.vm2024 &&
+                                !formProps.values.vm2025 &&
+                                !formProps.values.pv &&
+                                !formProps.values.cc
                             ) {
                                 formProps.setFieldError(
                                     'gameFormat',
