@@ -33,7 +33,7 @@ describe('Ganger Chieftain', function () {
             expect(this.troll.exhausted).toBe(true);
             expect(this.batdrone.location).toBe('discard');
             expect(this.troll.tokens.damage).toBe(7);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should allow fighting with a non-house creature', function () {
@@ -51,7 +51,7 @@ describe('Ganger Chieftain', function () {
             expect(this.troll.tokens.damage).toBe(5);
             expect(this.ancientBear.exhausted).toBe(true);
             expect(this.ancientBear.hasToken('damage')).toBe(false);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it("should ready creatures who can't fight", function () {
@@ -69,7 +69,7 @@ describe('Ganger Chieftain', function () {
             expect(this.player1).not.toBeAbleToSelect(this.ancientBear);
             this.player1.clickCard(this.troll);
             expect(this.troll.exhausted).toBe(false);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
     describe("Ganger Chieftain's ability", function () {
@@ -102,7 +102,7 @@ describe('Ganger Chieftain', function () {
             expect(this.player2).not.toBeAbleToSelect(this.docBookton);
             this.player2.clickCard(this.troll);
             expect(this.troll.exhausted).toBe(false);
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player2).isReadyToTakeAction();
             this.player2.playCreature(this.ganger2, true);
             this.player2.clickCard(this.ganger2);
             expect(this.player2).toHavePrompt('Ganger Chieftain');
@@ -116,6 +116,33 @@ describe('Ganger Chieftain', function () {
             expect(this.player2).toHavePromptButton('Reap with this creature');
             this.player2.clickPrompt('Reap With This Creature');
             expect(this.player2.amber).toBe(2);
+        });
+    });
+
+    describe("Ganger Chieftain's ability", function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'brobnar',
+                    hand: ['ganger-chieftain'],
+                    inPlay: ['awakened-titan']
+                },
+                player2: {
+                    inPlay: ['batdrone', 'dextre']
+                }
+            });
+        });
+
+        it('on play, it should allow selecting a creature that cannot ready', function () {
+            this.player1.reap(this.awakenedTitan);
+            expect(this.awakenedTitan.exhausted).toBe(true);
+            this.player1.playCreature(this.gangerChieftain, true);
+            expect(this.player1).toHavePrompt('Any reactions to Ganger Chieftain being played?');
+            this.player1.clickCard(this.gangerChieftain);
+            expect(this.player1).toBeAbleToSelect(this.awakenedTitan);
+            this.player1.clickCard(this.awakenedTitan); // click to fail ready
+            expect(this.awakenedTitan.exhausted).toBe(true);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

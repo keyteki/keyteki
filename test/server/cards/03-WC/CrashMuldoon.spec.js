@@ -55,7 +55,7 @@ describe('Crash Muldoon', function () {
         it('action ability should not let you use a neighboring star-alliance creature', function () {
             this.player1.clickCard(this.crashMuldoon);
             this.player1.clickPrompt("Use this card's action ability");
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

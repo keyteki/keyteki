@@ -31,7 +31,7 @@ describe('Go Forth and Conquer', function () {
             expect(this.player2.amber).toBe(3);
             expect(this.dustPixie.amber).toBe(2);
             expect(this.parasiticArachnoid.location).toBe('discard');
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player2).isReadyToTakeAction();
         });
 
         it('should fulfill when opponent uses a creature to fight and the fight ends early to assault', function () {
@@ -47,7 +47,7 @@ describe('Go Forth and Conquer', function () {
             expect(this.player2.amber).toBe(3);
             expect(this.dustPixie.amber).toBe(2);
             expect(this.parasiticArachnoid.location).toBe('discard');
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player2).isReadyToTakeAction();
         });
 
         it('should fulfill when opponent uses a creature to fight and the fight ends early to hazardous', function () {
@@ -62,7 +62,7 @@ describe('Go Forth and Conquer', function () {
             expect(this.player2.amber).toBe(3);
             expect(this.dustPixie.amber).toBe(2);
             expect(this.parasiticArachnoid.location).toBe('discard');
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player2).isReadyToTakeAction();
         });
 
         it('should not fulfill when you use a creature to fight', function () {
@@ -70,7 +70,7 @@ describe('Go Forth and Conquer', function () {
             this.player1.fightWith(this.mushroomMan, this.huntingWitch);
             expect(this.goForthAndConquer.activeProphecy).toBe(true);
             expect(this.parasiticArachnoid.location).toBe('under');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should not fulfill when opponent uses a creature to reap', function () {
@@ -80,7 +80,7 @@ describe('Go Forth and Conquer', function () {
             this.player2.reap(this.huntingWitch);
             expect(this.goForthAndConquer.activeProphecy).toBe(true);
             expect(this.parasiticArachnoid.location).toBe('under');
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player2).isReadyToTakeAction();
         });
     });
 });

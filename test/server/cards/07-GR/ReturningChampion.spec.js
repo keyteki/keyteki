@@ -31,7 +31,7 @@ describe('Returning Champion', function () {
 
             it('does nothing if not haunted', function () {
                 this.player1.fightWith(this.returningChampion, this.dustPixie);
-                expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+                expect(this.player1).isReadyToTakeAction();
             });
 
             describe('if haunted', function () {
@@ -48,7 +48,7 @@ describe('Returning Champion', function () {
                     this.player1.clickCard(this.cornicenOctavia);
                     expect(this.returningChampion.tokens.damage).toBe(undefined);
                     expect(this.cornicenOctavia.tokens.damage).toBe(4);
-                    expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+                    expect(this.player1).isReadyToTakeAction();
                 });
 
                 it('moves damage to destroy a creature', function () {
@@ -60,7 +60,7 @@ describe('Returning Champion', function () {
                     this.player1.clickCard(this.dustPixie);
                     expect(this.returningChampion.tokens.damage).toBe(undefined);
                     expect(this.dustPixie.location).toBe('discard');
-                    expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+                    expect(this.player1).isReadyToTakeAction();
                 });
 
                 it('moves damage to a friendly creature', function () {
@@ -72,7 +72,7 @@ describe('Returning Champion', function () {
                     this.player1.clickCard(this.troll);
                     expect(this.returningChampion.tokens.damage).toBe(undefined);
                     expect(this.troll.tokens.damage).toBe(4);
-                    expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+                    expect(this.player1).isReadyToTakeAction();
                 });
             });
         });

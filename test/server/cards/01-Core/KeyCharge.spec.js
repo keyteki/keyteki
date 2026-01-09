@@ -36,7 +36,7 @@ describe('Key Charge', function () {
             expect(this.player1.player.keys.red).toBe(true);
             expect(this.player1.player.keys.blue).toBe(false);
             expect(this.player1.player.keys.yellow).toBe(false);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should lose 1 amber and allow declining to forge', function () {
@@ -48,7 +48,7 @@ describe('Key Charge', function () {
             expect(this.player1.player.keys.blue).toBe(false);
             expect(this.player1.player.keys.yellow).toBe(false);
 
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should lose 1 amber and not forge without enough amber', function () {
@@ -58,7 +58,7 @@ describe('Key Charge', function () {
             expect(this.player1.player.keys.red).toBe(false);
             expect(this.player1.player.keys.blue).toBe(false);
             expect(this.player1.player.keys.yellow).toBe(false);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should not forge at 0 cost 0 amber', function () {
@@ -78,7 +78,7 @@ describe('Key Charge', function () {
             expect(this.player1.player.keys.red).toBe(false);
             expect(this.player1.player.keys.blue).toBe(false);
             expect(this.player1.player.keys.yellow).toBe(false);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

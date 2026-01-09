@@ -17,7 +17,7 @@ describe('Kindrith Longshot', function () {
             expect(this.player1).toHavePrompt('Kindrith Longshot');
             this.player1.clickCard(this.troll);
             expect(this.troll.tokens.damage).toBe(2);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

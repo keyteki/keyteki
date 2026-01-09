@@ -18,7 +18,7 @@ describe('Library of the Damned', function () {
             expect(this.player1).toBeAbleToSelect(this.shooler);
             this.player1.clickCard(this.emberImp);
             expect(this.emberImp.location).toBe('archives');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

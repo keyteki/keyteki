@@ -61,7 +61,7 @@ describe('Envoy of Ekwirrĕ', function () {
             this.player1.moveCard(this.umbra, 'deck');
             this.player1.moveCard(this.pelf, 'deck');
             this.player1.reap(this.envoyOfEkwirrĕ);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should swap various counters', function () {

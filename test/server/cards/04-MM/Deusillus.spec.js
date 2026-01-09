@@ -432,7 +432,7 @@ describe('Deusillus', function () {
             expect(this.player1.player.hand).not.toContain(this.deusillus2);
             expect(this.deusillus.controller).toBe(this.player1.player);
 
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 

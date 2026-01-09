@@ -23,7 +23,7 @@ describe('Root Access', function () {
             expect(this.skullbackCrab.tokens.damage).toBe(undefined);
             expect(this.urchin.tokens.damage).toBe(undefined);
             expect(this.groke.tokens.damage).toBe(undefined);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('does nothing if deck is empty', function () {
@@ -34,7 +34,7 @@ describe('Root Access', function () {
             expect(this.skullbackCrab.tokens.damage).toBe(undefined);
             expect(this.urchin.tokens.damage).toBe(undefined);
             expect(this.groke.tokens.damage).toBe(undefined);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

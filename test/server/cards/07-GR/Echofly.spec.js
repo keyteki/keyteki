@@ -28,7 +28,7 @@ describe('Echofly', function () {
             expect(this.player1).not.toBeAbleToSelect(this.stealthMode);
             this.player1.clickCard(this.fullMoon);
             expect(this.fullMoon.location).toBe('hand');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('returns topmost action card from discard to hand on scrap', function () {
@@ -37,7 +37,7 @@ describe('Echofly', function () {
             expect(this.player1.player.archives.length).toBe(1);
             expect(this.fullMoon.location).toBe('discard');
             expect(this.echofly.location).toBe('discard');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

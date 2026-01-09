@@ -29,14 +29,14 @@ describe('Trust Your Feelings', function () {
             expect(this.player2.amber).toBe(2);
             expect(this.troll.amber).toBe(2);
             expect(this.parasiticArachnoid.location).toBe('discard');
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player2).isReadyToTakeAction();
 
             // Doesn't trigger again next turn.
             this.player2.endTurn();
             this.player1.clickPrompt('dis');
             this.player1.endTurn();
             this.player2.clickPrompt('brobnar');
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player2).isReadyToTakeAction();
         });
 
         it('should not fulfill when opponent chooses a different house', function () {
@@ -45,7 +45,7 @@ describe('Trust Your Feelings', function () {
             this.player1.endTurn();
             this.player2.clickPrompt('shadows');
             expect(this.parasiticArachnoid.location).toBe('under');
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player2).isReadyToTakeAction();
         });
 
         it('should not fulfill when player chooses the house', function () {
@@ -56,7 +56,7 @@ describe('Trust Your Feelings', function () {
             this.player2.endTurn();
             this.player1.clickPrompt('dis');
             expect(this.parasiticArachnoid.location).toBe('under');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should not trigger if the prophecy flips with a card already under it', function () {
@@ -65,7 +65,7 @@ describe('Trust Your Feelings', function () {
             this.player1.clickCard(this.headsIWin);
             this.player2.clickPrompt('brobnar');
             expect(this.parasiticArachnoid.location).toBe('under');
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player2).isReadyToTakeAction();
         });
     });
 });

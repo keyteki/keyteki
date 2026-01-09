@@ -16,7 +16,7 @@ describe('Valoocanth', function () {
         it('after reap, should not exhaust enemy creature if none is in play', function () {
             this.player1.reap(this.valoocanth);
             expect(this.player1).not.toHavePrompt('Valoocanth');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 
@@ -37,7 +37,7 @@ describe('Valoocanth', function () {
         it('after fight, should not exhaust enemy creature if none is in play', function () {
             this.player1.fightWith(this.valoocanth, this.flaxia);
             expect(this.player1).not.toHavePrompt('Valoocanth');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 
@@ -116,7 +116,7 @@ describe('Valoocanth', function () {
         it('cannot be used when tide is low', function () {
             this.player1.lowerTide();
             this.player1.clickCard(this.valoocanth);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('can be used if tide is high', function () {
@@ -129,7 +129,7 @@ describe('Valoocanth', function () {
             this.player1.raiseTide();
             this.player1.lowerTide();
             this.player1.clickCard(this.valoocanth);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

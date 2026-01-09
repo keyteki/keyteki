@@ -23,7 +23,7 @@ describe('Praetorian Kentro', function () {
         it('should affect newly played Saurian creatures', function () {
             this.player1.playCreature(this.philophosaurus);
             expect(this.philophosaurus.power).toBe(5);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

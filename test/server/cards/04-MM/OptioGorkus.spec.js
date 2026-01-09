@@ -46,7 +46,7 @@ describe('Optio Gorkus', function () {
             expect(this.player1.amber).toBe(0);
             expect(this.player2.amber).toBe(4);
 
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it("should not be prompted if destroyed card has no Optio Gorkus' neighbor", function () {
@@ -64,7 +64,7 @@ describe('Optio Gorkus', function () {
             expect(this.player1.amber).toBe(0);
             expect(this.player2.amber).toBe(8);
 
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it("should prompt if card has amber and one Optio Gorkus' neighbor", function () {
@@ -90,13 +90,15 @@ describe('Optio Gorkus', function () {
             expect(this.player1.amber).toBe(0);
             expect(this.player2.amber).toBe(4);
 
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it("should prompt if card has amber and two Optio Gorkus' neighbor", function () {
             this.player1.fightWith(this.rhetorGallim, this.troll);
 
             this.player1.clickCard(this.rhetorGallim);
+            expect(this.player1).toHavePrompt('Which ability would you like to use?');
+            this.player1.clickPrompt('Optio Gorkus', 0);
             expect(this.player1).toHavePrompt('Choose a creature');
             expect(this.player1).toBeAbleToSelect(this.optioGorkus2);
             expect(this.player1).toBeAbleToSelect(this.optioGorkus3);
@@ -115,7 +117,7 @@ describe('Optio Gorkus', function () {
             expect(this.player1.amber).toBe(0);
             expect(this.player2.amber).toBe(4);
 
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it("when destroyed by opponent, should prompt if card has amber and two Optio Gorkus' neighbor", function () {
@@ -124,6 +126,8 @@ describe('Optio Gorkus', function () {
             this.player2.fightWith(this.troll, this.rhetorGallim);
 
             this.player2.clickCard(this.rhetorGallim);
+            expect(this.player2).toHavePrompt('Which ability would you like to use?');
+            this.player2.clickPrompt('Optio Gorkus', 1);
             expect(this.player2).toHavePrompt('Choose a creature');
             expect(this.player2).toBeAbleToSelect(this.optioGorkus2);
             expect(this.player2).toBeAbleToSelect(this.optioGorkus3);
@@ -142,7 +146,7 @@ describe('Optio Gorkus', function () {
             expect(this.player1.amber).toBe(0);
             expect(this.player2.amber).toBe(4);
 
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player2).isReadyToTakeAction();
         });
     });
 });

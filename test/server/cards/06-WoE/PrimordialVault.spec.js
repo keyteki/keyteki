@@ -51,7 +51,7 @@ describe('Primordial Vault', function () {
             this.player1.clickCard(this.tangaika);
             this.player1.clickPrompt('Done');
             expect(this.tangaika.location).toBe('hand');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should destroy 4 cultists to search for Tangiaka in discard', function () {
@@ -65,7 +65,7 @@ describe('Primordial Vault', function () {
             this.player1.clickCard(this.tangaika);
             this.player1.clickPrompt('Done');
             expect(this.tangaika.location).toBe('hand');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should not search if you do not have enough Cultists (but still destroy all cultists)', function () {
@@ -80,7 +80,7 @@ describe('Primordial Vault', function () {
             expect(this.token4.location).toBe('discard');
             expect(this.token5.location).toBe('discard');
             expect(this.vulka.location).toBe('play area');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should not search if a cultist was warded', function () {
@@ -97,7 +97,7 @@ describe('Primordial Vault', function () {
             expect(this.token4.location).toBe('discard');
             expect(this.token5.location).toBe('play area');
             expect(this.vulka.location).toBe('play area');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should make a cultist at the start of your turn', function () {
@@ -108,7 +108,7 @@ describe('Primordial Vault', function () {
             this.player1.clickPrompt('unfathomable');
             expect(this.player1.player.creaturesInPlay.length).toBe(7);
             expect(this.player1.player.creaturesInPlay[6].name).toBe('Cultist');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

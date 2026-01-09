@@ -23,7 +23,8 @@ describe('Tolas', function () {
                         'helper-bot',
                         'brend-the-fanatic',
                         'titan-mechanic'
-                    ]
+                    ],
+                    hand: ['scowly-caper']
                 }
             });
 
@@ -88,7 +89,7 @@ describe('Tolas', function () {
             this.player1.clickCard(this.harbingerOfDoom);
             this.player1.clickPrompt('Done');
             expect(this.tolas.location).toBe('discard');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
             expect(this.player1.amber).toBe(0);
             expect(this.player2.amber).toBe(3);
         });
@@ -100,7 +101,7 @@ describe('Tolas', function () {
             this.player1.clickCard(this.harbingerOfDoom);
             this.player1.clickPrompt('Done');
             expect(this.tolas.location).toBe('discard');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
             expect(this.player1.amber).toBe(0);
             expect(this.player2.amber).toBe(3);
         });
@@ -115,14 +116,14 @@ describe('Tolas', function () {
             this.player1.fightWith(this.alaka, this.titanMechanic);
             expect(this.titanMechanic.location).toBe('play area');
             expect(this.alaka.location).toBe('discard');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
             expect(this.player1.amber).toBe(0);
             expect(this.player2.amber).toBe(0);
         });
 
         it('should happen after destroyed effects', function () {
             this.player1.fightWith(this.ancientYurk, this.brendTheFanatic);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
             expect(this.player1.amber).toBe(1);
             expect(this.player2.amber).toBe(3);
         });
@@ -134,6 +135,33 @@ describe('Tolas', function () {
             expect(this.ancientYurk.tokens.damage).toBe(5);
             expect(this.player1.amber).toBe(0);
             expect(this.player2.amber).toBe(3);
+        });
+    });
+
+    describe("Tolas's ability", function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'geistoid',
+                    inPlay: ['tolas'],
+                    hand: ['infiltrator', 'boo', 'all-hands-on-deck']
+                },
+                player2: {}
+            });
+
+            this.tolas.tokens.power = 2;
+        });
+
+        it('correctly handle treachery', function () {
+            this.player1.play(this.infiltrator);
+            this.player1.play(this.boo);
+            this.player1.clickPrompt('Mine');
+            this.player1.play(this.allHandsOnDeck);
+            this.player1.clickCard(this.infiltrator);
+            expect(this.infiltrator.location).toBe('discard');
+            expect(this.player1.amber).toBe(2); // Tolas and Boo
+            expect(this.player2.amber).toBe(0);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

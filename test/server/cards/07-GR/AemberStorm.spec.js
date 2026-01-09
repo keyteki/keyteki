@@ -25,7 +25,7 @@ describe('Aember Storm', function () {
             this.player1.clickCard(this.troll);
             this.player1.clickCard(this.troll);
             this.player1.clickCard(this.troll);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
             expect(this.troll.tokens.damage).toBe(3);
             expect(this.umbra.location).toBe('discard');
         });
@@ -37,7 +37,7 @@ describe('Aember Storm', function () {
             this.player1.clickCard(this.umbra);
             this.player1.clickCard(this.umbra);
             this.player1.clickCard(this.umbra);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
             expect(this.troll.tokens.damage).toBe(undefined);
             expect(this.umbra.location).toBe('discard');
         });

@@ -14,12 +14,12 @@ class CardAbility extends ThenAbility {
             : this.location.includes(this.card.location);
     }
 
-    meetsRequirements(context) {
+    meetsRequirements(context, ignoredRequirements) {
         if (!this.card.checkRestrictions('triggerAbilities', context)) {
             return 'cannotTrigger';
         }
 
-        return super.meetsRequirements(context);
+        return super.meetsRequirements(context, ignoredRequirements);
     }
 
     addMessage(messageArgs) {

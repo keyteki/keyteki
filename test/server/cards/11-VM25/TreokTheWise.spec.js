@@ -68,7 +68,7 @@ describe('Treok, The Wise', function () {
             this.player1.clickPrompt('brobnar');
             this.player1.fightWith(this.troll, this.teliga);
             expect(this.troll.tokens.damage).toBe(3);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

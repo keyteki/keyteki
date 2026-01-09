@@ -18,7 +18,7 @@ describe('Memolith', function () {
             expect(this.player1).not.toHavePrompt('Memolith');
             expect(this.player1).not.toBeAbleToSelect(this.troll);
             expect(this.player1).not.toBeAbleToSelect(this.autocannon);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 
@@ -47,7 +47,7 @@ describe('Memolith', function () {
             expect(this.pound.game.isCardVisible(this.pound, this.player1.player)).toBe(true);
             expect(this.pound.game.isCardVisible(this.pound, this.player2.player)).toBe(true);
             expect(this.pound.parent).toBe(this.memolith);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should activate the play effect of a grafted card', function () {
@@ -65,7 +65,7 @@ describe('Memolith', function () {
             expect(this.tantadlin.tokens.damage).toBe(2);
             expect(this.bigtwig.tokens.damage).toBe(1);
             expect(this.flaxia.tokens.damage).toBe(1);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should activate the play effect of a grafted card, if no action to attach', function () {
@@ -82,7 +82,7 @@ describe('Memolith', function () {
             expect(this.tantadlin.tokens.damage).toBe(2);
             expect(this.bigtwig.tokens.damage).toBe(1);
             expect(this.flaxia.tokens.damage).toBe(1);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should activate the play effect of a grafted card on Memolith only', function () {
@@ -102,7 +102,7 @@ describe('Memolith', function () {
             expect(this.tantadlin.tokens.damage).toBe(2);
             expect(this.bigtwig.tokens.damage).toBe(1);
             expect(this.flaxia.tokens.damage).toBe(1);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 
@@ -130,7 +130,7 @@ describe('Memolith', function () {
             expect(this.player1).not.toBeAbleToSelect(this.anger);
             this.player1.clickCard(this.labwork);
             expect(this.labwork.parent).toBe(this.memolith);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it("should allow using opponent's grafted card", function () {
@@ -166,7 +166,7 @@ describe('Memolith', function () {
             this.player1.clickCard(this.pound);
             this.player1.clickCard(this.troll);
             expect(this.troll.tokens.damage).toBe(2);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

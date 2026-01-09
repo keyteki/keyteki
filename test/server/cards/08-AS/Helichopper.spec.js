@@ -20,7 +20,7 @@ describe('Helichopper', function () {
             this.player1.useAction(this.helichopper);
             expect(this.helichopper.amber).toBe(2);
             expect(this.player2.amber).toBe(2);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('gains +2 power when haunted for each amber', function () {
@@ -28,7 +28,7 @@ describe('Helichopper', function () {
             expect(this.helichopper.power).toBe(5);
             this.player1.scrap(this.aStrongFeeling);
             expect(this.helichopper.power).toBe(11);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

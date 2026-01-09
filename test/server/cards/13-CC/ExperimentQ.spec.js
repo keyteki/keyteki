@@ -40,7 +40,7 @@ describe('Experiment Q', function () {
             expect(this.experimentQ.stunned).toBe(false);
             expect(this.blypyp.stunned).toBe(false);
             expect(this.zorg.stunned).toBe(false);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should update power when Mars creatures enter play', function () {
@@ -70,7 +70,7 @@ describe('Experiment Q', function () {
             this.player1.moveCard(this.culfTheQuiet, 'discard');
             this.player1.moveCard(this.cxoTaber, 'discard');
             this.player1.playCreature(this.experimentQ);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

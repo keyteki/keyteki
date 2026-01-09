@@ -17,7 +17,7 @@ describe('Kelifi Dragon', function () {
         it('should be playable with 7+ amber', function () {
             this.player1.playCreature(this.kelifiDragon);
             expect(this.kelifiDragon.location).toBe('play area');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should not be playable with less than 7 amber', function () {
@@ -27,7 +27,7 @@ describe('Kelifi Dragon', function () {
             expect(this.player1).toHavePromptButton('Discard this card');
             this.player1.clickPrompt('Cancel');
             expect(this.kelifiDragon.location).toBe('hand');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should gain 1 amber and deal 5 damage on reap', function () {
@@ -45,7 +45,7 @@ describe('Kelifi Dragon', function () {
             this.player1.clickCard(this.troll);
             expect(this.troll.tokens.damage).toBe(5);
             expect(this.player1.amber).toBe(3);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should gain 1 amber and deal 5 damage on fight', function () {
@@ -64,7 +64,7 @@ describe('Kelifi Dragon', function () {
             expect(this.troll.tokens.damage).toBe(5);
             expect(this.krump.location).toBe('discard');
             expect(this.player1.amber).toBe(2);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

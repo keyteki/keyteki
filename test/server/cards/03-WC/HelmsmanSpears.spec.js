@@ -52,7 +52,7 @@ describe("Helmsman Spears'", function () {
             // Damage Helmsman Spears (sorry guy, you’re the only creature in play.)
             this.player1.clickCard(this.helmsmanSpears);
 
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
             expect(this.soulkeeper.location).toBe('discard');
             expect(this.tautauVapors.location).toBe('discard');
             expect(this.hazardZerp.location).toBe('discard');

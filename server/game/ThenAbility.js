@@ -102,7 +102,7 @@ class ThenAbility extends BaseAbility {
                         thenContext.preThenEvents = events;
                         thenContext.preThenEvent = events[0];
                         if (
-                            !thenAbility.meetsRequirements(thenContext) &&
+                            !thenAbility.meetsRequirements(thenContext, []) &&
                             thenAbility.condition(thenContext)
                         ) {
                             this.game.resolveAbility(thenContext);
@@ -114,7 +114,10 @@ class ThenAbility extends BaseAbility {
             let thenAbility = new ThenAbility(this.game, this.card, then);
             let thenContext = thenAbility.createContext(context.player);
             thenContext.preThenEvents = [];
-            if (!thenAbility.meetsRequirements(thenContext) && thenAbility.condition(thenContext)) {
+            if (
+                !thenAbility.meetsRequirements(thenContext, []) &&
+                thenAbility.condition(thenContext)
+            ) {
                 this.game.resolveAbility(thenContext);
             }
         }

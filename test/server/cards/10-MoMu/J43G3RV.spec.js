@@ -41,7 +41,7 @@ describe('J43G3R V', function () {
             this.player1.playCreature(this.j43g3rV);
             this.j43g3rV.exhausted = false;
             this.player1.clickCard(this.flaxia);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
 
             this.player1.reap(this.j43g3rV);
             this.player1.clickCard(this.flaxia);
@@ -53,14 +53,14 @@ describe('J43G3R V', function () {
             this.player1.reap(this.dustPixie);
             expect(this.player1.amber).toBe(5);
             this.player1.clickCard(this.mushroomMan);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should be able to fight with 2 non-SA creatures this turn on fight', function () {
             this.player1.playCreature(this.j43g3rV);
             this.j43g3rV.exhausted = false;
             this.player1.clickCard(this.flaxia);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
 
             this.player1.fightWith(this.j43g3rV, this.umbra);
             this.player1.clickCard(this.flaxia);
@@ -73,7 +73,7 @@ describe('J43G3R V', function () {
             this.player1.fightWith(this.dustPixie, this.lamindra);
             expect(this.lamindra.location).toBe('discard');
             this.player1.clickCard(this.mushroomMan);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should be able to stack both effect types', function () {
@@ -94,7 +94,7 @@ describe('J43G3R V', function () {
             expect(this.player1).toHavePromptButton('Fight with this creature');
             this.player1.clickPrompt('Reap with this creature');
             expect(this.player1.amber).toBe(4);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

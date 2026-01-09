@@ -24,7 +24,7 @@ describe('Ghosthawk', function () {
 
             it('should be optional', function () {
                 this.player1.clickPrompt('Done');
-                expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+                expect(this.player1).isReadyToTakeAction();
                 expect(this.player1.amber).toBe(0);
             });
 
@@ -44,7 +44,7 @@ describe('Ghosthawk', function () {
                     it('should reap with both creatures the card and trigger the reap effect', function () {
                         expect(this.player1.amber).toBe(3);
                         expect(this.troll.tokens.damage).toBe(1);
-                        expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+                        expect(this.player1).isReadyToTakeAction();
                     });
                 });
 
@@ -56,7 +56,7 @@ describe('Ghosthawk', function () {
                     it('should reap with both creatures the card and trigger the reap effect', function () {
                         expect(this.player1.amber).toBe(3);
                         expect(this.troll.tokens.damage).toBe(1);
-                        expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+                        expect(this.player1).isReadyToTakeAction();
                     });
                 });
             });
@@ -70,18 +70,22 @@ describe('Ghosthawk', function () {
                 this.player1.clickCard(this.dewFaerie);
             });
 
-            it('should not prompt to reap with exhausted creatures', function () {
+            it('should prompt to reap with both creatures', function () {
                 expect(this.player1).toBeAbleToSelect(this.troll);
-                expect(this.player1).not.toBeAbleToSelect(this.dewFaerie);
+                expect(this.player1).toBeAbleToSelect(this.dewFaerie);
                 expect(this.player1).not.toBeAbleToSelect(this.snufflegator);
                 expect(this.player1).not.toBeAbleToSelect(this.inkaTheSpider);
+                this.player1.clickCard(this.dewFaerie);
+                this.player1.clickCard(this.troll);
+                expect(this.player1.amber).toBe(1);
+                expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
             });
 
             it('should reap with one creature and trigger the reap effect', function () {
                 this.player1.clickCard(this.troll);
                 expect(this.player1.amber).toBe(1);
                 expect(this.troll.tokens.damage).toBe(1);
-                expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+                expect(this.player1).isReadyToTakeAction();
             });
         });
 
@@ -106,7 +110,7 @@ describe('Ghosthawk', function () {
                 expect(this.player1.amber).toBe(2);
                 expect(this.troll.stunned).toBe(false);
                 expect(this.dewFaerie.enraged).toBe(true);
-                expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+                expect(this.player1).isReadyToTakeAction();
             });
         });
 
@@ -129,7 +133,7 @@ describe('Ghosthawk', function () {
                 expect(this.player1.amber).toBe(3);
                 expect(this.troll.enraged).toBe(true);
                 expect(this.dewFaerie.enraged).toBe(true);
-                expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+                expect(this.player1).isReadyToTakeAction();
             });
         });
 
@@ -156,7 +160,7 @@ describe('Ghosthawk', function () {
                 expect(this.player1.amber).toBe(3);
                 expect(this.troll.enraged).toBe(true);
                 expect(this.dewFaerie.enraged).toBe(true);
-                expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+                expect(this.player1).isReadyToTakeAction();
             });
         });
 
@@ -179,7 +183,7 @@ describe('Ghosthawk', function () {
                 expect(this.player1).not.toBeAbleToSelect(this.inkaTheSpider);
                 this.player1.clickCard(this.dewFaerie);
                 expect(this.player1.amber).toBe(3);
-                expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+                expect(this.player1).isReadyToTakeAction();
             });
         });
 
@@ -205,7 +209,7 @@ describe('Ghosthawk', function () {
                     expect(this.player1).not.toBeAbleToSelect(this.snufflegator);
                     expect(this.player1).not.toBeAbleToSelect(this.inkaTheSpider);
                     expect(this.player1.amber).toBe(0);
-                    expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+                    expect(this.player1).isReadyToTakeAction();
                 });
             });
 
@@ -226,7 +230,7 @@ describe('Ghosthawk', function () {
                     this.player1.clickCard(this.troll);
                     expect(this.player1.amber).toBe(1);
                     expect(this.troll.tokens.damage).toBe(1);
-                    expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+                    expect(this.player1).isReadyToTakeAction();
                 });
             });
         });
@@ -259,14 +263,14 @@ describe('Ghosthawk', function () {
                     this.player1.clickCard(this.ghosthawk);
                     expect(this.player1.amber).toBe(2);
                     expect(this.ghosthawk.location).toBe('discard');
-                    expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+                    expect(this.player1).isReadyToTakeAction();
                 });
 
                 it('should be able to destroy the other neighbor', function () {
                     this.player1.clickCard(this.snufflegator);
                     expect(this.player1.amber).toBe(1);
                     expect(this.snufflegator.location).toBe('discard');
-                    expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+                    expect(this.player1).isReadyToTakeAction();
                 });
             });
         });

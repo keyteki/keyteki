@@ -308,7 +308,7 @@ class ForcedTriggeredAbilityWindow extends BaseStep {
         let generatingEffectSource = this.game.getEffectSource(context);
         if (generatingEffectSource) {
             return {
-                key: generatingEffectSource.name + eventToAppend,
+                key: generatingEffectSource.uuid + eventToAppend,
                 text: '{{card}}' + eventToAppend,
                 card: generatingEffectSource,
                 values: { card: generatingEffectSource.name }

@@ -24,7 +24,7 @@ describe('Creeping Oblivion', function () {
             this.player1.clickCard(this.shaffles);
             this.player1.clickPrompt('Done');
             expect(this.shaffles.location).toBe('purged');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should allow player to purge up to 2 cards from opponent discard', function () {
@@ -40,7 +40,7 @@ describe('Creeping Oblivion', function () {
             this.player1.clickPrompt('Done');
             expect(this.krump.location).toBe('purged');
             expect(this.urchin.location).toBe('purged');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should allow player to purge nothing', function () {
@@ -50,7 +50,7 @@ describe('Creeping Oblivion', function () {
             expect(this.krump.location).toBe('discard');
             expect(this.urchin.location).toBe('discard');
             expect(this.dodger.location).toBe('discard');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

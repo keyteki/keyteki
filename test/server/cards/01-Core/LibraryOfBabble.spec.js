@@ -14,7 +14,7 @@ describe('Library of Babble', function () {
             let handSize = this.player1.hand.length;
             this.player1.useAction(this.libraryOfBabble);
             expect(this.player1.hand.length).toBe(handSize + 1);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });
