@@ -1,0 +1,379 @@
+@import '../../styles/variables';
+@import '../../styles/colours';
+@import '~bootstrap/scss/functions';
+@import '~bootstrap/scss/variables';
+@import '~bootstrap/scss/mixins';
+
+.animated-amber {
+    height: 36px;
+    width: 36px;
+    position: absolute;
+    opacity: 0;
+    z-index: $layer-player-board-our-side + 1;
+}
+
+.delay-0 {
+    animation-delay: 0s;
+}
+.delay-1 {
+    animation-delay: 0.5s;
+}
+.delay-2 {
+    animation-delay: 0.8s;
+}
+.delay-3 {
+    animation-delay: 1s;
+}
+.delay-4 {
+    animation-delay: 1.1s;
+}
+.delay-5 {
+    animation-delay: 1.2s;
+}
+.delay-6 {
+    animation-delay: 1.3s;
+}
+.delay-7 {
+    animation-delay: 1.4s;
+}
+.delay-8 {
+    animation-delay: 1.5s;
+}
+.delay-9 {
+    animation-delay: 1.6s;
+}
+.delay-10 {
+    animation-delay: 1.7s;
+}
+
+.supply-to-player {
+    animation-name: supply-to-player;
+    animation-duration: 2s;
+}
+
+@keyframes supply-to-player {
+    0% {
+        transform: rotate(0);
+        margin-left: 50%;
+        opacity: 1.0;
+    }
+    100% {
+        transform: rotate(-720deg);
+        margin-left: 0;
+        margin-top: 45vh;
+        opacity: 0.1;
+    }
+}
+
+.supply-to-player-bounce {
+    animation-name: supply-to-player-bounce;
+    animation-timing-function: ease-out;
+    animation-duration: 2s;
+}
+
+@keyframes supply-to-player-bounce {
+    0% {
+        transform: rotate(0);
+        margin-left: 45%;
+        opacity: 1.0;
+        margin-top: 8vh;
+    }
+    10% {
+        margin-left: 40%;
+        margin-top: 0vh;
+    }
+    20% {
+        margin-left: 35%;
+        margin-top: 13vh;
+    }
+    30% {
+        margin-left: 30%;
+        margin-top: 9vh;
+    }
+    40% {
+        margin-left: 25%;
+        margin-top: 25vh;
+    }
+    50% {
+        margin-left: 20%;
+        margin-top: 21vh;
+    }
+    60% {
+        margin-left: 15%;
+        margin-top: 35vh;
+    }
+    100% {
+        transform: rotate(-180deg);
+        margin-left: 5%;
+        margin-top: 45vh;
+    }
+}
+
+.player-to-supply {
+    animation-name: player-to-supply;
+    animation-duration: 2s;
+}
+
+@keyframes player-to-supply {
+    0% {
+        transform: rotate(0);
+        margin-left: 0;
+        margin-top: 45vh;
+        opacity: 1.0;
+    }
+    100% {
+        transform: rotate(720deg);
+        margin-left: 50%;
+        opacity: 0.1;
+    }
+}
+
+.supply-to-opponent {
+    animation-name: supply-to-opponent;
+    animation-duration: 2s;
+}
+
+@keyframes supply-to-opponent {
+    0% {
+        transform: rotate(0);
+        margin-left: 50%;
+        opacity: 1.0;
+    }
+    100% {
+        transform: rotate(720deg);
+        margin-left: 0;
+        margin-top: -35vh;
+        opacity: 0.1;
+    }
+}
+
+.supply-to-opponent-bounce {
+    animation-name: supply-to-opponent-bounce;
+    animation-timing-function: ease-out;
+    animation-duration: 2s;
+}
+
+@keyframes supply-to-opponent-bounce {
+    0% {
+        transform: rotate(0);
+        margin-left: 45%;
+        opacity: 1.0;
+        margin-top: 0;
+    }
+    10% {
+        margin-left: 40%;
+        margin-top: -18vh;
+    }
+    20% {
+        margin-left: 35%;
+        margin-top: -8vh;
+    }
+    30% {
+        margin-left: 30%;
+        margin-top: -21vh;
+    }
+    40% {
+        margin-left: 25%;
+        margin-top: -17vh;
+    }
+    50% {
+        margin-left: 20%;
+        margin-top: -28vh;
+    }
+    60% {
+        margin-left: 15%;
+        margin-top: -26vh;
+    }
+    100% {
+        transform: rotate(-180deg);
+        margin-left: 5%;
+        margin-top: -35vh;
+    }
+}
+
+.opponent-to-supply {
+    animation-name: opponent-to-supply;
+    animation-duration: 2s;
+}
+
+@keyframes opponent-to-supply {
+    0% {
+        transform: rotate(0);
+        margin-left: 0;
+        margin-top: -35vh;
+        opacity: 1.0;
+    }
+    100% {
+        transform: rotate(720deg);
+        margin-left: 50%;
+        opacity: 0.1;
+    }
+}
+
+.center-to-player {
+    animation-name: center-to-player;
+    animation-duration: 2s;
+}
+
+@keyframes center-to-player {
+    0% {
+        transform: rotate(0);
+        opacity: 1.0;
+    }
+    100% {
+        transform: rotate(720deg);
+        margin-top: 45vh;
+        opacity: 0.1;
+    }
+}
+
+.center-to-opponent {
+    animation-name: center-to-opponent;
+    animation-duration: 2s;
+}
+
+@keyframes center-to-opponent {
+    0% {
+        transform: rotate(0);
+        opacity: 1.0;
+    }
+    100% {
+        transform: rotate(720deg);
+        margin-top: -35vh;
+        opacity: 0.1;
+    }
+}
+
+.player-to-center {
+    animation-name: player-to-center;
+    animation-duration: 2s;
+}
+
+@keyframes player-to-center {
+    0% {
+        transform: rotate(0);
+        margin-top: 45vh;
+        opacity: 0.1;
+    }
+    100% {
+        transform: rotate(720deg);
+        margin-top: 0;
+        opacity: 1;
+    }
+}
+
+.opponent-to-center {
+    animation-name: opponent-to-center;
+    animation-duration: 2s;
+}
+
+@keyframes opponent-to-center {
+    0% {
+        transform: rotate(0);
+        margin-top: -35vh;
+        opacity: 0.1;
+    }
+    100% {
+        transform: rotate(720deg);
+        margin-top: 0;
+        opacity: 1;
+    }
+}
+
+.supply-to-center {
+    animation-name: supply-to-center;
+    animation-duration: 2s;
+}
+
+@keyframes supply-to-center {
+    0% {
+        transform: rotate(0);
+        opacity: 0.1;
+        margin-left: 50%;
+    }
+    100% {
+        transform: rotate(720deg);
+        opacity: 1;
+    }
+}
+
+.center-to-supply {
+    animation-name: center-to-supply;
+    animation-duration: 2s;
+}
+
+@keyframes center-to-supply {
+    0% {
+        transform: rotate(0);
+        opacity: 1;
+    }
+    100% {
+        transform: rotate(720deg);
+        opacity: 0.1;
+        margin-left: 50%;
+    }
+}
+
+.opponent-to-player {
+    animation-name: opponent-to-player;
+    animation-duration: 2s;
+}
+
+@keyframes opponent-to-player {
+    0% {
+        transform: rotate(0);
+        opacity: 0.1;
+        margin-top: -35vh;
+    }
+    50% {
+        transform: rotate(360deg);
+        opacity: 1;
+    }
+    100% {
+        transform: rotate(720deg);
+        opacity: 0.1;
+        margin-top: 45vh;
+    }
+}
+
+.opponent-to-player {
+    animation-name: opponent-to-player;
+    animation-duration: 2s;
+}
+
+@keyframes opponent-to-player {
+    0% {
+        transform: rotate(0);
+        opacity: 0.1;
+        margin-top: -35vh;
+    }
+    50% {
+        opacity: 1;
+    }
+    100% {
+        transform: rotate(1440deg);
+        opacity: 0.1;
+        margin-top: 45vh;
+    }
+}
+
+.player-to-opponent {
+    animation-name: player-to-opponent;
+    animation-duration: 2s;
+}
+
+@keyframes player-to-opponent {
+    0% {
+        transform: rotate(0);
+        opacity: 0.1;
+        margin-top: 45vh;
+    }
+    50% {
+        opacity: 1;
+    }
+    100% {
+        transform: rotate(1440deg);
+        opacity: 0.1;
+        margin-top: -35vh;
+    }
+}
