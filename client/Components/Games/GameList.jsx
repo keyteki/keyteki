@@ -9,7 +9,6 @@ import { Trans, withTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
 import { toastr } from 'react-redux-toastr';
 
-import UnchainedIcon from '../../assets/img/601.png';
 import ShowHandIcon from '../../assets/img/ShowHandIcon.png';
 import TimeLimitIcon from '../../assets/img/Timelimit.png';
 import AdaptiveIcon from '../../assets/img/adaptive.png';
@@ -324,10 +323,10 @@ class GameList extends React.Component {
                 continue;
             }
 
-            if (!groupedGames[game.gamePlaystile]) {
-                groupedGames[game.gamePlaystile] = [game];
+            if (!groupedGames[game.gamePlaystyle]) {
+                groupedGames[game.gamePlaystyle] = [game];
             } else {
-                groupedGames[game.gamePlaystile].push(game);
+                groupedGames[game.gamePlaystyle].push(game);
             }
         }
 
@@ -335,7 +334,9 @@ class GameList extends React.Component {
 
         for (const gamePlaystile of ['beginner', 'casual', 'competitive', 'uncharted-lands']) {
             if (this.props.gameFilter[gamePlaystile] && groupedGames[gamePlaystile]) {
-                gameList.push(this.getGamesForPlaystyle(gamePlaystile, groupedGames[gamePlaystile]));
+                gameList.push(
+                    this.getGamesForPlaystyle(gamePlaystile, groupedGames[gamePlaystile])
+                );
             }
         }
 

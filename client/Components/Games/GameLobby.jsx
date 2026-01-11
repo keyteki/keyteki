@@ -1,20 +1,19 @@
 import React, { useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { toastr } from 'react-redux-toastr';
+import { Button, Col, Form, Row } from 'react-bootstrap';
 import { Trans, useTranslation } from 'react-i18next';
-import { Col, Row, Button, Form } from 'react-bootstrap';
+import { useDispatch, useSelector } from 'react-redux';
+import { toastr } from 'react-redux-toastr';
 
-import NewGame from './NewGame';
-import GameList from './GameList';
-import PendingGame from './PendingGame';
-import PasswordGame from './PasswordGame';
 import AlertPanel from '../Site/AlertPanel';
 import Panel from '../Site/Panel';
+import GameList from './GameList';
+import NewGame from './NewGame';
+import PasswordGame from './PasswordGame';
+import PendingGame from './PendingGame';
 
+import { useEffect, useRef } from 'react';
+import { joinPasswordGame, sendSocketMessage, setUrl, startNewGame } from '../../redux/actions';
 import './GameLobby.scss';
-import { useEffect } from 'react';
-import { startNewGame, joinPasswordGame, sendSocketMessage, setUrl } from '../../redux/actions';
-import { useRef } from 'react';
 
 const GameLobby = ({ gameId }) => {
     const { t } = useTranslation();
@@ -28,7 +27,7 @@ const GameLobby = ({ gameId }) => {
         { name: 'alliance', label: t('Alliance') },
         { name: 'sealed', label: t('Sealed') },
         { name: 'adaptive-bo1', label: t('Adaptive - Bo1') },
-        { name: 'reversal', label: t('Reversal') },
+        { name: 'reversal', label: t('Reversal') }
     ];
     const filterDefaults = {};
 
@@ -108,10 +107,11 @@ const GameLobby = ({ gameId }) => {
                     </div>
                 )}
                 <Row className='game-buttons'>
-                    <Col sm={4} lg={3}>
+                    <Col sm={4} lg={3} className='text-center mb-2'>
                         <Button
                             disabled={!user}
                             variant='primary'
+                            className='mr-2'
                             onClick={() => {
                                 setQuickJoin(false);
                                 dispatch(startNewGame());
@@ -122,6 +122,7 @@ const GameLobby = ({ gameId }) => {
                         <Button
                             disabled={!user}
                             variant='primary'
+                            className='mr-2'
                             onClick={() => {
                                 setQuickJoin(true);
                                 dispatch(startNewGame());
@@ -130,12 +131,12 @@ const GameLobby = ({ gameId }) => {
                             <Trans>Quick Join</Trans>
                         </Button>
                     </Col>
-                    <Col sm={8} lg={9}>
+                    <Col sm={8} lg={8}>
                         <Panel type='primary'>
                             <Row>
                                 {filters.map((filter) => {
                                     return (
-                                        <Col key={filter.name} sm={6} lg={4}>
+                                        <Col key={filter.name} sm={9} lg={6}>
                                             <Form.Check
                                                 type='switch'
                                                 id={filter.name}
@@ -147,7 +148,7 @@ const GameLobby = ({ gameId }) => {
                                                         event.target.checked
                                                     );
                                                 }}
-                                                checked={currentFilter[filter.name]}
+                                                checked={currentFilter[filter.name] || false}
                                             ></Form.Check>
                                         </Col>
                                     );
@@ -163,7 +164,7 @@ const GameLobby = ({ gameId }) => {
                                         onChange={(event) => {
                                             onFilterChecked('onlyShowNew', event.target.checked);
                                         }}
-                                        checked={currentFilter['onlyShowNew']}
+                                        checked={currentFilter['onlyShowNew'] || false}
                                     ></Form.Check>
                                 </Col>
                             </Row>

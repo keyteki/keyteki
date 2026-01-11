@@ -22,7 +22,7 @@ const GamePlaystyles = ({ formProps }) => {
                         <Trans>Playstyle</Trans>
                     </Col>
                     {types.map((type) => (
-                        <Col key={type.name} lg='3'>
+                        <Col key={type.name} lg='4'>
                             <Form.Check
                                 name='gamePlaystyle'
                                 type='radio'

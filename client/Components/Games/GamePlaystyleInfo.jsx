@@ -6,17 +6,16 @@ const GamePlaystyleInfo = ({ gamePlaystyle }) => {
         case 'beginner':
             return (
                 <AlertPanel type='info'>
-                    <strong>Beginner:</strong> You are learning KeyForge and how to use TCO, and may
-                    ask for help or take a long time to play your turns. Basic rule mistakes and
-                    asking for help is expected.
+                    <strong>Beginner:</strong> You are learning KeyForge and how to use TCO. Asking
+                    for help, taking a long time to play, and basic rules mistakes are expected.
                 </AlertPanel>
             );
         case 'casual':
             return (
                 <AlertPanel type='info'>
-                    <strong>Casual:</strong> The standard of play expected in a kitchen table
-                    setting. Asking for take-backs and table talk can be expected, like you are
-                    playing with a friend.
+                    <strong>Casual:</strong> An informal standard of play expected like in a kitchen
+                    table setting. Asking for take-backs and table talk can be expected, like you
+                    are playing with a friend.
                 </AlertPanel>
             );
         case 'competitive':
@@ -29,8 +28,9 @@ const GamePlaystyleInfo = ({ gamePlaystyle }) => {
         case 'uncharted-lands':
             return (
                 <AlertPanel type='info'>
-                    <strong>Uncharted Lands:</strong> This category is for playing sets which are
-                    not considered tournament-legal by GG.
+                    <strong>Uncharted Lands:</strong> This category is for games that don&apos;t use
+                    standard tournament rules or formats. Examples include Unchained, Menagerie,
+                    Martian Civil War, and potentially more.
                 </AlertPanel>
             );
     }
