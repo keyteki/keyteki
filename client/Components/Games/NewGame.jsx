@@ -198,7 +198,7 @@ const NewGame = ({
                             <>
                                 {!tournament && (
                                     <Form.Row>
-                                        <Form.Group as={Col} lg='8' controlId='formGridGameName'>
+                                        <Form.Group as={Col} lg='12' controlId='formGridGameName'>
                                             <Form.Label>{t('Name')}</Form.Label>
                                             <Form.Label className='float-right'>
                                                 {GameNameMaxLength - formProps.values.name.length}
@@ -227,7 +227,7 @@ const NewGame = ({
                         )}
                         {!quickJoin && (
                             <Row>
-                                <Form.Group as={Col} sm={8}>
+                                <Form.Group as={Col} sm={12}>
                                     <Form.Label>{t('Password')}</Form.Label>
                                     <Form.Control
                                         type='password'

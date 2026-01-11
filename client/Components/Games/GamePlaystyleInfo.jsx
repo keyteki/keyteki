@@ -6,25 +6,24 @@ const GamePlaystyleInfo = ({ gamePlaystyle }) => {
         case 'beginner':
             return (
                 <AlertPanel type='info'>
-                    <strong>Beginner:</strong> You are learning the game and interface, and may ask
-                    for help or take a long time to play your turns. Basic rule mistakes and asking
-                    for help is expected.
+                    <strong>Beginner:</strong> You are learning KeyForge and how to use TCO, and may
+                    ask for help or take a long time to play your turns. Basic rule mistakes and
+                    asking for help is expected.
                 </AlertPanel>
             );
         case 'casual':
             return (
                 <AlertPanel type='info'>
-                    <strong>Casual:</strong> You are familiar with the interface and game at a basic
-                    level, similar to a kitchen table setting. Asking for take-backs and table talk
-                    can be expected, like you are playing a friend.
+                    <strong>Casual:</strong> The standard of play expected in a kitchen table
+                    setting. Asking for take-backs and table talk can be expected, like you are
+                    playing with a friend.
                 </AlertPanel>
             );
         case 'competitive':
             return (
                 <AlertPanel type='info'>
-                    <strong>Competitive:</strong> A reasonable standard of play, similar to a
-                    tournament setting. Prompt play with no excessive AFKing or take backs on
-                    errors.
+                    <strong>Competitive:</strong> A rasonable standard of play like in a tournament
+                    setting. Prompt play with no excessive AFKing or take backs on errors.
                 </AlertPanel>
             );
         case 'uncharted-lands':
