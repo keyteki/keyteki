@@ -43,21 +43,9 @@ const GameSets = ({ formProps }) => {
         { name: 'vm2025', label: t('Vault Masters 2025'), icon: VM2025Icon }
     ];
 
-    const ffgSets = ['cota', 'aoa', 'wc', 'mm', 'dt'];
-    const ggSets = [
-        'woe',
-        'gr',
-        'as',
-        'toc',
-        'momu',
-        'disc',
-        'pv',
-        'cc',
-        'vm2023',
-        'vm2024',
-        'vm2025'
-    ];
     const allSets = expansions.map((expansion) => expansion.name);
+    const ffgSets = ['cota', 'aoa', 'wc', 'mm', 'dt'];
+    const ggSets = allSets.filter((set) => !ffgSets.includes(set));
 
     // Compute switch states based on current selections
     const allFFGSelected = ffgSets.every((set) => formProps.values[set]);
@@ -162,7 +150,7 @@ const GameSets = ({ formProps }) => {
                                 }
                                 onChange={formProps.handleChange}
                                 value='true'
-                                checked={formProps.values[expansion.name]}
+                                checked={!!formProps.values[expansion.name]}
                             ></Form.Check>
                         </Col>
                     ))}
