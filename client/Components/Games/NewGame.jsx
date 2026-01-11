@@ -1,17 +1,18 @@
-import React from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { Trans, useTranslation } from 'react-i18next';
-import { Form, Button, Row, Col } from 'react-bootstrap';
 import { Formik } from 'formik';
+import React from 'react';
+import { Button, Col, Form, Row } from 'react-bootstrap';
+import { Trans, useTranslation } from 'react-i18next';
+import { useDispatch, useSelector } from 'react-redux';
 import * as yup from 'yup';
 
-import Panel from '../Site/Panel';
-import AlertPanel from '../Site/AlertPanel';
-import GameOptions from './GameOptions';
-import GameFormats from './GameFormats';
-import GamePlaystyles from './GamePlaystyles';
-import { getStandardControlProps } from '../../util';
 import { cancelNewGame, sendSocketMessage } from '../../redux/actions';
+import { getStandardControlProps } from '../../util';
+import AlertPanel from '../Site/AlertPanel';
+import Panel from '../Site/Panel';
+import GameFormats from './GameFormats';
+import GameOptions from './GameOptions';
+import GamePlaystyles from './GamePlaystyles';
+import GameSets from './GameSets';
 
 import './NewGame.scss';
 
@@ -68,7 +69,7 @@ const NewGame = ({
         name: `${username}'s game`,
         password: '',
         allowSpectators: true,
-        gameFormat: 'normal',
+        gameFormat: 'archon',
         gamePlaystyle: defaultGamePlaystyle || 'casual',
         useGameTimeLimit: !!defaultTimeLimit,
         gameTimeLimit: defaultTimeLimit || 45,
@@ -128,21 +129,21 @@ const NewGame = ({
                     } else {
                         values.expansions = {
                             aoa: values.aoa,
-                            cota: values.cota,
-                            wc: values.wc,
-                            mm: values.mm,
-                            dt: values.dt,
-                            woe: values.woe,
-                            gr: values.gr,
                             as: values.as,
-                            toc: values.toc,
-                            momu: values.momu,
+                            cc: values.cc,
+                            cota: values.cota,
                             disc: values.disc,
+                            dt: values.dt,
+                            gr: values.gr,
+                            mm: values.mm,
+                            momu: values.momu,
+                            pv: values.pv,
+                            toc: values.toc,
                             vm2023: values.vm2023,
                             vm2024: values.vm2024,
                             vm2025: values.vm2025,
-                            pv: values.pv,
-                            cc: values.cc
+                            wc: values.wc,
+                            woe: values.woe
                         };
                         values.quickJoin = quickJoin;
 
@@ -157,23 +158,22 @@ const NewGame = ({
                             event.preventDefault();
 
                             if (
-                                formProps.values.gameFormat === 'sealed' &&
                                 !formProps.values.aoa &&
-                                !formProps.values.cota &&
-                                !formProps.values.wc &&
-                                !formProps.values.mm &&
-                                !formProps.values.dt &&
-                                !formProps.values.woe &&
-                                !formProps.values.gr &&
                                 !formProps.values.as &&
-                                !formProps.values.toc &&
-                                !formProps.values.momu &&
+                                !formProps.values.cc &&
+                                !formProps.values.cota &&
                                 !formProps.values.disc &&
+                                !formProps.values.dt &&
+                                !formProps.values.gr &&
+                                !formProps.values.mm &&
+                                !formProps.values.momu &&
+                                !formProps.values.pv &&
+                                !formProps.values.toc &&
                                 !formProps.values.vm2023 &&
                                 !formProps.values.vm2024 &&
                                 !formProps.values.vm2025 &&
-                                !formProps.values.pv &&
-                                !formProps.values.cc
+                                !formProps.values.wc &&
+                                !formProps.values.woe
                             ) {
                                 formProps.setFieldError(
                                     'gameFormat',
@@ -215,11 +215,16 @@ const NewGame = ({
                                         </Form.Group>
                                     </Form.Row>
                                 )}
+                            </>
+                        )}
+                        {!tournament && <GamePlaystyles formProps={formProps} />}
+                        <GameFormats formProps={formProps} />
+                        <GameSets formProps={formProps} />
+                        {!quickJoin && (
+                            <>
                                 <GameOptions formProps={formProps} />
                             </>
                         )}
-                        <GameFormats formProps={formProps} />
-                        {!tournament && <GamePlaystyles formProps={formProps} />}
                         {!quickJoin && (
                             <Row>
                                 <Form.Group as={Col} sm={8}>

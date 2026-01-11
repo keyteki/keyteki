@@ -16,30 +16,30 @@ const GamePlaystyles = ({ formProps }) => {
 
     return (
         <>
+            <Form.Group>
+                <Form.Row>
+                    <Col xs={12} className='font-weight-bold'>
+                        <Trans>Playstyle</Trans>
+                    </Col>
+                    {types.map((type) => (
+                        <Col key={type.name} lg='3'>
+                            <Form.Check
+                                name='gamePlaystyle'
+                                type='radio'
+                                id={type.name}
+                                label={type.label}
+                                onChange={formProps.handleChange}
+                                value={type.name}
+                                checked={formProps.values.gamePlaystyle === type.name}
+                            ></Form.Check>
+                        </Col>
+                    ))}
+                </Form.Row>
+            </Form.Group>
             <Form.Row>
                 <Col xs={12}>
                     <GamePlaystileInfo gamePlaystyle={formProps.values.gamePlaystyle} />
                 </Col>
-            </Form.Row>
-            <Form.Row>
-                <Col xs={12} className='font-weight-bold'>
-                    <Trans>g</Trans>
-                </Col>
-                <Form.Group as={Col}>
-                    {types.map((type) => (
-                        <Form.Check
-                            name='gamePlaystyle'
-                            key={type.name}
-                            type='radio'
-                            id={type.name}
-                            label={type.label}
-                            inline
-                            onChange={formProps.handleChange}
-                            value={type.name}
-                            checked={formProps.values.gamePlaystyle === type.name}
-                        ></Form.Check>
-                    ))}
-                </Form.Group>
             </Form.Row>
         </>
     );

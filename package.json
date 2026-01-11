@@ -6,6 +6,8 @@
     "scripts": {
         "mongod": "mongod --dbpath=/data --port 27017\n",
         "start": "node .",
+        "dev:lobby": "nodemon --inspect=0.0.0.0:9229 .",
+        "dev:node": "nodemon --inspect=0.0.0.0:9229 server/gamenode",
         "fetchdata": "node server/scripts/fetchdata",
         "game": "node server/gamenode",
         "test": "cross-env JASMINE_CONFIG_PATH=./jasmine.json jasmine",
@@ -178,6 +180,7 @@
         "jasmine": "^2.8.0",
         "jasmine-core": "^2.8.0",
         "jest": "^29.3.1",
+        "nodemon": "^3.0.2",
         "nunjucks": "^3.2.2",
         "pegjs": "^0.10.0",
         "precss": "^4.0.0",
