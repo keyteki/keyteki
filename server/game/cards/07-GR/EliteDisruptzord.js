@@ -5,21 +5,11 @@ class EliteDisruptzord extends Card {
     setupCardAbilities(ability) {
         this.persistentEffect({
             targetController: 'any',
-            effect: ability.effects.playerCannot('play', (context, effectContext) => {
-                let sourcePower = context.source.power;
-                // For gigantic creatures in hand, check the bottom half's power
-                if (context.source.gigantic && context.source.location === 'hand') {
-                    const bottomCard = context.source.giganticBottom
-                        ? context.source
-                        : context.source.controller.hand.find(
-                              (card) => card.id === context.source.compositeId
-                          );
-                    if (bottomCard) {
-                        sourcePower = bottomCard.printedPower;
-                    }
-                }
-                return effectContext.source.power < sourcePower;
-            })
+            effect: ability.effects.playerCannot(
+                'play',
+                (context, effectContext) =>
+                    effectContext.source.power < context.source.getGiganticCombinedPower()
+            )
         });
     }
 }

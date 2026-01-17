@@ -8,7 +8,7 @@ describe('De-Doss', function () {
                     inPlay: ['titan-guardian', 'helper-bot', 'hexpion']
                 },
                 player2: {
-                    hand: ['blood-of-titans', 'harmal-atoon', 'krump'],
+                    hand: ['blood-of-titans', 'harmal-atoon', 'krump', 'deusillus', 'deusillus2'],
                     inPlay: ['dr-xyloxxzlphrex'],
                     discard: ['blypyp']
                 }
@@ -55,6 +55,20 @@ describe('De-Doss', function () {
             this.player2.clickCard(this.blypyp);
             this.player2.clickPrompt('Right');
             expect(this.blypyp.location).toBe('play area');
+            expect(this.player2).isReadyToTakeAction();
+        });
+
+        it('blocks gigantic creatures', function () {
+            this.player1.playUpgrade(this.deDoss, this.hexpion);
+            this.player1.endTurn();
+
+            this.player2.clickPrompt('saurian');
+            this.player2.clickCard(this.deusillus2); // top half
+            expect(this.player2).not.toHavePromptButton('Play this creature');
+            this.player2.clickPrompt('Cancel');
+            this.player2.clickCard(this.deusillus); // bottom half
+            expect(this.player2).not.toHavePromptButton('Play this creature');
+            this.player2.clickPrompt('Cancel');
             expect(this.player2).isReadyToTakeAction();
         });
     });

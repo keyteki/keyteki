@@ -979,6 +979,25 @@ class Card extends EffectSource {
         );
     }
 
+    /**
+     * Gets the power value to use when checking play restrictions for gigantic creatures.
+     * For gigantic creatures in hand, this finds and returns the bottom half's power.
+     * For non-gigantic cards or gigantic cards already in play, returns normal power.
+     */
+    getGiganticCombinedPower() {
+        if (this.gigantic && this.location === 'hand' && !this.composedPart) {
+            // Find the bottom half which has the actual power
+            if (this.giganticBottom) {
+                return this.printedPower;
+            }
+            const bottomCard = this.controller.hand.find((card) => card.id === this.compositeId);
+            if (bottomCard) {
+                return bottomCard.printedPower;
+            }
+        }
+        return this.power;
+    }
+
     get armor() {
         return this.getArmor();
     }

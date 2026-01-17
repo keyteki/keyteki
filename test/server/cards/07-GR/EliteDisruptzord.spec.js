@@ -86,7 +86,7 @@ describe('Elite Disruptzord', function () {
             this.player2.clickPrompt('Discard this card');
         });
 
-        it('block gigantic creatures', function () {
+        it('blocks gigantic creatures', function () {
             this.player1.clickPrompt('brobnar');
             expect(this.eliteDisruptzord.location).toBe('play area');
             this.player1.endTurn();
@@ -94,7 +94,10 @@ describe('Elite Disruptzord', function () {
             this.player2.clickPrompt('saurian');
             this.player2.clickCard(this.deusillus2); // top half
             expect(this.player2).not.toHavePromptButton('Play this creature');
-            this.player2.clickPrompt('Discard this card');
+            this.player2.clickPrompt('Cancel');
+            this.player2.clickCard(this.deusillus); // bottom half
+            expect(this.player2).not.toHavePromptButton('Play this creature');
+            this.player2.clickPrompt('Cancel');
             expect(this.player2).isReadyToTakeAction();
         });
     });
