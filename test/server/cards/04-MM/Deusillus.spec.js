@@ -345,7 +345,7 @@ describe('Deusillus', function () {
             });
         });
 
-        xit('should play part 1 after being returned to hand', function () {
+        it('should play part 1 after being returned to hand', function () {
             this.player1.play(this.deusillus);
             this.player1.clickCard(this.narp);
             this.player1.endTurn();
