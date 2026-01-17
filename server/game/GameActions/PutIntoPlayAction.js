@@ -33,9 +33,46 @@ class PutIntoPlayAction extends CardGameAction {
         return true;
     }
 
+    // Check if the other half of a gigantic creature can be found
+    canFindGiganticPart(card) {
+        if (card.composedPart) {
+            return true;
+        }
+
+        // Check same location
+        let part = card.controller
+            .getSourceList(card.location)
+            .find((c) => card.compositeId === c.id);
+        if (part) {
+            return true;
+        }
+
+        // Check under same parent card
+        if (card.parent) {
+            part = card.parent.childCards.find((c) => card.compositeId === c.id);
+            if (part) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     preEventHandler(context) {
         super.preEventHandler(context);
         let card = this.target.length > 0 ? this.target[0] : context.source;
+
+        // For gigantic cards, check if the other half can be found
+        // If not, skip prompts since the card can't be put into play
+        // Also block if trying to put a gigantic from opponent's discard under your control
+        // (the card's owner is different from context.player)
+        if (
+            card.gigantic &&
+            (!this.canFindGiganticPart(card) || (this.myControl && card.owner !== context.player))
+        ) {
+            return;
+        }
+
         let player;
 
         if (this.deployIndex !== undefined) {
@@ -204,6 +241,13 @@ class PutIntoPlayAction extends CardGameAction {
                     control = this.myControl;
                 }
 
+                // Block gigantic creatures when trying to put opponent's card under your control
+                // (e.g., from opponent's discard pile with myControl)
+                if (card.gigantic && this.myControl && card.owner !== context.player) {
+                    event.cancel();
+                    return;
+                }
+
                 if (card.gigantic) {
                     let part =
                         card.composedPart ||
@@ -212,13 +256,17 @@ class PutIntoPlayAction extends CardGameAction {
                             .find((part) => card.compositeId === part.id);
 
                     if (!part && card.parent) {
-                        // parts are placed togehter under another card and can be put into play together
+                        // parts are placed together under another card and can be put into play together
                         part = card.parent.childCards.find((part) => card.compositeId === part.id);
                     }
 
                     if (part) {
                         card.controller.removeCardFromPile(part);
                         card.composedPart = part;
+                    } else {
+                        // Cannot put gigantic creature into play without both halves
+                        event.cancel();
+                        return;
                     }
 
                     card.image = card.compositeImageId || card.id;
