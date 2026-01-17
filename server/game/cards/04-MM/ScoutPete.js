@@ -16,7 +16,12 @@ class ScoutPete extends Card {
                     handlers: [() => []]
                 }
             })),
-            message: 'Choose to keep or discard top of deck.'
+            effect: 'look at the top card of their deck',
+            then: {
+                alwaysTriggers: true,
+                condition: (context) => !context.preThenEvent || context.preThenEvent.cancelled,
+                message: '{0} uses {1} to leave it on top of their deck'
+            }
         });
     }
 }
