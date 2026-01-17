@@ -29,7 +29,7 @@ class KaupeEvilTwin extends Card {
             targetController: 'current',
             effect: ability.effects.playerCannot(
                 'play',
-                (context) => context.source.type === 'action'
+                (context) => context.ability && context.ability.title === 'Play this action'
             )
         });
 
@@ -39,7 +39,7 @@ class KaupeEvilTwin extends Card {
             targetController: 'current',
             effect: ability.effects.playerCannot(
                 'play',
-                (context) => context.source.type === 'artifact'
+                (context) => context.ability && context.ability.title === 'Play this artifact'
             )
         });
 
@@ -49,7 +49,7 @@ class KaupeEvilTwin extends Card {
             targetController: 'current',
             effect: ability.effects.playerCannot(
                 'play',
-                (context) => context.source.type === 'creature'
+                (context) => context.ability && context.ability.title === 'Play this creature'
             )
         });
 
@@ -59,7 +59,7 @@ class KaupeEvilTwin extends Card {
             targetController: 'current',
             effect: ability.effects.playerCannot(
                 'play',
-                (context) => context.source.type === 'upgrade'
+                (context) => context.ability && context.ability.title === 'Play this upgrade'
             )
         });
     }

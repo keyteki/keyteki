@@ -8,7 +8,7 @@ describe('Suspendamander', function () {
                     inPlay: ['suspendamander']
                 },
                 player2: {
-                    hand: ['too-much-to-protect', 'the-circle-of-life', 'umbra'],
+                    hand: ['too-much-to-protect', 'the-circle-of-life', 'umbra', 'wild-wormhole'],
                     inPlay: ['lamindra']
                 }
             });
@@ -63,6 +63,29 @@ describe('Suspendamander', function () {
             this.player1.endTurn();
             this.player2.clickPrompt('untamed');
             this.player2.play(this.theCircleOfLife);
+            expect(this.player2).isReadyToTakeAction();
+        });
+
+        it('should not prevent opponent from using wild wormhole to play creatures of the chosen house', function () {
+            this.player1.fightWith(this.suspendamander, this.lamindra);
+            this.player1.clickPrompt('shadows');
+            this.player1.endTurn();
+            this.player2.clickPrompt('logos');
+            this.player2.moveCard(this.umbra, 'deck');
+            this.player2.play(this.wildWormhole);
+            this.player2.clickPrompt('Right');
+            expect(this.umbra.location).toBe('play area');
+            expect(this.player2).isReadyToTakeAction();
+        });
+
+        it('should  prevent opponent from using wild wormhole to play actions of the chosen house', function () {
+            this.player1.fightWith(this.suspendamander, this.lamindra);
+            this.player1.clickPrompt('shadows');
+            this.player1.endTurn();
+            this.player2.clickPrompt('logos');
+            this.player2.moveCard(this.tooMuchToProtect, 'deck');
+            this.player2.play(this.wildWormhole);
+            expect(this.tooMuchToProtect.location).toBe('deck');
             expect(this.player2).isReadyToTakeAction();
         });
     });
