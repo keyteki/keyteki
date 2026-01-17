@@ -41,7 +41,7 @@ class GameList extends React.Component {
         if (game.needsPassword) {
             this.props.joinPasswordGame(game, 'Join');
         } else {
-            this.props.socket.emit('joingame', game.id);
+            this.props.sendSocketMessage('joingame', game.id);
         }
 
         if (this.props.onJoinOrWatchClick) {
@@ -69,7 +69,7 @@ class GameList extends React.Component {
         if (game.needsPassword) {
             this.props.joinPasswordGame(game, 'Watch');
         } else {
-            this.props.socket.emit('watchgame', game.id);
+            this.props.sendSocketMessage('watchgame', game.id);
         }
 
         if (this.props.onJoinOrWatchClick) {
@@ -80,7 +80,7 @@ class GameList extends React.Component {
     removeGame(event, game) {
         event.preventDefault();
 
-        this.props.socket.emit('removegame', game.id);
+        this.props.sendSocketMessage('removegame', game.id);
     }
 
     canJoin(game) {
@@ -153,7 +153,7 @@ class GameList extends React.Component {
         if (players.length === 1) {
             if (this.canJoin(game)) {
                 players.push(
-                    <div key={players[0].name} className={'game-player-row other-player'}>
+                    <div key='join-button' className={'game-player-row other-player'}>
                         <div className='game-faction-row other-player'>
                             <button
                                 className='btn btn-success gamelist-button img-fluid'
@@ -165,9 +165,7 @@ class GameList extends React.Component {
                     </div>
                 );
             } else {
-                players.push(
-                    <div key={players[0].name} className='game-faction-row other-player' />
-                );
+                players.push(<div key='empty-player' className='game-faction-row other-player' />);
             }
         }
 
@@ -303,7 +301,7 @@ class GameList extends React.Component {
         }
 
         return (
-            <div>
+            <div key={gamePlaystile}>
                 <div className={gameHeaderClass}>
                     {t(gamePlaystile)} ({gamesToReturn.length})
                 </div>
@@ -367,6 +365,7 @@ GameList.propTypes = {
     i18n: PropTypes.object,
     joinPasswordGame: PropTypes.func,
     onJoinOrWatchClick: PropTypes.func,
+    sendSocketMessage: PropTypes.func,
     showNodes: PropTypes.bool,
     socket: PropTypes.object,
     t: PropTypes.func,

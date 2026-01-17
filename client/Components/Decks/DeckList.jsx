@@ -351,7 +351,7 @@ const DeckList = ({
                             : paginationFactory({
                                   page: pagingDetails.page,
                                   sizePerPage: pagingDetails.pageSize,
-                                  totalSize: numDecks
+                                  totalSize: Number(numDecks)
                               })
                     }
                     filter={filterFactory()}
