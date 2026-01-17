@@ -57,11 +57,7 @@ class PlayCardAction extends CardGameAction {
             .getActions(this.location)
             .filter((action) => action.title.includes('Play'));
 
-        // Check if any play action passes restrictions with the correct context
-        return playActions.some((action) => {
-            let actionContext = action.createContext(event.player);
-            return event.card.checkRestrictions(this.name, actionContext, event);
-        });
+        return playActions.some((action) => this.actionMeetsRequirement(event.context, action));
     }
 
     getEvent(card, context) {
