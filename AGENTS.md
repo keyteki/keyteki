@@ -7,6 +7,23 @@ description: Expert developer for this project
 
 You are an expert developer for this project. Use your deep understanding of the codebase, architecture, and best practices to provide accurate and efficient solutions. Ensure that your responses are clear, concise, and tailored to the specific needs of the project.
 
+## Project Overview
+
+Keyteki is an open-source implementation of the KeyForge card game. KeyForge is a unique deck game where players use pre-constructed decks to forge three keys before their opponent. The project consists of:
+
+- **Game Server** (`server/game/`) - Core game engine handling rules, cards, and game state
+- **Web Client** (`client/`) - React-based frontend for playing games
+- **Card Data** (`keyteki-json-data/packs/`) - JSON files containing card metadata for each set
+
+### Key Game Concepts
+
+- **Aember (Æ)** - Resource collected to forge keys; 6 aember forges a key by default
+- **Houses** - Each deck contains cards from 3 houses; you choose one house per turn and can only play or use cards from that house
+- **Creatures** - Cards that stay in play; can reap (gain 1 aember) or fight
+- **Artifacts** - Permanents with activated or persistent abilities
+- **Actions** - One-time effect cards that go to discard after playing
+- **Upgrades** - Cards attached to creatures to modify them
+
 ## Agent Behaviors & Communication
 
 - Be succinct: Provide code, minimal explanation, and avoid conversational fillers.
@@ -15,11 +32,17 @@ You are an expert developer for this project. Use your deep understanding of the
 - No explanations unless asked: Do not explain why a change was made unless the user asks for justification.
 - No summary chatter: Skip phrases like "Here is the code," "Sure, I can do that," or "Let me know if you need more help."
 - Focus on the diff: Focus output on the specific lines to be changed.
-
-## Agent Self-Improvement
-
 - If the user provides instructions, corrections, or patterns that would be useful for future sessions, suggest adding them to this AGENTS.md file.
-- When suggesting additions, provide the exact text to add and where it should go.
+
+### When to Ask for Clarification
+
+Ask the user before proceeding when:
+
+- Card text is ambiguous or has multiple valid interpretations
+- The desired behavior conflicts with how similar cards work
+- A fix could be in the card implementation OR the game engine
+- Multiple test failures suggest a broader architectural issue
+- The card references mechanics or keywords not yet implemented
 
 ## Commands you can use
 
@@ -28,6 +51,33 @@ You are an expert developer for this project. Use your deep understanding of the
 - Run multiple test files: `DEBUG_TEST=1 npm test -- test/server/cards/<Set1>/<CardName1>.spec.js test/server/cards/<set2>/<CardName2>.spec.js`
 - Run tests matching a pattern: `DEBUG_TEST=1 npm test -- --filter='<pattern>'`
   - Using just the filter option is slower than running test files, so prefer using filters in combination with specifying test files.
+
+## Architecture Overview
+
+### Core Classes
+
+- **Game** (`server/game/game.js`) - Main game controller; manages phases, players, and game state
+- **Card** (`server/game/Card.js`) - Base class for all cards; provides ability definition methods
+- **Player** (`server/game/player.js`) - Player state, hand, deck, discard, archives, creatures, artifacts
+- **EffectEngine** (`server/game/effectengine.js`) - Manages persistent effects and their application
+- **GameActions** (`server/game/GameActions/`) - Atomic game actions (deal damage, draw cards, etc.)
+
+### Card Implementation Reference
+
+For detailed documentation with examples, see:
+
+- [Card Abilities](docs/card-abilities.md) - How to define play/reap/fight/destroyed abilities
+- [Game Actions](docs/game-actions.md) - Complete list of `ability.actions.*` with examples
+- [Keywords](docs/keywords.md) - Keywords handled automatically by the engine
+
+## Code Style Conventions
+
+- Card classes extend `Card` and implement `setupCardAbilities(ability)`
+- Card ID is set as static property: `CardName.id = 'card-id';`
+- Export with `module.exports = CardName;`
+- Use arrow functions for conditions and callbacks
+- Comment the card text above `setupCardAbilities`
+- Always end files with a newline
 
 ## Card Implementation Guide
 
@@ -40,7 +90,7 @@ Card implementations in Keyteki follow a specific pattern where each card's game
 - Card implementations are located in `server/game/cards/<Set>/<CardName>.js` organized by set
 - Each card is implemented as a JavaScript class extending the base `Card` class
 - The file name should match the card's ID from the JSON data
-  - Example: [BadOmen.js](server/game/cards/11-PV/BadOmen.js)
+  - Example: [BadOmen.js](server/game/cards/12-PV/BadOmen.js)
 
 ### Card JSON Data
 
@@ -67,10 +117,19 @@ Card implementations in Keyteki follow a specific pattern where each card's game
 - Always end every file with a newline.
 - Each new card implementation should also include tests as described below.
 
+### Finding Similar Cards
+
+When implementing a new card, search for similar existing implementations:
+
+- Use `grep_search` to find cards with similar abilities (e.g., search "steal", "dealDamage", "destroyed")
+- Check the same set directory for patterns used in that expansion
+- Look at cards from Core set (`01-Core/`) for foundational patterns
+- Search by ability type: `this.play(`, `this.reap(`, `this.persistentEffect(`
+
 ### Testing Cards
 
 - Tests should be added to a new `spec.js` file for the card under `test/server/cards/<Set>/<CardName>.spec.js` that corresponds to the card being tested.
-  - Example: [BadOmen.spec.js](test/server/cards/11-PV/BadOmen.spec.js).
+  - Example: [BadOmen.spec.js](test/server/cards/12-PV/BadOmen.spec.js).
 - New tests should follow the patterns of existing tests, e.g. no imports.
 - Tests should be auto-run after being written, to ensure they pass.
 - If more log data is needed to debug a test, you can set `DEBUG_TEST=1` in the environment before running the test.
@@ -83,3 +142,7 @@ Card implementations in Keyteki follow a specific pattern where each card's game
 
 - When fixing bugs or making changes to existing cards, do not change the tests unless explicitly asked to.
 - Some issues are caused by the specific implementation of a card, and other issues are bugs in the game engine. Use expert judgement to determine the best approach to fixing the issue, and if the best path is not clear ask for clarification on the desired approach.
+
+## Resources
+
+- **Archon Arcana** (https://archonarcana.com) - Community wiki with rules, glossary, and card rulings. The agent can fetch specific pages when clarification is needed (e.g., `https://archonarcana.com/Capture`, `https://archonarcana.com/Ward`).
