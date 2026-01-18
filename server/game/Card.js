@@ -969,8 +969,22 @@ class Card extends EffectSource {
         return this.getPower();
     }
 
-    getPower(printed = false) {
-        const printedPower = this.getBottomCard().printedPower;
+    getPower({ printed = false, restriction = false } = {}) {
+        let printedPower = this.getBottomCard().printedPower;
+
+        // Return power needed for play restrictions
+        if (restriction) {
+            // Gigantic creatures are restricted by the bottom half's power. The top half should not be considered to have printed power except in the case when its needed for a restriction check that is based on pwer.
+            if (this.gigantic && !this.giganticBottom && !this.composedPart) {
+                const bottomCard = this.controller.allCards.find(
+                    (card) => card.id === this.compositeId
+                );
+                if (bottomCard) {
+                    printedPower = bottomCard.printedPower;
+                }
+            }
+            return printedPower;
+        }
 
         if (printed) {
             return printedPower;
@@ -988,25 +1002,6 @@ class Card extends EffectSource {
             this.sumEffects('modifyPower') +
             (this.hasToken('power') ? this.tokens.power : 0)
         );
-    }
-
-    /**
-     * Gets the power value to use when checking play restrictions for gigantic creatures.
-     * For gigantic creatures in hand, this finds and returns the bottom half's power.
-     * For non-gigantic cards or gigantic cards already in play, returns normal power.
-     */
-    getGiganticCombinedPower() {
-        if (this.gigantic && this.location === 'hand' && !this.composedPart) {
-            // Find the bottom half which has the actual power
-            if (this.giganticBottom) {
-                return this.printedPower;
-            }
-            const bottomCard = this.controller.hand.find((card) => card.id === this.compositeId);
-            if (bottomCard) {
-                return bottomCard.printedPower;
-            }
-        }
-        return this.power;
     }
 
     get armor() {
