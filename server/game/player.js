@@ -583,12 +583,9 @@ class Player extends GameObject {
             from: location,
             to: targetLocation,
             drawn: options.drawn,
-            // Include the other half if this was a gigantic creature being separated
-            // This allows reactions to see both halves as a single creature entering
+            // For gigantic creatures leaving play, label the other half so the event can be handled properly.
             giganticOtherHalf: composedPart || null
         });
-        // Note: We only raise one onCardPlaced event for gigantic creatures
-        // The giganticOtherHalf property allows reactions to handle both halves
 
         if (!options.aboutToShuffle) {
             card.owner.checkDeckAfterCardMove(oldTopOfDeck);

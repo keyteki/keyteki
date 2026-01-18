@@ -38,12 +38,12 @@ class GiganticCard extends Card {
         this.persistentEffect({
             location: 'any',
             effect: ability.effects.cardCannot('play', (context) => {
-                // Only block when the card is actually in hand
-                // When played from elsewhere (e.g., discard via Exhume), allow selection
-                // The play will fizzle naturally if both halves aren't available together
+                // Block the card from being played from hand if the other half is not present
+                // If the card is being played from somewhere other than hand - eg the discard pile with exhume - it should be selectable, and after selection the play will fizzle if there is not enough allowance to play both halves
                 if (context.source.location !== 'hand') {
                     return false;
                 }
+
                 return (
                     !context.source.controller.hand.some((card) => this.id === card.id) ||
                     !context.source.controller.hand.some((card) => this.compositeId === card.id)

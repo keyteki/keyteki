@@ -58,7 +58,7 @@ describe('De-Doss', function () {
             expect(this.player2).isReadyToTakeAction();
         });
 
-        it('blocks gigantic creatures', function () {
+        it('blocks gigantic creatures from being played from hand', function () {
             this.player1.playUpgrade(this.deDoss, this.hexpion);
             this.player1.endTurn();
 

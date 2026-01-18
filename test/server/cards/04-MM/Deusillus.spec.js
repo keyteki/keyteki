@@ -369,7 +369,7 @@ describe('Deusillus', function () {
             });
         });
 
-        it('it should leave Deusillus in discard when fought by Overlord Greking', function () {
+        it('should leave Deusillus in discard when fought by Overlord Greking', function () {
             this.player1.play(this.deusillus);
             this.player1.clickCard(this.narp);
             this.player1.endTurn();

@@ -20,10 +20,6 @@ describe('Overlord Greking', function () {
             this.collarOfSubordination.printedHouse = 'logos';
             this.ultraGravitronA1 = this.player1.hand[1];
             this.ultraGravitronA2 = this.player1.hand[2];
-            // this.ultraGravitronA1 = this.player2.hand[0];
-            // this.ultraGravitronA2 = this.player2.hand[1];
-            // this.ultraGravitronB1 = this.player2.hand[2];
-            // this.ultraGravitronB2 = this.player2.hand[3];
             this.ultraGravitronB1 = this.player2.hand[0];
             this.ultraGravitronB2 = this.player2.hand[1];
         });
@@ -155,7 +151,7 @@ describe('Overlord Greking', function () {
             // Select and then fizzle
             this.player1.clickCard(this.ultraGravitronA1);
 
-            // Overlord Greking's ability can only play 1 card at a time, and therefore cannot put a gigantic creature into play, even if it has 2 allowances from killing both gigantics with splash.
+            // Overlord Greking's ability can only play 1 card at a time, and therefore cannot put a gigantic creature into play - it effectively has 2 allowances to play 1 card from killing both gigantics with splash - not 1 allowance to play 2 cards a la Saurian Egg
             expect(this.ultraGravitronA1.location).toBe('discard');
             expect(this.ultraGravitronA2.location).toBe('discard');
             expect(this.ultraGravitronB1.location).toBe('discard');

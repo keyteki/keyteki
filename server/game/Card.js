@@ -974,7 +974,7 @@ class Card extends EffectSource {
 
         // Return power needed for play restrictions
         if (restriction) {
-            // Gigantic creatures are restricted by the bottom half's power. The top half should not be considered to have printed power except in the case when its needed for a restriction check that is based on pwer.
+            // Gigantic creatures are restricted by the bottom half's power. The top half should not be considered to have printed power except in the case when its needed for a restriction check that is based on power.
             if (this.gigantic && !this.giganticBottom && !this.composedPart) {
                 const bottomCard = this.controller.allCards.find(
                     (card) => card.id === this.compositeId

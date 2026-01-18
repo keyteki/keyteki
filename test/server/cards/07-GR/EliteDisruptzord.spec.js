@@ -86,7 +86,7 @@ describe('Elite Disruptzord', function () {
             this.player2.clickPrompt('Discard this card');
         });
 
-        it('blocks gigantic creatures', function () {
+        it('blocks gigantic creatures being played from hand', function () {
             this.player1.clickPrompt('brobnar');
             expect(this.eliteDisruptzord.location).toBe('play area');
             this.player1.endTurn();
