@@ -9,7 +9,7 @@ class Kaupe extends Card {
             targetController: 'opponent',
             effect: ability.effects.playerCannot(
                 'play',
-                (context) => context.ability && context.ability.title === 'Play this action'
+                (context) => (context.target ? context.target : context.source).type === 'action'
             )
         });
 
@@ -19,7 +19,7 @@ class Kaupe extends Card {
             targetController: 'opponent',
             effect: ability.effects.playerCannot(
                 'play',
-                (context) => context.ability && context.ability.title === 'Play this artifact'
+                (context) => (context.target ? context.target : context.source).type === 'artifact'
             )
         });
 
@@ -29,7 +29,7 @@ class Kaupe extends Card {
             targetController: 'opponent',
             effect: ability.effects.playerCannot(
                 'play',
-                (context) => context.ability && context.ability.title === 'Play this creature'
+                (context) => (context.target ? context.target : context.source).type === 'creature'
             )
         });
 
@@ -39,7 +39,7 @@ class Kaupe extends Card {
             targetController: 'opponent',
             effect: ability.effects.playerCannot(
                 'play',
-                (context) => context.ability && context.ability.title === 'Play this upgrade'
+                (context) => (context.target ? context.target : context.source).type === 'upgrade'
             )
         });
     }

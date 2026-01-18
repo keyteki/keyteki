@@ -44,6 +44,22 @@ class PlayCardAction extends CardGameAction {
         context.game.resolveAbility(actionContext);
     }
 
+    checkEventCondition(event) {
+        if (!this.canAffect(event.card, event.context)) {
+            return false;
+        }
+
+        // Find the play actions for the card and create proper contexts for them.
+        // We need to use the play action's context (with the card being played as
+        // the source) rather than the event context (which has the card that
+        // triggered the PlayCardAction as the source, e.g. Wild Wormhole).
+        let playActions = event.card
+            .getActions(this.location)
+            .filter((action) => action.title.includes('Play'));
+
+        return playActions.some((action) => this.actionMeetsRequirement(event.context, action));
+    }
+
     getEvent(card, context) {
         let playActions = card
             .getActions(this.location)
