@@ -8,7 +8,7 @@ describe('Lifeward', function () {
                 },
                 player2: {
                     inPlay: [],
-                    hand: ['troll', 'gauntlet-of-command']
+                    hand: ['troll', 'gauntlet-of-command', 'wild-wormhole']
                 }
             });
         });
@@ -30,6 +30,32 @@ describe('Lifeward', function () {
             expect(this.player2).toHavePromptButton('Play this artifact');
             expect(this.player2).toHavePromptButton('Discard this card');
             expect(this.player2).toHavePromptButton('Cancel');
+        });
+
+        it('should stop wild wormhole from playing creatures', function () {
+            this.player1.clickCard(this.lifeward);
+            this.player1.clickPrompt("Use this card's Omni ability");
+            expect(this.lifeward.location).toBe('discard');
+            this.player1.endTurn();
+            this.player2.clickPrompt('logos');
+            this.player2.moveCard(this.troll, 'deck');
+            expect(this.troll.location).toBe('deck');
+            this.player2.play(this.wildWormhole);
+            expect(this.troll.location).toBe('deck');
+            expect(this.player2).isReadyToTakeAction();
+        });
+
+        it('should allow wild wormhole to play artifacts', function () {
+            this.player1.clickCard(this.lifeward);
+            this.player1.clickPrompt("Use this card's Omni ability");
+            expect(this.lifeward.location).toBe('discard');
+            this.player1.endTurn();
+            this.player2.clickPrompt('logos');
+            this.player2.moveCard(this.gauntletOfCommand, 'deck');
+            expect(this.gauntletOfCommand.location).toBe('deck');
+            this.player2.play(this.wildWormhole);
+            expect(this.gauntletOfCommand.location).toBe('play area');
+            expect(this.player2).isReadyToTakeAction();
         });
     });
 
