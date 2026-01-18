@@ -13,7 +13,8 @@ describe('Traumatic Echo', function () {
                         'dust-pixie',
                         'the-circle-of-life',
                         'ritual-of-balance',
-                        'way-of-the-wolf'
+                        'way-of-the-wolf',
+                        'wild-wormhole'
                     ]
                 }
             });
@@ -159,6 +160,35 @@ describe('Traumatic Echo', function () {
             this.player1.endTurn();
             this.player2.clickPrompt('untamed');
             this.player2.playUpgrade(this.wayOfTheWolf, this.flaxia);
+            expect(this.player2).isReadyToTakeAction();
+        });
+
+        it('prevents wild wormhole from playing creatures', function () {
+            this.player1.play(this.traumaticEcho);
+            this.player1.clickCard(this.searine);
+            expect(this.searine.location).toBe('purged');
+            this.player1.endTurn();
+
+            // Player 2 cannot play creatures next turn
+            this.player2.clickPrompt('logos');
+            this.player2.moveCard(this.dustPixie, 'deck');
+            this.player2.play(this.wildWormhole);
+            expect(this.dustPixie.location).toBe('deck');
+            expect(this.player2).isReadyToTakeAction();
+        });
+
+        it('allows wild wormhole to play creatures when artifact selected', function () {
+            this.player1.play(this.traumaticEcho);
+            this.player1.clickCard(this.wretchedDoll);
+            expect(this.wretchedDoll.location).toBe('purged');
+            this.player1.endTurn();
+
+            // Player 2 can play creatures next turn
+            this.player2.clickPrompt('logos');
+            this.player2.moveCard(this.dustPixie, 'deck');
+            this.player2.play(this.wildWormhole);
+            this.player2.clickPrompt('Right');
+            expect(this.dustPixie.location).toBe('play area');
             expect(this.player2).isReadyToTakeAction();
         });
     });
