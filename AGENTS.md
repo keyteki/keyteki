@@ -64,11 +64,7 @@ Ask the user before proceeding when:
 
 ### Card Implementation Reference
 
-For detailed documentation with examples, see:
-
-- [Card Abilities](docs/card-abilities.md) - How to define play/reap/fight/destroyed abilities
-- [Game Actions](docs/game-actions.md) - Complete list of `ability.actions.*` with examples
-- [Keywords](docs/keywords.md) - Keywords handled automatically by the engine
+For detailed documentation with examples, see the `docs/` folder, which includes guides for card abilities, game actions, keywords, testing, and more.
 
 ## Code Style Conventions
 
@@ -145,4 +141,4 @@ When implementing a new card, search for similar existing implementations:
 
 ## Resources
 
-- **Archon Arcana** (<https://archonarcana.com>) - Community wiki with rules, glossary, and card rulings. The agent can fetch specific pages when clarification is needed (e.g., `https://archonarcana.com/Capture`, `https://archonarcana.com/Ward`).
+- **Archon Arcana** (<https://archonarcana.com>) - Community wiki with rules, glossary, and card rulings. The agent can fetch specific pages when clarification is needed (e.g., `https://archonarcana.com/Capture`, `https://archonarcana.com/Ward`). Individual card pages may also have useful commentary and rulings (e.g., `https://archonarcana.com/Deusillus`).

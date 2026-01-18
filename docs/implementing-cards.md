@@ -12,6 +12,7 @@ This guide covers the basics of implementing KeyForge cards in Keyteki. For deta
 - [Implementing Cards](#implementing-cards)
   - [Table of Contents](#table-of-contents)
   - [Getting Started](#getting-started)
+    - [Testing in the UI](#testing-in-the-ui)
   - [File Structure](#file-structure)
   - [Basic Card Template](#basic-card-template)
   - [Keywords](#keywords)
@@ -51,6 +52,16 @@ To implement a card:
 2. Create a file in `server/game/cards/<Set>/<CardName>.js`
 3. Implement the card's abilities
 4. Write tests in `test/server/cards/<Set>/<CardName>.spec.js`
+5. Run and verify tests pass: `DEBUG_TEST=1 npm test -- test/server/cards/<Set>/<CardName>.spec.js`
+
+### Testing in the UI
+
+Use the following to manually test a card in the game - this is usually only needed for UI changes:
+
+- Start the server: `docker-compose up --build`
+- Visit [http://localhost:4000](http://localhost:4000)
+- Create a game and enter manual mode
+- Add your card: `/add-card Card Name`
 
 ## File Structure
 

@@ -12,6 +12,7 @@ This document explains how to write tests for card implementations in Keyteki.
 - [Card References](#card-references)
 - [Common Patterns](#common-patterns)
 - [Running Tests](#running-tests)
+- [Testing UI Changes](#testing-ui-changes)
 - [Debugging Tests](#debugging-tests)
 
 ## Overview
@@ -567,6 +568,66 @@ DEBUG_TEST=1 npm test -- test/server/cards/12-PV/BadOmen.spec.js test/server/car
 # Run tests matching a pattern (slower - prefer specifying files)
 DEBUG_TEST=1 npm test -- --filter='Bad Omen'
 ```
+
+## Testing UI changes
+
+Use the following to manually test a card in the game - this is usually only needed for UI changes:
+
+### Starting the Server
+
+```bash
+# Using Docker (simpler, slow to rebuild)
+docker-compose up --build
+
+# Or with hybrid setup (hot reloading)
+docker-compose up -d redis postgres
+# Configure `config/default.json5` for the server to use the containerized DBs (see docs/local-development.md)
+npm start
+# In another terminal:
+npm run game
+```
+
+Visit [http://localhost:4000](http://localhost:4000) and log in with test users (`test0`/`test1`, password: `password`).
+
+### Adding Cards to Test
+
+1. Create a game and start it
+2. Enter manual mode (click the manual mode button or use `/manual`)
+3. Add your card to hand:
+
+   ```text
+   /add-card Card Name
+   ```
+
+4. Test the card's interactions
+
+### Updating Card Data
+
+If your card doesn't appear or has wrong data:
+
+```bash
+# Docker
+docker compose exec lobby node server/scripts/fetchdata
+
+# Non-Docker
+node server/scripts/fetchdata.js
+```
+
+Restart the server after fetchdata completes.
+
+### Manual Mode Commands
+
+Useful commands for testing:
+
+| Command                    | Description             |
+| -------------------------- | ----------------------- |
+| `/add-card <name>`         | Add a card to your hand |
+| `/discard <name>`          | Discard a card          |
+| `/draw <n>`                | Draw n cards            |
+| `/amber <n>`               | Set your aember to n    |
+| `/kill <name>`             | Destroy a creature      |
+| `/token damage <n> <name>` | Add damage tokens       |
+| `/token amber <n> <name>`  | Add amber to a card     |
 
 ## Debugging Tests
 
