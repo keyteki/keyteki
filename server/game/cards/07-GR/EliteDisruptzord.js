@@ -8,6 +8,7 @@ class EliteDisruptzord extends Card {
             effect: ability.effects.playerCannot(
                 'play',
                 (context, effectContext) =>
+                    // TODO: better name for this
                     effectContext.source.power < context.source.getGiganticCombinedPower()
             )
         });

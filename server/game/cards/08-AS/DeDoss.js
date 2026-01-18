@@ -18,6 +18,7 @@ class DeDoss extends Card {
                         // checking the context source's location.
                         context.source.location !== 'play area' &&
                         context.source.type === 'creature' &&
+                        // TODO: update the name of getGiganticCombinedPower
                         effectContext.source.power < context.source.getGiganticCombinedPower()
                 )
             })
