@@ -58,7 +58,7 @@ class ApplyDamageAction extends CardGameAction {
                 if (event.fightEvent) {
                     event.destroyEvent.fightEvent = event.fightEvent;
                     // Any creature destroyed during a fight is "destroyed fighting",
-                    // including splash damage to neighbors
+                    // including splash damage to neighbors or damage movement like shadow self
                     event.destroyEvent.destroyedFighting = true;
                     event.fightEvent.destroyed.push(event.card);
                 }

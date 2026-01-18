@@ -1,4 +1,4 @@
-describe('saurian-egg', function () {
+describe('Saurian Egg', function () {
     describe("Saurian Egg's ability", function () {
         beforeEach(function () {
             this.setupTest({

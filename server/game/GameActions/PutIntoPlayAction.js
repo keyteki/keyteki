@@ -33,56 +33,27 @@ class PutIntoPlayAction extends CardGameAction {
         return true;
     }
 
-    // Check if the other half of a gigantic creature can be found
-    canFindGiganticPart(card) {
-        if (card.composedPart) {
-            return true;
-        }
-
-        // When being played via playCard from non-hand (e.g., Exhume), don't auto-find
-        // because playCard only targets one card
-        if (this.beingPlayed && card.location !== 'hand') {
-            // Check under same parent card (for cards placed together under another card)
-            if (card.parent) {
-                let part = card.parent.childCards.find((c) => card.compositeId === c.id);
-                if (part) {
-                    return true;
-                }
-            }
+    // Check if both halves of a gigantic creature can be put into play
+    canPutIntoPlayGigantic(context, card) {
+        // If `myControl` from outside of the hand then there is only one target, which can't play both halves - eg Overlord Greking
+        if (this.myControl && card.location !== 'hand') {
             return false;
         }
 
-        // Check same location
-        let part = card.controller
-            .getSourceList(card.location)
-            .find((c) => card.compositeId === c.id);
-        if (part) {
-            return true;
+        // If `beingPlayed` from outside of the hand then there is only one allowance, which can't play both halves - eg Exhume
+        if (this.beingPlayed && card.location !== 'hand') {
+            return false;
         }
 
-        // Check under same parent card
-        if (card.parent) {
-            part = card.parent.childCards.find((c) => card.compositeId === c.id);
-            if (part) {
-                return true;
-            }
-        }
-
-        return false;
+        // If not `beingPlayed` then multiple allowances can happen, so both halves can be played - eg Saurian Egg
+        return true;
     }
 
     preEventHandler(context) {
         super.preEventHandler(context);
         let card = this.target.length > 0 ? this.target[0] : context.source;
 
-        // For gigantic cards, check if the other half can be found
-        // If not, skip prompts since the card can't be put into play
-        // Also block if trying to put a gigantic from opponent's discard under your control
-        // (the card's owner is different from context.player)
-        if (
-            card.gigantic &&
-            (!this.canFindGiganticPart(card) || (this.myControl && card.owner !== context.player))
-        ) {
+        if (card.gigantic && !this.canPutIntoPlayGigantic(context, card)) {
             return;
         }
 
@@ -254,24 +225,38 @@ class PutIntoPlayAction extends CardGameAction {
                     control = this.myControl;
                 }
 
-                // Block gigantic creatures when trying to put opponent's card under your control
-                // (e.g., from opponent's discard pile with myControl)
-                if (card.gigantic && this.myControl && card.owner !== context.player) {
+                // Check if gigantic can be put into play (must also cancel the event, not just skip prompts)
+                if (card.gigantic && !this.canPutIntoPlayGigantic(context, card)) {
                     event.cancel();
                     return;
                 }
 
                 if (card.gigantic) {
                     let part = card.composedPart;
-                    if (!part && (card.location === 'hand' || !this.beingPlayed)) {
-                        // Auto-compose when:
-                        // 1. Playing from hand (normal play)
-                        // 2. Put into play by an effect (not via playCard action)
-                        // Don't auto-compose when playing from non-hand via playCard (e.g., Exhume)
-                        // because playCard only targets one card
-                        part = card.controller
-                            .getSourceList(card.location)
-                            .find((p) => card.compositeId === p.id);
+
+                    // Auto-compose only when:
+                    // 1. Playing from hand (normal play) - beingPlayed is true, location is hand
+                    // 2. Put into play by an effect that moves multiple cards (e.g., Saurian Egg) - !myControl && !beingPlayed
+                    //
+                    // Don't auto-compose when:
+                    // - myControl from non-hand (e.g., Overlord Greking targets one specific card in discard)
+                    // - beingPlayed from non-hand (e.g., Exhume plays one specific card from discard)
+                    if (!part) {
+                        let shouldAutoCompose = false;
+
+                        if (card.location === 'hand') {
+                            // Always auto-compose when playing from hand
+                            shouldAutoCompose = true;
+                        } else if (!this.myControl && !this.beingPlayed) {
+                            // Auto-compose for effects that move multiple cards (like Saurian Egg)
+                            shouldAutoCompose = true;
+                        }
+
+                        if (shouldAutoCompose) {
+                            part = card.controller
+                                .getSourceList(card.location)
+                                .find((p) => card.compositeId === p.id);
+                        }
                     }
 
                     if (!part && card.parent) {
