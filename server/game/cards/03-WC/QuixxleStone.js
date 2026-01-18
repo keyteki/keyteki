@@ -18,7 +18,7 @@ class QuixxleStone extends Card {
             targetController: 'any',
             effect: ability.effects.playerCannot(
                 'play',
-                (context) => context.ability.title === 'Play this creature'
+                (context) => context.source.type === 'creature'
             )
         });
     }

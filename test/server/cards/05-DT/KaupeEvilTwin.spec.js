@@ -91,6 +91,27 @@ describe('Kaupe Evil Twin', function () {
         });
     });
 
+    describe("Kaupe Evil Twin's ability", function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'logos',
+                    inPlay: ['kaupe-evil-twin'],
+                    hand: ['wild-wormhole', 'dextre']
+                },
+                player2: {}
+            });
+        });
+
+        it('should not stop wild wormhole from playing non-actions', function () {
+            this.player1.moveCard(this.dextre, 'deck');
+            this.player1.play(this.wildWormhole);
+            this.player1.clickPrompt('Right');
+            expect(this.dextre.location).toBe('play area');
+            expect(this.player1).isReadyToTakeAction();
+        });
+    });
+
     describe("Kaupe Evil Twin's reap ability", function () {
         beforeEach(function () {
             this.setupTest({

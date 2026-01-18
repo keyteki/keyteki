@@ -69,6 +69,18 @@ describe('Kaupe', function () {
             this.player1.clickPrompt('Discard this card');
         });
 
+        it('should be able to play explo-rover as upgrade after playing a creature', function () {
+            this.player1.play(this.doctorDriscoll);
+            expect(this.doctorDriscoll.location).toBe('play area');
+
+            this.player1.clickCard(this.exploRover);
+            expect(this.player1).not.toHavePromptButton('Play this creature');
+            expect(this.player1).toHavePromptButton('Play this upgrade');
+            this.player1.clickPrompt('Play this upgrade');
+            this.player1.clickCard(this.kaupe);
+            expect(this.exploRover.parent).toBe(this.kaupe);
+        });
+
         it('should be able to play mores cards once Kaupe is destroyed', function () {
             this.player1.fightWith(this.armsmasterMolina, this.kaupe);
             expect(this.kaupe.location).toBe('discard');
@@ -89,6 +101,54 @@ describe('Kaupe', function () {
             this.player2.play(this.archimedes);
             this.player2.play(this.dextre);
             this.player2.play(this.anomalyExploiter);
+        });
+    });
+
+    describe("Kaupe's ability", function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'logos',
+                    hand: ['wild-wormhole', 'dextre']
+                },
+                player2: {
+                    inPlay: ['kaupe']
+                }
+            });
+        });
+
+        it('should not stop wild wormhole from playing non-actions', function () {
+            this.player1.moveCard(this.dextre, 'deck');
+            this.player1.play(this.wildWormhole);
+            expect(this.dextre.location).toBe('play area');
+            expect(this.player1).isReadyToTakeAction();
+        });
+    });
+
+    describe("Kaupe's ability with Exhume", function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'dis',
+                    inPlay: ['dust-pixie'],
+                    hand: ['exhume', 'shooler'],
+                    discard: ['explo-rover']
+                },
+                player2: {
+                    inPlay: ['kaupe']
+                }
+            });
+        });
+
+        it('should allow playing explo-rover from discard as upgrade via Exhume after playing a creature', function () {
+            this.player1.play(this.shooler);
+            expect(this.shooler.location).toBe('play area');
+
+            this.player1.play(this.exhume);
+            this.player1.clickCard(this.exploRover);
+            expect(this.player1).toHavePrompt('Choose a creature to attach this upgrade to');
+            this.player1.clickCard(this.dustPixie);
+            expect(this.exploRover.parent).toBe(this.dustPixie);
         });
     });
 });
