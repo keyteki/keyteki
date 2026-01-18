@@ -15,7 +15,16 @@ class FutureBooster extends Card {
                     handlers: [() => []]
                 }
             })),
-            effect: 'choose to keep top of deck or move to bottom of deck.'
+            effect: 'look at the top card of their deck',
+            then: {
+                alwaysTriggers: true,
+                message: '{0} uses {1} to {3}',
+                messageArgs: (context) => [
+                    context.preThenEvent && !context.preThenEvent.cancelled
+                        ? 'move it to the bottom of their deck'
+                        : 'leave it on top of their deck'
+                ]
+            }
         });
     }
 }

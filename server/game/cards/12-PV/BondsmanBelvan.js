@@ -6,7 +6,7 @@ class BondsmanBelvan extends Card {
     setupCardAbilities(ability) {
         this.fight({
             reap: true,
-            effect: "look at the top card of their opponent's deck and may discard it",
+            effect: "look at the top card of their opponent's deck",
             condition: (context) =>
                 context.player.opponent && context.player.opponent.deck.length > 0,
             gameAction: ability.actions.discard((context) => ({
@@ -17,7 +17,12 @@ class BondsmanBelvan extends Card {
                     handlers: [() => []],
                     cards: [context.player.opponent ? context.player.opponent.deck[0] : undefined]
                 }
-            }))
+            })),
+            then: {
+                alwaysTriggers: true,
+                condition: (context) => !context.preThenEvent || context.preThenEvent.cancelled,
+                message: "{0} uses {1} to leave it on top of their opponent's deck"
+            }
         });
 
         this.fate({
