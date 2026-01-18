@@ -113,17 +113,21 @@ class HandlerMenuPrompt extends UiPrompt {
     }
 
     onCardClicked(player, card) {
-        if (player !== this.player) {
+        if (!this.properties.cards || !this.properties.cardHandler) {
             return false;
         }
 
-        if (this.properties.cards && this.properties.cardHandler) {
-            let matchingCard = _.find(this.properties.cards, (c) => c.uuid === card.uuid);
-            if (matchingCard) {
-                this.properties.cardHandler(matchingCard);
-                this.complete();
-                return true;
-            }
+        // Card matches the card that was clicked
+        if (this.properties.cards.includes(card)) {
+            this.properties.cardHandler(card);
+            return true;
+        }
+
+        // Card matches the other half of the gigantic creature that was clicked
+        const giganticHalf = this.properties.cards.find((c) => c.composedPart === card);
+        if (giganticHalf) {
+            this.properties.cardHandler(giganticHalf);
+            return true;
         }
 
         return false;
