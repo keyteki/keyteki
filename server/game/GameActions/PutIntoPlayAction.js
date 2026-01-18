@@ -220,54 +220,36 @@ class PutIntoPlayAction extends CardGameAction {
                     control = this.myControl;
                 }
 
-                // Check if gigantic can be put into play (must also cancel the event, not just skip prompts)
-                if (card.gigantic && !this.canPutIntoPlayGigantic(context, card)) {
-                    event.cancel();
-                    return;
-                }
-
                 if (card.gigantic) {
                     let part = card.composedPart;
 
-                    // Auto-compose only when:
-                    // 1. Playing from hand (normal play) - beingPlayed is true, location is hand
-                    // 2. Put into play by an effect that moves multiple cards (e.g., Saurian Egg) - !myControl && !beingPlayed
-                    //
-                    // Don't auto-compose when:
-                    // - myControl from non-hand (e.g., Overlord Greking targets one specific card in discard)
-                    // - beingPlayed from non-hand (e.g., Exhume plays one specific card from discard)
-                    if (!part) {
-                        let shouldAutoCompose = false;
-
-                        if (card.location === 'hand') {
-                            // Always auto-compose when playing from hand
-                            shouldAutoCompose = true;
-                        } else if (!this.myControl && !this.beingPlayed) {
-                            // Auto-compose for effects that move multiple cards (like Saurian Egg)
-                            shouldAutoCompose = true;
-                        }
-
-                        if (shouldAutoCompose) {
-                            part = card.controller
-                                .getSourceList(card.location)
-                                .find((p) => card.compositeId === p.id);
-                        }
+                    // Play from hand
+                    if (!part && card.location === 'hand') {
+                        part = card.controller
+                            .getSourceList(card.location)
+                            .find((p) => card.compositeId === p.id);
                     }
 
+                    // Play from under another card
                     if (!part && card.parent) {
-                        // parts are placed together under another card and can be put into play together
                         part = card.parent.childCards.find((part) => card.compositeId === part.id);
                     }
 
-                    if (part) {
-                        card.controller.removeCardFromPile(part);
-                        card.composedPart = part;
-                    } else {
-                        // Cannot put gigantic creature into play without both halves
-                        event.cancel();
+                    // Play from discard or other pile
+                    if (!part && !this.myControl && !this.beingPlayed) {
+                        part = card.controller
+                            .getSourceList(card.location)
+                            .find((p) => card.compositeId === p.id);
+                    }
+
+                    // If the other part of the gigantic creature is not available then return
+                    if (!part) {
                         return;
                     }
 
+                    // Compose the gigantic creature if the other part is available
+                    card.controller.removeCardFromPile(part);
+                    card.composedPart = part;
                     card.image = card.compositeImageId || card.id;
                 }
 
