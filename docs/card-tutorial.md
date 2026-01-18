@@ -9,9 +9,9 @@ To get started, get your development environment setup, following the directions
 
 When all done you should be able to use these three commands:
 
-- `docker-compose up` - to start a local version of TCO on your desktop.
-- `npm run lint` - to run lint commands on your code
-- `npm test` - to run the test suite.
+-   `docker-compose up` - to start a local version of TCO on your desktop.
+-   `npm run lint` - to run lint commands on your code
+-   `npm test` - to run the test suite.
 
 > Tip: Run these commands now to make sure your environment is working before you get started.
 
@@ -115,8 +115,8 @@ this.whileAttached({
 
 In this case, the object has two properties:
 
-- `condition` - this is a boolean value, or a function that returns a boolean value. This is used to determine if the effect should trigger.
-- `effect` - this is the effect that will be executed if condition is true.
+-   `condition` - this is a boolean value, or a function that returns a boolean value. This is used to determine if the effect should trigger.
+-   `effect` - this is the effect that will be executed if condition is true.
 
 > If you are not familiar with => syntax, [read this.](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/Arrow_functions) but in short it is an inline definition of a function.
 
@@ -204,9 +204,9 @@ player1: {
 }
 ```
 
-- `house` - this is the starting house selected
-- `inPlay` - these are the cards that are in play for this play
-- `hand` - these are the cards that are in the player's hand
+-   `house` - this is the starting house selected
+-   `inPlay` - these are the cards that are in play for this play
+-   `hand` - these are the cards that are in the player's hand
 
 #### 7. Add simple test case.
 
@@ -222,11 +222,11 @@ it('should should apply to a creature', function() {
 
 In this case with an upgrade we should test that it attaches to a creature.
 
-- `this.player1.playUpgrade(this.accessDenied, this.umbra)` this causes a player to play an upgrade from hand, onto a creature in play.
+-   `this.player1.playUpgrade(this.accessDenied, this.umbra)` this causes a player to play an upgrade from hand, onto a creature in play.
 
-* `expect(this.umbra.location).toBe('play area');` this tests the expectation that umbra is in play.
+*   `expect(this.umbra.location).toBe('play area');` this tests the expectation that umbra is in play.
 
-- `expect(this.umbra.upgrades).toContain(this.accessDenied);` this checks that umbra has the upgrade that we played on it.
+-   `expect(this.umbra.upgrades).toContain(this.accessDenied);` this checks that umbra has the upgrade that we played on it.
 
 #### 8. Run your test.
 
@@ -271,13 +271,13 @@ The first bit, we already know about, put the upgrade on CXO Taber, and confirm 
   expect(this.cxoTaber.upgrades).toContain(this.accessDenied);
 ```
 
-- Next, we want to simulate that the player clicked on CXO Taber with:
-  `this.player1.clickCard(this.cxoTaber);`
+-   Next, we want to simulate that the player clicked on CXO Taber with:
+    `this.player1.clickCard(this.cxoTaber);`
 
-- Next, we want to confirm the player can not reap. Note the `not` part here, it is easy to miss.
-  `expect(this.player1).not.toHavePromptButton('Reap with this creature');`
+-   Next, we want to confirm the player can not reap. Note the `not` part here, it is easy to miss.
+    `expect(this.player1).not.toHavePromptButton('Reap with this creature');`
 
-- Last, confirm there is a fight prompt, to make sure the creature is not fully broken: `expect(this.player1).toHavePromptButton('Fight with this creature');`
+-   Last, confirm there is a fight prompt, to make sure the creature is not fully broken: `expect(this.player1).toHavePromptButton('Fight with this creature');`
 
 > Tip: If you are not sure what the prompt text is, just make up text like `toHavePromptButton('FIGHT')`, and run `npm test`, the error output will tell you what prompts were available. (So kind, thank you test bot.)
 
@@ -301,8 +301,8 @@ The first bit, we already know about, put the upgrade on CXO Taber, and confirm 
 
 Run these commands until there are no more errors.
 
-- `npm run lint`
-- `npm test`
+-   `npm run lint`
+-   `npm test`
 
 > Note: The codebase uses spaces not tabs.
 

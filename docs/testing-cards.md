@@ -4,15 +4,15 @@ This document explains how to write tests for card implementations in Keyteki.
 
 ## Table of Contents
 
-- [Overview](#overview)
-- [Test File Structure](#test-file-structure)
-- [Setting Up Tests](#setting-up-tests)
-- [Player Actions](#player-actions)
-- [Assertions](#assertions)
-- [Card References](#card-references)
-- [Common Patterns](#common-patterns)
-- [Running Tests](#running-tests)
-- [Debugging Tests](#debugging-tests)
+-   [Overview](#overview)
+-   [Test File Structure](#test-file-structure)
+-   [Setting Up Tests](#setting-up-tests)
+-   [Player Actions](#player-actions)
+-   [Assertions](#assertions)
+-   [Card References](#card-references)
+-   [Common Patterns](#common-patterns)
+-   [Running Tests](#running-tests)
+-   [Debugging Tests](#debugging-tests)
 
 ## Overview
 
@@ -20,34 +20,34 @@ Tests are located in `test/server/cards/<Set>/<CardName>.spec.js`, mirroring the
 
 **Key principles:**
 
-- Tests should focus on the card's unique abilities, not metadata (house, power, armor, keywords)
-- Keep `beforeEach` setup minimal - only include cards needed for the tests
-- End each test by verifying the player has no pending prompts: `expect(this.player1).isReadyToTakeAction()`
-- Add comments explaining what each test verifies
+-   Tests should focus on the card's unique abilities, not metadata (house, power, armor, keywords)
+-   Keep `beforeEach` setup minimal - only include cards needed for the tests
+-   End each test by verifying the player has no pending prompts: `expect(this.player1).isReadyToTakeAction()`
+-   Add comments explaining what each test verifies
 
 ## Test File Structure
 
 ```javascript
 describe('Card Name', function () {
-  describe("Card Name's ability", function () {
-    beforeEach(function () {
-      this.setupTest({
-        player1: {
-          house: 'logos',
-          hand: ['card-name'],
-          inPlay: ['helper-creature']
-        },
-        player2: {
-          inPlay: ['enemy-creature']
-        }
-      });
-    });
+    describe("Card Name's ability", function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'logos',
+                    hand: ['card-name'],
+                    inPlay: ['helper-creature']
+                },
+                player2: {
+                    inPlay: ['enemy-creature']
+                }
+            });
+        });
 
-    it('should do something specific', function () {
-      // Test implementation
-      expect(this.player1).isReadyToTakeAction();
+        it('should do something specific', function () {
+            // Test implementation
+            expect(this.player1).isReadyToTakeAction();
+        });
     });
-  });
 });
 ```
 
@@ -57,21 +57,21 @@ describe('Card Name', function () {
 
 ```javascript
 this.setupTest({
-  player1: {
-    house: 'brobnar', // Active house for player1
-    hand: ['card-id'], // Cards in hand
-    inPlay: ['creature-id'], // Cards in play (creatures/artifacts)
-    discard: ['card-id'], // Cards in discard pile
-    archives: ['card-id'], // Cards in archives
-    amber: 5, // Starting aember
-    keys: 1, // Forged keys (0-2)
-    chains: 0, // Chains
-    prophecies: ['card-id'], // Prophecy cards (PV set)
-    token: 'token-card-id' // Token creature template
-  },
-  player2: {
-    // Same options
-  }
+    player1: {
+        house: 'brobnar', // Active house for player1
+        hand: ['card-id'], // Cards in hand
+        inPlay: ['creature-id'], // Cards in play (creatures/artifacts)
+        discard: ['card-id'], // Cards in discard pile
+        archives: ['card-id'], // Cards in archives
+        amber: 5, // Starting aember
+        keys: 1, // Forged keys (0-2)
+        chains: 0, // Chains
+        prophecies: ['card-id'], // Prophecy cards (PV set)
+        token: 'token-card-id' // Token creature template
+    },
+    player2: {
+        // Same options
+    }
 });
 ```
 
@@ -81,28 +81,28 @@ After `setupTest`, you can modify card state:
 
 ```javascript
 beforeEach(function () {
-  this.setupTest({
-    /* ... */
-  });
+    this.setupTest({
+        /* ... */
+    });
 
-  // Exhaust a creature
-  this.myCreature.exhausted = true;
+    // Exhaust a creature
+    this.myCreature.exhausted = true;
 
-  // Add damage tokens
-  this.myCreature.tokens.damage = 3;
+    // Add damage tokens
+    this.myCreature.tokens.damage = 3;
 
-  // Add aember to a creature
-  this.myCreature.amber = 2;
+    // Add aember to a creature
+    this.myCreature.amber = 2;
 
-  // Stun a creature
-  this.myCreature.stunned = true;
+    // Stun a creature
+    this.myCreature.stunned = true;
 
-  // Ward a creature
-  this.myCreature.warded = true;
+    // Ward a creature
+    this.myCreature.warded = true;
 
-  // Set player aember
-  this.player1.amber = 6;
-  this.player2.amber = 3;
+    // Set player aember
+    this.player1.amber = 6;
+    this.player2.amber = 3;
 });
 ```
 
@@ -112,22 +112,22 @@ Use `moveCard` to move cards between locations during test setup or mid-test:
 
 ```javascript
 beforeEach(function () {
-  this.setupTest({
-    player1: {
-      house: 'logos',
-      hand: ['dust-pixie', 'full-moon'],
-      discard: ['hunting-witch']
-    }
-  });
+    this.setupTest({
+        player1: {
+            house: 'logos',
+            hand: ['dust-pixie', 'full-moon'],
+            discard: ['hunting-witch']
+        }
+    });
 
-  // Move a card from hand to deck (e.g., to test drawing)
-  this.player1.moveCard(this.dustPixie, 'deck');
+    // Move a card from hand to deck (e.g., to test drawing)
+    this.player1.moveCard(this.dustPixie, 'deck');
 
-  // Move a card from discard to play area
-  this.player1.moveCard(this.huntingWitch, 'play area');
+    // Move a card from discard to play area
+    this.player1.moveCard(this.huntingWitch, 'play area');
 
-  // Move a card to archives
-  this.player1.moveCard(this.fullMoon, 'archives');
+    // Move a card to archives
+    this.player1.moveCard(this.fullMoon, 'archives');
 });
 ```
 
@@ -137,12 +137,12 @@ You can also move cards mid-test:
 
 ```javascript
 it('should work when card is in discard', function () {
-  // Move card to discard before testing
-  this.player1.moveCard(this.myCard, 'discard');
+    // Move card to discard before testing
+    this.player1.moveCard(this.myCard, 'discard');
 
-  // Now test behavior that interacts with discard
-  this.player1.play(this.exhume);
-  // ...
+    // Now test behavior that interacts with discard
+    this.player1.play(this.exhume);
+    // ...
 });
 ```
 
@@ -152,16 +152,16 @@ Some tests need to change a card's house (e.g., when testing house-specific inte
 
 ```javascript
 beforeEach(function () {
-  this.setupTest({
-    player1: {
-      house: 'saurian',
-      hand: ['it-s-coming']
-    }
-  });
+    this.setupTest({
+        player1: {
+            house: 'saurian',
+            hand: ['it-s-coming']
+        }
+    });
 
-  // Change the card's house to match the active house
-  this.itSComing.printedHouse = 'saurian';
-  this.itSComing.cardData.house = 'saurian';
+    // Change the card's house to match the active house
+    this.itSComing.printedHouse = 'saurian';
+    this.itSComing.cardData.house = 'saurian';
 });
 ```
 
@@ -382,17 +382,17 @@ When you have multiple copies of the same card, list it multiple times and then 
 
 ```javascript
 beforeEach(function () {
-  this.setupTest({
-    player1: {
-      house: 'shadows',
-      inPlay: ['shadow-self', 'urchin'],
-      hand: ['shadow-self']
-    }
-  });
+    this.setupTest({
+        player1: {
+            house: 'shadows',
+            inPlay: ['shadow-self', 'urchin'],
+            hand: ['shadow-self']
+        }
+    });
 
-  // Manually assign copies by finding them in specific locations
-  this.shadowSelf1 = this.player1.findCardByName('shadow-self', 'play area');
-  this.shadowSelf2 = this.player1.findCardByName('shadow-self', 'hand');
+    // Manually assign copies by finding them in specific locations
+    this.shadowSelf1 = this.player1.findCardByName('shadow-self', 'play area');
+    this.shadowSelf2 = this.player1.findCardByName('shadow-self', 'hand');
 });
 ```
 
@@ -402,10 +402,10 @@ Gigantic creatures like Deusillus and Ultra Gravitron require both parts to play
 
 ```javascript
 this.setupTest({
-  player1: {
-    house: 'saurian',
-    hand: ['deusillus', 'deusillus2'] // Part 1 and Part 2
-  }
+    player1: {
+        house: 'saurian',
+        hand: ['deusillus', 'deusillus2'] // Part 1 and Part 2
+    }
 });
 
 // Access them as:
@@ -437,9 +437,9 @@ let card = this.player1.findCardByName('troll', 'play area', 'opponent');
 
 ```javascript
 it('should gain 2 aember on play', function () {
-  this.player1.play(this.dustPixie);
-  expect(this.player1.amber).toBe(2);
-  expect(this.player1).isReadyToTakeAction();
+    this.player1.play(this.dustPixie);
+    expect(this.player1.amber).toBe(2);
+    expect(this.player1).isReadyToTakeAction();
 });
 ```
 
@@ -447,11 +447,11 @@ it('should gain 2 aember on play', function () {
 
 ```javascript
 it('should steal 1 when reaping', function () {
-  this.player2.amber = 3;
-  this.player1.reap(this.urchin);
-  expect(this.player1.amber).toBe(1);
-  expect(this.player2.amber).toBe(2);
-  expect(this.player1).isReadyToTakeAction();
+    this.player2.amber = 3;
+    this.player1.reap(this.urchin);
+    expect(this.player1.amber).toBe(1);
+    expect(this.player2.amber).toBe(2);
+    expect(this.player1).isReadyToTakeAction();
 });
 ```
 
@@ -459,9 +459,9 @@ it('should steal 1 when reaping', function () {
 
 ```javascript
 it('should deal 2 damage to a creature on fight', function () {
-  this.player1.fightWith(this.bumpyBeatstick, this.troll);
-  expect(this.troll.tokens.damage).toBe(7); // 5 power + 2 fight ability
-  expect(this.player1).isReadyToTakeAction();
+    this.player1.fightWith(this.bumpyBeatstick, this.troll);
+    expect(this.troll.tokens.damage).toBe(7); // 5 power + 2 fight ability
+    expect(this.player1).isReadyToTakeAction();
 });
 ```
 
@@ -469,10 +469,10 @@ it('should deal 2 damage to a creature on fight', function () {
 
 ```javascript
 it('should gain 2 aember when destroyed', function () {
-  this.player1.fightWith(this.myCreature, this.strongEnemy);
-  // myCreature dies from combat
-  expect(this.myCreature.location).toBe('discard');
-  expect(this.player1.amber).toBe(2);
+    this.player1.fightWith(this.myCreature, this.strongEnemy);
+    // myCreature dies from combat
+    expect(this.myCreature.location).toBe('discard');
+    expect(this.player1.amber).toBe(2);
 });
 ```
 
@@ -480,14 +480,14 @@ it('should gain 2 aember when destroyed', function () {
 
 ```javascript
 it('should ready and fight with a creature', function () {
-  this.dextre.exhausted = true;
-  this.player1.useAction(this.gauntletOfCommand);
-  expect(this.player1).toHavePrompt('Choose a creature');
-  this.player1.clickCard(this.dextre);
-  expect(this.player1).toHavePrompt('Choose a creature to attack');
-  this.player1.clickCard(this.emberImp);
-  expect(this.emberImp.location).toBe('discard');
-  expect(this.player1).isReadyToTakeAction();
+    this.dextre.exhausted = true;
+    this.player1.useAction(this.gauntletOfCommand);
+    expect(this.player1).toHavePrompt('Choose a creature');
+    this.player1.clickCard(this.dextre);
+    expect(this.player1).toHavePrompt('Choose a creature to attack');
+    this.player1.clickCard(this.emberImp);
+    expect(this.emberImp.location).toBe('discard');
+    expect(this.player1).isReadyToTakeAction();
 });
 ```
 
@@ -495,17 +495,17 @@ it('should ready and fight with a creature', function () {
 
 ```javascript
 it('should prevent opponent from playing more than 2 cards', function () {
-  // Assume Control the Weak is in play
-  this.player1.endTurn();
-  this.player2.clickPrompt('logos');
+    // Assume Control the Weak is in play
+    this.player1.endTurn();
+    this.player2.clickPrompt('logos');
 
-  // Play first card
-  this.player2.play(this.card1);
-  expect(this.player2).toBeAbleToPlay(this.card2);
+    // Play first card
+    this.player2.play(this.card1);
+    expect(this.player2).toBeAbleToPlay(this.card2);
 
-  // Play second card
-  this.player2.play(this.card2);
-  expect(this.player2).not.toBeAbleToPlay(this.card3);
+    // Play second card
+    this.player2.play(this.card2);
+    expect(this.player2).not.toBeAbleToPlay(this.card3);
 });
 ```
 
@@ -513,8 +513,8 @@ it('should prevent opponent from playing more than 2 cards', function () {
 
 ```javascript
 it('should prevent creature from reaping', function () {
-  expect(this.player1).not.toBeAbleToSelect(this.stunnedCreature);
-  // or test by trying and checking nothing happens
+    expect(this.player1).not.toBeAbleToSelect(this.stunnedCreature);
+    // or test by trying and checking nothing happens
 });
 ```
 
@@ -524,31 +524,31 @@ Use separate `describe` blocks for different scenarios:
 
 ```javascript
 describe('Card Name', function () {
-  describe('when opponent has creatures', function () {
-    beforeEach(function () {
-      this.setupTest({
-        player1: { house: 'brobnar', inPlay: ['card-name'] },
-        player2: { inPlay: ['enemy-creature'] }
-      });
+    describe('when opponent has creatures', function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: { house: 'brobnar', inPlay: ['card-name'] },
+                player2: { inPlay: ['enemy-creature'] }
+            });
+        });
+
+        it('should do X', function () {
+            /* ... */
+        });
     });
 
-    it('should do X', function () {
-      /* ... */
-    });
-  });
+    describe('when opponent has no creatures', function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: { house: 'brobnar', inPlay: ['card-name'] },
+                player2: {}
+            });
+        });
 
-  describe('when opponent has no creatures', function () {
-    beforeEach(function () {
-      this.setupTest({
-        player1: { house: 'brobnar', inPlay: ['card-name'] },
-        player2: {}
-      });
+        it('should do Y instead', function () {
+            /* ... */
+        });
     });
-
-    it('should do Y instead', function () {
-      /* ... */
-    });
-  });
 });
 ```
 

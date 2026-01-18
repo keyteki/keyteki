@@ -4,17 +4,17 @@
     "description": "A Keyforge Card Game Server",
     "main": "index.js",
     "scripts": {
-        "build": "webpack --config webpack.production.js",
-        "fetchdata": "node server/scripts/fetchdata",
-        "format": "prettier --write .",
-        "game": "node server/gamenode",
-        "lint:js:fix": "npm run lint:js -- --fix",
-        "lint:js": "eslint . --ext .js,.jsx,.ts,.tsx",
-        "lint": "eslint --ext=js --ext=jsx client/ server/ test/",
         "mongod": "mongod --dbpath=/data --port 27017\n",
         "start": "node .",
+        "fetchdata": "node server/scripts/fetchdata",
+        "game": "node server/gamenode",
+        "test": "cross-env JASMINE_CONFIG_PATH=./jasmine.json jasmine",
+        "lint": "eslint --ext=js --ext=jsx client/ server/ test/",
+        "build": "webpack --config webpack.production.js",
         "test-client": "jest --colors client",
-        "test": "cross-env JASMINE_CONFIG_PATH=./jasmine.json jasmine"
+        "lint:js": "eslint . --ext .js,.jsx,.ts,.tsx",
+        "lint:js:fix": "npm run lint:js -- --fix"
+
     },
     "jest": {
         "setupFilesAfterEnv": [

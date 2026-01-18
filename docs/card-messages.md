@@ -57,23 +57,23 @@ These are not messages but are helpful to remember:
 
 ```yaml
 optional: bool
-  Whether the effect is optional
-  (AbilityTargetSelect.js#107, triggeredability.js#44)
+    Whether the effect is optional
+    (AbilityTargetSelect.js#107, triggeredability.js#44)
 ```
 
 You should at least set `properties.effect`. Examples:
 
-- Without `effect` (bad):
-  - [Annihilation Ritual](../server/game/cards/01-Core/AnnihilationRitual.js)
-  - [Anomaly Exploiter](../server/game/cards/01-Core/AnomalyExploiter.js)
-- Simple examples with no formatting
-  - [Ammonia Clouds](../server/game/cards/01-Core/AmmoniaClouds.js)
-- More complex example using {0}
-  - [Anger](../server/game/cards/01-Core/Anger.js)
-  - [Daemo Alien](../server/game/cards/04-MM/DaemoAlien.js)
-- Using `effectArgs`:
-  - [A Fair Game](../server/game/cards/01-Core/AFairGame.js)
-  - [Armageddon Cloak](../server/game/cards/01-Core/ArmageddonCloak.js)
+-   Without `effect` (bad):
+    -   [Annihilation Ritual](../server/game/cards/01-Core/AnnihilationRitual.js)
+    -   [Anomaly Exploiter](../server/game/cards/01-Core/AnomalyExploiter.js)
+-   Simple examples with no formatting
+    -   [Ammonia Clouds](../server/game/cards/01-Core/AmmoniaClouds.js)
+-   More complex example using {0}
+    -   [Anger](../server/game/cards/01-Core/Anger.js)
+    -   [Daemo Alien](../server/game/cards/04-MM/DaemoAlien.js)
+-   Using `effectArgs`:
+    -   [A Fair Game](../server/game/cards/01-Core/AFairGame.js)
+    -   [Armageddon Cloak](../server/game/cards/01-Core/ArmageddonCloak.js)
 
 ## Properties for "then" effects
 
@@ -93,46 +93,46 @@ Card.action(properties)
 
 ```yaml
 message: string
-  displays a message in the chat. Can provide arguments with messageArgs.
-  Default arguments
+    displays a message in the chat. Can provide arguments with messageArgs.
+    Default arguments
     {0} context.player
     {1} context.source
     {2} context.target
     (ThenAbility.js#31)
-  (ThenAbility.js#30)
+    (ThenAbility.js#30)
 messageArgs: string[] or function->string[]
-  arguments to replace {3}, {4}, etc. in message
-  (ThenAbility.js#32)
+    arguments to replace {3}, {4}, etc. in message
+    (ThenAbility.js#32)
 effectAlert: bool
-  makes message into Alert (e.g., for Fogbank, Lifeward, Stealth Mode, etc.)
-  (ThenAbility.js#41)
+    makes message into Alert (e.g., for Fogbank, Lifeward, Stealth Mode, etc.)
+    (ThenAbility.js#41)
 ```
 
 These are not messages but are helpful to remember:
 
 ```yaml
 may: bool
-  prompt to ask "Yes"/"No" to make an action optional
-  (ThenAbility.js#60)
+    prompt to ask "Yes"/"No" to make an action optional
+    (ThenAbility.js#60)
 alwaysTriggers: bool
-  whether the effect always triggers
-  (ThenAbility.js#26)
+    whether the effect always triggers
+    (ThenAbility.js#26)
 ```
 
 You should at least set `properties.message`. Examples:
 
-- Without `message` (bad):
-  - [Bear Flute](../server/game/cards/01-Core/BearFlute.js)
-  - [Cincinnatus Rex](../server/game/cards/03-WC/CincinnatusRex.js)
-- Simple examples with no formatting
-  - [Hugger Mugger](../server/game/cards/03-WC/HuggerMugger.js)
-- More complex example using {0}, {1}, {2}
-  - [Bait and Switch](../server/game/cards/01-Core/BaitAndSwitch.js)
-  - [The Big One](../server/game/cards/03-WC/TheBigOne.js)
-  - [Chant of Hubris](../server/game/cards/03-WC/ChantOfHubris.js)
-- Using `messageArgs`
-  - [J. Vinda](../server/game/cards/03-WC/JVinda.js)
-  - [Agent Sepdia](../server/game/cards/05-DT/AgentSepdia.js)
+-   Without `message` (bad):
+    -   [Bear Flute](../server/game/cards/01-Core/BearFlute.js)
+    -   [Cincinnatus Rex](../server/game/cards/03-WC/CincinnatusRex.js)
+-   Simple examples with no formatting
+    -   [Hugger Mugger](../server/game/cards/03-WC/HuggerMugger.js)
+-   More complex example using {0}, {1}, {2}
+    -   [Bait and Switch](../server/game/cards/01-Core/BaitAndSwitch.js)
+    -   [The Big One](../server/game/cards/03-WC/TheBigOne.js)
+    -   [Chant of Hubris](../server/game/cards/03-WC/ChantOfHubris.js)
+-   Using `messageArgs`
+    -   [J. Vinda](../server/game/cards/03-WC/JVinda.js)
+    -   [Agent Sepdia](../server/game/cards/05-DT/AgentSepdia.js)
 
 ## Using `target`
 
@@ -149,22 +149,22 @@ activePromptTitle: string
 
 Examples:
 
-- Without `activePromptTitle` (bad)
-  - [Bulleteye](../server/game/cards/01-Core/Bulleteye.js)
-  - [Cannon](../server/game/cards/01-Core/Cannon.js)
-- With `activePromptTitle`
-  - [Battle Fleet](../server/game/cards/01-Core/BattleFleet.js)
-  - [Dreadbone Decimus](../server/game/cards/04-MM/DreadboneDecimus.js)
+-   Without `activePromptTitle` (bad)
+    -   [Bulleteye](../server/game/cards/01-Core/Bulleteye.js)
+    -   [Cannon](../server/game/cards/01-Core/Cannon.js)
+-   With `activePromptTitle`
+    -   [Battle Fleet](../server/game/cards/01-Core/BattleFleet.js)
+    -   [Dreadbone Decimus](../server/game/cards/04-MM/DreadboneDecimus.js)
 
 ## Locales
 
 Messages used should be in the locale files in [`public/locales`](../public/locales/). Otherwise, tests may fail.
 
-- `properties.may`
-- `properties.gameAction.promptForSelect.activePromptTitle`
-- `properties.gameAction.promptWithHandlerMenu.activePromptTitle`
-- `properties.target.activePromptTitle`
-- `properties.target.choices`
+-   `properties.may`
+-   `properties.gameAction.promptForSelect.activePromptTitle`
+-   `properties.gameAction.promptWithHandlerMenu.activePromptTitle`
+-   `properties.target.activePromptTitle`
+-   `properties.target.choices`
 
 ## Line numbers
 
