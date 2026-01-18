@@ -35,17 +35,12 @@ class PutIntoPlayAction extends CardGameAction {
 
     // Check if both halves of a gigantic creature can be put into play
     canPutIntoPlayGigantic(context, card) {
-        // If `myControl` from outside of the hand then there is only one target, which can't play both halves - eg Overlord Greking
-        if (this.myControl && card.location !== 'hand') {
+        // If `beingPlayed` or `myControl` from outside of the hand then there is only one allowance, which can't play both halves - eg Exhume or Overlord Greking
+        if (card.location !== 'hand' && (this.beingPlayed || this.myControl)) {
             return false;
         }
 
-        // If `beingPlayed` from outside of the hand then there is only one allowance, which can't play both halves - eg Exhume
-        if (this.beingPlayed && card.location !== 'hand') {
-            return false;
-        }
-
-        // If not `beingPlayed` then multiple allowances can happen, so both halves can be played - eg Saurian Egg
+        // Multiple allowances can happen, so both halves can be played - eg Saurian Egg
         return true;
     }
 

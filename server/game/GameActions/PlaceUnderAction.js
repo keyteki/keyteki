@@ -36,7 +36,7 @@ class PlaceUnderAction extends CardGameAction {
             card.onLeavesPlay();
         }
 
-        // Handle gigantic creature
+        // Handle other half of a gigantic creature
         if (card.gigantic && card.composedPart) {
             this.placeUnder(card.composedPart);
             card.composedPart = null;
