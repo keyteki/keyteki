@@ -145,4 +145,4 @@ When implementing a new card, search for similar existing implementations:
 
 ## Resources
 
-- **Archon Arcana** (https://archonarcana.com) - Community wiki with rules, glossary, and card rulings. The agent can fetch specific pages when clarification is needed (e.g., `https://archonarcana.com/Capture`, `https://archonarcana.com/Ward`).
+- **Archon Arcana** (<https://archonarcana.com>) - Community wiki with rules, glossary, and card rulings. The agent can fetch specific pages when clarification is needed (e.g., `https://archonarcana.com/Capture`, `https://archonarcana.com/Ward`).

@@ -3,5 +3,13 @@ module.exports = {
     printWidth: 100,
     singleQuote: true,
     jsxSingleQuote: true,
-    trailingComma: 'none'
+    trailingComma: 'none',
+    overrides: [
+        {
+            files: '*.md',
+            options: {
+                tabWidth: 2
+            }
+        }
+    ]
 };

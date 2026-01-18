@@ -4,13 +4,13 @@ Game actions are the atomic operations that modify game state. They are accessed
 
 ## Table of Contents
 
--   [Basic Usage](#basic-usage)
--   [Card Actions](#card-actions)
--   [Player Actions](#player-actions)
--   [Token Actions](#token-actions)
--   [Meta Actions](#meta-actions)
--   [Lasting Effect Actions](#lasting-effect-actions)
--   [Dynamic Properties](#dynamic-properties)
+- [Basic Usage](#basic-usage)
+- [Card Actions](#card-actions)
+- [Player Actions](#player-actions)
+- [Token Actions](#token-actions)
+- [Meta Actions](#meta-actions)
+- [Lasting Effect Actions](#lasting-effect-actions)
+- [Dynamic Properties](#dynamic-properties)
 
 ## Basic Usage
 
@@ -19,23 +19,23 @@ Actions are used in the `gameAction` property of abilities:
 ```javascript
 // Single action
 this.play({
-    gameAction: ability.actions.gainAmber({ amount: 2 })
+  gameAction: ability.actions.gainAmber({ amount: 2 })
 });
 
 // Multiple actions (executed simultaneously)
 this.play({
-    gameAction: [
-        ability.actions.destroy((context) => ({ target: context.game.creaturesInPlay })),
-        ability.actions.gainChains({ amount: 3 })
-    ]
+  gameAction: [
+    ability.actions.destroy((context) => ({ target: context.game.creaturesInPlay })),
+    ability.actions.gainChains({ amount: 3 })
+  ]
 });
 
 // Sequential actions (executed in order)
 this.play({
-    target: {
-        cardType: 'creature',
-        gameAction: ability.actions.sequential([ability.actions.ready(), ability.actions.fight()])
-    }
+  target: {
+    cardType: 'creature',
+    gameAction: ability.actions.sequential([ability.actions.ready(), ability.actions.fight()])
+  }
 });
 ```
 
@@ -68,7 +68,7 @@ ability.actions.capture({ amount: 3 });
 
 // Capture all opponent's aember
 ability.actions.capture((context) => ({
-    amount: context.player.opponent.amber
+  amount: context.player.opponent.amber
 }));
 ```
 
@@ -82,13 +82,13 @@ ability.actions.dealDamage({ amount: 2 });
 
 // Deal damage equal to card's power
 ability.actions.dealDamage((context) => ({
-    amount: context.source.power
+  amount: context.source.power
 }));
 
 // Deal damage to all enemy creatures
 ability.actions.dealDamage((context) => ({
-    amount: 2,
-    target: context.game.creaturesInPlay.filter((c) => c.controller !== context.player)
+  amount: 2,
+  target: context.game.creaturesInPlay.filter((c) => c.controller !== context.player)
 }));
 ```
 
@@ -102,7 +102,7 @@ ability.actions.destroy();
 
 // Destroy all creatures
 ability.actions.destroy((context) => ({
-    target: context.game.creaturesInPlay
+  target: context.game.creaturesInPlay
 }));
 ```
 
@@ -192,7 +192,7 @@ Place a card under another card.
 
 ```javascript
 ability.actions.placeUnder((context) => ({
-    parent: context.source
+  parent: context.source
 }));
 ```
 
@@ -206,7 +206,7 @@ ability.actions.purge();
 
 // Purge and track which card purged it
 ability.actions.purge((context) => ({
-    purgedBy: context.source
+  purgedBy: context.source
 }));
 ```
 
@@ -275,7 +275,7 @@ ability.actions.returnToHand();
 
 // Return all Mars creatures to hand
 ability.actions.returnToHand((context) => ({
-    target: context.game.creaturesInPlay.filter((card) => card.hasHouse('mars'))
+  target: context.game.creaturesInPlay.filter((card) => card.hasHouse('mars'))
 }));
 ```
 
@@ -301,7 +301,7 @@ Swap positions of two creatures.
 
 ```javascript
 ability.actions.swap((context) => ({
-    origin: context.source
+  origin: context.source
 }));
 ```
 
@@ -382,7 +382,7 @@ ability.actions.forgeKey({ modifier: -2 });
 
 // Forge with cost based on game state
 ability.actions.forgeKey((context) => ({
-    modifier: 9 - context.player.hand.length
+  modifier: 9 - context.player.hand.length
 }));
 ```
 
@@ -500,10 +500,10 @@ Let the player choose between multiple actions.
 
 ```javascript
 ability.actions.chooseAction({
-    choices: {
-        'Gain 2 Aember': ability.actions.gainAmber({ amount: 2 }),
-        'Draw 2 cards': ability.actions.draw({ amount: 2 })
-    }
+  choices: {
+    'Gain 2 Aember': ability.actions.gainAmber({ amount: 2 }),
+    'Draw 2 cards': ability.actions.draw({ amount: 2 })
+  }
 });
 ```
 
@@ -513,9 +513,9 @@ Execute different actions based on a condition.
 
 ```javascript
 ability.actions.conditional({
-    condition: (context) => context.player.amber >= 6,
-    trueGameAction: ability.actions.forgeKey(),
-    falseGameAction: ability.actions.gainAmber({ amount: 2 })
+  condition: (context) => context.player.amber >= 6,
+  trueGameAction: ability.actions.forgeKey(),
+  falseGameAction: ability.actions.gainAmber({ amount: 2 })
 });
 ```
 
@@ -529,8 +529,8 @@ Apply a lasting effect to a card.
 
 ```javascript
 ability.actions.cardLastingEffect({
-    duration: 'untilPlayerTurnEnd',
-    effect: ability.effects.modifyPower(3)
+  duration: 'untilPlayerTurnEnd',
+  effect: ability.effects.modifyPower(3)
 });
 ```
 
@@ -540,8 +540,8 @@ Apply an effect until end of the current player's turn.
 
 ```javascript
 ability.actions.untilPlayerTurnEnd({
-    targetController: 'opponent',
-    effect: ability.effects.modifyKeyCost(2)
+  targetController: 'opponent',
+  effect: ability.effects.modifyKeyCost(2)
 });
 ```
 
@@ -551,8 +551,8 @@ Apply an effect during the opponent's next turn.
 
 ```javascript
 ability.actions.duringOpponentNextTurn({
-    targetController: 'any',
-    effect: ability.effects.modifyKeyCost(3)
+  targetController: 'any',
+  effect: ability.effects.modifyKeyCost(3)
 });
 ```
 
@@ -566,19 +566,19 @@ ability.actions.dealDamage({ amount: 2 });
 
 // Dynamic value based on context
 ability.actions.dealDamage((context) => ({
-    amount: context.source.power
+  amount: context.source.power
 }));
 
 // Dynamic target
 ability.actions.destroy((context) => ({
-    target: context.game.creaturesInPlay.filter((c) => c.power <= 3)
+  target: context.game.creaturesInPlay.filter((c) => c.power <= 3)
 }));
 ```
 
 The context object contains:
 
--   `context.source` - The card triggering the ability
--   `context.player` - The player who controls the source
--   `context.game` - The game state
--   `context.target` - The selected target (if targeting was used)
--   `context.event` - The triggering event (for reactions/interrupts)
+- `context.source` - The card triggering the ability
+- `context.player` - The player who controls the source
+- `context.game` - The game state
+- `context.target` - The selected target (if targeting was used)
+- `context.event` - The triggering event (for reactions/interrupts)
