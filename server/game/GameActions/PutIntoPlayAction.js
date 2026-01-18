@@ -39,6 +39,19 @@ class PutIntoPlayAction extends CardGameAction {
             return true;
         }
 
+        // When being played via playCard from non-hand (e.g., Exhume), don't auto-find
+        // because playCard only targets one card
+        if (this.beingPlayed && card.location !== 'hand') {
+            // Check under same parent card (for cards placed together under another card)
+            if (card.parent) {
+                let part = card.parent.childCards.find((c) => card.compositeId === c.id);
+                if (part) {
+                    return true;
+                }
+            }
+            return false;
+        }
+
         // Check same location
         let part = card.controller
             .getSourceList(card.location)
@@ -249,11 +262,17 @@ class PutIntoPlayAction extends CardGameAction {
                 }
 
                 if (card.gigantic) {
-                    let part =
-                        card.composedPart ||
-                        card.controller
+                    let part = card.composedPart;
+                    if (!part && (card.location === 'hand' || !this.beingPlayed)) {
+                        // Auto-compose when:
+                        // 1. Playing from hand (normal play)
+                        // 2. Put into play by an effect (not via playCard action)
+                        // Don't auto-compose when playing from non-hand via playCard (e.g., Exhume)
+                        // because playCard only targets one card
+                        part = card.controller
                             .getSourceList(card.location)
-                            .find((part) => card.compositeId === part.id);
+                            .find((p) => card.compositeId === p.id);
+                    }
 
                     if (!part && card.parent) {
                         // parts are placed together under another card and can be put into play together

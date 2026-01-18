@@ -5,13 +5,26 @@ describe('Overlord Greking', function () {
                 player1: {
                     amber: 2,
                     house: 'dis',
+                    hand: ['werewolf-curse'],
                     inPlay: ['overlord-greking', 'dominator-bauble']
                 },
                 player2: {
                     amber: 3,
+                    hand: [
+                        'ultra-gravitron',
+                        'ultra-gravitron2',
+                        'ultra-gravitron',
+                        'ultra-gravitron2'
+                    ],
                     inPlay: ['mother', 'troll', 'batdrone', 'dextre', 'groke']
                 }
             });
+            this.werewolfCurse.maverick = true;
+            this.werewolfCurse.printedHouse = 'dis';
+            this.ultraGravitronA1 = this.player2.hand[0];
+            this.ultraGravitronA2 = this.player2.hand[1];
+            this.ultraGravitronB1 = this.player2.hand[2];
+            this.ultraGravitronB2 = this.player2.hand[3];
         });
 
         it("should put a destroyed creature into play under the controller's control", function () {
@@ -84,6 +97,53 @@ describe('Overlord Greking', function () {
             expect(this.groke.tokens.damage).toBeUndefined();
             expect(this.player1.amber).toBe(2);
             expect(this.player2.amber).toBe(3);
+        });
+
+        it('should put into play creatures killed with splash', function () {
+            this.player1.playUpgrade(this.werewolfCurse, this.overlordGreking);
+            this.mother.tokens.damage = 2;
+            this.troll.tokens.damage = 1;
+            this.overlordGreking.tokens.ward = 1;
+            this.player1.fightWith(this.overlordGreking, this.troll);
+            this.player1.clickCard(this.batdrone);
+            this.player1.clickPrompt('Left');
+            this.player1.clickCard(this.mother);
+            this.player1.clickPrompt('Left');
+            this.player1.clickPrompt('Right');
+            expect(this.mother.location).toBe('play area');
+            expect(this.mother.controller).toBe(this.player1.player);
+            expect(this.troll.location).toBe('play area');
+            expect(this.troll.controller).toBe(this.player1.player);
+            expect(this.batdrone.location).toBe('play area');
+            expect(this.batdrone.controller).toBe(this.player1.player);
+            expect(this.player1).isReadyToTakeAction();
+        });
+
+        it('should not put into play two gigantic creatures killed with splash', function () {
+            this.player1.endTurn();
+            this.player2.clickPrompt('logos');
+            this.player2.playCreature(this.ultraGravitronA1);
+            this.player2.clickCard(this.ultraGravitronA2); // Choose other half
+            this.player2.clickPrompt('Right');
+            this.player2.playCreature(this.ultraGravitronB1);
+            this.player2.endTurn();
+            this.player1.clickPrompt('dis');
+            this.ultraGravitronA1.tokens.damage = 9;
+            this.ultraGravitronB1.tokens.damage = 3;
+            this.overlordGreking.tokens.ward = 1;
+            this.player1.fightWith(this.overlordGreking, this.ultraGravitronB1);
+            this.overlordGreking.exhausted = false;
+            this.overlordGreking.tokens.ward = 1;
+            this.player1.playUpgrade(this.werewolfCurse, this.overlordGreking);
+            // Destroys both gigantic creatures
+            this.player1.fightWith(this.overlordGreking, this.ultraGravitronA1);
+            this.player1.clickCard(this.ultraGravitronA1); // Select and then fizzle
+            // Overlord Greking's ability can only play 1 card at a time, and therefore cannot put a gigantic creature into play, even if it has 2 allowances from killing both gigantics with splash.
+            expect(this.ultraGravitronA1.location).toBe('discard');
+            expect(this.ultraGravitronA2.location).toBe('discard');
+            expect(this.ultraGravitronB1.location).toBe('discard');
+            expect(this.ultraGravitronB2.location).toBe('discard');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

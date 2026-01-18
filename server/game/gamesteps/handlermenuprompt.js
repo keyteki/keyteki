@@ -112,6 +112,23 @@ class HandlerMenuPrompt extends UiPrompt {
         return { menuTitle: this.properties.waitingPromptTitle || 'Waiting for opponent' };
     }
 
+    onCardClicked(player, card) {
+        if (player !== this.player) {
+            return false;
+        }
+
+        if (this.properties.cards && this.properties.cardHandler) {
+            let matchingCard = _.find(this.properties.cards, (c) => c.uuid === card.uuid);
+            if (matchingCard) {
+                this.properties.cardHandler(matchingCard);
+                this.complete();
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     menuCommand(player, arg) {
         if (_.isString(arg)) {
             let card = _.find(this.properties.cards, (card) => card.uuid === arg);

@@ -4,7 +4,7 @@ describe('Brutal Consequences', function () {
             this.setupTest({
                 player1: {
                     house: 'shadows',
-                    hand: ['brutal-consequences'],
+                    hand: ['brutal-consequences', 'boosted-b4-rry', 'boosted-b4-rry2'],
                     inPlay: ['urchin', 'hunting-witch'],
                     prophecies: [
                         'overreach',
@@ -51,6 +51,30 @@ describe('Brutal Consequences', function () {
             expect(this.krump.location).toBe('purged');
             expect(this.brutalConsequences.location).toBe('discard');
             expect(this.player2).isReadyToTakeAction();
+        });
+
+        it('should purge first half of a gigantic creature', function () {
+            this.player1.play(this.boostedB4Rry);
+            this.player1.clickPrompt('Autoresolve');
+            this.player1.clickPrompt('Take artifact');
+            this.boostedB4Rry.tokens.damage = 6;
+            this.player1.play(this.brutalConsequences);
+            this.player1.clickCard(this.boostedB4Rry);
+            this.player1.clickCard(this.boostedB4Rry);
+            expect(this.boostedB4Rry.location).toBe('purged');
+            expect(this.boostedB4Rry2.location).toBe('discard');
+        });
+
+        it('should purge second half of a gigantic creature', function () {
+            this.player1.play(this.boostedB4Rry);
+            this.player1.clickPrompt('Autoresolve');
+            this.player1.clickPrompt('Take artifact');
+            this.boostedB4Rry.tokens.damage = 6;
+            this.player1.play(this.brutalConsequences);
+            this.player1.clickCard(this.boostedB4Rry);
+            this.player1.clickCard(this.boostedB4Rry2);
+            expect(this.boostedB4Rry.location).toBe('discard');
+            expect(this.boostedB4Rry2.location).toBe('purged');
         });
     });
 });

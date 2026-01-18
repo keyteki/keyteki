@@ -6,7 +6,15 @@ describe('Exhume', function () {
                     house: 'dis',
                     inPlay: ['flaxia'],
                     hand: ['exhume', 'gub', 'spyyyder'],
-                    discard: ['glimmer', 'ancient-bear', 'bumblebird', 'shooler', 'explo-rover'],
+                    discard: [
+                        'glimmer',
+                        'ancient-bear',
+                        'bumblebird',
+                        'shooler',
+                        'explo-rover',
+                        'titanic-bumblebird',
+                        'titanic-bumblebird2'
+                    ],
                     amber: 4
                 },
                 player2: {
@@ -74,6 +82,16 @@ describe('Exhume', function () {
             expect(this.player1).toBeAbleToSelect(this.bumpsy);
             this.player1.clickCard(this.flaxia);
             expect(this.exploRover.parent).toBe(this.flaxia);
+        });
+
+        it('should allow selecting gigantic half and then fizzles', function () {
+            this.player1.play(this.exhume);
+            expect(this.player1).toBeAbleToSelect(this.titanicBumblebird);
+            expect(this.player1).toBeAbleToSelect(this.titanicBumblebird2);
+            this.player1.clickCard(this.titanicBumblebird);
+            expect(this.titanicBumblebird.location).toBe('discard');
+            expect(this.titanicBumblebird2.location).toBe('discard');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });
