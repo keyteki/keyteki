@@ -14,7 +14,6 @@
         "test-client": "jest --colors client",
         "lint:js": "eslint . --ext .js,.jsx,.ts,.tsx",
         "lint:js:fix": "npm run lint:js -- --fix"
-
     },
     "jest": {
         "setupFilesAfterEnv": [
