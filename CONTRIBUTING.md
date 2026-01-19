@@ -4,10 +4,10 @@ Thank you for your interest in contributing to Keyteki! This document provides g
 
 ## Getting Started
 
-1. Fork the repository on GitHub
-2. Clone your fork locally
-3. Set up your development environment (see [Local Development](docs/local-development.md))
-4. Create a branch for your changes
+- Fork the repository on GitHub
+- Clone your fork locally
+- Set up your development environment (see [Local Development](docs/local-development.md))
+- Create a branch for your changes
 
 ```bash
 git clone https://github.com/YOUR_USERNAME/keyteki.git
@@ -31,11 +31,11 @@ Even if you don't code, playing games and reporting bugs helps a lot. Include:
 
 To fix a bug:
 
-1. Check if an issue already exists
-2. If not, create a new issue with steps to reproduce
-3. If you want to fix it, mention that in the issue
-4. If the fix is complicated, before writing code get feedback for your approach to fixing the issue in the [Discord channel #development](https://discord.com/channels/600996321763262464/600996321763262466)
-5. Submit a PR referencing the issue
+- Check if an issue already exists
+- If not, create a new issue with steps to reproduce
+- If you want to fix it, mention that in the issue
+- If the fix is complicated, before writing code get feedback for your approach to fixing the issue in the [Discord channel #development](https://discord.com/channels/600996321763262464/600996321763262466)
+- Submit a PR referencing the issue
 
 ### Implementing Cards
 

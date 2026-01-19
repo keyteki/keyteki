@@ -1,19 +1,54 @@
 # Testing Cards
 
-This document explains how to write tests for card implementations in Keyteki.
+This document explains how to write tests for cards.
 
 ## Table of Contents
 
 - [Overview](#overview)
 - [Test File Structure](#test-file-structure)
 - [Setting Up Tests](#setting-up-tests)
+  - [setupTest Options](#setuptest-options)
+  - [Card State Setup](#card-state-setup)
+  - [Moving Cards Between Zones](#moving-cards-between-zones)
+  - [Changing a Card's House](#changing-a-cards-house)
 - [Player Actions](#player-actions)
+  - [Playing Cards](#playing-cards)
+  - [Using Cards](#using-cards)
+  - [Responding to Prompts](#responding-to-prompts)
+  - [Prophecy Cards](#prophecy-cards)
+  - [Tide Manipulation](#tide-manipulation)
 - [Assertions](#assertions)
+  - [Prompt Assertions](#prompt-assertions)
+  - [Card Selection Assertions](#card-selection-assertions)
+  - [Card State Assertions](#card-state-assertions)
+  - [Player State Assertions](#player-state-assertions)
+  - [Chat Log Assertions](#chat-log-assertions)
 - [Card References](#card-references)
+  - [Basic Examples](#basic-examples)
+  - [Numbers in Card IDs](#numbers-in-card-ids)
+  - [Cards Starting with Numbers](#cards-starting-with-numbers)
+  - [Apostrophes in Card Names](#apostrophes-in-card-names)
+  - [Multiple Copies of the Same Card](#multiple-copies-of-the-same-card)
+  - [Gigantic Cards (Two-Part Cards)](#gigantic-cards-two-part-cards)
+  - [Finding Cards Explicitly](#finding-cards-explicitly)
 - [Common Patterns](#common-patterns)
+  - [Testing Play Abilities](#testing-play-abilities)
+  - [Testing Reap Abilities](#testing-reap-abilities)
+  - [Testing Fight Abilities](#testing-fight-abilities)
+  - [Testing Destroyed Abilities](#testing-destroyed-abilities)
+  - [Testing Action Abilities](#testing-action-abilities)
+  - [Testing Persistent Effects](#testing-persistent-effects)
+  - [Testing "Cannot" Restrictions](#testing-cannot-restrictions)
+  - [Testing Multiple Describe Blocks](#testing-multiple-describe-blocks)
 - [Running Tests](#running-tests)
-- [Testing UI Changes](#testing-ui-changes)
+- [Testing UI changes](#testing-ui-changes)
+  - [Starting the Server](#starting-the-server)
+  - [Adding Cards to Test](#adding-cards-to-test)
+  - [Updating Card Data](#updating-card-data)
 - [Debugging Tests](#debugging-tests)
+  - [Enable Debug Output](#enable-debug-output)
+  - [Common Issues](#common-issues)
+  - [Inspecting State](#inspecting-state)
 
 ## Overview
 
@@ -22,9 +57,9 @@ Tests are located in `test/server/cards/<Set>/<CardName>.spec.js`, mirroring the
 **Key principles:**
 
 - Tests should focus on the card's unique abilities, not metadata (house, power, armor, keywords)
-- Keep `beforeEach` setup minimal - only include cards needed for the tests
+- Keep `beforeEach` setup minimal - only include values like cards or aember that are needed for the tests
 - End each test by verifying the player has no pending prompts: `expect(this.player1).isReadyToTakeAction()`
-- Add comments explaining what each test verifies
+- For longer tests, add comments explaining what each test is setting up
 
 ## Test File Structure
 
@@ -161,12 +196,12 @@ beforeEach(function () {
   });
 
   // Change the card's house to match the active house
+  this.itSComing.maverick = true;
   this.itSComing.printedHouse = 'saurian';
-  this.itSComing.cardData.house = 'saurian';
 });
 ```
 
-**Note:** You typically need to set both `printedHouse` and `cardData.house` for the change to take effect properly.
+**Note:** You typically need to set both `maverick` and `printedHouse` for the change to take effect properly.
 
 ## Player Actions
 
@@ -229,7 +264,7 @@ this.player1.clickPrompt('brobnar');
 this.player1.endTurn();
 ```
 
-### Prophecy Cards (PV Set)
+### Prophecy Cards
 
 ```javascript
 // Activate a prophecy with a fate card
@@ -560,10 +595,10 @@ describe('Card Name', function () {
 DEBUG_TEST=1 npm test
 
 # Run specific test file
-DEBUG_TEST=1 npm test -- test/server/cards/12-PV/BadOmen.spec.js
+DEBUG_TEST=1 npm test -- test/server/cards/PV/BadOmen.spec.js
 
 # Run multiple test files
-DEBUG_TEST=1 npm test -- test/server/cards/12-PV/BadOmen.spec.js test/server/cards/01-Core/MightyTiger.spec.js
+DEBUG_TEST=1 npm test -- test/server/cards/PV/BadOmen.spec.js test/server/cards/CotA/MightyTiger.spec.js
 
 # Run tests matching a pattern (slower - prefer specifying files)
 DEBUG_TEST=1 npm test -- --filter='Bad Omen'
@@ -591,15 +626,15 @@ Visit [http://localhost:4000](http://localhost:4000) and log in with test users 
 
 ### Adding Cards to Test
 
-1. Create a game and start it
-2. Enter manual mode (click the manual mode button or use `/manual`)
-3. Add your card to hand:
+- Create a game and start it
+- Enter manual mode (click the manual mode button or use `/manual`)
+- Add your card to hand:
 
-   ```text
-   /add-card Card Name
-   ```
+  ```text
+  /add-card Card Name
+  ```
 
-4. Test the card's interactions
+- Test the card's interactions
 
 ### Updating Card Data
 
@@ -615,20 +650,6 @@ node server/scripts/fetchdata.js
 
 Restart the server after fetchdata completes.
 
-### Manual Mode Commands
-
-Useful commands for testing:
-
-| Command                    | Description             |
-| -------------------------- | ----------------------- |
-| `/add-card <name>`         | Add a card to your hand |
-| `/discard <name>`          | Discard a card          |
-| `/draw <n>`                | Draw n cards            |
-| `/amber <n>`               | Set your aember to n    |
-| `/kill <name>`             | Destroy a creature      |
-| `/token damage <n> <name>` | Add damage tokens       |
-| `/token amber <n> <name>`  | Add amber to a card     |
-
 ## Debugging Tests
 
 ### Enable Debug Output
@@ -636,20 +657,20 @@ Useful commands for testing:
 Set `DEBUG_TEST=1` to print the game log after each test:
 
 ```bash
-DEBUG_TEST=1 npm test -- test/server/cards/12-PV/BadOmen.spec.js
+DEBUG_TEST=1 npm test -- test/server/cards/PV/BadOmen.spec.js
 ```
 
 This outputs the full game log showing all actions taken, which helps identify where things went wrong.
 
 ### Common Issues
 
-**"Couldn't click on X"** - The button or prompt you're looking for doesn't exist. Check `this.formatPrompt()` or enable DEBUG_TEST to see current state.
+- **Couldn't click on X** - The button or prompt you're looking for doesn't exist. Check `this.formatPrompt()` or enable DEBUG_TEST to see current state.
 
-**"Cannot end turn now"** - Player has a pending prompt that must be resolved first.
+- **Cannot end turn now** - Player has a pending prompt that must be resolved first.
 
-**Card not found** - Check the card ID matches the JSON data. Card references use camelCase of the ID.
+- **Card not found** - Check the card ID matches the JSON data. Card references use camelCase of the ID.
 
-**Wrong controller** - Remember cards default to player1 unless specified otherwise in setup.
+- **Wrong controller** - Remember cards default to player1 unless specified otherwise in setup.
 
 ### Inspecting State
 

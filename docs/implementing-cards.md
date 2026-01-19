@@ -9,54 +9,46 @@ This guide covers the basics of implementing KeyForge cards in Keyteki. For deta
 
 ## Table of Contents
 
-- [Implementing Cards](#implementing-cards)
-  - [Table of Contents](#table-of-contents)
-  - [Getting Started](#getting-started)
-    - [Testing in the UI](#testing-in-the-ui)
-  - [File Structure](#file-structure)
-  - [Basic Card Template](#basic-card-template)
-  - [Keywords](#keywords)
-  - [Persistent Effects](#persistent-effects)
-    - [Basic Persistent Effect](#basic-persistent-effect)
-    - [Conditional Effects](#conditional-effects)
-    - [Target Controllers](#target-controllers)
-    - [Upgrade Effects](#upgrade-effects)
-    - [Player Effects](#player-effects)
-  - [Actions](#actions)
-    - [Basic Action](#basic-action)
-    - [Action with Target](#action-with-target)
-    - [Omni Actions](#omni-actions)
-  - [Triggered Abilities](#triggered-abilities)
-    - [Reactions](#reactions)
-    - [Interrupts](#interrupts)
-    - [Common Trigger Events](#common-trigger-events)
-  - [Targeting](#targeting)
-    - [Single Target](#single-target)
-    - [Multiple Targets](#multiple-targets)
-    - [Target Properties](#target-properties)
-    - [Card Conditions](#card-conditions)
-  - [Costs](#costs)
-  - [Lasting Effects](#lasting-effects)
-    - [Durations](#durations)
-  - [Ability Limits](#ability-limits)
-  - [Message Formatting](#message-formatting)
-    - [Effect Messages](#effect-messages)
-    - [Effect Args](#effect-args)
-    - [Message Guidelines](#message-guidelines)
+- [Getting Started](#getting-started)
+  - [Testing in the UI](#testing-in-the-ui)
+- [File Structure](#file-structure)
+- [Basic Card Template](#basic-card-template)
+- [Keywords](#keywords)
+- [Persistent Effects](#persistent-effects)
+  - [Basic Persistent Effect](#basic-persistent-effect)
+  - [Conditional Effects](#conditional-effects)
+  - [Target Controllers](#target-controllers)
+  - [Upgrade Effects](#upgrade-effects)
+  - [Player Effects](#player-effects)
+- [Actions](#actions)
+  - [Basic Action](#basic-action)
+  - [Action with Target](#action-with-target)
+  - [Omni Actions](#omni-actions)
+- [Triggered Abilities](#triggered-abilities)
+  - [Reactions](#reactions)
+  - [Interrupts](#interrupts)
+  - [Trigger Events](#trigger-events)
+- [Targeting](#targeting)
+  - [Single Target](#single-target)
+  - [Multiple Targets](#multiple-targets)
+  - [Target Properties](#target-properties)
+  - [Card Conditions](#card-conditions)
+- [Costs](#costs)
+- [Lasting Effects](#lasting-effects)
+  - [Durations](#durations)
+- [Ability Limits](#ability-limits)
 
 ## Getting Started
 
 To implement a card:
 
-1. Find the card's data in `keyteki-json-data/packs/<Set>.json`
-2. Create a file in `server/game/cards/<Set>/<CardName>.js`
-3. Implement the card's abilities
-4. Write tests in `test/server/cards/<Set>/<CardName>.spec.js`
-5. Run and verify tests pass: `DEBUG_TEST=1 npm test -- test/server/cards/<Set>/<CardName>.spec.js`
+- Find the card's data in `keyteki-json-data/packs/<Set>.json`
+- Create a file in `server/game/cards/<Set>/<CardName>.js`
+- Implement the card's abilities
+- Write tests in `test/server/cards/<Set>/<CardName>.spec.js`
+- Run and verify tests pass: `DEBUG_TEST=1 npm test -- test/server/cards/<Set>/<CardName>.spec.js`
 
 ### Testing in the UI
-
-Use the following to manually test a card in the game - this is usually only needed for UI changes:
 
 - Start the server: `docker-compose up --build`
 - Visit [http://localhost:4000](http://localhost:4000)
@@ -69,12 +61,11 @@ Cards are organized by set:
 
 ```txt
 server/game/cards/
-├── 01-Core/
-│   ├── DustPixie.js
-│   └── Troll.js
-├── 02-AoA/
+├── AoA/
 │   └── MightyTiger.js
-├── 12-PV/
+├── CotA/
+│   ├── DustPixie.js
+├── PV/
 │   └── BadOmen.js
 ```
 
@@ -190,7 +181,7 @@ this.persistentEffect({
 
 ## Actions
 
-Action abilities require exhausting the card (unless it has Omni).
+When a card uses an action ability, the card must be ready, is then exhausted, and then the ability resolves. Any after use effects the occur after the ability resolves.
 
 ### Basic Action
 
@@ -265,19 +256,43 @@ this.interrupt({
 });
 ```
 
-### Common Trigger Events
+### Trigger Events
 
-| Event             | Description              |
-| ----------------- | ------------------------ |
-| `onCardPlayed`    | When a card is played    |
-| `onCardDestroyed` | When a card is destroyed |
-| `onReap`          | When a creature reaps    |
-| `onFight`         | When a creature fights   |
-| `onDamageDealt`   | When damage is dealt     |
-| `onAmberGained`   | When aember is gained    |
-| `onKeyForged`     | When a key is forged     |
-| `onPhaseStarted`  | When a phase starts      |
-| `onPhaseEnded`    | When a phase ends        |
+These events are used in `reaction()` and `interrupt()` abilities:
+
+| Event                 | Description                                          | Key Event Properties                                   |
+| --------------------- | ---------------------------------------------------- | ------------------------------------------------------ |
+| `onCardPlayed`        | When a card is played                                | `event.card`, `event.player`, `event.originalLocation` |
+| `onCardDestroyed`     | When a card is destroyed                             | `event.card`, `event.damageEvent`                      |
+| `onCardEntersPlay`    | When a card enters play                              | `event.card`                                           |
+| `onCardLeavesPlay`    | When a card leaves play                              | `event.card`, `event.triggeringEvent`                  |
+| `onCardDiscarded`     | When a card is discarded                             | `event.card`, `event.location`                         |
+| `onReap`              | When a creature reaps                                | `event.card`                                           |
+| `onFight`             | When a creature fights (and survives to deal damage) | `event.card` (defender), `event.attacker`              |
+| `onUseCard`           | When a card is used (fight, reap, action, unstun)    | `event.card`, `event.fight`, `event.fightEvent`        |
+| `onDamageDealt`       | When damage is dealt to a creature                   | `event.card`, `event.amount`, `event.damageSource`     |
+| `onDamageApplied`     | When damage tokens are applied                       | `event.card`, `event.amount`, `event.destroyEvent`     |
+| `onModifyAmber`       | When a player gains or loses aember                  | `event.player`, `event.amount`, `event.reap`           |
+| `onStealAmber`        | When aember is stolen                                | `event.player` (victim), `event.amount`                |
+| `onCapture`           | When aember is captured                              | `event.card`, `event.amount`                           |
+| `onForgeKey`          | When a key is forged                                 | `event.player`, `event.modifier`                       |
+| `onDrawCards`         | When cards are drawn                                 | `event.player`, `event.amount`                         |
+| `onDeckShuffled`      | When a deck is shuffled                              | `event.player`, `event.shuffledDiscardIntoDeck`        |
+| `onTurnStart`         | At the start of a turn                               | `event.player`                                         |
+| `onTurnEnd`           | At the end of a turn                                 | `event.player`                                         |
+| `onPhaseStarted`      | When a phase starts                                  | `event.phase` (`'main'`, `'house'`, etc.)              |
+| `onPhaseEnd`          | When a phase ends                                    | `event.phase`                                          |
+| `onChooseActiveHouse` | When active house is chosen                          | `event.player`, `event.house`                          |
+| `onStun`              | When a creature is stunned                           | `event.card`                                           |
+| `onCardReadied`       | When a card is readied                               | `event.card`, `event.exhausted`                        |
+| `onHeal`              | When a creature is healed                            | `event.card`, `event.amount`                           |
+| `onWard`              | When a creature is warded                            | `event.card`                                           |
+| `onExalt`             | When a creature is exalted                           | `event.card`, `event.amount`                           |
+| `onRaiseTide`         | When the tide is raised                              | `event.player`                                         |
+| `onCardArchived`      | When a card is archived                              | `event.card`                                           |
+| `onCardPurged`        | When a card is purged                                | `event.card`                                           |
+
+For a complete list of events and their parameters, see [types.js](../server/game/Events/types.js).
 
 ## Targeting
 
@@ -320,12 +335,66 @@ targets: {
 
 ### Card Conditions
 
+The `cardCondition` property accepts a function `(card, context) => boolean` that filters which cards are valid targets. It receives the potential target card and the ability context.
+
+**Basic property checks:**
+
 ```javascript
-target: {
-    cardType: 'creature',
-    cardCondition: (card) => card.power <= 3,
-    gameAction: ability.actions.destroy()
-}
+// Target a creature with power 3 or less
+cardCondition: (card) => card.power <= 3;
+
+// Target a creature with no damage
+cardCondition: (card) => !card.hasToken('damage');
+
+// Target a creature with aember on it
+cardCondition: (card) => card.hasToken('amber');
+```
+
+**Trait and house checks:**
+
+```javascript
+// Target a creature with the 'giant' trait
+cardCondition: (card) => card.hasTrait('giant');
+
+// Target a non-Mars creature
+cardCondition: (card) => !card.hasHouse('mars');
+
+// Target a Mars Agent creature
+cardCondition: (card) => card.hasTrait('agent') && card.hasHouse('mars');
+```
+
+**Position-based conditions:**
+
+```javascript
+// Target a creature on a flank
+cardCondition: (card) => card.isOnFlank();
+
+// Target a neighbor of this creature
+cardCondition: (card, context) => context.source.neighbors.includes(card);
+```
+
+**Excluding the source card:**
+
+```javascript
+// Target any creature except this one
+cardCondition: (card, context) => card !== context.source;
+```
+
+**Using context for complex conditions:**
+
+```javascript
+// Target based on another target selection
+cardCondition: (card, context) => card.neighbors.includes(context.targets.first);
+
+// Target based on source card state
+cardCondition: (_, context) => context.source.hasToken('wisdom');
+```
+
+**Card name checks:**
+
+```javascript
+// Target a specific card by name
+cardCondition: (card) => card.name === 'Nautilixian';
 ```
 
 ## Costs
@@ -390,44 +459,3 @@ Limit types:
 
 - `ability.limit.perTurn(n)` - N times per turn
 - `ability.limit.perRound(n)` - N times per round
-
-## Message Formatting
-
-### Effect Messages
-
-Use the `effect` property to describe what happens:
-
-```javascript
-this.play({
-  target: {
-    cardType: 'creature',
-    gameAction: ability.actions.destroy()
-  },
-  effect: 'destroy {0}'
-});
-```
-
-Placeholders:
-
-- `{0}` - First target or effect args
-- `{1}`, `{2}`, etc. - Additional effect args
-
-### Effect Args
-
-```javascript
-this.play({
-  effect: 'deal {1} damage to {0}',
-  effectArgs: (context) => [context.target, 3],
-  target: {
-    cardType: 'creature',
-    gameAction: ability.actions.dealDamage({ amount: 3 })
-  }
-});
-```
-
-### Message Guidelines
-
-- Start messages with the player name (handled automatically)
-- Use present tense ("deals" not "dealt")
-- Don't end messages with punctuation
-- Keep targeting prompts short ("Choose a creature" not "Choose a creature to destroy")

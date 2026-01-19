@@ -1,35 +1,35 @@
-# Card Ability System
+# Card Abilities
 
-This document describes how to define card abilities in Keyteki. All card abilities are defined in the `setupCardAbilities(ability)` method of a card class.
+This document describes how card abilities are defined in Keyteki. All card abilities are defined in the `setupCardAbilities(ability)` method of a card class.
 
 ## Table of Contents
 
-- [Card Ability System](#card-ability-system)
-  - [Table of Contents](#table-of-contents)
-  - [Basic Structure](#basic-structure)
-  - [Ability Types](#ability-types)
-    - [play()](#play)
-    - [reap()](#reap)
-    - [fight()](#fight)
-    - [beforeFight()](#beforefight)
-    - [destroyed()](#destroyed)
-    - [action()](#action)
-    - [omni()](#omni)
-    - [persistentEffect()](#persistenteffect)
-    - [whileAttached()](#whileattached)
-    - [reaction()](#reaction)
-    - [interrupt()](#interrupt)
-    - [scrap()](#scrap)
-    - [fate()](#fate)
-    - [prophecyReaction() / prophecyInterrupt()](#prophecyreaction--prophecyinterrupt)
-  - [Common Properties](#common-properties)
-  - [Targeting](#targeting)
+- [Basic Structure](#basic-structure)
+- [Ability Types](#ability-types)
+  - [play()](#play)
+  - [reap()](#reap)
+  - [fight()](#fight)
+  - [beforeFight()](#beforefight)
+  - [destroyed()](#destroyed)
+  - [action()](#action)
+  - [omni()](#omni)
+  - [persistentEffect()](#persistenteffect)
+  - [whileAttached()](#whileattached)
+  - [reaction()](#reaction)
+  - [interrupt()](#interrupt)
+  - [scrap()](#scrap)
+  - [fate()](#fate)
+  - [prophecyInterrupt()](#prophecyinterrupt)
+  - [prophecyReaction()](#prophecyreaction)
+- [Ability Properties](#ability-properties)
   - [Conditions](#conditions)
+  - [Optional](#optional)
+  - [Targeting](#targeting)
   - [Chaining Effects with "then"](#chaining-effects-with-then)
 
 ## Basic Structure
 
-Every card ability follows this general pattern:
+Every card follows this general pattern to set up its abilities:
 
 ```javascript
 const Card = require('../../Card.js');
@@ -52,7 +52,7 @@ module.exports = CardName;
 
 ### play()
 
-Triggered abilities that activate when the card is played. For action cards, the ability triggers during resolution. For creatures/artifacts/upgrades, it triggers when the card enters play.
+Triggered abilities that activate after the card is played. Bonus icons are resolved before play abilities.
 
 ```javascript
 // Play: Gain 2A.
@@ -82,7 +82,7 @@ this.play({
 
 ### reap()
 
-Triggered abilities that activate when the creature reaps (exhausts to gain 1 aember).
+Triggered abilities that activate after the creature reaps (exhausts to gain 1 aember).
 
 ```javascript
 // Reap: Draw a card.
@@ -100,7 +100,7 @@ this.reap({
 
 ### fight()
 
-Triggered abilities that activate when the creature fights.
+Triggered abilities that activate after the creature fights. The creature must survive the fight to trigger this ability.
 
 ```javascript
 // Fight: Deal 2 damage to a creature.
@@ -132,7 +132,7 @@ this.beforeFight({
 
 ### destroyed()
 
-Triggered abilities that activate when the card is destroyed. These are implemented as interrupts that trigger just before the card leaves play due to destruction.
+Triggered abilities that activate when the card is destroyed. These are implemented as interrupts that trigger before any cards leave play due to destruction.
 
 ```javascript
 // Destroyed: Gain 2A.
@@ -150,7 +150,7 @@ this.destroyed({
 
 ### action()
 
-Activated abilities that require the card to be exhausted to use (unless it has the "Omni" keyword).
+Activated abilities that exhaust the card to use.
 
 ```javascript
 // Action: Keys cost +3A during your opponent's next turn.
@@ -293,7 +293,7 @@ this.interrupt({
 
 ### scrap()
 
-"Scrap:" abilities trigger when the card is discarded from your hand (not from play). Introduced in the Grim Reminders (GR) set.
+"Scrap:" abilities trigger when the card is discarded from the active player's hand (not from play) during their turn.
 
 ```javascript
 // Scrap: Deal 3 damage to a creature.
@@ -314,7 +314,7 @@ this.scrap({
 
 ### fate()
 
-"Fate:" abilities trigger when revealed from the deck during specific game events, typically when drawing or discarding. Introduced in the Prophetic Visions (PV) set.
+"Fate:" abilities trigger when revealed from the deck during specific game events, typically when drawing or discarding.
 
 ```javascript
 // Fate: If you have 8A or more, you may forge a key at current cost.
@@ -338,65 +338,133 @@ this.fate({
 });
 ```
 
-### prophecyReaction() / prophecyInterrupt()
+### prophecyInterrupt()
 
-Prophecy card abilities that trigger during your opponent's turn when the prophecy card is face-up in your deck. These are special reactions/interrupts for the Prophecy mechanic from the Prophetic Visions (PV) set.
-
-```javascript
-// Prophecy: Use during your opponent's turn. After a friendly creature reaps, ready it.
-this.prophecyReaction({
-  when: {
-    onReap: (event, context) => event.card.controller === context.player
-  },
-  message: '{0} fulfills prophecy {1} to ready {2}',
-  messageArgs: (context) => [context.player, context.source, context.event.card],
-  gameAction: ability.actions.ready((context) => ({ target: context.event.card }))
-});
-```
+Prophecy abilities that trigger **at** a specific point in time during your opponent's turn. Use `prophecyInterrupt()` when the card ability happens at a specific step or phase during your opponent's turn.
 
 ```javascript
-// Prophecy: At the end of your opponent's turn, fulfill this prophecy.
-// Gain 1A for each friendly creature.
+// At the end of your opponent's turn, if they have exactly 6A, fulfill Bad Omen.
 this.prophecyInterrupt({
   when: {
-    onPhaseEnded: (event, context) => event.player !== context.player && event.phase === 'main'
+    onTurnEnd: (_, context) =>
+      this.game.activePlayer === context.source.controller.opponent &&
+      this.game.activePlayer.amber === 6
   },
-  gameAction: ability.actions.gainAmber((context) => ({
-    amount: context.player.creaturesInPlay.length
+  gameAction: ability.actions.fulfillProphecy((context) => ({
+    card: context.source
   }))
 });
 ```
 
-## Common Properties
+```javascript
+// At the end of your opponent's turn, if they have more A than you, fulfill The Early Bird.
+this.prophecyInterrupt({
+  when: {
+    onTurnEnd: (event, context) =>
+      context.game.activePlayer === context.source.controller.opponent &&
+      context.game.activePlayer.amber > context.source.controller.amber
+  },
+  gameAction: ability.actions.fulfillProphecy((context) => ({
+    card: context.source
+  }))
+});
+```
+
+### prophecyReaction()
+
+Prophecy abilities that trigger **after** an event occurs during your opponent's turn. Use `prophecyReaction()` when the card reacts to something that your opponent does during their turn.
+
+```javascript
+// During your opponent's turn, after your opponent shuffles their deck, fulfill Expect the Unexpected.
+this.prophecyReaction({
+  when: {
+    onDeckShuffled: (event, context) => event.player !== context.source.controller
+  },
+  gameAction: ability.actions.fulfillProphecy((context) => ({
+    card: context.source
+  }))
+});
+```
+
+```javascript
+// During your opponent's turn, after an enemy creature is used to fight, fulfill Go Forth and Conquer.
+this.prophecyReaction({
+  when: {
+    onUseCard: (event, context) =>
+      context.game.activePlayer === context.source.controller.opponent &&
+      event.fight &&
+      event.fightEvent.attacker.controller === context.source.controller.opponent
+  },
+  gameAction: ability.actions.fulfillProphecy((context) => ({
+    card: context.source
+  }))
+});
+```
+
+## Ability Properties
 
 Most ability types accept these common properties:
 
-| Property     | Description                                                          |
-| ------------ | -------------------------------------------------------------------- |
-| `gameAction` | The action(s) to perform. Can be a single action or an array.        |
-| `target`     | Defines what the player must select as a target.                     |
-| `condition`  | A function that must return true for the ability to be usable.       |
-| `effect`     | Text shown in the game log. Use `{0}`, `{1}`, etc. for placeholders. |
-| `effectArgs` | Arguments to fill in the effect string placeholders.                 |
-| `optional`   | If true, the player can choose not to use the ability.               |
-| `then`       | A follow-up ability that triggers after the main ability resolves.   |
+| Property      | Description                                                                                                |
+| ------------- | ---------------------------------------------------------------------------------------------------------- |
+| `condition`   | A function that must return true for the ability to be usable.                                             |
+| `effect`      | Text shown in the game log. Use `{0}`, `{1}`, etc. for placeholders. See [Card Messages](card-messages.md) |
+| `effectArgs`  | Arguments to fill in the effect string placeholders. See [Card Messages](card-messages.md)                 |
+| `gameAction`  | The action(s) to perform. Can be a single action or an array. See [Game Actions](game-actions.md).         |
+| `message`     | Custom message to display when the ability is used. See [Card Messages](card-messages.md)                  |
+| `messageArgs` | Arguments for the custom message placeholders. See [Card Messages](card-messages.md)                       |
+| `optional`    | If true, the player can choose not to use the ability.                                                     |
+| `target`      | Defines what the player must select as a target.                                                           |
+| `then`        | A follow-up ability that triggers after the main ability resolves.                                         |
 
-## Targeting
+### Conditions
+
+Use `condition` to make abilities conditional:
+
+```javascript
+// Play: If your opponent has 7A or more, capture all of it.
+this.play({
+  condition: (context) => context.player.opponent && context.player.opponent.amber >= 7,
+  gameAction: ability.actions.capture((context) => ({
+    amount: context.player.opponent.amber
+  }))
+});
+```
+
+### Optional
+
+Use `optional: true` when the card text says "you may" to let the player choose whether to use the ability:
+
+```javascript
+// Play: You may exalt Dino-Knight. If you do, deal 3D to a creature.
+this.play({
+  optional: true,
+  gameAction: ability.actions.exalt(),
+  then: {
+    target: {
+      cardType: 'creature',
+      gameAction: ability.actions.dealDamage({ amount: 3 })
+    }
+  }
+});
+```
+
+### Targeting
 
 The `target` property defines what the player must select:
 
 ```javascript
-// Target a single creature you control
+// Target any creature
+target: {
+  cardType: 'creature',
+    gameAction: ability.actions.destroy()
+}
+
+// Target a creature you control
 target: {
     cardType: 'creature',
     controller: 'self',
     gameAction: ability.actions.ready()
-}
-
-// Target any creature
-target: {
-    cardType: 'creature',
-    gameAction: ability.actions.destroy()
 }
 
 // Target a creature the opponent controls
@@ -414,21 +482,7 @@ target: {
 }
 ```
 
-## Conditions
-
-Use `condition` to make abilities conditional:
-
-```javascript
-// Play: If your opponent has 7A or more, capture all of it.
-this.play({
-  condition: (context) => context.player.opponent && context.player.opponent.amber >= 7,
-  gameAction: ability.actions.capture((context) => ({
-    amount: context.player.opponent.amber
-  }))
-});
-```
-
-## Chaining Effects with "then"
+### Chaining Effects with "then"
 
 Use `then` for sequential effects or effects that depend on the success of previous effects:
 

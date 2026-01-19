@@ -4,50 +4,48 @@ This document describes how to add descriptive log messages to card abilities. G
 
 ## Table of Contents
 
-- [Card Messages](#card-messages)
-  - [Table of Contents](#table-of-contents)
-  - [Basic Usage](#basic-usage)
-  - [Message Properties](#message-properties)
-    - [effect / effectArgs](#effect--effectargs)
-    - [message / messageArgs](#message--messageargs)
-  - [Default Action Messages](#default-action-messages)
-    - [When to Override Default Messages](#when-to-override-default-messages)
-  - [Common Patterns](#common-patterns)
-    - [Adding Dynamic Values](#adding-dynamic-values)
-    - [Conditional Messages](#conditional-messages)
-    - [Then Effect Messages](#then-effect-messages)
-    - [Messages for Optional Actions](#messages-for-optional-actions)
-    - [Using preThenContext](#using-prethencontext)
-    - [preThenEvents for Multiple Targets](#prethenevents-for-multiple-targets)
-    - [Referencing `this` in effectArgs](#referencing-this-in-effectargs)
-    - [Appending Text Conditionally](#appending-text-conditionally)
-    - [Context Event Data](#context-event-data)
-    - [Revealing Cards with Conditional Text](#revealing-cards-with-conditional-text)
-    - [promptForSelect with messageArgs](#promptforselect-with-messageargs)
-    - [Pluralization in Messages](#pluralization-in-messages)
-    - [Raw String Values in effectArgs](#raw-string-values-in-effectargs)
-    - [Named Card References](#named-card-references)
-    - [Static messageArgs Values](#static-messageargs-values)
-    - [Computed Effects with Multiple Branches](#computed-effects-with-multiple-branches)
-    - [Multi-part Message Building](#multi-part-message-building)
-  - [Best Practices](#best-practices)
-  - [Quick Reference](#quick-reference)
-  - [Using `target`](#using-target)
-  - [Locales](#locales)
+- [Basic Usage](#basic-usage)
+- [Properties](#properties)
+  - [effect / effectArgs](#effect--effectargs)
+  - [message / messageArgs](#message--messageargs)
+- [Default Messages](#default-messages)
+  - [When to Override Default Messages](#when-to-override-default-messages)
+- [Common Patterns](#common-patterns)
+  - [Adding Dynamic Values](#adding-dynamic-values)
+  - [Conditional Messages](#conditional-messages)
+  - [Then Effect Messages](#then-effect-messages)
+  - [Messages for Optional Actions](#messages-for-optional-actions)
+  - [Using preThenContext](#using-prethencontext)
+  - [preThenEvents for Multiple Targets](#prethenevents-for-multiple-targets)
+  - [Referencing `this` in effectArgs](#referencing-this-in-effectargs)
+  - [Appending Text Conditionally](#appending-text-conditionally)
+  - [Context Event Data](#context-event-data)
+  - [Revealing Cards with Conditional Text](#revealing-cards-with-conditional-text)
+  - [promptForSelect with messageArgs](#promptforselect-with-messageargs)
+  - [Pluralization in Messages](#pluralization-in-messages)
+  - [Raw String Values in effectArgs](#raw-string-values-in-effectargs)
+  - [Named Card References](#named-card-references)
+  - [Static messageArgs Values](#static-messageargs-values)
+  - [Computed Effects with Multiple Branches](#computed-effects-with-multiple-branches)
+  - [Multi-part Message Building](#multi-part-message-building)
+- [Best Practices](#best-practices)
+- [Quick Reference](#quick-reference)
+- [Using `target`](#using-target)
+- [Locales](#locales)
 
 ## Basic Usage
 
 Card abilities support two messaging approaches:
 
-1. **`effect` / `effectArgs`** - For primary abilities. Automatically prefixed with "{player} uses {card} to..."
-2. **`message` / `messageArgs`** - For custom messages or `then` effects. Gives you full control over the message format.
+- **`effect` / `effectArgs`** - For primary abilities. Automatically prefixed with "{player} uses {card} to..."
+- **`message` / `messageArgs`** - For custom messages or `then` effec-. Gives you full control over the message format.
+- Only one of effect/message can be used per ability or effect-
 
-## Message Properties
+## Properties
 
 ### effect / effectArgs
 
-The `effect` property is used for the main ability message. The game automatically constructs:
-`"{player} uses {card} to {effect}"`
+The `effect` property is used for the main ability message. The effect message automatically prepends `"{player} uses {card} to "` to the provided effect template.
 
 **Default placeholders:**
 
@@ -80,7 +78,7 @@ this.play({
 
 **Using `effectArgs` for additional placeholders:**
 
-The `effectArgs` property provides values for placeholders `{1}`, `{2}`, `{3}`, etc. in your effect string. It can be either:
+The `effectArgs` property provides values for placeholders `{1}`, `{2}`, `{3}`, etc. in your effect template string. It can be either:
 
 - An array of values: `effectArgs: [value1, value2]`
 - A function returning an array: `effectArgs: (context) => [value1, value2]`
@@ -97,7 +95,7 @@ The values map to placeholders as follows:
 this.play({
   effect: 'gain 1 chain and make {1} lose {2} amber and {3} lose {4} amber',
   //                             ^^^      ^^^           ^^^      ^^^
-  //                         effectArgs[0]  [1]          [2]      [3]
+  //                   effectArgs[0]      [1]           [2]      [3]
   effectArgs: (context) =} [
     context.player,                                                    // {1} - player1
     Math.floor(context.player.amber / 2),                              // {2} - 3
@@ -124,7 +122,7 @@ this.play({
 
 ### message / messageArgs
 
-The `message` property gives full control over the message format. You must include the player and card references yourself.
+The `message` property gives full control over the message format and does not prepend any text to the message string. You must include the player and card references yourself. Providing a `message` overrides the default `effect` output.
 
 **Default placeholders:**
 
@@ -141,7 +139,7 @@ The `messageArgs` property works similarly to `effectArgs`, but since `message` 
 
 The values map to placeholders as follows:
 
-- `{0}`, `{1}`, `{2}` - Default values (player, source, target) unless overridden by messageArgs
+- `{0}`, `{1}`, `{2}` - Default values (player, source, target)
 - `{3}` - First value in messageArgs array
 - `{4}` - Second value in messageArgs array
 - `{5}`, `{6}`, etc. - Continue in order
@@ -166,7 +164,7 @@ this.reap({
     falseGameAction: ability.actions.steal({ amount: 1 })
   }),
   message: '{0} uses {1} to steal {2} amber',
-  //        ^^^      ^^^           ^^^
+  //        ^^^      ^^^          ^^^
   //   messageArgs[0]  [1]          [2]
   messageArgs: (context) =} [
     context.player,      // {0} - player
@@ -182,7 +180,7 @@ this.reap({
 
 - `preferActionPromptMessage` (bool) - Skips the automatic message display. Rarely needed.
 
-## Default Action Messages
+## Default Messages
 
 Many game actions in Keyteki generate automatic log messages. For example:
 
@@ -241,6 +239,64 @@ this.reap({
 ```
 
 **Multiple targets with varying results:** When affecting multiple cards where some might be warded, destroyed, etc.
+
+```javascript
+// Card: "Deal 1D to each creature. Gain 1A for each creature destroyed this way."
+// Bad: Vague message that doesn't tell the player what happened:
+this.play({
+  gameAction: ability.actions.dealDamage((context) => ({
+    target: context.game.creaturesInPlay
+  })),
+  then: {
+    alwaysTriggers: true,
+    gameAction: ability.actions.gainAmber((context) => ({
+      amount: context.preThenEvents.filter(
+        (event) =>
+          event.destroyEvent &&
+          event.destroyEvent.destroyedByDamageDealt &&
+          event.destroyEvent.resolved
+      ).length
+    })),
+    message: '{0} gains amber for each creature destroyed this way'
+  }
+});
+
+// Good:  - Shows which creatures were destroyed and the total amber gained:
+this.play({
+  gameAction: ability.actions.dealDamage((context) => ({
+    target: context.game.creaturesInPlay
+  })),
+  then: {
+    alwaysTriggers: true,
+    gameAction: ability.actions.gainAmber((context) => ({
+      amount: context.preThenEvents.filter(
+        (event) =>
+          event.destroyEvent &&
+          event.destroyEvent.destroyedByDamageDealt &&
+          event.destroyEvent.resolved
+      ).length
+    })),
+    message:
+      '{0} uses {1} to gain 1 amber for each creature destroyed this way ({3}), gaining a total of {4} amber',
+    messageArgs: (context) => [
+      context.preThenEvents
+        .filter(
+          (event) =>
+            event.destroyEvent &&
+            event.destroyEvent.destroyedByDamageDealt &&
+            event.destroyEvent.resolved
+        )
+        .map((event) => event.card),
+      context.preThenEvents.filter(
+        (event) =>
+          event.destroyEvent &&
+          event.destroyEvent.destroyedByDamageDealt &&
+          event.destroyEvent.resolved
+      ).length
+    ]
+  }
+});
+```
 
 **"For each" effects:** When the total depends on a count:
 

@@ -86,7 +86,7 @@ Card implementations in Keyteki follow a specific pattern where each card's game
 - Card implementations are located in `server/game/cards/<Set>/<CardName>.js` organized by set
 - Each card is implemented as a JavaScript class extending the base `Card` class
 - The file name should match the card's ID from the JSON data
-  - Example: [BadOmen.js](server/game/cards/12-PV/BadOmen.js)
+  - Example: [BadOmen.js](server/game/cards/PV/BadOmen.js)
 
 ### Card JSON Data
 
@@ -119,13 +119,13 @@ When implementing a new card, search for similar existing implementations:
 
 - Use `grep_search` to find cards with similar abilities (e.g., search "steal", "dealDamage", "destroyed")
 - Check the same set directory for patterns used in that expansion
-- Look at cards from Core set (`01-Core/`) for foundational patterns
+- Look at cards from Core set (`CotA/`) for foundational patterns
 - Search by ability type: `this.play(`, `this.reap(`, `this.persistentEffect(`
 
 ### Testing Cards
 
 - Tests should be added to a new `spec.js` file for the card under `test/server/cards/<Set>/<CardName>.spec.js` that corresponds to the card being tested.
-  - Example: [BadOmen.spec.js](test/server/cards/12-PV/BadOmen.spec.js).
+  - Example: [BadOmen.spec.js](test/server/cards/PV/BadOmen.spec.js).
 - New tests should follow the patterns of existing tests, e.g. no imports.
 - Tests should be auto-run after being written, to ensure they pass.
 - If more log data is needed to debug a test, you can set `DEBUG_TEST=1` in the environment before running the test.

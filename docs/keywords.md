@@ -1,17 +1,33 @@
-# Keywords Reference
+# Keywords
 
 Keywords in KeyForge are special abilities that appear on cards. In Keyteki, most keywords are handled automatically by the game engine based on the card's JSON data - **you do not need to implement them in card code**.
 
-**Note:** Some terms like **Capture**, **Steal**, and **Heal** are game actions, not keywords. See [Game Actions](game-actions.md) for those.
-
 ## Table of Contents
 
-- [Automatic Keywords](#automatic-keywords) - Handled by the engine
+- [List of Keywords](#list-of-keywords)
+  - [Alpha](#alpha)
+  - [Assault X](#assault-x)
+  - [Deploy](#deploy)
+  - [Elusive](#elusive)
+  - [Entrenched](#entrenched)
+  - [Exalt](#exalt)
+  - [Graft](#graft)
+  - [Haunted](#haunted)
+  - [Hazardous X](#hazardous-x)
+  - [Invulnerable](#invulnerable)
+  - [Omega](#omega)
+  - [Overwhelmed](#overwhelmed)
+  - [Poison](#poison)
+  - [Skirmish](#skirmish)
+  - [Splash-Attack X](#splash-attack-x)
+  - [Taunt](#taunt)
+  - [Treachery](#treachery)
+  - [Versatile](#versatile)
 - [How Keywords Work](#how-keywords-work)
 - [Cards That Grant Keywords](#cards-that-grant-keywords)
 - [Cards That Reference Keywords](#cards-that-reference-keywords)
 
-## Automatic Keywords
+## List of Keywords
 
 These keywords are parsed from the card's JSON data and implemented automatically. **Do not reimplement them in card JavaScript files.**
 
@@ -25,13 +41,13 @@ The card can only be played as the first card of your turn. Handled automaticall
 
 > **Assault X** - Before this creature attacks, deal X damage to the attacked creature.
 
-When this creature initiates a fight, it deals X damage to the defender before the fight damage is exchanged. Handled in the fight resolution logic.
+When this creature initiates a fight, it deals X damage to the defender before the fight damage is exchanged. Handled in the fight resolution logic. If the creature is destroyed by the assault damage, the fight does not proceed, after fight abilities do not trigger, but the creature is still considered to have been in a fight for the purposes of other effects.
 
 ### Deploy
 
 > **Deploy** - This creature can be played to any position in your battleline (not just the flanks).
 
-Normally creatures must be played to a flank. Deploy allows placement anywhere. Handled in creature play logic.
+Normally creatures must be played to a flank. Deploy allows placement anywhere. Handled in creature play logic. Creatures can be deployed even when they are put into play.
 
 ### Elusive
 
@@ -49,13 +65,13 @@ An entrenched creature can optionally stay exhausted during the ready step. This
 
 > **Exalt** - Place 1 aember from the common supply on this creature.
 
-Exalting adds aember to a creature. When an exalted creature leaves play, the aember on it goes to the opponent. Handled via `ExaltAction`.
+Exalting adds aember to a creature, and otherwise behaves like captured aember. Handled via `ExaltAction`.
 
 ### Graft
 
 > **Graft** - This creature enters play with another card grafted to it.
 
-Grafted cards are attached to creatures and provide bonuses. The grafted location is a separate zone. Handled in the card play logic.
+Grafted cards are put faceup under another card. The grafted location is a separate out of play zone. Handled in the card play logic.
 
 ### Haunted
 
@@ -67,19 +83,19 @@ Haunted creatures check the discard pile count via `player.isHaunted()` to deter
 
 > **Hazardous X** - Before this creature is attacked, deal X damage to the attacker.
 
-When this creature is attacked, it deals X damage to the attacker before fight damage is exchanged. Handled in fight resolution logic.
+When this creature is attacked, it deals X damage to the attacker before fight damage is exchanged. Handled in fight resolution logic. If the attacker is destroyed by the hazardous damage, the fight does not proceed, after fight abilities do not trigger, but the creature is still considered to have been in a fight for the purposes of other effects.
 
 ### Invulnerable
 
 > **Invulnerable** - This creature cannot be dealt damage or destroyed.
 
-A creature with Invulnerable cannot be dealt damage or destroyed by any means. Handled via persistent effects that prevent damage and destruction.
+A creature with Invulnerable cannot be dealt damage or destroyed by any means. Handled via persistent effects that prevent damage and destruction. The be removed from play by other means (e.g., returned to hand or archived).
 
 ### Omega
 
 > **Omega** - After you play this card, end this step (you cannot play, use, or discard any more cards this turn).
 
-After playing an Omega card, your "play and use cards" step immediately ends. Handled by game flow logic.
+After playing an Omega card, your current step immediately ends - this is typically the "play and use cards" step. Handled by game flow logic.
 
 ### Overwhelmed
 
@@ -91,7 +107,7 @@ Overwhelmed is a condition that enables or modifies abilities based on creature 
 
 > **Poison** - Any damage dealt by this creature to another creature is enough to destroy that creature.
 
-If a creature with Poison deals any amount of damage (even 0) to another creature during a fight, that creature is destroyed. Handled in damage resolution.
+If a creature with Poison deals any amount of damage to another creature during a fight, that creature is destroyed. Handled in damage resolution.
 
 ### Skirmish
 
@@ -103,7 +119,7 @@ The skirmish creature deals its damage normally but doesn't receive damage from 
 
 > **Splash-Attack X** - When this creature attacks, deal X damage to each of the attacked creature's neighbors.
 
-When attacking, deals X damage to the neighbors of the creature being attacked. Handled in fight resolution logic.
+When attacking, deals X damage to the neighbors of the creature being attacked. A creature that dies from splash-attack damage is considered to be destroyed fighting the attacking creature. Handled in fight resolution logic.
 
 ### Taunt
 
