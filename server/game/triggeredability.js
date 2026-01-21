@@ -74,10 +74,10 @@ class TriggeredAbility extends CardAbility {
                     window.addChoice(context);
                 } else if (
                     this.meetsRequirements(context, []) === 'condition' &&
-                    this.properties.destroyed
+                    (this.properties.destroyed || this.properties.play)
                 ) {
-                    // For destroyed abilities, allow 'condition' failures to be added to choices because the condition might change based on the order of resolution.
-                    // e.g., gain amber from one ability before forging a key with another.
+                    // For destroyed and play abilities, allow 'condition' failures to be added to choices because the condition might change based on the order of resolution.
+                    // e.g., gain amber from one ability before stealing with another, or gain aember from one destroyed ability before forging a key with another.
                     // These are added as "deferred" choices that will be filtered later if the condition still fails after other abilities resolve.
                     window.addDeferredChoice(context);
                 }
