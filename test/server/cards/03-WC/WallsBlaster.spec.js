@@ -239,6 +239,7 @@ describe('Walls’ Blaster', function () {
             this.player1.reap(this.chiefEngineerWalls1);
             this.player1.clickCard(this.chiefEngineerWalls1);
 
+            this.player1.clickPrompt(this.wallsBlaster.name);
             this.player1.clickPrompt('Move Walls’ Blaster');
             // There are no valid targets.
             expect(this.player1).isReadyToTakeAction();

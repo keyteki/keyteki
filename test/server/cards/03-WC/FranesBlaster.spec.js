@@ -213,6 +213,7 @@ describe('Frane’s Blaster', function () {
             this.player1.reap(this.firstOfficerFrane1);
             this.player1.clickCard(this.firstOfficerFrane1);
 
+            this.player1.clickPrompt(this.franeSBlaster.name);
             this.player1.clickPrompt('Move Frane’s Blaster');
             // There are no valid targets.
             expect(this.player1).isReadyToTakeAction();

@@ -37,6 +37,7 @@ describe('Adaptoid', function () {
 
         it('after playing an action card with bonus icon, should be prompted for options', function () {
             this.player1.play(this.dataForge);
+            this.player1.clickCard('Adaptoid');
             expect(this.player1).toHavePrompt('Select one');
             this.player1.clickPrompt('+2 armor');
             expect(this.adaptoid.getKeywordValue('assault')).toBe(0);
@@ -88,6 +89,7 @@ describe('Adaptoid', function () {
             this.player1.play(this.archimedes);
             this.player1.clickPrompt('Assault 2');
             this.player1.play(this.dataForge);
+            this.player1.clickCard('Adaptoid');
             this.player1.clickPrompt('Assault 2');
             expect(this.adaptoid.getKeywordValue('assault')).toBe(4);
             expect(this.adaptoid.armor).toBe(0);
@@ -98,6 +100,7 @@ describe('Adaptoid', function () {
             this.player1.play(this.archimedes);
             this.player1.clickPrompt('Fight: Steal 1 amber');
             this.player1.play(this.dataForge);
+            this.player1.clickCard('Adaptoid');
             this.player1.clickPrompt('Fight: Steal 1 amber');
             expect(this.adaptoid.getKeywordValue('assault')).toBe(0);
             expect(this.adaptoid.armor).toBe(0);
@@ -112,6 +115,7 @@ describe('Adaptoid', function () {
             this.player1.play(this.archimedes);
             this.player1.clickPrompt('Fight: Steal 1 amber');
             this.player1.play(this.dataForge);
+            this.player1.clickCard('Adaptoid');
             this.player1.clickPrompt('+2 armor');
             this.player1.play(this.hologrammophone);
             this.player1.clickPrompt('+2 armor');
@@ -131,6 +135,7 @@ describe('Adaptoid', function () {
             this.player1.play(this.archimedes);
             this.player1.clickPrompt('Fight: Steal 1 amber');
             this.player1.play(this.dataForge);
+            this.player1.clickCard('Adaptoid');
             this.player1.clickPrompt('+2 armor');
             this.player1.play(this.hologrammophone);
             this.player1.clickPrompt('+2 armor');
