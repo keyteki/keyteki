@@ -11,7 +11,7 @@ import debounce from 'lodash.debounce';
 import $ from 'jquery';
 
 import CardBack from './CardBack';
-import { loadDecks, selectDeck, loadStandaloneDecks } from '../../redux/actions';
+import { loadDecks, selectDeck, loadStandaloneDecks, loadTags } from '../../redux/actions';
 
 import './DeckList.scss';
 import { Constants } from '../../constants';
@@ -82,6 +82,63 @@ import { faCheck } from '@fortawesome/free-solid-svg-icons';
  * @property {{ [key: string]: { filterVal: string; }; }} filters
  * @property {Expansion[]} expansions
  */
+const MultiSelectFilter = ({ expansions, pagingDetails, expansionFilter }) => {
+    return (
+        <Select
+            isMulti
+            options={expansions}
+            defaultValue={expansions}
+            value={pagingDetails.filter.find((f) => f.name === 'expansion')?.value}
+            onChange={(values) => expansionFilter.current(values.map((v) => v))}
+        />
+    );
+};
+
+const TagSelectFilter = ({ tags, pagingDetails, tagFilter, t }) => {
+    const tagOptions = tags.map((tag) => ({
+        label: tag.name,
+        value: tag.id,
+        color: tag.color
+    }));
+
+    // Get currently selected tag IDs from the filter
+    const selectedTagFilter = pagingDetails.filter.find((f) => f.name === 'tags')?.value || [];
+    const selectedTagIds = selectedTagFilter.map((selectedTag) => selectedTag.value);
+
+    // Build the selected values using current tag data to ensure names and colors are up to date
+    const validSelectedTags = selectedTagIds
+        .map((tagId) => tags.find((tag) => tag.id === tagId))
+        .filter(Boolean) // Remove any tags that no longer exist
+        .map((tag) => ({
+            label: tag.name,
+            value: tag.id,
+            color: tag.color
+        }));
+
+    return (
+        <Select
+            isMulti
+            options={tagOptions}
+            placeholder={t('Filter by tags')}
+            value={validSelectedTags}
+            onChange={(values) => tagFilter.current(values || [])}
+            formatOptionLabel={(option) => (
+                <div style={{ display: 'flex', alignItems: 'center' }}>
+                    <div
+                        style={{
+                            width: '12px',
+                            height: '12px',
+                            borderRadius: '50%',
+                            backgroundColor: option.color,
+                            marginRight: '8px'
+                        }}
+                    />
+                    {option.label}
+                </div>
+            )}
+        />
+    );
+};
 
 /**
  * @param {DeckListProps} props
@@ -106,35 +163,72 @@ const DeckList = ({
     });
     const nameFilter = useRef(null);
     const expansionFilter = useRef(null);
+    const tagFilter = useRef(null);
     const dispatch = useDispatch();
 
-    const { decks, numDecks, selectedDeck } = useSelector((state) => ({
-        decks: standaloneDecks ? state.cards.standaloneDecks : state.cards.decks,
-        numDecks: state.cards.numDecks,
-        selectedDeck: standaloneDecks ? null : state.cards.selectedDeck
-    }));
+    const { decks, numDecks, selectedDeck, tags, tagUpdated, tagDeleted } = useSelector(
+        (state) => ({
+            decks: standaloneDecks ? state.cards.standaloneDecks : state.cards.decks,
+            numDecks: state.cards.numDecks,
+            selectedDeck: standaloneDecks ? null : state.cards.selectedDeck,
+            tags: state.tags?.tags || [],
+            tagUpdated: state.tags?.tagUpdated || false,
+            tagDeleted: state.tags?.tagDeleted || false
+        })
+    );
 
     useEffect(() => {
         if (standaloneDecks) {
             dispatch(loadStandaloneDecks());
         } else {
             dispatch(loadDecks(pagingDetails));
+            dispatch(loadTags()); // Load tags for filtering
         }
 
         $('.filter-label').parent().parent().hide();
     }, [pagingDetails, dispatch, standaloneDecks]);
 
-    const MultiSelectFilter = () => {
-        return (
-            <Select
-                isMulti
-                options={expansions}
-                defaultValue={expansions}
-                value={pagingDetails.filter.find((f) => f.name === 'expansion')?.value}
-                onChange={(values) => expansionFilter.current(values.map((v) => v))}
-            />
-        );
-    };
+    // Reload tags and trigger new search when they are updated or deleted
+    useEffect(() => {
+        if (!standaloneDecks && (tagUpdated || tagDeleted)) {
+            dispatch(loadTags());
+
+            // Update the filter state with current tag data before triggering search
+            setPagingDetails((currentPagingDetails) => {
+                const tagFilter = currentPagingDetails.filter.find((f) => f.name === 'tags');
+                if (tagFilter && tagFilter.value.length > 0) {
+                    // Get the selected tag IDs
+                    const selectedTagIds = tagFilter.value.map((selectedTag) => selectedTag.value);
+
+                    // Rebuild the filter with current tag data
+                    const updatedTagFilter = selectedTagIds
+                        .map((tagId) => tags.find((tag) => tag.id === tagId))
+                        .filter(Boolean) // Remove any tags that no longer exist
+                        .map((tag) => ({
+                            label: tag.name,
+                            value: tag.id,
+                            color: tag.color
+                        }));
+
+                    // Update pagingDetails with the new filter data
+                    const updatedPagingDetails = {
+                        ...currentPagingDetails,
+                        filter: currentPagingDetails.filter.map((f) =>
+                            f.name === 'tags' ? { ...f, value: updatedTagFilter } : f
+                        )
+                    };
+
+                    // Trigger the search with updated filter
+                    dispatch(loadDecks(updatedPagingDetails));
+                    return updatedPagingDetails;
+                } else {
+                    // No tag filter active, just reload normally
+                    dispatch(loadDecks(currentPagingDetails));
+                    return currentPagingDetails;
+                }
+            });
+        }
+    }, [tagUpdated, tagDeleted, dispatch, standaloneDecks, tags]);
 
     const selectRow = {
         mode: 'radio',
@@ -251,6 +345,28 @@ const DeckList = ({
             })
         },
         {
+            dataField: 'tags',
+            text: t('Tags'),
+            headerStyle: {
+                display: 'none'
+            },
+            style: {
+                display: 'none'
+            },
+            sort: false,
+            // eslint-disable-next-line react/display-name
+            formatter: (tags) => {
+                if (!tags || !Array.isArray(tags)) return '';
+                return tags.map((tag) => tag.name).join(', ');
+            },
+            filter: multiSelectFilter({
+                options: {},
+                getFilter: (filter) => {
+                    tagFilter.current = filter;
+                }
+            })
+        },
+        {
             dataField: 'lastUpdated',
             headerStyle: {
                 width: '18%'
@@ -328,7 +444,23 @@ const DeckList = ({
                             </Form.Group>
                             <Form.Group as={Col} lg='6' controlId='formGridExpansion'>
                                 <Form.Label>{t('Expansion')}</Form.Label>
-                                <Form.Control as={MultiSelectFilter} />
+                                <MultiSelectFilter
+                                    expansions={expansions}
+                                    pagingDetails={pagingDetails}
+                                    expansionFilter={expansionFilter}
+                                    t={t}
+                                />
+                            </Form.Group>
+                        </Form.Row>
+                        <Form.Row>
+                            <Form.Group as={Col} lg='12' controlId='formGridTags'>
+                                <Form.Label>{t('Tags')}</Form.Label>
+                                <TagSelectFilter
+                                    tags={tags}
+                                    pagingDetails={pagingDetails}
+                                    tagFilter={tagFilter}
+                                    t={t}
+                                />
                             </Form.Group>
                         </Form.Row>
                     </Form>
@@ -351,7 +483,7 @@ const DeckList = ({
                             : paginationFactory({
                                   page: pagingDetails.page,
                                   sizePerPage: pagingDetails.pageSize,
-                                  totalSize: numDecks
+                                  totalSize: parseInt(numDecks) || 0
                               })
                     }
                     filter={filterFactory()}

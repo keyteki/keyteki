@@ -10,6 +10,7 @@ import admin from './admin';
 import user from './user';
 import account from './account';
 import lobby from './lobby';
+import tags from './tags';
 import { reducer as toastrReducer } from 'react-redux-toastr';
 
 const rootReducer = combineReducers({
@@ -24,7 +25,8 @@ const rootReducer = combineReducers({
     admin,
     user,
     account,
-    lobby
+    lobby,
+    tags
 });
 
 export default rootReducer;

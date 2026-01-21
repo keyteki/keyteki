@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Trans, useTranslation } from 'react-i18next';
 import { Col, Row } from 'react-bootstrap';
@@ -8,12 +8,14 @@ import Link from '../Components/Navigation/Link';
 import DeckList from '../Components/Decks/DeckList';
 import ViewDeck from '../Components/Decks/ViewDeck';
 import ApiStatus from '../Components/Site/ApiStatus';
+import TagManagementModal from '../Components/Tags/TagManagementModal';
 import { Decks } from '../redux/types';
 import { clearApiStatus } from '../redux/actions';
 
 const DecksComponent = () => {
     const { t } = useTranslation();
     const dispatch = useDispatch();
+    const [showTagModal, setShowTagModal] = useState(false);
     const apiState = useSelector((state) => {
         const retState = state.api[Decks.DeleteDeck];
 
@@ -55,6 +57,8 @@ const DecksComponent = () => {
                 </Col>
                 <Col lg={6}>{selectedDeck && <ViewDeck deck={selectedDeck} />}</Col>
             </Row>
+
+            <TagManagementModal show={showTagModal} onHide={() => setShowTagModal(false)} />
         </div>
     );
 };
