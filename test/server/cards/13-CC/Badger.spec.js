@@ -66,6 +66,7 @@ describe('Badger', function () {
             this.player1.reap(this.martianPropagandist);
             // Propagandist immediately changes Badger's house to Mars before resolving Badger's after play ability
             this.player1.playCreature(this.badger);
+            expect(this.badger.hasHouse('mars')).toBe(true);
             expect(this.player1).isReadyToTakeAction();
         });
     });
