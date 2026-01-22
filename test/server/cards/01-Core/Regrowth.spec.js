@@ -4,20 +4,18 @@ describe('Regrowth', function () {
             this.setupTest({
                 player1: {
                     house: 'untamed',
-                    hand: ['regrowth', 'flaxia', 'murmook', 'dust-pixie'],
+                    hand: ['regrowth', 'dust-pixie'],
+                    discard: ['flaxia', 'murmook'],
                     inPlay: ['halacor']
                 },
                 player2: {
-                    hand: ['troll'],
+                    discard: ['troll'],
                     inPlay: ['bumpsy']
                 }
             });
         });
 
         it('should return a creature from discard to hand', function () {
-            this.player1.moveCard(this.flaxia, 'discard');
-            this.player1.moveCard(this.murmook, 'discard');
-            this.player2.moveCard(this.troll, 'discard');
             this.player1.play(this.regrowth);
             expect(this.player1).toBeAbleToSelect(this.flaxia);
             expect(this.player1).toBeAbleToSelect(this.murmook);

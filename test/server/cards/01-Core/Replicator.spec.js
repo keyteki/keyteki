@@ -145,7 +145,7 @@ describe('Replicator', function () {
             expect(this.player1.currentPrompt().buttons[0].text).toBe('Rhetor Gallim');
             expect(this.player1.currentPrompt().buttons[1].text).toBe('Rhetor Gallim');
             this.player1.clickPrompt('Rhetor Gallim', 1); // Reap
-            expect(this.rhetorGhallim1.tokens.amber).toBe(1);
+            expect(this.rhetorGhallim1.amber).toBe(1);
             this.player1.endTurn();
             this.player2.clickPrompt('saurian');
             expect(this.player2.player.getCurrentKeyCost()).toBe(9);
@@ -158,7 +158,7 @@ describe('Replicator', function () {
             expect(this.player1.currentPrompt().buttons[0].text).toBe('Rhetor Gallim');
             expect(this.player1.currentPrompt().buttons[1].text).toBe('Rhetor Gallim');
             this.player1.clickPrompt('Rhetor Gallim', 0); // Play
-            expect(this.rhetorGhallim1.tokens.amber).toBe(undefined);
+            expect(this.rhetorGhallim1.amber).toBe(0);
             this.player1.endTurn();
             this.player2.clickPrompt('saurian');
             expect(this.player2.player.getCurrentKeyCost()).toBe(9);
@@ -227,7 +227,7 @@ describe('Replicator', function () {
             this.player1.clickCard(this.sequis);
             expect(this.player1.amber).toBe(3);
             expect(this.player2.amber).toBe(1);
-            expect(this.sequis.tokens.amber).toBe(1);
+            expect(this.sequis.amber).toBe(1);
         });
     });
 });

@@ -4,14 +4,14 @@ describe('Reverse Time', function () {
             this.setupTest({
                 player1: {
                     house: 'logos',
-                    hand: ['reverse-time', 'dextre', 'mother']
+                    hand: ['reverse-time', 'mother'],
+                    discard: ['dextre']
                 },
                 player2: {}
             });
         });
 
         it('should swap deck and discard pile', function () {
-            this.player1.moveCard(this.dextre, 'discard');
             this.player1.moveCard(this.mother, 'deck');
             let deckSize = this.player1.deck.length;
             let discardSize = this.player1.discard.length;
