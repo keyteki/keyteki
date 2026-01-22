@@ -80,6 +80,7 @@ class Game extends EventEmitter {
         this.startingHandsDrawn = false;
 
         this.cardNamesPlayedOrUsed = [];
+
         this.cardsUsed = [];
         this.omegaCard = null;
         this.cardsPlayed = [];
