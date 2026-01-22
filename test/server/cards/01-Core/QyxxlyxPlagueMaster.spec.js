@@ -3,35 +3,31 @@ describe('Qyxxlyx Plague Master', function () {
         beforeEach(function () {
             this.setupTest({
                 player1: {
-                    house: 'dis',
-                    inPlay: ['qyxxlyx-plague-master', 'ember-imp']
+                    house: 'mars',
+                    inPlay: ['qyxxlyx-plague-master', 'sergeant-zakiel']
                 },
                 player2: {
-                    inPlay: ['valdr', 'champion-anaphiel', 'sequis']
+                    inPlay: ['protectrix', 'sequis', 'urchin']
                 }
             });
         });
 
-        it('should deal 3 damage to each Human creature on fight', function () {
-            this.player1.fightWith(this.qyxxlyxPlagueMaster, this.sequis);
-            expect(this.valdr.tokens.damage).toBe(3);
-            expect(this.championAnaphiel.tokens.damage).toBeUndefined();
-            expect(this.sequis.tokens.damage).toBe(4);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+        it('should deal 3 damage to each Human creature after fight, ignoring armor', function () {
+            this.player1.fightWith(this.qyxxlyxPlagueMaster, this.urchin);
+            expect(this.sergeantZakiel.tokens.damage).toBe(3);
+            expect(this.protectrix.tokens.damage).toBe(undefined);
+            expect(this.sequis.tokens.damage).toBe(3);
+            expect(this.urchin.tokens.damage).toBe(undefined);
+            expect(this.player1).isReadyToTakeAction();
         });
 
-        it('should deal 3 damage to each Human creature on reap', function () {
+        it('should deal 3 damage to each Human creature after reap, ignoring armor', function () {
             this.player1.reap(this.qyxxlyxPlagueMaster);
-            expect(this.valdr.tokens.damage).toBe(3);
-            expect(this.championAnaphiel.tokens.damage).toBeUndefined();
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
-        });
-
-        it('should ignore armor when dealing damage', function () {
-            this.valdr.tokens.armor = 2;
-            this.player1.reap(this.qyxxlyxPlagueMaster);
-            expect(this.valdr.tokens.damage).toBe(3);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.sergeantZakiel.tokens.damage).toBe(3);
+            expect(this.protectrix.tokens.damage).toBe(undefined);
+            expect(this.sequis.tokens.damage).toBe(3);
+            expect(this.urchin.tokens.damage).toBe(undefined);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

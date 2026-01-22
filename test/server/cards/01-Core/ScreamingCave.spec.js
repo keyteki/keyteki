@@ -3,7 +3,7 @@ describe('Screaming Cave', function () {
         beforeEach(function () {
             this.setupTest({
                 player1: {
-                    house: 'untamed',
+                    house: 'dis',
                     inPlay: ['screaming-cave'],
                     hand: ['urchin', 'dust-pixie'],
                     discard: ['niffle-ape', 'way-of-the-bear']
@@ -18,7 +18,11 @@ describe('Screaming Cave', function () {
             expect(this.player1.hand.length).toBe(0);
             expect(this.player1.discard.length).toBe(0);
             expect(this.player1.deck.length).toBe(deckSize + 4);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.urchin.location).toBe('deck');
+            expect(this.dustPixie.location).toBe('deck');
+            expect(this.niffleApe.location).toBe('deck');
+            expect(this.wayOfTheBear.location).toBe('deck');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

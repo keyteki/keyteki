@@ -3,9 +3,8 @@ describe('Psychic Bug', function () {
         beforeEach(function () {
             this.setupTest({
                 player1: {
-                    house: 'mars',
-                    hand: ['psychic-bug'],
-                    inPlay: ['collector-worm']
+                    house: 'logos',
+                    inPlay: ['psychic-bug']
                 },
                 player2: {
                     hand: ['batdrone', 'mother']
@@ -14,15 +13,20 @@ describe('Psychic Bug', function () {
         });
 
         it('should reveal opponent hand on play', function () {
-            this.player1.play(this.psychicBug);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.player1.moveCard(this.psychicBug, 'hand');
+            this.player1.playCreature(this.psychicBug);
+            expect(this).toHaveRecentChatMessage(
+                'player1 uses Psychic Bug to reveal Batdrone and Mother'
+            );
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should reveal opponent hand on reap', function () {
-            this.psychicBug.exhausted = false;
-            this.player1.moveCard(this.psychicBug, 'play area');
             this.player1.reap(this.psychicBug);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this).toHaveRecentChatMessage(
+                'player1 uses Psychic Bug to reveal Batdrone and Mother'
+            );
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

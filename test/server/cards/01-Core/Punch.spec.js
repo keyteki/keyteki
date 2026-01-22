@@ -8,7 +8,7 @@ describe('Punch', function () {
                     inPlay: ['bumpsy']
                 },
                 player2: {
-                    inPlay: ['sequis']
+                    inPlay: ['troll']
                 }
             });
         });
@@ -16,17 +16,17 @@ describe('Punch', function () {
         it('should deal 3 damage to a creature', function () {
             this.player1.play(this.punch);
             expect(this.player1).toBeAbleToSelect(this.bumpsy);
-            expect(this.player1).toBeAbleToSelect(this.sequis);
-            this.player1.clickCard(this.sequis);
-            expect(this.sequis.tokens.damage).toBe(3);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).toBeAbleToSelect(this.troll);
+            this.player1.clickCard(this.troll);
+            expect(this.troll.tokens.damage).toBe(3);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should be able to target friendly creatures', function () {
             this.player1.play(this.punch);
             this.player1.clickCard(this.bumpsy);
             expect(this.bumpsy.tokens.damage).toBe(3);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

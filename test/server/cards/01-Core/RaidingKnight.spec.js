@@ -16,14 +16,14 @@ describe('Raiding Knight', function () {
             this.player1.play(this.raidingKnight);
             expect(this.raidingKnight.amber).toBe(1);
             expect(this.player2.amber).toBe(1);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should not capture if opponent has no amber', function () {
             this.player2.amber = 0;
             this.player1.play(this.raidingKnight);
             expect(this.raidingKnight.amber).toBe(0);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

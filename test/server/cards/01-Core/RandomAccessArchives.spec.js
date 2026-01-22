@@ -14,7 +14,7 @@ describe('Random Access Archives', function () {
             let topCard = this.player1.deck[0];
             this.player1.play(this.randomAccessArchives);
             expect(this.player1.archives).toContain(topCard);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });
