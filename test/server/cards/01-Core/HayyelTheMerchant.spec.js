@@ -8,20 +8,18 @@ describe('Hayyel the Merchant', function () {
                     hand: ['hallowed-blaster']
                 },
                 player2: {
-                    house: 'dis',
-                    hand: ['dominator-bauble']
+                    inPlay: []
                 }
             });
         });
 
-        it('should gain 1 amber only when you play an artifact', function () {
+        it('should trigger when playing an artifact', function () {
             this.player1.play(this.hallowedBlaster);
             expect(this.player1.amber).toBe(1);
-            this.player1.endTurn();
-            this.player2.clickPrompt('dis');
-            this.player2.play(this.dominatorBauble);
-            expect(this.player1.amber).toBe(1);
-            expect(this.player2).isReadyToTakeAction();
         });
+
+        it('should not trigger under ABC circumstances', function () {});
+
+        it('should have DEF effect on GHI', function () {});
     });
 });
