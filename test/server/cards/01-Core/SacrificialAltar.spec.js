@@ -19,7 +19,7 @@ describe('Sacrificial Altar', function () {
             expect(this.jehuTheBureaucrat.location).toBe('purged');
             expect(this.player1).toBeAbleToSelect(this.shooler);
             this.player1.clickCard(this.shooler);
-            this.player1.clickPromopt('Right');
+            this.player1.clickPrompt('Right');
             expect(this.shooler.location).toBe('play area');
             expect(this.player1).isReadyToTakeAction();
         });
