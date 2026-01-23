@@ -170,7 +170,7 @@ describe('Magda the Rat', function () {
             });
         });
 
-        it('should still work if flipped without token creature', function () {
+        it('should still work if flipped and discarded', function () {
             // Set up Magda
             this.player1.play(this.magdaTheRat);
             expect(this.player1.amber).toBe(2);

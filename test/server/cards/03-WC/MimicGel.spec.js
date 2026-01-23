@@ -770,7 +770,7 @@ describe('Mimic Gel', function () {
             });
         });
 
-        it('should not become a token creature if flipped', function () {
+        it('should not become a token creature if flipped with no token creature reference card', function () {
             expect(this.player2.amber).toBe(0);
             this.player1.playCreature(this.mimicGel);
             this.player1.clickCard(this.gĕzdrutyŏTheArcane);
@@ -799,7 +799,7 @@ describe('Mimic Gel', function () {
             });
         });
 
-        it('should become a token creature if flipped with a token creature', function () {
+        it('should become a token creature if flipped with a token creature reference card', function () {
             this.player1.playCreature(this.mimicGel);
             this.player1.clickCard(this.gĕzdrutyŏTheArcane);
             this.mimicGel.exhausted = false;

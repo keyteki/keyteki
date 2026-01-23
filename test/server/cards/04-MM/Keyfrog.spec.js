@@ -214,7 +214,7 @@ describe('Keyfrog', function () {
             });
         });
 
-        it('should not forge if flipped without token creature', function () {
+        it('should not forge if flipped and discarded', function () {
             expect(this.player1.player.getForgedKeys()).toBe(0);
             this.keyfrog.exhausted = false;
 

@@ -163,7 +163,7 @@ describe('Turnkey', function () {
         });
     });
 
-    describe("Turnkey's ability without token", function () {
+    describe("Turnkey's ability", function () {
         beforeEach(function () {
             this.setupTest({
                 player1: {
@@ -177,7 +177,7 @@ describe('Turnkey', function () {
             });
         });
 
-        it('should still work if flipped without token creature', function () {
+        it('should still work if flipped and discarded', function () {
             this.player2.player.keys = { red: true, blue: true, yellow: false };
             this.player1.play(this.turnkey);
             this.player1.clickPrompt('Blue');
