@@ -55,6 +55,24 @@ class FlipAction extends CardGameAction {
                             })
                         ])
                         .resolve(card, context);
+                } else if (!card.isToken() && !card.owner.tokenCard) {
+                    // If flipping a non-token card face-down but there's no token
+                    // creature to become, the card is no longer in a legal state.
+                    // Ignore any wards or amber since the flipped card is not a creature. Then fire onCardLeavesPlay to trigger any
+                    // "leaves play" abilities before moving to discard.
+                    card.tokens.amber = 0;
+                    card.tokens.ward = 0;
+                    context.game.openEventWindow(
+                        context.game.getEvent(
+                            EVENTS.onCardLeavesPlay,
+                            {
+                                card: card,
+                                context: context,
+                                condition: (event) => event.card.location === 'play area'
+                            },
+                            (event) => event.card.owner.moveCard(event.card, 'discard')
+                        )
+                    );
                 } else {
                     context.game.actions
                         .cardLastingEffect({

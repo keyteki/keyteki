@@ -163,4 +163,70 @@ describe('Keyfrog', function () {
             expect(this.player2.player.getForgedKeys()).toBe(0);
         });
     });
+
+    describe("Keyfrog's ability", function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    amber: 6,
+                    house: 'untamed',
+                    token: 'grumpus',
+                    hand: ['gĕzdrutyŏ-the-arcane', 'unsuspecting-prey'],
+                    inPlay: ['keyfrog', 'creed-of-nurture']
+                },
+                player2: {}
+            });
+        });
+
+        it('should not forge if flipped into a token creature', function () {
+            expect(this.player1.player.getForgedKeys()).toBe(0);
+            this.keyfrog.exhausted = false;
+
+            // Flip Keyfrog - this does not remove Keyfrog from play
+            this.player1.useAction(this.creedOfNurture, true);
+            this.player1.clickCard(this.gĕzdrutyŏTheArcane);
+            this.player1.clickCard(this.keyfrog);
+            this.player1.useAction(this.keyfrog); // Steal 2 and flip with Gĕzdrutyŏ's action
+            expect(this.keyfrog.isToken()).toBe(true);
+            expect(this.keyfrog.name).toBe('Grumpus');
+            expect(this.player1.player.getForgedKeys()).toBe(0);
+
+            // Destroy the Grumpus:Keyfrog - now Keyfrog is considered to be leaving play
+            this.player1.play(this.unsuspectingPrey);
+            this.player1.clickCard(this.keyfrog);
+            this.player1.clickPrompt('Done');
+            expect(this.keyfrog.location).toBe('discard');
+            expect(this.player1.player.getForgedKeys()).toBe(0);
+            expect(this.player1).isReadyToTakeAction();
+        });
+    });
+
+    describe("Keyfrog's ability", function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    amber: 6,
+                    house: 'untamed',
+                    hand: ['gĕzdrutyŏ-the-arcane', 'unsuspecting-prey'],
+                    inPlay: ['keyfrog', 'creed-of-nurture']
+                },
+                player2: {}
+            });
+        });
+
+        it('should not forge if flipped without token creature', function () {
+            expect(this.player1.player.getForgedKeys()).toBe(0);
+            this.keyfrog.exhausted = false;
+
+            // Flip Keyfrog - without a token creature this removes Keyfrog from play
+            this.player1.useAction(this.creedOfNurture, true);
+            this.player1.clickCard(this.gĕzdrutyŏTheArcane);
+            this.player1.clickCard(this.keyfrog);
+            this.player1.useAction(this.keyfrog); // Steal 2 and flip with Gĕzdrutyŏ's action
+            expect(this.keyfrog.location).toBe('discard');
+            expect(this.player1.player.amber).toBe(6);
+            expect(this.player1.player.getForgedKeys()).toBe(0);
+            expect(this.player1).isReadyToTakeAction();
+        });
+    });
 });

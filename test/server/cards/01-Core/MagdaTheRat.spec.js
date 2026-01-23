@@ -114,4 +114,78 @@ describe('Magda the Rat', function () {
             this.player1.endTurn();
         });
     });
+
+    describe("Magda the Rat's ability", function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'shadows',
+                    token: 'grumpus',
+                    hand: ['magda-the-rat', 'gĕzdrutyŏ-the-arcane', 'poison-wave'],
+                    inPlay: ['creed-of-nurture']
+                },
+                player2: {
+                    amber: 5
+                }
+            });
+        });
+
+        it('should still work if flipped into a token creature', function () {
+            // Set up Magda
+            this.player1.play(this.magdaTheRat);
+            expect(this.player1.amber).toBe(2);
+            expect(this.player2.amber).toBe(3);
+            this.magdaTheRat.exhausted = false;
+
+            // Flip Magda - this does not remove Magda from play
+            this.player1.useAction(this.creedOfNurture, true);
+            this.player1.clickCard(this.gĕzdrutyŏTheArcane);
+            this.player1.clickCard(this.magdaTheRat);
+            this.player1.useAction(this.magdaTheRat); // Steal 2 and flip with Gĕzdrutyŏ's action
+            expect(this.magdaTheRat.isToken()).toBe(true);
+            expect(this.magdaTheRat.name).toBe('Grumpus');
+            expect(this.player1.amber).toBe(4);
+            expect(this.player2.amber).toBe(1);
+
+            // Destroy the Grumpus:Magda - now Magda is considered to be leaving play
+            this.player1.play(this.poisonWave);
+            expect(this.magdaTheRat.location).toBe('discard');
+            expect(this.player1.amber).toBe(3);
+            expect(this.player2.amber).toBe(3);
+            expect(this.player1).isReadyToTakeAction();
+        });
+    });
+
+    describe("Magda the Rat's ability", function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'shadows',
+                    hand: ['magda-the-rat', 'gĕzdrutyŏ-the-arcane', 'poison-wave'],
+                    inPlay: ['creed-of-nurture']
+                },
+                player2: {
+                    amber: 5
+                }
+            });
+        });
+
+        it('should still work if flipped without token creature', function () {
+            // Set up Magda
+            this.player1.play(this.magdaTheRat);
+            expect(this.player1.amber).toBe(2);
+            expect(this.player2.amber).toBe(3);
+            this.magdaTheRat.exhausted = false;
+
+            // Flip Magda - without a token creature this removes Magda from play
+            this.player1.useAction(this.creedOfNurture, true);
+            this.player1.clickCard(this.gĕzdrutyŏTheArcane);
+            this.player1.clickCard(this.magdaTheRat);
+            this.player1.useAction(this.magdaTheRat); // Steal 2 and flip with Gĕzdrutyŏ's action
+            expect(this.magdaTheRat.location).toBe('discard');
+            expect(this.player1.amber).toBe(2);
+            expect(this.player2.amber).toBe(3);
+            expect(this.player1).isReadyToTakeAction();
+        });
+    });
 });
