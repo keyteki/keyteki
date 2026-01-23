@@ -188,4 +188,53 @@ describe('Magda the Rat', function () {
             expect(this.player1).isReadyToTakeAction();
         });
     });
+
+    describe("Magda the Rat's ability", function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'shadows',
+                    token: 'stooge',
+                    hand: ['magda-the-rat', 'gĕzdrutyŏ-the-arcane'],
+                    inPlay: ['creed-of-nurture']
+                },
+                player2: {
+                    amber: 5,
+                    hand: ['temporal-purge', 'quintrino-warp']
+                }
+            });
+        });
+
+        it('should still work if flipped twice', function () {
+            // Set up Magda
+            this.player1.play(this.magdaTheRat);
+            expect(this.player1.amber).toBe(2);
+            expect(this.player2.amber).toBe(3);
+            this.magdaTheRat.exhausted = false;
+
+            // Flip Magda - this does not remove Magda from play
+            this.player1.useAction(this.creedOfNurture, true);
+            this.player1.clickCard(this.gĕzdrutyŏTheArcane);
+            this.player1.clickCard(this.magdaTheRat);
+            this.player1.useAction(this.magdaTheRat); // Steal 2 and flip with Gĕzdrutyŏ's action
+            expect(this.magdaTheRat.isToken()).toBe(true);
+            expect(this.magdaTheRat.name).toBe('Stooge');
+            expect(this.player1.amber).toBe(4);
+            expect(this.player2.amber).toBe(1);
+
+            // Flip Grumpus:Magda and destroy Magda - now Magda is considered to be leaving play
+            this.player1.endTurn();
+            this.player2.clickPrompt('staralliance');
+            this.player2.play(this.temporalPurge);
+            expect(this.magdaTheRat.isToken()).toBe(false);
+            expect(this.magdaTheRat.name).toBe('Magda the Rat');
+            this.player2.play(this.quintrinoWarp);
+            this.player2.clickCard(this.magdaTheRat);
+            this.player2.clickCard(this.gĕzdrutyŏTheArcane);
+            expect(this.magdaTheRat.location).toBe('discard');
+            expect(this.player1.amber).toBe(2);
+            expect(this.player2.amber).toBe(4);
+            expect(this.player2).isReadyToTakeAction();
+        });
+    });
 });
