@@ -17,7 +17,7 @@ describe('Pingle Who Annoys', function () {
         it('should deal 1 damage to enemy creature when it enters play', function () {
             this.player1.play(this.nexus);
             expect(this.nexus.location).toBe('play area');
-            expect(this.nexus.tokens.damage).toBe(1);
+            expect(this.nexus.damage).toBe(1);
         });
 
         it('should not deal 1 damage to own creature when it enters play', function () {
@@ -25,7 +25,7 @@ describe('Pingle Who Annoys', function () {
             this.player2.clickPrompt('brobnar');
             this.player2.play(this.alaka);
             expect(this.alaka.location).toBe('play area');
-            expect(this.alaka.tokens.damage).toBeUndefined();
+            expect(this.alaka.damage).toBe(0);
         });
 
         it('should prompt the player whether to trigger Urchin or Pingle first', function () {
@@ -65,9 +65,9 @@ describe('Pingle Who Annoys', function () {
             this.player2.clickPrompt('Left');
             this.player2.clickPrompt('Left');
             expect(this.player1.inPlay[0].name).toBe('Warrior');
-            expect(this.player1.inPlay[0].tokens.damage).toBeUndefined();
+            expect(this.player1.inPlay[0].damage).toBe(0);
             expect(this.player1.inPlay[1].name).toBe('Warrior');
-            expect(this.player1.inPlay[1].tokens.damage).toBeUndefined();
+            expect(this.player1.inPlay[1].damage).toBe(0);
         });
     });
 
@@ -101,9 +101,9 @@ describe('Pingle Who Annoys', function () {
             expect(this.pingleWhoAnnoys.location).toBe('play area');
             expect(this.alaka.location).toBe('play area');
             expect(this.flaxia.location).toBe('play area');
-            expect(this.bigtwig.tokens.damage).toBe(1);
-            expect(this.alaka.tokens.damage).toBeUndefined();
-            expect(this.flaxia.tokens.damage).toBeUndefined();
+            expect(this.bigtwig.damage).toBe(1);
+            expect(this.alaka.damage).toBe(0);
+            expect(this.flaxia.damage).toBe(0);
         });
     });
 });

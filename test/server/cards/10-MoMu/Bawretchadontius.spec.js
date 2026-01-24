@@ -147,7 +147,7 @@ describe('Bawretchadontius', function () {
             expect(this.player1).toBeAbleToSelect(this.dustPixie);
             expect(this.player1).toBeAbleToSelect(this.troll);
             this.player1.clickCard(this.troll);
-            expect(this.troll.tokens.damage).toBe(4);
+            expect(this.troll.damage).toBe(4);
             this.player1.reap(this.tricerianLegionary);
             expect(this.player1).isReadyToTakeAction();
         });

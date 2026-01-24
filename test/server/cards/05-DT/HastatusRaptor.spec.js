@@ -23,7 +23,7 @@ describe('HastatusRaptor', function () {
 
             it('should deal only 5 damage in fight and raptor should die', function () {
                 expect(this.raptor1.location).toBe('discard');
-                expect(this.troll.tokens.damage).toBe(5);
+                expect(this.troll.damage).toBe(5);
             });
         });
 
@@ -35,7 +35,7 @@ describe('HastatusRaptor', function () {
 
             it('should deal 1 damage before fight and 5 damage in fight and raptor should die', function () {
                 expect(this.raptor1.location).toBe('discard');
-                expect(this.troll.tokens.damage).toBe(6);
+                expect(this.troll.damage).toBe(6);
             });
         });
 
@@ -49,7 +49,7 @@ describe('HastatusRaptor', function () {
             it('should deal 8 damage before fight and raptor should not take damage', function () {
                 expect(this.raptor1.location).toBe('play area');
                 expect(this.troll.location).toBe('discard');
-                expect(this.raptor1.tokens.damage).toBeUndefined();
+                expect(this.raptor1.damage).toBe(0);
             });
         });
 
@@ -64,7 +64,7 @@ describe('HastatusRaptor', function () {
             it('should deal 8 damage before fight and raptor should not take damage', function () {
                 expect(this.raptor1.location).toBe('play area');
                 expect(this.troll.location).toBe('discard');
-                expect(this.raptor1.tokens.damage).toBeUndefined();
+                expect(this.raptor1.damage).toBe(0);
             });
         });
     });

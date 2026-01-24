@@ -17,7 +17,7 @@ describe('Foggify', function () {
 
         it('own creatures should be able to fight', function () {
             this.player1.fightWith(this.dextre, this.emberImp);
-            expect(this.dextre.tokens.damage).toBe(2);
+            expect(this.dextre.damage).toBe(2);
             expect(this.emberImp.location).toBe('discard');
         });
 

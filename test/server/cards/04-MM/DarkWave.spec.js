@@ -15,11 +15,11 @@ describe('Dark Wave', function () {
 
         it('should deal 2D to each non-mutant', function () {
             this.player1.play(this.darkWave);
-            expect(this.troll.tokens.damage).toBe(2);
-            expect(this.ardentHero.tokens.damage).toBe(2);
-            expect(this.shooler.tokens.damage).toBe(2);
-            expect(this.bullWark.tokens.damage).toBeUndefined();
-            expect(this.sacroBeast.tokens.damage).toBeUndefined();
+            expect(this.troll.damage).toBe(2);
+            expect(this.ardentHero.damage).toBe(2);
+            expect(this.shooler.damage).toBe(2);
+            expect(this.bullWark.damage).toBe(0);
+            expect(this.sacroBeast.damage).toBe(0);
         });
     });
 });

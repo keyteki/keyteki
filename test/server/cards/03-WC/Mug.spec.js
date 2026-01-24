@@ -51,7 +51,7 @@ describe("Mug's play ability", function () {
         this.player1.clickCard(this.flaxia);
 
         expect(this.flaxia.amber).toBe(1);
-        expect(this.flaxia.tokens.damage).toBe(2);
+        expect(this.flaxia.damage).toBe(2);
 
         expect(this.krump.amber).toBe(1);
 
@@ -70,7 +70,7 @@ describe("Mug's play ability", function () {
         this.player1.clickCard(this.krump);
 
         expect(this.krump.hasToken('amber')).toBe(false);
-        expect(this.krump.tokens.damage).toBe(2);
+        expect(this.krump.damage).toBe(2);
 
         expect(this.flaxia.amber).toBe(2);
 
@@ -90,7 +90,7 @@ describe("Mug's play ability", function () {
         this.player1.clickCard(this.troll);
 
         expect(this.troll.hasToken('amber')).toBe(false);
-        expect(this.troll.tokens.damage).toBe(2);
+        expect(this.troll.damage).toBe(2);
 
         expect(this.krump.amber).toBe(1);
         expect(this.flaxia.amber).toBe(2);

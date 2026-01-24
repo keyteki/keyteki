@@ -18,10 +18,10 @@ describe('Gemcoat Vendor', function () {
             this.player1.useAction(this.gemcoatVendor);
             expect(this.player1.amber).toBe(2);
             expect(this.player2.amber).toBe(4);
-            expect(this.gemcoatVendor.tokens.damage).toBe(1);
-            expect(this.flaxia.tokens.damage).toBeUndefined();
-            expect(this.gub.tokens.damage).toBeUndefined();
-            expect(this.krump.tokens.damage).toBeUndefined();
+            expect(this.gemcoatVendor.damage).toBe(1);
+            expect(this.flaxia.damage).toBe(0);
+            expect(this.gub.damage).toBe(0);
+            expect(this.krump.damage).toBe(0);
         });
     });
 });

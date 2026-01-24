@@ -50,7 +50,7 @@ describe('main phase', function () {
             expect(this.player1).not.toBeAbleToSelect(this.witchOfTheEye);
             this.player1.clickCard(this.batdrone);
             expect(this.witchOfTheEye.exhausted).toBe(true);
-            expect(this.witchOfTheEye.tokens.damage).toBe(2);
+            expect(this.witchOfTheEye.damage).toBe(2);
             expect(this.batdrone.location).toBe('discard');
         });
 

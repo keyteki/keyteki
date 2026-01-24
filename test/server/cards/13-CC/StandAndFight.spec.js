@@ -22,7 +22,7 @@ describe('Stand and Fight', function () {
             expect(this.umbra.amber).toBe(1);
             this.player1.clickCard(this.umbra);
             expect(this.umbra.location).toBe('discard');
-            expect(this.charette.tokens.damage).toBe(2);
+            expect(this.charette.damage).toBe(2);
             expect(this.charette.exhausted).toBe(true);
             expect(this.player1.amber).toBe(1);
             expect(this.player1).isReadyToTakeAction();

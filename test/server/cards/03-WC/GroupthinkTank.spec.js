@@ -20,9 +20,9 @@ describe('Groupthink Tank', function () {
             expect(this.zorg.hasToken('damage')).toBe(false);
             expect(this.archimedes.hasToken('damage')).toBe(false);
 
-            expect(this.shooler.tokens.damage).toBe(4);
-            expect(this.gub.tokens.damage).toBe(4);
-            expect(this.skullion.tokens.damage).toBe(2);
+            expect(this.shooler.damage).toBe(4);
+            expect(this.gub.damage).toBe(4);
+            expect(this.skullion.damage).toBe(2);
         });
     });
 });

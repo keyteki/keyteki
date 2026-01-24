@@ -32,7 +32,7 @@ describe('Ganger Chieftain', function () {
             this.player1.clickCard(this.batdrone);
             expect(this.troll.exhausted).toBe(true);
             expect(this.batdrone.location).toBe('discard');
-            expect(this.troll.tokens.damage).toBe(7);
+            expect(this.troll.damage).toBe(7);
             expect(this.player1).isReadyToTakeAction();
         });
 
@@ -48,7 +48,7 @@ describe('Ganger Chieftain', function () {
             expect(this.player1).toHavePrompt('Choose a creature to attack');
             this.player1.clickCard(this.batdrone);
             expect(this.batdrone.location).toBe('discard');
-            expect(this.troll.tokens.damage).toBe(5);
+            expect(this.troll.damage).toBe(5);
             expect(this.ancientBear.exhausted).toBe(true);
             expect(this.ancientBear.hasToken('damage')).toBe(false);
             expect(this.player1).isReadyToTakeAction();

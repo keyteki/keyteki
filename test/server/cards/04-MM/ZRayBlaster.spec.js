@@ -21,8 +21,8 @@ describe('Z-Ray Blaster', function () {
 
             expect(this.troll.location).toBe('discard');
             expect(this.captainValJericho.location).toBe('play area');
-            expect(this.captainValJericho.tokens.damage).toBe(7);
-            expect(this.valdr.tokens.damage).toBe(3);
+            expect(this.captainValJericho.damage).toBe(7);
+            expect(this.valdr.damage).toBe(3);
             expect(this.nexus.location).toBe('discard');
         });
     });

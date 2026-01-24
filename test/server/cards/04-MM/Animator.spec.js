@@ -140,7 +140,7 @@ describe('Animator', function () {
                     });
 
                     it('should become an artifact again', function () {
-                        expect(this.hapsis.tokens.damage).toBe(3);
+                        expect(this.hapsis.damage).toBe(3);
                         expect(this.lashOfBrokenDreams.type).toBe('artifact');
                         expect(this.lashOfBrokenDreams.location).toBe('discard');
                         expect(this.lashOfBrokenDreams.hasHouse('logos')).toBe(false);
@@ -158,7 +158,7 @@ describe('Animator', function () {
                         });
 
                         it('should discard the upgrade', function () {
-                            expect(this.hapsis.tokens.damage).toBe(3);
+                            expect(this.hapsis.damage).toBe(3);
                             expect(this.lashOfBrokenDreams.type).toBe('artifact');
                             expect(this.lashOfBrokenDreams.location).toBe('discard');
                             expect(this.discombobulator.location).toBe('discard');

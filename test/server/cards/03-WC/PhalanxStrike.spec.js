@@ -30,7 +30,7 @@ describe('Phalanx Strike', function () {
             expect(this.player1).toBeAbleToSelect(this.silvertooth);
             expect(this.player1).toBeAbleToSelect(this.urchin);
             this.player1.clickCard(this.mother);
-            expect(this.mother.tokens.damage).toBe(2);
+            expect(this.mother.damage).toBe(2);
         });
 
         it('should prompt the player to repeat the ability if they exalt a friendly creature - and accept', function () {

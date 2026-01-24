@@ -17,12 +17,12 @@ describe('Shadow Self', function () {
 
         it('should not deal damage in fights', function () {
             this.player1.fightWith(this.shadowSelf1, this.silvertooth);
-            expect(this.shadowSelf1.tokens.damage).toBe(2);
+            expect(this.shadowSelf1.damage).toBe(2);
             expect(this.silvertooth.hasToken('damage')).toBe(false);
             this.player1.endTurn();
             this.player2.clickPrompt('shadows');
             this.player2.fightWith(this.silvertooth, this.shadowSelf1);
-            expect(this.shadowSelf1.tokens.damage).toBe(4);
+            expect(this.shadowSelf1.damage).toBe(4);
             expect(this.silvertooth.hasToken('damage')).toBe(false);
         });
 
@@ -30,8 +30,8 @@ describe('Shadow Self', function () {
             this.player1.fightWith(this.urchin, this.silvertooth);
             expect(this.urchin.hasToken('damage')).toBe(false);
             expect(this.urchin.location).toBe('play area');
-            expect(this.shadowSelf1.tokens.damage).toBe(2);
-            expect(this.silvertooth.tokens.damage).toBe(1);
+            expect(this.shadowSelf1.damage).toBe(2);
+            expect(this.silvertooth.damage).toBe(1);
         });
 
         it('should not take damage when an elusive neighboring creature is attacked', function () {
@@ -54,7 +54,7 @@ describe('Shadow Self', function () {
             this.player2.clickPrompt('shadows');
             this.player2.fightWith(this.silvertooth, this.shadowSelf1);
             expect(this.silvertooth.hasToken('damage')).toBe(false);
-            expect(this.shadowSelf1.tokens.damage).toBe(1);
+            expect(this.shadowSelf1.damage).toBe(1);
             expect(this.shadowSelf1.hasToken('armor')).toBe(false);
             expect(this.shadowSelf1.armorUsed).toBe(1);
         });
@@ -70,12 +70,12 @@ describe('Shadow Self', function () {
             expect(this.badPenny.tokens.armor).toBe(1);
             this.player2.clickPrompt('shadows');
             this.player2.fightWith(this.silvertooth, this.badPenny);
-            expect(this.silvertooth.tokens.damage).toBe(1);
+            expect(this.silvertooth.damage).toBe(1);
             expect(this.badPenny.hasToken('armor')).toBe(false);
             expect(this.badPenny.armorUsed).toBe(1);
             expect(this.badPenny.hasToken('damage')).toBe(false);
             expect(this.shadowSelf1.armor).toBe(1);
-            expect(this.shadowSelf1.tokens.damage).toBe(1);
+            expect(this.shadowSelf1.damage).toBe(1);
         });
 
         it('should bypass its ward and armor when taking the damage of neighbors', function () {
@@ -90,13 +90,13 @@ describe('Shadow Self', function () {
             expect(this.badPenny.tokens.armor).toBe(1);
             this.player2.clickPrompt('shadows');
             this.player2.fightWith(this.silvertooth, this.badPenny);
-            expect(this.silvertooth.tokens.damage).toBe(1);
+            expect(this.silvertooth.damage).toBe(1);
             expect(this.badPenny.hasToken('armor')).toBe(false);
             expect(this.badPenny.armorUsed).toBe(1);
             expect(this.badPenny.hasToken('damage')).toBe(false);
             expect(this.shadowSelf1.armor).toBe(1);
             expect(this.shadowSelf1.warded).toBe(true);
-            expect(this.shadowSelf1.tokens.damage).toBe(1);
+            expect(this.shadowSelf1.damage).toBe(1);
         });
 
         it('should bypass its ward and be destroyed when taking the damage of neighbors', function () {
@@ -112,7 +112,7 @@ describe('Shadow Self', function () {
             expect(this.badPenny.tokens.armor).toBe(1);
             this.player2.clickPrompt('shadows');
             this.player2.fightWith(this.silvertooth, this.badPenny);
-            expect(this.silvertooth.tokens.damage).toBe(1);
+            expect(this.silvertooth.damage).toBe(1);
             expect(this.badPenny.hasToken('armor')).toBe(false);
             expect(this.badPenny.armorUsed).toBe(1);
             expect(this.badPenny.hasToken('damage')).toBe(false);
@@ -123,8 +123,8 @@ describe('Shadow Self', function () {
             this.player1.endTurn();
             this.player2.clickPrompt('shadows');
             this.player2.fightWith(this.macisAsp, this.badPenny);
-            expect(this.macisAsp.tokens.damage).toBeUndefined();
-            expect(this.badPenny.tokens.damage).toBeUndefined();
+            expect(this.macisAsp.damage).toBe(0);
+            expect(this.badPenny.damage).toBe(0);
             expect(this.macisAsp.location).toBe('play area');
             expect(this.badPenny.location).toBe('play area');
             expect(this.shadowSelf1.location).toBe('discard');
@@ -134,8 +134,8 @@ describe('Shadow Self', function () {
             this.player1.endTurn();
             this.player2.clickPrompt('dis');
             this.player2.fightWith(this.spyyyder, this.badPenny);
-            expect(this.spyyyder.tokens.damage).toBeUndefined();
-            expect(this.badPenny.tokens.damage).toBeUndefined();
+            expect(this.spyyyder.damage).toBe(0);
+            expect(this.badPenny.damage).toBe(0);
             expect(this.spyyyder.location).toBe('play area');
             expect(this.badPenny.location).toBe('play area');
             expect(this.shadowSelf1.location).toBe('discard');
@@ -150,7 +150,7 @@ describe('Shadow Self', function () {
             expect(this.player1).toBeAbleToSelect(this.shadowSelf1);
             expect(this.player1).toBeAbleToSelect(this.shadowSelf2);
             this.player1.clickCard(this.shadowSelf1);
-            expect(this.shadowSelf1.tokens.damage).toBe(2);
+            expect(this.shadowSelf1.damage).toBe(2);
             expect(this.shadowSelf2.hasToken('damage')).toBe(false);
         });
 
@@ -159,7 +159,7 @@ describe('Shadow Self', function () {
             this.player1.endTurn();
             this.player2.clickPrompt('logos');
             this.player2.fightWith(this.hapsis, this.badPenny);
-            expect(this.hapsis.tokens.damage).toBe(1);
+            expect(this.hapsis.damage).toBe(1);
             expect(this.hapsis.warded).toBe(false);
             expect(this.shadowSelf1.location).toBe('discard');
             expect(this.badPenny.location).toBe('play area');

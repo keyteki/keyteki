@@ -15,12 +15,12 @@ describe('Longfused Mines', function () {
         it('should sacrifice itself and deal 3 damage to non-flank enemy creatures', function () {
             this.player1.useOmni(this.longfusedMines);
             expect(this.longfusedMines.location).toBe('discard');
-            expect(this.dextre.tokens.damage).toBeUndefined(); // Left flank
-            expect(this.botBookton.tokens.damage).toBeUndefined(); // Center
-            expect(this.docBookton.tokens.damage).toBeUndefined(); // Right flank
-            expect(this.troll.tokens.damage).toBeUndefined(); // Left flank
-            expect(this.krump.tokens.damage).toBe(3); // Center
-            expect(this.bumpsy.tokens.damage).toBeUndefined(); // Right flank
+            expect(this.dextre.damage).toBe(0); // Left flank
+            expect(this.botBookton.damage).toBe(0); // Center
+            expect(this.docBookton.damage).toBe(0); // Right flank
+            expect(this.troll.damage).toBe(0); // Left flank
+            expect(this.krump.damage).toBe(3); // Center
+            expect(this.bumpsy.damage).toBe(0); // Right flank
             expect(this.player1).isReadyToTakeAction();
         });
     });

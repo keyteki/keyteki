@@ -70,7 +70,7 @@ describe('Lapisaurus', function () {
 
                 expect(this.lapisaurus.location).toBe('play area');
                 expect(this.mother.location).toBe('play area');
-                expect(this.mother.tokens.damage).toBe(4);
+                expect(this.mother.damage).toBe(4);
 
                 expect(this.lapisaurus.amber).toBe(0);
                 expect(this.mother.amber).toBe(1);

@@ -29,7 +29,7 @@ describe('Dino-Alien', function () {
             expect(this.player1).toBeAbleToSelect(this.lamindra);
             this.player1.clickCard(this.shooler);
             expect(this.dinoAlien.amber).toBe(1);
-            expect(this.shooler.tokens.damage).toBe(3);
+            expect(this.shooler.damage).toBe(3);
             expect(this.player1).isReadyToTakeAction();
         });
     });

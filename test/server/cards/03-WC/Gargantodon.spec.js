@@ -41,7 +41,7 @@ describe('Gargantodon', function () {
 
         it('should only deal 4 damage', function () {
             this.player1.fightWith(this.gargantodon, this.troll);
-            expect(this.troll.tokens.damage).toBe(4);
+            expect(this.troll.damage).toBe(4);
         });
     });
 

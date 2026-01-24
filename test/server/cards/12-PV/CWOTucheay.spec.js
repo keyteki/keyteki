@@ -21,7 +21,7 @@ describe('CWO Tucheay', function () {
             expect(this.player1).not.toBeAbleToSelect(this.urchin);
             this.player1.clickCard(this.krump);
             this.player1.clickPrompt('Reap with this creature');
-            expect(this.krump.tokens.damage).toBeUndefined();
+            expect(this.krump.damage).toBe(0);
             expect(this.krump.exhausted).toBe(true);
             expect(this.player1).isReadyToTakeAction();
         });
@@ -35,7 +35,7 @@ describe('CWO Tucheay', function () {
             expect(this.player1).not.toBeAbleToSelect(this.urchin);
             this.player1.clickCard(this.emberImp);
             this.player1.clickPrompt('Reap with this creature');
-            expect(this.emberImp.tokens.damage).toBeUndefined();
+            expect(this.emberImp.damage).toBe(0);
             expect(this.emberImp.exhausted).toBe(true);
             expect(this.player1).isReadyToTakeAction();
         });

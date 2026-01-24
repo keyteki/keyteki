@@ -25,7 +25,7 @@ describe("Poltergeist's", function () {
             expect(this.player1).toBeAbleToSelect(this.bumpsy);
             this.player1.clickCard(this.bumpsy);
             expect(this.cannon.location).toBe('discard');
-            expect(this.bumpsy.tokens.damage).toBe(2);
+            expect(this.bumpsy.damage).toBe(2);
         });
 
         it('should allow using own artifact', function () {
@@ -68,7 +68,7 @@ describe("Poltergeist's", function () {
             expect(this.player1).toBeAbleToSelect(this.bumpsy);
             this.player1.clickCard(this.bumpsy);
             expect(this.cannon.location).toBe('discard');
-            expect(this.bumpsy.tokens.damage).toBe(2);
+            expect(this.bumpsy.damage).toBe(2);
             expect(this.player1.amber).toBe(1);
             expect(this.player2.amber).toBe(1);
         });
@@ -102,7 +102,7 @@ describe("Poltergeist's", function () {
             expect(this.player1).toBeAbleToSelect(this.tentacus);
             this.player1.clickCard(this.bumpsy);
             expect(this.cannon.location).toBe('discard');
-            expect(this.bumpsy.tokens.damage).toBe(2);
+            expect(this.bumpsy.damage).toBe(2);
             expect(this.player1.amber).toBe(0);
             expect(this.player2.amber).toBe(2);
         });
@@ -127,12 +127,12 @@ describe("Poltergeist's", function () {
             this.player1.play(this.poltergeist);
             this.player1.clickCard(this.spikeTrap);
             expect(this.spikeTrap.location).toBe('discard');
-            expect(this.troll.tokens.damage).toBe(3);
-            expect(this.gub.tokens.damage).toBeUndefined();
-            expect(this.shooler.tokens.damage).toBe(3);
-            expect(this.bumpsy.tokens.damage).toBe(3);
-            expect(this.dendrix.tokens.damage).toBeUndefined();
-            expect(this.malison.tokens.damage).toBe(3);
+            expect(this.troll.damage).toBe(3);
+            expect(this.gub.damage).toBe(0);
+            expect(this.shooler.damage).toBe(3);
+            expect(this.bumpsy.damage).toBe(3);
+            expect(this.dendrix.damage).toBe(0);
+            expect(this.malison.damage).toBe(3);
         });
     });
 

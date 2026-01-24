@@ -66,9 +66,9 @@ describe('Sporegorger Evil Twin', function () {
             expect(this.sporegorgerEvilTwin.powerCounters).toBe(4);
             this.player1.clickPrompt('Yes');
             expect(this.sporegorgerEvilTwin.powerCounters).toBe(0);
-            expect(this.sporegorgerEvilTwin.tokens.damage).toBeUndefined();
-            expect(this.mother.tokens.damage).toBe(4);
-            expect(this.krump.tokens.damage).toBe(4);
+            expect(this.sporegorgerEvilTwin.damage).toBe(0);
+            expect(this.mother.damage).toBe(4);
+            expect(this.krump.damage).toBe(4);
             expect(this.urchin.location).toBe('discard');
         });
     });

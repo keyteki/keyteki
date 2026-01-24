@@ -59,7 +59,7 @@ describe('Puzzling Trinket', function () {
             this.player1.clickCard(this.troll);
             expect(this.player1.amber).toBe(0);
             expect(this.player2.amber).toBe(2);
-            expect(this.troll.tokens.damage).toBe(3); // dmg + vow of blood
+            expect(this.troll.damage).toBe(3); // dmg + vow of blood
         });
 
         it('should not replace other icons', function () {
@@ -69,7 +69,7 @@ describe('Puzzling Trinket', function () {
             this.player1.clickPrompt('draw');
             this.player1.clickCard(this.troll);
             expect(this.player1.amber).toBe(0);
-            expect(this.troll.tokens.damage).toBe(2);
+            expect(this.troll.damage).toBe(2);
             expect(this.player1.hand.length).toBe(3);
             expect(this.player1).isReadyToTakeAction();
         });

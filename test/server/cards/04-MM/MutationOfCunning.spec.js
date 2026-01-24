@@ -27,8 +27,8 @@ describe('Mutation of Cunning', function () {
             this.player1.fightWith(this.flaxia, this.troll);
             expect(this.flaxia.location).toBe('play area');
             expect(this.troll.location).toBe('play area');
-            expect(this.flaxia.tokens.damage).toBeUndefined();
-            expect(this.troll.tokens.damage).toBeUndefined();
+            expect(this.flaxia.damage).toBe(0);
+            expect(this.troll.damage).toBe(0);
         });
 
         it('should last until start of next turn', function () {
@@ -41,8 +41,8 @@ describe('Mutation of Cunning', function () {
             this.player2.fightWith(this.troll, this.flaxia);
             expect(this.flaxia.location).toBe('play area');
             expect(this.troll.location).toBe('play area');
-            expect(this.flaxia.tokens.damage).toBeUndefined();
-            expect(this.troll.tokens.damage).toBeUndefined();
+            expect(this.flaxia.damage).toBe(0);
+            expect(this.troll.damage).toBe(0);
             this.player2.endTurn();
             this.player1.clickPrompt('untamed');
             expect(this.flaxia.hasTrait('mutant')).toBe(false);

@@ -123,8 +123,8 @@ describe('Mimic Gel', function () {
             this.player1.endTurn();
             this.player2.clickPrompt('brobnar');
             this.player2.fightWith(this.troll, this.mimicGel);
-            expect(this.troll.tokens.damage).toBe(6);
-            expect(this.mimicGel.tokens.damage).toBeUndefined();
+            expect(this.troll.damage).toBe(6);
+            expect(this.mimicGel.damage).toBe(0);
         });
 
         it('should copy taunt keyword', function () {
@@ -589,16 +589,16 @@ describe('Mimic Gel', function () {
             this.player2.clickPrompt('sanctum');
             this.player2.fightWith(this.championAnaphiel, this.mimicGel);
             expect(this.mimicGel.location).toBe('play area');
-            expect(this.mimicGel.tokens.damage).toBeUndefined();
-            expect(this.championAnaphiel.tokens.damage).toBe(3);
+            expect(this.mimicGel.damage).toBe(0);
+            expect(this.championAnaphiel.damage).toBe(3);
         });
 
         it('should not take damage from other cards when attacking >5 power creature', function () {
             this.mimicGel.ready();
             this.player1.fightWith(this.mimicGel, this.championAnaphiel);
             expect(this.mimicGel.location).toBe('play area');
-            expect(this.mimicGel.tokens.damage).toBeUndefined();
-            expect(this.championAnaphiel.tokens.damage).toBe(3);
+            expect(this.mimicGel.damage).toBe(0);
+            expect(this.championAnaphiel.damage).toBe(3);
         });
     });
 

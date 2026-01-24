@@ -12,7 +12,7 @@ class HanPeregrine extends Card {
             then: {
                 target: {
                     cardType: 'creature',
-                    cardCondition: (c) => c.hasToken('damage') && c.tokens.damage > 0
+                    cardCondition: (c) => c.hasToken('damage') && c.damage > 0
                 },
                 gameAction: [
                     ability.actions.heal((context) => ({

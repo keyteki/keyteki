@@ -18,8 +18,8 @@ describe('Thunderdell', function () {
         it('does not have splash attack if not haunted', function () {
             this.player1.fightWith(this.thunderdell, this.flaxia);
             expect(this.cpoZytar.location).toBe('play area');
-            expect(this.cpoZytar.tokens.damage).toBe(undefined);
-            expect(this.culfTheQuiet.tokens.damage).toBe(undefined);
+            expect(this.cpoZytar.damage).toBe(0);
+            expect(this.culfTheQuiet.damage).toBe(0);
         });
 
         it('gains splash attack 5 if haunted', function () {
@@ -27,7 +27,7 @@ describe('Thunderdell', function () {
             this.player1.fightWith(this.thunderdell, this.flaxia);
             expect(this.cpoZytar.location).toBe('discard');
             expect(this.flaxia.location).toBe('discard');
-            expect(this.culfTheQuiet.tokens.damage).toBe(5);
+            expect(this.culfTheQuiet.damage).toBe(5);
         });
     });
 });

@@ -37,7 +37,7 @@ describe('Austeralis Seaborg', function () {
                 });
 
                 it('should deal 2D to it', function () {
-                    expect(this.shooler.tokens.damage).toBe(2);
+                    expect(this.shooler.damage).toBe(2);
                 });
 
                 it('should not raise the tide', function () {

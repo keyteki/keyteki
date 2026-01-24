@@ -15,11 +15,11 @@ describe('Plague Rat', function () {
 
         it('should deal 1 damage to all non-rat creatures', function () {
             this.player1.play(this.plagueRat);
-            expect(this.mightyTiger.tokens.damage).toBe(1);
-            expect(this.dextre.tokens.damage).toBe(1);
+            expect(this.mightyTiger.damage).toBe(1);
+            expect(this.dextre.damage).toBe(1);
             expect(this.plagueRat.hasToken('damage')).toBe(false);
-            expect(this.horsemanOfFamine.tokens.damage).toBe(1);
-            expect(this.horsemanOfDeath.tokens.damage).toBe(1);
+            expect(this.horsemanOfFamine.damage).toBe(1);
+            expect(this.horsemanOfDeath.damage).toBe(1);
         });
 
         it('second Plague Rat should deal 2 damage to all non-rat-creatures', function () {
@@ -28,11 +28,11 @@ describe('Plague Rat', function () {
 
             this.player1.play(this.plagueRat2);
 
-            expect(this.mightyTiger.tokens.damage).toBe(3);
+            expect(this.mightyTiger.damage).toBe(3);
             expect(this.player1.player.deck[0]).toBe(this.dextre); // Dextre's behaviour when destroyed.
             expect(this.plagueRat.hasToken('damage')).toBe(false);
-            expect(this.horsemanOfFamine.tokens.damage).toBe(3);
-            expect(this.horsemanOfDeath.tokens.damage).toBe(3);
+            expect(this.horsemanOfFamine.damage).toBe(3);
+            expect(this.horsemanOfDeath.damage).toBe(3);
         });
     });
 });

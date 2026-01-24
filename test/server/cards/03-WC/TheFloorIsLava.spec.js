@@ -31,8 +31,8 @@ describe('The Floor Is Lava', function () {
             expect(this.player1).toBeAbleToSelect(this.mother);
             expect(this.player1).toBeAbleToSelect(this.dextre);
             this.player1.clickCard(this.dextre);
-            expect(this.groke.tokens.damage).toBe(1);
-            expect(this.dextre.tokens.damage).toBe(1);
+            expect(this.groke.damage).toBe(1);
+            expect(this.dextre.damage).toBe(1);
             this.player1.clickPrompt('brobnar');
         });
 
@@ -51,7 +51,7 @@ describe('The Floor Is Lava', function () {
             expect(this.player1).toBeAbleToSelect(this.dextre);
             this.player1.clickCard(this.dextre);
             expect(this.player1).not.toHavePrompt('The Floor is Lava');
-            expect(this.dextre.tokens.damage).toBe(1);
+            expect(this.dextre.damage).toBe(1);
             this.player1.clickPrompt('brobnar');
         });
 
@@ -71,7 +71,7 @@ describe('The Floor Is Lava', function () {
             expect(this.player1).not.toBeAbleToSelect(this.dextre);
             this.player1.clickCard(this.groke);
             expect(this.player1).not.toHavePrompt('The Floor is Lava');
-            expect(this.groke.tokens.damage).toBe(1);
+            expect(this.groke.damage).toBe(1);
             this.player1.clickPrompt('brobnar');
         });
     });

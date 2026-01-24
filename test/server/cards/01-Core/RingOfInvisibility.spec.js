@@ -19,7 +19,7 @@ describe('Ring of Invisibility', function () {
             expect(this.silvertooth.getKeywordValue('elusive')).toBe(1);
             this.player1.fightWith(this.silvertooth, this.troll);
             expect(this.silvertooth.location).toBe('play area');
-            expect(this.troll.tokens.damage).toBe(2);
+            expect(this.troll.damage).toBe(2);
         });
 
         it('should give the attached creature Elusive', function () {
@@ -29,7 +29,7 @@ describe('Ring of Invisibility', function () {
             this.player2.clickPrompt('brobnar');
             this.player2.fightWith(this.troll, this.silvertooth);
             expect(this.silvertooth.location).toBe('play area');
-            expect(this.troll.tokens.damage).toBe(2);
+            expect(this.troll.damage).toBe(2);
             expect(this.troll.exhausted).toBe(true);
         });
     });

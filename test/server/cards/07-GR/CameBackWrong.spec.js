@@ -37,7 +37,7 @@ describe('Came Back Wrong', function () {
             this.player1.clickCard(this.gangerChieftain);
             this.player1.clickCard(this.umbra);
             this.player1.clickCard(this.troll);
-            expect(this.troll.tokens.damage).toBe(2);
+            expect(this.troll.damage).toBe(2);
         });
 
         it('cannot play small creature from discard', function () {

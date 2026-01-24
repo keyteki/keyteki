@@ -17,10 +17,10 @@ describe('Echoing Deathknell', function () {
 
         it('does one damage once to every creature', function () {
             this.player1.play(this.echoingDeathknell);
-            expect(this.oldBruno.tokens.damage).toBe(1);
-            expect(this.batdrone.tokens.damage).toBe(1);
-            expect(this.briarGrubbling.tokens.damage).toBe(1);
-            expect(this.flaxia.tokens.damage).toBe(1);
+            expect(this.oldBruno.damage).toBe(1);
+            expect(this.batdrone.damage).toBe(1);
+            expect(this.briarGrubbling.damage).toBe(1);
+            expect(this.flaxia.damage).toBe(1);
             expect(this.player1).isReadyToTakeAction();
         });
 

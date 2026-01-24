@@ -26,7 +26,7 @@ describe('Unleash the Beast', function () {
             expect(this.player1).not.toBeAbleToSelect(this.badPenny);
             this.player1.clickCard(this.troll);
             expect(this.krump.exhausted).toBe(true);
-            expect(this.troll.tokens.damage).toBe(6);
+            expect(this.troll.damage).toBe(6);
             expect(this.player1).isReadyToTakeAction();
         });
 

@@ -57,7 +57,7 @@ describe('Reclaimed by Nature', function () {
             expect(this.evasionSigil.location).toBe('purged');
             expect(this.player1.amber).toBe(3);
             expect(this.player1.player.hand.length).toBe(2);
-            expect(this.troll.tokens.damage).toBe(1);
+            expect(this.troll.damage).toBe(1);
         });
     });
 });
