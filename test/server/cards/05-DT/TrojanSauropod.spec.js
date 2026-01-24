@@ -44,7 +44,7 @@ describe('Trojan Sauropod', function () {
                     this.trojanSauropod.exhausted = false;
                     this.player1.endTurn();
                     this.player2.clickPrompt('logos');
-                    this.player2.useAction(this.trojanSauropod, true);
+                    this.player2.useOmni(this.trojanSauropod);
                 });
 
                 it('should gain 3 amber', function () {

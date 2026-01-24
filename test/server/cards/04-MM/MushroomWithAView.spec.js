@@ -18,7 +18,7 @@ describe('Mushroom with a View', function () {
             this.troll.tokens.damage = 1;
             this.desire.tokens.damage = 2;
 
-            this.player1.useAction(this.mushroomWithAView, true);
+            this.player1.useOmni(this.mushroomWithAView);
 
             expect(this.envy.tokens.damage).toBe(1);
             expect(this.pride.tokens.damage).toBeUndefined();

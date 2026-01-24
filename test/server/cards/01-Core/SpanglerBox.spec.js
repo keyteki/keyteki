@@ -114,7 +114,7 @@ describe('Spangler Box', function () {
             expect(this.silvertooth.location).toBe('purged');
             expect(this.stealerOfSouls.location).toBe('purged');
             expect(this.lamindra.location).toBe('purged');
-            this.player2.useAction(this.gormOfOmm, true);
+            this.player2.useOmni(this.gormOfOmm);
             this.player2.clickCard(this.spanglerBox);
             expect(this.spanglerBox.location).toBe('discard');
 

@@ -14,7 +14,7 @@ describe('Key to Dis', function () {
 
         it('should sacrifice itself and destroy all creatures on omni', function () {
             this.shooler.tokens.ward = 1;
-            this.player1.useAction(this.keyToDis, true);
+            this.player1.useOmni(this.keyToDis);
             expect(this.keyToDis.location).toBe('discard');
             expect(this.emberImp.location).toBe('discard');
             expect(this.shooler.location).toBe('play area');

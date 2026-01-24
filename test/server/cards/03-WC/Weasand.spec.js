@@ -149,7 +149,7 @@ describe('Weasand', function () {
         });
 
         it('should destroy creature on flank if choose to reveal Weasand using Creed', function () {
-            this.player1.useAction(this.creedOfNurture, true);
+            this.player1.useOmni(this.creedOfNurture);
             expect(this.player1).toBeAbleToSelect(this.weasand);
             this.player1.clickCard(this.weasand);
             expect(this.player1).toBeAbleToSelect(this.lamindra);
@@ -161,7 +161,7 @@ describe('Weasand', function () {
         });
 
         it('should not destroy creature at center if choose to reveal Weasand using Creed', function () {
-            this.player1.useAction(this.creedOfNurture, true);
+            this.player1.useOmni(this.creedOfNurture);
             expect(this.player1).toBeAbleToSelect(this.weasand);
             this.player1.clickCard(this.weasand);
             expect(this.player1).toBeAbleToSelect(this.flaxia);
