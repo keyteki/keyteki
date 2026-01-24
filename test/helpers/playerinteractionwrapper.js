@@ -611,6 +611,10 @@ class PlayerInteractionWrapper {
         this.clickPrompt("Use this card's " + (omni ? 'Omni' : 'Action') + ' ability');
     }
 
+    useOmni(card) {
+        this.useAction(card, true);
+    }
+
     playUpgrade(upgrade, target) {
         let card = this.clickCard(upgrade, 'hand');
         this.clickPrompt('Play this upgrade');
