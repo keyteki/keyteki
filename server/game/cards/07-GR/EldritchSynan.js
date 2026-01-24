@@ -6,7 +6,7 @@ class EldritchSynan extends Card {
         this.persistentEffect({
             effect: ability.effects.cardCannot('damage', (context, effectContext, event) => {
                 if (context.source === effectContext.source) {
-                    return context.target && !!context.target.tokens.damage;
+                    return context.target && !!context.target.damage;
                 }
 
                 if (event && event.card === effectContext.source) {
@@ -24,10 +24,10 @@ class EldritchSynan extends Card {
                         }
                     }
 
-                    return source.type === 'creature' && !!source.tokens.damage;
+                    return source.type === 'creature' && !!source.damage;
                 }
 
-                return context.source.type === 'creature' && !!context.source.tokens.damage;
+                return context.source.type === 'creature' && !!context.source.damage;
             })
         });
     }
