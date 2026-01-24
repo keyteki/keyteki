@@ -16,8 +16,8 @@ describe('Mugwump', function () {
         it('should fully heal and add 1 power token when it lives and the opponent dies', function () {
             this.player1.fightWith(this.mugwump, this.docBookton);
             expect(this.docBookton.location).toBe('discard');
-            expect(this.mugwump.powerCounters).toBe(1);
             expect(this.mugwump.damage).toBe(0);
+            expect(this.mugwump.powerCounters).toBe(1);
             this.player1.endTurn();
         });
 
