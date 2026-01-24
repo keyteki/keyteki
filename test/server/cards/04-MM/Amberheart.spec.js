@@ -22,7 +22,7 @@ describe('Amberheart', function () {
 
             this.player1.clickCard(this.bulwark);
             expect(this.bulwark.damage).toBe(0);
-            expect(this.bulwark.tokens.ward).toBe(1);
+            expect(this.bulwark.warded).toBe(true);
             expect(this.bulwark.tokens.amber).toBe(1);
         });
     });

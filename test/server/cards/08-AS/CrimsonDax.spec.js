@@ -27,7 +27,7 @@ describe('Crimson Dax', function () {
             expect(this.player1).not.toBeAbleToSelect(this.thunderdell);
             expect(this.player1).not.toBeAbleToSelect(this.brikkNastee);
             this.player1.clickCard(this.drXyloxxzlphrex);
-            expect(this.drXyloxxzlphrex.tokens.power).toBe(3);
+            expect(this.drXyloxxzlphrex.powerCounters).toBe(3);
         });
 
         it('should allow the player to select 0 cards', function () {

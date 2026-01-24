@@ -32,9 +32,9 @@ describe('Primal Relic', function () {
             this.player1.clickCard(this.flaxia);
             this.player1.clickPrompt('Done');
 
-            expect(this.dustPixie.tokens.power).toBe(1);
-            expect(this.krump.tokens.power).toBe(1);
-            expect(this.flaxia.tokens.power).toBe(1);
+            expect(this.dustPixie.powerCounters).toBe(1);
+            expect(this.krump.powerCounters).toBe(1);
+            expect(this.flaxia.powerCounters).toBe(1);
 
             this.player1.endTurn();
         });

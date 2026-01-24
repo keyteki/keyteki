@@ -20,8 +20,8 @@ describe('Rapid Evolution', function () {
             expect(this.player1).toBeAbleToSelect(this.flaxia);
             expect(this.player1).toBeAbleToSelect(this.odoacThePatrician);
             this.player1.clickCard(this.flaxia);
-            expect(this.flaxia.tokens.power).toBe(5);
-            expect(this.odoacThePatrician.tokens.power).toBeUndefined();
+            expect(this.flaxia.powerCounters).toBe(5);
+            expect(this.odoacThePatrician.powerCounters).toBe(0);
         });
     });
 });

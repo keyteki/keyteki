@@ -46,7 +46,7 @@ describe('Catch and Release', function () {
             expect(this.player1.player.discard.length).toBe(discardLength1 + 2);
             expect(this.player2.player.creaturesInPlay.length).toBe(1);
             expect(this.pelf.location).toBe('play area');
-            expect(this.pelf.tokens.ward).toBe(undefined);
+            expect(this.pelf.warded).toBe(false);
             expect(this.player2.player.hand.length).toBe(6);
             expect(this.player2.player.discard.length).toBe(discardLength2 + 2);
             expect(this.player1).isReadyToTakeAction();

@@ -69,7 +69,7 @@ describe('Symposium', function () {
             this.player1.clickPrompt("Use this card's action ability");
             this.player1.clickCard(this.pelf);
             expect(this.cultist.location).toBe('discard');
-            expect(this.pelf.tokens.ward).toBe(1);
+            expect(this.pelf.warded).toBe(true);
             expect(this.player2.amber).toBe(2);
             this.player1.clickCard(this.pelf);
             this.player1.clickPrompt('Reap with this creature');

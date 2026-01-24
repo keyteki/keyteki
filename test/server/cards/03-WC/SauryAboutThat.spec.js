@@ -64,7 +64,7 @@ describe('Saury About That', function () {
             this.player1.clickCard(this.lamindra);
 
             expect(this.lamindra.location).toBe('play area');
-            expect(this.lamindra.tokens.ward).toBeUndefined();
+            expect(this.lamindra.warded).toBe(false);
             expect(this.player1.amber).toBe(0);
             expect(this.player2.amber).toBe(1);
         });

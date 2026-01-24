@@ -236,7 +236,7 @@ describe('Niffle Kong', function () {
             this.player2.clickPrompt('mars');
 
             this.player2.fightWith(this.collectorWorm, this.niffleKong);
-            expect(this.collectorWorm.tokens.ward).toBeUndefined();
+            expect(this.collectorWorm.warded).toBe(false);
             expect(this.niffleKong.location).toBe('archives');
             expect(this.niffleKong2.location).toBe('archives');
             expect(this.player2.archives).toContain(this.niffleKong);

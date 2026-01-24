@@ -48,13 +48,13 @@ describe('Painmail', function () {
         });
 
         it('should archive Painmail and remove ward', function () {
-            this.shooler.tokens.ward = true;
+            this.shooler.tokens.ward = 1;
             this.player1.playUpgrade(this.painmail, this.shooler);
             this.player1.endTurn();
             this.player2.clickPrompt('dis');
             expect(this.painmail.location).toBe('archives');
             expect(this.shooler.location).toBe('play area');
-            expect(this.shooler.tokens.ward).toBeUndefined();
+            expect(this.shooler.warded).toBe(false);
             expect(this.player1.player.archives).toContain(this.painmail);
             expect(this.painmail.parent).toBeNull();
         });

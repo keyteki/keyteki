@@ -17,11 +17,11 @@ describe('Ward', function () {
             this.newFrontiers.enhancements = ['damage'];
             this.player1.reap(this.medicIngram);
             this.player1.clickCard(this.medicIngram);
-            expect(this.medicIngram.tokens.ward).toBe(1);
+            expect(this.medicIngram.warded).toBe(true);
 
             this.player1.play(this.newFrontiers);
             this.player1.clickCard(this.medicIngram);
-            expect(this.medicIngram.tokens.ward).toBeUndefined();
+            expect(this.medicIngram.warded).toBe(false);
         });
     });
 });

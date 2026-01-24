@@ -55,7 +55,7 @@ describe('Spangler Box', function () {
             expect(this.player1).toBeAbleToSelect(this.stealerOfSouls);
             this.player1.clickCard(this.silvertooth);
             expect(this.silvertooth.location).toBe('play area');
-            expect(this.silvertooth.tokens.ward).toBeUndefined();
+            expect(this.silvertooth.warded).toBe(false);
             expect(this.spanglerBox.controller).toBe(this.player1.player);
             expect(this.player1.player.cardsInPlay).toContain(this.spanglerBox);
             expect(this.spanglerBox.exhausted).toBe(true);

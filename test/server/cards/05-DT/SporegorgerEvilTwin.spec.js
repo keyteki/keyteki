@@ -24,10 +24,10 @@ describe('Sporegorger Evil Twin', function () {
 
             this.player1.play(this.sporegorgerEvilTwin);
 
-            expect(this.mother.tokens.power).toBeUndefined();
-            expect(this.urchin.tokens.power).toBeUndefined();
-            expect(this.krump.tokens.power).toBeUndefined();
-            expect(this.sporegorgerEvilTwin.tokens.power).toBe(4);
+            expect(this.mother.powerCounters).toBe(0);
+            expect(this.urchin.powerCounters).toBe(0);
+            expect(this.krump.powerCounters).toBe(0);
+            expect(this.sporegorgerEvilTwin.powerCounters).toBe(4);
         });
 
         it('should give choice to remove all tokens, and leave them if the user chooses to keep them', function () {
@@ -43,11 +43,11 @@ describe('Sporegorger Evil Twin', function () {
             this.player1.clickPrompt('untamed');
 
             this.player1.reap(this.sporegorgerEvilTwin);
-            expect(this.sporegorgerEvilTwin.tokens.power).toBe(4);
+            expect(this.sporegorgerEvilTwin.powerCounters).toBe(4);
             expect(this.player1).toHavePromptButton('Yes');
             expect(this.player1).toHavePromptButton('No');
             this.player1.clickPrompt('No');
-            expect(this.sporegorgerEvilTwin.tokens.power).toBe(4);
+            expect(this.sporegorgerEvilTwin.powerCounters).toBe(4);
         });
 
         it('deal damage to other cretures if player chooses to remove them', function () {
@@ -63,9 +63,9 @@ describe('Sporegorger Evil Twin', function () {
             this.player1.clickPrompt('untamed');
 
             this.player1.reap(this.sporegorgerEvilTwin);
-            expect(this.sporegorgerEvilTwin.tokens.power).toBe(4);
+            expect(this.sporegorgerEvilTwin.powerCounters).toBe(4);
             this.player1.clickPrompt('Yes');
-            expect(this.sporegorgerEvilTwin.tokens.power).toBeUndefined();
+            expect(this.sporegorgerEvilTwin.powerCounters).toBe(0);
             expect(this.sporegorgerEvilTwin.damage).toBe(0);
             expect(this.mother.damage).toBe(4);
             expect(this.krump.damage).toBe(4);
