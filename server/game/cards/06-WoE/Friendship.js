@@ -7,7 +7,7 @@ class Friendship extends Card {
             when: {
                 onDamageApplied: (event, context) =>
                     event.damageDealtEvent &&
-                    !event.redirectedByFriendship &&
+                    !event.isRedirected &&
                     event.amount > 0 &&
                     event.card === context.source.parent &&
                     context.source.parent.neighbors.length > 0 &&
@@ -27,7 +27,6 @@ class Friendship extends Card {
                                 damageDealtEvent: event.damageDealtEvent
                             })
                             .getEvent(neighbors[0], context.game.getFrameworkContext());
-                        childEvent.redirectedByFriendship = true;
                         event.addChildEvent(childEvent);
                     }
                     if (neighbors[1]) {
@@ -39,7 +38,6 @@ class Friendship extends Card {
                                 damageDealtEvent: event.damageDealtEvent
                             })
                             .getEvent(neighbors[1], context.game.getFrameworkContext());
-                        childEvent.redirectedByFriendship = true;
                         event.addChildEvent(childEvent);
                     }
                     event.amount = 0;
@@ -48,11 +46,11 @@ class Friendship extends Card {
         });
 
         this.interrupt({
-            // uneven distribution or single neighbor
+            // uneven distribution with two neighbors
             when: {
                 onDamageApplied: (event, context) =>
                     event.damageDealtEvent &&
-                    !event.redirectedByFriendship &&
+                    !event.isRedirected &&
                     event.amount > 0 &&
                     event.card === context.source.parent &&
                     context.source.parent.neighbors.length === 2 &&
@@ -78,7 +76,6 @@ class Friendship extends Card {
                                 damageDealtEvent: event.damageDealtEvent
                             })
                             .getEvent(neighbors[0], context.game.getFrameworkContext());
-                        childEvent0.redirectedByFriendship = true;
                         event.addChildEvent(childEvent0);
 
                         let childEvent1 = ability.actions
@@ -90,7 +87,6 @@ class Friendship extends Card {
                                 damageDealtEvent: event.damageDealtEvent
                             })
                             .getEvent(neighbors[1], context.game.getFrameworkContext());
-                        childEvent1.redirectedByFriendship = true;
                         event.addChildEvent(childEvent1);
 
                         event.amount = 0;

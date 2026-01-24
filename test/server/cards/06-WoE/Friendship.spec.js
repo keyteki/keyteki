@@ -112,6 +112,16 @@ describe('Friendship', function () {
                 expect(this.chancellorDexterus.warded).toBe(true); // Ward still present
             });
         });
+
+        describe('when two adjacent creatures both have Friendship', function () {
+            it('should not redirect damage back and forth infinitely', function () {
+                this.player1.playUpgrade(this.friendship2, this.chancellorDexterus);
+                this.player1.fightWith(this.reveredMonk, this.batdrone);
+                expect(this.reveredMonk.tokens.damage).toBe(undefined);
+                expect(this.paraguardian.tokens.damage).toBe(1);
+                expect(this.chancellorDexterus.tokens.damage).toBe(1);
+            });
+        });
     });
 
     describe("Friendship's ability and splash damage", function () {
