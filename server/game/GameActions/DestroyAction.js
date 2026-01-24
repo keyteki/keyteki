@@ -25,7 +25,7 @@ class DestroyAction extends CardGameAction {
             card: card,
             context: context,
             damageEvent: this.damageEvent,
-            isRedirected: this.damageEvent.isRedirected
+            isRedirected: this.damageEvent ? this.damageEvent.isRedirected : false
         };
         return super.createEvent(EVENTS.onCardDestroyed, params, (event) => {
             event.card.moribund = true;
