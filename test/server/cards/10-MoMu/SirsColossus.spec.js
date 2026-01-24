@@ -68,7 +68,7 @@ describe('Sirs Colossus', function () {
             this.player1.clickCard(this.sirsColossus);
             this.player1.clickCard(this.sirsColossus);
             this.player1.clickCard(this.sirsColossus);
-            this.sirsColossus.exhausted = false;
+            this.sirsColossus.ready();
             this.player1.fightWith(this.sirsColossus, this.lamindra);
             expect(this.player1).toBeAbleToSelect(this.raidingKnight);
             expect(this.player1).toBeAbleToSelect(this.scrivenerFavian);

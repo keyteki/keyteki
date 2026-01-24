@@ -33,7 +33,7 @@ describe('Uncharted Lands', function () {
             for (let i = 0; i < 6; ++i) {
                 this.player1.reap(this.lieutenantKhrkhar);
                 expect(this.player1.amber).toBe((i + 1) * 2);
-                this.lieutenantKhrkhar.exhausted = false;
+                this.lieutenantKhrkhar.ready();
                 expect(this.unchartedLands.amber).toBe(5 - i);
             }
 

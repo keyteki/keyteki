@@ -18,7 +18,7 @@ describe('GedHammer', function () {
         it('should ready and enrage other friendly bronar creatures on destroy', function () {
             this.player1.reap(this.alaka);
             this.player1.reap(this.brammo);
-            this.krump.exhausted = true;
+            this.krump.exhaust();
 
             expect(this.alaka.exhausted).toBe(true);
             expect(this.brammo.exhausted).toBe(true);

@@ -51,8 +51,9 @@ describe('Zyzzix the Many', function () {
             this.player1.reap(this.zyzzixTheMany);
             this.player1.clickCard(this.zyzzixTheMany);
             this.player1.clickCard(this.zorg);
-            expect(this.zyzzixTheMany.powerCounters).toBe(3);
             this.zyzzixTheMany.exhausted = false;
+            expect(this.zyzzixTheMany.powerCounters).toBe(3);
+            this.zyzzixTheMany.ready();
             this.player1.reap(this.zyzzixTheMany);
             this.player1.clickCard(this.zyzzixTheMany);
             this.player1.clickCard(this.mindwarper);

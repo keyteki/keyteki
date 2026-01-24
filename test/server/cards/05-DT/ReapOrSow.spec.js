@@ -34,7 +34,7 @@ describe('Reap Or Sow', function () {
         });
 
         it('should allow any friendly creature to be targeted, even if it cannot ready', function () {
-            this.awakenedTitan.exhausted = true;
+            this.awakenedTitan.exhaust();
             this.player1.play(this.reapOrSow);
             this.player1.clickPrompt('Ready and reap');
             expect(this.player1).toBeAbleToSelect(this.dustPixie);

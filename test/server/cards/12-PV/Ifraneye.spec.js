@@ -21,7 +21,7 @@ describe('Ifraneye', function () {
 
         it('should make opponent discard 2 random cards when reaping', function () {
             this.player1.playCreature(this.ifraneye);
-            this.ifraneye.exhausted = false;
+            this.ifraneye.ready();
             this.player1.reap(this.ifraneye);
             expect(this.player2.hand.length).toBe(2);
             expect(this.player1).isReadyToTakeAction();

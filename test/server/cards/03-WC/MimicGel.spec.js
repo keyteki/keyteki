@@ -460,7 +460,7 @@ describe('Mimic Gel', function () {
             this.player1.clickPrompt('Play this creature');
             this.player1.clickCard(this.sequis);
             this.player1.clickPrompt('Left');
-            this.mimicGel.exhausted = false;
+            this.mimicGel.ready();
         });
 
         it('MG should capture 1A after reap', function () {
@@ -498,7 +498,7 @@ describe('Mimic Gel', function () {
             this.player1.clickPrompt('Play this creature');
             this.player1.clickCard(this.bordanTheRedeemed);
             this.player1.clickPrompt('Left');
-            this.mimicGel.exhausted = false;
+            this.mimicGel.ready();
         });
 
         it('MG should capture 1A after reap', function () {
@@ -594,7 +594,7 @@ describe('Mimic Gel', function () {
         });
 
         it('should not take damage from other cards when attacking >5 power creature', function () {
-            this.mimicGel.exhausted = false;
+            this.mimicGel.ready();
             this.player1.fightWith(this.mimicGel, this.championAnaphiel);
             expect(this.mimicGel.location).toBe('play area');
             expect(this.mimicGel.tokens.damage).toBeUndefined();
@@ -776,7 +776,7 @@ describe('Mimic Gel', function () {
             this.player1.clickCard(this.gĕzdrutyŏTheArcane);
             this.mimicGel.tokens.amber = 3; // Should be discarded bc when flipped it is no longer a creature
             this.mimicGel.tokens.ward = 1; // Should be ignored bc when flipped it is no longer a creature
-            this.mimicGel.exhausted = false;
+            this.mimicGel.ready();
             this.player1.useAction(this.mimicGel);
             expect(this.mimicGel.location).toBe('discard');
             expect(this.player2.amber).toBe(0); // Does not get captured amber
@@ -802,7 +802,7 @@ describe('Mimic Gel', function () {
         it('should become a token creature if flipped with a token creature reference card', function () {
             this.player1.playCreature(this.mimicGel);
             this.player1.clickCard(this.gĕzdrutyŏTheArcane);
-            this.mimicGel.exhausted = false;
+            this.mimicGel.ready();
             this.player1.useAction(this.mimicGel);
             expect(this.mimicGel.isToken()).toBe(true);
             expect(this.mimicGel.name).toBe('Alpha-Gamma');

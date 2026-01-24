@@ -34,7 +34,7 @@ describe('Charitable Herald', function () {
 
         it('should ward a creature after reaping', function () {
             this.player1.moveCard(this.charitableHerald, 'play area');
-            this.charitableHerald.exhausted = false;
+            this.charitableHerald.ready();
             this.player1.reap(this.charitableHerald);
             this.player1.clickCard(this.yurk);
             expect(this.yurk.warded).toBe(true);

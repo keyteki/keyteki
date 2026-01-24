@@ -52,7 +52,7 @@ describe('Tomwa of the Glow', function () {
         describe('when the tide is high', function () {
             beforeEach(function () {
                 this.player1.raiseTide();
-                this.murkens.exhausted = true;
+                this.murkens.exhaust();
             });
 
             it('should exhaust a friendly creature and draw a card for each exhausted enemy creature', function () {

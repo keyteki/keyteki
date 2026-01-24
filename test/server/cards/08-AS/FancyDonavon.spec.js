@@ -14,7 +14,7 @@ describe('Fancy Donavon', function () {
         });
 
         it('should ready and fight with a non-Brobnar creature on scrap', function () {
-            this.flaxia.exhausted = true;
+            this.flaxia.exhaust();
             this.player1.scrap(this.fancyDonavon);
             expect(this.player1).toBeAbleToSelect(this.flaxia);
             expect(this.player1).not.toBeAbleToSelect(this.rowdySkald);

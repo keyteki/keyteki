@@ -32,7 +32,7 @@ describe('Prospector', function () {
         describe('when destroyed,', function () {
             beforeEach(function () {
                 this.player1.clickPrompt('Right');
-                this.prospector.exhausted = false;
+                this.prospector.ready();
                 this.initialCards = this.player1.hand.length;
                 this.player1.fightWith(this.prospector, this.krump);
             });
@@ -84,7 +84,7 @@ describe('Prospector', function () {
                         beforeEach(function () {
                             this.player1.clickPrompt('Right');
                             this.player1.clickCard(this.faustTheGreat);
-                            this.faustTheGreat.exhausted = false;
+                            this.faustTheGreat.ready();
                             this.initialCards = this.player1.hand.length;
                             this.player1.fightWith(this.faustTheGreat, this.krump);
                         });

@@ -45,7 +45,7 @@ describe('De-Animator', function () {
         it('should mineralize a creature on reap', function () {
             this.player1.playCreature(this.deAnimator);
             this.player1.clickCard(this.botBookton);
-            this.deAnimator.exhausted = false;
+            this.deAnimator.ready();
             this.player1.reap(this.deAnimator);
             this.player1.clickCard(this.noddyTheThief);
             expect(this.noddyTheThief.type).toBe('artifact');
@@ -108,7 +108,7 @@ describe('De-Animator', function () {
             this.player2.clickPrompt("Use this card's Action ability", 0);
             expect(this.player2.amber).toBe(2);
             expect(this.memroxTheRed.location).toBe('play area');
-            this.memroxTheRed.exhausted = false;
+            this.memroxTheRed.ready();
             this.player2.clickCard(this.memroxTheRed);
             this.player2.clickPrompt("Use this card's Action ability", 1);
             expect(this.memroxTheRed.location).toBe('discard');

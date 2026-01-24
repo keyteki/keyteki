@@ -41,7 +41,7 @@ describe('Scout', function () {
         });
 
         it('should not ready creatures', function () {
-            this.krump.exhausted = true;
+            this.krump.exhaust();
             this.player1.play(this.scout);
             this.player1.clickCard(this.bumpsy);
             this.player1.clickCard(this.krump);

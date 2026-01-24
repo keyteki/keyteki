@@ -25,7 +25,7 @@ describe('Skippy the Glorious', function () {
 
         it('should archive the top of your deck on reap', function () {
             this.player1.play(this.skippyTheGlorious);
-            this.skippyTheGlorious.exhausted = false;
+            this.skippyTheGlorious.ready();
             this.player1.reap(this.skippyTheGlorious);
             expect(this.gub.location).toBe('archives');
             expect(this.player1).isReadyToTakeAction();
@@ -48,7 +48,7 @@ describe('Skippy the Glorious', function () {
         });
 
         it('should do nothing on scrap if no ready enemy artifacts', function () {
-            this.libraryOfBabble.exhausted = true;
+            this.libraryOfBabble.exhaust();
             this.player1.scrap(this.skippyTheGlorious);
             this.player1.clickCard(this.libraryOfBabble);
             expect(this.player1.player.hand.length).toBe(1);
