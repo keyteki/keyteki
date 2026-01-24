@@ -14,12 +14,12 @@ describe('Pride', function () {
 
         it('should ward all sin creatures', function () {
             this.player1.reap(this.pride);
-            expect(this.envy.tokens.ward).toBe(1);
-            expect(this.pride.tokens.ward).toBe(1);
-            expect(this.wrath.tokens.ward).toBe(1);
-            expect(this.lamindra.tokens.ward).toBeUndefined();
-            expect(this.gub.tokens.ward).toBeUndefined();
-            expect(this.desire.tokens.ward).toBeUndefined();
+            expect(this.envy.warded).toBe(true);
+            expect(this.pride.warded).toBe(true);
+            expect(this.wrath.warded).toBe(true);
+            expect(this.lamindra.warded).toBe(false);
+            expect(this.gub.warded).toBe(false);
+            expect(this.desire.warded).toBe(false);
         });
     });
 });

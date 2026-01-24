@@ -28,7 +28,7 @@ describe('Friendship', function () {
                 expect(this.reveredMonk.tokens.damage).toBe(undefined);
                 expect(this.paraguardian.tokens.damage).toBe(1);
                 expect(this.chancellorDexterus.tokens.damage).toBe(1);
-                expect(this.chancellorDexterus.tokens.ward).toBe(1);
+                expect(this.chancellorDexterus.warded).toBe(true);
             });
         });
 
@@ -44,7 +44,7 @@ describe('Friendship', function () {
                 expect(this.reveredMonk.tokens.damage).toBe(undefined);
                 expect(this.paraguardian.tokens.damage).toBe(2);
                 expect(this.chancellorDexterus.tokens.damage).toBe(1);
-                expect(this.chancellorDexterus.tokens.ward).toBe(1);
+                expect(this.chancellorDexterus.warded).toBe(true);
             });
         });
 
@@ -54,7 +54,7 @@ describe('Friendship', function () {
                 expect(this.reveredMonk.tokens.damage).toBe(undefined);
                 expect(this.paraguardian.tokens.damage).toBe(2);
                 expect(this.chancellorDexterus.tokens.damage).toBe(2);
-                expect(this.chancellorDexterus.tokens.ward).toBe(1);
+                expect(this.chancellorDexterus.warded).toBe(true);
             });
         });
 
@@ -83,7 +83,7 @@ describe('Friendship', function () {
             expect(this.paraguardian.tokens.damage).toBe(2);
             expect(this.challeTheSafeguard.tokens.damage).toBe(1);
             expect(this.chancellorDexterus.tokens.damage).toBe(undefined);
-            expect(this.chancellorDexterus.tokens.ward).toBe(1);
+            expect(this.chancellorDexterus.warded).toBe(true);
         });
 
         describe('when damage is redirected onto a creature upgraded with Friendship', function () {
@@ -93,7 +93,7 @@ describe('Friendship', function () {
                 expect(this.reveredMonk.tokens.damage).toBe(undefined);
                 expect(this.paraguardian.tokens.damage).toBe(2);
                 expect(this.chancellorDexterus.tokens.damage).toBe(2);
-                expect(this.chancellorDexterus.tokens.ward).toBe(1);
+                expect(this.chancellorDexterus.warded).toBe(true);
             });
         });
 

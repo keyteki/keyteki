@@ -39,7 +39,7 @@ describe('Niffle Paw', function () {
             this.antiquitiesDealer.tokens.ward = 1;
             this.player1.reap(this.antiquitiesDealer);
             expect(this.antiquitiesDealer.location).toBe('play area');
-            expect(this.antiquitiesDealer.tokens.ward).toBe(undefined);
+            expect(this.antiquitiesDealer.warded).toBe(false);
             expect(this.player1).toBeAbleToSelect(this.pelf);
             expect(this.player1).toBeAbleToSelect(this.umbra);
             this.player1.clickCard(this.pelf);

@@ -117,7 +117,7 @@ describe('Deusillus', function () {
             this.player2.clickPrompt('mars');
 
             this.player2.fightWith(this.collectorWorm, this.deusillus);
-            expect(this.collectorWorm.tokens.ward).toBeUndefined();
+            expect(this.collectorWorm.warded).toBe(false);
             expect(this.deusillus.location).toBe('archives');
             expect(this.deusillus2.location).toBe('archives');
             expect(this.player2.archives).toContain(this.deusillus);

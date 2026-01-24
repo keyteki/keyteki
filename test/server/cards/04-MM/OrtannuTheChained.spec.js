@@ -80,9 +80,9 @@ describe('Ortannu The Chained', function () {
             expect(this.player1.amber).toBe(1);
             this.player1.clickCard(this.zorg);
             this.player1.clickCard(this.troll);
-            expect(this.zorg.tokens.ward).toBeUndefined();
+            expect(this.zorg.warded).toBe(false);
             expect(this.zorg.tokens.damage).toBeUndefined();
-            expect(this.troll.tokens.ward).toBeUndefined();
+            expect(this.troll.warded).toBe(false);
             expect(this.troll.tokens.damage).toBeUndefined();
             expect(this.alaka.tokens.damage).toBe(2);
             expect(this.brammo.tokens.damage).toBeUndefined();

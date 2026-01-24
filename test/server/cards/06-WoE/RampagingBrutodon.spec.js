@@ -55,7 +55,7 @@ describe('Rampaging Brutodon', function () {
             this.player1.clickCard(this.pelf);
             expect(this.player1.amber).toBe(1);
             expect(this.pelf.location).toBe('play area');
-            expect(this.pelf.tokens.ward).toBe(undefined);
+            expect(this.pelf.warded).toBe(false);
             expect(this.rampagingBrutodon.exhausted).toBe(false);
             expect(this.player1).isReadyToTakeAction();
         });

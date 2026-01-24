@@ -73,7 +73,7 @@ describe('Envoy of Ekwirrĕ', function () {
             this.player1.clickCard(this.troll);
 
             expect(this.troll.tokens.growth).toBe(4);
-            expect(this.envoyOfEkwirrĕ.tokens.ward).toBe(1);
+            expect(this.envoyOfEkwirrĕ.warded).toBe(true);
             expect(this.envoyOfEkwirrĕ.tokens.doom).toBe(1);
         });
 

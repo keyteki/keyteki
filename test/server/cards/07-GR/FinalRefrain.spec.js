@@ -118,7 +118,7 @@ describe('Final Refrain', function () {
             this.player1.clickCard(this.medicIngram); // ward ingram
 
             expect(this.medicIngram.location).toBe('play area');
-            expect(this.medicIngram.tokens.ward).toBe(undefined);
+            expect(this.medicIngram.warded).toBe(false);
             expect(this.helmsmanSpears.location).toBe('discard');
             expect(this.troll.location).toBe('discard');
             expect(this.player1).isReadyToTakeAction();
@@ -148,7 +148,7 @@ describe('Final Refrain', function () {
             this.player1.clickCard(this.medicIngram); // ward ingram
 
             expect(this.medicIngram.location).toBe('play area');
-            expect(this.medicIngram.tokens.ward).toBe(undefined);
+            expect(this.medicIngram.warded).toBe(false);
             expect(this.helmsmanSpears.location).toBe('discard');
             expect(this.troll.location).toBe('discard');
             expect(this.player1).isReadyToTakeAction();

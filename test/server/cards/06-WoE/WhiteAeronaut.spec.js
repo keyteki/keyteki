@@ -20,7 +20,7 @@ describe('White Aeronaut', function () {
             this.player1.useAction(this.whiteAeronaut);
             this.player1.clickCard(this.nautilixian);
             expect(this.nautilixian.tokens.damage).toBe(undefined);
-            expect(this.nautilixian.tokens.ward).toBe(1);
+            expect(this.nautilixian.warded).toBe(true);
         });
     });
 });
