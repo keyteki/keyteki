@@ -63,7 +63,7 @@ describe('Harvest Time', function () {
                 });
 
                 it('should not give 1A for warded creatures', function () {
-                    expect(this.gamgee.tokens.ward).toBeUndefined();
+                    expect(this.gamgee.warded).toBe(false);
                     expect(this.player1.amber).toBe(4);
                     expect(this.player2.amber).toBe(3);
                 });

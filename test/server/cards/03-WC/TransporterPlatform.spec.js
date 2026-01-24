@@ -36,7 +36,7 @@ describe('Transporter Platform', function () {
             this.player1.useAction(this.transporterPlatform);
             this.player1.clickCard(this.medicIngram);
             expect(this.medicIngram.location).toBe('play area');
-            expect(this.medicIngram.tokens.ward).toBeUndefined();
+            expect(this.medicIngram.warded).toBe(false);
         });
 
         it("should return creature and upgrades to owner's hand", function () {
@@ -60,7 +60,7 @@ describe('Transporter Platform', function () {
             this.player1.clickCard(this.medicIngram);
             expect(this.calv1n.location).toBe('hand');
             expect(this.medicIngram.location).toBe('play area');
-            expect(this.medicIngram.tokens.ward).toBeUndefined();
+            expect(this.medicIngram.warded).toBe(false);
         });
     });
 
@@ -119,7 +119,7 @@ describe('Transporter Platform', function () {
             this.player1.clickCard(this.lamindra);
 
             expect(this.lamindra.location).toBe('play area');
-            expect(this.lamindra.tokens.ward).toBeUndefined();
+            expect(this.lamindra.warded).toBe(false);
             expect(this.calv1n.location).toBe('hand');
             expect(this.collarOfSubordination.location).toBe('hand');
             expect(this.wayOfTheBear.location).toBe('hand');

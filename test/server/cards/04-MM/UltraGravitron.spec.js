@@ -189,7 +189,7 @@ describe('Ultra Gravitron', function () {
             this.player2.clickPrompt('mars');
 
             this.player2.fightWith(this.collectorWorm, this.ultraGravitron);
-            expect(this.collectorWorm.tokens.ward).toBeUndefined();
+            expect(this.collectorWorm.warded).toBe(false);
             expect(this.ultraGravitron.location).toBe('archives');
             expect(this.ultraGravitron2.location).toBe('archives');
             expect(this.player2.archives).toContain(this.ultraGravitron);
