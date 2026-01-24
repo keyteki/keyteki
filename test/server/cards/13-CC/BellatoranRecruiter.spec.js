@@ -13,7 +13,7 @@ describe('Bellatoran Recruiter', function () {
         });
 
         it('should give +2 power and +2 armor to a friendly non-Dinosaur creature after fighting', function () {
-            this.charette.exhausted = true;
+            this.charette.exhaust();
             this.player1.fightWith(this.bellatoranRecruiter, this.umbra);
             expect(this.player1).toBeAbleToSelect(this.charette);
             expect(this.player1).toBeAbleToSelect(this.gub);
@@ -32,7 +32,7 @@ describe('Bellatoran Recruiter', function () {
         });
 
         it('should give +2 power and +2 armor to a friendly non-Dinosaur creature after reaping', function () {
-            this.charette.exhausted = true;
+            this.charette.exhaust();
             this.player1.reap(this.bellatoranRecruiter);
             expect(this.player1).toBeAbleToSelect(this.charette);
             expect(this.player1).toBeAbleToSelect(this.gub);

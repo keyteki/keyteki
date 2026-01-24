@@ -36,7 +36,7 @@ describe('Parabyte', function () {
 
         it('should capture on reap', function () {
             this.player1.clickCard(this.mother);
-            this.parabyte.exhausted = false;
+            this.parabyte.ready();
             this.player1.reap(this.parabyte);
             this.player1.clickCard(this.mother);
             expect(this.mother.amber).toBe(2);
@@ -46,7 +46,7 @@ describe('Parabyte', function () {
         it('should increase cost for each amber on friendly creature', function () {
             this.player1.clickCard(this.mother);
             this.player1.reap(this.ælbiaStray);
-            this.parabyte.exhausted = false;
+            this.parabyte.ready();
             this.player1.reap(this.parabyte);
             this.player1.clickCard(this.mother);
             this.player1.endTurn();

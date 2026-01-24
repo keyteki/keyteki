@@ -13,7 +13,7 @@ describe('Infiltrator', function () {
                 }
             });
             this.player1.playCreature(this.infiltrator);
-            this.infiltrator.exhausted = false;
+            this.infiltrator.ready();
         });
 
         it('enters play under opponent control', function () {

@@ -17,8 +17,8 @@ describe('Conductor Jărroyă', function () {
             this.player1.useAction(this.shĭgzisŏBuggy);
             this.player1.clickCard(this.toad);
             expect(this.player1.amber).toBe(6);
-            this.gauntletOfCommand.exhausted = true;
-            this.shĭsnyasĭBuggy.exhausted = true;
+            this.gauntletOfCommand.exhaust();
+            this.shĭsnyasĭBuggy.exhaust();
             expect(this.shĭgzisŏBuggy.exhausted).toBe(true);
             this.player1.reap(this.conductorJărroyă);
             expect(this.shĭgzisŏBuggy.exhausted).toBe(false);

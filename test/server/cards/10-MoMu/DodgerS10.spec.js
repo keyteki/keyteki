@@ -47,7 +47,7 @@ describe("Dodger's 10", function () {
             this.player1.playCreature(this.dodgerS10);
             this.player1.amber = 1;
             this.player2.amber = 8;
-            this.dodgerS10.exhausted = false;
+            this.dodgerS10.ready();
             this.player1.reap(this.dodgerS10);
             expect(this.player1.amber).toBe(6);
             expect(this.player2.amber).toBe(4);
@@ -58,7 +58,7 @@ describe("Dodger's 10", function () {
             this.player1.playCreature(this.dodgerS10);
             this.player1.amber = 1;
             this.player2.amber = 8;
-            this.dodgerS10.exhausted = false;
+            this.dodgerS10.ready();
             this.player1.fightWith(this.dodgerS10, this.lamindra);
             expect(this.player1.amber).toBe(5);
             expect(this.player2.amber).toBe(4);

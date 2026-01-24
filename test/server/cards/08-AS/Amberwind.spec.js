@@ -24,7 +24,7 @@ describe('Amberwind', function () {
 
         it('should move one amber to your pool on fight', function () {
             this.player1.playCreature(this.æmberwind);
-            this.æmberwind.exhausted = false;
+            this.æmberwind.ready();
             this.player1.reap(this.æmberwind);
             expect(this.æmberwind.amber).toBe(2);
             expect(this.player1.amber).toBe(3);

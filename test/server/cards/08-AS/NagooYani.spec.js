@@ -29,7 +29,7 @@ describe('Nagoo Yani', function () {
         it('should deal 4 damage to an enemy creature on fight', function () {
             this.player1.play(this.nagooYani);
             this.player1.clickCard(this.troll);
-            this.nagooYani.exhausted = false;
+            this.nagooYani.ready();
             this.player1.fightWith(this.nagooYani, this.lamindra);
             expect(this.player1).not.toBeAbleToSelect(this.dewFaerie);
             expect(this.player1).not.toBeAbleToSelect(this.dustPixie);

@@ -27,7 +27,7 @@ describe('Trickle-Down Theory', function () {
 
             describe('while opponent has less then 6A', function () {
                 beforeEach(function () {
-                    this.trickleDownTheory.exhausted = false;
+                    this.trickleDownTheory.ready();
                     this.player1.useOmni(this.trickleDownTheory);
                 });
 
@@ -40,7 +40,7 @@ describe('Trickle-Down Theory', function () {
             describe('while opponent has 6A', function () {
                 beforeEach(function () {
                     this.player2.player.amber = 6;
-                    this.trickleDownTheory.exhausted = false;
+                    this.trickleDownTheory.ready();
                     this.player1.useOmni(this.trickleDownTheory);
                 });
 
@@ -53,7 +53,7 @@ describe('Trickle-Down Theory', function () {
             describe('while opponent more than 6A', function () {
                 beforeEach(function () {
                     this.player2.player.amber = 7;
-                    this.trickleDownTheory.exhausted = false;
+                    this.trickleDownTheory.ready();
                     this.player1.useOmni(this.trickleDownTheory);
                 });
 

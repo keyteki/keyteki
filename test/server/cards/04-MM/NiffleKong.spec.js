@@ -137,7 +137,7 @@ describe('Niffle Kong', function () {
             this.player1.play(this.niffleKong);
             this.player1.clickPrompt('Done');
 
-            this.niffleKong.exhausted = false;
+            this.niffleKong.ready();
             this.player1.reap(this.niffleKong);
             this.player1.clickPrompt('Done');
         });
@@ -146,7 +146,7 @@ describe('Niffle Kong', function () {
             this.player1.play(this.niffleKong);
             this.player1.clickPrompt('Done');
 
-            this.niffleKong.exhausted = false;
+            this.niffleKong.ready();
             this.player1.reap(this.niffleKong);
             this.player1.clickCard(this.niffleKong);
             expect(this.player1).not.toBeAbleToSelect(this.fuzzyGruen);
@@ -172,7 +172,7 @@ describe('Niffle Kong', function () {
             this.player1.play(this.niffleKong2);
             this.player1.clickPrompt('Done');
 
-            this.niffleKong2.exhausted = false;
+            this.niffleKong2.ready();
             this.player1.fightWith(this.niffleKong2, this.zorg);
             this.player1.clickPrompt('Done');
         });
@@ -181,7 +181,7 @@ describe('Niffle Kong', function () {
             this.player1.play(this.niffleKong2);
             this.player1.clickPrompt('Done');
 
-            this.niffleKong2.exhausted = false;
+            this.niffleKong2.ready();
             this.player1.fightWith(this.niffleKong2, this.zorg);
             this.player1.clickCard(this.niffleKong2);
             this.player1.clickCard(this.niffleApe1);
@@ -202,7 +202,7 @@ describe('Niffle Kong', function () {
             this.player1.play(this.niffleKong);
             this.player1.clickPrompt('Done');
 
-            this.niffleKong.exhausted = false;
+            this.niffleKong.ready();
             this.player1.reap(this.niffleKong);
             this.player1.clickCard(this.niffleKong);
             this.player1.clickCard(this.niffleApe1);
@@ -218,7 +218,7 @@ describe('Niffle Kong', function () {
             this.player1.play(this.niffleKong2);
             this.player1.clickPrompt('Done');
 
-            this.niffleKong2.exhausted = false;
+            this.niffleKong2.ready();
             this.player1.fightWith(this.niffleKong2, this.zorg);
             this.player1.clickCard(this.niffleKong2);
             this.player1.clickCard(this.niffleApe1);
