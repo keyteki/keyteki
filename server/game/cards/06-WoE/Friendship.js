@@ -19,26 +19,28 @@ class Friendship extends Card {
                     let neighbors = context.source.parent.neighbors;
                     let damagePerNeighbor = event.amount / neighbors.length;
                     if (neighbors[0]) {
-                        let childEvent = ability.actions
-                            .applyDamage({
-                                amount: damagePerNeighbor,
-                                damageSource: event.damageSource,
-                                damageType: event.damageType,
-                                damageDealtEvent: event.damageDealtEvent
-                            })
-                            .getEvent(neighbors[0], context.game.getFrameworkContext());
-                        event.addChildEvent(childEvent);
+                        event.addChildEvent(
+                            ability.actions
+                                .applyDamage({
+                                    amount: damagePerNeighbor,
+                                    damageSource: event.damageSource,
+                                    damageType: event.damageType,
+                                    damageDealtEvent: event.damageDealtEvent
+                                })
+                                .getEvent(neighbors[0], context.game.getFrameworkContext())
+                        );
                     }
                     if (neighbors[1]) {
-                        let childEvent = ability.actions
-                            .applyDamage({
-                                amount: damagePerNeighbor,
-                                damageSource: event.damageSource,
-                                damageType: event.damageType,
-                                damageDealtEvent: event.damageDealtEvent
-                            })
-                            .getEvent(neighbors[1], context.game.getFrameworkContext());
-                        event.addChildEvent(childEvent);
+                        event.addChildEvent(
+                            ability.actions
+                                .applyDamage({
+                                    amount: damagePerNeighbor,
+                                    damageSource: event.damageSource,
+                                    damageType: event.damageType,
+                                    damageDealtEvent: event.damageDealtEvent
+                                })
+                                .getEvent(neighbors[1], context.game.getFrameworkContext())
+                        );
                     }
                     event.amount = 0;
                 }
