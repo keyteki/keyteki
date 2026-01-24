@@ -79,4 +79,31 @@ describe('Miss Chievous', function () {
             expect(this.player1).isReadyToTakeAction();
         });
     });
+
+    describe("Miss Chievous's ability with Gebuk", function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'dis',
+                    hand: ['gateway-to-dis'],
+                    inPlay: ['gebuk'],
+                    discard: ['miss-chievous', 'flaxia', 'gub']
+                },
+                player2: {}
+            });
+        });
+
+        it('triggers when Gebuk puts Miss Chievous into play', function () {
+            this.player1.moveCard(this.gub, 'deck');
+            this.player1.moveCard(this.flaxia, 'deck');
+            this.player1.moveCard(this.missChievous, 'deck'); // Miss Chievous on top
+            this.player1.play(this.gatewayToDis); // Destroys Gebuk
+            // Gebuk destroyed: discards Miss Chievous, puts her into play after Gebuk leaves
+            // Miss Chievous triggers for herself entering play, discards top 2 from each deck
+            expect(this.gebuk.location).toBe('discard');
+            expect(this.missChievous.location).toBe('play area');
+            expect(this.flaxia.location).toBe('discard'); // discarded by Miss Chievous
+            expect(this.gub.location).toBe('discard'); // discarded by Miss Chievous
+        });
+    });
 });
