@@ -6,9 +6,10 @@ const KeyPhase = require('./key/KeyPhase.js');
 /**
  * FinalTurn handles the final partial turn after time is called.
  * Per tiebreaker rules:
- * 1. After both players complete their post-time turns
- * 2. First player starts a final turn that proceeds only through the "Forge a Key" step
- * 3. Then the tiebreaker is evaluated
+ * 1. Player1 completes their turn
+ * 2. Player2 takes a full turn
+ * 3. Player1 takes a final turn until the end of their "Forge a Key" step
+ * 4. Tiebreakers are evaluated
  */
 class FinalTurn extends BaseStep {
     /**

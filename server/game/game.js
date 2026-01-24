@@ -417,9 +417,8 @@ class Game extends EventEmitter {
     }
 
     /**
-     * Check to see if any player won the game after going to time.
-     * Tiebreaker order:
-     * 1. Each player with 6+ amber forges 1 key (max 1 per player)
+     * Tiebreakers after time is called:
+     * 1. Each player with 6+ amber forges a key
      * 2. Most keys wins
      * 3. Most amber wins
      * 4. Lowest chains wins
@@ -427,7 +426,7 @@ class Game extends EventEmitter {
      * 6. First player wins
      */
     checkTimeWinCondition() {
-        // Step 1: Each player who has 6 or more Æmber forges 1 Key (max 1 per player)
+        // Step 1: Each player who has 6 or more amber forges a key
         for (const player of this.getPlayers()) {
             if (player.amber >= 6) {
                 this.addAlert('success', '{0} forges a key after time', player);
@@ -436,12 +435,13 @@ class Game extends EventEmitter {
             }
         }
 
-        // Step 2: The player with the most Keys forged is the winner
+        // Step 2: The player with the most keys forged is the winner
         let potentialWinners = this.getPlayers();
         let maxKeys = Math.max(...potentialWinners.map((p) => p.getForgedKeys()));
         potentialWinners = potentialWinners.filter((p) => p.getForgedKeys() === maxKeys);
 
         if (potentialWinners.length === 1) {
+            this.addMessage('Tiebreaker: {0} wins with the most keys', potentialWinners[0]);
             this.recordWinner(potentialWinners[0], 'keys after time');
             return;
         }
@@ -451,6 +451,7 @@ class Game extends EventEmitter {
         potentialWinners = potentialWinners.filter((p) => p.amber === maxAmber);
 
         if (potentialWinners.length === 1) {
+            this.addMessage('Tiebreaker: {0} wins with the most amber', potentialWinners[0]);
             this.recordWinner(potentialWinners[0], 'amber after time');
             return;
         }
@@ -460,6 +461,7 @@ class Game extends EventEmitter {
         potentialWinners = potentialWinners.filter((p) => p.chains === minChains);
 
         if (potentialWinners.length === 1) {
+            this.addMessage('Tiebreaker: {0} wins with the fewest chains', potentialWinners[0]);
             this.recordWinner(potentialWinners[0], 'chains after time');
             return;
         }
@@ -471,12 +473,16 @@ class Game extends EventEmitter {
         );
 
         if (potentialWinners.length === 1) {
+            this.addMessage(
+                'Tiebreaker: {0} wins with the most friendly creatures',
+                potentialWinners[0]
+            );
             this.recordWinner(potentialWinners[0], 'creatures after time');
             return;
         }
 
         // Step 6: First player wins
-        this.addMessage('Tiebreaker: first player wins');
+        this.addMessage('Tiebreaker: {0} wins as the first player', this.firstPlayer);
         this.recordWinner(this.firstPlayer, 'first player after time');
     }
 
