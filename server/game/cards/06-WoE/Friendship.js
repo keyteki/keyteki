@@ -7,6 +7,7 @@ class Friendship extends Card {
             when: {
                 onDamageApplied: (event, context) =>
                     event.damageDealtEvent &&
+                    !event.redirectedByFriendship &&
                     event.amount > 0 &&
                     event.card === context.source.parent &&
                     context.source.parent.neighbors.length > 0 &&
@@ -18,22 +19,28 @@ class Friendship extends Card {
                     let neighbors = context.source.parent.neighbors;
                     let damagePerNeighbor = event.amount / neighbors.length;
                     if (neighbors[0]) {
-                        event.addChildEvent(
-                            ability.actions
-                                .addDamageToken({
-                                    amount: damagePerNeighbor
-                                })
-                                .getEvent(neighbors[0], context.game.getFrameworkContext())
-                        );
+                        let childEvent = ability.actions
+                            .applyDamage({
+                                amount: damagePerNeighbor,
+                                damageSource: event.damageSource,
+                                damageType: event.damageType,
+                                damageDealtEvent: event.damageDealtEvent
+                            })
+                            .getEvent(neighbors[0], context.game.getFrameworkContext());
+                        childEvent.redirectedByFriendship = true;
+                        event.addChildEvent(childEvent);
                     }
                     if (neighbors[1]) {
-                        event.addChildEvent(
-                            ability.actions
-                                .addDamageToken({
-                                    amount: damagePerNeighbor
-                                })
-                                .getEvent(neighbors[1], context.game.getFrameworkContext())
-                        );
+                        let childEvent = ability.actions
+                            .applyDamage({
+                                amount: damagePerNeighbor,
+                                damageSource: event.damageSource,
+                                damageType: event.damageType,
+                                damageDealtEvent: event.damageDealtEvent
+                            })
+                            .getEvent(neighbors[1], context.game.getFrameworkContext());
+                        childEvent.redirectedByFriendship = true;
+                        event.addChildEvent(childEvent);
                     }
                     event.amount = 0;
                 }
@@ -45,6 +52,7 @@ class Friendship extends Card {
             when: {
                 onDamageApplied: (event, context) =>
                     event.damageDealtEvent &&
+                    !event.redirectedByFriendship &&
                     event.amount > 0 &&
                     event.card === context.source.parent &&
                     context.source.parent.neighbors.length === 2 &&
@@ -61,24 +69,30 @@ class Friendship extends Card {
                     processEvent: (event, context) => {
                         let neighbors = context.source.parent.neighbors;
                         let damagePerNeighbor = Math.floor(event.amount / 2);
-                        event.addChildEvent(
-                            ability.actions
-                                .addDamageToken({
-                                    amount:
-                                        damagePerNeighbor +
-                                        (context.target === neighbors[0] ? 1 : 0)
-                                })
-                                .getEvent(neighbors[0], context.game.getFrameworkContext())
-                        );
-                        event.addChildEvent(
-                            ability.actions
-                                .addDamageToken({
-                                    amount:
-                                        damagePerNeighbor +
-                                        (context.target === neighbors[1] ? 1 : 0)
-                                })
-                                .getEvent(neighbors[1], context.game.getFrameworkContext())
-                        );
+                        let childEvent0 = ability.actions
+                            .applyDamage({
+                                amount:
+                                    damagePerNeighbor + (context.target === neighbors[0] ? 1 : 0),
+                                damageSource: event.damageSource,
+                                damageType: event.damageType,
+                                damageDealtEvent: event.damageDealtEvent
+                            })
+                            .getEvent(neighbors[0], context.game.getFrameworkContext());
+                        childEvent0.redirectedByFriendship = true;
+                        event.addChildEvent(childEvent0);
+
+                        let childEvent1 = ability.actions
+                            .applyDamage({
+                                amount:
+                                    damagePerNeighbor + (context.target === neighbors[1] ? 1 : 0),
+                                damageSource: event.damageSource,
+                                damageType: event.damageType,
+                                damageDealtEvent: event.damageDealtEvent
+                            })
+                            .getEvent(neighbors[1], context.game.getFrameworkContext());
+                        childEvent1.redirectedByFriendship = true;
+                        event.addChildEvent(childEvent1);
+
                         event.amount = 0;
                     }
                 }))

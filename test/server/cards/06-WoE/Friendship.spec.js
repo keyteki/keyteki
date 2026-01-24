@@ -189,4 +189,33 @@ describe('Friendship', function () {
             });
         });
     });
+
+    describe("Friendship's ability and poison", function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'sanctum',
+                    inPlay: ['paraguardian', 'chancellor-dexterus', 'baldric-the-bold'],
+                    hand: ['friendship']
+                },
+                player2: {
+                    inPlay: ['mooncurser']
+                }
+            });
+
+            this.player1.playUpgrade(this.friendship, this.chancellorDexterus);
+            this.player1.endTurn();
+            this.player2.clickPrompt('shadows');
+        });
+
+        it('should apply poison to the neighbors receiving redirected damage', function () {
+            this.player2.fightWith(this.mooncurser, this.chancellorDexterus);
+            this.player2.clickCard(this.baldricTheBold);
+            expect(this.paraguardian.location).toBe('play area');
+            expect(this.chancellorDexterus.location).toBe('play area');
+            expect(this.chancellorDexterus.tokens.damage).toBe(undefined);
+            expect(this.baldricTheBold.location).toBe('discard');
+            expect(this.player2).isReadyToTakeAction();
+        });
+    });
 });
