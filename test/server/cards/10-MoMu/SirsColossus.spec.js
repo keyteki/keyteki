@@ -107,7 +107,7 @@ describe('Sirs Colossus', function () {
             expect(this.player1).isReadyToTakeAction();
         });
 
-        it('should share keywords and traits when top is played', function () {
+        it('should share keywords and traits when bottom is played', function () {
             this.player2.amber = 0;
             expect(this.sirsColossusTop.getTraits()).toEqual([]);
             expect(this.sirsColossusTop.hasKeyword('taunt')).toBe(false);
