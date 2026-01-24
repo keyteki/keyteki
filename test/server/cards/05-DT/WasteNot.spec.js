@@ -6,7 +6,7 @@ describe('Waste Not', function () {
                     house: 'untamed',
                     amber: 1,
                     hand: ['waste-not'],
-                    inPlay: ['flaxia', 'gub', 'urchin']
+                    inPlay: ['flaxia', 'gub', 'urchin', 'gebuk']
                 },
                 player2: {
                     amber: 4,
@@ -73,6 +73,17 @@ describe('Waste Not', function () {
             expect(this.urchin.location).toBe('play area');
             expect(this.flaxia.location).toBe('play area');
             expect(this.player1.hand.length).toBe(3);
+        });
+
+        it('should be interrupted by destroyed effects ', function () {
+            this.player1.moveCard(this.urchin, 'deck');
+            expect(this.urchin.location).toBe('deck');
+            this.player1.play(this.wasteNot);
+            this.player1.clickCard(this.gebuk);
+            expect(this.urchin.location).toBe('play area');
+            expect(this.gebuk.location).toBe('discard');
+            expect(this.player1.hand.length).toBe(3);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });
