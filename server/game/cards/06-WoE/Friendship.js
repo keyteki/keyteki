@@ -24,8 +24,7 @@ class Friendship extends Card {
                                 amount: damagePerNeighbor,
                                 damageSource: event.damageSource,
                                 damageType: event.damageType,
-                                damageDealtEvent: event.damageDealtEvent,
-                                bypassWard: true
+                                damageDealtEvent: event.damageDealtEvent
                             })
                             .getEvent(neighbors[0], context.game.getFrameworkContext());
                         childEvent.redirectedByFriendship = true;
@@ -37,8 +36,7 @@ class Friendship extends Card {
                                 amount: damagePerNeighbor,
                                 damageSource: event.damageSource,
                                 damageType: event.damageType,
-                                damageDealtEvent: event.damageDealtEvent,
-                                bypassWard: true
+                                damageDealtEvent: event.damageDealtEvent
                             })
                             .getEvent(neighbors[1], context.game.getFrameworkContext());
                         childEvent.redirectedByFriendship = true;
@@ -77,8 +75,7 @@ class Friendship extends Card {
                                     damagePerNeighbor + (context.target === neighbors[0] ? 1 : 0),
                                 damageSource: event.damageSource,
                                 damageType: event.damageType,
-                                damageDealtEvent: event.damageDealtEvent,
-                                bypassWard: true
+                                damageDealtEvent: event.damageDealtEvent
                             })
                             .getEvent(neighbors[0], context.game.getFrameworkContext());
                         childEvent0.redirectedByFriendship = true;
@@ -90,8 +87,7 @@ class Friendship extends Card {
                                     damagePerNeighbor + (context.target === neighbors[1] ? 1 : 0),
                                 damageSource: event.damageSource,
                                 damageType: event.damageType,
-                                damageDealtEvent: event.damageDealtEvent,
-                                bypassWard: true
+                                damageDealtEvent: event.damageDealtEvent
                             })
                             .getEvent(neighbors[1], context.game.getFrameworkContext());
                         childEvent1.redirectedByFriendship = true;

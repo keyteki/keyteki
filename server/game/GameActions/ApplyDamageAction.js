@@ -8,7 +8,6 @@ class ApplyDamageAction extends CardGameAction {
         this.damageSource = null;
         this.damageType = 'card effect';
         this.bonus = false;
-        this.bypassWard = false;
     }
 
     setup() {
@@ -22,6 +21,10 @@ class ApplyDamageAction extends CardGameAction {
     }
 
     getEvent(card, context) {
+        // If damage is being applied to a different card than the original damage target,
+        // it means the damage was redirected and should bypass ward
+        const isRedirected = this.damageDealtEvent && this.damageDealtEvent.card !== card;
+
         const params = {
             card: card,
             context: context,
@@ -31,7 +34,7 @@ class ApplyDamageAction extends CardGameAction {
             damageSource: this.damageSource,
             damageDealtEvent: this.damageDealtEvent,
             fightEvent: this.damageDealtEvent ? this.damageDealtEvent.fightEvent : null,
-            bypassWard: this.bypassWard,
+            isRedirected: isRedirected,
             destroyEvent: null
         };
 
@@ -49,7 +52,7 @@ class ApplyDamageAction extends CardGameAction {
                         event.damageSource.getKeywordValue('poison')))
             ) {
                 event.destroyEvent = context.game.actions
-                    .destroy({ damageEvent: event, bypassWard: event.bypassWard })
+                    .destroy({ damageEvent: event, isRedirected: event.isRedirected })
                     .getEvent(event.card, context.game.getFrameworkContext());
 
                 if (event.damageDealtEvent) {

@@ -10,7 +10,7 @@ class DestroyAction extends CardGameAction {
 
     setDefaultProperties() {
         this.damageEvent = null;
-        this.bypassWard = false;
+        this.isRedirected = false;
     }
 
     setup() {
@@ -26,7 +26,7 @@ class DestroyAction extends CardGameAction {
             card: card,
             context: context,
             damageEvent: this.damageEvent,
-            bypassWard: this.bypassWard
+            isRedirected: this.isRedirected
         };
         return super.createEvent(EVENTS.onCardDestroyed, params, (event) => {
             event.card.moribund = true;
@@ -39,7 +39,7 @@ class DestroyAction extends CardGameAction {
                     condition: (event) => event.card.location === 'play area',
                     triggeringEvent: event,
                     battlelineIndex: event.card.controller.cardsInPlay.indexOf(event.card) - 1,
-                    bypassWard: this.bypassWard
+                    isRedirected: this.isRedirected
                 },
                 (leavesPlayEvent) => {
                     leavesPlayEvent.card.owner.moveCard(event.card, 'discard');

@@ -337,17 +337,17 @@ class Card extends EffectSource {
                         event.card === context.source &&
                         event.card.type === 'creature' &&
                         context.source.warded &&
-                        !event.bypassWard,
+                        !event.isRedirected,
                     onCardPurged: (event, context) =>
                         event.card === context.source &&
                         event.card.type === 'creature' &&
                         context.source.warded &&
-                        !event.bypassWard,
+                        !event.isRedirected,
                     onCardLeavesPlay: (event, context) =>
                         event.card === context.source &&
                         event.card.type === 'creature' &&
                         context.source.warded &&
-                        !event.bypassWard
+                        !event.isRedirected
                 },
                 autoResolve: true,
                 effect: 'remove its ward token',
