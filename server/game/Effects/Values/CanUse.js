@@ -17,31 +17,27 @@ class CanUse extends ConditionValue {
         if (!this.condition) {
             return true;
         }
-        if (!abilityContext || !abilityContext.source) {
+        if (!abilityContext) {
             return false;
         }
 
-        // Use abilityContext.source as the card being checked (the card being used)
-        const cardBeingUsed = abilityContext.source;
-        const abilityTitle = abilityContext.ability?.title;
-
         if (this.toFight) {
             return (
-                (abilityTitle === 'Fight with this creature' ||
-                    abilityTitle === "Remove this creature's stun") &&
-                this.condition(cardBeingUsed, abilityContext, effectContext)
+                (abilityContext.ability.title === 'Fight with this creature' ||
+                    abilityContext.ability.title === "Remove this creature's stun") &&
+                this.condition(abilityContext.source, abilityContext, effectContext)
             );
         }
 
         if (this.toReap) {
             return (
-                (abilityTitle === 'Reap with this creature' ||
-                    abilityTitle === "Remove this creature's stun") &&
-                this.condition(cardBeingUsed, abilityContext, effectContext)
+                (abilityContext.ability.title === 'Reap with this creature' ||
+                    abilityContext.ability.title === "Remove this creature's stun") &&
+                this.condition(abilityContext.source, abilityContext, effectContext)
             );
         }
 
-        return this.condition(cardBeingUsed, abilityContext, effectContext);
+        return this.condition(abilityContext.source, abilityContext, effectContext);
     }
 }
 

@@ -59,7 +59,7 @@ describe('Rocketeer Tryska', function () {
             expect(this.armsmasterMolina.exhausted).toBe(false);
         });
 
-        it('a neighbor should not enter play ready', function () {
+        it('neighboring token creatures should enter play ready', function () {
             this.niffleBrute1 = this.player1.player.deck[0];
             this.player1.play(this.survivalOfTheRichest);
             this.player1.clickPrompt('Left');
