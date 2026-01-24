@@ -44,7 +44,7 @@ class FinalTurn extends BaseStep {
     }
 
     endFinalTurn() {
-        this.game.addAlert('endofturn', 'Final turn has ended.');
+        this.game.addAlert('endofturn', 'Final turn has ended');
         this.game.finalTurnCompleted = true;
         this.game.checkWinCondition();
     }
