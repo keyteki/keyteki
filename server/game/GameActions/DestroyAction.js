@@ -24,7 +24,8 @@ class DestroyAction extends CardGameAction {
         const params = {
             card: card,
             context: context,
-            damageEvent: this.damageEvent
+            damageEvent: this.damageEvent,
+            isRedirected: this.damageEvent ? this.damageEvent.isRedirected : false
         };
         return super.createEvent(EVENTS.onCardDestroyed, params, (event) => {
             event.card.moribund = true;
@@ -36,7 +37,8 @@ class DestroyAction extends CardGameAction {
                     context: context,
                     condition: (event) => event.card.location === 'play area',
                     triggeringEvent: event,
-                    battlelineIndex: event.card.controller.cardsInPlay.indexOf(event.card) - 1
+                    battlelineIndex: event.card.controller.cardsInPlay.indexOf(event.card) - 1,
+                    isRedirected: this.damageEvent ? this.damageEvent.isRedirected : false
                 },
                 (leavesPlayEvent) => {
                     leavesPlayEvent.card.owner.moveCard(event.card, 'discard');

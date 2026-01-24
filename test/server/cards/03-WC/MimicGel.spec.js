@@ -755,4 +755,59 @@ describe('Mimic Gel', function () {
             this.player1.clickCard(this.stiltKin);
         });
     });
+
+    describe("Mimic Gel's ability", function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'logos',
+                    hand: ['mimic-gel']
+                },
+                player2: {
+                    token: 'blorb',
+                    inPlay: ['gĕzdrutyŏ-the-arcane']
+                }
+            });
+        });
+
+        it('should not become a token creature if flipped with no token creature reference card', function () {
+            expect(this.player2.amber).toBe(0);
+            this.player1.playCreature(this.mimicGel);
+            this.player1.clickCard(this.gĕzdrutyŏTheArcane);
+            this.mimicGel.tokens.amber = 3; // Should be discarded bc when flipped it is no longer a creature
+            this.mimicGel.tokens.ward = 1; // Should be ignored bc when flipped it is no longer a creature
+            this.mimicGel.exhausted = false;
+            this.player1.useAction(this.mimicGel);
+            expect(this.mimicGel.location).toBe('discard');
+            expect(this.player2.amber).toBe(0); // Does not get captured amber
+            expect(this.player1).isReadyToTakeAction();
+        });
+    });
+
+    describe("Mimic Gel's ability", function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    token: 'alpha-gamma',
+                    house: 'logos',
+                    hand: ['mimic-gel']
+                },
+                player2: {
+                    token: 'blorb',
+                    inPlay: ['gĕzdrutyŏ-the-arcane']
+                }
+            });
+        });
+
+        it('should become a token creature if flipped with a token creature reference card', function () {
+            this.player1.playCreature(this.mimicGel);
+            this.player1.clickCard(this.gĕzdrutyŏTheArcane);
+            this.mimicGel.exhausted = false;
+            this.player1.useAction(this.mimicGel);
+            expect(this.mimicGel.isToken()).toBe(true);
+            expect(this.mimicGel.name).toBe('Alpha-Gamma');
+            expect(this.mimicGel.location).toBe('play area');
+            expect(this.player1).isReadyToTakeAction();
+        });
+    });
 });
