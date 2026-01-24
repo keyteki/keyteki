@@ -6,7 +6,7 @@ describe('Waste Not', function () {
                     house: 'untamed',
                     amber: 1,
                     hand: ['waste-not'],
-                    inPlay: ['flaxia', 'gub', 'urchin', 'gebuk']
+                    inPlay: ['flaxia', 'gub', 'urchin']
                 },
                 player2: {
                     amber: 4,
@@ -74,14 +74,32 @@ describe('Waste Not', function () {
             expect(this.flaxia.location).toBe('play area');
             expect(this.player1.hand.length).toBe(3);
         });
+    });
+
+    describe("Waste Not's play ability", function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'untamed',
+                    hand: ['waste-not', 'miss-chievous', 'urchin', 'dodger', 'flaxia'],
+                    inPlay: ['gebuk']
+                },
+                player2: {}
+            });
+        });
 
         it('should be interrupted by destroyed effects ', function () {
+            this.player1.moveCard(this.flaxia, 'deck');
             this.player1.moveCard(this.urchin, 'deck');
-            expect(this.urchin.location).toBe('deck');
+            this.player1.moveCard(this.dodger, 'deck');
+            this.player1.moveCard(this.missChievous, 'deck'); // top of deck
             this.player1.play(this.wasteNot);
-            this.player1.clickCard(this.gebuk);
-            expect(this.urchin.location).toBe('play area');
+            this.player1.clickCard(this.gebuk); // replaced with Miss Chievous
+            expect(this.missChievous.location).toBe('play area'); // Discards Urchin and Dodger
             expect(this.gebuk.location).toBe('discard');
+            expect(this.urchin.location).toBe('discard');
+            expect(this.dodger.location).toBe('discard');
+            expect(this.flaxia.location).toBe('hand'); // Drawn by Waste Not
             expect(this.player1.hand.length).toBe(3);
             expect(this.player1).isReadyToTakeAction();
         });
