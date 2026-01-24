@@ -16,14 +16,14 @@ describe('Lucky Dice', function () {
         });
 
         it('should not prevent damage during owner turn', function () {
-            this.player1.useAction(this.luckyDice, true);
+            this.player1.useOmni(this.luckyDice);
             expect(this.luckyDice.location).toBe('discard');
             this.player1.fightWith(this.dodger, this.bingleBangbang);
             expect(this.dodger.tokens.damage).toBe(2);
         });
 
         it("should prevent damage during opponent's turn", function () {
-            this.player1.useAction(this.luckyDice, true);
+            this.player1.useOmni(this.luckyDice);
             expect(this.luckyDice.location).toBe('discard');
             this.player1.endTurn();
             this.player2.clickPrompt('brobnar');
@@ -40,7 +40,7 @@ describe('Lucky Dice', function () {
         });
 
         it('should last for one round only', function () {
-            this.player1.useAction(this.luckyDice, true);
+            this.player1.useOmni(this.luckyDice);
             expect(this.luckyDice.location).toBe('discard');
             this.player1.endTurn();
             this.player2.clickPrompt('brobnar');
@@ -62,7 +62,7 @@ describe('Lucky Dice', function () {
             this.player2.clickPrompt('shadows');
             this.player2.play(this.sneklifter);
             this.player2.clickCard(this.luckyDice);
-            this.player2.useAction(this.luckyDice, true);
+            this.player2.useOmni(this.luckyDice);
             expect(this.luckyDice.location).toBe('discard');
             this.player2.fightWith(this.gamgee, this.mutantCutpurse);
             expect(this.gamgee.location).toBe('discard');
@@ -118,7 +118,7 @@ describe('Lucky Dice', function () {
         });
 
         it("should only affect opponent's next turn", function () {
-            this.player1.useAction(this.luckyDice, true);
+            this.player1.useOmni(this.luckyDice);
             expect(this.sensorChiefGarcia.tokens.damage).toBeUndefined();
             this.player1.endTurn();
             this.player1.clickPrompt('staralliance');

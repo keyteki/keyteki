@@ -17,14 +17,14 @@ describe('Haunted House', function () {
         });
 
         it('does nothing on omni if not haunted', function () {
-            this.player1.useAction(this.hauntedHouse, true);
+            this.player1.useOmni(this.hauntedHouse);
             expect(this.player1.amber).toBe(1);
             expect(this.player1).isReadyToTakeAction();
         });
 
         it('gains 1 amber on omni if haunted', function () {
             this.player1.play(this.aStrongFeeling);
-            this.player1.useAction(this.hauntedHouse, true);
+            this.player1.useOmni(this.hauntedHouse);
             expect(this.player1.amber).toBe(2);
             expect(this.player1).isReadyToTakeAction();
         });

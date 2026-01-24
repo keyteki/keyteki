@@ -12,7 +12,7 @@ describe('Researcher', function () {
         });
 
         it('should archive a revealed mars card', function () {
-            this.player1.useAction(this.researcher, true);
+            this.player1.useOmni(this.researcher);
             expect(this.player1).toBeAbleToSelect(this.blypyp);
             expect(this.player1).toBeAbleToSelect(this.kaboom);
             expect(this.player1).not.toBeAbleToSelect(this.toad);
