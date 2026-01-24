@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Col, Form, Button } from 'react-bootstrap';
+import { Button, Col, Form } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { sendSocketMessage } from '../redux/actions';
 
@@ -36,7 +36,7 @@ const MotdAdmin = () => {
                     <Form.Group as={Col}>
                         {motdTypes.map((type) => (
                             <Form.Check
-                                name='gameType'
+                                name='gamePlaystyle'
                                 key={type.value}
                                 type='radio'
                                 id={type.value}

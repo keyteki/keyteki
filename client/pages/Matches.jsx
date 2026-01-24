@@ -1,13 +1,13 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 import moment from 'moment';
+import PropTypes from 'prop-types';
+import React from 'react';
+import { connect } from 'react-redux';
 
 import AlertPanel from '../Components/Site/AlertPanel';
 import Panel from '../Components/Site/Panel';
 import * as actions from '../redux/actions';
 
-import { withTranslation, Trans } from 'react-i18next';
+import { Trans, withTranslation } from 'react-i18next';
 
 class Matches extends React.Component {
     componentDidMount() {
@@ -76,7 +76,7 @@ class Matches extends React.Component {
                               <td style={{ 'white-space': 'nowrap' }}>
                                   {myKeys} x {oppKeys}
                               </td>
-                              <td style={{ 'white-space': 'nowrap' }}>{t(game.gameType)}</td>
+                              <td style={{ 'white-space': 'nowrap' }}>{t(game.gamePlaystyle)}</td>
                               <td style={{ 'white-space': 'nowrap' }}>{t(game.gameFormat)}</td>
                               <td style={{ 'white-space': 'nowrap' }}>
                                   {moment(game.startedAt).format('YYYY-MM-DD HH:mm')}

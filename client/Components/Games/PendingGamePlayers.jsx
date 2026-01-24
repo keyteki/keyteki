@@ -52,7 +52,7 @@ const PendingGamePlayers = ({ currentGame, user, onSelectDeck }) => {
                     status = <DeckStatus status={player.deck.status} />;
                 } else if (player && playerIsMe && !isSealed) {
                     selectLink = (
-                        <Button onClick={onSelectDeck}>
+                        <Button onClick={onSelectDeck} className='ml-2'>
                             <Trans>Select Deck</Trans>
                         </Button>
                     );

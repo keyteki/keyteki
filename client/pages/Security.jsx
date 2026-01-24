@@ -21,8 +21,7 @@ class Security extends React.Component {
         };
     }
 
-    // eslint-disable-next-line react/no-deprecated
-    componentWillMount() {
+    componentDidMount() {
         if (this.props.user) {
             this.props.loadActiveSessions(this.props.user);
 

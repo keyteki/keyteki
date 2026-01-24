@@ -1,0 +1,17 @@
+.game-sets {
+    // margin-top: 0px;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0.5rem 1rem;
+
+    .custom-switch {
+        margin-right: 0 !important;
+    }
+}
+
+.set-icon {
+    height: 1em;
+    width: auto;
+    vertical-align: baseline;
+    margin-right: 0.25rem;
+}

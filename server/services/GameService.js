@@ -11,8 +11,8 @@ class GameService {
 
         try {
             let newGame = await db.query(
-                'INSERT INTO "Games" ("GameId", "GameType", "GameFormat", "StartedAt") VALUES ($1, $2, $3, $4) RETURNING "Id"',
-                [game.gameId, game.gameType, game.gameFormat, game.startedAt]
+                'INSERT INTO "Games" ("GameId", "GamePlaystyle", "GameFormat", "StartedAt") VALUES ($1, $2, $3, $4) RETURNING "Id"',
+                [game.gameId, game.gamePlaystyle, game.gameFormat, game.startedAt]
             );
 
             if (!newGame || newGame.length === 0) {

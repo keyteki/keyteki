@@ -37,8 +37,7 @@ class Application extends React.Component {
         this.backgrounds.keyforge = Background;
     }
 
-    // eslint-disable-next-line react/no-deprecated
-    componentWillMount() {
+    componentDidMount() {
         if (!localStorage) {
             this.setState({ incompatibleBrowser: true });
         } else {
