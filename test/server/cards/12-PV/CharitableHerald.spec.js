@@ -42,8 +42,8 @@ describe('Charitable Herald', function () {
         });
 
         it('should remove all wards from friendly creatures when fate is triggered', function () {
-            this.emberImp.tokens.ward = 1;
-            this.flaxia.tokens.ward = 1;
+            this.emberImp.ward();
+            this.flaxia.ward();
             this.player1.activateProphecy(this.overreach, this.charitableHerald);
             this.player1.endTurn();
             this.player2.clickPrompt('untamed');

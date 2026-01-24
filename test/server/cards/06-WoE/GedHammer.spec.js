@@ -24,9 +24,9 @@ describe('GedHammer', function () {
             expect(this.brammo.exhausted).toBe(true);
             expect(this.krump.exhausted).toBe(true);
 
-            expect(this.alaka.tokens.enrage).toBeUndefined();
-            expect(this.brammo.tokens.enrage).toBeUndefined();
-            expect(this.krump.tokens.enrage).toBeUndefined();
+            expect(this.alaka.enraged).toBe(false);
+            expect(this.brammo.enraged).toBe(false);
+            expect(this.krump.enraged).toBe(false);
 
             this.player1.fightWith(this.gedHammer, this.krump);
             expect(this.gedHammer.location).toBe('discard');
@@ -34,9 +34,9 @@ describe('GedHammer', function () {
             expect(this.alaka.exhausted).toBe(false);
             expect(this.brammo.exhausted).toBe(false);
             expect(this.krump.exhausted).toBe(true);
-            expect(this.alaka.tokens.enrage).toBe(1);
-            expect(this.brammo.tokens.enrage).toBe(1);
-            expect(this.krump.tokens.enrage).toBeUndefined();
+            expect(this.alaka.enraged).toBe(true);
+            expect(this.brammo.enraged).toBe(true);
+            expect(this.krump.enraged).toBe(false);
 
             this.player1.endTurn();
         });

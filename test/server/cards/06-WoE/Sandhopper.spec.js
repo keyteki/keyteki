@@ -43,7 +43,7 @@ describe('Sandhopper', function () {
         });
 
         it('should fizzle with a warded creature', function () {
-            this.antiquitiesDealer.tokens.ward = 1;
+            this.antiquitiesDealer.ward();
             this.player1.useAction(this.sandhopper);
             this.player1.clickCard(this.antiquitiesDealer);
             expect(this.antiquitiesDealer.location).toBe('play area');

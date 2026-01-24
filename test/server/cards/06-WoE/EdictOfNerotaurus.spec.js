@@ -133,12 +133,12 @@ describe('Edict of Nerotaurus', function () {
             this.player1.play(this.brillixPonder);
             this.player1.play(this.daughter);
             this.player1.play(this.strangeGizmo);
-            this.brillixPonder.tokens.ward = 1;
-            this.daughter.tokens.ward = 1;
+            this.brillixPonder.ward();
+            this.daughter.ward();
             this.player1.endTurn();
             this.player2.clickPrompt('saurian');
             this.player2.play(this.grammaticusThrax);
-            this.grammaticusThrax.tokens.ward = 1;
+            this.grammaticusThrax.ward();
             this.player2.endTurn();
 
             // Strange Gizmo causes Jargogle to play Edict of Nerotaurus after forging a key
@@ -295,12 +295,12 @@ describe('Edict of Nerotaurus', function () {
             this.player1.play(this.brillixPonder);
             this.player1.play(this.daughter);
             this.player1.play(this.strangeGizmo);
-            this.brillixPonder.tokens.ward = 1;
-            this.daughter.tokens.ward = 1;
+            this.brillixPonder.ward();
+            this.daughter.ward();
             this.player1.endTurn();
             this.player2.clickPrompt('saurian');
             this.player2.play(this.grammaticusThrax);
-            this.grammaticusThrax.tokens.ward = 1;
+            this.grammaticusThrax.ward();
             this.player2.endTurn();
 
             // Strange Gizmo causes Jargogle to play Edict of Nerotaurus after forging a key

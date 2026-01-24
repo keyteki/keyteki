@@ -14,7 +14,7 @@ describe('Genetic Blast', function () {
 
             this.pelf2 = this.player2.player.creaturesInPlay[0];
             this.pelf3 = this.player2.player.creaturesInPlay[1];
-            this.pelf3.tokens.ward = 1;
+            this.pelf3.ward();
         });
 
         it('should deal 2 damage to each creature with that name', function () {

@@ -47,7 +47,7 @@ describe('Spangler Box', function () {
         });
 
         it('should not purge warded creatures and remain under owner control', function () {
-            this.silvertooth.tokens.ward = 1;
+            this.silvertooth.ward();
             this.player1.useAction(this.spanglerBox);
             expect(this.player1).toHavePrompt('Spangler Box');
             expect(this.player1).toBeAbleToSelect(this.docBookton);

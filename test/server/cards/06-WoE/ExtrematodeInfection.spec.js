@@ -85,7 +85,7 @@ describe('Extrematode Infection', function () {
                         this.player1.moveCard(this.gedHammer, 'deck');
 
                         this.player2.clickPrompt('logos');
-                        this.earthshaker.tokens.ward = 1;
+                        this.earthshaker.ward();
                         this.player2.endTurn();
                     });
 
