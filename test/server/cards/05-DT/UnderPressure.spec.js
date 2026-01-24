@@ -25,7 +25,7 @@ describe('Under Pressure', function () {
             expect(this.llackGaboon.exhausted).toBe(false);
         });
 
-        xit('should not be readied by action cards, but should be able to select the exhausted creature', function () {
+        it('should not be readied by action cards, but should be able to select the exhausted creature', function () {
             this.player1.reap(this.hookmaster);
             this.player1.endTurn();
             this.player2.clickPrompt('shadows');
