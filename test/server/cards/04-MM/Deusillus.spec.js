@@ -109,7 +109,7 @@ describe('Deusillus', function () {
         });
 
         it('should be archived completely', function () {
-            this.collectorWorm.tokens.ward = 1;
+            this.collectorWorm.ward();
 
             this.player1.play(this.deusillus);
             this.player1.clickCard(this.narp);
@@ -374,7 +374,7 @@ describe('Deusillus', function () {
             this.player1.clickCard(this.narp);
             this.player1.endTurn();
             this.deusillus.tokens.damage = 19;
-            this.overlordGreking.tokens.ward = 1;
+            this.overlordGreking.ward();
             this.player2.clickPrompt('dis');
             this.player2.fightWith(this.overlordGreking, this.deusillus);
             this.player2.clickPrompt('Left');

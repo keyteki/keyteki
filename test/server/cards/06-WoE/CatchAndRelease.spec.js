@@ -37,7 +37,7 @@ describe('Catch and Release', function () {
         });
 
         it('should not return warded creatures', function () {
-            this.pelf.tokens.ward = 1;
+            this.pelf.ward();
             let discardLength1 = this.player1.player.discard.length;
             let discardLength2 = this.player2.player.discard.length;
             this.player1.play(this.catchAndRelease);

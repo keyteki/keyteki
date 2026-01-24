@@ -775,7 +775,7 @@ describe('Mimic Gel', function () {
             this.player1.playCreature(this.mimicGel);
             this.player1.clickCard(this.gĕzdrutyŏTheArcane);
             this.mimicGel.tokens.amber = 3; // Should be discarded bc when flipped it is no longer a creature
-            this.mimicGel.tokens.ward = 1; // Should be ignored bc when flipped it is no longer a creature
+            this.mimicGel.ward(); // Should be ignored bc when flipped it is no longer a creature
             this.mimicGel.ready();
             this.player1.useAction(this.mimicGel);
             expect(this.mimicGel.location).toBe('discard');

@@ -14,7 +14,7 @@ describe('Shorty', function () {
 
         it('shorty is enraged after reaping', function () {
             this.player1.reap(this.shorty);
-            expect(this.shorty.tokens.enrage).toBe(1);
+            expect(this.shorty.enraged).toBe(true);
             this.player1.endTurn();
             this.player2.clickPrompt('brobnar');
             this.player2.endTurn();

@@ -20,8 +20,8 @@ describe('Irestaff', function () {
             expect(this.player1).toBeAbleToSelect(this.umbra);
             this.player1.clickCard(this.troll);
             expect(this.troll.power).toBe(9);
+            expect(this.troll.enraged).toBe(true);
             expect(this.troll.powerCounters).toBe(1);
-            expect(this.troll.tokens.enrage).toBe(1);
             this.player1.clickCard(this.troll);
             expect(this.player1).not.toHavePromptButton('Reap with this creature');
 

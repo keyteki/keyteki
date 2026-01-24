@@ -35,7 +35,7 @@ describe('Extinction', function () {
         });
 
         it('should not kill selected warded creature', function () {
-            this.eldestBear.tokens.ward = 1;
+            this.eldestBear.ward();
 
             this.player1.play(this.extinction);
             this.player1.clickCard(this.eldestBear);

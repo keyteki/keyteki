@@ -64,7 +64,7 @@ describe('Legerdemain', function () {
         });
 
         it('should not grant amber for warded creatures', function () {
-            this.krump.tokens.ward = 1;
+            this.krump.ward();
             this.player1.play(this.legerdemain);
             expect(this.player1).toBeAbleToSelect(this.flaxia);
             expect(this.player1).not.toBeAbleToSelect(this.gub);

@@ -14,7 +14,7 @@ describe('Ammonia Clouds', function () {
         });
 
         it('should deal 3 damage to all creatures when played', function () {
-            this.mother.tokens.ward = 1;
+            this.mother.ward();
             this.player1.play(this.ammoniaClouds);
             expect(this.troll.damage).toBe(3);
             expect(this.mother.damage).toBe(0);

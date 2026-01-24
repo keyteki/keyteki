@@ -62,7 +62,7 @@ class FlipAction extends CardGameAction {
                     // Then fire onCardLeavesPlay to trigger any
                     // "leaves play" abilities before moving to discard.
                     card.tokens.amber = 0;
-                    card.tokens.ward = 0;
+                    card.unward();
                     context.game.openEventWindow(
                         context.game.getEvent(
                             EVENTS.onCardLeavesPlay,
