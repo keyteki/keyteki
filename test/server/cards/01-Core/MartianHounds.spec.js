@@ -28,7 +28,7 @@ describe('Martian Hounds', function () {
             this.player1.play(this.martianHounds);
             expect(this.player1).toHavePrompt('Martian Hounds');
             this.player1.clickCard(this.tunk);
-            expect(this.tunk.tokens.power).toBe(4);
+            expect(this.tunk.powerCounters).toBe(4);
             expect(this.player1).isReadyToTakeAction();
         });
 
@@ -38,7 +38,7 @@ describe('Martian Hounds', function () {
             this.player1.play(this.martianHounds);
             expect(this.player1).toHavePrompt('Martian Hounds');
             this.player1.clickCard(this.batdrone);
-            expect(this.batdrone.tokens.power).toBe(4);
+            expect(this.batdrone.powerCounters).toBe(4);
             expect(this.player1).isReadyToTakeAction();
         });
     });

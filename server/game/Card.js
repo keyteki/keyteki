@@ -1021,6 +1021,10 @@ class Card extends EffectSource {
         this.tokens.amber = amber;
     }
 
+    get powerCounters() {
+        return this.hasToken('power') ? this.tokens.power : 0;
+    }
+
     get enraged() {
         return this.hasToken('enrage');
     }

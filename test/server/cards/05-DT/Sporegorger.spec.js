@@ -17,9 +17,9 @@ describe('Sporegorger', function () {
         });
 
         it('should add power token on reap', function () {
-            expect(this.sporegorger.tokens.power).toBeUndefined();
+            expect(this.sporegorger.powerCounters).toBe(0);
             this.player1.reap(this.sporegorger);
-            expect(this.sporegorger.tokens.power).toBe(1);
+            expect(this.sporegorger.powerCounters).toBe(1);
         });
 
         it('should give choice to remove all tokens', function () {
@@ -31,13 +31,13 @@ describe('Sporegorger', function () {
         it('should leave tokens when player chooses to keep them', function () {
             this.player1.reap(this.sporegorger);
             this.player1.clickPrompt('No');
-            expect(this.sporegorger.tokens.power).toBe(1);
+            expect(this.sporegorger.powerCounters).toBe(1);
         });
 
         it('should remove tokens when player chooses loose them', function () {
             this.player1.reap(this.sporegorger);
             this.player1.clickPrompt('Yes');
-            expect(this.sporegorger.tokens.power).toBeUndefined();
+            expect(this.sporegorger.powerCounters).toBe(0);
         });
 
         it('should deal damage to all other creatures when reaping and removing all tokens', function () {
@@ -58,7 +58,7 @@ describe('Sporegorger', function () {
             this.player1.clickPrompt('untamed');
             this.player1.reap(this.sporegorger);
             this.player1.clickPrompt('Yes');
-            expect(this.sporegorger.tokens.power).toBeUndefined();
+            expect(this.sporegorger.powerCounters).toBe(0);
             expect(this.sporegorger.tokens.damage).toBeUndefined();
             expect(this.mother.tokens.damage).toBe(2);
             expect(this.krump.tokens.damage).toBe(2);
