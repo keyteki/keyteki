@@ -237,12 +237,16 @@ describe('Walls’ Blaster', function () {
             this.player1.playUpgrade(this.wallsBlaster, this.chiefEngineerWalls1);
             this.player1.clickCard(this.techivorePulpate);
             this.player1.reap(this.chiefEngineerWalls1);
-            this.player1.clickCard(this.chiefEngineerWalls1);
+            expect(this.player1).toHavePrompt('Triggered Abilities');
 
+            // Resolve Walls' Blaster's ability
+            this.player1.clickCard(this.chiefEngineerWalls1);
+            this.player1.clickPrompt('Walls’ Blaster');
             this.player1.clickPrompt('Move Walls’ Blaster');
-            // There are no valid targets.
-            expect(this.player1).isReadyToTakeAction();
+            // Walls' Blaster is already on Walls so moving fizzles
             expect(this.chiefEngineerWalls1.upgrades).toContain(this.wallsBlaster);
+
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });
