@@ -277,7 +277,6 @@ describe('Win Condition', function () {
                     this.player2.clickPrompt('shadows');
                     this.player2.amber = 1;
                     this.player2.endTurn();
-                    // First player forges during final key phase - must choose key color
                     this.player1.clickPrompt('Red');
                 });
 
@@ -319,7 +318,6 @@ describe('Win Condition', function () {
                     this.player2.clickPrompt('shadows');
                     this.player2.amber = 8;
                     this.player2.endTurn();
-                    // First player forges during final key phase - must choose key color
                     this.player1.clickPrompt('Red');
                 });
 
@@ -340,7 +338,6 @@ describe('Win Condition', function () {
                     this.player2.clickPrompt('shadows');
                     this.player2.amber = 7;
                     this.player2.endTurn();
-                    // First player forges during final key phase - must choose key color
                     this.player1.clickPrompt('Red');
                 });
 
@@ -361,7 +358,6 @@ describe('Win Condition', function () {
                     this.player2.clickPrompt('shadows');
                     this.player2.amber = 8;
                     this.player2.endTurn();
-                    // First player forges during final key phase - must choose key color
                     this.player1.clickPrompt('Red');
                 });
 
@@ -423,7 +419,6 @@ describe('Win Condition', function () {
                     this.player2.clickPrompt('Yes');
                     this.player2.clickPrompt('Red');
                     this.player2.endTurn();
-                    // First player forges during final key phase - must choose key color
                     this.player1.clickPrompt('Yellow');
                 });
 
