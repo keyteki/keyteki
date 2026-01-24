@@ -39,9 +39,7 @@ describe('Teliga', function () {
             expect(this.player1).isReadyToTakeAction();
         });
 
-        // TODO: Enable this in separate PR after fixing the underlying issue
-        // https://github.com/keyteki/keyteki/issues/4753
-        xit('should allow active player to order with other play abilities', function () {
+        it('should allow active player to order with other play abilities', function () {
             this.player1.endTurn();
             this.player2.clickPrompt('shadows');
             this.player2.clickCard(this.urchin);
