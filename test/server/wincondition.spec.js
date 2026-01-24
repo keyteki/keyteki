@@ -94,7 +94,7 @@ describe('Win Condition', function () {
                 this.player1.clickPrompt('untamed');
             });
 
-            describe('and p1 keys === p2 keys and p1 amber === p2 amber and both are < 6', function () {
+            describe('and p1 keys = p2 keys and p1 amber = p2 amber and both are < 6', function () {
                 beforeEach(function () {
                     this.game.timeLimit.isTimeLimitReached = true;
                     this.player1.amber = 4;
@@ -112,7 +112,55 @@ describe('Win Condition', function () {
                 });
             });
 
-            describe('and p1 keys === p2 keys and p1 amber === p2 amber and p1 chains < p2 chains', function () {
+            describe('and p1 keys = p2 keys and p1 amber = p2 amber and there are start of turn abilities', function () {
+                beforeEach(function () {
+                    this.setupTest({
+                        player1: {
+                            house: 'untamed',
+                            amber: 4,
+                            inPlay: ['flaxia'],
+                            hand: ['flarie']
+                        },
+                        player2: {
+                            amber: 4,
+                            inPlay: ['lamindra'],
+                            hand: ['flarie']
+                        }
+                    });
+                    this.flarie1 = this.player1.hand[0];
+                    this.flarie2 = this.player2.hand[0];
+                });
+
+                it('should go to player 1 due to start of turn abilities', function () {
+                    this.game.timeLimit.isTimeLimitReached = true;
+                    this.player1.playCreature(this.flarie1);
+                    this.player1.endTurn();
+                    this.player2.clickPrompt('untamed');
+                    this.player2.endTurn();
+                    // Both players have equal keys (0), amber (4), chains (0), and creatures (5)
+                    // Player 1 has a start of turn ability (flarie) that triggers before the tiebreaker, gaining an amber
+                    // First player wins due to amber tiebreaker
+                    expect(this.game.winner).toBe(this.player1.player);
+                    expect(this.game.winReason).toBe('amber after time');
+                });
+
+                it('should go to player 2 due to start of turn abilities', function () {
+                    this.player1.endTurn();
+                    this.player2.clickPrompt('untamed');
+                    this.game.timeLimit.isTimeLimitReached = true;
+                    this.player2.playCreature(this.flarie2);
+                    this.player2.endTurn();
+                    this.player1.clickPrompt('untamed');
+                    this.player1.endTurn();
+                    // Both players have equal keys (0), amber (4), chains (0), and creatures (5)
+                    // Player 1 has a start of turn ability (flarie) that triggers before the tiebreaker, gaining an amber
+                    // First player wins due to amber tiebreaker
+                    expect(this.game.winner).toBe(this.player2.player);
+                    expect(this.game.winReason).toBe('amber after time');
+                });
+            });
+
+            describe('and p1 keys = p2 keys and p1 amber = p2 amber and p1 chains < p2 chains', function () {
                 beforeEach(function () {
                     this.game.timeLimit.isTimeLimitReached = true;
                     this.player1.amber = 4;
@@ -130,7 +178,7 @@ describe('Win Condition', function () {
                 });
             });
 
-            describe('and p1 keys === p2 keys and p1 amber === p2 amber and p1 chains > p2 chains', function () {
+            describe('and p1 keys = p2 keys and p1 amber = p2 amber and p1 chains > p2 chains', function () {
                 beforeEach(function () {
                     this.game.timeLimit.isTimeLimitReached = true;
                     this.player1.amber = 4;
@@ -148,7 +196,7 @@ describe('Win Condition', function () {
                 });
             });
 
-            describe('and p1 keys === p2 keys and p1 amber === p2 amber and p1 chains === p2 chains and p1 creatures > p2 creatures', function () {
+            describe('and p1 keys = p2 keys and p1 amber = p2 amber and p1 chains = p2 chains and p1 creatures > p2 creatures', function () {
                 beforeEach(function () {
                     this.game.timeLimit.isTimeLimitReached = true;
                     this.player1.amber = 4;
@@ -169,7 +217,7 @@ describe('Win Condition', function () {
                 });
             });
 
-            describe('and p1 keys === p2 keys and p1 amber === p2 amber and p1 chains === p2 chains and p1 creatures < p2 creatures', function () {
+            describe('and p1 keys = p2 keys and p1 amber = p2 amber and p1 chains = p2 chains and p1 creatures < p2 creatures', function () {
                 beforeEach(function () {
                     this.game.timeLimit.isTimeLimitReached = true;
                     this.player1.amber = 4;
@@ -189,7 +237,7 @@ describe('Win Condition', function () {
                 });
             });
 
-            describe('and p1 keys === p2 keys and p1 amber > p2 amber and both are < 6', function () {
+            describe('and p1 keys = p2 keys and p1 amber > p2 amber and both are < 6', function () {
                 beforeEach(function () {
                     this.game.timeLimit.isTimeLimitReached = true;
                     this.player1.amber = 4;
@@ -205,7 +253,7 @@ describe('Win Condition', function () {
                 });
             });
 
-            describe('and p1 keys === p2 keys and p1 amber < p2 amber and both are < 6', function () {
+            describe('and p1 keys = p2 keys and p1 amber < p2 amber and both are < 6', function () {
                 beforeEach(function () {
                     this.game.timeLimit.isTimeLimitReached = true;
                     this.player1.amber = 1;
@@ -221,7 +269,7 @@ describe('Win Condition', function () {
                 });
             });
 
-            describe('and p1 keys === p2 keys and p1 amber > 6 > p2 amber', function () {
+            describe('and p1 keys = p2 keys and p1 amber > 6 > p2 amber', function () {
                 beforeEach(function () {
                     this.game.timeLimit.isTimeLimitReached = true;
                     this.player1.amber = 8;
@@ -242,7 +290,7 @@ describe('Win Condition', function () {
                 });
             });
 
-            describe('and p1 keys === p2 keys and p2 amber > 6 > p1 amber', function () {
+            describe('and p1 keys = p2 keys and p2 amber > 6 > p1 amber', function () {
                 beforeEach(function () {
                     this.game.timeLimit.isTimeLimitReached = true;
                     this.player1.amber = 1;
@@ -263,7 +311,7 @@ describe('Win Condition', function () {
                 });
             });
 
-            describe('and p1 keys === p2 keys and p1 amber > p2 amber > 6', function () {
+            describe('and p1 keys = p2 keys and p1 amber > p2 amber > 6', function () {
                 beforeEach(function () {
                     this.game.timeLimit.isTimeLimitReached = true;
                     this.player1.amber = 9;
@@ -284,7 +332,7 @@ describe('Win Condition', function () {
                 });
             });
 
-            describe('and p1 keys === p2 keys and both amber > 6 with p1 amber > p2 amber', function () {
+            describe('and p1 keys = p2 keys and both amber > 6 with p1 amber > p2 amber', function () {
                 beforeEach(function () {
                     this.game.timeLimit.isTimeLimitReached = true;
                     this.player1.amber = 8;
@@ -305,7 +353,7 @@ describe('Win Condition', function () {
                 });
             });
 
-            describe('and p1 keys === p2 keys and both amber > 6 with p2 amber > p1 amber', function () {
+            describe('and p1 keys = p2 keys and both amber > 6 with p2 amber > p1 amber', function () {
                 beforeEach(function () {
                     this.game.timeLimit.isTimeLimitReached = true;
                     this.player1.amber = 7;

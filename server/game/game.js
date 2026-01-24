@@ -94,7 +94,7 @@ class Game extends EventEmitter {
         this.activePlayer = null;
         this.firstPlayer = null;
         this.playedRoundsAfterTime = [];
-        this.finalKeyPhaseCompleted = false;
+        this.finalTurnCompleted = false;
         this.jsonForUsers = {};
         this.cardData = options.cardData || [];
 
@@ -492,7 +492,7 @@ class Game extends EventEmitter {
             if (
                 this.useGameTimeLimit &&
                 this.timeLimit.isTimeLimitReached &&
-                this.finalKeyPhaseCompleted &&
+                this.finalTurnCompleted &&
                 !this.finishedAt
             ) {
                 this.checkTimeWinCondition();
@@ -894,7 +894,7 @@ class Game extends EventEmitter {
             this.useGameTimeLimit &&
             this.timeLimit.isTimeLimitReached &&
             this.playedRoundsAfterTime.length >= this.getPlayers().length &&
-            !this.finalKeyPhaseCompleted &&
+            !this.finalTurnCompleted &&
             !this.finishedAt
         );
     }
