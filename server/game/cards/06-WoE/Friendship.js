@@ -23,9 +23,6 @@ class Friendship extends Card {
                             ability.actions
                                 .applyDamage({
                                     amount: damagePerNeighbor
-                                    // damageSource: event.damageSource,
-                                    // damageType: event.damageType,
-                                    // damageDealtEvent: event.damageDealtEvent
                                 })
                                 .getEvent(neighbors[0], context.game.getFrameworkContext())
                         );
@@ -35,9 +32,6 @@ class Friendship extends Card {
                             ability.actions
                                 .applyDamage({
                                     amount: damagePerNeighbor
-                                    //     damageSource: event.damageSource,
-                                    //     damageType: event.damageType,
-                                    //     damageDealtEvent: event.damageDealtEvent
                                 })
                                 .getEvent(neighbors[1], context.game.getFrameworkContext())
                         );
@@ -76,7 +70,6 @@ class Friendship extends Card {
                                         damagePerNeighbor +
                                         (context.target === neighbors[0] ? 1 : 0),
                                     damageSource: event.damageSource,
-                                    // damageType: event.damageType,
                                     damageDealtEvent: event.damageDealtEvent
                                 })
                                 .getEvent(neighbors[0], context.game.getFrameworkContext())
@@ -89,7 +82,6 @@ class Friendship extends Card {
                                         damagePerNeighbor +
                                         (context.target === neighbors[1] ? 1 : 0),
                                     damageSource: event.damageSource,
-                                    // damageType: event.damageType,
                                     damageDealtEvent: event.damageDealtEvent
                                 })
                                 .getEvent(neighbors[1], context.game.getFrameworkContext())
