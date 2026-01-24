@@ -12,7 +12,7 @@ The [Keyteki Discord Server](https://discord.gg/NncEXAs) is a great place to dis
 
 ## Contributing
 
-Contributions are welcome from anyone - whether that is bug reports, bug fixes, or implementing new cards. See [contributing doc](CONTRIBUTING.md) for detailed guidelines. Before writing code, please coordinate changes in the [Discord channel #development](https://discord.com/channels/600996321763262464/600996321763262466) to avoid duplicate work.
+Contributions are welcome from anyone - whether that is bug reports, bug fixes, or implementing new cards. See the [contributing doc](CONTRIBUTING.md) for detailed guidelines. Before writing code, please coordinate changes in the [Discord channel #development](https://discord.com/channels/600996321763262464/600996321763262466) to avoid duplicate work.
 
 The [docs folder](docs/README.md) contains documentation on how keyteki works. The following covers the basics to get started:
 
