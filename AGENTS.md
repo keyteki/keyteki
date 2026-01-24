@@ -52,12 +52,6 @@ Ask the user before proceeding when:
 - Run tests matching a pattern: `DEBUG_TEST=1 npm test -- --filter='<pattern>'`
   - Using just the filter option is slower than running test files, so prefer using filters in combination with specifying test files.
 
-### Running the Game Server
-
-If you are asked to make and test UI changes, you can run the game server. The easiest way to run the full server is to run `docker-compose up --build` - however it takes several minutes to build the containers. If the server has not been run before you will also need to run the fetchdata scripts - check the docs for instructions.
-
-Instead of building the full server in a container, you can run the databases with `docker-compose up -d redis postgres` and then run the game lobby with `npm run dev` in one terminal, and `npm run dev:gamenode` in another terminal. Nodemon will watch for changes and very quickly restart the server when you make changes - you may need to refresh the browser to properly load the new code.
-
 ## Architecture Overview
 
 ### Core Classes
@@ -148,6 +142,14 @@ When implementing a new card, search for similar existing implementations:
 
 - When fixing bugs or making changes to existing cards, do not change the tests unless explicitly asked to.
 - Some issues are caused by the specific implementation of a card, and other issues are bugs in the game engine. Use expert judgement to determine the best approach to fixing the issue, and if the best path is not clear ask for clarification on the desired approach.
+
+### Running the Game Server for UI Changes
+
+If you are asked to make and test UI changes, you can run the game server. The easiest way to run the full server is to run `docker-compose up --build` - however it takes several minutes to build the containers. If the server has not been run before you will also need to run the fetchdata scripts - check the docs for instructions.
+
+Instead of building the full server in a container, you can run the databases with `docker-compose up -d redis postgres` and then run the game lobby with `npm run dev` in one terminal, and `npm run dev:gamenode` in another terminal. Nodemon will watch for changes and very quickly restart the server when you make changes - you may need to refresh the browser to properly load the new code.
+
+Once the server is running, you can open the web client at `http://localhost:4000`. The database is preloaded with test accounts `test0` and `test1`, both with password `password`. You can create games between these two accounts to test your changes.
 
 ## Resources
 
