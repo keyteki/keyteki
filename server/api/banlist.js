@@ -48,7 +48,7 @@ module.exports.init = function (server) {
                 .catch(() => {
                     return res.send({
                         success: false,
-                        message: 'An error occured adding the banlist entry'
+                        message: 'An error occurred adding the banlist entry'
                     });
                 });
         })

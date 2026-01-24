@@ -141,7 +141,7 @@ function processImage(image, width, height) {
             'data:image/png;base64,' + image,
             (img) => {
                 if (img.getElement() == null) {
-                    reject('Error occured in fabric');
+                    reject('Error occurred in fabric');
                 } else {
                     img.scaleToWidth(width)
                         .scaleToHeight(height)
@@ -418,7 +418,7 @@ module.exports.init = function (server, options) {
                 res.send({
                     success: false,
                     message:
-                        'An error occured activating your account, check the url you have entered and try again.'
+                        'An error occurred activating your account, check the url you have entered and try again.'
                 });
 
                 return next();
@@ -430,7 +430,7 @@ module.exports.init = function (server, options) {
                 res.send({
                     success: false,
                     message:
-                        'An error occured activating your account, check the url you have entered and try again.'
+                        'An error occurred activating your account, check the url you have entered and try again.'
                 });
 
                 return next();
@@ -462,7 +462,7 @@ module.exports.init = function (server, options) {
                 res.send({
                     success: false,
                     message:
-                        'An error occured activating your account, check the url you have entered and try again.'
+                        'An error occurred activating your account, check the url you have entered and try again.'
                 });
 
                 return next();
@@ -476,7 +476,7 @@ module.exports.init = function (server, options) {
                 res.send({
                     success: false,
                     message:
-                        'An error occured activating your account, check the url you have entered and try again.'
+                        'An error occurred activating your account, check the url you have entered and try again.'
                 });
 
                 return next();
@@ -716,7 +716,7 @@ module.exports.init = function (server, options) {
                 res.send({
                     success: false,
                     message:
-                        'An error occured resetting your password, check the url you have entered and try again.'
+                        'An error occurred resetting your password, check the url you have entered and try again.'
                 });
 
                 return next();
@@ -728,7 +728,7 @@ module.exports.init = function (server, options) {
                 res.send({
                     success: false,
                     message:
-                        'An error occured resetting your password, check the url you have entered and try again.'
+                        'An error occurred resetting your password, check the url you have entered and try again.'
                 });
 
                 return next();
@@ -770,7 +770,7 @@ module.exports.init = function (server, options) {
                 res.send({
                     success: false,
                     message:
-                        'An error occured resetting your password, check the url you have entered and try again.'
+                        'An error occurred resetting your password, check the url you have entered and try again.'
                 });
 
                 return next();
@@ -1126,7 +1126,7 @@ module.exports.init = function (server, options) {
                 return res.send({
                     success: false,
                     message:
-                        'An error occured syncing your patreon account.  Please try again later.'
+                        'An error occurred syncing your patreon account.  Please try again later.'
                 });
             }
 
@@ -1166,7 +1166,7 @@ module.exports.init = function (server, options) {
                 return res.send({
                     success: false,
                     message:
-                        'An error occured unlinking your patreon account.  Please try again later.'
+                        'An error occurred unlinking your patreon account.  Please try again later.'
                 });
             }
 
