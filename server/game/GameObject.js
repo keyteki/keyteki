@@ -63,7 +63,7 @@ class GameObject {
         return this.effects.some(
             (effect) =>
                 effect.type === type &&
-                effect.getValue(this).checkCondition(context, effect.context)
+                effect.getValue(this).checkCondition(this, context, effect.context)
         );
     }
 

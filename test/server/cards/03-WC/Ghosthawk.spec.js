@@ -78,7 +78,7 @@ describe('Ghosthawk', function () {
                 this.player1.clickCard(this.dewFaerie);
                 this.player1.clickCard(this.troll);
                 expect(this.player1.amber).toBe(1);
-                expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+                expect(this.player1).isReadyToTakeAction();
             });
 
             it('should reap with one creature and trigger the reap effect', function () {

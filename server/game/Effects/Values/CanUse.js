@@ -11,7 +11,7 @@ class CanUse extends ConditionValue {
         return this;
     }
 
-    checkCondition(abilityContext, effectContext) {
+    checkCondition(target, abilityContext, effectContext) {
         if (!this.condition) {
             return true;
         }

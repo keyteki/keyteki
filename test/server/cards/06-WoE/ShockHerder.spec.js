@@ -49,7 +49,7 @@ describe('Shock Herder', function () {
             expect(this.player1).toBeAbleToSelect(this.ancientBear);
             this.player1.clickCard(this.awakenedTitan); // click to fail ready
             expect(this.awakenedTitan.exhausted).toBe(true);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });
