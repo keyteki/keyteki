@@ -52,7 +52,7 @@ class ApplyDamageAction extends CardGameAction {
                         event.damageSource.getKeywordValue('poison')))
             ) {
                 event.destroyEvent = context.game.actions
-                    .destroy({ damageEvent: event, isRedirected: event.isRedirected })
+                    .destroy({ damageEvent: event })
                     .getEvent(event.card, context.game.getFrameworkContext());
 
                 if (event.damageDealtEvent) {
