@@ -1,6 +1,6 @@
 # Keyteki
 
-This is the respository for the code internally known as keyteki which is running on [thecrucible.online](https://thecrucible.online/) allowing people to play [KeyForge](https://keyforging.com/) online using only their browser.
+This is the repository for the code internally known as keyteki which is running on [thecrucible.online](https://thecrucible.online/) allowing people to play [KeyForge](https://keyforging.com/) online using only their browser.
 
 ## Reporting Bugs or Issues
 
