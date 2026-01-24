@@ -10,7 +10,7 @@ class Spendthrift extends Card {
                 gameAction: [ability.actions.removeAmber({ all: true }), ability.actions.exalt()]
             },
             effect: 'move all {2} amber from {0} to the common supply and exalt {0}',
-            effectArgs: (context) => [context.target, context.target.tokens.amber || 0]
+            effectArgs: (context) => [context.target, context.target.amber]
         });
 
         this.fate({

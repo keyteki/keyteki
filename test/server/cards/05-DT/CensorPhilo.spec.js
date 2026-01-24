@@ -13,7 +13,7 @@ describe('Censor Philo', function () {
                 }
             });
 
-            this.tantadlin.tokens.amber = 1;
+            this.tantadlin.amber = 1;
         });
 
         it('should not take damage from creature with amber', function () {

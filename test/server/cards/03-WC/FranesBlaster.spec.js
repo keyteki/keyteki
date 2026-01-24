@@ -15,16 +15,16 @@ describe('Frane’s Blaster', function () {
         });
 
         it('should return all amber from the associated officer', function () {
-            this.firstOfficerFrane.tokens.amber = 3;
+            this.firstOfficerFrane.amber = 3;
             this.player1.playUpgrade(this.franeSBlaster, this.firstOfficerFrane);
             expect(this.firstOfficerFrane.hasToken('amber')).toBe(false);
             expect(this.player1.amber).toBe(4);
         });
 
         it('should not return all amber from the non associated officer', function () {
-            this.techivorePulpate.tokens.amber = 3;
+            this.techivorePulpate.amber = 3;
             this.player1.playUpgrade(this.franeSBlaster, this.techivorePulpate);
-            expect(this.techivorePulpate.tokens.amber).toBe(3);
+            expect(this.techivorePulpate.amber).toBe(3);
             expect(this.player1.amber).toBe(1);
         });
 
@@ -79,7 +79,7 @@ describe('Frane’s Blaster', function () {
         });
 
         it('reap ability should allow moving the upgrade to the appropriate officer', function () {
-            this.firstOfficerFrane.tokens.amber = 3;
+            this.firstOfficerFrane.amber = 3;
 
             this.player1.playUpgrade(this.franeSBlaster, this.techivorePulpate);
             this.player1.reap(this.techivorePulpate);
@@ -104,7 +104,7 @@ describe('Frane’s Blaster', function () {
         });
 
         it('fight ability should allow moving the upgrade to the appropriate officer', function () {
-            this.firstOfficerFrane.tokens.amber = 3;
+            this.firstOfficerFrane.amber = 3;
 
             this.player1.playUpgrade(this.franeSBlaster, this.techivorePulpate);
             this.player1.fightWith(this.techivorePulpate, this.lamindra);

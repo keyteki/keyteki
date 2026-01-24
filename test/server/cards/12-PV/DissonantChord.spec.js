@@ -41,8 +41,8 @@ describe('Dissonant Chord', function () {
         });
 
         it('should stun friendly creatures with amber when fate is triggered', function () {
-            this.emberImp.tokens.amber = 2;
-            this.yurk.tokens.amber = 1;
+            this.emberImp.amber = 2;
+            this.yurk.amber = 1;
             this.player1.activateProphecy(this.overreach, this.dissonantChord);
             this.player1.endTurn();
             this.player2.clickPrompt('untamed');

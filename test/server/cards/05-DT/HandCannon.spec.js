@@ -24,7 +24,7 @@ describe('Hand Cannon', function () {
 
             this.player1.amber = 2;
             this.player2.amber = 2;
-            this.mother.tokens.amber = 2;
+            this.mother.amber = 2;
 
             expect(this.mother.amber).toBe(2);
             expect(this.player1.amber).toBe(2);

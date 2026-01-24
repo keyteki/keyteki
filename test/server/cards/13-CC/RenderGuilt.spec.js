@@ -22,7 +22,7 @@ describe('Render Guilt', function () {
             expect(this.player1).not.toBeAbleToSelect(this.silvertooth);
 
             this.player1.clickCard(this.troll);
-            expect(this.troll.tokens.amber).toBe(1);
+            expect(this.troll.amber).toBe(1);
             expect(this.player2.amber).toBe(5);
 
             // Should prompt for damage allocation (1 damage for the 1 amber on troll)
@@ -38,11 +38,11 @@ describe('Render Guilt', function () {
 
         it('should deal damage based on total amber on the creature after capture', function () {
             // Add some amber to troll first
-            this.troll.tokens.amber = 2;
+            this.troll.amber = 2;
 
             this.player1.play(this.renderGuilt);
             this.player1.clickCard(this.troll);
-            expect(this.troll.tokens.amber).toBe(3); // 2 + 1 captured
+            expect(this.troll.amber).toBe(3); // 2 + 1 captured
             expect(this.player2.amber).toBe(5);
 
             // Should prompt for damage allocation (3 damage for the 3 amber on troll)

@@ -18,8 +18,8 @@ describe('Stand and Fight', function () {
             this.player1.play(this.standAndFight);
             this.player1.clickCard(this.charette); // select friendly
             this.player1.clickCard(this.umbra); // select enemy
-            expect(this.charette.tokens.amber).toBe(1);
-            expect(this.umbra.tokens.amber).toBe(1);
+            expect(this.charette.amber).toBe(1);
+            expect(this.umbra.amber).toBe(1);
             this.player1.clickCard(this.umbra);
             expect(this.umbra.location).toBe('discard');
             expect(this.charette.tokens.damage).toBe(2);

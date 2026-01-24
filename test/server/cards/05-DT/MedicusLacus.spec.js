@@ -10,8 +10,8 @@ describe('MedicusLacus', function () {
                 inPlay: ['the-sting', 'lamindra']
             }
         });
-        this.troll.tokens.amber = 4;
-        this.lamindra.tokens.amber = 8;
+        this.troll.amber = 4;
+        this.lamindra.amber = 8;
     });
 
     describe('With High Tide', function () {
@@ -44,7 +44,7 @@ describe('MedicusLacus', function () {
                 'How much amber do you want to use from Lamindra?'
             );
             this.player2.clickPrompt('shadows');
-            expect(this.lamindra.tokens.amber).toBe(8);
+            expect(this.lamindra.amber).toBe(8);
         });
     });
 
@@ -58,7 +58,7 @@ describe('MedicusLacus', function () {
         it('should not allow opponent to spend amber from their creature', function () {
             expect(this.player1).not.toHavePrompt('How much amber do you want to use from Troll?');
             this.player1.clickPrompt('saurian');
-            expect(this.troll.tokens.amber).toBe(4);
+            expect(this.troll.amber).toBe(4);
             expect(this.player1.amber).toBe(4);
         });
     });
@@ -74,7 +74,7 @@ describe('MedicusLacus', function () {
         it('should not allow opponent to spend amber from their creature', function () {
             expect(this.player1).not.toHavePrompt('How much amber do you want to use from Troll?');
             this.player1.clickPrompt('saurian');
-            expect(this.troll.tokens.amber).toBe(4);
+            expect(this.troll.amber).toBe(4);
             expect(this.player1.amber).toBe(4);
         });
     });

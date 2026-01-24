@@ -18,7 +18,7 @@ describe('The Callipygian Ideal', function () {
         });
 
         it('should exalt the creature it is attached to', function () {
-            expect(this.troll.tokens.amber).toBe(1);
+            expect(this.troll.amber).toBe(1);
         });
 
         describe('and the next turn begins', function () {
@@ -37,7 +37,7 @@ describe('The Callipygian Ideal', function () {
         describe('and would win the game', function () {
             beforeEach(function () {
                 this.player1.player.keys = { red: true, yellow: true, blue: false };
-                this.troll.tokens.amber = 3;
+                this.troll.amber = 3;
                 this.player1.endTurn();
 
                 this.player2.clickPrompt('shadows');

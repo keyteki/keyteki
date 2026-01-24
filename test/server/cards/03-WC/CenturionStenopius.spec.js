@@ -29,7 +29,7 @@ describe('Centurion Stenopius', function () {
             expect(this.player1).toBeAbleToSelect(this.centurionStenopius);
             this.player1.clickCard(this.centurionStenopius);
 
-            expect(this.centurionStenopius.tokens.amber).toBe(1);
+            expect(this.centurionStenopius.amber).toBe(1);
             expect(this.centurionStenopius.power).toBe(6);
         });
     });
@@ -56,14 +56,14 @@ describe('Centurion Stenopius', function () {
         });
 
         it('should increase power +6 after exalt', function () {
-            this.centurionStenopius.tokens.amber = 1;
+            this.centurionStenopius.amber = 1;
 
             this.player1.reap(this.centurionStenopius);
 
             expect(this.player1).toBeAbleToSelect(this.centurionStenopius);
             this.player1.clickCard(this.centurionStenopius);
 
-            expect(this.centurionStenopius.tokens.amber).toBe(2);
+            expect(this.centurionStenopius.amber).toBe(2);
             expect(this.centurionStenopius.power).toBe(9);
         });
     });
@@ -91,14 +91,14 @@ describe('Centurion Stenopius', function () {
         });
 
         it('should increase power +9 after exalt', function () {
-            this.centurionStenopius.tokens.amber = 2;
+            this.centurionStenopius.amber = 2;
 
             this.player1.fightWith(this.centurionStenopius, this.grovekeeper);
 
             expect(this.player1).toBeAbleToSelect(this.centurionStenopius);
             this.player1.clickCard(this.centurionStenopius);
 
-            expect(this.centurionStenopius.tokens.amber).toBe(3);
+            expect(this.centurionStenopius.amber).toBe(3);
             expect(this.centurionStenopius.power).toBe(12);
         });
     });

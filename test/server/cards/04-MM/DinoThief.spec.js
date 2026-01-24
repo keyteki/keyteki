@@ -26,7 +26,7 @@ describe('Dino-Thief', function () {
             });
 
             it('should exalt dino-thief', function () {
-                expect(this.dinoThief.tokens.amber).toBe(1);
+                expect(this.dinoThief.amber).toBe(1);
             });
 
             describe('should prompt to to do damage', function () {
@@ -46,7 +46,7 @@ describe('Dino-Thief', function () {
             });
 
             it('should not exalt dino-thief', function () {
-                expect(this.dinoThief.tokens.amber).toBe(undefined);
+                expect(this.dinoThief.amber).toBe(0);
             });
         });
     });

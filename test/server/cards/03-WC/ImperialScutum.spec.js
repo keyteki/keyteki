@@ -23,7 +23,7 @@ describe('Imperial Scutum', function () {
         });
 
         it('should not move captured amber to opponent', function () {
-            this.questorJarta.tokens.amber = 5;
+            this.questorJarta.amber = 5;
             this.player1.playUpgrade(this.imperialScutum, this.questorJarta);
             this.player1.fightWith(this.questorJarta, this.groke);
 

@@ -19,8 +19,8 @@ describe('Salvatorem', function () {
                 }
             });
 
-            this.raidingKnight.tokens.amber = 1;
-            this.krump.tokens.amber = 1;
+            this.raidingKnight.amber = 1;
+            this.krump.amber = 1;
         });
 
         it('should prevent damage to ready creatures with amber', function () {

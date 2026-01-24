@@ -16,7 +16,7 @@ describe('Citizen Shrix', function () {
 
         it('should exalt on play', function () {
             this.player1.play(this.citizenShrix);
-            expect(this.citizenShrix.tokens.amber).toBe(1);
+            expect(this.citizenShrix.amber).toBe(1);
         });
 
         it('should steal on play', function () {
@@ -29,7 +29,7 @@ describe('Citizen Shrix', function () {
 
         it('should exalt on reap', function () {
             this.player1.play(this.citizenShrix);
-            expect(this.citizenShrix.tokens.amber).toBe(1);
+            expect(this.citizenShrix.amber).toBe(1);
             this.player1.endTurn();
 
             this.player2.clickPrompt('brobnar');
@@ -37,7 +37,7 @@ describe('Citizen Shrix', function () {
 
             this.player1.clickPrompt('saurian');
             this.player1.reap(this.citizenShrix);
-            expect(this.citizenShrix.tokens.amber).toBe(2);
+            expect(this.citizenShrix.amber).toBe(2);
         });
 
         it('should steal on reap', function () {

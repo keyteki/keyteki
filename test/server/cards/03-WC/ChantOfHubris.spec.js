@@ -16,7 +16,7 @@ describe('Chant of Hubris', function () {
         });
 
         it('should not prompt for any creature, since no other creature to place amber', function () {
-            this.archimedes.tokens.amber = 9;
+            this.archimedes.amber = 9;
             this.player1.play(this.chantOfHubris);
             expect(this.player1).isReadyToTakeAction();
         });
@@ -38,8 +38,8 @@ describe("Chant of Hubris's play ability", function () {
             }
         });
 
-        this.archimedes.tokens.amber = 9;
-        this.shooler.tokens.amber = 1;
+        this.archimedes.amber = 9;
+        this.shooler.amber = 1;
     });
 
     it('should allow picking from friendly and placing on friendly creature', function () {
@@ -63,8 +63,8 @@ describe("Chant of Hubris's play ability", function () {
 
         this.player1.clickCard(this.dextre);
 
-        expect(this.archimedes.tokens.amber).toBe(8);
-        expect(this.dextre.tokens.amber).toBe(1);
+        expect(this.archimedes.amber).toBe(8);
+        expect(this.dextre.amber).toBe(1);
     });
 
     it('should allow picking from friendly and placing on enemy creature', function () {
@@ -86,8 +86,8 @@ describe("Chant of Hubris's play ability", function () {
 
         this.player1.clickCard(this.shooler);
 
-        expect(this.archimedes.tokens.amber).toBe(8);
-        expect(this.shooler.tokens.amber).toBe(2);
+        expect(this.archimedes.amber).toBe(8);
+        expect(this.shooler.amber).toBe(2);
     });
 
     it('should allow picking from enemy and placing on friendly creature', function () {
@@ -109,7 +109,7 @@ describe("Chant of Hubris's play ability", function () {
 
         this.player1.clickCard(this.archimedes);
 
-        expect(this.archimedes.tokens.amber).toBe(10);
+        expect(this.archimedes.amber).toBe(10);
         expect(this.shooler.hasToken('amber')).toBe(false);
     });
 
@@ -132,7 +132,7 @@ describe("Chant of Hubris's play ability", function () {
 
         this.player1.clickCard(this.gub);
 
-        expect(this.gub.tokens.amber).toBe(1);
+        expect(this.gub.amber).toBe(1);
         expect(this.shooler.hasToken('amber')).toBe(false);
     });
 
@@ -150,6 +150,6 @@ describe("Chant of Hubris's play ability", function () {
 
         expect(this.player1).isReadyToTakeAction();
 
-        expect(this.dextre.tokens.amber).toBeUndefined();
+        expect(this.dextre.amber).toBe(0);
     });
 });

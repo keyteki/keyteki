@@ -70,7 +70,7 @@ describe('Word of Returning', function () {
         it('should leave a on ether spider and destroy shadow self', function () {
             expect(this.shadowSelf.location).toBe('discard');
             expect(this.etherSpider.location).toBe('play area');
-            expect(this.etherSpider.tokens.amber).toBe(10);
+            expect(this.etherSpider.amber).toBe(10);
             expect(this.player1.amber).toBe(0);
         });
     });

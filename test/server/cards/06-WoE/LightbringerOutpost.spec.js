@@ -49,7 +49,7 @@ describe('Lightbringer Outpost', function () {
             this.player1.clickCard(this.chelonia);
             this.player1.clickCard(this.flaxia);
 
-            expect(this.flaxia.tokens.amber).toBe(3);
+            expect(this.flaxia.amber).toBe(3);
             expect(this.player2.player.amber).toBe(2);
         });
 

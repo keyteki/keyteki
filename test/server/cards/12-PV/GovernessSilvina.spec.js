@@ -16,7 +16,7 @@ describe('Governess Silvina', function () {
         });
 
         it('should move amber from friendly creatures to most powerful enemy creature', function () {
-            this.oratorHissaro.tokens.amber = 2;
+            this.oratorHissaro.amber = 2;
             this.player1.play(this.governessSilvina);
             expect(this.player1).toBeAbleToSelect(this.governessSilvina);
             expect(this.player1).toBeAbleToSelect(this.oratorHissaro);
@@ -32,13 +32,13 @@ describe('Governess Silvina', function () {
             expect(this.player1).not.toBeAbleToSelect(this.dustPixie);
             expect(this.player1).toBeAbleToSelect(this.culfTheQuiet);
             this.player1.clickCard(this.krump);
-            expect(this.oratorHissaro.tokens.amber).toBeUndefined();
-            expect(this.krump.tokens.amber).toBe(2);
+            expect(this.oratorHissaro.amber).toBe(0);
+            expect(this.krump.amber).toBe(2);
             expect(this.player1).isReadyToTakeAction();
         });
 
         it('should stun 2 creatures with no amber on them when scrapped', function () {
-            this.oratorHissaro.tokens.amber = 1;
+            this.oratorHissaro.amber = 1;
             this.player1.scrap(this.governessSilvina);
             expect(this.player1).not.toBeAbleToSelect(this.oratorHissaro);
             expect(this.player1).toBeAbleToSelect(this.umbra);
@@ -57,12 +57,12 @@ describe('Governess Silvina', function () {
         });
 
         it('should do nothing if there are no enemy creatures', function () {
-            this.oratorHissaro.tokens.amber = 2;
+            this.oratorHissaro.amber = 2;
             this.player2.moveCard(this.krump, 'discard');
             this.player2.moveCard(this.dustPixie, 'discard');
             this.player2.moveCard(this.culfTheQuiet, 'discard');
             this.player1.playCreature(this.governessSilvina);
-            expect(this.oratorHissaro.tokens.amber).toBe(2);
+            expect(this.oratorHissaro.amber).toBe(2);
             expect(this.player1).isReadyToTakeAction();
         });
     });

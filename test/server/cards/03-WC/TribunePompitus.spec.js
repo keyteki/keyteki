@@ -20,10 +20,10 @@ describe('Tribune Pompitus', function () {
             expect(this.troll.power).toBe(8);
             expect(this.krump.power).toBe(6);
 
-            this.tribunePompitus.tokens.amber = 1;
-            this.questorJarta.tokens.amber = 2;
-            this.senatorShrix.tokens.amber = 3;
-            this.troll.tokens.amber = 4;
+            this.tribunePompitus.amber = 1;
+            this.questorJarta.amber = 2;
+            this.senatorShrix.amber = 3;
+            this.troll.amber = 4;
 
             this.player1.reap(this.tribunePompitus);
 

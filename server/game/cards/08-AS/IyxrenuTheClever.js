@@ -15,7 +15,7 @@ class IyxrenuTheClever extends Card {
             })),
             then: {
                 message: '{0} uses {1} to move all {3} amber from {2} to their pool',
-                messageArgs: (context) => [context.target.tokens.amber || 0],
+                messageArgs: (context) => [context.target.amber],
                 target: {
                     cardType: 'creature',
                     gameAction: ability.actions.returnAmber((context) => ({

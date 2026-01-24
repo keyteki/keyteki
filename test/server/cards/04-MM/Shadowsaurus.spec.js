@@ -22,8 +22,8 @@ describe('Shadowsaurus', function () {
     });
 
     it('give the amber on a creature to the opponent and take control of it', function () {
-        this.redlock.tokens.amber = 10;
-        this.krump.tokens.amber = 4;
+        this.redlock.amber = 10;
+        this.krump.amber = 4;
         this.player1.useAction(this.shadowsaurus);
 
         expect(this.player1).toBeAbleToSelect(this.krump);
@@ -37,7 +37,7 @@ describe('Shadowsaurus', function () {
     it('should change controlled creatures to shadows', function () {
         expect(this.senatorBracchus.hasHouse('shadows')).toBe(false);
         expect(this.senatorBracchus.hasHouse('saurian')).toBe(true);
-        this.senatorBracchus.tokens.amber = 10;
+        this.senatorBracchus.amber = 10;
         this.player1.useAction(this.shadowsaurus);
 
         expect(this.player1).toBeAbleToSelect(this.senatorBracchus);
