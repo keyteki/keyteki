@@ -18,7 +18,7 @@ describe('Deusillus', function () {
                         'collector-worm',
                         'ulyq-megamouth'
                     ],
-                    hand: ['hypnobeam']
+                    hand: ['hypnobeam', 'harvest-time']
                 }
             });
         });
@@ -155,6 +155,30 @@ describe('Deusillus', function () {
             expect(this.deusillus2.location).toBe('archives');
             expect(this.player1.archives).toContain(this.deusillus);
             expect(this.player1.archives).toContain(this.deusillus2);
+        });
+
+        it('should have traits when part 1 is played', function () {
+            this.player1.play(this.deusillus);
+            this.player1.clickCard(this.narp);
+            this.player1.endTurn();
+            this.player2.clickPrompt('dis');
+            this.player2.play(this.harvestTime);
+            this.player2.selectTrait('mutant');
+            expect(this.deusillus.location).toBe('purged');
+            expect(this.deusillus2.location).toBe('purged');
+            expect(this.player2).isReadyToTakeAction();
+        });
+
+        it('should have traits when part 2 is played', function () {
+            this.player1.play(this.deusillus2);
+            this.player1.clickCard(this.narp);
+            this.player1.endTurn();
+            this.player2.clickPrompt('dis');
+            this.player2.play(this.harvestTime);
+            this.player2.selectTrait('mutant');
+            expect(this.deusillus.location).toBe('purged');
+            expect(this.deusillus2.location).toBe('purged');
+            expect(this.player2).isReadyToTakeAction();
         });
     });
 

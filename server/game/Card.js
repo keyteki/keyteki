@@ -336,15 +336,18 @@ class Card extends EffectSource {
                     onCardDestroyed: (event, context) =>
                         event.card === context.source &&
                         event.card.type === 'creature' &&
-                        context.source.warded,
+                        context.source.warded &&
+                        !event.isRedirected,
                     onCardPurged: (event, context) =>
                         event.card === context.source &&
                         event.card.type === 'creature' &&
-                        context.source.warded,
+                        context.source.warded &&
+                        !event.isRedirected,
                     onCardLeavesPlay: (event, context) =>
                         event.card === context.source &&
                         event.card.type === 'creature' &&
-                        context.source.warded
+                        context.source.warded &&
+                        !event.isRedirected
                 },
                 autoResolve: true,
                 effect: 'remove its ward token',
@@ -927,9 +930,20 @@ class Card extends EffectSource {
             return 0;
         }
 
+        // For gigantic creatures with a composed part, get keywords from the bottom card
+        // This allows the top half to share keywords with the bottom half when in play
+        let baseValue = 0;
+        if (this.gigantic && this.composedPart) {
+            let copyEffect = this.mostRecentEffect('copyCard');
+            let baseKeywords = copyEffect
+                ? copyEffect.printedKeywords
+                : this.getBottomCard().printedKeywords;
+            baseValue = baseKeywords[keyword] || 0;
+        }
+
         return this.getEffects('addKeyword').reduce(
             (total, keywords) => total + (keywords[keyword] ? keywords[keyword] : 0),
-            0
+            baseValue
         );
     }
 
