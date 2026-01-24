@@ -86,7 +86,7 @@ describe('Anger', function () {
             this.player2.play(this.foggify);
             this.player2.endTurn();
             this.player1.clickPrompt('brobnar');
-            this.giantSloth.exhausted = true;
+            this.giantSloth.exhaust();
             this.giantSloth.stun();
             this.player1.play(this.anger);
             expect(this.player1).toHavePrompt('Anger');

@@ -21,7 +21,7 @@ describe('Saucer 149', function () {
 
         it('should move 2 amber as an action', function () {
             this.player1.playCreature(this.saucer149);
-            this.saucer149.exhausted = false;
+            this.saucer149.ready();
             this.player1.useAction(this.saucer149);
             expect(this.player1).toBeAbleToSelect(this.dustPixie);
             expect(this.player1).toBeAbleToSelect(this.troll);
@@ -34,7 +34,7 @@ describe('Saucer 149', function () {
 
         it('should move 1 amber if there is only 1', function () {
             this.player1.playCreature(this.saucer149);
-            this.saucer149.exhausted = false;
+            this.saucer149.ready();
             this.saucer149.amber = 1;
             this.player1.useAction(this.saucer149);
             this.player1.clickCard(this.dustPixie);

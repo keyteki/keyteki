@@ -62,7 +62,7 @@ describe('Infomancer', function () {
             this.player1.clickCard(this.pound);
             expect(this.pound.facedown).toBe(false);
             expect(this.pound.parent).toBe(this.infomancer);
-            this.infomancer.exhausted = false;
+            this.infomancer.ready();
             this.player1.reap(this.infomancer);
             expect(this.player1).toHavePrompt('Infomancer');
             expect(this.player1).toBeAbleToSelect(this.pound);

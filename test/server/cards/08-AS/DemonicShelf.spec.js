@@ -35,7 +35,7 @@ describe('Demonic Shelf', function () {
             expect(this.troll.damage).toBe(3);
             expect(this.player1).isReadyToTakeAction();
 
-            this.demonicShelf.exhausted = false;
+            this.demonicShelf.ready();
             this.player1.useAction(this.demonicShelf);
             this.player1.clickCard(this.dustPixie);
             expect(this.demonicShelf.childCards.length).toBe(2);
@@ -50,7 +50,7 @@ describe('Demonic Shelf', function () {
             this.player1.useAction(this.demonicShelf);
             this.player1.clickCard(this.dewFaerie);
             this.player1.clickCard(this.troll);
-            this.demonicShelf.exhausted = false;
+            this.demonicShelf.ready();
             this.player1.moveCard(this.dustPixie, 'discard');
             this.player1.useAction(this.demonicShelf);
             this.player1.clickCard(this.troll);

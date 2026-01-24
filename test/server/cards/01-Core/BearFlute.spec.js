@@ -31,7 +31,7 @@ describe('Bear Flute', function () {
             this.player1.useAction(this.bearFlute);
             this.player1.play(this.ancientBear1);
             this.player1.moveCard(this.ancientBear2, 'discard');
-            this.bearFlute.exhausted = false;
+            this.bearFlute.ready();
             this.player1.useAction(this.bearFlute);
             this.player1.clickCard(this.ancientBear1);
             expect(this.ancientBear2.location).toBe('discard');

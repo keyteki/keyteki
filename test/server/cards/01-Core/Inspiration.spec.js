@@ -54,7 +54,7 @@ describe('Inspiration', function () {
             this.player2.play(this.oppositionResearch);
             this.player2.endTurn();
             this.player1.clickPrompt('sanctum');
-            this.championAnaphiel.exhausted = true;
+            this.championAnaphiel.exhaust();
             this.player1.play(this.inspiration);
             expect(this.player1).toHavePrompt('Inspiration');
             this.player1.clickCard(this.championAnaphiel);
@@ -93,7 +93,7 @@ describe('Inspiration', function () {
             this.player2.play(this.oppositionResearch);
             this.player2.endTurn();
             this.player1.clickPrompt('sanctum');
-            this.giantSloth.exhausted = true;
+            this.giantSloth.exhaust();
             this.giantSloth.stun();
             this.player1.play(this.inspiration);
             expect(this.player1).toHavePrompt('Inspiration');

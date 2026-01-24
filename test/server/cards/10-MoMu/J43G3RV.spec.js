@@ -39,7 +39,7 @@ describe('J43G3R V', function () {
 
         it('should be able to reap with 2 non-SA creatures this turn on reap', function () {
             this.player1.playCreature(this.j43g3rV);
-            this.j43g3rV.exhausted = false;
+            this.j43g3rV.ready();
             this.player1.clickCard(this.flaxia);
             expect(this.player1).isReadyToTakeAction();
 
@@ -58,7 +58,7 @@ describe('J43G3R V', function () {
 
         it('should be able to fight with 2 non-SA creatures this turn on fight', function () {
             this.player1.playCreature(this.j43g3rV);
-            this.j43g3rV.exhausted = false;
+            this.j43g3rV.ready();
             this.player1.clickCard(this.flaxia);
             expect(this.player1).isReadyToTakeAction();
 
@@ -78,9 +78,9 @@ describe('J43G3R V', function () {
 
         it('should be able to stack both effect types', function () {
             this.player1.playCreature(this.j43g3rV);
-            this.j43g3rV.exhausted = false;
+            this.j43g3rV.ready();
             this.player1.reap(this.j43g3rV);
-            this.j43g3rV.exhausted = false;
+            this.j43g3rV.ready();
             this.player1.fightWith(this.j43g3rV, this.umbra);
 
             this.player1.clickCard(this.flaxia);

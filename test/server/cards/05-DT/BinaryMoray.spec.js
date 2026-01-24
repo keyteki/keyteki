@@ -25,7 +25,7 @@ describe('Binary Moray', function () {
 
         describe('when owner raise the tide', function () {
             beforeEach(function () {
-                this.binaryMoray.exhausted = true;
+                this.binaryMoray.exhaust();
                 this.player1.raiseTide();
             });
 

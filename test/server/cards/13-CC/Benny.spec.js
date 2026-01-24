@@ -14,9 +14,9 @@ describe('Benny', function () {
         });
 
         it('should ready each other Martian creature after reaping', function () {
-            this.blypyp.exhausted = true;
-            this.iyxrenuTheClever.exhausted = true;
-            this.number612.exhausted = true;
+            this.blypyp.exhaust();
+            this.iyxrenuTheClever.exhaust();
+            this.number612.exhaust();
             this.player1.reap(this.benny);
             expect(this.blypyp.exhausted).toBe(false);
             expect(this.iyxrenuTheClever.exhausted).toBe(false);

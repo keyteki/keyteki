@@ -141,7 +141,7 @@ describe('Turnkey', function () {
             this.player1.play(this.turnkey);
             this.player1.clickPrompt('Blue');
             expect(this.player2.player.getForgedKeys()).toBe(1);
-            this.turnkey.exhausted = false;
+            this.turnkey.ready();
 
             // Flip Turnkey - this does not remove Turnkey from play
             this.player1.useOmni(this.creedOfNurture);
@@ -182,7 +182,7 @@ describe('Turnkey', function () {
             this.player1.play(this.turnkey);
             this.player1.clickPrompt('Blue');
             expect(this.player2.player.getForgedKeys()).toBe(1);
-            this.turnkey.exhausted = false;
+            this.turnkey.ready();
 
             // Flip Turnkey - without a token creature this removes Turnkey from play
             this.player1.useOmni(this.creedOfNurture);

@@ -31,7 +31,7 @@ describe('Te-Wheke Kraken', function () {
 
         it('should die if not exhausting 2 creatures', function () {
             this.player1.play(this.teWhekeKraken);
-            this.kaupe.exhausted = true;
+            this.kaupe.exhaust();
             expect(this.player1).toBeAbleToSelect(this.horridSynan);
             expect(this.player1).toBeAbleToSelect(this.kaupe);
             expect(this.player1).toBeAbleToSelect(this.llackGaboon);

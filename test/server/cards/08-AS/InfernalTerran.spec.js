@@ -36,7 +36,7 @@ describe('Infernal Terran', function () {
         it('should discard a card and steal an amber on reap', function () {
             this.player1.playCreature(this.infernalTerran);
             this.player1.clickCard(this.dewFaerie);
-            this.infernalTerran.exhausted = false;
+            this.infernalTerran.ready();
             this.player1.reap(this.infernalTerran);
             this.player1.clickCard(this.dustPixie);
             expect(this.player1.amber).toBe(4);

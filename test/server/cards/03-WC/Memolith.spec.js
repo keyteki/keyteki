@@ -54,7 +54,7 @@ describe('Memolith', function () {
             this.player1.useAction(this.memolith);
             this.player1.clickCard(this.pound);
             expect(this.pound.parent).toBe(this.memolith);
-            this.memolith.exhausted = false;
+            this.memolith.ready();
             this.player1.useAction(this.memolith);
             expect(this.player1).toHavePrompt('Memolith');
             expect(this.player1).toBeAbleToSelect(this.pound);
@@ -73,7 +73,7 @@ describe('Memolith', function () {
             this.player1.useAction(this.memolith);
             this.player1.clickCard(this.pound);
             expect(this.pound.parent).toBe(this.memolith);
-            this.memolith.exhausted = false;
+            this.memolith.ready();
             this.player1.useAction(this.memolith);
             expect(this.player1).toHavePrompt('Memolith');
             this.player1.clickCard(this.pound);
@@ -91,7 +91,7 @@ describe('Memolith', function () {
             this.player1.useAction(this.memolith);
             this.player1.clickCard(this.pound);
             expect(this.pound.parent).toBe(this.memolith);
-            this.memolith.exhausted = false;
+            this.memolith.ready();
             this.player1.useAction(this.memolith);
             expect(this.player1).toHavePrompt('Memolith');
             expect(this.player1).toBeAbleToSelect(this.pound);
@@ -139,7 +139,7 @@ describe('Memolith', function () {
             this.player1.clickCard(this.labwork);
             this.player1.endTurn();
             this.player2.clickPrompt('brobnar');
-            this.memolith.exhausted = false;
+            this.memolith.ready();
             this.player2.useAction(this.memolith);
             expect(this.player2).not.toBeAbleToSelect(this.wildWormhole);
             expect(this.player2).toBeAbleToSelect(this.labwork);

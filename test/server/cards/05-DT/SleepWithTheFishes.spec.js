@@ -16,8 +16,8 @@ describe('Sleep with the Fishes', function () {
         });
 
         it('should destroy each exhausted creature', function () {
-            this.hookmaster.exhausted = true;
-            this.murkens.exhausted = true;
+            this.hookmaster.exhaust();
+            this.murkens.exhaust();
             this.player1.play(this.sleepWithTheFishes);
             expect(this.hookmaster.location).toBe('discard');
             expect(this.marshalEwer.location).toBe('play area');

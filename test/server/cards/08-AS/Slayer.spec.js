@@ -12,7 +12,7 @@ describe('Slayer', function () {
             });
 
             this.player1.playCreature(this.slayer);
-            this.slayer.exhausted = false;
+            this.slayer.ready();
         });
 
         it('should have splash-attack and skirmish', function () {

@@ -88,7 +88,7 @@ describe('Deusillus', function () {
         it('should be able to reap with the creature', function () {
             this.player1.play(this.deusillus);
             this.player1.clickCard(this.narp);
-            this.deusillus.exhausted = false;
+            this.deusillus.ready();
             this.player1.reap(this.deusillus);
             expect(this.deusillus.amber).toBe(4);
             expect(this.narp.damage).toBe(6);
@@ -99,7 +99,7 @@ describe('Deusillus', function () {
         it('should be able to fight with the creature', function () {
             this.player1.play(this.deusillus2);
             this.player1.clickCard(this.narp);
-            this.deusillus2.exhausted = false;
+            this.deusillus2.ready();
             this.player1.fightWith(this.deusillus2, this.zorg);
             expect(this.deusillus2.damage).toBe(7);
             expect(this.zorg.location).toBe('discard');

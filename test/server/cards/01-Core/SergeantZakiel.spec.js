@@ -14,7 +14,7 @@ describe('Sergeant Zakiel', function () {
         });
 
         it('should be able to ready and fight with a neighbor', function () {
-            this.sequis.exhausted = true;
+            this.sequis.exhaust();
             this.player1.playCreature(this.sergeantZakiel);
             this.player1.clickCard(this.sergeantZakiel);
             this.player1.clickCard(this.sequis);

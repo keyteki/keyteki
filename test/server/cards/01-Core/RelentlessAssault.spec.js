@@ -14,8 +14,8 @@ describe('Relentless Assault', function () {
         });
 
         it('should ready and fight with up to 3 creatures', function () {
-            this.bumpsy.exhausted = true;
-            this.troll.exhausted = true;
+            this.bumpsy.exhaust();
+            this.troll.exhaust();
             this.player1.play(this.relentlessAssault);
             expect(this.player1).toBeAbleToSelect(this.krump);
             this.player1.clickCard(this.bumpsy);
