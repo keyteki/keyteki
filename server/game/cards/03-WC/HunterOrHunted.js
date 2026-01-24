@@ -35,7 +35,7 @@ class HunterOrHunted extends Card {
                     cardType: 'creature',
                     cardCondition: (card, context) => card !== context.targets.creature,
                     gameAction: ability.actions.addWardToken((context) => ({
-                        amount: context.targets.creature && context.targets.creature.ward ? 1 : 0,
+                        amount: context.targets.creature && context.targets.creature.warded ? 1 : 0,
                         target:
                             context.selects.action.choice === 'Move a ward'
                                 ? context.targets.moveToCreature

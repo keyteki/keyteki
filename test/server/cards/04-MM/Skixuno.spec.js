@@ -17,7 +17,7 @@ describe('Skixuno', function () {
             this.player1.play(this.skixuno);
 
             expect(this.skixuno.location).toBe('play area');
-            expect(this.skixuno.tokens.power).toBe(3);
+            expect(this.skixuno.powerCounters).toBe(3);
 
             expect(this.emberImp.location).toBe('discard');
             expect(this.rotgrub.location).toBe('discard');
@@ -29,7 +29,7 @@ describe('Skixuno', function () {
             this.player1.play(this.skixuno);
 
             expect(this.skixuno.location).toBe('play area');
-            expect(this.skixuno.tokens.power).toBe(2);
+            expect(this.skixuno.powerCounters).toBe(2);
 
             expect(this.rotgrub.location).toBe('play area');
             expect(this.emberImp.location).toBe('discard');
@@ -65,7 +65,7 @@ describe('Skixuno', function () {
             expect(this.player2).toHavePrompt('House Choice');
 
             expect(this.skixuno.location).toBe('play area');
-            expect(this.skixuno.tokens.power).toBe(2);
+            expect(this.skixuno.powerCounters).toBe(2);
 
             expect(this.pitlord.location).toBe('discard');
             expect(this.emberImp.location).toBe('discard');

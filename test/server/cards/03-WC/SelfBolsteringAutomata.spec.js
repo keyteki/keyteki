@@ -29,7 +29,7 @@ describe('Self-Bolstering Automata', function () {
                 });
 
                 it('should not gain 2 +1 power counters, since it was exhausted by fighting', function () {
-                    expect(this.selfBolsteringAutomata.tokens.power).toBeUndefined();
+                    expect(this.selfBolsteringAutomata.powerCounters).toBe(0);
                 });
             });
         });
@@ -62,7 +62,7 @@ describe('Self-Bolstering Automata', function () {
                 expect(this.selfBolsteringAutomata.location).toBe('play area');
                 expect(this.selfBolsteringAutomata.exhausted).toBe(true);
                 expect(this.player1.player.cardsInPlay[1]).toBe(this.selfBolsteringAutomata);
-                expect(this.selfBolsteringAutomata.tokens.power).toBe(2);
+                expect(this.selfBolsteringAutomata.powerCounters).toBe(2);
             });
         });
 

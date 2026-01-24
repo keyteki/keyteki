@@ -72,10 +72,10 @@ describe('Com. Officer Gross', function () {
                     });
 
                     it('should add +1 power counter to creatures among them', function () {
-                        expect(this.comOfficerGross.tokens.power).toBeUndefined();
-                        expect(this.armsmasterMolina.tokens.power).toBe(1);
-                        expect(this.tantadlin.tokens.power).toBe(1);
-                        expect(this.comOfficerHings1.tokens.power).toBeUndefined();
+                        expect(this.comOfficerGross.powerCounters).toBe(0);
+                        expect(this.armsmasterMolina.powerCounters).toBe(1);
+                        expect(this.tantadlin.powerCounters).toBe(1);
+                        expect(this.comOfficerHings1.powerCounters).toBe(0);
                     });
                 });
 
@@ -100,11 +100,11 @@ describe('Com. Officer Gross', function () {
                     });
 
                     it('should add +1 power counter to creatures among them', function () {
-                        expect(this.comOfficerGross.tokens.power).toBeUndefined();
-                        expect(this.armsmasterMolina.tokens.power).toBe(1);
-                        expect(this.tantadlin.tokens.power).toBe(1);
-                        expect(this.comOfficerHings1.tokens.power).toBe(1);
-                        expect(this.comOfficerHings2.tokens.power).toBeUndefined();
+                        expect(this.comOfficerGross.powerCounters).toBe(0);
+                        expect(this.armsmasterMolina.powerCounters).toBe(1);
+                        expect(this.tantadlin.powerCounters).toBe(1);
+                        expect(this.comOfficerHings1.powerCounters).toBe(1);
+                        expect(this.comOfficerHings2.powerCounters).toBe(0);
                     });
                 });
 
@@ -121,10 +121,10 @@ describe('Com. Officer Gross', function () {
                     });
 
                     it('should add +1 power counter to creatures among them', function () {
-                        expect(this.comOfficerGross.tokens.power).toBeUndefined();
-                        expect(this.armsmasterMolina.tokens.power).toBe(1);
-                        expect(this.tantadlin.tokens.power).toBe(1);
-                        expect(this.comOfficerHings1.tokens.power).toBeUndefined();
+                        expect(this.comOfficerGross.powerCounters).toBe(0);
+                        expect(this.armsmasterMolina.powerCounters).toBe(1);
+                        expect(this.tantadlin.powerCounters).toBe(1);
+                        expect(this.comOfficerHings1.powerCounters).toBe(0);
                     });
                 });
             });

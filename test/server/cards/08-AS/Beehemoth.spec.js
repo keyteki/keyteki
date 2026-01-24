@@ -24,7 +24,7 @@ describe('Beehemoth', function () {
             expect(this.player1).toBeAbleToSelect(this.troll);
             this.player1.clickCard(this.flaxia);
             expect(this.flaxia.getPower()).toBe(5);
-            expect(this.flaxia.tokens.power).toBe(1);
+            expect(this.flaxia.powerCounters).toBe(1);
             this.player1.clickPrompt('brobnar');
         });
 
@@ -48,8 +48,8 @@ describe('Beehemoth', function () {
             this.player1.clickCard(this.flaxia);
             this.player1.clickPrompt('Left');
             expect(this.player1.amber).toBe(7);
-            expect(this.flaxia.tokens.power).toBe(undefined);
-            expect(this.huntingWitch.tokens.power).toBe(undefined);
+            expect(this.flaxia.powerCounters).toBe(0);
+            expect(this.huntingWitch.powerCounters).toBe(0);
             expect(this.player1).isReadyToTakeAction();
         });
 
@@ -59,8 +59,8 @@ describe('Beehemoth', function () {
             this.player1.clickCard(this.flaxia);
             this.player1.clickPrompt('Left');
             expect(this.player1.amber).toBe(5);
-            expect(this.flaxia.tokens.power).toBe(undefined);
-            expect(this.huntingWitch.tokens.power).toBe(undefined);
+            expect(this.flaxia.powerCounters).toBe(0);
+            expect(this.huntingWitch.powerCounters).toBe(0);
             expect(this.player1).isReadyToTakeAction();
         });
 

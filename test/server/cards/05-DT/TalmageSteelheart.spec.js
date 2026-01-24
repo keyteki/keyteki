@@ -20,7 +20,7 @@ describe('Talmage Steelheart', function () {
             });
 
             it('should gain +1 power counter', function () {
-                expect(this.talmageSteelheart.tokens.power).toBe(1);
+                expect(this.talmageSteelheart.powerCounters).toBe(1);
             });
         });
 
@@ -34,7 +34,7 @@ describe('Talmage Steelheart', function () {
             });
 
             it('should gain as much power counters', function () {
-                expect(this.talmageSteelheart.tokens.power).toBe(5);
+                expect(this.talmageSteelheart.powerCounters).toBe(5);
             });
         });
     });
