@@ -86,7 +86,7 @@ describe('Boosted B4-RRY', function () {
         it('should be able to play an archived card on reap', function () {
             this.player1.playCreature(this.boostedB4Rry);
             this.player1.clickPrompt('Play archived card');
-            this.boostedB4Rry.exhausted = false;
+            this.boostedB4Rry.ready();
             this.player1.reap(this.boostedB4Rry);
             this.player1.clickPrompt('Play archived card');
             expect(this.player1.player.hand.length).toBe(0);
@@ -98,7 +98,7 @@ describe('Boosted B4-RRY', function () {
         it('should be able to play an archived card on fight', function () {
             this.player1.playCreature(this.boostedB4Rry);
             this.player1.clickPrompt('Play archived card');
-            this.boostedB4Rry.exhausted = false;
+            this.boostedB4Rry.ready();
             this.player1.fightWith(this.boostedB4Rry, this.dustPixie);
             this.player1.clickPrompt('Play archived card');
             expect(this.player1.player.hand.length).toBe(0);

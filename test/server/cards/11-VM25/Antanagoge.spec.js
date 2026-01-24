@@ -34,7 +34,7 @@ describe('Antanagoge', function () {
             beforeEach(function () {
                 this.player1.playCreature(this.antanagoge);
                 this.player1.clickCard(this.nexus);
-                this.antanagoge.exhausted = false;
+                this.antanagoge.ready();
             });
 
             it('should deal damage equal to grafted creature power to all creatures', function () {
@@ -70,7 +70,7 @@ describe('Antanagoge', function () {
                 this.player1.clickCard(this.sciOfficerMorpheus);
                 this.player1.clickCard(this.nexus);
                 this.player1.clickCard(this.troll);
-                this.antanagoge.exhausted = false;
+                this.antanagoge.ready();
             });
 
             it('should allow grafting two creatures', function () {

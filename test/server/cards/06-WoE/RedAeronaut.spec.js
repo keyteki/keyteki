@@ -42,7 +42,7 @@ describe('Red Aeronaut', function () {
             this.player1.playCreature(this.redAeronaut);
             this.player1.clickCard(this.nautilixian);
             this.player1.clickPrompt('Left');
-            this.redAeronaut.exhausted = false;
+            this.redAeronaut.ready();
             expect(this.nautilixian.power).toBe(6);
             this.player1.useAction(this.redAeronaut);
             this.player1.clickCard(this.nautilixian);

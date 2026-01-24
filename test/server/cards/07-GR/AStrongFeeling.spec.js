@@ -15,9 +15,9 @@ describe('A Strong Feeling', function () {
             this.cpoZytar.amber = 2;
             this.culfTheQuiet.amber = 5;
             this.charette.amber = 3;
-            this.cpoZytar.exhausted = true;
-            this.helmsmanSpears.exhausted = true;
-            this.culfTheQuiet.exhausted = true;
+            this.cpoZytar.exhaust();
+            this.helmsmanSpears.exhaust();
+            this.culfTheQuiet.exhaust();
         });
 
         it('readies each friendly creature with amber on it', function () {

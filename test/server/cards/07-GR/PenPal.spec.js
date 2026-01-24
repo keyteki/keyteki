@@ -32,8 +32,8 @@ describe('Pen Pal', function () {
         });
 
         it('should do nothing if enemy creatures were already exhausted', function () {
-            this.gub.exhausted = true;
-            this.krump.exhausted = true;
+            this.gub.exhaust();
+            this.krump.exhaust();
             this.player1.useAction(this.penPal);
             this.player1.clickCard(this.krump);
             expect(this.penPal.exhausted).toBe(true);

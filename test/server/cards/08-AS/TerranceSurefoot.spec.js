@@ -23,7 +23,7 @@ describe('Terrance Surefoot', function () {
         });
 
         it('captures 1 amber on reap', function () {
-            this.terranceSurefoot.exhausted = false;
+            this.terranceSurefoot.ready();
             this.player1.reap(this.terranceSurefoot);
             expect(this.terranceSurefoot.tokens.amber).toBe(2);
             expect(this.player2.amber).toBe(3);

@@ -53,7 +53,7 @@ describe('Badger', function () {
 
         it('should trigger after reaping', function () {
             this.player1.moveCard(this.badger, 'play area');
-            this.badger.exhausted = false;
+            this.badger.ready();
             this.player1.reap(this.badger);
             this.player1.play(this.shorty);
             this.player1.clickCard(this.troll);

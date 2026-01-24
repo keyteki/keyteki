@@ -24,8 +24,8 @@ describe('Total Recall', function () {
         });
 
         it('should not gain amber for exhausted creatures', function () {
-            this.dextre.exhausted = true;
-            this.mindwarper.exhausted = true;
+            this.dextre.exhaust();
+            this.mindwarper.exhaust();
             this.player1.play(this.totalRecall);
             expect(this.player1.amber).toBe(2);
             expect(this.mindwarper.location).toBe('hand');

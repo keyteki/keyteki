@@ -38,7 +38,7 @@ describe('Prognosticating Witch', function () {
         it('should draw 2 cards when reaped with 3 or fewer cards in hand', function () {
             this.player1.play(this.prognosticatingWitch);
             this.player1.player.hand = [];
-            this.prognosticatingWitch.exhausted = false;
+            this.prognosticatingWitch.ready();
             this.player1.reap(this.prognosticatingWitch);
             expect(this.player1.hand.length).toBe(2);
             expect(this.player1).isReadyToTakeAction();

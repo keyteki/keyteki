@@ -14,9 +14,9 @@ describe('Psychic Network', function () {
         });
 
         it('should steal 0 amber if all Mars creatures are exhausted', function () {
-            this.zorg.exhausted = true;
-            this.collectorWorm.exhausted = true;
-            this.yxiliMarauder.exhausted = true;
+            this.zorg.exhaust();
+            this.collectorWorm.exhaust();
+            this.yxiliMarauder.exhaust();
             this.player1.play(this.psychicNetwork);
             expect(this.player1.amber).toBe(0);
             expect(this.player2.amber).toBe(2);
@@ -24,7 +24,7 @@ describe('Psychic Network', function () {
         });
 
         it('should steal 1 amber for each ready Mars creature', function () {
-            this.zorg.exhausted = true;
+            this.zorg.exhaust();
             this.player1.play(this.psychicNetwork);
             expect(this.player1.amber).toBe(2);
             expect(this.player2.amber).toBe(0);
