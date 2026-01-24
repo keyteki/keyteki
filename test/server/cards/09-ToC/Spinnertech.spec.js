@@ -39,7 +39,7 @@ describe('Spinnertech', function () {
             this.player1.playCreature(this.spinnertech);
             this.player1.clickCard(this.fullMoon);
             this.player1.clickPrompt('Left');
-            this.spinnertech.exhausted = false;
+            this.spinnertech.ready();
             this.player1.fightWith(this.spinnertech, this.troll);
             expect(this.player1).toBeAbleToSelect(this.dustPixie);
             expect(this.player1).toBeAbleToSelect(this.huntingWitch);

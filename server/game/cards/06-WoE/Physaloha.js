@@ -6,7 +6,7 @@ class Physaloha extends Card {
         this.persistentEffect({
             targetController: 'any',
             type: 'creature',
-            match: (card) => !!card.tokens.damage,
+            match: (card) => card.damage,
             effect: ability.effects.doesNotReady()
         });
     }

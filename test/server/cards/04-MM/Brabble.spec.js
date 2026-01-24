@@ -17,7 +17,7 @@ describe('Pride', function () {
         it("opponent should lose 1A when Brabble is destroyed during controller's turn", function () {
             this.player1.fightWith(this.brabble, this.troll);
             expect(this.brabble.location).toBe('discard');
-            expect(this.troll.tokens.damage).toBe(2);
+            expect(this.troll.damage).toBe(2);
             expect(this.player1.amber).toBe(1);
             expect(this.player2.amber).toBe(4);
         });
@@ -27,7 +27,7 @@ describe('Pride', function () {
             this.player2.clickPrompt('brobnar');
             this.player2.fightWith(this.troll, this.brabble);
             expect(this.brabble.location).toBe('discard');
-            expect(this.troll.tokens.damage).toBe(2);
+            expect(this.troll.damage).toBe(2);
             expect(this.player1.amber).toBe(1);
             expect(this.player2.amber).toBe(2);
         });

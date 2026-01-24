@@ -13,7 +13,7 @@ describe('Bellatoran Recruiter', function () {
         });
 
         it('should give +2 power and +2 armor to a friendly non-Dinosaur creature after fighting', function () {
-            this.charette.exhausted = true;
+            this.charette.exhaust();
             this.player1.fightWith(this.bellatoranRecruiter, this.umbra);
             expect(this.player1).toBeAbleToSelect(this.charette);
             expect(this.player1).toBeAbleToSelect(this.gub);
@@ -25,14 +25,14 @@ describe('Bellatoran Recruiter', function () {
             expect(this.player1).toHavePrompt('Choose a creature to attack');
             this.player1.clickCard(this.krump);
             expect(this.krump.location).toBe('discard');
-            expect(this.charette.tokens.damage).toBe(4);
+            expect(this.charette.damage).toBe(4);
             expect(this.player1).isReadyToTakeAction();
             this.player1.endTurn();
             expect(this.charette.location).toBe('discard');
         });
 
         it('should give +2 power and +2 armor to a friendly non-Dinosaur creature after reaping', function () {
-            this.charette.exhausted = true;
+            this.charette.exhaust();
             this.player1.reap(this.bellatoranRecruiter);
             expect(this.player1).toBeAbleToSelect(this.charette);
             expect(this.player1).toBeAbleToSelect(this.gub);
@@ -44,7 +44,7 @@ describe('Bellatoran Recruiter', function () {
             expect(this.player1).toHavePrompt('Choose a creature to attack');
             this.player1.clickCard(this.krump);
             expect(this.krump.location).toBe('discard');
-            expect(this.charette.tokens.damage).toBe(4);
+            expect(this.charette.damage).toBe(4);
             expect(this.player1).isReadyToTakeAction();
             this.player1.endTurn();
             expect(this.charette.location).toBe('discard');

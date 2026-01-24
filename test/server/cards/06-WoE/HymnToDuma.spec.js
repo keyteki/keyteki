@@ -42,7 +42,7 @@ describe('HymnToDuma,', function () {
 
         describe("and creature's omni is used", function () {
             beforeEach(function () {
-                this.player1.useAction(this.chelonia, true);
+                this.player1.useOmni(this.chelonia);
             });
 
             it('should destroy the creature', function () {
@@ -73,7 +73,7 @@ describe('HymnToDuma,', function () {
         describe("and creature's omni is used with ward,", function () {
             beforeEach(function () {
                 this.chelonia.ward();
-                this.player1.useAction(this.chelonia, true);
+                this.player1.useOmni(this.chelonia);
             });
 
             it('should destroy the ward only', function () {

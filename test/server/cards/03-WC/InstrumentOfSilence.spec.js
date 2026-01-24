@@ -25,7 +25,7 @@ describe('Instrument of Silence', function () {
             this.player1.playUpgrade(this.instrumentOfSilence, this.dustPixie);
             this.player1.fightWith(this.dustPixie, this.yantzeeGang);
             expect(this.dustPixie.location).toBe('play area');
-            expect(this.yantzeeGang.tokens.damage).toBe(1);
+            expect(this.yantzeeGang.damage).toBe(1);
             expect(this.player1.amber).toBe(1);
         });
     });

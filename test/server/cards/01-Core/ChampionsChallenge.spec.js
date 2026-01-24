@@ -43,7 +43,7 @@ describe("Champion's Challenge", function () {
             expect(this.player1).toBeAbleToSelect(this.dextre);
             this.player1.clickCard(this.dextre);
             expect(this.dextre.location).toBe('deck');
-            expect(this.troll.tokens.damage).toBe(3);
+            expect(this.troll.damage).toBe(3);
             expect(this.troll.exhausted).toBe(true);
         });
 
@@ -59,7 +59,7 @@ describe("Champion's Challenge", function () {
             expect(this.dextre.location).toBe('deck');
             expect(this.batdrone.location).toBe('discard');
             expect(this.ganymedeArchivist.location).toBe('discard');
-            expect(this.firespitter.tokens.damage).toBe(2);
+            expect(this.firespitter.damage).toBe(2);
         });
     });
     describe("Champion's Challenge's ability", function () {

@@ -71,7 +71,7 @@ describe('Ragnarok', function () {
 
             this.player2.clickPrompt('logos');
             this.player2.playCreature('dextre');
-            this.dextre.exhausted = false;
+            this.dextre.ready();
             this.player2.reap(this.dextre);
             this.player2.endTurn();
 

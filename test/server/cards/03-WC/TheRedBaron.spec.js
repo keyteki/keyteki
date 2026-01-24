@@ -21,11 +21,11 @@ describe('The Red Baron', function () {
             expect(this.player2.amber).toBe(2);
 
             this.player2.fightWith(this.krump, this.theRedBaron);
-            expect(this.krump.tokens.damage).toBeUndefined();
-            expect(this.theRedBaron.tokens.damage).toBeUndefined();
+            expect(this.krump.damage).toBe(0);
+            expect(this.theRedBaron.damage).toBe(0);
 
             this.player2.fightWith(this.troll, this.theRedBaron);
-            expect(this.troll.tokens.damage).toBe(4);
+            expect(this.troll.damage).toBe(4);
             expect(this.theRedBaron.location).toBe('discard');
         });
 
@@ -36,7 +36,7 @@ describe('The Red Baron', function () {
             expect(this.player2.amber).toBe(2);
 
             this.player2.fightWith(this.krump, this.theRedBaron);
-            expect(this.krump.tokens.damage).toBe(4);
+            expect(this.krump.damage).toBe(4);
             expect(this.theRedBaron.location).toBe('discard');
         });
 
@@ -47,7 +47,7 @@ describe('The Red Baron', function () {
             expect(this.player2.amber).toBe(2);
 
             this.player2.fightWith(this.krump, this.theRedBaron);
-            expect(this.krump.tokens.damage).toBe(4);
+            expect(this.krump.damage).toBe(4);
             expect(this.theRedBaron.location).toBe('discard');
         });
 
@@ -58,7 +58,7 @@ describe('The Red Baron', function () {
             expect(this.player2.amber).toBe(2);
 
             this.player2.fightWith(this.troll, this.brammo);
-            expect(this.troll.tokens.damage).toBe(4);
+            expect(this.troll.damage).toBe(4);
             expect(this.brammo.location).toBe('discard');
         });
     });

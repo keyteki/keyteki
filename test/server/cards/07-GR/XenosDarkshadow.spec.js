@@ -43,19 +43,19 @@ describe('Xenos Darkshadow', function () {
 
             it('has assault equal to the discard length', function () {
                 this.player1.fightWith(this.xenosDarkshadow, this.thingFromTheDeep);
-                expect(this.thingFromTheDeep.tokens.damage).toBe(18);
+                expect(this.thingFromTheDeep.damage).toBe(18);
             });
 
             it('has hazardous equal to the discard length', function () {
                 this.player1.endTurn();
                 this.player2.clickPrompt('unfathomable');
                 this.player2.fightWith(this.thingFromTheDeep, this.xenosDarkshadow);
-                expect(this.thingFromTheDeep.tokens.damage).toBe(18);
+                expect(this.thingFromTheDeep.damage).toBe(18);
             });
 
             it('has splash-attack equal to the discard length', function () {
                 this.player1.fightWith(this.xenosDarkshadow, this.thingFromTheDeep);
-                expect(this.kelifiDragon.tokens.damage).toBe(9);
+                expect(this.kelifiDragon.damage).toBe(9);
                 expect(this.troll.location).toBe('discard');
             });
 

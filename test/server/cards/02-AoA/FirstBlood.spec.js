@@ -19,8 +19,8 @@ describe('First Blood', function () {
             this.player1.clickCard(this.bumpsy);
             this.player1.clickCard(this.bumpsy);
             this.player1.clickCard(this.bumpsy);
-            expect(this.bingleBangbang.tokens.damage).toBe(1);
-            expect(this.bumpsy.tokens.damage).toBe(3);
+            expect(this.bingleBangbang.damage).toBe(1);
+            expect(this.bumpsy.damage).toBe(3);
             expect(this.firstBlood.location).toBe('discard');
         });
     });

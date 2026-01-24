@@ -17,21 +17,21 @@ describe('HideawayHole', function () {
         });
 
         it('should make own creatures in play elusive', function () {
-            this.player1.useAction(this.hideawayHole, true);
+            this.player1.useOmni(this.hideawayHole);
             expect(this.hideawayHole.location).toBe('discard');
             this.player1.fightWith(this.brendTheFanatic, this.witchOfTheWilds);
-            expect(this.witchOfTheWilds.tokens.damage).toBe(3);
+            expect(this.witchOfTheWilds.damage).toBe(3);
             this.player1.endTurn();
 
             this.player2.clickPrompt('untamed');
             this.player2.fightWith(this.teliga, this.murkens);
 
-            expect(this.teliga.tokens.damage).toBe(undefined);
-            expect(this.murkens.tokens.damage).toBe(undefined);
+            expect(this.teliga.damage).toBe(0);
+            expect(this.murkens.damage).toBe(0);
         });
 
         it('should make creatures played after it was used elusive', function () {
-            this.player1.useAction(this.hideawayHole, true);
+            this.player1.useOmni(this.hideawayHole);
             expect(this.hideawayHole.location).toBe('discard');
             this.player1.play(this.dodger);
             this.player1.endTurn();
@@ -39,8 +39,8 @@ describe('HideawayHole', function () {
             this.player2.clickPrompt('untamed');
             this.player2.fightWith(this.teliga, this.dodger);
 
-            expect(this.teliga.tokens.damage).toBe(undefined);
-            expect(this.dodger.tokens.damage).toBe(undefined);
+            expect(this.teliga.damage).toBe(0);
+            expect(this.dodger.damage).toBe(0);
         });
 
         it('have the effect expire at the start of next turn', function () {
@@ -58,7 +58,7 @@ describe('HideawayHole', function () {
             this.player2.clickPrompt('untamed');
             this.player2.fightWith(this.teliga, this.murkens);
 
-            expect(this.teliga.tokens.damage).toBe(2);
+            expect(this.teliga.damage).toBe(2);
         });
     });
 
@@ -83,13 +83,13 @@ describe('HideawayHole', function () {
         });
 
         it("should not affect opponent's next turn", function () {
-            this.player1.useAction(this.hideawayHole, true);
+            this.player1.useOmni(this.hideawayHole);
             this.player1.endTurn();
             this.player1.clickPrompt('shadows');
             this.player1.endTurn();
             this.player2.clickPrompt('untamed');
             this.player2.fightWith(this.teliga, this.dodger);
-            expect(this.dodger.tokens.damage).toBe(3);
+            expect(this.dodger.damage).toBe(3);
             expect(this.player2).isReadyToTakeAction();
         });
     });

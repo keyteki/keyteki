@@ -15,8 +15,8 @@ describe('Lava Ball', function () {
         it('should deal 4 damage with 2 splash', function () {
             this.player1.play(this.lavaBall);
             this.player1.clickCard(this.ancientBear);
-            expect(this.ancientBear.tokens.damage).toBe(4);
-            expect(this.snufflegator.tokens.damage).toBe(2);
+            expect(this.ancientBear.damage).toBe(4);
+            expect(this.snufflegator.damage).toBe(2);
             expect(this.huntingWitch.location).toBe('discard');
         });
     });

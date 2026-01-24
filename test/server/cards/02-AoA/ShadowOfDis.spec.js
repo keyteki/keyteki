@@ -27,7 +27,7 @@ describe('Shadow of Dis', function () {
             this.player2.clickPrompt('dis');
             this.player2.play(this.shadowOfDis);
             this.player2.play(this.dustImp);
-            expect(this.dustImp.tokens.damage).toBe(1);
+            expect(this.dustImp.damage).toBe(1);
         });
 
         it('test blanking hunting witch', function () {
@@ -40,7 +40,7 @@ describe('Shadow of Dis', function () {
             this.player2.endTurn();
             this.player1.clickPrompt('brobnar');
             this.player1.play(this.valdr); // should not gain amber due to Hunting witch
-            expect(this.valdr.tokens.damage).toBe(1);
+            expect(this.valdr.damage).toBe(1);
             expect(this.player1.amber).toBe(1);
         });
 
@@ -55,7 +55,7 @@ describe('Shadow of Dis', function () {
             this.player1.clickPrompt('untamed');
             this.player1.fightWith(this.snufflegator, this.spyyyder);
             expect(this.spyyyder.location).toBe('discard');
-            expect(this.snufflegator.tokens.damage).toBe(2); // 2 from spyyyder ignoring snufflegator's skirmish
+            expect(this.snufflegator.damage).toBe(2); // 2 from spyyyder ignoring snufflegator's skirmish
         });
 
         it('test halacor skirmish is ignored', function () {
@@ -70,7 +70,7 @@ describe('Shadow of Dis', function () {
             this.player1.clickPrompt('untamed');
             this.player1.fightWith(this.tantadlin, this.spyyyder);
             expect(this.spyyyder.location).toBe('discard');
-            expect(this.tantadlin.tokens.damage).toBe(2); // 2 from spyyyder ignoring halacor's skirmish
+            expect(this.tantadlin.damage).toBe(2); // 2 from spyyyder ignoring halacor's skirmish
         });
 
         it('test kindrith-longshot elusive is ignored', function () {
@@ -80,7 +80,7 @@ describe('Shadow of Dis', function () {
             this.player2.play(this.shadowOfDis);
             this.player2.fightWith(this.tezmal, this.kindrithLongshot);
             expect(this.tezmal.location).toBe('discard');
-            expect(this.kindrithLongshot.tokens.damage).toBe(2); // 2 from tezmal ignoring kindrith's elusive
+            expect(this.kindrithLongshot.damage).toBe(2); // 2 from tezmal ignoring kindrith's elusive
         });
 
         it('should not blank own cards', function () {
@@ -101,7 +101,7 @@ describe('Shadow of Dis', function () {
             this.player2.play(this.shadowOfDis);
             this.player2.fightWith(this.tezmal, this.kindrithLongshot);
             expect(this.tezmal.location).toBe('discard');
-            expect(this.kindrithLongshot.tokens.damage).toBe(2); // 2 from tezmal ignoring kindrith's elusive
+            expect(this.kindrithLongshot.damage).toBe(2); // 2 from tezmal ignoring kindrith's elusive
         });
 
         it("should wear off after the opponent's turn", function () {
@@ -114,7 +114,7 @@ describe('Shadow of Dis', function () {
             this.player2.endTurn();
             this.player1.clickPrompt('brobnar');
             this.player1.play(this.valdr);
-            expect(this.valdr.tokens.damage).toBe(1);
+            expect(this.valdr.damage).toBe(1);
             expect(this.player1.amber).toBe(1);
             this.player1.endTurn();
             this.player2.clickPrompt('dis');
@@ -157,13 +157,13 @@ describe('Shadow of Dis', function () {
         it("Blossom Drake's ability should not be active when Shadow of Dis is active", function () {
             this.player1.play(this.shadowOfDis);
             this.player1.play(this.emberImp);
-            expect(this.emberImp.tokens.damage).toBe(1);
+            expect(this.emberImp.damage).toBe(1);
             expect(this.emberImp.location).toBe('play area');
             this.player1.endTurn();
 
             this.player2.clickPrompt('untamed');
             this.player2.play(this.snufflegator);
-            expect(this.snufflegator.tokens.damage).toBe(1);
+            expect(this.snufflegator.damage).toBe(1);
             expect(this.snufflegator.location).toBe('play area');
         });
 
@@ -198,13 +198,13 @@ describe('Shadow of Dis', function () {
 
             this.player1.clickPrompt('dis');
             this.player1.play(this.emberImp);
-            expect(this.emberImp.tokens.damage).toBe(1);
+            expect(this.emberImp.damage).toBe(1);
             expect(this.emberImp.location).toBe('play area');
             this.player1.endTurn();
 
             this.player2.clickPrompt('untamed');
             this.player2.play(this.snufflegator);
-            expect(this.snufflegator.tokens.damage).toBe(1);
+            expect(this.snufflegator.damage).toBe(1);
             expect(this.snufflegator.location).toBe('play area');
         });
     });
@@ -299,8 +299,8 @@ describe('Shadow of Dis', function () {
             this.player2.clickPrompt('shadows');
             this.player2.fightWith(this.urchin, this.dodger);
             expect(this.urchin.location).toBe('discard');
-            expect(this.dodger.tokens.damage).toBe(1);
-            expect(this.shadowSelf.tokens.damage).toBeUndefined();
+            expect(this.dodger.damage).toBe(1);
+            expect(this.shadowSelf.damage).toBe(0);
             this.player2.endTurn();
         });
 

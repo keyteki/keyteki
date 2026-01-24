@@ -22,13 +22,13 @@ describe('Incubation Chamber', function () {
         });
 
         it('should be optional', function () {
-            this.player1.useAction(this.incubationChamber, true);
+            this.player1.useOmni(this.incubationChamber);
             this.player1.clickPrompt('Done');
             this.player1.endTurn();
         });
 
         it('should be able to archive a mars creature from hand', function () {
-            this.player1.useAction(this.incubationChamber, true);
+            this.player1.useOmni(this.incubationChamber);
             expect(this.player1).toBeAbleToSelect(this.etherSpider);
             expect(this.player1).toBeAbleToSelect(this.collectorWorm);
             expect(this.player1).not.toBeAbleToSelect(this.zorg);
@@ -44,7 +44,7 @@ describe('Incubation Chamber', function () {
         it('should not do anything if no mars creatures in hand', function () {
             this.player1.moveCard(this.etherSpider, 'discard');
             this.player1.moveCard(this.collectorWorm, 'discard');
-            this.player1.useAction(this.incubationChamber, true);
+            this.player1.useOmni(this.incubationChamber);
             this.player1.endTurn();
         });
     });

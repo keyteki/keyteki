@@ -174,8 +174,8 @@ describe('Kaupe Evil Twin', function () {
                 });
 
                 it('should deal 2 * number of discard cards', function () {
-                    expect(this.gladiodontus.tokens.damage).toBe(6);
-                    expect(this.troll.tokens.damage).toBe(2);
+                    expect(this.gladiodontus.damage).toBe(6);
+                    expect(this.troll.damage).toBe(2);
                     this.player1.endTurn();
                 });
             });
@@ -257,8 +257,8 @@ describe('Kaupe Evil Twin', function () {
                 });
 
                 it('should deal 2 * number of discard cards', function () {
-                    expect(this.gladiodontus.tokens.damage).toBe(4);
-                    expect(this.troll.tokens.damage).toBe(2);
+                    expect(this.gladiodontus.damage).toBe(4);
+                    expect(this.troll.damage).toBe(2);
                     expect(this.lamindra.location).toBe('discard');
                     this.player1.endTurn();
                 });

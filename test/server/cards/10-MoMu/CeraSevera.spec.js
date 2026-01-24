@@ -37,7 +37,7 @@ describe('Cera Severa', function () {
             expect(this.player1).not.toBeAbleToSelect(this.ceraSevera);
             expect(this.player1).not.toBeAbleToSelect(this.faustTheGreat);
             this.player1.clickCard(this.krump);
-            expect(this.krump.tokens.damage).toBe(3);
+            expect(this.krump.damage).toBe(3);
             expect(this.player1).isReadyToTakeAction();
         });
     });

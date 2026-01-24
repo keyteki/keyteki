@@ -13,8 +13,8 @@ describe('Stir-Crazy', function () {
                     inPlay: ['batdrone', 'mother', 'zorg', 'helper-bot']
                 }
             });
-            this.nexus.exhausted = true;
-            this.mother.exhausted = true;
+            this.nexus.exhaust();
+            this.mother.exhaust();
         });
 
         it('should cause ready creatures to capture 1', function () {

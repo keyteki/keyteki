@@ -33,7 +33,7 @@ describe('R-Evolution', function () {
             expect(this.player1).not.toBeAbleToSelect(this.tunk2);
             expect(this.player1).not.toBeAbleToSelect(this.pelf);
             this.player1.clickCard(this.troll);
-            expect(this.troll.tokens.damage).toBe(2);
+            expect(this.troll.damage).toBe(2);
             this.player1.endTurn();
             this.player2.clickPrompt('mars');
             this.player2.reap(this.tunk3);
@@ -43,7 +43,7 @@ describe('R-Evolution', function () {
             expect(this.player2).toBeAbleToSelect(this.tunk2);
             expect(this.player2).toBeAbleToSelect(this.pelf);
             this.player2.clickCard(this.pelf);
-            expect(this.pelf.tokens.damage).toBe(2);
+            expect(this.pelf.damage).toBe(2);
             this.player2.endTurn();
             this.player1.clickPrompt('brobnar');
             this.player1.reap(this.pelf);

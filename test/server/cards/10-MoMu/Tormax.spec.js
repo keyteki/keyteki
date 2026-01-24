@@ -54,7 +54,7 @@ describe('Tormax', function () {
 
         it('should discard hand and purge 2 opponent cards on reap', function () {
             this.player1.playCreature(this.tormax);
-            this.tormax.exhausted = false;
+            this.tormax.ready();
             this.player1.moveCard(this.gub, 'hand');
             this.player1.reap(this.tormax);
             expect(this.player1.player.hand.length).toBe(0);
@@ -65,7 +65,7 @@ describe('Tormax', function () {
 
         it('should discard hand and purge 2 opponent cards on fight', function () {
             this.player1.playCreature(this.tormax);
-            this.tormax.exhausted = false;
+            this.tormax.ready();
             this.player1.moveCard(this.gub, 'hand');
             this.player1.fightWith(this.tormax, this.lamindra);
             expect(this.player1.player.hand.length).toBe(0);

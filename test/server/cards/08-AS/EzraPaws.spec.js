@@ -24,7 +24,7 @@ describe('Ezra Paws', function () {
 
         it('should reveal opponent hand and draw a card on reap', function () {
             this.player1.playCreature(this.ezraPaws);
-            this.ezraPaws.exhausted = false;
+            this.ezraPaws.ready();
             this.player1.reap(this.ezraPaws);
             expect(this).toHaveRecentChatMessage(
                 'player1 uses Ezra Paws to reveal Anger and Pelf',

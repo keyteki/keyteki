@@ -18,7 +18,7 @@ describe('Kartanoo', function () {
             expect(this.player1).toBeAbleToSelect(this.transporterPlatform);
             this.player1.clickCard(this.hologrammophone);
             this.player1.clickCard(this.kartanoo);
-            expect(this.kartanoo.tokens.ward).toBe(1);
+            expect(this.kartanoo.warded).toBe(true);
         });
 
         it("should allow using opponent's artifact", function () {
@@ -26,7 +26,7 @@ describe('Kartanoo', function () {
             expect(this.player1).toBeAbleToSelect(this.cannon);
             this.player1.clickCard(this.cannon);
             this.player1.clickCard(this.troll);
-            expect(this.troll.tokens.damage).toBe(2);
+            expect(this.troll.damage).toBe(2);
         });
 
         it('should not allow using exhausted artifact', function () {

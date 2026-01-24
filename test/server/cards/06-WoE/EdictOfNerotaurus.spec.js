@@ -58,7 +58,7 @@ describe('Edict of Nerotaurus', function () {
 
         it('should allow another reap after an omni', function () {
             this.player1.reap(this.scylla);
-            this.player1.useAction(this.saurianEgg, true);
+            this.player1.useOmni(this.saurianEgg);
             this.player1.clickPrompt('Right');
             this.player1.clickPrompt('Right');
             this.player1.reap(this.cornicenOctavia);

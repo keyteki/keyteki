@@ -18,7 +18,7 @@ describe('Festering Touch', function () {
             this.player1.clickCard(this.troll);
             this.player1.clickPrompt('Done');
 
-            expect(this.troll.tokens.damage).toBe(1);
+            expect(this.troll.damage).toBe(1);
         });
 
         it('deal 3 damage to a creature that is damaged', function () {
@@ -27,7 +27,7 @@ describe('Festering Touch', function () {
             this.player1.clickCard(this.troll);
             this.player1.clickPrompt('Done');
 
-            expect(this.troll.tokens.damage).toBe(4);
+            expect(this.troll.damage).toBe(4);
         });
     });
 });

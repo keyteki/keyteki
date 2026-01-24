@@ -11,7 +11,7 @@ describe('Ornate Talking Tray', function () {
         });
 
         it('should destroy itself and make a token creature', function () {
-            this.player1.useAction(this.ornateTalkingTray, true);
+            this.player1.useOmni(this.ornateTalkingTray);
             expect(this.ornateTalkingTray.location).toBe('discard');
             expect(this.player1.player.creaturesInPlay.length).toBe(1);
         });

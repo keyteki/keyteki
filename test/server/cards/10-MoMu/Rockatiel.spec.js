@@ -46,7 +46,7 @@ describe('Rockatiel', function () {
                 'onDeckShuffled',
                 (event) => (shuffled = shuffled.concat(event.player))
             );
-            this.rockatiel.exhausted = false;
+            this.rockatiel.ready();
             this.player1.reap(this.rockatiel);
             expect(this.player1).toBeAbleToSelect(this.lamindra);
             expect(this.player1).toBeAbleToSelect(this.rockatiel);

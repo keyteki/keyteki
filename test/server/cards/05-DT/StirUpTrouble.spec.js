@@ -38,7 +38,7 @@ describe('Stir Up Trouble', function () {
             });
 
             it('should not cause damage', function () {
-                expect(this.sacroThief.tokens.damage).toBeUndefined();
+                expect(this.sacroThief.damage).toBe(0);
                 this.player1.endTurn();
             });
         });
@@ -61,8 +61,8 @@ describe('Stir Up Trouble', function () {
 
             it('should prompt for neighbor and cause damage', function () {
                 this.player1.clickCard(this.dodger);
-                expect(this.sacroThief.tokens.damage).toBe(3);
-                expect(this.dodger.tokens.damage).toBe(4);
+                expect(this.sacroThief.damage).toBe(3);
+                expect(this.dodger.damage).toBe(4);
                 this.player1.endTurn();
             });
         });
@@ -86,8 +86,8 @@ describe('Stir Up Trouble', function () {
                 });
 
                 it('should cause damage to each other', function () {
-                    expect(this.collectorWorm.tokens.damage).toBe(1);
-                    expect(this.eunoia.tokens.damage).toBe(2);
+                    expect(this.collectorWorm.damage).toBe(1);
+                    expect(this.eunoia.damage).toBe(2);
                 });
             });
         });
@@ -108,8 +108,8 @@ describe('Stir Up Trouble', function () {
                 });
 
                 it('shoulder Id should not deal damage', function () {
-                    expect(this.sacroThief.tokens.damage).toBeUndefined();
-                    expect(this.shoulderId.tokens.damage).toBe(4);
+                    expect(this.sacroThief.damage).toBe(0);
+                    expect(this.shoulderId.damage).toBe(4);
                     expect(this.player1.amber).toBe(2);
                     expect(this.player2.amber).toBe(4);
                 });

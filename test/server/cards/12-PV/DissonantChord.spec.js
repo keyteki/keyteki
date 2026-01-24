@@ -34,7 +34,7 @@ describe('Dissonant Chord', function () {
             this.player1.play(this.dissonantChord);
             this.player1.clickCard(this.troll);
             expect(this.troll.location).toBe('play area');
-            expect(this.troll.tokens.damage).toBe(3);
+            expect(this.troll.damage).toBe(3);
             expect(this.emberImp.stunned).toBe(false);
             expect(this.flaxia.stunned).toBe(false);
             expect(this.player1).isReadyToTakeAction();

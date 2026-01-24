@@ -91,7 +91,7 @@ describe('Ultra Gravitron', function () {
         it('should be able to reap with the creature and not apply bonus icon', function () {
             this.player1.play(this.ultraGravitron);
             expect(this.player1.player.archives.length).toBe(5);
-            this.ultraGravitron.exhausted = false;
+            this.ultraGravitron.ready();
             this.player1.reap(this.ultraGravitron);
             this.player1.clickCard(this.player1.player.archives[0]);
             expect(this.player1).toBeAbleToSelect(this.ultraGravitron);
@@ -109,7 +109,7 @@ describe('Ultra Gravitron', function () {
         it('should be able to fight with the creature and not apply bonus icon', function () {
             this.player1.play(this.ultraGravitron2);
             expect(this.player1.player.archives.length).toBe(5);
-            this.ultraGravitron2.exhausted = false;
+            this.ultraGravitron2.ready();
             this.player1.fightWith(this.ultraGravitron2, this.zorg);
             this.player1.clickCard(this.player1.player.archives[0]);
             expect(this.player1).toBeAbleToSelect(this.ultraGravitron2);
@@ -120,7 +120,7 @@ describe('Ultra Gravitron', function () {
             this.player1.clickCard(this.narp);
             expect(this.player1.player.archives.length).toBe(4);
             expect(this.narp.location).toBe('purged');
-            expect(this.ultraGravitron2.tokens.damage).toBe(4);
+            expect(this.ultraGravitron2.damage).toBe(4);
             expect(this.zorg.location).toBe('discard');
             expect(this.player1.amber).toBe(0);
         });
@@ -128,7 +128,7 @@ describe('Ultra Gravitron', function () {
         it('should be able to reap with the creature and apply bonus icon', function () {
             this.player1.play(this.ultraGravitron);
             expect(this.player1.player.archives.length).toBe(5);
-            this.ultraGravitron.exhausted = false;
+            this.ultraGravitron.ready();
             this.player1.reap(this.ultraGravitron);
             this.player1.clickCard(this.player1.player.archives[0]);
             expect(this.player1).toBeAbleToSelect(this.ultraGravitron);
@@ -146,7 +146,7 @@ describe('Ultra Gravitron', function () {
         it('should be able to fight with the creature and apply bonus icon', function () {
             this.player1.play(this.ultraGravitron2);
             expect(this.player1.player.archives.length).toBe(5);
-            this.ultraGravitron2.exhausted = false;
+            this.ultraGravitron2.ready();
             this.player1.fightWith(this.ultraGravitron2, this.zorg);
             this.player1.clickCard(this.player1.player.archives[0]);
             expect(this.player1).toBeAbleToSelect(this.ultraGravitron2);
@@ -157,14 +157,14 @@ describe('Ultra Gravitron', function () {
             this.player1.clickCard(this.fuzzyGruen);
             expect(this.player1.player.archives.length).toBe(4);
             expect(this.fuzzyGruen.location).toBe('purged');
-            expect(this.ultraGravitron2.tokens.damage).toBe(4);
+            expect(this.ultraGravitron2.damage).toBe(4);
             expect(this.zorg.location).toBe('discard');
             expect(this.player1.amber).toBe(2);
         });
 
         it('should be able to reap with the creature and discard no card since archive is empty', function () {
             this.player1.play(this.ultraGravitron);
-            this.ultraGravitron.exhausted = false;
+            this.ultraGravitron.ready();
             this.player1.player.archives = [];
             this.player1.reap(this.ultraGravitron);
             expect(this.player1).isReadyToTakeAction();
@@ -173,7 +173,7 @@ describe('Ultra Gravitron', function () {
 
         it('should be able to fight with the creature and discard no card since archive is empty', function () {
             this.player1.play(this.ultraGravitron2);
-            this.ultraGravitron2.exhausted = false;
+            this.ultraGravitron2.ready();
             this.player1.player.archives = [];
             this.player1.fightWith(this.ultraGravitron2, this.zorg);
             expect(this.zorg.location).toBe('discard');
@@ -189,7 +189,7 @@ describe('Ultra Gravitron', function () {
             this.player2.clickPrompt('mars');
 
             this.player2.fightWith(this.collectorWorm, this.ultraGravitron);
-            expect(this.collectorWorm.tokens.ward).toBeUndefined();
+            expect(this.collectorWorm.warded).toBe(false);
             expect(this.ultraGravitron.location).toBe('archives');
             expect(this.ultraGravitron2.location).toBe('archives');
             expect(this.player2.archives).toContain(this.ultraGravitron);

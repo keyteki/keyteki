@@ -239,7 +239,7 @@ describe('Knightapult', function () {
                 this.player1.clickPrompt('sanctum');
 
                 this.player1.useAction(this.knightapult);
-                this.player1.useAction(this.trojanSauropod, true);
+                this.player1.useOmni(this.trojanSauropod);
             });
 
             it('should not give deploy to incoming enemy creatures', function () {

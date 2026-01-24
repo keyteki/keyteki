@@ -25,7 +25,7 @@ describe('Shorty', function () {
         it('should remove enrage after killing by assault', function () {
             this.shorty.enrage();
             this.player1.fightWith(this.shorty, this.nexus);
-            expect(this.shorty.tokens.damage).toBeUndefined();
+            expect(this.shorty.damage).toBe(0);
             expect(this.shorty.enraged).toBe(false);
             expect(this.nexus.location).toBe('discard');
         });

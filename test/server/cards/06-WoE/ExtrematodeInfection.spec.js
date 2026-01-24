@@ -97,7 +97,7 @@ describe('Extrematode Infection', function () {
 
                         expect(this.extrematodeInfection.location).toBe('play area');
                         expect(this.earthshaker.location).toBe('play area');
-                        expect(this.earthshaker.tokens.ward).toBe(undefined);
+                        expect(this.earthshaker.warded).toBe(false);
                     });
 
                     it('should do it again next turn', function () {

@@ -22,7 +22,7 @@ describe('Bigger Guns For Everyone', function () {
             expect(this.player1).toBeAbleToSelect(this.rowdySkald);
             expect(this.player1).toBeAbleToSelect(this.krump);
             this.player1.clickCard(this.krump);
-            expect(this.krump.tokens.damage).toBe(5);
+            expect(this.krump.damage).toBe(5);
             expect(this.player1).isReadyToTakeAction();
         });
 

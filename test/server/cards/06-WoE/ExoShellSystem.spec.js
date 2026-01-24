@@ -31,7 +31,7 @@ describe('Exo-shell System', function () {
             this.player2.clickPrompt('brobnar');
             this.player2.fightWith(this.warrior, this.grunt);
             expect(this.grunt.location).toBe('play area');
-            expect(this.warrior.tokens.damage).toBe(undefined);
+            expect(this.warrior.damage).toBe(0);
 
             this.player2.fightWith(this.bumpsy, this.pelf);
             expect(this.pelf.location).toBe('discard');
@@ -42,7 +42,7 @@ describe('Exo-shell System', function () {
             this.player1.clickPrompt('Right');
             this.player1.fightWith(this.antiquitiesDealer, this.warrior);
             expect(this.antiquitiesDealer.location).toBe('discard');
-            expect(this.warrior.tokens.damage).toBe(3);
+            expect(this.warrior.damage).toBe(3);
         });
     });
 });

@@ -23,20 +23,20 @@ describe('Treok, The Wise', function () {
 
             // Try to damage the protected creature
             this.player1.fightWith(this.troll, this.dustPixie);
-            expect(this.troll.tokens.damage).toBeUndefined();
+            expect(this.troll.damage).toBe(0);
             expect(this.dustPixie.location).toBe('discard');
 
             // End turn and check that invulnerable is still there
             this.player1.endTurn();
             this.player2.clickPrompt('shadows');
             this.player2.fightWith(this.urchin, this.troll);
-            expect(this.troll.tokens.damage).toBeUndefined();
+            expect(this.troll.damage).toBe(0);
             this.player2.endTurn();
 
             // Now invulnerable should be gone.
             this.player1.clickPrompt('brobnar');
             this.player1.fightWith(this.troll, this.huntingWitch);
-            expect(this.troll.tokens.damage).toBe(2);
+            expect(this.troll.damage).toBe(2);
             expect(this.huntingWitch.location).toBe('discard');
         });
     });
@@ -67,7 +67,7 @@ describe('Treok, The Wise', function () {
             this.player1.endTurn();
             this.player1.clickPrompt('brobnar');
             this.player1.fightWith(this.troll, this.teliga);
-            expect(this.troll.tokens.damage).toBe(3);
+            expect(this.troll.damage).toBe(3);
             expect(this.player1).isReadyToTakeAction();
         });
     });

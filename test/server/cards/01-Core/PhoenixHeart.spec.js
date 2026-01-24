@@ -23,9 +23,9 @@ describe('Phoenix Heart', function () {
             expect(this.bonesaw.location).toBe('discard');
             expect(this.batdrone.location).toBe('play area');
             expect(this.shadowSelf.location).toBe('play area');
-            expect(this.lilithal.tokens.damage).toBe(3);
-            expect(this.batdrone.tokens.damage).toBe(undefined);
-            expect(this.shadowSelf.tokens.damage).toBe(6);
+            expect(this.lilithal.damage).toBe(3);
+            expect(this.batdrone.damage).toBe(0);
+            expect(this.shadowSelf.damage).toBe(6);
             expect(this.player1).isReadyToTakeAction();
         });
 
@@ -41,9 +41,9 @@ describe('Phoenix Heart', function () {
             expect(this.bonesaw.location).toBe('play area');
             expect(this.batdrone.location).toBe('discard'); // Shadow Self has already returned to hand and does not protect Batdrone
             expect(this.shadowSelf.location).toBe('hand');
-            expect(this.bumpsy.tokens.damage).toBe(3);
-            expect(this.lilithal.tokens.damage).toBe(3);
-            expect(this.bonesaw.tokens.damage).toBe(3);
+            expect(this.bumpsy.damage).toBe(3);
+            expect(this.lilithal.damage).toBe(3);
+            expect(this.bonesaw.damage).toBe(3);
             expect(this.player2).isReadyToTakeAction();
         });
     });

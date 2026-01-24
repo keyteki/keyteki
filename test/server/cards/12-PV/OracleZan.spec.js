@@ -37,9 +37,9 @@ describe('Oracle Zan', function () {
             expect(this.player1).toBeAbleToSelect(this.fandangle);
 
             this.player1.clickCard(this.troll);
-            expect(this.troll.tokens.damage).toBe(1);
+            expect(this.troll.damage).toBe(1);
             this.player1.clickCard(this.ancientBear);
-            expect(this.ancientBear.tokens.damage).toBe(2);
+            expect(this.ancientBear.damage).toBe(2);
 
             expect(this.player1).isReadyToTakeAction();
         });

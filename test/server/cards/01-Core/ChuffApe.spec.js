@@ -29,7 +29,7 @@ describe('Chuff Ape', function () {
 
             it('after fight, should be able to choose not to sacrifice', function () {
                 this.player1.fightWith(this.chuffApe, this.ancientBear);
-                expect(this.chuffApe.tokens.damage).toBe(5);
+                expect(this.chuffApe.damage).toBe(5);
                 this.player1.clickPrompt('Done');
                 this.player1.endTurn();
             });
@@ -42,14 +42,14 @@ describe('Chuff Ape', function () {
                 expect(this.player1).not.toBeAbleToSelect(this.niffleApe);
                 this.player1.clickCard(this.lamindra);
                 expect(this.lamindra.location).toBe('discard');
-                expect(this.chuffApe.tokens.damage).toBeUndefined();
+                expect(this.chuffApe.damage).toBe(0);
                 this.player1.endTurn();
             });
 
             it('after reap, should be able to choose not to sacrifice', function () {
                 this.chuffApe.tokens.damage = 3;
                 this.player1.reap(this.chuffApe);
-                expect(this.chuffApe.tokens.damage).toBe(3);
+                expect(this.chuffApe.damage).toBe(3);
                 this.player1.clickPrompt('Done');
                 this.player1.endTurn();
             });
@@ -63,7 +63,7 @@ describe('Chuff Ape', function () {
                 expect(this.player1).not.toBeAbleToSelect(this.niffleApe);
                 this.player1.clickCard(this.lamindra);
                 expect(this.lamindra.location).toBe('discard');
-                expect(this.chuffApe.tokens.damage).toBeUndefined();
+                expect(this.chuffApe.damage).toBe(0);
                 this.player1.endTurn();
             });
         });

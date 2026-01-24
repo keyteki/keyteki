@@ -43,9 +43,9 @@ describe('Swallow Whole', function () {
                 this.player1.clickCard(this.krump);
 
                 expect(this.senatorShrix.location).toBe('purged');
-                expect(this.krump.tokens.power).toBe(4);
-                expect(this.gub.tokens.power).toBeUndefined();
-                expect(this.shooler.tokens.power).toBeUndefined();
+                expect(this.krump.powerCounters).toBe(4);
+                expect(this.gub.powerCounters).toBe(0);
+                expect(this.shooler.powerCounters).toBe(0);
             });
 
             describe('there are two creatures with equal highest power', function () {
@@ -71,9 +71,9 @@ describe('Swallow Whole', function () {
                     this.player1.clickCard(this.shooler);
 
                     expect(this.krump.location).toBe('purged');
-                    expect(this.shooler.tokens.power).toBe(7);
-                    expect(this.gub.tokens.power).toBeUndefined();
-                    expect(this.senatorShrix.tokens.power).toBeUndefined();
+                    expect(this.shooler.powerCounters).toBe(7);
+                    expect(this.gub.powerCounters).toBe(0);
+                    expect(this.senatorShrix.powerCounters).toBe(0);
                 });
             });
         });

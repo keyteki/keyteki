@@ -59,7 +59,7 @@ describe('A. Vinda', function () {
 
             this.player1.clickCard(this.aVinda);
 
-            expect(this.aVinda.tokens.damage).toBe(1);
+            expect(this.aVinda.damage).toBe(1);
 
             expect(this.aVinda.location).toBe('play area');
             expect(this.player1.hand.length).toBe(6);

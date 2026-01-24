@@ -23,7 +23,7 @@ describe('Silent Dagger', function () {
             expect(this.player1).not.toBeAbleToSelect(this.lamindra);
             expect(this.player1).toBeAbleToSelect(this.batdrone);
             this.player1.clickCard(this.troll);
-            expect(this.troll.tokens.damage).toBe(4);
+            expect(this.troll.damage).toBe(4);
             expect(this.troll.location).toBe('play area');
             expect(this.player1).isReadyToTakeAction();
         });

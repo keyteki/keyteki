@@ -30,7 +30,7 @@ describe('Talmage Steelheart Evil Twin', function () {
                 expect(this.player1).toBeAbleToSelect(this.lamindra);
                 expect(this.player1).not.toBeAbleToSelect(this.talmageSteelheartEvilTwin);
                 this.player1.clickCard(this.zorg);
-                expect(this.zorg.tokens.damage).toBe(1);
+                expect(this.zorg.damage).toBe(1);
             });
         });
 
@@ -49,7 +49,7 @@ describe('Talmage Steelheart Evil Twin', function () {
                 expect(this.player1).not.toBeAbleToSelect(this.dextre);
                 expect(this.player1).not.toBeAbleToSelect(this.talmageSteelheartEvilTwin);
                 this.player1.clickCard(this.zorg);
-                expect(this.zorg.tokens.damage).toBe(5);
+                expect(this.zorg.damage).toBe(5);
             });
         });
     });

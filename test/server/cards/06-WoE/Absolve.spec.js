@@ -22,7 +22,7 @@ describe('Absolve', function () {
 
             this.player1.play(this.absolve);
 
-            expect(this.troll.tokens.damage).toBe(1);
+            expect(this.troll.damage).toBe(1);
             expect(this.flaxia.hasToken('damage')).toBe(false);
             expect(this.holdfast.hasToken('damage')).toBe(false);
             expect(this.krump.hasToken('damage')).toBe(false);
@@ -57,7 +57,7 @@ describe('Absolve', function () {
             this.player1.clickCard(this.troll);
             this.player1.clickPrompt('Done');
 
-            expect(this.troll.tokens.damage).toBe(1);
+            expect(this.troll.damage).toBe(1);
             expect(this.flaxia.hasToken('damage')).toBe(false);
             expect(this.holdfast.hasToken('damage')).toBe(false);
             expect(this.krump.hasToken('damage')).toBe(false);

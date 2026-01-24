@@ -10,7 +10,7 @@ class CauldronBoil extends Card {
                 target: context.game.cardsInPlay.filter(
                     (card) => card.type === 'creature' && card.hasToken('damage')
                 ),
-                amountForCard: (card) => card.tokens.damage
+                amountForCard: (card) => card.damage
             }))
         });
     }

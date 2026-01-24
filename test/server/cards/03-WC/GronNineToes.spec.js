@@ -17,12 +17,12 @@ describe('Gron Nine Toes', function () {
 
         it('should get a +4 power boost if it has non-lethal damage', function () {
             this.player1.play(this.ballcano);
-            expect(this.gronNineToes.tokens.damage).toBe(4);
+            expect(this.gronNineToes.damage).toBe(4);
             expect(this.gronNineToes.power).toBe(9);
             this.player1.endTurn();
             this.player2.clickPrompt('shadows');
             this.player2.play(this.poisonWave);
-            expect(this.gronNineToes.tokens.damage).toBe(6);
+            expect(this.gronNineToes.damage).toBe(6);
             expect(this.gronNineToes.power).toBe(9);
         });
     });

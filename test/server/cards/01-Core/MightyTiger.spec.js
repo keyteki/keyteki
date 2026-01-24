@@ -20,7 +20,7 @@ describe('Mighty Tiger', function () {
             expect(this.player1).toBeAbleToSelect(this.troll);
             expect(this.player1).toBeAbleToSelect(this.batdrone);
             this.player1.clickCard(this.troll);
-            expect(this.troll.tokens.damage).toBe(4);
+            expect(this.troll.damage).toBe(4);
             expect(this.player1).isReadyToTakeAction();
         });
     });
