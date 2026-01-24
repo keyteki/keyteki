@@ -27,7 +27,7 @@ describe('Mimic Gel', function () {
         });
 
         it('should not allow Mimic Gel to be played if there are no creatures in play', function () {
-            this.player1.useAction(this.keyToDis, true);
+            this.player1.useOmni(this.keyToDis);
             expect(this.batdrone.location).toBe('discard');
             expect(this.panpacaAnga.location).toBe('discard');
             expect(this.flaxia.location).toBe('discard');
@@ -38,7 +38,7 @@ describe('Mimic Gel', function () {
         });
 
         it('should not stop non mimic gel cards from being played', function () {
-            this.player1.useAction(this.keyToDis, true);
+            this.player1.useOmni(this.keyToDis);
             this.player1.clickCard(this.dextre);
 
             expect(this.player1).toHavePromptButton('Play this creature');
@@ -471,7 +471,7 @@ describe('Mimic Gel', function () {
 
         it('MG should lose its gained ability after leaving play', function () {
             this.player1.moveCard(this.mimicGel, 'hand');
-            this.player1.useAction(this.creedOfNurture, true);
+            this.player1.useOmni(this.creedOfNurture);
             this.player1.clickCard(this.mimicGel);
             this.player1.clickCard(this.daughter);
             this.player1.reap(this.daughter);
@@ -509,7 +509,7 @@ describe('Mimic Gel', function () {
 
         it('MG should lose its gained ability after leaving play', function () {
             this.player1.moveCard(this.mimicGel, 'hand');
-            this.player1.useAction(this.creedOfNurture, true);
+            this.player1.useOmni(this.creedOfNurture);
             this.player1.clickCard(this.mimicGel);
             this.player1.clickCard(this.daughter);
             this.player1.clickCard(this.daughter);

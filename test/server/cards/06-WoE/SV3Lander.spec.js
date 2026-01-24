@@ -32,7 +32,7 @@ describe('SV3 Lander', function () {
             this.player1.clickPrompt('staralliance');
             this.player1.clickCard(this.grumpus);
             expect(this.player1).isReadyToTakeAction();
-            this.player1.useAction(this.sv3Lander, true);
+            this.player1.useOmni(this.sv3Lander);
             expect(this.sv3Lander.location).toBe('discard');
             this.player1.reap(this.grumpus);
             this.player1.reap(token2);
