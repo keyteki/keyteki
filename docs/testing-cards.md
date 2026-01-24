@@ -111,6 +111,13 @@ this.setupTest({
 });
 ```
 
+**Flank positioning:** The order of creatures in the `inPlay` array determines their board position. The first creature is on the left flank, and the last creature is on the right flank. When testing flank-related abilities, play creatures to move others off flanks rather than using `moveCard`.
+
+```javascript
+// creature-left is on left flank, creature-right is on right flank, creature-middle is in the middle
+inPlay: ['creature-left', 'creature-middle', 'creature-right']
+```
+
 ### Card State Setup
 
 After `setupTest`, you can modify card state:
@@ -227,6 +234,8 @@ this.player1.play(this.myArtifact);
 this.player1.playUpgrade(this.myUpgrade, this.targetCreature);
 ```
 
+**Note:** Prefer using `playCreature()` for playing creatures, not `play()`. The `playCreature()` method handles card selection and flank positioning prompts with default values, while `play()` requires manually handling these aspects.
+
 ### Using Cards
 
 ```javascript
@@ -239,8 +248,8 @@ this.player1.fightWith(this.myCreature, this.enemyCreature);
 // Use an Action ability (artifact or creature)
 this.player1.useAction(this.myArtifact);
 
-// Use an Omni ability
-this.player1.useAction(this.myCard, true);
+// Use an Omni ability (preferred method)
+this.player1.useOmni(this.myCard);
 
 // Discard a card (scrap)
 this.player1.scrap(this.myCard);
@@ -359,6 +368,9 @@ expect(this.player1.player.keys.yellow).toBe(false);
 
 // Check chains
 expect(this.player1.chains).toBe(3);
+
+// Check current key cost (note: use this.player1.player, not this.player1)
+expect(this.player1.player.getCurrentKeyCost()).toBe(5);
 ```
 
 ### Chat Log Assertions

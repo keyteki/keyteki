@@ -17,12 +17,12 @@ Keyteki is an open-source implementation of the KeyForge card game. KeyForge is 
 
 ### Key Game Concepts
 
-- **Aember (Æ)** - Resource collected to forge keys; 6 aember forges a key by default
-- **Houses** - Each deck contains cards from 3 houses; you choose one house per turn and can only play or use cards from that house
-- **Creatures** - Cards that stay in play; can reap (gain 1 aember) or fight
-- **Artifacts** - Permanents with activated or persistent abilities
-- **Actions** - One-time effect cards that go to discard after playing
-- **Upgrades** - Cards attached to creatures to modify them
+- **Aember (Æ)** - Resource collected to forge keys. Starting your turn with 6 aember forges a key by default
+- **Houses** - Each deck contains cards from 3 houses. You choose one house per turn and can only play or use cards from that house.
+- **Creatures** - Cards that are played into a battleline. Creatures are played exhausted and ready at the end of turn. Ready creatures can reap (gain 1 aember), fight, or use action abilities.
+- **Artifacts** - Permanents with persistent abilities or action abilities.
+- **Actions** - One-time effect cards that go to discard after playing.
+- **Upgrades** - Cards attached to creatures to modify them.
 
 ## Agent Behaviors & Communication
 
@@ -52,6 +52,12 @@ Ask the user before proceeding when:
 - Run tests matching a pattern: `DEBUG_TEST=1 npm test -- --filter='<pattern>'`
   - Using just the filter option is slower than running test files, so prefer using filters in combination with specifying test files.
 
+### Running the Game Server
+
+If you are asked to make and test UI changes, you can run the game server. The easiest way to run the full server is to run `docker-compose up --build` - however it takes several minutes to build the containers. If the server has not been run before you will also need to run the fetchdata scripts - check the docs for instructions.
+
+Instead of building the full server in a container, you can run the databases with `docker-compose up -d redis postgres` and then run the game lobby with `npm run dev` in one terminal, and `npm run dev:gamenode` in another terminal. Nodemon will watch for changes and very quickly restart the server when you make changes - you may need to refresh the browser to properly load the new code.
+
 ## Architecture Overview
 
 ### Core Classes
@@ -61,6 +67,8 @@ Ask the user before proceeding when:
 - **Player** (`server/game/player.js`) - Player state, hand, deck, discard, archives, creatures, artifacts
 - **EffectEngine** (`server/game/effectengine.js`) - Manages persistent effects and their application
 - **GameActions** (`server/game/GameActions/`) - Atomic game actions (deal damage, draw cards, etc.)
+
+When making changes outside of the `cards/` dirs for implementing new game mechanics or adding new functionality to the core game engine, always update the relevant documentation in the `docs/` folder. If you notice gaps, mistakes, or outdated information in the documentation, take the time to update it accordingly.
 
 ### Card Implementation Reference
 
@@ -83,10 +91,10 @@ Card implementations in Keyteki follow a specific pattern where each card's game
 
 ### Card Implementation Files
 
-- Card implementations are located in `server/game/cards/<Set>/<CardName>.js` organized by set
+- Card implementations are located in `server/game/cards/<Set>/<CardName>.js` organized by the first set the card appeared in.
 - Each card is implemented as a JavaScript class extending the base `Card` class
 - The file name should match the card's ID from the JSON data
-  - Example: [BadOmen.js](server/game/cards/PV/BadOmen.js)
+  - Example: [BadOmen.js](server/game/cards/12-PV/BadOmen.js)
 
 ### Card JSON Data
 
@@ -96,22 +104,23 @@ Card implementations in Keyteki follow a specific pattern where each card's game
   - Card name, ID, and number
   - House affiliation
   - Card type and traits
-  - Power, armor, and amber values
-  - Card text and effects
+  - Power, armor, bonus amber, and enhancement values
+  - Card text which defines abilities and effects
+  - Keywords (e.g., taunt, elusive, deploy)
   - Rarity and expansion information
 
 ### Card Implementation Guidelines
 
 - Cards that have already been implemented in previous sets do not need to be re-implemented. When going through the JSON data, only implement cards that do not already have a corresponding implementation from any set.
 - When implementing a new card:
-  - First check the JSON data for the card's description and metadata
+  - First check the JSON data for the card's text and metadata
   - Create a new JavaScript file in the appropriate set directory
   - Use the card's ID from the JSON as the filename
   - Implement the card's game logic according to its text description
 - The card's ID in the implementation must match the ID in the JSON data
 - All card text and effects should be implemented exactly as described in the JSON
 - Always end every file with a newline.
-- Each new card implementation should also include tests as described below.
+- Each new card implementation should also have corresponding tests as described below.
 
 ### Finding Similar Cards
 
@@ -119,20 +128,21 @@ When implementing a new card, search for similar existing implementations:
 
 - Use `grep_search` to find cards with similar abilities (e.g., search "steal", "dealDamage", "destroyed")
 - Check the same set directory for patterns used in that expansion
-- Look at cards from Core set (`CotA/`) for foundational patterns
+- Look at cards from Core set (`01-Core/`) for foundational patterns
 - Search by ability type: `this.play(`, `this.reap(`, `this.persistentEffect(`
 
 ### Testing Cards
 
-- Tests should be added to a new `spec.js` file for the card under `test/server/cards/<Set>/<CardName>.spec.js` that corresponds to the card being tested.
-  - Example: [BadOmen.spec.js](test/server/cards/PV/BadOmen.spec.js).
+- Tests should be added to a new `<CardName>.spec.js` file for the card under `test/server/cards/<Set>/<CardName>.spec.js` that corresponds to the card being tested.
+  - Example: [BadOmen.spec.js](test/server/cards/12-PV/BadOmen.spec.js).
 - New tests should follow the patterns of existing tests, e.g. no imports.
 - Tests should be auto-run after being written, to ensure they pass.
 - If more log data is needed to debug a test, you can set `DEBUG_TEST=1` in the environment before running the test.
 - Test setup in `beforeEach` functions should have a minimal configuration - don't set player aember if its not needed and don't add extra cards that aren't used by tests.
+- When adding cards for tests, be careful that the card's abilities don't interfere with the card being tested. In particular, be aware of elusive, taunt, and abilities that affect neighbors.
 - The end of each test should check that the active player doesn't have any pending prompts, eg `expect(this.player1).isReadyToTakeAction();`
-- Tests should have comments explaining what they are testing or what is being set up.
-- The tests should test only the functionality of the card being implemented, not the metadata provided by the JSON data. For example, tests do not need to check that card's house, type, power, armor, or keywords like "taunt" or "elusive". Tests should focus on the card's unique abilities and effects that are in their text box.
+- Assume that readers of the tests are well versed in the game. Tests only need comments when setting up complex or niche scenarios.
+- The tests should only test the functionality of the card being implemented, not the metadata provided by the JSON data. For example, tests do not need to check the card's house, type, power, armor, traits, or keywords like "taunt" or "elusive", unless the card's ability interacts with those attributes. Tests should focus on the card's unique abilities and effects that are in their text box.
 
 ### Debugging Cards
 
@@ -141,4 +151,4 @@ When implementing a new card, search for similar existing implementations:
 
 ## Resources
 
-- **Archon Arcana** (<https://archonarcana.com>) - Community wiki with rules, glossary, and card rulings. The agent can fetch specific pages when clarification is needed (e.g., `https://archonarcana.com/Capture`, `https://archonarcana.com/Ward`). Individual card pages may also have useful commentary and rulings (e.g., `https://archonarcana.com/Deusillus`).
+- **Archon Arcana** (<https://archonarcana.com>) - Community wiki with rules, glossary, and card rulings. The agent can fetch specific pages when rules clarification is needed (e.g., `https://archonarcana.com/Capture`, `https://archonarcana.com/Ward`). Individual card pages may also have useful commentary and rulings (e.g., `https://archonarcana.com/Deusillus`).
