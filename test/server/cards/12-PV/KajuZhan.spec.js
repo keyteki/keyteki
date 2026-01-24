@@ -21,7 +21,7 @@ describe('Kaju Zhan', function () {
         it('should ignore attacker armor while attacking', function () {
             this.player1.playUpgrade(this.blastShielding, this.kajuZhan);
             this.player1.fightWith(this.kajuZhan, this.groupthinkTank);
-            expect(this.kajuZhan.tokens.damage).toBe(4);
+            expect(this.kajuZhan.damage).toBe(4);
         });
 
         it('should ignore taunt while attacking', function () {

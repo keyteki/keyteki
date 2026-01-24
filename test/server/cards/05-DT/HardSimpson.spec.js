@@ -21,7 +21,7 @@ describe("Hard Simpson's ability", function () {
 
         it('should steal 1 amber when attacking', function () {
             this.player1.fightWith(this.hardSimpson, this.shooler);
-            expect(this.hardSimpson.tokens.damage).toBe(1);
+            expect(this.hardSimpson.damage).toBe(1);
             expect(this.player1.amber).toBe(5);
             expect(this.player2.amber).toBe(2);
             expect(this.player1).isReadyToTakeAction();
@@ -69,7 +69,7 @@ describe("Hard Simpson's ability", function () {
 
             it('should steal 1 amber when attacking', function () {
                 this.player1.fightWith(this.hardSimpson, this.shooler);
-                expect(this.hardSimpson.tokens.damage).toBe(1);
+                expect(this.hardSimpson.damage).toBe(1);
                 expect(this.player1.amber).toBe(5);
                 expect(this.player2.amber).toBe(2);
                 expect(this.player1).isReadyToTakeAction();
@@ -83,7 +83,7 @@ describe("Hard Simpson's ability", function () {
 
             it('opponent should steal 1 amber', function () {
                 this.player1.fightWith(this.hardSimpson, this.shooler);
-                expect(this.hardSimpson.tokens.damage).toBe(1);
+                expect(this.hardSimpson.damage).toBe(1);
                 expect(this.player1.amber).toBe(3);
                 expect(this.player2.amber).toBe(4);
                 expect(this.player1).isReadyToTakeAction();

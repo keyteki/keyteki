@@ -23,11 +23,11 @@ describe('Loot the Bodies', function () {
             this.player1.play(this.lootTheBodies);
             expect(this.player1.amber).toBe(0);
             this.player1.fightWith(this.troll, this.ganymedeArchivist);
-            expect(this.troll.tokens.damage).toBe(3);
+            expect(this.troll.damage).toBe(3);
             expect(this.ganymedeArchivist.location).toBe('discard');
             expect(this.player1.amber).toBe(1);
             this.player1.play(this.hebeTheHuge);
-            expect(this.docBookton.tokens.damage).toBe(2);
+            expect(this.docBookton.damage).toBe(2);
             expect(this.batdrone.location).toBe('discard');
             expect(this.inkaTheSpider.location).toBe('discard');
             this.player1.clickPrompt('Loot the Bodies');
@@ -56,7 +56,7 @@ describe('Loot the Bodies', function () {
             this.player1.play(this.lootTheBodies2);
             expect(this.player1.amber).toBe(0);
             this.player1.fightWith(this.troll, this.ganymedeArchivist);
-            expect(this.troll.tokens.damage).toBe(3);
+            expect(this.troll.damage).toBe(3);
             expect(this.ganymedeArchivist.location).toBe('discard');
             this.player1.clickPrompt('Loot the Bodies');
             expect(this.player1.amber).toBe(2);

@@ -22,10 +22,10 @@ describe('Cirrus Mace', function () {
             expect(this.player1).toBeAbleToSelect(this.nexus);
             this.player1.clickCard(this.troll);
             expect(this.troll.power).toBe(10);
-            expect(this.troll.tokens.damage).toBe(undefined);
-            expect(this.alaka.tokens.damage).toBe(2);
+            expect(this.troll.damage).toBe(0);
+            expect(this.alaka.damage).toBe(2);
             expect(this.dewFaerie.location).toBe('discard');
-            expect(this.nexus.tokens.damage).toBe(undefined);
+            expect(this.nexus.damage).toBe(0);
             expect(this.player1).isReadyToTakeAction();
         });
 

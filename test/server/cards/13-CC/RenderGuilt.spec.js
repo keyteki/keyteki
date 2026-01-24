@@ -32,7 +32,7 @@ describe('Render Guilt', function () {
             expect(this.player1).toBeAbleToSelect(this.silvertooth);
 
             this.player1.clickCard(this.silvertooth);
-            expect(this.silvertooth.tokens.damage).toBe(1);
+            expect(this.silvertooth.damage).toBe(1);
             expect(this.player1).isReadyToTakeAction();
         });
 
@@ -51,8 +51,8 @@ describe('Render Guilt', function () {
             this.player1.clickCard(this.troll);
 
             expect(this.dustPixie.location).toBe('discard');
-            expect(this.silvertooth.tokens.damage).toBe(1);
-            expect(this.troll.tokens.damage).toBe(1);
+            expect(this.silvertooth.damage).toBe(1);
+            expect(this.troll.damage).toBe(1);
             expect(this.player1).isReadyToTakeAction();
         });
 

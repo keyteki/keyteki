@@ -125,7 +125,7 @@ describe('Adaptoid', function () {
             expect(this.adaptoid.armor).toBe(4);
             this.player1.fightWith(this.adaptoid, this.brainEater);
             expect(this.brainEater.location).toBe('discard');
-            expect(this.adaptoid.tokens.damage).toBe(2);
+            expect(this.adaptoid.damage).toBe(2);
             expect(this.player1.amber).toBe(5);
             expect(this.player2.amber).toBe(3);
             expect(this.player1).isReadyToTakeAction();

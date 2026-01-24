@@ -41,9 +41,9 @@ describe('Thundertow', function () {
             });
 
             it('should deal 2D to each exhausted creature', function () {
-                expect(this.narp.tokens.damage).toBe(1);
-                expect(this.troll.tokens.damage).toBe(2);
-                expect(this.hookmaster.tokens.damage).toBe(1);
+                expect(this.narp.damage).toBe(1);
+                expect(this.troll.damage).toBe(2);
+                expect(this.hookmaster.damage).toBe(1);
             });
         });
     });

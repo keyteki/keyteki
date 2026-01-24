@@ -26,7 +26,7 @@ describe('Echo Guardian', function () {
             expect(this.echoGuardian.hasKeyword('poison')).toBe(true);
             this.player1.fightWith(this.echoGuardian, this.sinder);
             expect(this.sinder.location).toBe('discard');
-            expect(this.echoGuardian.tokens.damage).toBe(2);
+            expect(this.echoGuardian.damage).toBe(2);
             expect(this.echoGuardian.location).toBe('play area');
             expect(this.player1).isReadyToTakeAction();
         });

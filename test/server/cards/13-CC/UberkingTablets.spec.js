@@ -45,7 +45,7 @@ describe('Überking Tablets', function () {
             it('should ready and deal damage to selected creature', function () {
                 this.player1.clickCard(this.brammo);
                 expect(this.brammo.exhausted).toBe(false);
-                expect(this.brammo.tokens.damage).toBe(1); // armor
+                expect(this.brammo.damage).toBe(1); // armor
                 expect(this.player1).isReadyToTakeAction();
             });
         });
@@ -66,14 +66,14 @@ describe('Überking Tablets', function () {
             it('should exhaust and deal damage to selected creature', function () {
                 this.player1.clickCard(this.brammo);
                 expect(this.brammo.exhausted).toBe(true);
-                expect(this.brammo.tokens.damage).toBe(1); // armor
+                expect(this.brammo.damage).toBe(1); // armor
             });
 
             it('should not exhaust and deal damage to already exhausted creature', function () {
                 this.brammo.exhausted = true;
                 this.player1.clickCard(this.brammo);
                 expect(this.brammo.exhausted).toBe(true);
-                expect(this.brammo.tokens.damage).toBeUndefined();
+                expect(this.brammo.damage).toBe(0);
             });
         });
     });

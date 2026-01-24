@@ -26,14 +26,14 @@ describe('Contract Execution', function () {
             expect(this.player1).toBeAbleToSelect(this.troll);
             expect(this.player1).toBeAbleToSelect(this.flaxia);
             this.player1.clickCard(this.troll);
-            expect(this.troll.tokens.damage).toBe(2);
+            expect(this.troll.damage).toBe(2);
 
             this.player1.play(this.ornateTalkingTray);
             expect(this.player1).isReadyToTakeAction();
 
             this.player1.playCreature(this.theOldTinker);
             this.player1.clickCard(this.gemcoatVendor);
-            expect(this.gemcoatVendor.tokens.damage).toBe(2);
+            expect(this.gemcoatVendor.damage).toBe(2);
             expect(this.player1).isReadyToTakeAction();
         });
     });

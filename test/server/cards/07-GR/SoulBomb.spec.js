@@ -18,11 +18,11 @@ describe('Soul Bomb', function () {
 
         it('does nothing if not haunted', function () {
             this.player1.useAction(this.soulBomb, true);
-            expect(this.troll.tokens.damage).toBe(undefined);
-            expect(this.cpoZytar.tokens.damage).toBe(undefined);
+            expect(this.troll.damage).toBe(0);
+            expect(this.cpoZytar.damage).toBe(0);
             expect(this.flaxia.location).toBe('play area');
-            expect(this.flaxia.tokens.damage).toBe(undefined);
-            expect(this.mollymawk.tokens.damage).toBe(undefined);
+            expect(this.flaxia.damage).toBe(0);
+            expect(this.mollymawk.damage).toBe(0);
             expect(this.soulBomb.location).toBe('discard');
             expect(this.player1).isReadyToTakeAction();
         });
@@ -30,10 +30,10 @@ describe('Soul Bomb', function () {
         it('deals 4 damage to each creature if haunted', function () {
             this.player1.play(this.pressGang);
             this.player1.useAction(this.soulBomb, true);
-            expect(this.troll.tokens.damage).toBe(4);
-            expect(this.cpoZytar.tokens.damage).toBe(3);
+            expect(this.troll.damage).toBe(4);
+            expect(this.cpoZytar.damage).toBe(3);
             expect(this.flaxia.location).toBe('discard');
-            expect(this.mollymawk.tokens.damage).toBe(4);
+            expect(this.mollymawk.damage).toBe(4);
             expect(this.soulBomb.location).toBe('discard');
             expect(this.player1).isReadyToTakeAction();
         });

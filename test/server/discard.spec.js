@@ -25,8 +25,8 @@ describe('Discard', function () {
             expect(this.player1).not.toBeAbleToSelect(this.openTheSeal);
             this.player1.clickCard(this.boiler);
             expect(this.boiler.location).toBe('discard');
-            expect(this.thingFromTheDeep.tokens.damage).toBe(1);
-            expect(this.echofly.tokens.damage).toBeUndefined();
+            expect(this.thingFromTheDeep.damage).toBe(1);
+            expect(this.echofly.damage).toBe(0);
         });
     });
 });

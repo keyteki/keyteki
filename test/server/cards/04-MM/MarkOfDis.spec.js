@@ -40,7 +40,7 @@ describe('Mark of Dis', function () {
         it('if own creature is not destroyed, should restrict house choice', function () {
             this.player1.play(this.markOfDis);
             this.player1.clickCard(this.dodger);
-            expect(this.dodger.tokens.damage).toBe(2);
+            expect(this.dodger.damage).toBe(2);
 
             this.player1.endTurn();
             this.player2.clickPrompt('shadows');
@@ -55,8 +55,8 @@ describe('Mark of Dis', function () {
             this.player1.clickCard(this.sneklifter);
 
             expect(this.sneklifter.location).toBe('play area');
-            expect(this.sneklifter.tokens.damage).toBeUndefined();
-            expect(this.shadowSelf.tokens.damage).toBe(2);
+            expect(this.sneklifter.damage).toBe(0);
+            expect(this.shadowSelf.damage).toBe(2);
 
             this.player1.endTurn();
             expect(this.player2).not.toHavePromptButton('dis');

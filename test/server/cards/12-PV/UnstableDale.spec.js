@@ -25,10 +25,10 @@ describe('Unstable Dale', function () {
             this.unstableDale.exhausted = false;
             this.player1.reap(this.unstableDale);
             expect(this.unstableDale.location).toBe('discard');
-            expect(this.flaxia.tokens.damage).toBe(3);
+            expect(this.flaxia.damage).toBe(3);
             expect(this.emberImp.location).toBe('discard');
-            expect(this.troll.tokens.damage).toBe(3);
-            expect(this.krump.tokens.damage).toBe(3);
+            expect(this.troll.damage).toBe(3);
+            expect(this.krump.damage).toBe(3);
             expect(this.player1).isReadyToTakeAction();
         });
 
@@ -37,10 +37,10 @@ describe('Unstable Dale', function () {
             this.player1.endTurn();
             this.player2.clickPrompt('brobnar');
             this.player2.reap(this.krump);
-            expect(this.flaxia.tokens.damage).toBeUndefined();
-            expect(this.emberImp.tokens.damage).toBeUndefined();
-            expect(this.troll.tokens.damage).toBe(3);
-            expect(this.krump.tokens.damage).toBe(3);
+            expect(this.flaxia.damage).toBe(0);
+            expect(this.emberImp.damage).toBe(0);
+            expect(this.troll.damage).toBe(3);
+            expect(this.krump.damage).toBe(3);
             expect(this.unstableDale.location).toBe('discard');
             expect(this.player2).isReadyToTakeAction();
         });

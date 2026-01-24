@@ -29,7 +29,7 @@ describe('Scooped', function () {
             this.player1.clickCard(this.tantadlin);
             expect(this.player1.amber).toBe(2);
             expect(this.player2.amber).toBe(2);
-            expect(this.tantadlin.tokens.damage).toBe(2);
+            expect(this.tantadlin.damage).toBe(2);
             expect(this.tantadlin.tokens.amber).toBe(1);
         });
 
@@ -46,7 +46,7 @@ describe('Scooped', function () {
             this.player1.clickCard(this.troll);
             expect(this.player1.amber).toBe(3);
             expect(this.player2.amber).toBe(1);
-            expect(this.troll.tokens.damage).toBe(2);
+            expect(this.troll.damage).toBe(2);
             expect(this.troll.tokens.amber).toBe(1);
         });
 
@@ -56,7 +56,7 @@ describe('Scooped', function () {
             this.player1.clickCard(this.lamindra);
             expect(this.player1.amber).toBe(3);
             expect(this.player2.amber).toBe(1);
-            expect(this.lamindra.tokens.damage).toBeUndefined();
+            expect(this.lamindra.damage).toBe(0);
             expect(this.lamindra.location).toBe('play area');
             expect(this.lamindra.tokens.amber).toBe(1);
         });

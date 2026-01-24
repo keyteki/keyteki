@@ -23,7 +23,7 @@ describe('Anger', function () {
             this.player1.clickCard(this.huntingWitch);
             expect(this.troll.exhausted).toBe(true);
             expect(this.troll.location).toBe('play area');
-            expect(this.troll.tokens.damage).toBe(6);
+            expect(this.troll.damage).toBe(6);
             expect(this.huntingWitch.location).toBe('discard');
         });
 
@@ -48,7 +48,7 @@ describe('Anger', function () {
             expect(this.player1.amber).toBe(0);
             this.player1.reap(this.troll);
             expect(this.troll.exhausted).toBe(true);
-            expect(this.troll.tokens.damage).toBe(1);
+            expect(this.troll.damage).toBe(1);
             expect(this.player1.amber).toBe(1);
             this.player1.play(this.anger);
             expect(this.player1).toHavePrompt('Anger');

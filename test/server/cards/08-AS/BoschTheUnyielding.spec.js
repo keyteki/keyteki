@@ -16,9 +16,9 @@ describe('Bosch the Unyielding', function () {
         it('heals after fighting', function () {
             this.player1.fightWith(this.boschTheUnyielding, this.flaxia);
             expect(this.flaxia.location).toBe('discard');
-            expect(this.boschTheUnyielding.tokens.damage).toBe(undefined);
+            expect(this.boschTheUnyielding.damage).toBe(0);
             expect(this.boschTheUnyielding.location).toBe('play area');
-            expect(this.alaka.tokens.damage).toBe(1);
+            expect(this.alaka.damage).toBe(1);
             expect(this.player1).isReadyToTakeAction();
         });
 
@@ -26,9 +26,9 @@ describe('Bosch the Unyielding', function () {
             this.boschTheUnyielding.tokens.damage = 1;
             this.player1.fightWith(this.boschTheUnyielding, this.flaxia);
             expect(this.flaxia.location).toBe('discard');
-            expect(this.boschTheUnyielding.tokens.damage).toBe(undefined);
+            expect(this.boschTheUnyielding.damage).toBe(0);
             expect(this.boschTheUnyielding.location).toBe('play area');
-            expect(this.alaka.tokens.damage).toBe(1);
+            expect(this.alaka.damage).toBe(1);
             expect(this.player1).isReadyToTakeAction();
         });
 
@@ -36,7 +36,7 @@ describe('Bosch the Unyielding', function () {
             this.player1.fightWith(this.boschTheUnyielding, this.troll);
             expect(this.troll.location).toBe('play area');
             expect(this.boschTheUnyielding.location).toBe('discard');
-            expect(this.alaka.tokens.damage).toBe(1);
+            expect(this.alaka.damage).toBe(1);
             expect(this.player1).isReadyToTakeAction();
         });
     });

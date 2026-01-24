@@ -18,10 +18,10 @@ describe('Cauldron Boil', function () {
         });
         it('should deal a damage to each enemy unit for each existing damage they have', function () {
             this.player1.play(this.cauldronBoil);
-            expect(this.dextre.tokens.damage).toBe(2);
+            expect(this.dextre.damage).toBe(2);
             expect(this.mother.hasToken('damage')).toBe(false);
-            expect(this.sequis.tokens.damage).toBe(1);
-            expect(this.brainEater.tokens.damage).toBe(4);
+            expect(this.sequis.damage).toBe(1);
+            expect(this.brainEater.damage).toBe(4);
         });
     });
 });

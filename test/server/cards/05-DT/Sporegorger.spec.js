@@ -43,9 +43,9 @@ describe('Sporegorger', function () {
         it('should deal damage to all other creatures when reaping and removing all tokens', function () {
             this.player1.reap(this.sporegorger);
             this.player1.clickPrompt('Yes');
-            expect(this.sporegorger.tokens.damage).toBeUndefined();
-            expect(this.mother.tokens.damage).toBe(1);
-            expect(this.krump.tokens.damage).toBe(1);
+            expect(this.sporegorger.damage).toBe(0);
+            expect(this.mother.damage).toBe(1);
+            expect(this.krump.damage).toBe(1);
             expect(this.urchin.location).toBe('discard');
         });
 
@@ -59,9 +59,9 @@ describe('Sporegorger', function () {
             this.player1.reap(this.sporegorger);
             this.player1.clickPrompt('Yes');
             expect(this.sporegorger.tokens.power).toBeUndefined();
-            expect(this.sporegorger.tokens.damage).toBeUndefined();
-            expect(this.mother.tokens.damage).toBe(2);
-            expect(this.krump.tokens.damage).toBe(2);
+            expect(this.sporegorger.damage).toBe(0);
+            expect(this.mother.damage).toBe(2);
+            expect(this.krump.damage).toBe(2);
             expect(this.urchin.location).toBe('discard');
         });
     });

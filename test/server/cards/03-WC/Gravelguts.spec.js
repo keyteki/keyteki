@@ -17,7 +17,7 @@ describe('Gravelguts', function () {
         it('should gain 2 +1 power counters when it destroys a creature in a fight', function () {
             this.player1.fightWith(this.gravelguts, this.silvertooth);
             expect(this.silvertooth.location).toBe('discard');
-            expect(this.gravelguts.tokens.damage).toBe(2);
+            expect(this.gravelguts.damage).toBe(2);
             expect(this.gravelguts.tokens.power).toBe(2);
         });
 
@@ -26,7 +26,7 @@ describe('Gravelguts', function () {
             this.player2.clickPrompt('shadows');
             this.player2.fightWith(this.silvertooth, this.gravelguts);
             expect(this.silvertooth.location).toBe('discard');
-            expect(this.gravelguts.tokens.damage).toBe(2);
+            expect(this.gravelguts.damage).toBe(2);
             expect(this.gravelguts.tokens.power).toBe(2);
         });
     });

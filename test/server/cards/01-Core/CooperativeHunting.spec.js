@@ -32,8 +32,8 @@ describe('Cooperative Hunting', function () {
             expect(this.troll.hasToken('damage')).toBe(false);
             expect(this.troll.location).toBe('play area');
             this.player1.clickCard(this.mightyTiger);
-            expect(this.mightyTiger.tokens.damage).toBe(1);
-            expect(this.troll.tokens.damage).toBe(1);
+            expect(this.mightyTiger.damage).toBe(1);
+            expect(this.troll.damage).toBe(1);
             expect(this.troll.location).toBe('play area');
             expect(this.mightyTiger.location).toBe('play area');
             expect(this.inkaTheSpider.location).toBe('discard');

@@ -38,7 +38,7 @@ describe('Witch Queen', function () {
             this.player1.endTurn();
             this.player2.clickPrompt('brobnar');
             this.player2.fightWith(this.troll, this.dharna);
-            expect(this.troll.tokens.damage).toBe(undefined);
+            expect(this.troll.damage).toBe(0);
             expect(this.dharna.location).toBe('play area');
         });
 
@@ -47,7 +47,7 @@ describe('Witch Queen', function () {
             this.player1.endTurn();
             this.player2.clickPrompt('brobnar');
             this.player2.fightWith(this.troll, this.dharna);
-            expect(this.troll.tokens.damage).toBe(2);
+            expect(this.troll.damage).toBe(2);
             expect(this.dharna.location).toBe('discard');
         });
 
@@ -57,14 +57,14 @@ describe('Witch Queen', function () {
             this.player1.fightWith(this.dharna, this.troll);
             expect(this.troll.location).toBe('discard');
             expect(this.dharna.location).toBe('play area');
-            expect(this.dharna.tokens.damage).toBe(undefined);
+            expect(this.dharna.damage).toBe(0);
         });
 
         it('does not grant skirmish and poison while not in center', function () {
             this.player1.playCreature(this.witchQueen);
             this.player1.fightWith(this.dharna, this.troll);
             expect(this.troll.location).toBe('play area');
-            expect(this.troll.tokens.damage).toBe(2);
+            expect(this.troll.damage).toBe(2);
             expect(this.dharna.location).toBe('discard');
         });
 

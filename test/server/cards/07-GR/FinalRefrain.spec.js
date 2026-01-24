@@ -85,17 +85,17 @@ describe('Final Refrain', function () {
             expect(this.player1).not.toBeAbleToSelect(this.timetraveller);
 
             this.player1.clickCard(this.thingFromTheDeep);
-            expect(this.thingFromTheDeep.tokens.damage).toBe(8);
+            expect(this.thingFromTheDeep.damage).toBe(8);
             expect(this.troll.location).toBe('discard');
 
             this.player1.clickCard(this.medicIngram);
             this.player1.clickCard(this.thingFromTheDeep);
-            expect(this.thingFromTheDeep.tokens.damage).toBe(11);
+            expect(this.thingFromTheDeep.damage).toBe(11);
             expect(this.medicIngram.location).toBe('discard');
 
             this.player1.clickCard(this.helmsmanSpears);
             this.player1.clickCard(this.thingFromTheDeep);
-            expect(this.thingFromTheDeep.tokens.damage).toBe(13);
+            expect(this.thingFromTheDeep.damage).toBe(13);
             expect(this.helmsmanSpears.location).toBe('discard');
 
             expect(this.player1).isReadyToTakeAction();

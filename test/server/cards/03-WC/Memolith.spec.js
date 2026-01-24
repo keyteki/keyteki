@@ -62,9 +62,9 @@ describe('Memolith', function () {
             this.player1.clickCard(this.pound);
             expect(this.player1).toHavePrompt('Choose a creature');
             this.player1.clickCard(this.tantadlin);
-            expect(this.tantadlin.tokens.damage).toBe(2);
-            expect(this.bigtwig.tokens.damage).toBe(1);
-            expect(this.flaxia.tokens.damage).toBe(1);
+            expect(this.tantadlin.damage).toBe(2);
+            expect(this.bigtwig.damage).toBe(1);
+            expect(this.flaxia.damage).toBe(1);
             expect(this.player1).isReadyToTakeAction();
         });
 
@@ -79,9 +79,9 @@ describe('Memolith', function () {
             this.player1.clickCard(this.pound);
             expect(this.player1).toHavePrompt('Choose a creature');
             this.player1.clickCard(this.tantadlin);
-            expect(this.tantadlin.tokens.damage).toBe(2);
-            expect(this.bigtwig.tokens.damage).toBe(1);
-            expect(this.flaxia.tokens.damage).toBe(1);
+            expect(this.tantadlin.damage).toBe(2);
+            expect(this.bigtwig.damage).toBe(1);
+            expect(this.flaxia.damage).toBe(1);
             expect(this.player1).isReadyToTakeAction();
         });
 
@@ -99,9 +99,9 @@ describe('Memolith', function () {
             this.player1.clickCard(this.pound);
             expect(this.player1).toHavePrompt('Choose a creature');
             this.player1.clickCard(this.tantadlin);
-            expect(this.tantadlin.tokens.damage).toBe(2);
-            expect(this.bigtwig.tokens.damage).toBe(1);
-            expect(this.flaxia.tokens.damage).toBe(1);
+            expect(this.tantadlin.damage).toBe(2);
+            expect(this.bigtwig.damage).toBe(1);
+            expect(this.flaxia.damage).toBe(1);
             expect(this.player1).isReadyToTakeAction();
         });
     });
@@ -165,7 +165,7 @@ describe('Memolith', function () {
             expect(this.player1).not.toBeAbleToSelect(this.anger);
             this.player1.clickCard(this.pound);
             this.player1.clickCard(this.troll);
-            expect(this.troll.tokens.damage).toBe(2);
+            expect(this.troll.damage).toBe(2);
             expect(this.player1).isReadyToTakeAction();
         });
     });

@@ -36,9 +36,9 @@ describe('Envoy of Ekwirrĕ', function () {
 
             // Tokens have swapped.
             expect(this.troll.tokens.amber).toBe(2);
-            expect(this.troll.tokens.damage).toBe(1);
+            expect(this.troll.damage).toBe(1);
             expect(this.envoyOfEkwirrĕ.tokens.amber).toBe(5);
-            expect(this.envoyOfEkwirrĕ.tokens.damage).toBe(3);
+            expect(this.envoyOfEkwirrĕ.damage).toBe(3);
         });
 
         it('should kill the swapped creature if there is too much damage', function () {
@@ -52,7 +52,7 @@ describe('Envoy of Ekwirrĕ', function () {
 
             expect(this.envoyOfEkwirrĕ.location).toBe('discard');
             expect(this.troll.tokens.amber).toBe(2);
-            expect(this.troll.tokens.damage).toBe(1);
+            expect(this.troll.damage).toBe(1);
             expect(this.player2.amber).toBe(6);
         });
 

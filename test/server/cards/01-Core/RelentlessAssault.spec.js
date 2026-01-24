@@ -26,16 +26,16 @@ describe('Relentless Assault', function () {
             this.player1.clickCard(this.mother);
             this.player1.clickCard(this.zorg);
             expect(this.bumpsy.location).toBe('play area');
-            expect(this.bumpsy.tokens.damage).toBe(2);
+            expect(this.bumpsy.damage).toBe(2);
             expect(this.bumpsy.exhausted).toBe(true);
             expect(this.troll.location).toBe('play area');
-            expect(this.troll.tokens.damage).toBe(5);
+            expect(this.troll.damage).toBe(5);
             expect(this.troll.exhausted).toBe(true);
             expect(this.gangerChieftain.location).toBe('discard');
             expect(this.batdrone.location).toBe('discard');
             expect(this.mother.location).toBe('discard');
             expect(this.zorg.location).toBe('play area');
-            expect(this.zorg.tokens.damage).toBe(5);
+            expect(this.zorg.damage).toBe(5);
             expect(this.player1).isReadyToTakeAction();
         });
 

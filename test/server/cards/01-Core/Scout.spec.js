@@ -20,10 +20,10 @@ describe('Scout', function () {
             this.player1.clickPrompt('Done');
             this.player1.clickCard(this.sequis);
             this.player1.clickCard(this.bulwark);
-            expect(this.krump.tokens.damage).toBe(undefined);
-            expect(this.bumpsy.tokens.damage).toBe(undefined);
-            expect(this.sequis.tokens.damage).toBe(2);
-            expect(this.bulwark.tokens.damage).toBe(3);
+            expect(this.krump.damage).toBe(0);
+            expect(this.bumpsy.damage).toBe(0);
+            expect(this.sequis.damage).toBe(2);
+            expect(this.bulwark.damage).toBe(3);
             expect(this.player1).isReadyToTakeAction();
         });
 
@@ -33,10 +33,10 @@ describe('Scout', function () {
             this.player1.clickPrompt('Done');
             this.player1.clickCard(this.sequis);
 
-            expect(this.bumpsy.tokens.damage).toBe(undefined);
-            expect(this.krump.tokens.damage).toBe(undefined);
-            expect(this.sequis.tokens.damage).toBe(2);
-            expect(this.bulwark.tokens.damage).toBe(undefined);
+            expect(this.bumpsy.damage).toBe(0);
+            expect(this.krump.damage).toBe(0);
+            expect(this.sequis.damage).toBe(2);
+            expect(this.bulwark.damage).toBe(0);
             expect(this.player1).isReadyToTakeAction();
         });
 
@@ -47,10 +47,10 @@ describe('Scout', function () {
             this.player1.clickCard(this.krump);
             this.player1.clickPrompt('Done');
             this.player1.clickCard(this.sequis);
-            expect(this.bumpsy.tokens.damage).toBe(undefined);
-            expect(this.krump.tokens.damage).toBe(undefined);
-            expect(this.sequis.tokens.damage).toBe(1);
-            expect(this.bulwark.tokens.damage).toBe(undefined);
+            expect(this.bumpsy.damage).toBe(0);
+            expect(this.krump.damage).toBe(0);
+            expect(this.sequis.damage).toBe(1);
+            expect(this.bulwark.damage).toBe(0);
             expect(this.player1).isReadyToTakeAction();
         });
     });

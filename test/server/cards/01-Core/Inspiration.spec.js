@@ -25,7 +25,7 @@ describe('Inspiration', function () {
             this.player1.clickCard(this.huntingWitch);
             expect(this.championAnaphiel.exhausted).toBe(true);
             expect(this.championAnaphiel.location).toBe('play area');
-            expect(this.championAnaphiel.tokens.damage).toBe(4);
+            expect(this.championAnaphiel.damage).toBe(4);
             expect(this.huntingWitch.location).toBe('discard');
         });
 

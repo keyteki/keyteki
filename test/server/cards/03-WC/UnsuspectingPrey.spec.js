@@ -34,8 +34,8 @@ describe('Unsuspecting Prey', function () {
             this.player1.clickCard(this.snufflegator);
             this.player1.clickPrompt('Done');
             expect(this.dustImp.location).toBe('discard');
-            expect(this.snudge.tokens.damage).toBe(2);
-            expect(this.snufflegator.tokens.damage).toBe(2);
+            expect(this.snudge.damage).toBe(2);
+            expect(this.snufflegator.damage).toBe(2);
             expect(this.player1).isReadyToTakeAction();
         });
         it('should only allow player to choose undamaged creatures', function () {

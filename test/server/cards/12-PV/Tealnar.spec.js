@@ -29,10 +29,10 @@ describe('Tealnar', function () {
             this.tealnar.tokens.damage = 1;
             this.troll.tokens.damage = 1;
             this.player1.fightWith(this.bulwark, this.culfTheQuiet);
-            expect(this.searine.tokens.damage).toBeUndefined();
-            expect(this.tealnar.tokens.damage).toBe(1);
-            expect(this.troll.tokens.damage).toBe(1);
-            expect(this.culfTheQuiet.tokens.damage).toBeUndefined();
+            expect(this.searine.damage).toBe(0);
+            expect(this.tealnar.damage).toBe(1);
+            expect(this.troll.damage).toBe(1);
+            expect(this.culfTheQuiet.damage).toBe(0);
             expect(this.player1).isReadyToTakeAction();
         });
 
@@ -43,8 +43,8 @@ describe('Tealnar', function () {
             this.player1.endTurn();
             this.player2.clickPrompt('brobnar');
             this.player2.reap(this.culfTheQuiet);
-            expect(this.searine.tokens.damage).toBeUndefined();
-            expect(this.troll.tokens.damage).toBeUndefined();
+            expect(this.searine.damage).toBe(0);
+            expect(this.troll.damage).toBe(0);
             expect(this.player1.amber).toBe(4);
             expect(this.player2.amber).toBe(5);
             expect(this.tealnar.location).toBe('discard');

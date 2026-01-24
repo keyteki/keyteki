@@ -21,7 +21,7 @@ describe('Red Planet Ray Gun', function () {
             expect(this.player1).toBeAbleToSelect(this.bumpsy);
             expect(this.player1).toBeAbleToSelect(this.yxiliMarauder);
             this.player1.clickCard(this.bumpsy);
-            expect(this.bumpsy.tokens.damage).toBe(3);
+            expect(this.bumpsy.damage).toBe(3);
             expect(this.player1).isReadyToTakeAction();
         });
     });

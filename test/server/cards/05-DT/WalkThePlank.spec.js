@@ -46,7 +46,7 @@ describe('Walk the Plank', function () {
                 });
 
                 it('should deal 4D and not steal', function () {
-                    expect(this.eunoia.tokens.damage).toBe(4);
+                    expect(this.eunoia.damage).toBe(4);
                     expect(this.player1.amber).toBe(1);
                     expect(this.player2.amber).toBe(0);
                     this.player1.endTurn();

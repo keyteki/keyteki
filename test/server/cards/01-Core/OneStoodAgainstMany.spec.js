@@ -82,7 +82,7 @@ describe('One Stood Against Many', function () {
             expect(this.player1).toBeAbleToSelect(this.huntingWitch);
             this.player1.clickCard(this.huntingWitch);
             expect(this.bulwark.exhausted).toBe(false);
-            expect(this.bulwark.tokens.damage).toBeUndefined();
+            expect(this.bulwark.damage).toBe(0);
             expect(this.bulwark.tokens.armor).toBeUndefined();
             expect(this.huntingWitch.location).toBe('discard');
             expect(this.player1).isReadyToTakeAction();
@@ -118,7 +118,7 @@ describe('One Stood Against Many', function () {
             this.player1.clickCard(this.huntingWitch);
 
             expect(this.bulwark.tokens.armor).toBeUndefined();
-            expect(this.bulwark.tokens.damage).toBeUndefined();
+            expect(this.bulwark.damage).toBe(0);
             expect(this.huntingWitch.location).toBe('discard');
 
             expect(this.player1).not.toBeAbleToSelect(this.bulwark);
@@ -128,7 +128,7 @@ describe('One Stood Against Many', function () {
             this.player1.clickCard(this.niffleApe);
 
             expect(this.bulwark.exhausted).toBe(false);
-            expect(this.bulwark.tokens.damage).toBe(3);
+            expect(this.bulwark.damage).toBe(3);
             expect(this.niffleApe.location).toBe('discard');
             expect(this.player1).isReadyToTakeAction();
         });
@@ -167,7 +167,7 @@ describe('One Stood Against Many', function () {
             this.player1.clickCard(this.huntingWitch);
 
             expect(this.troll.tokens.armor).toBeUndefined();
-            expect(this.troll.tokens.damage).toBeUndefined();
+            expect(this.troll.damage).toBe(0);
             expect(this.huntingWitch.location).toBe('discard');
 
             expect(this.player1).not.toBeAbleToSelect(this.bulwark);
@@ -178,7 +178,7 @@ describe('One Stood Against Many', function () {
             expect(this.player1).toBeAbleToSelect(this.glimmer);
             this.player1.clickCard(this.niffleApe);
 
-            expect(this.troll.tokens.damage).toBe(3);
+            expect(this.troll.damage).toBe(3);
             expect(this.niffleApe.location).toBe('discard');
 
             expect(this.player1).not.toBeAbleToSelect(this.bulwark);
@@ -190,7 +190,7 @@ describe('One Stood Against Many', function () {
             this.player1.clickCard(this.bumblebird);
 
             expect(this.troll.exhausted).toBe(true);
-            expect(this.troll.tokens.damage).toBe(4);
+            expect(this.troll.damage).toBe(4);
             expect(this.bumblebird.location).toBe('discard');
             expect(this.player1).isReadyToTakeAction();
         });
@@ -216,7 +216,7 @@ describe('One Stood Against Many', function () {
             expect(this.player1).toBeAbleToSelect(this.glimmer);
             this.player1.clickCard(this.niffleApe);
 
-            expect(this.troll.tokens.damage).toBe(1);
+            expect(this.troll.damage).toBe(1);
             expect(this.niffleApe.location).toBe('discard');
 
             expect(this.player1).not.toBeAbleToSelect(this.bulwark);
@@ -228,7 +228,7 @@ describe('One Stood Against Many', function () {
             this.player1.clickCard(this.bumblebird);
 
             expect(this.troll.exhausted).toBe(true);
-            expect(this.troll.tokens.damage).toBe(2);
+            expect(this.troll.damage).toBe(2);
             expect(this.bumblebird.location).toBe('discard');
             expect(this.player1).isReadyToTakeAction();
         });
@@ -267,7 +267,7 @@ describe('One Stood Against Many', function () {
             this.player1.clickCard(this.huntingWitch);
 
             expect(this.troll.tokens.armor).toBeUndefined();
-            expect(this.troll.tokens.damage).toBeUndefined();
+            expect(this.troll.damage).toBe(0);
             expect(this.huntingWitch.location).toBe('discard');
 
             expect(this.player1).not.toBeAbleToSelect(this.bulwark);
@@ -278,7 +278,7 @@ describe('One Stood Against Many', function () {
             expect(this.player1).toBeAbleToSelect(this.glimmer);
             this.player1.clickCard(this.niffleApe);
 
-            expect(this.troll.tokens.damage).toBe(3);
+            expect(this.troll.damage).toBe(3);
             expect(this.niffleApe.location).toBe('discard');
 
             expect(this.player1).not.toBeAbleToSelect(this.bulwark);
@@ -290,7 +290,7 @@ describe('One Stood Against Many', function () {
             this.player1.clickCard(this.bumblebird);
 
             expect(this.troll.exhausted).toBe(true);
-            expect(this.troll.tokens.damage).toBe(4);
+            expect(this.troll.damage).toBe(4);
             expect(this.bumblebird.location).toBe('discard');
             expect(this.player1).isReadyToTakeAction();
         });
@@ -316,7 +316,7 @@ describe('One Stood Against Many', function () {
             expect(this.player1).toBeAbleToSelect(this.glimmer);
             this.player1.clickCard(this.niffleApe);
 
-            expect(this.troll.tokens.damage).toBe(1);
+            expect(this.troll.damage).toBe(1);
             expect(this.niffleApe.location).toBe('discard');
 
             expect(this.player1).not.toBeAbleToSelect(this.bulwark);
@@ -328,7 +328,7 @@ describe('One Stood Against Many', function () {
             this.player1.clickCard(this.bumblebird);
 
             expect(this.troll.exhausted).toBe(true);
-            expect(this.troll.tokens.damage).toBe(2);
+            expect(this.troll.damage).toBe(2);
             expect(this.bumblebird.location).toBe('discard');
             expect(this.player1).isReadyToTakeAction();
         });
@@ -464,10 +464,10 @@ describe('One Stood Against Many', function () {
             expect(this.huntingWitch.location).toBe('play area');
             expect(this.shooler.location).toBe('play area');
             expect(this.glimmer.location).toBe('play area');
-            expect(this.bulwark.tokens.damage).toBeUndefined();
-            expect(this.huntingWitch.tokens.damage).toBeUndefined();
-            expect(this.shooler.tokens.damage).toBeUndefined();
-            expect(this.glimmer.tokens.damage).toBeUndefined();
+            expect(this.bulwark.damage).toBe(0);
+            expect(this.huntingWitch.damage).toBe(0);
+            expect(this.shooler.damage).toBe(0);
+            expect(this.glimmer.damage).toBe(0);
             expect(this.bulwark.exhausted).toBe(true);
             expect(this.player1).isReadyToTakeAction();
         });
@@ -503,9 +503,9 @@ describe('One Stood Against Many', function () {
             this.player1.clickCard(this.gub);
 
             expect(this.troll.tokens.armor).toBe(1);
-            expect(this.troll.tokens.damage).toBeUndefined();
-            expect(this.gub.tokens.damage).toBeUndefined();
-            expect(this.shadowSelf.tokens.damage).toBe(8);
+            expect(this.troll.damage).toBe(0);
+            expect(this.gub.damage).toBe(0);
+            expect(this.shadowSelf.damage).toBe(8);
 
             expect(this.player1).not.toBeAbleToSelect(this.gub);
             expect(this.player1).toBeAbleToSelect(this.shadowSelf);
@@ -514,7 +514,7 @@ describe('One Stood Against Many', function () {
             this.player1.clickCard(this.shadowSelf);
 
             expect(this.troll.tokens.armor).toBe(1);
-            expect(this.troll.tokens.damage).toBeUndefined();
+            expect(this.troll.damage).toBe(0);
             expect(this.shadowSelf.location).toBe('discard');
 
             expect(this.player1).not.toBeAbleToSelect(this.gub);
@@ -524,8 +524,8 @@ describe('One Stood Against Many', function () {
             this.player1.clickCard(this.ardentHero);
 
             expect(this.troll.tokens.armor).toBeUndefined();
-            expect(this.troll.tokens.damage).toBe(3);
-            expect(this.ardentHero.tokens.damage).toBeUndefined();
+            expect(this.troll.damage).toBe(3);
+            expect(this.ardentHero.damage).toBe(0);
 
             expect(this.troll.exhausted).toBe(true);
             expect(this.player1).isReadyToTakeAction();

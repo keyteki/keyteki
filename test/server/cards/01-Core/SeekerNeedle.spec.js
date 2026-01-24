@@ -26,7 +26,7 @@ describe('Seeker Needle', function () {
 
         it("should only deal a damage when it doesn't destroy a creature", function () {
             this.player1.clickCard(this.silvertooth);
-            expect(this.silvertooth.tokens.damage).toBe(1);
+            expect(this.silvertooth.damage).toBe(1);
             expect(this.player1.amber).toBe(0);
         });
 

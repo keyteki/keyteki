@@ -21,8 +21,8 @@ describe('Smite', function () {
             expect(this.player1).toBeAbleToSelect(this.mightyTiger);
             this.player1.clickCard(this.mightyTiger);
             expect(this.mightyTiger.location).toBe('discard');
-            expect(this.murmook.tokens.damage).toBe(2);
-            expect(this.troll.tokens.damage).toBe(2);
+            expect(this.murmook.damage).toBe(2);
+            expect(this.troll.damage).toBe(2);
         });
 
         it("should remove creature's stun", function () {
@@ -69,8 +69,8 @@ describe('Smite', function () {
             expect(this.player1).toBeAbleToSelect(this.dumaTheMartyr);
             this.player1.clickCard(this.dumaTheMartyr);
             expect(this.dumaTheMartyr.location).toBe('discard');
-            expect(this.murmook.tokens.damage).toBe(2);
-            expect(this.troll.tokens.damage).toBe(2);
+            expect(this.murmook.damage).toBe(2);
+            expect(this.troll.damage).toBe(2);
         });
     });
 
@@ -96,8 +96,8 @@ describe('Smite', function () {
             expect(this.shadowSelf.location).toBe('discard');
             expect(this.dodger.location).toBe('play area');
             expect(this.skullion.location).toBe('play area');
-            expect(this.dodger.tokens.damage).toBeUndefined();
-            expect(this.skullion.tokens.damage).toBeUndefined();
+            expect(this.dodger.damage).toBe(0);
+            expect(this.skullion.damage).toBe(0);
             this.player1.endTurn();
         });
 
@@ -113,9 +113,9 @@ describe('Smite', function () {
             expect(this.urchin.location).toBe('play area');
             expect(this.dodger.location).toBe('play area');
             expect(this.shooler.location).toBe('play area');
-            expect(this.urchin.tokens.damage).toBeUndefined();
-            expect(this.dodger.tokens.damage).toBeUndefined();
-            expect(this.shooler.tokens.damage).toBeUndefined();
+            expect(this.urchin.damage).toBe(0);
+            expect(this.dodger.damage).toBe(0);
+            expect(this.shooler.damage).toBe(0);
             this.player1.endTurn();
         });
     });

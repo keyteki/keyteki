@@ -25,7 +25,7 @@ describe('Revna Starsong', function () {
             this.player1.fightWith(this.berserker2, this.huntingWitch);
             expect(this.huntingWitch.location).toBe('discard');
             expect(this.berserker2.location).toBe('play area');
-            expect(this.berserker2.tokens.damage).toBe(2);
+            expect(this.berserker2.damage).toBe(2);
         });
 
         it('should also remove other granted fight abilities', function () {

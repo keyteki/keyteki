@@ -1021,6 +1021,10 @@ class Card extends EffectSource {
         this.tokens.amber = amber;
     }
 
+    get damage() {
+        return this.hasToken('damage') ? this.tokens.damage : 0;
+    }
+
     get enraged() {
         return this.hasToken('enrage');
     }

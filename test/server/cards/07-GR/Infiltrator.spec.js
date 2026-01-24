@@ -32,7 +32,7 @@ describe('Infiltrator', function () {
             this.player1.endTurn();
             this.player2.clickPrompt('dis');
             this.player2.fightWith(this.infiltrator, this.flaxia);
-            expect(this.infiltrator.tokens.damage).toBe(undefined);
+            expect(this.infiltrator.damage).toBe(0);
             expect(this.flaxia.location).toBe('discard');
             expect(this.player2).isReadyToTakeAction();
         });

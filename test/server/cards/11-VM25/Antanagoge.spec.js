@@ -46,19 +46,19 @@ describe('Antanagoge', function () {
                 expect(this.player1).not.toBeAbleToSelect(this.antanagoge);
                 this.player1.clickCard(this.nexus);
 
-                expect(this.troll.tokens.damage).toBe(3);
-                expect(this.bumpsy.tokens.damage).toBe(3);
-                expect(this.daughter.tokens.damage).toBeUndefined();
+                expect(this.troll.damage).toBe(3);
+                expect(this.bumpsy.damage).toBe(3);
+                expect(this.daughter.damage).toBe(0);
                 expect(this.daughter.location).toBe('discard');
-                expect(this.antanagoge.tokens.damage).toBe(1);
+                expect(this.antanagoge.damage).toBe(1);
                 expect(this.player1).isReadyToTakeAction();
             });
 
             it('should not deal damage if no creature is grafted', function () {
                 this.player1.moveCard(this.nexus, 'discard');
                 this.player1.reap(this.antanagoge);
-                expect(this.troll.tokens.damage).toBeUndefined();
-                expect(this.bumpsy.tokens.damage).toBeUndefined();
+                expect(this.troll.damage).toBe(0);
+                expect(this.bumpsy.damage).toBe(0);
                 expect(this.player1).isReadyToTakeAction();
             });
         });

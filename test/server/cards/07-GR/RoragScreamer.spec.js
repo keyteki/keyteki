@@ -36,7 +36,7 @@ describe('Rorag Screamer', function () {
             expect(this.player1).toBeAbleToSelect(this.cornicenOctavia);
             this.player1.clickCard(this.dewFaerie);
             this.player1.fightWith(this.alaka, this.dewFaerie);
-            expect(this.alaka.tokens.damage).toBe(2);
+            expect(this.alaka.damage).toBe(2);
             expect(this.dewFaerie.location).toBe('discard');
         });
 
@@ -44,7 +44,7 @@ describe('Rorag Screamer', function () {
             this.player1.scrap(this.roragScreamer);
             this.player1.clickCard(this.cornicenOctavia);
             this.player1.fightWith(this.alaka, this.cornicenOctavia);
-            expect(this.cornicenOctavia.tokens.damage).toBe(4);
+            expect(this.cornicenOctavia.damage).toBe(4);
         });
     });
 });

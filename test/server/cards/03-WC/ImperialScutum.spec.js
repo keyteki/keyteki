@@ -19,7 +19,7 @@ describe('Imperial Scutum', function () {
             expect(this.questorJarta.tokens.armor).toBe(2);
             this.player1.fightWith(this.questorJarta, this.grovekeeper);
             expect(this.questorJarta.hasToken('armor')).toBe(false);
-            expect(this.questorJarta.tokens.damage).toBe(1);
+            expect(this.questorJarta.damage).toBe(1);
         });
 
         it('should not move captured amber to opponent', function () {

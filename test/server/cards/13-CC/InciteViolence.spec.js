@@ -22,7 +22,7 @@ describe('Incite Violence', function () {
             expect(this.docBookton.getKeywordValue('splash-attack')).toBe(0);
 
             this.player1.fightWith(this.troll, this.batdrone);
-            expect(this.docBookton.tokens.damage).toBe(1);
+            expect(this.docBookton.damage).toBe(1);
 
             this.player1.endTurn();
             expect(this.troll.getKeywordValue('splash-attack')).toBe(0);

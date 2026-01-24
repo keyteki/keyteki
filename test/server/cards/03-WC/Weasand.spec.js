@@ -99,7 +99,7 @@ describe('Weasand', function () {
             this.player2.clickCard(this.weasand);
             expect(this.player2).toHavePrompt('Which side to you want to move this card to?');
             this.player2.clickPrompt('Right');
-            expect(this.dodger.tokens.damage).toBe(2);
+            expect(this.dodger.damage).toBe(2);
             expect(this.dodger.location).toBe('play area');
             expect(this.weasand.location).toBe('discard');
         });

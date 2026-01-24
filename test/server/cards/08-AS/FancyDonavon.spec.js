@@ -21,7 +21,7 @@ describe('Fancy Donavon', function () {
             expect(this.player1).not.toBeAbleToSelect(this.dustPixie);
             this.player1.clickCard(this.flaxia);
             this.player1.clickCard(this.dustPixie);
-            expect(this.flaxia.tokens.damage).toBe(1);
+            expect(this.flaxia.damage).toBe(1);
             expect(this.dustPixie.location).toBe('discard');
             expect(this.player1).isReadyToTakeAction();
         });

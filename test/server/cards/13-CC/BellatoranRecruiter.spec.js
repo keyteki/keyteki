@@ -25,7 +25,7 @@ describe('Bellatoran Recruiter', function () {
             expect(this.player1).toHavePrompt('Choose a creature to attack');
             this.player1.clickCard(this.krump);
             expect(this.krump.location).toBe('discard');
-            expect(this.charette.tokens.damage).toBe(4);
+            expect(this.charette.damage).toBe(4);
             expect(this.player1).isReadyToTakeAction();
             this.player1.endTurn();
             expect(this.charette.location).toBe('discard');
@@ -44,7 +44,7 @@ describe('Bellatoran Recruiter', function () {
             expect(this.player1).toHavePrompt('Choose a creature to attack');
             this.player1.clickCard(this.krump);
             expect(this.krump.location).toBe('discard');
-            expect(this.charette.tokens.damage).toBe(4);
+            expect(this.charette.damage).toBe(4);
             expect(this.player1).isReadyToTakeAction();
             this.player1.endTurn();
             expect(this.charette.location).toBe('discard');

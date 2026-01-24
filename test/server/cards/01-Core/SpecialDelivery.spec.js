@@ -39,7 +39,7 @@ describe('Special Delivery', function () {
             this.player1.useAction(this.specialDelivery, true);
             this.player1.clickCard(this.troll);
             expect(this.troll.location).toBe('play area');
-            expect(this.troll.tokens.damage).toBe(3);
+            expect(this.troll.damage).toBe(3);
             expect(this.specialDelivery.location).toBe('discard');
             this.player1.endTurn();
         });
@@ -48,7 +48,7 @@ describe('Special Delivery', function () {
             this.shadowSelf.tokens.damage = 7;
             this.player1.useAction(this.specialDelivery, true);
             this.player1.clickCard(this.nexus);
-            expect(this.nexus.tokens.damage).toBeUndefined();
+            expect(this.nexus.damage).toBe(0);
             expect(this.nexus.location).toBe('play area');
             expect(this.shadowSelf.location).toBe('discard');
             expect(this.specialDelivery.location).toBe('discard');

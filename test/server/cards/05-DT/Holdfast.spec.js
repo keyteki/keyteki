@@ -53,7 +53,7 @@ describe('Holdfast', function () {
             this.player1.fightWith(this.scrivenerFavian, this.stiltKin);
             expect(this.stiltKin.location).toBe('discard');
             expect(this.scrivenerFavian.location).toBe('play area');
-            expect(this.scrivenerFavian.tokens.damage).toBe(2);
+            expect(this.scrivenerFavian.damage).toBe(2);
 
             expect(this.holdfast.exhausted).toBe(false);
             this.player1.reap(this.holdfast);

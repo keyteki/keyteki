@@ -43,8 +43,8 @@ describe('Doomsayer', function () {
             expect(this.player1).toBeAbleToSelect(this.flaxia);
             expect(this.player1).toBeAbleToSelect(this.searine);
             this.player1.clickCard(this.searine);
-            expect(this.flaxia.tokens.damage).toBe(2);
-            expect(this.searine.tokens.damage).toBe(2);
+            expect(this.flaxia.damage).toBe(2);
+            expect(this.searine.damage).toBe(2);
 
             expect(this.player1).isReadyToTakeAction();
         });

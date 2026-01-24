@@ -22,7 +22,7 @@ describe('Shock Herder', function () {
             expect(this.player1).toHavePrompt('Choose a creature to attack');
             this.player1.clickCard(this.batdrone);
             expect(this.bumpsy.location).toBe('play area');
-            expect(this.bumpsy.tokens.damage).toBe(2);
+            expect(this.bumpsy.damage).toBe(2);
             expect(this.batdrone.location).toBe('discard');
         });
 
@@ -35,7 +35,7 @@ describe('Shock Herder', function () {
             expect(this.player1).toHavePrompt('Choose a creature to attack');
             this.player1.clickCard(this.batdrone);
             expect(this.ancientBear.location).toBe('play area');
-            expect(this.ancientBear.tokens.damage).toBe(undefined);
+            expect(this.ancientBear.damage).toBe(0);
             expect(this.batdrone.location).toBe('discard');
         });
 
