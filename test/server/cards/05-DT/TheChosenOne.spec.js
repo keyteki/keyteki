@@ -30,7 +30,7 @@ describe('The Chosen One', function () {
             });
 
             it('should not deal 3 damages to TCO due to exhausted creatures', function () {
-                expect(this.theChosenOne.tokens.damage).toBeUndefined();
+                expect(this.theChosenOne.damage).toBe(0);
             });
 
             it('should ready creatures', function () {
@@ -50,7 +50,7 @@ describe('The Chosen One', function () {
                 });
 
                 it('should deal 3 damages to TCO due to exhausted creatures', function () {
-                    expect(this.theChosenOne.tokens.damage).toBe(3);
+                    expect(this.theChosenOne.damage).toBe(3);
                 });
 
                 it('should not ready creatures', function () {

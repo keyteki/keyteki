@@ -21,7 +21,7 @@ describe('Skorpeon', function () {
             expect(this.player1).not.toBeAbleToSelect(this.krump);
             expect(this.player1).not.toBeAbleToSelect(this.skorpeon);
             this.player1.clickCard(this.troll);
-            expect(this.troll.tokens.damage).toBe(2);
+            expect(this.troll.damage).toBe(2);
             expect(this.player1).isReadyToTakeAction();
         });
 
@@ -30,16 +30,16 @@ describe('Skorpeon', function () {
             this.player1.reap(this.skorpeon);
             this.player1.clickCard(this.troll);
             this.player1.clickCard(this.mightyTiger);
-            expect(this.troll.tokens.damage).toBe(2);
-            expect(this.mightyTiger.tokens.damage).toBe(2);
+            expect(this.troll.damage).toBe(2);
+            expect(this.mightyTiger.damage).toBe(2);
             expect(this.player1).isReadyToTakeAction();
         });
 
         it('should deal no damage for no Dis neighbors when reaping', function () {
             this.player1.fightWith(this.emberImp, this.troll);
             this.player1.reap(this.skorpeon);
-            expect(this.troll.tokens.damage).toBe(2); // fight
-            expect(this.krump.tokens.damage).toBeUndefined();
+            expect(this.troll.damage).toBe(2); // fight
+            expect(this.krump.damage).toBe(0);
             expect(this.player1).isReadyToTakeAction();
         });
     });

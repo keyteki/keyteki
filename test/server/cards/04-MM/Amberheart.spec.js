@@ -21,8 +21,8 @@ describe('Amberheart', function () {
             expect(this.player1).not.toBeAbleToSelect(this.troll);
 
             this.player1.clickCard(this.bulwark);
-            expect(this.bulwark.tokens.damage).toBeUndefined();
-            expect(this.bulwark.tokens.ward).toBe(1);
+            expect(this.bulwark.damage).toBe(0);
+            expect(this.bulwark.warded).toBe(true);
             expect(this.bulwark.tokens.amber).toBe(1);
         });
     });

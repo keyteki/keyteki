@@ -17,6 +17,7 @@ describe('Library Access', function () {
             expect(this.libraryAccess.location).toBe('purged');
             expect(this.player1.hand.length).toBe(handSize - 1);
             this.player1.playCreature(this.dextre);
+            this.player1.clickPrompt('Library Access');
             expect(this.player1.hand.length).toBe(handSize - 1);
             this.player1.play(this.wildWormhole); // Plays Foggify
             this.player1.clickPrompt('Library Access'); // Draw for Wild Wormhole

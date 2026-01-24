@@ -23,8 +23,8 @@ describe('Batdrone', function () {
 
         it('should have skirmish and take no damage when fighting', function () {
             this.player1.fightWith(this.batdrone, this.troll);
-            expect(this.batdrone.tokens.damage).toBeUndefined();
-            expect(this.troll.tokens.damage).toBe(2);
+            expect(this.batdrone.damage).toBe(0);
+            expect(this.troll.damage).toBe(2);
         });
 
         it('should not steal amber when opponent has no amber', function () {
@@ -38,7 +38,7 @@ describe('Batdrone', function () {
         it('should not steal with hazardous creatures', function () {
             this.player1.fightWith(this.batdrone, this.briarGrubbling);
             expect(this.batdrone.location).toBe('discard');
-            expect(this.briarGrubbling.tokens.damage).toBe(undefined);
+            expect(this.briarGrubbling.damage).toBe(0);
             expect(this.player1.amber).toBe(0);
             expect(this.player2.amber).toBe(3);
         });

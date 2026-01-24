@@ -27,7 +27,7 @@ describe('Ragwarg', function () {
             this.player2.clickPrompt('brobnar');
             this.player2.reap(this.troll);
             this.player2.clickCard(this.troll);
-            expect(this.troll.tokens.damage).toBe(2);
+            expect(this.troll.damage).toBe(2);
         });
 
         it('does not damage the second creature to reap', function () {
@@ -35,9 +35,9 @@ describe('Ragwarg', function () {
             this.player2.clickPrompt('brobnar');
             this.player2.reap(this.troll);
             this.player2.clickCard(this.troll);
-            expect(this.troll.tokens.damage).toBe(2);
+            expect(this.troll.damage).toBe(2);
             this.player2.reap(this.grenadeSnib);
-            expect(this.grenadeSnib.tokens.damage).toBe(undefined);
+            expect(this.grenadeSnib.damage).toBe(0);
         });
 
         it('deals damage to own creatures when reaping', function () {
@@ -81,9 +81,9 @@ describe('Ragwarg', function () {
             this.player1.clickCard(this.daughter); // Reap with Daughter
             this.player1.clickPrompt('logos');
             expect(this.brillixPonder.location).toBe('play area');
-            expect(this.brillixPonder.tokens.damage).toBe(2); // Reaped first and damaged by Ragwarg
+            expect(this.brillixPonder.damage).toBe(2); // Reaped first and damaged by Ragwarg
             expect(this.daughter.location).toBe('play area'); // Reaped second and not damaged by Ragwarg
-            expect(this.daughter.tokens.damage).toBe(undefined);
+            expect(this.daughter.damage).toBe(0);
             expect(this.player1).isReadyToTakeAction();
         });
     });

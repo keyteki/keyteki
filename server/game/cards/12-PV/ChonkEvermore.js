@@ -26,12 +26,12 @@ class ChonkEvermore extends Card {
             then: {
                 alwaysTriggers: true,
                 gameAction: ability.actions.addPowerCounter((context) => ({
-                    target: context.game.creaturesInPlay.filter((card) => !!card.tokens.power),
+                    target: context.game.creaturesInPlay.filter((card) => card.powerCounters),
                     multiplier: 2
                 })),
                 message: '{0} uses {1} to double the number of +1 power counters on {3}',
                 messageArgs: (context) => [
-                    context.game.creaturesInPlay.filter((card) => !!card.tokens.power)
+                    context.game.creaturesInPlay.filter((card) => card.powerCounters)
                 ]
             }
         });

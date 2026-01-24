@@ -25,7 +25,7 @@ describe('Fight to the End', function () {
             expect(this.player1).not.toBeAbleToSelect(this.umbra);
             this.player1.clickCard(this.groke);
             this.player1.clickCard(this.batdrone);
-            expect(this.groke.tokens.damage).toBe(2);
+            expect(this.groke.damage).toBe(2);
             expect(this.player1).isReadyToTakeAction();
         });
 
@@ -34,7 +34,7 @@ describe('Fight to the End', function () {
             this.player1.play(this.fightToTheEnd);
             this.player1.clickCard(this.groke);
             this.player1.clickCard(this.batdrone);
-            expect(this.groke.tokens.damage).toBe(undefined);
+            expect(this.groke.damage).toBe(0);
             this.player1.endTurn();
             this.player2.clickPrompt('untamed');
             this.player2.endTurn();
@@ -44,7 +44,7 @@ describe('Fight to the End', function () {
             // not haunted anymore.
             expect(this.player1.player.isHaunted()).toBe(false);
             this.player1.fightWith(this.groke, this.huntingWitch);
-            expect(this.groke.tokens.damage).toBe(undefined);
+            expect(this.groke.damage).toBe(0);
             this.player1.endTurn();
             this.player2.clickPrompt('untamed');
             this.player2.endTurn();
@@ -60,7 +60,7 @@ describe('Fight to the End', function () {
             this.player2.endTurn();
             this.player1.clickPrompt('brobnar');
             this.player1.fightWith(this.groke, this.umbra);
-            expect(this.groke.tokens.damage).toBe(2);
+            expect(this.groke.damage).toBe(2);
             expect(this.player1).isReadyToTakeAction();
         });
 

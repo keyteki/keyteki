@@ -142,9 +142,9 @@ describe('Endless Hordes', function () {
             this.player1.clickCard(this.eyegor);
             expect(this.eyegor.location).toBe('discard');
             expect(this.eyegor2.location).toBe('discard');
-            expect(this.comOfficerKirby.tokens.damage).toBe(2);
-            expect(this.kirby2.tokens.damage).toBe(2);
-            expect(this.titanGuardian.tokens.damage).toBe(1);
+            expect(this.comOfficerKirby.damage).toBe(2);
+            expect(this.kirby2.damage).toBe(2);
+            expect(this.titanGuardian.damage).toBe(1);
             expect(this.player1).isReadyToTakeAction();
         });
     });

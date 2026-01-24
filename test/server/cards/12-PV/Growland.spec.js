@@ -49,9 +49,9 @@ describe('Growland', function () {
             this.fandangle.tokens.damage = 2;
             this.citizenShrix.tokens.damage = 1;
             this.player1.scrap(this.growland);
-            expect(this.yurk.tokens.damage).toBe(1);
-            expect(this.citizenShrix.tokens.damage).toBe(1);
-            expect(this.fandangle.tokens.damage).toBeUndefined();
+            expect(this.yurk.damage).toBe(1);
+            expect(this.citizenShrix.damage).toBe(1);
+            expect(this.fandangle.damage).toBe(0);
             expect(this.player1).isReadyToTakeAction();
         });
     });

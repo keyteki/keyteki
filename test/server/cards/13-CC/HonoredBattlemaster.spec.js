@@ -29,7 +29,7 @@ describe('Honored Battlemaster', function () {
             this.player1.clickCard(this.batdrone);
             expect(this.troll.exhausted).toBe(true);
             expect(this.batdrone.location).toBe('discard');
-            expect(this.troll.tokens.damage).toBe(7);
+            expect(this.troll.damage).toBe(7);
             expect(this.player1).isReadyToTakeAction();
         });
 
@@ -41,7 +41,7 @@ describe('Honored Battlemaster', function () {
             this.player1.clickCard(this.batdrone);
             expect(this.batdrone.location).toBe('discard');
             expect(this.ancientBear.exhausted).toBe(true);
-            expect(this.ancientBear.tokens.damage).toBeUndefined(); // assault
+            expect(this.ancientBear.damage).toBe(0); // assault
             expect(this.player1).isReadyToTakeAction();
         });
 

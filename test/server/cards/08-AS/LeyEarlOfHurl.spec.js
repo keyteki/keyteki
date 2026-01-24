@@ -17,7 +17,7 @@ describe('Ley, Earl of Hurl', function () {
         it('should be moved/exhausted/warded/healed on destroy when not on a flank', function () {
             this.player1.fightWith(this.leyEarlOfHurl, this.troll);
             this.player1.clickPrompt('Right');
-            expect(this.leyEarlOfHurl.tokens.damage).toBe(undefined);
+            expect(this.leyEarlOfHurl.damage).toBe(0);
             expect(this.leyEarlOfHurl.exhausted).toBe(true);
             expect(this.leyEarlOfHurl.warded).toBe(true);
             expect(this.player1.player.creaturesInPlay[2]).toBe(this.leyEarlOfHurl);
@@ -36,7 +36,7 @@ describe('Ley, Earl of Hurl', function () {
             this.player2.clickPrompt('brobnar');
             this.player2.fightWith(this.troll, this.leyEarlOfHurl);
             this.player2.clickPrompt('Right');
-            expect(this.leyEarlOfHurl.tokens.damage).toBe(undefined);
+            expect(this.leyEarlOfHurl.damage).toBe(0);
             expect(this.leyEarlOfHurl.exhausted).toBe(true);
             expect(this.leyEarlOfHurl.warded).toBe(true);
             expect(this.player1.player.creaturesInPlay[2]).toBe(this.leyEarlOfHurl);

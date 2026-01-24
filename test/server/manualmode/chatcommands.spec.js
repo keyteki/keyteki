@@ -183,7 +183,7 @@ describe('Chat Commands', function () {
             expect(this.player2.executeCommand('/token damage')).toBe(true);
             expect(this.player2).toBeAbleToSelect(this.batdrone);
             this.player2.clickCard(this.batdrone);
-            expect(this.batdrone.tokens.damage).toBe(1);
+            expect(this.batdrone.damage).toBe(1);
         });
 
         it('set 5 power token to a creature', function () {
@@ -191,7 +191,7 @@ describe('Chat Commands', function () {
             expect(this.player1.executeCommand('/token power 5')).toBe(true);
             expect(this.player1).toBeAbleToSelect(this.niffleApe);
             this.player1.clickCard(this.niffleApe);
-            expect(this.niffleApe.tokens.power).toBe(5);
+            expect(this.niffleApe.powerCounters).toBe(5);
         });
     });
 

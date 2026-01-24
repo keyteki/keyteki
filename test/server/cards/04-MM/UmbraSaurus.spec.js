@@ -24,7 +24,7 @@ describe('Umbra-Saurus', function () {
             this.player1.clickCard(this.umbraSaurus);
             this.player1.clickCard(this.troll);
             expect(this.umbraSaurus.amber).toBe(1);
-            expect(this.troll.tokens.damage).toBe(3);
+            expect(this.troll.damage).toBe(3);
         });
     });
 });

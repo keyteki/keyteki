@@ -34,7 +34,7 @@ describe('Reap Or Sow', function () {
         });
 
         it('should allow any friendly creature to be targeted, even if it cannot ready', function () {
-            this.awakenedTitan.exhausted = true;
+            this.awakenedTitan.exhaust();
             this.player1.play(this.reapOrSow);
             this.player1.clickPrompt('Ready and reap');
             expect(this.player1).toBeAbleToSelect(this.dustPixie);
@@ -95,8 +95,8 @@ describe('Reap Or Sow', function () {
             this.player1.clickCard(this.dustPixie);
             this.player1.clickCard(this.dustPixie);
             this.player1.clickCard(this.troll);
-            expect(this.dustPixie.tokens.power).toBe(2);
-            expect(this.troll.tokens.power).toBe(1);
+            expect(this.dustPixie.powerCounters).toBe(2);
+            expect(this.troll.powerCounters).toBe(1);
         });
 
         describe('and inky gloom is played', function () {

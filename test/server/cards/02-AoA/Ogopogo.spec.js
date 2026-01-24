@@ -21,7 +21,7 @@ describe('Ogopogo', function () {
             expect(this.player1).toHavePrompt('Ogopogo');
             expect(this.player1).toBeAbleToSelect(this.gamgee);
             this.player1.clickCard(this.gamgee);
-            expect(this.ogopogo.tokens.damage).toBe(2);
+            expect(this.ogopogo.damage).toBe(2);
             expect(this.umbra.location).toBe('discard');
             expect(this.gamgee.location).toBe('discard');
         });
@@ -33,7 +33,7 @@ describe('Ogopogo', function () {
             expect(this.player2).not.toHavePrompt('Triggered Abilities');
             expect(this.ogopogo.location).toBe('play area');
             expect(this.gamgee.location).toBe('discard');
-            expect(this.ogopogo.tokens.damage).toBe(2);
+            expect(this.ogopogo.damage).toBe(2);
         });
     });
 });

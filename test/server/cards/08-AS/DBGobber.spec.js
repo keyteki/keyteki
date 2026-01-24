@@ -15,7 +15,7 @@ describe('D.B. Gobber', function () {
 
         it('makes opponent lose one on reap', function () {
             this.player1.playCreature(this.dbGobber);
-            this.dbGobber.exhausted = false;
+            this.dbGobber.ready();
             this.player1.reap(this.dbGobber);
             expect(this.player1.amber).toBe(8);
             expect(this.player2.amber).toBe(8);

@@ -27,7 +27,7 @@ describe('Look Over There', function () {
             it('deal damage and steal', function () {
                 expect(this.player1.amber).toBe(1);
                 expect(this.player2.amber).toBe(0);
-                expect(this.dodger.tokens.damage).toBe(2);
+                expect(this.dodger.damage).toBe(2);
                 expect(this.dodger.location).toBe('play area');
                 expect(this.badPenny.location).toBe('play area');
             });
@@ -41,7 +41,7 @@ describe('Look Over There', function () {
             it('deal damage, destroy and not steal', function () {
                 expect(this.player1.amber).toBe(0);
                 expect(this.player2.amber).toBe(1);
-                expect(this.dodger.tokens.damage).toBe(undefined);
+                expect(this.dodger.damage).toBe(0);
                 expect(this.dodger.location).toBe('play area');
                 expect(this.badPenny.location).toBe('hand');
             });

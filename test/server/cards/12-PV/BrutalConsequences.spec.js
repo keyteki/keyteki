@@ -34,7 +34,7 @@ describe('Brutal Consequences', function () {
             this.player1.play(this.brutalConsequences);
             this.player1.clickCard(this.krump);
             expect(this.krump.location).toBe('play area');
-            expect(this.krump.tokens.damage).toBe(3);
+            expect(this.krump.damage).toBe(3);
             expect(this.player1).isReadyToTakeAction();
         });
 

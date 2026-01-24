@@ -11,8 +11,8 @@ describe('Orator Hissaro', function () {
                     inPlay: ['lamindra']
                 }
             });
-            this.troll.exhausted = true;
-            this.flaxia.exhausted = true;
+            this.troll.exhaust();
+            this.flaxia.exhaust();
         });
 
         it('should exalt his neighbors and they will be readied and belong to house saurian', function () {

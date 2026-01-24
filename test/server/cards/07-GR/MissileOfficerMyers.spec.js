@@ -34,7 +34,7 @@ describe('Missile Officer Myers', function () {
 
             this.player1.clickCard(this.medicIngram);
             this.player1.clickCard(this.missileOfficerMyers);
-            expect(this.missileOfficerMyers.tokens.ward).toBe(1);
+            expect(this.missileOfficerMyers.warded).toBe(true);
         });
 
         it('allow a card from the non-active house to be played on scrap', function () {

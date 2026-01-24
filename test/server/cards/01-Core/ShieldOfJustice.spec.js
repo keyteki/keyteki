@@ -39,7 +39,7 @@ describe('Shield of Justice', function () {
             expect(this.sequis.armor).toBe(2);
             expect(this.sequis.armorUsed).toBe(2);
             expect(this.sequis.hasToken('armor')).toBe(false);
-            expect(this.sequis.tokens.damage).toBe(2);
+            expect(this.sequis.damage).toBe(2);
         });
     });
 });

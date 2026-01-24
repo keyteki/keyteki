@@ -18,9 +18,9 @@ describe('Cleansing Wave', function () {
             this.ancientBear.addToken('damage', 1);
             this.sequis.addToken('damage', 2);
             this.player1.play(this.cleansingWave);
-            expect(this.sequis.tokens.damage).toBe(1);
+            expect(this.sequis.damage).toBe(1);
             expect(this.raidingKnight.hasToken('damage')).toBe(false);
-            expect(this.snufflegator.tokens.damage).toBe(1);
+            expect(this.snufflegator.damage).toBe(1);
             expect(this.ancientBear.hasToken('damage')).toBe(false);
             expect(this.troll.hasToken('damage')).toBe(false);
             expect(this.player1.amber).toBe(3);

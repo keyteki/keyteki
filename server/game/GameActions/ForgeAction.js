@@ -10,7 +10,7 @@ class ForgeAction extends PlayerAction {
     setup() {
         super.setup();
         this.name = 'forgeKey';
-        if (this.keyColor !== '') {
+        if (this.keyColor) {
             this.effectMsg = 'forge the ' + this.keyColor + ' key';
         } else {
             this.effectMsg = 'forge a key';

@@ -26,9 +26,9 @@ describe('Narl Gibbus', function () {
             this.player2.endTurn();
             this.player1.clickPrompt('untamed');
             this.player1.fightWith(this.narlGibbus, this.flaxia);
-            expect(this.narlGibbus.tokens.damage).toBe(undefined);
-            expect(this.flaxia.tokens.damage).toBe(3);
-            expect(this.troll.tokens.damage).toBe(3);
+            expect(this.narlGibbus.damage).toBe(0);
+            expect(this.flaxia.damage).toBe(3);
+            expect(this.troll.damage).toBe(3);
             expect(this.narlGibbus.tokens.enrage).toBe(undefined);
         });
 
@@ -46,7 +46,7 @@ describe('Narl Gibbus', function () {
             this.player1.fightWith(this.narlGibbus, this.flaxia);
             expect(this.narlGibbus.location).toBe('discard');
             expect(this.flaxia.location).toBe('discard');
-            expect(this.troll.tokens.damage).toBe(3);
+            expect(this.troll.damage).toBe(3);
         });
 
         it('self-enrages after reap', function () {
@@ -68,8 +68,8 @@ describe('Narl Gibbus', function () {
             this.player1.playCreature(this.narlGibbus);
             this.player1.fightWith(this.dustPixie, this.flaxia);
             expect(this.dustPixie.location).toBe('discard');
-            expect(this.flaxia.tokens.damage).toBe(1);
-            expect(this.troll.tokens.damage).toBe(undefined);
+            expect(this.flaxia.damage).toBe(1);
+            expect(this.troll.damage).toBe(0);
         });
     });
 });

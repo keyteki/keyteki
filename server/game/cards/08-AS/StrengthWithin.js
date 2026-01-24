@@ -8,9 +8,7 @@ class StrengthWithin extends Card {
             effect: ability.effects.gainAbility('persistentEffect', {
                 targetController: 'opponent',
                 effect: ability.effects.modifyKeyCost((_, context) =>
-                    context.source.tokens && context.source.tokens.damage
-                        ? context.source.tokens.damage
-                        : 0
+                    context.source.tokens && context.source.damage ? context.source.damage : 0
                 )
             })
         });

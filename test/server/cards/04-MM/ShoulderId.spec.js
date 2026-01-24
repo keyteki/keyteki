@@ -27,8 +27,8 @@ describe('Shoulder Id', function () {
             this.player1.fightWith(this.fuzzyGruen, this.shoulderId);
             expect(this.player1).isReadyToTakeAction();
             expect(this.fuzzyGruen.location).toBe('play area');
-            expect(this.fuzzyGruen.tokens.damage).toBeUndefined();
-            expect(this.shoulderId.tokens.damage).toBe(5);
+            expect(this.fuzzyGruen.damage).toBe(0);
+            expect(this.shoulderId.damage).toBe(5);
             expect(this.player1.amber).toBe(2);
             expect(this.player2.amber).toBe(5);
         });
@@ -38,8 +38,8 @@ describe('Shoulder Id', function () {
             this.player1.fightWith(this.fuzzyGruen, this.shoulderId);
             expect(this.player1).isReadyToTakeAction();
             expect(this.fuzzyGruen.location).toBe('play area');
-            expect(this.fuzzyGruen.tokens.damage).toBeUndefined();
-            expect(this.shoulderId.tokens.damage).toBe(5);
+            expect(this.fuzzyGruen.damage).toBe(0);
+            expect(this.shoulderId.damage).toBe(5);
             expect(this.player1.amber).toBe(2);
             expect(this.player2.amber).toBe(6);
         });
@@ -50,7 +50,7 @@ describe('Shoulder Id', function () {
             expect(this.player1).isReadyToTakeAction();
             expect(this.ancientBear.location).toBe('play area');
             expect(this.shoulderId.location).toBe('discard');
-            expect(this.ancientBear.tokens.damage).toBeUndefined();
+            expect(this.ancientBear.damage).toBe(0);
             expect(this.player1.amber).toBe(3);
             expect(this.player2.amber).toBe(4);
         });
@@ -62,8 +62,8 @@ describe('Shoulder Id', function () {
             expect(this.player1).isReadyToTakeAction();
             expect(this.fuzzyGruen.location).toBe('play area');
             expect(this.fuzzyGruen.warded).toBe(true);
-            expect(this.fuzzyGruen.tokens.damage).toBeUndefined();
-            expect(this.shoulderId.tokens.damage).toBe(5);
+            expect(this.fuzzyGruen.damage).toBe(0);
+            expect(this.shoulderId.damage).toBe(5);
             expect(this.player1.amber).toBe(2);
             expect(this.player2.amber).toBe(5);
         });

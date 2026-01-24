@@ -50,7 +50,7 @@ describe('Wounds into Wisdom', function () {
             this.player1.endTurn();
             this.player2.clickPrompt('brobnar');
             this.player2.fightWith(this.troll, this.xenosBloodshadow);
-            expect(this.troll.tokens.damage).toBe(6);
+            expect(this.troll.damage).toBe(6);
             expect(this.parasiticArachnoid.location).toBe('under');
             expect(this.player2).isReadyToTakeAction();
         });

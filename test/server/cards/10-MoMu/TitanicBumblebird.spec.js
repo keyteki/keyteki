@@ -58,7 +58,7 @@ describe('Titanic Bumblebird', function () {
             this.player1.playCreature(this.titanicBumblebird);
             this.player1.clickCard(this.umbra);
             this.player1.clickCard(this.flaxia);
-            this.titanicBumblebird.exhausted = false;
+            this.titanicBumblebird.ready();
             this.player1.reap(this.titanicBumblebird);
             expect(this.player1).toBeAbleToSelect(this.lamindra);
             expect(this.player1).not.toBeAbleToSelect(this.flaxia);

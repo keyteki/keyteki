@@ -48,8 +48,8 @@ describe('Spontaneous Awakening', function () {
                 expect(this.spontaneousAwakening.type).toBe('upgrade');
                 expect(this.oldEgad.upgrades).toContain(this.spontaneousAwakening);
                 expect(this.spontaneousAwakening.parent).toBe(this.oldEgad);
-                expect(this.mother.tokens.ward).toBe(1);
-                expect(this.faustTheGreat.tokens.ward).toBe(1);
+                expect(this.mother.warded).toBe(true);
+                expect(this.faustTheGreat.warded).toBe(true);
                 expect(this.oldEgad.exhausted).toBe(true);
                 expect(this.player1).isReadyToTakeAction();
             });

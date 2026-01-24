@@ -29,7 +29,7 @@ describe('Flip Stallard', function () {
         it('should not blank enemy creature fight effects', function () {
             this.player1.fightWith(this.lilithal, this.umbra);
             expect(this.lilithal.amber).toBe(1);
-            this.lilithal.exhausted = false;
+            this.lilithal.ready();
             this.player1.fightWith(this.lilithal, this.flipStallard);
             expect(this.flipStallard.location).toBe('discard');
             this.player1.fightWith(this.brabble, this.troll);

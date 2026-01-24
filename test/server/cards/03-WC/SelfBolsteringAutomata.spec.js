@@ -22,14 +22,14 @@ describe('Self-Bolstering Automata', function () {
                 });
 
                 it('should fully heal automata, not destroy it, exhaust it and move it to the right flank', function () {
-                    expect(this.selfBolsteringAutomata.tokens.damage).toBe(undefined);
+                    expect(this.selfBolsteringAutomata.damage).toBe(0);
                     expect(this.selfBolsteringAutomata.location).toBe('play area');
                     expect(this.selfBolsteringAutomata.exhausted).toBe(true);
                     expect(this.player1.player.cardsInPlay[1]).toBe(this.selfBolsteringAutomata);
                 });
 
                 it('should not gain 2 +1 power counters, since it was exhausted by fighting', function () {
-                    expect(this.selfBolsteringAutomata.tokens.power).toBeUndefined();
+                    expect(this.selfBolsteringAutomata.powerCounters).toBe(0);
                 });
             });
         });
@@ -58,11 +58,11 @@ describe('Self-Bolstering Automata', function () {
             it('should fully heal automata, not destroy it, exhaust it and move it to the right flank and get 2 +1 power counters', function () {
                 expect(this.player1).toHavePrompt('Self-Bolstering Automata');
                 this.player1.clickPrompt('right');
-                expect(this.selfBolsteringAutomata.tokens.damage).toBe(undefined);
+                expect(this.selfBolsteringAutomata.damage).toBe(0);
                 expect(this.selfBolsteringAutomata.location).toBe('play area');
                 expect(this.selfBolsteringAutomata.exhausted).toBe(true);
                 expect(this.player1.player.cardsInPlay[1]).toBe(this.selfBolsteringAutomata);
-                expect(this.selfBolsteringAutomata.tokens.power).toBe(2);
+                expect(this.selfBolsteringAutomata.powerCounters).toBe(2);
             });
         });
 
@@ -76,7 +76,7 @@ describe('Self-Bolstering Automata', function () {
             it('should fully heal automata, not destroy it, exhaust it and move it to the right flank', function () {
                 expect(this.player1).toHavePrompt('Self-Bolstering Automata');
                 this.player1.clickPrompt('right');
-                expect(this.selfBolsteringAutomata.tokens.damage).toBe(undefined);
+                expect(this.selfBolsteringAutomata.damage).toBe(0);
                 expect(this.selfBolsteringAutomata.location).toBe('play area');
                 expect(this.selfBolsteringAutomata.exhausted).toBe(true);
                 expect(this.player1.player.cardsInPlay[1]).toBe(this.selfBolsteringAutomata);

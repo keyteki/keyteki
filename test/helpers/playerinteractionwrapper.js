@@ -602,13 +602,22 @@ class PlayerInteractionWrapper {
         }
     }
 
-    useAction(card, omni = false) {
+    useAction(card) {
         if (card.type !== 'creature' && card.type !== 'artifact') {
             throw new Error(`${card.name} cannot act`);
         }
 
         this.clickCard(card);
-        this.clickPrompt("Use this card's " + (omni ? 'Omni' : 'Action') + ' ability');
+        this.clickPrompt("Use this card's Action ability");
+    }
+
+    useOmni(card) {
+        if (card.type !== 'creature' && card.type !== 'artifact') {
+            throw new Error(`${card.name} cannot act`);
+        }
+
+        this.clickCard(card);
+        this.clickPrompt("Use this card's Omni ability");
     }
 
     playUpgrade(upgrade, target) {

@@ -25,9 +25,9 @@ describe('Worthy Adversaries', function () {
             this.player1.clickCard(this.flaxia);
             this.player1.clickPrompt('Done');
             // Damage checks
-            expect(this.krump.tokens.damage).toBe(1);
-            expect(this.flaxia.tokens.damage).toBe(1);
-            expect(this.troll.tokens.damage).toBe(2);
+            expect(this.krump.damage).toBe(1);
+            expect(this.flaxia.damage).toBe(1);
+            expect(this.troll.damage).toBe(2);
             // Exalt checks: all damaged creatures
             expect(this.krump.tokens.amber).toBe(1);
             expect(this.flaxia.tokens.amber).toBe(1);

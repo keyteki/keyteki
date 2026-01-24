@@ -14,7 +14,7 @@ describe('The Æmber Road', function () {
         });
 
         it('allows player to add trade counters', function () {
-            this.player1.useAction(this.theÆmberRoad, true);
+            this.player1.useOmni(this.theÆmberRoad);
             expect(this.theÆmberRoad.tokens.trade).toBe(1);
             expect(this.player1.amber).toBe(3);
             expect(this.player2.player.cardsInPlay).toContain(this.theÆmberRoad);
@@ -26,7 +26,7 @@ describe('The Æmber Road', function () {
             this.player1.clickPrompt('untamed');
             this.player1.endTurn();
             this.player2.clickPrompt('untamed');
-            this.player2.useAction(this.theÆmberRoad, true);
+            this.player2.useOmni(this.theÆmberRoad);
             expect(this.theÆmberRoad.tokens.trade).toBe(2);
             expect(this.player2.amber).toBe(4);
             expect(this.player1.player.cardsInPlay).toContain(this.theÆmberRoad);

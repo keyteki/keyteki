@@ -20,7 +20,7 @@ describe('Prototype Harness', function () {
 
         it('should deal 1 damage at start of turn', function () {
             this.player1.endTurn();
-            expect(this.urchin.tokens.damage).toBe(1);
+            expect(this.urchin.damage).toBe(1);
         });
     });
 });

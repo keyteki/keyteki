@@ -22,7 +22,7 @@ const HandlerMenuPrompt = require('./gamesteps/handlermenuprompt');
 const SelectCardPrompt = require('./gamesteps/selectcardprompt');
 const OptionsMenuPrompt = require('./gamesteps/OptionsMenuPrompt');
 const GameWonPrompt = require('./gamesteps/GameWonPrompt');
-const HouseTieBreakPrompt = require('./gamesteps/HouseTieBreakPrompt');
+const FinalTurn = require('./gamesteps/FinalTurn');
 const GameActions = require('./GameActions');
 const Effects = require('./effects.js');
 const Event = require('./Events/Event');
@@ -94,8 +94,8 @@ class Game extends EventEmitter {
         this.activePlayer = null;
         this.firstPlayer = null;
         this.playedRoundsAfterTime = [];
+        this.finalTurnCompleted = false;
         this.jsonForUsers = {};
-        this.houseTieBreak = false;
         this.cardData = options.cardData || [];
 
         this.cardVisibility = new CardVisibility(this);
@@ -417,94 +417,73 @@ class Game extends EventEmitter {
     }
 
     /**
-     * Check to see if any player won the game after going to time.
+     * Tiebreakers after time is called:
+     * 1. Each player with 6+ amber forges a key
+     * 2. Most keys wins
+     * 3. Most amber wins
+     * 4. Lowest chains wins
+     * 5. Most creatures wins
+     * 6. First player wins
      */
     checkTimeWinCondition() {
-        // Each player who has 6 or more Æmber forges 1 Key (removing the 6 Æmber from their pool as usual).
-        let forgedKeys = -1;
-        let remainingAmber = -1;
-        let potentialWinnersByKey = [];
-        let potentialWinnersByAmber = [];
-
+        // Step 1: Each player who has 6 or more amber forges a key
         for (const player of this.getPlayers()) {
             if (player.amber >= 6) {
                 this.addAlert('success', '{0} forges a key after time', player);
-
                 player.amber -= 6;
                 player.keys[Object.keys(player.keys).find((key) => !player.keys[key])] = true;
             }
-
-            if (player.getForgedKeys() > forgedKeys) {
-                forgedKeys = player.getForgedKeys();
-                potentialWinnersByKey = [player];
-            } else if (player.getForgedKeys() === forgedKeys) {
-                potentialWinnersByKey.push(player);
-            }
-
-            if (player.amber > remainingAmber) {
-                remainingAmber = player.amber;
-                potentialWinnersByAmber = [player];
-            } else if (player.amber === remainingAmber) {
-                potentialWinnersByAmber.push(player);
-            }
         }
 
-        // The player with the most Keys forged is the winner.
-        if (potentialWinnersByKey.length === 1) {
-            this.recordWinner(potentialWinnersByKey[0], 'keys after time');
+        // Step 2: The player with the most keys forged is the winner
+        let potentialWinners = this.getPlayers();
+        let maxKeys = Math.max(...potentialWinners.map((p) => p.getForgedKeys()));
+        potentialWinners = potentialWinners.filter((p) => p.getForgedKeys() === maxKeys);
+
+        if (potentialWinners.length === 1) {
+            this.addMessage('Tiebreaker: {0} wins with the most keys', potentialWinners[0]);
+            this.recordWinner(potentialWinners[0], 'keys after time');
             return;
         }
 
-        // The player with the most remaining Æmber in their pool is the winner.
-        if (potentialWinnersByAmber.length === 1) {
-            this.recordWinner(potentialWinnersByAmber[0], 'amber after time');
+        // Step 3: The player with the most remaining amber wins
+        let maxAmber = Math.max(...potentialWinners.map((p) => p.amber));
+        potentialWinners = potentialWinners.filter((p) => p.amber === maxAmber);
+
+        if (potentialWinners.length === 1) {
+            this.addMessage('Tiebreaker: {0} wins with the most amber', potentialWinners[0]);
+            this.recordWinner(potentialWinners[0], 'amber after time');
             return;
         }
 
-        if (!this.houseTieBreak) {
-            this.houseTieBreak = true;
-            this.queueStep(new HouseTieBreakPrompt(this));
+        // Step 4: The player with the fewest chains wins
+        let minChains = Math.min(...potentialWinners.map((p) => p.chains));
+        potentialWinners = potentialWinners.filter((p) => p.chains === minChains);
+
+        if (potentialWinners.length === 1) {
+            this.addMessage('Tiebreaker: {0} wins with the fewest chains', potentialWinners[0]);
+            this.recordWinner(potentialWinners[0], 'chains after time');
+            return;
         }
 
-        if (this.getPlayers().every((player) => !!player.tieBreakHouse)) {
-            let potentialWinnersByHouse = [];
-            let potentialAmber = -1;
-            for (const player of this.getPlayers()) {
-                let inPlay = player.creaturesInPlay.filter(
-                    (card) => card.printedHouse === player.tieBreakHouse
-                );
-                let hand = player.hand.filter(
-                    (card) =>
-                        card.printedHouse === player.tieBreakHouse &&
-                        card.bonusIcons.some((b) => b === 'amber')
-                );
-                let amber = hand.reduce(
-                    (tot, card) => tot + card.bonusIcons.filter((b) => b === 'amber').length,
-                    inPlay.length
-                );
+        // Step 5: The player with the most creatures in play wins
+        let maxCreatures = Math.max(...potentialWinners.map((p) => p.creaturesInPlay.length));
+        potentialWinners = potentialWinners.filter(
+            (p) => p.creaturesInPlay.length === maxCreatures
+        );
 
-                this.addMessage(
-                    '{0} chooses house {1} to break tie and collects {2} amber with cards: {3}',
-                    player,
-                    player.tieBreakHouse,
-                    amber,
-                    inPlay.concat(hand)
-                );
-
-                if (amber > potentialAmber) {
-                    potentialAmber = amber;
-                    potentialWinnersByHouse = [player];
-                } else if (amber === potentialAmber) {
-                    potentialWinnersByHouse.push(player);
-                }
-            }
-            if (potentialWinnersByHouse.length === 1) {
-                this.recordWinner(potentialWinnersByHouse[0], 'house after time');
-            } else {
-                this.addMessage('tie-break condition not fulfilled, winner is the first player');
-                this.recordWinner(this.firstPlayer, 'first player after time');
-            }
+        if (potentialWinners.length === 1) {
+            this.addMessage(
+                'Tiebreaker: {0} wins with the most friendly creatures',
+                potentialWinners[0]
+            );
+            this.recordWinner(potentialWinners[0], 'creatures after time');
+            return;
         }
+
+        // Step 6: First player wins
+        this.addMessage('Tiebreaker: {0} wins as the first player', this.firstPlayer);
+        this.recordWinner(this.firstPlayer, 'first player after time');
     }
 
     /**
@@ -519,7 +498,7 @@ class Game extends EventEmitter {
             if (
                 this.useGameTimeLimit &&
                 this.timeLimit.isTimeLimitReached &&
-                this.playedRoundsAfterTime.length === this.getPlayers().length &&
+                this.finalTurnCompleted &&
                 !this.finishedAt
             ) {
                 this.checkTimeWinCondition();
@@ -845,7 +824,6 @@ class Game extends EventEmitter {
             new SimpleStep(this, () => this.beginRound())
         ]);
 
-        this.houseTieBreak = false;
         this.playStarted = true;
         this.startedAt = new Date();
         this.round = 1;
@@ -887,9 +865,6 @@ class Game extends EventEmitter {
     checkForTimeExpired() {
         if (this.timeLimit.isTimeLimitReached && !this.finishedAt) {
             this.playedRoundsAfterTime.push(this.activePlayer);
-            if (this.playedRoundsAfterTime.length < this.getPlayers().length) {
-                return;
-            }
         }
     }
 
@@ -898,6 +873,12 @@ class Game extends EventEmitter {
      * @returns {undefined}
      */
     beginRound() {
+        // Check if we should start the final turn instead of a normal round
+        if (this.timeIsCalled()) {
+            this.queueStep(new FinalTurn(this));
+            return;
+        }
+
         this.raiseEvent(EVENTS.onTurnStart, { player: this.activePlayer });
         this.activePlayer.beginRound();
         this.queueStep(new SimpleStep(this, () => this.finalizeBeginRound(0)));
@@ -908,6 +889,20 @@ class Game extends EventEmitter {
         this.queueStep(new DrawPhase(this));
         this.queueStep(new SimpleStep(this, () => this.raiseEndRoundEvent()));
         this.queueStep(new SimpleStep(this, () => this.beginRound()));
+    }
+
+    /**
+     * Check if the final turn (partial turn for first player after time) should start.
+     * This happens after both players have completed their post-time turns.
+     */
+    timeIsCalled() {
+        return (
+            this.useGameTimeLimit &&
+            this.timeLimit.isTimeLimitReached &&
+            this.playedRoundsAfterTime.length >= this.getPlayers().length &&
+            !this.finalTurnCompleted &&
+            !this.finishedAt
+        );
     }
 
     /*
@@ -1300,7 +1295,7 @@ class Game extends EventEmitter {
             let creaturesToDestroy = this.creaturesInPlay.filter(
                 (card) =>
                     card.type === 'creature' &&
-                    (card.power <= 0 || card.tokens.damage >= card.power) &&
+                    (card.power <= 0 || card.damage >= card.power) &&
                     !card.moribund
             );
             if (creaturesToDestroy.length > 0) {

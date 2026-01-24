@@ -4,9 +4,10 @@ class RocketeerTryska extends Card {
     // (T) While the tide is high, Rocketeer Tryska’s neighbors enter play ready.
     setupCardAbilities(ability) {
         this.persistentEffect({
-            location: 'any',
             condition: (context) => context.player.isTideHigh(),
-            match: () => true,
+            targetLocation: 'any',
+            targetController: 'self',
+            match: (card) => card.type === 'creature',
             effect: ability.effects.entersPlayReady((card, _context, effectContext) =>
                 effectContext.source.neighbors.includes(card)
             )

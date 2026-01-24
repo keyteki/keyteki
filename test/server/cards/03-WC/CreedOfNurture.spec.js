@@ -57,13 +57,13 @@ describe('Creed of Nurture', function () {
             this.player1.clickCard(this.firespitter);
             expect(this.player1).toHavePrompt('Which ability would you like to use?');
             this.player1.clickPrompt('Firespitter');
-            expect(this.briarGrubbling.tokens.damage).toBe(1);
-            expect(this.troll.tokens.damage).toBe(1);
+            expect(this.briarGrubbling.damage).toBe(1);
+            expect(this.troll.damage).toBe(1);
             expect(this.player1).toHavePrompt('Triggered Abilities');
             expect(this.player1).toBeAbleToSelect(this.briarGrubbling);
             expect(this.player1).toBeAbleToSelect(this.firespitter);
             this.player1.clickCard(this.briarGrubbling);
-            expect(this.firespitter.tokens.damage).toBe(4);
+            expect(this.firespitter.damage).toBe(4);
             expect(this.briarGrubbling.location).toBe('discard');
             expect(this.player1).isReadyToTakeAction();
         });

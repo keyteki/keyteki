@@ -29,7 +29,7 @@ describe('Cosmic Recompense', function () {
             expect(this.player1).toBeAbleToSelect(this.troll);
             expect(this.player1).not.toBeAbleToSelect(this.medicIngram);
             this.player1.clickCard(this.krump);
-            expect(this.krump.tokens.damage).toBe(3);
+            expect(this.krump.damage).toBe(3);
             expect(this.player1.amber).toBe(2);
             expect(this.player2.amber).toBe(2);
             expect(this.player1).toBeAbleToSelect(this.krump);
@@ -37,7 +37,7 @@ describe('Cosmic Recompense', function () {
             expect(this.player1).toBeAbleToSelect(this.troll);
             expect(this.player1).not.toBeAbleToSelect(this.medicIngram);
             this.player1.clickCard(this.troll);
-            expect(this.troll.tokens.damage).toBe(3);
+            expect(this.troll.damage).toBe(3);
             expect(this.player1.amber).toBe(3);
             expect(this.player2.amber).toBe(1);
             expect(this.player1).isReadyToTakeAction();
@@ -50,7 +50,7 @@ describe('Cosmic Recompense', function () {
             this.player1.clickCard(this.krump);
             expect(this.player1.amber).toBe(2);
             expect(this.player2.amber).toBe(2);
-            expect(this.krump.tokens.damage).toBe(3);
+            expect(this.krump.damage).toBe(3);
             expect(this.player1).isReadyToTakeAction();
         });
 

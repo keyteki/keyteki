@@ -24,7 +24,7 @@ describe('Neffru', function () {
         it('should cause the controller of a destroyed creature (opponent) to gain an amber', function () {
             this.player1.fightWith(this.ancientYurk, this.docBookton);
             expect(this.docBookton.location).toBe('discard');
-            expect(this.ancientYurk.tokens.damage).toBe(5);
+            expect(this.ancientYurk.damage).toBe(5);
             expect(this.player1.amber).toBe(0);
             expect(this.player2.amber).toBe(4);
         });
@@ -32,7 +32,7 @@ describe('Neffru', function () {
         it('should cause the controller of a destroyed creature (self) to gain an amber', function () {
             this.player1.fightWith(this.emberImp, this.docBookton);
             expect(this.emberImp.location).toBe('discard');
-            expect(this.docBookton.tokens.damage).toBe(2);
+            expect(this.docBookton.damage).toBe(2);
             expect(this.player1.amber).toBe(1);
             expect(this.player2.amber).toBe(3);
         });
@@ -59,7 +59,7 @@ describe('Neffru', function () {
             this.player1.fightWith(this.neffru, this.helperBot);
             expect(this.neffru.location).toBe('play area');
             expect(this.helperBot.location).toBe('discard');
-            expect(this.neffru.tokens.damage).toBe(1);
+            expect(this.neffru.damage).toBe(1);
             expect(this.player1.amber).toBe(0);
             expect(this.player2.amber).toBe(4);
         });
@@ -73,7 +73,7 @@ describe('Neffru', function () {
             this.player2.fightWith(this.daughter, this.neffru);
             expect(this.neffru.location).toBe('play area');
             expect(this.daughter.location).toBe('discard');
-            expect(this.neffru.tokens.damage).toBe(2);
+            expect(this.neffru.damage).toBe(2);
             expect(this.player1.amber).toBe(1);
             expect(this.player2.amber).toBe(3);
         });
@@ -123,7 +123,7 @@ describe('Neffru', function () {
             this.player1.fightWith(this.neffru, this.helperBot);
             expect(this.neffru.location).toBe('play area');
             expect(this.helperBot.location).toBe('play area');
-            expect(this.neffru.tokens.damage).toBe(1);
+            expect(this.neffru.damage).toBe(1);
             expect(this.player1.amber).toBe(0);
             expect(this.player2.amber).toBe(3);
         });

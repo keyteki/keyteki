@@ -55,7 +55,7 @@ describe('Frane’s Blaster', function () {
             expect(this.player1).toBeAbleToSelect(this.lamindra);
             expect(this.player1).toBeAbleToSelect(this.krump);
             this.player1.clickCard(this.krump);
-            expect(this.krump.tokens.damage).toBe(2);
+            expect(this.krump.damage).toBe(2);
         });
 
         it('fight ability should allow dealing 2 damages to a creature', function () {
@@ -75,7 +75,7 @@ describe('Frane’s Blaster', function () {
             expect(this.player1).toBeAbleToSelect(this.lamindra);
             expect(this.player1).toBeAbleToSelect(this.krump);
             this.player1.clickCard(this.krump);
-            expect(this.krump.tokens.damage).toBe(2);
+            expect(this.krump.damage).toBe(2);
         });
 
         it('reap ability should allow moving the upgrade to the appropriate officer', function () {
@@ -158,7 +158,7 @@ describe('Frane’s Blaster', function () {
             expect(this.player1).toBeAbleToSelect(this.lamindra);
             expect(this.player1).toBeAbleToSelect(this.krump);
             this.player1.clickCard(this.krump);
-            expect(this.krump.tokens.damage).toBe(2);
+            expect(this.krump.damage).toBe(2);
         });
 
         it('reap ability should allow moving to associated officer even when it is not in play', function () {
@@ -187,7 +187,7 @@ describe('Frane’s Blaster', function () {
             expect(this.player1).toBeAbleToSelect(this.lamindra);
             expect(this.player1).toBeAbleToSelect(this.krump);
             this.player1.clickCard(this.krump);
-            expect(this.krump.tokens.damage).toBe(2);
+            expect(this.krump.damage).toBe(2);
         });
     });
 
@@ -211,12 +211,23 @@ describe('Frane’s Blaster', function () {
         it('should not allow moving upgrade between officers of same name', function () {
             this.player1.playUpgrade(this.franeSBlaster, this.firstOfficerFrane1);
             this.player1.reap(this.firstOfficerFrane1);
+            expect(this.player1).toHavePrompt('Triggered Abilities');
+            expect(this.player1).toHavePromptButton(this.firstOfficerFrane1.name);
+            expect(this.player1).toHavePromptButton(this.franeSBlaster.name);
+
+            // Capture with Frane's ability
+            this.player1.clickPrompt(this.firstOfficerFrane1.name);
             this.player1.clickCard(this.firstOfficerFrane1);
 
+            // Trigger Frane's Blaster's ability
+            expect(this.player1).toHavePrompt('Select One');
+            expect(this.player1).toHavePromptButton('Deal 2 damage');
+            expect(this.player1).toHavePromptButton('Move Frane’s Blaster');
             this.player1.clickPrompt('Move Frane’s Blaster');
-            // There are no valid targets.
-            expect(this.player1).isReadyToTakeAction();
+            // Frane's Blaster is already on Frane so moving fizzles
             expect(this.firstOfficerFrane1.upgrades).toContain(this.franeSBlaster);
+
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

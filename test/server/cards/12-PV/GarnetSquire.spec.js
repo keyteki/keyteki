@@ -18,7 +18,7 @@ describe('Garnet Squire', function () {
             this.player2.clickPrompt('brobnar');
             this.player2.endTurn();
 
-            expect(this.garnetSquire.tokens.damage).toBeUndefined();
+            expect(this.garnetSquire.damage).toBe(0);
             expect(this.player1.amber).toBe(1);
         });
 
@@ -28,7 +28,7 @@ describe('Garnet Squire', function () {
             this.player2.clickPrompt('brobnar');
             this.player2.endTurn();
 
-            expect(this.garnetSquire.tokens.damage).toBe(1);
+            expect(this.garnetSquire.damage).toBe(1);
             expect(this.player1.amber).toBe(1);
         });
 
@@ -37,7 +37,7 @@ describe('Garnet Squire', function () {
             this.player2.clickPrompt('brobnar');
             this.player2.endTurn();
 
-            expect(this.garnetSquire.tokens.damage).toBeUndefined();
+            expect(this.garnetSquire.damage).toBe(0);
             expect(this.player1.amber).toBe(0);
         });
     });

@@ -336,15 +336,18 @@ class Card extends EffectSource {
                     onCardDestroyed: (event, context) =>
                         event.card === context.source &&
                         event.card.type === 'creature' &&
-                        context.source.warded,
+                        context.source.warded &&
+                        !event.isRedirected,
                     onCardPurged: (event, context) =>
                         event.card === context.source &&
                         event.card.type === 'creature' &&
-                        context.source.warded,
+                        context.source.warded &&
+                        !event.isRedirected,
                     onCardLeavesPlay: (event, context) =>
                         event.card === context.source &&
                         event.card.type === 'creature' &&
-                        context.source.warded
+                        context.source.warded &&
+                        !event.isRedirected
                 },
                 autoResolve: true,
                 effect: 'remove its ward token',
@@ -1030,6 +1033,14 @@ class Card extends EffectSource {
 
     set amber(amber) {
         this.tokens.amber = amber;
+    }
+
+    get damage() {
+        return this.hasToken('damage') ? this.tokens.damage : 0;
+    }
+
+    get powerCounters() {
+        return this.hasToken('power') ? this.tokens.power : 0;
     }
 
     get enraged() {

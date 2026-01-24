@@ -21,7 +21,7 @@ describe('Snippy', function () {
             expect(this.player1).toBeAbleToSelect(this.dewFaerie);
             expect(this.player1).toBeAbleToSelect(this.flaxia);
             this.player1.clickCard(this.flaxia);
-            expect(this.flaxia.tokens.damage).toBe(2);
+            expect(this.flaxia.damage).toBe(2);
             expect(this.player1).isReadyToTakeAction();
         });
 

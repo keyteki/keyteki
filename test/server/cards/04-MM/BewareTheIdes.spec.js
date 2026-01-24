@@ -38,7 +38,7 @@ describe('Beware the Ides', function () {
             expect(this.player1).not.toBeAbleToSelect(this.troll);
             expect(this.player1).not.toBeAbleToSelect(this.lamindra);
             this.player1.clickCard(this.deusillus);
-            expect(this.deusillus.tokens.damage).toBe(23);
+            expect(this.deusillus.damage).toBe(23);
             expect(this.player1).isReadyToTakeAction();
         });
 

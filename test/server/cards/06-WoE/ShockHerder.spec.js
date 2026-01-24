@@ -22,7 +22,7 @@ describe('Shock Herder', function () {
             expect(this.player1).toHavePrompt('Choose a creature to attack');
             this.player1.clickCard(this.batdrone);
             expect(this.bumpsy.location).toBe('play area');
-            expect(this.bumpsy.tokens.damage).toBe(2);
+            expect(this.bumpsy.damage).toBe(2);
             expect(this.batdrone.location).toBe('discard');
         });
 
@@ -35,7 +35,7 @@ describe('Shock Herder', function () {
             expect(this.player1).toHavePrompt('Choose a creature to attack');
             this.player1.clickCard(this.batdrone);
             expect(this.ancientBear.location).toBe('play area');
-            expect(this.ancientBear.tokens.damage).toBe(undefined);
+            expect(this.ancientBear.damage).toBe(0);
             expect(this.batdrone.location).toBe('discard');
         });
 
@@ -49,7 +49,7 @@ describe('Shock Herder', function () {
             expect(this.player1).toBeAbleToSelect(this.ancientBear);
             this.player1.clickCard(this.awakenedTitan); // click to fail ready
             expect(this.awakenedTitan.exhausted).toBe(true);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

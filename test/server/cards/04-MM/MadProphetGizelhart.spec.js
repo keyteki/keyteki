@@ -23,9 +23,9 @@ describe('mad-prophet-gizelhart', function () {
             });
 
             it('heal non-mutants and gain 1 amber', function () {
-                expect(this.troll.tokens.damage).toBe(undefined);
-                expect(this.dodger.tokens.damage).toBe(undefined);
-                expect(this.hapsis.tokens.damage).toBe(1);
+                expect(this.troll.damage).toBe(0);
+                expect(this.dodger.damage).toBe(0);
+                expect(this.hapsis.damage).toBe(1);
                 expect(this.player1.amber).toBe(2);
             });
         });

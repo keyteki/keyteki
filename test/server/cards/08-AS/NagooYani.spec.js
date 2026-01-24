@@ -22,14 +22,14 @@ describe('Nagoo Yani', function () {
             expect(this.player1).toBeAbleToSelect(this.nexus);
             expect(this.player1).toBeAbleToSelect(this.troll);
             this.player1.clickCard(this.troll);
-            expect(this.troll.tokens.damage).toBe(4);
+            expect(this.troll.damage).toBe(4);
             expect(this.player1).isReadyToTakeAction();
         });
 
         it('should deal 4 damage to an enemy creature on fight', function () {
             this.player1.play(this.nagooYani);
             this.player1.clickCard(this.troll);
-            this.nagooYani.exhausted = false;
+            this.nagooYani.ready();
             this.player1.fightWith(this.nagooYani, this.lamindra);
             expect(this.player1).not.toBeAbleToSelect(this.dewFaerie);
             expect(this.player1).not.toBeAbleToSelect(this.dustPixie);
@@ -44,8 +44,8 @@ describe('Nagoo Yani', function () {
         it('should deal 2 damage to enemy flank creatures on scrap', function () {
             this.player1.scrap(this.nagooYani);
             expect(this.lamindra.location).toBe('discard');
-            expect(this.troll.tokens.damage).toBe(2);
-            expect(this.nexus.tokens.damage).toBe(undefined);
+            expect(this.troll.damage).toBe(2);
+            expect(this.nexus.damage).toBe(0);
             expect(this.dewFaerie.location).toBe('play area');
             expect(this.dustPixie.location).toBe('play area');
             expect(this.player1).isReadyToTakeAction();

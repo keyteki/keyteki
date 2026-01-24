@@ -39,7 +39,7 @@ describe('Destructive Analysis', function () {
             this.player1.clickCard(this.tunk);
             this.player1.clickPrompt('done');
             expect(this.tunk.location).toBe('purged');
-            expect(this.bumpsy.tokens.damage).toBe(4);
+            expect(this.bumpsy.damage).toBe(4);
         });
         it('should return archived opponent cards to their hands and deal no additional damage ', function () {
             expect(this.tunk.location).toBe('archives');
@@ -57,7 +57,7 @@ describe('Destructive Analysis', function () {
             expect(this.troll.location).not.toBe('purged');
             expect(this.player2.hand).toContain(this.troll);
             expect(this.player1.hand).not.toContain(this.troll);
-            expect(this.bumpsy.tokens.damage).toBe(2);
+            expect(this.bumpsy.damage).toBe(2);
         });
         it('should allow you to select no creatures', function () {
             expect(this.tunk.location).toBe('archives');
@@ -71,7 +71,7 @@ describe('Destructive Analysis', function () {
             expect(this.player1).toBeAbleToSelect(this.troll);
             expect(this.player1).not.toBeAbleToSelect(this.raidingKnight);
             this.player1.clickPrompt('done');
-            expect(this.bumpsy.tokens.damage).toBe(2);
+            expect(this.bumpsy.damage).toBe(2);
         });
     });
 });

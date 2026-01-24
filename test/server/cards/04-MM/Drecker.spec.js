@@ -23,8 +23,8 @@ describe('Drecker', function () {
             });
 
             it('should do that damage to drecker too', function () {
-                expect(this.snarette.tokens.damage).toBe(1);
-                expect(this.drecker.tokens.damage).toBe(1);
+                expect(this.snarette.damage).toBe(1);
+                expect(this.drecker.damage).toBe(1);
             });
         });
 
@@ -35,8 +35,8 @@ describe('Drecker', function () {
             });
 
             it('should not do that damage to drecker too', function () {
-                expect(this.snarette.tokens.damage).toBe(2);
-                expect(this.drecker.tokens.damage).toBe(undefined);
+                expect(this.snarette.damage).toBe(2);
+                expect(this.drecker.damage).toBe(0);
             });
         });
 
@@ -59,8 +59,8 @@ describe('Drecker', function () {
 
             it('should duplicate damage once', function () {
                 expect(this.drecker.neighbors).toContain(this.drecker2);
-                expect(this.drecker.tokens.damage).toBe(1);
-                expect(this.drecker2.tokens.damage).toBe(1);
+                expect(this.drecker.damage).toBe(1);
+                expect(this.drecker2.damage).toBe(1);
             });
         });
     });
@@ -90,10 +90,10 @@ describe('Drecker', function () {
         it('should do the damage to neighbor Drecker after bypassing armor', function () {
             this.player2.fightWith(this.abondTheArmorsmith, this.drecker2);
             expect(this.abondTheArmorsmith.location).toBe('discard');
-            expect(this.drecker2.tokens.damage).toBe(2);
+            expect(this.drecker2.damage).toBe(2);
             expect(this.drecker2.armorUsed).toBe(1);
-            expect(this.drecker.tokens.damage).toBe(2);
-            expect(this.drecker3.tokens.damage).toBeUndefined();
+            expect(this.drecker.damage).toBe(2);
+            expect(this.drecker3.damage).toBe(0);
             this.player2.endTurn();
         });
 
@@ -101,11 +101,11 @@ describe('Drecker', function () {
             this.player2.fightWith(this.abondTheArmorsmith, this.gub);
             this.player2.clickCard(this.drecker2);
             expect(this.abondTheArmorsmith.location).toBe('discard');
-            expect(this.gub.tokens.damage).toBe(3);
-            expect(this.drecker.tokens.damage).toBeUndefined();
-            expect(this.drecker2.tokens.damage).toBe(3);
+            expect(this.gub.damage).toBe(3);
+            expect(this.drecker.damage).toBe(0);
+            expect(this.drecker2.damage).toBe(3);
             expect(this.drecker2.armorUsed).toBe(0);
-            expect(this.drecker3.tokens.damage).toBe(3);
+            expect(this.drecker3.damage).toBe(3);
             this.player2.endTurn();
         });
 
@@ -116,11 +116,11 @@ describe('Drecker', function () {
             expect(this.player2).toBeAbleToSelect(this.drecker3);
             this.player2.clickCard(this.drecker2);
             expect(this.abondTheArmorsmith.location).toBe('discard');
-            expect(this.gub.tokens.damage).toBe(3);
-            expect(this.drecker.tokens.damage).toBeUndefined();
-            expect(this.drecker2.tokens.damage).toBe(3);
+            expect(this.gub.damage).toBe(3);
+            expect(this.drecker.damage).toBe(0);
+            expect(this.drecker2.damage).toBe(3);
             expect(this.drecker2.armorUsed).toBe(0);
-            expect(this.drecker3.tokens.damage).toBe(3);
+            expect(this.drecker3.damage).toBe(3);
             expect(this.drecker3.warded).toBe(true);
             this.player2.endTurn();
         });
@@ -157,12 +157,12 @@ describe('Drecker', function () {
             expect(this.player2).toBeAbleToSelect(this.shadowSelf);
             this.player2.clickCard(this.drecker2);
             expect(this.abondTheArmorsmith.location).toBe('discard');
-            expect(this.gub.tokens.damage).toBe(3);
-            expect(this.drecker.tokens.damage).toBeUndefined();
-            expect(this.drecker2.tokens.damage).toBe(3);
+            expect(this.gub.damage).toBe(3);
+            expect(this.drecker.damage).toBe(0);
+            expect(this.drecker2.damage).toBe(3);
             expect(this.drecker2.armorUsed).toBe(0);
-            expect(this.drecker3.tokens.damage).toBeUndefined();
-            expect(this.shadowSelf.tokens.damage).toBe(3);
+            expect(this.drecker3.damage).toBe(0);
+            expect(this.shadowSelf.damage).toBe(3);
             this.player2.endTurn();
         });
     });

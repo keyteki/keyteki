@@ -27,7 +27,7 @@ describe('Mack the Knife', function () {
             expect(this.player1).toBeAbleToSelect(this.nexus);
             expect(this.player1).toBeAbleToSelect(this.mackTheKnife);
             this.player1.clickCard(this.dextre);
-            expect(this.dextre.tokens.damage).toBe(1);
+            expect(this.dextre.damage).toBe(1);
         });
 
         it('should deal 1 damage and gain an amber when this kills the creature', function () {

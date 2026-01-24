@@ -42,7 +42,7 @@ describe('Bonerot Venom', function () {
             expect(this.mackTheKnife.upgrades).toContain(this.bonerotVenom);
             this.player1.reap(this.mackTheKnife);
             expect(this.mackTheKnife.location).toBe('play area');
-            expect(this.mackTheKnife.tokens.damage).toBe(2);
+            expect(this.mackTheKnife.damage).toBe(2);
             expect(this.player1.amber).toBe(2);
         });
 
@@ -53,7 +53,7 @@ describe('Bonerot Venom', function () {
             this.mackTheKnife.stun();
             this.player1.clickCard(this.mackTheKnife);
             this.player1.clickPrompt("Remove this creature's stun");
-            expect(this.mackTheKnife.tokens.damage).toBe(2);
+            expect(this.mackTheKnife.damage).toBe(2);
             expect(this.player1.amber).toBe(1);
         });
 
@@ -64,7 +64,7 @@ describe('Bonerot Venom', function () {
             this.brendTheFanatic.stun();
             this.player1.clickCard(this.brendTheFanatic);
             this.player1.clickPrompt("Remove this creature's stun");
-            expect(this.brendTheFanatic.tokens.damage).toBe(2);
+            expect(this.brendTheFanatic.damage).toBe(2);
         });
 
         it('should deal 2 damage to mack the knife when he uses his action ability', function () {
@@ -78,8 +78,8 @@ describe('Bonerot Venom', function () {
             expect(this.player1).toBeAbleToSelect(this.blypyp);
             expect(this.player1).toBeAbleToSelect(this.mackTheKnife);
             this.player1.clickCard(this.mindwarper);
-            expect(this.mindwarper.tokens.damage).toBe(1);
-            expect(this.mackTheKnife.tokens.damage).toBe(2);
+            expect(this.mindwarper.damage).toBe(1);
+            expect(this.mackTheKnife.damage).toBe(2);
             expect(this.player1.amber).toBe(1);
         });
 
@@ -92,7 +92,7 @@ describe('Bonerot Venom', function () {
             expect(this.player1).toBeAbleToSelect(this.mindwarper);
             expect(this.player1).toBeAbleToSelect(this.blypyp);
             this.player1.clickCard(this.mindwarper);
-            expect(this.mackTheKnife.tokens.damage).toBe(2);
+            expect(this.mackTheKnife.damage).toBe(2);
         });
 
         it('should deal 2 damage to mack the knife and kill him when he fights blypyp who is not elusive', function () {
@@ -118,7 +118,7 @@ describe('Bonerot Venom', function () {
             expect(this.player2).toBeAbleToSelect(this.mackTheKnife);
             this.player2.clickCard(this.mackTheKnife);
             this.player2.clickPrompt('done');
-            expect(this.mackTheKnife.tokens.damage).toBeUndefined();
+            expect(this.mackTheKnife.damage).toBe(0);
         });
 
         it('should not trigger if exhausted by other means by its controller', function () {
@@ -134,7 +134,7 @@ describe('Bonerot Venom', function () {
             this.player1.clickCard(this.mackTheKnife);
             this.player1.clickPrompt('done');
             expect(this.mackTheKnife.exhausted).toBe(true);
-            expect(this.mackTheKnife.tokens.damage).toBeUndefined();
+            expect(this.mackTheKnife.damage).toBe(0);
         });
 
         it('should destroy umbra if umbra fights due to ganger chieftain', function () {

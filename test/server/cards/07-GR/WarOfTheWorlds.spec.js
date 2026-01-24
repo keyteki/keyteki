@@ -26,8 +26,8 @@ describe('War of the Worlds', function () {
 
         it('deals 2 damage to all Mars creatures', function () {
             this.player1.play(this.warOfTheWorlds);
-            expect(this.tunk.tokens.damage).toBe(1);
-            expect(this.zizok.tokens.damage).toBe(2);
+            expect(this.tunk.damage).toBe(1);
+            expect(this.zizok.damage).toBe(2);
             expect(this.player1).isReadyToTakeAction();
         });
     });

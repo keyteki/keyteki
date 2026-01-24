@@ -16,7 +16,7 @@ describe('Kindrith Longshot', function () {
             this.player1.reap(this.kindrithLongshot);
             expect(this.player1).toHavePrompt('Kindrith Longshot');
             this.player1.clickCard(this.troll);
-            expect(this.troll.tokens.damage).toBe(2);
+            expect(this.troll.damage).toBe(2);
             expect(this.player1).isReadyToTakeAction();
         });
     });

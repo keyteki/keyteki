@@ -44,10 +44,10 @@ describe('No Safety in Numbers', function () {
         it('should deal 3 damage to Brobnar and Shadows', function () {
             this.player1.play(this.noSafetyInNumbers);
 
-            expect(this.troll.tokens.damage).toBe(3);
-            expect(this.krump.tokens.damage).toBe(3);
-            expect(this.groggins.tokens.damage).toBe(3);
-            expect(this.dodger.tokens.damage).toBe(3);
+            expect(this.troll.damage).toBe(3);
+            expect(this.krump.damage).toBe(3);
+            expect(this.groggins.damage).toBe(3);
+            expect(this.dodger.damage).toBe(3);
             expect(this.lamindra.location).toBe('discard');
             expect(this.redlock.location).toBe('discard');
             expect(this.faygin.location).toBe('discard');

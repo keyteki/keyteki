@@ -17,7 +17,7 @@ describe('Returning Champion', function () {
 
         it('deals 3 damage to itself on play', function () {
             this.player1.playCreature(this.returningChampion);
-            expect(this.returningChampion.tokens.damage).toBe(3);
+            expect(this.returningChampion.damage).toBe(3);
         });
 
         describe('after fight', function () {
@@ -46,8 +46,8 @@ describe('Returning Champion', function () {
                     expect(this.player1).toBeAbleToSelect(this.cornicenOctavia);
                     expect(this.player1).not.toBeAbleToSelect(this.dustPixie);
                     this.player1.clickCard(this.cornicenOctavia);
-                    expect(this.returningChampion.tokens.damage).toBe(undefined);
-                    expect(this.cornicenOctavia.tokens.damage).toBe(4);
+                    expect(this.returningChampion.damage).toBe(0);
+                    expect(this.cornicenOctavia.damage).toBe(4);
                     expect(this.player1).isReadyToTakeAction();
                 });
 
@@ -58,7 +58,7 @@ describe('Returning Champion', function () {
                     expect(this.player1).not.toBeAbleToSelect(this.cornicenOctavia);
                     expect(this.player1).toBeAbleToSelect(this.dustPixie);
                     this.player1.clickCard(this.dustPixie);
-                    expect(this.returningChampion.tokens.damage).toBe(undefined);
+                    expect(this.returningChampion.damage).toBe(0);
                     expect(this.dustPixie.location).toBe('discard');
                     expect(this.player1).isReadyToTakeAction();
                 });
@@ -70,8 +70,8 @@ describe('Returning Champion', function () {
                     expect(this.player1).toBeAbleToSelect(this.cornicenOctavia);
                     expect(this.player1).not.toBeAbleToSelect(this.dustPixie);
                     this.player1.clickCard(this.troll);
-                    expect(this.returningChampion.tokens.damage).toBe(undefined);
-                    expect(this.troll.tokens.damage).toBe(4);
+                    expect(this.returningChampion.damage).toBe(0);
+                    expect(this.troll.damage).toBe(4);
                     expect(this.player1).isReadyToTakeAction();
                 });
             });

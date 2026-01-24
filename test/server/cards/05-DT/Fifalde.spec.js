@@ -37,11 +37,11 @@ describe('Fifalde', function () {
         it('should heal and gain 1 AE when it reaps', function () {
             this.player1.moveCard(this.fifalde, 'play area');
             this.fifalde.addToken('damage', 2);
-            expect(this.fifalde.tokens.damage).toBe(2);
+            expect(this.fifalde.damage).toBe(2);
             expect(this.player2.amber).toBe(1);
             this.player1.reap(this.fifalde);
             expect(this.player1.amber).toBe(3);
-            expect(this.fifalde.tokens.damage).toBeUndefined();
+            expect(this.fifalde.damage).toBe(0);
         });
     });
 });

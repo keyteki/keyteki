@@ -18,7 +18,7 @@ describe("Flint's Map", function () {
         });
 
         it('should search discard for and archive a Flint card on omni', function () {
-            this.player1.useAction(this.flintSMap, true);
+            this.player1.useOmni(this.flintSMap);
             expect(this.player1).toBeAbleToSelect(this.treasureIsland);
             expect(this.player1).toBeAbleToSelect(this.flintSLegend);
             expect(this.player1).toBeAbleToSelect(this.flintSStash);
@@ -35,7 +35,7 @@ describe("Flint's Map", function () {
             let shuffled = null;
             this.player1.player.game.on('onDeckShuffled', (event) => (shuffled = event.player));
             this.player1.moveCard(this.treasureIsland, 'deck');
-            this.player1.useAction(this.flintSMap, true);
+            this.player1.useOmni(this.flintSMap);
             expect(this.player1).toBeAbleToSelect(this.treasureIsland);
             expect(this.player1).toBeAbleToSelect(this.flintSLegend);
             expect(this.player1).toBeAbleToSelect(this.flintSStash);
@@ -50,7 +50,7 @@ describe("Flint's Map", function () {
         });
 
         it('should be optional', function () {
-            this.player1.useAction(this.flintSMap, true);
+            this.player1.useOmni(this.flintSMap);
             this.player1.clickPrompt('Done');
             expect(this.player1.player.archives.length).toBe(0);
             expect(this.player1).isReadyToTakeAction();

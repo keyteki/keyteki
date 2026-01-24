@@ -15,7 +15,7 @@ describe('Humble', function () {
         });
 
         it('should not move any amber if creature is already exhausted', function () {
-            this.consulPrimus.exhausted = true;
+            this.consulPrimus.exhaust();
             this.consulPrimus.tokens.amber = 10;
             this.player1.play(this.humble);
             expect(this.player1).toBeAbleToSelect(this.senatorShrix);

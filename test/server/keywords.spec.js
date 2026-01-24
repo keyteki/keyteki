@@ -118,7 +118,7 @@ describe('keywords', function () {
             this.player1.fightWith(this.blypyp, this.xenosBloodshadow);
             expect(this.blypyp.location).toBe('discard');
             expect(this.xenosBloodshadow.location).toBe('play area');
-            expect(this.xenosBloodshadow.tokens.damage).toBeUndefined();
+            expect(this.xenosBloodshadow.damage).toBe(0);
             expect(this.xenosBloodshadow.elusiveUsed).toBe(true);
             this.player1.fightWith(this.chuffApe, this.xenosBloodshadow);
             expect(this.chuffApe.tokens.armor).toBeUndefined();
@@ -243,25 +243,25 @@ describe('keywords', function () {
         it('should deal damage to neighbors', function () {
             this.player1.fightWith(this.croggTheClumsy, this.lollopTheTitanic);
             expect(this.croggTheClumsy.location).toBe('play area');
-            expect(this.lollopTheTitanic.tokens.damage).toBe(7);
-            expect(this.alaka.tokens.damage).toBe(2);
-            expect(this.megaAlaka.tokens.damage).toBe(2);
+            expect(this.lollopTheTitanic.damage).toBe(7);
+            expect(this.alaka.damage).toBe(2);
+            expect(this.megaAlaka.damage).toBe(2);
         });
 
         it('should be considered damage from source and not hit Ardent Hero', function () {
             this.player1.fightWith(this.croggTheClumsy, this.pitlord);
             expect(this.croggTheClumsy.location).toBe('discard');
-            expect(this.pitlord.tokens.damage).toBe(7);
-            expect(this.ardentHero.tokens.damage).toBeUndefined();
-            expect(this.megaAlaka.tokens.damage).toBe(2);
+            expect(this.pitlord.damage).toBe(7);
+            expect(this.ardentHero.damage).toBe(0);
+            expect(this.megaAlaka.damage).toBe(2);
         });
 
         it('should hit Drecker if 2 away', function () {
             this.player1.fightWith(this.croggTheClumsy, this.lollopTheTitanic);
-            expect(this.drecker.tokens.damage).toBe(2);
-            expect(this.alaka.tokens.damage).toBe(2);
-            expect(this.lollopTheTitanic.tokens.damage).toBe(7);
-            expect(this.megaAlaka.tokens.damage).toBe(2);
+            expect(this.drecker.damage).toBe(2);
+            expect(this.alaka.damage).toBe(2);
+            expect(this.lollopTheTitanic.damage).toBe(7);
+            expect(this.megaAlaka.damage).toBe(2);
         });
     });
 });

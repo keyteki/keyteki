@@ -17,19 +17,19 @@ describe('Terrance Surefoot', function () {
             this.player1.playCreature(this.terranceSurefoot);
         });
 
-        it('captures 1 on play', function () {
+        it('captures 1 amber on play', function () {
             expect(this.terranceSurefoot.tokens.amber).toBe(1);
             expect(this.player2.amber).toBe(4);
         });
 
-        it('captures 1 on reap', function () {
-            this.terranceSurefoot.exhausted = false;
+        it('captures 1 amber on reap', function () {
+            this.terranceSurefoot.ready();
             this.player1.reap(this.terranceSurefoot);
             expect(this.terranceSurefoot.tokens.amber).toBe(2);
             expect(this.player2.amber).toBe(3);
         });
 
-        it('removes 1 when enemy creature reaps', function () {
+        it('removes 1 amber when enemy creature reaps', function () {
             this.player1.endTurn();
             this.player2.clickPrompt('untamed');
             this.player2.reap(this.flaxia);
@@ -39,7 +39,7 @@ describe('Terrance Surefoot', function () {
             expect(this.player2).isReadyToTakeAction();
         });
 
-        it('does not remove 1 when friendly creature reaps', function () {
+        it('does not remove 1 amber when friendly creature reaps', function () {
             this.player1.reap(this.alaka);
             expect(this.terranceSurefoot.tokens.amber).toBe(1);
             expect(this.player1.amber).toBe(8);

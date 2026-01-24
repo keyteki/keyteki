@@ -29,7 +29,7 @@ describe('Master Rabten', function () {
 
         it('should make each friendly Monk creature capture 1 amber after reaping', function () {
             this.player1.playCreature(this.masterRabten);
-            this.masterRabten.exhausted = false;
+            this.masterRabten.ready();
             this.player1.reap(this.masterRabten);
 
             expect(this.reveredMonk.tokens.amber).toBeUndefined();

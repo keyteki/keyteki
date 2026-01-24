@@ -21,7 +21,7 @@ describe('Reassembling Automaton', function () {
                 });
 
                 it('should fully heal automaton, not destroy it, exhaust it and move it to the right flank', function () {
-                    expect(this.reassemblingAutomaton.tokens.damage).toBe(undefined);
+                    expect(this.reassemblingAutomaton.damage).toBe(0);
                     expect(this.reassemblingAutomaton.location).toBe('play area');
                     expect(this.reassemblingAutomaton.exhausted).toBe(true);
                     expect(this.player1.player.cardsInPlay[1]).toBe(this.reassemblingAutomaton);

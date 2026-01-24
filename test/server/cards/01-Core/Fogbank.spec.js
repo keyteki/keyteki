@@ -17,7 +17,7 @@ describe('Fogbank', function () {
 
         it('own creatures should be able to fight', function () {
             this.player1.fightWith(this.niffleApe, this.emberImp);
-            expect(this.niffleApe.tokens.damage).toBe(2);
+            expect(this.niffleApe.damage).toBe(2);
             expect(this.emberImp.location).toBe('discard');
         });
 

@@ -47,7 +47,7 @@ describe('Into the Night', function () {
         it('allow own shadows creatures to fight', function () {
             this.player1.play(this.intoTheNight);
             this.player1.fightWith(this.aVinda, this.badPenny);
-            expect(this.aVinda.tokens.damage).toBe(1);
+            expect(this.aVinda.damage).toBe(1);
         });
 
         it('allow opponent shadows creatures to fight', function () {
@@ -55,7 +55,7 @@ describe('Into the Night', function () {
             this.player1.endTurn();
             this.player2.clickPrompt('shadows');
             this.player2.fightWith(this.badPenny, this.aVinda);
-            expect(this.aVinda.tokens.damage).toBe(1);
+            expect(this.aVinda.damage).toBe(1);
         });
     });
 
@@ -86,7 +86,7 @@ describe('Into the Night', function () {
             this.player1.endTurn();
             this.player2.clickPrompt('untamed');
             this.player2.fightWith(this.teliga, this.dodger);
-            expect(this.dodger.tokens.damage).toBe(3);
+            expect(this.dodger.damage).toBe(3);
             expect(this.player2).isReadyToTakeAction();
         });
     });

@@ -30,7 +30,7 @@ describe('Mastermindy', function () {
 
         it('should remove scheme counters and steal as much amber', function () {
             this.player1.play(this.mastermindy);
-            this.mastermindy.exhausted = false;
+            this.mastermindy.ready();
             this.mastermindy.tokens.scheme = 4;
             this.player1.useAction(this.mastermindy);
             expect(this.mastermindy.tokens.scheme).toBeUndefined();

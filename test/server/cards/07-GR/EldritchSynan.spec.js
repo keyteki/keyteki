@@ -15,7 +15,7 @@ describe('Eldritch Synan', function () {
         it('can be damaged by undamaged creatures when attacked', function () {
             this.player1.fightWith(this.aVinda, this.eldritchSynan);
             expect(this.eldritchSynan.location).toBe('discard');
-            expect(this.aVinda.tokens.damage).toBe(3);
+            expect(this.aVinda.damage).toBe(3);
         });
 
         it('can be damaged by undamaged creatures when attacking', function () {
@@ -23,13 +23,13 @@ describe('Eldritch Synan', function () {
             this.player2.clickPrompt('unfathomable');
             this.player2.fightWith(this.eldritchSynan, this.aVinda);
             expect(this.eldritchSynan.location).toBe('discard');
-            expect(this.aVinda.tokens.damage).toBe(3);
+            expect(this.aVinda.damage).toBe(3);
         });
 
         it('can be damaged by undamaged creatures using abilities', function () {
             this.player1.reap(this.aVinda);
             this.player1.clickCard(this.eldritchSynan);
-            expect(this.eldritchSynan.tokens.damage).toBe(1);
+            expect(this.eldritchSynan.damage).toBe(1);
         });
 
         it('can be damaged by undamaged self using abilities', function () {
@@ -44,7 +44,7 @@ describe('Eldritch Synan', function () {
             this.player1.clickCard(this.aVinda);
             this.player1.fightWith(this.aVinda, this.eldritchSynan);
             expect(this.eldritchSynan.location).toBe('play area');
-            expect(this.eldritchSynan.tokens.damage).toBe(undefined);
+            expect(this.eldritchSynan.damage).toBe(0);
             expect(this.aVinda.location).toBe('discard');
         });
 
@@ -55,7 +55,7 @@ describe('Eldritch Synan', function () {
             this.player2.clickPrompt('unfathomable');
             this.player2.fightWith(this.eldritchSynan, this.aVinda);
             expect(this.eldritchSynan.location).toBe('play area');
-            expect(this.eldritchSynan.tokens.damage).toBe(undefined);
+            expect(this.eldritchSynan.damage).toBe(0);
             expect(this.aVinda.location).toBe('discard');
         });
 
@@ -65,7 +65,7 @@ describe('Eldritch Synan', function () {
             this.player1.reap(this.aVinda);
             this.player1.clickCard(this.eldritchSynan);
             expect(this.eldritchSynan.location).toBe('play area');
-            expect(this.eldritchSynan.tokens.damage).toBe(undefined);
+            expect(this.eldritchSynan.damage).toBe(0);
         });
 
         it('cannot be damaged by damaged self using abilities', function () {
@@ -75,7 +75,7 @@ describe('Eldritch Synan', function () {
             this.player2.clickPrompt('unfathomable');
             this.player2.reap(this.eldritchSynan);
             expect(this.eldritchSynan.location).toBe('play area');
-            expect(this.eldritchSynan.tokens.damage).toBe(1);
+            expect(this.eldritchSynan.damage).toBe(1);
         });
     });
 });

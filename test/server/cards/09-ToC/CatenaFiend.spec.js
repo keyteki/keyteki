@@ -29,7 +29,7 @@ describe('Catena Fiend', function () {
             expect(this.player1).toBeAbleToSelect(this.catenaFiend);
             expect(this.player1).not.toBeAbleToSelect(this.troll);
             this.player1.clickCard(this.shooler);
-            expect(this.shooler.tokens.damage).toBe(3);
+            expect(this.shooler.damage).toBe(3);
             expect(this.player1).isReadyToTakeAction();
         });
 

@@ -18,9 +18,9 @@ describe('Mind Bullets', function () {
             this.player1.play(this.oppositionResearch);
             this.player1.play(this.archimedes);
             this.player1.play(this.mindBullets);
-            expect(this.ancientBear.tokens.damage).toBe(4);
-            expect(this.zorg.tokens.damage).toBe(4);
-            expect(this.troll.tokens.damage).toBe(4);
+            expect(this.ancientBear.damage).toBe(4);
+            expect(this.zorg.damage).toBe(4);
+            expect(this.troll.damage).toBe(4);
         });
     });
 });
