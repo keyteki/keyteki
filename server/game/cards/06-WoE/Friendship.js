@@ -22,10 +22,10 @@ class Friendship extends Card {
                         event.addChildEvent(
                             ability.actions
                                 .applyDamage({
-                                    amount: damagePerNeighbor,
-                                    damageSource: event.damageSource,
-                                    damageType: event.damageType,
-                                    damageDealtEvent: event.damageDealtEvent
+                                    amount: damagePerNeighbor
+                                    // damageSource: event.damageSource,
+                                    // damageType: event.damageType,
+                                    // damageDealtEvent: event.damageDealtEvent
                                 })
                                 .getEvent(neighbors[0], context.game.getFrameworkContext())
                         );
@@ -34,10 +34,10 @@ class Friendship extends Card {
                         event.addChildEvent(
                             ability.actions
                                 .applyDamage({
-                                    amount: damagePerNeighbor,
-                                    damageSource: event.damageSource,
-                                    damageType: event.damageType,
-                                    damageDealtEvent: event.damageDealtEvent
+                                    amount: damagePerNeighbor
+                                    //     damageSource: event.damageSource,
+                                    //     damageType: event.damageType,
+                                    //     damageDealtEvent: event.damageDealtEvent
                                 })
                                 .getEvent(neighbors[1], context.game.getFrameworkContext())
                         );
