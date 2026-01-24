@@ -50,7 +50,7 @@ describe('Nirbor Flamewing', function () {
         it('does not allow returning when creature is warded', function () {
             this.player1.fightWith(this.nirborFlamewing, this.kelifiDragon);
             this.player1.clickPrompt('Right');
-            this.pelf.tokens.ward = 1;
+            this.pelf.ward();
             this.player1.endTurn();
 
             this.player2.clickPrompt('brobnar');
@@ -66,7 +66,7 @@ describe('Nirbor Flamewing', function () {
         it('allows not returning', function () {
             this.player1.fightWith(this.nirborFlamewing, this.kelifiDragon);
             this.player1.clickPrompt('Right');
-            this.pelf.tokens.ward = 1;
+            this.pelf.ward();
             this.player1.endTurn();
 
             this.player2.clickPrompt('brobnar');

@@ -228,7 +228,7 @@ describe('Niffle Kong', function () {
         });
 
         it('should be archived completely', function () {
-            this.collectorWorm.tokens.ward = 1;
+            this.collectorWorm.ward();
 
             this.player1.play(this.niffleKong);
             this.player1.clickPrompt('Done');

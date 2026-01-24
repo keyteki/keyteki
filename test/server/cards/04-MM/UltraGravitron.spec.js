@@ -182,7 +182,7 @@ describe('Ultra Gravitron', function () {
         });
 
         it('should be archived completely', function () {
-            this.collectorWorm.tokens.ward = 1;
+            this.collectorWorm.ward();
 
             this.player1.play(this.ultraGravitron);
             this.player1.endTurn();

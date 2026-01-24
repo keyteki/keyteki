@@ -29,10 +29,10 @@ describe('CrimTorchtooth', function () {
 
         it('should enrage neighbors', function () {
             this.player1.fightWith(this.crimTorchtooth, this.gladiodontus);
-            expect(this.pelf.tokens.enrage).toBe(1);
-            expect(this.bumpsy.tokens.enrage).toBe(1);
-            expect(this.crimTorchtooth.tokens.enrage).toBe(undefined);
-            expect(this.umbra.tokens.enrage).toBe(undefined);
+            expect(this.pelf.enraged).toBe(true);
+            expect(this.bumpsy.enraged).toBe(true);
+            expect(this.crimTorchtooth.enraged).toBe(false);
+            expect(this.umbra.enraged).toBe(false);
             this.player1.endTurn();
         });
     });

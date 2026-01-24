@@ -161,7 +161,7 @@ describe('General Sherman', function () {
         });
 
         it('should purge and return non-warded creatures correctly if something is warded', function () {
-            this.kaupe.tokens.ward = 1;
+            this.kaupe.ward();
 
             this.player1.play(this.generalSherman);
 

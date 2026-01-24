@@ -23,11 +23,11 @@ describe('Indignant Tone', function () {
             expect(this.player1).toBeAbleToSelect(this.cephaloist);
             this.player1.clickCard(this.dustPixie);
             expect(this.dustPixie.location).toBe('discard');
-            expect(this.searine.tokens.enrage).toBe(1);
-            expect(this.cephaloist.tokens.enrage).toBe(1);
-            expect(this.yurk.tokens.enrage).toBeUndefined();
-            expect(this.flaxia.tokens.enrage).toBeUndefined();
-            expect(this.emberImp.tokens.enrage).toBeUndefined();
+            expect(this.searine.enraged).toBe(true);
+            expect(this.cephaloist.enraged).toBe(true);
+            expect(this.yurk.enraged).toBe(false);
+            expect(this.flaxia.enraged).toBe(false);
+            expect(this.emberImp.enraged).toBe(false);
             expect(this.player1).isReadyToTakeAction();
         });
 
@@ -36,8 +36,8 @@ describe('Indignant Tone', function () {
             this.player1.clickCard(this.searine);
             expect(this.searine.tokens.damage).toBe(3);
             expect(this.searine.location).toBe('play area');
-            expect(this.dustPixie.tokens.enrage).toBeUndefined();
-            expect(this.cephaloist.tokens.enrage).toBeUndefined();
+            expect(this.dustPixie.enraged).toBe(false);
+            expect(this.cephaloist.enraged).toBe(false);
             expect(this.player1).isReadyToTakeAction();
         });
     });

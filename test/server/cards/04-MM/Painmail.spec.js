@@ -48,7 +48,7 @@ describe('Painmail', function () {
         });
 
         it('should archive Painmail and remove ward', function () {
-            this.shooler.tokens.ward = 1;
+            this.shooler.ward();
             this.player1.playUpgrade(this.painmail, this.shooler);
             this.player1.endTurn();
             this.player2.clickPrompt('dis');
