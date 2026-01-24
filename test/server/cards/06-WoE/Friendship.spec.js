@@ -96,6 +96,22 @@ describe('Friendship', function () {
                 expect(this.chancellorDexterus.tokens.ward).toBe(1);
             });
         });
+
+        describe('when damage is redirected onto a warded creature', function () {
+            it('should bypass ward since damage was already dealt', function () {
+                // Ward both neighbors
+                this.paraguardian.ward();
+                // Chancellor already has ward from beforeEach
+                this.player1.fightWith(this.reveredMonk, this.drEscotera);
+                // 4 damage split evenly = 2 each
+                // Ward should NOT block the redirected damage
+                expect(this.reveredMonk.tokens.damage).toBe(undefined);
+                expect(this.paraguardian.tokens.damage).toBe(2);
+                expect(this.paraguardian.warded).toBe(true); // Ward still present
+                expect(this.chancellorDexterus.tokens.damage).toBe(2);
+                expect(this.chancellorDexterus.warded).toBe(true); // Ward still present
+            });
+        });
     });
 
     describe("Friendship's ability and splash damage", function () {
@@ -209,6 +225,17 @@ describe('Friendship', function () {
         });
 
         it('should apply poison to the neighbors receiving redirected damage', function () {
+            this.player2.fightWith(this.mooncurser, this.chancellorDexterus);
+            this.player2.clickCard(this.baldricTheBold);
+            expect(this.paraguardian.location).toBe('play area');
+            expect(this.chancellorDexterus.location).toBe('play area');
+            expect(this.chancellorDexterus.tokens.damage).toBe(undefined);
+            expect(this.baldricTheBold.location).toBe('discard');
+            expect(this.player2).isReadyToTakeAction();
+        });
+
+        it('should apply poison to warded neighbors receiving redirected damage', function () {
+            this.baldricTheBold.ward();
             this.player2.fightWith(this.mooncurser, this.chancellorDexterus);
             this.player2.clickCard(this.baldricTheBold);
             expect(this.paraguardian.location).toBe('play area');

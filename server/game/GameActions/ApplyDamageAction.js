@@ -8,6 +8,7 @@ class ApplyDamageAction extends CardGameAction {
         this.damageSource = null;
         this.damageType = 'card effect';
         this.bonus = false;
+        this.bypassWard = false;
     }
 
     setup() {
@@ -30,6 +31,7 @@ class ApplyDamageAction extends CardGameAction {
             damageSource: this.damageSource,
             damageDealtEvent: this.damageDealtEvent,
             fightEvent: this.damageDealtEvent ? this.damageDealtEvent.fightEvent : null,
+            bypassWard: this.bypassWard,
             destroyEvent: null
         };
 
@@ -47,7 +49,7 @@ class ApplyDamageAction extends CardGameAction {
                         event.damageSource.getKeywordValue('poison')))
             ) {
                 event.destroyEvent = context.game.actions
-                    .destroy({ damageEvent: event })
+                    .destroy({ damageEvent: event, bypassWard: event.bypassWard })
                     .getEvent(event.card, context.game.getFrameworkContext());
 
                 if (event.damageDealtEvent) {

@@ -10,6 +10,7 @@ class DestroyAction extends CardGameAction {
 
     setDefaultProperties() {
         this.damageEvent = null;
+        this.bypassWard = false;
     }
 
     setup() {
@@ -24,7 +25,8 @@ class DestroyAction extends CardGameAction {
         const params = {
             card: card,
             context: context,
-            damageEvent: this.damageEvent
+            damageEvent: this.damageEvent,
+            bypassWard: this.bypassWard
         };
         return super.createEvent(EVENTS.onCardDestroyed, params, (event) => {
             event.card.moribund = true;
@@ -36,7 +38,8 @@ class DestroyAction extends CardGameAction {
                     context: context,
                     condition: (event) => event.card.location === 'play area',
                     triggeringEvent: event,
-                    battlelineIndex: event.card.controller.cardsInPlay.indexOf(event.card) - 1
+                    battlelineIndex: event.card.controller.cardsInPlay.indexOf(event.card) - 1,
+                    bypassWard: this.bypassWard
                 },
                 (leavesPlayEvent) => {
                     leavesPlayEvent.card.owner.moveCard(event.card, 'discard');
