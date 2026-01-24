@@ -72,9 +72,8 @@ class PutIntoPlayAction extends CardGameAction {
 
             if (
                 (card.anyEffect('enterPlayAnywhere', context) ||
-                    (context.ability &&
-                        context.ability.isCardPlayed() &&
-                        (this.deploy || card.hasKeyword('deploy')))) &&
+                    this.deploy ||
+                    card.hasKeyword('deploy')) &&
                 player.creaturesInPlay.length > 1
             ) {
                 choices.push('Deploy Left');
