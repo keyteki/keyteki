@@ -36,7 +36,7 @@ describe('Kelping Hands', function () {
 
         describe('after omni used,', function () {
             beforeEach(function () {
-                this.player1.useAction(this.kelpingHands, true);
+                this.player1.useOmni(this.kelpingHands);
             });
 
             it('Kelping Hands should be destroyed', function () {

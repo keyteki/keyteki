@@ -22,18 +22,18 @@ describe('Cauldron', function () {
         });
 
         it('place top card of deck under itself', function () {
-            this.player1.useAction(this.cauldron, true);
+            this.player1.useOmni(this.cauldron);
             expect(this.cauldron.childCards).toContain(this.witchOfTheEye);
         });
 
         describe('with 3 cards under', function () {
             beforeEach(function () {
-                this.player1.useAction(this.cauldron, true);
+                this.player1.useOmni(this.cauldron);
                 this.player1.endTurn();
                 this.player2.clickPrompt('shadows');
                 this.player2.endTurn();
                 this.player1.clickPrompt('untamed');
-                this.player1.useAction(this.cauldron, true);
+                this.player1.useOmni(this.cauldron);
                 this.player1.endTurn();
                 this.player2.clickPrompt('shadows');
                 this.player2.endTurn();
@@ -41,7 +41,7 @@ describe('Cauldron', function () {
             });
 
             it('play 3 cards', function () {
-                this.player1.useAction(this.cauldron, true);
+                this.player1.useOmni(this.cauldron);
                 this.player1.clickCard(this.witchOfTheEye);
                 this.player1.clickCard(this.gangerChieftain);
                 this.player1.clickPrompt('Right');
@@ -55,7 +55,7 @@ describe('Cauldron', function () {
             });
 
             it('play 3 cards in any order', function () {
-                this.player1.useAction(this.cauldron, true);
+                this.player1.useOmni(this.cauldron);
                 this.player1.clickCard(this.smith);
                 this.player1.clickCard(this.witchOfTheEye);
                 this.player1.clickPrompt('Right');
@@ -68,7 +68,7 @@ describe('Cauldron', function () {
                 this.player2.moveCard(this.quixxleStone, 'play area');
                 this.player1.playCreature(this.snufflegator);
                 this.player1.playCreature(this.knoxx);
-                this.player1.useAction(this.cauldron, true);
+                this.player1.useOmni(this.cauldron);
                 this.player1.clickCard(this.witchOfTheEye);
                 expect(this.witchOfTheEye.location).toBe('under');
                 this.player1.clickCard(this.gangerChieftain);
@@ -85,7 +85,7 @@ describe('Cauldron', function () {
                 this.player2.clickPrompt('logos');
                 this.player2.endTurn();
                 this.player1.clickPrompt('untamed');
-                this.player1.useAction(this.cauldron, true);
+                this.player1.useOmni(this.cauldron);
                 this.player1.clickCard(this.witchOfTheEye);
                 expect(this.cauldron.childCards.length).toBe(3);
                 expect(this.witchOfTheEye.location).toBe('under');
@@ -98,7 +98,7 @@ describe('Cauldron', function () {
                 this.player2.endTurn();
                 this.player1.clickPrompt('untamed');
                 this.player1.moveCard(this.poke, 'deck');
-                this.player1.useAction(this.cauldron, true);
+                this.player1.useOmni(this.cauldron);
                 expect(this.poke.location).toBe('under');
                 expect(this.cauldron.childCards.length).toBe(4);
                 this.player1.clickCard(this.witchOfTheEye);
@@ -120,7 +120,7 @@ describe('Cauldron', function () {
         });
 
         it('trigger Near-Future Lens message', function () {
-            this.player1.useAction(this.cauldron, true);
+            this.player1.useOmni(this.cauldron);
             expect(this).toHaveRecentChatMessage(
                 'player1 uses Near-Future Lens to reveal Ganger Chieftain'
             );

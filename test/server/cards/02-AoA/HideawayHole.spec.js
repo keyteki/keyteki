@@ -17,7 +17,7 @@ describe('HideawayHole', function () {
         });
 
         it('should make own creatures in play elusive', function () {
-            this.player1.useAction(this.hideawayHole, true);
+            this.player1.useOmni(this.hideawayHole);
             expect(this.hideawayHole.location).toBe('discard');
             this.player1.fightWith(this.brendTheFanatic, this.witchOfTheWilds);
             expect(this.witchOfTheWilds.damage).toBe(3);
@@ -31,7 +31,7 @@ describe('HideawayHole', function () {
         });
 
         it('should make creatures played after it was used elusive', function () {
-            this.player1.useAction(this.hideawayHole, true);
+            this.player1.useOmni(this.hideawayHole);
             expect(this.hideawayHole.location).toBe('discard');
             this.player1.play(this.dodger);
             this.player1.endTurn();
@@ -83,7 +83,7 @@ describe('HideawayHole', function () {
         });
 
         it("should not affect opponent's next turn", function () {
-            this.player1.useAction(this.hideawayHole, true);
+            this.player1.useOmni(this.hideawayHole);
             this.player1.endTurn();
             this.player1.clickPrompt('shadows');
             this.player1.endTurn();

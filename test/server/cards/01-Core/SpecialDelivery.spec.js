@@ -20,7 +20,7 @@ describe('Special Delivery', function () {
 
         it('should purge creatures who are destroyed by it', function () {
             this.player2.moveCard(this.shadowSelf, 'discard');
-            this.player1.useAction(this.specialDelivery, true);
+            this.player1.useOmni(this.specialDelivery);
             expect(this.player1).toBeAbleToSelect(this.theGreyRider);
             expect(this.player1).toBeAbleToSelect(this.radPenny);
             expect(this.player1).not.toBeAbleToSelect(this.bulwark);
@@ -36,7 +36,7 @@ describe('Special Delivery', function () {
 
         it('should not purge creatures who are not destroyed', function () {
             this.player2.moveCard(this.shadowSelf, 'discard');
-            this.player1.useAction(this.specialDelivery, true);
+            this.player1.useOmni(this.specialDelivery);
             this.player1.clickCard(this.troll);
             expect(this.troll.location).toBe('play area');
             expect(this.troll.damage).toBe(3);
@@ -46,7 +46,7 @@ describe('Special Delivery', function () {
 
         it('should not purge creatures who are destroyed, but were not the target', function () {
             this.shadowSelf.tokens.damage = 7;
-            this.player1.useAction(this.specialDelivery, true);
+            this.player1.useOmni(this.specialDelivery);
             this.player1.clickCard(this.nexus);
             expect(this.nexus.damage).toBe(0);
             expect(this.nexus.location).toBe('play area');
@@ -56,7 +56,7 @@ describe('Special Delivery', function () {
         });
 
         it('should not purge rad penny when she goes back to deck', function () {
-            this.player1.useAction(this.specialDelivery, true);
+            this.player1.useOmni(this.specialDelivery);
             this.player1.clickCard(this.radPenny);
             expect(this.radPenny.location).toBe('deck');
             expect(this.specialDelivery.location).toBe('discard');
@@ -65,7 +65,7 @@ describe('Special Delivery', function () {
 
         it('should not purge warded creatures', function () {
             this.radPenny.ward();
-            this.player1.useAction(this.specialDelivery, true);
+            this.player1.useOmni(this.specialDelivery);
             this.player1.clickCard(this.radPenny);
             expect(this.radPenny.warded).toBe(false);
             expect(this.radPenny.location).toBe('play area');
@@ -93,7 +93,7 @@ describe('Special Delivery', function () {
         });
 
         it('should not purge armageddon cloak', function () {
-            this.player2.useAction(this.specialDelivery, true);
+            this.player2.useOmni(this.specialDelivery);
             this.player2.clickCard(this.bingleBangbang);
             expect(this.bingleBangbang.location).toBe('play area');
             expect(this.armageddonCloak.location).toBe('discard');

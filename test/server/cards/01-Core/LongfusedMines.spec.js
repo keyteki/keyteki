@@ -13,7 +13,7 @@ describe('Longfused Mines', function () {
         });
 
         it('should sacrifice itself and deal 3 damage to non-flank enemy creatures', function () {
-            this.player1.useAction(this.longfusedMines, true);
+            this.player1.useOmni(this.longfusedMines);
             expect(this.longfusedMines.location).toBe('discard');
             expect(this.dextre.damage).toBe(0); // Left flank
             expect(this.botBookton.damage).toBe(0); // Center

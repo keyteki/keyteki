@@ -19,7 +19,7 @@ describe('Mutagenic Serum', function () {
         });
 
         it('should allow using mutant creatures', function () {
-            this.player1.useAction(this.mutagenicSerum, true);
+            this.player1.useOmni(this.mutagenicSerum);
             expect(this.mutagenicSerum.location).toBe('discard');
             this.player1.reap(this.dextre);
             this.player1.reap(this.scrivenerFavian);

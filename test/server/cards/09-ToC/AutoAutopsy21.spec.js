@@ -34,7 +34,7 @@ describe('Auto-Autopsy 2.1', function () {
             this.player2.clickPrompt('brobnar');
             this.player2.endTurn();
             this.player1.clickPrompt('untamed');
-            this.player1.useAction(this.autoAutopsy21, true);
+            this.player1.useOmni(this.autoAutopsy21);
             expect(this.player1).toBeAbleToSelect(this.flaxia);
             expect(this.player1).toBeAbleToSelect(this.helperBot);
             expect(this.player1).toBeAbleToSelect(this.alphaGamma1);

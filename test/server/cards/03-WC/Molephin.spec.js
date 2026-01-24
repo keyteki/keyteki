@@ -46,7 +46,7 @@ describe('Molephin', function () {
         });
 
         it("it shouldn't deal damage if amber is paid, not stolen", function () {
-            this.player1.useAction(this.spikeTrap, true);
+            this.player1.useOmni(this.spikeTrap);
             expect(this.badPenny.location).toBe('hand');
             expect(this.molephin.damage).toBe(0);
             expect(this.tentacus.damage).toBe(0);

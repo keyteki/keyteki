@@ -44,7 +44,7 @@ describe("Hard Simpson's ability", function () {
         });
 
         it('should not steal 1 amber if damage prevented by effect', function () {
-            this.player1.useAction(this.masterplan, true);
+            this.player1.useOmni(this.masterplan);
             this.player1.fightWith(this.hardSimpson, this.megaNarp);
             expect(this.hardSimpson.location).toBe('play area');
             expect(this.player1.amber).toBe(5);
