@@ -20,7 +20,7 @@ describe('Green Aeronaut', function () {
             this.player1.fightWith(this.nautilixian, this.umbra);
             expect(this.umbra.location).toBe('discard');
             expect(this.toad.location).toBe('discard');
-            expect(this.bumpsy.tokens.damage).toBe(3);
+            expect(this.bumpsy.damage).toBe(3);
         });
 
         it('should let you choose the nautilixian', function () {
@@ -31,7 +31,7 @@ describe('Green Aeronaut', function () {
             this.player1.fightWith(this.nautilixian, this.umbra);
             expect(this.umbra.location).toBe('discard');
             expect(this.toad.location).toBe('discard');
-            expect(this.bumpsy.tokens.damage).toBe(3);
+            expect(this.bumpsy.damage).toBe(3);
         });
 
         it('should cause the nautilixian to lose the keyword the next turn', function () {
@@ -40,14 +40,14 @@ describe('Green Aeronaut', function () {
             this.player1.fightWith(this.nautilixian, this.umbra);
             expect(this.umbra.location).toBe('discard');
             expect(this.toad.location).toBe('discard');
-            expect(this.bumpsy.tokens.damage).toBe(3);
+            expect(this.bumpsy.damage).toBe(3);
             this.player1.endTurn();
             this.player2.clickPrompt('untamed');
             this.player2.endTurn();
             this.player1.clickPrompt('mars');
             this.player1.reap(this.greenAeronaut);
             this.player1.fightWith(this.nautilixian, this.huntingWitch);
-            expect(this.bumpsy.tokens.damage).toBe(3);
+            expect(this.bumpsy.damage).toBe(3);
         });
     });
 });

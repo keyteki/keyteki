@@ -65,7 +65,7 @@ describe('Witch Of The Dawn Evil Twin', function () {
 
             // resolve play effect of murmook
             this.player1.clickCard(this.krump);
-            expect(this.krump.tokens.damage).toBe(4);
+            expect(this.krump.damage).toBe(4);
 
             // choose to reap or fight with murmook
             expect(this.player1).toHavePromptButton('Reap with this creature');
@@ -75,7 +75,7 @@ describe('Witch Of The Dawn Evil Twin', function () {
             this.player1.clickCard(this.wardrummer);
             expect(this.wardrummer.location).toBe('discard');
             expect(this.musthicMurmook.location).toBe('play area');
-            expect(this.musthicMurmook.tokens.damage).toBe(3);
+            expect(this.musthicMurmook.damage).toBe(3);
 
             // end the turn to confirm there are no active prompts
             this.player1.endTurn();

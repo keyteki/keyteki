@@ -22,8 +22,8 @@ describe('Lash Out', function () {
             expect(this.player1).toBeAbleToSelect(this.dustPixie);
             expect(this.player1).toBeAbleToSelect(this.troll);
             this.player1.clickCard(this.flaxia);
-            expect(this.mollymawk.tokens.damage).toBe(undefined);
-            expect(this.flaxia.tokens.damage).toBe(3);
+            expect(this.mollymawk.damage).toBe(0);
+            expect(this.flaxia.damage).toBe(3);
             expect(this.dustPixie.location).toBe('play area');
             expect(this.player1).isReadyToTakeAction();
         });
@@ -32,8 +32,8 @@ describe('Lash Out', function () {
             this.player1.play(this.pressGang);
             this.player1.play(this.lashOut);
             this.player1.clickCard(this.flaxia);
-            expect(this.mollymawk.tokens.damage).toBe(3);
-            expect(this.flaxia.tokens.damage).toBe(3);
+            expect(this.mollymawk.damage).toBe(3);
+            expect(this.flaxia.damage).toBe(3);
             expect(this.dustPixie.location).toBe('discard');
             expect(this.player1).isReadyToTakeAction();
         });

@@ -23,7 +23,7 @@ describe('Seeker of Truth', function () {
             this.player1.clickCard(this.flaxia);
             this.player1.clickCard(this.lamindra);
             expect(this.flaxia.exhausted).toBe(true);
-            expect(this.flaxia.tokens.damage).toBe(1);
+            expect(this.flaxia.damage).toBe(1);
             expect(this.lamindra.location).toBe('discard');
         });
 

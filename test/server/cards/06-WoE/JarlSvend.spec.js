@@ -17,7 +17,7 @@ describe('Jarl Svend', function () {
 
         it('should make a token creature when attacking and killing a creature', function () {
             this.player1.fightWith(this.jarlSvend, this.mother);
-            expect(this.jarlSvend.tokens.damage).toBe(5);
+            expect(this.jarlSvend.damage).toBe(5);
             expect(this.mother.location).toBe('discard');
             this.player1.clickPrompt('Left');
             expect(this.player1.player.creaturesInPlay.length).toBe(2);
@@ -25,7 +25,7 @@ describe('Jarl Svend', function () {
 
         it('should make a token creature even if creature destoryed does not go to discard', function () {
             this.player1.fightWith(this.jarlSvend, this.badPenny);
-            expect(this.jarlSvend.tokens.damage).toBe(1);
+            expect(this.jarlSvend.damage).toBe(1);
             expect(this.badPenny.location).toBe('hand');
             this.player1.clickPrompt('Left');
             expect(this.player1.player.creaturesInPlay.length).toBe(2);
@@ -50,7 +50,7 @@ describe('Jarl Svend', function () {
 
         it('should make a token creature when destroying a token creature', function () {
             this.player1.fightWith(this.jarlSvend, this.grunt);
-            expect(this.jarlSvend.tokens.damage).toBe(3);
+            expect(this.jarlSvend.damage).toBe(3);
             expect(this.grunt.location).toBe('discard');
             expect(this.grunt.name).toBe('Labwork');
             this.player1.clickPrompt('Left');

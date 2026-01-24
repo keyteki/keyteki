@@ -22,8 +22,8 @@ describe("Norbyn's Cavern", function () {
             expect(this.æmberling.power).toBe(4);
             this.player1.fightWith(this.æmberling, this.bumpsy);
             expect(this.æmberling.location).toBe('play area');
-            expect(this.bumpsy.tokens.damage).toBe(4);
-            expect(this.æmberling.tokens.damage).toBe(undefined);
+            expect(this.bumpsy.damage).toBe(4);
+            expect(this.æmberling.damage).toBe(0);
         });
 
         it('does not give power to enemy', function () {

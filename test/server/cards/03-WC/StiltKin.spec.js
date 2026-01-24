@@ -19,7 +19,7 @@ describe('stilt-kin', function () {
             expect(this.player1).toHavePrompt('Choose a creature to attack');
             expect(this.player1).toBeAbleToSelect(this.troll);
             this.player1.clickCard(this.troll);
-            expect(this.troll.tokens.damage).toBe(2);
+            expect(this.troll.damage).toBe(2);
             expect(this.stiltKin.hasToken('damage')).toBe(false);
         });
 

@@ -16,17 +16,17 @@ describe('Tunk', function () {
         it('should fully heal when another Mars creature is played', function () {
             this.tunk.tokens.damage = 4;
             this.player1.playCreature(this.zorg);
-            expect(this.tunk.tokens.damage).toBe(undefined);
+            expect(this.tunk.damage).toBe(0);
             expect(this.player1).isReadyToTakeAction();
         });
 
         it('should trigger for each Mars creature played', function () {
             this.tunk.tokens.damage = 4;
             this.player1.playCreature(this.zorg);
-            expect(this.tunk.tokens.damage).toBe(undefined);
+            expect(this.tunk.damage).toBe(0);
             this.tunk.tokens.damage = 3;
             this.player1.playCreature(this.mindwarper);
-            expect(this.tunk.tokens.damage).toBe(undefined);
+            expect(this.tunk.damage).toBe(0);
             expect(this.player1).isReadyToTakeAction();
         });
     });
@@ -48,7 +48,7 @@ describe('Tunk', function () {
         it('should not heal when a non-Mars creature is played', function () {
             this.tunk.tokens.damage = 4;
             this.player1.playCreature(this.dextre);
-            expect(this.tunk.tokens.damage).toBe(4);
+            expect(this.tunk.damage).toBe(4);
             expect(this.player1).isReadyToTakeAction();
         });
     });

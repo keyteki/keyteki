@@ -77,7 +77,7 @@ describe('Explo-rover', function () {
             this.player2.endTurn();
             this.player1.clickPrompt('staralliance');
             this.player1.fightWith(this.exploRover, this.umbra);
-            expect(this.exploRover.tokens.damage).toBe(undefined);
+            expect(this.exploRover.damage).toBe(0);
             expect(this.umbra.location).toBe('discard');
         });
 
@@ -96,8 +96,8 @@ describe('Explo-rover', function () {
             this.player2.endTurn();
             this.player1.clickPrompt('untamed');
             this.player1.fightWith(this.dustPixie, this.umbra);
-            expect(this.dustPixie.tokens.damage).toBe(undefined);
-            expect(this.umbra.tokens.damage).toBe(1);
+            expect(this.dustPixie.damage).toBe(0);
+            expect(this.umbra.damage).toBe(1);
         });
 
         it('should allow selecting explo-rover and playing it as an upgrade, if Lifeward was used', function () {

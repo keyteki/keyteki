@@ -16,7 +16,7 @@ describe('Overlord Greking', function () {
 
         it("should put a destroyed creature into play under the controller's control", function () {
             this.player1.fightWith(this.overlordGreking, this.mother);
-            expect(this.overlordGreking.tokens.damage).toBe(5);
+            expect(this.overlordGreking.damage).toBe(5);
             expect(this.mother.hasToken('damage')).toBe(false);
             expect(this.mother.location).toBe('discard');
             expect(this.player1).toHavePrompt('mother');
@@ -30,7 +30,7 @@ describe('Overlord Greking', function () {
 
         it('should be able to use the controller creature', function () {
             this.player1.fightWith(this.overlordGreking, this.batdrone);
-            expect(this.overlordGreking.tokens.damage).toBe(2);
+            expect(this.overlordGreking.damage).toBe(2);
             expect(this.batdrone.hasToken('damage')).toBe(false);
             expect(this.batdrone.location).toBe('discard');
             expect(this.player1).toHavePrompt('batdrone');
@@ -44,7 +44,7 @@ describe('Overlord Greking', function () {
             this.player1.fightWith(this.batdrone, this.troll);
             expect(this.batdrone.location).toBe('play area');
             expect(this.batdrone.hasToken('damage')).toBe(false);
-            expect(this.troll.tokens.damage).toBe(2);
+            expect(this.troll.damage).toBe(2);
         });
 
         it('should make the controlled creature die as normal', function () {
@@ -59,7 +59,7 @@ describe('Overlord Greking', function () {
             expect(this.player1).toHavePrompt('Mother');
             this.player1.clickPrompt('Fight with this creature');
             this.player1.clickCard(this.troll);
-            expect(this.troll.tokens.damage).toBe(5);
+            expect(this.troll.damage).toBe(5);
             expect(this.mother.location).toBe('discard');
             expect(this.mother.controller).toBe(this.player2.player);
             expect(this.player2.player.discard).toContain(this.mother);
@@ -67,7 +67,7 @@ describe('Overlord Greking', function () {
 
         it('should not work on Dextre', function () {
             this.player1.fightWith(this.overlordGreking, this.dextre);
-            expect(this.overlordGreking.tokens.damage).toBe(3);
+            expect(this.overlordGreking.damage).toBe(3);
             expect(this.dextre.hasToken('damage')).toBe(false);
             expect(this.dextre.location).toBe('deck');
             expect(this.player1).isReadyToTakeAction();
@@ -81,7 +81,7 @@ describe('Overlord Greking', function () {
             this.player2.clickPrompt('Left');
             expect(this.player1.player.cardsInPlay).toContain(this.groke);
             expect(this.player2.player.discard).not.toContain(this.groke);
-            expect(this.groke.tokens.damage).toBeUndefined();
+            expect(this.groke.damage).toBe(0);
             expect(this.player1.amber).toBe(2);
             expect(this.player2.amber).toBe(3);
         });

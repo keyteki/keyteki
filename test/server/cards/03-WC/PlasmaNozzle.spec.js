@@ -16,9 +16,9 @@ describe('Plasma Nozzle', function () {
         it("should add 'before fight: deal 2 to the target with 2 splash'", function () {
             this.player1.playUpgrade(this.plasmaNozzle, this.lieutenantKhrkhar);
             this.player1.fightWith(this.lieutenantKhrkhar, this.sequis);
-            expect(this.nexus.tokens.damage).toBe(1);
-            expect(this.abondTheArmorsmith.tokens.damage).toBe(2);
-            expect(this.lieutenantKhrkhar.tokens.damage).toBe(4);
+            expect(this.nexus.damage).toBe(1);
+            expect(this.abondTheArmorsmith.damage).toBe(2);
+            expect(this.lieutenantKhrkhar.damage).toBe(4);
             expect(this.sequis.location).toBe('discard');
         });
     });

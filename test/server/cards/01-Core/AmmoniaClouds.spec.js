@@ -16,8 +16,8 @@ describe('Ammonia Clouds', function () {
         it('should deal 3 damage to all creatures when played', function () {
             this.mother.ward();
             this.player1.play(this.ammoniaClouds);
-            expect(this.troll.tokens.damage).toBe(3);
-            expect(this.mother.tokens.damage).toBe(undefined);
+            expect(this.troll.damage).toBe(3);
+            expect(this.mother.damage).toBe(0);
         });
 
         it('should destroy creatures with 3 or less power', function () {

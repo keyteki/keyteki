@@ -34,7 +34,7 @@ describe('Indignant Tone', function () {
         it('should not enrage neighbors if creature is not destroyed', function () {
             this.player1.play(this.indignantTone);
             this.player1.clickCard(this.searine);
-            expect(this.searine.tokens.damage).toBe(3);
+            expect(this.searine.damage).toBe(3);
             expect(this.searine.location).toBe('play area');
             expect(this.dustPixie.enraged).toBe(false);
             expect(this.cephaloist.enraged).toBe(false);

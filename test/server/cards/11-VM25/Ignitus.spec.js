@@ -19,14 +19,14 @@ describe('Ignitus', function () {
         it('should have splash-attack 2 when one creature is exhausted and it fights', function () {
             this.troll.exhaust();
             this.player1.fightWith(this.ignitus, this.emberImp);
-            expect(this.charette.tokens.damage).toBe(2);
+            expect(this.charette.damage).toBe(2);
         });
 
         it('should have splash-attack 3 when two creatures are exhausted and it fights', function () {
             this.troll.exhaust();
             this.charette.exhaust();
             this.player1.fightWith(this.ignitus, this.emberImp);
-            expect(this.charette.tokens.damage).toBe(3);
+            expect(this.charette.damage).toBe(3);
         });
 
         it('should have splash-attack 4 when three creatures are exhausted and it fights', function () {

@@ -45,8 +45,8 @@ describe('Shard of Courage', function () {
             this.player1.clickCard(this.umbra);
             expect(this.dustPixie.location).toBe('discard');
             expect(this.umbra.location).toBe('discard');
-            expect(this.bosunCreen.tokens.damage).toBe(1);
-            expect(this.troll.tokens.damage).toBe(2);
+            expect(this.bosunCreen.damage).toBe(1);
+            expect(this.troll.damage).toBe(2);
             expect(this.player1).isReadyToTakeAction();
         });
 

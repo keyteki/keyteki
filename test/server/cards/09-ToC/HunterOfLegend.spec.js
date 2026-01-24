@@ -22,7 +22,7 @@ describe('Hunter of Legend', function () {
             this.player1.playUpgrade(this.hunterOfLegend, this.buxBastian);
             this.player1.fightWith(this.buxBastian, this.umbra);
             this.player1.clickPrompt('Right');
-            expect(this.buxBastian.tokens.damage).toBe(undefined);
+            expect(this.buxBastian.damage).toBe(0);
             expect(this.wrangler1.location).toBe('play area');
             expect(this.player1).isReadyToTakeAction();
         });

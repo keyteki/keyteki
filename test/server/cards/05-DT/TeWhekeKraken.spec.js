@@ -73,10 +73,10 @@ describe('Te-Wheke Kraken', function () {
             expect(this.player1).toBeAbleToSelect(this.docBookton);
             this.player1.clickCard(this.dextre);
 
-            expect(this.brainEater.tokens.damage).toBe(2);
-            expect(this.dextre.tokens.damage).toBe(2);
-            expect(this.docBookton.tokens.damage).toBe(2);
-            expect(this.botBookton.tokens.damage).toBeUndefined();
+            expect(this.brainEater.damage).toBe(2);
+            expect(this.dextre.damage).toBe(2);
+            expect(this.docBookton.damage).toBe(2);
+            expect(this.botBookton.damage).toBe(0);
         });
 
         it('should die if not exhausting 2 creatures', function () {
@@ -91,9 +91,9 @@ describe('Te-Wheke Kraken', function () {
             expect(this.player1).toBeAbleToSelect(this.docBookton);
             this.player1.clickCard(this.dextre);
 
-            expect(this.brainEater.tokens.damage).toBe(2);
-            expect(this.dextre.tokens.damage).toBe(2);
-            expect(this.docBookton.tokens.damage).toBe(2);
+            expect(this.brainEater.damage).toBe(2);
+            expect(this.dextre.damage).toBe(2);
+            expect(this.docBookton.damage).toBe(2);
         });
     });
 });

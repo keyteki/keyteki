@@ -31,8 +31,8 @@ describe('Strategic Feint', function () {
             this.player1.clickCard(this.krump);
             this.player1.clickCard(this.pelf);
             this.player1.clickPrompt('Done');
-            expect(this.krump.tokens.damage).toBe(1);
-            expect(this.pelf.tokens.damage).toBe(1);
+            expect(this.krump.damage).toBe(1);
+            expect(this.pelf.damage).toBe(1);
             expect(this.krump.exhausted).toBe(true);
             expect(this.pelf.exhausted).toBe(true);
         });

@@ -72,8 +72,8 @@ describe('Ozmo Martianologist', function () {
                     });
 
                     it('should heal 3 damage', function () {
-                        expect(this.zorg.tokens.damage).toBe(1);
-                        expect(this.etherSpider.tokens.damage).toBe(4);
+                        expect(this.zorg.damage).toBe(1);
+                        expect(this.etherSpider.damage).toBe(4);
                     });
                 });
             });
@@ -135,8 +135,8 @@ describe('Ozmo Martianologist', function () {
                     });
 
                     it('should heal 3 damage', function () {
-                        expect(this.zorg.tokens.damage).toBe(1);
-                        expect(this.etherSpider.tokens.damage).toBe(4);
+                        expect(this.zorg.damage).toBe(1);
+                        expect(this.etherSpider.damage).toBe(4);
                     });
                 });
             });

@@ -33,7 +33,7 @@ describe('Doctor Driscoll', function () {
             this.player1.fightWith(this.crashMuldoon, this.flaxia);
             this.player1.useAction(this.doctorDriscoll);
             this.player1.clickCard(this.flaxia);
-            expect(this.flaxia.tokens.damage).toBe(1);
+            expect(this.flaxia.damage).toBe(1);
             expect(this.player1.amber).toBe(2);
             expect(this.player1).isReadyToTakeAction();
         });

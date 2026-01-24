@@ -40,7 +40,7 @@ describe('Soultender', function () {
             expect(this.soultender2.warded).toBe(true);
             expect(this.shadowSelf.warded).toBe(true);
             expect(this.flaxia.warded).toBe(false);
-            expect(this.shadowSelf.tokens.damage).toBe(undefined);
+            expect(this.shadowSelf.damage).toBe(0);
         });
 
         it('also removes amber and wards on reap', function () {
@@ -55,7 +55,7 @@ describe('Soultender', function () {
             expect(this.soultender.warded).toBe(true);
             expect(this.shadowSelf.warded).toBe(true);
             expect(this.flaxia.warded).toBe(false);
-            expect(this.shadowSelf.tokens.damage).toBe(undefined);
+            expect(this.shadowSelf.damage).toBe(0);
         });
     });
 });

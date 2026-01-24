@@ -15,9 +15,9 @@ describe('CrimTorchtooth', function () {
         it('should do splash attack', function () {
             this.player1.fightWith(this.crimTorchtooth, this.gladiodontus);
             expect(this.toad.location).toBe('discard');
-            expect(this.gladiodontus.tokens.damage).toBe(7);
-            expect(this.bubbles.tokens.damage).toBe(4);
-            expect(this.fandangle.tokens.damage).toBe(undefined);
+            expect(this.gladiodontus.damage).toBe(7);
+            expect(this.bubbles.damage).toBe(4);
+            expect(this.fandangle.damage).toBe(0);
             this.player1.endTurn();
         });
 

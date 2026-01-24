@@ -8,7 +8,7 @@ class GarnetSquire extends Card {
             when: {
                 onTurnEnd: (_, context) => context.player === this.game.activePlayer
             },
-            condition: (context) => context.source.tokens.damage > 0,
+            condition: (context) => context.source.damage > 0,
             gameAction: ability.actions.heal({ amount: 1 }),
             then: {
                 gameAction: ability.actions.gainAmber()

@@ -101,8 +101,8 @@ describe('Master of the Grey', function () {
 
             expect(this.player1.amber).toBe(4);
             expect(this.player2.amber).toBe(2);
-            expect(this.pismire.tokens.damage).toBeUndefined();
-            expect(this.masterOfTheGrey.tokens.damage).toBeUndefined();
+            expect(this.pismire.damage).toBe(0);
+            expect(this.masterOfTheGrey.damage).toBe(0);
             expect(this.player1.player.hand.length).toBe(5);
             expect(this.player1).isReadyToTakeAction();
         });
@@ -128,7 +128,7 @@ describe('Master of the Grey', function () {
             expect(this.player1).isReadyToTakeAction();
             expect(this.player1.amber).toBe(6);
             expect(this.player2.amber).toBe(0);
-            expect(this.pismire.tokens.damage).toBe(2);
+            expect(this.pismire.damage).toBe(2);
             expect(this.pismire.tokens.amber).toBe(2);
             expect(this.player1.player.hand.length).toBe(6);
         });

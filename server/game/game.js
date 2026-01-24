@@ -1295,7 +1295,7 @@ class Game extends EventEmitter {
             let creaturesToDestroy = this.creaturesInPlay.filter(
                 (card) =>
                     card.type === 'creature' &&
-                    (card.power <= 0 || card.tokens.damage >= card.power) &&
+                    (card.power <= 0 || card.damage >= card.power) &&
                     !card.moribund
             );
             if (creaturesToDestroy.length > 0) {

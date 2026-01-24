@@ -19,7 +19,7 @@ describe('Armored Spikes', function () {
             this.player1.endTurn();
             this.player2.clickPrompt('brobnar');
             this.player2.fightWith(this.rowdySkald, this.fandangle);
-            expect(this.fandangle.tokens.damage).toBe(2);
+            expect(this.fandangle.damage).toBe(2);
             expect(this.player2).isReadyToTakeAction();
         });
 
@@ -28,7 +28,7 @@ describe('Armored Spikes', function () {
             this.player1.endTurn();
             this.player2.clickPrompt('brobnar');
             this.player2.fightWith(this.rowdySkald, this.dewFaerie);
-            expect(this.rowdySkald.tokens.damage).toBe(2);
+            expect(this.rowdySkald.damage).toBe(2);
             expect(this.player2).isReadyToTakeAction();
         });
     });

@@ -20,7 +20,7 @@ describe('GargantesScrapper', function () {
 
             expect(this.player1).not.toBeAbleToSelect(this.brendTheFanatic);
 
-            expect(this.troll.tokens.damage).toBe(undefined);
+            expect(this.troll.damage).toBe(0);
         });
 
         it('should do 3 damage to a target when the player has 3 or more amber', function () {

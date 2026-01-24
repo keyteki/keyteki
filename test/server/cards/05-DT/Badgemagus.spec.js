@@ -39,7 +39,7 @@ describe('Badgemagus', function () {
             expect(this.gub.location).toBe('discard');
             expect(this.lamindra.location).toBe('play area');
             expect(this.murkens.location).toBe('play area');
-            expect(this.niffleApe.tokens.damage).toBe(1);
+            expect(this.niffleApe.damage).toBe(1);
             this.player1.endTurn();
         });
 
@@ -57,7 +57,7 @@ describe('Badgemagus', function () {
             expect(this.gub.location).toBe('discard');
             expect(this.lamindra.location).toBe('play area');
             expect(this.murkens.location).toBe('play area');
-            expect(this.championAnaphiel.tokens.damage).toBe(5);
+            expect(this.championAnaphiel.damage).toBe(5);
             this.player1.endTurn();
         });
 
@@ -76,12 +76,12 @@ describe('Badgemagus', function () {
             expect(this.gub.location).toBe('discard');
             expect(this.lamindra.location).toBe('play area');
             expect(this.murkens.location).toBe('play area');
-            expect(this.niffleApe.tokens.damage).toBe(1);
+            expect(this.niffleApe.damage).toBe(1);
             expect(this.player1).toBeAbleToSelect(this.murkens);
             expect(this.player1).toBeAbleToSelect(this.lamindra);
             this.player1.clickCard(this.lamindra);
             expect(this.lamindra.location).toBe('discard');
-            expect(this.niffleApe.tokens.damage).toBe(1);
+            expect(this.niffleApe.damage).toBe(1);
             expect(this.championAnaphiel.armorUsed).toBe(1);
             this.player1.endTurn();
         });
@@ -102,13 +102,13 @@ describe('Badgemagus', function () {
             expect(this.gub.location).toBe('discard');
             expect(this.lamindra.location).toBe('play area');
             expect(this.murkens.location).toBe('play area');
-            expect(this.championAnaphiel.tokens.damage).toBe(5);
+            expect(this.championAnaphiel.damage).toBe(5);
             expect(this.player1).toBeAbleToSelect(this.toad);
             expect(this.player1).toBeAbleToSelect(this.murkens);
             expect(this.player1).toBeAbleToSelect(this.lamindra);
             this.player1.clickCard(this.lamindra);
-            expect(this.niffleApe.tokens.damage).toBe(1);
-            expect(this.championAnaphiel.tokens.damage).toBe(5);
+            expect(this.niffleApe.damage).toBe(1);
+            expect(this.championAnaphiel.damage).toBe(5);
             expect(this.lamindra.location).toBe('discard');
             this.player1.endTurn();
         });

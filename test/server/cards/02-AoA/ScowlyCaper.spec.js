@@ -147,7 +147,7 @@ describe('Scowly Caper', function () {
             this.player2.fightWith(this.scowlyCaper, this.yantzeeGang);
             expect(this.scowlyCaper.location).toBe('play area');
             expect(this.scowlyCaper.hasToken('damage')).toBe(false);
-            expect(this.yantzeeGang.tokens.damage).toBe(2);
+            expect(this.yantzeeGang.damage).toBe(2);
         });
     });
 });

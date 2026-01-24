@@ -15,7 +15,7 @@ describe('Red Alert', function () {
         it('deal damage equal to the difference in creature count [2]', function () {
             this.player1.play(this.redAlert);
             expect(this.huntingWitch.location).toBe('discard');
-            expect(this.mightyTiger.tokens.damage).toBe(2);
+            expect(this.mightyTiger.damage).toBe(2);
         });
     });
     describe("Red Alert's ability", function () {
@@ -34,9 +34,9 @@ describe('Red Alert', function () {
         });
         it('deal damage equal to the difference in creature count[1]', function () {
             this.player1.play(this.redAlert);
-            expect(this.huntingWitch.tokens.damage).toBe(1);
-            expect(this.mightyTiger.tokens.damage).toBe(1);
-            expect(this.lieutenantKhrkhar.tokens.damage).toBe(undefined);
+            expect(this.huntingWitch.damage).toBe(1);
+            expect(this.mightyTiger.damage).toBe(1);
+            expect(this.lieutenantKhrkhar.damage).toBe(0);
         });
     });
     describe("Red Alert's ability", function () {
@@ -55,9 +55,9 @@ describe('Red Alert', function () {
         });
         it('deal damage equal to the difference in creature count[0]', function () {
             this.player1.play(this.redAlert);
-            expect(this.huntingWitch.tokens.damage).toBe(undefined);
-            expect(this.mightyTiger.tokens.damage).toBe(undefined);
-            expect(this.lieutenantKhrkhar.tokens.damage).toBe(undefined);
+            expect(this.huntingWitch.damage).toBe(0);
+            expect(this.mightyTiger.damage).toBe(0);
+            expect(this.lieutenantKhrkhar.damage).toBe(0);
         });
     });
 });

@@ -32,7 +32,7 @@ describe('Han Peregrine', function () {
             expect(this.player1).not.toBeAbleToSelect(this.umbra);
             this.player1.clickCard(this.troll);
             this.player1.clickPrompt('Right');
-            expect(this.troll.tokens.damage).toBe(undefined);
+            expect(this.troll.damage).toBe(0);
             expect(this.player1.player.creaturesInPlay[2]).toBe(this.troll);
             expect(this.player1).isReadyToTakeAction();
         });
@@ -42,7 +42,7 @@ describe('Han Peregrine', function () {
             this.player1.clickCard(this.hanPeregrine);
             this.player1.clickCard(this.charette);
             this.player1.clickPrompt('Left');
-            expect(this.charette.tokens.damage).toBe(undefined);
+            expect(this.charette.damage).toBe(0);
             expect(this.player2.player.creaturesInPlay[0]).toBe(this.charette);
             expect(this.player1).isReadyToTakeAction();
         });

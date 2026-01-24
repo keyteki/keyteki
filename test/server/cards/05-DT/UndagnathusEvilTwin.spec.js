@@ -16,7 +16,7 @@ describe('Undagnathus Evil Twin', function () {
             it('should not double damage dealt to Undagnathus', function () {
                 this.player1.fightWith(this.bumpsy, this.undagnathusEvilTwin);
                 expect(this.bumpsy.location).toBe('discard');
-                expect(this.undagnathusEvilTwin.tokens.damage).toBe(3);
+                expect(this.undagnathusEvilTwin.damage).toBe(3);
             });
         });
 
@@ -29,13 +29,13 @@ describe('Undagnathus Evil Twin', function () {
                 this.player2.moveCard(this.bulwark, 'discard');
                 this.player1.fightWith(this.bumpsy, this.undagnathusEvilTwin);
                 expect(this.bumpsy.location).toBe('discard');
-                expect(this.undagnathusEvilTwin.tokens.damage).toBe(10);
+                expect(this.undagnathusEvilTwin.damage).toBe(10);
             });
 
             it('should double damage dealt to Undagnathus, after armor', function () {
                 this.player1.fightWith(this.bumpsy, this.undagnathusEvilTwin);
                 expect(this.bumpsy.location).toBe('discard');
-                expect(this.undagnathusEvilTwin.tokens.damage).toBe(6);
+                expect(this.undagnathusEvilTwin.damage).toBe(6);
             });
         });
 
@@ -47,7 +47,7 @@ describe('Undagnathus Evil Twin', function () {
             it('should not double damage dealt to Undagnathus', function () {
                 this.player1.fightWith(this.bumpsy, this.undagnathusEvilTwin);
                 expect(this.bumpsy.location).toBe('discard');
-                expect(this.undagnathusEvilTwin.tokens.damage).toBe(3);
+                expect(this.undagnathusEvilTwin.damage).toBe(3);
             });
         });
     });

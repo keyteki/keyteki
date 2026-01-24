@@ -58,7 +58,7 @@ describe('Chief Engineer Walls', function () {
             expect(this.player1).not.toBeAbleToSelect(this.badPenny);
             this.player1.clickCard(this.helperBot);
             expect(this.helperBot.location).toBe('hand');
-            expect(this.chiefEngineerWalls.tokens.damage).toBe(1);
+            expect(this.chiefEngineerWalls.damage).toBe(1);
             expect(this.dustPixie.location).toBe('discard');
         });
     });

@@ -26,7 +26,7 @@ describe('Gleeful Mayhem', function () {
 
             this.player1.clickCard(this.shadowSelf);
 
-            expect(this.shadowSelf.tokens.damage).toBe(5);
+            expect(this.shadowSelf.damage).toBe(5);
         });
 
         describe('when more than 1 creature is in play', function () {
@@ -62,8 +62,8 @@ describe('Gleeful Mayhem', function () {
                 this.player1.clickCard(this.troll);
                 this.player1.clickCard(this.shadowSelf);
 
-                expect(this.shadowSelf.tokens.damage).toBe(5);
-                expect(this.troll.tokens.damage).toBe(5);
+                expect(this.shadowSelf.damage).toBe(5);
+                expect(this.troll.damage).toBe(5);
             });
         });
     });

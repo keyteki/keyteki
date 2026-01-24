@@ -17,7 +17,7 @@ describe('Slayer', function () {
 
         it('should have splash-attack and skirmish', function () {
             this.player1.fightWith(this.slayer, this.dustPixie);
-            expect(this.slayer.tokens.damage).toBe(undefined);
+            expect(this.slayer.damage).toBe(0);
             expect(this.huntingWitch.location).toBe('discard');
             expect(this.dustPixie.location).toBe('discard');
             expect(this.player1).isReadyToTakeAction();

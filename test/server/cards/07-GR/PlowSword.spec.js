@@ -41,7 +41,7 @@ describe('Plow-Sword', function () {
             expect(this.player1).toBeAbleToSelect(this.cpoZytar);
             expect(this.player1).not.toBeAbleToSelect(this.controlTheWeak);
             this.player1.clickCard(this.cpoZytar);
-            expect(this.cpoZytar.tokens.damage).toBe(2);
+            expect(this.cpoZytar.damage).toBe(2);
             expect(this.player1).isReadyToTakeAction();
         });
 
