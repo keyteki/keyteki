@@ -95,8 +95,8 @@ describe('Reap Or Sow', function () {
             this.player1.clickCard(this.dustPixie);
             this.player1.clickCard(this.dustPixie);
             this.player1.clickCard(this.troll);
-            expect(this.dustPixie.tokens.power).toBe(2);
-            expect(this.troll.tokens.power).toBe(1);
+            expect(this.dustPixie.powerCounters).toBe(2);
+            expect(this.troll.powerCounters).toBe(1);
         });
 
         describe('and inky gloom is played', function () {

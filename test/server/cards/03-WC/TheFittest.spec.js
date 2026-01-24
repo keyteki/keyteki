@@ -14,12 +14,12 @@ describe('The Fittest', function () {
         });
         it('should give all friendly creatures a +1 power counter', function () {
             this.player1.play(this.theFittest);
-            expect(this.dustPixie.tokens.power).toBe(1);
-            expect(this.rustgnawer.tokens.power).toBe(1);
-            expect(this.snufflegator.tokens.power).toBe(1);
-            expect(this.duskwitch.tokens.power).toBe(1);
-            expect(this.mightyTiger.tokens.power).toBe(undefined);
-            expect(this.grabberJammer.tokens.power).toBe(undefined);
+            expect(this.dustPixie.powerCounters).toBe(1);
+            expect(this.rustgnawer.powerCounters).toBe(1);
+            expect(this.snufflegator.powerCounters).toBe(1);
+            expect(this.duskwitch.powerCounters).toBe(1);
+            expect(this.mightyTiger.powerCounters).toBe(0);
+            expect(this.grabberJammer.powerCounters).toBe(0);
         });
     });
 });

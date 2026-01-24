@@ -38,7 +38,7 @@ describe('Greater Oxtet', function () {
                 });
 
                 it('two power counters are added to greater oxtet', function () {
-                    expect(this.greaterOxtet.tokens.power).toBe(2);
+                    expect(this.greaterOxtet.powerCounters).toBe(2);
                 });
             });
         });
@@ -51,7 +51,7 @@ describe('Greater Oxtet', function () {
 
             it('no power counters are added to greater oxtet', function () {
                 expect(this.player1).toHavePrompt('Waiting for opponent');
-                expect(this.greaterOxtet.tokens.power).toBe(undefined);
+                expect(this.greaterOxtet.powerCounters).toBe(0);
             });
         });
     });

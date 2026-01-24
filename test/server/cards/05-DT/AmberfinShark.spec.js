@@ -20,7 +20,7 @@ describe('Æmberfin Shark', function () {
             });
 
             it('should have 3 power counters', function () {
-                expect(this.æmberfinShark.tokens.power).toBe(3);
+                expect(this.æmberfinShark.powerCounters).toBe(3);
             });
 
             describe('at the end of player 1 turn', function () {
@@ -29,7 +29,7 @@ describe('Æmberfin Shark', function () {
                 });
 
                 it('should have 2 power counters and make each player gain 1 amber', function () {
-                    expect(this.æmberfinShark.tokens.power).toBe(2);
+                    expect(this.æmberfinShark.powerCounters).toBe(2);
                     expect(this.player1.amber).toBe(2);
                     expect(this.player2.amber).toBe(3);
                 });
@@ -41,7 +41,7 @@ describe('Æmberfin Shark', function () {
                     });
 
                     it('should continue with 2 power counters and players do not gain amber', function () {
-                        expect(this.æmberfinShark.tokens.power).toBe(2);
+                        expect(this.æmberfinShark.powerCounters).toBe(2);
                         expect(this.player1.amber).toBe(2);
                         expect(this.player2.amber).toBe(3);
                     });
@@ -57,7 +57,7 @@ describe('Æmberfin Shark', function () {
                         });
 
                         it('should have no power counters and players gained 2 ambers each', function () {
-                            expect(this.æmberfinShark.tokens.power).toBeUndefined();
+                            expect(this.æmberfinShark.powerCounters).toBe(0);
                             expect(this.player1.amber).toBe(4);
                             expect(this.player2.amber).toBe(5);
                         });
@@ -75,7 +75,7 @@ describe('Æmberfin Shark', function () {
                             });
 
                             it('should have no power counters and players will not gain amber', function () {
-                                expect(this.æmberfinShark.tokens.power).toBeUndefined();
+                                expect(this.æmberfinShark.powerCounters).toBe(0);
                                 expect(this.player1.amber).toBe(4);
                                 expect(this.player2.amber).toBe(5);
                             });
