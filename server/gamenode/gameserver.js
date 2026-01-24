@@ -161,7 +161,7 @@ class GameServer {
         Sentry.captureException(e);
         if (game) {
             game.addMessage(
-                'A Server error has occured processing your game state, apologies.  Your game may now be in an inconsistent state, or you may be able to continue.  The error has been logged.'
+                'A Server error has occurred processing your game state, apologies.  Your game may now be in an inconsistent state, or you may be able to continue.  The error has been logged.'
             );
         }
     }
