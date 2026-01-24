@@ -930,9 +930,20 @@ class Card extends EffectSource {
             return 0;
         }
 
+        // For gigantic creatures with a composed part, get keywords from the bottom card
+        // This allows the top half to share keywords with the bottom half when in play
+        let baseValue = 0;
+        if (this.gigantic && this.composedPart) {
+            let copyEffect = this.mostRecentEffect('copyCard');
+            let baseKeywords = copyEffect
+                ? copyEffect.printedKeywords
+                : this.getBottomCard().printedKeywords;
+            baseValue = baseKeywords[keyword] || 0;
+        }
+
         return this.getEffects('addKeyword').reduce(
             (total, keywords) => total + (keywords[keyword] ? keywords[keyword] : 0),
-            0
+            baseValue
         );
     }
 
