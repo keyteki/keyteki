@@ -15,7 +15,7 @@ describe('Monsquito', function () {
         it('heals after fighting', function () {
             this.player1.fightWith(this.monsquito, this.dustPixie);
             expect(this.dustPixie.location).toBe('discard');
-            expect(this.monsquito.tokens.damage).toBe(undefined);
+            expect(this.monsquito.damage).toBe(0);
             expect(this.monsquito.location).toBe('play area');
         });
 
@@ -23,7 +23,7 @@ describe('Monsquito', function () {
             this.monsquito.tokens.damage = 1;
             this.player1.fightWith(this.monsquito, this.dustPixie);
             expect(this.dustPixie.location).toBe('discard');
-            expect(this.monsquito.tokens.damage).toBe(undefined);
+            expect(this.monsquito.damage).toBe(0);
             expect(this.monsquito.location).toBe('play area');
         });
 
@@ -40,7 +40,7 @@ describe('Monsquito', function () {
             expect(this.player1).toBeAbleToSelect(this.alaka);
             expect(this.player1).toBeAbleToSelect(this.flaxia);
             this.player1.clickCard(this.flaxia);
-            expect(this.flaxia.tokens.damage).toBe(2);
+            expect(this.flaxia.damage).toBe(2);
             expect(this.player1).isReadyToTakeAction();
         });
     });

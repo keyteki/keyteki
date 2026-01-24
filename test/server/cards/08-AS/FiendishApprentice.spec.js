@@ -25,9 +25,9 @@ describe('Fiendish Apprentice', function () {
             expect(this.player1).not.toBeAbleToSelect(this.shooler);
             this.player1.clickCard(this.rowdySkald);
             this.player1.clickCard(this.charette);
-            expect(this.rowdySkald.tokens.damage).toBe(3);
-            expect(this.charette.tokens.damage).toBe(3);
-            expect(this.troll.tokens.damage).toBe(undefined);
+            expect(this.rowdySkald.damage).toBe(3);
+            expect(this.charette.damage).toBe(3);
+            expect(this.troll.damage).toBe(0);
             expect(this.player1).isReadyToTakeAction();
         });
     });

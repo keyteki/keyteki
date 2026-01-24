@@ -22,7 +22,7 @@ describe('AjaTheInconspicuous', function () {
             });
 
             it('no damage dealt', function () {
-                expect(this.ajaTheInconspicuous.tokens.damage).toBeUndefined();
+                expect(this.ajaTheInconspicuous.damage).toBe(0);
             });
         });
 
@@ -34,7 +34,7 @@ describe('AjaTheInconspicuous', function () {
             });
 
             it('no damage dealt', function () {
-                expect(this.ajaTheInconspicuous.tokens.damage).toBe(1);
+                expect(this.ajaTheInconspicuous.damage).toBe(1);
             });
         });
     });

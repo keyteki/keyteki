@@ -29,8 +29,8 @@ describe('Mutation of Instinct', function () {
             this.player1.fightWith(this.flaxia, this.troll);
             expect(this.flaxia.location).toBe('play area');
             expect(this.troll.location).toBe('play area');
-            expect(this.flaxia.tokens.damage).toBeUndefined();
-            expect(this.troll.tokens.damage).toBe(4);
+            expect(this.flaxia.damage).toBe(0);
+            expect(this.troll.damage).toBe(4);
         });
 
         it('should last until start of next turn', function () {

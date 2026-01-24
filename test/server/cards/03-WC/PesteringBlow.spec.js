@@ -29,7 +29,7 @@ describe('Pestering Blow', function () {
             this.player1.clickCard(this.flaxia);
 
             expect(this.flaxia.tokens.enrage).toBe(1);
-            expect(this.flaxia.tokens.damage).toBe(1);
+            expect(this.flaxia.damage).toBe(1);
         });
 
         it('Deal 1 damage and enrage an enemy creature', function () {
@@ -43,7 +43,7 @@ describe('Pestering Blow', function () {
             this.player1.clickCard(this.krump);
 
             expect(this.krump.tokens.enrage).toBe(1);
-            expect(this.krump.tokens.damage).toBe(1);
+            expect(this.krump.damage).toBe(1);
         });
     });
 });

@@ -21,12 +21,12 @@ describe('HonorOrGlory', function () {
             });
 
             it('damage flank creatures', function () {
-                expect(this.bumpsy.tokens.damage).toBe(3);
-                expect(this.mother.tokens.damage).toBeUndefined();
-                expect(this.bumpsy.tokens.damage).toBe(3);
+                expect(this.bumpsy.damage).toBe(3);
+                expect(this.mother.damage).toBe(0);
+                expect(this.bumpsy.damage).toBe(3);
                 expect(this.badPenny.location).toBe('hand');
-                expect(this.helperBot.tokens.damage).toBeUndefined();
-                expect(this.alaka.tokens.damage).toBe(3);
+                expect(this.helperBot.damage).toBe(0);
+                expect(this.alaka.damage).toBe(3);
             });
         });
 
@@ -36,12 +36,12 @@ describe('HonorOrGlory', function () {
             });
 
             it('damage nonflank creatures', function () {
-                expect(this.bumpsy.tokens.damage).toBeUndefined();
-                expect(this.mother.tokens.damage).toBe(3);
-                expect(this.bumpsy.tokens.damage).toBeUndefined();
-                expect(this.badPenny.tokens.damage).toBeUndefined();
+                expect(this.bumpsy.damage).toBe(0);
+                expect(this.mother.damage).toBe(3);
+                expect(this.bumpsy.damage).toBe(0);
+                expect(this.badPenny.damage).toBe(0);
                 expect(this.helperBot.location).toBe('discard');
-                expect(this.alaka.tokens.damage).toBeUndefined();
+                expect(this.alaka.damage).toBe(0);
             });
         });
     });

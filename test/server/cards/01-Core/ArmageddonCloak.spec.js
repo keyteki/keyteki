@@ -18,8 +18,8 @@ describe('Armageddon Cloak', function () {
             this.player1.playUpgrade(this.armageddonCloak, this.sequis);
             this.player1.fightWith(this.sequis, this.troll);
 
-            expect(this.sequis.tokens.damage).toBeUndefined();
-            expect(this.troll.tokens.damage).toBe(4);
+            expect(this.sequis.damage).toBe(0);
+            expect(this.troll.damage).toBe(4);
             expect(this.sequis.location).toBe('play area');
             expect(this.sequis.moribund).toBe(false);
             expect(this.armageddonCloak.location).toBe('discard');
@@ -53,10 +53,10 @@ describe('Armageddon Cloak', function () {
             expect(this.nexus.location).toBe('play area');
             expect(this.troll.location).toBe('play area');
             expect(this.dodger.location).toBe('play area');
-            expect(this.dodger.tokens.damage).toBe(4);
-            expect(this.sequis.tokens.damage).toBe(3);
+            expect(this.dodger.damage).toBe(4);
+            expect(this.sequis.damage).toBe(3);
             this.player1.clickCard(this.troll);
-            expect(this.troll.tokens.damage).toBe(4);
+            expect(this.troll.damage).toBe(4);
             expect(this.sequis.hasToken('damage')).toBe(false);
             expect(this.sequis.location).toBe('play area');
             expect(this.sequis.moribund).toBe(false);

@@ -22,7 +22,7 @@ describe('Zap', function () {
             this.player1.clickCard(this.troll);
             this.player1.clickCard(this.troll);
             this.player1.clickCard(this.troll);
-            expect(this.troll.tokens.damage).toBe(3);
+            expect(this.troll.damage).toBe(3);
         });
 
         it('should not allow the player to select 0 targets', function () {
@@ -37,9 +37,9 @@ describe('Zap', function () {
             this.player1.clickCard(this.troll);
             this.player1.clickCard(this.spyyyder);
             this.player1.clickCard(this.snufflegator);
-            expect(this.troll.tokens.damage).toBe(1);
-            expect(this.spyyyder.tokens.damage).toBe(1);
-            expect(this.snufflegator.tokens.damage).toBe(1);
+            expect(this.troll.damage).toBe(1);
+            expect(this.spyyyder.damage).toBe(1);
+            expect(this.snufflegator.damage).toBe(1);
         });
     });
 });

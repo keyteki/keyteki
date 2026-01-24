@@ -29,7 +29,7 @@ describe('Lyco-Saurus', function () {
             expect(this.player1).toBeAbleToSelect(this.dodger);
             this.player1.clickCard(this.troll);
             expect(this.lycoSaurus.amber).toBe(1);
-            expect(this.troll.tokens.damage).toBe(3);
+            expect(this.troll.damage).toBe(3);
             expect(this.player1).isReadyToTakeAction();
         });
     });

@@ -19,17 +19,17 @@ describe('Proton Siphon', function () {
         it('does nothing when not haunted', function () {
             this.player1.fightWith(this.cpoZytar, this.troll);
             expect(this.cpoZytar.location).toBe('discard');
-            expect(this.kelifiDragon.tokens.damage).toBe(undefined);
-            expect(this.troll.tokens.damage).toBe(4);
-            expect(this.huntingWitch.tokens.damage).toBe(undefined);
+            expect(this.kelifiDragon.damage).toBe(0);
+            expect(this.troll.damage).toBe(4);
+            expect(this.huntingWitch.damage).toBe(0);
         });
 
         it('gives splash attack when haunted', function () {
             this.player1.play(this.stealthMode);
             this.player1.fightWith(this.cpoZytar, this.troll);
             expect(this.cpoZytar.location).toBe('discard');
-            expect(this.kelifiDragon.tokens.damage).toBe(5);
-            expect(this.troll.tokens.damage).toBe(4);
+            expect(this.kelifiDragon.damage).toBe(5);
+            expect(this.troll.damage).toBe(4);
             expect(this.huntingWitch.location).toBe('discard');
         });
     });

@@ -76,9 +76,9 @@ describe('Infomancer', function () {
             expect(this.pound.parent).toBe(this.infomancer);
             expect(this.player1).toHavePrompt('Choose a creature');
             this.player1.clickCard(this.tantadlin);
-            expect(this.tantadlin.tokens.damage).toBe(2);
-            expect(this.bigtwig.tokens.damage).toBe(1);
-            expect(this.flaxia.tokens.damage).toBe(1);
+            expect(this.tantadlin.damage).toBe(2);
+            expect(this.bigtwig.damage).toBe(1);
+            expect(this.flaxia.damage).toBe(1);
             expect(this.player1).isReadyToTakeAction();
         });
     });

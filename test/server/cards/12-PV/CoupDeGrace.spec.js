@@ -38,13 +38,13 @@ describe('Coup de Grâce', function () {
             this.player1.endTurn();
             this.player2.clickPrompt('brobnar');
             this.player2.reap(this.krump);
-            expect(this.krump.tokens.damage).toBe(4);
+            expect(this.krump.damage).toBe(4);
             expect(this.dustPixie.location).toBe('discard');
             expect(this.coupDeGrâce.location).toBe('discard');
             expect(this.charette.location).toBe('play area');
             expect(this.xenosBloodshadow.location).toBe('play area');
-            expect(this.charette.tokens.damage).toBeUndefined();
-            expect(this.xenosBloodshadow.tokens.damage).toBeUndefined();
+            expect(this.charette.damage).toBe(0);
+            expect(this.xenosBloodshadow.damage).toBe(0);
             expect(this.player2).isReadyToTakeAction();
         });
     });

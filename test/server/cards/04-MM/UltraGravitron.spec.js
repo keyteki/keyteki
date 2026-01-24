@@ -120,7 +120,7 @@ describe('Ultra Gravitron', function () {
             this.player1.clickCard(this.narp);
             expect(this.player1.player.archives.length).toBe(4);
             expect(this.narp.location).toBe('purged');
-            expect(this.ultraGravitron2.tokens.damage).toBe(4);
+            expect(this.ultraGravitron2.damage).toBe(4);
             expect(this.zorg.location).toBe('discard');
             expect(this.player1.amber).toBe(0);
         });
@@ -157,7 +157,7 @@ describe('Ultra Gravitron', function () {
             this.player1.clickCard(this.fuzzyGruen);
             expect(this.player1.player.archives.length).toBe(4);
             expect(this.fuzzyGruen.location).toBe('purged');
-            expect(this.ultraGravitron2.tokens.damage).toBe(4);
+            expect(this.ultraGravitron2.damage).toBe(4);
             expect(this.zorg.location).toBe('discard');
             expect(this.player1.amber).toBe(2);
         });

@@ -58,7 +58,7 @@ describe('Bear Flute', function () {
             expect(this.ancientBear1.location).toBe('play area');
             this.player1.play(this.cooperativeHunting);
             this.player1.clickCard(this.ancientBear1);
-            expect(this.ancientBear1.tokens.damage).toBe(1);
+            expect(this.ancientBear1.damage).toBe(1);
             this.player1.useAction(this.bearFlute);
             expect(this.player1).toHavePrompt('Bear Flute');
             expect(this.player1).toBeAbleToSelect(this.ancientBear1);

@@ -23,7 +23,7 @@ describe('Creed of Nature', function () {
             expect(this.mightyTiger.getKeywordValue('assault')).toBe(4);
             this.player1.fightWith(this.mightyTiger, this.grabberJammer);
             expect(this.grabberJammer.location).toBe('discard');
-            expect(this.mightyTiger.tokens.damage).toBe(undefined);
+            expect(this.mightyTiger.damage).toBe(0);
             expect(this.creedOfNature.location).toBe('discard');
         });
     });

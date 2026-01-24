@@ -218,7 +218,7 @@ describe('Triggered Ability Window', function () {
             this.player1.clickPrompt('Ingram’s Blaster');
             this.player1.clickPrompt('Deal 2 damage');
             this.player1.clickCard(this.bossZarek);
-            expect(this.bossZarek.tokens.damage).toBe(2);
+            expect(this.bossZarek.damage).toBe(2);
             this.player1.clickPrompt('Autoresolve');
 
             expect(this.player1.amber).toBe(5);
@@ -240,7 +240,7 @@ describe('Triggered Ability Window', function () {
             this.player1.clickPrompt('Ingram’s Blaster');
             this.player1.clickPrompt('Deal 2 damage');
             this.player1.clickCard(this.bossZarek);
-            expect(this.bossZarek.tokens.damage).toBe(2);
+            expect(this.bossZarek.damage).toBe(2);
             this.player1.clickPrompt('Sensor Chief Garcia');
             this.player1.clickPrompt('Observ-u-Max');
             this.player1.clickPrompt('Disruption Field');
@@ -338,7 +338,7 @@ describe('Triggered Ability Window', function () {
             this.player1.clickCard(this.armsmasterMolina);
             this.player1.clickPrompt('Deal 2 damage');
             this.player1.clickCard(this.bossZarek);
-            expect(this.bossZarek.tokens.damage).toBe(2);
+            expect(this.bossZarek.damage).toBe(2);
 
             this.player1.endTurn();
         });
@@ -375,7 +375,7 @@ describe('Triggered Ability Window', function () {
                 expect(this.player1).toHavePromptButton('Cancel Prompt');
                 this.player1.clickPrompt('Cancel Prompt');
 
-                expect(this.ardentHero.tokens.damage).toBeUndefined();
+                expect(this.ardentHero.damage).toBe(0);
                 expect(this.player1.hand.length).toBe(3);
 
                 this.player1.endTurn();
@@ -390,7 +390,7 @@ describe('Triggered Ability Window', function () {
                 expect(this.player1).toHavePromptButton('Cancel Prompt');
                 this.player1.clickPrompt('Cancel Prompt');
 
-                expect(this.ardentHero.tokens.damage).toBe(1);
+                expect(this.ardentHero.damage).toBe(1);
                 expect(this.player1.hand.length).toBe(3);
 
                 this.player1.endTurn();
@@ -406,7 +406,7 @@ describe('Triggered Ability Window', function () {
                 expect(this.player1).toHavePromptButton('Cancel Prompt');
                 this.player1.clickPrompt('Cancel Prompt');
 
-                expect(this.ardentHero.tokens.damage).toBe(1);
+                expect(this.ardentHero.damage).toBe(1);
                 expect(this.player1.hand.length).toBe(4);
 
                 this.player1.endTurn();
@@ -417,8 +417,8 @@ describe('Triggered Ability Window', function () {
                 this.player1.clickCard(this.ardentHero);
                 this.player1.clickCard(this.troll);
 
-                expect(this.ardentHero.tokens.damage).toBe(1);
-                expect(this.troll.tokens.damage).toBe(2);
+                expect(this.ardentHero.damage).toBe(1);
+                expect(this.troll.damage).toBe(2);
                 expect(this.player1.hand.length).toBe(4);
 
                 this.player1.endTurn();
@@ -509,7 +509,7 @@ describe('Triggered Ability Window', function () {
 
                 expect(this.almsmaster.armorUsed).toBe(1);
                 expect(this.filaTheResearcher.amber).toBe(1);
-                expect(this.troll.tokens.damage).toBe(2);
+                expect(this.troll.damage).toBe(2);
                 expect(this.player1.hand.length).toBe(4);
 
                 this.player1.endTurn();
@@ -583,7 +583,7 @@ describe('Triggered Ability Window', function () {
                 this.player1.clickPrompt('Done');
 
                 expect(this.dinoKnight.armorUsed).toBe(1);
-                expect(this.troll.tokens.damage).toBe(2);
+                expect(this.troll.damage).toBe(2);
                 expect(this.player1.hand.length).toBe(4);
 
                 this.player1.endTurn();
@@ -608,7 +608,7 @@ describe('Triggered Ability Window', function () {
 
                 expect(this.dinoKnight.amber).toBe(1);
                 expect(this.dinoKnight.armorUsed).toBe(1);
-                expect(this.troll.tokens.damage).toBe(2);
+                expect(this.troll.damage).toBe(2);
                 expect(this.player1.hand.length).toBe(4);
 
                 this.player1.endTurn();
@@ -633,7 +633,7 @@ describe('Triggered Ability Window', function () {
 
                 expect(this.dinoKnight.amber).toBe(1);
                 expect(this.dinoKnight.armorUsed).toBe(1);
-                expect(this.troll.tokens.damage).toBe(5);
+                expect(this.troll.damage).toBe(5);
                 expect(this.player1.hand.length).toBe(4);
 
                 this.player1.endTurn();
@@ -652,7 +652,7 @@ describe('Triggered Ability Window', function () {
 
                 expect(this.dinoKnight.amber).toBe(1);
                 expect(this.dinoKnight.armorUsed).toBe(1);
-                expect(this.troll.tokens.damage).toBe(5);
+                expect(this.troll.damage).toBe(5);
                 expect(this.player1.hand.length).toBe(4);
 
                 this.player1.endTurn();
@@ -675,7 +675,7 @@ describe('Triggered Ability Window', function () {
                 this.player1.clickPrompt('Cancel Prompt');
 
                 expect(this.ardentHero.amber).toBe(0);
-                expect(this.ardentHero.tokens.damage).toBeUndefined();
+                expect(this.ardentHero.damage).toBe(0);
                 expect(this.player1.hand.length).toBe(2);
 
                 this.player1.endTurn();
@@ -692,7 +692,7 @@ describe('Triggered Ability Window', function () {
                 this.player1.clickPrompt('Cancel Prompt');
 
                 expect(this.ardentHero.amber).toBe(0);
-                expect(this.ardentHero.tokens.damage).toBe(1);
+                expect(this.ardentHero.damage).toBe(1);
                 expect(this.player1.hand.length).toBe(2);
 
                 this.player1.endTurn();
@@ -709,7 +709,7 @@ describe('Triggered Ability Window', function () {
                 this.player1.clickPrompt('Cancel Prompt');
 
                 expect(this.ardentHero.amber).toBe(0);
-                expect(this.ardentHero.tokens.damage).toBe(1);
+                expect(this.ardentHero.damage).toBe(1);
                 expect(this.player1.hand.length).toBe(3);
 
                 this.player1.endTurn();
@@ -734,7 +734,7 @@ describe('Triggered Ability Window', function () {
                 this.player1.clickPrompt('Cancel Prompt');
 
                 expect(this.ardentHero.amber).toBe(0);
-                expect(this.ardentHero.tokens.damage).toBe(1);
+                expect(this.ardentHero.damage).toBe(1);
                 expect(this.player1.hand.length).toBe(3);
 
                 this.player1.endTurn();
@@ -750,8 +750,8 @@ describe('Triggered Ability Window', function () {
                 this.player1.clickCard(this.troll);
 
                 expect(this.ardentHero.amber).toBe(1);
-                expect(this.ardentHero.tokens.damage).toBe(1);
-                expect(this.troll.tokens.damage).toBe(2);
+                expect(this.ardentHero.damage).toBe(1);
+                expect(this.troll.damage).toBe(2);
                 expect(this.player1.hand.length).toBe(3);
 
                 this.player1.endTurn();
@@ -765,8 +765,8 @@ describe('Triggered Ability Window', function () {
                 this.player1.clickCard(this.ardentHero);
 
                 expect(this.ardentHero.amber).toBe(1);
-                expect(this.ardentHero.tokens.damage).toBe(1);
-                expect(this.troll.tokens.damage).toBe(2);
+                expect(this.ardentHero.damage).toBe(1);
+                expect(this.troll.damage).toBe(2);
                 expect(this.player1.hand.length).toBe(3);
 
                 this.player1.endTurn();

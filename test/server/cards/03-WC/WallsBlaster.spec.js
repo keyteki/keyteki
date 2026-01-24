@@ -80,7 +80,7 @@ describe('Walls’ Blaster', function () {
             expect(this.player1).toBeAbleToSelect(this.lamindra);
             expect(this.player1).toBeAbleToSelect(this.krump);
             this.player1.clickCard(this.krump);
-            expect(this.krump.tokens.damage).toBe(2);
+            expect(this.krump.damage).toBe(2);
         });
 
         it('fight ability should allow dealing 2 damages to a creature', function () {
@@ -100,7 +100,7 @@ describe('Walls’ Blaster', function () {
             expect(this.player1).toBeAbleToSelect(this.lamindra);
             expect(this.player1).toBeAbleToSelect(this.krump);
             this.player1.clickCard(this.krump);
-            expect(this.krump.tokens.damage).toBe(2);
+            expect(this.krump.damage).toBe(2);
         });
 
         it('reap ability should allow moving the upgrade to the appropriate officer', function () {
@@ -181,7 +181,7 @@ describe('Walls’ Blaster', function () {
             expect(this.player1).toBeAbleToSelect(this.lamindra);
             expect(this.player1).toBeAbleToSelect(this.krump);
             this.player1.clickCard(this.krump);
-            expect(this.krump.tokens.damage).toBe(2);
+            expect(this.krump.damage).toBe(2);
         });
 
         it('reap ability should allow moving to associated officer even when it is not in play', function () {
@@ -210,7 +210,7 @@ describe('Walls’ Blaster', function () {
             expect(this.player1).toBeAbleToSelect(this.lamindra);
             expect(this.player1).toBeAbleToSelect(this.krump);
             this.player1.clickCard(this.krump);
-            expect(this.krump.tokens.damage).toBe(2);
+            expect(this.krump.damage).toBe(2);
         });
     });
 

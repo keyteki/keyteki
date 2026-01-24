@@ -9,13 +9,13 @@ class Webstur extends Card {
         this.fight({
             condition: (context) => {
                 this.discards = 0;
-                return this.discards < context.source.tokens.damage;
+                return this.discards < context.source.damage;
             },
             effect:
                 "choose whether to discard cards from each player's deck for each damage on {0}",
             then: {
                 alwaysTriggers: true,
-                condition: (context) => this.discards < context.source.tokens.damage,
+                condition: (context) => this.discards < context.source.damage,
                 may: "discard the top card from each player's deck",
                 gameAction: ability.actions.discard((context) => ({
                     target: context.player.deck

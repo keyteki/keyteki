@@ -21,9 +21,9 @@ describe('Mass Abduction', function () {
             this.player1.clickCard(this.troll);
             this.player1.clickCard(this.dextre);
             this.player1.clickCard(this.bumpsy);
-            expect(this.troll.tokens.damage).toBe(2);
-            expect(this.dextre.tokens.damage).toBe(2);
-            expect(this.bumpsy.tokens.damage).toBe(2);
+            expect(this.troll.damage).toBe(2);
+            expect(this.dextre.damage).toBe(2);
+            expect(this.bumpsy.damage).toBe(2);
             this.player1.play(this.massAbduction);
             expect(this.player1).toHavePrompt('Mass Abduction');
             expect(this.player1).toBeAbleToSelect(this.troll);

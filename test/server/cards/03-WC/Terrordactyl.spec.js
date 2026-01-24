@@ -33,10 +33,10 @@ describe('Terrordactyl', function () {
 
         it('should deal only 4 damages when fighting and 4 damages to neighbors', function () {
             this.player1.fightWith(this.terrordactyl, this.krump);
-            expect(this.terrordactyl.tokens.damage).toBe(6);
-            expect(this.krump.tokens.damage).toBe(4);
-            expect(this.troll.tokens.damage).toBe(4);
-            expect(this.groggins.tokens.damage).toBe(4);
+            expect(this.terrordactyl.damage).toBe(6);
+            expect(this.krump.damage).toBe(4);
+            expect(this.troll.damage).toBe(4);
+            expect(this.groggins.damage).toBe(4);
         });
     });
 });

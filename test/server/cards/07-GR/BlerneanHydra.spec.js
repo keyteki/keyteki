@@ -17,19 +17,19 @@ describe('Blernean Hydra', function () {
 
         it('has no splash attack when not damaged', function () {
             this.player1.fightWith(this.blerneanHydra, this.troll);
-            expect(this.oldBruno.tokens.damage).toBe(undefined);
-            expect(this.troll.tokens.damage).toBe(5);
-            expect(this.flaxia.tokens.damage).toBe(undefined);
+            expect(this.oldBruno.damage).toBe(0);
+            expect(this.troll.damage).toBe(5);
+            expect(this.flaxia.damage).toBe(0);
         });
 
         it('gains splash attack X when having X damage', function () {
             this.player1.play(this.theCommonCold);
-            expect(this.blerneanHydra.tokens.damage).toBe(1);
+            expect(this.blerneanHydra.damage).toBe(1);
             expect(this.blerneanHydra.getKeywordValue('splash-attack')).toBe(1);
             this.player1.fightWith(this.blerneanHydra, this.troll);
-            expect(this.oldBruno.tokens.damage).toBe(2);
-            expect(this.troll.tokens.damage).toBe(6);
-            expect(this.flaxia.tokens.damage).toBe(2);
+            expect(this.oldBruno.damage).toBe(2);
+            expect(this.troll.damage).toBe(6);
+            expect(this.flaxia.damage).toBe(2);
         });
     });
 });

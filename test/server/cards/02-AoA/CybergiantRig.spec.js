@@ -24,7 +24,7 @@ describe('Cybergiant Rig', function () {
             });
 
             it('should fully heal the creature and add power tokens', function () {
-                expect(this.groggins.tokens.damage).toBeUndefined();
+                expect(this.groggins.damage).toBe(0);
                 expect(this.groggins.powerCounters).toBe(6);
             });
 
@@ -67,7 +67,7 @@ describe('Cybergiant Rig', function () {
             });
 
             it('should fully heal the creature and add power tokens', function () {
-                expect(this.troll.tokens.damage).toBeUndefined();
+                expect(this.troll.damage).toBe(0);
                 expect(this.troll.powerCounters).toBe(3);
             });
 

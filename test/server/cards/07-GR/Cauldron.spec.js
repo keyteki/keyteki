@@ -114,7 +114,7 @@ describe('Cauldron', function () {
                 expect(this.gangerChieftain.location).toBe('play area');
                 expect(this.smith.location).toBe('discard');
                 expect(this.poke.location).toBe('discard');
-                expect(this.umbra.tokens.damage).toBe(1);
+                expect(this.umbra.damage).toBe(1);
                 expect(this.player1).isReadyToTakeAction();
             });
         });

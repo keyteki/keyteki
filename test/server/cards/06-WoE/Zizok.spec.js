@@ -33,7 +33,7 @@ describe('Zizok', function () {
             expect(this.witchOfTheEye.location).toBe('play area');
             expect(this.dustPixie.location).toBe('discard');
             expect(this.zizok.location).toBe('play area');
-            expect(this.witchOfTheEye.tokens.damage).toBe(1);
+            expect(this.witchOfTheEye.damage).toBe(1);
             expect(this.zizok.exhausted).toBe(true);
             expect(this.player1).isReadyToTakeAction();
         });

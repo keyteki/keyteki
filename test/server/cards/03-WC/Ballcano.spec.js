@@ -18,8 +18,8 @@ describe('Ballcano', function () {
             expect(this.urchin.location).toBe('discard');
             expect(this.nexus.location).toBe('discard');
             expect(this.batdrone.location).toBe('discard');
-            expect(this.mother.tokens.damage).toBe(4);
-            expect(this.zorg.tokens.damage).toBe(4);
+            expect(this.mother.damage).toBe(4);
+            expect(this.zorg.damage).toBe(4);
             expect(this.player1.chains).toBe(2);
         });
     });

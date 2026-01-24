@@ -14,19 +14,19 @@ describe('Qyxxlyx Plague Master', function () {
 
         it('should deal 3 damage to each Human creature after fight, ignoring armor', function () {
             this.player1.fightWith(this.qyxxlyxPlagueMaster, this.urchin);
-            expect(this.sergeantZakiel.tokens.damage).toBe(3);
-            expect(this.protectrix.tokens.damage).toBe(undefined);
-            expect(this.sequis.tokens.damage).toBe(3);
-            expect(this.urchin.tokens.damage).toBe(undefined);
+            expect(this.sergeantZakiel.damage).toBe(3);
+            expect(this.protectrix.damage).toBe(0);
+            expect(this.sequis.damage).toBe(3);
+            expect(this.urchin.damage).toBe(0);
             expect(this.player1).isReadyToTakeAction();
         });
 
         it('should deal 3 damage to each Human creature after reap, ignoring armor', function () {
             this.player1.reap(this.qyxxlyxPlagueMaster);
-            expect(this.sergeantZakiel.tokens.damage).toBe(3);
-            expect(this.protectrix.tokens.damage).toBe(undefined);
-            expect(this.sequis.tokens.damage).toBe(3);
-            expect(this.urchin.tokens.damage).toBe(undefined);
+            expect(this.sergeantZakiel.damage).toBe(3);
+            expect(this.protectrix.damage).toBe(0);
+            expect(this.sequis.damage).toBe(3);
+            expect(this.urchin.damage).toBe(0);
             expect(this.player1).isReadyToTakeAction();
         });
     });

@@ -24,7 +24,7 @@ describe('Hapsis', function () {
             let handSize = this.player1.hand.length;
             this.player1.fightWith(this.hapsis, this.chronus);
             expect(this.chronus.location).toBe('discard');
-            expect(this.hapsis.tokens.damage).toBe(3);
+            expect(this.hapsis.damage).toBe(3);
             expect(this.player1.hand.length).toBe(handSize + 1);
             expect(this.hapsis.hasToken('ward')).toBe(true);
         });
@@ -35,7 +35,7 @@ describe('Hapsis', function () {
             let handSize = this.player1.hand.length;
             this.player2.fightWith(this.chronus, this.hapsis);
             expect(this.chronus.location).toBe('discard');
-            expect(this.hapsis.tokens.damage).toBe(3);
+            expect(this.hapsis.damage).toBe(3);
             expect(this.hapsis.hasToken('ward')).toBe(true);
             expect(this.player1.hand.length).toBe(handSize + 1);
         });
@@ -45,8 +45,8 @@ describe('Hapsis', function () {
             let handSize = this.player1.hand.length;
             this.player1.fightWith(this.hapsis, this.zenzizenzizenzic);
             expect(this.zenzizenzizenzic.location).toBe('play area');
-            expect(this.zenzizenzizenzic.tokens.damage).toBe(3);
-            expect(this.hapsis.tokens.damage).toBe(4);
+            expect(this.zenzizenzizenzic.damage).toBe(3);
+            expect(this.hapsis.damage).toBe(4);
             expect(this.player1.hand.length).toBe(handSize);
             expect(this.hapsis.hasToken('ward')).toBe(false);
         });
@@ -57,8 +57,8 @@ describe('Hapsis', function () {
             let handSize = this.player1.hand.length;
             this.player1.fightWith(this.hapsis, this.chronus);
             expect(this.chronus.location).toBe('play area');
-            expect(this.chronus.tokens.damage).toBeUndefined();
-            expect(this.hapsis.tokens.damage).toBe(3);
+            expect(this.chronus.damage).toBe(0);
+            expect(this.hapsis.damage).toBe(3);
             expect(this.player1.hand.length).toBe(handSize);
             expect(this.hapsis.hasToken('ward')).toBe(false);
         });
@@ -67,7 +67,7 @@ describe('Hapsis', function () {
             let handSize = this.player1.hand.length;
             this.player1.fightWith(this.hapsis, this.eyegor);
             expect(this.eyegor.location).toBe('discard');
-            expect(this.hapsis.tokens.damage).toBeUndefined();
+            expect(this.hapsis.damage).toBe(0);
             expect(this.player1.hand.length).toBe(handSize);
             expect(this.hapsis.hasToken('ward')).toBe(false);
         });
@@ -90,7 +90,7 @@ describe('Hapsis', function () {
             this.player1.clickPrompt('Deal 2 damage');
             this.player1.clickCard(this.zenzizenzizenzic);
             expect(this.zenzizenzizenzic.location).toBe('discard');
-            expect(this.hapsis.tokens.damage).toBe(4);
+            expect(this.hapsis.damage).toBe(4);
             expect(this.player1.hand.length).toBe(handSize);
             expect(this.hapsis.hasToken('ward')).toBe(false);
         });
@@ -101,7 +101,7 @@ describe('Hapsis', function () {
             this.player1.fightWith(this.hapsis, this.darkMinion);
             expect(this.player1).isReadyToTakeAction();
             expect(this.darkMinion.location).toBe('discard');
-            expect(this.hapsis.tokens.damage).toBe(2);
+            expect(this.hapsis.damage).toBe(2);
             expect(this.player1.hand.length).toBe(handSize + 1);
             expect(this.hapsis.hasToken('ward')).toBe(true);
         });
@@ -125,7 +125,7 @@ describe('Hapsis', function () {
             let handSize = this.player1.hand.length;
             this.player1.fightWith(this.hapsis, this.eyegor);
             expect(this.eyegor.location).toBe('discard');
-            expect(this.hapsis.tokens.damage).toBe(2);
+            expect(this.hapsis.damage).toBe(2);
             expect(this.player1.hand.length).toBe(handSize + 1);
             expect(this.hapsis.hasToken('ward')).toBe(false);
             expect(this.player1).isReadyToTakeAction();

@@ -16,7 +16,7 @@ describe('Old Boomy', function () {
         it('should archive the card and damage Old Boomy if the first card is brobnar', function () {
             expect(this.player1.player.deck[0]).toBe(this.troll);
             this.player1.reap(this.oldBoomy);
-            expect(this.oldBoomy.tokens.damage).toBe(2);
+            expect(this.oldBoomy.damage).toBe(2);
             expect(this.troll.location).toBe('archives');
             expect(this.player1).isReadyToTakeAction();
         });
@@ -50,7 +50,7 @@ describe('Old Boomy', function () {
             expect(this.dextre.location).toBe('archives');
             expect(this.player1).toHavePrompt('Select One');
             this.player1.clickPrompt('Reveal top card');
-            expect(this.oldBoomy.tokens.damage).toBe(2);
+            expect(this.oldBoomy.damage).toBe(2);
             expect(this.troll.location).toBe('archives');
             expect(this.player1).isReadyToTakeAction();
         });

@@ -26,7 +26,7 @@ describe('Agent Sepdia', function () {
                 expect(this.player1).toBeAbleToSelect(this.tantadlin);
                 expect(this.player1).toBeAbleToSelect(this.ancientBear);
                 this.player1.clickCard(this.tantadlin);
-                expect(this.tantadlin.tokens.damage).toBe(1);
+                expect(this.tantadlin.damage).toBe(1);
                 expect(this.tantadlin.stunned).toBe(false);
             });
         });
@@ -44,7 +44,7 @@ describe('Agent Sepdia', function () {
                 expect(this.player1).toBeAbleToSelect(this.tantadlin);
                 expect(this.player1).toBeAbleToSelect(this.ancientBear);
                 this.player1.clickCard(this.tantadlin);
-                expect(this.tantadlin.tokens.damage).toBe(1);
+                expect(this.tantadlin.damage).toBe(1);
                 expect(this.tantadlin.stunned).toBe(false);
             });
         });
@@ -62,7 +62,7 @@ describe('Agent Sepdia', function () {
                 expect(this.player1).toBeAbleToSelect(this.tantadlin);
                 expect(this.player1).toBeAbleToSelect(this.ancientBear);
                 this.player1.clickCard(this.tantadlin);
-                expect(this.tantadlin.tokens.damage).toBe(1);
+                expect(this.tantadlin.damage).toBe(1);
                 expect(this.tantadlin.stunned).toBe(true);
             });
         });
@@ -95,7 +95,7 @@ describe('Agent Sepdia', function () {
                 expect(this.player1).toBeAbleToSelect(this.tantadlin);
                 expect(this.player1).toBeAbleToSelect(this.ancientBear);
                 this.player1.clickCard(this.tantadlin);
-                expect(this.tantadlin.tokens.damage).toBe(5);
+                expect(this.tantadlin.damage).toBe(5);
                 expect(this.tantadlin.stunned).toBe(false);
             });
         });
@@ -113,7 +113,7 @@ describe('Agent Sepdia', function () {
                 expect(this.player1).toBeAbleToSelect(this.tantadlin);
                 expect(this.player1).toBeAbleToSelect(this.ancientBear);
                 this.player1.clickCard(this.tantadlin);
-                expect(this.tantadlin.tokens.damage).toBe(5);
+                expect(this.tantadlin.damage).toBe(5);
                 expect(this.tantadlin.stunned).toBe(false);
             });
         });
@@ -131,7 +131,7 @@ describe('Agent Sepdia', function () {
                 expect(this.player1).toBeAbleToSelect(this.tantadlin);
                 expect(this.player1).toBeAbleToSelect(this.ancientBear);
                 this.player1.clickCard(this.tantadlin);
-                expect(this.tantadlin.tokens.damage).toBe(5);
+                expect(this.tantadlin.damage).toBe(5);
                 expect(this.tantadlin.stunned).toBe(true);
             });
         });

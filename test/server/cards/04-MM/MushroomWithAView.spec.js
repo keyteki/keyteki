@@ -20,13 +20,13 @@ describe('Mushroom with a View', function () {
 
             this.player1.useOmni(this.mushroomWithAView);
 
-            expect(this.envy.tokens.damage).toBe(1);
-            expect(this.pride.tokens.damage).toBeUndefined();
-            expect(this.troll.tokens.damage).toBeUndefined();
-            expect(this.shooler.tokens.damage).toBeUndefined();
+            expect(this.envy.damage).toBe(1);
+            expect(this.pride.damage).toBe(0);
+            expect(this.troll.damage).toBe(0);
+            expect(this.shooler.damage).toBe(0);
 
-            expect(this.desire.tokens.damage).toBe(2);
-            expect(this.culfTheQuiet.tokens.damage).toBeUndefined();
+            expect(this.desire.damage).toBe(2);
+            expect(this.culfTheQuiet.damage).toBe(0);
         });
     });
 });

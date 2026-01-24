@@ -23,7 +23,7 @@ describe("Liam Say's ability", function () {
         expect(this.player1).toBeAbleToSelect(this.fuzzyGruen);
         expect(this.player1).toBeAbleToSelect(this.ancientBear);
         this.player1.clickCard(this.ancientBear);
-        expect(this.ancientBear.tokens.damage).toBe(1);
+        expect(this.ancientBear.damage).toBe(1);
         this.player1.clickPrompt('shadows');
     });
 

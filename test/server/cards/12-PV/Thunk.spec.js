@@ -27,7 +27,7 @@ describe('Thunk', function () {
             expect(this.player1).toBeAbleToSelect(this.emberImp);
             expect(this.player1).not.toBeAbleToSelect(this.urchin);
             this.player1.clickCard(this.krump);
-            expect(this.krump.tokens.damage).toBe(2);
+            expect(this.krump.damage).toBe(2);
             expect(this.krump.exhausted).toBe(true);
             expect(this.player1).isReadyToTakeAction();
         });

@@ -19,7 +19,7 @@ describe('Stomp', function () {
             expect(this.player1).toBeAbleToSelect(this.nexus);
             expect(this.player1).toBeAbleToSelect(this.troll);
             this.player1.clickCard(this.troll);
-            expect(this.troll.tokens.damage).toBe(5);
+            expect(this.troll.damage).toBe(5);
             expect(this.player1).isReadyToTakeAction();
         });
 
@@ -45,7 +45,7 @@ describe('Stomp', function () {
             expect(this.player1).toBeAbleToSelect(this.urchin);
             expect(this.player1).toBeAbleToSelect(this.shadowSelf);
             this.player1.clickCard(this.urchin);
-            expect(this.urchin.tokens.damage).toBeUndefined();
+            expect(this.urchin.damage).toBe(0);
             expect(this.urchin.location).toBe('play area');
             expect(this.shadowSelf.location).toBe('discard');
             expect(this.player1).isReadyToTakeAction();

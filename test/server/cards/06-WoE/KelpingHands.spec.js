@@ -57,17 +57,17 @@ describe('Kelping Hands', function () {
             it('should not apply to enemy creatures', function () {
                 this.player1.fightWith(this.flaxia, this.gub);
                 expect(this.flaxia.location).toBe('play area');
-                expect(this.flaxia.tokens.damage).toBe(1);
+                expect(this.flaxia.damage).toBe(1);
                 expect(this.gub.location).toBe('discard');
             });
 
             it('should not apply to splash damage', function () {
                 this.player1.fightWith(this.chelonia, this.gub);
                 expect(this.chelonia.location).toBe('play area');
-                expect(this.chelonia.tokens.damage).toBe(1);
+                expect(this.chelonia.damage).toBe(1);
                 expect(this.gub.location).toBe('discard');
                 expect(this.krump.location).toBe('play area');
-                expect(this.krump.tokens.damage).toBe(3);
+                expect(this.krump.damage).toBe(3);
             });
         });
     });
