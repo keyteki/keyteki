@@ -16,7 +16,7 @@ describe("Hard Simpson's ability", function () {
 
             this.player1.play(this.masterplan);
             this.player1.clickCard(this.shieldOfJustice);
-            this.masterplan.exhausted = false;
+            this.masterplan.ready();
         });
 
         it('should steal 1 amber when attacking', function () {

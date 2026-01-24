@@ -22,7 +22,7 @@ describe('Unstable Dale', function () {
 
         it('should deal damage to each creature equal to hand size after reaping', function () {
             this.player1.playCreature(this.unstableDale);
-            this.unstableDale.exhausted = false;
+            this.unstableDale.ready();
             this.player1.reap(this.unstableDale);
             expect(this.unstableDale.location).toBe('discard');
             expect(this.flaxia.tokens.damage).toBe(3);

@@ -32,7 +32,7 @@ describe('Balaenora', function () {
         it('should give control on fight', function () {
             this.player2.amber = 7;
             this.player1.playCreature(this.balaenora);
-            this.balaenora.exhausted = false;
+            this.balaenora.ready();
             this.player1.fightWith(this.balaenora, this.lamindra);
             this.player1.clickPrompt('Right');
             expect(this.balaenora.controller).toBe(this.player2.player);

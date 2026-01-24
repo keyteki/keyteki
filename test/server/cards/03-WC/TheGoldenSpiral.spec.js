@@ -80,7 +80,7 @@ describe('The Golden Spiral', function () {
         });
 
         it('Exalt, ready and use an action of an exhausted friendly creature', function () {
-            this.abondTheArmorsmith.exhausted = true;
+            this.abondTheArmorsmith.exhaust();
             this.player1.useAction(this.theGoldenSpiral);
 
             expect(this.player1).toBeAbleToSelect(this.brutodonAuxiliary);

@@ -41,7 +41,7 @@ describe('Trojan Sauropod', function () {
 
             describe('when opponent uses it', function () {
                 beforeEach(function () {
-                    this.trojanSauropod.exhausted = false;
+                    this.trojanSauropod.ready();
                     this.player1.endTurn();
                     this.player2.clickPrompt('logos');
                     this.player2.useOmni(this.trojanSauropod);

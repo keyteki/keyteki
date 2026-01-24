@@ -65,7 +65,7 @@ describe('Holdfast', function () {
         it('should ready holdfast right creature is damaged by opponent', function () {
             this.player1.endTurn();
 
-            this.holdfast.exhausted = true;
+            this.holdfast.exhaust();
             this.player2.clickPrompt('logos');
 
             expect(this.holdfast.exhausted).toBe(true);

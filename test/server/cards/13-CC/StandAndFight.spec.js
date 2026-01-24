@@ -14,7 +14,7 @@ describe('Stand and Fight', function () {
         });
 
         it('should exalt a friendly and an enemy creature, then ready and fight with the friendly one', function () {
-            this.charette.exhausted = true;
+            this.charette.exhaust();
             this.player1.play(this.standAndFight);
             this.player1.clickCard(this.charette); // select friendly
             this.player1.clickCard(this.umbra); // select enemy

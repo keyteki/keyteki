@@ -25,7 +25,7 @@ describe('Gleaming the Cube', function () {
         });
 
         it('should ready and use a friendly creature when played', function () {
-            this.emberImp.exhausted = true;
+            this.emberImp.exhaust();
             this.player1.play(this.gleamingTheCube);
             this.player1.clickCard(this.emberImp);
             expect(this.emberImp.exhausted).toBe(false);

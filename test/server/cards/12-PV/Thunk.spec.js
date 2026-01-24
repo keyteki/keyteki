@@ -36,7 +36,7 @@ describe('Thunk', function () {
             this.player1.activateProphecy(this.overreach, this.thunk);
             this.player1.endTurn();
             this.player2.clickPrompt('brobnar');
-            this.urchin.exhausted = true;
+            this.urchin.exhaust();
             this.player2.reap(this.krump);
             expect(this.krump.location).toBe('discard');
             expect(this.emberImp.location).toBe('play area');

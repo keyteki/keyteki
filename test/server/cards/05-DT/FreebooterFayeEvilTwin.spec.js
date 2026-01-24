@@ -27,7 +27,7 @@ describe('Freebooter Faye Evil Twin', function () {
 
             describe('while the tide is high and before fight', function () {
                 beforeEach(function () {
-                    this.freebooterFayeEvilTwin.exhausted = false;
+                    this.freebooterFayeEvilTwin.ready();
                     this.player1.fightWith(this.freebooterFayeEvilTwin, this.troll);
                 });
 
@@ -41,7 +41,7 @@ describe('Freebooter Faye Evil Twin', function () {
             describe('while the tide is not high and before fight', function () {
                 beforeEach(function () {
                     this.player1.lowerTide();
-                    this.freebooterFayeEvilTwin.exhausted = false;
+                    this.freebooterFayeEvilTwin.ready();
                     this.player1.fightWith(this.freebooterFayeEvilTwin, this.troll);
                 });
 

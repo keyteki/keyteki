@@ -23,7 +23,7 @@ describe('Ripper Jack', function () {
 
         it('should return to hand after fighting', function () {
             this.player1.play(this.ripperJack);
-            this.ripperJack.exhausted = false;
+            this.ripperJack.ready();
             this.player1.fightWith(this.ripperJack, this.lamindra);
             expect(this.ripperJack.location).toBe('hand');
             expect(this.player1.player.hand).toContain(this.ripperJack);

@@ -12,7 +12,7 @@ describe('The Flex', function () {
                 }
             });
 
-            this.bingleBangbang.exhausted = true;
+            this.bingleBangbang.exhaust();
             this.player1.play(this.theFlex);
         });
 
