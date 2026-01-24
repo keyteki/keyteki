@@ -109,7 +109,7 @@ describe('bot-bookton', function () {
             this.player1.endTurn();
 
             this.player2.clickPrompt('dis');
-            this.player2.useAction(this.lifeward, true);
+            this.player2.useOmni(this.lifeward);
             this.player2.endTurn();
 
             this.player1.clickPrompt('logos');
@@ -128,7 +128,7 @@ describe('bot-bookton', function () {
             this.player1.endTurn();
 
             this.player2.clickPrompt('dis');
-            this.player2.useAction(this.lifeward, true);
+            this.player2.useOmni(this.lifeward);
             this.player2.endTurn();
 
             this.player1.clickPrompt('logos');

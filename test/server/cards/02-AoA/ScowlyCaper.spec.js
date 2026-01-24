@@ -114,7 +114,7 @@ describe('Scowly Caper', function () {
 
             expect(this.player2).toHavePromptButton('sanctum');
             this.player2.clickPrompt('sanctum');
-            this.player2.useAction(this.gormOfOmm, true);
+            this.player2.useOmni(this.gormOfOmm);
             this.player2.clickCard(this.spanglerBox);
 
             expect(this.player2).toHavePrompt('Scowly Caper');

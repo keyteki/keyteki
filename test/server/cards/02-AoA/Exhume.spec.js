@@ -44,7 +44,7 @@ describe('Exhume', function () {
         it('should allow selecting explo-rover and playing it as an upgrade, if Lifeward was used', function () {
             this.player1.endTurn();
             this.player2.clickPrompt('dis');
-            this.player2.useAction(this.lifeward, true);
+            this.player2.useOmni(this.lifeward);
             expect(this.lifeward.location).toBe('discard');
             this.player2.endTurn();
             this.player1.clickPrompt('dis');

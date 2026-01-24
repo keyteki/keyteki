@@ -144,7 +144,7 @@ describe('Turnkey', function () {
             this.turnkey.ready();
 
             // Flip Turnkey - this does not remove Turnkey from play
-            this.player1.useAction(this.creedOfNurture, true);
+            this.player1.useOmni(this.creedOfNurture);
             this.player1.clickCard(this.gĕzdrutyŏTheArcane);
             this.player1.clickCard(this.turnkey);
             this.player1.useAction(this.turnkey); // Steal 2 and flip with Gĕzdrutyŏ's action
@@ -185,7 +185,7 @@ describe('Turnkey', function () {
             this.turnkey.ready();
 
             // Flip Turnkey - without a token creature this removes Turnkey from play
-            this.player1.useAction(this.creedOfNurture, true);
+            this.player1.useOmni(this.creedOfNurture);
             this.player1.clickCard(this.gĕzdrutyŏTheArcane);
             this.player1.clickCard(this.turnkey);
             this.player1.useAction(this.turnkey); // Steal 2 and flip with Gĕzdrutyŏ's action
