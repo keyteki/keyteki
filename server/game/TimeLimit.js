@@ -37,7 +37,10 @@ class TimeLimit {
             if (differenceBetweenStartOfTimerAndNow.asSeconds() / 60 >= this.timeLimitInMinutes) {
                 this.game.addAlert(
                     'warning',
-                    'Time up.  The game will end after the current round has finished'
+                    'Time has been called. {0} finishes their turn, {1} takes a turn, and {0} takes their final turn until their "Forge a Key" step has been completed. If neither player has forged three keys then the tiebreakers are applied: each player forges for 6 amber , the player with the most forged keys wins, the player with the most amber wins, the player with the least chains wins, the player with the most friendly creatures wins, otherwise first player -{2} - wins.',
+                    this.game.activePlayer,
+                    this.game.activePlayer.opponent ? this.game.activePlayer.opponent : null,
+                    this.game.firstPlayer
                 );
                 this.isTimeLimitReached = true;
                 this.timeLimitStarted = false;

@@ -22,7 +22,7 @@ module.exports.init = function (server) {
                 })
                 .catch((err) => {
                     logger.error(err);
-                    res.send({ success: false, message: 'An error occured deleting the message' });
+                    res.send({ success: false, message: 'An error occurred deleting the message' });
                 });
         }
     );

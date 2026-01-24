@@ -95,7 +95,7 @@ export default function callAPIMiddleware({ dispatch, getState }) {
                 Object.assign({}, payload, {
                     status: errorStatus,
                     message:
-                        'An error occured communicating with the server.  Please try again later.',
+                        'An error occurred communicating with the server.  Please try again later.',
                     type: Api.ApiLoaded,
                     success: false,
                     request: requestType
@@ -106,7 +106,7 @@ export default function callAPIMiddleware({ dispatch, getState }) {
                 Object.assign({}, payload, {
                     status: errorStatus,
                     message:
-                        'An error occured communicating with the server.  Please try again later.',
+                        'An error occurred communicating with the server.  Please try again later.',
                     type: Api.ApiFailure,
                     request: requestType
                 })
