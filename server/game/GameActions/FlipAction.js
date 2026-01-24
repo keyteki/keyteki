@@ -61,7 +61,7 @@ class FlipAction extends CardGameAction {
                     // Ignore any wards or amber since the flipped card is not a creature.
                     // Then fire onCardLeavesPlay to trigger any
                     // "leaves play" abilities before moving to discard.
-                    card.tokens.amber = 0;
+                    card.amber = 0;
                     card.unward();
                     context.game.openEventWindow(
                         context.game.getEvent(

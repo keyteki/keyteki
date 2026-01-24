@@ -29,10 +29,10 @@ describe('Worthy Adversaries', function () {
             expect(this.flaxia.damage).toBe(1);
             expect(this.troll.damage).toBe(2);
             // Exalt checks: all damaged creatures
-            expect(this.krump.tokens.amber).toBe(1);
-            expect(this.flaxia.tokens.amber).toBe(1);
-            expect(this.troll.tokens.amber).toBe(1);
-            expect(this.gub.tokens.amber).toBeUndefined();
+            expect(this.krump.amber).toBe(1);
+            expect(this.flaxia.amber).toBe(1);
+            expect(this.troll.amber).toBe(1);
+            expect(this.gub.amber).toBe(0);
         });
     });
 });

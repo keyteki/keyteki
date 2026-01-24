@@ -40,7 +40,7 @@ describe('Distant Void Prober', function () {
             this.player1.clickCard(this.urchin);
             expect(this.player1.amber).toBe(0);
             expect(this.player2.amber).toBe(9);
-            expect(this.urchin.tokens.amber).toBe(1);
+            expect(this.urchin.amber).toBe(1);
         });
     });
 

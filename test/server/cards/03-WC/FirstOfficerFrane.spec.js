@@ -22,7 +22,7 @@ describe('First Officer Frane', function () {
             this.player1.clickCard(this.firstOfficerFrane);
             expect(this.player2.amber).toBe(1);
             expect(this.player1.amber).toBe(0);
-            expect(this.firstOfficerFrane.tokens.amber).toBe(1);
+            expect(this.firstOfficerFrane.amber).toBe(1);
             expect(this.player1).isReadyToTakeAction();
         });
 
@@ -31,7 +31,7 @@ describe('First Officer Frane', function () {
             this.player1.play(this.firstOfficerFrane);
             expect(this.player2.amber).toBe(0);
             expect(this.player1.amber).toBe(0);
-            expect(this.firstOfficerFrane.tokens.amber).toBe(undefined);
+            expect(this.firstOfficerFrane.amber).toBe(0);
             expect(this.player1).isReadyToTakeAction();
         });
     });
@@ -56,7 +56,7 @@ describe('First Officer Frane', function () {
             this.player1.clickCard(this.firstOfficerFrane);
             expect(this.player2.amber).toBe(1);
             expect(this.player1.amber).toBe(1);
-            expect(this.firstOfficerFrane.tokens.amber).toBe(1);
+            expect(this.firstOfficerFrane.amber).toBe(1);
             expect(this.player1).isReadyToTakeAction();
         });
         it('should allow a friendly creature to capture 1 amber when it fights', function () {
@@ -67,7 +67,7 @@ describe('First Officer Frane', function () {
             this.player1.clickCard(this.firstOfficerFrane);
             expect(this.player2.amber).toBe(1);
             expect(this.player1.amber).toBe(0);
-            expect(this.firstOfficerFrane.tokens.amber).toBe(1);
+            expect(this.firstOfficerFrane.amber).toBe(1);
             expect(this.player1).isReadyToTakeAction();
         });
     });

@@ -138,7 +138,7 @@ describe('Keyfrog', function () {
 
         it('opponent should decide how much amber to use from cards that allow using amber', function () {
             this.player1.player.amber = 4;
-            this.senatorShrix.tokens.amber = 10;
+            this.senatorShrix.amber = 10;
             this.player1.player.keys = { red: true, blue: false, yellow: false };
 
             this.player1.endTurn();

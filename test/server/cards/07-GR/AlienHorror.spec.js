@@ -27,7 +27,7 @@ describe('Alien Horror', function () {
 
         it('does no capture with no neighbors after a fight', function () {
             this.player1.fightWith(this.alienHorror, this.huntingWitch);
-            expect(this.alienHorror.tokens.amber).toBe(undefined);
+            expect(this.alienHorror.amber).toBe(0);
             expect(this.player2.amber).toBe(5);
         });
 
@@ -35,9 +35,9 @@ describe('Alien Horror', function () {
             this.player1.playCreature(this.cpoZytar, true);
             this.player1.playCreature(this.awayTeam);
             this.player1.fightWith(this.alienHorror, this.huntingWitch);
-            expect(this.alienHorror.tokens.amber).toBe(undefined);
-            expect(this.cpoZytar.tokens.amber).toBe(1);
-            expect(this.awayTeam.tokens.amber).toBe(1);
+            expect(this.alienHorror.amber).toBe(0);
+            expect(this.cpoZytar.amber).toBe(1);
+            expect(this.awayTeam.amber).toBe(1);
             expect(this.player2.amber).toBe(3);
         });
     });

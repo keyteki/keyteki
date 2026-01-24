@@ -59,8 +59,8 @@ describe('Monument to Primus', function () {
                 }
             });
 
-            this.archimedes.tokens.amber = 9;
-            this.shooler.tokens.amber = 1;
+            this.archimedes.amber = 9;
+            this.shooler.amber = 1;
         });
 
         it('should allow picking from friendly and placing on friendly creature only, when CP is not in discard', function () {
@@ -83,8 +83,8 @@ describe('Monument to Primus', function () {
 
             this.player1.clickCard(this.dextre);
 
-            expect(this.archimedes.tokens.amber).toBe(8);
-            expect(this.dextre.tokens.amber).toBe(1);
+            expect(this.archimedes.amber).toBe(8);
+            expect(this.dextre.amber).toBe(1);
         });
 
         it('should allow picking from friendly and placing on friendly creature only, when CP is in discard', function () {
@@ -108,8 +108,8 @@ describe('Monument to Primus', function () {
 
             this.player1.clickCard(this.dextre);
 
-            expect(this.archimedes.tokens.amber).toBe(8);
-            expect(this.dextre.tokens.amber).toBe(1);
+            expect(this.archimedes.amber).toBe(8);
+            expect(this.dextre.amber).toBe(1);
         });
 
         it('should allow picking from friendly and placing on enemy creature, when CP is in discard', function () {
@@ -131,8 +131,8 @@ describe('Monument to Primus', function () {
 
             this.player1.clickCard(this.shooler);
 
-            expect(this.archimedes.tokens.amber).toBe(8);
-            expect(this.shooler.tokens.amber).toBe(2);
+            expect(this.archimedes.amber).toBe(8);
+            expect(this.shooler.amber).toBe(2);
         });
 
         it('should allow picking from enemy and placing on friendly creature, when CP is in discard', function () {
@@ -154,7 +154,7 @@ describe('Monument to Primus', function () {
 
             this.player1.clickCard(this.archimedes);
 
-            expect(this.archimedes.tokens.amber).toBe(10);
+            expect(this.archimedes.amber).toBe(10);
             expect(this.shooler.hasToken('amber')).toBe(false);
         });
 
@@ -177,7 +177,7 @@ describe('Monument to Primus', function () {
 
             this.player1.clickCard(this.gub);
 
-            expect(this.gub.tokens.amber).toBe(1);
+            expect(this.gub.amber).toBe(1);
             expect(this.shooler.hasToken('amber')).toBe(false);
         });
 
@@ -194,7 +194,7 @@ describe('Monument to Primus', function () {
 
             expect(this.player1).isReadyToTakeAction();
 
-            expect(this.dextre.tokens.amber).toBeUndefined();
+            expect(this.dextre.amber).toBe(0);
         });
 
         it('should allow picking a creature without amber, when CP is in discard', function () {
@@ -211,7 +211,7 @@ describe('Monument to Primus', function () {
 
             expect(this.player1).isReadyToTakeAction();
 
-            expect(this.gub.tokens.amber).toBeUndefined();
+            expect(this.gub.amber).toBe(0);
         });
 
         it("should work with Poltergeist and not consider opponent's discard", function () {
@@ -240,8 +240,8 @@ describe('Monument to Primus', function () {
 
             this.player2.clickCard(this.gub);
 
-            expect(this.gub.tokens.amber).toBe(1);
-            expect(this.shooler.tokens.amber).toBeUndefined();
+            expect(this.gub.amber).toBe(1);
+            expect(this.shooler.amber).toBe(0);
         });
     });
 });

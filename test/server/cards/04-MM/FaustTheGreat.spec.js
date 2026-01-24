@@ -37,7 +37,7 @@ describe('Faust The Great', function () {
 
                 it('opponent should forge for 7.', function () {
                     expect(this.faustTheGreat.location).toBe('play area');
-                    expect(this.mother.tokens.amber).toBe(1);
+                    expect(this.mother.amber).toBe(1);
                     expect(this.player2).toHavePrompt('Which key would you like to forge?');
                     this.player2.clickPrompt('Yellow');
                     expect(this.player2.player.keys.yellow).toBe(true);
@@ -79,7 +79,7 @@ describe('Faust The Great', function () {
 
                 it('opponent should forge for 6.', function () {
                     expect(this.faustTheGreat.location).toBe('play area');
-                    expect(this.mother.tokens.amber).toBe(undefined);
+                    expect(this.mother.amber).toBe(0);
                     expect(this.player2).toHavePrompt('Which key would you like to forge?');
                     this.player2.clickPrompt('Yellow');
                     expect(this.player2.player.keys.yellow).toBe(true);

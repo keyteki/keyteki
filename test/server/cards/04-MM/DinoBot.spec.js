@@ -26,7 +26,7 @@ describe('Dino-Bot', function () {
             });
 
             it('should exalt dino-bot', function () {
-                expect(this.dinoBot.tokens.amber).toBe(1);
+                expect(this.dinoBot.amber).toBe(1);
             });
 
             describe('should prompt to to do damage', function () {
@@ -46,7 +46,7 @@ describe('Dino-Bot', function () {
             });
 
             it('should not exalt dino-bot', function () {
-                expect(this.dinoBot.tokens.amber).toBe(undefined);
+                expect(this.dinoBot.amber).toBe(0);
             });
         });
     });

@@ -17,16 +17,16 @@ describe('Ether Spider', function () {
         it('should take amber from playing cards', function () {
             this.player1.play(this.virtuousWorks);
             expect(this.player1.amber).toBe(0);
-            expect(this.etherSpider.tokens.amber).toBe(3);
+            expect(this.etherSpider.amber).toBe(3);
         });
 
         it('should take amber from reaping, but not from capturing', function () {
             expect(this.player2.amber).toBe(1);
             this.player1.reap(this.sequis);
             expect(this.player1.amber).toBe(0);
-            expect(this.etherSpider.tokens.amber).toBe(1);
+            expect(this.etherSpider.amber).toBe(1);
             expect(this.player2.amber).toBe(0);
-            expect(this.sequis.tokens.amber).toBe(1);
+            expect(this.sequis.amber).toBe(1);
         });
 
         it('should take the amber used to pay Tentacus', function () {
@@ -36,13 +36,13 @@ describe('Ether Spider', function () {
             this.player2.useAction(this.crystalHive);
             expect(this.player1.amber).toBe(0);
             expect(this.player2.amber).toBe(0);
-            expect(this.etherSpider.tokens.amber).toBe(1);
+            expect(this.etherSpider.amber).toBe(1);
         });
 
         it('should return amber to opponent when it leaves play', function () {
             this.player1.play(this.virtuousWorks);
             expect(this.player1.amber).toBe(0);
-            expect(this.etherSpider.tokens.amber).toBe(3);
+            expect(this.etherSpider.amber).toBe(3);
             this.player1.fightWith(this.sequis, this.etherSpider);
             this.player1.play(this.inspiration);
             this.player1.clickCard(this.sequis);
@@ -84,7 +84,7 @@ describe('Ether Spider', function () {
         it('should take amber from the controllers opponent before mind control', function () {
             this.player1.play(this.lifeward);
             expect(this.player1.amber).toBe(0);
-            expect(this.etherSpider.tokens.amber).toBe(1);
+            expect(this.etherSpider.amber).toBe(1);
         });
 
         it('should not steal the new controllers amber after being mind controlled', function () {
@@ -98,7 +98,7 @@ describe('Ether Spider', function () {
             this.player2.play(this.punch);
             this.player2.clickCard(this.etherSpider);
             expect(this.player2.amber).toBe(0);
-            expect(this.etherSpider.tokens.amber).toBe(1);
+            expect(this.etherSpider.amber).toBe(1);
             expect(this.etherSpider.damage).toBe(3);
         });
 

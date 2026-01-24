@@ -23,7 +23,7 @@ describe('Mindwarper', function () {
             this.player1.clickCard(this.bumpsy);
             expect(this.player1.amber).toBe(1);
             expect(this.player2.amber).toBe(1);
-            expect(this.bumpsy.tokens.amber).toBe(1);
+            expect(this.bumpsy.amber).toBe(1);
         });
 
         it("should give the amber to the creature's opponent when killed", function () {

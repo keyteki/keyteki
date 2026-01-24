@@ -17,9 +17,9 @@ describe('City-State Interest', function () {
         it('Play will make each friendly creature capture 1 amber', function () {
             this.player1.play(this.cityStateInterest);
 
-            expect(this.troll.tokens.amber).toBe(1);
-            expect(this.valdr.tokens.amber).toBe(1);
-            expect(this.krump.tokens.amber).toBe(1);
+            expect(this.troll.amber).toBe(1);
+            expect(this.valdr.amber).toBe(1);
+            expect(this.krump.amber).toBe(1);
             expect(this.lamindra.hasToken('amber')).toBe(false);
         });
     });
@@ -49,8 +49,8 @@ describe('City-State Interest', function () {
             this.player1.clickCard(this.valdr);
             this.player1.clickPrompt('Done');
             expect(this.player2.player.amber).toBe(0);
-            expect(this.troll.tokens.amber).toBe(1);
-            expect(this.valdr.tokens.amber).toBe(1);
+            expect(this.troll.amber).toBe(1);
+            expect(this.valdr.amber).toBe(1);
             expect(this.krump.hasToken('amber')).toBe(false);
             expect(this.lamindra.hasToken('amber')).toBe(false);
         });

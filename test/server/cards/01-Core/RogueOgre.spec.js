@@ -25,7 +25,7 @@ describe('Rogue Ogre', function () {
             this.player1.play(this.troll);
             this.player1.endTurn();
             expect(this.player2.amber).toBe(3);
-            expect(this.rogueOgre.tokens.amber).toBe(1);
+            expect(this.rogueOgre.amber).toBe(1);
         });
     });
 });

@@ -20,7 +20,7 @@ describe('City Gates', function () {
             this.player1.clickCard(this.brutodonAuxiliary);
             expect(this.player2.amber).toBe(1);
             expect(this.player1.amber).toBe(0);
-            expect(this.brutodonAuxiliary.tokens.amber).toBe(1);
+            expect(this.brutodonAuxiliary.amber).toBe(1);
             expect(this.player1).isReadyToTakeAction();
         });
 
@@ -31,7 +31,7 @@ describe('City Gates', function () {
             this.player1.clickCard(this.legatusRaptor);
             expect(this.player2.amber).toBe(0);
             expect(this.player1.amber).toBe(0);
-            expect(this.legatusRaptor.tokens.amber).toBe(2);
+            expect(this.legatusRaptor.amber).toBe(2);
             expect(this.player1).isReadyToTakeAction();
         });
 

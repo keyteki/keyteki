@@ -19,11 +19,11 @@ describe('Pandemonium', function () {
 
         it('should cause undamaged creatures to capture 1', function () {
             this.player1.play(this.pandemonium);
-            expect(this.urchin.tokens.amber).toBe(1);
-            expect(this.dextre.tokens.amber).toBe(1);
-            expect(this.dodger.tokens.amber).toBe(1);
-            expect(this.batdrone.tokens.amber).toBe(1);
-            expect(this.zorg.tokens.amber).toBe(1);
+            expect(this.urchin.amber).toBe(1);
+            expect(this.dextre.amber).toBe(1);
+            expect(this.dodger.amber).toBe(1);
+            expect(this.batdrone.amber).toBe(1);
+            expect(this.zorg.amber).toBe(1);
             expect(this.nexus.hasToken('amber')).toBe(false);
             expect(this.mother.hasToken('amber')).toBe(false);
             expect(this.player1).isReadyToTakeAction();
@@ -53,9 +53,9 @@ describe('Pandemonium', function () {
             expect(this.player1).not.toBeAbleToSelect(this.mother);
             expect(this.player1).toBeAbleToSelect(this.zorg);
             this.player1.clickCard(this.zorg);
-            expect(this.urchin.tokens.amber).toBe(1);
-            expect(this.dodger.tokens.amber).toBe(1);
-            expect(this.zorg.tokens.amber).toBe(1);
+            expect(this.urchin.amber).toBe(1);
+            expect(this.dodger.amber).toBe(1);
+            expect(this.zorg.amber).toBe(1);
             expect(this.nexus.hasToken('amber')).toBe(false);
             expect(this.dextre.hasToken('amber')).toBe(false);
             expect(this.batdrone.hasToken('amber')).toBe(false);

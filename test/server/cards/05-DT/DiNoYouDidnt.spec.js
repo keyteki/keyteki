@@ -14,9 +14,9 @@ describe("Di-No You Didn't!", function () {
                 }
             });
 
-            this.chronus.tokens.amber = 1;
-            this.krump.tokens.amber = 1;
-            this.zorg.tokens.amber = 3;
+            this.chronus.amber = 1;
+            this.krump.amber = 1;
+            this.zorg.amber = 3;
         });
 
         it('should destroy an enemy creature with amber on it', function () {

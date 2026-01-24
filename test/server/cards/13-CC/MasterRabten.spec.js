@@ -18,10 +18,10 @@ describe('Master Rabten', function () {
             this.player1.playCreature(this.masterRabten);
 
             // mother-northelle and almsmaster are Monk creatures, troll is not
-            expect(this.motherNorthelle.tokens.amber).toBe(1);
-            expect(this.masterRabten.tokens.amber).toBe(1);
-            expect(this.troll.tokens.amber).toBeUndefined();
-            expect(this.reveredMonk.tokens.amber).toBeUndefined();
+            expect(this.motherNorthelle.amber).toBe(1);
+            expect(this.masterRabten.amber).toBe(1);
+            expect(this.troll.amber).toBe(0);
+            expect(this.reveredMonk.amber).toBe(0);
             expect(this.player2.amber).toBe(4);
             expect(this.player1.amber).toBe(0);
             expect(this.player1).isReadyToTakeAction();
@@ -32,10 +32,10 @@ describe('Master Rabten', function () {
             this.masterRabten.ready();
             this.player1.reap(this.masterRabten);
 
-            expect(this.reveredMonk.tokens.amber).toBeUndefined();
-            expect(this.motherNorthelle.tokens.amber).toBe(2);
-            expect(this.masterRabten.tokens.amber).toBe(2);
-            expect(this.troll.tokens.amber).toBeUndefined();
+            expect(this.reveredMonk.amber).toBe(0);
+            expect(this.motherNorthelle.amber).toBe(2);
+            expect(this.masterRabten.amber).toBe(2);
+            expect(this.troll.amber).toBe(0);
             expect(this.player2.amber).toBe(2);
             expect(this.player1.amber).toBe(1);
             expect(this.player1).isReadyToTakeAction();

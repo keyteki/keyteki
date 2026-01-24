@@ -11,10 +11,10 @@ describe('Doomsayer', function () {
                 }
             });
 
-            this.emberImp.tokens.amber = 2;
-            this.yurk.tokens.amber = 1;
-            this.flaxia.tokens.amber = 3;
-            this.searine.tokens.amber = 1;
+            this.emberImp.amber = 2;
+            this.yurk.amber = 1;
+            this.flaxia.amber = 3;
+            this.searine.amber = 1;
         });
 
         it('should move amber from friendly creatures to common supply and deal damage', function () {
