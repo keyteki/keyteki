@@ -75,7 +75,7 @@ describe('Legerdemain', function () {
             expect(this.flaxia.location).toBe('play area');
             expect(this.gub.location).toBe('play area');
             expect(this.krump.location).toBe('play area');
-            expect(this.krump.tokens.ward).toBe(undefined);
+            expect(this.krump.warded).toBe(false);
             expect(this.player1).isReadyToTakeAction();
         });
     });

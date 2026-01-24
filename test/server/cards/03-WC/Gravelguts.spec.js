@@ -18,7 +18,7 @@ describe('Gravelguts', function () {
             this.player1.fightWith(this.gravelguts, this.silvertooth);
             expect(this.silvertooth.location).toBe('discard');
             expect(this.gravelguts.damage).toBe(2);
-            expect(this.gravelguts.tokens.power).toBe(2);
+            expect(this.gravelguts.powerCounters).toBe(2);
         });
 
         it('should gain 2 +1 power counters when it destroys defending a creature during a fight', function () {
@@ -27,7 +27,7 @@ describe('Gravelguts', function () {
             this.player2.fightWith(this.silvertooth, this.gravelguts);
             expect(this.silvertooth.location).toBe('discard');
             expect(this.gravelguts.damage).toBe(2);
-            expect(this.gravelguts.tokens.power).toBe(2);
+            expect(this.gravelguts.powerCounters).toBe(2);
         });
     });
 });

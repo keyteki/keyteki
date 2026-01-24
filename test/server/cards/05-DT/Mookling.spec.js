@@ -36,7 +36,7 @@ describe('Mookling', function () {
 
         it('should make player2 key more expensive because of extra power token on Mookling', function () {
             this.mookling.addToken('power');
-            expect(this.mookling.tokens.power).toBe(1);
+            expect(this.mookling.powerCounters).toBe(1);
             this.player2.amber = 10;
             expect(this.player2.amber).toBe(10);
             this.player1.endTurn();

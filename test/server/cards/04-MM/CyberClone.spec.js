@@ -87,7 +87,7 @@ describe('Cyber-Clone', function () {
             this.player1.play(this.cyberClone);
             this.player1.clickCard(this.groupthinkTank);
             expect(this.groupthinkTank.location).toBe('play area');
-            expect(this.groupthinkTank.tokens.ward).toBeUndefined();
+            expect(this.groupthinkTank.warded).toBe(false);
             expect(this.cyberClone.power).toBe(4);
             expect(this.cyberClone.armor).toBe(3);
             expect(this.cyberClone.getTraits().length).toBe(3);

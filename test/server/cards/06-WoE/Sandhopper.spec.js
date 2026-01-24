@@ -48,7 +48,7 @@ describe('Sandhopper', function () {
             this.player1.clickCard(this.antiquitiesDealer);
             expect(this.antiquitiesDealer.location).toBe('play area');
             expect(this.player1).not.toBeAbleToSelect(this.pelf);
-            expect(this.antiquitiesDealer.tokens.ward).toBe(undefined);
+            expect(this.antiquitiesDealer.warded).toBe(false);
         });
 
         it('should fizzle the second half if no non-ekwidon creatures in hand', function () {

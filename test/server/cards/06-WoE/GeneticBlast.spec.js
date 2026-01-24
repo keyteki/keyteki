@@ -24,7 +24,7 @@ describe('Genetic Blast', function () {
             expect(this.pelf.damage).toBe(2);
             expect(this.pelf2.damage).toBe(2);
             expect(this.pelf3.damage).toBe(0);
-            expect(this.pelf3.tokens.ward).toBe(undefined);
+            expect(this.pelf3.warded).toBe(false);
             expect(this.bumpsy.damage).toBe(0);
             expect(this.etherSpider.damage).toBe(0);
         });
@@ -36,7 +36,7 @@ describe('Genetic Blast', function () {
             expect(this.pelf.damage).toBe(2);
             expect(this.pelf2.damage).toBe(2);
             expect(this.pelf3.damage).toBe(0);
-            expect(this.pelf3.tokens.ward).toBe(undefined);
+            expect(this.pelf3.warded).toBe(false);
             expect(this.bumpsy.damage).toBe(0);
             expect(this.etherSpider.damage).toBe(0);
         });

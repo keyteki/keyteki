@@ -28,7 +28,7 @@ describe('Friendship', function () {
                 expect(this.reveredMonk.damage).toBe(0);
                 expect(this.paraguardian.damage).toBe(1);
                 expect(this.chancellorDexterus.damage).toBe(1);
-                expect(this.chancellorDexterus.tokens.ward).toBe(1);
+                expect(this.chancellorDexterus.warded).toBe(true);
             });
         });
 
@@ -44,7 +44,7 @@ describe('Friendship', function () {
                 expect(this.reveredMonk.damage).toBe(0);
                 expect(this.paraguardian.damage).toBe(2);
                 expect(this.chancellorDexterus.damage).toBe(1);
-                expect(this.chancellorDexterus.tokens.ward).toBe(1);
+                expect(this.chancellorDexterus.warded).toBe(true);
             });
         });
 
@@ -54,7 +54,7 @@ describe('Friendship', function () {
                 expect(this.reveredMonk.damage).toBe(0);
                 expect(this.paraguardian.damage).toBe(2);
                 expect(this.chancellorDexterus.damage).toBe(2);
-                expect(this.chancellorDexterus.tokens.ward).toBe(1);
+                expect(this.chancellorDexterus.warded).toBe(true);
             });
         });
 
@@ -83,7 +83,7 @@ describe('Friendship', function () {
             expect(this.paraguardian.damage).toBe(2);
             expect(this.challeTheSafeguard.damage).toBe(1);
             expect(this.chancellorDexterus.damage).toBe(0);
-            expect(this.chancellorDexterus.tokens.ward).toBe(1);
+            expect(this.chancellorDexterus.warded).toBe(true);
         });
 
         describe('when damage is redirected onto a creature upgraded with Friendship', function () {
@@ -93,7 +93,7 @@ describe('Friendship', function () {
                 expect(this.reveredMonk.damage).toBe(0);
                 expect(this.paraguardian.damage).toBe(2);
                 expect(this.chancellorDexterus.damage).toBe(2);
-                expect(this.chancellorDexterus.tokens.ward).toBe(1);
+                expect(this.chancellorDexterus.warded).toBe(true);
             });
         });
 

@@ -25,7 +25,7 @@ describe('Cybergiant Rig', function () {
 
             it('should fully heal the creature and add power tokens', function () {
                 expect(this.groggins.damage).toBe(0);
-                expect(this.groggins.tokens.power).toBe(6);
+                expect(this.groggins.powerCounters).toBe(6);
             });
 
             describe('at the end of own turn', function () {
@@ -34,7 +34,7 @@ describe('Cybergiant Rig', function () {
                 });
 
                 it('should remove 1 power token', function () {
-                    expect(this.groggins.tokens.power).toBe(5);
+                    expect(this.groggins.powerCounters).toBe(5);
                 });
 
                 describe("at the end of opponent's turn", function () {
@@ -44,7 +44,7 @@ describe('Cybergiant Rig', function () {
                     });
 
                     it('should not remove 1 power token', function () {
-                        expect(this.groggins.tokens.power).toBe(5);
+                        expect(this.groggins.powerCounters).toBe(5);
                     });
 
                     describe('at the end of own turn again', function () {
@@ -54,7 +54,7 @@ describe('Cybergiant Rig', function () {
                         });
 
                         it('should remove another power token', function () {
-                            expect(this.groggins.tokens.power).toBe(4);
+                            expect(this.groggins.powerCounters).toBe(4);
                         });
                     });
                 });
@@ -68,7 +68,7 @@ describe('Cybergiant Rig', function () {
 
             it('should fully heal the creature and add power tokens', function () {
                 expect(this.troll.damage).toBe(0);
-                expect(this.troll.tokens.power).toBe(3);
+                expect(this.troll.powerCounters).toBe(3);
             });
 
             describe('at the end of own turn', function () {
@@ -77,7 +77,7 @@ describe('Cybergiant Rig', function () {
                 });
 
                 it('should not remove 1 power token', function () {
-                    expect(this.troll.tokens.power).toBe(3);
+                    expect(this.troll.powerCounters).toBe(3);
                 });
 
                 describe("at the end of opponent's turn", function () {
@@ -87,7 +87,7 @@ describe('Cybergiant Rig', function () {
                     });
 
                     it('should remove 1 power token', function () {
-                        expect(this.troll.tokens.power).toBe(2);
+                        expect(this.troll.powerCounters).toBe(2);
                     });
                 });
             });

@@ -57,9 +57,9 @@ describe('Overrun', function () {
             expect(this.silvertooth.location).toBe('play area');
             expect(this.umbra.location).toBe('play area');
             expect(this.badPenny.location).toBe('play area');
-            expect(this.silvertooth.tokens.ward).toBeUndefined();
-            expect(this.badPenny.tokens.ward).toBeUndefined();
-            expect(this.umbra.tokens.ward).toBeUndefined();
+            expect(this.silvertooth.warded).toBe(false);
+            expect(this.badPenny.warded).toBe(false);
+            expect(this.umbra.warded).toBe(false);
             this.player1.play(this.overrun);
             expect(this.player2.amber).toBe(5);
         });

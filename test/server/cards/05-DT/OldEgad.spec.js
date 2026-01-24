@@ -19,9 +19,9 @@ describe('OldEgad', function () {
             });
 
             it('ward neighbors', function () {
-                expect(this.eyegor.tokens.ward).toBe(1);
-                expect(this.badPenny.tokens.ward).toBe(1);
-                expect(this.helperBot.tokens.ward).toBeUndefined();
+                expect(this.eyegor.warded).toBe(true);
+                expect(this.badPenny.warded).toBe(true);
+                expect(this.helperBot.warded).toBe(false);
             });
         });
     });
