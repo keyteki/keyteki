@@ -11,7 +11,7 @@ class DeDoss extends Card {
                     'play',
                     (context, effectContext) =>
                         context.source.type === 'creature' &&
-                        effectContext.source.power < context.source.getPower({ restriction: true })
+                        effectContext.source.power < context.source.powerForPlayRestriction
                 )
             })
         });

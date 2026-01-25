@@ -968,27 +968,7 @@ class Card extends EffectSource {
         return clone;
     }
 
-    get power({ printed = false, restriction = false } = {}) {
-        let powerPrinted = this.getBottomCard().powerPrinted;
-
-        // Return power needed for play restrictions
-        if (restriction) {
-            // Gigantic creatures are restricted by the bottom half's power. The top half should not be considered to have printed power except in the case when its needed for a restriction check that is based on power.
-            if (this.gigantic && !this.giganticBottom && !this.composedPart) {
-                const bottomCard = this.controller.allCards.find(
-                    (card) => card.id === this.compositeId
-                );
-                if (bottomCard) {
-                    powerPrinted = bottomCard.powerPrinted;
-                }
-            }
-            return powerPrinted;
-        }
-
-        if (printed) {
-            return powerPrinted;
-        }
-
+    get power() {
         if (this.anyEffect('setPower')) {
             return this.mostRecentEffect('setPower');
         }
@@ -1001,6 +981,10 @@ class Card extends EffectSource {
             this.sumEffects('modifyPower') +
             (this.hasToken('power') ? this.tokens.power : 0)
         );
+    }
+
+    get powerForPlayRestriction() {
+        return this.power;
     }
 
     get armor() {

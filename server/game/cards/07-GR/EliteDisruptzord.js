@@ -8,7 +8,7 @@ class EliteDisruptzord extends Card {
             effect: ability.effects.playerCannot(
                 'play',
                 (context, effectContext) =>
-                    effectContext.source.power < context.source.getPower({ restriction: true })
+                    effectContext.source.power < context.source.powerForPlayRestriction
             )
         });
     }
