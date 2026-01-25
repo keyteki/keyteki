@@ -1304,8 +1304,8 @@ class Game extends EventEmitter {
 
             for (let card of this.creaturesInPlay) {
                 card.removeToken('armor');
-                if (card.armor - card.armorUsed > 0) {
-                    card.addToken('armor', card.armor - card.armorUsed);
+                if (card.armorTotal - card.armorUsed > 0) {
+                    card.addToken('armor', card.armorTotal - card.armorUsed);
                 }
             }
 

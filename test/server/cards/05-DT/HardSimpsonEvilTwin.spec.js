@@ -12,8 +12,8 @@ describe("Hard Simpson Evil Twin's ability", function () {
                     inPlay: ['murkens', 'lamindra']
                 }
             });
-            this.shooler.tokens.damage = 1;
-            this.murkens.tokens.damage = 1;
+            this.shooler.damage = 1;
+            this.murkens.damage = 1;
         });
 
         it('should not capture amber', function () {

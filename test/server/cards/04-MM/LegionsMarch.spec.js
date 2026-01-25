@@ -33,7 +33,7 @@ describe('Legions March', function () {
         });
 
         it('if kangaphant is in play, and gets destroyed, creature which reaped should survive', function () {
-            this.kangaphant.tokens.damage = 4;
+            this.kangaphant.damage = 4;
             this.player1.play(this.legionSMarch);
             this.player1.reap(this.praefectusLudo);
 

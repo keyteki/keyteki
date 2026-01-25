@@ -24,7 +24,7 @@ describe('Doctor Driscoll', function () {
             this.player1.fightWith(this.crashMuldoon, this.dustPixie);
             this.player1.useAction(this.doctorDriscoll);
             this.player1.clickCard(this.crashMuldoon);
-            expect(this.crashMuldoon.hasToken('damage')).toBe(false);
+            expect(this.crashMuldoon.damage).toBe(0);
             expect(this.player1.amber).toBe(1);
             expect(this.player1).isReadyToTakeAction();
         });

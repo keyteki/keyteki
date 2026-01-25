@@ -42,7 +42,7 @@ describe('Smite', function () {
             expect(this.helperBot.stunned).toBe(false);
             expect(this.player1).not.toHavePrompt('Helper Bot');
             expect(this.helperBot.location).toBe('play area');
-            expect(this.helperBot.hasToken('damage')).toBe(false);
+            expect(this.helperBot.damage).toBe(0);
         });
     });
 

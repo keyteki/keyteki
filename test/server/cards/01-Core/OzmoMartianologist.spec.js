@@ -37,8 +37,8 @@ describe('Ozmo Martianologist', function () {
                 }
             });
 
-            this.zorg.tokens.damage = 4;
-            this.etherSpider.tokens.damage = 4;
+            this.zorg.damage = 4;
+            this.etherSpider.damage = 4;
         });
 
         describe('after reap', function () {

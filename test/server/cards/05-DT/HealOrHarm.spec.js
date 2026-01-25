@@ -12,9 +12,9 @@ describe('HealOrHarm', function () {
                     amber: 2
                 }
             });
-            this.foozle.tokens.damage = 3;
-            this.mother.tokens.damage = 3;
-            this.groke.tokens.damage = 3;
+            this.foozle.damage = 3;
+            this.mother.damage = 3;
+            this.groke.damage = 3;
             this.player1.play(this.healOrHarm);
         });
 

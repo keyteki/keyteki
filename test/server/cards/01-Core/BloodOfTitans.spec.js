@@ -35,7 +35,7 @@ describe('Blood of Titans', function () {
         });
 
         it('should work on creatures with plus power counters', function () {
-            this.troll.tokens.power = 2;
+            this.troll.powerCounters = 2;
             expect(this.troll.power).toBe(10);
             this.player1.playUpgrade(this.bloodOfTitans, this.troll);
             expect(this.troll.power).toBe(15);

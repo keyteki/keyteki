@@ -46,7 +46,7 @@ describe('Hugger Mugger', function () {
             this.player2.amber = 0;
             this.player1.play(this.huggerMugger);
 
-            expect(this.huggerMugger.hasToken('amber')).toBe(false);
+            expect(this.huggerMugger.amber).toBe(0);
             expect(this.player1.amber).toBe(0);
             expect(this.player2.amber).toBe(0);
         });

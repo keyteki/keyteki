@@ -13,9 +13,9 @@ describe('Oracle Zan', function () {
             });
 
             this.emberImp.amber = 2;
-            this.troll.tokens.damage = 3;
-            this.ancientBear.tokens.damage = 4;
-            this.fandangle.tokens.damage = 2;
+            this.troll.damage = 3;
+            this.ancientBear.damage = 4;
+            this.fandangle.damage = 2;
             this.fandangle.amber = 1;
         });
 

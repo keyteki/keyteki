@@ -13,7 +13,7 @@ describe('Garnet Squire', function () {
         });
 
         it('should heal 1 damage and gain 1 amber at end of turn', function () {
-            this.garnetSquire.tokens.damage = 1;
+            this.garnetSquire.damage = 1;
             this.player1.endTurn();
             this.player2.clickPrompt('brobnar');
             this.player2.endTurn();
@@ -23,7 +23,7 @@ describe('Garnet Squire', function () {
         });
 
         it('should heal only 1 damage and gain 1 amber at end of turn', function () {
-            this.garnetSquire.tokens.damage = 2;
+            this.garnetSquire.damage = 2;
             this.player1.endTurn();
             this.player2.clickPrompt('brobnar');
             this.player2.endTurn();

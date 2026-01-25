@@ -28,7 +28,7 @@ describe('Tolas', function () {
                 }
             });
 
-            this.tolas.tokens.power = 2;
+            this.tolas.powerCounters = 2;
         });
 
         it('should cause the opponent of a destroyed creature (self) to gain an amber', function () {
@@ -75,7 +75,7 @@ describe('Tolas', function () {
         });
 
         it('should not cause its opponent to gain an amber when it is destroyed', function () {
-            this.niffleApe.tokens.power = 2;
+            this.niffleApe.powerCounters = 2;
             this.player1.endTurn();
             this.player2.clickPrompt('untamed');
             this.player2.fightWith(this.niffleApe, this.tolas);
@@ -149,7 +149,7 @@ describe('Tolas', function () {
                 player2: {}
             });
 
-            this.tolas.tokens.power = 2;
+            this.tolas.powerCounters = 2;
         });
 
         it('correctly handle treachery', function () {

@@ -83,7 +83,7 @@ describe('Look Over There', function () {
                 }
             });
 
-            this.shadowSelf.tokens.damage = 8;
+            this.shadowSelf.damage = 8;
             this.theGreyRider.ward();
             this.player1.playUpgrade(this.armageddonCloak, this.bingleBangbang); // add 1 amber
             this.player1.endTurn();

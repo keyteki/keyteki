@@ -13,7 +13,7 @@ describe('Ghosthawk', function () {
                 }
             });
 
-            this.troll.tokens.damage = 4;
+            this.troll.damage = 4;
         });
 
         describe('when playing next to two ready creatures', function () {

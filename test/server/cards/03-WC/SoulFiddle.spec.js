@@ -22,7 +22,7 @@ describe('Soul Fiddle', function () {
             expect(this.player1).toBeAbleToSelect(this.dextre);
             expect(this.player1).toBeAbleToSelect(this.mightyTiger);
             this.player1.clickCard(this.mightyTiger);
-            expect(this.mightyTiger.hasToken('enrage')).toBe(true);
+            expect(this.mightyTiger.enraged).toBe(true);
         });
 
         it('should enrage a targeted friendly creature when used', function () {
@@ -31,7 +31,7 @@ describe('Soul Fiddle', function () {
             expect(this.player1).toBeAbleToSelect(this.dextre);
             expect(this.player1).toBeAbleToSelect(this.mightyTiger);
             this.player1.clickCard(this.dextre);
-            expect(this.dextre.hasToken('enrage')).toBe(true);
+            expect(this.dextre.enraged).toBe(true);
         });
 
         it("should fizzle if there's no creatures on the board", function () {

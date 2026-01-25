@@ -72,8 +72,8 @@ class Card extends EffectSource {
         this.clonedNeighbors = null;
         this.clonedPurgedCards = null;
 
-        this.printedPower = cardData.power;
-        this.printedArmor = cardData.armor;
+        this.powerPrinted = cardData.power;
+        this.armorPrinted = cardData.armor;
         this.armorUsed = 0;
         this.exhausted = false;
         this.moribund = false;
@@ -964,28 +964,18 @@ class Card extends EffectSource {
         clone.parent = this.parent;
         clone.clonedNeighbors = this.neighbors;
         clone.traits = this.getTraits();
-        clone.modifiedPower = this.getPower();
+        clone.modifiedPower = this.power;
         return clone;
     }
 
     get power() {
-        return this.getPower();
-    }
-
-    getPower(printed = false) {
-        const printedPower = this.getBottomCard().printedPower;
-
-        if (printed) {
-            return printedPower;
-        }
-
         if (this.anyEffect('setPower')) {
             return this.mostRecentEffect('setPower');
         }
 
         const copyEffect = this.mostRecentEffect('copyCard');
 
-        const basePower = copyEffect ? copyEffect.printedPower : printedPower;
+        const basePower = copyEffect ? copyEffect.powerPrinted : this.getBottomCard().powerPrinted;
         return (
             basePower +
             this.sumEffects('modifyPower') +
@@ -994,22 +984,16 @@ class Card extends EffectSource {
     }
 
     get armor() {
-        return this.getArmor();
+        return this.hasToken('armor') ? this.tokens.armor : 0;
     }
 
-    getArmor(printed = false) {
-        const printedArmor = this.getBottomCard().printedArmor;
-
-        if (printed) {
-            return printedArmor;
-        }
-
+    get armorTotal() {
         if (this.anyEffect('setArmor')) {
             return this.mostRecentEffect('setArmor');
         }
 
         const copyEffect = this.mostRecentEffect('copyCard');
-        const baseArmor = copyEffect ? copyEffect.printedArmor : printedArmor;
+        const baseArmor = copyEffect ? copyEffect.armorPrinted : this.getBottomCard().armorPrinted;
         return baseArmor + this.sumEffects('modifyArmor');
     }
 
@@ -1025,8 +1009,16 @@ class Card extends EffectSource {
         return this.hasToken('damage') ? this.tokens.damage : 0;
     }
 
+    set damage(damage) {
+        this.tokens.damage = damage;
+    }
+
     get powerCounters() {
         return this.hasToken('power') ? this.tokens.power : 0;
+    }
+
+    set powerCounters(power) {
+        this.tokens.power = power;
     }
 
     get enraged() {
@@ -1409,9 +1401,9 @@ class Card extends EffectSource {
             printedHouse: tokenCardOrThis.printedHouse,
             maverick: tokenCardOrThis.maverick,
             cardPrintedAmber: tokenCardOrThis.cardPrintedAmber,
-            printedPower: tokenCardOrThis.printedPower,
-            printedArmor: tokenCardOrThis.printedArmor,
-            modifiedPower: this.getPower(),
+            powerPrinted: tokenCardOrThis.powerPrinted,
+            armorPrinted: tokenCardOrThis.armorPrinted,
+            modifiedPower: this.power,
             stunned: this.stunned,
             taunt: this.getType() === 'creature' && !!this.getKeywordValue('taunt'),
             tokens: this.tokens,
@@ -1439,8 +1431,8 @@ class Card extends EffectSource {
                 printedHouse: this.printedHouse,
                 maverick: this.maverick,
                 cardPrintedAmber: this.cardPrintedAmber,
-                printedPower: this.printedPower,
-                printedArmor: this.printedArmor,
+                powerPrinted: this.powerPrinted,
+                armorPrinted: this.armorPrinted,
                 type: this.printedType,
                 gigantic: this.gigantic,
                 uuid: this.uuid

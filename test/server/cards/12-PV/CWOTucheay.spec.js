@@ -14,7 +14,7 @@ describe('CWO Tucheay', function () {
         });
 
         it('should fully heal and use a friendly creature when played', function () {
-            this.krump.tokens.damage = 2;
+            this.krump.damage = 2;
             this.player1.play(this.cwoTucheay);
             expect(this.player1).toBeAbleToSelect(this.krump);
             expect(this.player1).toBeAbleToSelect(this.emberImp);
@@ -28,7 +28,7 @@ describe('CWO Tucheay', function () {
 
         it('should fully heal and use a friendly creature when reaping', function () {
             this.player1.moveCard(this.cwoTucheay, 'play area');
-            this.emberImp.tokens.damage = 1;
+            this.emberImp.damage = 1;
             this.player1.reap(this.cwoTucheay);
             expect(this.player1).toBeAbleToSelect(this.krump);
             expect(this.player1).toBeAbleToSelect(this.emberImp);

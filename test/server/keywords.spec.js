@@ -121,7 +121,7 @@ describe('keywords', function () {
             expect(this.xenosBloodshadow.damage).toBe(0);
             expect(this.xenosBloodshadow.elusiveUsed).toBe(true);
             this.player1.fightWith(this.chuffApe, this.xenosBloodshadow);
-            expect(this.chuffApe.tokens.armor).toBeUndefined();
+            expect(this.chuffApe.armor).toBe(0);
             expect(this.chuffApe.warded).toBe(false);
             expect(this.chuffApe.location).toBe('play area');
             expect(this.xenosBloodshadow.location).toBe('discard');
@@ -155,14 +155,14 @@ describe('keywords', function () {
             this.player1.fightWith(this.snufflegator, this.mightyTiger);
             expect(this.mightyTiger.location).toBe('discard');
             expect(this.snufflegator.location).toBe('play area');
-            expect(this.snufflegator.hasToken('damage')).toBe(false);
+            expect(this.snufflegator.damage).toBe(0);
         });
 
         it("Skirmish shouldn't stop Hazardous", function () {
             this.player1.fightWith(this.snufflegator, this.briarGrubbling);
             expect(this.briarGrubbling.location).toBe('play area');
             expect(this.snufflegator.location).toBe('discard');
-            expect(this.briarGrubbling.hasToken('damage')).toBe(false);
+            expect(this.briarGrubbling.damage).toBe(0);
         });
 
         it('Skirmish should work with poison', function () {
@@ -170,15 +170,15 @@ describe('keywords', function () {
             this.player1.fightWith(this.inkaTheSpider, this.mightyTiger);
             expect(this.mightyTiger.location).toBe('discard');
             expect(this.inkaTheSpider.location).toBe('play area');
-            expect(this.inkaTheSpider.hasToken('damage')).toBe(false);
+            expect(this.inkaTheSpider.damage).toBe(0);
         });
 
         it('Elusive should result in both creatures taking no damage', function () {
             this.player1.fightWith(this.inkaTheSpider, this.urchin);
             expect(this.urchin.location).toBe('play area');
             expect(this.inkaTheSpider.location).toBe('play area');
-            expect(this.urchin.hasToken('damage')).toBe(false);
-            expect(this.inkaTheSpider.hasToken('damage')).toBe(false);
+            expect(this.urchin.damage).toBe(0);
+            expect(this.inkaTheSpider.damage).toBe(0);
         });
 
         it("Elusive shouldn't stop damage on the second attack", function () {
@@ -186,7 +186,7 @@ describe('keywords', function () {
             this.player1.fightWith(this.snufflegator, this.urchin);
             expect(this.urchin.location).toBe('discard');
             expect(this.snufflegator.location).toBe('play area');
-            expect(this.snufflegator.hasToken('damage')).toBe(false);
+            expect(this.snufflegator.damage).toBe(0);
         });
 
         it("Elusive shouldn't stop Assault", function () {
@@ -194,7 +194,7 @@ describe('keywords', function () {
             expect(this.ancientBear.exhausted).toBe(true);
             expect(this.urchin.location).toBe('discard');
             expect(this.ancientBear.location).toBe('play area');
-            expect(this.ancientBear.hasToken('damage')).toBe(false);
+            expect(this.ancientBear.damage).toBe(0);
         });
 
         it('Elusive should work with Hazardous', function () {

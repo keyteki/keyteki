@@ -11,7 +11,7 @@ describe('Scalawag Finn', function () {
                 }
             });
 
-            this.scalawagFinn.tokens.damage = 5;
+            this.scalawagFinn.damage = 5;
         });
 
         it('should heal 3 damage on fight', function () {
