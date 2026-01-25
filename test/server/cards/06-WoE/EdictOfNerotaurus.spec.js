@@ -142,7 +142,7 @@ describe('Edict of Nerotaurus', function () {
             this.player2.endTurn();
 
             // Strange Gizmo causes Jargogle to play Edict of Nerotaurus after forging a key
-            this.player1.clickPrompt('red');
+            this.player1.forgeKey('Red');
             this.player1.clickCard(this.jargogle1); // Edict of Nerotaurus
             this.player1.clickCard(this.jargogle2); // Ghosthawk deploys right of Brillix Ponder
             this.player1.clickPrompt('deploy right');
@@ -304,7 +304,7 @@ describe('Edict of Nerotaurus', function () {
             this.player2.endTurn();
 
             // Strange Gizmo causes Jargogle to play Edict of Nerotaurus after forging a key
-            this.player1.clickPrompt('red');
+            this.player1.forgeKey('Red');
             this.player1.clickCard(this.jargogle1); // Edict of Nerotaurus
             this.player1.clickCard(this.jargogle2); // Ghosthawk deploys right of Brillix Ponder
             this.player1.clickPrompt('deploy right');

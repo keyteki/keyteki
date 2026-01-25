@@ -27,7 +27,7 @@ describe('MedicusLacus', function () {
                 expect(this.player1).toHavePrompt('How much amber do you want to use from Troll?');
                 this.player1.clickPrompt('4');
                 expect(this.player1).toHavePrompt('Which key would you like to forge?');
-                this.player1.clickPrompt('Red');
+                this.player1.forgeKey('Red');
                 expect(this.player1.amber).toBe(2);
             });
         });
