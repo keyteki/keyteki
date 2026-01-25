@@ -16,7 +16,7 @@ describe('The Red Baron', function () {
 
         it("should gain elusive when opponent's forged a red key", function () {
             this.player1.endTurn();
-            this.player2.clickPrompt('Red');
+            this.player2.forgeKey('Red');
             this.player2.clickPrompt('brobnar');
             expect(this.player2.amber).toBe(2);
 
@@ -31,7 +31,7 @@ describe('The Red Baron', function () {
 
         it("should not gain elusive when opponent's forged a blue key", function () {
             this.player1.endTurn();
-            this.player2.clickPrompt('Blue');
+            this.player2.forgeKey('Blue');
             this.player2.clickPrompt('brobnar');
             expect(this.player2.amber).toBe(2);
 
@@ -42,7 +42,7 @@ describe('The Red Baron', function () {
 
         it("should not gain elusive when opponent's forged a yellow key", function () {
             this.player1.endTurn();
-            this.player2.clickPrompt('Yellow');
+            this.player2.forgeKey('Yellow');
             this.player2.clickPrompt('brobnar');
             expect(this.player2.amber).toBe(2);
 
@@ -53,7 +53,7 @@ describe('The Red Baron', function () {
 
         it('should not give elusive to other creatures', function () {
             this.player1.endTurn();
-            this.player2.clickPrompt('Red');
+            this.player2.forgeKey('Red');
             this.player2.clickPrompt('brobnar');
             expect(this.player2.amber).toBe(2);
 
@@ -80,7 +80,7 @@ describe('The Red Baron', function () {
 
         it('should steal after reap when forged a red key', function () {
             this.player1.endTurn();
-            this.player2.clickPrompt('Red');
+            this.player2.forgeKey('Red');
             this.player2.clickPrompt('brobnar');
             expect(this.player2.amber).toBe(2);
 
@@ -91,7 +91,7 @@ describe('The Red Baron', function () {
 
         it('should not steal after reap when forged a blue key', function () {
             this.player1.endTurn();
-            this.player2.clickPrompt('Blue');
+            this.player2.forgeKey('Blue');
             this.player2.clickPrompt('brobnar');
             expect(this.player2.amber).toBe(2);
 
@@ -102,7 +102,7 @@ describe('The Red Baron', function () {
 
         it('should not steal after reap when forged a yellow key', function () {
             this.player1.endTurn();
-            this.player2.clickPrompt('Yellow');
+            this.player2.forgeKey('Yellow');
             this.player2.clickPrompt('brobnar');
             expect(this.player2.amber).toBe(2);
 
