@@ -18,7 +18,7 @@ describe('Tangimangi', function () {
         it('should forge a key paying 6A while not haunted', function () {
             this.player2.amber = 6;
             this.player1.endTurn();
-            this.player2.clickPrompt('red');
+            this.player2.forgeKey('Red');
             expect(this.player2.amber).toBe(0);
         });
 
@@ -26,7 +26,7 @@ describe('Tangimangi', function () {
             this.player1.fightWith(this.tangimangi, this.batdrone);
             this.player2.amber = 9;
             this.player1.endTurn();
-            this.player2.clickPrompt('red');
+            this.player2.forgeKey('Red');
             expect(this.player2.amber).toBe(0);
         });
     });

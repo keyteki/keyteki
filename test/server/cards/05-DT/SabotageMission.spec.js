@@ -31,7 +31,7 @@ describe('Sabotage Mission', function () {
             this.player1.clickPrompt('staralliance');
             this.player1.endTurn();
 
-            this.player2.clickPrompt('Blue');
+            this.player2.forgeKey('Blue');
             this.player2.clickPrompt('dis');
             this.player2.endTurn();
             expect(this.player2.player.amber).toBe(2);
@@ -43,7 +43,7 @@ describe('Sabotage Mission', function () {
             expect(this.player2.amber).toBe(10);
             this.player1.endTurn();
 
-            this.player2.clickPrompt('Blue');
+            this.player2.forgeKey('Blue');
             this.player2.clickPrompt('dis');
             // battleline: ['doctor-driscoll', 'armsmaster-molina', general-xalvador', 'lion-bautrem', 'gub']
             // powers: [3, 4, 4+2, 4, 1+2] - key cost 9

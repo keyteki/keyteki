@@ -21,7 +21,7 @@ describe('Ecto-Charge', function () {
         it('should forge a key paying 8 amber', function () {
             // cost is 8 => 8 + 20 - 25 = 3 (minimum is 6)
             this.player1.play(this.ectoCharge);
-            this.player1.clickPrompt('red');
+            this.player1.forgeKey('Red');
             expect(this.player1.amber).toBe(4);
             expect(this.ectoCharge.location).toBe('purged');
             this.player1.endTurn();
@@ -31,7 +31,7 @@ describe('Ecto-Charge', function () {
             // cost is 8 => 8 + 20 - 18 = 10
             this.player1.player.discard = this.player1.player.discard.slice(0, 18);
             this.player1.play(this.ectoCharge);
-            this.player1.clickPrompt('red');
+            this.player1.forgeKey('Red');
             expect(this.player1.amber).toBe(0);
             expect(this.ectoCharge.location).toBe('purged');
             this.player1.endTurn();

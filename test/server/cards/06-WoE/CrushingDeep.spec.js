@@ -23,14 +23,14 @@ describe('Crushing Deep', function () {
             expect(this.player1.player.getCurrentKeyCost()).toBe(6);
             expect(this.player2.player.getCurrentKeyCost()).toBe(6);
             this.player1.endTurn();
-            this.player2.clickPrompt('red');
+            this.player2.forgeKey('Red');
             this.player2.clickPrompt('untamed');
             expect(this.player2.amber).toBe(24);
             expect(this.player1.player.getCurrentKeyCost()).toBe(9);
             expect(this.player2.player.getCurrentKeyCost()).toBe(9);
             this.player2.play(this.chotaHazri);
             this.player2.clickPrompt('Yes');
-            this.player2.clickPrompt('blue');
+            this.player2.forgeKey('Blue');
             expect(this.player2.amber).toBe(14);
             expect(this.player1.player.getCurrentKeyCost()).toBe(12);
             expect(this.player2.player.getCurrentKeyCost()).toBe(12);

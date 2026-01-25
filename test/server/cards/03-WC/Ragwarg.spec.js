@@ -74,7 +74,7 @@ describe('Ragwarg', function () {
             this.player2.endTurn();
 
             // Strange Gizmo causes Jargogle to play ghosthawk after forging a key
-            this.player1.clickPrompt('red');
+            this.player1.forgeKey('Red');
             this.player1.clickPrompt('deploy right');
             this.player1.clickCard(this.brillixPonder); // Deploy ghosthawk right of Brillix Ponder
             this.player1.clickCard(this.brillixPonder); // Reap with Brillix Ponder and damage from Ragwarg
