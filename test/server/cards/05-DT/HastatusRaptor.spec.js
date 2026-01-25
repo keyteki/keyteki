@@ -41,7 +41,7 @@ describe('HastatusRaptor', function () {
 
         describe('with exalt and amber on other raptors', function () {
             beforeEach(function () {
-                this.raptor2.tokens.amber = 8;
+                this.raptor2.amber = 8;
                 this.player1.fightWith(this.raptor1, this.troll);
                 this.player1.clickCard(this.raptor1);
             });
@@ -55,8 +55,8 @@ describe('HastatusRaptor', function () {
 
         describe('with exalt and amber on two raptors', function () {
             beforeEach(function () {
-                this.raptor2.tokens.amber = 4;
-                this.raptor1.tokens.amber = 3;
+                this.raptor2.amber = 4;
+                this.raptor1.amber = 3;
                 this.player1.fightWith(this.raptor1, this.troll);
                 this.player1.clickCard(this.raptor1);
             });

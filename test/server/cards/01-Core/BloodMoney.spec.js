@@ -16,7 +16,7 @@ describe('Blood Money', function () {
             this.player1.play(this.bloodMoney);
             expect(this.player1).toHavePrompt('Blood Money');
             this.player1.clickCard(this.zorg);
-            expect(this.zorg.tokens.amber).toBe(2);
+            expect(this.zorg.amber).toBe(2);
         });
     });
 });

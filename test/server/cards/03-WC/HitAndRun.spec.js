@@ -90,7 +90,7 @@ describe('Hit and Run', function () {
             expect(this.troll.damage).toBe(2);
         });
         it('Hit an enemy creature warded and return a friendly creature to hand', function () {
-            this.troll.tokens.ward = 1;
+            this.troll.ward();
             expect(this.troll.warded).toBe(true);
             this.player1.play(this.hitAndRun);
 

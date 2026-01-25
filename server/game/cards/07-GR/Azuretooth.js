@@ -15,7 +15,7 @@ class Azuretooth extends Card {
                 }))
             },
             effect: 'move all {2} amber from {0} to their pool and give control of {0} to {1}',
-            effectArgs: (context) => [context.player.opponent, context.target.tokens.amber || 0],
+            effectArgs: (context) => [context.player.opponent, context.target.amber],
             then: (preThenContext) => ({
                 alwaysTriggers: true,
                 condition: (context) => !!context.player.opponent,

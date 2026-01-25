@@ -29,7 +29,7 @@ describe('The Golden Spiral', function () {
             this.player1.clickCard(this.brutodonAuxiliary);
             this.player1.clickPrompt('Reap with this creature');
 
-            expect(this.brutodonAuxiliary.tokens.amber).toBe(1);
+            expect(this.brutodonAuxiliary.amber).toBe(1);
             expect(this.player1.amber).toBe(2);
         });
 
@@ -44,7 +44,7 @@ describe('The Golden Spiral', function () {
             this.player1.clickCard(this.flaxia);
             this.player1.clickPrompt('Reap with this creature');
 
-            expect(this.flaxia.tokens.amber).toBe(1);
+            expect(this.flaxia.amber).toBe(1);
             expect(this.player1.amber).toBe(1);
         });
 
@@ -61,7 +61,7 @@ describe('The Golden Spiral', function () {
             this.player1.clickPrompt('Fight with this creature');
             this.player1.clickCard(this.lamindra);
 
-            expect(this.brutodonAuxiliary.tokens.amber).toBe(1);
+            expect(this.brutodonAuxiliary.amber).toBe(1);
         });
 
         it('Exalt and fight with a ready friendly creature', function () {
@@ -76,7 +76,7 @@ describe('The Golden Spiral', function () {
             this.player1.clickPrompt('Fight with this creature');
             this.player1.clickCard(this.lamindra);
 
-            expect(this.flaxia.tokens.amber).toBe(1);
+            expect(this.flaxia.amber).toBe(1);
         });
 
         it('Exalt, ready and use an action of an exhausted friendly creature', function () {
@@ -91,7 +91,7 @@ describe('The Golden Spiral', function () {
             this.player1.clickCard(this.abondTheArmorsmith);
             this.player1.clickPrompt("Use this card's Action ability");
 
-            expect(this.abondTheArmorsmith.tokens.amber).toBe(1);
+            expect(this.abondTheArmorsmith.amber).toBe(1);
         });
 
         it('Exalt, ready and use an action of a ready friendly creature', function () {
@@ -105,7 +105,7 @@ describe('The Golden Spiral', function () {
             this.player1.clickCard(this.abondTheArmorsmith);
             this.player1.clickPrompt("Use this card's Action ability");
 
-            expect(this.abondTheArmorsmith.tokens.amber).toBe(1);
+            expect(this.abondTheArmorsmith.amber).toBe(1);
         });
     });
 });

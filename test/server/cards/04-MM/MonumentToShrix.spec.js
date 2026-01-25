@@ -94,7 +94,7 @@ describe('Monument to Shrix', function () {
                 }
             });
 
-            this.monumentToShrix.tokens.amber = 3;
+            this.monumentToShrix.amber = 3;
         });
 
         it('should be able to use amber on monument', function () {

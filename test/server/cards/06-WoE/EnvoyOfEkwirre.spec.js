@@ -21,9 +21,9 @@ describe('Envoy of Ekwirrĕ', function () {
             expect(this.player1.player.cardsInPlay[2]).toBe(this.umbra);
 
             // Load up the creatures.
-            this.troll.tokens.amber = 5;
+            this.troll.amber = 5;
             this.troll.tokens.damage = 3;
-            this.envoyOfEkwirrĕ.tokens.amber = 2;
+            this.envoyOfEkwirrĕ.amber = 2;
             this.envoyOfEkwirrĕ.tokens.damage = 1;
 
             // trigger the action
@@ -35,23 +35,23 @@ describe('Envoy of Ekwirrĕ', function () {
             expect(this.player1.player.cardsInPlay[2]).toBe(this.umbra);
 
             // Tokens have swapped.
-            expect(this.troll.tokens.amber).toBe(2);
+            expect(this.troll.amber).toBe(2);
             expect(this.troll.damage).toBe(1);
-            expect(this.envoyOfEkwirrĕ.tokens.amber).toBe(5);
+            expect(this.envoyOfEkwirrĕ.amber).toBe(5);
             expect(this.envoyOfEkwirrĕ.damage).toBe(3);
         });
 
         it('should kill the swapped creature if there is too much damage', function () {
-            this.troll.tokens.amber = 5;
+            this.troll.amber = 5;
             this.troll.tokens.damage = 6;
-            this.envoyOfEkwirrĕ.tokens.amber = 2;
+            this.envoyOfEkwirrĕ.amber = 2;
             this.envoyOfEkwirrĕ.tokens.damage = 1;
 
             this.player1.reap(this.envoyOfEkwirrĕ);
             this.player1.clickCard(this.troll);
 
             expect(this.envoyOfEkwirrĕ.location).toBe('discard');
-            expect(this.troll.tokens.amber).toBe(2);
+            expect(this.troll.amber).toBe(2);
             expect(this.troll.damage).toBe(1);
             expect(this.player2.amber).toBe(6);
         });

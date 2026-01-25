@@ -29,7 +29,7 @@ describe('Pocket Universe', function () {
 
         it('should allow choosing amount of amber to spend from Pocket Universe to forge a key', function () {
             this.player1.amber = 6;
-            this.pocketUniverse.tokens.amber = 2;
+            this.pocketUniverse.amber = 2;
             this.player1.endTurn();
             this.player2.clickPrompt('untamed');
             this.player2.endTurn();

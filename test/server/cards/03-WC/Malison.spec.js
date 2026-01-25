@@ -58,7 +58,7 @@ describe('Malison', function () {
                         });
 
                         it('should capture 1 amber from its own side as it is on a flank', function () {
-                            expect(this.troll.tokens.amber).toBe(1);
+                            expect(this.troll.amber).toBe(1);
                             expect(this.player2.amber).toBe(2);
                         });
                     });
@@ -75,7 +75,7 @@ describe('Malison', function () {
                         });
 
                         it('should not capture 1 amber from its own side as it is not on a flank', function () {
-                            expect(this.troll.tokens.amber).toBe(undefined);
+                            expect(this.troll.amber).toBe(0);
                             expect(this.player2.amber).toBe(3);
                         });
                     });

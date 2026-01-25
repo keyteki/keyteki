@@ -20,8 +20,8 @@ describe('Orator Hissaro', function () {
             this.player1.clickCard(this.flaxia);
 
             expect(this.oratorHissaro.hasToken('amber')).toBe(false);
-            expect(this.troll.tokens.amber).toBe(1);
-            expect(this.flaxia.tokens.amber).toBe(1);
+            expect(this.troll.amber).toBe(1);
+            expect(this.flaxia.amber).toBe(1);
             expect(this.troll.exhausted).toBe(false);
             expect(this.flaxia.exhausted).toBe(false);
             expect(this.oratorHissaro.exhausted).toBe(true);

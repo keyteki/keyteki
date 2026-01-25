@@ -10,7 +10,7 @@ describe('The Common Cold', function () {
                     inPlay: ['grabber-jammer']
                 }
             });
-            this.grabberJammer.tokens.ward = 1;
+            this.grabberJammer.ward();
         });
 
         it('should be able to destroy warded Mars creatures', function () {

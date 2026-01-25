@@ -26,7 +26,7 @@ describe('Draco Praeco', function () {
             expect(this.player1).toHavePrompt('Any reactions?');
             expect(this.player1).toBeAbleToSelect(this.dracoPraeco);
             this.player1.clickCard(this.dracoPraeco);
-            expect(this.dracoPraeco.tokens.amber).toBe(1);
+            expect(this.dracoPraeco.amber).toBe(1);
             expect(this.player1).toHavePrompt('Choose a house');
             this.player1.clickPrompt('shadows');
 

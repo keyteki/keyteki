@@ -37,7 +37,7 @@ describe('Ambrosia Outpost', function () {
             this.player1.useAction(this.æmbrosiaOutpost);
             this.player1.clickCard(this.paraguardian);
             this.player1.clickCard(this.galeatops);
-            expect(this.galeatops.tokens.amber).toBe(undefined);
+            expect(this.galeatops.amber).toBe(0);
             expect(this.player1.amber).toBe(3);
         });
     });

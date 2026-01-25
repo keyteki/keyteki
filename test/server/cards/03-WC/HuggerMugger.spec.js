@@ -18,7 +18,7 @@ describe('Hugger Mugger', function () {
             this.player2.player.keys = { red: true, blue: true, yellow: false };
             this.player1.play(this.huggerMugger);
 
-            expect(this.huggerMugger.tokens.amber).toBe(1);
+            expect(this.huggerMugger.amber).toBe(1);
             expect(this.player1.amber).toBe(1);
             expect(this.player2.amber).toBe(4);
         });
@@ -28,7 +28,7 @@ describe('Hugger Mugger', function () {
             this.player2.player.keys = { red: true, blue: true, yellow: false };
             this.player1.play(this.huggerMugger);
 
-            expect(this.huggerMugger.tokens.amber).toBe(1);
+            expect(this.huggerMugger.amber).toBe(1);
             expect(this.player1.amber).toBe(0);
             expect(this.player2.amber).toBe(5);
         });
@@ -37,7 +37,7 @@ describe('Hugger Mugger', function () {
             this.player2.amber = 1;
             this.player1.play(this.huggerMugger);
 
-            expect(this.huggerMugger.tokens.amber).toBe(1);
+            expect(this.huggerMugger.amber).toBe(1);
             expect(this.player1.amber).toBe(0);
             expect(this.player2.amber).toBe(0);
         });

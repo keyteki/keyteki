@@ -25,7 +25,7 @@ describe('Skixuno', function () {
         });
 
         it('should not gain power for failing to destroy warded creatures', function () {
-            this.rotgrub.tokens.ward = 1;
+            this.rotgrub.ward();
             this.player1.play(this.skixuno);
 
             expect(this.skixuno.location).toBe('play area');
@@ -57,7 +57,7 @@ describe('Skixuno', function () {
         });
 
         it('should not gain power for failing to destroy warded creatures even though a soulkeeper killed them', function () {
-            this.pitlord.tokens.ward = 1;
+            this.pitlord.ward();
             this.player1.playUpgrade(this.soulkeeper, this.bloodshardImp);
             this.player1.play(this.skixuno);
             this.player1.clickCard(this.pitlord);

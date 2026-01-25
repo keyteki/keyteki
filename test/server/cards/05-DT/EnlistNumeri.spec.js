@@ -14,7 +14,7 @@ describe('Enlist Numeri', function () {
 
     describe('Playing it', function () {
         beforeEach(function () {
-            this.urchin.tokens.amber = 1;
+            this.urchin.amber = 1;
             this.player1.play(this.enlistNumeri);
         });
 

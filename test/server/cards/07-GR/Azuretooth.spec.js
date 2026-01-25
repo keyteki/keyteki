@@ -15,7 +15,7 @@ describe('Azuretooth', function () {
         });
 
         it('moves amber and gives control on reap', function () {
-            this.shrewdInvestor.tokens.amber = 4;
+            this.shrewdInvestor.amber = 4;
             this.player1.reap(this.azuretooth);
             expect(this.player1).toBeAbleToSelect(this.azuretooth);
             expect(this.player1).toBeAbleToSelect(this.shrewdInvestor);
@@ -28,7 +28,7 @@ describe('Azuretooth', function () {
         });
 
         it('moves amber and gives control on fight', function () {
-            this.shrewdInvestor.tokens.amber = 4;
+            this.shrewdInvestor.amber = 4;
             this.player1.fightWith(this.azuretooth, this.gub);
             this.player1.clickCard(this.shrewdInvestor);
             expect(this.player1.amber).toBe(5);

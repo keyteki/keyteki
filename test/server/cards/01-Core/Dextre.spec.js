@@ -16,7 +16,7 @@ describe('Dextre', function () {
 
         it('should capture an amber when it comes into play', function () {
             expect(this.dextre.location).toBe('play area');
-            expect(this.dextre.tokens.amber).toBe(1);
+            expect(this.dextre.amber).toBe(1);
             expect(this.player2.amber).toBe(0);
         });
 

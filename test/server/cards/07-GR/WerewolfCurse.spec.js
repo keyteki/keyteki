@@ -17,7 +17,7 @@ describe('Werewolf Curse', function () {
 
         it('enrages on play', function () {
             this.player1.playUpgrade(this.werewolfCurse, this.dustPixie);
-            expect(this.dustPixie.tokens.enrage).toBe(1);
+            expect(this.dustPixie.enraged).toBe(true);
         });
 
         it('gives splash attack', function () {

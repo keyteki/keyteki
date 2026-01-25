@@ -12,7 +12,7 @@ describe('Hadron Collision', function () {
                 }
             });
 
-            this.senatorShrix.tokens.ward = 1;
+            this.senatorShrix.ward();
         });
 
         it('should be able to deal damage and kill a creature regardless of armor', function () {
