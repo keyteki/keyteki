@@ -13,23 +13,24 @@ class ChatCommands {
             '/active-house': this.activeHouse,
             '/add-card': this.addCard,
             '/cancel-prompt': this.cancelPrompt,
-            '/disconnectme': this.disconnectMe,
-            '/draw': this.draw,
             '/discard': this.discard,
             '/discardtopofdeck': this.discardtopofdeck,
+            '/disconnectme': this.disconnectMe,
+            '/draw': this.draw,
+            '/first-player': this.firstPlayer,
             '/forge': this.forge,
-            '/tide': this.changeTide,
             '/manual': this.manual,
             '/modify-clock': this.modifyClock,
             '/mulligan': this.mulligan,
             '/mute-spectators': this.muteSpectators,
             '/rematch': this.rematch,
             '/shuffle': this.shuffle,
-            '/stop-clocks': this.stopClocks,
             '/start-clocks': this.startClocks,
+            '/stop-clocks': this.stopClocks,
+            '/tide': this.changeTide,
+            '/token-creature': this.tokenCreature,
             '/token': this.setToken,
-            '/unforge': this.unforge,
-            '/first-player': this.firstPlayer
+            '/unforge': this.unforge
         };
         this.tokens = ['amber', 'damage', 'enrage', 'power', 'stun', 'ward'];
         this.houses = [...Constants.Houses, 'none'];
@@ -301,6 +302,45 @@ class ChatCommands {
             this.game.addAlert('danger', '{0} is attempting to switch manual mode on', player);
             this.game.queueStep(new ManualModePrompt(this.game, player));
         }
+    }
+
+    tokenCreature(player) {
+        if (!this.game.manualMode) {
+            return false;
+        }
+
+        if (!player.tokenCard) {
+            this.game.addAlert(
+                'danger',
+                '{0} attempted to create a token creature but their deck does not have a token card',
+                player
+            );
+            return false;
+        }
+
+        if (player.deck.length === 0) {
+            this.game.addAlert(
+                'danger',
+                '{0} attempted to create a token creature but their deck is empty',
+                player
+            );
+            return false;
+        }
+
+        let card = player.deck[0];
+        this.game.addAlert(
+            'danger',
+            '{0} uses /token-creature to create a token creature from {1}',
+            player,
+            card
+        );
+
+        GameActions.makeTokenCreature({ deploy: true }).resolve(
+            card,
+            this.game.getFrameworkContext(player)
+        );
+
+        return true;
     }
 
     muteSpectators(player) {
