@@ -42,6 +42,6 @@ describe("Spike Trap's omni ability", function () {
         expect(this.flaxia.damage).toBe(3);
         expect(this.brammo.damage).toBe(2);
         expect(this.firespitter.damage).toBe(2);
-        expect(this.gub.hasToken('damage')).toBe(false);
+        expect(this.gub.damage).toBe(0);
     });
 });

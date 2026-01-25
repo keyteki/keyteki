@@ -23,7 +23,7 @@ describe('Remote Access', function () {
             expect(this.potionOfInvulnerability.location).toBe('discard');
             this.player2.fightWith(this.brainEater, this.sequis);
             expect(this.sequis.location).toBe('discard');
-            expect(this.brainEater.hasToken('damage')).toBe(false);
+            expect(this.brainEater.damage).toBe(0);
         });
 
         it('should apply chains to the correct player when targeting Masterplan', function () {

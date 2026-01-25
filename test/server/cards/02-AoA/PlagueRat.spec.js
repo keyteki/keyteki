@@ -17,7 +17,7 @@ describe('Plague Rat', function () {
             this.player1.play(this.plagueRat);
             expect(this.mightyTiger.damage).toBe(1);
             expect(this.dextre.damage).toBe(1);
-            expect(this.plagueRat.hasToken('damage')).toBe(false);
+            expect(this.plagueRat.damage).toBe(0);
             expect(this.horsemanOfFamine.damage).toBe(1);
             expect(this.horsemanOfDeath.damage).toBe(1);
         });
@@ -30,7 +30,7 @@ describe('Plague Rat', function () {
 
             expect(this.mightyTiger.damage).toBe(3);
             expect(this.player1.player.deck[0]).toBe(this.dextre); // Dextre's behaviour when destroyed.
-            expect(this.plagueRat.hasToken('damage')).toBe(false);
+            expect(this.plagueRat.damage).toBe(0);
             expect(this.horsemanOfFamine.damage).toBe(3);
             expect(this.horsemanOfDeath.damage).toBe(3);
         });

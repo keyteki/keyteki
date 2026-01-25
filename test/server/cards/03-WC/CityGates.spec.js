@@ -50,7 +50,7 @@ describe('City Gates', function () {
             expect(this.player1).isReadyToTakeAction();
             expect(this.player2.amber).toBe(0);
             expect(this.player1.amber).toBe(0);
-            expect(this.brutodonAuxiliary.hasToken('amber')).toBe(false);
+            expect(this.brutodonAuxiliary.amber).toBe(0);
         });
     });
 });

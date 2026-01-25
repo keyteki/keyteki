@@ -14,8 +14,8 @@ describe('Legerdemain', function () {
                 }
             });
 
-            this.flaxia.tokens.damage = 1;
-            this.krump.tokens.damage = 1;
+            this.flaxia.damage = 1;
+            this.krump.damage = 1;
         });
 
         it('should return a friendly damaged creture to hand to gain one', function () {

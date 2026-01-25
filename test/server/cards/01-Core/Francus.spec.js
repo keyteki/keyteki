@@ -12,8 +12,8 @@ describe('Francus', function () {
                 }
             });
 
-            this.zorg.tokens.damage = 1;
-            this.shadowSelf.tokens.damage = 8;
+            this.zorg.damage = 1;
+            this.shadowSelf.damage = 8;
         });
 
         it('should capture 1 amber when it lives and the opponent dies', function () {

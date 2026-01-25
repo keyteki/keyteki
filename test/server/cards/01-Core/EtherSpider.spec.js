@@ -54,7 +54,7 @@ describe('Ether Spider', function () {
 
         it('should deal no damage when attacked', function () {
             this.player1.fightWith(this.sequis, this.etherSpider);
-            expect(this.sequis.hasToken('damage')).toBe(false);
+            expect(this.sequis.damage).toBe(0);
             expect(this.etherSpider.damage).toBe(4);
         });
 
@@ -62,7 +62,7 @@ describe('Ether Spider', function () {
             this.player1.endTurn();
             this.player2.clickPrompt('mars');
             this.player2.fightWith(this.etherSpider, this.sequis);
-            expect(this.sequis.hasToken('damage')).toBe(false);
+            expect(this.sequis.damage).toBe(0);
             expect(this.etherSpider.damage).toBe(4);
         });
     });
@@ -92,7 +92,7 @@ describe('Ether Spider', function () {
             expect(this.etherSpider.controller).toBe(this.player1.player);
             this.player1.play(this.lifeward);
             expect(this.player1.amber).toBe(1);
-            expect(this.etherSpider.hasToken('amber')).toBe(false);
+            expect(this.etherSpider.amber).toBe(0);
             this.player1.endTurn();
             this.player2.clickPrompt('brobnar');
             this.player2.play(this.punch);

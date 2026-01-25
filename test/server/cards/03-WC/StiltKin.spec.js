@@ -20,7 +20,7 @@ describe('stilt-kin', function () {
             expect(this.player1).toBeAbleToSelect(this.troll);
             this.player1.clickCard(this.troll);
             expect(this.troll.damage).toBe(2);
-            expect(this.stiltKin.hasToken('damage')).toBe(false);
+            expect(this.stiltKin.damage).toBe(0);
         });
 
         it('should not ready and fights when non-giant is played adjacent', function () {

@@ -14,8 +14,8 @@ describe('Shield of Justice', function () {
         });
 
         it('should place the creature in archives', function () {
-            expect(this.bulwark.hasToken('damage')).toBe(false);
-            expect(this.sequis.hasToken('damage')).toBe(false);
+            expect(this.bulwark.damage).toBe(0);
+            expect(this.sequis.damage).toBe(0);
 
             expect(this.bulwark.armor).toBe(2);
             expect(this.bulwark.armorUsed).toBe(0);
@@ -33,7 +33,7 @@ describe('Shield of Justice', function () {
             expect(this.bulwark.armor).toBe(2);
             expect(this.bulwark.armorUsed).toBe(0);
             expect(this.bulwark.tokens.armor).toBe(2);
-            expect(this.bulwark.hasToken('damage')).toBe(false);
+            expect(this.bulwark.damage).toBe(0);
 
             expect(this.sequis.location).toBe('play area');
             expect(this.sequis.armor).toBe(2);

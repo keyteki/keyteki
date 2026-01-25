@@ -64,7 +64,7 @@ describe('MaruckTheMarked', function () {
             expect(this.maruckTheMarked.armorUsed).toBe(1);
 
             expect(this.maruckTheMarked.damage).toBe(1);
-            expect(this.maruckTheMarked.hasToken('amber')).toBe(false);
+            expect(this.maruckTheMarked.amber).toBe(0);
         });
     });
 });

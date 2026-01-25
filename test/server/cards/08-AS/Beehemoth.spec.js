@@ -42,8 +42,8 @@ describe('Beehemoth', function () {
         });
 
         it('should move remove neighbor power counters and gain amber on reap', function () {
-            this.flaxia.tokens.power = 3;
-            this.huntingWitch.tokens.power = 2;
+            this.flaxia.powerCounters = 3;
+            this.huntingWitch.powerCounters = 2;
             this.player1.reap(this.beehemoth);
             this.player1.clickCard(this.flaxia);
             this.player1.clickPrompt('Left');
@@ -54,7 +54,7 @@ describe('Beehemoth', function () {
         });
 
         it('should move remove one neighbor power counters and gain amber on reap', function () {
-            this.flaxia.tokens.power = 3;
+            this.flaxia.powerCounters = 3;
             this.player1.reap(this.beehemoth);
             this.player1.clickCard(this.flaxia);
             this.player1.clickPrompt('Left');

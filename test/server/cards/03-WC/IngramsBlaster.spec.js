@@ -13,7 +13,7 @@ describe('Ingram’s Blaster', function () {
                 }
             });
 
-            this.techivorePulpate.tokens.damage = 2;
+            this.techivorePulpate.damage = 2;
         });
 
         it('should allow fully healing a creature when attached to the associated officer', function () {
@@ -25,11 +25,11 @@ describe('Ingram’s Blaster', function () {
             expect(this.player1).toBeAbleToSelect(this.lamindra);
             expect(this.player1).toBeAbleToSelect(this.krump);
             this.player1.clickCard(this.techivorePulpate);
-            expect(this.techivorePulpate.hasToken('damage')).toBe(false);
+            expect(this.techivorePulpate.damage).toBe(0);
         });
 
         it('should allow fully healing an enemy creature when attached to the associated officer', function () {
-            this.krump.tokens.damage = 1;
+            this.krump.damage = 1;
             this.player1.playUpgrade(this.ingramSBlaster, this.medicIngram);
             expect(this.player1).toHavePrompt('Choose a creature');
             expect(this.player1).not.toHavePromptButton('Done');
@@ -38,7 +38,7 @@ describe('Ingram’s Blaster', function () {
             expect(this.player1).toBeAbleToSelect(this.lamindra);
             expect(this.player1).toBeAbleToSelect(this.krump);
             this.player1.clickCard(this.krump);
-            expect(this.krump.hasToken('damage')).toBe(false);
+            expect(this.krump.damage).toBe(0);
         });
 
         it('should not prompt for healing when attached to the non associated officer', function () {
@@ -115,7 +115,7 @@ describe('Ingram’s Blaster', function () {
             this.player1.clickCard(this.medicIngram);
             expect(this.player1).toHavePrompt('Choose a creature');
             this.player1.clickCard(this.techivorePulpate);
-            expect(this.techivorePulpate.hasToken('damage')).toBe(false);
+            expect(this.techivorePulpate.damage).toBe(0);
             expect(this.medicIngram.upgrades).toContain(this.ingramSBlaster);
             expect(this.techivorePulpate.upgrades).not.toContain(this.ingramSBlaster);
         });
@@ -139,7 +139,7 @@ describe('Ingram’s Blaster', function () {
             this.player1.clickCard(this.medicIngram);
             expect(this.player1).toHavePrompt('Choose a creature');
             this.player1.clickCard(this.techivorePulpate);
-            expect(this.techivorePulpate.hasToken('damage')).toBe(false);
+            expect(this.techivorePulpate.damage).toBe(0);
             expect(this.medicIngram.upgrades).toContain(this.ingramSBlaster);
             expect(this.techivorePulpate.upgrades).not.toContain(this.ingramSBlaster);
         });
@@ -221,7 +221,7 @@ describe('Ingram’s Blaster', function () {
                 }
             });
 
-            this.techivorePulpate.tokens.damage = 2;
+            this.techivorePulpate.damage = 2;
             this.medicIngram1 = this.player1.player.creaturesInPlay[1];
             this.medicIngram2 = this.player1.player.creaturesInPlay[2];
         });
@@ -237,7 +237,7 @@ describe('Ingram’s Blaster', function () {
             // There are no valid targets. Move to healing.
             expect(this.player1).toHavePrompt('Choose a creature to heal');
             this.player1.clickCard(this.techivorePulpate);
-            expect(this.techivorePulpate.hasToken('damage')).toBe(false);
+            expect(this.techivorePulpate.damage).toBe(0);
 
             expect(this.medicIngram1.upgrades).toContain(this.ingramSBlaster);
         });

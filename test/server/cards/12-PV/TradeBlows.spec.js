@@ -28,7 +28,7 @@ describe('Trade Blows', function () {
         });
 
         it('should not repeat if enemy creature is destroyed', function () {
-            this.flaxia.tokens.damage = 3;
+            this.flaxia.damage = 3;
             this.player1.play(this.tradeBlows);
             this.player1.clickCard(this.flaxia);
             expect(this.flaxia.location).toBe('discard');

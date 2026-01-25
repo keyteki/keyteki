@@ -20,7 +20,7 @@ describe('Monsquito', function () {
         });
 
         it('heals all damage after fighting', function () {
-            this.monsquito.tokens.damage = 1;
+            this.monsquito.damage = 1;
             this.player1.fightWith(this.monsquito, this.dustPixie);
             expect(this.dustPixie.location).toBe('discard');
             expect(this.monsquito.damage).toBe(0);

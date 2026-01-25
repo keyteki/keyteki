@@ -29,7 +29,7 @@ describe('Poke', function () {
         });
 
         it('should not draw a card if it destroyes Shadow Self', function () {
-            this.shadowSelf.tokens.damage = 8;
+            this.shadowSelf.damage = 8;
             this.player1.play(this.poke);
             this.player1.clickCard(this.urchin);
             expect(this.shadowSelf.location).toBe('discard');

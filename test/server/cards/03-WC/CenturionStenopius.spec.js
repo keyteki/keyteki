@@ -21,7 +21,7 @@ describe('Centurion Stenopius', function () {
             expect(this.player1).toHavePromptButton('Done');
             this.player1.clickPrompt('Done');
 
-            expect(this.centurionStenopius.hasToken('amber')).toBe(false);
+            expect(this.centurionStenopius.amber).toBe(0);
         });
         it('should increase power +3 after exalt', function () {
             this.player1.playCreature(this.centurionStenopius);

@@ -13,10 +13,10 @@ describe('Mushroom with a View', function () {
         });
 
         it('should heal 1 from all friendly creatures', function () {
-            this.envy.tokens.damage = 2;
-            this.pride.tokens.damage = 1;
-            this.troll.tokens.damage = 1;
-            this.desire.tokens.damage = 2;
+            this.envy.damage = 2;
+            this.pride.damage = 1;
+            this.troll.damage = 1;
+            this.desire.damage = 2;
 
             this.player1.useOmni(this.mushroomWithAView);
 

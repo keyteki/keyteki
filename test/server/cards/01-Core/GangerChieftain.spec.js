@@ -50,7 +50,7 @@ describe('Ganger Chieftain', function () {
             expect(this.batdrone.location).toBe('discard');
             expect(this.troll.damage).toBe(5);
             expect(this.ancientBear.exhausted).toBe(true);
-            expect(this.ancientBear.hasToken('damage')).toBe(false);
+            expect(this.ancientBear.damage).toBe(0);
             expect(this.player1).isReadyToTakeAction();
         });
 

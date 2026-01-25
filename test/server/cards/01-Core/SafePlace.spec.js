@@ -38,7 +38,7 @@ describe('Safe Place', function () {
             });
 
             it('should remove all amber from safe place', function () {
-                expect(this.safePlace.hasToken('amber')).toBe(false);
+                expect(this.safePlace.amber).toBe(0);
             });
         });
 

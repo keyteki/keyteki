@@ -12,8 +12,8 @@ describe('Entropic Manipulator', function () {
                     hand: ['armageddon-cloak']
                 }
             });
-            this.troll.tokens.damage = 6;
-            this.zorg.tokens.damage = 3;
+            this.troll.damage = 6;
+            this.zorg.damage = 3;
         });
 
         it('should not use up armor', function () {

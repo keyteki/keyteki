@@ -12,7 +12,7 @@ describe('Worthy Adversaries', function () {
                 }
             });
             // Pre-damage troll so we can test exalting already-damaged creatures
-            this.troll.tokens.damage = 2;
+            this.troll.damage = 2;
         });
 
         it('should deal 1 damage to 2 different enemy creatures and exalt all damaged creatures in play', function () {

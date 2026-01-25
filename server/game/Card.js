@@ -972,20 +972,14 @@ class Card extends EffectSource {
         return this.getPower();
     }
 
-    getPower(printed = false) {
-        const printedPower = this.getBottomCard().printedPower;
-
-        if (printed) {
-            return printedPower;
-        }
-
+    getPower() {
         if (this.anyEffect('setPower')) {
             return this.mostRecentEffect('setPower');
         }
 
         const copyEffect = this.mostRecentEffect('copyCard');
 
-        const basePower = copyEffect ? copyEffect.printedPower : printedPower;
+        const basePower = copyEffect ? copyEffect.printedPower : this.getPrintedPower();
         return (
             basePower +
             this.sumEffects('modifyPower') +
@@ -993,24 +987,26 @@ class Card extends EffectSource {
         );
     }
 
+    getPrintedPower() {
+        return this.getBottomCard().printedPower;
+    }
+
     get armor() {
         return this.getArmor();
     }
 
-    getArmor(printed = false) {
-        const printedArmor = this.getBottomCard().printedArmor;
-
-        if (printed) {
-            return printedArmor;
-        }
-
+    getArmor() {
         if (this.anyEffect('setArmor')) {
             return this.mostRecentEffect('setArmor');
         }
 
         const copyEffect = this.mostRecentEffect('copyCard');
-        const baseArmor = copyEffect ? copyEffect.printedArmor : printedArmor;
+        const baseArmor = copyEffect ? copyEffect.printedArmor : this.getPrintedArmor();
         return baseArmor + this.sumEffects('modifyArmor');
+    }
+
+    getPrintedArmor() {
+        return this.getBottomCard().printedArmor;
     }
 
     get amber() {
@@ -1025,8 +1021,16 @@ class Card extends EffectSource {
         return this.hasToken('damage') ? this.tokens.damage : 0;
     }
 
+    set damage(damage) {
+        this.tokens.damage = damage;
+    }
+
     get powerCounters() {
         return this.hasToken('power') ? this.tokens.power : 0;
+    }
+
+    set powerCounters(power) {
+        this.tokens.power = power;
     }
 
     get enraged() {

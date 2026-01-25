@@ -14,8 +14,8 @@ describe('Save the Pack', function () {
         });
 
         it('should destroy all damaged creatures and gain a chain', function () {
-            this.umbra.tokens.damage = 1;
-            this.bumpsy.tokens.damage = 2;
+            this.umbra.damage = 1;
+            this.bumpsy.damage = 2;
             this.player1.play(this.saveThePack);
             expect(this.umbra.location).toBe('discard');
             expect(this.dustPixie.location).toBe('play area');

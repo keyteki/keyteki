@@ -13,7 +13,7 @@ describe('Walls’ Blaster', function () {
                 }
             });
 
-            this.techivorePulpate.tokens.damage = 2;
+            this.techivorePulpate.damage = 2;
         });
 
         it('should allow stunning creatures when attached to the associated officer', function () {
@@ -228,7 +228,7 @@ describe('Walls’ Blaster', function () {
                 }
             });
 
-            this.techivorePulpate.tokens.damage = 2;
+            this.techivorePulpate.damage = 2;
             this.chiefEngineerWalls1 = this.player1.player.creaturesInPlay[1];
             this.chiefEngineerWalls2 = this.player1.player.creaturesInPlay[2];
         });

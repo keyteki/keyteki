@@ -44,7 +44,7 @@ class ApplyDamageAction extends CardGameAction {
             event.card.addToken('damage', event.amount);
             if (
                 !event.card.moribund &&
-                (event.card.tokens.damage >= event.card.power ||
+                (event.card.damage >= event.card.power ||
                     (event.amount > 0 &&
                         event.fightEvent &&
                         event.damageType === 'card effect' &&

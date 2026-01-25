@@ -13,8 +13,8 @@ describe('Pandemonium', function () {
                     inPlay: ['batdrone', 'mother', 'zorg']
                 }
             });
-            this.nexus.tokens.damage = 1;
-            this.mother.tokens.damage = 3;
+            this.nexus.damage = 1;
+            this.mother.damage = 3;
         });
 
         it('should cause undamaged creatures to capture 1', function () {
@@ -24,8 +24,8 @@ describe('Pandemonium', function () {
             expect(this.dodger.amber).toBe(1);
             expect(this.batdrone.amber).toBe(1);
             expect(this.zorg.amber).toBe(1);
-            expect(this.nexus.hasToken('amber')).toBe(false);
-            expect(this.mother.hasToken('amber')).toBe(false);
+            expect(this.nexus.amber).toBe(0);
+            expect(this.mother.amber).toBe(0);
             expect(this.player1).isReadyToTakeAction();
         });
 
@@ -56,10 +56,10 @@ describe('Pandemonium', function () {
             expect(this.urchin.amber).toBe(1);
             expect(this.dodger.amber).toBe(1);
             expect(this.zorg.amber).toBe(1);
-            expect(this.nexus.hasToken('amber')).toBe(false);
-            expect(this.dextre.hasToken('amber')).toBe(false);
-            expect(this.batdrone.hasToken('amber')).toBe(false);
-            expect(this.mother.hasToken('amber')).toBe(false);
+            expect(this.nexus.amber).toBe(0);
+            expect(this.dextre.amber).toBe(0);
+            expect(this.batdrone.amber).toBe(0);
+            expect(this.mother.amber).toBe(0);
             expect(this.player1).isReadyToTakeAction();
         });
     });

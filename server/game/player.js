@@ -772,7 +772,7 @@ class Player extends GameObject {
         }
 
         let alternativeSources =
-            this.getAmberSources().reduce((total, source) => total + source.tokens.amber, 0) +
+            this.getAmberSources().reduce((total, source) => total + source.amber, 0) +
             this.getCardAmberInPoolSources().length;
         return this.amber + alternativeSources >= this.getCurrentKeyCost() + modifier;
     }
@@ -790,7 +790,7 @@ class Player extends GameObject {
         let amberSources = this.getAmberSources();
         let selfAmberSources = this.getCardAmberInPoolSources();
         let totalAvailable =
-            amberSources.reduce((total, source) => total + source.tokens.amber, 0) +
+            amberSources.reduce((total, source) => total + source.amber, 0) +
             selfAmberSources.length;
         this.chooseAmberSource(
             amberSources,
@@ -821,7 +821,7 @@ class Player extends GameObject {
             let source = amberSources[0];
             amberSources.shift();
             this.game.queueSimpleStep(() => {
-                let sourceAmber = source.tokens.amber;
+                let sourceAmber = source.amber;
                 let max = Math.min(modifiedCost, sourceAmber);
                 let min = Math.max(0, modifiedCost - this.amber - totalAvailable + sourceAmber);
                 if (max === min) {
@@ -884,7 +884,7 @@ class Player extends GameObject {
                     this.game.activePlayer,
                     source
                 );
-                source.removeToken('ward', source.tokens.ward);
+                source.removeToken('ward', source.ward);
                 this.moveCard(source, 'discard');
                 this.chooseAmberSource(
                     amberSources,
@@ -906,7 +906,7 @@ class Player extends GameObject {
                 choices: ['Yes', 'No'],
                 handlers: [
                     () => {
-                        source.removeToken('ward', source.tokens.ward);
+                        source.removeToken('ward', source.ward);
                         this.moveCard(source, 'discard');
                         this.game.addMessage(
                             `{0} spends {1} to forge a key`,

@@ -101,7 +101,7 @@ describe('The Chosen One', function () {
 
             describe('when TCO is destroyed during ready phase', function () {
                 beforeEach(function () {
-                    this.theChosenOne.tokens.damage = 8;
+                    this.theChosenOne.damage = 8;
                     this.player2.clickPrompt('brobnar');
                     this.player2.reap(this.lollopTheTitanic);
                     this.player2.reap(this.groggins);

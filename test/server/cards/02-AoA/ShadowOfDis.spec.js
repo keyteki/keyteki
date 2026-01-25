@@ -139,18 +139,18 @@ describe('Shadow of Dis', function () {
                     hand: ['snufflegator']
                 }
             });
-            this.blossomDrake.tokens.damage = 1;
+            this.blossomDrake.damage = 1;
         });
 
         it("Blossom Drake's ability should be active when in play", function () {
             this.player1.play(this.emberImp);
-            expect(this.emberImp.hasToken('damage')).toBe(false);
+            expect(this.emberImp.damage).toBe(0);
             expect(this.emberImp.location).toBe('play area');
             this.player1.endTurn();
 
             this.player2.clickPrompt('untamed');
             this.player2.play(this.snufflegator);
-            expect(this.snufflegator.hasToken('damage')).toBe(false);
+            expect(this.snufflegator.damage).toBe(0);
             expect(this.snufflegator.location).toBe('play area');
         });
 
@@ -176,13 +176,13 @@ describe('Shadow of Dis', function () {
 
             this.player1.clickPrompt('dis');
             this.player1.play(this.emberImp);
-            expect(this.emberImp.hasToken('damage')).toBe(false);
+            expect(this.emberImp.damage).toBe(0);
             expect(this.emberImp.location).toBe('play area');
             this.player1.endTurn();
 
             this.player2.clickPrompt('untamed');
             this.player2.play(this.snufflegator);
-            expect(this.snufflegator.hasToken('damage')).toBe(false);
+            expect(this.snufflegator.damage).toBe(0);
             expect(this.snufflegator.location).toBe('play area');
         });
 
