@@ -50,7 +50,7 @@ describe('Titanic Bumblebird', function () {
             expect(this.player1).toBeAbleToSelect(this.flaxia);
             expect(this.player1).toBeAbleToSelect(this.titanicBumblebird);
             this.player1.clickCard(this.flaxia);
-            expect(this.flaxia.getPower()).toBe(6);
+            expect(this.flaxia.power).toBe(6);
             expect(this.player1).isReadyToTakeAction();
         });
 
@@ -68,7 +68,7 @@ describe('Titanic Bumblebird', function () {
             expect(this.player1).toBeAbleToSelect(this.flaxia);
             expect(this.player1).toBeAbleToSelect(this.titanicBumblebird);
             this.player1.clickCard(this.titanicBumblebird);
-            expect(this.titanicBumblebird.getPower()).toBe(9);
+            expect(this.titanicBumblebird.power).toBe(9);
             expect(this.player1).isReadyToTakeAction();
         });
     });

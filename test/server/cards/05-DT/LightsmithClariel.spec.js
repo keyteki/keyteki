@@ -29,7 +29,7 @@ describe('Lightsmith Clariel', function () {
         });
 
         it('should die before fight if swapping power and armor values', function () {
-            this.lightsmithClariel.tokens.damage = 4;
+            this.lightsmithClariel.damage = 4;
             this.player1.fightWith(this.lightsmithClariel, this.nerotaurus);
             this.player1.clickCard(this.lightsmithClariel);
             expect(this.nerotaurus.damage).toBe(0);

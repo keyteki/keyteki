@@ -67,8 +67,8 @@ describe('Ragwarg', function () {
             this.player1.play(this.brillixPonder);
             this.player1.play(this.daughter);
             this.player1.play(this.strangeGizmo);
-            this.brillixPonder.tokens.ward = 1;
-            this.daughter.tokens.ward = 1;
+            this.brillixPonder.ward();
+            this.daughter.ward();
             this.player1.endTurn();
             this.player2.clickPrompt('untamed');
             this.player2.endTurn();

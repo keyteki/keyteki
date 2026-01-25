@@ -14,7 +14,7 @@ describe('Safe or Sorry', function () {
                 }
             });
 
-            this.troll.tokens.amber = 4;
+            this.troll.amber = 4;
             this.player1.play(this.safeOrSorry);
         });
 

@@ -23,14 +23,14 @@ describe('Absolve', function () {
             this.player1.play(this.absolve);
 
             expect(this.troll.damage).toBe(1);
-            expect(this.flaxia.hasToken('damage')).toBe(false);
-            expect(this.holdfast.hasToken('damage')).toBe(false);
-            expect(this.krump.hasToken('damage')).toBe(false);
+            expect(this.flaxia.damage).toBe(0);
+            expect(this.holdfast.damage).toBe(0);
+            expect(this.krump.damage).toBe(0);
 
-            expect(this.troll.tokens.amber).toBe(1);
-            expect(this.flaxia.tokens.amber).toBe(1);
-            expect(this.holdfast.hasToken('amber')).toBe(false);
-            expect(this.krump.tokens.amber).toBe(1);
+            expect(this.troll.amber).toBe(1);
+            expect(this.flaxia.amber).toBe(1);
+            expect(this.holdfast.amber).toBe(0);
+            expect(this.krump.amber).toBe(1);
 
             expect(this.player1.amber).toBe(5);
             expect(this.player2.amber).toBe(3);
@@ -58,14 +58,14 @@ describe('Absolve', function () {
             this.player1.clickPrompt('Done');
 
             expect(this.troll.damage).toBe(1);
-            expect(this.flaxia.hasToken('damage')).toBe(false);
-            expect(this.holdfast.hasToken('damage')).toBe(false);
-            expect(this.krump.hasToken('damage')).toBe(false);
+            expect(this.flaxia.damage).toBe(0);
+            expect(this.holdfast.damage).toBe(0);
+            expect(this.krump.damage).toBe(0);
 
-            expect(this.troll.tokens.amber).toBe(1);
-            expect(this.flaxia.tokens.amber).toBe(1);
-            expect(this.holdfast.hasToken('amber')).toBe(false);
-            expect(this.krump.tokens.amber).toBe(1);
+            expect(this.troll.amber).toBe(1);
+            expect(this.flaxia.amber).toBe(1);
+            expect(this.holdfast.amber).toBe(0);
+            expect(this.krump.amber).toBe(1);
 
             expect(this.player1).isReadyToTakeAction();
         });

@@ -17,7 +17,7 @@ describe('Ant110ny', function () {
 
         it('should capture all enemy amber', function () {
             expect(this.player2.amber).toBe(0);
-            expect(this.ant110ny.tokens.amber).toBe(5);
+            expect(this.ant110ny.amber).toBe(5);
         });
 
         describe('Constant ability', function () {
@@ -28,7 +28,7 @@ describe('Ant110ny', function () {
             it('give one amber to player 2', function () {
                 expect(this.player1.amber).toBe(0);
                 expect(this.player2.amber).toBe(1);
-                expect(this.ant110ny.tokens.amber).toBe(4);
+                expect(this.ant110ny.amber).toBe(4);
             });
             describe('Testing Exiled', function () {
                 beforeEach(function () {
@@ -44,7 +44,7 @@ describe('Ant110ny', function () {
                     it('no amber should move', function () {
                         expect(this.player1.amber).toBe(1);
                         expect(this.player2.amber).toBe(1);
-                        expect(this.ant110ny.tokens.amber).toBe(4);
+                        expect(this.ant110ny.amber).toBe(4);
                     });
 
                     describe('Player 2 take turns', function () {
@@ -56,7 +56,7 @@ describe('Ant110ny', function () {
                         it('one amber to player 1', function () {
                             expect(this.player1.amber).toBe(2);
                             expect(this.player2.amber).toBe(1);
-                            expect(this.ant110ny.tokens.amber).toBe(3);
+                            expect(this.ant110ny.amber).toBe(3);
                         });
                     });
                 });
@@ -65,13 +65,13 @@ describe('Ant110ny', function () {
 
         describe('Constant ability with no captured amber', function () {
             beforeEach(function () {
-                this.ant110ny.tokens.amber = 0;
+                this.ant110ny.amber = 0;
                 this.player1.endTurn();
             });
 
             it('no amber should move', function () {
                 expect(this.player2.amber).toBe(0);
-                expect(this.ant110ny.tokens.amber).toBe(0);
+                expect(this.ant110ny.amber).toBe(0);
             });
         });
     });

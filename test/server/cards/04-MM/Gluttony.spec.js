@@ -14,8 +14,8 @@ describe('Guttony', function () {
                 }
             });
 
-            this.gub.tokens.amber = 2;
-            this.pride.tokens.amber = 1;
+            this.gub.amber = 2;
+            this.pride.amber = 1;
         });
 
         it('should exalt Gluttony for each sin creature in play', function () {

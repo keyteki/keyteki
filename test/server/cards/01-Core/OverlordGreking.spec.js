@@ -27,7 +27,7 @@ describe('Overlord Greking', function () {
         it("should put a destroyed creature into play under the controller's control", function () {
             this.player1.fightWith(this.overlordGreking, this.mother);
             expect(this.overlordGreking.damage).toBe(5);
-            expect(this.mother.hasToken('damage')).toBe(false);
+            expect(this.mother.damage).toBe(0);
             expect(this.mother.location).toBe('discard');
             expect(this.player1).toHavePrompt('mother');
             this.player1.clickPrompt('Left');
@@ -41,7 +41,7 @@ describe('Overlord Greking', function () {
         it('should be able to use the controller creature', function () {
             this.player1.fightWith(this.overlordGreking, this.batdrone);
             expect(this.overlordGreking.damage).toBe(2);
-            expect(this.batdrone.hasToken('damage')).toBe(false);
+            expect(this.batdrone.damage).toBe(0);
             expect(this.batdrone.location).toBe('discard');
             expect(this.player1).toHavePrompt('batdrone');
             this.player1.clickPrompt('Left');
@@ -53,7 +53,7 @@ describe('Overlord Greking', function () {
             this.player1.clickPrompt('logos');
             this.player1.fightWith(this.batdrone, this.troll);
             expect(this.batdrone.location).toBe('play area');
-            expect(this.batdrone.hasToken('damage')).toBe(false);
+            expect(this.batdrone.damage).toBe(0);
             expect(this.troll.damage).toBe(2);
         });
 
@@ -78,7 +78,7 @@ describe('Overlord Greking', function () {
         it('should not work on Dextre', function () {
             this.player1.fightWith(this.overlordGreking, this.dextre);
             expect(this.overlordGreking.damage).toBe(3);
-            expect(this.dextre.hasToken('damage')).toBe(false);
+            expect(this.dextre.damage).toBe(0);
             expect(this.dextre.location).toBe('deck');
             expect(this.player1).isReadyToTakeAction();
             expect(this.dextre.controller).toBe(this.player2.player);

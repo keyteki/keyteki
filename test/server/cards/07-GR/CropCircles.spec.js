@@ -42,7 +42,7 @@ describe('Crop Circles', function () {
             expect(this.tunk.location).toBe('purged');
             expect(this.player1.amber).toBe(5);
             expect(this.player2.amber).toBe(1);
-            expect(this.urchin.tokens.amber).toBe(2);
+            expect(this.urchin.amber).toBe(2);
         });
 
         it('should selecting friendly creature to capture', function () {
@@ -60,7 +60,7 @@ describe('Crop Circles', function () {
             expect(this.tunk.location).toBe('purged');
             expect(this.player1.amber).toBe(3);
             expect(this.player2.amber).toBe(3);
-            expect(this.batdrone.tokens.amber).toBe(2);
+            expect(this.batdrone.amber).toBe(2);
         });
 
         it('should return archived opponent cards to their hands and not capture', function () {
@@ -81,7 +81,7 @@ describe('Crop Circles', function () {
             expect(this.player1.hand).not.toContain(this.troll);
             expect(this.player1.amber).toBe(5);
             expect(this.player2.amber).toBe(1);
-            expect(this.urchin.tokens.amber).toBe(2);
+            expect(this.urchin.amber).toBe(2);
         });
 
         it('should allow you to select no purges', function () {
@@ -97,7 +97,7 @@ describe('Crop Circles', function () {
             this.player1.clickPrompt('done');
             expect(this.player1.amber).toBe(5);
             expect(this.player2.amber).toBe(2);
-            expect(this.urchin.tokens.amber).toBe(1);
+            expect(this.urchin.amber).toBe(1);
         });
 
         it('should work when opponent has no amber', function () {
@@ -105,7 +105,7 @@ describe('Crop Circles', function () {
             this.player1.play(this.cropCircles);
             this.player1.clickCard(this.urchin);
             this.player1.clickPrompt('Done');
-            expect(this.urchin.tokens.amber).toBe(undefined);
+            expect(this.urchin.amber).toBe(0);
             expect(this.player1).isReadyToTakeAction();
         });
     });

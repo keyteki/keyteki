@@ -141,7 +141,7 @@ describe('Saurian Egg', function () {
             this.player1.player.deck = [];
             this.player1.moveCard(this.gargantodon, 'deck');
             this.player1.moveCard(this.paraguardian, 'deck');
-            this.saurianEgg.tokens.ward = 1;
+            this.saurianEgg.ward();
             expect(this.saurianEgg.warded).toBe(true);
             this.player1.useOmni(this.saurianEgg);
             this.player1.clickPrompt('Left');

@@ -5,7 +5,7 @@ class UrienTheCircumspectEvilTwin extends Card {
     setupCardAbilities(ability) {
         this.reap({
             gameAction: ability.actions.loseAmber((context) => ({
-                amount: context.source.tokens.armor
+                amount: context.source.armor
             }))
         });
     }

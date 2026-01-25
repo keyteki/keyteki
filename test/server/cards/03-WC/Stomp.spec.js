@@ -35,12 +35,12 @@ describe('Stomp', function () {
             expect(this.player1).toBeAbleToSelect(this.dextre);
             expect(this.player1).not.toBeAbleToSelect(this.troll);
             this.player1.clickCard(this.dextre);
-            expect(this.dextre.tokens.amber).toBe(1);
+            expect(this.dextre.amber).toBe(1);
             expect(this.player1).isReadyToTakeAction();
         });
 
         it('should not prompt to exalt a friendly creature if the creature destroyed is not the target', function () {
-            this.shadowSelf.tokens.damage = 5;
+            this.shadowSelf.damage = 5;
             this.player1.play(this.stomp);
             expect(this.player1).toBeAbleToSelect(this.urchin);
             expect(this.player1).toBeAbleToSelect(this.shadowSelf);

@@ -18,7 +18,7 @@ describe('Aemberfly', function () {
         it('captures on fight', function () {
             this.player1.fightWith(this.æmberfly, this.noddyTheThief);
             expect(this.player2.amber).toBe(0);
-            expect(this.æmberfly.tokens.amber).toBe(1);
+            expect(this.æmberfly.amber).toBe(1);
         });
 
         it('moves captures amber to pool on reap', function () {
@@ -29,7 +29,7 @@ describe('Aemberfly', function () {
             this.player1.clickPrompt('untamed');
             this.player1.reap(this.æmberfly);
             expect(this.player1.amber).toBe(3);
-            expect(this.æmberfly.tokens.amber).toBe(undefined);
+            expect(this.æmberfly.amber).toBe(0);
             expect(this.player2.amber).toBe(0);
         });
     });

@@ -81,7 +81,7 @@ describe('Mars Needs Amber', function () {
             expect(this.player2.amber).toBe(1);
             this.player1.clickCard(this.dextre);
             expect(this.player2.amber).toBe(0);
-            expect(this.dextre.tokens.amber).toBe(1);
+            expect(this.dextre.amber).toBe(1);
         });
     });
 });

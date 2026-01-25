@@ -17,7 +17,7 @@ describe('Synwyx The Bold', function () {
             this.player1.fightWith(this.synwyxTheBold, this.alienHorror);
             this.player1.clickCard(this.cpoZytar);
             expect(this.player2.amber).toBe(1);
-            expect(this.cpoZytar.tokens.amber).toBe(2);
+            expect(this.cpoZytar.amber).toBe(2);
         });
     });
 });

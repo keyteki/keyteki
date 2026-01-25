@@ -16,7 +16,7 @@ describe('Consul Primus', function () {
         });
 
         it('should not prompt for any creature, since no other creature to place amber', function () {
-            this.consulPrimus.tokens.amber = 9;
+            this.consulPrimus.amber = 9;
             this.player1.reap(this.consulPrimus);
             expect(this.player1).isReadyToTakeAction();
         });
@@ -38,8 +38,8 @@ describe("Consul Primus's reap ability", function () {
             }
         });
 
-        this.archimedes.tokens.amber = 9;
-        this.shooler.tokens.amber = 1;
+        this.archimedes.amber = 9;
+        this.shooler.amber = 1;
     });
 
     it('should allow picking from friendly and placing on friendly creature', function () {
@@ -61,8 +61,8 @@ describe("Consul Primus's reap ability", function () {
 
         this.player1.clickCard(this.dextre);
 
-        expect(this.archimedes.tokens.amber).toBe(8);
-        expect(this.dextre.tokens.amber).toBe(1);
+        expect(this.archimedes.amber).toBe(8);
+        expect(this.dextre.amber).toBe(1);
     });
 
     it('should allow picking from friendly and placing on enemy creature', function () {
@@ -84,8 +84,8 @@ describe("Consul Primus's reap ability", function () {
 
         this.player1.clickCard(this.shooler);
 
-        expect(this.archimedes.tokens.amber).toBe(8);
-        expect(this.shooler.tokens.amber).toBe(2);
+        expect(this.archimedes.amber).toBe(8);
+        expect(this.shooler.amber).toBe(2);
     });
 
     it('should allow picking from enemy and placing on friendly creature', function () {
@@ -107,8 +107,8 @@ describe("Consul Primus's reap ability", function () {
 
         this.player1.clickCard(this.archimedes);
 
-        expect(this.archimedes.tokens.amber).toBe(10);
-        expect(this.shooler.hasToken('amber')).toBe(false);
+        expect(this.archimedes.amber).toBe(10);
+        expect(this.shooler.amber).toBe(0);
     });
 
     it('should allow picking from enemy and placing on itself', function () {
@@ -130,8 +130,8 @@ describe("Consul Primus's reap ability", function () {
 
         this.player1.clickCard(this.consulPrimus);
 
-        expect(this.consulPrimus.tokens.amber).toBe(1);
-        expect(this.shooler.hasToken('amber')).toBe(false);
+        expect(this.consulPrimus.amber).toBe(1);
+        expect(this.shooler.amber).toBe(0);
     });
 
     it('should allow picking from enemy and placing on enemy creature', function () {
@@ -153,8 +153,8 @@ describe("Consul Primus's reap ability", function () {
 
         this.player1.clickCard(this.gub);
 
-        expect(this.gub.tokens.amber).toBe(1);
-        expect(this.shooler.hasToken('amber')).toBe(false);
+        expect(this.gub.amber).toBe(1);
+        expect(this.shooler.amber).toBe(0);
     });
 
     it('should allow picking a creature without amber', function () {
@@ -171,6 +171,6 @@ describe("Consul Primus's reap ability", function () {
 
         expect(this.player1).isReadyToTakeAction();
 
-        expect(this.dextre.tokens.amber).toBeUndefined();
+        expect(this.dextre.amber).toBe(0);
     });
 });

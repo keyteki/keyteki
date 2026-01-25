@@ -47,7 +47,7 @@ describe('Chuff Ape', function () {
             });
 
             it('after reap, should be able to choose not to sacrifice', function () {
-                this.chuffApe.tokens.damage = 3;
+                this.chuffApe.damage = 3;
                 this.player1.reap(this.chuffApe);
                 expect(this.chuffApe.damage).toBe(3);
                 this.player1.clickPrompt('Done');
@@ -55,7 +55,7 @@ describe('Chuff Ape', function () {
             });
 
             it('after reap, should be able to sacrifice to heal', function () {
-                this.chuffApe.tokens.damage = 3;
+                this.chuffApe.damage = 3;
                 this.player1.reap(this.chuffApe);
                 expect(this.player1).toBeAbleToSelect(this.lamindra);
                 expect(this.player1).toBeAbleToSelect(this.urchin);

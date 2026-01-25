@@ -19,13 +19,13 @@ describe('Light of the Archons', function () {
             expect(this.techivorePulpate.hasToken('armor')).toBe(false);
             this.player1.playUpgrade(this.lightOfTheArchons, this.techivorePulpate);
             expect(this.techivorePulpate.power).toBe(6);
-            expect(this.techivorePulpate.tokens.armor).toBe(1);
+            expect(this.techivorePulpate.armor).toBe(1);
             this.player1.playUpgrade(this.forceField, this.techivorePulpate);
             expect(this.techivorePulpate.power).toBe(7);
-            expect(this.techivorePulpate.tokens.armor).toBe(2);
+            expect(this.techivorePulpate.armor).toBe(2);
             this.player1.playUpgrade(this.exploRover, this.techivorePulpate);
             expect(this.techivorePulpate.power).toBe(8);
-            expect(this.techivorePulpate.tokens.armor).toBe(3);
+            expect(this.techivorePulpate.armor).toBe(3);
         });
     });
 });

@@ -10,7 +10,7 @@ describe('Bosch the Unyielding', function () {
                     inPlay: ['flaxia', 'troll']
                 }
             });
-            this.alaka.tokens.damage = 1;
+            this.alaka.damage = 1;
         });
 
         it('heals after fighting', function () {
@@ -23,7 +23,7 @@ describe('Bosch the Unyielding', function () {
         });
 
         it('heals all damage after fighting', function () {
-            this.boschTheUnyielding.tokens.damage = 1;
+            this.boschTheUnyielding.damage = 1;
             this.player1.fightWith(this.boschTheUnyielding, this.flaxia);
             expect(this.flaxia.location).toBe('discard');
             expect(this.boschTheUnyielding.damage).toBe(0);

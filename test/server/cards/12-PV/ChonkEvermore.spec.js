@@ -19,7 +19,7 @@ describe('Chonk Evermore', function () {
                     inPlay: ['krump', 'cpo-zytar']
                 }
             });
-            this.cpoZytar.tokens.power = 3;
+            this.cpoZytar.powerCounters = 3;
         });
 
         it('should allow declining to give power counters', function () {

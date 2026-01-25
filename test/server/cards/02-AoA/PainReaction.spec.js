@@ -22,7 +22,7 @@ describe('Pain Reaction', function () {
         });
 
         it('should not deal 2 damage to neighbors if it does destroy the creature', function () {
-            this.urchin.tokens.power = 4;
+            this.urchin.powerCounters = 4;
             this.player1.play(this.painReaction);
             this.player1.clickCard(this.urchin);
             expect(this.urchin.location).toBe('play area');

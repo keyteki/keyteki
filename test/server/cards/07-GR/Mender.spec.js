@@ -15,11 +15,11 @@ describe('Mender', function () {
                 }
             });
             this.kerwollop2 = this.player2.hand[1];
-            this.chronophage.tokens.damage = 2;
-            this.flaxia.tokens.damage = 2;
-            this.batdrone.tokens.damage = 1;
-            this.thingFromTheDeep.tokens.damage = 10;
-            this.awayTeam.tokens.damage = 3;
+            this.chronophage.damage = 2;
+            this.flaxia.damage = 2;
+            this.batdrone.damage = 1;
+            this.thingFromTheDeep.damage = 10;
+            this.awayTeam.damage = 3;
         });
 
         it('purges a card from a discard on play', function () {

@@ -68,8 +68,8 @@ describe('AmberConductionUnit', function () {
             this.player1.play(this.brillixPonder);
             this.player1.play(this.daughter);
             this.player1.play(this.strangeGizmo);
-            this.brillixPonder.tokens.ward = 1;
-            this.daughter.tokens.ward = 1;
+            this.brillixPonder.ward();
+            this.daughter.ward();
             this.player1.endTurn();
             this.player2.clickPrompt('mars');
             this.player2.endTurn();
@@ -82,9 +82,9 @@ describe('AmberConductionUnit', function () {
             this.player1.clickCard(this.daughter);
             this.player1.clickPrompt('logos');
             expect(this.brillixPonder.location).toBe('play area');
-            expect(this.brillixPonder.tokens.stun).toBe(1);
+            expect(this.brillixPonder.stunned).toBe(true);
             expect(this.daughter.location).toBe('play area');
-            expect(this.daughter.tokens.stun).toBe(undefined);
+            expect(this.daughter.stunned).toBe(false);
             expect(this.player1).isReadyToTakeAction();
         });
     });

@@ -46,7 +46,7 @@ describe('Phalanx Strike', function () {
             expect(this.player1).toBeAbleToSelect(this.brainEater);
             expect(this.player1).toHavePromptButton('Done');
             this.player1.clickCard(this.mother);
-            expect(this.mother.tokens.amber).toBe(1);
+            expect(this.mother.amber).toBe(1);
             expect(this.player1).toHavePrompt('Phalanx Strike');
             expect(this.player1).toBeAbleToSelect(this.mother);
             expect(this.player1).toBeAbleToSelect(this.brainEater);

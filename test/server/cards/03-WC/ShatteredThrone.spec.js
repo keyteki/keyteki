@@ -93,7 +93,7 @@ describe('Shattered Throne', function () {
         it('should not capture amber after fight if it does not survive', function () {
             this.player1.play(this.praefectusLudo);
             this.player1.fightWith(this.odoacThePatrician, this.troll);
-            expect(this.odoacThePatrician.hasToken('amber')).toBe(false);
+            expect(this.odoacThePatrician.amber).toBe(0);
             expect(this.player2.amber).toBe(3);
         });
     });

@@ -20,7 +20,7 @@ describe('Mogg', function () {
                 }
             });
 
-            this.pelf.tokens.power = 2;
+            this.pelf.powerCounters = 2;
         });
 
         it('should deal 4 damage to each creature with power 5 or higher when played', function () {

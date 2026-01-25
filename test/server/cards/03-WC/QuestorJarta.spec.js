@@ -30,7 +30,7 @@ describe('Questor Jarta', function () {
             expect(this.player1).toHavePromptButton('Done');
             this.player1.clickPrompt('Done');
 
-            expect(this.questorJarta.hasToken('amber')).toBe(false);
+            expect(this.questorJarta.amber).toBe(0);
             expect(this.player1.amber).toBe(1);
         });
     });

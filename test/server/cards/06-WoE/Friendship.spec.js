@@ -19,7 +19,7 @@ describe('Friendship', function () {
             this.friendship1 = this.player1.hand[0];
             this.friendship2 = this.player1.hand[2];
             this.player1.playUpgrade(this.friendship1, this.reveredMonk);
-            this.chancellorDexterus.tokens.ward = 1;
+            this.chancellorDexterus.ward();
         });
 
         describe('two damage is distributed among two creatures', function () {
@@ -152,7 +152,7 @@ describe('Friendship', function () {
         });
 
         it('splash should be dealt simultaneously with even distribution', function () {
-            this.croggTheClumsy.tokens.power = 1;
+            this.croggTheClumsy.powerCounters = 1;
             this.player2.fightWith(this.croggTheClumsy, this.drEscotera);
             expect(this.motherNorthelle.location).toBe('play area');
             expect(this.daughter.location).toBe('discard');
@@ -182,9 +182,9 @@ describe('Friendship', function () {
 
         describe('when neighbors are warded', function () {
             it('splash should be dealt simultaneously with even distribution', function () {
-                this.croggTheClumsy.tokens.power = 1;
-                this.batdrone.tokens.ward = 1;
-                this.daughter.tokens.ward = 1;
+                this.croggTheClumsy.powerCounters = 1;
+                this.batdrone.ward();
+                this.daughter.ward();
                 this.player2.fightWith(this.croggTheClumsy, this.drEscotera);
                 expect(this.motherNorthelle.location).toBe('play area');
                 expect(this.daughter.location).toBe('discard');
@@ -197,8 +197,8 @@ describe('Friendship', function () {
             });
 
             it('splash should be dealt simultaneously with odd distribution', function () {
-                this.batdrone.tokens.ward = 1;
-                this.daughter.tokens.ward = 1;
+                this.batdrone.ward();
+                this.daughter.ward();
                 this.player2.fightWith(this.croggTheClumsy, this.drEscotera);
                 expect(this.player2).toHavePrompt('Select a neighbor to receive extra damage');
                 expect(this.player2).toBeAbleToSelect(this.batdrone);

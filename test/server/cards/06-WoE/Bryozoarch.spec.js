@@ -74,7 +74,7 @@ describe('Bryozoarch', function () {
 
         it('should resolve bonus icons before replacing the event', function () {
             this.labwork.enhancements = ['damage'];
-            this.bryozoarch.tokens.damage = 5;
+            this.bryozoarch.damage = 5;
             this.player1.play(this.labwork);
             this.player1.clickCard(this.bryozoarch);
             this.player1.clickCard(this.tribute);

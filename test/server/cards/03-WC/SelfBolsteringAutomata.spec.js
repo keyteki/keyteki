@@ -49,7 +49,7 @@ describe('Self-Bolstering Automata', function () {
 
         describe('when destroyed with damage', function () {
             beforeEach(function () {
-                this.pipPip.tokens.ward = 1;
+                this.pipPip.ward();
                 this.player1.play(this.positronBolt);
                 this.player1.clickCard(this.selfBolsteringAutomata);
                 this.player1.clickCard(this.pipPip);
@@ -80,7 +80,7 @@ describe('Self-Bolstering Automata', function () {
                 expect(this.selfBolsteringAutomata.location).toBe('play area');
                 expect(this.selfBolsteringAutomata.exhausted).toBe(true);
                 expect(this.player1.player.cardsInPlay[1]).toBe(this.selfBolsteringAutomata);
-                expect(this.selfBolsteringAutomata.hasToken('power')).toBe(false);
+                expect(this.selfBolsteringAutomata.powerCounters).toBe(0);
             });
         });
     });

@@ -31,7 +31,7 @@ describe('Unleash the Beast', function () {
         });
 
         it('should work with creatures that have power counters', function () {
-            this.krump.tokens.power = 2;
+            this.krump.powerCounters = 2;
             this.player1.play(this.unleashTheBeast);
             this.player1.clickCard(this.krump);
             this.player1.clickCard(this.troll);

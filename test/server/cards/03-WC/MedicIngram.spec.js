@@ -67,7 +67,7 @@ describe('Medic Ingram', function () {
             expect(this.medicIngram.warded).toBe(true);
             expect(this.krump.warded).toBe(false);
 
-            expect(this.troll.hasToken('damage')).toBe(false);
+            expect(this.troll.damage).toBe(0);
             expect(this.valdr.damage).toBe(3);
             expect(this.krump.damage).toBe(5);
         });
@@ -95,7 +95,7 @@ describe('Medic Ingram', function () {
             expect(this.krump.warded).toBe(false);
 
             expect(this.troll.damage).toBe(1);
-            expect(this.valdr.hasToken('damage')).toBe(false);
+            expect(this.valdr.damage).toBe(0);
             expect(this.krump.damage).toBe(5);
         });
 

@@ -16,7 +16,7 @@ describe('Narl Gibbus', function () {
 
         it('self-enrages on play', function () {
             this.player1.playCreature(this.narlGibbus);
-            expect(this.narlGibbus.tokens.enrage).toBe(1);
+            expect(this.narlGibbus.enraged).toBe(true);
         });
 
         it('gets keywords while enraged', function () {
@@ -27,9 +27,9 @@ describe('Narl Gibbus', function () {
             this.player1.clickPrompt('untamed');
             this.player1.fightWith(this.narlGibbus, this.flaxia);
             expect(this.narlGibbus.damage).toBe(0);
+            expect(this.narlGibbus.enraged).toBe(false);
             expect(this.flaxia.damage).toBe(3);
             expect(this.troll.damage).toBe(3);
-            expect(this.narlGibbus.tokens.enrage).toBe(undefined);
         });
 
         it('loses keywords while not enraged', function () {
@@ -61,7 +61,7 @@ describe('Narl Gibbus', function () {
             this.player2.endTurn();
             this.player1.clickPrompt('untamed');
             this.player1.reap(this.narlGibbus);
-            expect(this.narlGibbus.tokens.enrage).toBe(1);
+            expect(this.narlGibbus.enraged).toBe(true);
         });
 
         it('does not give keywords to other creatures', function () {

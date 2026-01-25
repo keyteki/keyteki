@@ -25,9 +25,9 @@ describe('Imperial Forge', function () {
         });
 
         it('should forge a key at 4 cost, +8 reduced by 10 (ambers on friendly creatures)', function () {
-            this.lamindra.tokens.amber = 6;
-            this.redlock.tokens.amber = 4;
-            this.troll.tokens.amber = 3;
+            this.lamindra.amber = 6;
+            this.redlock.amber = 4;
+            this.troll.amber = 3;
 
             this.player1.play(this.imperialForge);
             this.player1.forgeKey('Red');
@@ -38,9 +38,9 @@ describe('Imperial Forge', function () {
         });
 
         it('should forge a key at 0 cost, +8 reduced by 20 (ambers on friendly creatures)', function () {
-            this.lamindra.tokens.amber = 7;
-            this.redlock.tokens.amber = 13;
-            this.troll.tokens.amber = 3;
+            this.lamindra.amber = 7;
+            this.redlock.amber = 13;
+            this.troll.amber = 3;
 
             this.player1.play(this.imperialForge);
             this.player1.forgeKey('Red');

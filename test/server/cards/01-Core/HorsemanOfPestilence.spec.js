@@ -35,8 +35,8 @@ describe('Horseman of Pestilence', function () {
             expect(this.emberImp.damage).toBe(1);
             expect(this.batdrone.damage).toBe(1);
             expect(this.pitDemon.damage).toBe(1);
-            expect(this.horsemanOfPestilence1.hasToken('damage')).toBe(false);
-            expect(this.horsemanOfPestilence2.hasToken('damage')).toBe(false);
+            expect(this.horsemanOfPestilence1.damage).toBe(0);
+            expect(this.horsemanOfPestilence2.damage).toBe(0);
         });
 
         it('should deal 1 damage to all non-horseman creatures when reaping', function () {
@@ -45,7 +45,7 @@ describe('Horseman of Pestilence', function () {
             expect(this.emberImp.damage).toBe(1);
             expect(this.batdrone.damage).toBe(1);
             expect(this.pitDemon.damage).toBe(1);
-            expect(this.horsemanOfPestilence2.hasToken('damage')).toBe(false);
+            expect(this.horsemanOfPestilence2.damage).toBe(0);
         });
     });
 });

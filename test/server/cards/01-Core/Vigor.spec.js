@@ -26,7 +26,7 @@ describe('Vigor', function () {
             this.player1.play(this.vigor);
             this.player1.clickCard(this.mightyTiger);
             this.player1.clickPrompt('1');
-            expect(this.mightyTiger.hasToken('damage')).toBe(false);
+            expect(this.mightyTiger.damage).toBe(0);
             expect(this.player1.amber).toBe(1);
             expect(this.player1).isReadyToTakeAction();
         });
@@ -37,7 +37,7 @@ describe('Vigor', function () {
             this.player1.play(this.vigor);
             this.player1.clickCard(this.mightyTiger);
             this.player1.clickPrompt('3');
-            expect(this.mightyTiger.hasToken('damage')).toBe(false);
+            expect(this.mightyTiger.damage).toBe(0);
             expect(this.player1.amber).toBe(2);
             expect(this.player1).isReadyToTakeAction();
         });

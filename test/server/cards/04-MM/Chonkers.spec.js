@@ -35,13 +35,13 @@ describe('Chonkers', function () {
         });
 
         it('should double chonkers power counters when attacking', function () {
-            this.chonkers.tokens.power = 3;
+            this.chonkers.powerCounters = 3;
             this.player1.fightWith(this.chonkers, this.grovekeeper);
             expect(this.chonkers.powerCounters).toBe(6);
         });
 
         it('should double chonkers power counters when defending', function () {
-            this.chonkers.tokens.power = 3;
+            this.chonkers.powerCounters = 3;
             this.player1.endTurn();
             this.player2.clickPrompt('untamed');
             this.player2.fightWith(this.grovekeeper, this.chonkers);

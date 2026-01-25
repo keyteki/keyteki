@@ -20,15 +20,15 @@ describe('Irestaff', function () {
             expect(this.player1).toBeAbleToSelect(this.umbra);
             this.player1.clickCard(this.troll);
             expect(this.troll.power).toBe(9);
+            expect(this.troll.enraged).toBe(true);
             expect(this.troll.powerCounters).toBe(1);
-            expect(this.troll.tokens.enrage).toBe(1);
             this.player1.clickCard(this.troll);
             expect(this.player1).not.toHavePromptButton('Reap with this creature');
 
             // enrage goes away after a fight
             this.player1.clickPrompt('Fight with this creature');
             this.player1.clickCard(this.umbra);
-            expect(this.troll.hasToken('enrage')).toBe(false);
+            expect(this.troll.enraged).toBe(false);
             this.player1.endTurn();
             this.player2.clickPrompt('shadows');
             this.player2.endTurn();

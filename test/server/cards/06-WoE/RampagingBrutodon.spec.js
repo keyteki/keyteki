@@ -48,7 +48,7 @@ describe('Rampaging Brutodon', function () {
         });
 
         it('should pop wards but not allow use of Brutodon', function () {
-            this.pelf.tokens.ward = 1;
+            this.pelf.ward();
             this.player1.clickCard(this.rampagingBrutodon);
             this.player1.clickPrompt('Reap with this creature');
             expect(this.player1).toBeAbleToSelect(this.pelf);

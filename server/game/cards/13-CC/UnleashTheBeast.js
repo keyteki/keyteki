@@ -18,10 +18,7 @@ class UnleashTheBeast extends Card {
                     }))
                 },
                 message: '{0} uses {1} to deal {3} damage to {4}',
-                messageArgs: (context) => [
-                    context.preThenEvents[0].clone.getPower(),
-                    context.target
-                ]
+                messageArgs: (context) => [context.preThenEvents[0].clone.power, context.target]
             }
         });
     }

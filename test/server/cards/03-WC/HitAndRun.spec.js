@@ -90,7 +90,7 @@ describe('Hit and Run', function () {
             expect(this.troll.damage).toBe(2);
         });
         it('Hit an enemy creature warded and return a friendly creature to hand', function () {
-            this.troll.tokens.ward = 1;
+            this.troll.ward();
             expect(this.troll.warded).toBe(true);
             this.player1.play(this.hitAndRun);
 
@@ -113,8 +113,8 @@ describe('Hit and Run', function () {
             expect(this.flaxia.location).toBe('play area');
             expect(this.lamindra.location).toBe('play area');
             expect(this.troll.location).toBe('play area');
-            expect(this.troll.hasToken('damage')).toBe(false);
-            expect(this.troll.hasToken('ward')).toBe(false);
+            expect(this.troll.damage).toBe(0);
+            expect(this.troll.warded).toBe(false);
         });
     });
 });

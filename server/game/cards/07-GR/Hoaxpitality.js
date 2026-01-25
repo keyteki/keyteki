@@ -21,7 +21,7 @@ class Hoaxpitality extends Card {
                     controller: 'opponent',
                     gameAction: ability.actions.cardLastingEffect((context) => ({
                         target: context.targets.friendly,
-                        effect: [ability.effects.setPower(context.targets.enemy.getPower())]
+                        effect: [ability.effects.setPower(context.targets.enemy.power)]
                     }))
                 }
             },
