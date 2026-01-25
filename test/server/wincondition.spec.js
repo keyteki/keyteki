@@ -16,17 +16,17 @@ describe('Win Condition', function () {
         it('should be 3 keys', function () {
             this.player2.amber = 6;
             this.player1.endTurn();
-            this.player2.clickPrompt('Red');
+            this.player2.forgeKey('Red');
             this.player2.clickPrompt('shadows');
 
             this.player1.amber = 6;
             this.player2.endTurn();
-            this.player1.clickPrompt('Red');
+            this.player1.forgeKey('Red');
             this.player1.clickPrompt('untamed');
 
             this.player2.amber = 6;
             this.player1.endTurn();
-            this.player2.clickPrompt('Blue');
+            this.player2.forgeKey('Blue');
             this.player2.clickPrompt('shadows');
 
             this.player2.endTurn();
@@ -45,7 +45,7 @@ describe('Win Condition', function () {
 
             this.player1.amber = 6;
             this.player2.endTurn();
-            this.player1.clickPrompt('Red');
+            this.player1.forgeKey('Red');
             this.player1.clickPrompt('untamed');
 
             this.player1.endTurn();
@@ -55,7 +55,7 @@ describe('Win Condition', function () {
 
             this.player1.amber = 6;
             this.player2.endTurn();
-            this.player1.clickPrompt('Blue');
+            this.player1.forgeKey('Blue');
             this.player1.clickPrompt('untamed');
 
             this.player1.endTurn();
@@ -277,7 +277,7 @@ describe('Win Condition', function () {
                     this.player2.clickPrompt('shadows');
                     this.player2.amber = 1;
                     this.player2.endTurn();
-                    this.player1.clickPrompt('Red');
+                    this.player1.forgeKey('Red');
                 });
 
                 it('P1 should win by keys', function () {
@@ -318,7 +318,7 @@ describe('Win Condition', function () {
                     this.player2.clickPrompt('shadows');
                     this.player2.amber = 8;
                     this.player2.endTurn();
-                    this.player1.clickPrompt('Red');
+                    this.player1.forgeKey('Red');
                 });
 
                 it('P1 should win by amber (both forge, P1 has more remaining)', function () {
@@ -338,7 +338,7 @@ describe('Win Condition', function () {
                     this.player2.clickPrompt('shadows');
                     this.player2.amber = 7;
                     this.player2.endTurn();
-                    this.player1.clickPrompt('Red');
+                    this.player1.forgeKey('Red');
                 });
 
                 it('P1 should win by amber (both forge, P1 has more remaining)', function () {
@@ -358,7 +358,7 @@ describe('Win Condition', function () {
                     this.player2.clickPrompt('shadows');
                     this.player2.amber = 8;
                     this.player2.endTurn();
-                    this.player1.clickPrompt('Red');
+                    this.player1.forgeKey('Red');
                 });
 
                 it('P2 should win by amber (both forge, P2 has more remaining)', function () {
@@ -376,7 +376,7 @@ describe('Win Condition', function () {
                     this.player1.amber = 8;
                     this.player1.play(this.keyCharge);
                     this.player1.clickPrompt('Yes');
-                    this.player1.clickPrompt('Red');
+                    this.player1.forgeKey('Red');
                     this.player1.endTurn();
                     this.player2.clickPrompt('shadows');
                     this.player2.amber = 4;
@@ -395,7 +395,7 @@ describe('Win Condition', function () {
                     this.player1.amber = 8;
                     this.player1.play(this.keyCharge);
                     this.player1.clickPrompt('Yes');
-                    this.player1.clickPrompt('Red');
+                    this.player1.forgeKey('Red');
                     this.player1.endTurn();
                     this.player2.clickPrompt('shadows');
                     this.player2.amber = 12;
@@ -417,9 +417,9 @@ describe('Win Condition', function () {
                     this.player2.amber = 11;
                     this.player2.play(this.dataForge);
                     this.player2.clickPrompt('Yes');
-                    this.player2.clickPrompt('Red');
+                    this.player2.forgeKey('Red');
                     this.player2.endTurn();
-                    this.player1.clickPrompt('Yellow');
+                    this.player1.forgeKey('Yellow');
                 });
 
                 it('P1 should win by amber (both have 1 key, P1 has more amber)', function () {

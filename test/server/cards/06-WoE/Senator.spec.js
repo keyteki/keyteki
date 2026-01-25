@@ -23,7 +23,7 @@ describe('Senator', function () {
             it('opponent should forge a key paying 7A', function () {
                 this.player2.amber = 7;
                 this.player1.endTurn();
-                this.player2.clickPrompt('red');
+                this.player2.forgeKey('Red');
                 expect(this.player2.amber).toBe(0);
             });
 
@@ -38,7 +38,7 @@ describe('Senator', function () {
                 it('should forge a key paying 7A', function () {
                     this.player2.amber = 6;
                     this.player1.endTurn();
-                    this.player2.clickPrompt('red');
+                    this.player2.forgeKey('Red');
                     expect(this.player2.amber).toBe(0);
                 });
             });

@@ -57,7 +57,7 @@ describe('Keyforgery', function () {
         it('should not prompt when forging due to keyfrog', function () {
             this.player2.amber = 6;
             this.player1.fightWith(this.gamgee, this.keyfrog);
-            this.player1.clickPrompt('red');
+            this.player1.forgeKey('Red');
             expect(this.player2.player.getForgedKeys()).toBe(1);
             expect(this.keyforgery.location).toBe('play area');
             expect(this.player1).isReadyToTakeAction();

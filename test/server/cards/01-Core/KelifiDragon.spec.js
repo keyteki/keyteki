@@ -35,7 +35,7 @@ describe('Kelifi Dragon', function () {
             this.player1.endTurn();
             this.player2.clickPrompt('brobnar');
             this.player2.endTurn();
-            this.player1.clickPrompt('Red');
+            this.player1.forgeKey('Red');
             this.player1.clickPrompt('brobnar');
             this.player1.reap(this.kelifiDragon);
             expect(this.player1).toHavePrompt('Kelifi Dragon');
@@ -53,7 +53,7 @@ describe('Kelifi Dragon', function () {
             this.player1.endTurn();
             this.player2.clickPrompt('brobnar');
             this.player2.endTurn();
-            this.player1.clickPrompt('Red');
+            this.player1.forgeKey('Red');
             this.player1.clickPrompt('brobnar');
             this.player1.fightWith(this.kelifiDragon, this.krump);
             expect(this.player1).toHavePrompt('Kelifi Dragon');
