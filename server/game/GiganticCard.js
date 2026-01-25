@@ -55,7 +55,7 @@ class GiganticCard extends Card {
             location: 'any',
             effect: ability.effects.cardCannot('play', (context) => {
                 // Block the card from being played from hand if the other half is not present
-                // If the card is being played from somewhere other than hand - eg the discard pile with exhume - it should be selectable, and after selection the play will fizzle if there is not enough allowance to play both halves
+                // If the card is being played from somewhere other than hand - eg the discard pile with exhume - it should be selectable, and after selection the play will fizzle if there is not enough allowances to play both halves
                 if (context.source.location !== 'hand') {
                     return false;
                 }
