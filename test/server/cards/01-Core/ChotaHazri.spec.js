@@ -31,7 +31,7 @@ describe('Chota Hazri', function () {
             this.player1.play(this.chotaHazri);
             expect(this.player1).toHavePrompt('Do you wish to forge a key?');
             this.player1.clickPrompt('Yes');
-            this.player1.clickPrompt('Red');
+            this.player1.forgeKey('Red');
             expect(this.player1.amber).toBe(0);
             expect(this.player1.player.keys.red).toBe(true);
             expect(this.player1.player.keys.blue).toBe(false);

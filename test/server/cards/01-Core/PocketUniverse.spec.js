@@ -19,7 +19,7 @@ describe('Pocket Universe', function () {
             this.player1.endTurn();
             this.player2.clickPrompt('untamed');
             this.player2.endTurn();
-            this.player1.clickPrompt('Red');
+            this.player1.forgeKey('Red');
             this.player1.clickPrompt('Logos');
             expect(this.player1.player.keys.red).toBe(true);
             expect(this.player1.amber).toBe(0);
@@ -34,7 +34,7 @@ describe('Pocket Universe', function () {
             this.player2.clickPrompt('untamed');
             this.player2.endTurn();
             this.player1.clickPrompt('1');
-            this.player1.clickPrompt('Red');
+            this.player1.forgeKey('Red');
             this.player1.clickPrompt('Logos');
             expect(this.player1.player.keys.red).toBe(true);
             expect(this.player1.amber).toBe(1);
