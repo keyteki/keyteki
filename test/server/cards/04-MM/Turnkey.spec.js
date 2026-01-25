@@ -41,7 +41,7 @@ describe('Turnkey', function () {
             expect(this.player1).toHavePromptButton('Red');
             expect(this.player1).toHavePromptButton('Blue');
             expect(this.player1).not.toHavePromptButton('Yellow');
-            this.player1.forgeKey('Blue');
+            this.player1.unforgeKey('Blue');
 
             expect(this.player2.player.keys.red).toBe(true);
             expect(this.player2.player.keys.blue).toBe(false);
@@ -54,7 +54,7 @@ describe('Turnkey', function () {
             this.player2.player.keys = { red: true, blue: true, yellow: false };
 
             this.player1.play(this.turnkey);
-            this.player1.forgeKey('Blue');
+            this.player1.unforgeKey('Blue');
             this.player1.play(this.gongoozle);
             this.player1.clickCard(this.turnkey);
 
@@ -76,7 +76,7 @@ describe('Turnkey', function () {
             this.player2.player.keys = { red: true, blue: true, yellow: false };
 
             this.player1.play(this.turnkey);
-            this.player1.forgeKey('Blue');
+            this.player1.unforgeKey('Blue');
             this.player1.endTurn();
 
             this.player2.clickPrompt('brobnar');
@@ -100,7 +100,7 @@ describe('Turnkey', function () {
             this.player2.player.keys = { red: true, blue: true, yellow: false };
 
             this.player1.play(this.turnkey);
-            this.player1.forgeKey('Blue');
+            this.player1.unforgeKey('Blue');
             this.player1.play(this.theEvilEye);
             this.player1.endTurn();
 
@@ -139,7 +139,7 @@ describe('Turnkey', function () {
         it('should still work if flipped into a token creature', function () {
             this.player2.player.keys = { red: true, blue: true, yellow: false };
             this.player1.play(this.turnkey);
-            this.player1.forgeKey('Blue');
+            this.player1.unforgeKey('Blue');
             expect(this.player2.player.getForgedKeys()).toBe(1);
             this.turnkey.ready();
 
@@ -180,7 +180,7 @@ describe('Turnkey', function () {
         it('should still work if flipped and discarded', function () {
             this.player2.player.keys = { red: true, blue: true, yellow: false };
             this.player1.play(this.turnkey);
-            this.player1.forgeKey('Blue');
+            this.player1.unforgeKey('Blue');
             expect(this.player2.player.getForgedKeys()).toBe(1);
             this.turnkey.ready();
 
