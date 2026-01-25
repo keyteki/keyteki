@@ -63,7 +63,7 @@ describe('Bear Flute', function () {
             expect(this.player1).toHavePrompt('Bear Flute');
             expect(this.player1).toBeAbleToSelect(this.ancientBear1);
             this.player1.clickCard(this.ancientBear1);
-            expect(this.ancientBear1.hasToken('damage')).toBe(false);
+            expect(this.ancientBear1.damage).toBe(0);
             expect(this.player1.discard.length).toBe(5);
             this.player1.endTurn();
         });

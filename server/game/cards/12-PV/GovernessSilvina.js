@@ -36,7 +36,7 @@ class GovernessSilvina extends Card {
                 cardType: 'creature',
                 mode: 'exactly',
                 numCards: 2,
-                cardCondition: (card) => !card.tokens.amber,
+                cardCondition: (card) => !card.amber,
                 gameAction: ability.actions.stun()
             }
         });

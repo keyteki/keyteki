@@ -40,7 +40,7 @@ describe('Stomp', function () {
         });
 
         it('should not prompt to exalt a friendly creature if the creature destroyed is not the target', function () {
-            this.shadowSelf.tokens.damage = 5;
+            this.shadowSelf.damage = 5;
             this.player1.play(this.stomp);
             expect(this.player1).toBeAbleToSelect(this.urchin);
             expect(this.player1).toBeAbleToSelect(this.shadowSelf);

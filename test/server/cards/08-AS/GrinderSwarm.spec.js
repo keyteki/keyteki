@@ -16,9 +16,9 @@ describe('Grinder Swarm', function () {
         });
 
         it('should get +1 power for each creature in play', function () {
-            expect(this.grinderSwarm.getPower()).toBe(7);
+            expect(this.grinderSwarm.power).toBe(7);
             this.player1.playCreature(this.pelf);
-            expect(this.grinderSwarm.getPower()).toBe(8);
+            expect(this.grinderSwarm.power).toBe(8);
             expect(this.player1).isReadyToTakeAction();
         });
 

@@ -35,7 +35,7 @@ describe('Anger', function () {
             this.player1.clickCard(this.huntingWitch);
             expect(this.ancientBear.exhausted).toBe(true);
             expect(this.ancientBear.location).toBe('play area');
-            expect(this.ancientBear.hasToken('damage')).toBe(false);
+            expect(this.ancientBear.damage).toBe(0);
             expect(this.huntingWitch.location).toBe('discard');
         });
 

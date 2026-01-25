@@ -18,14 +18,14 @@ describe('Rorqual', function () {
         it('should exalt on reap and get +1 power for each amber on it', function () {
             this.player1.reap(this.rorqual);
             expect(this.rorqual.amber).toBe(4);
-            expect(this.rorqual.getPower()).toBe(9);
+            expect(this.rorqual.power).toBe(9);
             expect(this.player1).isReadyToTakeAction();
         });
 
         it('should exalt on fight', function () {
             this.player1.fightWith(this.rorqual, this.lamindra);
             expect(this.rorqual.amber).toBe(4);
-            expect(this.rorqual.getPower()).toBe(9);
+            expect(this.rorqual.power).toBe(9);
             expect(this.player1).isReadyToTakeAction();
         });
 

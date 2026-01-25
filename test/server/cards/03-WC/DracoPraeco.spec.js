@@ -18,7 +18,7 @@ describe('Draco Praeco', function () {
             expect(this.player1).toHavePrompt('Any reactions?');
             expect(this.player1).toHavePromptButton('Done');
             this.player1.clickPrompt('Done');
-            expect(this.dracoPraeco.hasToken('amber')).toBe(false);
+            expect(this.dracoPraeco.amber).toBe(0);
         });
 
         it('should be able to choose to ward and select a house', function () {
@@ -30,11 +30,11 @@ describe('Draco Praeco', function () {
             expect(this.player1).toHavePrompt('Choose a house');
             this.player1.clickPrompt('shadows');
 
-            expect(this.dracoPraeco.hasToken('enrage')).toBe(false);
-            expect(this.lamindra.hasToken('enrage')).toBe(true);
-            expect(this.troll.hasToken('enrage')).toBe(false);
-            expect(this.redlock.hasToken('enrage')).toBe(true);
-            expect(this.krump.hasToken('enrage')).toBe(false);
+            expect(this.dracoPraeco.enraged).toBe(false);
+            expect(this.lamindra.enraged).toBe(true);
+            expect(this.troll.enraged).toBe(false);
+            expect(this.redlock.enraged).toBe(true);
+            expect(this.krump.enraged).toBe(false);
         });
     });
 });

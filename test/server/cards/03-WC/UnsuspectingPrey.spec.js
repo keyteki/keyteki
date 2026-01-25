@@ -39,9 +39,9 @@ describe('Unsuspecting Prey', function () {
             expect(this.player1).isReadyToTakeAction();
         });
         it('should only allow player to choose undamaged creatures', function () {
-            this.dustImp.tokens.damage = 1;
-            this.snudge.tokens.damage = 1;
-            this.snufflegator.tokens.damage = 1;
+            this.dustImp.damage = 1;
+            this.snudge.damage = 1;
+            this.snufflegator.damage = 1;
             this.player1.play(this.unsuspectingPrey);
             expect(this.player1).toHavePrompt('Unsuspecting Prey');
             expect(this.player1).not.toBeAbleToSelect(this.dustImp);

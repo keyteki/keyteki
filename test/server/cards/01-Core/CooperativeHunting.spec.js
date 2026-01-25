@@ -23,13 +23,13 @@ describe('Cooperative Hunting', function () {
             expect(this.player1).toBeAbleToSelect(this.sequis);
             expect(this.player1).toBeAbleToSelect(this.bumpsy);
             this.player1.clickCard(this.inkaTheSpider);
-            expect(this.inkaTheSpider.hasToken('damage')).toBe(false);
+            expect(this.inkaTheSpider.damage).toBe(0);
             expect(this.inkaTheSpider.location).toBe('play area');
             this.player1.clickCard(this.inkaTheSpider);
-            expect(this.inkaTheSpider.hasToken('damage')).toBe(false);
+            expect(this.inkaTheSpider.damage).toBe(0);
             expect(this.inkaTheSpider.location).toBe('play area');
             this.player1.clickCard(this.troll);
-            expect(this.troll.hasToken('damage')).toBe(false);
+            expect(this.troll.damage).toBe(0);
             expect(this.troll.location).toBe('play area');
             this.player1.clickCard(this.mightyTiger);
             expect(this.mightyTiger.damage).toBe(1);

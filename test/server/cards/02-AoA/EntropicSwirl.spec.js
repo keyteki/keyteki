@@ -14,7 +14,7 @@ describe('Entropic Swirl', function () {
                 }
             });
 
-            this.sciOfficerQincan.tokens.power = 10;
+            this.sciOfficerQincan.powerCounters = 10;
         });
 
         it('should be able to target any creature', function () {

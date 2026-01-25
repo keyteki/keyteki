@@ -32,7 +32,7 @@ describe('Yxilo Bolter', function () {
         });
 
         it('should not purge creatures who are destroyed, but were not the target', function () {
-            this.shadowSelf.tokens.damage = 7;
+            this.shadowSelf.damage = 7;
             this.player1.reap(this.yxiloBolter);
             this.player1.clickCard(this.lamindra);
             expect(this.lamindra.damage).toBe(0);

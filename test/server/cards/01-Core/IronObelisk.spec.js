@@ -33,8 +33,8 @@ describe('Iron Obelisk', function () {
             this.player1.play(this.anger);
             this.player1.clickCard(this.sequis);
             this.player1.clickCard(this.gangerChieftain);
-            expect(this.sequis.hasToken('damage')).toBe(true);
-            expect(this.gangerChieftain.hasToken('damage')).toBe(true);
+            expect(this.sequis.damage).toBe(3);
+            expect(this.gangerChieftain.damage).toBe(4);
             this.player1.endTurn();
             this.player2.forgeKey('Red');
             expect(this.player2.player.keys.red).toBe(true);
@@ -45,7 +45,7 @@ describe('Iron Obelisk', function () {
 
         it('should reduce key cost by one if there is a single damaged friendly brobnar creature', function () {
             this.player1.fightWith(this.valdr, this.dextre);
-            expect(this.valdr.hasToken('damage')).toBe(true);
+            expect(this.valdr.damage).toBe(3);
             this.player1.endTurn();
             this.player2.forgeKey('Red');
             expect(this.player2.player.keys.red).toBe(true);
@@ -56,14 +56,14 @@ describe('Iron Obelisk', function () {
 
         it('should prevent forging a key if the cost is high enough', function () {
             this.player1.play(this.hebeTheHuge);
-            expect(this.troll.hasToken('damage')).toBe(true);
-            expect(this.valdr.hasToken('damage')).toBe(true);
-            expect(this.bumpsy.hasToken('damage')).toBe(true);
-            expect(this.hebeTheHuge.hasToken('damage')).toBe(false);
+            expect(this.troll.damage).toBe(2);
+            expect(this.valdr.damage).toBe(2);
+            expect(this.bumpsy.damage).toBe(2);
+            expect(this.hebeTheHuge.damage).toBe(0);
             this.player1.play(this.anger);
             this.player1.clickCard(this.hebeTheHuge);
             this.player1.clickCard(this.docBookton);
-            expect(this.hebeTheHuge.hasToken('damage')).toBe(true);
+            expect(this.hebeTheHuge.damage).toBe(5);
             this.player1.endTurn();
             expect(this.player2.player.keys.red).toBe(false);
             expect(this.player2.player.keys.blue).toBe(false);

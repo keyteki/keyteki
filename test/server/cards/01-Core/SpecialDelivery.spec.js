@@ -45,7 +45,7 @@ describe('Special Delivery', function () {
         });
 
         it('should not purge creatures who are destroyed, but were not the target', function () {
-            this.shadowSelf.tokens.damage = 7;
+            this.shadowSelf.damage = 7;
             this.player1.useOmni(this.specialDelivery);
             this.player1.clickCard(this.nexus);
             expect(this.nexus.damage).toBe(0);

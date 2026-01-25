@@ -11,7 +11,7 @@ describe('Hebe the Huge', function () {
                     inPlay: ['bumpsy', 'ember-imp']
                 }
             });
-            this.troll.tokens.damage = 1;
+            this.troll.damage = 1;
         });
 
         it('should deal 2 damage to each other undamaged creature', function () {

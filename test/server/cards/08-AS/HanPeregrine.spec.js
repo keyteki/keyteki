@@ -11,8 +11,8 @@ describe('Han Peregrine', function () {
                 }
             });
 
-            this.troll.tokens.damage = 3;
-            this.charette.tokens.damage = 1;
+            this.troll.damage = 3;
+            this.charette.damage = 1;
         });
 
         it('should be optional', function () {

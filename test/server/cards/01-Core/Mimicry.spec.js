@@ -167,9 +167,9 @@ describe('Mimicry', function () {
                     discard: ['mars-needs-æmber']
                 }
             });
-            this.troll.tokens.damage = 1;
-            this.alaka.tokens.damage = 2;
-            this.zorg.tokens.damage = 1;
+            this.troll.damage = 1;
+            this.alaka.damage = 2;
+            this.zorg.damage = 1;
         });
 
         it('should make enemy capture amber', function () {

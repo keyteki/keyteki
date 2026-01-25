@@ -13,7 +13,7 @@ describe('Badgemagus', function () {
                 }
             });
 
-            this.gub.tokens.damage = 3;
+            this.gub.damage = 3;
             this.player1.reap(this.championAnaphiel);
         });
 

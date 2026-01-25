@@ -22,7 +22,7 @@ describe('Festering Touch', function () {
         });
 
         it('deal 3 damage to a creature that is damaged', function () {
-            this.troll.tokens.damage = 1;
+            this.troll.damage = 1;
             this.player1.play(this.festeringTouch);
             this.player1.clickCard(this.troll);
             this.player1.clickPrompt('Done');

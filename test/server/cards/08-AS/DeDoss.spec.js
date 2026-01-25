@@ -47,7 +47,7 @@ describe('De-Doss', function () {
         });
 
         it('should consider only the power of the parent creature, not the creature putting the other creature into play', function () {
-            this.drXyloxxzlphrex.tokens.power = 2;
+            this.drXyloxxzlphrex.powerCounters = 2;
             this.player1.playUpgrade(this.deDoss, this.hexpion);
             this.player1.endTurn();
             this.player2.clickPrompt('mars');

@@ -19,7 +19,7 @@ describe('Ambertracker', function () {
         it('should deal 2 damage to each enemy unit with amber on it', function () {
             this.player1.play(this.æmbertracker);
             expect(this.dextre.damage).toBe(2);
-            expect(this.mother.hasToken('damage')).toBe(false);
+            expect(this.mother.damage).toBe(0);
             expect(this.sequis.damage).toBe(2);
         });
     });

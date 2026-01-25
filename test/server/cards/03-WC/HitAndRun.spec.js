@@ -113,8 +113,8 @@ describe('Hit and Run', function () {
             expect(this.flaxia.location).toBe('play area');
             expect(this.lamindra.location).toBe('play area');
             expect(this.troll.location).toBe('play area');
-            expect(this.troll.hasToken('damage')).toBe(false);
-            expect(this.troll.hasToken('ward')).toBe(false);
+            expect(this.troll.damage).toBe(0);
+            expect(this.troll.warded).toBe(false);
         });
     });
 });

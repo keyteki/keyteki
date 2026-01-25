@@ -16,7 +16,7 @@ describe('Garcia’s Blaster', function () {
 
         it('should steal 1 amber when attached to the associated officer', function () {
             this.player1.playUpgrade(this.garciaSBlaster, this.sensorChiefGarcia);
-            expect(this.sensorChiefGarcia.hasToken('amber')).toBe(false);
+            expect(this.sensorChiefGarcia.amber).toBe(0);
             expect(this.player1.amber).toBe(2);
             expect(this.player2.amber).toBe(1);
         });

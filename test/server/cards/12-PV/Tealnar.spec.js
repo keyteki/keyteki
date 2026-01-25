@@ -25,9 +25,9 @@ describe('Tealnar', function () {
             this.player1.playCreature(this.tealnar, true);
             expect(this.player1.player.creaturesInPlay[0]).toBe(this.tealnar);
             expect(this.player1.player.creaturesInPlay[2]).toBe(this.bulwark);
-            this.searine.tokens.damage = 2;
-            this.tealnar.tokens.damage = 1;
-            this.troll.tokens.damage = 1;
+            this.searine.damage = 2;
+            this.tealnar.damage = 1;
+            this.troll.damage = 1;
             this.player1.fightWith(this.bulwark, this.culfTheQuiet);
             expect(this.searine.damage).toBe(0);
             expect(this.tealnar.damage).toBe(1);
@@ -37,8 +37,8 @@ describe('Tealnar', function () {
         });
 
         it('should fully heal creatures and give opponent amber when fate is triggered', function () {
-            this.searine.tokens.damage = 2;
-            this.troll.tokens.damage = 3;
+            this.searine.damage = 2;
+            this.troll.damage = 3;
             this.player1.activateProphecy(this.overreach, this.tealnar);
             this.player1.endTurn();
             this.player2.clickPrompt('brobnar');

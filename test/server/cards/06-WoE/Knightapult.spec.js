@@ -288,7 +288,7 @@ describe('Knightapult', function () {
                     }
                 });
 
-                this.kamalani.tokens.damage = 2;
+                this.kamalani.damage = 2;
                 this.player1.useAction(this.knightapult);
                 this.player1.play(this.hammerGram);
                 this.player1.clickCard(this.kamalani);

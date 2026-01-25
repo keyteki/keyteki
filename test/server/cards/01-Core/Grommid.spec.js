@@ -13,7 +13,7 @@ describe('Grommid', function () {
                 }
             });
 
-            this.megaNarp.tokens.damage = 1;
+            this.megaNarp.damage = 1;
         });
 
         it('should be able to play actions/artifacts/upgrades, but not creatures', function () {

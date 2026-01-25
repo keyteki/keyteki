@@ -35,7 +35,7 @@ describe('Atrocity', function () {
         });
 
         it('should trigger when Atrocity dies from the damage', function () {
-            this.atrocity.tokens.damage = 2;
+            this.atrocity.damage = 2;
             this.player2.moveCard(this.ancientBear, 'discard');
             this.player1.endTurn();
             expect(this.player2).toHavePromptButton('untamed');

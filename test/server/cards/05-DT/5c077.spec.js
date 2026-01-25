@@ -13,7 +13,7 @@ describe('5C077', function () {
                 }
             });
 
-            this['5c077'].tokens.power = 3;
+            this['5c077'].powerCounters = 3;
         });
 
         describe('when it reaps and no other friendly creature in play', function () {

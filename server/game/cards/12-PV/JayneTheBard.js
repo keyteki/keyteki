@@ -18,7 +18,7 @@ class JayneTheBard extends Card {
             },
             then: (preThenContext) => ({
                 condition: () =>
-                    preThenContext.target && preThenContext.event.targetClone.tokens.amber > 0,
+                    preThenContext.target && preThenContext.event.targetClone.amber > 0,
                 alwaysTriggers: true,
                 target: {
                     cardType: 'creature',

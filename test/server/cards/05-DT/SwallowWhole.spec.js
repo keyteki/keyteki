@@ -50,7 +50,7 @@ describe('Swallow Whole', function () {
 
             describe('there are two creatures with equal highest power', function () {
                 beforeEach(function () {
-                    this.shooler.tokens.power = 1;
+                    this.shooler.powerCounters = 1;
                 });
 
                 it('should purge a creature with lower power and give the other creature +1 power tokens', function () {

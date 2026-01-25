@@ -162,7 +162,7 @@ const buildHalfSize = async (card, imgPath, filename, language) => {
                 stroke: 'black',
                 strokeWidth: 1
             });
-            Armor = new fabric.Text(card.armor > 0 ? card.armor.toString() : '~', {
+            Armor = new fabric.Text(card.armorTotal > 0 ? card.armor.toString() : '~', {
                 fill: '#fdfbfa',
                 fontSize: 37.5,
                 shadow: new fabric.Shadow(shadowProps),
@@ -178,7 +178,7 @@ const buildHalfSize = async (card, imgPath, filename, language) => {
                 originX: 'center',
                 originY: 'center',
                 left: 262,
-                top: card.armor > 0 ? 231.25 : 241.25
+                top: card.armorTotal > 0 ? 231.25 : 241.25
             });
             canvasFinal.add(barCanvas, Name, Power, Armor, cardType);
             if (card.rarity === 'Evil Twin') {

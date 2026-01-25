@@ -187,7 +187,7 @@ describe('Chat Commands', function () {
         });
 
         it('set 5 power token to a creature', function () {
-            this.niffleApe.tokens.power = 2;
+            this.niffleApe.powerCounters = 2;
             expect(this.player1.executeCommand('/token power 5')).toBe(true);
             expect(this.player1).toBeAbleToSelect(this.niffleApe);
             this.player1.clickCard(this.niffleApe);

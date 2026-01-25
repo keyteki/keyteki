@@ -22,9 +22,9 @@ describe('Envoy of Ekwirrĕ', function () {
 
             // Load up the creatures.
             this.troll.amber = 5;
-            this.troll.tokens.damage = 3;
+            this.troll.damage = 3;
             this.envoyOfEkwirrĕ.amber = 2;
-            this.envoyOfEkwirrĕ.tokens.damage = 1;
+            this.envoyOfEkwirrĕ.damage = 1;
 
             // trigger the action
             this.player1.reap(this.envoyOfEkwirrĕ);
@@ -43,9 +43,9 @@ describe('Envoy of Ekwirrĕ', function () {
 
         it('should kill the swapped creature if there is too much damage', function () {
             this.troll.amber = 5;
-            this.troll.tokens.damage = 6;
+            this.troll.damage = 6;
             this.envoyOfEkwirrĕ.amber = 2;
-            this.envoyOfEkwirrĕ.tokens.damage = 1;
+            this.envoyOfEkwirrĕ.damage = 1;
 
             this.player1.reap(this.envoyOfEkwirrĕ);
             this.player1.clickCard(this.troll);

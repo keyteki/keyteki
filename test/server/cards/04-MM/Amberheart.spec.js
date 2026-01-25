@@ -13,7 +13,7 @@ describe('Amberheart', function () {
         });
 
         it('should exalt, ward and fully heal a friendly creature', function () {
-            this.bulwark.tokens.damage = 2;
+            this.bulwark.damage = 2;
 
             this.player1.useAction(this.æmberheart);
             expect(this.player1).toBeAbleToSelect(this.bulwark);

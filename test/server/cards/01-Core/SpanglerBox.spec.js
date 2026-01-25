@@ -131,7 +131,7 @@ describe('Spangler Box', function () {
             expect(this.stealerOfSouls.location).toBe('play area');
             expect(this.player2.player.cardsInPlay).toContain(this.stealerOfSouls);
             expect(this.stealerOfSouls.exhausted).toBe(true);
-            expect(this.stealerOfSouls.hasToken('damage')).toBe(false);
+            expect(this.stealerOfSouls.damage).toBe(0);
 
             expect(this.player2).toBeAbleToSelect(this.silvertooth);
             expect(this.player2).not.toBeAbleToSelect(this.stealerOfSouls);
@@ -154,7 +154,7 @@ describe('Spangler Box', function () {
             this.player2.clickCard(this.dextre);
             expect(this.lamindra.location).toBe('play area');
             expect(this.player1.player.cardsInPlay).toContain(this.lamindra);
-            expect(this.lamindra.hasToken('amber')).toBe(false);
+            expect(this.lamindra.amber).toBe(0);
             expect(this.lamindra.exhausted).toBe(true);
             expect(this.docBookton.location).toBe('purged');
             expect(this.player2).isReadyToTakeAction();
