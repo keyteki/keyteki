@@ -28,7 +28,7 @@ describe('Rampaging Brutodon', function () {
                 player1: {
                     amber: 1,
                     house: 'saurian',
-                    inPlay: ['rampaging-brutodon', 'pelf', 'broken-axe-outpost', 'bestiarii-urso']
+                    inPlay: ['bestiarii-urso', 'rampaging-brutodon', 'pelf', 'broken-axe-outpost']
                 },
                 player2: {
                     inPlay: ['umbra']
@@ -86,7 +86,7 @@ describe('Rampaging Brutodon', function () {
             this.player1.moveCard(this.bestiariiUrso, 'hand');
             this.player1.playCreature(this.bestiariiUrso);
             this.player1.clickCard(this.rampagingBrutodon);
-            // Bestiarii Urso should remove stun without prompting to destroy a creature
+            // Bestiarii Urso should remove stun without Rampaging Brutodon prompting to destroy a creature
             expect(this.pelf.location).toBe('play area');
             expect(this.rampagingBrutodon.stunned).toBe(false);
             expect(this.player1).isReadyToTakeAction();
@@ -131,7 +131,7 @@ describe('Rampaging Brutodon', function () {
         });
 
         it('should only require destroying a creature once when fighting with Ironyx Propaganda attached', function () {
-            // Fight with Rampaging Brutodon - manually click through each step
+            // Fight with Rampaging Brutodon
             // Can't use fightWith helper because the additional cost prompt appears before target selection
             this.player1.clickCard(this.rampagingBrutodon);
             this.player1.clickPrompt('Fight with this creature');
