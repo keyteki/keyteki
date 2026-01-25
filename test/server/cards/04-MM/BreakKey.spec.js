@@ -33,7 +33,7 @@ describe('Break-key', function () {
             this.player2.player.keys = { red: true, blue: true, yellow: false };
 
             this.player1.play(this.breakKey);
-            this.player1.clickPrompt('blue');
+            this.player1.forgeKey('Blue');
             expect(this.player1.amber).toBe(1);
             expect(this.player2.amber).toBe(10);
         });

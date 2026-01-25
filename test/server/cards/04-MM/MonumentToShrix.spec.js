@@ -100,7 +100,7 @@ describe('Monument to Shrix', function () {
         it('should be able to use amber on monument', function () {
             this.player1.endTurn();
             this.player2.clickPrompt('3');
-            this.player2.clickPrompt('red');
+            this.player2.forgeKey('Red');
             expect(this.player2.amber).toBe(1);
         });
     });

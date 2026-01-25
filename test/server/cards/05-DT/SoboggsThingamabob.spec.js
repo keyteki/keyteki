@@ -16,7 +16,7 @@ describe("Sobogg's Thingamabob", function () {
             beforeEach(function () {
                 this.player2.amber = 6;
                 this.player1.endTurn();
-                this.player2.clickPrompt('red');
+                this.player2.forgeKey('Red');
                 this.player2.clickPrompt('shadows');
             });
 
@@ -30,7 +30,7 @@ describe("Sobogg's Thingamabob", function () {
                 beforeEach(function () {
                     this.player1.amber = 6;
                     this.player2.endTurn();
-                    this.player1.clickPrompt('red');
+                    this.player1.forgeKey('Red');
                     this.player1.clickPrompt('staralliance');
                 });
 
