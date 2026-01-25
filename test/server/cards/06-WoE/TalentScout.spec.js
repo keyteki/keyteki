@@ -14,9 +14,9 @@ describe('Talent Scout', function () {
                         'selwyn-the-fence',
                         'ring-of-invisibility',
                         'bumpsy',
-                        'too-much-to-protect'
-                        // 'boosted-b4-rry',
-                        // 'boosted-b4-rry2'
+                        'too-much-to-protect',
+                        'boosted-b4-rry',
+                        'boosted-b4-rry2'
                     ]
                 }
             });
@@ -37,6 +37,8 @@ describe('Talent Scout', function () {
         it('still reveals hand when there are no creatures', function () {
             this.selwynTheFence.location = 'discard';
             this.bumpsy.location = 'discard';
+            this.boostedB4Rry.location = 'discard';
+            this.boostedB4Rry2.location = 'discard';
 
             this.player1.playCreature(this.talentScout);
             expect(this.player1.amber).toBe(3);
@@ -65,16 +67,15 @@ describe('Talent Scout', function () {
             expect(this.talentScout.location).toBe('hand');
         });
 
-        // it('cannot play gigantics', function () {
-        //     this.player1.playCreature(this.talentScout);
-        //     expect(this.player1).toBeAbleToSelect(this.boostedB4Rry);
-        //     expect(this.player1).toBeAbleToSelect(this.boostedB4Rry2);
-        //     this.player1.clickCard(this.boostedB4Rry);
-        //     expect(this.player2.amber).toBe(1);
-        //     expect(this.boostedB4Rry.location).toBe('hand');
-        //     expect(this.boostedB4Rry2.location).toBe('hand');
-        //     expect(this.talentScout.location).toBe('play area');
-        // });
+        it('cannot play gigantics', function () {
+            this.player1.playCreature(this.talentScout);
+            expect(this.player1).toBeAbleToSelect(this.boostedB4Rry);
+            expect(this.player1).toBeAbleToSelect(this.boostedB4Rry2);
+            this.player1.clickCard(this.boostedB4Rry); // fizzles
+            expect(this.boostedB4Rry.location).toBe('hand');
+            expect(this.boostedB4Rry2.location).toBe('hand');
+            expect(this.talentScout.location).toBe('play area');
+        });
 
         describe("after ability resolved, on opponent's turn", function () {
             beforeEach(function () {
