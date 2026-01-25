@@ -12,7 +12,7 @@ class PowerUp extends Card {
             then: (preThenContext) => ({
                 alwaysTriggers: true,
                 condition: (context) =>
-                    preThenContext.target.getPower() ===
+                    preThenContext.target.power ===
                     Math.max(...context.game.creaturesInPlay.map((card) => card.power)),
                 gameAction: ability.actions.archive((context) => ({
                     target: context.source

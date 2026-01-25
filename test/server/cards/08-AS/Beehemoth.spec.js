@@ -23,7 +23,7 @@ describe('Beehemoth', function () {
             expect(this.player1).toBeAbleToSelect(this.flaxia);
             expect(this.player1).toBeAbleToSelect(this.troll);
             this.player1.clickCard(this.flaxia);
-            expect(this.flaxia.getPower()).toBe(5);
+            expect(this.flaxia.power).toBe(5);
             expect(this.flaxia.powerCounters).toBe(1);
             this.player1.clickPrompt('brobnar');
         });

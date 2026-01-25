@@ -50,7 +50,7 @@ describe('Shadow Self', function () {
             this.player1.clickPrompt('sanctum');
             this.player1.playCreature(this.abondTheArmorsmith);
             this.player1.endTurn();
-            expect(this.shadowSelf1.tokens.armor).toBe(1);
+            expect(this.shadowSelf1.armor).toBe(1);
             this.player2.clickPrompt('shadows');
             this.player2.fightWith(this.silvertooth, this.shadowSelf1);
             expect(this.silvertooth.damage).toBe(0);
@@ -66,8 +66,8 @@ describe('Shadow Self', function () {
             this.player1.clickPrompt('sanctum');
             this.player1.playCreature(this.abondTheArmorsmith);
             this.player1.endTurn();
-            expect(this.shadowSelf1.tokens.armor).toBe(1);
-            expect(this.badPenny.tokens.armor).toBe(1);
+            expect(this.shadowSelf1.armor).toBe(1);
+            expect(this.badPenny.armor).toBe(1);
             this.player2.clickPrompt('shadows');
             this.player2.fightWith(this.silvertooth, this.badPenny);
             expect(this.silvertooth.damage).toBe(1);
@@ -86,8 +86,8 @@ describe('Shadow Self', function () {
             this.player1.playCreature(this.abondTheArmorsmith);
             this.player1.endTurn();
             this.shadowSelf1.ward();
-            expect(this.shadowSelf1.tokens.armor).toBe(1);
-            expect(this.badPenny.tokens.armor).toBe(1);
+            expect(this.shadowSelf1.armor).toBe(1);
+            expect(this.badPenny.armor).toBe(1);
             this.player2.clickPrompt('shadows');
             this.player2.fightWith(this.silvertooth, this.badPenny);
             expect(this.silvertooth.damage).toBe(1);
@@ -108,8 +108,8 @@ describe('Shadow Self', function () {
             this.player1.endTurn();
             this.shadowSelf1.ward();
             this.shadowSelf1.damage = 8;
-            expect(this.shadowSelf1.tokens.armor).toBe(1);
-            expect(this.badPenny.tokens.armor).toBe(1);
+            expect(this.shadowSelf1.armor).toBe(1);
+            expect(this.badPenny.armor).toBe(1);
             this.player2.clickPrompt('shadows');
             this.player2.fightWith(this.silvertooth, this.badPenny);
             expect(this.silvertooth.damage).toBe(1);

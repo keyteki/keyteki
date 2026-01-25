@@ -121,7 +121,7 @@ describe('keywords', function () {
             expect(this.xenosBloodshadow.damage).toBe(0);
             expect(this.xenosBloodshadow.elusiveUsed).toBe(true);
             this.player1.fightWith(this.chuffApe, this.xenosBloodshadow);
-            expect(this.chuffApe.tokens.armor).toBeUndefined();
+            expect(this.chuffApe.armor).toBe(0);
             expect(this.chuffApe.warded).toBe(false);
             expect(this.chuffApe.location).toBe('play area');
             expect(this.xenosBloodshadow.location).toBe('discard');

@@ -11,10 +11,10 @@ class LightsmithClarielEvilTwin extends Card {
                     duration: 'lastingEffect',
                     effect: [
                         ability.effects.modifyPower(
-                            context.target.getPrintedArmor() - context.target.getPrintedPower()
+                            context.target.armorPrinted - context.target.powerPrinted
                         ),
                         ability.effects.modifyArmor(
-                            context.target.getPrintedPower() - context.target.getPrintedArmor()
+                            context.target.powerPrinted - context.target.armorPrinted
                         )
                     ]
                 }))

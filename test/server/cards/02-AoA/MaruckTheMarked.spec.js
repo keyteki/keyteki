@@ -60,7 +60,7 @@ describe('MaruckTheMarked', function () {
             this.player1.clickPrompt('dis');
             this.player1.play(this.redHotArmor);
 
-            expect(this.maruckTheMarked.armor).toBe(1);
+            expect(this.maruckTheMarked.armorTotal).toBe(1);
             expect(this.maruckTheMarked.armorUsed).toBe(1);
 
             expect(this.maruckTheMarked.damage).toBe(1);

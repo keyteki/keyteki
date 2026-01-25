@@ -23,7 +23,7 @@ describe('Sacred Duty', function () {
         it('should give creature +2 power and ready it', function () {
             this.player1.reap(this.zealot1);
             this.player1.playUpgrade(this.sacredDuty, this.zealot1);
-            expect(this.zealot1.getPower()).toBe(3);
+            expect(this.zealot1.power).toBe(3);
             expect(this.zealot1.exhausted).toBe(false);
             expect(this.player1).isReadyToTakeAction();
         });

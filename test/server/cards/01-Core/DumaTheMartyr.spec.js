@@ -56,7 +56,7 @@ describe('Duma The Martyr', function () {
             expect(this.theGreyRider.location).toBe('discard');
             expect(this.sequis.damage).toBe(0);
             expect(this.ladyMaxena.damage).toBe(0);
-            expect(this.collectorWorm.tokens.armor).toBe(2);
+            expect(this.collectorWorm.armor).toBe(2);
             expect(this.zorg.damage).toBe(3);
             expect(this.player1.player.hand.length).toBe(8);
         });

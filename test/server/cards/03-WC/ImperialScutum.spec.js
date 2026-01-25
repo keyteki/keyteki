@@ -16,7 +16,7 @@ describe('Imperial Scutum', function () {
 
         it('should increase armor', function () {
             this.player1.playUpgrade(this.imperialScutum, this.questorJarta);
-            expect(this.questorJarta.tokens.armor).toBe(2);
+            expect(this.questorJarta.armor).toBe(2);
             this.player1.fightWith(this.questorJarta, this.grovekeeper);
             expect(this.questorJarta.hasToken('armor')).toBe(false);
             expect(this.questorJarta.damage).toBe(1);

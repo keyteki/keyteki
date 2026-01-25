@@ -37,8 +37,8 @@ describe('Ultra Gravitron', function () {
         });
 
         it('should play starting with part 1', function () {
-            expect(this.ultraGravitron.armor).toBe(3);
-            expect(this.ultraGravitron2.armor).toBe(0);
+            expect(this.ultraGravitron.armorTotal).toBe(3);
+            expect(this.ultraGravitron2.armorTotal).toBe(0);
             this.player1.play(this.ultraGravitron);
             expect(this.ultraGravitron.armor).toBe(3);
             expect(this.ultraGravitron.location).toBe('play area');
@@ -48,8 +48,8 @@ describe('Ultra Gravitron', function () {
         });
 
         it('should play starting with part 2', function () {
-            expect(this.ultraGravitron.armor).toBe(3);
-            expect(this.ultraGravitron2.armor).toBe(0);
+            expect(this.ultraGravitron.armorTotal).toBe(3);
+            expect(this.ultraGravitron2.armorTotal).toBe(0);
             this.player1.play(this.ultraGravitron2);
             expect(this.ultraGravitron2.armor).toBe(3);
             expect(this.ultraGravitron2.location).toBe('play area');

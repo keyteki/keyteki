@@ -26,7 +26,7 @@ describe('blast-shielding', function () {
         });
 
         it('should give +2 armor', function () {
-            expect(this.armsmasterMolina.tokens.armor).toBe(2);
+            expect(this.armsmasterMolina.armor).toBe(2);
         });
 
         describe('when creature reap', function () {
@@ -46,7 +46,7 @@ describe('blast-shielding', function () {
                 this.player1.clickCard(this.sciOfficerQincan);
                 expect(this.armsmasterMolina.upgrades).not.toContain(this.blastShielding);
                 expect(this.sciOfficerQincan.upgrades).toContain(this.blastShielding);
-                expect(this.sciOfficerQincan.tokens.armor).toBe(2);
+                expect(this.sciOfficerQincan.armor).toBe(2);
             });
 
             it('should get prompt to move blast shield when creature is used, and be able to move it left', function () {
@@ -55,7 +55,7 @@ describe('blast-shielding', function () {
                 this.player1.clickCard(this.chiefEngineerWalls);
                 expect(this.armsmasterMolina.upgrades).not.toContain(this.blastShielding);
                 expect(this.chiefEngineerWalls.upgrades).toContain(this.blastShielding);
-                expect(this.chiefEngineerWalls.tokens.armor).toBe(2);
+                expect(this.chiefEngineerWalls.armor).toBe(2);
             });
         });
 
@@ -76,7 +76,7 @@ describe('blast-shielding', function () {
                 this.player1.clickCard(this.sciOfficerQincan);
                 expect(this.armsmasterMolina.upgrades).not.toContain(this.blastShielding);
                 expect(this.sciOfficerQincan.upgrades).toContain(this.blastShielding);
-                expect(this.sciOfficerQincan.tokens.armor).toBe(2);
+                expect(this.sciOfficerQincan.armor).toBe(2);
             });
 
             it('should get prompt to move blast shield when creature is used, and be able to move it left', function () {
@@ -85,7 +85,7 @@ describe('blast-shielding', function () {
                 this.player1.clickCard(this.chiefEngineerWalls);
                 expect(this.armsmasterMolina.upgrades).not.toContain(this.blastShielding);
                 expect(this.chiefEngineerWalls.upgrades).toContain(this.blastShielding);
-                expect(this.chiefEngineerWalls.tokens.armor).toBe(2);
+                expect(this.chiefEngineerWalls.armor).toBe(2);
             });
         });
 
@@ -111,7 +111,7 @@ describe('blast-shielding', function () {
                     this.player1.clickCard(this.chiefEngineerWalls);
                     expect(this.armsmasterMolina.upgrades).not.toContain(this.blastShielding);
                     expect(this.chiefEngineerWalls.upgrades).toContain(this.blastShielding);
-                    expect(this.chiefEngineerWalls.tokens.armor).toBe(2);
+                    expect(this.chiefEngineerWalls.armor).toBe(2);
                 });
 
                 it('should allow using Universal Translator first', function () {

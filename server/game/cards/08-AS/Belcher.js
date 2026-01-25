@@ -33,16 +33,14 @@ class Belcher extends Card {
                     gameAction: ability.actions.dealDamage((context) => ({
                         amount:
                             context.preThenEvents.length > 0
-                                ? context.preThenEvents[
-                                      context.preThenEvents.length - 1
-                                  ].card.getPower()
+                                ? context.preThenEvents[context.preThenEvents.length - 1].card.power
                                 : 0
                     }))
                 },
                 message: '{0} uses {1} to deal {3} damage to {4}',
                 messageArgs: (context) => [
                     context.preThenEvents.length > 0
-                        ? context.preThenEvents[context.preThenEvents.length - 1].card.getPower()
+                        ? context.preThenEvents[context.preThenEvents.length - 1].card.power
                         : 0,
                     context.target
                 ]

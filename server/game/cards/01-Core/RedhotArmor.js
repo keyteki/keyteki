@@ -11,7 +11,7 @@ class RedhotArmor extends Card {
                 target: context.player.opponent.cardsInPlay.filter((card) =>
                     card.hasToken('armor')
                 ),
-                amountForCard: (card) => card.tokens.armor
+                amountForCard: (card) => card.armor
             })),
             then: {
                 gameAction: ability.actions.dealDamage((context) => ({
