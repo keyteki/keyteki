@@ -14,9 +14,9 @@ describe('Censor Philo Evil Twin', function () {
                 }
             });
 
-            this.senatorShrix.tokens.amber = 1;
-            this.tantadlin.tokens.amber = 1;
-            this.ancientBear.tokens.amber = 1;
+            this.senatorShrix.amber = 1;
+            this.tantadlin.amber = 1;
+            this.ancientBear.amber = 1;
         });
 
         it('should deal 5D to a creature with amber', function () {

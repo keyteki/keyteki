@@ -25,10 +25,10 @@ describe('Optio Gorkus', function () {
             this.optioGorkus2 = this.player1.player.creaturesInPlay[4];
             this.optioGorkus3 = this.player1.player.creaturesInPlay[6];
 
-            this.citizenShrix.tokens.amber = 3;
-            this.oratorHissaro.tokens.amber = 4;
-            this.rhetorGallim.tokens.amber = 5;
-            this.optioGorkus3.tokens.amber = 1;
+            this.citizenShrix.amber = 3;
+            this.oratorHissaro.amber = 4;
+            this.rhetorGallim.amber = 5;
+            this.optioGorkus3.amber = 1;
         });
 
         it('should not be prompted if destroyed card has no amber', function () {

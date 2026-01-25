@@ -49,7 +49,7 @@ describe('Self-Bolstering Automata', function () {
 
         describe('when destroyed with damage', function () {
             beforeEach(function () {
-                this.pipPip.tokens.ward = 1;
+                this.pipPip.ward();
                 this.player1.play(this.positronBolt);
                 this.player1.clickCard(this.selfBolsteringAutomata);
                 this.player1.clickCard(this.pipPip);

@@ -16,7 +16,7 @@ describe('Humble', function () {
 
         it('should not move any amber if creature is already exhausted', function () {
             this.consulPrimus.exhaust();
-            this.consulPrimus.tokens.amber = 10;
+            this.consulPrimus.amber = 10;
             this.player1.play(this.humble);
             expect(this.player1).toBeAbleToSelect(this.senatorShrix);
             expect(this.player1).toBeAbleToSelect(this.consulPrimus);
@@ -28,7 +28,7 @@ describe('Humble', function () {
         });
 
         it('should move amber if creature is exhausted', function () {
-            this.senatorShrix.tokens.amber = 10;
+            this.senatorShrix.amber = 10;
             this.player1.play(this.humble);
             expect(this.player1).toBeAbleToSelect(this.senatorShrix);
             expect(this.player1).toBeAbleToSelect(this.consulPrimus);
@@ -41,7 +41,7 @@ describe('Humble', function () {
         });
 
         it('should move enough amber if creature has less than 3', function () {
-            this.senatorShrix.tokens.amber = 2;
+            this.senatorShrix.amber = 2;
             this.player1.play(this.humble);
             expect(this.player1).toBeAbleToSelect(this.senatorShrix);
             expect(this.player1).toBeAbleToSelect(this.consulPrimus);

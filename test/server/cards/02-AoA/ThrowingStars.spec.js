@@ -31,7 +31,7 @@ describe('Throwing Stars', function () {
 
         describe('and a target with ward is selected and one creature is destroyed', function () {
             beforeEach(function () {
-                this.odoacThePatrician.tokens.ward = 1;
+                this.odoacThePatrician.ward();
                 this.player1.play(this.throwingStars);
                 this.player1.clickCard(this.badPenny);
                 this.player1.clickCard(this.odoacThePatrician);

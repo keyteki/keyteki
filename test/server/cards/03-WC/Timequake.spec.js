@@ -45,7 +45,7 @@ describe('Timequake', function () {
         });
 
         it('should consider warded cards', function () {
-            this.lamindra.tokens.ward = 1;
+            this.lamindra.ward();
             expect(this.player1.player.cardsInPlay.length).toBe(3);
             expect(this.player1.player.hand.length).toBe(3);
 

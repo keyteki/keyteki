@@ -15,9 +15,9 @@ describe('Gaius', function () {
         });
 
         it('should ward each other friendly creature with amber after reap', function () {
-            this.raidingKnight.tokens.amber = 1;
-            this.almsmaster.tokens.amber = 1;
-            this.krump.tokens.amber = 1;
+            this.raidingKnight.amber = 1;
+            this.almsmaster.amber = 1;
+            this.krump.amber = 1;
             this.player1.reap(this.gaius);
             expect(this.raidingKnight.warded).toBe(true);
             expect(this.almsmaster.warded).toBe(true);

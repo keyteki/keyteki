@@ -16,14 +16,14 @@ describe('Trawler', function () {
         it('does nothing when not haunted', function () {
             this.player1.play(this.trawler);
             expect(this.player2.amber).toBe(6);
-            expect(this.trawler.tokens.amber).toBe(undefined);
+            expect(this.trawler.amber).toBe(0);
         });
 
         it('captures all opponent amber when haunted', function () {
             this.player1.play(this.crushingDeep);
             this.player1.play(this.trawler);
             expect(this.player2.amber).toBe(0);
-            expect(this.trawler.tokens.amber).toBe(6);
+            expect(this.trawler.amber).toBe(6);
         });
     });
 });

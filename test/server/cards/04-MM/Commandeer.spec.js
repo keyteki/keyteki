@@ -23,8 +23,8 @@ describe('Commandeer', function () {
             expect(this.player1).toBeAbleToSelect(this.sequis);
             expect(this.player1).not.toBeAbleToSelect(this.badPenny);
             this.player1.clickCard(this.sequis);
-            expect(this.sequis.tokens.amber).toBe(1);
-            expect(this.dustPixie.tokens.amber).toBe(undefined);
+            expect(this.sequis.amber).toBe(1);
+            expect(this.dustPixie.amber).toBe(0);
             expect(this.player2.amber).toBe(2);
         });
     });

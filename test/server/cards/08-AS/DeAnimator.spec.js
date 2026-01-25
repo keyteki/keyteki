@@ -147,7 +147,7 @@ describe('De-Animator', function () {
         });
 
         it('should send æmber on destroyed creatures as artifacts to the common supply', function () {
-            this.botBookton.tokens.amber = 4;
+            this.botBookton.amber = 4;
 
             this.player1.playCreature(this.deAnimator);
             this.player1.clickCard(this.botBookton);

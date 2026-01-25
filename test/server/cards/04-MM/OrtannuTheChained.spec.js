@@ -74,8 +74,8 @@ describe('Ortannu The Chained', function () {
             this.player1.moveCard(this.ortannusBinding1, 'discard');
             this.player1.moveCard(this.ortannusBinding2, 'discard');
             this.player1.moveCard(this.ortannusBinding3, 'archives');
-            this.troll.tokens.ward = 1;
-            this.zorg.tokens.ward = 1;
+            this.troll.ward();
+            this.zorg.ward();
             this.player1.reap(this.ortannuTheChained);
             expect(this.player1.amber).toBe(1);
             this.player1.clickCard(this.zorg);

@@ -40,7 +40,7 @@ describe('[Redacted]', function () {
 
         it('should add 4th amber, forge and sacrifice when select logos house', function () {
             this.player1.play(this['[redacted]']);
-            this['[redacted]'].tokens.amber = 2;
+            this['[redacted]'].amber = 2;
             this.player1.endTurn();
             this.player2.clickPrompt('brobnar');
             this.player2.endTurn();

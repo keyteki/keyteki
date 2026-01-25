@@ -41,7 +41,7 @@ describe('Amberling', function () {
         });
 
         it('discards wards', function () {
-            this.æmberling.tokens.wards = 1;
+            this.æmberling.ward();
             this.player1.endTurn();
             this.player2.clickPrompt('untamed');
             this.player2.endTurn();

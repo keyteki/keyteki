@@ -29,7 +29,7 @@ describe('The Promised Blade', function () {
             it('has an omni to capture 1', function () {
                 this.player1.useOmni(this.thePromisedBlade);
                 this.player1.clickCard(this.baldricTheBold);
-                expect(this.baldricTheBold.tokens.amber).toBe(1);
+                expect(this.baldricTheBold.amber).toBe(1);
                 expect(this.player2.amber).toBe(0);
             });
         });

@@ -25,7 +25,7 @@ describe('Circlespeak', function () {
             this.player1.clickCard(this.flaxia);
             expect(this.player1.amber).toBe(4);
             expect(this.player2.amber).toBe(3);
-            expect(this.flaxia.tokens.amber).toBe(undefined);
+            expect(this.flaxia.amber).toBe(0);
             expect(this.player1).isReadyToTakeAction();
         });
 
@@ -34,7 +34,7 @@ describe('Circlespeak', function () {
             this.player1.clickCard(this.bubbles);
             expect(this.player1.amber).toBe(4);
             expect(this.player2.amber).toBe(3);
-            expect(this.bubbles.tokens.amber).toBe(undefined);
+            expect(this.bubbles.amber).toBe(0);
             expect(this.player1).isReadyToTakeAction();
         });
 
@@ -44,7 +44,7 @@ describe('Circlespeak', function () {
             this.player1.clickCard(this.flaxia);
             expect(this.player1.amber).toBe(4);
             expect(this.player2.amber).toBe(1);
-            expect(this.flaxia.tokens.amber).toBe(2);
+            expect(this.flaxia.amber).toBe(2);
             expect(this.player1).isReadyToTakeAction();
         });
 
@@ -54,7 +54,7 @@ describe('Circlespeak', function () {
             this.player1.clickCard(this.bubbles);
             expect(this.player1.amber).toBe(4);
             expect(this.player2.amber).toBe(1);
-            expect(this.bubbles.tokens.amber).toBe(2);
+            expect(this.bubbles.amber).toBe(2);
             expect(this.player1).isReadyToTakeAction();
         });
 
@@ -65,7 +65,7 @@ describe('Circlespeak', function () {
             this.player1.clickCard(this.flaxia);
             expect(this.player1.amber).toBe(3);
             expect(this.player2.amber).toBe(1);
-            expect(this.flaxia.tokens.amber).toBe(4);
+            expect(this.flaxia.amber).toBe(4);
             expect(this.player1).isReadyToTakeAction();
         });
 
@@ -76,7 +76,7 @@ describe('Circlespeak', function () {
             this.player1.clickCard(this.bubbles);
             expect(this.player1.amber).toBe(3);
             expect(this.player2.amber).toBe(1);
-            expect(this.bubbles.tokens.amber).toBe(4);
+            expect(this.bubbles.amber).toBe(4);
             expect(this.player1).isReadyToTakeAction();
         });
     });
