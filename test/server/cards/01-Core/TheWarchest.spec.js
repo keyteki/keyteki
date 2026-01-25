@@ -109,7 +109,7 @@ describe('The Warchest', function () {
                     inPlay: ['ganger-chieftain']
                 }
             });
-            this.valdr.tokens.damage = 4;
+            this.valdr.damage = 4;
         });
 
         it('should trigger', function () {

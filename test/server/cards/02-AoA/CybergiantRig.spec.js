@@ -14,8 +14,8 @@ describe('Cybergiant Rig', function () {
                 }
             });
 
-            this.groggins.tokens.damage = 6;
-            this.troll.tokens.damage = 3;
+            this.groggins.damage = 6;
+            this.troll.damage = 3;
         });
 
         describe('when played on own creatures', function () {

@@ -18,10 +18,10 @@ describe('No Safety in Numbers', function () {
         it('should not deal damage to any creature', function () {
             this.player1.play(this.noSafetyInNumbers);
 
-            expect(this.troll.hasToken('damage')).toBe(false);
-            expect(this.krump.hasToken('damage')).toBe(false);
-            expect(this.lamindra.hasToken('damage')).toBe(false);
-            expect(this.shooler.hasToken('damage')).toBe(false);
+            expect(this.troll.damage).toBe(0);
+            expect(this.krump.damage).toBe(0);
+            expect(this.lamindra.damage).toBe(0);
+            expect(this.shooler.damage).toBe(0);
         });
     });
 
@@ -51,8 +51,8 @@ describe('No Safety in Numbers', function () {
             expect(this.lamindra.location).toBe('discard');
             expect(this.redlock.location).toBe('discard');
             expect(this.faygin.location).toBe('discard');
-            expect(this.gub.hasToken('damage')).toBe(false);
-            expect(this.shooler.hasToken('damage')).toBe(false);
+            expect(this.gub.damage).toBe(0);
+            expect(this.shooler.damage).toBe(0);
         });
     });
 });

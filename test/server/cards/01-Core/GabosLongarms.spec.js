@@ -22,7 +22,7 @@ describe('Gabos Longarms', function () {
             this.player1.clickCard(this.ganymedeArchivist);
             expect(this.ganymedeArchivist.location).toBe('discard');
             expect(this.gabosLongarms.location).toBe('discard');
-            expect(this.championAnaphiel.hasToken('damage')).toBe(false);
+            expect(this.championAnaphiel.damage).toBe(0);
         });
 
         it('should not trigger when he is attacked', function () {

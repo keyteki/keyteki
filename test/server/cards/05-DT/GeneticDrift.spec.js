@@ -14,8 +14,8 @@ describe('Genetic Drift', function () {
                 }
             });
 
-            this.flaxia.tokens.power = 2;
-            this.gub.tokens.power = 1;
+            this.flaxia.powerCounters = 2;
+            this.gub.powerCounters = 1;
             this.player1.play(this.geneticDrift);
         });
 

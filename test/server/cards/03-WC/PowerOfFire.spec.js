@@ -14,8 +14,8 @@ describe('PowerOfFire(WC)', function () {
                 }
             });
 
-            this.selfBolsteringAutomata.tokens.power = 13;
-            this.selfBolsteringAutomata.tokens.damage = 3;
+            this.selfBolsteringAutomata.powerCounters = 13;
+            this.selfBolsteringAutomata.damage = 3;
         });
 
         it("makes players lose half of troll's power == 4", function () {

@@ -20,7 +20,7 @@ describe('City-State Interest', function () {
             expect(this.troll.amber).toBe(1);
             expect(this.valdr.amber).toBe(1);
             expect(this.krump.amber).toBe(1);
-            expect(this.lamindra.hasToken('amber')).toBe(false);
+            expect(this.lamindra.amber).toBe(0);
         });
     });
     describe("City-State Interest's play ability", function () {
@@ -51,8 +51,8 @@ describe('City-State Interest', function () {
             expect(this.player2.player.amber).toBe(0);
             expect(this.troll.amber).toBe(1);
             expect(this.valdr.amber).toBe(1);
-            expect(this.krump.hasToken('amber')).toBe(false);
-            expect(this.lamindra.hasToken('amber')).toBe(false);
+            expect(this.krump.amber).toBe(0);
+            expect(this.lamindra.amber).toBe(0);
         });
     });
 });

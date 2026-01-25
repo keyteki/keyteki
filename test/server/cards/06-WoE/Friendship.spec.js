@@ -152,7 +152,7 @@ describe('Friendship', function () {
         });
 
         it('splash should be dealt simultaneously with even distribution', function () {
-            this.croggTheClumsy.tokens.power = 1;
+            this.croggTheClumsy.powerCounters = 1;
             this.player2.fightWith(this.croggTheClumsy, this.drEscotera);
             expect(this.motherNorthelle.location).toBe('play area');
             expect(this.daughter.location).toBe('discard');
@@ -182,7 +182,7 @@ describe('Friendship', function () {
 
         describe('when neighbors are warded', function () {
             it('splash should be dealt simultaneously with even distribution', function () {
-                this.croggTheClumsy.tokens.power = 1;
+                this.croggTheClumsy.powerCounters = 1;
                 this.batdrone.ward();
                 this.daughter.ward();
                 this.player2.fightWith(this.croggTheClumsy, this.drEscotera);

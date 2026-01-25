@@ -24,9 +24,9 @@ describe('Vow of Blood', function () {
         });
 
         it('deal 2 damage to every enemy creature that is damaged', function () {
-            this.troll.tokens.damage = 1;
-            this.nexus.tokens.damage = 1;
-            this.sequis.tokens.damage = 1;
+            this.troll.damage = 1;
+            this.nexus.damage = 1;
+            this.sequis.damage = 1;
             this.player1.play(this.vowOfBlood);
             expect(this.troll.damage).toBe(3);
             expect(this.nexus.location).toBe('discard');
@@ -36,7 +36,7 @@ describe('Vow of Blood', function () {
         });
 
         it('does not deal 2 damage to a friendly creature that is damaged', function () {
-            this.pelf.tokens.damage = 1;
+            this.pelf.damage = 1;
             this.player1.play(this.vowOfBlood);
             expect(this.troll.damage).toBe(0);
             expect(this.nexus.damage).toBe(0);

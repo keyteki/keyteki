@@ -155,7 +155,7 @@ describe('Monument to Primus', function () {
             this.player1.clickCard(this.archimedes);
 
             expect(this.archimedes.amber).toBe(10);
-            expect(this.shooler.hasToken('amber')).toBe(false);
+            expect(this.shooler.amber).toBe(0);
         });
 
         it('should allow picking from enemy and placing on enemy creature, when CP is in discard', function () {
@@ -178,7 +178,7 @@ describe('Monument to Primus', function () {
             this.player1.clickCard(this.gub);
 
             expect(this.gub.amber).toBe(1);
-            expect(this.shooler.hasToken('amber')).toBe(false);
+            expect(this.shooler.amber).toBe(0);
         });
 
         it('should allow picking a creature without amber, when CP is not in discard', function () {

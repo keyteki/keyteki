@@ -18,17 +18,17 @@ describe('Shadow Self', function () {
         it('should not deal damage in fights', function () {
             this.player1.fightWith(this.shadowSelf1, this.silvertooth);
             expect(this.shadowSelf1.damage).toBe(2);
-            expect(this.silvertooth.hasToken('damage')).toBe(false);
+            expect(this.silvertooth.damage).toBe(0);
             this.player1.endTurn();
             this.player2.clickPrompt('shadows');
             this.player2.fightWith(this.silvertooth, this.shadowSelf1);
             expect(this.shadowSelf1.damage).toBe(4);
-            expect(this.silvertooth.hasToken('damage')).toBe(false);
+            expect(this.silvertooth.damage).toBe(0);
         });
 
         it('should take damage instead of a creature next to it', function () {
             this.player1.fightWith(this.urchin, this.silvertooth);
-            expect(this.urchin.hasToken('damage')).toBe(false);
+            expect(this.urchin.damage).toBe(0);
             expect(this.urchin.location).toBe('play area');
             expect(this.shadowSelf1.damage).toBe(2);
             expect(this.silvertooth.damage).toBe(1);
@@ -38,9 +38,9 @@ describe('Shadow Self', function () {
             this.player1.endTurn();
             this.player2.clickPrompt('shadows');
             this.player2.fightWith(this.silvertooth, this.urchin);
-            expect(this.silvertooth.hasToken('damage')).toBe(false);
-            expect(this.urchin.hasToken('damage')).toBe(false);
-            expect(this.shadowSelf1.hasToken('damage')).toBe(false);
+            expect(this.silvertooth.damage).toBe(0);
+            expect(this.urchin.damage).toBe(0);
+            expect(this.shadowSelf1.damage).toBe(0);
         });
 
         it('should reduce its armor before taking the damage', function () {
@@ -50,10 +50,10 @@ describe('Shadow Self', function () {
             this.player1.clickPrompt('sanctum');
             this.player1.playCreature(this.abondTheArmorsmith);
             this.player1.endTurn();
-            expect(this.shadowSelf1.tokens.armor).toBe(1);
+            expect(this.shadowSelf1.armor).toBe(1);
             this.player2.clickPrompt('shadows');
             this.player2.fightWith(this.silvertooth, this.shadowSelf1);
-            expect(this.silvertooth.hasToken('damage')).toBe(false);
+            expect(this.silvertooth.damage).toBe(0);
             expect(this.shadowSelf1.damage).toBe(1);
             expect(this.shadowSelf1.hasToken('armor')).toBe(false);
             expect(this.shadowSelf1.armorUsed).toBe(1);
@@ -66,14 +66,14 @@ describe('Shadow Self', function () {
             this.player1.clickPrompt('sanctum');
             this.player1.playCreature(this.abondTheArmorsmith);
             this.player1.endTurn();
-            expect(this.shadowSelf1.tokens.armor).toBe(1);
-            expect(this.badPenny.tokens.armor).toBe(1);
+            expect(this.shadowSelf1.armor).toBe(1);
+            expect(this.badPenny.armor).toBe(1);
             this.player2.clickPrompt('shadows');
             this.player2.fightWith(this.silvertooth, this.badPenny);
             expect(this.silvertooth.damage).toBe(1);
             expect(this.badPenny.hasToken('armor')).toBe(false);
             expect(this.badPenny.armorUsed).toBe(1);
-            expect(this.badPenny.hasToken('damage')).toBe(false);
+            expect(this.badPenny.damage).toBe(0);
             expect(this.shadowSelf1.armor).toBe(1);
             expect(this.shadowSelf1.damage).toBe(1);
         });
@@ -86,14 +86,14 @@ describe('Shadow Self', function () {
             this.player1.playCreature(this.abondTheArmorsmith);
             this.player1.endTurn();
             this.shadowSelf1.ward();
-            expect(this.shadowSelf1.tokens.armor).toBe(1);
-            expect(this.badPenny.tokens.armor).toBe(1);
+            expect(this.shadowSelf1.armor).toBe(1);
+            expect(this.badPenny.armor).toBe(1);
             this.player2.clickPrompt('shadows');
             this.player2.fightWith(this.silvertooth, this.badPenny);
             expect(this.silvertooth.damage).toBe(1);
             expect(this.badPenny.hasToken('armor')).toBe(false);
             expect(this.badPenny.armorUsed).toBe(1);
-            expect(this.badPenny.hasToken('damage')).toBe(false);
+            expect(this.badPenny.damage).toBe(0);
             expect(this.shadowSelf1.armor).toBe(1);
             expect(this.shadowSelf1.warded).toBe(true);
             expect(this.shadowSelf1.damage).toBe(1);
@@ -107,15 +107,15 @@ describe('Shadow Self', function () {
             this.player1.playCreature(this.abondTheArmorsmith);
             this.player1.endTurn();
             this.shadowSelf1.ward();
-            this.shadowSelf1.tokens.damage = 8;
-            expect(this.shadowSelf1.tokens.armor).toBe(1);
-            expect(this.badPenny.tokens.armor).toBe(1);
+            this.shadowSelf1.damage = 8;
+            expect(this.shadowSelf1.armor).toBe(1);
+            expect(this.badPenny.armor).toBe(1);
             this.player2.clickPrompt('shadows');
             this.player2.fightWith(this.silvertooth, this.badPenny);
             expect(this.silvertooth.damage).toBe(1);
             expect(this.badPenny.hasToken('armor')).toBe(false);
             expect(this.badPenny.armorUsed).toBe(1);
-            expect(this.badPenny.hasToken('damage')).toBe(false);
+            expect(this.badPenny.damage).toBe(0);
             expect(this.shadowSelf1.location).toBe('discard');
         });
 
@@ -151,11 +151,11 @@ describe('Shadow Self', function () {
             expect(this.player1).toBeAbleToSelect(this.shadowSelf2);
             this.player1.clickCard(this.shadowSelf1);
             expect(this.shadowSelf1.damage).toBe(2);
-            expect(this.shadowSelf2.hasToken('damage')).toBe(false);
+            expect(this.shadowSelf2.damage).toBe(0);
         });
 
         it('should not be considered to be an enemy creature destroyed in a fight, if damage was redirected', function () {
-            this.shadowSelf1.tokens.damage = 6;
+            this.shadowSelf1.damage = 6;
             this.player1.endTurn();
             this.player2.clickPrompt('logos');
             this.player2.fightWith(this.hapsis, this.badPenny);

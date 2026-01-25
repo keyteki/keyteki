@@ -11,7 +11,7 @@ describe('Ley, Earl of Hurl', function () {
                 }
             });
 
-            this.leyEarlOfHurl.tokens.damage = 1;
+            this.leyEarlOfHurl.damage = 1;
         });
 
         it('should be moved/exhausted/warded/healed on destroy when not on a flank', function () {

@@ -202,8 +202,8 @@ describe('Win Condition', function () {
                     this.player1.amber = 4;
                     // Player1 has 5 creatures, Player2 has 5
                     // Kill some of player2's creatures to make player1 have more
-                    this.lamindra.tokens.damage = 10;
-                    this.keyfrog.tokens.damage = 10;
+                    this.lamindra.damage = 10;
+                    this.keyfrog.damage = 10;
                     this.game.checkGameState(true);
                     this.player1.endTurn();
                     this.player2.clickPrompt('shadows');
@@ -222,8 +222,8 @@ describe('Win Condition', function () {
                     this.game.timeLimit.isTimeLimitReached = true;
                     this.player1.amber = 4;
                     // Kill some of player1's creatures to make player2 have more
-                    this.flaxia.tokens.damage = 10;
-                    this.troll.tokens.damage = 10;
+                    this.flaxia.damage = 10;
+                    this.troll.damage = 10;
                     this.game.checkGameState(true);
                     this.player1.endTurn();
                     this.player2.clickPrompt('shadows');

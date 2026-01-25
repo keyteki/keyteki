@@ -83,7 +83,7 @@ describe('One Stood Against Many', function () {
             this.player1.clickCard(this.huntingWitch);
             expect(this.bulwark.exhausted).toBe(false);
             expect(this.bulwark.damage).toBe(0);
-            expect(this.bulwark.tokens.armor).toBeUndefined();
+            expect(this.bulwark.armor).toBe(0);
             expect(this.huntingWitch.location).toBe('discard');
             expect(this.player1).isReadyToTakeAction();
         });
@@ -117,7 +117,7 @@ describe('One Stood Against Many', function () {
             expect(this.player1).toBeAbleToSelect(this.niffleApe);
             this.player1.clickCard(this.huntingWitch);
 
-            expect(this.bulwark.tokens.armor).toBeUndefined();
+            expect(this.bulwark.armor).toBe(0);
             expect(this.bulwark.damage).toBe(0);
             expect(this.huntingWitch.location).toBe('discard');
 
@@ -166,7 +166,7 @@ describe('One Stood Against Many', function () {
             expect(this.player1).toBeAbleToSelect(this.glimmer);
             this.player1.clickCard(this.huntingWitch);
 
-            expect(this.troll.tokens.armor).toBeUndefined();
+            expect(this.troll.armor).toBe(0);
             expect(this.troll.damage).toBe(0);
             expect(this.huntingWitch.location).toBe('discard');
 
@@ -266,7 +266,7 @@ describe('One Stood Against Many', function () {
             expect(this.player1).toBeAbleToSelect(this.glimmer);
             this.player1.clickCard(this.huntingWitch);
 
-            expect(this.troll.tokens.armor).toBeUndefined();
+            expect(this.troll.armor).toBe(0);
             expect(this.troll.damage).toBe(0);
             expect(this.huntingWitch.location).toBe('discard');
 
@@ -364,7 +364,7 @@ describe('One Stood Against Many', function () {
             expect(this.player1).toBeAbleToSelect(this.glimmer);
             this.player1.clickCard(this.huntingWitch);
 
-            expect(this.troll.tokens.armor).toBe(2);
+            expect(this.troll.armor).toBe(2);
             expect(this.huntingWitch.location).toBe('play area');
 
             expect(this.player1).not.toBeAbleToSelect(this.bulwark);
@@ -374,7 +374,7 @@ describe('One Stood Against Many', function () {
             expect(this.player1).toBeAbleToSelect(this.glimmer);
             this.player1.clickCard(this.glimmer);
 
-            expect(this.troll.tokens.armor).toBe(2);
+            expect(this.troll.armor).toBe(2);
             expect(this.glimmer.location).toBe('play area');
 
             expect(this.player1).not.toBeAbleToSelect(this.bulwark);
@@ -384,7 +384,7 @@ describe('One Stood Against Many', function () {
             expect(this.player1).not.toBeAbleToSelect(this.glimmer);
             this.player1.clickCard(this.lamindra);
 
-            expect(this.troll.tokens.armor).toBe(2);
+            expect(this.troll.armor).toBe(2);
             expect(this.troll.exhausted).toBe(true);
             expect(this.glimmer.location).toBe('play area');
             expect(this.player1).isReadyToTakeAction();
@@ -502,7 +502,7 @@ describe('One Stood Against Many', function () {
             expect(this.player1).toBeAbleToSelect(this.ardentHero);
             this.player1.clickCard(this.gub);
 
-            expect(this.troll.tokens.armor).toBe(1);
+            expect(this.troll.armor).toBe(1);
             expect(this.troll.damage).toBe(0);
             expect(this.gub.damage).toBe(0);
             expect(this.shadowSelf.damage).toBe(8);
@@ -513,7 +513,7 @@ describe('One Stood Against Many', function () {
             expect(this.player1).toBeAbleToSelect(this.ardentHero);
             this.player1.clickCard(this.shadowSelf);
 
-            expect(this.troll.tokens.armor).toBe(1);
+            expect(this.troll.armor).toBe(1);
             expect(this.troll.damage).toBe(0);
             expect(this.shadowSelf.location).toBe('discard');
 
@@ -523,7 +523,7 @@ describe('One Stood Against Many', function () {
             expect(this.player1).toBeAbleToSelect(this.ardentHero);
             this.player1.clickCard(this.ardentHero);
 
-            expect(this.troll.tokens.armor).toBeUndefined();
+            expect(this.troll.armor).toBe(0);
             expect(this.troll.damage).toBe(3);
             expect(this.ardentHero.damage).toBe(0);
 

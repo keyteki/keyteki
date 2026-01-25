@@ -187,7 +187,7 @@ describe('Chat Commands', function () {
         });
 
         it('set 5 power token to a creature', function () {
-            this.niffleApe.tokens.power = 2;
+            this.niffleApe.powerCounters = 2;
             expect(this.player1.executeCommand('/token power 5')).toBe(true);
             expect(this.player1).toBeAbleToSelect(this.niffleApe);
             this.player1.clickCard(this.niffleApe);
@@ -238,6 +238,88 @@ describe('Chat Commands', function () {
             expect(this.player2.isTideHigh()).toBe(false);
             expect(this.player1.isTideLow()).toBe(false);
             expect(this.player2.isTideLow()).toBe(false);
+        });
+    });
+
+    describe('/token-creature', function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'mars',
+                    token: 'grunt',
+                    inPlay: ['collector-worm', 'yxilx-dominator']
+                },
+                player2: {
+                    token: 'researcher'
+                }
+            });
+
+            this.game.manualMode = true;
+        });
+
+        it('should create a token creature from the top of the deck', function () {
+            const topCard = this.player1.deck[0];
+            expect(this.player1.executeCommand('/token-creature')).toBe(true);
+            this.player1.clickPrompt('Left');
+            expect(this.player1.inPlay.length).toBe(3);
+            expect(this.player1.inPlay[0]).toBe(topCard);
+            expect(topCard.isToken()).toBe(true);
+            expect(topCard.name).toBe('Grunt');
+        });
+
+        it('should allow deploying the token creature between existing creatures', function () {
+            const topCard = this.player1.deck[0];
+            expect(this.player1.executeCommand('/token-creature')).toBe(true);
+            expect(this.player1).toHavePromptButton('Left');
+            expect(this.player1).toHavePromptButton('Deploy Left');
+            expect(this.player1).toHavePromptButton('Deploy Right');
+            expect(this.player1).toHavePromptButton('Right');
+            this.player1.clickPrompt('Deploy Left');
+            this.player1.clickCard(this.yxilxDominator);
+            expect(this.player1.inPlay.length).toBe(3);
+            expect(this.player1.inPlay[1]).toBe(topCard);
+            expect(topCard.isToken()).toBe(true);
+        });
+
+        it('should not work outside of manual mode', function () {
+            this.game.manualMode = false;
+            expect(this.player1.executeCommand('/token-creature')).toBe(false);
+            expect(this.player1.inPlay.length).toBe(2);
+        });
+
+        it('should fail if deck is empty', function () {
+            while (this.player1.deck.length > 0) {
+                this.player1.moveCard(this.player1.deck[0], 'discard');
+            }
+            expect(this.player1.executeCommand('/token-creature')).toBe(false);
+            expect(this.player1.inPlay.length).toBe(2);
+        });
+
+        it("should allow player 2 to create a token creature during player 1's turn", function () {
+            const topCard = this.player2.deck[0];
+            expect(this.player2.executeCommand('/token-creature')).toBe(true);
+            expect(this.player2.inPlay.length).toBe(1);
+            expect(this.player2.inPlay[0]).toBe(topCard);
+            expect(topCard.isToken()).toBe(true);
+            expect(topCard.name).toBe('Researcher');
+        });
+    });
+
+    describe('/token-creature without token card', function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'logos'
+                },
+                player2: {}
+            });
+
+            this.game.manualMode = true;
+        });
+
+        it('should fail if player has no token card', function () {
+            expect(this.player1.executeCommand('/token-creature')).toBe(false);
+            expect(this.player1.inPlay.length).toBe(0);
         });
     });
 });

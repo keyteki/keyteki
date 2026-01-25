@@ -19,7 +19,7 @@ describe('Soultender', function () {
             this.soultender2.amber = 1;
             this.shadowSelf.amber = 1;
             this.flaxia.amber = 4;
-            this.shadowSelf.tokens.damage = 5;
+            this.shadowSelf.damage = 5;
         });
 
         it('removes amber from each Specter on play', function () {

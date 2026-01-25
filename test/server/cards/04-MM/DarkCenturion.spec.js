@@ -21,9 +21,9 @@ describe('dark-centurion', function () {
             expect(this.player1).toBeAbleToSelect(this.troll);
             this.player1.clickCard(this.umbra);
 
-            expect(this.umbra.hasToken('amber')).toBe(false);
-            expect(this.umbra.hasToken('ward')).toBe(false);
-            expect(this.darkCenturion.hasToken('ward')).toBe(false);
+            expect(this.umbra.amber).toBe(0);
+            expect(this.umbra.warded).toBe(false);
+            expect(this.darkCenturion.warded).toBe(false);
         });
 
         it('should be able to remove one amber from a creature that this player controls, and ward it', function () {
@@ -34,9 +34,9 @@ describe('dark-centurion', function () {
             expect(this.player1).toBeAbleToSelect(this.troll);
             this.player1.clickCard(this.umbra);
 
-            expect(this.umbra.hasToken('amber')).toBe(false);
-            expect(this.umbra.hasToken('ward')).toBe(true);
-            expect(this.darkCenturion.hasToken('ward')).toBe(false);
+            expect(this.umbra.amber).toBe(0);
+            expect(this.umbra.warded).toBe(true);
+            expect(this.darkCenturion.warded).toBe(false);
         });
 
         it('should be able to remove one amber from a creature that the opponent controls, and ward it', function () {
@@ -49,11 +49,11 @@ describe('dark-centurion', function () {
             expect(this.player1).toBeAbleToSelect(this.troll);
             this.player1.clickCard(this.troll);
 
-            expect(this.umbra.hasToken('amber')).toBe(true);
-            expect(this.umbra.hasToken('ward')).toBe(false);
+            expect(this.umbra.amber).toBe(1);
+            expect(this.umbra.warded).toBe(false);
 
-            expect(this.troll.hasToken('amber')).toBe(false);
-            expect(this.troll.hasToken('ward')).toBe(true);
+            expect(this.troll.amber).toBe(0);
+            expect(this.troll.warded).toBe(true);
         });
     });
 });

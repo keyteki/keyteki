@@ -8,7 +8,7 @@ describe('Hallowed Blaster', function () {
                 },
                 player2: {}
             });
-            this.troll.tokens.damage = 5;
+            this.troll.damage = 5;
         });
 
         it('should heal 3 damage from a creature', function () {

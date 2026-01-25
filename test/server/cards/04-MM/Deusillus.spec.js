@@ -373,7 +373,7 @@ describe('Deusillus', function () {
             this.player1.play(this.deusillus);
             this.player1.clickCard(this.narp);
             this.player1.endTurn();
-            this.deusillus.tokens.damage = 19;
+            this.deusillus.damage = 19;
             this.overlordGreking.ward();
             this.player2.clickPrompt('dis');
             this.player2.fightWith(this.overlordGreking, this.deusillus);

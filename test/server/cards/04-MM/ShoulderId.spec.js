@@ -45,7 +45,7 @@ describe('Shoulder Id', function () {
         });
 
         it('should not steal A if it dies due to Assault', function () {
-            this.shoulderId.tokens.damage = 5;
+            this.shoulderId.damage = 5;
             this.player1.fightWith(this.ancientBear, this.shoulderId);
             expect(this.player1).isReadyToTakeAction();
             expect(this.ancientBear.location).toBe('play area');

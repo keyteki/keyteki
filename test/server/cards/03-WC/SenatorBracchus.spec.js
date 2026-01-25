@@ -68,8 +68,8 @@ describe('Senator Bracchus', function () {
                 this.player1.clickPrompt('1');
                 expect(this.player1).toHavePrompt('Which key would you like to forge?');
                 expect(this.grimlocusDux.amber).toBe(1);
-                expect(this.senatorBracchus.hasToken('amber')).toBe(false);
-                expect(this.senatorShrix.hasToken('amber')).toBe(false);
+                expect(this.senatorBracchus.amber).toBe(0);
+                expect(this.senatorShrix.amber).toBe(0);
                 this.player1.clickPrompt('Red');
                 expect(this.player1.amber).toBe(2);
             });

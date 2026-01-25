@@ -55,7 +55,7 @@ describe('Little Niff', function () {
         });
 
         it('should cause fight damage if destroyed due to steal effect', function () {
-            this.knucklesBolton.tokens.damage = 2;
+            this.knucklesBolton.damage = 2;
             this.player1.fightWith(this.knucklesBolton, this.ancientBear);
             expect(this.knucklesBolton.location).toBe('discard');
             expect(this.ancientBear.damage).toBe(3);

@@ -5,7 +5,7 @@ class CuriaSuarus extends Card {
     setupCardAbilities(ability) {
         this.persistentEffect({
             targetController: 'any',
-            match: (card) => card.type === 'creature' && card.tokens.amber,
+            match: (card) => card.type === 'creature' && card.amber,
             effect: ability.effects.gainAbility('destroyed', {
                 target: {
                     mode: 'mostStat',

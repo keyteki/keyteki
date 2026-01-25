@@ -16,7 +16,7 @@ describe('Power Up', function () {
         it('should give two +1 power counters to a friendly creature', function () {
             this.player1.play(this.powerUp);
             this.player1.clickCard(this.badPenny);
-            expect(this.badPenny.getPower()).toBe(3);
+            expect(this.badPenny.power).toBe(3);
             expect(this.powerUp.location).toBe('discard');
             expect(this.player1).isReadyToTakeAction();
         });
