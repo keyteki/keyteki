@@ -41,7 +41,7 @@ describe('Weasand', function () {
             this.player1.clickCard(this.redlock);
             expect(this.weasand.location).toBe('play area');
             this.player1.endTurn();
-            this.player2.clickPrompt('Red');
+            this.player2.forgeKey('Red');
             this.player2.clickPrompt('brobnar');
             expect(this.player1.amber).toBe(2);
             expect(this.player2.amber).toBe(0);
@@ -54,7 +54,7 @@ describe('Weasand', function () {
             this.player1.endTurn();
             this.player2.clickPrompt('brobnar');
             this.player2.endTurn();
-            this.player1.clickPrompt('Red');
+            this.player1.forgeKey('Red');
             this.player1.clickPrompt('shadows');
             expect(this.player1.amber).toBe(2);
             expect(this.player2.amber).toBe(0);

@@ -73,7 +73,7 @@ describe('Recruit', function () {
             this.player2.endTurn();
 
             // Strange Gizmo causes Jargogle to play orator hissaro after forging a key
-            this.player1.clickPrompt('red');
+            this.player1.forgeKey('Red');
             this.player1.clickPrompt('deploy right');
             this.player1.clickCard(this.brillixPonder);
             this.player1.clickCard(this.brillixPonder);
