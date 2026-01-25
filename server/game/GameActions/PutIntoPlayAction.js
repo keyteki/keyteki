@@ -35,14 +35,9 @@ class PutIntoPlayAction extends CardGameAction {
     }
 
     // Gigantic creatures require 2 play allowances to play both halves.
+    // Playing from hand always provides enough allowance.
     canPutIntoPlayGigantic(context, card) {
-        // Playing from hand always provides allowance
-        if (card.location === 'hand') {
-            return true;
-        }
-
-        // Need at least 2 allowances to play a gigantic from outside hand
-        return this.numPlayAllowances >= 2;
+        return card.location === 'hand' || this.numPlayAllowances >= 2;
     }
 
     preEventHandler(context) {
