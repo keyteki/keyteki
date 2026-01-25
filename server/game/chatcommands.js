@@ -330,9 +330,9 @@ class ChatCommands {
         let card = player.deck[0];
         this.game.addAlert(
             'danger',
-            '{0} uses /token-creature to create a token creature from {1}',
+            '{0} uses /token-creature to put into play a {1} with the top card of their deck',
             player,
-            card
+            player.tokenCard
         );
 
         GameActions.makeTokenCreature({ deploy: true }).resolve(
