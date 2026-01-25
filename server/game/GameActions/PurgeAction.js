@@ -35,19 +35,17 @@ class PurgeAction extends CardGameAction {
             return;
         }
 
-        // Handle gigantic creatures that have been separated in discard. If a
-        // single gigantic card is targeted but is now in discard without its
-        // composedPart, and the other half is also in discard, prompt for which
-        // half to purge. This handles the case where a card effect purges a
-        // creature that was destroyed and separated into two cards in the
-        // discard pile.
+        // Handle gigantic creatures that were destroyed from play and went to discard.
+        // Only prompt for selection if the creature was previously composed (wasComposed flag).
+        // This handles the case where a card effect destroys a gigantic creature
+        // and then purges it - we need to ask which half to purge.
         if (this.target.length === 1) {
             const card = this.target[0];
             if (
                 card.gigantic &&
                 card.location === 'discard' &&
                 !card.composedPart &&
-                card.compositeId
+                card.wasComposed
             ) {
                 // Find the other half in the same discard pile
                 const otherHalf = card.owner.discard.find(
@@ -55,7 +53,7 @@ class PurgeAction extends CardGameAction {
                 );
 
                 if (otherHalf) {
-                    // Both halves are in discard, prompt for selection
+                    // Card was destroyed from play while composed, prompt for which half to purge
                     this.target = [];
                     context.game.promptWithHandlerMenu(context.player, {
                         activePromptTitle: 'Choose which half to purge',
@@ -71,6 +69,8 @@ class PurgeAction extends CardGameAction {
                     });
                 }
             }
+            // If wasComposed is false/undefined, just purge the targeted card
+            // (e.g., Hamstrung discarding from deck where halves were never composed)
         }
     }
 

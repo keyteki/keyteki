@@ -13,6 +13,7 @@ class PutIntoPlayAction extends CardGameAction {
         this.promptSource = false;
         this.beingPlayed = false;
         this.controller = null;
+        this.numPlayAllowances = 1;
     }
 
     setup() {
@@ -33,15 +34,15 @@ class PutIntoPlayAction extends CardGameAction {
         return true;
     }
 
-    // Check if both halves of a gigantic creature can be put into play
+    // Gigantic creatures require 2 play allowances to play both halves.
     canPutIntoPlayGigantic(context, card) {
-        // If `beingPlayed` or `myControl` from outside of the hand then there is only one allowance, which can't play both halves - eg Exhume or Overlord Greking
-        if (card.location !== 'hand' && (this.beingPlayed || this.myControl)) {
-            return false;
+        // Playing from hand always provides allowance
+        if (card.location === 'hand') {
+            return true;
         }
 
-        // Multiple allowances can happen, so both halves can be played - eg Saurian Egg
-        return true;
+        // Need at least 2 allowances to play a gigantic from outside hand
+        return this.numPlayAllowances >= 2;
     }
 
     preEventHandler(context) {
@@ -234,19 +235,19 @@ class PutIntoPlayAction extends CardGameAction {
                         part = card.parent.childCards.find((part) => card.compositeId === part.id);
                     }
 
-                    // Play from discard or other pile
-                    if (!part && !this.myControl && !this.beingPlayed) {
+                    // Play from discard or other pile - requires 2 play allowances
+                    if (!part && this.numPlayAllowances >= 2) {
                         part = card.controller
                             .getSourceList(card.location)
                             .find((p) => card.compositeId === p.id);
                     }
 
-                    // If the other part of the gigantic creature is not available then return
+                    // If the other part of the gigantic creature is not available then fizzle
                     if (!part) {
                         return;
                     }
 
-                    // Compose the gigantic creature if the other part is available
+                    // Compose the gigantic creature with both halves
                     card.controller.removeCardFromPile(part);
                     card.composedPart = part;
                     card.image = card.compositeImageId || card.id;
