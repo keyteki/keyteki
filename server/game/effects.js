@@ -174,7 +174,8 @@ const Effects = {
     canForgeSecondKeyDuringKeyPhase: () =>
         EffectBuilder.player.static('canForgeSecondKeyDuringKeyPhase'),
     cannotForgeMoreThan2KeysInATurn: () =>
-        EffectBuilder.player.static('cannotForgeMoreThan2KeysInATurn')
+        EffectBuilder.player.static('cannotForgeMoreThan2KeysInATurn'),
+    redirectForgeAmber: () => EffectBuilder.player.static('redirectForgeAmber')
 };
 
 module.exports = Effects;

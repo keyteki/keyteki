@@ -29,7 +29,7 @@ describe('The Quiet Anvil', function () {
             this.player1.endTurn();
             this.player2.clickPrompt('brobnar');
             this.player2.endTurn();
-            this.player1.clickPrompt('red');
+            this.player1.forgeKey('Red');
             expect(this.player1.player.getForgedKeys()).toBe(1);
             expect(this.player1.amber).toBe(0);
             expect(this.theQuietAnvil.location).toBe('discard');
@@ -39,7 +39,7 @@ describe('The Quiet Anvil', function () {
             expect(this.player1.amber).toBe(4);
             this.player2.amber = 4;
             this.player1.endTurn();
-            this.player2.clickPrompt('blue');
+            this.player2.forgeKey('Blue');
             this.player2.clickPrompt('brobnar');
             expect(this.player2.player.getForgedKeys()).toBe(1);
             expect(this.player2.amber).toBe(0);

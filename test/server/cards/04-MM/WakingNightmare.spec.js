@@ -25,7 +25,7 @@ describe('waking-nightmare', function () {
             this.player1.clickPrompt('dis');
             this.player1.endTurn();
 
-            this.player2.clickPrompt('Blue');
+            this.player2.forgeKey('Blue');
             this.player2.clickPrompt('dis');
             this.player2.endTurn();
             expect(this.player2.player.amber).toBe(0);
@@ -37,7 +37,7 @@ describe('waking-nightmare', function () {
             expect(this.player2.player.amber).toBe(8);
             this.player1.endTurn();
 
-            this.player2.clickPrompt('Blue');
+            this.player2.forgeKey('Blue');
             this.player2.clickPrompt('dis');
             // shooler and sinder make key cost 8
             expect(this.player2.player.amber).toBe(0);
