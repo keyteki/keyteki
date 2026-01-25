@@ -517,6 +517,12 @@ class Player extends GameObject {
             card.purgedBy = null;
         }
 
+        // Clear wasComposed when the card moves to a new location.
+        // This flag only applies within the zone where the gigantic landed after separation.
+        if (card.wasComposed) {
+            card.wasComposed = false;
+        }
+
         if (location === 'play area') {
             if (targetLocation !== 'archives' && card.owner !== this) {
                 card.owner.moveCard(card, targetLocation, options);
@@ -570,9 +576,7 @@ class Player extends GameObject {
                 card.composedPart.controller = card.controller;
                 card.composedPart.location = targetLocation;
                 targetPile.splice(cardIndex, 0, card.composedPart);
-                // Mark both halves as having been composed (for purge logic)
                 card.wasComposed = true;
-                card.composedPart.wasComposed = true;
                 card.composedPart = null;
             }
             card.image = card.id;

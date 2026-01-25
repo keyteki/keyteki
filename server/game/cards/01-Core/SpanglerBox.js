@@ -11,7 +11,8 @@ class SpanglerBox extends Card {
                     onCardLeavesPlay: (event, context) => event.card === context.source
                 },
                 gameAction: ability.actions.sequentialPutIntoPlay((context) => ({
-                    forEach: context.event.clone.clonedPurgedCards
+                    forEach: context.event.clone.clonedPurgedCards,
+                    numPlayAllowances: context.event.clone.clonedPurgedCards.length
                 })),
                 message: '{0} put into play all creatures purged by {1}',
                 messageArgs: (context) => [context.game.activePlayer, context.source]
