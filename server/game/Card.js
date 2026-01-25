@@ -1164,10 +1164,9 @@ class Card extends EffectSource {
             context.ignoreHouse = ignoreHouse;
             return !action.meetsRequirements(context, []);
         });
-        let canFight =
-            actions.findIndex((action) => action.title === 'Fight with this creature') >= 0;
+        let canFight = actions.findIndex((action) => action.fight) >= 0;
         if (this.getEffects('mustFightIfAble').length > 0 && canFight) {
-            actions = actions.filter((action) => action.title === 'Fight with this creature');
+            actions = actions.filter((action) => action.fight);
         }
         return actions;
     }
