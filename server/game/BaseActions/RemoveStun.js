@@ -7,6 +7,7 @@ class RemoveStun extends BaseAbility {
     constructor(card) {
         super({ cost: [Costs.use(), Costs.exhaust()] });
         this.card = card;
+        this.abilityType = 'action';
         this.title = "Remove this creature's stun";
         this.printedAbility = false;
         this.omni = false;
