@@ -164,4 +164,34 @@ describe('The Sting', function () {
             expect(this.player2).isReadyToTakeAction();
         });
     });
+
+    describe('The Sting with Ethereal Adaptor', function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    amber: 5,
+                    house: 'geistoid',
+                    inPlay: ['troll'],
+                    hand: ['ethereal-adaptor']
+                },
+                player2: {
+                    inPlay: ['the-sting']
+                }
+            });
+
+            this.player1.playUpgrade(this.etherealAdaptor, this.troll);
+            this.troll.amber = 3;
+        });
+
+        it('should receive aember spent from outside of the pool', function () {
+            this.player1.endTurn();
+            this.player2.clickPrompt('shadows');
+            this.player2.endTurn();
+            this.player1.clickPrompt(3);
+            this.player1.forgeKey('red');
+            expect(this.player1.amber).toBe(2);
+            expect(this.troll.amber).toBe(0);
+            expect(this.player2.amber).toBe(6);
+        });
+    });
 });

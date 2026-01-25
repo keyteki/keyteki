@@ -968,11 +968,11 @@ class Player extends GameObject {
         // Check if opponent has redirectForgeAmber effect (e.g. The Sting)
         const redirectEffect = this.effects.find((effect) => effect.type === 'redirectForgeAmber');
         if (this.opponent && redirectEffect) {
-            this.opponent.modifyAmber(modifiedCost);
+            this.opponent.modifyAmber(cost);
             this.game.addMessage(
                 '{0} receives {1} amber from {2}',
                 this.opponent,
-                modifiedCost,
+                cost,
                 redirectEffect.context.source
             );
         }
