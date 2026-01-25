@@ -15,6 +15,8 @@ describe('Talent Scout', function () {
                         'ring-of-invisibility',
                         'bumpsy',
                         'too-much-to-protect'
+                        // 'boosted-b4-rry',
+                        // 'boosted-b4-rry2'
                     ]
                 }
             });
@@ -62,6 +64,17 @@ describe('Talent Scout', function () {
             this.player1.endTurn();
             expect(this.talentScout.location).toBe('hand');
         });
+
+        // it('cannot play gigantics', function () {
+        //     this.player1.playCreature(this.talentScout);
+        //     expect(this.player1).toBeAbleToSelect(this.boostedB4Rry);
+        //     expect(this.player1).toBeAbleToSelect(this.boostedB4Rry2);
+        //     this.player1.clickCard(this.boostedB4Rry);
+        //     expect(this.player2.amber).toBe(1);
+        //     expect(this.boostedB4Rry.location).toBe('hand');
+        //     expect(this.boostedB4Rry2.location).toBe('hand');
+        //     expect(this.talentScout.location).toBe('play area');
+        // });
 
         describe("after ability resolved, on opponent's turn", function () {
             beforeEach(function () {

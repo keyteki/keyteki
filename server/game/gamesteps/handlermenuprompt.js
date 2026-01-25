@@ -113,11 +113,19 @@ class HandlerMenuPrompt extends UiPrompt {
     }
 
     onCardClicked(player, card) {
-        // When a Gigantic creature is targeted it is considerd a single composed card. When it goes to the discard it then separates into two halves, but the original ability is still targeting the composed card. For abilities that continue to target the Gigantic creature after it has separated in the discard we need to prompt the player to choose a separated half to be the final target. eg Brutal Consequences
-        if (card.gigantic) {
-            this.properties.cardHandler(
-                this.properties.cards.find((c) => c === card || c.composedPart === card)
-            );
+        // When a Gigantic creature is targeted it is considered a single
+        // composed card. When it goes to the discard it then separates into two
+        // halves, but the original ability is still targeting the composed
+        // card. For abilities that continue to target the Gigantic creature
+        // after it has separated in the discard we need to prompt the player to
+        // choose a separated half to be the final target. eg Brutal
+        // Consequences
+        const matchingCard = this.properties.cards.find(
+            (c) => c === card || c.composedPart === card
+        );
+        if (matchingCard) {
+            this.properties.cardHandler(matchingCard);
+            return true;
         }
 
         return false;

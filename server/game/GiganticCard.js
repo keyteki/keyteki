@@ -37,7 +37,9 @@ class GiganticCard extends Card {
     get powerForPlayRestriction() {
         let powerPrinted = this.powerPrinted;
 
-        // Gigantic creatures are restricted by the bottom half's power. The top half should not be considered to have printed power except in the case when its needed for a restriction check that is based on power.
+        // Gigantic creatures are restricted by the bottom half's power. The top
+        // half should not be considered to have printed power except in the
+        // case when its needed for a restriction check that is based on power.
         if (this.gigantic && !this.giganticBottom && !this.composedPart) {
             // Cannot use getBottomCard while in hand because it is not composed with the top half
             const bottomCard = this.controller.allCards.find(

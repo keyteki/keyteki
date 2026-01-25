@@ -10,8 +10,10 @@ describe('Trojan Sauropod', function () {
                         'city-gates',
                         'citizen-shrix',
                         'stomp',
-                        'exile',
-                        'siren-horn'
+                        'siren-horn',
+                        'deusillus',
+                        'deusillus2',
+                        'bawretchadontius'
                     ],
                     discard: ['spyyyder', 'shooler', 'gateway-to-dis', 'gub']
                 },
@@ -56,8 +58,10 @@ describe('Trojan Sauropod', function () {
                     expect(this.player2).toHavePrompt('Choose a creature to put into play');
                     expect(this.player2).toBeAbleToSelect(this.senatorShrix);
                     expect(this.player2).toBeAbleToSelect(this.citizenShrix);
+                    expect(this.player2).toBeAbleToSelect(this.deusillus);
+                    expect(this.player2).toBeAbleToSelect(this.deusillus2);
+                    expect(this.player2).not.toBeAbleToSelect(this.bawretchadontius);
                     expect(this.player2).not.toBeAbleToSelect(this.sirenHorn);
-                    expect(this.player2).not.toBeAbleToSelect(this.exile);
                     expect(this.player2).not.toBeAbleToSelect(this.stomp);
                     expect(this.player2).not.toBeAbleToSelect(this.cityGates);
                     expect(this.player2).not.toBeAbleToSelect(this.dextre);
@@ -69,14 +73,20 @@ describe('Trojan Sauropod', function () {
                     this.player2.clickCard(this.citizenShrix);
                     this.player2.clickPrompt('Right');
                     expect(this.citizenShrix.location).toBe('play area');
+                    this.player2.clickCard(this.deusillus2);
+                    this.player2.clickPrompt('Right');
+                    expect(this.deusillus2.location).toBe('play area');
                     expect(this.player2).isReadyToTakeAction();
                     expect(this.player1.player.hand.length).toBe(6);
+                    expect(this.bawretchadontius.location).toBe('hand');
                     expect(this.gub.location).toBe('hand');
                     expect(this.gatewayToDis.location).toBe('hand');
                     expect(this.trojanSauropod.location).toBe('discard');
 
                     expect(this.citizenShrix.exhausted).toBe(false);
                     expect(this.senatorShrix.exhausted).toBe(false);
+                    expect(this.deusillus2.exhausted).toBe(false);
+                    expect(this.player2).isReadyToTakeAction();
                 });
             });
         });

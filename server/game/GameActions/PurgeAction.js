@@ -35,11 +35,12 @@ class PurgeAction extends CardGameAction {
             return;
         }
 
-        // Handle gigantic creatures that have been separated in discard
-        // If a single gigantic card is targeted but is now in discard without its composedPart,
-        // and the other half is also in discard, prompt for which half to purge.
-        // This handles the case where a card effect purges a creature that was destroyed
-        // and separated into two cards in the discard pile.
+        // Handle gigantic creatures that have been separated in discard. If a
+        // single gigantic card is targeted but is now in discard without its
+        // composedPart, and the other half is also in discard, prompt for which
+        // half to purge. This handles the case where a card effect purges a
+        // creature that was destroyed and separated into two cards in the
+        // discard pile.
         if (this.target.length === 1) {
             const card = this.target[0];
             if (
