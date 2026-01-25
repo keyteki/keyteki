@@ -4,6 +4,7 @@ const CardGameAction = require('./CardGameAction');
 class MakeTokenCreatureAction extends CardGameAction {
     setDefaultProperties() {
         this.amount = 1;
+        this.deploy = false;
         this.deployIndex = undefined;
         this.player = null;
     }
@@ -59,6 +60,7 @@ class MakeTokenCreatureAction extends CardGameAction {
                         }),
                         context.game.actions.putIntoPlay({
                             target: card,
+                            deploy: this.deploy,
                             deployIndex: this.deployIndex,
                             promptSource: event.player.tokenCard
                         })
