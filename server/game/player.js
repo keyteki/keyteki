@@ -964,6 +964,19 @@ class Player extends GameObject {
 
     finalizeForge(key, modifiedCost, cost) {
         this.modifyAmber(-modifiedCost);
+
+        // Check if opponent has redirectForgeAmber effect (e.g. The Sting)
+        const redirectEffect = this.effects.find((effect) => effect.type === 'redirectForgeAmber');
+        if (this.opponent && redirectEffect) {
+            this.opponent.modifyAmber(cost);
+            this.game.addMessage(
+                '{0} receives {1} amber from {2}',
+                this.opponent,
+                cost,
+                redirectEffect.context.source
+            );
+        }
+
         this.keys[key] = true;
         this.keysForgedThisRound.push(key);
         this.game.addMessage('{0} forges the {1}, paying {2} amber', this, `forgedkey${key}`, cost);
