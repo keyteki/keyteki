@@ -52,8 +52,7 @@ describe('Crushing Deep', function () {
                     hand: []
                 }
             });
-            this.tachyonManifold.maverick = 'unfathomable';
-            this.tachyonManifold.printedHouse = 'unfathomable';
+            this.player1.makeMaverick(this.tachyonManifold, 'unfathomable');
         });
 
         it("should affect opponent's next turn", function () {

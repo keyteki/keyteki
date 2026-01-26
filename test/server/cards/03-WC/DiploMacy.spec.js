@@ -48,8 +48,7 @@ describe('Diplo-Macy', function () {
                     inPlay: ['philophosaurus']
                 }
             });
-            this.tachyonManifold.maverick = 'saurian';
-            this.tachyonManifold.printedHouse = 'saurian';
+            this.player1.makeMaverick(this.tachyonManifold, 'saurian');
         });
 
         it("should not affect opponent's next turn", function () {

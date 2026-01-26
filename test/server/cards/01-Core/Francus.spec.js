@@ -45,12 +45,13 @@ describe('Francus', function () {
             this.player1.endTurn();
         });
 
-        it('should not capture 1 amber when destroyed creature was not involved in the fight', function () {
+        it("should capture 1 amber when fighting shadow self's neighbor", function () {
             this.player1.fightWith(this.francus, this.splinter);
             expect(this.splinter.location).toBe('play area');
+            expect(this.shadowSelf.location).toBe('discard');
             expect(this.francus.armorUsed).toBe(1);
-            expect(this.francus.amber).toBe(0);
-            expect(this.player2.amber).toBe(3);
+            expect(this.francus.amber).toBe(1);
+            expect(this.player2.amber).toBe(2);
             this.player1.endTurn();
         });
 

@@ -12,8 +12,7 @@ describe('Zizok', function () {
                 }
             });
 
-            this.crimTorchtooth.printedHouse = 'mars';
-            this.crimTorchtooth.maverick = 'mars';
+            this.player1.makeMaverick(this.crimTorchtooth, 'mars');
         });
 
         it('should ready when creature destroyed by its splash attack', function () {

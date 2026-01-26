@@ -8,7 +8,7 @@ describe('Hamstrung', function () {
                     discard: ['ancient-bear', 'infinity-strop']
                 },
                 player2: {
-                    discard: ['hunting-witch', 'key-charge']
+                    discard: ['hunting-witch', 'key-charge', 'niffle-kong', 'niffle-kong2']
                 }
             });
         });
@@ -52,6 +52,16 @@ describe('Hamstrung', function () {
             this.player1.clickPrompt("Opponent's");
             expect(this.player1.deck.length).toBe(p1DeckLen);
             expect(this.huntingWitch.location).toBe('discard');
+            expect(this.player1).isReadyToTakeAction();
+        });
+
+        it('should not be able to target other half of gigantic', function () {
+            this.player2.moveCard(this.niffleKong, 'deck');
+            this.player2.moveCard(this.niffleKong2, 'discard');
+            this.player1.play(this.hamstrung);
+            this.player1.clickPrompt("Opponent's");
+            expect(this.niffleKong.location).toBe('purged');
+            expect(this.niffleKong2.location).toBe('discard');
             expect(this.player1).isReadyToTakeAction();
         });
     });

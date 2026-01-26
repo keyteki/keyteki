@@ -84,8 +84,7 @@ describe('Rhetor Gallim', function () {
                     inPlay: []
                 }
             });
-            this.tachyonManifold.maverick = 'saurian';
-            this.tachyonManifold.printedHouse = 'saurian';
+            this.player1.makeMaverick(this.tachyonManifold, 'saurian');
             this.player1.useAction(this.tachyonManifold);
         });
 

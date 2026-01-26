@@ -12,8 +12,7 @@ describe('Revo Hooligans', function () {
                 }
             });
 
-            this.animator.printedHouse = 'ekwidon';
-            this.animator.maverick = 'ekwidon';
+            this.player1.makeMaverick(this.animator, 'ekwidon');
         });
 
         it('should add a paint counter to a friendly artifact', function () {

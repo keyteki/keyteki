@@ -21,8 +21,7 @@ describe('The Long Con', function () {
             this.stooge4 = this.player1.player.creaturesInPlay[3];
             this.stooge5 = this.player1.player.creaturesInPlay[4];
             this.stooge6 = this.player1.player.deck[0];
-            this.hypnobeam.printedHouse = 'shadows';
-            this.hypnobeam.maverick = 'shadows';
+            this.player1.makeMaverick(this.hypnobeam, 'shadows');
         });
 
         it('should prevent friendly Stooges from reaping', function () {

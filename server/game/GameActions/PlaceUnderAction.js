@@ -35,6 +35,14 @@ class PlaceUnderAction extends CardGameAction {
             card.clearDependentCards();
             card.onLeavesPlay();
         }
+
+        // Split the composed halves of a gigantic creature
+        if (card.gigantic && card.composedPart) {
+            this.placeUnder(card.composedPart);
+            card.composedPart = null;
+            card.image = card.id;
+        }
+
         card.controller = this.parent.controller;
         card.parent = this.parent;
         card.moveTo(this.isGraft ? 'grafted' : 'under');

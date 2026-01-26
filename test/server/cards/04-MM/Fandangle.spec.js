@@ -91,8 +91,7 @@ describe('Fandangle', function () {
         });
 
         it('should ready itself when maverick', function () {
-            this.fandangle.printedHouse = 'staralliance';
-            this.fandangle.maverick = 'staralliance';
+            this.player1.makeMaverick(this.fandangle, 'staralliance');
 
             this.player1.play(this.kartanoo);
             expect(this.kartanoo.exhausted).toBe(true);
@@ -105,8 +104,7 @@ describe('Fandangle', function () {
         it('should NOT ready itself when maverick but not enough amber', function () {
             this.player1.player.amber = 0;
 
-            this.fandangle.printedHouse = 'staralliance';
-            this.fandangle.maverick = 'staralliance';
+            this.player1.makeMaverick(this.fandangle, 'staralliance');
 
             this.player1.play(this.kartanoo);
             expect(this.kartanoo.exhausted).toBe(true);

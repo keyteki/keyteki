@@ -65,8 +65,7 @@ describe('Overrun', function () {
         });
 
         it('should cause the opponent to lose 2A for creatures that have changed control and die in a fight this turn', function () {
-            this.exile.maverick = 'brobnar';
-            this.exile.printedHouse = 'brobnar';
+            this.player1.makeMaverick(this.exile, 'brobnar');
             this.player1.play(this.exile);
             this.player1.clickCard(this.wardrummer);
             this.player1.clickPrompt('Left');
