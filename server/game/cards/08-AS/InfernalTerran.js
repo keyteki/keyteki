@@ -22,34 +22,25 @@ class InfernalTerran extends Card {
         });
 
         this.scrap({
-            gameAction: ability.actions.discard((context) => ({
-                target: context.player.hand
+            gameAction: ability.actions.discardEntireLocation((context) => ({
+                location: 'hand',
+                target: context.player
             })),
             then: {
                 message: '{0} uses {1} to steal {3} amber',
-                messageArgs: (context) => {
-                    const events = context.preThenEvents || [];
-                    const cards = events.flatMap((e) =>
-                        (Array.isArray(e.cards) ? e.cards : []).concat(e.card ? [e.card] : [])
-                    );
-                    return cards.reduce(
+                messageArgs: (context) =>
+                    context.preThenCards.reduce(
                         (acc, card) =>
                             acc + card.bonusIcons.filter((icon) => icon === 'amber').length,
                         0
-                    );
-                },
-                gameAction: ability.actions.steal((context) => {
-                    const events = context.preThenEvents || [];
-                    const cards = events.flatMap((e) =>
-                        (Array.isArray(e.cards) ? e.cards : []).concat(e.card ? [e.card] : [])
-                    );
-                    const amount = cards.reduce(
+                    ),
+                gameAction: ability.actions.steal((context) => ({
+                    amount: context.preThenCards.reduce(
                         (acc, card) =>
                             acc + card.bonusIcons.filter((icon) => icon === 'amber').length,
                         0
-                    );
-                    return { amount };
-                })
+                    )
+                }))
             }
         });
     }

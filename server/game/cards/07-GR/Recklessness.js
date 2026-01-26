@@ -7,11 +7,11 @@ class Recklessness extends Card {
         this.play({
             gameAction: ability.actions.sequential([
                 ability.actions.discardAtRandom((context) => ({
-                    target: [context.player, context.player.opponent].filter((p) => p),
+                    target: [context.player, context.player.opponent],
                     amount: 3
                 })),
                 ability.actions.draw((context) => ({
-                    target: [context.player, context.player.opponent].filter((p) => p),
+                    target: [context.player, context.player.opponent],
                     amount: 3
                 }))
             ])

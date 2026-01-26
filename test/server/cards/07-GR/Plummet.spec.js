@@ -16,6 +16,7 @@ describe('Plummet', function () {
 
         it('discards hand', function () {
             this.player1.play(this.plummet);
+            this.player1.clickPrompt('Autoresolve');
             expect(this.player1.player.hand.length).toBe(0);
             expect(this.shoppingSpree.location).toBe('discard');
             expect(this.pressGang.location).toBe('discard');
@@ -24,6 +25,7 @@ describe('Plummet', function () {
 
         it('deals 2 damage to all creatures', function () {
             this.player1.play(this.plummet);
+            this.player1.clickPrompt('Autoresolve');
             expect(this.groke.damage).toBe(2);
             expect(this.cpoZytar.damage).toBe(1);
             expect(this.troll.damage).toBe(2);

@@ -27,14 +27,17 @@ describe('Curse Of Spontaneity', function () {
                 expect(this.player2.player.cardsInPlay).toContain(this.curseOfSpontaneity);
             });
 
-            describe("at the end of owner's turn", function () {
-                it('should discard opponents hand', function () {
+            describe("at the end of controller's turn", function () {
+                it('should discard their hand', function () {
                     this.player2.endTurn();
+                    this.player2.clickPrompt('Autoresolve');
                     expect(this.johnSmyth.location).toBe('discard');
                     expect(this.crystalHive.location).toBe('discard');
                     expect(this.player2.player.hand.length).toBe(6);
                     expect(this.flaxia.location).toBe('hand');
                     expect(this.player1.player.hand.length).toBe(6);
+                    this.player1.clickPrompt('ekwidon');
+                    expect(this.player1).isReadyToTakeAction();
                 });
             });
         });

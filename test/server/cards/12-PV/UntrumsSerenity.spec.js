@@ -18,6 +18,11 @@ describe("Untrum's Serenity", function () {
 
         it('should destroy all creatures and artifacts, discard archives and hands, then refill hands', function () {
             this.player1.play(this.untrumSSerenity);
+            expect(this.player1).toHavePrompt('Choose which player discards first'); // archives
+            this.player1.clickPrompt('Me');
+            expect(this.player1).toHavePrompt('Choose which player discards first'); // hand
+            this.player1.clickPrompt('Opponent');
+            this.player1.clickPrompt('Autoresolve'); // player1 hand
             expect(this.ritualOfBalance.location).toBe('discard');
             expect(this.emberImp.location).toBe('discard');
             expect(this.krump.location).toBe('discard');
@@ -35,6 +40,7 @@ describe("Untrum's Serenity", function () {
             expect(this.player1.hand.length).toBe(6);
             expect(this.player2.hand.length).toBe(6);
             this.player2.clickPrompt('logos');
+            expect(this.player2).isReadyToTakeAction();
         });
     });
 });

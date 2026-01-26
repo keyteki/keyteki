@@ -55,7 +55,7 @@ class DiscardCardAction extends CardGameAction {
             }
 
             context.game.promptForSelect(activePlayer, {
-                activePromptTitle: 'Select next card to discard',
+                activePromptTitle: 'Select a card to discard',
                 context: context,
                 location: 'hand',
                 cardCondition: (card) => this._remainingDiscardCards.includes(card),
