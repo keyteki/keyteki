@@ -66,8 +66,7 @@ describe('Sabotage Mission', function () {
                     hand: []
                 }
             });
-            this.tachyonManifold.maverick = 'staralliance';
-            this.tachyonManifold.printedHouse = 'staralliance';
+            this.player1.makeMaverick(this.tachyonManifold, 'staralliance');
             this.player1.useAction(this.tachyonManifold);
         });
 

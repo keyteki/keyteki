@@ -70,8 +70,7 @@ describe('Knightapult', function () {
             });
 
             it('should ready token creatures created by playing artifacts', function () {
-                this.exoShellSystem.maverick = 'sanctum';
-                this.exoShellSystem.printedHouse = 'sanctum';
+                this.player1.makeMaverick(this.exoShellSystem, 'sanctum');
                 this.player1.clickCard(this.exoShellSystem);
                 this.player1.clickPrompt('Play this artifact');
                 this.player1.clickPrompt('Left');
