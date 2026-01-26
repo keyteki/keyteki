@@ -14,8 +14,7 @@ describe('Sentient Cloud', function () {
                 }
             });
 
-            this.sentientCloud.printedHouse = 'mars';
-            this.sentientCloud.maverick = 'mars';
+            this.player1.makeMaverick(this.sentientCloud, 'mars');
         });
 
         it('should give highest-powered friendly creatures a fight ability to gain 2', function () {

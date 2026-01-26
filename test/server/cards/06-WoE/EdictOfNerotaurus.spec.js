@@ -178,10 +178,8 @@ describe('Edict of Nerotaurus', function () {
                     inPlay: ['urchin', 'dodger', 'mack-the-knife']
                 }
             });
-            this.blossomDrake.maverick = 'saurian';
-            this.blossomDrake.printedHouse = 'saurian';
-            this.botBookton.maverick = 'saurian';
-            this.botBookton.printedHouse = 'saurian';
+            this.player1.makeMaverick(this.blossomDrake, 'saurian');
+            this.player1.makeMaverick(this.botBookton, 'saurian');
         });
 
         it('should not track reap/fight before coming into play', function () {

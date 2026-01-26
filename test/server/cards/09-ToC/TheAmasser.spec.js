@@ -15,8 +15,7 @@ describe('The Amasser', function () {
                 }
             });
 
-            this.belligerentGuard.printedHouse = 'dis';
-            this.belligerentGuard.maverick = 'dis';
+            this.player1.makeMaverick(this.belligerentGuard, 'dis');
 
             this.toad1 = this.player1.deck[0];
             this.toad2 = this.player1.deck[1];

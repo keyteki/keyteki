@@ -85,8 +85,7 @@ describe('Skippy Timehog', function () {
                     inPlay: ['hunting-witch']
                 }
             });
-            this.tachyonManifold.maverick = 'logos';
-            this.tachyonManifold.printedHouse = 'logos';
+            this.player1.makeMaverick(this.tachyonManifold, 'logos');
             this.player1.useAction(this.tachyonManifold);
         });
 
