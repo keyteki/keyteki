@@ -5,8 +5,8 @@ class CrypticCollapse extends Card {
     setupCardAbilities(ability) {
         this.play({
             gameAction: ability.actions.discardEntireLocation((context) => ({
-                target: context.player,
-                location: 'hand'
+                location: 'hand',
+                target: context.player
             })),
             then: {
                 gameAction: ability.actions.sequentialForEach((context) => ({
