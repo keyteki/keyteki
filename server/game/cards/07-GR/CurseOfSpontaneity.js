@@ -11,8 +11,8 @@ class CurseOfSpontaneity extends Card {
                     context.player === this.game.activePlayer && event.phase === 'draw'
             },
             gameAction: ability.actions.discardEntireLocation((context) => ({
-                target: context.player,
-                location: 'hand'
+                location: 'hand',
+                target: context.player
             }))
         });
     }
