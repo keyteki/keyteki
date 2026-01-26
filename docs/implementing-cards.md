@@ -97,6 +97,8 @@ module.exports = DustPixie;
 -   Set the static `id` property to match the JSON data
 -   Export the class with `module.exports`
 -   Always end the file with a newline
+-   Order object properties alphabetically where it makes sense when there isn't
+    a strong logical order to the properties
 
 ## Keywords
 

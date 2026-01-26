@@ -120,32 +120,40 @@ class RandomDiscardAction extends PlayerAction {
     getSinglePlayerEvent(player, context) {
         const amount = this.getAmount(player);
         return super.createEvent(EVENTS.unnamedEvent, { player, context, amount }, (event) => {
-            const cardsToDiscard = [];
+            const cardsDiscarded = [];
             let remainingAmount = event.amount;
 
             // Create a recursive function to discard cards one at a time
             const discardNextCard = () => {
                 if (remainingAmount <= 0) {
-                    // All cards discarded, finish the event
-                    event.cards = cardsToDiscard;
-                    if (cardsToDiscard.length > 0) {
-                        context.game.addMessage('{0} discards {1} at random', player, event.cards);
+                    // Done discarding
+                    event.cards = cardsDiscarded;
+                    if (cardsDiscarded.length > 0) {
+                        context.game.addMessage(
+                            '{0} randomly discards {1}',
+                            player,
+                            cardsDiscarded
+                        );
                     }
                     return;
                 }
 
                 const availableCards = this.getCards(player);
                 if (availableCards.length === 0) {
-                    // No more cards to discard, finish the event
-                    event.cards = cardsToDiscard;
-                    if (cardsToDiscard.length > 0) {
-                        context.game.addMessage('{0} discards {1} at random', player, event.cards);
+                    // No more cards to discard
+                    event.cards = cardsDiscarded;
+                    if (cardsDiscarded.length > 0) {
+                        context.game.addMessage(
+                            '{0} randomly discards {1}',
+                            player,
+                            cardsDiscarded
+                        );
                     }
                     return;
                 }
 
                 const randomCard = _.sample(availableCards);
-                cardsToDiscard.push(randomCard);
+                cardsDiscarded.push(randomCard);
 
                 // Create a discard event for this specific card
                 const discardEvent = context.game.actions

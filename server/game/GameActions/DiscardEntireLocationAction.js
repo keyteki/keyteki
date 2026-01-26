@@ -3,13 +3,15 @@ const PlayerAction = require('./PlayerAction');
 const _ = require('underscore');
 
 /**
- * DiscardEntireLocationAction - Discards all cards from a player's hand or archives.
+ * DiscardEntireLocationAction - Discards all cards from a player's hand or
+ * archives, prompting the active player to choose which player discards first.
  *
- * For the active player: prompts to choose the order of discard.
- * For opponent: discards randomly one at a time since active player makes choices but can't see opponent's cards.
+ * For the active player: prompts to choose the order of discard if there are
+ * scrap effects to resolve. For opponent: discards randomly one at a time since
+ * active player makes choices but can't see opponent's cards.
  *
- * Discards until the location is empty (not a fixed amount), so if a scrap effect draws a card,
- * that card also gets discarded.
+ * Discards until the location is empty, so if a scrap effect draws a card, that
+ * card also gets discarded.
  */
 class DiscardEntireLocationAction extends PlayerAction {
     setDefaultProperties() {
@@ -128,17 +130,23 @@ class DiscardEntireLocationAction extends PlayerAction {
      */
     discardActivePlayerLocation(player, context, cardsDiscarded, event) {
         const self = this;
+        // Track cards that were logged individually (for scrap ordering)
+        const cardsLoggedIndividually = [];
 
         const discardNextCard = () => {
             const cards = self.getCards(player);
             if (cards.length === 0) {
                 // Done discarding
                 event.cards = cardsDiscarded;
-                if (cardsDiscarded.length > 0) {
+                // Only log cards that weren't already logged individually
+                const cardsToLog = cardsDiscarded.filter(
+                    (c) => !cardsLoggedIndividually.includes(c)
+                );
+                if (cardsToLog.length > 0) {
                     context.game.addMessage(
                         "{0} discards {1} from {0}'s " + self.location,
                         player,
-                        cardsDiscarded
+                        cardsToLog
                     );
                 }
                 return;
@@ -169,11 +177,15 @@ class DiscardEntireLocationAction extends PlayerAction {
 
                 context.game.queueSimpleStep(() => {
                     event.cards = cardsDiscarded;
-                    if (cardsDiscarded.length > 0) {
+                    // Only log cards that weren't already logged individually
+                    const cardsToLog = cardsDiscarded.filter(
+                        (c) => !cardsLoggedIndividually.includes(c)
+                    );
+                    if (cardsToLog.length > 0) {
                         context.game.addMessage(
                             "{0} discards {1} from {0}'s " + self.location,
                             player,
-                            cardsDiscarded
+                            cardsToLog
                         );
                     }
                 });
@@ -189,6 +201,14 @@ class DiscardEntireLocationAction extends PlayerAction {
                 controller: 'self',
                 onSelect: (p, card) => {
                     cardsDiscarded.push(card);
+                    cardsLoggedIndividually.push(card);
+
+                    // Log the discard immediately so it appears before scrap effects
+                    context.game.addMessage(
+                        "{0} discards {1} from {0}'s " + self.location,
+                        player,
+                        card
+                    );
 
                     const discardEvent = context.game.actions
                         .discard({ chatMessage: false })
@@ -226,10 +246,10 @@ class DiscardEntireLocationAction extends PlayerAction {
                 event.cards = cardsDiscarded;
                 if (cardsDiscarded.length > 0) {
                     context.game.addMessage(
-                        "{0} randomly discards {1} from {2}'s " + self.location,
-                        context.game.activePlayer,
+                        '{0} randomly discards {1} from {2}',
+                        player,
                         cardsDiscarded,
-                        player
+                        self.location
                     );
                 }
                 return;

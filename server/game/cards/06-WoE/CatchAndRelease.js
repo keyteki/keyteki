@@ -7,7 +7,7 @@ class CatchAndRelease extends Card {
     setupCardAbilities(ability) {
         this.play({
             effect:
-                "return all creatures to their owner's hand and have eac player discard down to 6 cards",
+                "return all creatures to their owner's hand and have each player discard down to 6 cards",
             gameAction: [
                 ability.actions.returnToHand((context) => ({
                     target: context.game.creaturesInPlay

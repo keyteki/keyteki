@@ -3,18 +3,16 @@ const PlayerAction = require('./PlayerAction');
 const _ = require('underscore');
 
 /**
- * DiscardRandomCardsToAmountAction - Discards random cards from a player's hand until
- * they have at most `amount` cards remaining.
+ * DiscardRandomCardsToAmountAction - Discards random cards from a player's hand
+ * until they have at most `amount` cards remaining.
  *
- * Unlike RandomDiscardAction (which discards a fixed number), this discards until
- * a threshold is reached. This matters when scrap abilities draw cards during discard.
- *
- * Example: Catch and Release - "Each player discards random cards from their hand
- * until they have 6 or fewer cards in hand."
+ * Unlike RandomDiscardAction which discards a fixed number, this discards until
+ * a threshold is reached. This matters when scrap abilities draw or discard
+ * cards.
  */
 class DiscardRandomCardsToAmountAction extends PlayerAction {
     setDefaultProperties() {
-        this.amount = (player) => player.hand.length; // Default to current hand size (no discard)
+        this.amount = (player) => player.maxHandSize; // Default to hand limit
     }
 
     /**
@@ -122,7 +120,7 @@ class DiscardRandomCardsToAmountAction extends PlayerAction {
                         event.cards = cardsDiscarded;
                         if (cardsDiscarded.length > 0) {
                             context.game.addMessage(
-                                '{0} discards {1} at random',
+                                '{0} randomly discards {1}',
                                 player,
                                 cardsDiscarded
                             );
