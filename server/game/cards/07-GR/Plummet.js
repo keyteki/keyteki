@@ -12,12 +12,10 @@ class Plummet extends Card {
             then: {
                 gameAction: ability.actions.dealDamage((context) => ({
                     target: context.game.creaturesInPlay,
-                    amount: (context.preThenEvents?.flatMap((e) => e.cards || []) || []).length
+                    amount: context.preThenCards.length
                 })),
                 message: '{0} uses {1} to deal {3} damage to each creature',
-                messageArgs: (context) => [
-                    (context.preThenEvents?.flatMap((e) => e.cards || []) || []).length
-                ]
+                messageArgs: (context) => [context.preThenCards.length]
             }
         });
     }

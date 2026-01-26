@@ -10,7 +10,7 @@ class CrypticCollapse extends Card {
             })),
             then: {
                 gameAction: ability.actions.sequentialForEach((context) => ({
-                    num: (context.preThenEvents?.flatMap((e) => e.cards || []) || []).length,
+                    num: context.preThenCards.length,
                     action: ability.actions.capture({
                         promptForSelect: {
                             activePromptTitle: 'Choose a creature to capture 1 amber',

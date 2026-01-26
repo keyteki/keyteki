@@ -11,7 +11,7 @@ class ShoppingSpree extends Card {
             })),
             then: {
                 gameAction: ability.actions.draw((context) => ({
-                    amount: (context.preThenEvents?.flatMap((e) => e.cards || []) || []).length
+                    amount: context.preThenCards.length
                 }))
             }
         });
