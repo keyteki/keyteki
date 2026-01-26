@@ -376,7 +376,7 @@ class PlayerInteractionWrapper {
      * @param {String} house - the house to maverick the card into
      */
     makeMaverick(card, house) {
-        card.maverick = true;
+        card.maverick = house;
         card.printedHouse = house;
     }
 
