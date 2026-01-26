@@ -51,8 +51,7 @@ describe('Inky Gloom', function () {
                     inPlay: ['hunting-witch']
                 }
             });
-            this.tachyonManifold.maverick = 'shadows';
-            this.tachyonManifold.printedHouse = 'shadows';
+            this.player1.makeMaverick(this.tachyonManifold, 'shadows');
             this.player1.useAction(this.tachyonManifold);
         });
 

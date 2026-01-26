@@ -57,8 +57,7 @@ describe('Screeyan', function () {
                     hand: ['umbra', 'troll']
                 }
             });
-            this.tachyonManifold.maverick = 'ekwidon';
-            this.tachyonManifold.printedHouse = 'ekwidon';
+            this.player1.makeMaverick(this.tachyonManifold, 'ekwidon');
             this.player1.useAction(this.tachyonManifold);
             this.player2.moveCard(this.umbra, 'deck');
             this.player2.moveCard(this.troll, 'deck');

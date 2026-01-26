@@ -8,7 +8,14 @@ describe('Elite Disruptzord', function () {
                 },
                 player2: {
                     inPlay: ['lapisaurus'],
-                    hand: ['platopelta', 'nerotaurus', 'scylla', 'magistrate-crispus']
+                    hand: [
+                        'platopelta',
+                        'nerotaurus',
+                        'scylla',
+                        'magistrate-crispus',
+                        'deusillus',
+                        'deusillus2'
+                    ]
                 }
             });
         });
@@ -77,6 +84,21 @@ describe('Elite Disruptzord', function () {
             this.player2.clickCard(this.magistrateCrispus);
             expect(this.player2).not.toHavePromptButton('Play this creature');
             this.player2.clickPrompt('Discard this card');
+        });
+
+        it('blocks gigantic creatures being played from hand', function () {
+            this.player1.clickPrompt('brobnar');
+            expect(this.eliteDisruptzord.location).toBe('play area');
+            this.player1.endTurn();
+
+            this.player2.clickPrompt('saurian');
+            this.player2.clickCard(this.deusillus2); // top half
+            expect(this.player2).not.toHavePromptButton('Play this creature');
+            this.player2.clickPrompt('Cancel');
+            this.player2.clickCard(this.deusillus); // bottom half
+            expect(this.player2).not.toHavePromptButton('Play this creature');
+            this.player2.clickPrompt('Cancel');
+            expect(this.player2).isReadyToTakeAction();
         });
     });
 });

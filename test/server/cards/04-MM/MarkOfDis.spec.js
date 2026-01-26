@@ -135,8 +135,7 @@ describe('Mark of Dis', function () {
                     inPlay: ['mother']
                 }
             });
-            this.tachyonManifold.maverick = 'dis';
-            this.tachyonManifold.printedHouse = 'dis';
+            this.player1.makeMaverick(this.tachyonManifold, 'dis');
             this.player1.useAction(this.tachyonManifold);
         });
 

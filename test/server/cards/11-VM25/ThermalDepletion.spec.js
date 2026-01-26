@@ -54,8 +54,7 @@ describe('Thermal Depletion', function () {
                     inPlay: ['teliga']
                 }
             });
-            this.tachyonManifold.maverick = 'brobnar';
-            this.tachyonManifold.printedHouse = 'brobnar';
+            this.player1.makeMaverick(this.tachyonManifold, 'brobnar');
             this.player1.useAction(this.tachyonManifold);
         });
 

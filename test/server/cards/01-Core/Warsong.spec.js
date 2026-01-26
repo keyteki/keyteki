@@ -11,8 +11,7 @@ describe('Warsong', function () {
                     inPlay: ['lamindra', 'brain-eater']
                 }
             });
-            this.harlandMindlock.maverick = 'brobnar';
-            this.harlandMindlock.printedHouse = 'brobnar';
+            this.player1.makeMaverick(this.harlandMindlock, 'brobnar');
         });
 
         it('should gain 1 amber for each fight', function () {

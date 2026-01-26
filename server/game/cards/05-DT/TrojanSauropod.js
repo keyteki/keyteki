@@ -17,13 +17,17 @@ class TrojanSauropod extends Card {
             gameAction: ability.actions.gainAmber({ amount: 3 }),
             then: {
                 condition: (context) => context.player.opponent,
-                gameAction: ability.actions.sequentialPutIntoPlay((context) => ({
-                    revealList: context.player.opponent.hand,
-                    forEach: context.player.opponent.hand.filter(
+                gameAction: ability.actions.sequentialPutIntoPlay((context) => {
+                    const creatures = context.player.opponent.hand.filter(
                         (card) => card.type === 'creature'
-                    ),
-                    ready: true
-                })),
+                    );
+                    return {
+                        revealList: context.player.opponent.hand,
+                        forEach: creatures,
+                        ready: true,
+                        numPlayAllowances: creatures.length
+                    };
+                }),
                 then: {
                     alwaysTriggers: true,
                     gameAction: [

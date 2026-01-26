@@ -508,6 +508,13 @@ class Player extends GameObject {
         }
 
         let oldTopOfDeck = card.owner.deck[0];
+
+        // Snapshot neighbors before removing from battleline - needed for cards like Smite
+        // that reference "neighbors of the attacked creature" after it's destroyed
+        if (card.location === 'play area' && card.type === 'creature') {
+            card.neighborsBeforeLeavingPlay = card.neighbors?.slice() || [];
+        }
+
         this.removeCardFromPile(card);
         let location = card.location;
         targetPile = this.getSourceList(targetLocation);
@@ -515,6 +522,12 @@ class Player extends GameObject {
         if (location === 'purged' && card.purgedBy) {
             card.purgedBy.purgedCards = card.purgedBy.purgedCards.filter((c) => c !== card);
             card.purgedBy = null;
+        }
+
+        // Clear wasComposed when the card moves to a new location.
+        // This flag only applies within the zone where the gigantic landed after separation.
+        if (card.wasComposed) {
+            card.wasComposed = false;
         }
 
         if (location === 'play area') {
@@ -570,6 +583,7 @@ class Player extends GameObject {
                 card.composedPart.controller = card.controller;
                 card.composedPart.location = targetLocation;
                 targetPile.splice(cardIndex, 0, card.composedPart);
+                card.wasComposed = true;
                 card.composedPart = null;
             }
             card.image = card.id;
@@ -582,16 +596,10 @@ class Player extends GameObject {
             cloneOverride: origCard,
             from: location,
             to: targetLocation,
-            drawn: options.drawn
+            drawn: options.drawn,
+            // For gigantic creatures leaving play, label the other half so the event can be handled properly.
+            giganticOtherHalf: composedPart || null
         });
-        if (composedPart) {
-            this.game.raiseEvent(EVENTS.onCardPlaced, {
-                card: composedPart,
-                from: location,
-                to: targetLocation,
-                drawn: options.drawn
-            });
-        }
 
         if (!options.aboutToShuffle) {
             card.owner.checkDeckAfterCardMove(oldTopOfDeck);

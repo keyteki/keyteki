@@ -44,8 +44,7 @@ describe('Scrambler Storm', function () {
                     hand: ['necromorph', 'azuretooth', 'banish']
                 }
             });
-            this.tachyonManifold.maverick = 'logos';
-            this.tachyonManifold.printedHouse = 'logos';
+            this.player1.makeMaverick(this.tachyonManifold, 'logos');
             this.player1.useAction(this.tachyonManifold);
         });
 

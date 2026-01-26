@@ -983,6 +983,10 @@ class Card extends EffectSource {
         );
     }
 
+    get powerForPlayRestriction() {
+        return this.power;
+    }
+
     get armor() {
         return this.hasToken('armor') ? this.tokens.armor : 0;
     }
