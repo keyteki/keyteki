@@ -76,6 +76,8 @@ For detailed documentation with examples, see the `docs/` folder, which includes
 -   Use arrow functions for conditions and callbacks
 -   Comment the card text above `setupCardAbilities`
 -   Always end files with a newline
+-   Use `const` instead of `var` or `let` when variables are not reassigned
+-   When making a git branch, use [conventional branch naming](https://conventional-branch.github.io/). If you have an issue number, include it in the branch name, e.g., `fix/123-card-name` or `feat/456-new-mechanic`.
 
 ## Card Implementation Guide
 
