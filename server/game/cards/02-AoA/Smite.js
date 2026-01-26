@@ -1,75 +1,45 @@
 const Card = require('../../Card.js');
-const { EVENTS } = require('../../Events/types.js');
-const FightGameAction = require('../../GameActions/FightGameAction');
-const AbilityResolver = require('../../gamesteps/abilityresolver');
-const SimpleStep = require('../../gamesteps/simplestep');
-
-class SmiteAbilityResolver extends AbilityResolver {
-    // Play: Ready and fight with a friendly creature. Deal 2D to the attacked creatures neighbors.
-    initialise() {
-        this.pipeline.initialise([
-            new SimpleStep(this.game, () => this.createSnapshot()),
-            new SimpleStep(this.game, () => this.payCosts()),
-            new SimpleStep(this.game, () => this.resolveTargets()),
-            new SimpleStep(this.game, () => this.getNeighbors()),
-            new SimpleStep(this.game, () => this.initiateAbility()),
-            new SimpleStep(this.game, () => this.executeHandler()),
-            new SimpleStep(this.game, () => this.raiseResolvedEvent()),
-            new SimpleStep(this.game, () => this.damageNeighbors())
-        ]);
-    }
-
-    getNeighbors() {
-        if (this.cancelled) {
-            return;
-        }
-
-        if (!this.context.target) {
-            return;
-        }
-
-        this.neighbors = this.context.target.neighbors;
-    }
-
-    damageNeighbors() {
-        if (this.cancelled || !this.neighbors) {
-            return;
-        }
-
-        this.game.actions.dealDamage({ amount: 2 }).resolve(this.neighbors, this.context);
-    }
-}
-
-class SmiteFightAction extends FightGameAction {
-    getEvent(card, context) {
-        return super.createEvent(EVENTS.onInitiateFight, { card, context }, () => {
-            let newContext;
-            if (card.stunned) {
-                let removeStunAction = card.getActions().find((action) => action.unstun);
-                newContext = removeStunAction.createContext(context.player);
-            } else {
-                let fightAction = card.getFightAction();
-                newContext = fightAction.createContext(context.player);
-            }
-
-            newContext.canCancel = false;
-            context.game.queueStep(new SmiteAbilityResolver(context.game, newContext));
-        });
-    }
-}
 
 class Smite extends Card {
+    // Play: Ready and fight with a friendly creature. Deal 2D to the attacked creature's neighbors.
     setupCardAbilities(ability) {
         this.play({
             target: {
                 cardType: 'creature',
                 controller: 'self',
-                gameAction: ability.actions.sequential([
-                    ability.actions.ready(),
-                    new SmiteFightAction()
-                ])
+                gameAction: ability.actions.ready()
             },
-            effect: 'ready and fight with {0}'
+            effect: 'ready and fight with {0}, dealing 2 damage to its neighbors',
+            then: (preThenContext) => {
+                // Register a one-time listener to capture the fight target
+                const fightListener = (event) => {
+                    if (event.attacker === preThenContext.target) {
+                        this.smiteTarget = event.attackerTarget;
+                        preThenContext.game.removeListener('onFight', fightListener);
+                    }
+                };
+                preThenContext.game.on('onFight', fightListener);
+
+                return {
+                    gameAction: ability.actions.fight({
+                        target: preThenContext.target
+                    }),
+                    then: {
+                        alwaysTriggers: true,
+                        gameAction: ability.actions.dealDamage(() => {
+                            const target = this.smiteTarget;
+                            const neighbors =
+                                target?.location === 'play area'
+                                    ? target.neighbors
+                                    : target?.neighborsBeforeLeavingPlay || [];
+                            return {
+                                amount: 2,
+                                target: neighbors
+                            };
+                        })
+                    }
+                };
+            }
         });
     }
 }
