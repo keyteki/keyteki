@@ -163,7 +163,7 @@ class DiscardEntireLocationAction extends PlayerAction {
 
             // Prompt to select next card to discard
             context.game.promptForSelect(player, {
-                activePromptTitle: 'Select card to discard',
+                activePromptTitle: 'Select a card to discard',
                 buttons: [{ text: 'Autoresolve', arg: 'autoresolve' }],
                 context: context,
                 controller: 'self',

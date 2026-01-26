@@ -56,7 +56,7 @@ describe('Cryptic Collapse', function () {
 
             // Select first card to discard
             expect(this.player1).toHavePrompt('Cryptic Collapse');
-            expect(this.player1).toHavePrompt('Select card to discard');
+            expect(this.player1).toHavePrompt('Select a card to discard');
             expect(this.player1).toBeAbleToSelect(this.hazardZerp1);
             expect(this.player1).toBeAbleToSelect(this.hazardZerp2);
             this.player1.clickCard(this.hazardZerp1);
