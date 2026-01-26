@@ -18,12 +18,10 @@ describe("Untrum's Serenity", function () {
 
         it('should destroy all creatures and artifacts, discard archives and hands, then refill hands', function () {
             this.player1.play(this.untrumSSerenity);
-            // First prompt for archives discard order
-            expect(this.player1).toHavePrompt('Choose which player discards first');
+            expect(this.player1).toHavePrompt('Choose which player discards their archives first');
             this.player1.clickPrompt('Me');
-            // Second prompt for hand discard order
-            expect(this.player1).toHavePrompt('Choose which player discards first');
-            this.player1.clickPrompt('Me');
+            expect(this.player1).toHavePrompt('Choose which player discards their hand first');
+            this.player1.clickPrompt('Opponent');
             expect(this.ritualOfBalance.location).toBe('discard');
             expect(this.emberImp.location).toBe('discard');
             expect(this.krump.location).toBe('discard');

@@ -118,7 +118,7 @@ const Actions = {
     chosenDiscard: (propertyFactory) => new GameActions.ChosenDiscardAction(propertyFactory), // amount = 1
     discardAtRandom: (propertyFactory) => new GameActions.RandomDiscardAction(propertyFactory), // amount = 1, location = hand
     discardRandomCardsToAmount: (propertyFactory) =>
-        new GameActions.DiscardRandomCardsToAmountAction(propertyFactory), // amount = 6, discards random until hand <= amount
+        new GameActions.DiscardRandomCardsToAmountAction(propertyFactory), // amount = hand size
     discardEntireLocation: (propertyFactory) =>
         new GameActions.DiscardEntireLocationAction(propertyFactory), // discards entire hand or archives
     discardTopOfDeck: (propertyFactory) => new GameActions.DiscardTopOfDeckAction(propertyFactory), // amount = 1

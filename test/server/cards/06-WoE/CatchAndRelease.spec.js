@@ -25,7 +25,6 @@ describe('Catch and Release', function () {
             let discardLength1 = this.player1.player.discard.length;
             let discardLength2 = this.player2.player.discard.length;
             this.player1.play(this.catchAndRelease);
-            // Both players have more than 6 cards, so we get prompted for order
             expect(this.player1).toHavePrompt('Choose which player discards first');
             this.player1.clickPrompt('Me');
             expect(this.player1.player.creaturesInPlay.length).toBe(0);
@@ -44,7 +43,6 @@ describe('Catch and Release', function () {
             let discardLength1 = this.player1.player.discard.length;
             let discardLength2 = this.player2.player.discard.length;
             this.player1.play(this.catchAndRelease);
-            // Both players have more than 6 cards, so we get prompted for order
             expect(this.player1).toHavePrompt('Choose which player discards first');
             this.player1.clickPrompt('Me');
             expect(this.player1.player.creaturesInPlay.length).toBe(0);
@@ -82,36 +80,31 @@ describe('Catch and Release', function () {
             this.setupTest({
                 player1: {
                     house: 'unfathomable',
-                    inPlay: ['urchin'],
-                    hand: ['catch-and-release'],
-                    deck: ['urchin', 'urchin', 'urchin']
-                },
-                player2: {
-                    inPlay: ['batdrone'],
-                    // 8 cards in hand after return - need to discard 2 to get to 6
-                    // Brillix Ponder has scrap that draws a card
+                    inPlay: ['brillix-ponder', 'brillix-ponder', 'brillix-ponder'],
                     hand: [
+                        'catch-and-release',
                         'brillix-ponder',
-                        'batdrone',
-                        'batdrone',
-                        'batdrone',
-                        'batdrone',
-                        'batdrone',
-                        'batdrone'
-                    ],
-                    deck: ['batdrone', 'batdrone', 'batdrone']
-                }
+                        'brillix-ponder',
+                        'brillix-ponder',
+                        'brillix-ponder',
+                        'brillix-ponder',
+                        'brillix-ponder'
+                    ]
+                },
+                player2: {}
             });
         });
 
         it('should continue discarding after scrap draws a card', function () {
-            // Player 2 has 7 cards + 1 creature = 8 total after return
-            // Without Brillix Ponder scrap, they'd discard 2 to get to 6
-            // But if Brillix Ponder is discarded, it draws a card, so they need to discard again
             this.player1.play(this.catchAndRelease);
-            // Only player2 has more than 6 cards
-            // Player1 would have: catch-and-release (played) + urchin = 1 card in hand
-            expect(this.player2.player.hand.length).toBe(6);
+            expect(this.player1.player.hand.length).toBe(6);
+            expect(this.player2.player.hand.length).toBe(0);
+            expect(
+                this.player1.player.hand.filter((card) => card.name === 'Brillix Ponder').length
+            ).toBeLessThan(6);
+            expect(
+                this.player1.player.hand.filter((card) => card.name === 'Hookmaster').length
+            ).toBeGreaterThan(0);
             expect(this.player1).isReadyToTakeAction();
         });
     });

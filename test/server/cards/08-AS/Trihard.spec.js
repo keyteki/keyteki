@@ -31,23 +31,31 @@ describe('Trihard', function () {
                 player1: {
                     amber: 1,
                     house: 'dis',
-                    // 4 cards in hand, after playing Trihard = 3 cards, 3/3 = 1 discard
                     hand: ['trihard', 'dust-pixie', 'dextre', 'mother']
                 },
                 player2: {
-                    // 3 cards, 3/3 = 1 discard
                     hand: ['troll', 'charette', 'krump']
                 }
             });
         });
 
-        it('should allow active player to choose which player discards first', function () {
+        it('should allow active player to discard first', function () {
+            this.player1.playCreature(this.trihard);
+            expect(this.player1).toHavePrompt('Choose which player discards first');
+            expect(this.player1).toHavePromptButton('Me');
+            expect(this.player1).toHavePromptButton('Opponent');
+            this.player1.clickPrompt('Me');
+            expect(this.player1.hand.length).toBe(2);
+            expect(this.player2.hand.length).toBe(2);
+            expect(this.player1).isReadyToTakeAction();
+        });
+
+        it('should allow active player to discard second', function () {
             this.player1.playCreature(this.trihard);
             expect(this.player1).toHavePrompt('Choose which player discards first');
             expect(this.player1).toHavePromptButton('Me');
             expect(this.player1).toHavePromptButton('Opponent');
             this.player1.clickPrompt('Opponent');
-            // Both players discard 1 card (floor(3/3) = 1)
             expect(this.player1.hand.length).toBe(2);
             expect(this.player2.hand.length).toBe(2);
             expect(this.player1).isReadyToTakeAction();

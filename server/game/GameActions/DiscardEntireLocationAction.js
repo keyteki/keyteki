@@ -92,7 +92,7 @@ class DiscardEntireLocationAction extends PlayerAction {
                 });
 
                 context.game.promptWithHandlerMenu(context.player, {
-                    activePromptTitle: 'Choose which player discards first',
+                    activePromptTitle: `Choose which player discards their ${this.location} first`,
                     source: context.source,
                     choices: choices,
                     handlers: handlers
@@ -135,7 +135,11 @@ class DiscardEntireLocationAction extends PlayerAction {
                 // Done discarding
                 event.cards = cardsDiscarded;
                 if (cardsDiscarded.length > 0) {
-                    context.game.addMessage('{0} discards {1}', player, cardsDiscarded);
+                    context.game.addMessage(
+                        "{0} discards {1} from {0}'s " + self.location,
+                        player,
+                        cardsDiscarded
+                    );
                 }
                 return;
             }
@@ -166,7 +170,11 @@ class DiscardEntireLocationAction extends PlayerAction {
                 context.game.queueSimpleStep(() => {
                     event.cards = cardsDiscarded;
                     if (cardsDiscarded.length > 0) {
-                        context.game.addMessage('{0} discards {1}', player, cardsDiscarded);
+                        context.game.addMessage(
+                            "{0} discards {1} from {0}'s " + self.location,
+                            player,
+                            cardsDiscarded
+                        );
                     }
                 });
                 return;
@@ -217,7 +225,12 @@ class DiscardEntireLocationAction extends PlayerAction {
                 // Done discarding
                 event.cards = cardsDiscarded;
                 if (cardsDiscarded.length > 0) {
-                    context.game.addMessage('{0} discards {1} at random', player, cardsDiscarded);
+                    context.game.addMessage(
+                        "{0} randomly discards {1} from {2}'s " + self.location,
+                        context.game.activePlayer,
+                        cardsDiscarded,
+                        player
+                    );
                 }
                 return;
             }

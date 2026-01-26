@@ -14,7 +14,7 @@ const _ = require('underscore');
  */
 class DiscardRandomCardsToAmountAction extends PlayerAction {
     setDefaultProperties() {
-        this.amount = 6; // Default threshold
+        this.amount = (player) => player.hand.length; // Default to current hand size (no discard)
     }
 
     /**

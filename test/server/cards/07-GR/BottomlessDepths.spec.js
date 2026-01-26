@@ -28,8 +28,6 @@ describe('Bottomless Depths', function () {
             this.player1.endTurn();
             this.player2.clickPrompt('untamed');
             this.player2.play(this.punctuatedEquilibrium);
-            // Only player1 has cards to discard (player2's only card was played)
-            // so no ordering prompt is needed
             expect(this.crushingDeep.location).toBe('under');
             expect(this.bottomlessDepths.childCards.length).toBe(6);
             expect(this.bottomlessDepths.childCards).toContain(this.crushingDeep);

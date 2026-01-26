@@ -17,8 +17,8 @@ class CatchAndRelease extends Card {
             then: {
                 alwaysTriggers: true,
                 gameAction: ability.actions.discardRandomCardsToAmount((context) => ({
-                    target: [context.player, context.player.opponent].filter((p) => p),
-                    amount: 6
+                    amount: 6,
+                    target: [context.player, context.player.opponent]
                 }))
             }
         });

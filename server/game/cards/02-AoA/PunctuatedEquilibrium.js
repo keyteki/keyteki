@@ -8,16 +8,14 @@ class PunctuatedEquilibrium extends Card {
             effect:
                 "discard {1} from {2}'s hand and discard {3} from {4}'s hand, then make both players refill their hands",
             effectArgs: (context) => [
-                context.player.hand.length > 0 ? context.player.hand : 'an empty hand',
+                context.player.hand.length > 0 ? context.player.hand : 'nothing',
                 context.player,
-                context.player.opponent.hand.length > 0
-                    ? context.player.opponent.hand
-                    : 'an empty hand',
+                context.player.opponent.hand.length > 0 ? context.player.opponent.hand : 'nothing',
                 context.player.opponent
             ],
             gameAction: ability.actions.discardEntireLocation((context) => ({
-                target: [context.player, context.player.opponent].filter((p) => p),
-                location: 'hand'
+                location: 'hand',
+                target: [context.player, context.player.opponent]
             })),
             then: {
                 gameAction: [

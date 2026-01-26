@@ -6,29 +6,30 @@ class UntrumsSerenity extends Card {
     setupCardAbilities(ability) {
         this.play({
             effect:
-                "destroy each creature and artifact, discard {1} from their archives and {2} from their hand, discard {3} from {4}'s archives and {5} from {4}'s hand, then refill hands",
+                "destroy {1}'s creatures ({2}) and artifacts ({3}), and destroy {4}'s creatures ({5}) and artifacts ({6})",
             effectArgs: (context) => [
-                context.player.archives.length > 0 ? context.player.archives : 'nothing',
-                context.player.hand.length > 0 ? context.player.hand : 'nothing',
-                context.player.opponent && context.player.opponent.archives.length > 0
-                    ? context.player.opponent.archives
-                    : 'nothing',
+                context.player,
+                context.player.creaturesInPlay ? context.player.creaturesInPlay : 'none',
+                context.player.artifactsInPlay ? context.player.artifactsInPlay : 'none',
                 context.player.opponent,
-                context.player.opponent && context.player.opponent.hand.length > 0
-                    ? context.player.opponent.hand
-                    : 'nothing'
+                context.player.opponent.creaturesInPlay
+                    ? context.player.opponent.creaturesInPlay
+                    : 'none',
+                context.player.opponent.artifactsInPlay
+                    ? context.player.opponent.artifactsInPlay
+                    : 'none'
             ],
             gameAction: [
                 ability.actions.destroy((context) => ({
                     target: context.game.cardsInPlay
                 })),
                 ability.actions.discardEntireLocation((context) => ({
-                    target: [context.player, context.player.opponent].filter((p) => p),
-                    location: 'archives'
+                    location: 'archives',
+                    target: [context.player, context.player.opponent]
                 })),
                 ability.actions.discardEntireLocation((context) => ({
-                    target: [context.player, context.player.opponent].filter((p) => p),
-                    location: 'hand'
+                    location: 'hand',
+                    target: [context.player, context.player.opponent]
                 }))
             ],
             then: {
