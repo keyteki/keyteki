@@ -353,7 +353,7 @@ describe('Deusillus', function () {
         });
     });
 
-    describe("Deusillus's Ability should interact with Overlord Greking", function () {
+    describe('Deusillus should not be playable by Overlord Greking', function () {
         beforeEach(function () {
             this.setupTest({
                 player1: {
@@ -369,7 +369,7 @@ describe('Deusillus', function () {
             });
         });
 
-        it('should play part 1 after being returned to hand', function () {
+        it('should leave Deusillus in discard when fought by Overlord Greking', function () {
             this.player1.play(this.deusillus);
             this.player1.clickCard(this.narp);
             this.player1.endTurn();
@@ -377,10 +377,8 @@ describe('Deusillus', function () {
             this.overlordGreking.ward();
             this.player2.clickPrompt('dis');
             this.player2.fightWith(this.overlordGreking, this.deusillus);
-            this.player2.clickPrompt('Left');
-
-            expect(this.deusillus.location).toBe('play area');
-            expect(this.deusillus.controller).toBe(this.player2.player);
+            expect(this.deusillus.location).toBe('discard');
+            expect(this.deusillus2.location).toBe('discard');
         });
     });
 

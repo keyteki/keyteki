@@ -13,6 +13,7 @@ class PutIntoPlayAction extends CardGameAction {
         this.promptSource = false;
         this.beingPlayed = false;
         this.controller = null;
+        this.numPlayAllowances = 1;
     }
 
     setup() {
@@ -33,9 +34,20 @@ class PutIntoPlayAction extends CardGameAction {
         return true;
     }
 
+    // Gigantic creatures require 2 play allowances to play both halves.
+    // Playing from hand always provides enough allowance.
+    canPutIntoPlayGigantic(context, card) {
+        return card.location === 'hand' || this.numPlayAllowances >= 2;
+    }
+
     preEventHandler(context) {
         super.preEventHandler(context);
         let card = this.target.length > 0 ? this.target[0] : context.source;
+
+        if (card.gigantic && !this.canPutIntoPlayGigantic(context, card)) {
+            return;
+        }
+
         let player;
 
         if (this.deployIndex !== undefined) {
@@ -204,22 +216,35 @@ class PutIntoPlayAction extends CardGameAction {
                 }
 
                 if (card.gigantic) {
-                    let part =
-                        card.composedPart ||
-                        card.controller
-                            .getSourceList(card.location)
-                            .find((part) => card.compositeId === part.id);
+                    let part = card.composedPart;
 
+                    // Play from hand
+                    if (!part && card.location === 'hand') {
+                        part = card.controller
+                            .getSourceList(card.location)
+                            .find((p) => card.compositeId === p.id);
+                    }
+
+                    // Play from under another card
                     if (!part && card.parent) {
-                        // parts are placed togehter under another card and can be put into play together
                         part = card.parent.childCards.find((part) => card.compositeId === part.id);
                     }
 
-                    if (part) {
-                        card.controller.removeCardFromPile(part);
-                        card.composedPart = part;
+                    // Play from discard or other pile - requires 2 play allowances
+                    if (!part && this.numPlayAllowances >= 2) {
+                        part = card.controller
+                            .getSourceList(card.location)
+                            .find((p) => card.compositeId === p.id);
                     }
 
+                    // If the other part of the gigantic creature is not available then fizzle
+                    if (!part) {
+                        return;
+                    }
+
+                    // Compose the gigantic creature with both halves
+                    card.controller.removeCardFromPile(part);
+                    card.composedPart = part;
                     card.image = card.compositeImageId || card.id;
                 }
 

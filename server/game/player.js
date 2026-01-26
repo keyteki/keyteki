@@ -524,6 +524,12 @@ class Player extends GameObject {
             card.purgedBy = null;
         }
 
+        // Clear wasComposed when the card moves to a new location.
+        // This flag only applies within the zone where the gigantic landed after separation.
+        if (card.wasComposed) {
+            card.wasComposed = false;
+        }
+
         if (location === 'play area') {
             if (targetLocation !== 'archives' && card.owner !== this) {
                 card.owner.moveCard(card, targetLocation, options);
@@ -577,6 +583,7 @@ class Player extends GameObject {
                 card.composedPart.controller = card.controller;
                 card.composedPart.location = targetLocation;
                 targetPile.splice(cardIndex, 0, card.composedPart);
+                card.wasComposed = true;
                 card.composedPart = null;
             }
             card.image = card.id;
@@ -589,16 +596,10 @@ class Player extends GameObject {
             cloneOverride: origCard,
             from: location,
             to: targetLocation,
-            drawn: options.drawn
+            drawn: options.drawn,
+            // For gigantic creatures leaving play, label the other half so the event can be handled properly.
+            giganticOtherHalf: composedPart || null
         });
-        if (composedPart) {
-            this.game.raiseEvent(EVENTS.onCardPlaced, {
-                card: composedPart,
-                from: location,
-                to: targetLocation,
-                drawn: options.drawn
-            });
-        }
 
         if (!options.aboutToShuffle) {
             card.owner.checkDeckAfterCardMove(oldTopOfDeck);

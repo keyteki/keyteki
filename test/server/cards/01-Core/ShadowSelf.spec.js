@@ -160,7 +160,7 @@ describe('Shadow Self', function () {
             this.player2.clickPrompt('logos');
             this.player2.fightWith(this.hapsis, this.badPenny);
             expect(this.hapsis.damage).toBe(1);
-            expect(this.hapsis.warded).toBe(false);
+            expect(this.hapsis.warded).toBe(true);
             expect(this.shadowSelf1.location).toBe('discard');
             expect(this.badPenny.location).toBe('play area');
         });
