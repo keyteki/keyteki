@@ -6,9 +6,9 @@ const _ = require('underscore');
  * DiscardEntireLocationAction - Discards all cards from a player's hand or
  * archives, prompting the active player to choose which player discards first.
  *
- * For the active player: prompts to choose the order of discard if there are
- * scrap effects to resolve. For opponent: discards randomly one at a time since
- * active player makes all choices but can't see opponent's cards.
+ * For the active player: prompts to choose the order of discard. For opponent:
+ * discards randomly one at a time since active player makes all choices but
+ * can't see opponent's cards.
  *
  * Discards until the location is empty, so if a scrap effect draws a card, that
  * card also gets discarded.

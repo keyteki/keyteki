@@ -80,8 +80,9 @@ describe('Cryptic Collapse', function () {
             expect(this.player1).toHavePrompt('Choose a creature');
             this.player1.clickCard(this.troll);
 
-            // CC only actually discarded one card (Hazard Zerp 1), since
-            // Hazard Zerp 2 was discarded by scrap not by Cryptic Collapse.
+            // Cryptic Collapse only actually discarded one card (Hazard Zerp
+            // 1), since Hazard Zerp 2 was discarded by scrap not by Cryptic
+            // Collapse.
             expect(this.player1).toHavePrompt('Cryptic Collapse');
             expect(this.player1).toHavePrompt('Choose a creature to capture 1 amber');
             this.player1.clickCard(this.dustPixie);

@@ -32,7 +32,6 @@ describe('Ifraneye', function () {
         it('should allow ordering if there are scrap effects', function () {
             this.player1.moveCard(this.unityPrism, 'hand');
             this.player1.play(this.ifraneye);
-
             expect(this.player1).toBeAbleToSelect(this.unityPrism);
             expect(this.player1).toBeAbleToSelect(this.batdrone);
             expect(this.player1).toBeAbleToSelect(this.emberImp);

@@ -77,6 +77,8 @@ For detailed documentation with examples, see the `docs/` folder, which includes
 -   Comment the card text above `setupCardAbilities`
 -   Always end files with a newline
 -   When writing a templated effect or message, use placeholders like `{0}`, `{1}`, etc., and provide corresponding values to ensure proper formatting. Do not concatenate strings or use template literals for game messages.
+-   Order object properties alphabetically where it makes sense when there isn't a strong logical order to the properties
+-   When adding guards to card implementations, prefer moving the guard into the underlying class rather than having every card implement the same guard logic.
 
 ## Card Implementation Guide
 
