@@ -240,4 +240,58 @@ describe('Weasand', function () {
             expect(this.player2).isReadyToTakeAction();
         });
     });
+
+    describe('Weasand with Interdimensional Graft', function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'shadows',
+                    amber: 9,
+                    hand: ['weasand'],
+                    inPlay: ['dodger', 'redlock']
+                },
+                player2: {
+                    hand: ['interdimensional-graft']
+                }
+            });
+        });
+
+        it('should allow player to choose order of Weasand and Interdimensional Graft effects', function () {
+            this.player1.playCreature(this.weasand, true, true);
+            this.player1.clickCard(this.redlock);
+            expect(this.weasand.location).toBe('play area');
+            this.player1.endTurn();
+            this.player2.clickPrompt('logos');
+            this.player2.play(this.interdimensionalGraft);
+            this.player2.endTurn();
+            this.player1.forgeKey('Red');
+            expect(this.player1.player.keys.red).toBe(true);
+            expect(this.player1).toHavePrompt('Any reactions?');
+            this.player1.clickPrompt(this.interdimensionalGraft.name);
+            this.player1.clickPrompt('shadows');
+            expect(this.player2.amber).toBe(4); // 1 from graft play + 3 transferred
+            expect(this.player1.amber).toBe(2);
+            expect(this.weasand.location).toBe('play area');
+            expect(this.player1).isReadyToTakeAction();
+        });
+
+        it('should allow resolving Weasand before Interdimensional Graft', function () {
+            this.player1.playCreature(this.weasand, true, true);
+            this.player1.clickCard(this.redlock);
+            expect(this.weasand.location).toBe('play area');
+            this.player1.endTurn();
+            this.player2.clickPrompt('logos');
+            this.player2.play(this.interdimensionalGraft);
+            this.player2.endTurn();
+            this.player1.forgeKey('Red');
+            expect(this.player1.player.keys.red).toBe(true);
+            expect(this.player1).toHavePrompt('Any reactions?');
+            this.player1.clickCard(this.weasand);
+            this.player1.clickPrompt('shadows');
+            expect(this.player2.amber).toBe(6); // 1 from graft play + 5 transferred
+            expect(this.player1.amber).toBe(0);
+            expect(this.weasand.location).toBe('play area');
+            expect(this.player1).isReadyToTakeAction();
+        });
+    });
 });
