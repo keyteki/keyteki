@@ -52,7 +52,7 @@ describe('Parabyte', function () {
             this.player1.endTurn();
 
             // Forge for 9, with 3 captured amber.
-            this.player2.clickPrompt('Yellow');
+            this.player2.forgeKey('Yellow');
             expect(this.player2.player.keys.yellow).toBe(true);
             expect(this.player2.player.amber).toBe(0);
         });
@@ -62,7 +62,7 @@ describe('Parabyte', function () {
             this.animator.amber = 1;
             this.player1.endTurn();
 
-            this.player2.clickPrompt('Yellow');
+            this.player2.forgeKey('Yellow');
             expect(this.player2.player.keys.yellow).toBe(true);
             expect(this.player2.player.amber).toBe(4);
         });

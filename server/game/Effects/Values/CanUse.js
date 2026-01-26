@@ -21,16 +21,14 @@ class CanUse extends ConditionValue {
 
         if (this.toFight) {
             return (
-                (abilityContext.ability.title === 'Fight with this creature' ||
-                    abilityContext.ability.title === "Remove this creature's stun") &&
+                (abilityContext.ability.fight || abilityContext.ability.unstun) &&
                 this.condition(abilityContext.source, abilityContext, effectContext)
             );
         }
 
         if (this.toReap) {
             return (
-                (abilityContext.ability.title === 'Reap with this creature' ||
-                    abilityContext.ability.title === "Remove this creature's stun") &&
+                (abilityContext.ability.reap || abilityContext.ability.unstun) &&
                 this.condition(abilityContext.source, abilityContext, effectContext)
             );
         }

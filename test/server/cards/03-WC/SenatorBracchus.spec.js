@@ -70,7 +70,7 @@ describe('Senator Bracchus', function () {
                 expect(this.grimlocusDux.amber).toBe(1);
                 expect(this.senatorBracchus.amber).toBe(0);
                 expect(this.senatorShrix.amber).toBe(0);
-                this.player1.clickPrompt('Red');
+                this.player1.forgeKey('Red');
                 expect(this.player1.amber).toBe(2);
             });
         });
@@ -121,7 +121,7 @@ describe('Senator Bracchus', function () {
             expect(this.player2).toHavePromptButton(4);
             this.player2.clickPrompt(0);
             expect(this.player2).toHavePrompt('Which key would you like to forge?');
-            this.player2.clickPrompt('red');
+            this.player2.forgeKey('Red');
         });
     });
 });
