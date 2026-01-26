@@ -63,8 +63,7 @@ describe('Mutation of Instinct', function () {
                     inPlay: []
                 }
             });
-            this.tachyonManifold.maverick = 'untamed';
-            this.tachyonManifold.printedHouse = 'untamed';
+            this.player1.makeMaverick(this.tachyonManifold, 'untamed');
             this.player1.useAction(this.tachyonManifold);
         });
 

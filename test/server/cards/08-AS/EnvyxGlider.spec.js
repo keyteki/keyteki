@@ -38,8 +38,7 @@ describe('Envyx Glider', function () {
                     hand: []
                 }
             });
-            this.tachyonManifold.maverick = 'mars';
-            this.tachyonManifold.printedHouse = 'mars';
+            this.player1.makeMaverick(this.tachyonManifold, 'mars');
             this.player1.useAction(this.tachyonManifold);
         });
 
