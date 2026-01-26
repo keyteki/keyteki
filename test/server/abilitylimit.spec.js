@@ -4,7 +4,7 @@ const AbilityLimit = require('../../server/game/abilitylimit.js');
 
 describe('AbilityLimit', function () {
     beforeEach(function () {
-        this.eventEmitterSpy = jasmine.createSpyObj('event emitter', ['on', 'removeListener']);
+        this.eventEmitterSpy = createSpyObj('event emitter', ['on', 'removeListener']);
         this.player = { name: 'player1' };
 
         this.limit = AbilityLimit.repeatable(2, 'onEventForReset');

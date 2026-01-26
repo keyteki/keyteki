@@ -135,7 +135,7 @@ function expectLocalizedPrompt(args) {
 
 describe('All Cards:', function () {
     beforeEach(function () {
-        this.gameSpy = jasmine.createSpyObj('game', [
+        this.gameSpy = createSpyObj('game', [
             'on',
             'removeListener',
             'addPower',
@@ -144,7 +144,7 @@ describe('All Cards:', function () {
             'getPlayers'
         ]);
         this.gameSpy.getPlayers.and.returnValue([]);
-        this.playerSpy = jasmine.createSpyObj('player', ['registerAbilityMax']);
+        this.playerSpy = createSpyObj('player', ['registerAbilityMax']);
         this.playerSpy.game = this.gameSpy;
     });
 

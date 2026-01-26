@@ -4,11 +4,7 @@ const Settings = require('../../server/settings.js');
 
 class GameFlowWrapper {
     constructor(cards) {
-        var gameRouter = jasmine.createSpyObj('gameRouter', [
-            'gameWon',
-            'playerLeft',
-            'handleError'
-        ]);
+        var gameRouter = createSpyObj('gameRouter', ['gameWon', 'playerLeft', 'handleError']);
         gameRouter.handleError.and.callFake((game, error) => {
             throw error;
         });

@@ -1,9 +1,9 @@
 const _ = require('underscore');
 const SelectCardPrompt = require('../../../server/game/gamesteps/selectcardprompt.js');
 
-xdescribe('the SelectCardPrompt', function () {
+describe.skip('the SelectCardPrompt', function () {
     function createCardSpy(properties = {}) {
-        let card = jasmine.createSpyObj('card', ['allowGameAction', 'getType']);
+        let card = createSpyObj('card', ['allowGameAction', 'getType']);
         card.getType.and.returnValue('character');
         card.allowGameAction.and.returnValue(true);
         _.extend(card, properties);
@@ -11,7 +11,7 @@ xdescribe('the SelectCardPrompt', function () {
     }
 
     beforeEach(function () {
-        this.game = jasmine.createSpyObj('game', ['getPlayers', 'getCurrentAbilityContext']);
+        this.game = createSpyObj('game', ['getPlayers', 'getCurrentAbilityContext']);
         this.game.getCurrentAbilityContext.and.returnValue({
             source: 'framework',
             card: null,

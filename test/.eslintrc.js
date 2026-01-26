@@ -14,6 +14,11 @@ module.exports = {
         }
     },
     globals: {
-        integration: true
+        integration: true,
+        vi: true,
+        globalThis: true,
+        createSpyObj: true,
+        createSpy: true,
+        spyOn: true
     }
 };
