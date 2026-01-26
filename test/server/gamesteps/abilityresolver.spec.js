@@ -1,8 +1,8 @@
 const AbilityResolver = require('../../../server/game/gamesteps/abilityresolver.js');
 
-xdescribe('AbilityResolver', function () {
+describe.skip('AbilityResolver', function () {
     beforeEach(function () {
-        this.game = jasmine.createSpyObj('game', [
+        this.game = createSpyObj('game', [
             'getPlayers',
             'markActionAsTaken',
             'popAbilityContext',
@@ -23,7 +23,7 @@ xdescribe('AbilityResolver', function () {
             }
         });
 
-        this.ability = jasmine.createSpyObj('ability', [
+        this.ability = createSpyObj('ability', [
             'isAction',
             'isTriggeredAbility',
             'isCardPlayed',
@@ -68,7 +68,7 @@ xdescribe('AbilityResolver', function () {
             });
         });
 
-        xdescribe('when the ability is an action', function () {
+        describe.skip('when the ability is an action', function () {
             beforeEach(function () {
                 this.ability.isAction.and.returnValue(true);
                 this.ability.resolveCosts.and.returnValue([
@@ -144,7 +144,7 @@ xdescribe('AbilityResolver', function () {
                 );
             });
         });
-        xdescribe('when the ability is an event being played', function () {
+        describe.skip('when the ability is an event being played', function () {
             beforeEach(function () {
                 this.ability.resolveCosts.and.returnValue([
                     { resolved: true, value: true },
@@ -176,7 +176,7 @@ xdescribe('AbilityResolver', function () {
             });
         });
 
-        xdescribe('when a cost cannot be immediately resolved', function () {
+        describe.skip('when a cost cannot be immediately resolved', function () {
             beforeEach(function () {
                 this.canPayResult = { resolved: false };
                 this.ability.resolveCosts.and.returnValue([this.canPayResult]);
@@ -229,7 +229,7 @@ xdescribe('AbilityResolver', function () {
             });
         });
 
-        xdescribe('when there are targets that need to be resolved', function () {
+        describe.skip('when there are targets that need to be resolved', function () {
             beforeEach(function () {
                 this.targetResult = {
                     resolved: false,
@@ -327,7 +327,7 @@ xdescribe('AbilityResolver', function () {
                 expect(this.game.reportError).toHaveBeenCalledWith(jasmine.any(Error));
             });
 
-            xdescribe('when the current ability context is for this ability', function () {
+            describe.skip('when the current ability context is for this ability', function () {
                 beforeEach(function () {
                     this.game.currentAbilityContext = { source: 'card', card: this.context.source };
                 });

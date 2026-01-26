@@ -5,14 +5,14 @@ describe('the PlayerOrderPrompt', function () {
         this.activePrompt = { active: true };
         this.waitingPrompt = { active: false };
 
-        this.game = jasmine.createSpyObj('game', ['getPlayers', 'getPlayersInFirstPlayerOrder']);
-        this.player1 = jasmine.createSpyObj('player1', [
+        this.game = createSpyObj('game', ['getPlayers', 'getPlayersInFirstPlayerOrder']);
+        this.player1 = createSpyObj('player1', [
             'setPrompt',
             'cancelPrompt',
             'startClock',
             'stopClock'
         ]);
-        this.player2 = jasmine.createSpyObj('player1', [
+        this.player2 = createSpyObj('player1', [
             'setPrompt',
             'cancelPrompt',
             'startClock',

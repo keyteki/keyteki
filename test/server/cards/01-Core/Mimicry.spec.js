@@ -82,7 +82,7 @@ describe('Mimicry', function () {
             expect(this.player2).toHavePrompt('House Choice');
         });
 
-        xit('should not play alpha card if not first thing in turn, but shoud allow selecting it', function () {
+        it.skip('should not play alpha card if not first thing in turn, but shoud allow selecting it', function () {
             this.player1.reap(this.ancientBear);
             this.player1.play(this.mimicry);
             expect(this.player1).toBeAbleToSelect(this.swindle);

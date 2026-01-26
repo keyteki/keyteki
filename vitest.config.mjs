@@ -12,7 +12,7 @@ export default defineConfig({
         globals: true,
 
         // Parallelization - use worker threads (vitest 0.34 syntax)
-        // threads: true,
+        threads: true,
 
         // Parallelization - use atomics (vitest 0.34 syntax)
         useAtomics: true,
@@ -23,7 +23,6 @@ export default defineConfig({
         },
 
         // Faster test isolation
-        // isolate: true,
         isolate: false,
 
         // Reporter (vitest 0.34 uses 'reporters' array)
@@ -32,9 +31,6 @@ export default defineConfig({
 
         // Timeout per test
         testTimeout: 10000,
-
-        // Watch mode settings
-        // watch: false,
 
         // Watch additional files for changes (e.g., card implementations)
         watchExclude: ['**/node_modules/**', '**/dist/**'],
