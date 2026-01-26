@@ -4,42 +4,42 @@ This document describes how to add descriptive log messages to card abilities. G
 
 ## Table of Contents
 
-- [Basic Usage](#basic-usage)
-- [Properties](#properties)
-  - [effect / effectArgs](#effect--effectargs)
-  - [message / messageArgs](#message--messageargs)
-- [Default Messages](#default-messages)
-  - [When to Override Default Messages](#when-to-override-default-messages)
-- [Common Patterns](#common-patterns)
-  - [Adding Dynamic Values](#adding-dynamic-values)
-  - [Conditional Messages](#conditional-messages)
-  - [Then Effect Messages](#then-effect-messages)
-  - [Messages for Optional Actions](#messages-for-optional-actions)
-  - [Using preThenContext](#using-prethencontext)
-  - [preThenEvents for Multiple Targets](#prethenevents-for-multiple-targets)
-  - [Referencing `this` in effectArgs](#referencing-this-in-effectargs)
-  - [Appending Text Conditionally](#appending-text-conditionally)
-  - [Context Event Data](#context-event-data)
-  - [Revealing Cards with Conditional Text](#revealing-cards-with-conditional-text)
-  - [promptForSelect with messageArgs](#promptforselect-with-messageargs)
-  - [Pluralization in Messages](#pluralization-in-messages)
-  - [Raw String Values in effectArgs](#raw-string-values-in-effectargs)
-  - [Named Card References](#named-card-references)
-  - [Static messageArgs Values](#static-messageargs-values)
-  - [Computed Effects with Multiple Branches](#computed-effects-with-multiple-branches)
-  - [Multi-part Message Building](#multi-part-message-building)
-- [Best Practices](#best-practices)
-- [Quick Reference](#quick-reference)
-- [Using `target`](#using-target)
-- [Locales](#locales)
+-   [Basic Usage](#basic-usage)
+-   [Properties](#properties)
+    -   [effect / effectArgs](#effect--effectargs)
+    -   [message / messageArgs](#message--messageargs)
+-   [Default Messages](#default-messages)
+    -   [When to Override Default Messages](#when-to-override-default-messages)
+-   [Common Patterns](#common-patterns)
+    -   [Adding Dynamic Values](#adding-dynamic-values)
+    -   [Conditional Messages](#conditional-messages)
+    -   [Then Effect Messages](#then-effect-messages)
+    -   [Messages for Optional Actions](#messages-for-optional-actions)
+    -   [Using preThenContext](#using-prethencontext)
+    -   [preThenEvents for Multiple Targets](#prethenevents-for-multiple-targets)
+    -   [Referencing `this` in effectArgs](#referencing-this-in-effectargs)
+    -   [Appending Text Conditionally](#appending-text-conditionally)
+    -   [Context Event Data](#context-event-data)
+    -   [Revealing Cards with Conditional Text](#revealing-cards-with-conditional-text)
+    -   [promptForSelect with messageArgs](#promptforselect-with-messageargs)
+    -   [Pluralization in Messages](#pluralization-in-messages)
+    -   [Raw String Values in effectArgs](#raw-string-values-in-effectargs)
+    -   [Named Card References](#named-card-references)
+    -   [Static messageArgs Values](#static-messageargs-values)
+    -   [Computed Effects with Multiple Branches](#computed-effects-with-multiple-branches)
+    -   [Multi-part Message Building](#multi-part-message-building)
+-   [Best Practices](#best-practices)
+-   [Quick Reference](#quick-reference)
+-   [Using `target`](#using-target)
+-   [Locales](#locales)
 
 ## Basic Usage
 
 Card abilities support two messaging approaches:
 
-- **`effect` / `effectArgs`** - For primary abilities. Automatically prefixed with "{player} uses {card} to..."
-- **`message` / `messageArgs`** - For custom messages or `then` effec-. Gives you full control over the message format.
-- Only one of effect/message can be used per ability or effect-
+-   **`effect` / `effectArgs`** - For primary abilities. Automatically prefixed with "{player} uses {card} to..."
+-   **`message` / `messageArgs`** - For custom messages or `then` effec-. Gives you full control over the message format.
+-   Only one of effect/message can be used per ability or effect-
 
 ## Properties
 
@@ -49,7 +49,7 @@ The `effect` property is used for the main ability message. The effect message a
 
 **Default placeholders:**
 
-- `{0}` - The target (or source if no target)
+-   `{0}` - The target (or source if no target)
 
 ```javascript
 // Simple effect with no arguments
@@ -67,12 +67,12 @@ this.play({
 // Using {0} for target
 // Output: "{player} uses Anger to ready and fight with {creature}"
 this.play({
-  target: {
-    cardType: 'creature',
-    controller: 'self',
-    gameAction: ability.actions.sequential([ability.actions.ready(), ability.actions.fight()])
-  },
-  effect: 'ready and fight with {0}'
+    target: {
+        cardType: 'creature',
+        controller: 'self',
+        gameAction: ability.actions.sequential([ability.actions.ready(), ability.actions.fight()])
+    },
+    effect: 'ready and fight with {0}'
 });
 ```
 
@@ -80,15 +80,15 @@ this.play({
 
 The `effectArgs` property provides values for placeholders `{1}`, `{2}`, `{3}`, etc. in your effect template string. It can be either:
 
-- An array of values: `effectArgs: [value1, value2]`
-- A function returning an array: `effectArgs: (context) => [value1, value2]`
+-   An array of values: `effectArgs: [value1, value2]`
+-   A function returning an array: `effectArgs: (context) => [value1, value2]`
 
 The values map to placeholders as follows:
 
-- `{0}` - Still the default target (not from effectArgs)
-- `{1}` - First value in effectArgs array
-- `{2}` - Second value in effectArgs array
-- `{3}`, `{4}`, etc. - Continue in order
+-   `{0}` - Still the default target (not from effectArgs)
+-   `{1}` - First value in effectArgs array
+-   `{2}` - Second value in effectArgs array
+-   `{3}`, `{4}`, etc. - Continue in order
 
 ```javascript
 // Output: "{player1} uses Effervescent Principle to gain 1 chain and make {player1} lose 3 amber and {player2} lose 2 amber"
@@ -117,8 +117,8 @@ this.play({
 
 **Additional effect properties:**
 
-- `effectAlert` (bool) - Makes the message appear as an Alert (highlighted). Used for cards like Fogbank, Lifeward, Stealth Mode.
-- `effectStyle` (`"append"`, `"all"`, or `null`) - Controls how multiple actions' effects are combined in the message.
+-   `effectAlert` (bool) - Makes the message appear as an Alert (highlighted). Used for cards like Fogbank, Lifeward, Stealth Mode.
+-   `effectStyle` (`"append"`, `"all"`, or `null`) - Controls how multiple actions' effects are combined in the message.
 
 ### message / messageArgs
 
@@ -126,23 +126,23 @@ The `message` property gives full control over the message format and does not p
 
 **Default placeholders:**
 
-- `{0}` - context.player
-- `{1}` - context.source.type (for abilities) or context.source (for `then` effects)
-- `{2}` - context.target
+-   `{0}` - context.player
+-   `{1}` - context.source.type (for abilities) or context.source (for `then` effects)
+-   `{2}` - context.target
 
 **Using `messageArgs` for additional placeholders:**
 
 The `messageArgs` property works similarly to `effectArgs`, but since `message` gives you full control, you can also override the default placeholders `{0}`, `{1}`, `{2}`. It can be either:
 
-- An array of values: `messageArgs: [value1, value2]`
-- A function returning an array: `messageArgs: (context) => [value1, value2]`
+-   An array of values: `messageArgs: [value1, value2]`
+-   A function returning an array: `messageArgs: (context) => [value1, value2]`
 
 The values map to placeholders as follows:
 
-- `{0}`, `{1}`, `{2}` - Default values (player, source, target)
-- `{3}` - First value in messageArgs array
-- `{4}` - Second value in messageArgs array
-- `{5}`, `{6}`, etc. - Continue in order
+-   `{0}`, `{1}`, `{2}` - Default values (player, source, target)
+-   `{3}` - First value in messageArgs array
+-   `{4}` - Second value in messageArgs array
+-   `{5}`, `{6}`, etc. - Continue in order
 
 ```javascript
 // Overriding defaults: messageArgs provides {0}, {1}, {2}
@@ -178,14 +178,14 @@ this.reap({
 
 **Additional message properties:**
 
-- `preferActionPromptMessage` (bool) - Skips the automatic message display. Rarely needed.
+-   `preferActionPromptMessage` (bool) - Skips the automatic message display. Rarely needed.
 
 ## Default Messages
 
 Many game actions in Keyteki generate automatic log messages. For example:
 
-- `ability.actions.capture({ amount: 2 })` logs "{player} uses {card} to capture 2 amber"
-- `ability.actions.steal({ amount: 2 })` logs "{player} uses {card} to steal 2 amber"
+-   `ability.actions.capture({ amount: 2 })` logs "{player} uses {card} to capture 2 amber"
+-   `ability.actions.steal({ amount: 2 })` logs "{player} uses {card} to steal 2 amber"
 
 However, if the player doesn't have enough amber, the default message can be misleading. When the actual outcome differs from what the card text says, you should provide custom messages showing what actually happened.
 
@@ -244,57 +244,57 @@ this.reap({
 // Card: "Deal 1D to each creature. Gain 1A for each creature destroyed this way."
 // Bad: Vague message that doesn't tell the player what happened:
 this.play({
-  gameAction: ability.actions.dealDamage((context) => ({
-    target: context.game.creaturesInPlay
-  })),
-  then: {
-    alwaysTriggers: true,
-    gameAction: ability.actions.gainAmber((context) => ({
-      amount: context.preThenEvents.filter(
-        (event) =>
-          event.destroyEvent &&
-          event.destroyEvent.destroyedByDamageDealt &&
-          event.destroyEvent.resolved
-      ).length
+    gameAction: ability.actions.dealDamage((context) => ({
+        target: context.game.creaturesInPlay
     })),
-    message: '{0} gains amber for each creature destroyed this way'
-  }
+    then: {
+        alwaysTriggers: true,
+        gameAction: ability.actions.gainAmber((context) => ({
+            amount: context.preThenEvents.filter(
+                (event) =>
+                    event.destroyEvent &&
+                    event.destroyEvent.destroyedByDamageDealt &&
+                    event.destroyEvent.resolved
+            ).length
+        })),
+        message: '{0} gains amber for each creature destroyed this way'
+    }
 });
 
 // Good:  - Shows which creatures were destroyed and the total amber gained:
 this.play({
-  gameAction: ability.actions.dealDamage((context) => ({
-    target: context.game.creaturesInPlay
-  })),
-  then: {
-    alwaysTriggers: true,
-    gameAction: ability.actions.gainAmber((context) => ({
-      amount: context.preThenEvents.filter(
-        (event) =>
-          event.destroyEvent &&
-          event.destroyEvent.destroyedByDamageDealt &&
-          event.destroyEvent.resolved
-      ).length
+    gameAction: ability.actions.dealDamage((context) => ({
+        target: context.game.creaturesInPlay
     })),
-    message:
-      '{0} uses {1} to gain 1 amber for each creature destroyed this way ({3}), gaining a total of {4} amber',
-    messageArgs: (context) => [
-      context.preThenEvents
-        .filter(
-          (event) =>
-            event.destroyEvent &&
-            event.destroyEvent.destroyedByDamageDealt &&
-            event.destroyEvent.resolved
-        )
-        .map((event) => event.card),
-      context.preThenEvents.filter(
-        (event) =>
-          event.destroyEvent &&
-          event.destroyEvent.destroyedByDamageDealt &&
-          event.destroyEvent.resolved
-      ).length
-    ]
-  }
+    then: {
+        alwaysTriggers: true,
+        gameAction: ability.actions.gainAmber((context) => ({
+            amount: context.preThenEvents.filter(
+                (event) =>
+                    event.destroyEvent &&
+                    event.destroyEvent.destroyedByDamageDealt &&
+                    event.destroyEvent.resolved
+            ).length
+        })),
+        message:
+            '{0} uses {1} to gain 1 amber for each creature destroyed this way ({3}), gaining a total of {4} amber',
+        messageArgs: (context) => [
+            context.preThenEvents
+                .filter(
+                    (event) =>
+                        event.destroyEvent &&
+                        event.destroyEvent.destroyedByDamageDealt &&
+                        event.destroyEvent.resolved
+                )
+                .map((event) => event.card),
+            context.preThenEvents.filter(
+                (event) =>
+                    event.destroyEvent &&
+                    event.destroyEvent.destroyedByDamageDealt &&
+                    event.destroyEvent.resolved
+            ).length
+        ]
+    }
 });
 ```
 
@@ -530,23 +530,24 @@ When a `then` effect follows an action that affected multiple targets, use `preT
 // Output: "{player} uses Cleansing Wave to heal 1 damage from all creatures"
 //         "Cleansing Wave heals {Creature1}, {Creature2}, gaining {player} 2 amber"
 this.play({
-  effect: 'heal 1 damage from all creatures',
-  gameAction: ability.actions.heal((context) => ({
-    amount: 1,
-    target: context.game.creaturesInPlay.filter((card) => card.hasToken('damage'))
-  })),
-  then: {
-    message: '{1} heals {3}, gaining {0} {4} amber',
-    messageArgs: (context) => {
-      let successfulEvents = context.preThenEvents.filter(
-        (event) => !event.cancelled && event.amount > 0
-      );
-      return [successfulEvents.map((event) => event.card), successfulEvents.length];
-    },
-    gameAction: ability.actions.gainAmber((context) => ({
-      amount: context.preThenEvents.filter((event) => !event.cancelled && event.amount > 0).length
-    }))
-  }
+    effect: 'heal 1 damage from all creatures',
+    gameAction: ability.actions.heal((context) => ({
+        amount: 1,
+        target: context.game.creaturesInPlay.filter((card) => card.hasToken('damage'))
+    })),
+    then: {
+        message: '{1} heals {3}, gaining {0} {4} amber',
+        messageArgs: (context) => {
+            let successfulEvents = context.preThenEvents.filter(
+                (event) => !event.cancelled && event.amount > 0
+            );
+            return [successfulEvents.map((event) => event.card), successfulEvents.length];
+        },
+        gameAction: ability.actions.gainAmber((context) => ({
+            amount: context.preThenEvents.filter((event) => !event.cancelled && event.amount > 0)
+                .length
+        }))
+    }
 });
 ```
 
@@ -558,15 +559,15 @@ When you need to reference the card itself (not `context.source`), use arrow fun
 // Card: "Destroyed: Instead of destroying Self-Bolstering Automata, fully heal it..."
 // effectArgs uses `this` because we need the card instance
 this.destroyed({
-  condition: (context) => context.player.creaturesInPlay.length > 1,
-  effect: 'heal all damage from {0}, exhaust it and move it to a flank',
-  effectArgs: () => this, // Arrow function preserves `this` binding
-  gameAction: [
-    ability.actions.heal({ fully: true }),
-    ability.actions.exhaust(),
-    ability.actions.moveToFlank()
-    // ...
-  ]
+    condition: (context) => context.player.creaturesInPlay.length > 1,
+    effect: 'heal all damage from {0}, exhaust it and move it to a flank',
+    effectArgs: () => this, // Arrow function preserves `this` binding
+    gameAction: [
+        ability.actions.heal({ fully: true }),
+        ability.actions.exhaust(),
+        ability.actions.moveToFlank()
+        // ...
+    ]
 });
 ```
 
@@ -579,15 +580,15 @@ Build dynamic effect strings by conditionally appending text:
 // Output (hand >= 4): "{player} uses Initiation to make a token creature"
 // Output (hand < 4):  "{player} uses Initiation to make a token creature and archive itself"
 this.play({
-  effect: 'make a token creature{1}', // {1} may be empty or additional text
-  effectArgs: (context) => (context.player.hand.length < 4 ? ' and archive itself' : ''),
-  gameAction: ability.actions.sequential([
-    ability.actions.makeTokenCreature(),
-    ability.actions.conditional({
-      condition: (context) => context.player.hand.length < 4,
-      trueGameAction: ability.actions.archive()
-    })
-  ])
+    effect: 'make a token creature{1}', // {1} may be empty or additional text
+    effectArgs: (context) => (context.player.hand.length < 4 ? ' and archive itself' : ''),
+    gameAction: ability.actions.sequential([
+        ability.actions.makeTokenCreature(),
+        ability.actions.conditional({
+            condition: (context) => context.player.hand.length < 4,
+            trueGameAction: ability.actions.archive()
+        })
+    ])
 });
 ```
 
@@ -599,15 +600,15 @@ Access event data through `context.event` for reaction abilities:
 // Card: "After an enemy creature is destroyed while fighting, put a glory counter on The Colosseum."
 // Output: "{player} uses The Colosseum to place a glory counter on itself due to {destroyed creature} being destroyed"
 this.reaction({
-  when: {
-    onCardDestroyed: (event, context) =>
-      event.destroyedFighting &&
-      event.clone.controller !== context.player &&
-      event.clone.type === 'creature'
-  },
-  effect: 'place a glory counter on itself due to {1} being destroyed',
-  effectArgs: (context) => [context.event.card], // The destroyed card from the event
-  gameAction: ability.actions.addGloryCounter()
+    when: {
+        onCardDestroyed: (event, context) =>
+            event.destroyedFighting &&
+            event.clone.controller !== context.player &&
+            event.clone.type === 'creature'
+    },
+    effect: 'place a glory counter on itself due to {1} being destroyed',
+    effectArgs: (context) => [context.event.card], // The destroyed card from the event
+    gameAction: ability.actions.addGloryCounter()
 });
 ```
 
@@ -618,20 +619,20 @@ When revealing cards, include conditional explanations:
 ```javascript
 // Card: "Reveal the top card of your deck. If it is a Logos card, play it. Otherwise, archive it."
 this.reap({
-  condition: (context) => context.player.deck.length > 0,
-  effect: 'reveal {1}{2}', // {1} = card, {2} = explanation
-  effectArgs: (context) => {
-    let card = context.player.deck[0];
-    if (!card) return [];
-    let args = [card];
-    if (card.hasHouse('logos')) {
-      return args.concat(', which is a Logos card, and play it');
-    }
-    return args.concat(', which is not a Logos card, so it gets archived');
-  },
-  gameAction: [
-    // ...
-  ]
+    condition: (context) => context.player.deck.length > 0,
+    effect: 'reveal {1}{2}', // {1} = card, {2} = explanation
+    effectArgs: (context) => {
+        let card = context.player.deck[0];
+        if (!card) return [];
+        let args = [card];
+        if (card.hasHouse('logos')) {
+            return args.concat(', which is a Logos card, and play it');
+        }
+        return args.concat(', which is not a Logos card, so it gets archived');
+    },
+    gameAction: [
+        // ...
+    ]
 });
 ```
 
@@ -642,17 +643,17 @@ When using `promptForSelect` inside a game action, define the message and args w
 ```javascript
 // Card: "Archive a card. If you control Hyde, archive 2 cards instead."
 this.reap({
-  preferActionPromptMessage: true,
-  gameAction: ability.actions.archive((context) => ({
-    promptForSelect: {
-      location: 'hand',
-      controller: 'self',
-      mode: 'exactly',
-      message: '{0} uses {1} to archive {2} card', // Full message format
-      messageArgs: (cards) => [context.player, context.source, cards.length],
-      numCards: context.player.cardsInPlay.some((card) => card.name === 'Hyde') ? 2 : 1
-    }
-  }))
+    preferActionPromptMessage: true,
+    gameAction: ability.actions.archive((context) => ({
+        promptForSelect: {
+            location: 'hand',
+            controller: 'self',
+            mode: 'exactly',
+            message: '{0} uses {1} to archive {2} card', // Full message format
+            messageArgs: (cards) => [context.player, context.source, cards.length],
+            numCards: context.player.cardsInPlay.some((card) => card.name === 'Hyde') ? 2 : 1
+        }
+    }))
 });
 ```
 
@@ -665,22 +666,22 @@ Handle singular vs plural forms dynamically:
 // Output (1 amber): "{player} uses Inspiring Oration to make a token creature"
 // Output (3 amber): "{player} uses Inspiring Oration to make 3 token creatures"
 this.play({
-  target: {
-    cardType: 'creature',
-    controller: 'self',
-    gameAction: ability.actions.exalt()
-  },
-  then: (preThenContext) => ({
-    alwaysTriggers: true,
-    message: '{0} uses {1} to make {3}{4}',
-    messageArgs: () =>
-      preThenContext.target.amber === 1
-        ? ['a token creature', ''] // Singular
-        : [preThenContext.target.amber, ' token creatures'], // Plural
-    gameAction: ability.actions.makeTokenCreature(() => ({
-      amount: preThenContext.target.amber
-    }))
-  })
+    target: {
+        cardType: 'creature',
+        controller: 'self',
+        gameAction: ability.actions.exalt()
+    },
+    then: (preThenContext) => ({
+        alwaysTriggers: true,
+        message: '{0} uses {1} to make {3}{4}',
+        messageArgs: () =>
+            preThenContext.target.amber === 1
+                ? ['a token creature', ''] // Singular
+                : [preThenContext.target.amber, ' token creatures'], // Plural
+        gameAction: ability.actions.makeTokenCreature(() => ({
+            amount: preThenContext.target.amber
+        }))
+    })
 });
 ```
 
@@ -693,16 +694,16 @@ Use plain strings for custom text like possessives or descriptors:
 // Output: "{player} uses Monument to Shrix to move one amber from their pool..."
 // Output: "{player} uses Monument to Shrix to move one amber from their opponent's pool..."
 this.action({
-  target: {
-    mode: 'select',
-    activePromptTitle: "Which player's pool",
-    choices: { Mine: () => true, "Opponent's": (context) => !!context.player.opponent }
-  },
-  effect: 'move one amber from {1} pool to Monument to Shrix',
-  effectArgs: (context) => [context.select === 'Mine' ? 'their' : "their opponent's"],
-  gameAction: ability.actions.loseAmber((context) => ({
-    target: context.select === 'Mine' ? context.player : context.player.opponent
-  }))
+    target: {
+        mode: 'select',
+        activePromptTitle: "Which player's pool",
+        choices: { Mine: () => true, "Opponent's": (context) => !!context.player.opponent }
+    },
+    effect: 'move one amber from {1} pool to Monument to Shrix',
+    effectArgs: (context) => [context.select === 'Mine' ? 'their' : "their opponent's"],
+    gameAction: ability.actions.loseAmber((context) => ({
+        target: context.select === 'Mine' ? context.player : context.player.opponent
+    }))
 });
 ```
 
@@ -713,14 +714,14 @@ When cards reference other named cards, use `context.cardName` for "name a card"
 ```javascript
 // Card: "Name a card. Until Etan's Jar leaves play, cards with that name cannot be played."
 this.play({
-  target: {
-    mode: 'card-name'
-  },
-  effect: 'prevent cards named {1} from being played',
-  effectArgs: (context) => [context.cardName], // The named card from selection
-  gameAction: ability.actions.lastingEffect((context) => ({
-    // ...
-  }))
+    target: {
+        mode: 'card-name'
+    },
+    effect: 'prevent cards named {1} from being played',
+    effectArgs: (context) => [context.cardName], // The named card from selection
+    gameAction: ability.actions.lastingEffect((context) => ({
+        // ...
+    }))
 });
 ```
 
@@ -731,14 +732,14 @@ When all values are known ahead of time (not derived from context), use a plain 
 ```javascript
 // Card: "Steal 1 amber. Then, steal 1 amber for each copy of Routine Job in your discard pile."
 this.play({
-  gameAction: ability.actions.steal(),
-  then: (context) => ({
-    message: '{0} steals additional {3} amber with {1}',
-    messageArgs: [context.player.discard.filter((card) => card.name === 'Routine Job').length],
-    gameAction: ability.actions.steal({
-      amount: context.player.discard.filter((card) => card.name === 'Routine Job').length
+    gameAction: ability.actions.steal(),
+    then: (context) => ({
+        message: '{0} steals additional {3} amber with {1}',
+        messageArgs: [context.player.discard.filter((card) => card.name === 'Routine Job').length],
+        gameAction: ability.actions.steal({
+            amount: context.player.discard.filter((card) => card.name === 'Routine Job').length
+        })
     })
-  })
 });
 ```
 
@@ -750,20 +751,20 @@ For cards with complex state-dependent messaging:
 // Card: "Omni: If there are 6+ glory counters, remove 6 and forge a key at current cost."
 // The effect message itself is computed based on game state
 this.omni({
-  effect: '{1}', // The entire effect text comes from effectArgs
-  effectArgs: (context) => [
-    this.tokens.glory >= 6 && context.player.amber >= context.player.getCurrentKeyCost()
-      ? 'discard 6 glory counters and forge a key at current cost'
-      : this.tokens.glory >= 6 && context.player.amber < context.player.getCurrentKeyCost()
-      ? 'discard 6 glory counters'
-      : 'do nothing'
-  ],
-  gameAction: ability.actions.clearGloryCounters(() => ({
-    amount: this.tokens.glory >= 6 ? 6 : 0
-  })),
-  then: {
-    gameAction: ability.actions.forgeKey()
-  }
+    effect: '{1}', // The entire effect text comes from effectArgs
+    effectArgs: (context) => [
+        this.tokens.glory >= 6 && context.player.amber >= context.player.getCurrentKeyCost()
+            ? 'discard 6 glory counters and forge a key at current cost'
+            : this.tokens.glory >= 6 && context.player.amber < context.player.getCurrentKeyCost()
+            ? 'discard 6 glory counters'
+            : 'do nothing'
+    ],
+    gameAction: ability.actions.clearGloryCounters(() => ({
+        amount: this.tokens.glory >= 6 ? 6 : 0
+    })),
+    then: {
+        gameAction: ability.actions.forgeKey()
+    }
 });
 ```
 
@@ -775,33 +776,33 @@ For complex messages that need to build several parts:
 // Card: "Discard from deck until you discard a Logos card or run out. If not Logos, trigger again."
 // The messageArgs returns multiple pieces that get assembled
 this.then((preThenContext) => ({
-  message: '{0} discards the top card of their deck due to {1}: {3}{4}{5}{6}',
-  messageArgs: (context) => {
-    let topCard = context.player.deck[0];
-    if (topCard) {
-      if (topCard.hasHouse('logos') || context.source.location !== 'play area') {
-        return [topCard]; // Just the card name
-      }
-      return [topCard, '. ', context.source, "'s ability resolves again"]; // Card + explanation
-    }
-    return [];
-  },
-  gameAction: [
-    // ...
-  ]
+    message: '{0} discards the top card of their deck due to {1}: {3}{4}{5}{6}',
+    messageArgs: (context) => {
+        let topCard = context.player.deck[0];
+        if (topCard) {
+            if (topCard.hasHouse('logos') || context.source.location !== 'play area') {
+                return [topCard]; // Just the card name
+            }
+            return [topCard, '. ', context.source, "'s ability resolves again"]; // Card + explanation
+        }
+        return [];
+    },
+    gameAction: [
+        // ...
+    ]
 }));
 ```
 
 ## Best Practices
 
-- **Show actual values, not descriptions** - Instead of "lose half their amber", show "lose 3 amber".
-- **Guard against undefined opponents** - Use `context.player.opponent ? ... : 0` for solo play compatibility.
-- **List affected cards** - When destroying/affecting multiple cards, list them: "({3}), gaining a total of {4} amber".
-- **Use `then` for multi-step messaging** - Split complex effects into `effect` for the first action and `then.message` for subsequent actions.
-- **Match the card text style** - Messages should read naturally like the card text.
-- **Handle pluralization** - Use conditional messageArgs for "1 creature" vs "3 creatures".
-- **Prefer `effect` for primary abilities** - The auto-prefix "{player} uses {card} to..." is cleaner.
-- **Use `message` in `then` blocks** - The `effect` property isn't available in `then` effects.
+-   **Show actual values, not descriptions** - Instead of "lose half their amber", show "lose 3 amber".
+-   **Guard against undefined opponents** - Use `context.player.opponent ? ... : 0` for solo play compatibility.
+-   **List affected cards** - When destroying/affecting multiple cards, list them: "({3}), gaining a total of {4} amber".
+-   **Use `then` for multi-step messaging** - Split complex effects into `effect` for the first action and `then.message` for subsequent actions.
+-   **Match the card text style** - Messages should read naturally like the card text.
+-   **Handle pluralization** - Use conditional messageArgs for "1 creature" vs "3 creatures".
+-   **Prefer `effect` for primary abilities** - The auto-prefix "{player} uses {card} to..." is cleaner.
+-   **Use `message` in `then` blocks** - The `effect` property isn't available in `then` effects.
 
 ## Quick Reference
 
@@ -829,12 +830,12 @@ When using `target` for selection, set `activePromptTitle`:
 ```javascript
 // With activePromptTitle - shows "Select a creature to destroy"
 this.play({
-  target: {
-    activePromptTitle: 'Select a creature to destroy',
-    cardType: 'creature',
-    gameAction: ability.actions.destroy()
-  },
-  effect: 'destroy {0}'
+    target: {
+        activePromptTitle: 'Select a creature to destroy',
+        cardType: 'creature',
+        gameAction: ability.actions.destroy()
+    },
+    effect: 'destroy {0}'
 });
 ```
 
@@ -842,7 +843,7 @@ this.play({
 
 Messages used in prompts should be in the locale files in [`public/locales`](../public/locales/). This includes:
 
-- `properties.target.activePromptTitle`
-- `properties.target.choices`
-- `properties.gameAction.promptForSelect.activePromptTitle`
-- `properties.gameAction.promptWithHandlerMenu.activePromptTitle`
+-   `properties.target.activePromptTitle`
+-   `properties.target.choices`
+-   `properties.gameAction.promptForSelect.activePromptTitle`
+-   `properties.gameAction.promptWithHandlerMenu.activePromptTitle`

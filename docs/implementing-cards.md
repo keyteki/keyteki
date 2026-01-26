@@ -2,58 +2,58 @@
 
 This guide covers the basics of implementing KeyForge cards in Keyteki. For detailed ability documentation, see:
 
-- [Card Abilities](card-abilities.md) - Ability types and their properties
-- [Game Actions](game-actions.md) - All available `ability.actions.*` methods
-- [Keywords](keywords.md) - Keywords handled automatically by the engine
-- [Testing Cards](testing-cards.md) - How to write tests
+-   [Card Abilities](card-abilities.md) - Ability types and their properties
+-   [Game Actions](game-actions.md) - All available `ability.actions.*` methods
+-   [Keywords](keywords.md) - Keywords handled automatically by the engine
+-   [Testing Cards](testing-cards.md) - How to write tests
 
 ## Table of Contents
 
-- [Getting Started](#getting-started)
-  - [Testing in the UI](#testing-in-the-ui)
-- [File Structure](#file-structure)
-- [Basic Card Template](#basic-card-template)
-- [Keywords](#keywords)
-- [Persistent Effects](#persistent-effects)
-  - [Basic Persistent Effect](#basic-persistent-effect)
-  - [Conditional Effects](#conditional-effects)
-  - [Target Controllers](#target-controllers)
-  - [Upgrade Effects](#upgrade-effects)
-  - [Player Effects](#player-effects)
-- [Actions](#actions)
-  - [Basic Action](#basic-action)
-  - [Action with Target](#action-with-target)
-  - [Omni Actions](#omni-actions)
-- [Triggered Abilities](#triggered-abilities)
-  - [Reactions](#reactions)
-  - [Interrupts](#interrupts)
-  - [Trigger Events](#trigger-events)
-- [Targeting](#targeting)
-  - [Single Target](#single-target)
-  - [Multiple Targets](#multiple-targets)
-  - [Target Properties](#target-properties)
-  - [Card Conditions](#card-conditions)
-- [Costs](#costs)
-- [Lasting Effects](#lasting-effects)
-  - [Durations](#durations)
-- [Ability Limits](#ability-limits)
+-   [Getting Started](#getting-started)
+    -   [Testing in the UI](#testing-in-the-ui)
+-   [File Structure](#file-structure)
+-   [Basic Card Template](#basic-card-template)
+-   [Keywords](#keywords)
+-   [Persistent Effects](#persistent-effects)
+    -   [Basic Persistent Effect](#basic-persistent-effect)
+    -   [Conditional Effects](#conditional-effects)
+    -   [Target Controllers](#target-controllers)
+    -   [Upgrade Effects](#upgrade-effects)
+    -   [Player Effects](#player-effects)
+-   [Actions](#actions)
+    -   [Basic Action](#basic-action)
+    -   [Action with Target](#action-with-target)
+    -   [Omni Actions](#omni-actions)
+-   [Triggered Abilities](#triggered-abilities)
+    -   [Reactions](#reactions)
+    -   [Interrupts](#interrupts)
+    -   [Trigger Events](#trigger-events)
+-   [Targeting](#targeting)
+    -   [Single Target](#single-target)
+    -   [Multiple Targets](#multiple-targets)
+    -   [Target Properties](#target-properties)
+    -   [Card Conditions](#card-conditions)
+-   [Costs](#costs)
+-   [Lasting Effects](#lasting-effects)
+    -   [Durations](#durations)
+-   [Ability Limits](#ability-limits)
 
 ## Getting Started
 
 To implement a card:
 
-- Find the card's data in `keyteki-json-data/packs/<Set>.json`
-- Create a file in `server/game/cards/<Set>/<CardName>.js`
-- Implement the card's abilities
-- Write tests in `test/server/cards/<Set>/<CardName>.spec.js`
-- Run and verify tests pass: `DEBUG_TEST=1 npm test -- test/server/cards/<Set>/<CardName>.spec.js`
+-   Find the card's data in `keyteki-json-data/packs/<Set>.json`
+-   Create a file in `server/game/cards/<Set>/<CardName>.js`
+-   Implement the card's abilities
+-   Write tests in `test/server/cards/<Set>/<CardName>.spec.js`
+-   Run and verify tests pass: `DEBUG_TEST=1 npm test -- test/server/cards/<Set>/<CardName>.spec.js`
 
 ### Testing in the UI
 
-- Start the server: `docker-compose up --build`
-- Visit [http://localhost:4000](http://localhost:4000)
-- Create a game and enter manual mode
-- Add your card: `/add-card Card Name`
+-   Start the server: `docker-compose up --build`
+-   Visit [http://localhost:4000](http://localhost:4000)
+-   Create a game and enter manual mode
+-   Add your card: `/add-card Card Name`
 
 ## File Structure
 
@@ -77,12 +77,12 @@ The filename should match the card's ID from the JSON data, converted to PascalC
 const Card = require('../../Card.js');
 
 class DustPixie extends Card {
-  // Play: Gain 2A.
-  setupCardAbilities(ability) {
-    this.play({
-      gameAction: ability.actions.gainAmber({ amount: 2 })
-    });
-  }
+    // Play: Gain 2A.
+    setupCardAbilities(ability) {
+        this.play({
+            gameAction: ability.actions.gainAmber({ amount: 2 })
+        });
+    }
 }
 
 DustPixie.id = 'dust-pixie';
@@ -92,11 +92,11 @@ module.exports = DustPixie;
 
 **Key points:**
 
-- Extend the `Card` class
-- Comment the card text above `setupCardAbilities`
-- Set the static `id` property to match the JSON data
-- Export the class with `module.exports`
-- Always end the file with a newline
+-   Extend the `Card` class
+-   Comment the card text above `setupCardAbilities`
+-   Set the static `id` property to match the JSON data
+-   Export the class with `module.exports`
+-   Always end the file with a newline
 
 ## Keywords
 
@@ -105,12 +105,12 @@ Keywords like Taunt, Elusive, Skirmish, etc. are automatically parsed from the c
 ```javascript
 // DON'T do this - Taunt is automatic:
 this.persistentEffect({
-  effect: ability.effects.addKeyword({ taunt: 1 })
+    effect: ability.effects.addKeyword({ taunt: 1 })
 });
 
 // DO this - only when granting keywords to OTHER cards:
 this.whileAttached({
-  effect: ability.effects.addKeyword({ skirmish: 1 })
+    effect: ability.effects.addKeyword({ skirmish: 1 })
 });
 ```
 
@@ -123,9 +123,9 @@ Persistent effects apply continuously while the card is in play. They automatica
 ```javascript
 // Each friendly creature gets +1 power.
 this.persistentEffect({
-  match: (card) => card.type === 'creature',
-  targetController: 'self',
-  effect: ability.effects.modifyPower(1)
+    match: (card) => card.type === 'creature',
+    targetController: 'self',
+    effect: ability.effects.modifyPower(1)
 });
 ```
 
@@ -134,24 +134,24 @@ this.persistentEffect({
 ```javascript
 // While you have no aember, gain +2 power.
 this.persistentEffect({
-  condition: (context) => context.player.amber === 0,
-  match: this,
-  effect: ability.effects.modifyPower(2)
+    condition: (context) => context.player.amber === 0,
+    match: this,
+    effect: ability.effects.modifyPower(2)
 });
 ```
 
 ### Target Controllers
 
-- `'self'` (default) - Only your cards
-- `'opponent'` - Only opponent's cards
-- `'any'` - All cards regardless of controller
+-   `'self'` (default) - Only your cards
+-   `'opponent'` - Only opponent's cards
+-   `'any'` - All cards regardless of controller
 
 ```javascript
 // Enemy creatures get -1 power.
 this.persistentEffect({
-  match: (card) => card.type === 'creature',
-  targetController: 'opponent',
-  effect: ability.effects.modifyPower(-1)
+    match: (card) => card.type === 'creature',
+    targetController: 'opponent',
+    effect: ability.effects.modifyPower(-1)
 });
 ```
 
@@ -162,7 +162,7 @@ For upgrades, use `whileAttached()` to apply effects to the attached creature:
 ```javascript
 // This creature gains Skirmish.
 this.whileAttached({
-  effect: ability.effects.addKeyword({ skirmish: 1 })
+    effect: ability.effects.addKeyword({ skirmish: 1 })
 });
 ```
 
@@ -173,9 +173,9 @@ Some effects target players rather than cards:
 ```javascript
 // Your opponent cannot play more than 2 cards each turn.
 this.persistentEffect({
-  condition: () => this.game.cardsPlayed.length > 1,
-  targetController: 'opponent',
-  effect: ability.effects.playerCannot('play')
+    condition: () => this.game.cardsPlayed.length > 1,
+    targetController: 'opponent',
+    effect: ability.effects.playerCannot('play')
 });
 ```
 
@@ -188,7 +188,7 @@ When a card uses an action ability, the card must be ready, is then exhausted, a
 ```javascript
 // Action: Gain 1A.
 this.action({
-  gameAction: ability.actions.gainAmber()
+    gameAction: ability.actions.gainAmber()
 });
 ```
 
@@ -197,10 +197,10 @@ this.action({
 ```javascript
 // Action: Deal 2 damage to a creature.
 this.action({
-  target: {
-    cardType: 'creature',
-    gameAction: ability.actions.dealDamage({ amount: 2 })
-  }
+    target: {
+        cardType: 'creature',
+        gameAction: ability.actions.dealDamage({ amount: 2 })
+    }
 });
 ```
 
@@ -211,10 +211,10 @@ Omni abilities can be used regardless of which house is active:
 ```javascript
 // Omni: Sacrifice this artifact. If you do, gain 2A.
 this.omni({
-  gameAction: ability.actions.sacrifice(),
-  then: {
-    gameAction: ability.actions.gainAmber({ amount: 2 })
-  }
+    gameAction: ability.actions.sacrifice(),
+    then: {
+        gameAction: ability.actions.gainAmber({ amount: 2 })
+    }
 });
 ```
 
@@ -227,11 +227,11 @@ Reactions trigger after an event occurs:
 ```javascript
 // After a friendly creature is destroyed, gain 1A.
 this.reaction({
-  when: {
-    onCardDestroyed: (event, context) =>
-      event.card.type === 'creature' && event.card.controller === context.player
-  },
-  gameAction: ability.actions.gainAmber()
+    when: {
+        onCardDestroyed: (event, context) =>
+            event.card.type === 'creature' && event.card.controller === context.player
+    },
+    gameAction: ability.actions.gainAmber()
 });
 ```
 
@@ -243,16 +243,16 @@ Interrupts trigger before an event resolves:
 // Before a friendly creature would be destroyed, you may sacrifice
 // this card to prevent that destruction.
 this.interrupt({
-  when: {
-    onCardDestroyed: (event, context) =>
-      event.card.type === 'creature' &&
-      event.card.controller === context.player &&
-      event.card !== context.source
-  },
-  gameAction: ability.actions.sacrifice(),
-  then: {
-    gameAction: ability.actions.cancel()
-  }
+    when: {
+        onCardDestroyed: (event, context) =>
+            event.card.type === 'creature' &&
+            event.card.controller === context.player &&
+            event.card !== context.source
+    },
+    gameAction: ability.actions.sacrifice(),
+    then: {
+        gameAction: ability.actions.cancel()
+    }
 });
 ```
 
@@ -404,19 +404,19 @@ Some abilities have costs beyond exhausting:
 ```javascript
 // Sacrifice a friendly creature to gain 2A.
 this.action({
-  cost: ability.costs.sacrifice({
-    cardType: 'creature',
-    controller: 'self'
-  }),
-  gameAction: ability.actions.gainAmber({ amount: 2 })
+    cost: ability.costs.sacrifice({
+        cardType: 'creature',
+        controller: 'self'
+    }),
+    gameAction: ability.actions.gainAmber({ amount: 2 })
 });
 ```
 
 Common costs:
 
-- `ability.costs.sacrifice()` - Sacrifice a card
-- `ability.costs.discardCard()` - Discard from hand
-- `ability.costs.payAmber(n)` - Spend aember
+-   `ability.costs.sacrifice()` - Sacrifice a card
+-   `ability.costs.discardCard()` - Discard from hand
+-   `ability.costs.payAmber(n)` - Spend aember
 
 ## Lasting Effects
 
@@ -425,21 +425,21 @@ Lasting effects are temporary and expire after a specified duration.
 ```javascript
 // This creature gets +3 power until end of turn.
 this.play({
-  target: {
-    cardType: 'creature',
-    gameAction: ability.actions.cardLastingEffect({
-      effect: ability.effects.modifyPower(3)
-    })
-  }
+    target: {
+        cardType: 'creature',
+        gameAction: ability.actions.cardLastingEffect({
+            effect: ability.effects.modifyPower(3)
+        })
+    }
 });
 ```
 
 ### Durations
 
-- `'untilEndOfTurn'` (default)
-- `'untilEndOfMyNextTurn'`
-- `'untilEndOfOpponentNextTurn'`
-- `'persistent'` (until card leaves play)
+-   `'untilEndOfTurn'` (default)
+-   `'untilEndOfMyNextTurn'`
+-   `'untilEndOfOpponentNextTurn'`
+-   `'persistent'` (until card leaves play)
 
 ## Ability Limits
 
@@ -447,15 +447,15 @@ Some abilities can only be used a limited number of times:
 
 ```javascript
 this.reaction({
-  when: {
-    /* ... */
-  },
-  limit: ability.limit.perTurn(1),
-  gameAction: ability.actions.gainAmber()
+    when: {
+        /* ... */
+    },
+    limit: ability.limit.perTurn(1),
+    gameAction: ability.actions.gainAmber()
 });
 ```
 
 Limit types:
 
-- `ability.limit.perTurn(n)` - N times per turn
-- `ability.limit.perRound(n)` - N times per round
+-   `ability.limit.perTurn(n)` - N times per turn
+-   `ability.limit.perRound(n)` - N times per round

@@ -4,28 +4,28 @@ Keywords in KeyForge are special abilities that appear on cards. In Keyteki, mos
 
 ## Table of Contents
 
-- [List of Keywords](#list-of-keywords)
-  - [Alpha](#alpha)
-  - [Assault X](#assault-x)
-  - [Deploy](#deploy)
-  - [Elusive](#elusive)
-  - [Entrenched](#entrenched)
-  - [Exalt](#exalt)
-  - [Graft](#graft)
-  - [Haunted](#haunted)
-  - [Hazardous X](#hazardous-x)
-  - [Invulnerable](#invulnerable)
-  - [Omega](#omega)
-  - [Overwhelmed](#overwhelmed)
-  - [Poison](#poison)
-  - [Skirmish](#skirmish)
-  - [Splash-Attack X](#splash-attack-x)
-  - [Taunt](#taunt)
-  - [Treachery](#treachery)
-  - [Versatile](#versatile)
-- [How Keywords Work](#how-keywords-work)
-- [Cards That Grant Keywords](#cards-that-grant-keywords)
-- [Cards That Reference Keywords](#cards-that-reference-keywords)
+-   [List of Keywords](#list-of-keywords)
+    -   [Alpha](#alpha)
+    -   [Assault X](#assault-x)
+    -   [Deploy](#deploy)
+    -   [Elusive](#elusive)
+    -   [Entrenched](#entrenched)
+    -   [Exalt](#exalt)
+    -   [Graft](#graft)
+    -   [Haunted](#haunted)
+    -   [Hazardous X](#hazardous-x)
+    -   [Invulnerable](#invulnerable)
+    -   [Omega](#omega)
+    -   [Overwhelmed](#overwhelmed)
+    -   [Poison](#poison)
+    -   [Skirmish](#skirmish)
+    -   [Splash-Attack X](#splash-attack-x)
+    -   [Taunt](#taunt)
+    -   [Treachery](#treachery)
+    -   [Versatile](#versatile)
+-   [How Keywords Work](#how-keywords-work)
+-   [Cards That Grant Keywords](#cards-that-grant-keywords)
+-   [Cards That Reference Keywords](#cards-that-reference-keywords)
 
 ## List of Keywords
 
@@ -145,11 +145,11 @@ Keywords are defined in the card's JSON data in `keyteki-json-data/packs/`:
 
 ```json
 {
-  "id": "troll",
-  "name": "Troll",
-  "keywords": ["skirmish"],
-  "power": 8,
-  "armor": 0
+    "id": "troll",
+    "name": "Troll",
+    "keywords": ["skirmish"],
+    "power": 8,
+    "armor": 0
 }
 ```
 
@@ -157,11 +157,11 @@ Keywords with values (like Assault or Hazardous) are formatted as `"keyword:valu
 
 ```json
 {
-  "id": "ganger-chieftain",
-  "name": "Ganger Chieftain",
-  "keywords": ["assault:2"],
-  "power": 5,
-  "armor": 0
+    "id": "ganger-chieftain",
+    "name": "Ganger Chieftain",
+    "keywords": ["assault:2"],
+    "power": 5,
+    "armor": 0
 }
 ```
 
@@ -170,16 +170,16 @@ The `Card.js` base class parses these keywords and creates the appropriate persi
 ```javascript
 // From Card.js - you don't need to write this
 for (let keyword of cardData.keywords || []) {
-  let split = keyword.split(':');
-  let value = 1;
-  if (split.length > 1) {
-    value = parseInt(split[1]);
-  }
-  this.printedKeywords[split[0]] = value;
-  this.persistentEffect({
-    location: 'any',
-    effect: AbilityDsl.effects.addKeyword({ [split[0]]: value })
-  });
+    let split = keyword.split(':');
+    let value = 1;
+    if (split.length > 1) {
+        value = parseInt(split[1]);
+    }
+    this.printedKeywords[split[0]] = value;
+    this.persistentEffect({
+        location: 'any',
+        effect: AbilityDsl.effects.addKeyword({ [split[0]]: value })
+    });
 }
 ```
 
@@ -190,29 +190,29 @@ Some cards grant keywords to other cards. Use `ability.effects.addKeyword()`:
 ```javascript
 // Grant taunt to attached creature
 this.whileAttached({
-  effect: ability.effects.addKeyword({ taunt: 1 })
+    effect: ability.effects.addKeyword({ taunt: 1 })
 });
 ```
 
 ```javascript
 // Grant skirmish to all friendly creatures
 this.persistentEffect({
-  match: (card) => card.type === 'creature',
-  targetController: 'self',
-  effect: ability.effects.addKeyword({ skirmish: 1 })
+    match: (card) => card.type === 'creature',
+    targetController: 'self',
+    effect: ability.effects.addKeyword({ skirmish: 1 })
 });
 ```
 
 ```javascript
 // Grant assault 2 to a creature until end of turn
 this.play({
-  target: {
-    cardType: 'creature',
-    gameAction: ability.actions.cardLastingEffect({
-      duration: 'untilPlayerTurnEnd',
-      effect: ability.effects.addKeyword({ assault: 2 })
-    })
-  }
+    target: {
+        cardType: 'creature',
+        gameAction: ability.actions.cardLastingEffect({
+            duration: 'untilPlayerTurnEnd',
+            effect: ability.effects.addKeyword({ assault: 2 })
+        })
+    }
 });
 ```
 
@@ -223,7 +223,7 @@ Some cards check for or interact with keywords. Use `card.getKeywordValue()` or 
 ```javascript
 // Check if a card has taunt
 if (card.getKeywordValue('taunt') > 0) {
-  // Card has taunt
+    // Card has taunt
 }
 
 // Get assault value
@@ -231,11 +231,11 @@ const assaultValue = card.getKeywordValue('assault');
 
 // Condition based on keyword
 this.play({
-  target: {
-    cardType: 'creature',
-    cardCondition: (card) => card.getKeywordValue('elusive') > 0,
-    gameAction: ability.actions.destroy()
-  },
-  effect: 'destroy {0} because it has elusive'
+    target: {
+        cardType: 'creature',
+        cardCondition: (card) => card.getKeywordValue('elusive') > 0,
+        gameAction: ability.actions.destroy()
+    },
+    effect: 'destroy {0} because it has elusive'
 });
 ```

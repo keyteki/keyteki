@@ -16,10 +16,10 @@ Contributions are welcome from anyone - whether that is bug reports, bug fixes, 
 
 The [docs folder](docs/README.md) contains documentation on how keyteki works. The following covers the basics to get started:
 
-- [Local Development](docs/local-development.md) - How to set up keyteki for local development
-- [Implementing Cards](docs/implementing-cards.md) - How to implement new cards
-- [Testing Cards](docs/testing-cards.md) - How to write and run tests for cards
-- [Card Messages](docs/card-messages.md) - How to update card log messages
+-   [Local Development](docs/local-development.md) - How to set up keyteki for local development
+-   [Implementing Cards](docs/implementing-cards.md) - How to implement new cards
+-   [Testing Cards](docs/testing-cards.md) - How to write and run tests for cards
+-   [Card Messages](docs/card-messages.md) - How to update card log messages
 
 ## Doesn't this look a lot like Jinteki/Throneteki? The Android netrunner/AGOT online experience?
 

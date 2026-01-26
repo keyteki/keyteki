@@ -6,9 +6,9 @@ This script reads card text and converts it into code, to make it easier to impl
 
 The script has 3 key parts:
 
-- The script (\*.js files) - picks which cards to read and where to put the generated code
-- The parser (\*.pegjs files) - this converts the card text into js objects
-- The code generator (\*.njk files) - this converts the js objects into working code
+-   The script (\*.js files) - picks which cards to read and where to put the generated code
+-   The parser (\*.pegjs files) - this converts the card text into js objects
+-   The code generator (\*.njk files) - this converts the js objects into working code
 
 ### The script
 
@@ -26,34 +26,34 @@ This produces the output:
 
 ```json
 [
-  {
-    "name": "bold",
-    "trigger": "play",
-    "actions": {
-      "targets": [
-        {
-          "type": "creature",
-          "mode": "exactly",
-          "count": 1,
-          "actions": [
-            {
-              "name": "destroy"
+    {
+        "name": "bold",
+        "trigger": "play",
+        "actions": {
+            "targets": [
+                {
+                    "type": "creature",
+                    "mode": "exactly",
+                    "count": 1,
+                    "actions": [
+                        {
+                            "name": "destroy"
+                        }
+                    ]
+                }
+            ],
+            "then": {
+                "default": [
+                    {
+                        "name": "gainAmber",
+                        "amount": 1,
+                        "targetPlayer": "controller",
+                        "then": true
+                    }
+                ]
             }
-          ]
         }
-      ],
-      "then": {
-        "default": [
-          {
-            "name": "gainAmber",
-            "amount": 1,
-            "targetPlayer": "controller",
-            "then": true
-          }
-        ]
-      }
     }
-  }
 ]
 ```
 
@@ -70,13 +70,13 @@ This takes the json output of the parser and converts it into working javascript
 
 To add support for a new set, try something like:
 
-- Add the json data to keyteki-json-data and clean up any anomalies like weird punctuation or symbols
-- Add an entry to expansionPaths in CardGenerator.js to tell it where to put the cards
-- Add new traits, houses or card types to the relevant definitions in the parser - these are basically just lists
-- Review the output, especially the partial cards folder to see if there are cards that could be generated with small changes, or if strange formatting is confusing the parser. It may be useful to enable the comments = short setting so it shows the parsed card json in the output.
-- Implement additional parsing and formatting as needed for new mechanics. If you're updating the parser, copying it into [PEG.js](https://pegjs.org/online) and dropping card text into the input window is really helpful
+-   Add the json data to keyteki-json-data and clean up any anomalies like weird punctuation or symbols
+-   Add an entry to expansionPaths in CardGenerator.js to tell it where to put the cards
+-   Add new traits, houses or card types to the relevant definitions in the parser - these are basically just lists
+-   Review the output, especially the partial cards folder to see if there are cards that could be generated with small changes, or if strange formatting is confusing the parser. It may be useful to enable the comments = short setting so it shows the parsed card json in the output.
+-   Implement additional parsing and formatting as needed for new mechanics. If you're updating the parser, copying it into [PEG.js](https://pegjs.org/online) and dropping card text into the input window is really helpful
 
 ### Unimplemented features
 
-- Does not create poltergeist-friendly implementations of shard-like artifacts.
-- Does not disable abilities that affect a card after it is destroyed if they leave the discard pile.
+-   Does not create poltergeist-friendly implementations of shard-like artifacts.
+-   Does not disable abilities that affect a card after it is destroyed if they leave the discard pile.

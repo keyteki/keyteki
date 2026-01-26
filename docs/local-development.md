@@ -4,25 +4,25 @@ This guide covers setting up your local development environment for Keyteki.
 
 ## Table of Contents
 
-- [Running Unit Tests](#running-unit-tests)
-- [Prerequisites](#prerequisites)
-- [Quick Start (Docker)](#quick-start-docker)
-  - [macOS Setup](#macos-setup)
-  - [Accessing the Site](#accessing-the-site)
-- [Hybrid Setup (Docker + Local Node)](#hybrid-setup-docker--local-node)
-- [Non-Docker Setup](#non-docker-setup)
-  - [Required Software](#required-software)
-  - [Setup Steps](#setup-steps)
-- [Useful Commands](#useful-commands)
-  - [Running Tests](#running-tests)
-  - [Linting](#linting)
-  - [In-Game Testing](#in-game-testing)
-  - [Locales](#locales)
-- [Troubleshooting](#troubleshooting)
-  - [Memory Allocation Errors](#memory-allocation-errors)
-  - [package-lock.json Changes Unexpectedly](#package-lockjson-changes-unexpectedly)
-  - [dlopen Errors](#dlopen-errors)
-  - [Git Submodule Issues](#git-submodule-issues)
+-   [Running Unit Tests](#running-unit-tests)
+-   [Prerequisites](#prerequisites)
+-   [Quick Start (Docker)](#quick-start-docker)
+    -   [macOS Setup](#macos-setup)
+    -   [Accessing the Site](#accessing-the-site)
+-   [Hybrid Setup (Docker + Local Node)](#hybrid-setup-docker--local-node)
+-   [Non-Docker Setup](#non-docker-setup)
+    -   [Required Software](#required-software)
+    -   [Setup Steps](#setup-steps)
+-   [Useful Commands](#useful-commands)
+    -   [Running Tests](#running-tests)
+    -   [Linting](#linting)
+    -   [In-Game Testing](#in-game-testing)
+    -   [Locales](#locales)
+-   [Troubleshooting](#troubleshooting)
+    -   [Memory Allocation Errors](#memory-allocation-errors)
+    -   [package-lock.json Changes Unexpectedly](#package-lockjson-changes-unexpectedly)
+    -   [dlopen Errors](#dlopen-errors)
+    -   [Git Submodule Issues](#git-submodule-issues)
 
 ## Running Unit Tests
 
@@ -30,9 +30,9 @@ For running unit tests, see [Testing Cards](testing-cards.md). It is not necessa
 
 ## Prerequisites
 
-- Git
-- Node.js v16.20.2
-- Docker (recommended) or PostgreSQL + Redis
+-   Git
+-   Node.js v16.20.2
+-   Docker (recommended) or PostgreSQL + Redis
 
 ## Quick Start (Docker)
 
@@ -40,133 +40,133 @@ Docker is the recommended approach for local development.
 
 ### macOS Setup
 
-- Install [Docker Desktop](https://docs.docker.com/desktop/setup/install/mac-install/)
+-   Install [Docker Desktop](https://docs.docker.com/desktop/setup/install/mac-install/)
 
-- Install a Node version manager ([nvm](https://github.com/nvm-sh/nvm) or [asdf](https://asdf-vm.com/))
+-   Install a Node version manager ([nvm](https://github.com/nvm-sh/nvm) or [asdf](https://asdf-vm.com/))
 
-- Install Node v16.20.2:
+-   Install Node v16.20.2:
 
-  ```bash
-  # Using nvm
-  nvm install 16.20.2
-  nvm use 16.20.2
+    ```bash
+    # Using nvm
+    nvm install 16.20.2
+    nvm use 16.20.2
 
-  # Using asdf (add `legacy_version_file = yes` to ~/.asdfrc first)
-  asdf install nodejs 16.20.2
-  ```
+    # Using asdf (add `legacy_version_file = yes` to ~/.asdfrc first)
+    asdf install nodejs 16.20.2
+    ```
 
-- Clone and set up the repository:
+-   Clone and set up the repository:
 
-  ```bash
-  git clone https://github.com/keyteki/keyteki.git
-  cd keyteki
-  git submodule init
-  git submodule update
-  npm install
-  ```
+    ```bash
+    git clone https://github.com/keyteki/keyteki.git
+    cd keyteki
+    git submodule init
+    git submodule update
+    npm install
+    ```
 
-- Start the server:
+-   Start the server:
 
-  ```bash
-  docker-compose up --build
-  ```
+    ```bash
+    docker-compose up --build
+    ```
 
-- In another terminal, fetch the card data:
+-   In another terminal, fetch the card data:
 
-  ```bash
-  docker-compose exec lobby node server/scripts/fetchdata
-  ```
+    ```bash
+    docker-compose exec lobby node server/scripts/fetchdata
+    ```
 
-  > Note: It's normal to see "Failed to add card" errors about duplicates at the beginning. If images fail due to rate limits, run the command again.
+    > Note: It's normal to see "Failed to add card" errors about duplicates at the beginning. If images fail due to rate limits, run the command again.
 
-- Restart the server after fetchdata completes.
+-   Restart the server after fetchdata completes.
 
-  ```bash
-  docker-compose restart
-  ```
+    ```bash
+    docker-compose restart
+    ```
 
 ### Accessing the Site
 
-- Browse to [http://localhost:4000](http://localhost:4000)
-- Default users: `admin`, `test0`, `test1` (password: `password`)
+-   Browse to [http://localhost:4000](http://localhost:4000)
+-   Default users: `admin`, `test0`, `test1` (password: `password`)
 
 ## Hybrid Setup (Docker + Local Node)
 
 For hot reloading and React DevTools, run Node locally while using Docker for databases:
 
-- Start database services only:
+-   Start database services only:
 
-  ```bash
-  docker-compose up -d redis postgres
-  ```
+    ```bash
+    docker-compose up -d redis postgres
+    ```
 
-- Update `config/default.json5` so the server connects to the containerized databases:
+-   Update `config/default.json5` so the server connects to the containerized databases:
 
-  ```javascript
-  redisUrl: 'redis://localhost:6379/',
-  dbUser: 'keyteki',
-  dbHost: 'localhost',
-  dbDatabase: 'keyteki',
-  dbPassword: 'changemeplease',
-  dbPort: 54320,
-  ```
+    ```javascript
+    redisUrl: 'redis://localhost:6379/',
+    dbUser: 'keyteki',
+    dbHost: 'localhost',
+    dbDatabase: 'keyteki',
+    dbPassword: 'changemeplease',
+    dbPort: 54320,
+    ```
 
-- Run the lobby server:
+-   Run the lobby server:
 
-  ```bash
-  npm start
-  ```
+    ```bash
+    npm start
+    ```
 
-- In another terminal, run the game node:
+-   In another terminal, run the game node:
 
-  ```bash
-  npm run game
-  ```
+    ```bash
+    npm run game
+    ```
 
 ## Non-Docker Setup
 
 ### Required Software
 
-- Git
-- Node.js v16.20.2
-- PostgreSQL
-- Redis
+-   Git
+-   Node.js v16.20.2
+-   PostgreSQL
+-   Redis
 
 ### Setup Steps
 
-- Clone and initialize:
+-   Clone and initialize:
 
-  ```bash
-  git clone https://github.com/keyteki/keyteki.git
-  cd keyteki
-  git submodule init
-  git submodule update
-  npm install
-  mkdir server/logs
-  ```
+    ```bash
+    git clone https://github.com/keyteki/keyteki.git
+    cd keyteki
+    git submodule init
+    git submodule update
+    npm install
+    mkdir server/logs
+    ```
 
-- Create `config/local.json5`:
+-   Create `config/local.json5`:
 
-  ```javascript
-  {
-      dbHost: 'localhost',
-      mqHost: 'localhost',
-      lobby: {
-          port: 4000
-      },
-      gameNode: {
-          hostname: 'localhost'
-      }
-  }
-  ```
+    ```javascript
+    {
+        dbHost: 'localhost',
+        mqHost: 'localhost',
+        lobby: {
+            port: 4000
+        },
+        gameNode: {
+            hostname: 'localhost'
+        }
+    }
+    ```
 
-- Fetch card data and start servers:
+-   Fetch card data and start servers:
 
-  ```bash
-  node server/scripts/fetchdata.js
-  node .
-  node server/gamenode
-  ```
+    ```bash
+    node server/scripts/fetchdata.js
+    node .
+    node server/gamenode
+    ```
 
 ## Useful Commands
 

@@ -4,14 +4,14 @@ This folder contains technical documentation for implementing cards and understa
 
 ## Getting Started
 
-- [Local Development](local-development.md) - Setting up your development environment - only necessary for UI, server, or database changes
-- [Implementing Cards](implementing-cards.md) - General card implementation guidelines
-- [Testing Cards](testing-cards.md) - How to write tests for cards
-- [Card Messages](card-messages.md) - How to format game log messages
+-   [Local Development](local-development.md) - Setting up your development environment - only necessary for UI, server, or database changes
+-   [Implementing Cards](implementing-cards.md) - General card implementation guidelines
+-   [Testing Cards](testing-cards.md) - How to write tests for cards
+-   [Card Messages](card-messages.md) - How to format game log messages
 
 ## Game Engine References
 
-- [Card Abilities](card-abilities.md) - Complete reference for ability types (`play`, `reap`, `fight`, `destroyed`, etc.)
-- [Card Properties](card-properties.md) - Auto-handled properties (Power, Armor, Aember Bonus, Enhancements)
-- [Game Actions](game-actions.md) - All `ability.actions.*` methods with examples
-- [Keywords](keywords.md) - Keywords handled automatically by the engine (Taunt, Elusive, etc.)
+-   [Card Abilities](card-abilities.md) - Complete reference for ability types (`play`, `reap`, `fight`, `destroyed`, etc.)
+-   [Card Properties](card-properties.md) - Auto-handled properties (Power, Armor, Aember Bonus, Enhancements)
+-   [Game Actions](game-actions.md) - All `ability.actions.*` methods with examples
+-   [Keywords](keywords.md) - Keywords handled automatically by the engine (Taunt, Elusive, etc.)
