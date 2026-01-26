@@ -9,7 +9,8 @@ describe('Cryptic Collapse', function () {
                 },
                 player2: {
                     amber: 4,
-                    inPlay: ['troll', 'dust-pixie']
+                    inPlay: ['troll', 'dust-pixie'],
+                    hand: ['flaxia']
                 }
             });
 
@@ -19,10 +20,13 @@ describe('Cryptic Collapse', function () {
 
         it('should discard hand and make enemy creatures capture amber', function () {
             this.player1.play(this.crypticCollapse);
+            expect(this.player1).toBeAbleToSelect(this.emberImp);
+            expect(this.player1).toBeAbleToSelect(this.parasiticArachnoid);
+            expect(this.player2).not.toBeAbleToSelect(this.flaxia);
+            this.player1.clickCard(this.emberImp);
             expect(this.player1.hand.length).toBe(0);
             expect(this.player1).toBeAbleToSelect(this.troll);
             expect(this.player1).toBeAbleToSelect(this.dustPixie);
-            expect(this.player2).not.toBeAbleToSelect(this.charette);
             this.player1.clickCard(this.troll);
             this.player1.clickCard(this.dustPixie);
             expect(this.troll.amber).toBe(1);

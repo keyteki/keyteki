@@ -76,6 +76,7 @@ For detailed documentation with examples, see the `docs/` folder, which includes
 -   Use arrow functions for conditions and callbacks
 -   Comment the card text above `setupCardAbilities`
 -   Always end files with a newline
+-   When writing a templated effect or message, use placeholders like `{0}`, `{1}`, etc., and provide corresponding values to ensure proper formatting. Do not concatenate strings or use template literals for game messages.
 
 ## Card Implementation Guide
 

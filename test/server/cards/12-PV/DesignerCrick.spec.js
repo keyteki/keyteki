@@ -39,7 +39,7 @@ describe('Designer Crick', function () {
             this.player1.endTurn();
             this.player2.clickPrompt('untamed');
             this.player2.play(this.punctuatedEquilibrium);
-            expect(this.player2).toHavePrompt(`Choose which player discards their hand first`);
+            expect(this.player2).toHavePrompt(`Choose which player discards first`);
             this.player2.clickPrompt('Opponent');
             this.player2.clickPrompt('Autoresolve');
             expect(this.player1.hand.length).toBe(8);
@@ -52,7 +52,7 @@ describe('Designer Crick', function () {
             this.player1.endTurn();
             this.player2.clickPrompt('untamed');
             this.player2.play(this.punctuatedEquilibrium);
-            expect(this.player2).toHavePrompt('Choose which player discards their hand first');
+            expect(this.player2).toHavePrompt('Choose which player discards first');
             this.player2.clickPrompt('Me');
             this.player2.clickPrompt('Autoresolve');
             expect(this.player1.hand.length).toBe(6);

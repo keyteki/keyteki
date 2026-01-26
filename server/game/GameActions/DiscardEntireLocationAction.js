@@ -8,7 +8,7 @@ const _ = require('underscore');
  *
  * For the active player: prompts to choose the order of discard if there are
  * scrap effects to resolve. For opponent: discards randomly one at a time since
- * active player makes choices but can't see opponent's cards.
+ * active player makes all choices but can't see opponent's cards.
  *
  * Discards until the location is empty, so if a scrap effect draws a card, that
  * card also gets discarded.
@@ -55,8 +55,25 @@ class DiscardEntireLocationAction extends PlayerAction {
         return [this.getMultiPlayerEvent(validTargets, context)];
     }
 
+    getSinglePlayerEvent(player, context) {
+        // Use onOrderedDiscard event type so DiscardCardAction.collectDiscardedCards works
+        return super.createEvent(
+            EVENTS.onOrderedDiscard,
+            { player, context, discardEvents: [] },
+            (event) => {
+                const cardsDiscarded = [];
+                if (player === context.game.activePlayer) {
+                    // Active player chooses discard order
+                    this.discardActivePlayerLocation(player, context, cardsDiscarded, event);
+                } else {
+                    // Opponent discards randomly one at a time
+                    this.discardOpponentLocation(player, context, cardsDiscarded, event);
+                }
+            }
+        );
+    }
+
     getMultiPlayerEvent(players, context) {
-        const self = this;
         return super.createEvent(
             EVENTS.unnamedEvent,
             { player: players[0], players, context },
@@ -73,8 +90,7 @@ class DiscardEntireLocationAction extends PlayerAction {
 
                         const player = remainingPlayers[0];
                         const restPlayers = remainingPlayers.slice(1);
-
-                        const playerEvent = self.getSinglePlayerEvent(player, context);
+                        const playerEvent = this.getSinglePlayerEvent(player, context);
 
                         context.game.queueSimpleStep(() => {
                             context.game.openEventWindow([playerEvent]);
@@ -94,7 +110,7 @@ class DiscardEntireLocationAction extends PlayerAction {
                 });
 
                 context.game.promptWithHandlerMenu(context.player, {
-                    activePromptTitle: `Choose which player discards their ${this.location} first`,
+                    activePromptTitle: `Choose which player discards first`,
                     source: context.source,
                     choices: choices,
                     handlers: handlers
@@ -103,91 +119,33 @@ class DiscardEntireLocationAction extends PlayerAction {
         );
     }
 
-    getSinglePlayerEvent(player, context) {
-        const self = this;
-        const isActivePlayer = player === context.game.activePlayer;
-
-        // Use onOrderedDiscard event type so DiscardCardAction.collectDiscardedCards works
-        return super.createEvent(
-            EVENTS.onOrderedDiscard,
-            { player, context, discardEvents: [] },
-            (event) => {
-                const cardsDiscarded = [];
-
-                if (isActivePlayer) {
-                    // Active player chooses discard order
-                    self.discardActivePlayerLocation(player, context, cardsDiscarded, event);
-                } else {
-                    // Opponent discards randomly one at a time
-                    self.discardOpponentLocation(player, context, cardsDiscarded, event);
-                }
-            }
-        );
-    }
-
-    /**
-     * Active player chooses discard order - prompts to select cards one at a time
-     */
+    // Active player chooses discard order - prompts to select cards one at a time
     discardActivePlayerLocation(player, context, cardsDiscarded, event) {
-        const self = this;
-        // Track cards that were logged individually (for scrap ordering)
-        const cardsLoggedIndividually = [];
-
         const discardNextCard = () => {
-            const cards = self.getCards(player);
+            const cards = this.getCards(player);
             if (cards.length === 0) {
                 // Done discarding
                 event.cards = cardsDiscarded;
-                // Only log cards that weren't already logged individually
-                const cardsToLog = cardsDiscarded.filter(
-                    (c) => !cardsLoggedIndividually.includes(c)
-                );
-                if (cardsToLog.length > 0) {
-                    context.game.addMessage(
-                        "{0} discards {1} from {0}'s " + self.location,
-                        player,
-                        cardsToLog
-                    );
-                }
                 return;
             }
 
-            // Check if any cards have scrap abilities
-            const hasScrapAbility = (card) =>
-                Array.isArray(card?.abilities?.reactions) &&
-                card.abilities.reactions.some((ability) => ability?.properties?.scrap);
+            // If only one card left, discard it without prompting
+            if (cards.length === 1) {
+                const card = cards[0];
+                cardsDiscarded.push(card);
+                context.game.addMessage('{0} discards {1} from {2}', player, card, this.location);
 
-            const locationHasScrap = cards.some((card) => hasScrapAbility(card));
+                const discardEvent = context.game.actions
+                    .discard({ chatMessage: false })
+                    .getEvent(card, context);
 
-            if (!locationHasScrap || cards.length === 1) {
-                // No scrap abilities or only one card - just discard all remaining
-                const remainingCards = cards.slice();
-                cardsDiscarded.push(...remainingCards);
-
-                const discardEvents = remainingCards.map((card) =>
-                    context.game.actions.discard({ chatMessage: false }).getEvent(card, context)
-                );
-
-                // Track these events for collectDiscardedCards
-                event.discardEvents.push(...discardEvents);
-
+                event.discardEvents.push(discardEvent);
                 context.game.queueSimpleStep(() => {
-                    context.game.openEventWindow(discardEvents);
+                    context.game.openEventWindow([discardEvent]);
                 });
 
                 context.game.queueSimpleStep(() => {
-                    event.cards = cardsDiscarded;
-                    // Only log cards that weren't already logged individually
-                    const cardsToLog = cardsDiscarded.filter(
-                        (c) => !cardsLoggedIndividually.includes(c)
-                    );
-                    if (cardsToLog.length > 0) {
-                        context.game.addMessage(
-                            "{0} discards {1} from {0}'s " + self.location,
-                            player,
-                            cardsToLog
-                        );
-                    }
+                    discardNextCard();
                 });
                 return;
             }
@@ -195,19 +153,25 @@ class DiscardEntireLocationAction extends PlayerAction {
             // Prompt to select next card to discard
             context.game.promptForSelect(player, {
                 activePromptTitle: 'Select next card to discard',
-                source: context.source,
+                buttons: [{ text: 'Autoresolve', arg: 'autoresolve' }],
                 context: context,
-                location: self.location,
                 controller: 'self',
+                location: this.location,
+                onMenuCommand: (p, arg) => {
+                    if (arg === 'autoresolve') {
+                        // Switch to random discarding for remaining cards
+                        this.discardRemainingRandomly(player, context, cardsDiscarded, event);
+                        return true;
+                    }
+                    return false;
+                },
                 onSelect: (p, card) => {
                     cardsDiscarded.push(card);
-                    cardsLoggedIndividually.push(card);
-
-                    // Log the discard immediately so it appears before scrap effects
                     context.game.addMessage(
-                        "{0} discards {1} from {0}'s " + self.location,
+                        '{0} discards {1} from {2}',
                         player,
-                        card
+                        card,
+                        this.location
                     );
 
                     const discardEvent = context.game.actions
@@ -216,7 +180,6 @@ class DiscardEntireLocationAction extends PlayerAction {
 
                     // Track for collectDiscardedCards
                     event.discardEvents.push(discardEvent);
-
                     context.game.queueSimpleStep(() => {
                         context.game.openEventWindow([discardEvent]);
                     });
@@ -226,37 +189,63 @@ class DiscardEntireLocationAction extends PlayerAction {
                     });
 
                     return true;
-                }
+                },
+                source: context.source
             });
         };
 
         discardNextCard();
     }
 
-    /**
-     * Opponent's location is discarded randomly one at a time
-     */
-    discardOpponentLocation(player, context, cardsDiscarded, event) {
-        const self = this;
-
+    // Discard remaining cards randomly (used when player clicks Autoresolve)
+    discardRemainingRandomly(player, context, cardsDiscarded, event) {
         const discardNextCard = () => {
-            const cards = self.getCards(player);
+            const cards = this.getCards(player);
             if (cards.length === 0) {
                 // Done discarding
                 event.cards = cardsDiscarded;
-                if (cardsDiscarded.length > 0) {
-                    context.game.addMessage(
-                        '{0} randomly discards {1} from {2}',
-                        player,
-                        cardsDiscarded,
-                        self.location
-                    );
-                }
                 return;
             }
 
             const randomCard = _.sample(cards);
             cardsDiscarded.push(randomCard);
+            context.game.addMessage('{0} discards {1} from {2}', player, randomCard, this.location);
+
+            const discardEvent = context.game.actions
+                .discard({ chatMessage: false })
+                .getEvent(randomCard, context);
+
+            event.discardEvents.push(discardEvent);
+            context.game.queueSimpleStep(() => {
+                context.game.openEventWindow([discardEvent]);
+            });
+
+            context.game.queueSimpleStep(() => {
+                discardNextCard();
+            });
+        };
+
+        discardNextCard();
+    }
+
+    // Opponent's location is discarded randomly one at a time
+    discardOpponentLocation(player, context, cardsDiscarded, event) {
+        const discardNextCard = () => {
+            const cards = this.getCards(player);
+            if (cards.length === 0) {
+                // Done discarding
+                event.cards = cardsDiscarded;
+                return;
+            }
+
+            const randomCard = _.sample(cards);
+            cardsDiscarded.push(randomCard);
+            context.game.addMessage(
+                '{0} randomly discards {1} from {2}',
+                player,
+                randomCard,
+                this.location
+            );
 
             const discardEvent = context.game.actions
                 .discard({ chatMessage: false })
@@ -264,7 +253,6 @@ class DiscardEntireLocationAction extends PlayerAction {
 
             // Track for collectDiscardedCards
             event.discardEvents.push(discardEvent);
-
             context.game.queueSimpleStep(() => {
                 context.game.openEventWindow([discardEvent]);
             });

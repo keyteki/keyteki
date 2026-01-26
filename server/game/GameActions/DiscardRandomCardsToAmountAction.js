@@ -4,21 +4,20 @@ const _ = require('underscore');
 
 /**
  * DiscardRandomCardsToAmountAction - Discards random cards from a player's hand
- * until they have at most `amount` cards remaining.
+ * until they have at most `amount` cards remaining. The active player chooses
+ * who discards first if there are multiple targets.
  *
- * Unlike RandomDiscardAction which discards a fixed number, this discards until
- * a threshold is reached. This matters when scrap abilities draw or discard
- * cards.
+ * Unlike RandomDiscardAction which discards a fixed number of cards, this
+ * discards until a threshold is reached. This matters when scrap abilities draw
+ * or discard cards.
  */
 class DiscardRandomCardsToAmountAction extends PlayerAction {
     setDefaultProperties() {
         this.amount = (player) => player.maxHandSize; // Default to hand limit
     }
 
-    /**
-     * Get the target hand size for a given player.
-     * Supports both a static number and a function that takes the player.
-     */
+    // Get the target hand size for a given player.
+    // Supports both a static number and a function that takes the player.
     getAmount(player) {
         if (typeof this.amount === 'function') {
             return this.amount(player);
@@ -29,8 +28,6 @@ class DiscardRandomCardsToAmountAction extends PlayerAction {
     setup() {
         super.setup();
         this.name = 'discard';
-        this.effectMsg =
-            "discard random cards from {0}'s hand until they have " + this.amount + ' or fewer';
     }
 
     canAffect(player, context) {
@@ -118,18 +115,12 @@ class DiscardRandomCardsToAmountAction extends PlayerAction {
                     if (player.hand.length <= targetAmount) {
                         // Done discarding
                         event.cards = cardsDiscarded;
-                        if (cardsDiscarded.length > 0) {
-                            context.game.addMessage(
-                                '{0} randomly discards {1}',
-                                player,
-                                cardsDiscarded
-                            );
-                        }
                         return;
                     }
 
                     const randomCard = _.sample(player.hand);
                     cardsDiscarded.push(randomCard);
+                    context.game.addMessage('{0} randomly discards {1}', player, randomCard);
 
                     const discardEvent = context.game.actions
                         .discard({ chatMessage: false })
