@@ -102,7 +102,7 @@ describe('Punctuated Equilibrium', function () {
             this.player1.play(this.punctuatedEquilibrium);
             expect(this.player1).toHavePrompt('Choose which player discards first');
             this.player1.clickPrompt('Opponent');
-            expect(this.player1).toHavePrompt('Select next card to discard');
+            expect(this.player1).toHavePrompt('Select card to discard');
             expect(this.player1).toBeAbleToSelect(this.brillixPonder);
             expect(this.player1).toBeAbleToSelect(this.badPenny);
             this.player1.clickCard(this.brillixPonder);

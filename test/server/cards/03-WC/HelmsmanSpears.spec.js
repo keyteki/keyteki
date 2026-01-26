@@ -40,7 +40,7 @@ describe("Helmsman Spears'", function () {
 
             // Since Zerp has a Scrap: effect, we need to choose the _order_ for
             // the discards.
-            expect(this.player1).toHavePrompt('Select next card to discard');
+            expect(this.player1).toHavePrompt('Select card to discard');
             // Do Zerp first so it can discard one of the others. Since the
             // others don’t have Scrap: effects, we don’t need to choose their
             // order once we’ve picked Zerp.

@@ -6,12 +6,14 @@ const _ = require('underscore');
  * DiscardEntireLocationAction - Discards all cards from a player's hand or
  * archives, prompting the active player to choose which player discards first.
  *
- * For the active player: prompts to choose the order of discard. For opponent:
- * discards randomly one at a time since active player makes all choices but
- * can't see opponent's cards.
- *
  * Discards until the location is empty, so if a scrap effect draws a card, that
  * card also gets discarded.
+ *
+ * For active player: prompts to choose the order of cards to discard, with
+ * autoresolve as an option.
+ *
+ * For opponent: discards randomly one at a time since active player makes all
+ * choices but can't see opponent's cards.
  */
 class DiscardEntireLocationAction extends PlayerAction {
     setDefaultProperties() {
@@ -51,7 +53,7 @@ class DiscardEntireLocationAction extends PlayerAction {
             return [this.getSinglePlayerEvent(validTargets[0], context)];
         }
 
-        // Multiple players - return an event that prompts for order then executes
+        // Multiple players - return an event that prompts for player order then executes
         return [this.getMultiPlayerEvent(validTargets, context)];
     }
 
@@ -152,14 +154,14 @@ class DiscardEntireLocationAction extends PlayerAction {
 
             // Prompt to select next card to discard
             context.game.promptForSelect(player, {
-                activePromptTitle: 'Select next card to discard',
+                activePromptTitle: 'Select card to discard',
                 buttons: [{ text: 'Autoresolve', arg: 'autoresolve' }],
                 context: context,
                 controller: 'self',
                 location: this.location,
                 onMenuCommand: (p, arg) => {
                     if (arg === 'autoresolve') {
-                        // Switch to random discarding for remaining cards
+                        // Switch to discarding randomly for remaining cards
                         this.discardRemainingRandomly(player, context, cardsDiscarded, event);
                         return true;
                     }
@@ -197,7 +199,7 @@ class DiscardEntireLocationAction extends PlayerAction {
         discardNextCard();
     }
 
-    // Discard remaining cards randomly (used when player clicks Autoresolve)
+    // Discard remaining cards randomly when player clicks Autoresolve
     discardRemainingRandomly(player, context, cardsDiscarded, event) {
         const discardNextCard = () => {
             const cards = this.getCards(player);
@@ -228,7 +230,7 @@ class DiscardEntireLocationAction extends PlayerAction {
         discardNextCard();
     }
 
-    // Opponent's location is discarded randomly one at a time
+    // Cards in opponent's location are randomly discarded one at a time
     discardOpponentLocation(player, context, cardsDiscarded, event) {
         const discardNextCard = () => {
             const cards = this.getCards(player);
