@@ -508,6 +508,13 @@ class Player extends GameObject {
         }
 
         let oldTopOfDeck = card.owner.deck[0];
+
+        // Snapshot neighbors before removing from battleline - needed for cards like Smite
+        // that reference "neighbors of the attacked creature" after it's destroyed
+        if (card.location === 'play area' && card.type === 'creature') {
+            card.neighborsBeforeLeavingPlay = card.neighbors?.slice() || [];
+        }
+
         this.removeCardFromPile(card);
         let location = card.location;
         targetPile = this.getSourceList(targetLocation);

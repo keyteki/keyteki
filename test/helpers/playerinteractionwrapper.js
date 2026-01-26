@@ -370,6 +370,16 @@ class PlayerInteractionWrapper {
         return card;
     }
 
+    /**
+     * Makes a card a maverick of the specified house
+     * @param {DrawCard} card - the card to make a maverick
+     * @param {String} house - the house to maverick the card into
+     */
+    makeMaverick(card, house) {
+        card.maverick = true;
+        card.printedHouse = house;
+    }
+
     hasPlayCreaturePrompt(menuTitle, creatureName) {
         var currentPrompt = this.currentPrompt();
         return (

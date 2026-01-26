@@ -119,4 +119,80 @@ describe('Smite', function () {
             this.player1.endTurn();
         });
     });
+
+    describe('Smite with before fight abilities', function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'sanctum',
+                    hand: ['smite'],
+                    inPlay: ['lord-golgotha']
+                },
+                player2: {
+                    inPlay: ['prescriptive-grammarbot', 'daughter', 'infomorph']
+                }
+            });
+        });
+
+        it('should target neighbors of attacked creature', function () {
+            this.player1.play(this.smite);
+            this.player1.clickCard(this.lordGolgotha);
+
+            // Fight Infomorph
+            this.player1.clickCard(this.infomorph);
+
+            // Golgotha's before fight ability kills Daughter
+            expect(this.daughter.location).toBe('discard');
+
+            // Fight destroys Infomorph
+            expect(this.infomorph.location).toBe('discard');
+
+            // Smite deals 2 damage to creatures who were Infomorph's neighbors
+            // immediately before it left play
+            expect(this.prescriptiveGrammarbot.damage).toBe(2);
+            expect(this.player1).isReadyToTakeAction();
+        });
+    });
+
+    describe('Smite with after fight abilities', function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'sanctum',
+                    hand: ['smite', 'bigger-guns-for-everyone'],
+                    inPlay: ['impzilla']
+                },
+                player2: {
+                    inPlay: ['flaxia', 'murmook', 'troll', 'mighty-tiger']
+                }
+            });
+            this.player1.makeMaverick(this.biggerGunsForEveryone, 'sanctum');
+        });
+
+        it('should target neighbors of attacked creature', function () {
+            this.player1.playUpgrade(this.biggerGunsForEveryone, this.impzilla);
+            this.player1.play(this.smite);
+            this.player1.clickCard(this.impzilla);
+
+            // Fight Troll
+            this.player1.clickCard(this.troll);
+
+            // Bigger Guns deals 5 damage to murmook
+            expect(this.player1).toHavePrompt('Triggered Abilities');
+            expect(this.player1).toHavePromptButton('Bigger Guns for Everyone');
+            expect(this.player1).toHavePromptButton('Impzilla');
+            this.player1.clickPrompt(this.biggerGunsForEveryone.name);
+            this.player1.clickCard(this.murmook);
+            expect(this.murmook.location).toBe('discard');
+
+            // Impzilla's ability destroys Troll
+            this.player1.clickCard(this.troll);
+            expect(this.troll.location).toBe('discard');
+
+            // Smite deals 2 damage to Troll's neighbors immediately before it left play
+            expect(this.flaxia.damage).toBe(2);
+            expect(this.mightyTiger.damage).toBe(2);
+            expect(this.player1).isReadyToTakeAction();
+        });
+    });
 });
