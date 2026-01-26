@@ -27,7 +27,7 @@ describe('Ace Jonavan', function () {
             this.player1.endTurn();
 
             // Forge for 7.
-            this.player2.clickPrompt('Yellow');
+            this.player2.forgeKey('Yellow');
             expect(this.player2.player.keys.yellow).toBe(true);
             expect(this.player2.player.amber).toBe(4);
 
@@ -36,7 +36,7 @@ describe('Ace Jonavan', function () {
             this.player2.endTurn();
 
             // Forge for 8.
-            this.player1.clickPrompt('Yellow');
+            this.player1.forgeKey('Yellow');
             expect(this.player1.player.keys.yellow).toBe(true);
             expect(this.player1.player.amber).toBe(1);
         });

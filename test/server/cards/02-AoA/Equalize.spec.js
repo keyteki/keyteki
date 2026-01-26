@@ -18,7 +18,7 @@ describe('Equalize', function () {
 
         it('should not redistribute any amber if creatures have no amber', function () {
             this.player1.endTurn();
-            this.player2.clickPrompt('Red');
+            this.player2.forgeKey('Red');
             this.player2.clickPrompt('sanctum');
             this.player2.play(this.equalize);
             expect(this.player2).isReadyToTakeAction();
@@ -27,8 +27,8 @@ describe('Equalize', function () {
         it('should let a player redistribute all amber', function () {
             this.player1.play(this.charette);
             this.player1.play(this.drumble);
-            expect(this.charette.tokens.amber).toBe(3);
-            expect(this.drumble.tokens.amber).toBe(9);
+            expect(this.charette.amber).toBe(3);
+            expect(this.drumble.amber).toBe(9);
             this.player1.endTurn();
             this.player2.clickPrompt('sanctum');
             this.player2.play(this.equalize);
@@ -38,9 +38,9 @@ describe('Equalize', function () {
             expect(this.player2).toBeAbleToSelect(this.theTerror);
             expect(this.player2).toBeAbleToSelect(this.tentacus);
             this.player2.clickCard(this.drumble);
-            expect(this.drumble.tokens.amber).toBe(1);
+            expect(this.drumble.amber).toBe(1);
             this.player2.clickCard(this.drumble);
-            expect(this.drumble.tokens.amber).toBe(2);
+            expect(this.drumble.amber).toBe(2);
             this.player2.clickCard(this.drumble);
             this.player2.clickCard(this.drumble);
             this.player2.clickCard(this.drumble);
@@ -52,17 +52,17 @@ describe('Equalize', function () {
             this.player2.clickCard(this.tentacus);
             this.player2.clickCard(this.charette);
             expect(this.player2).isReadyToTakeAction();
-            expect(this.drumble.tokens.amber).toBe(10);
-            expect(this.tentacus.tokens.amber).toBe(1);
-            expect(this.charette.tokens.amber).toBe(1);
+            expect(this.drumble.amber).toBe(10);
+            expect(this.tentacus.amber).toBe(1);
+            expect(this.charette.amber).toBe(1);
             expect(this.player2.amber).toBe(1);
         });
 
         it("should let a player redistribute all amber even if it's on both sides", function () {
             this.player1.play(this.charette);
             this.player1.play(this.drumble);
-            expect(this.charette.tokens.amber).toBe(3);
-            expect(this.drumble.tokens.amber).toBe(9);
+            expect(this.charette.amber).toBe(3);
+            expect(this.drumble.amber).toBe(9);
             this.player1.endTurn();
             this.player2.clickPrompt('sanctum');
             this.player2.play(this.aubadeTheGrim);
@@ -79,9 +79,9 @@ describe('Equalize', function () {
             expect(this.player2).toBeAbleToSelect(this.theTerror);
             expect(this.player2).toBeAbleToSelect(this.tentacus);
             this.player2.clickCard(this.drumble);
-            expect(this.drumble.tokens.amber).toBe(1);
+            expect(this.drumble.amber).toBe(1);
             this.player2.clickCard(this.drumble);
-            expect(this.drumble.tokens.amber).toBe(2);
+            expect(this.drumble.amber).toBe(2);
             this.player2.clickCard(this.drumble);
             this.player2.clickCard(this.drumble);
             this.player2.clickCard(this.drumble);
@@ -93,9 +93,9 @@ describe('Equalize', function () {
             this.player2.clickCard(this.tentacus);
             this.player2.clickCard(this.charette);
             expect(this.player2).isReadyToTakeAction();
-            expect(this.drumble.tokens.amber).toBe(10);
-            expect(this.tentacus.tokens.amber).toBe(1);
-            expect(this.charette.tokens.amber).toBe(1);
+            expect(this.drumble.amber).toBe(10);
+            expect(this.tentacus.amber).toBe(1);
+            expect(this.charette.amber).toBe(1);
             expect(this.player2.amber).toBe(1);
         });
     });

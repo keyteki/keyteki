@@ -18,7 +18,7 @@ describe('Distant Void Prober', function () {
         it('should not increase key cost +3 if not haunted', function () {
             this.player1.reap(this.distantVoidProber);
             this.player1.endTurn();
-            this.player2.clickPrompt('red');
+            this.player2.forgeKey('Red');
             expect(this.player2.amber).toBe(4);
         });
 
@@ -27,7 +27,7 @@ describe('Distant Void Prober', function () {
             this.player1.clickPrompt('Discard this card');
             this.player1.reap(this.distantVoidProber);
             this.player1.endTurn();
-            this.player2.clickPrompt('red');
+            this.player2.forgeKey('Red');
             expect(this.player2.amber).toBe(1);
         });
 
@@ -40,7 +40,7 @@ describe('Distant Void Prober', function () {
             this.player1.clickCard(this.urchin);
             expect(this.player1.amber).toBe(0);
             expect(this.player2.amber).toBe(9);
-            expect(this.urchin.tokens.amber).toBe(1);
+            expect(this.urchin.amber).toBe(1);
         });
     });
 

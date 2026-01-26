@@ -13,7 +13,7 @@ describe('Grommid', function () {
                 }
             });
 
-            this.megaNarp.tokens.damage = 1;
+            this.megaNarp.damage = 1;
         });
 
         it('should be able to play actions/artifacts/upgrades, but not creatures', function () {
@@ -30,7 +30,7 @@ describe('Grommid', function () {
         it('should cause the controller of a creature it attacks to lose an amber when it lives and the opponent dies', function () {
             this.player1.fightWith(this.grommid, this.docBookton);
             expect(this.docBookton.location).toBe('discard');
-            expect(this.grommid.tokens.damage).toBe(5);
+            expect(this.grommid.damage).toBe(5);
             expect(this.player2.amber).toBe(2);
             this.player1.endTurn();
         });
@@ -38,7 +38,7 @@ describe('Grommid', function () {
         it('should cause the controller of a creature it attacks to lose an amber when it lives and the opponent has a destroyed effect', function () {
             this.player1.fightWith(this.grommid, this.badPenny);
             expect(this.badPenny.location).toBe('hand');
-            expect(this.grommid.tokens.damage).toBe(1);
+            expect(this.grommid.damage).toBe(1);
             expect(this.player2.amber).toBe(2);
             this.player1.endTurn();
         });
@@ -48,7 +48,7 @@ describe('Grommid', function () {
             this.player1.fightWith(this.grommid, this.docBookton);
             expect(this.docBookton.location).toBe('play area');
             expect(this.docBookton.warded).toBe(false);
-            expect(this.grommid.tokens.damage).toBe(5);
+            expect(this.grommid.damage).toBe(5);
             expect(this.player2.amber).toBe(3);
             this.player1.endTurn();
         });
@@ -66,7 +66,7 @@ describe('Grommid', function () {
             this.player2.clickPrompt('logos');
             this.player2.fightWith(this.docBookton, this.grommid);
             expect(this.docBookton.location).toBe('discard');
-            expect(this.grommid.tokens.damage).toBe(5);
+            expect(this.grommid.damage).toBe(5);
             expect(this.player2.amber).toBe(2);
             this.player2.endTurn();
         });

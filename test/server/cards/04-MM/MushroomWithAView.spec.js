@@ -13,20 +13,20 @@ describe('Mushroom with a View', function () {
         });
 
         it('should heal 1 from all friendly creatures', function () {
-            this.envy.tokens.damage = 2;
-            this.pride.tokens.damage = 1;
-            this.troll.tokens.damage = 1;
-            this.desire.tokens.damage = 2;
+            this.envy.damage = 2;
+            this.pride.damage = 1;
+            this.troll.damage = 1;
+            this.desire.damage = 2;
 
-            this.player1.useAction(this.mushroomWithAView, true);
+            this.player1.useOmni(this.mushroomWithAView);
 
-            expect(this.envy.tokens.damage).toBe(1);
-            expect(this.pride.tokens.damage).toBeUndefined();
-            expect(this.troll.tokens.damage).toBeUndefined();
-            expect(this.shooler.tokens.damage).toBeUndefined();
+            expect(this.envy.damage).toBe(1);
+            expect(this.pride.damage).toBe(0);
+            expect(this.troll.damage).toBe(0);
+            expect(this.shooler.damage).toBe(0);
 
-            expect(this.desire.tokens.damage).toBe(2);
-            expect(this.culfTheQuiet.tokens.damage).toBeUndefined();
+            expect(this.desire.damage).toBe(2);
+            expect(this.culfTheQuiet.damage).toBe(0);
         });
     });
 });

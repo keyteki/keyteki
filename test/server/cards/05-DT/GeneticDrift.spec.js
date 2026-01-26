@@ -14,8 +14,8 @@ describe('Genetic Drift', function () {
                 }
             });
 
-            this.flaxia.tokens.power = 2;
-            this.gub.tokens.power = 1;
+            this.flaxia.powerCounters = 2;
+            this.gub.powerCounters = 1;
             this.player1.play(this.geneticDrift);
         });
 
@@ -32,10 +32,10 @@ describe('Genetic Drift', function () {
             });
 
             it('should give this creature a +1 power token and +1 power token to exch creature with power tokens', function () {
-                expect(this.flaxia.tokens.power).toBe(3);
-                expect(this.bumblebird.tokens.power).toBe(2);
-                expect(this.gub.tokens.power).toBe(2);
-                expect(this.krump.tokens.power).toBeUndefined();
+                expect(this.flaxia.powerCounters).toBe(3);
+                expect(this.bumblebird.powerCounters).toBe(2);
+                expect(this.gub.powerCounters).toBe(2);
+                expect(this.krump.powerCounters).toBe(0);
             });
         });
     });

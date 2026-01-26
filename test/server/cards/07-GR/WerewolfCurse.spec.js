@@ -17,23 +17,23 @@ describe('Werewolf Curse', function () {
 
         it('enrages on play', function () {
             this.player1.playUpgrade(this.werewolfCurse, this.dustPixie);
-            expect(this.dustPixie.tokens.enrage).toBe(1);
+            expect(this.dustPixie.enraged).toBe(true);
         });
 
         it('gives splash attack', function () {
             this.player1.playUpgrade(this.werewolfCurse, this.dustPixie);
             this.player1.fightWith(this.dustPixie, this.troll);
             expect(this.noddyTheThief.location).toBe('discard');
-            expect(this.troll.tokens.damage).toBe(1);
-            expect(this.flaxia.tokens.damage).toBe(3);
+            expect(this.troll.damage).toBe(1);
+            expect(this.flaxia.damage).toBe(3);
             expect(this.werewolfCurse.location).toBe('discard');
         });
 
         it('archives after fight', function () {
             this.player1.playUpgrade(this.werewolfCurse, this.dustPixie);
             this.player1.fightWith(this.dustPixie, this.noddyTheThief);
-            expect(this.noddyTheThief.tokens.damage).toBe(undefined);
-            expect(this.troll.tokens.damage).toBe(3);
+            expect(this.noddyTheThief.damage).toBe(0);
+            expect(this.troll.damage).toBe(3);
             expect(this.werewolfCurse.location).toBe('archives');
         });
     });

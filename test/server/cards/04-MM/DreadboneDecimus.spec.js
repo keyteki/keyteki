@@ -28,7 +28,7 @@ describe('Dreadbone Decimus', function () {
                 });
 
                 it('should exalted the card', function () {
-                    expect(this.dreadboneDecimus.tokens.amber).toBe(1);
+                    expect(this.dreadboneDecimus.amber).toBe(1);
                 });
 
                 it('should allow creatures with lower power to be selected', function () {

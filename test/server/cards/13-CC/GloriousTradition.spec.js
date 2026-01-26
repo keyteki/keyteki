@@ -14,11 +14,11 @@ describe('Glorious Tradition', function () {
 
         it('should exalt each enemy flank creature', function () {
             this.player1.useAction(this.gloriousTradition);
-            expect(this.lamindra.tokens.amber).toBe(1);
-            expect(this.umbra.tokens.amber).toBe(1);
-            expect(this.krump.tokens.amber).toBeUndefined();
-            expect(this.charette.tokens.amber).toBeUndefined();
-            expect(this.gub.tokens.amber).toBeUndefined();
+            expect(this.lamindra.amber).toBe(1);
+            expect(this.umbra.amber).toBe(1);
+            expect(this.krump.amber).toBe(0);
+            expect(this.charette.amber).toBe(0);
+            expect(this.gub.amber).toBe(0);
             expect(this.player1).isReadyToTakeAction();
         });
     });

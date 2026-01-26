@@ -114,7 +114,7 @@ describe('Scowly Caper', function () {
 
             expect(this.player2).toHavePromptButton('sanctum');
             this.player2.clickPrompt('sanctum');
-            this.player2.useAction(this.gormOfOmm, true);
+            this.player2.useOmni(this.gormOfOmm);
             this.player2.clickCard(this.spanglerBox);
 
             expect(this.player2).toHavePrompt('Scowly Caper');
@@ -140,14 +140,14 @@ describe('Scowly Caper', function () {
 
         it('opponent should be able to use it regardless of house chosen', function () {
             this.player1.playCreature(this.scowlyCaper);
-            this.scowlyCaper.exhausted = false;
+            this.scowlyCaper.ready();
             expect(this.scowlyCaper.controller).toBe(this.player2.player);
             this.player1.endTurn();
             this.player2.clickPrompt('logos');
             this.player2.fightWith(this.scowlyCaper, this.yantzeeGang);
             expect(this.scowlyCaper.location).toBe('play area');
-            expect(this.scowlyCaper.hasToken('damage')).toBe(false);
-            expect(this.yantzeeGang.tokens.damage).toBe(2);
+            expect(this.scowlyCaper.damage).toBe(0);
+            expect(this.yantzeeGang.damage).toBe(2);
         });
     });
 });

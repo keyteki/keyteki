@@ -26,7 +26,7 @@ describe('Dino-Thief', function () {
             });
 
             it('should exalt dino-thief', function () {
-                expect(this.dinoThief.tokens.amber).toBe(1);
+                expect(this.dinoThief.amber).toBe(1);
             });
 
             describe('should prompt to to do damage', function () {
@@ -35,7 +35,7 @@ describe('Dino-Thief', function () {
                     expect(this.player1).toBeAbleToSelect(this.troll);
                     expect(this.player1).toBeAbleToSelect(this.dinoThief);
                     this.player1.clickCard(this.troll);
-                    expect(this.troll.tokens.damage).toBe(3);
+                    expect(this.troll.damage).toBe(3);
                 });
             });
         });
@@ -46,7 +46,7 @@ describe('Dino-Thief', function () {
             });
 
             it('should not exalt dino-thief', function () {
-                expect(this.dinoThief.tokens.amber).toBe(undefined);
+                expect(this.dinoThief.amber).toBe(0);
             });
         });
     });

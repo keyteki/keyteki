@@ -42,14 +42,14 @@ describe('ISS Indominus', function () {
             expect(this.armsmasterMolina.exhausted).toBe(false);
             expect(this.groggins.exhausted).toBe(false);
 
-            expect(this.saurianEgg.tokens.damage).toBeUndefined();
-            expect(this.citizenShrix.tokens.damage).toBeUndefined();
-            expect(this.senatorShrix.tokens.damage).toBeUndefined();
-            expect(this.flaxia.tokens.damage).toBeUndefined();
+            expect(this.saurianEgg.damage).toBe(0);
+            expect(this.citizenShrix.damage).toBe(0);
+            expect(this.senatorShrix.damage).toBe(0);
+            expect(this.flaxia.damage).toBe(0);
 
-            expect(this.troll.tokens.damage).toBe(3);
-            expect(this.groggins.tokens.damage).toBe(3);
-            expect(this.armsmasterMolina.tokens.damage).toBe(3);
+            expect(this.troll.damage).toBe(3);
+            expect(this.groggins.damage).toBe(3);
+            expect(this.armsmasterMolina.damage).toBe(3);
         });
     });
 });

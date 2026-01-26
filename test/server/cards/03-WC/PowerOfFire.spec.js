@@ -14,8 +14,8 @@ describe('PowerOfFire(WC)', function () {
                 }
             });
 
-            this.selfBolsteringAutomata.tokens.power = 13;
-            this.selfBolsteringAutomata.tokens.damage = 3;
+            this.selfBolsteringAutomata.powerCounters = 13;
+            this.selfBolsteringAutomata.damage = 3;
         });
 
         it("makes players lose half of troll's power == 4", function () {
@@ -47,7 +47,7 @@ describe('PowerOfFire(WC)', function () {
             this.player1.clickCard(this.selfBolsteringAutomata);
             this.player1.clickPrompt('Right');
             expect(this.selfBolsteringAutomata.location).toBe('play area');
-            expect(this.selfBolsteringAutomata.tokens.damage).toBeUndefined();
+            expect(this.selfBolsteringAutomata.damage).toBe(0);
             expect(this.selfBolsteringAutomata.exhausted).toBe(true);
             expect(this.player1.amber).toBe(8);
             expect(this.player2.amber).toBe(7);
@@ -61,7 +61,7 @@ describe('PowerOfFire(WC)', function () {
             this.player1.clickCard(this.selfBolsteringAutomata);
             this.player1.clickPrompt('Right');
             expect(this.selfBolsteringAutomata.location).toBe('play area');
-            expect(this.selfBolsteringAutomata.tokens.damage).toBeUndefined();
+            expect(this.selfBolsteringAutomata.damage).toBe(0);
             expect(this.selfBolsteringAutomata.exhausted).toBe(true);
             expect(this.player1.amber).toBe(8);
             expect(this.player2.amber).toBe(7);

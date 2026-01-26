@@ -19,8 +19,8 @@ describe('Salvatorem', function () {
                 }
             });
 
-            this.raidingKnight.tokens.amber = 1;
-            this.krump.tokens.amber = 1;
+            this.raidingKnight.amber = 1;
+            this.krump.amber = 1;
         });
 
         it('should prevent damage to ready creatures with amber', function () {
@@ -28,15 +28,15 @@ describe('Salvatorem', function () {
             this.player2.clickPrompt('brobnar');
             this.player2.fightWith(this.troll, this.raidingKnight);
             expect(this.raidingKnight.location).toBe('play area');
-            expect(this.raidingKnight.tokens.damage).toBeUndefined();
-            expect(this.troll.tokens.damage).toBe(4);
+            expect(this.raidingKnight.damage).toBe(0);
+            expect(this.troll.damage).toBe(4);
             expect(this.player2).isReadyToTakeAction();
         });
 
         it('should not prevent damage to exhausted creatures with amber', function () {
             this.player1.fightWith(this.raidingKnight, this.troll);
             expect(this.raidingKnight.location).toBe('discard');
-            expect(this.troll.tokens.damage).toBe(4);
+            expect(this.troll.damage).toBe(4);
             expect(this.player1).isReadyToTakeAction();
         });
 
@@ -45,7 +45,7 @@ describe('Salvatorem', function () {
             this.player2.clickPrompt('brobnar');
             this.player2.fightWith(this.troll, this.theGreyRider);
             expect(this.theGreyRider.location).toBe('discard');
-            expect(this.troll.tokens.damage).toBe(2);
+            expect(this.troll.damage).toBe(2);
             expect(this.player2).isReadyToTakeAction();
         });
 

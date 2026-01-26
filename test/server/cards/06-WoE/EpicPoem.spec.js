@@ -19,7 +19,7 @@ describe('Epic Poem', function () {
             expect(this.player1.amber).toBe(1);
 
             this.flaxia.addToken('amber', 2);
-            expect(this.flaxia.tokens.amber).toBe(2);
+            expect(this.flaxia.amber).toBe(2);
 
             this.player1.play(this.epicPoem);
             expect(this.player1).not.toBeAbleToSelect(this.gub);
@@ -27,7 +27,7 @@ describe('Epic Poem', function () {
 
             this.player1.clickCard(this.flaxia);
 
-            expect(this.flaxia.tokens.amber).toBe(3);
+            expect(this.flaxia.amber).toBe(3);
             expect(this.player1.amber).toBe(4);
         });
 

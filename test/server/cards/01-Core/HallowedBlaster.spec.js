@@ -8,7 +8,7 @@ describe('Hallowed Blaster', function () {
                 },
                 player2: {}
             });
-            this.troll.tokens.damage = 5;
+            this.troll.damage = 5;
         });
 
         it('should heal 3 damage from a creature', function () {
@@ -16,7 +16,7 @@ describe('Hallowed Blaster', function () {
             expect(this.player1).toHavePrompt('Choose a creature');
             expect(this.player1).toBeAbleToSelect(this.troll);
             this.player1.clickCard(this.troll);
-            expect(this.troll.tokens.damage).toBe(2);
+            expect(this.troll.damage).toBe(2);
             expect(this.player1).isReadyToTakeAction();
         });
     });

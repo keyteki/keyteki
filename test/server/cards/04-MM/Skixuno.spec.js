@@ -17,7 +17,7 @@ describe('Skixuno', function () {
             this.player1.play(this.skixuno);
 
             expect(this.skixuno.location).toBe('play area');
-            expect(this.skixuno.tokens.power).toBe(3);
+            expect(this.skixuno.powerCounters).toBe(3);
 
             expect(this.emberImp.location).toBe('discard');
             expect(this.rotgrub.location).toBe('discard');
@@ -25,11 +25,11 @@ describe('Skixuno', function () {
         });
 
         it('should not gain power for failing to destroy warded creatures', function () {
-            this.rotgrub.tokens.ward = 1;
+            this.rotgrub.ward();
             this.player1.play(this.skixuno);
 
             expect(this.skixuno.location).toBe('play area');
-            expect(this.skixuno.tokens.power).toBe(2);
+            expect(this.skixuno.powerCounters).toBe(2);
 
             expect(this.rotgrub.location).toBe('play area');
             expect(this.emberImp.location).toBe('discard');
@@ -57,7 +57,7 @@ describe('Skixuno', function () {
         });
 
         it('should not gain power for failing to destroy warded creatures even though a soulkeeper killed them', function () {
-            this.pitlord.tokens.ward = 1;
+            this.pitlord.ward();
             this.player1.playUpgrade(this.soulkeeper, this.bloodshardImp);
             this.player1.play(this.skixuno);
             this.player1.clickCard(this.pitlord);
@@ -65,7 +65,7 @@ describe('Skixuno', function () {
             expect(this.player2).toHavePrompt('House Choice');
 
             expect(this.skixuno.location).toBe('play area');
-            expect(this.skixuno.tokens.power).toBe(2);
+            expect(this.skixuno.powerCounters).toBe(2);
 
             expect(this.pitlord.location).toBe('discard');
             expect(this.emberImp.location).toBe('discard');

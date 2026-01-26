@@ -13,7 +13,7 @@ describe('Seeker of Truth', function () {
         });
 
         it('should allow fighting with an non-Sanctum ready creature', function () {
-            this.troll.exhausted = true;
+            this.troll.exhaust();
             this.player1.fightWith(this.seekerOfTruth, this.lamindra);
             this.player1.clickCard(this.seekerOfTruth);
             expect(this.player1).toBeAbleToSelect(this.flaxia);
@@ -23,12 +23,12 @@ describe('Seeker of Truth', function () {
             this.player1.clickCard(this.flaxia);
             this.player1.clickCard(this.lamindra);
             expect(this.flaxia.exhausted).toBe(true);
-            expect(this.flaxia.tokens.damage).toBe(1);
+            expect(this.flaxia.damage).toBe(1);
             expect(this.lamindra.location).toBe('discard');
         });
 
         it('should be an optional choice', function () {
-            this.troll.exhausted = true;
+            this.troll.exhaust();
             this.player1.fightWith(this.seekerOfTruth, this.lamindra);
             this.player1.clickPrompt('Done');
             expect(this.player1).isReadyToTakeAction();

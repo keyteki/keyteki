@@ -14,7 +14,7 @@ describe('Safe or Sorry', function () {
                 }
             });
 
-            this.troll.tokens.amber = 4;
+            this.troll.amber = 4;
             this.player1.play(this.safeOrSorry);
         });
 
@@ -81,7 +81,7 @@ describe('Safe or Sorry', function () {
                 });
 
                 it('should deal damage equal to amber on that creature', function () {
-                    expect(this.troll.tokens.damage).toBe(4);
+                    expect(this.troll.damage).toBe(4);
                     this.player1.endTurn();
                 });
             });
@@ -92,7 +92,7 @@ describe('Safe or Sorry', function () {
                 });
 
                 it('should deal no damage', function () {
-                    expect(this.alaka.tokens.damage).toBeUndefined();
+                    expect(this.alaka.damage).toBe(0);
                     this.player1.endTurn();
                 });
             });

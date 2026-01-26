@@ -28,14 +28,14 @@ describe('Yxilo Bolter', function () {
             this.player1.reap(this.yxiloBolter);
             this.player1.clickCard(this.troll);
             expect(this.troll.location).toBe('play area');
-            expect(this.troll.tokens.damage).toBe(2);
+            expect(this.troll.damage).toBe(2);
         });
 
         it('should not purge creatures who are destroyed, but were not the target', function () {
-            this.shadowSelf.tokens.damage = 7;
+            this.shadowSelf.damage = 7;
             this.player1.reap(this.yxiloBolter);
             this.player1.clickCard(this.lamindra);
-            expect(this.lamindra.tokens.damage).toBeUndefined();
+            expect(this.lamindra.damage).toBe(0);
             expect(this.lamindra.location).toBe('play area');
             expect(this.shadowSelf.location).toBe('discard');
             this.player1.endTurn();

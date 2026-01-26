@@ -30,7 +30,7 @@ describe('Beware the Ides', function () {
             this.player1.play(this.terrordactyl);
             this.player1.play(this.bewareTheIdes);
 
-            this.deusillus.tokens.power = 4;
+            this.deusillus.powerCounters = 4;
 
             expect(this.player1).toBeAbleToSelect(this.deusillus);
             expect(this.player1).not.toBeAbleToSelect(this.galeatops);
@@ -38,7 +38,7 @@ describe('Beware the Ides', function () {
             expect(this.player1).not.toBeAbleToSelect(this.troll);
             expect(this.player1).not.toBeAbleToSelect(this.lamindra);
             this.player1.clickCard(this.deusillus);
-            expect(this.deusillus.tokens.damage).toBe(23);
+            expect(this.deusillus.damage).toBe(23);
             expect(this.player1).isReadyToTakeAction();
         });
 

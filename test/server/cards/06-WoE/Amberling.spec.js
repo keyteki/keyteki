@@ -25,7 +25,7 @@ describe('Amberling', function () {
             this.player2.clickPrompt('untamed');
             this.player2.endTurn();
             expect(this.player1).toHavePrompt('Which key would you like to forge?');
-            this.player1.clickPrompt('Blue');
+            this.player1.forgeKey('Blue');
             expect(this.æmberling.location).toBe('discard');
         });
 
@@ -36,17 +36,17 @@ describe('Amberling', function () {
             this.player2.endTurn();
             this.player1.clickPrompt('No');
             expect(this.player1).toHavePrompt('Which key would you like to forge?');
-            this.player1.clickPrompt('Blue');
+            this.player1.forgeKey('Blue');
             expect(this.æmberling.location).toBe('play area');
         });
 
         it('discards wards', function () {
-            this.æmberling.tokens.wards = 1;
+            this.æmberling.ward();
             this.player1.endTurn();
             this.player2.clickPrompt('untamed');
             this.player2.endTurn();
             expect(this.player1).toHavePrompt('Which key would you like to forge?');
-            this.player1.clickPrompt('Blue');
+            this.player1.forgeKey('Blue');
             expect(this.æmberling.location).toBe('discard');
         });
 
@@ -65,7 +65,7 @@ describe('Amberling', function () {
             this.player1.clickPrompt('1');
             this.player1.clickPrompt('No');
             expect(this.player1).toHavePrompt('Which key would you like to forge?');
-            this.player1.clickPrompt('Blue');
+            this.player1.forgeKey('Blue');
             expect(this.senatorShrix.amber).toBe(0);
             expect(this.æmberling.location).toBe('play area');
         });
@@ -81,7 +81,7 @@ describe('Amberling', function () {
             this.player2.clickPrompt('untamed');
             this.player2.endTurn();
             expect(this.player1).toHavePrompt('Which key would you like to forge?');
-            this.player1.clickPrompt('Blue');
+            this.player1.forgeKey('Blue');
             expect(this.æmberling.location).toBe('discard');
         });
     });
@@ -129,7 +129,7 @@ describe('Amberling', function () {
             this.player1.clickPrompt('Yes');
             this.player1.clickPrompt('Yes');
             expect(this.player1).toHavePrompt('Which key would you like to forge?');
-            this.player1.clickPrompt('Blue');
+            this.player1.forgeKey('Blue');
             expect(this.player1.amber).toBe(5);
             this.player1.clickPrompt('staralliance');
             expect(this.player1.player.creaturesInPlay.length).toBe(1);
@@ -146,7 +146,7 @@ describe('Amberling', function () {
             this.player1.clickPrompt('No');
             this.player1.clickPrompt('No');
             expect(this.player1).toHavePrompt('Which key would you like to forge?');
-            this.player1.clickPrompt('Blue');
+            this.player1.forgeKey('Blue');
             expect(this.player1.amber).toBe(0);
             this.player1.clickPrompt('staralliance');
             expect(this.player1.player.creaturesInPlay.length).toBe(6);

@@ -138,7 +138,7 @@ describe('Keyfrog', function () {
 
         it('opponent should decide how much amber to use from cards that allow using amber', function () {
             this.player1.player.amber = 4;
-            this.senatorShrix.tokens.amber = 10;
+            this.senatorShrix.amber = 10;
             this.player1.player.keys = { red: true, blue: false, yellow: false };
 
             this.player1.endTurn();
@@ -180,10 +180,10 @@ describe('Keyfrog', function () {
 
         it('should not forge if flipped into a token creature', function () {
             expect(this.player1.player.getForgedKeys()).toBe(0);
-            this.keyfrog.exhausted = false;
+            this.keyfrog.ready();
 
             // Flip Keyfrog - this does not remove Keyfrog from play
-            this.player1.useAction(this.creedOfNurture, true);
+            this.player1.useOmni(this.creedOfNurture);
             this.player1.clickCard(this.gĕzdrutyŏTheArcane);
             this.player1.clickCard(this.keyfrog);
             this.player1.useAction(this.keyfrog); // Steal 2 and flip with Gĕzdrutyŏ's action
@@ -216,10 +216,10 @@ describe('Keyfrog', function () {
 
         it('should not forge if flipped and discarded', function () {
             expect(this.player1.player.getForgedKeys()).toBe(0);
-            this.keyfrog.exhausted = false;
+            this.keyfrog.ready();
 
             // Flip Keyfrog - without a token creature this removes Keyfrog from play
-            this.player1.useAction(this.creedOfNurture, true);
+            this.player1.useOmni(this.creedOfNurture);
             this.player1.clickCard(this.gĕzdrutyŏTheArcane);
             this.player1.clickCard(this.keyfrog);
             this.player1.useAction(this.keyfrog); // Steal 2 and flip with Gĕzdrutyŏ's action

@@ -18,14 +18,14 @@ describe('Punch', function () {
             expect(this.player1).toBeAbleToSelect(this.bumpsy);
             expect(this.player1).toBeAbleToSelect(this.troll);
             this.player1.clickCard(this.troll);
-            expect(this.troll.tokens.damage).toBe(3);
+            expect(this.troll.damage).toBe(3);
             expect(this.player1).isReadyToTakeAction();
         });
 
         it('should be able to target friendly creatures', function () {
             this.player1.play(this.punch);
             this.player1.clickCard(this.bumpsy);
-            expect(this.bumpsy.tokens.damage).toBe(3);
+            expect(this.bumpsy.damage).toBe(3);
             expect(this.player1).isReadyToTakeAction();
         });
     });

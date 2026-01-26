@@ -17,7 +17,7 @@ describe('TheFirstScroll', function () {
         describe('when opponent forged their creatures should capture', function () {
             beforeEach(function () {
                 this.player1.endTurn();
-                this.player2.clickPrompt('Red');
+                this.player2.forgeKey('Red');
             });
 
             it('should capture 2 amber', function () {
@@ -36,7 +36,7 @@ describe('TheFirstScroll', function () {
                 beforeEach(function () {
                     this.player2.clickPrompt('untamed');
                     this.player2.endTurn();
-                    this.player1.clickPrompt('Red');
+                    this.player1.forgeKey('Red');
                 });
 
                 it('should capture 2 amber', function () {

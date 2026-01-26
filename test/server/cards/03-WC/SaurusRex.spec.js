@@ -31,7 +31,7 @@ describe('Saurus Rex', function () {
                 });
 
                 it('should exalt saurus rex', function () {
-                    expect(this.saurusRex.tokens.amber).toBe(1);
+                    expect(this.saurusRex.amber).toBe(1);
                 });
 
                 it('should prompt for a deck search for saurian cards', function () {
@@ -47,7 +47,7 @@ describe('Saurus Rex', function () {
                 });
 
                 it('should not exalt saurus rex', function () {
-                    expect(this.saurusRex.tokens.amber).toBe(undefined);
+                    expect(this.saurusRex.amber).toBe(0);
                 });
 
                 it('should not prompt for a deck search', function () {

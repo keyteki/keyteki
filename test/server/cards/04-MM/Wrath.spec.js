@@ -25,9 +25,9 @@ describe('Wrath', function () {
             this.player1.clickCard(this.troll);
             this.player1.clickCard(this.culfTheQuiet);
             this.player1.clickPrompt('Done');
-            expect(this.desire.tokens.enrage).toBe(1);
-            expect(this.troll.tokens.enrage).toBe(1);
-            expect(this.culfTheQuiet.tokens.enrage).toBe(1);
+            expect(this.desire.enraged).toBe(true);
+            expect(this.troll.enraged).toBe(true);
+            expect(this.culfTheQuiet.enraged).toBe(true);
         });
     });
 });

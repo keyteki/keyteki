@@ -43,12 +43,12 @@ describe('Sandhopper', function () {
         });
 
         it('should fizzle with a warded creature', function () {
-            this.antiquitiesDealer.tokens.ward = 1;
+            this.antiquitiesDealer.ward();
             this.player1.useAction(this.sandhopper);
             this.player1.clickCard(this.antiquitiesDealer);
             expect(this.antiquitiesDealer.location).toBe('play area');
             expect(this.player1).not.toBeAbleToSelect(this.pelf);
-            expect(this.antiquitiesDealer.tokens.ward).toBe(undefined);
+            expect(this.antiquitiesDealer.warded).toBe(false);
         });
 
         it('should fizzle the second half if no non-ekwidon creatures in hand', function () {

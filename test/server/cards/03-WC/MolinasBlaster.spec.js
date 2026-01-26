@@ -30,7 +30,7 @@ describe('Molina’s Blaster', function () {
             expect(this.player1).toBeAbleToSelect(this.lamindra);
             expect(this.player1).toBeAbleToSelect(this.krump);
             this.player1.clickCard(this.krump);
-            expect(this.krump.tokens.damage).toBe(3);
+            expect(this.krump.damage).toBe(3);
         });
 
         it('should not prompt for dealing damage when attached to the non associated officer', function () {
@@ -65,7 +65,7 @@ describe('Molina’s Blaster', function () {
             expect(this.player1).toBeAbleToSelect(this.lamindra);
             expect(this.player1).toBeAbleToSelect(this.krump);
             this.player1.clickCard(this.krump);
-            expect(this.krump.tokens.damage).toBe(2);
+            expect(this.krump.damage).toBe(2);
         });
 
         it('fight ability should allow dealing 2 damages to a creature', function () {
@@ -85,7 +85,7 @@ describe('Molina’s Blaster', function () {
             expect(this.player1).toBeAbleToSelect(this.lamindra);
             expect(this.player1).toBeAbleToSelect(this.krump);
             this.player1.clickCard(this.krump);
-            expect(this.krump.tokens.damage).toBe(2);
+            expect(this.krump.damage).toBe(2);
         });
 
         it('reap ability should allow moving the upgrade to the appropriate officer', function () {
@@ -106,7 +106,7 @@ describe('Molina’s Blaster', function () {
             expect(this.player1).not.toBeAbleToSelect(this.krump);
             this.player1.clickCard(this.armsmasterMolina);
             this.player1.clickCard(this.krump);
-            expect(this.krump.tokens.damage).toBe(3);
+            expect(this.krump.damage).toBe(3);
             expect(this.techivorePulpate.upgrades).not.toContain(this.molinaSBlaster);
             expect(this.armsmasterMolina.upgrades).toContain(this.molinaSBlaster);
         });
@@ -163,7 +163,7 @@ describe('Molina’s Blaster', function () {
             expect(this.player1).toBeAbleToSelect(this.lamindra);
             expect(this.player1).toBeAbleToSelect(this.krump);
             this.player1.clickCard(this.krump);
-            expect(this.krump.tokens.damage).toBe(2);
+            expect(this.krump.damage).toBe(2);
         });
 
         it('reap ability should allow moving to associated officer even when it is not in play', function () {
@@ -192,7 +192,7 @@ describe('Molina’s Blaster', function () {
             expect(this.player1).toBeAbleToSelect(this.lamindra);
             expect(this.player1).toBeAbleToSelect(this.krump);
             this.player1.clickCard(this.krump);
-            expect(this.krump.tokens.damage).toBe(2);
+            expect(this.krump.damage).toBe(2);
         });
     });
 
@@ -217,7 +217,7 @@ describe('Molina’s Blaster', function () {
         it('should not allow moving upgrade between officers of same name', function () {
             this.player1.playUpgrade(this.molinaSBlaster, this.armsmasterMolina1);
             this.player1.clickCard(this.krump);
-            expect(this.krump.tokens.damage).toBe(3);
+            expect(this.krump.damage).toBe(3);
             this.player1.reap(this.armsmasterMolina1);
             this.player1.clickCard(this.armsmasterMolina1);
 

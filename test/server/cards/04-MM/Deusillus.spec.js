@@ -18,7 +18,7 @@ describe('Deusillus', function () {
                         'collector-worm',
                         'ulyq-megamouth'
                     ],
-                    hand: ['hypnobeam']
+                    hand: ['hypnobeam', 'harvest-time']
                 }
             });
         });
@@ -52,7 +52,7 @@ describe('Deusillus', function () {
             expect(this.player1).toBeAbleToSelect(this.troll);
             expect(this.player1).not.toBeAbleToSelect(this.senatorShrix);
             this.player1.clickCard(this.narp);
-            expect(this.narp.tokens.damage).toBe(4);
+            expect(this.narp.damage).toBe(4);
             expect(this.deusillus.amber).toBe(5);
             expect(this.deusillus.location).toBe('play area');
             expect(this.deusillus.composedPart).toBe(this.deusillus2);
@@ -67,7 +67,7 @@ describe('Deusillus', function () {
             expect(this.player1).toBeAbleToSelect(this.troll);
             expect(this.player1).not.toBeAbleToSelect(this.senatorShrix);
             this.player1.clickCard(this.narp);
-            expect(this.narp.tokens.damage).toBe(4);
+            expect(this.narp.damage).toBe(4);
             expect(this.deusillus2.amber).toBe(5);
             expect(this.deusillus2.location).toBe('play area');
             expect(this.deusillus2.composedPart).toBe(this.deusillus);
@@ -88,28 +88,28 @@ describe('Deusillus', function () {
         it('should be able to reap with the creature', function () {
             this.player1.play(this.deusillus);
             this.player1.clickCard(this.narp);
-            this.deusillus.exhausted = false;
+            this.deusillus.ready();
             this.player1.reap(this.deusillus);
             expect(this.deusillus.amber).toBe(4);
-            expect(this.narp.tokens.damage).toBe(6);
-            expect(this.troll.tokens.damage).toBe(2);
-            expect(this.zorg.tokens.damage).toBe(2);
+            expect(this.narp.damage).toBe(6);
+            expect(this.troll.damage).toBe(2);
+            expect(this.zorg.damage).toBe(2);
         });
 
         it('should be able to fight with the creature', function () {
             this.player1.play(this.deusillus2);
             this.player1.clickCard(this.narp);
-            this.deusillus2.exhausted = false;
+            this.deusillus2.ready();
             this.player1.fightWith(this.deusillus2, this.zorg);
-            expect(this.deusillus2.tokens.damage).toBe(7);
+            expect(this.deusillus2.damage).toBe(7);
             expect(this.zorg.location).toBe('discard');
             expect(this.deusillus2.amber).toBe(4);
-            expect(this.narp.tokens.damage).toBe(6);
-            expect(this.troll.tokens.damage).toBe(2);
+            expect(this.narp.damage).toBe(6);
+            expect(this.troll.damage).toBe(2);
         });
 
         it('should be archived completely', function () {
-            this.collectorWorm.tokens.ward = 1;
+            this.collectorWorm.ward();
 
             this.player1.play(this.deusillus);
             this.player1.clickCard(this.narp);
@@ -117,7 +117,7 @@ describe('Deusillus', function () {
             this.player2.clickPrompt('mars');
 
             this.player2.fightWith(this.collectorWorm, this.deusillus);
-            expect(this.collectorWorm.tokens.ward).toBeUndefined();
+            expect(this.collectorWorm.warded).toBe(false);
             expect(this.deusillus.location).toBe('archives');
             expect(this.deusillus2.location).toBe('archives');
             expect(this.player2.archives).toContain(this.deusillus);
@@ -155,6 +155,30 @@ describe('Deusillus', function () {
             expect(this.deusillus2.location).toBe('archives');
             expect(this.player1.archives).toContain(this.deusillus);
             expect(this.player1.archives).toContain(this.deusillus2);
+        });
+
+        it('should have traits when part 1 is played', function () {
+            this.player1.play(this.deusillus);
+            this.player1.clickCard(this.narp);
+            this.player1.endTurn();
+            this.player2.clickPrompt('dis');
+            this.player2.play(this.harvestTime);
+            this.player2.selectTrait('mutant');
+            expect(this.deusillus.location).toBe('purged');
+            expect(this.deusillus2.location).toBe('purged');
+            expect(this.player2).isReadyToTakeAction();
+        });
+
+        it('should have traits when part 2 is played', function () {
+            this.player1.play(this.deusillus2);
+            this.player1.clickCard(this.narp);
+            this.player1.endTurn();
+            this.player2.clickPrompt('dis');
+            this.player2.play(this.harvestTime);
+            this.player2.selectTrait('mutant');
+            expect(this.deusillus.location).toBe('purged');
+            expect(this.deusillus2.location).toBe('purged');
+            expect(this.player2).isReadyToTakeAction();
         });
     });
 
@@ -254,7 +278,7 @@ describe('Deusillus', function () {
             this.player1.clickPrompt('saurian');
             this.player1.play(this.deusillus2);
             this.player1.clickCard(this.troll);
-            expect(this.troll.tokens.damage).toBe(5);
+            expect(this.troll.damage).toBe(5);
         });
 
         it('should play part 2 after being returned to hand', function () {
@@ -277,7 +301,7 @@ describe('Deusillus', function () {
             this.player1.clickPrompt('saurian');
             this.player1.play(this.deusillus);
             this.player1.clickCard(this.troll);
-            expect(this.troll.tokens.damage).toBe(5);
+            expect(this.troll.damage).toBe(5);
         });
     });
 
@@ -349,8 +373,8 @@ describe('Deusillus', function () {
             this.player1.play(this.deusillus);
             this.player1.clickCard(this.narp);
             this.player1.endTurn();
-            this.deusillus.tokens.damage = 19;
-            this.overlordGreking.tokens.ward = 1;
+            this.deusillus.damage = 19;
+            this.overlordGreking.ward();
             this.player2.clickPrompt('dis');
             this.player2.fightWith(this.overlordGreking, this.deusillus);
             this.player2.clickPrompt('Left');
@@ -468,7 +492,7 @@ describe('Deusillus', function () {
             expect(this.player1).not.toBeAbleToSelect(this.senatorShrix);
             this.player1.clickCard(this.deusillusTop1);
             this.player1.clickCard(this.narp);
-            expect(this.narp.tokens.damage).toBe(4);
+            expect(this.narp.damage).toBe(4);
             expect(this.deusillusBottom1.amber).toBe(5);
             expect(this.player1.amber).toBe(2);
             expect(this.deusillusBottom1.location).toBe('play area');
@@ -490,7 +514,7 @@ describe('Deusillus', function () {
             expect(this.player1).not.toBeAbleToSelect(this.senatorShrix);
             this.player1.clickCard(this.deusillusTop2);
             this.player1.clickCard(this.narp);
-            expect(this.narp.tokens.damage).toBe(4);
+            expect(this.narp.damage).toBe(4);
             expect(this.deusillusBottom1.amber).toBe(5);
             expect(this.player1.amber).toBe(4);
             expect(this.deusillusBottom1.location).toBe('play area');
@@ -506,7 +530,7 @@ describe('Deusillus', function () {
             this.player1.play(this.deusillusTop1);
             expect(this.player1).not.toHavePrompt('Choose a top part to play');
             this.player1.clickCard(this.narp);
-            expect(this.narp.tokens.damage).toBe(4);
+            expect(this.narp.damage).toBe(4);
             expect(this.deusillusTop1.amber).toBe(5);
             expect(this.deusillusTop1.location).toBe('play area');
             expect(this.deusillusTop1.composedPart).toBe(this.deusillusBottom1);

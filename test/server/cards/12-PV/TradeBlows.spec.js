@@ -22,13 +22,13 @@ describe('Trade Blows', function () {
             expect(this.player1).not.toBeAbleToSelect(this.emberImp);
             expect(this.player1).not.toBeAbleToSelect(this.yurk);
             this.player1.clickCard(this.flaxia);
-            expect(this.flaxia.tokens.damage).toBe(1);
+            expect(this.flaxia.damage).toBe(1);
             this.player1.clickPrompt('Done');
             expect(this.player1).isReadyToTakeAction();
         });
 
         it('should not repeat if enemy creature is destroyed', function () {
-            this.flaxia.tokens.damage = 3;
+            this.flaxia.damage = 3;
             this.player1.play(this.tradeBlows);
             this.player1.clickCard(this.flaxia);
             expect(this.flaxia.location).toBe('discard');
@@ -38,11 +38,11 @@ describe('Trade Blows', function () {
         it('should repeat if enemy creature survives and player chooses to damage friendly creature', function () {
             this.player1.play(this.tradeBlows);
             this.player1.clickCard(this.flaxia);
-            expect(this.flaxia.tokens.damage).toBe(1);
+            expect(this.flaxia.damage).toBe(1);
             this.player1.clickCard(this.emberImp);
-            expect(this.emberImp.tokens.damage).toBe(1);
+            expect(this.emberImp.damage).toBe(1);
             this.player1.clickCard(this.searine);
-            expect(this.searine.tokens.damage).toBe(1);
+            expect(this.searine.damage).toBe(1);
             this.player1.clickPrompt('Done');
             expect(this.player1).isReadyToTakeAction();
         });
@@ -53,9 +53,9 @@ describe('Trade Blows', function () {
             this.player1.clickCard(this.flaxia);
             expect(this.flaxia.warded).toBe(false);
             this.player1.clickCard(this.emberImp);
-            expect(this.emberImp.tokens.damage).toBe(1);
+            expect(this.emberImp.damage).toBe(1);
             this.player1.clickCard(this.searine);
-            expect(this.searine.tokens.damage).toBe(1);
+            expect(this.searine.damage).toBe(1);
             this.player1.clickPrompt('Done');
             expect(this.player1).isReadyToTakeAction();
         });

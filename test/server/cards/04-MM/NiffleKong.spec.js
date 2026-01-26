@@ -71,7 +71,7 @@ describe('Niffle Kong', function () {
         it('should move both cards to discard after destroyed', function () {
             this.player1.play(this.niffleKong);
             this.player1.clickPrompt('Done');
-            this.niffleKong.tokens.damage = 1;
+            this.niffleKong.damage = 1;
             this.player1.play(this.saveThePack);
             expect(this.niffleKong.location).toBe('discard');
             expect(this.niffleKong2.location).toBe('discard');
@@ -137,7 +137,7 @@ describe('Niffle Kong', function () {
             this.player1.play(this.niffleKong);
             this.player1.clickPrompt('Done');
 
-            this.niffleKong.exhausted = false;
+            this.niffleKong.ready();
             this.player1.reap(this.niffleKong);
             this.player1.clickPrompt('Done');
         });
@@ -146,7 +146,7 @@ describe('Niffle Kong', function () {
             this.player1.play(this.niffleKong);
             this.player1.clickPrompt('Done');
 
-            this.niffleKong.exhausted = false;
+            this.niffleKong.ready();
             this.player1.reap(this.niffleKong);
             this.player1.clickCard(this.niffleKong);
             expect(this.player1).not.toBeAbleToSelect(this.fuzzyGruen);
@@ -162,7 +162,7 @@ describe('Niffle Kong', function () {
             expect(this.player1).toBeAbleToSelect(this.collectorWorm);
             this.player1.clickCard(this.collectorWorm);
             this.player1.clickCard(this.mothergun);
-            expect(this.collectorWorm.tokens.armor).toBe(2);
+            expect(this.collectorWorm.armor).toBe(2);
             expect(this.mothergun.location).toBe('discard');
             expect(this.player1.amber).toBe(2);
             expect(this.player2.amber).toBe(4);
@@ -172,7 +172,7 @@ describe('Niffle Kong', function () {
             this.player1.play(this.niffleKong2);
             this.player1.clickPrompt('Done');
 
-            this.niffleKong2.exhausted = false;
+            this.niffleKong2.ready();
             this.player1.fightWith(this.niffleKong2, this.zorg);
             this.player1.clickPrompt('Done');
         });
@@ -181,14 +181,14 @@ describe('Niffle Kong', function () {
             this.player1.play(this.niffleKong2);
             this.player1.clickPrompt('Done');
 
-            this.niffleKong2.exhausted = false;
+            this.niffleKong2.ready();
             this.player1.fightWith(this.niffleKong2, this.zorg);
             this.player1.clickCard(this.niffleKong2);
             this.player1.clickCard(this.niffleApe1);
             this.player1.clickCard(this.collectorWorm);
             this.player1.clickCard(this.mothergun);
             expect(this.niffleApe1.location).toBe('discard');
-            expect(this.collectorWorm.tokens.armor).toBe(2);
+            expect(this.collectorWorm.armor).toBe(2);
             expect(this.mothergun.location).toBe('discard');
             expect(this.player1.amber).toBe(1);
             expect(this.player2.amber).toBe(4);
@@ -202,7 +202,7 @@ describe('Niffle Kong', function () {
             this.player1.play(this.niffleKong);
             this.player1.clickPrompt('Done');
 
-            this.niffleKong.exhausted = false;
+            this.niffleKong.ready();
             this.player1.reap(this.niffleKong);
             this.player1.clickCard(this.niffleKong);
             this.player1.clickCard(this.niffleApe1);
@@ -218,7 +218,7 @@ describe('Niffle Kong', function () {
             this.player1.play(this.niffleKong2);
             this.player1.clickPrompt('Done');
 
-            this.niffleKong2.exhausted = false;
+            this.niffleKong2.ready();
             this.player1.fightWith(this.niffleKong2, this.zorg);
             this.player1.clickCard(this.niffleKong2);
             this.player1.clickCard(this.niffleApe1);
@@ -228,7 +228,7 @@ describe('Niffle Kong', function () {
         });
 
         it('should be archived completely', function () {
-            this.collectorWorm.tokens.ward = 1;
+            this.collectorWorm.ward();
 
             this.player1.play(this.niffleKong);
             this.player1.clickPrompt('Done');
@@ -236,7 +236,7 @@ describe('Niffle Kong', function () {
             this.player2.clickPrompt('mars');
 
             this.player2.fightWith(this.collectorWorm, this.niffleKong);
-            expect(this.collectorWorm.tokens.ward).toBeUndefined();
+            expect(this.collectorWorm.warded).toBe(false);
             expect(this.niffleKong.location).toBe('archives');
             expect(this.niffleKong2.location).toBe('archives');
             expect(this.player2.archives).toContain(this.niffleKong);

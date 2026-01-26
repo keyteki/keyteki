@@ -26,7 +26,7 @@ describe('Dino-Bot', function () {
             });
 
             it('should exalt dino-bot', function () {
-                expect(this.dinoBot.tokens.amber).toBe(1);
+                expect(this.dinoBot.amber).toBe(1);
             });
 
             describe('should prompt to to do damage', function () {
@@ -35,7 +35,7 @@ describe('Dino-Bot', function () {
                     expect(this.player1).toBeAbleToSelect(this.troll);
                     expect(this.player1).toBeAbleToSelect(this.dinoBot);
                     this.player1.clickCard(this.troll);
-                    expect(this.troll.tokens.damage).toBe(3);
+                    expect(this.troll.damage).toBe(3);
                 });
             });
         });
@@ -46,7 +46,7 @@ describe('Dino-Bot', function () {
             });
 
             it('should not exalt dino-bot', function () {
-                expect(this.dinoBot.tokens.amber).toBe(undefined);
+                expect(this.dinoBot.amber).toBe(0);
             });
         });
     });

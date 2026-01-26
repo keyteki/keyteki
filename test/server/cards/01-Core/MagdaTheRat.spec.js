@@ -135,10 +135,10 @@ describe('Magda the Rat', function () {
             this.player1.play(this.magdaTheRat);
             expect(this.player1.amber).toBe(2);
             expect(this.player2.amber).toBe(3);
-            this.magdaTheRat.exhausted = false;
+            this.magdaTheRat.ready();
 
             // Flip Magda - this does not remove Magda from play
-            this.player1.useAction(this.creedOfNurture, true);
+            this.player1.useOmni(this.creedOfNurture);
             this.player1.clickCard(this.gĕzdrutyŏTheArcane);
             this.player1.clickCard(this.magdaTheRat);
             this.player1.useAction(this.magdaTheRat); // Steal 2 and flip with Gĕzdrutyŏ's action
@@ -175,10 +175,10 @@ describe('Magda the Rat', function () {
             this.player1.play(this.magdaTheRat);
             expect(this.player1.amber).toBe(2);
             expect(this.player2.amber).toBe(3);
-            this.magdaTheRat.exhausted = false;
+            this.magdaTheRat.ready();
 
             // Flip Magda - without a token creature this removes Magda from play
-            this.player1.useAction(this.creedOfNurture, true);
+            this.player1.useOmni(this.creedOfNurture);
             this.player1.clickCard(this.gĕzdrutyŏTheArcane);
             this.player1.clickCard(this.magdaTheRat);
             this.player1.useAction(this.magdaTheRat); // Steal 2 and flip with Gĕzdrutyŏ's action
@@ -210,10 +210,10 @@ describe('Magda the Rat', function () {
             this.player1.play(this.magdaTheRat);
             expect(this.player1.amber).toBe(2);
             expect(this.player2.amber).toBe(3);
-            this.magdaTheRat.exhausted = false;
+            this.magdaTheRat.ready();
 
             // Flip Magda - this does not remove Magda from play
-            this.player1.useAction(this.creedOfNurture, true);
+            this.player1.useOmni(this.creedOfNurture);
             this.player1.clickCard(this.gĕzdrutyŏTheArcane);
             this.player1.clickCard(this.magdaTheRat);
             this.player1.useAction(this.magdaTheRat); // Steal 2 and flip with Gĕzdrutyŏ's action

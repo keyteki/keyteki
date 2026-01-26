@@ -13,7 +13,7 @@ describe('5C077', function () {
                 }
             });
 
-            this['5c077'].tokens.power = 3;
+            this['5c077'].powerCounters = 3;
         });
 
         describe('when it reaps and no other friendly creature in play', function () {
@@ -37,7 +37,7 @@ describe('5C077', function () {
                 it('should add +1 power counter', function () {
                     expect(this.player1.amber).toBe(2);
                     expect(this['5c077'].exhausted).toBe(true);
-                    expect(this['5c077'].tokens.power).toBe(4);
+                    expect(this['5c077'].powerCounters).toBe(4);
                     expect(this['5c077'].power).toBe(6);
                     this.player1.endTurn();
                 });
@@ -51,7 +51,7 @@ describe('5C077', function () {
                 it('should descrease power counters', function () {
                     expect(this.player1.amber).toBe(2);
                     expect(this['5c077'].exhausted).toBe(true);
-                    expect(this['5c077'].tokens.power).toBe(2);
+                    expect(this['5c077'].powerCounters).toBe(2);
                     expect(this['5c077'].power).toBe(4);
                     this.player1.endTurn();
                 });
@@ -65,7 +65,7 @@ describe('5C077', function () {
                 it('should descrease power counters', function () {
                     expect(this.player1.amber).toBe(2);
                     expect(this['5c077'].exhausted).toBe(true);
-                    expect(this['5c077'].tokens.power).toBe(3);
+                    expect(this['5c077'].powerCounters).toBe(3);
                     expect(this['5c077'].power).toBe(5);
                     this.player1.endTurn();
                 });
@@ -92,7 +92,7 @@ describe('5C077', function () {
                 it('should add +1 power counter', function () {
                     expect(this.player1.amber).toBe(2);
                     expect(this['5c077'].exhausted).toBe(true);
-                    expect(this['5c077'].tokens.power).toBe(4);
+                    expect(this['5c077'].powerCounters).toBe(4);
                     expect(this['5c077'].power).toBe(6);
                     this.player1.endTurn();
                 });
@@ -106,7 +106,7 @@ describe('5C077', function () {
                 it('should descrease power counters', function () {
                     expect(this.player1.amber).toBe(2);
                     expect(this['5c077'].exhausted).toBe(true);
-                    expect(this['5c077'].tokens.power).toBe(2);
+                    expect(this['5c077'].powerCounters).toBe(2);
                     expect(this['5c077'].power).toBe(4);
                     this.player1.endTurn();
                 });
@@ -120,7 +120,7 @@ describe('5C077', function () {
                 it('should descrease power counters', function () {
                     expect(this.player1.amber).toBe(2);
                     expect(this['5c077'].exhausted).toBe(true);
-                    expect(this['5c077'].tokens.power).toBe(3);
+                    expect(this['5c077'].powerCounters).toBe(3);
                     expect(this['5c077'].power).toBe(5);
                     this.player1.endTurn();
                 });
@@ -199,7 +199,7 @@ describe('5C077', function () {
                         });
 
                         it('should add +1 power counters', function () {
-                            expect(this['5c077'].tokens.power).toBe(1);
+                            expect(this['5c077'].powerCounters).toBe(1);
                             expect(this['5c077'].power).toBe(3);
                             expect(this.player1).isReadyToTakeAction();
                         });
@@ -225,7 +225,7 @@ describe('5C077', function () {
                                 });
 
                                 it('should remove its power counters', function () {
-                                    expect(this['5c077'].tokens.power).toBeUndefined();
+                                    expect(this['5c077'].powerCounters).toBe(0);
                                     expect(this['5c077'].power).toBe(2);
                                     expect(this.player1).isReadyToTakeAction();
                                 });

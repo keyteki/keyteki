@@ -259,7 +259,7 @@ class CardService {
             return retCard;
         }
 
-        retCard.armor = card.Armor;
+        retCard.armorTotal = card.Armor;
         retCard.power = card.Power;
         retCard.keywords = card.Keywords.split(',');
         retCard.expansion = card.ExpansionId;

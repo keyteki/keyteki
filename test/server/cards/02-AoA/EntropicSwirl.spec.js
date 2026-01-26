@@ -14,7 +14,7 @@ describe('Entropic Swirl', function () {
                 }
             });
 
-            this.sciOfficerQincan.tokens.power = 10;
+            this.sciOfficerQincan.powerCounters = 10;
         });
 
         it('should be able to target any creature', function () {
@@ -30,7 +30,7 @@ describe('Entropic Swirl', function () {
             this.player1.clickCard(this.cowfyne);
             expect(this.player1.amber).toBe(1);
             expect(this.player2.amber).toBe(0);
-            expect(this.cowfyne.tokens.damage).toBe(2);
+            expect(this.cowfyne.damage).toBe(2);
         });
 
         it('should gain 2 amber and deal 4 damage if creature has 2 traits', function () {
@@ -38,7 +38,7 @@ describe('Entropic Swirl', function () {
             this.player1.clickCard(this.brammo);
             expect(this.player1.amber).toBe(2);
             expect(this.player2.amber).toBe(0);
-            expect(this.brammo.tokens.damage).toBe(3);
+            expect(this.brammo.damage).toBe(3);
         });
 
         it('should gain 3 amber and deal 6 damage if creature has 3 traits', function () {
@@ -46,7 +46,7 @@ describe('Entropic Swirl', function () {
             this.player1.clickCard(this.sciOfficerQincan);
             expect(this.player1.amber).toBe(3);
             expect(this.player2.amber).toBe(0);
-            expect(this.sciOfficerQincan.tokens.damage).toBe(6);
+            expect(this.sciOfficerQincan.damage).toBe(6);
         });
 
         it('should gain 4 amber and deal 8 damage if creature has 1 mutant + 3 traits cloned by Cyber Clone', function () {
@@ -71,7 +71,7 @@ describe('Entropic Swirl', function () {
 
             expect(this.player1.amber).toBe(2);
             expect(this.player2.amber).toBe(0);
-            expect(this.mimicGel.tokens.damage).toBe(3);
+            expect(this.mimicGel.damage).toBe(3);
         });
     });
 });

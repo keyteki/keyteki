@@ -169,7 +169,7 @@ describe('Lifeweb', function () {
             this.player2.endTurn();
 
             // Strange Gizmo causes Jargogle to play ember imp after forging a key
-            this.player1.clickPrompt('red');
+            this.player1.forgeKey('Red');
             this.player1.clickPrompt('right');
             expect(this.emberImp.location).toBe('play area');
             this.player1.clickPrompt('logos');

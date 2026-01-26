@@ -69,7 +69,7 @@ describe('The Warchest', function () {
 
         it('should destroy The Warchest and gain ambers after fighting', function () {
             this.player1.fightWith(this.stealerOfSouls, this.redlock);
-            expect(this.stealerOfSouls.tokens.damage).toBe(3);
+            expect(this.stealerOfSouls.damage).toBe(3);
             expect(this.redlock.location).toBe('purged');
             expect(this.player1.amber).toBe(1);
 
@@ -79,13 +79,13 @@ describe('The Warchest', function () {
             expect(this.player1.amber).toBe(1);
 
             this.player1.fightWith(this.shooler, this.halacor);
-            expect(this.shooler.tokens.damage).toBe(4);
+            expect(this.shooler.damage).toBe(4);
             expect(this.halacor.location).toBe('discard');
             expect(this.player1.amber).toBe(1);
 
             this.player1.fightWith(this.dustImp, this.ancientBear);
             expect(this.dustImp.location).toBe('discard');
-            expect(this.ancientBear.tokens.damage).toBe(2);
+            expect(this.ancientBear.damage).toBe(2);
             expect(this.player1.amber).toBe(3);
 
             this.player1.play(this.poltergeist);
@@ -109,7 +109,7 @@ describe('The Warchest', function () {
                     inPlay: ['ganger-chieftain']
                 }
             });
-            this.valdr.tokens.damage = 4;
+            this.valdr.damage = 4;
         });
 
         it('should trigger', function () {

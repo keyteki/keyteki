@@ -21,7 +21,7 @@ describe('Rufus Vergilius', function () {
             expect(this.player1).not.toBeAbleToSelect(this.umbra);
             expect(this.player1).not.toBeAbleToSelect(this.krump);
             this.player1.clickCard(this.urchin);
-            expect(this.urchin.tokens.amber).toBe(1);
+            expect(this.urchin.amber).toBe(1);
             expect(this.urchin.warded).toBe(true);
             expect(this.player2.amber).toBe(3);
             expect(this.player1).isReadyToTakeAction();

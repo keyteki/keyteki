@@ -63,7 +63,7 @@ describe('Bartos the Ruiner', function () {
         it('should destroy our own non-mars artifact on reap', function () {
             this.player1.endTurn();
             this.player2.clickPrompt('mars');
-            this.player2.useAction(this.futureBooster, true);
+            this.player2.useOmni(this.futureBooster);
             this.player2.clickPrompt('Leave on top of deck');
             expect(this.futureBooster.location).toBe('discard');
             expect(this.player2).isReadyToTakeAction();

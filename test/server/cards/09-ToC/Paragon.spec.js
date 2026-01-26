@@ -19,7 +19,7 @@ describe('Paragon', function () {
         });
 
         it('should not enter play enraged if no mutants', function () {
-            this.player1.useAction(this.ornateTalkingTray, true);
+            this.player1.useOmni(this.ornateTalkingTray);
             expect(this.paragon1.location).toBe('play area');
             expect(this.paragon1.enraged).toBe(false);
             expect(this.player1).isReadyToTakeAction();
@@ -27,7 +27,7 @@ describe('Paragon', function () {
 
         it('should enter play enraged if a mutant in play', function () {
             this.player1.playCreature(this.dysania);
-            this.player1.useAction(this.ornateTalkingTray, true);
+            this.player1.useOmni(this.ornateTalkingTray);
             this.player1.clickPrompt('Right');
             expect(this.paragon1.location).toBe('play area');
             expect(this.paragon1.enraged).toBe(true);
@@ -36,7 +36,7 @@ describe('Paragon', function () {
 
         it('should enter play enraged if enemy mutant in play', function () {
             this.player2.moveCard(this.snarette, 'play area');
-            this.player1.useAction(this.ornateTalkingTray, true);
+            this.player1.useOmni(this.ornateTalkingTray);
             expect(this.paragon1.location).toBe('play area');
             expect(this.paragon1.enraged).toBe(true);
             expect(this.player1).isReadyToTakeAction();

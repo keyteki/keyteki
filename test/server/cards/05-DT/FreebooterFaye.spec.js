@@ -27,7 +27,7 @@ describe('Freebooter Faye', function () {
 
             describe('while the tide is high and reap', function () {
                 beforeEach(function () {
-                    this.freebooterFaye.exhausted = false;
+                    this.freebooterFaye.ready();
                     this.player1.reap(this.freebooterFaye);
                 });
 
@@ -40,7 +40,7 @@ describe('Freebooter Faye', function () {
             describe('while the tide is not high and reap', function () {
                 beforeEach(function () {
                     this.player1.lowerTide();
-                    this.freebooterFaye.exhausted = false;
+                    this.freebooterFaye.ready();
                     this.player1.reap(this.freebooterFaye);
                 });
 

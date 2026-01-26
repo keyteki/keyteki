@@ -35,7 +35,7 @@ describe('Kelifi Dragon', function () {
             this.player1.endTurn();
             this.player2.clickPrompt('brobnar');
             this.player2.endTurn();
-            this.player1.clickPrompt('Red');
+            this.player1.forgeKey('Red');
             this.player1.clickPrompt('brobnar');
             this.player1.reap(this.kelifiDragon);
             expect(this.player1).toHavePrompt('Kelifi Dragon');
@@ -43,7 +43,7 @@ describe('Kelifi Dragon', function () {
             expect(this.player1).toBeAbleToSelect(this.krump);
             expect(this.player1).toBeAbleToSelect(this.dustPixie);
             this.player1.clickCard(this.troll);
-            expect(this.troll.tokens.damage).toBe(5);
+            expect(this.troll.damage).toBe(5);
             expect(this.player1.amber).toBe(3);
             expect(this.player1).isReadyToTakeAction();
         });
@@ -53,7 +53,7 @@ describe('Kelifi Dragon', function () {
             this.player1.endTurn();
             this.player2.clickPrompt('brobnar');
             this.player2.endTurn();
-            this.player1.clickPrompt('Red');
+            this.player1.forgeKey('Red');
             this.player1.clickPrompt('brobnar');
             this.player1.fightWith(this.kelifiDragon, this.krump);
             expect(this.player1).toHavePrompt('Kelifi Dragon');
@@ -61,7 +61,7 @@ describe('Kelifi Dragon', function () {
             expect(this.player1).not.toBeAbleToSelect(this.krump);
             expect(this.player1).toBeAbleToSelect(this.dustPixie);
             this.player1.clickCard(this.troll);
-            expect(this.troll.tokens.damage).toBe(5);
+            expect(this.troll.damage).toBe(5);
             expect(this.krump.location).toBe('discard');
             expect(this.player1.amber).toBe(2);
             expect(this.player1).isReadyToTakeAction();

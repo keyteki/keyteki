@@ -14,11 +14,11 @@ describe('EarlyBirds', function () {
                 }
             });
 
-            this.lamindra.exhausted = true;
-            this.murkens.exhausted = true;
-            this.tantadlin.exhausted = true;
-            this.bearFlute.exhausted = true;
-            this.guardDisguise.exhausted = true;
+            this.lamindra.exhaust();
+            this.murkens.exhaust();
+            this.tantadlin.exhaust();
+            this.bearFlute.exhaust();
+            this.guardDisguise.exhaust();
         });
 
         it('should ready all shadows cards', function () {

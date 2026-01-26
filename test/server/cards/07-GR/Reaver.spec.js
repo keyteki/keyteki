@@ -28,7 +28,7 @@ describe('Reaver', function () {
             expect(this.player1).toBeAbleToSelect(this.aStrongFeeling);
             this.player1.clickCard(this.boiler);
             expect(this.boiler.location).toBe('discard');
-            expect(this.thingFromTheDeep.tokens.damage).toBe(1); // boiler scrap
+            expect(this.thingFromTheDeep.damage).toBe(1); // boiler scrap
             expect(this.player1).isReadyToTakeAction();
         });
 

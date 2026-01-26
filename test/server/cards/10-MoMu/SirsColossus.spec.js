@@ -5,7 +5,7 @@ describe('Sirs Colossus', function () {
                 player1: {
                     amber: 2,
                     house: 'sanctum',
-                    hand: ['sirs-colossus', 'sirs-colossus2'],
+                    hand: ['sirs-colossus', 'sirs-colossus2', 'the-spirit-s-way'],
                     inPlay: ['raiding-knight', 'scrivener-favian']
                 },
                 player2: {
@@ -13,6 +13,9 @@ describe('Sirs Colossus', function () {
                     inPlay: ['lamindra']
                 }
             });
+
+            this.sirsColossusBottom = this.player1.hand[0];
+            this.sirsColossusTop = this.player1.hand[1];
         });
 
         it('should not be able to play with just part 1', function () {
@@ -65,7 +68,7 @@ describe('Sirs Colossus', function () {
             this.player1.clickCard(this.sirsColossus);
             this.player1.clickCard(this.sirsColossus);
             this.player1.clickCard(this.sirsColossus);
-            this.sirsColossus.exhausted = false;
+            this.sirsColossus.ready();
             this.player1.fightWith(this.sirsColossus, this.lamindra);
             expect(this.player1).toBeAbleToSelect(this.raidingKnight);
             expect(this.player1).toBeAbleToSelect(this.scrivenerFavian);
@@ -78,6 +81,52 @@ describe('Sirs Colossus', function () {
             expect(this.lamindra.amber).toBe(0);
             expect(this.player1.amber).toBe(2);
             expect(this.player2.amber).toBe(0);
+            expect(this.player1).isReadyToTakeAction();
+        });
+
+        it('should share keywords and traits when top is played', function () {
+            this.player2.amber = 0;
+            expect(this.sirsColossusTop.getTraits()).toEqual([]);
+            expect(this.sirsColossusTop.hasKeyword('taunt')).toBe(false);
+            expect(this.sirsColossusBottom.getTraits()).toEqual(['knight', 'spirit']);
+            expect(this.sirsColossusBottom.hasKeyword('taunt')).toBe(true);
+
+            this.player1.play(this.sirsColossusTop);
+            expect(this.sirsColossusTop.location).toBe('play area');
+            expect(this.sirsColossusTop.composedPart).toBe(this.sirsColossusBottom);
+            expect(this.player1.player.hand).not.toContain(this.sirsColossusTop);
+            expect(this.player1.player.hand).not.toContain(this.sirsColossusBottom);
+            expect(this.sirsColossusTop.getTraits()).toEqual(['knight', 'spirit']);
+            expect(this.sirsColossusTop.hasKeyword('taunt')).toBe(true);
+
+            this.player1.play(this.theSpiritSWay);
+            expect(this.sirsColossusTop.getTraits()).toEqual([]);
+            expect(this.sirsColossusTop.hasKeyword('taunt')).toBe(false);
+            expect(this.sirsColossusBottom.getTraits()).toEqual(['knight', 'spirit']);
+            expect(this.sirsColossusBottom.hasKeyword('taunt')).toBe(true);
+            expect(this.player1).isReadyToTakeAction();
+        });
+
+        it('should share keywords and traits when bottom is played', function () {
+            this.player2.amber = 0;
+            expect(this.sirsColossusTop.getTraits()).toEqual([]);
+            expect(this.sirsColossusTop.hasKeyword('taunt')).toBe(false);
+            expect(this.sirsColossusBottom.getTraits()).toEqual(['knight', 'spirit']);
+            expect(this.sirsColossusBottom.hasKeyword('taunt')).toBe(true);
+
+            this.player1.play(this.sirsColossusBottom);
+            expect(this.sirsColossusBottom.location).toBe('play area');
+            expect(this.sirsColossusBottom.composedPart).toBe(this.sirsColossusTop);
+            expect(this.player1.player.hand).not.toContain(this.sirsColossusTop);
+            expect(this.player1.player.hand).not.toContain(this.sirsColossusBottom);
+            expect(this.sirsColossusBottom.getTraits()).toEqual(['knight', 'spirit']);
+            expect(this.sirsColossusBottom.hasKeyword('taunt')).toBe(true);
+
+            this.player1.play(this.theSpiritSWay);
+            expect(this.sirsColossusTop.getTraits()).toEqual([]);
+            expect(this.sirsColossusTop.hasKeyword('taunt')).toBe(false);
+            expect(this.sirsColossusBottom.getTraits()).toEqual(['knight', 'spirit']);
+            expect(this.sirsColossusBottom.hasKeyword('taunt')).toBe(true);
             expect(this.player1).isReadyToTakeAction();
         });
     });

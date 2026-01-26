@@ -103,15 +103,15 @@ describe('Veylan Analyst', function () {
             this.player1.play(this.bulwark);
             this.player1.play(this.clearMind);
             expect(this.player1.amber).toBe(4);
-            this.player1.useAction(this.epicQuest, true);
-            this.player1.clickPrompt('red');
+            this.player1.useOmni(this.epicQuest);
+            this.player1.forgeKey('Red');
             expect(this.player1.amber).toBe(5);
             expect(this.epicQuest.location).toBe('discard');
         });
 
         it('should trigger when Epic Quest has no effect', function () {
             expect(this.player1.amber).toBe(0);
-            this.player1.useAction(this.epicQuest, true);
+            this.player1.useOmni(this.epicQuest);
             expect(this.player1.amber).toBe(1);
             expect(this.epicQuest.location).toBe('play area');
         });

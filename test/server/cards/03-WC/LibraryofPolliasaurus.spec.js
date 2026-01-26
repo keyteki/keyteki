@@ -47,8 +47,8 @@ describe("Library of Polliasaurus's ability", function () {
             }
         });
 
-        this.questorJarta.tokens.amber = 2;
-        this.shooler.tokens.amber = 2;
+        this.questorJarta.amber = 2;
+        this.shooler.amber = 2;
     });
 
     it('should allow picking from friendly creature', function () {
@@ -62,7 +62,7 @@ describe("Library of Polliasaurus's ability", function () {
 
         this.player1.clickCard(this.questorJarta);
 
-        expect(this.questorJarta.tokens.amber).toBe(1);
+        expect(this.questorJarta.amber).toBe(1);
         expect(this.player1.amber).toBe(2);
     });
 });

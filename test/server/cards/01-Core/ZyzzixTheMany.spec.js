@@ -22,7 +22,7 @@ describe('Zyzzix the Many', function () {
             expect(this.player1).not.toBeAbleToSelect(this.squawker);
             this.player1.clickCard(this.zorg);
             expect(this.zorg.location).toBe('archives');
-            expect(this.zyzzixTheMany.tokens.power).toBe(3);
+            expect(this.zyzzixTheMany.powerCounters).toBe(3);
             expect(this.player1.amber).toBe(1);
             expect(this.player1).isReadyToTakeAction();
         });
@@ -33,7 +33,7 @@ describe('Zyzzix the Many', function () {
             this.player1.clickCard(this.zyzzixTheMany);
             this.player1.clickCard(this.zorg);
             expect(this.zorg.location).toBe('archives');
-            expect(this.zyzzixTheMany.tokens.power).toBe(3);
+            expect(this.zyzzixTheMany.powerCounters).toBe(3);
             expect(this.player1).isReadyToTakeAction();
         });
 
@@ -42,7 +42,7 @@ describe('Zyzzix the Many', function () {
             expect(this.player1).toHavePrompt('Any reactions?');
             this.player1.clickPrompt('Done');
             expect(this.zorg.location).toBe('hand');
-            expect(this.zyzzixTheMany.tokens.power).toBeUndefined();
+            expect(this.zyzzixTheMany.powerCounters).toBe(0);
             expect(this.player1.amber).toBe(1);
             expect(this.player1).isReadyToTakeAction();
         });
@@ -51,12 +51,13 @@ describe('Zyzzix the Many', function () {
             this.player1.reap(this.zyzzixTheMany);
             this.player1.clickCard(this.zyzzixTheMany);
             this.player1.clickCard(this.zorg);
-            expect(this.zyzzixTheMany.tokens.power).toBe(3);
             this.zyzzixTheMany.exhausted = false;
+            expect(this.zyzzixTheMany.powerCounters).toBe(3);
+            this.zyzzixTheMany.ready();
             this.player1.reap(this.zyzzixTheMany);
             this.player1.clickCard(this.zyzzixTheMany);
             this.player1.clickCard(this.mindwarper);
-            expect(this.zyzzixTheMany.tokens.power).toBe(6);
+            expect(this.zyzzixTheMany.powerCounters).toBe(6);
             expect(this.player1).isReadyToTakeAction();
         });
     });

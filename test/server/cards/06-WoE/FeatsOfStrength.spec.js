@@ -20,7 +20,7 @@ describe('Feats of Strength', function () {
             this.player1.play(this.featsOfStrength);
             this.player1.fightWith(this.bumpsy, this.ganymedeArchivist);
             this.player1.clickPrompt('Right');
-            expect(this.bumpsy.tokens.damage).toBe(3);
+            expect(this.bumpsy.damage).toBe(3);
             expect(this.ganymedeArchivist.location).toBe('discard');
             expect(this.player1.player.creaturesInPlay.length).toBe(2);
             this.player1.play(this.punch);

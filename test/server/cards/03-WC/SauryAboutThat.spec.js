@@ -57,14 +57,14 @@ describe('Saury About That', function () {
         });
 
         it('should make player 2 gain 1 amber even if creature is warded', function () {
-            this.lamindra.tokens.ward = 1;
+            this.lamindra.ward();
             this.player1.play(this.sauryAboutThat);
 
             expect(this.player1).toHavePrompt('Choose a creature');
             this.player1.clickCard(this.lamindra);
 
             expect(this.lamindra.location).toBe('play area');
-            expect(this.lamindra.tokens.ward).toBeUndefined();
+            expect(this.lamindra.warded).toBe(false);
             expect(this.player1.amber).toBe(0);
             expect(this.player2.amber).toBe(1);
         });

@@ -13,7 +13,7 @@ describe('The Red Death', function () {
                     inPlay: ['troll', 'groggins', 'groke']
                 }
             });
-            this.theRedDeath.exhausted = true;
+            this.theRedDeath.exhaust();
             this.player1.chains = 36;
         });
 

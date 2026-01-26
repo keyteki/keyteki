@@ -15,9 +15,9 @@ describe('Rickety Cybergiant', function () {
 
         it('deals 1 damage to itself after a fight', function () {
             this.player1.fightWith(this.ricketyCybergiant, this.cpoZytar);
-            expect(this.ricketyCybergiant.tokens.damage).toBe(5);
-            expect(this.groke.tokens.damage).toBe(undefined);
-            expect(this.flaxia.tokens.damage).toBe(undefined);
+            expect(this.ricketyCybergiant.damage).toBe(5);
+            expect(this.groke.damage).toBe(0);
+            expect(this.flaxia.damage).toBe(0);
             expect(this.cpoZytar.location).toBe('discard');
             expect(this.player1).isReadyToTakeAction();
         });

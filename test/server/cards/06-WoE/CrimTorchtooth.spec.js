@@ -15,9 +15,9 @@ describe('CrimTorchtooth', function () {
         it('should do splash attack', function () {
             this.player1.fightWith(this.crimTorchtooth, this.gladiodontus);
             expect(this.toad.location).toBe('discard');
-            expect(this.gladiodontus.tokens.damage).toBe(7);
-            expect(this.bubbles.tokens.damage).toBe(4);
-            expect(this.fandangle.tokens.damage).toBe(undefined);
+            expect(this.gladiodontus.damage).toBe(7);
+            expect(this.bubbles.damage).toBe(4);
+            expect(this.fandangle.damage).toBe(0);
             this.player1.endTurn();
         });
 
@@ -29,10 +29,10 @@ describe('CrimTorchtooth', function () {
 
         it('should enrage neighbors', function () {
             this.player1.fightWith(this.crimTorchtooth, this.gladiodontus);
-            expect(this.pelf.tokens.enrage).toBe(1);
-            expect(this.bumpsy.tokens.enrage).toBe(1);
-            expect(this.crimTorchtooth.tokens.enrage).toBe(undefined);
-            expect(this.umbra.tokens.enrage).toBe(undefined);
+            expect(this.pelf.enraged).toBe(true);
+            expect(this.bumpsy.enraged).toBe(true);
+            expect(this.crimTorchtooth.enraged).toBe(false);
+            expect(this.umbra.enraged).toBe(false);
             this.player1.endTurn();
         });
     });

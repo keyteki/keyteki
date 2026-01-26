@@ -16,7 +16,7 @@ describe('Salvay', function () {
 
         it('should get +2 assault for 1 Redemption neighbor', function () {
             this.player1.fightWith(this.salvay, this.troll);
-            expect(this.troll.tokens.damage).toBe(6);
+            expect(this.troll.damage).toBe(6);
             expect(this.player1).isReadyToTakeAction();
         });
 
@@ -26,7 +26,7 @@ describe('Salvay', function () {
             this.player1.fightWith(this.salvay, this.flaxia);
             expect(this.flaxia.location).toBe('discard');
             expect(this.salvay.location).toBe('play area');
-            expect(this.salvay.tokens.damage).toBeUndefined();
+            expect(this.salvay.damage).toBe(0);
             expect(this.player1).isReadyToTakeAction();
         });
     });

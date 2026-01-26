@@ -40,9 +40,9 @@ describe('Medic Ingram', function () {
             expect(this.medicIngram.warded).toBe(true);
             expect(this.krump.warded).toBe(false);
 
-            expect(this.troll.tokens.damage).toBe(1);
-            expect(this.valdr.tokens.damage).toBe(3);
-            expect(this.krump.tokens.damage).toBe(5);
+            expect(this.troll.damage).toBe(1);
+            expect(this.valdr.damage).toBe(3);
+            expect(this.krump.damage).toBe(5);
         });
 
         it('Reap may heal any creature', function () {
@@ -67,9 +67,9 @@ describe('Medic Ingram', function () {
             expect(this.medicIngram.warded).toBe(true);
             expect(this.krump.warded).toBe(false);
 
-            expect(this.troll.hasToken('damage')).toBe(false);
-            expect(this.valdr.tokens.damage).toBe(3);
-            expect(this.krump.tokens.damage).toBe(5);
+            expect(this.troll.damage).toBe(0);
+            expect(this.valdr.damage).toBe(3);
+            expect(this.krump.damage).toBe(5);
         });
 
         it('Fight may heal any creature', function () {
@@ -94,9 +94,9 @@ describe('Medic Ingram', function () {
             expect(this.medicIngram.warded).toBe(true);
             expect(this.krump.warded).toBe(false);
 
-            expect(this.troll.tokens.damage).toBe(1);
-            expect(this.valdr.hasToken('damage')).toBe(false);
-            expect(this.krump.tokens.damage).toBe(5);
+            expect(this.troll.damage).toBe(1);
+            expect(this.valdr.damage).toBe(0);
+            expect(this.krump.damage).toBe(5);
         });
 
         it('Play may heal maximum of 3', function () {
@@ -108,9 +108,9 @@ describe('Medic Ingram', function () {
             expect(this.medicIngram.warded).toBe(false);
             expect(this.krump.warded).toBe(true);
 
-            expect(this.troll.tokens.damage).toBe(1);
-            expect(this.valdr.tokens.damage).toBe(3);
-            expect(this.krump.tokens.damage).toBe(2);
+            expect(this.troll.damage).toBe(1);
+            expect(this.valdr.damage).toBe(3);
+            expect(this.krump.damage).toBe(2);
         });
     });
 });

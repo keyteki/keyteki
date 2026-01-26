@@ -12,14 +12,14 @@ describe('Francus', function () {
                 }
             });
 
-            this.zorg.tokens.damage = 1;
-            this.shadowSelf.tokens.damage = 8;
+            this.zorg.damage = 1;
+            this.shadowSelf.damage = 8;
         });
 
         it('should capture 1 amber when it lives and the opponent dies', function () {
             this.player1.fightWith(this.francus, this.docBookton);
             expect(this.docBookton.location).toBe('discard');
-            expect(this.francus.tokens.damage).toBe(4);
+            expect(this.francus.damage).toBe(4);
             expect(this.francus.amber).toBe(1);
             expect(this.player2.amber).toBe(2);
             this.player1.endTurn();
@@ -39,7 +39,7 @@ describe('Francus', function () {
             this.player1.fightWith(this.francus, this.docBookton);
             expect(this.docBookton.location).toBe('play area');
             expect(this.docBookton.warded).toBe(false);
-            expect(this.francus.tokens.damage).toBe(4);
+            expect(this.francus.damage).toBe(4);
             expect(this.francus.amber).toBe(0);
             expect(this.player2.amber).toBe(3);
             this.player1.endTurn();
@@ -67,7 +67,7 @@ describe('Francus', function () {
             this.player2.clickPrompt('logos');
             this.player2.fightWith(this.docBookton, this.francus);
             expect(this.docBookton.location).toBe('discard');
-            expect(this.francus.tokens.damage).toBe(4);
+            expect(this.francus.damage).toBe(4);
             expect(this.francus.amber).toBe(1);
             expect(this.player2.amber).toBe(2);
             this.player2.endTurn();

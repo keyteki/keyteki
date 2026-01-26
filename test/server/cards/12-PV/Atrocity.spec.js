@@ -21,7 +21,7 @@ describe('Atrocity', function () {
             expect(this.player2).not.toHavePromptButton('brobnar');
             this.player2.clickPrompt('untamed');
             expect(this.ancientBear.location).toBe('discard');
-            expect(this.atrocity.tokens.damage).toBe(1);
+            expect(this.atrocity.damage).toBe(1);
         });
 
         it('should not trigger if opponent has no deck', function () {
@@ -30,12 +30,12 @@ describe('Atrocity', function () {
             expect(this.player2).toHavePromptButton('untamed');
             expect(this.player2).toHavePromptButton('dis');
             expect(this.player2).toHavePromptButton('brobnar');
-            expect(this.atrocity.tokens.damage).toBe(1);
+            expect(this.atrocity.damage).toBe(1);
             this.player2.clickPrompt('untamed');
         });
 
         it('should trigger when Atrocity dies from the damage', function () {
-            this.atrocity.tokens.damage = 2;
+            this.atrocity.damage = 2;
             this.player2.moveCard(this.ancientBear, 'discard');
             this.player1.endTurn();
             expect(this.player2).toHavePromptButton('untamed');

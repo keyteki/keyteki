@@ -15,11 +15,11 @@ describe('Phosphorus Blast', function () {
 
         it('should deal 2D to each non-Mars creature', function () {
             this.player1.play(this.phosphorusBlast);
-            expect(this.thunderdell.tokens.damage).toBe(2);
-            expect(this.gemcoatVendor.tokens.damage).toBe(2);
-            expect(this.brikkNastee.tokens.damage).toBe(2);
-            expect(this.glylyxWeaponsmith.tokens.damage).toBeUndefined();
-            expect(this.myxTheTallminded.tokens.damage).toBeUndefined();
+            expect(this.thunderdell.damage).toBe(2);
+            expect(this.gemcoatVendor.damage).toBe(2);
+            expect(this.brikkNastee.damage).toBe(2);
+            expect(this.glylyxWeaponsmith.damage).toBe(0);
+            expect(this.myxTheTallminded.damage).toBe(0);
         });
     });
 });

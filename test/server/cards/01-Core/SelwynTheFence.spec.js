@@ -19,7 +19,7 @@ describe('Selwyn The Fence', function () {
             this.player1.reap(this.selwynTheFence);
             expect(this.player1).toHavePrompt('Choose a captured amber to move to your pool.');
             this.player1.clickCard(this.oldBruno);
-            expect(this.oldBruno.tokens.amber).toBe(2);
+            expect(this.oldBruno.amber).toBe(2);
             expect(this.player1.amber).toBe(2);
         });
 
@@ -28,7 +28,7 @@ describe('Selwyn The Fence', function () {
             this.player1.fightWith(this.selwynTheFence, this.urchin);
             expect(this.player1).toHavePrompt('Choose a captured amber to move to your pool.');
             this.player1.clickCard(this.oldBruno);
-            expect(this.oldBruno.tokens.amber).toBe(2);
+            expect(this.oldBruno.amber).toBe(2);
             expect(this.player1.amber).toBe(1);
         });
 

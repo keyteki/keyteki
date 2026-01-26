@@ -80,7 +80,7 @@ describe('Exploratory Craft', function () {
         it('should not allow to select exhausted cards', function () {
             let startingHandSize = this.player1.hand.length;
 
-            this.mother.exhausted = true;
+            this.mother.exhaust();
 
             this.player1.useAction(this.exploratoryCraft);
 

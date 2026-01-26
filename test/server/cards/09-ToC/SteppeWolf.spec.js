@@ -19,11 +19,11 @@ describe('Steppe Wolf', function () {
         });
 
         it('should gain 1 power for other friendly wolf creatures', function () {
-            expect(this.steppeWolf1.getPower()).toBe(2);
-            this.player1.useAction(this.ornateTalkingTray, true);
+            expect(this.steppeWolf1.power).toBe(2);
+            this.player1.useOmni(this.ornateTalkingTray);
             this.player1.clickPrompt('Right');
-            expect(this.steppeWolf1.getPower()).toBe(3);
-            expect(this.steppeWolf2.getPower()).toBe(3);
+            expect(this.steppeWolf1.power).toBe(3);
+            expect(this.steppeWolf2.power).toBe(3);
             expect(this.player1).isReadyToTakeAction();
         });
     });

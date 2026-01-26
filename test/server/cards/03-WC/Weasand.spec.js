@@ -41,7 +41,7 @@ describe('Weasand', function () {
             this.player1.clickCard(this.redlock);
             expect(this.weasand.location).toBe('play area');
             this.player1.endTurn();
-            this.player2.clickPrompt('Red');
+            this.player2.forgeKey('Red');
             this.player2.clickPrompt('brobnar');
             expect(this.player1.amber).toBe(2);
             expect(this.player2.amber).toBe(0);
@@ -54,7 +54,7 @@ describe('Weasand', function () {
             this.player1.endTurn();
             this.player2.clickPrompt('brobnar');
             this.player2.endTurn();
-            this.player1.clickPrompt('Red');
+            this.player1.forgeKey('Red');
             this.player1.clickPrompt('shadows');
             expect(this.player1.amber).toBe(2);
             expect(this.player2.amber).toBe(0);
@@ -99,7 +99,7 @@ describe('Weasand', function () {
             this.player2.clickCard(this.weasand);
             expect(this.player2).toHavePrompt('Which side to you want to move this card to?');
             this.player2.clickPrompt('Right');
-            expect(this.dodger.tokens.damage).toBe(2);
+            expect(this.dodger.damage).toBe(2);
             expect(this.dodger.location).toBe('play area');
             expect(this.weasand.location).toBe('discard');
         });
@@ -149,7 +149,7 @@ describe('Weasand', function () {
         });
 
         it('should destroy creature on flank if choose to reveal Weasand using Creed', function () {
-            this.player1.useAction(this.creedOfNurture, true);
+            this.player1.useOmni(this.creedOfNurture);
             expect(this.player1).toBeAbleToSelect(this.weasand);
             this.player1.clickCard(this.weasand);
             expect(this.player1).toBeAbleToSelect(this.lamindra);
@@ -161,7 +161,7 @@ describe('Weasand', function () {
         });
 
         it('should not destroy creature at center if choose to reveal Weasand using Creed', function () {
-            this.player1.useAction(this.creedOfNurture, true);
+            this.player1.useOmni(this.creedOfNurture);
             expect(this.player1).toBeAbleToSelect(this.weasand);
             this.player1.clickCard(this.weasand);
             expect(this.player1).toBeAbleToSelect(this.flaxia);

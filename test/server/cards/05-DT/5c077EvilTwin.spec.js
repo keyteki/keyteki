@@ -13,7 +13,7 @@ describe('5C077 Evil Twin', function () {
                 }
             });
 
-            this['5c077EvilTwin'].tokens.power = 3;
+            this['5c077EvilTwin'].powerCounters = 3;
         });
 
         describe('when it reaps and no other creature in play with same power', function () {
@@ -33,7 +33,7 @@ describe('5C077 Evil Twin', function () {
                 });
 
                 it('should add +1 power counter', function () {
-                    expect(this['5c077EvilTwin'].tokens.power).toBe(4);
+                    expect(this['5c077EvilTwin'].powerCounters).toBe(4);
                     expect(this['5c077EvilTwin'].power).toBe(6);
                 });
             });
@@ -44,7 +44,7 @@ describe('5C077 Evil Twin', function () {
                 });
 
                 it('should descrease power counters', function () {
-                    expect(this['5c077EvilTwin'].tokens.power).toBe(2);
+                    expect(this['5c077EvilTwin'].powerCounters).toBe(2);
                     expect(this['5c077EvilTwin'].power).toBe(4);
                 });
             });
@@ -55,7 +55,7 @@ describe('5C077 Evil Twin', function () {
                 });
 
                 it('should descrease power counters', function () {
-                    expect(this['5c077EvilTwin'].tokens.power).toBe(3);
+                    expect(this['5c077EvilTwin'].powerCounters).toBe(3);
                     expect(this['5c077EvilTwin'].power).toBe(5);
                 });
             });
@@ -122,7 +122,7 @@ describe('5C077 Evil Twin', function () {
                     });
 
                     it('should add +1 power counters', function () {
-                        expect(this['5c077EvilTwin'].tokens.power).toBe(1);
+                        expect(this['5c077EvilTwin'].powerCounters).toBe(1);
                         expect(this['5c077EvilTwin'].power).toBe(3);
                         expect(this.player1).isReadyToTakeAction();
                     });

@@ -20,7 +20,7 @@ describe('Xenotraining', function () {
             expect(this.player1).toBeAbleToSelect(this.lieutenantKhrkhar);
             this.player1.clickCard(this.lieutenantKhrkhar);
             expect(this.player2.player.amber).toBe(5);
-            expect(this.lieutenantKhrkhar.tokens.amber).toBe(1);
+            expect(this.lieutenantKhrkhar.amber).toBe(1);
         });
     });
     describe("Xenotraining's ability", function () {
@@ -46,8 +46,8 @@ describe('Xenotraining', function () {
             this.player1.clickCard(this.lieutenantKhrkhar);
             this.player1.clickCard(this.mother);
             expect(this.player2.player.amber).toBe(4);
-            expect(this.lieutenantKhrkhar.tokens.amber).toBe(1);
-            expect(this.mother.tokens.amber).toBe(1);
+            expect(this.lieutenantKhrkhar.amber).toBe(1);
+            expect(this.mother.amber).toBe(1);
         });
     });
     describe("Xenotraining's ability", function () {
@@ -75,9 +75,9 @@ describe('Xenotraining', function () {
             this.player1.clickCard(this.mother);
             this.player1.clickCard(this.rustgnawer);
             expect(this.player2.player.amber).toBe(3);
-            expect(this.lieutenantKhrkhar.tokens.amber).toBe(1);
-            expect(this.mother.tokens.amber).toBe(1);
-            expect(this.rustgnawer.tokens.amber).toBe(1);
+            expect(this.lieutenantKhrkhar.amber).toBe(1);
+            expect(this.mother.amber).toBe(1);
+            expect(this.rustgnawer.amber).toBe(1);
         });
         it('you should be able to capture all aember onto one creature', function () {
             this.player1.play(this.xenotraining);
@@ -89,7 +89,7 @@ describe('Xenotraining', function () {
             this.player1.clickCard(this.mother);
             this.player1.clickCard(this.mother);
             expect(this.player2.player.amber).toBe(3);
-            expect(this.mother.tokens.amber).toBe(3);
+            expect(this.mother.amber).toBe(3);
         });
     });
 });

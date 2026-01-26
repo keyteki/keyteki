@@ -33,7 +33,7 @@ describe('Lieutenant Gorvenal', function () {
             expect(this.player1).isReadyToTakeAction();
             expect(this.lieutenantGorvenal.amber).toBe(1);
             expect(this.bullWark.amber).toBe(0);
-            expect(this.bullWark.tokens.damage).toBeUndefined();
+            expect(this.bullWark.damage).toBe(0);
             expect(this.player2.amber).toBe(2);
         });
 
@@ -41,7 +41,7 @@ describe('Lieutenant Gorvenal', function () {
             this.player1.fightWith(this.disAmbassador, this.briarGrubbling);
             expect(this.player1).isReadyToTakeAction();
             expect(this.lieutenantGorvenal.amber).toBe(1);
-            expect(this.briarGrubbling.tokens.damage).toBeUndefined();
+            expect(this.briarGrubbling.damage).toBe(0);
             expect(this.disAmbassador.location).toBe('discard');
             expect(this.player2.amber).toBe(2);
         });

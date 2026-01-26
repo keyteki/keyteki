@@ -14,8 +14,8 @@ describe('Guttony', function () {
                 }
             });
 
-            this.gub.tokens.amber = 2;
-            this.pride.tokens.amber = 1;
+            this.gub.amber = 2;
+            this.pride.amber = 1;
         });
 
         it('should exalt Gluttony for each sin creature in play', function () {
@@ -29,7 +29,7 @@ describe('Guttony', function () {
             expect(this.pride.amber).toBe(1);
             expect(this.gluttony.amber).toBe(5);
 
-            this.gluttony.exhausted = false;
+            this.gluttony.ready();
             this.player1.reap(this.gluttony);
             expect(this.gub.amber).toBe(0);
             expect(this.pride.amber).toBe(0);

@@ -14,9 +14,9 @@ describe('Easy Marks', function () {
                 }
             });
 
-            this.murkens.tokens.damage = 1;
-            this.shooler.tokens.damage = 1;
-            this.ancientBear.tokens.damage = 2;
+            this.murkens.damage = 1;
+            this.shooler.damage = 1;
+            this.ancientBear.damage = 2;
         });
 
         it('should exalt each damaged enemy creature', function () {

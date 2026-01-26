@@ -36,10 +36,10 @@ describe('Niffle Paw', function () {
 
         it('when a warded creature reaps, it loses the ward and moves to another creature', function () {
             this.player1.playUpgrade(this.nifflePaw, this.antiquitiesDealer);
-            this.antiquitiesDealer.tokens.ward = 1;
+            this.antiquitiesDealer.ward();
             this.player1.reap(this.antiquitiesDealer);
             expect(this.antiquitiesDealer.location).toBe('play area');
-            expect(this.antiquitiesDealer.tokens.ward).toBe(undefined);
+            expect(this.antiquitiesDealer.warded).toBe(false);
             expect(this.player1).toBeAbleToSelect(this.pelf);
             expect(this.player1).toBeAbleToSelect(this.umbra);
             this.player1.clickCard(this.pelf);

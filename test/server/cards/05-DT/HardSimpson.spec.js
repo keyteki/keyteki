@@ -16,12 +16,12 @@ describe("Hard Simpson's ability", function () {
 
             this.player1.play(this.masterplan);
             this.player1.clickCard(this.shieldOfJustice);
-            this.masterplan.exhausted = false;
+            this.masterplan.ready();
         });
 
         it('should steal 1 amber when attacking', function () {
             this.player1.fightWith(this.hardSimpson, this.shooler);
-            expect(this.hardSimpson.tokens.damage).toBe(1);
+            expect(this.hardSimpson.damage).toBe(1);
             expect(this.player1.amber).toBe(5);
             expect(this.player2.amber).toBe(2);
             expect(this.player1).isReadyToTakeAction();
@@ -44,7 +44,7 @@ describe("Hard Simpson's ability", function () {
         });
 
         it('should not steal 1 amber if damage prevented by effect', function () {
-            this.player1.useAction(this.masterplan, true);
+            this.player1.useOmni(this.masterplan);
             this.player1.fightWith(this.hardSimpson, this.megaNarp);
             expect(this.hardSimpson.location).toBe('play area');
             expect(this.player1.amber).toBe(5);
@@ -69,7 +69,7 @@ describe("Hard Simpson's ability", function () {
 
             it('should steal 1 amber when attacking', function () {
                 this.player1.fightWith(this.hardSimpson, this.shooler);
-                expect(this.hardSimpson.tokens.damage).toBe(1);
+                expect(this.hardSimpson.damage).toBe(1);
                 expect(this.player1.amber).toBe(5);
                 expect(this.player2.amber).toBe(2);
                 expect(this.player1).isReadyToTakeAction();
@@ -83,7 +83,7 @@ describe("Hard Simpson's ability", function () {
 
             it('opponent should steal 1 amber', function () {
                 this.player1.fightWith(this.hardSimpson, this.shooler);
-                expect(this.hardSimpson.tokens.damage).toBe(1);
+                expect(this.hardSimpson.damage).toBe(1);
                 expect(this.player1.amber).toBe(3);
                 expect(this.player2.amber).toBe(4);
                 expect(this.player1).isReadyToTakeAction();

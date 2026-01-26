@@ -810,7 +810,7 @@ export const buildCard = async (
         if (card.type === 'creature') {
             //dynamic power overlay
             let totalPower = modifiedPower - (tokens.power ? tokens.power : 0);
-            if (modifiedPower && totalPower !== card.printedPower) {
+            if (modifiedPower && totalPower !== card.powerPrinted) {
                 const modifiedPowerToken = new fabric.Image(
                     Tokens.ModifiedPower.toCanvasElement(),
                     imgOptions
@@ -839,7 +839,7 @@ export const buildCard = async (
                 canvas.add(powerText);
             }
             //armor overlay
-            if (tokens.armor || card.printedArmor) {
+            if (tokens.armor || card.armorPrinted) {
                 const modifiedArmorToken = new fabric.Image(
                     Tokens.armor.toCanvasElement(),
                     imgOptions
