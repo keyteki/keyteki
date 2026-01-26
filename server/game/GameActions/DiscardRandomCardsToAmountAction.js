@@ -16,8 +16,23 @@ class DiscardRandomCardsToAmountAction extends PlayerAction {
         this.amount = (player) => player.maxHandSize; // Default to hand limit
     }
 
-    // Get the target hand size for a given player.
-    // Supports both a static number and a function that takes the player.
+    setup() {
+        super.setup();
+        this.name = 'discard';
+        this.effectMsg = `discard random cards until {0} has ${this.amount} cards in hand`;
+    }
+
+    canAffect(player, context) {
+        if (!player) {
+            return false;
+        }
+        return player.hand.length > this.getAmount(player) && super.canAffect(player, context);
+    }
+
+    /**
+     * Get the target hand size for a given player.
+     * Supports both a static number and a function that takes the player.
+     */
     getAmount(player) {
         if (typeof this.amount === 'function') {
             return this.amount(player);
@@ -25,17 +40,8 @@ class DiscardRandomCardsToAmountAction extends PlayerAction {
         return this.amount;
     }
 
-    setup() {
-        super.setup();
-        this.name = 'discard';
-    }
-
-    canAffect(player, context) {
-        if (!player) {
-            return false;
-        }
-        const targetAmount = this.getAmount(player);
-        return player.hand.length > targetAmount && super.canAffect(player, context);
+    getEvent(player, context) {
+        return this.getSinglePlayerEvent(player, context);
     }
 
     getEventArray(context) {
@@ -49,16 +55,56 @@ class DiscardRandomCardsToAmountAction extends PlayerAction {
             return [this.getSinglePlayerEvent(validTargets[0], context)];
         }
 
-        // Multiple players - return an event that prompts for order then executes
+        // Multiple players - return an event that prompts for player order then executes
         return [this.getMultiPlayerEvent(validTargets, context)];
     }
 
+    getSinglePlayerEvent(player, context) {
+        const amount = this.getAmount(player);
+
+        return super.createEvent(EVENTS.unnamedEvent, { player, context, amount }, (event) => {
+            const cardsDiscarded = [];
+
+            const discardNextCard = () => {
+                // Check current hand size against target amount
+                if (player.hand.length <= amount) {
+                    // Done discarding
+                    event.cards = cardsDiscarded;
+                    return;
+                }
+
+                const randomCard = _.sample(player.hand);
+                cardsDiscarded.push(randomCard);
+                context.game.addMessage('{0} randomly discards {1}', player, randomCard);
+
+                // Create a discard event for this card
+                const discardEvent = context.game.actions
+                    .discard({ chatMessage: false })
+                    .getEvent(randomCard, context);
+
+                // Queue the discard event
+                context.game.queueSimpleStep(() => {
+                    context.game.openEventWindow([discardEvent]);
+                });
+
+                context.game.queueSimpleStep(() => {
+                    discardNextCard();
+                });
+            };
+
+            // Start discarding
+            discardNextCard();
+        });
+    }
+
     getMultiPlayerEvent(players, context) {
-        const self = this;
+        // Create an event with a player property that passes checkEventCondition
+        // We use the first player in the list since at least one must be valid
         return super.createEvent(
             EVENTS.unnamedEvent,
             { player: players[0], players, context },
             () => {
+                // Prompt for player order
                 const choices = players.map((player) =>
                     player === context.player ? 'Me' : 'Opponent'
                 );
@@ -71,8 +117,7 @@ class DiscardRandomCardsToAmountAction extends PlayerAction {
 
                         const player = remainingPlayers[0];
                         const restPlayers = remainingPlayers.slice(1);
-
-                        const playerEvent = self.getSinglePlayerEvent(player, context);
+                        const playerEvent = this.getSinglePlayerEvent(player, context);
 
                         context.game.queueSimpleStep(() => {
                             context.game.openEventWindow([playerEvent]);
@@ -99,49 +144,6 @@ class DiscardRandomCardsToAmountAction extends PlayerAction {
                 });
             }
         );
-    }
-
-    getSinglePlayerEvent(player, context) {
-        const targetAmount = this.getAmount(player);
-
-        return super.createEvent(
-            EVENTS.unnamedEvent,
-            { player, context, targetAmount },
-            (event) => {
-                const cardsDiscarded = [];
-
-                const discardNextCard = () => {
-                    // Check current hand size against target
-                    if (player.hand.length <= targetAmount) {
-                        // Done discarding
-                        event.cards = cardsDiscarded;
-                        return;
-                    }
-
-                    const randomCard = _.sample(player.hand);
-                    cardsDiscarded.push(randomCard);
-                    context.game.addMessage('{0} randomly discards {1}', player, randomCard);
-
-                    const discardEvent = context.game.actions
-                        .discard({ chatMessage: false })
-                        .getEvent(randomCard, context);
-
-                    context.game.queueSimpleStep(() => {
-                        context.game.openEventWindow([discardEvent]);
-                    });
-
-                    context.game.queueSimpleStep(() => {
-                        discardNextCard();
-                    });
-                };
-
-                discardNextCard();
-            }
-        );
-    }
-
-    getEvent(player, context) {
-        return this.getSinglePlayerEvent(player, context);
     }
 }
 
