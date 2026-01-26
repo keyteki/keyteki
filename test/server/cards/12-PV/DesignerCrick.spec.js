@@ -29,7 +29,12 @@ describe('Designer Crick', function () {
             this.player1.endTurn();
             this.player2.clickPrompt('untamed');
             this.player2.play(this.punctuatedEquilibrium);
-            this.player2.clickCard(this.krump);
+            // Both players have cards to discard, so we get prompted for order
+            expect(this.player2).toHavePrompt('Choose which player discards first');
+            this.player2.clickPrompt('Me');
+            // Designer Crick triggers twice (once per opponent discard)
+            // Need to handle triggered ability selection
+            this.player2.clickPrompt('Autoresolve');
             expect(this.player1.hand.length).toBe(6);
             expect(this.player1.player.discard.length).toBe(6);
             expect(this.designerCrick.amber).toBe(2);

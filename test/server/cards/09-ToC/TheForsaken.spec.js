@@ -47,6 +47,9 @@ describe('The Forsaken', function () {
             this.player1.endTurn();
             this.player2.clickPrompt('brobnar');
             this.player2.play(this.recklessness);
+            // Both players have cards to discard, so we get prompted for order
+            expect(this.player2).toHavePrompt('Choose which player discards first');
+            this.player2.clickPrompt('Me');
             expect(this.toad1.location).toBe('play area');
             expect(this.toad2.location).toBe('play area');
             expect(this.toad3.location).toBe('play area');

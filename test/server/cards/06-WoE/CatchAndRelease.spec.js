@@ -25,6 +25,9 @@ describe('Catch and Release', function () {
             let discardLength1 = this.player1.player.discard.length;
             let discardLength2 = this.player2.player.discard.length;
             this.player1.play(this.catchAndRelease);
+            // Both players have more than 6 cards, so we get prompted for order
+            expect(this.player1).toHavePrompt('Choose which player discards first');
+            this.player1.clickPrompt('Me');
             expect(this.player1.player.creaturesInPlay.length).toBe(0);
             expect(this.player1.player.hand.length).toBe(6);
             expect(this.player1.player.discard.length).toBe(discardLength1 + 2);
@@ -41,6 +44,9 @@ describe('Catch and Release', function () {
             let discardLength1 = this.player1.player.discard.length;
             let discardLength2 = this.player2.player.discard.length;
             this.player1.play(this.catchAndRelease);
+            // Both players have more than 6 cards, so we get prompted for order
+            expect(this.player1).toHavePrompt('Choose which player discards first');
+            this.player1.clickPrompt('Me');
             expect(this.player1.player.creaturesInPlay.length).toBe(0);
             expect(this.player1.player.hand.length).toBe(6);
             expect(this.player1.player.discard.length).toBe(discardLength1 + 2);
@@ -67,6 +73,45 @@ describe('Catch and Release', function () {
             expect(this.player2.player.creaturesInPlay.length).toBe(0);
             expect(this.player2.player.hand.length).toBe(6);
             expect(this.player2.player.discard.length).toBe(discardLength2 + 3);
+            expect(this.player1).isReadyToTakeAction();
+        });
+    });
+
+    describe('Catch and Release with scrap abilities', function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'unfathomable',
+                    inPlay: ['urchin'],
+                    hand: ['catch-and-release'],
+                    deck: ['urchin', 'urchin', 'urchin']
+                },
+                player2: {
+                    inPlay: ['batdrone'],
+                    // 8 cards in hand after return - need to discard 2 to get to 6
+                    // Brillix Ponder has scrap that draws a card
+                    hand: [
+                        'brillix-ponder',
+                        'batdrone',
+                        'batdrone',
+                        'batdrone',
+                        'batdrone',
+                        'batdrone',
+                        'batdrone'
+                    ],
+                    deck: ['batdrone', 'batdrone', 'batdrone']
+                }
+            });
+        });
+
+        it('should continue discarding after scrap draws a card', function () {
+            // Player 2 has 7 cards + 1 creature = 8 total after return
+            // Without Brillix Ponder scrap, they'd discard 2 to get to 6
+            // But if Brillix Ponder is discarded, it draws a card, so they need to discard again
+            this.player1.play(this.catchAndRelease);
+            // Only player2 has more than 6 cards
+            // Player1 would have: catch-and-release (played) + urchin = 1 card in hand
+            expect(this.player2.player.hand.length).toBe(6);
             expect(this.player1).isReadyToTakeAction();
         });
     });

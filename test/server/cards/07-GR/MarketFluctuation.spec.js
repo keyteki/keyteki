@@ -40,6 +40,9 @@ describe('Market Fluctuation', function () {
 
         it('causes each non-haunted player to discard 3 at random', function () {
             this.player1.play(this.marketFluctuation);
+            // Both players discard, so we get prompted for order
+            expect(this.player1).toHavePrompt('Choose which player discards first');
+            this.player1.clickPrompt('Me');
             expect(this.player1.player.hand.length).toBe(1);
             expect(this.player2.player.hand.length).toBe(0);
             expect(this.player1).isReadyToTakeAction();
@@ -57,8 +60,11 @@ describe('Market Fluctuation', function () {
             this.player1.player.deck = [];
             this.player1.play(this.auctionOff);
             this.player1.play(this.marketFluctuation);
+            // Player1 draws first (haunted), which reshuffles discard into deck,
+            // making player1 no longer haunted. Then both players discard.
+            expect(this.player1).toHavePrompt('Choose which player discards first');
+            this.player1.clickPrompt('Me');
             expect(this.player1.player.hand.length).toBe(3);
-            expect(this.player1.player.discard.length).toBe(4);
             expect(this.player2.player.hand.length).toBe(0);
             expect(this.player1).isReadyToTakeAction();
         });

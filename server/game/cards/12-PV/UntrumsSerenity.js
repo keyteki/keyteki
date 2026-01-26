@@ -22,15 +22,13 @@ class UntrumsSerenity extends Card {
                 ability.actions.destroy((context) => ({
                     target: context.game.cardsInPlay
                 })),
-                ability.actions.discard((context) => ({
-                    target: context.player.archives.concat(
-                        context.player.opponent ? context.player.opponent.archives : []
-                    )
+                ability.actions.discardEntireLocation((context) => ({
+                    target: [context.player, context.player.opponent].filter((p) => p),
+                    location: 'archives'
                 })),
-                ability.actions.discard((context) => ({
-                    target: context.player.hand.concat(
-                        context.player.opponent ? context.player.opponent.hand : []
-                    )
+                ability.actions.discardEntireLocation((context) => ({
+                    target: [context.player, context.player.opponent].filter((p) => p),
+                    location: 'hand'
                 }))
             ],
             then: {

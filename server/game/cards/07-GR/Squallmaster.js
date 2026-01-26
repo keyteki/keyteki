@@ -8,15 +8,8 @@ class Squallmaster extends Card {
         this.fight({
             reap: true,
             gameAction: ability.actions.discardAtRandom((context) => ({
-                target: context.player
-            })),
-            then: {
-                alwaysTriggers: true,
-                condition: (context) => !!context.player.opponent,
-                gameAction: ability.actions.discardAtRandom((context) => ({
-                    target: context.player.opponent
-                }))
-            }
+                target: [context.player, context.player.opponent].filter((p) => p)
+            }))
         });
 
         this.scrap({

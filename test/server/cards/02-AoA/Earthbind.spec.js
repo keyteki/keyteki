@@ -41,6 +41,9 @@ describe('Earthbind', function () {
             this.player1.clickCard(this.flaxia);
             expect(this.player1).not.toHavePromptButton('Reap with this creature');
             this.player1.play(this.punctuatedEquilibrium);
+            // Both players have cards to discard, so we get prompted for order
+            expect(this.player1).toHavePrompt('Choose which player discards first');
+            this.player1.clickPrompt('Me');
             this.player1.clickCard(this.flaxia);
             expect(this.player1).toHavePromptButton('Reap with this creature');
             expect(this.player1).toHavePromptButton('Fight with this creature');

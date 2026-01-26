@@ -15,14 +15,10 @@ class PunctuatedEquilibrium extends Card {
                     : 'an empty hand',
                 context.player.opponent
             ],
-            gameAction: [
-                ability.actions.discard((context) => ({
-                    target: context.player.hand
-                })),
-                ability.actions.discard((context) => ({
-                    target: context.player.opponent.hand
-                }))
-            ],
+            gameAction: ability.actions.discardEntireLocation((context) => ({
+                target: [context.player, context.player.opponent].filter((p) => p),
+                location: 'hand'
+            })),
             then: {
                 gameAction: [
                     ability.actions.draw((context) => ({
