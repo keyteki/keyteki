@@ -22,16 +22,14 @@ class InfernalTerran extends Card {
         });
 
         this.scrap({
-            gameAction: ability.actions.discard((context) => ({
-                target: context.player.hand
+            gameAction: ability.actions.discardEntireLocation((context) => ({
+                location: 'hand',
+                target: context.player
             })),
             then: {
                 message: '{0} uses {1} to steal {3} amber',
                 messageArgs: (context) => {
-                    const events = context.preThenEvents || [];
-                    const cards = events.flatMap((e) =>
-                        (Array.isArray(e.cards) ? e.cards : []).concat(e.card ? [e.card] : [])
-                    );
+                    const cards = context.preThenEvents?.flatMap((e) => e.cards || []) || [];
                     return cards.reduce(
                         (acc, card) =>
                             acc + card.bonusIcons.filter((icon) => icon === 'amber').length,
@@ -39,10 +37,7 @@ class InfernalTerran extends Card {
                     );
                 },
                 gameAction: ability.actions.steal((context) => {
-                    const events = context.preThenEvents || [];
-                    const cards = events.flatMap((e) =>
-                        (Array.isArray(e.cards) ? e.cards : []).concat(e.card ? [e.card] : [])
-                    );
+                    const cards = context.preThenEvents?.flatMap((e) => e.cards || []) || [];
                     const amount = cards.reduce(
                         (acc, card) =>
                             acc + card.bonusIcons.filter((icon) => icon === 'amber').length,

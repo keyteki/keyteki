@@ -5,15 +5,15 @@ const _ = require('underscore');
 /**
  * DiscardEntireLocationAction - Discards all cards from a player's hand or archives.
  *
- * For the active player: prompts to choose the order of discard (important for scrap abilities)
- * For opponent: discards randomly one at a time (since active player makes choices but can't see opponent's cards)
+ * For the active player: prompts to choose the order of discard.
+ * For opponent: discards randomly one at a time since active player makes choices but can't see opponent's cards.
  *
  * Discards until the location is empty (not a fixed amount), so if a scrap effect draws a card,
  * that card also gets discarded.
  */
 class DiscardEntireLocationAction extends PlayerAction {
     setDefaultProperties() {
-        this.location = null; // 'hand' or 'archives' - required
+        this.location = 'hand'; // 'hand' or 'archives'
     }
 
     getCards(player) {

@@ -1,18 +1,17 @@
 const Card = require('../../Card.js');
-const { DiscardCardAction } = require('../../GameActions/index.js');
 
 class ShoppingSpree extends Card {
     // Play: Discard your hand. Draw a card for each card discarded
     // this way.
     setupCardAbilities(ability) {
         this.play({
-            gameAction: ability.actions.discard((context) => ({
-                target: context.player.hand
+            gameAction: ability.actions.discardEntireLocation((context) => ({
+                target: context.player,
+                location: 'hand'
             })),
             then: {
                 gameAction: ability.actions.draw((context) => ({
-                    amount: DiscardCardAction.collectDiscardedCards(context.preThenEvents || [])
-                        .length
+                    amount: (context.preThenEvents?.flatMap((e) => e.cards || []) || []).length
                 }))
             }
         });

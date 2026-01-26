@@ -17,8 +17,9 @@ class Tormax extends GiganticCard {
             effect: 'discard {1}',
             effectArgs: (context) => [context.player.hand],
             gameAction: ability.actions.sequential([
-                ability.actions.discard((context) => ({
-                    target: context.player.hand
+                ability.actions.discardEntireLocation((context) => ({
+                    target: context.player,
+                    location: 'hand'
                 })),
                 ability.actions.purgeAtRandom({
                     amount: 2

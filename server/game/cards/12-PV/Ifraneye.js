@@ -5,8 +5,9 @@ class Ifraneye extends Card {
     // After Reap: Your opponent discards 2 random cards from their hand.
     setupCardAbilities(ability) {
         this.play({
-            gameAction: ability.actions.discard((context) => ({
-                target: context.player.hand
+            gameAction: ability.actions.discardEntireLocation((context) => ({
+                target: context.player,
+                location: 'hand'
             }))
         });
 
