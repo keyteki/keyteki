@@ -13,9 +13,7 @@ class SequentialForEachAction extends GameAction {
             this.forEach = [this.forEach];
         }
 
-        if (!this.message) {
-            this.effectMsg = 'do several things';
-        }
+        this.effectMsg = 'do several things';
     }
 
     hasLegalTarget(context) {

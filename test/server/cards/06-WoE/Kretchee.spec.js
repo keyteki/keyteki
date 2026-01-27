@@ -90,7 +90,7 @@ describe('Kretchee', function () {
         });
     });
 
-    describe("Kretchee's ability with multiple amber", function () {
+    describe("Kretchee's ability with capture x amber", function () {
         beforeEach(function () {
             this.setupTest({
                 player1: {
@@ -112,7 +112,7 @@ describe('Kretchee', function () {
         });
     });
 
-    describe("Kretchee's ability with multiple amber", function () {
+    describe("Kretchee's ability with for each x capture amber", function () {
         beforeEach(function () {
             this.setupTest({
                 player1: {
