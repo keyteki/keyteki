@@ -85,7 +85,7 @@ class FlipAction extends CardGameAction {
                                 context.game.effects.changeType('creature'),
                                 context.game.effects.copyCard(
                                     card.isToken() ? card : card.owner.tokenCard,
-                                    false
+                                    true
                                 )
                             ]
                         })
