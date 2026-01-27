@@ -101,4 +101,31 @@ describe('Elite Disruptzord', function () {
             expect(this.player2).isReadyToTakeAction();
         });
     });
+
+    describe('Elite Disruptzord with big Dr. Xyloxxzlphrex', function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'mars',
+                    inPlay: ['elite-disruptzord', 'dr-xyloxxzlphrex'],
+                    discard: ['mindwarper', 'zorg']
+                }
+            });
+
+            this.drXyloxxzlphrex.powerCounters = 5;
+        });
+
+        it('should allow playing a Mars creature from discard with power <= 6 via Dr. Xylo despite Dr. Xylo having more power', function () {
+            expect(this.drXyloxxzlphrex.power).toBe(7);
+            expect(this.eliteDisruptzord.power).toBe(6);
+            this.player1.reap(this.drXyloxxzlphrex);
+            expect(this.player1).toHavePrompt('Dr. Xyloxxzlphrex');
+            expect(this.player1).toBeAbleToSelect(this.mindwarper);
+            expect(this.player1).not.toBeAbleToSelect(this.zorg);
+            this.player1.clickCard(this.mindwarper);
+            this.player1.clickPrompt('Right');
+            expect(this.mindwarper.location).toBe('play area');
+            expect(this.mindwarper.exhausted).toBe(false);
+        });
+    });
 });
