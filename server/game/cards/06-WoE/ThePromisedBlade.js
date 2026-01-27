@@ -44,21 +44,20 @@ class ThePromisedBlade extends Card {
                     ? context.game.activePlayer
                     : context.game.activePlayer.opponent
             ],
-            then: (preThenContext) => ({
-                alwaysTriggers: true,
-                gameAction: ability.actions.cardLastingEffect((context) => {
-                    this.movedThisRound = true;
-                    return {
+            handler: (context) => {
+                this.movedThisRound = true;
+                this.game.actions
+                    .cardLastingEffect({
                         duration: 'lastingEffect',
                         target: context.source,
                         effect: ability.effects.takeControl(
-                            preThenContext.selects.select.choice === 'Me'
+                            context.selects.select.choice === 'Me'
                                 ? context.game.activePlayer
                                 : context.game.activePlayer.opponent
                         )
-                    };
-                })
-            })
+                    })
+                    .resolve(context.source, context);
+            }
         });
 
         // Uneven creature count, automatic
@@ -70,14 +69,16 @@ class ThePromisedBlade extends Card {
                     context.source.controller.creaturesInPlay.length >
                         context.source.controller.opponent.creaturesInPlay.length
             },
-            gameAction: ability.actions.cardLastingEffect((context) => {
+            handler: (context) => {
                 this.movedThisRound = true;
-                return {
-                    duration: 'lastingEffect',
-                    target: context.source,
-                    effect: ability.effects.takeControl(context.source.controller.opponent)
-                };
-            })
+                this.game.actions
+                    .cardLastingEffect({
+                        duration: 'lastingEffect',
+                        target: context.source,
+                        effect: ability.effects.takeControl(context.source.controller.opponent)
+                    })
+                    .resolve(context.source, context);
+            }
         });
     }
 
