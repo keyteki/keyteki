@@ -44,6 +44,23 @@ describe('Watch Your Step', function () {
             expect(this.player1.player.creaturesInPlay[0].exhausted).toBe(false);
             expect(this.player1.player.creaturesInPlay[1].exhausted).toBe(false);
         });
+
+        it("should not make tokens if the opponent does follow instructions and opponent's deck is empty", function () {
+            this.player2.player.deck = [];
+            expect(this.player1.player.deck.length).not.toBe(0);
+            expect(this.player2.player.deck.length).toBe(0);
+            this.player1.play(this.watchYourStep);
+            this.player1.clickPrompt('logos');
+            this.player1.endTurn();
+            this.player2.clickPrompt('brobnar');
+            this.player2.clickPrompt('Right');
+            expect(this.player1.player.creaturesInPlay.length).toBe(2);
+            expect(this.player2.player.creaturesInPlay.length).toBe(3);
+            expect(this.player1.player.creaturesInPlay[0].exhausted).toBe(false);
+            expect(this.player1.player.creaturesInPlay[1].exhausted).toBe(false);
+            expect(this.player1.player.creaturesInPlay[0].name).toBe('Grumpus');
+            expect(this.player1.player.creaturesInPlay[1].name).toBe('Grumpus');
+        });
     });
 
     describe('after taking another turn', function () {
