@@ -69,6 +69,8 @@ class ThePromisedBlade extends Card {
                     context.source.controller.creaturesInPlay.length >
                         context.source.controller.opponent.creaturesInPlay.length
             },
+            effect: 'give control of {0} to {1}',
+            effectArgs: (context) => [context.source.controller.opponent],
             handler: (context) => {
                 this.movedThisRound = true;
                 this.game.actions
