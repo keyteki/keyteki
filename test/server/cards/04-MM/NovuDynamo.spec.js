@@ -167,8 +167,7 @@ describe('novu-dynamo', function () {
                 },
                 player2: {}
             });
-            this.ghostform.printedHouse = 'logos';
-            this.ghostform.maverick = 'logos';
+            this.ghostform.makeMaverick('logos');
         });
 
         it('should not destroy Novu Dynamo due to invulnerable', function () {
