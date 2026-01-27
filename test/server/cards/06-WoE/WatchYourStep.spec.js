@@ -60,6 +60,7 @@ describe('Watch Your Step', function () {
             expect(this.player1.player.creaturesInPlay[1].exhausted).toBe(false);
             expect(this.player1.player.creaturesInPlay[0].name).toBe('Grumpus');
             expect(this.player1.player.creaturesInPlay[1].name).toBe('Grumpus');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 
