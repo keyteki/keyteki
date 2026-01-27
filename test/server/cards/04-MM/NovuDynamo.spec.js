@@ -156,4 +156,46 @@ describe('novu-dynamo', function () {
             });
         });
     });
+
+    describe('Novu Dynamo with destruction prevention', function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'logos',
+                    inPlay: ['novu-dynamo'],
+                    hand: ['ghostform']
+                },
+                player2: {}
+            });
+            this.ghostform.printedHouse = 'logos';
+            this.ghostform.maverick = 'logos';
+        });
+
+        it('should not destroy Novu Dynamo due to invulnerable', function () {
+            this.player1.playUpgrade(this.ghostform, this.novuDynamo);
+            expect(this.player1.amber).toBe(1);
+            this.player1.endTurn();
+            this.player2.clickPrompt('untamed');
+            this.player2.endTurn();
+            this.player1.clickCard(this.novuDynamo);
+            expect(this.novuDynamo.location).toBe('play area');
+            expect(this.novuDynamo.upgrades).toContain(this.ghostform);
+            expect(this.player1.amber).toBe(1);
+            this.player1.clickPrompt('logos');
+            expect(this.player1).isReadyToTakeAction();
+        });
+
+        it('should not destroy Novu Dynamo due to ward', function () {
+            this.novuDynamo.ward();
+            expect(this.player1.amber).toBe(0);
+            this.player1.endTurn();
+            this.player2.clickPrompt('untamed');
+            this.player2.endTurn();
+            this.player1.clickCard(this.novuDynamo);
+            expect(this.novuDynamo.location).toBe('play area');
+            expect(this.player1.amber).toBe(0);
+            this.player1.clickPrompt('logos');
+            expect(this.player1).isReadyToTakeAction();
+        });
+    });
 });
