@@ -41,4 +41,46 @@ describe('Enlist Numeri', function () {
             });
         });
     });
+
+    describe('interaction with Whirlpool', function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'saurian',
+                    inPlay: ['whirlpool', 'troll'],
+                    hand: ['enlist-numeri']
+                },
+                player2: {
+                    inPlay: ['pandulf-the-provoker']
+                }
+            });
+
+            this.pandulfTheProvoker.tokens.amber = 1;
+        });
+
+        it('should keep the creature as Saurian when control returns after multiple transfers', function () {
+            // Player 1 plays Enlist Numeri and takes control of Pandulf
+            const enlistNumeri = this.player1.findCardByName('enlist-numeri', 'hand');
+            this.player1.clickCard(enlistNumeri);
+            this.player1.clickPrompt('Play this action');
+            this.player1.clickCard(this.pandulfTheProvoker);
+            this.player1.clickPrompt('Right');
+            expect(this.pandulfTheProvoker.controller).toBe(this.player1.player);
+            expect(this.pandulfTheProvoker.hasHouse('sanctum')).toBe(false);
+            expect(this.pandulfTheProvoker.hasHouse('saurian')).toBe(true);
+
+            // Whirlpool gives Pandulf back to player 2
+            this.player1.endTurn();
+            expect(this.pandulfTheProvoker.controller).toBe(this.player2.player);
+            expect(this.pandulfTheProvoker.hasHouse('sanctum')).toBe(true);
+            expect(this.pandulfTheProvoker.hasHouse('saurian')).toBe(false);
+
+            // Whirlpool gives Pandulf back to player 1
+            this.player2.clickPrompt('sanctum');
+            this.player2.endTurn();
+            expect(this.pandulfTheProvoker.controller).toBe(this.player1.player);
+            expect(this.pandulfTheProvoker.hasHouse('sanctum')).toBe(false);
+            expect(this.pandulfTheProvoker.hasHouse('saurian')).toBe(true);
+        });
+    });
 });
