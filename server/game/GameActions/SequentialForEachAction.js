@@ -13,7 +13,9 @@ class SequentialForEachAction extends GameAction {
             this.forEach = [this.forEach];
         }
 
-        this.effectMsg = 'do several things';
+        if (!this.message) {
+            this.effectMsg = 'do several things';
+        }
     }
 
     hasLegalTarget(context) {
@@ -39,16 +41,30 @@ class SequentialForEachAction extends GameAction {
                             action.setDefaultTarget(() => element);
                             action.preEventHandler(context);
                         });
-                        context.game.queueSimpleStep(() =>
-                            context.game.openEventWindow(action.getEventArray(context))
-                        );
+                        context.game.queueSimpleStep(() => {
+                            if (this.message) {
+                                context.game.addMessage(
+                                    this.message,
+                                    context.player,
+                                    context.source
+                                );
+                            }
+                            context.game.openEventWindow(action.getEventArray(context));
+                        });
                     }
                 } else {
                     for (let i = 0; i < this.num; i++) {
                         context.game.queueSimpleStep(() => this.action.preEventHandler(context));
-                        context.game.queueSimpleStep(() =>
-                            context.game.openEventWindow(this.action.getEventArray(context))
-                        );
+                        context.game.queueSimpleStep(() => {
+                            if (this.message) {
+                                context.game.addMessage(
+                                    this.message,
+                                    context.player,
+                                    context.source
+                                );
+                            }
+                            context.game.openEventWindow(this.action.getEventArray(context));
+                        });
                     }
                 }
             })
