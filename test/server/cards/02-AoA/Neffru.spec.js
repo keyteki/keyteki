@@ -153,7 +153,7 @@ describe('Neffru', function () {
             expect(this.neffru.location).toBe('discard');
             expect(this.troll.location).toBe('discard');
             expect(this.glyxlProliferator.location).toBe('play area');
-            expect(this.player1.amber).toBe(3); // Soulkeeper pip, Gift of Aember pip, Gitt of Aember Neffru
+            expect(this.player1.amber).toBe(3); // Soulkeeper pip, Gift of Aember pip, Gift of Aember Neffru
             expect(this.player2.amber).toBe(0); // Troll is destroyed in the same window as Neffru, so 0
             expect(this.player1).isReadyToTakeAction();
         });

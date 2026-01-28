@@ -49,10 +49,8 @@ class DestroyAction extends CardGameAction {
             event.addSubEvent(event.leavesPlayEvent);
         });
 
-        // If this destruction was triggered during a destroyed ability resolution,
-        // we want this destruction to be batched with the original destruction batch.
-        // This means the onCardDestroyed event should be added to the parent batch
-        // so that all destructions share the same reaction window.
+        // If this destruction was triggered while resolving destroyed abilities
+        // then it should be batched together with them.
         if (context.game.currentDestructionWindow) {
             // Mark this event so we don't open a separate reaction window for it
             event.openReactionWindow = false;
