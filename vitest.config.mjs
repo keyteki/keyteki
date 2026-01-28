@@ -11,29 +11,23 @@ export default defineConfig({
         // Enable globals (describe, it, expect, beforeEach, etc.)
         globals: true,
 
-        // Parallelization - use worker threads (vitest 0.34 syntax)
-        threads: true,
-
-        // Parallelization - use atomics (vitest 0.34 syntax)
-        useAtomics: true,
-
-        // Caching - enabled by default, but be explicit
-        cache: {
-            dir: 'node_modules/.vitest'
-        },
+        // Pool configuration for parallelization
+        pool: 'threads',
+        maxWorkers: undefined, // Use default (based on CPU cores)
+        fileParallelism: true,
 
         // Faster test isolation
         isolate: false,
 
-        // Reporter (vitest 0.34 uses 'reporters' array)
-        // reporters: ['verbose'],
-        reporters: ['dot'],
+        // Reporter
+        // reporters: ['default'],
+        reporters: ['./test/helpers/reporter.js'],
 
         // Timeout per test
-        testTimeout: 10000,
+        testTimeout: 1000,
 
-        // Watch additional files for changes (e.g., card implementations)
-        watchExclude: ['**/node_modules/**', '**/dist/**'],
+        // Watch configuration - include source and test directories for changes
+        forceRerunTriggers: ['server/game/**', 'test/server/**'],
 
         // Disable CSS/asset processing (not needed for server tests)
         css: false

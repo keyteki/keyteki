@@ -7,72 +7,14 @@ const GameFlowWrapper = require('./gameflowwrapper.js');
 
 const deckBuilder = new DeckBuilder();
 
-// Shared test context that simulates vitest's `this` binding
+// Pre-build cards dictionary once (used by GameFlowWrapper)
+const cardsByCode = {};
+for (let card of deckBuilder.cards) {
+    cardsByCode[card.id] = card;
+}
+
+// Shared test context that simulates `this` binding for jasmine-style tests
 const testContext = {};
-
-// Helper to create spy objects
-globalThis.createSpyObj = function (baseName, methods) {
-    const obj = {};
-    for (const method of methods) {
-        const spy = vi.fn();
-        // Add Jasmine-style .and helper
-        spy.and = {
-            callFake: (fn) => spy.mockImplementation(fn),
-            returnValue: (value) => spy.mockReturnValue(value)
-        };
-        // Add Jasmine-style .calls helper
-        spy.calls = {
-            allArgs: () => spy.mock.calls,
-            count: () => spy.mock.calls.length,
-            argsFor: (index) => spy.mock.calls[index],
-            all: () =>
-                spy.mock.calls.map((args, index) => ({
-                    args,
-                    returnValue: spy.mock.results[index]?.value
-                }))
-        };
-        obj[method] = spy;
-    }
-    return obj;
-};
-
-// Helper to create a standalone spy
-globalThis.createSpy = function () {
-    return vi.fn();
-};
-
-// Jasmine-compatible spyOn function for vitest
-globalThis.spyOn = function (obj, methodName) {
-    const spy = vi.spyOn(obj, methodName);
-    // Add Jasmine-style .and helper
-    spy.and = {
-        callFake: (fn) => spy.mockImplementation(fn),
-        returnValue: (value) => spy.mockReturnValue(value)
-    };
-    // Add Jasmine-style .calls helper
-    spy.calls = {
-        allArgs: () => spy.mock.calls,
-        count: () => spy.mock.calls.length,
-        argsFor: (index) => spy.mock.calls[index],
-        all: () =>
-            spy.mock.calls.map((args, index) => ({
-                args,
-                returnValue: spy.mock.results[index]?.value
-            }))
-    };
-    return spy;
-};
-
-// Jasmine compatibility namespace
-globalThis.jasmine = {
-    any: (type) => expect.any(type),
-    objectContaining: (obj) => expect.objectContaining(obj),
-    arrayContaining: (arr) => expect.arrayContaining(arr),
-    stringMatching: (str) => expect.stringMatching(str),
-    stringContaining: (str) => expect.stringContaining(str),
-    pp: (value) => JSON.stringify(value),
-    createSpyObj: globalThis.createSpyObj
-};
 
 // Wrap vitest's describe/it/beforeEach to bind `this` to testContext
 // This allows existing tests using `this.player1`, `this.game`, etc. to work
@@ -267,7 +209,7 @@ var customMatchers = {
     }
 };
 
-// Register custom matchers with vitest (expect is a global when globals: true)
+// Register custom matchers with vitest's expect.extend
 expect.extend(customMatchers);
 
 beforeEach(function () {
@@ -276,13 +218,7 @@ beforeEach(function () {
         delete testContext[key];
     }
 
-    let cards = {};
-
-    for (let card of deckBuilder.cards) {
-        cards[card.id] = card;
-    }
-
-    this.flow = new GameFlowWrapper(cards);
+    this.flow = new GameFlowWrapper(cardsByCode);
 
     this.game = this.flow.game;
     this.player1Object = this.game.getPlayerByName('player1');
