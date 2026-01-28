@@ -112,7 +112,6 @@ describe('Seismo-Entangler', function () {
             this.player2.play(this.decadence);
             this.player2.clickPrompt('Exalt, ready and use');
             this.player2.clickCard(this.dextre);
-            // Dextre is logos, not saurian, so should be able to reap
             expect(this.player2).toHavePromptButton('Reap with this creature');
             this.player2.clickPrompt('Reap with this creature');
             expect(this.player2).isReadyToTakeAction();
@@ -128,7 +127,6 @@ describe('Seismo-Entangler', function () {
             this.player2.play(this.decadence);
             this.player2.clickPrompt('Exalt, ready and use');
             this.player2.clickCard(this.senatorShrix);
-            // Senator Shrix is saurian, so should NOT be able to reap - auto-selects fight
             expect(this.player2).toHavePrompt('Choose a creature to attack');
             this.player2.clickCard(this.batdrone);
             expect(this.player2).isReadyToTakeAction();
