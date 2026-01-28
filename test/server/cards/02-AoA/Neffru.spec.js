@@ -128,4 +128,34 @@ describe('Neffru', function () {
             expect(this.player2.amber).toBe(3);
         });
     });
+
+    describe('Neffru with Soulkeeper', function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'dis',
+                    hand: ['a-gift-of-æmber', 'soulkeeper'],
+                    inPlay: ['neffru']
+                },
+                player2: {
+                    inPlay: ['glyxl-proliferator', 'troll']
+                }
+            });
+        });
+
+        it('should not trigger Neffru when Soulkeeper destroys a creature while Neffru is tagged for destruction', function () {
+            this.player1.playUpgrade(this.soulkeeper, this.neffru);
+            this.player1.play(this.aGiftOfÆmber);
+            this.player1.clickCard(this.neffru);
+            this.player1.clickPrompt('Done');
+            expect(this.player1).toHavePrompt('Soulkeeper');
+            this.player1.clickCard(this.troll);
+            expect(this.neffru.location).toBe('discard');
+            expect(this.troll.location).toBe('discard');
+            expect(this.glyxlProliferator.location).toBe('play area');
+            expect(this.player1.amber).toBe(3); // Soulkeeper pip, Gift of Aember pip, Gitt of Aember Neffru
+            expect(this.player2.amber).toBe(0); // Troll is destroyed in the same window as Neffru, so 0
+            expect(this.player1).isReadyToTakeAction();
+        });
+    });
 });
