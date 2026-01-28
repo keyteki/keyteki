@@ -54,12 +54,14 @@ describe('Keyforgery', function () {
             expect(this.keyforgery.location).toBe('discard');
         });
 
-        it('should not prompt when forging due to keyfrog', function () {
+        it('should prompt when forging due to keyfrog', function () {
             this.player2.amber = 6;
             this.player1.fightWith(this.gamgee, this.keyfrog);
-            this.player1.forgeKey('Red');
-            expect(this.player2.player.getForgedKeys()).toBe(1);
-            expect(this.keyforgery.location).toBe('play area');
+            expect(this.player1).toHavePrompt('Keyforgery');
+            this.player1.clickPrompt('skyborn'); // Intentionally fail to forge
+            expect(this.player2.amber).toBe(6);
+            expect(this.player2.player.getForgedKeys()).toBe(0);
+            expect(this.keyforgery.location).toBe('discard');
             expect(this.player1).isReadyToTakeAction();
         });
     });
@@ -140,6 +142,33 @@ describe('Keyforgery', function () {
                     });
                 });
             });
+        });
+    });
+
+    describe('Keyforgery with Turnkey', function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'dis',
+                    hand: ['turnkey', 'gateway-to-dis']
+                },
+                player2: {
+                    inPlay: ['keyforgery']
+                }
+            });
+        });
+
+        it('should not trigger Keyforgery when opponent forges via Turnkey', function () {
+            this.player2.player.keys = { yellow: false, red: true, blue: true };
+            this.player1.playCreature(this.turnkey);
+            this.player1.clickPrompt('Blue');
+            expect(this.player2.player.getForgedKeys()).toBe(1);
+            this.player1.play(this.gatewayToDis);
+            expect(this.player1).not.toHavePrompt('Keyforgery');
+            expect(this.player1).toHavePrompt('Forge a key');
+            this.player1.clickPrompt('Blue');
+            expect(this.player2.player.getForgedKeys()).toBe(2);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });
