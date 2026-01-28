@@ -104,7 +104,7 @@ describe('Chief Engineer Walls', function () {
             expect(this.player1).toHavePromptButton('Done');
             this.player1.clickCard(this.chiefEngineerWalls);
 
-            // Resolve Walls Blaster ability
+            // Resolve Walls' Blaster's ability
             expect(this.player1).toHavePrompt('Select one');
             expect(this.player1).toHavePromptButton('Deal 2 damage');
             expect(this.player1).toHavePromptButton('Move Walls’ Blaster');
@@ -136,7 +136,7 @@ describe('Chief Engineer Walls', function () {
             expect(this.player1).toHavePromptButton('Back'); // Done
             this.player1.clickPrompt(this.wallsBlaster.name);
 
-            // Resolve Walls Blaster ability
+            // Resolve Walls' Blaster's ability
             expect(this.player1).toHavePrompt('Select one');
             expect(this.player1).toHavePromptButton('Deal 2 damage');
             expect(this.player1).toHavePromptButton('Move Walls’ Blaster');
