@@ -161,4 +161,60 @@ describe('De-Animator', function () {
             expect(this.player2.amber).toBe(1);
         });
     });
+
+    describe('De-Animator interaction with Animating Force', function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'logos',
+                    hand: ['de-animator', 'positron-bolt'],
+                    inPlay: ['batdrone', 'troll']
+                },
+                player2: {
+                    house: 'geistoid',
+                    hand: ['animating-force']
+                }
+            });
+        });
+
+        it('should keep a mineralized creature as an artifact when Animating Force is attached while De-Animator is in play', function () {
+            // Mineralize Batdrone
+            this.player1.playCreature(this.deAnimator);
+            this.player1.clickCard(this.batdrone);
+            expect(this.batdrone.type).toBe('artifact');
+            expect(this.batdrone.tokens.mineralize).toBe(1);
+            expect(this.batdrone.hasKeyword('versatile')).toBe(false);
+            expect(this.batdrone.power).toBe(2); // Not relevant as an artifact, but is still set
+            this.player1.endTurn();
+
+            // Animating Force Batdrone - stays an artifact
+            this.player2.clickPrompt('geistoid');
+            this.player2.playUpgrade(this.animatingForce, this.batdrone);
+            expect(this.batdrone.type).toBe('artifact');
+            expect(this.batdrone.tokens.mineralize).toBe(1);
+            expect(this.batdrone.hasKeyword('versatile')).toBe(true);
+            expect(this.batdrone.power).toBe(4);
+            this.player2.endTurn();
+
+            // Remove De-Animator - Batdrone becomes a creature
+            this.player1.clickPrompt('logos');
+            this.player1.play(this.positronBolt);
+            this.player1.clickCard(this.deAnimator);
+            this.player1.clickPrompt('Right'); // Move Batdrone to battleline
+            expect(this.deAnimator.location).toBe('discard');
+            expect(this.batdrone.type).toBe('creature');
+            expect(this.batdrone.tokens.mineralize).toBe(1);
+            expect(this.batdrone.hasKeyword('versatile')).toBe(true);
+            expect(this.batdrone.power).toBe(4);
+
+            this.player1.moveCard(this.deAnimator, 'hand');
+            this.player1.playCreature(this.deAnimator);
+            this.player1.clickCard(this.deAnimator);
+            expect(this.batdrone.type).toBe('artifact');
+            expect(this.batdrone.tokens.mineralize).toBe(1);
+            expect(this.batdrone.hasKeyword('versatile')).toBe(true);
+            expect(this.batdrone.power).toBe(4);
+            expect(this.player1).isReadyToTakeAction();
+        });
+    });
 });

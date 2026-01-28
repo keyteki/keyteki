@@ -64,6 +64,7 @@ class Effect {
 
     addTarget(target) {
         this.targets.push(target);
+        this.effect.duration = this.duration;
         this.effect.apply(target);
     }
 
