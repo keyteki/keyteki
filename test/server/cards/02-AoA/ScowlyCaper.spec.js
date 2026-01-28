@@ -82,8 +82,8 @@ describe('Scowly Caper', function () {
             expect(this.player1.player.cardsInPlay).not.toContain(this.scowlyCaper);
             expect(this.player2.player.cardsInPlay).not.toContain(this.scowlyCaper);
 
-            expect(this.player1.player.cardsInHand).not.toContain(this.scowlyCaper);
-            expect(this.player2.player.cardsInHand).not.toContain(this.scowlyCaper);
+            expect(this.player1.player.hand).not.toContain(this.scowlyCaper);
+            expect(this.player2.player.hand).not.toContain(this.scowlyCaper);
 
             expect(this.scowlyCaper.location).toBe('archives');
             expect(this.player1.archives).toContain(this.scowlyCaper);

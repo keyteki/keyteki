@@ -3,7 +3,9 @@
         "checkJs": true,
         "noImplicitAny": true,
         "strictNullChecks": true,
-        "jsx": "react"
+        "jsx": "react",
+        "types": ["vitest/globals"]
     },
+    "include": ["test/vitest.d.ts"],
     "exclude": ["node_modules", "**/node_modules/*"]
 }

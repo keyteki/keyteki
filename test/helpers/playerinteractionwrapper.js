@@ -112,6 +112,23 @@ class PlayerInteractionWrapper {
     }
 
     /**
+     * Sets the contents of the deck
+     * @param {String[]} newContents - list of names or cards to be put in deck
+     */
+    set deck(newContents = []) {
+        // Clear the deck
+        this.player.deck = [];
+
+        // Add cards in reverse order so first card ends up on top
+        let cards = this.mixedListToCardList(newContents, 'discard');
+        _.chain(cards)
+            .reverse()
+            .each((card) => {
+                this.moveCard(card, 'deck');
+            });
+    }
+
+    /**
      * Sets the contents of the conflict discard pile
      * @param {String[]} newContents - list of names of cards to be put in conflict discard
      */

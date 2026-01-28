@@ -22,7 +22,7 @@ describe('The Tide', function () {
             });
         });
 
-        xit('the tide cannot be raised', function () {
+        it.skip('the tide cannot be raised', function () {
             this.player1.raiseTide();
             expect(this.player1.isTideHigh()).toBe(false);
         });

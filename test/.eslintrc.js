@@ -1,19 +1,24 @@
 module.exports = {
     root: true,
     env: {
-        jasmine: true,
         node: true
     },
     parser: 'babel-eslint',
-    plugins: ['react', 'prettier', 'jasmine'],
+    plugins: ['react', 'prettier'],
     extends: ['eslint:recommended', 'plugin:react/recommended', 'plugin:prettier/recommended'],
-    rules: { 'jasmine/no-focused-tests': 'error' },
+    rules: {},
     settings: {
         react: {
             version: 'detect'
         }
     },
     globals: {
-        integration: true
+        afterEach: true,
+        beforeEach: true,
+        describe: true,
+        expect: true,
+        globalThis: true,
+        it: true,
+        vi: true
     }
 };
