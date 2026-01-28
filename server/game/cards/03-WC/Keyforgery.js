@@ -6,11 +6,11 @@ class Keyforgery extends Card {
     setupCardAbilities(ability) {
         this.interrupt({
             when: {
-                onForgeKey: (event, context) =>
-                    context.player.opponent === context.game.activePlayer
+                onForgeKey: (event, context) => event.player === context.player.opponent
             },
             target: {
-                mode: 'house'
+                mode: 'house',
+                player: 'opponent'
             },
             effect: 'make {1} name house {2}',
             effectArgs: (context) => [context.player.opponent, context.house],
