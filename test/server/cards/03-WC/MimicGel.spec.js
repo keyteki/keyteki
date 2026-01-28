@@ -301,8 +301,7 @@ describe('Mimic Gel', function () {
             this.player1.endTurn();
             this.player2.clickPrompt('logos');
 
-            this.player2.clickCard(this.mimicGel);
-            this.player2.clickPrompt('Play this creature');
+            this.player2.playCreature(this.mimicGel);
             this.player2.clickCard(this.niffleKong);
             this.player2.clickPrompt('Left');
 
@@ -319,8 +318,7 @@ describe('Mimic Gel', function () {
             this.player1.clickPrompt('Done');
             this.player1.endTurn();
             this.player2.clickPrompt('logos');
-            this.player2.clickCard(this.mimicGel);
-            this.player2.clickPrompt('Play this creature');
+            this.player2.playCreature(this.mimicGel);
             this.player2.clickCard(this.niffleKong2);
             this.player2.clickPrompt('Left');
             this.player2.clickPrompt('Done');
@@ -336,8 +334,7 @@ describe('Mimic Gel', function () {
             this.player1.clickPrompt('Done');
             this.player1.endTurn();
             this.player2.clickPrompt('logos');
-            this.player2.clickCard(this.mimicGel);
-            this.player2.clickPrompt('Play this creature');
+            this.player2.playCreature(this.mimicGel);
             this.player2.clickCard(this.niffleKong);
             this.player2.clickPrompt('Left');
             this.player2.clickPrompt('Done');
@@ -366,8 +363,7 @@ describe('Mimic Gel', function () {
             this.player1.clickPrompt('Done');
             this.player1.endTurn();
             this.player2.clickPrompt('logos');
-            this.player2.clickCard(this.mimicGel);
-            this.player2.clickPrompt('Play this creature');
+            this.player2.playCreature(this.mimicGel);
             this.player2.clickCard(this.niffleKong2);
             this.player2.clickPrompt('Left');
             this.player2.clickPrompt('Done');
@@ -730,16 +726,14 @@ describe('Mimic Gel', function () {
         });
 
         it('should enter play under opponent control', function () {
-            this.player2.clickCard(this.mimicGel);
-            this.player2.clickPrompt('Play this creature');
+            this.player2.playCreature(this.mimicGel);
             this.player2.clickCard(this.scowlyCaper);
             this.player2.clickPrompt('Left');
             expect(this.mimicGel.controller).toBe(this.player1.player);
         });
 
         it('should be used as belonging to any house', function () {
-            this.player2.clickCard(this.mimicGel);
-            this.player2.clickPrompt('Play this creature');
+            this.player2.playCreature(this.mimicGel);
             this.player2.clickCard(this.scowlyCaper);
             this.player2.clickPrompt('Left');
             this.player2.endTurn();
@@ -807,6 +801,41 @@ describe('Mimic Gel', function () {
             expect(this.mimicGel.isToken()).toBe(true);
             expect(this.mimicGel.name).toBe('Alpha-Gamma');
             expect(this.mimicGel.location).toBe('play area');
+            expect(this.player1).isReadyToTakeAction();
+        });
+    });
+
+    describe('Mimic Gel copying alpha creatures', function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'logos',
+                    inPlay: ['batdrone'],
+                    hand: ['mimic-gel', 'phase-shift']
+                },
+                player2: {
+                    inPlay: ['bumblebird', 'troll']
+                }
+            });
+        });
+
+        it('should allow copying alpha creature as first play', function () {
+            this.player1.clickCard(this.mimicGel);
+            this.player1.clickPrompt('Play this creature');
+            expect(this.player1).toBeAbleToSelect(this.bumblebird);
+            this.player1.clickCard(this.bumblebird);
+            this.player1.clickPrompt('Left');
+            expect(this.mimicGel.location).toBe('play area');
+            expect(this.mimicGel.name).toBe('Bumblebird');
+            expect(this.player1).isReadyToTakeAction();
+        });
+
+        it('should allow selecting alpha creature but fizzle when not first play', function () {
+            this.player1.reap(this.batdrone);
+            this.player1.playCreature(this.mimicGel);
+            expect(this.player1).toBeAbleToSelect(this.bumblebird);
+            this.player1.clickCard(this.bumblebird);
+            expect(this.mimicGel.location).toBe('hand');
             expect(this.player1).isReadyToTakeAction();
         });
     });

@@ -48,6 +48,13 @@ class PutIntoPlayAction extends CardGameAction {
             return;
         }
 
+        // Check if creature should go to a different location instead of play area
+        // If so, skip flank selection
+        let redirectLocation = card.mostRecentEffect('creatureCardLocationAfterPlay');
+        if (redirectLocation && redirectLocation !== 'play area') {
+            return;
+        }
+
         let player;
 
         if (this.deployIndex !== undefined) {
@@ -283,26 +290,35 @@ class PutIntoPlayAction extends CardGameAction {
                         .resolve(card, context);
                 }
 
-                player.moveCard(card, 'play area', {
-                    left: this.left,
-                    deployIndex: this.deployIndex,
-                    myControl: control
-                });
+                // Check if creature should go to a different location instead of play area
+                let location =
+                    card.mostRecentEffect('creatureCardLocationAfterPlay') || 'play area';
 
-                if (control) {
-                    card.updateEffectContexts();
-                }
+                if (location === 'play area') {
+                    player.moveCard(card, 'play area', {
+                        left: this.left,
+                        deployIndex: this.deployIndex,
+                        myControl: control
+                    });
 
-                if (!this.ready && !card.checkConditions('entersPlayReady', context)) {
-                    card.exhaust();
-                }
+                    if (control) {
+                        card.updateEffectContexts();
+                    }
 
-                if (card.checkConditions('entersPlayStunned', context)) {
-                    card.stun();
-                }
+                    if (!this.ready && !card.checkConditions('entersPlayReady', context)) {
+                        card.exhaust();
+                    }
 
-                if (card.checkConditions('entersPlayEnraged', context)) {
-                    card.enrage();
+                    if (card.checkConditions('entersPlayStunned', context)) {
+                        card.stun();
+                    }
+
+                    if (card.checkConditions('entersPlayEnraged', context)) {
+                        card.enrage();
+                    }
+                } else {
+                    // Card goes to a different location (e.g., hand) instead of play area
+                    card.owner.moveCard(card, location);
                 }
             }
         );

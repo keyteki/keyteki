@@ -20,14 +20,29 @@ class MimicGel extends Card {
             location: 'any',
             target: {
                 cardType: 'creature',
-                gameAction: ability.actions.cardLastingEffect((context) => ({
-                    target: context.source,
-                    allowedLocations: 'any',
-                    duration: 'lastingEffect',
-                    effect: [
-                        ability.effects.copyCard(context.target.getBottomCard()),
-                        ability.effects.changeHouse('logos')
-                    ]
+                gameAction: ability.actions.conditional((context) => ({
+                    condition:
+                        !context.target.getBottomCard().hasKeyword('alpha') ||
+                        context.game.firstThingThisPhase(),
+                    trueGameAction: ability.actions.cardLastingEffect({
+                        target: context.source,
+                        allowedLocations: 'any',
+                        duration: 'lastingEffect',
+                        effect: [
+                            ability.effects.copyCard(context.target.getBottomCard()),
+                            ability.effects.changeHouse('logos')
+                        ]
+                    }),
+                    falseGameAction: ability.actions.cardLastingEffect({
+                        target: context.source,
+                        allowedLocations: 'any',
+                        duration: 'lastingEffect',
+                        effect: [
+                            ability.effects.copyCard(context.target.getBottomCard()),
+                            ability.effects.changeHouse('logos'),
+                            ability.effects.creatureCardLocationAfterPlay('hand')
+                        ]
+                    })
                 }))
             },
             effect: 'to copy {0}'
