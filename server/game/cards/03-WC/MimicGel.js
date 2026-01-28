@@ -1,5 +1,5 @@
 const Card = require('../../Card.js');
-const { buildPlayAsCopyEffects } = require('../../helpers/playAsCardCopy.js');
+const { buildPlayAsCopyEffects } = require('../../helpers/playAsCopy.js');
 
 class MimicGel extends Card {
     // Mimic Gel cannot be played unless there is another creature in play.

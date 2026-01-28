@@ -1,5 +1,5 @@
 const Card = require('../../Card.js');
-const { buildPlayAsCopyEffects } = require('../../helpers/playAsCardCopy.js');
+const { buildPlayAsCopyEffects } = require('../../helpers/playAsCopy.js');
 
 class Mimicry extends Card {
     // When you play this card, treat it as a copy of an action card in your opponents discard pile.

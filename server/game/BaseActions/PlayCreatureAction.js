@@ -9,7 +9,7 @@ class PlayCreatureAction extends BasePlayAction {
 
     displayMessage() {
         // Suppress the default play message - PutIntoPlayAction will show the appropriate message
-        // based on whether the creature actually enters play or gets returned
+        // based on whether the creature enters play or gets returned
     }
 
     addSubEvent(event, context) {

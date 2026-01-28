@@ -303,7 +303,7 @@ class PutIntoPlayAction extends CardGameAction {
                     return card.owner.moveCard(card, location);
                 }
 
-                // Show play message when creature successfully enters play
+                // Show play message
                 if (this.beingPlayed) {
                     context.game.addMessage('{0} plays {1}', player, card);
                 }
