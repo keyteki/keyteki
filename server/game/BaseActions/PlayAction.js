@@ -12,7 +12,7 @@ class PlayAction extends BasePlayAction {
         if (location !== 'discard') {
             // Show custom message for attempting to play restricted card
             context.game.addMessage(
-                '{0} tries to play {1} but is unable to, returning it to {2}',
+                '{0} is unable to play {1} and returns it to {2}',
                 context.player,
                 context.source,
                 location

@@ -11,9 +11,7 @@ class PlayCardAction extends CardGameAction {
     setup() {
         super.setup();
         this.name = 'play';
-        // Suppress the effect message - the actual play action (PlayAction, PlayCreatureAction, etc)
-        // will show the appropriate message based on whether the play succeeds or fizzles
-        this.effectMsg = '';
+        this.effectMsg = 'play {0}';
     }
 
     canAffect(card, context) {
@@ -95,7 +93,7 @@ class PlayCardAction extends CardGameAction {
                     event.illegalTarget = true;
                     if (this.revealOnIllegalTarget) {
                         context.game.addMessage(
-                            '{0} tries to play {1} but is unable to, returning it to {2}',
+                            '{0} is unable to play {1} and returns it to {2}',
                             context.player,
                             card,
                             card.location

@@ -7,11 +7,6 @@ class PlayCreatureAction extends BasePlayAction {
         this.deploy = false;
     }
 
-    displayMessage() {
-        // Suppress the default play message - PutIntoPlayAction will show the appropriate message
-        // based on whether the creature actually enters play or gets returned
-    }
-
     addSubEvent(event, context) {
         super.addSubEvent(event, context);
         let action = context.game.actions.putIntoPlay({

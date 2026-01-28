@@ -324,7 +324,7 @@ class PutIntoPlayAction extends CardGameAction {
                 } else {
                     // Card goes to a different location (e.g., hand) instead of play area
                     context.game.addMessage(
-                        '{0} tries to play {1} but is unable to, returning it to {2}',
+                        '{0} is unable to play {1} and returns it to {2}',
                         player,
                         card,
                         location
