@@ -67,7 +67,7 @@ describe('Mimic Gel', function () {
             expect(this.mimicGel.hasHouse('logos')).toBe(true);
             expect(this.mimicGel.hasHouse('untamed')).toBe(false);
             expect(this.mimicGel.power).toBe(5);
-            expect(this.mimicGel.name).toBe('Panpaca, Anga');
+            expect(this.mimicGel.name).toBe('Mimic Gel as Panpaca, Anga');
             expect(this.batdrone.power).toBe(4);
             expect(this.titanGuardian.power).toBe(7);
         });
@@ -85,7 +85,7 @@ describe('Mimic Gel', function () {
             expect(this.mimicGel.hasHouse('logos')).toBe(true);
             expect(this.mimicGel.hasHouse('untamed')).toBe(false);
             expect(this.mimicGel.power).toBe(1);
-            expect(this.mimicGel.name).toBe('Bumblebird');
+            expect(this.mimicGel.name).toBe('Mimic Gel as Bumblebird');
             expect(this.batdrone.power).toBe(2);
             expect(this.tantadlin.power).toBe(11);
         });
@@ -104,7 +104,7 @@ describe('Mimic Gel', function () {
             expect(this.mimicGel.hasHouse('untamed')).toBe(false);
             expect(this.mimicGel.getKeywordValue('omega')).toBe(1);
             expect(this.mimicGel.power).toBe(1);
-            expect(this.mimicGel.name).toBe('Duskwitch');
+            expect(this.mimicGel.name).toBe('Mimic Gel as Duskwitch');
             expect(this.mimicGel.exhausted).toBe(false);
             expect(this.player2).toHavePrompt('Choose which house you want to activate this turn');
         });
@@ -119,7 +119,7 @@ describe('Mimic Gel', function () {
             expect(this.mimicGel.armor).toBe(0);
             expect(this.mimicGel.getKeywordValue('elusive')).toBe(1);
             expect(this.mimicGel.getKeywordValue('hazardous')).toBe(6);
-            expect(this.mimicGel.name).toBe('Xenos Bloodshadow');
+            expect(this.mimicGel.name).toBe('Mimic Gel as Xenos Bloodshadow');
             this.player1.endTurn();
             this.player2.clickPrompt('brobnar');
             this.player2.fightWith(this.troll, this.mimicGel);
@@ -140,7 +140,7 @@ describe('Mimic Gel', function () {
             expect(this.mimicGel.getKeywordValue('taunt')).toBe(1);
             expect(this.mimicGel.power).toBe(5);
             expect(this.mimicGel.armor).toBe(1);
-            expect(this.mimicGel.name).toBe('Titan Guardian');
+            expect(this.mimicGel.name).toBe('Mimic Gel as Titan Guardian');
             this.player1.endTurn();
             this.player2.clickPrompt('untamed');
             this.player2.clickCard('flaxia');
@@ -171,7 +171,7 @@ describe('Mimic Gel', function () {
             expect(this.tantadlin.getKeywordValue('elusive')).toBe(1);
             expect(this.mimicGel.power).toBe(1);
             expect(this.mimicGel.armor).toBe(0);
-            expect(this.mimicGel.name).toBe('Lamindra');
+            expect(this.mimicGel.name).toBe('Mimic Gel as Lamindra');
         });
     });
 
@@ -826,7 +826,7 @@ describe('Mimic Gel', function () {
             this.player1.clickCard(this.bumblebird);
             this.player1.clickPrompt('Left');
             expect(this.mimicGel.location).toBe('play area');
-            expect(this.mimicGel.name).toBe('Bumblebird');
+            expect(this.mimicGel.name).toBe('Mimic Gel as Bumblebird');
             expect(this.player1).isReadyToTakeAction();
         });
 

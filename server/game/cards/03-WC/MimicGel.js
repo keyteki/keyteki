@@ -20,32 +20,39 @@ class MimicGel extends Card {
             location: 'any',
             target: {
                 cardType: 'creature',
-                gameAction: ability.actions.conditional((context) => ({
-                    condition:
-                        !context.target.getBottomCard().hasKeyword('alpha') ||
-                        context.game.firstThingThisPhase(),
-                    trueGameAction: ability.actions.cardLastingEffect({
-                        target: context.source,
-                        allowedLocations: 'any',
-                        duration: 'lastingEffect',
-                        effect: [
-                            ability.effects.copyCard(context.target.getBottomCard()),
-                            ability.effects.changeHouse('logos')
-                        ]
-                    }),
-                    falseGameAction: ability.actions.cardLastingEffect({
-                        target: context.source,
-                        allowedLocations: 'any',
-                        duration: 'lastingEffect',
-                        effect: [
-                            ability.effects.copyCard(context.target.getBottomCard()),
-                            ability.effects.changeHouse('logos'),
-                            ability.effects.creatureCardLocationAfterPlay('hand')
-                        ]
-                    })
-                }))
+                gameAction: ability.actions.conditional((context) => {
+                    const copiedCard = context.target.getBottomCard();
+                    // Create a wrapper that overrides printedName but proxies everything else
+                    const cardWrapper = Object.create(copiedCard);
+                    Object.defineProperty(cardWrapper, 'printedName', {
+                        value: `Mimic Gel as ${copiedCard.name}`,
+                        enumerable: true
+                    });
+                    const customCopyEffect = ability.effects.copyCard(cardWrapper);
+
+                    return {
+                        condition:
+                            !copiedCard.hasKeyword('alpha') || context.game.firstThingThisPhase(),
+                        trueGameAction: ability.actions.cardLastingEffect({
+                            target: context.source,
+                            allowedLocations: 'any',
+                            duration: 'lastingEffect',
+                            effect: [customCopyEffect, ability.effects.changeHouse('logos')]
+                        }),
+                        falseGameAction: ability.actions.cardLastingEffect({
+                            target: context.source,
+                            allowedLocations: 'any',
+                            duration: 'lastingEffect',
+                            effect: [
+                                customCopyEffect,
+                                ability.effects.changeHouse('logos'),
+                                ability.effects.creatureCardLocationAfterPlay('hand')
+                            ]
+                        })
+                    };
+                })
             },
-            effect: 'to copy {0}'
+            effect: 'copy {0}'
         });
     }
 }

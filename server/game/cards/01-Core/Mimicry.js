@@ -24,7 +24,21 @@ class Mimicry extends Card {
                 trueGameAction: ability.actions.cardLastingEffect((context) => ({
                     allowedLocations: 'any',
                     target: context.source,
-                    effect: ability.effects.actionCardLocationAfterPlay('hand')
+                    effect: [
+                        ability.effects.actionCardLocationAfterPlay('hand'),
+                        ability.effects.customDetachedCard({
+                            apply: (card) => {
+                                card._mimicryOriginalName = card.printedName;
+                                card.printedName = `Mimicry as ${context.target.name}`;
+                            },
+                            unapply: (card) => {
+                                if (card._mimicryOriginalName) {
+                                    card.printedName = card._mimicryOriginalName;
+                                    delete card._mimicryOriginalName;
+                                }
+                            }
+                        })
+                    ]
                 })),
                 falseGameAction: ability.actions.cardLastingEffect((context) => {
                     let card = context.target;
@@ -41,6 +55,21 @@ class Mimicry extends Card {
                                 .map((playAbility) =>
                                     ability.effects.gainAbility('play', playAbility.properties)
                                 )
+                        );
+                        // Add custom name effect
+                        effects.push(
+                            ability.effects.customDetachedCard({
+                                apply: (sourceCard) => {
+                                    sourceCard._mimicryOriginalName = sourceCard.printedName;
+                                    sourceCard.printedName = `Mimicry as ${card.name}`;
+                                },
+                                unapply: (sourceCard) => {
+                                    if (sourceCard._mimicryOriginalName) {
+                                        sourceCard.printedName = sourceCard._mimicryOriginalName;
+                                        delete sourceCard._mimicryOriginalName;
+                                    }
+                                }
+                            })
                         );
                     }
 

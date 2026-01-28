@@ -47,7 +47,8 @@ describe('Mimicry', function () {
             expect(this.player1.player.cardsInPlay).toContain(this.snufflegator);
         });
 
-        it('should consider enhancements on card', function () {
+        it('should only consider enhancements on copied card', function () {
+            this.mimicry.enhancements = ['amber', 'amber', 'amber', 'amber', 'amber'];
             this.interdimensionalGraft.enhancements = ['amber', 'draw', 'draw', 'capture'];
             this.player1.play(this.mimicry);
             expect(this.player1).toHavePrompt('Mimicry');
