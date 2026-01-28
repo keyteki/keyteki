@@ -78,54 +78,40 @@ describe('TheFirstScroll', function () {
                 });
             });
         });
+    });
 
-        describe('when Keyfrog is destroyed and forges a key', function () {
-            beforeEach(function () {
-                this.setupTest({
-                    player1: {
-                        house: 'saurian',
-                        inPlay: ['the-first-scroll', 'censor-philo'],
-                        amber: 2
-                    },
-                    player2: {
-                        inPlay: ['keyfrog', 'snufflegator'],
-                        amber: 7
-                    }
-                });
+    describe('when Keyfrog is destroyed and forges a key', function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'saurian',
+                    inPlay: ['the-first-scroll', 'censor-philo'],
+                    amber: 2
+                },
+                player2: {
+                    inPlay: ['keyfrog', 'snufflegator'],
+                    amber: 7
+                }
             });
+        });
 
-            // it('should make opponent creatures capture from opponent pool, not active player pool', function () {
-            //     this.player1.fightWith(this.censorPhilo, this.keyfrog);
-            //     this.player1.clickPrompt('Red');
-            //     expect(this.player1).toHavePrompt('Not enough amber, choose creatures');
-            //     expect(this.player1).toBeAbleToSelect(this.keyfrog);
-            //     expect(this.player1).toBeAbleToSelect(this.snufflegator);
-            //     this.player1.clickCard(this.keyfrog);
-            //     this.player1.clickPrompt('Done');
+        it('should make opponent creatures capture from opponent pool, not active player pool', function () {
+            this.player1.fightWith(this.censorPhilo, this.keyfrog);
+            this.player1.clickPrompt('Red');
+            expect(this.keyfrog.location).toBe('play area');
+            expect(this.player2.amber).toBe(1);
+            expect(this.player1).toHavePrompt('Not enough amber, choose creatures');
+            expect(this.player1).toBeAbleToSelect(this.keyfrog);
+            expect(this.player1).toBeAbleToSelect(this.snufflegator);
+            this.player1.clickCard(this.keyfrog);
 
-            //     expect(this.player1.amber).toBe(3);
-            //     expect(this.player2.amber).toBe(0);
-            //     expect(this.keyfrog.location).toBe('discard');
-            //     expect(this.snufflegator.amber).toBe(0);
-            //     expect(this.censorPhilo.amber).toBe(0);
-            //     expect(this.player1).isReadyToTakeAction();
-            // });
-
-            // it('should make opponent creatures capture from opponent pool, not active player pool', function () {
-            //     this.player1.fightWith(this.censorPhilo, this.keyfrog);
-            //     this.player1.clickPrompt('Red');
-            //     expect(this.player1).toHavePrompt(this.theFirstScroll.name);
-            //     expect(this.player1).toBeAbleToSelect(this.keyfrog);
-            //     expect(this.player1).toBeAbleToSelect(this.snufflegator);
-            //     this.player1.clickCard(this.snufflegator); // Capture and then destroyed
-
-            //     expect(this.player1.amber).toBe(2);
-            //     expect(this.player2.amber).toBe(0);
-            //     expect(this.keyfrog.location).toBe('discard');
-            //     expect(this.snufflegator.amber).toBe(1);
-            //     expect(this.censorPhilo.amber).toBe(0);
-            //     expect(this.player1).isReadyToTakeAction();
-            // });
+            // Player1 started with 2, gained 1 when Keyfrog was destroyed (captured amber goes to opponent)
+            expect(this.player1.amber).toBe(3);
+            expect(this.player2.amber).toBe(0);
+            expect(this.keyfrog.location).toBe('discard');
+            expect(this.snufflegator.amber).toBe(0);
+            expect(this.censorPhilo.amber).toBe(0);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });
