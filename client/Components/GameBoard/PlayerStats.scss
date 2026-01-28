@@ -1,8 +1,8 @@
 @import '../../styles/variables';
 @import '../../styles/colours';
-@import '~bootstrap/scss/functions';
-@import '~bootstrap/scss/variables';
-@import '~bootstrap/scss/mixins';
+@import 'bootstrap/scss/functions';
+@import 'bootstrap/scss/variables';
+@import 'bootstrap/scss/mixins';
 
 .player-stats {
     display: flex;
@@ -100,15 +100,15 @@
     cursor: default;
 
     &.amber {
-        background-image: url('~assets/img/amber.png');
+        background-image: url('../../assets/img/amber.png');
     }
 
     &.chains {
-        background-image: url('~assets/img/chains.png');
+        background-image: url('../../assets/img/chains.png');
     }
 
     &.keyCost {
-        background-image: url('~assets/img/keyCost.png');
+        background-image: url('../../assets/img/keyCost.png');
     }
 
     &.tide {
