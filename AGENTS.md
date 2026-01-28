@@ -52,6 +52,13 @@ Ask the user before proceeding when:
 -   Run tests matching a pattern: `DEBUG_TEST=1 npm test -- --filter='<pattern>'`
     -   Using just the filter option is slower than running test files, so prefer using filters in combination with specifying test files.
 
+## Version Control
+
+**IMPORTANT: Never run `git commit`, `git push`, or other version control commands without explicitly asking the user first.** The user manages all version control operations.
+
+-   You may use `git status`, `git diff`, `git log`, and other read-only git commands
+-   Always ask before committing changes, even if the work appears complete
+
 ## Architecture Overview
 
 ### Core Classes
