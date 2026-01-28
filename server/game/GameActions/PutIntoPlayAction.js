@@ -290,6 +290,9 @@ class PutIntoPlayAction extends CardGameAction {
                         .resolve(card, context);
                 }
 
+                // Show play message
+                context.game.addMessage('{0} plays {1}', player, card);
+
                 // Check if creature should go to a different location instead of play area
                 let location =
                     card.mostRecentEffect('creatureCardLocationAfterPlay') || 'play area';
@@ -301,11 +304,6 @@ class PutIntoPlayAction extends CardGameAction {
                         location
                     );
                     return card.owner.moveCard(card, location);
-                }
-
-                // Show play message
-                if (this.beingPlayed) {
-                    context.game.addMessage('{0} plays {1}', player, card);
                 }
 
                 player.moveCard(card, 'play area', {
