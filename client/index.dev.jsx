@@ -7,6 +7,7 @@ import 'bootstrap/dist/js/bootstrap';
 import ReduxToastr from 'react-redux-toastr';
 import { DndProvider } from 'react-dnd';
 import { TouchBackend } from 'react-dnd-touch-backend';
+import Application from './Application';
 
 import './i18n';
 
@@ -18,8 +19,10 @@ window.onpopstate = function (e) {
     store.dispatch(navigate(e.target.location.pathname, null, true));
 };
 
+let ApplicationComponent = Application;
+
 const render = () => {
-    const Application = require('./Application').default;
+    const App = ApplicationComponent;
     ReactDOM.render(
         <Provider store={store}>
             <DndProvider backend={TouchBackend} options={{ enableMouseEvents: true }}>
@@ -32,7 +35,7 @@ const render = () => {
                         transitionIn='fadeIn'
                         transitionOut='fadeOut'
                     />
-                    <Application />
+                    <App />
                 </div>
             </DndProvider>
         </Provider>,
@@ -40,8 +43,9 @@ const render = () => {
     );
 };
 
-if (module.hot) {
-    module.hot.accept('./Application', () => {
+if (import.meta.hot) {
+    import.meta.hot.accept('./Application', (mod) => {
+        ApplicationComponent = mod.default;
         setTimeout(render);
     });
 }

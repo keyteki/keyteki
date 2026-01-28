@@ -1,7 +1,7 @@
 import React from 'react';
 import moment from 'moment';
 
-import { getMessageWithLinks } from '../../util';
+import { getMessageWithLinks } from '../../util.jsx';
 
 import './NewsItem.scss';
 

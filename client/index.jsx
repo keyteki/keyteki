@@ -1,6 +1,5 @@
-/* eslint-env node */
-
 import '@babel/polyfill';
+import './shims/jquery-global';
 import $ from 'jquery';
 import 'jquery-validation';
 import 'jquery-validation-unobtrusive';
@@ -20,12 +19,8 @@ $.validator.setDefaults({
     }
 });
 
-let index;
-
-if (process.env.NODE_ENV === 'production') {
-    index = require('./index.prod');
+if (import.meta.env.PROD) {
+    import('./index.prod');
 } else {
-    index = require('./index.dev');
+    import('./index.dev');
 }
-
-export default index;

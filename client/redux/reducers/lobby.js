@@ -1,4 +1,4 @@
-const _ = require('underscore');
+import _ from 'underscore';
 import * as jsondiffpatch from 'jsondiffpatch';
 
 const defaultState = {

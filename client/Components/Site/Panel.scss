@@ -1,7 +1,7 @@
 @import '../../styles/colours';
 @import '../../styles/fonts';
-@import '~bootstrap/scss/functions';
-@import '~bootstrap/scss/variables';
+@import 'bootstrap/scss/functions';
+@import 'bootstrap/scss/variables';
 
 .card {
     font-family: Keyforge, Helvetica, sans-serif;
@@ -15,7 +15,7 @@
 
     &.border-primary {
         .card-header {
-            background-image: url('~assets/img/panel-primary.png');
+            background-image: url('../../assets/img/panel-primary.png');
             border-color: theme-color('primary');
             background-position: center;
         }

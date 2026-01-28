@@ -1,7 +1,7 @@
 import React from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import { Form, Col } from 'react-bootstrap';
-import { getStandardControlProps } from '../../util';
+import { getStandardControlProps } from '../../util.jsx';
 
 const GameOptions = ({ formProps }) => {
     const { t } = useTranslation();
