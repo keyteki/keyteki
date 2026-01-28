@@ -61,13 +61,24 @@ describe('Mimicry', function () {
             expect(this.player1.hand.length).toBe(2);
         });
 
-        it('should allow to select an alpha card', function () {
+        it('should allow to play an alpha card as first play', function () {
             this.player1.play(this.mimicry);
             expect(this.player1).toBeAbleToSelect(this.binateRupture);
             this.player1.clickCard(this.binateRupture);
             expect(this.player1.amber).toBe(0);
             expect(this.player2.amber).toBe(10);
             expect(this.mimicry.location).toBe('discard');
+            expect(this.binateRupture.location).toBe('discard');
+        });
+
+        it('should allow to select an alpha card as second play and fizzle', function () {
+            this.player1.reap(this.ancientBear);
+            this.player1.play(this.mimicry);
+            expect(this.player1).toBeAbleToSelect(this.binateRupture);
+            this.player1.clickCard(this.binateRupture);
+            expect(this.player1.amber).toBe(1);
+            expect(this.player2.amber).toBe(5);
+            expect(this.mimicry.location).toBe('hand');
             expect(this.binateRupture.location).toBe('discard');
         });
 
@@ -233,14 +244,25 @@ describe('Mimicry', function () {
             });
         });
 
-        it('should capture from opponent on own creatures', function () {
+        it('should use phloxem spike on enemy creatures', function () {
             this.player1.play(this.mimicry);
             this.player1.clickCard(this.phloxemSpike);
             expect(this.troll.location).toBe('play area');
             expect(this.brammo.location).toBe('discard');
             expect(this.alaka.location).toBe('discard');
             expect(this.zorg.location).toBe('play area');
-            expect(this.toHaveRecentChatMessage('Mimicry as Phloxem Spike destroys')).toBe(true);
+            expect(this).toHaveRecentChatMessage(
+                'player1 uses Mimicry as Phloxem Spike to destroy each creature not on a flank.'
+            );
+            expect(this.mimicry.name).toBe('Mimicry');
+        });
+
+        it('log the copied card name', function () {
+            this.player1.play(this.mimicry);
+            this.player1.clickCard(this.phloxemSpike);
+            expect(this).toHaveRecentChatMessage(
+                'player1 uses Mimicry as Phloxem Spike to destroy each creature not on a flank.'
+            );
             expect(this.mimicry.name).toBe('Mimicry');
         });
     });
