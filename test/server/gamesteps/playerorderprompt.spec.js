@@ -5,32 +5,37 @@ describe('the PlayerOrderPrompt', function () {
         this.activePrompt = { active: true };
         this.waitingPrompt = { active: false };
 
-        this.game = createSpyObj('game', ['getPlayers', 'getPlayersInFirstPlayerOrder']);
-        this.player1 = createSpyObj('player1', [
-            'setPrompt',
-            'cancelPrompt',
-            'startClock',
-            'stopClock'
-        ]);
-        this.player2 = createSpyObj('player1', [
-            'setPrompt',
-            'cancelPrompt',
-            'startClock',
-            'stopClock'
-        ]);
+        this.game = {
+            getPlayers: vi.fn(),
+            getPlayersInFirstPlayerOrder: vi.fn()
+        };
+        this.player1 = {
+            setPrompt: vi.fn(),
+            cancelPrompt: vi.fn(),
+            startClock: vi.fn(),
+            stopClock: vi.fn()
+        };
+        this.player2 = {
+            setPrompt: vi.fn(),
+            cancelPrompt: vi.fn(),
+            startClock: vi.fn(),
+            stopClock: vi.fn()
+        };
 
-        this.game.getPlayers.and.returnValue([this.player1, this.player2]);
-        this.game.getPlayersInFirstPlayerOrder.and.returnValue([this.player2, this.player1]);
+        this.game.getPlayers.mockReturnValue([this.player1, this.player2]);
+        this.game.getPlayersInFirstPlayerOrder.mockReturnValue([this.player2, this.player1]);
 
         this.prompt = new PlayerOrderPrompt(this.game);
-        spyOn(this.prompt, 'activePrompt').and.returnValue(this.activePrompt);
-        spyOn(this.prompt, 'waitingPrompt').and.returnValue(this.waitingPrompt);
+        vi.spyOn(this.prompt, 'activePrompt').mockReturnValue(this.activePrompt);
+        vi.spyOn(this.prompt, 'waitingPrompt').mockReturnValue(this.waitingPrompt);
     });
 
     describe('the continue() function', function () {
         describe('when there is a skip condition', function () {
             beforeEach(function () {
-                spyOn(this.prompt, 'skipCondition').and.callFake((p) => p === this.player2);
+                vi.spyOn(this.prompt, 'skipCondition').mockImplementation(
+                    (p) => p === this.player2
+                );
             });
 
             it('should skip over the matching players', function () {
@@ -79,7 +84,7 @@ describe('the PlayerOrderPrompt', function () {
 
         describe('when the first player order changes after construction', function () {
             beforeEach(function () {
-                this.game.getPlayersInFirstPlayerOrder.and.returnValue([
+                this.game.getPlayersInFirstPlayerOrder.mockReturnValue([
                     this.player1,
                     this.player2
                 ]);
