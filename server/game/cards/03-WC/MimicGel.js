@@ -1,4 +1,5 @@
 const Card = require('../../Card.js');
+const { buildCopyCardEffects } = require('../../helpers/copyCard.js');
 
 class MimicGel extends Card {
     // Mimic Gel cannot be played unless there is another creature in play.
@@ -20,37 +21,17 @@ class MimicGel extends Card {
             location: 'any',
             target: {
                 cardType: 'creature',
-                gameAction: ability.actions.conditional((context) => {
-                    const copiedCard = context.target.getBottomCard();
-                    // Create a wrapper that overrides printedName but proxies everything else
-                    const cardWrapper = Object.create(copiedCard);
-                    Object.defineProperty(cardWrapper, 'printedName', {
-                        value: `Mimic Gel as ${copiedCard.name}`,
-                        enumerable: true
-                    });
-                    const customCopyEffect = ability.effects.copyCard(cardWrapper);
-
-                    return {
-                        condition:
-                            !copiedCard.hasKeyword('alpha') || context.game.firstThingThisPhase(),
-                        trueGameAction: ability.actions.cardLastingEffect({
-                            target: context.source,
-                            allowedLocations: 'any',
-                            duration: 'lastingEffect',
-                            effect: [customCopyEffect, ability.effects.changeHouse('logos')]
-                        }),
-                        falseGameAction: ability.actions.cardLastingEffect({
-                            target: context.source,
-                            allowedLocations: 'any',
-                            duration: 'lastingEffect',
-                            effect: [
-                                customCopyEffect,
-                                ability.effects.changeHouse('logos'),
-                                ability.effects.creatureCardLocationAfterPlay('hand')
-                            ]
-                        })
-                    };
-                })
+                gameAction: ability.actions.cardLastingEffect((context) => ({
+                    target: context.source,
+                    allowedLocations: 'any',
+                    duration: 'lastingEffect',
+                    effect: buildCopyCardEffects({
+                        copiedCard: context.target,
+                        context: context,
+                        ability: ability,
+                        additionalEffects: [ability.effects.changeHouse('logos')]
+                    })
+                }))
             },
             effect: 'copy {0}'
         });

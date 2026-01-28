@@ -7,19 +7,19 @@ class PlayAction extends BasePlayAction {
     }
 
     displayMessage(context) {
+        // Normal play message
+        super.displayMessage(context);
+
         // Check if card is restricted from being played
-        let location = context.source.mostRecentEffect('actionCardLocationAfterPlay') || 'discard';
+        const location =
+            context.source.mostRecentEffect('actionCardLocationAfterPlay') || 'discard';
         if (location !== 'discard') {
-            // Show custom message for attempting to play restricted card
             context.game.addMessage(
                 '{0} is unable to play {1} and returns it to {2}',
                 context.player,
                 context.source,
                 location
             );
-        } else {
-            // Normal play message
-            super.displayMessage(context);
         }
     }
 
