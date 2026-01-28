@@ -27,7 +27,8 @@ class DestroyAction extends CardGameAction {
             damageEvent: this.damageEvent,
             isRedirected: this.damageEvent ? this.damageEvent.isRedirected : false
         };
-        return super.createEvent(EVENTS.onCardDestroyed, params, (event) => {
+
+        const event = super.createEvent(EVENTS.onCardDestroyed, params, (event) => {
             event.card.moribund = true;
 
             event.leavesPlayEvent = context.game.getEvent(
@@ -47,6 +48,16 @@ class DestroyAction extends CardGameAction {
 
             event.addSubEvent(event.leavesPlayEvent);
         });
+
+        // If this destruction was triggered while resolving destroyed abilities
+        // then it should be batched together with them.
+        if (context.game.currentDestructionWindow) {
+            // Mark this event so we don't open a separate reaction window for it
+            event.openReactionWindow = false;
+            context.game.currentDestructionWindow.addBatchedDestroyEvent(event);
+        }
+
+        return event;
     }
 }
 
