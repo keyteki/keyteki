@@ -207,6 +207,7 @@ describe('De-Animator', function () {
             expect(this.batdrone.hasKeyword('versatile')).toBe(true);
             expect(this.batdrone.power).toBe(4);
 
+            // De-Animator comes back - Batdrone goes back to being an artifact
             this.player1.moveCard(this.deAnimator, 'hand');
             this.player1.playCreature(this.deAnimator);
             this.player1.clickCard(this.deAnimator);
