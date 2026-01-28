@@ -106,6 +106,12 @@ class CardAbility extends ThenAbility {
             if (!gameActions || gameActions.length === 0) {
                 this.addMessage(this.getMessageArgs(context));
             } else {
+                // If the gameAction is a play action with no effectMsg, suppress the base message
+                // The play action itself will show the appropriate message
+                if (gameActions[0].name === 'play' && !gameActions[0].effectMsg) {
+                    return;
+                }
+
                 let messageArgs = this.getMessageArgs(
                     context,
                     gameActions[0].effectMsg,
