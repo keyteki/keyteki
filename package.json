@@ -3,6 +3,9 @@
     "version": "2.0.0",
     "description": "A Keyforge Card Game Server",
     "main": "index.js",
+    "engines": {
+        "node": ">=22.0.0 <23"
+    },
     "scripts": {
         "mongod": "mongod --dbpath=/data --port 27017\n",
         "start": "node .",
