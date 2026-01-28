@@ -295,6 +295,11 @@ class PutIntoPlayAction extends CardGameAction {
                     card.mostRecentEffect('creatureCardLocationAfterPlay') || 'play area';
 
                 if (location === 'play area') {
+                    // Show play message when creature successfully enters play
+                    if (this.beingPlayed) {
+                        context.game.addMessage('{0} plays {1}', player, card);
+                    }
+
                     player.moveCard(card, 'play area', {
                         left: this.left,
                         deployIndex: this.deployIndex,
@@ -318,6 +323,12 @@ class PutIntoPlayAction extends CardGameAction {
                     }
                 } else {
                     // Card goes to a different location (e.g., hand) instead of play area
+                    context.game.addMessage(
+                        '{0} tries to play {1} but is restricted from playing it, returning it to {2}',
+                        player,
+                        card,
+                        location
+                    );
                     card.owner.moveCard(card, location);
                 }
             }

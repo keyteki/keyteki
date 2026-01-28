@@ -57,7 +57,13 @@ class PlayCardAction extends CardGameAction {
             .getActions(this.location)
             .filter((action) => action.title.includes('Play'));
 
-        return playActions.some((action) => this.actionMeetsRequirement(event.context, action));
+        const hasValidPlayAction = playActions.some((action) =>
+            this.actionMeetsRequirement(event.context, action)
+        );
+
+        // If revealOnIllegalTarget is true, allow the event to proceed even without valid play actions
+        // so we can show an appropriate message
+        return hasValidPlayAction || this.revealOnIllegalTarget;
     }
 
     getEvent(card, context) {
@@ -86,10 +92,25 @@ class PlayCardAction extends CardGameAction {
                 } else {
                     event.illegalTarget = true;
                     if (this.revealOnIllegalTarget) {
-                        context.game.addMessage(
-                            '{0} was unable to be played so is returned to its original location',
-                            card
-                        );
+                        // Check if alpha restriction is the reason
+                        const alphaValue = card.getKeywordValue('alpha');
+                        const isFirstThing = context.game.firstThingThisPhase();
+                        let location = card.location === 'deck' ? 'top of deck' : card.location;
+                        if (alphaValue > 0 && !isFirstThing) {
+                            context.game.addMessage(
+                                '{0} tries to play {1} but is restricted from playing it, returning it to {2}',
+                                context.player,
+                                card,
+                                location
+                            );
+                        } else {
+                            context.game.addMessage(
+                                '{0} tries to play {1} but is unable to, returning it to {2}',
+                                context.player,
+                                card,
+                                location
+                            );
+                        }
                     }
                 }
             }
