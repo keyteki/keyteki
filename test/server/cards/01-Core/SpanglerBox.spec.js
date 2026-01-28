@@ -176,10 +176,12 @@ describe('Spangler Box', function () {
             // Player1 plays Poltergeist
             this.player1.clickPrompt('dis');
             this.player1.play(this.poltergeist);
+            this.spanglerBox.ready();
             this.player1.clickCard(this.spanglerBox);
 
             // Poltergeist uses Spangler Box
             expect(this.player1).toHavePrompt('Spangler Box');
+            expect(this.player1).toBeAbleToSelect(this.stealerOfSouls);
             this.player1.clickCard(this.stealerOfSouls);
 
             // Spangler Box is destroyed
