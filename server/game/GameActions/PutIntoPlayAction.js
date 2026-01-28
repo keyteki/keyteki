@@ -50,7 +50,7 @@ class PutIntoPlayAction extends CardGameAction {
 
         // Check if creature should go to a different location instead of play
         // area - eg Mimic Gel and Alpha. If so, skip flank selection.
-        const redirectLocation = card.mostRecentEffect('creatureCardLocationAfterPlay');
+        const redirectLocation = card.mostRecentEffect('cardLocationAfterPlay');
         if (redirectLocation && redirectLocation !== 'play area') {
             return;
         }
@@ -294,8 +294,7 @@ class PutIntoPlayAction extends CardGameAction {
                 context.game.addMessage('{0} plays {1}', player, card);
 
                 // Check if creature should go to a different location instead of play area
-                let location =
-                    card.mostRecentEffect('creatureCardLocationAfterPlay') || 'play area';
+                let location = card.mostRecentEffect('cardLocationAfterPlay') || 'play area';
                 if (location !== 'play area') {
                     context.game.addMessage(
                         '{0} is unable to play {1} and returns it to {2}',

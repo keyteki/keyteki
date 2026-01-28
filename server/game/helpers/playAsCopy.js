@@ -67,11 +67,7 @@ function buildPlayAsCopyEffects({ context, ability, additionalEffects = [] }) {
 
     // If alpha restriction applies, add location redirect effect
     if (hasAlphaRestriction) {
-        if (sourceCard.type === 'creature') {
-            effects.push(ability.effects.creatureCardLocationAfterPlay('hand'));
-        } else {
-            effects.push(ability.effects.actionCardLocationAfterPlay('hand'));
-        }
+        effects.push(ability.effects.cardLocationAfterPlay('hand'));
     }
 
     return effects;

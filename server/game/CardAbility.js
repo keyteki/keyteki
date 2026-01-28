@@ -106,12 +106,6 @@ class CardAbility extends ThenAbility {
             if (!gameActions || gameActions.length === 0) {
                 this.addMessage(this.getMessageArgs(context));
             } else {
-                // If this is a play ability with a playCard gameAction,
-                // suppress the base message - the play action will show the appropriate message
-                if (gameActions[0].name === 'play' && this.isPlay()) {
-                    return;
-                }
-
                 let messageArgs = this.getMessageArgs(
                     context,
                     gameActions[0].effectMsg,
