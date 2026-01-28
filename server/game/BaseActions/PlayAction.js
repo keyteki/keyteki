@@ -7,7 +7,6 @@ class PlayAction extends BasePlayAction {
     }
 
     displayMessage(context) {
-        // Normal play message
         super.displayMessage(context);
 
         // Check if card is restricted from being played
@@ -28,7 +27,7 @@ class PlayAction extends BasePlayAction {
         super.executeHandler(context);
         context.game.queueSimpleStep(() => {
             if (context.source.location === 'being played') {
-                let location =
+                const location =
                     context.source.mostRecentEffect('actionCardLocationAfterPlay') || 'discard';
                 context.source.owner.moveCard(context.source, location);
             }

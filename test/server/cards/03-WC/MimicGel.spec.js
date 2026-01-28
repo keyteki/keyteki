@@ -72,7 +72,7 @@ describe('Mimic Gel', function () {
             expect(this.titanGuardian.power).toBe(7);
         });
 
-        it('should allow copying creatures with alpha keyword', function () {
+        it('should be able to copy creatures with alpha keyword', function () {
             expect(this.mimicGel.hasTrait('shapeshifter')).toBe(true);
             this.player1.clickCard(this.mimicGel);
             this.player1.clickPrompt('Play this creature');
@@ -805,7 +805,7 @@ describe('Mimic Gel', function () {
         });
     });
 
-    describe('Mimic Gel copying alpha creatures', function () {
+    describe('Mimic Gel with alpha creatures', function () {
         beforeEach(function () {
             this.setupTest({
                 player1: {
@@ -819,7 +819,7 @@ describe('Mimic Gel', function () {
             });
         });
 
-        it('should allow copying alpha creature as first play', function () {
+        it('should be able to copy alpha creature as first play', function () {
             this.player1.clickCard(this.mimicGel);
             this.player1.clickPrompt('Play this creature');
             expect(this.player1).toBeAbleToSelect(this.bumblebird);
@@ -830,7 +830,7 @@ describe('Mimic Gel', function () {
             expect(this.player1).isReadyToTakeAction();
         });
 
-        it('should allow selecting alpha creature but fizzle when not first play', function () {
+        it('should be able to select alpha creature and return to deck when not first play', function () {
             this.player1.reap(this.batdrone);
             this.player1.playCreature(this.mimicGel);
             expect(this.player1).toBeAbleToSelect(this.bumblebird);

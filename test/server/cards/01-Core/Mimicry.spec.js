@@ -61,7 +61,7 @@ describe('Mimicry', function () {
             expect(this.player1.hand.length).toBe(2);
         });
 
-        it('should allow to play an alpha card as first play', function () {
+        it('should be able to play an alpha card as first play', function () {
             this.player1.play(this.mimicry);
             expect(this.player1).toBeAbleToSelect(this.binateRupture);
             this.player1.clickCard(this.binateRupture);
@@ -71,7 +71,7 @@ describe('Mimicry', function () {
             expect(this.binateRupture.location).toBe('discard');
         });
 
-        it('should allow to select an alpha card as second play and fizzle', function () {
+        it('should be able to select an alpha card as second play and fizzle', function () {
             this.player1.reap(this.ancientBear);
             this.player1.play(this.mimicry);
             expect(this.player1).toBeAbleToSelect(this.binateRupture);
@@ -82,7 +82,7 @@ describe('Mimicry', function () {
             expect(this.binateRupture.location).toBe('discard');
         });
 
-        it('should allow to select an alpha card and end turn on omega', function () {
+        it('should be able to select an alpha card and end turn on omega', function () {
             this.player1.play(this.mimicry);
             expect(this.player1).toBeAbleToSelect(this.swindle);
             this.player1.clickCard(this.swindle);
@@ -94,7 +94,7 @@ describe('Mimicry', function () {
             expect(this.player2).toHavePrompt('House Choice');
         });
 
-        it('should not play alpha card if not first thing in turn, but should allow selecting it', function () {
+        it('should not be able to play alpha card if not first play in turn, but should be able to select it', function () {
             this.player1.reap(this.ancientBear);
             this.player1.play(this.mimicry);
             expect(this.player1).toBeAbleToSelect(this.swindle);
@@ -107,7 +107,7 @@ describe('Mimicry', function () {
         });
     });
 
-    describe('Mimicry/Wild Wormhole interaction', function () {
+    describe('Mimicry with Wild Wormhole', function () {
         beforeEach(function () {
             this.setupTest({
                 player1: {
@@ -135,7 +135,7 @@ describe('Mimicry', function () {
         });
     });
 
-    describe('Mimicry/Information Exchange interaction', function () {
+    describe('Mimicry with Information Exchange', function () {
         beforeEach(function () {
             this.setupTest({
                 player1: {
@@ -164,7 +164,7 @@ describe('Mimicry', function () {
         });
     });
 
-    describe('Mimicry/Mars Need Amber', function () {
+    describe('Mimicry with Mars Need Amber', function () {
         beforeEach(function () {
             this.setupTest({
                 player1: {
@@ -195,7 +195,7 @@ describe('Mimicry', function () {
         });
     });
 
-    describe('Mimicry/City State Interest', function () {
+    describe('Mimicry with City State Interest', function () {
         beforeEach(function () {
             this.setupTest({
                 player1: {
@@ -229,7 +229,7 @@ describe('Mimicry', function () {
         });
     });
 
-    describe('Mimicry/Phloxem Spike', function () {
+    describe('Mimicry with Phloxem Spike', function () {
         beforeEach(function () {
             this.setupTest({
                 player1: {
@@ -244,7 +244,7 @@ describe('Mimicry', function () {
             });
         });
 
-        it('should use phloxem spike on enemy creatures', function () {
+        it('should play phloxem spike', function () {
             this.player1.play(this.mimicry);
             this.player1.clickCard(this.phloxemSpike);
             expect(this.troll.location).toBe('play area');

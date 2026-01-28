@@ -1,5 +1,5 @@
 const Card = require('../../Card.js');
-const { buildCopyCardEffects } = require('../../helpers/copyCard.js');
+const { buildPlayAsCopyEffects } = require('../../helpers/playAsCardCopy.js');
 
 class Mimicry extends Card {
     // When you play this card, treat it as a copy of an action card in your opponents discard pile.
@@ -16,15 +16,13 @@ class Mimicry extends Card {
                 controller: 'opponent',
                 location: 'discard'
             },
-            effect: 'to copy {0}',
+            effect: 'copy {0}',
             gameAction: ability.actions.cardLastingEffect((context) => ({
                 allowedLocations: 'any',
                 target: context.source,
-                effect: buildCopyCardEffects({
-                    copiedCard: context.target,
+                effect: buildPlayAsCopyEffects({
                     context: context,
-                    ability: ability,
-                    additionalEffects: []
+                    ability: ability
                 })
             }))
         });

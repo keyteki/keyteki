@@ -1,13 +1,14 @@
 /**
  * Helper function to create effect factories for playing a card as a copy of another card
  * @param {Object} params
- * @param {Card} params.copiedCard - The card to copy
- * @param {AbilityContext} params.context - The ability context
+ * @param {Object} params.context - The ability context (context.target is the card to copy, context.source is the copying card)
  * @param {Object} params.ability - The ability object with effects
- * @param {Array} params.additionalEffects - Additional effect factories to apply (e.g., ability.effects.changeHouse('logos'))
+ * @param {Array} [params.additionalEffects=[]] - Additional effect factories to apply (e.g., ability.effects.changeHouse('logos'))
  * @returns {Array} Array of effect factories
  */
-function buildCopyCardEffects({ copiedCard, context, ability, additionalEffects = [] }) {
+function buildPlayAsCopyEffects({ context, ability, additionalEffects = [] }) {
+    const copiedCard = context.target;
+
     // If no card to copy, return empty effects (can happen during hasLegalTarget checks)
     if (!copiedCard) {
         return [];
@@ -76,4 +77,4 @@ function buildCopyCardEffects({ copiedCard, context, ability, additionalEffects 
     return effects;
 }
 
-module.exports = { buildCopyCardEffects };
+module.exports = { buildPlayAsCopyEffects };

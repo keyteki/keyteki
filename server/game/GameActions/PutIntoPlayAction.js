@@ -42,15 +42,15 @@ class PutIntoPlayAction extends CardGameAction {
 
     preEventHandler(context) {
         super.preEventHandler(context);
-        let card = this.target.length > 0 ? this.target[0] : context.source;
+        const card = this.target.length > 0 ? this.target[0] : context.source;
 
         if (card.gigantic && !this.canPutIntoPlayGigantic(context, card)) {
             return;
         }
 
-        // Check if creature should go to a different location instead of play area
-        // If so, skip flank selection
-        let redirectLocation = card.mostRecentEffect('creatureCardLocationAfterPlay');
+        // Check if creature should go to a different location instead of play
+        // area - eg Mimic Gel and Alpha. If so, skip flank selection.
+        const redirectLocation = card.mostRecentEffect('creatureCardLocationAfterPlay');
         if (redirectLocation && redirectLocation !== 'play area') {
             return;
         }
@@ -293,43 +293,41 @@ class PutIntoPlayAction extends CardGameAction {
                 // Check if creature should go to a different location instead of play area
                 let location =
                     card.mostRecentEffect('creatureCardLocationAfterPlay') || 'play area';
-
-                if (location === 'play area') {
-                    // Show play message when creature successfully enters play
-                    if (this.beingPlayed) {
-                        context.game.addMessage('{0} plays {1}', player, card);
-                    }
-
-                    player.moveCard(card, 'play area', {
-                        left: this.left,
-                        deployIndex: this.deployIndex,
-                        myControl: control
-                    });
-
-                    if (control) {
-                        card.updateEffectContexts();
-                    }
-
-                    if (!this.ready && !card.checkConditions('entersPlayReady', context)) {
-                        card.exhaust();
-                    }
-
-                    if (card.checkConditions('entersPlayStunned', context)) {
-                        card.stun();
-                    }
-
-                    if (card.checkConditions('entersPlayEnraged', context)) {
-                        card.enrage();
-                    }
-                } else {
-                    // Card goes to a different location (e.g., hand) instead of play area
+                if (location !== 'play area') {
                     context.game.addMessage(
                         '{0} is unable to play {1} and returns it to {2}',
                         player,
                         card,
                         location
                     );
-                    card.owner.moveCard(card, location);
+                    return card.owner.moveCard(card, location);
+                }
+
+                // Show play message when creature successfully enters play
+                if (this.beingPlayed) {
+                    context.game.addMessage('{0} plays {1}', player, card);
+                }
+
+                player.moveCard(card, 'play area', {
+                    left: this.left,
+                    deployIndex: this.deployIndex,
+                    myControl: control
+                });
+
+                if (control) {
+                    card.updateEffectContexts();
+                }
+
+                if (!this.ready && !card.checkConditions('entersPlayReady', context)) {
+                    card.exhaust();
+                }
+
+                if (card.checkConditions('entersPlayStunned', context)) {
+                    card.stun();
+                }
+
+                if (card.checkConditions('entersPlayEnraged', context)) {
+                    card.enrage();
                 }
             }
         );

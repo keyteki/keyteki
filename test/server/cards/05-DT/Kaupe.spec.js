@@ -126,8 +126,10 @@ describe('Kaupe', function () {
 
         it('should stop wild wormhole from playing another action', function () {
             this.player1.moveCard(this.remoteAccess, 'deck');
+            expect(this.player1.amber).toBe(0);
             this.player1.play(this.wildWormhole);
             expect(this.remoteAccess.location).toBe('deck');
+            expect(this.player1.amber).toBe(1);
             expect(this.player1).isReadyToTakeAction();
         });
     });
