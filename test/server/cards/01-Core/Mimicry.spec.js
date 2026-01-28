@@ -240,6 +240,8 @@ describe('Mimicry', function () {
             expect(this.brammo.location).toBe('discard');
             expect(this.alaka.location).toBe('discard');
             expect(this.zorg.location).toBe('play area');
+            expect(this.toHaveRecentChatMessage('Mimicry as Phloxem Spike destroys')).toBe(true);
+            expect(this.mimicry.name).toBe('Mimicry');
         });
     });
 });
