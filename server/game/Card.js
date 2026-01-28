@@ -958,7 +958,7 @@ class Card extends EffectSource {
         clone.effects = _.clone(this.effects);
         clone.tokens = _.clone(this.tokens);
         clone.controller = this.controller;
-        clone.clonedPurgedCards = this.purgedCards;
+        clone.clonedPurgedCards = Array.from(this.purgedCards);
         clone.exhausted = this.exhausted;
         clone.location = this.location;
         clone.parent = this.parent;
