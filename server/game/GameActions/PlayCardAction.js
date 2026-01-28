@@ -11,7 +11,9 @@ class PlayCardAction extends CardGameAction {
     setup() {
         super.setup();
         this.name = 'play';
-        this.effectMsg = 'play {0}';
+        // Suppress the effect message - the actual play action (PlayAction, PlayCreatureAction, etc)
+        // will show the appropriate message based on whether the play succeeds or fizzles
+        this.effectMsg = '';
     }
 
     canAffect(card, context) {
@@ -92,25 +94,12 @@ class PlayCardAction extends CardGameAction {
                 } else {
                     event.illegalTarget = true;
                     if (this.revealOnIllegalTarget) {
-                        // Check if alpha restriction is the reason
-                        const alphaValue = card.getKeywordValue('alpha');
-                        const isFirstThing = context.game.firstThingThisPhase();
-                        let location = card.location === 'deck' ? 'top of deck' : card.location;
-                        if (alphaValue > 0 && !isFirstThing) {
-                            context.game.addMessage(
-                                '{0} tries to play {1} but is restricted from playing it, returning it to {2}',
-                                context.player,
-                                card,
-                                location
-                            );
-                        } else {
-                            context.game.addMessage(
-                                '{0} tries to play {1} but is unable to, returning it to {2}',
-                                context.player,
-                                card,
-                                location
-                            );
-                        }
+                        context.game.addMessage(
+                            '{0} tries to play {1} but is unable to, returning it to {2}',
+                            context.player,
+                            card,
+                            card.location
+                        );
                     }
                 }
             }
