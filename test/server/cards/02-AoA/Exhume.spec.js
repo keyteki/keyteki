@@ -25,12 +25,12 @@ describe('Exhume', function () {
             });
         });
 
-        it('should allow selecting non-alpha creatures', function () {
+        it('should allow selecting creatures from own discard', function () {
             this.player1.play(this.exhume);
             expect(this.player1).toBeAbleToSelect(this.ancientBear);
             expect(this.player1).toBeAbleToSelect(this.shooler);
-            expect(this.player1).not.toBeAbleToSelect(this.glimmer);
-            expect(this.player1).not.toBeAbleToSelect(this.bumblebird);
+            expect(this.player1).toBeAbleToSelect(this.bumblebird);
+            expect(this.player1).toBeAbleToSelect(this.glimmer);
             expect(this.player1).not.toBeAbleToSelect(this.flaxia);
             expect(this.player1).not.toBeAbleToSelect(this.bumpsy);
             expect(this.player1).not.toBeAbleToSelect(this.troll);
@@ -91,6 +91,47 @@ describe('Exhume', function () {
             this.player1.clickCard(this.titanicBumblebird);
             expect(this.titanicBumblebird.location).toBe('discard');
             expect(this.titanicBumblebird2.location).toBe('discard');
+            expect(this.player1).isReadyToTakeAction();
+        });
+    });
+
+    describe('Exhume and alpha creatures', function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'dis',
+                    inPlay: ['flaxia'],
+                    hand: ['exhume', 'gub'],
+                    discard: [
+                        'bumblebird',
+                        'shooler',
+                        'mark-of-dis',
+                        'dominator-bauble',
+                        'collar-of-subordination'
+                    ]
+                }
+            });
+        });
+
+        it('should allow selecting alpha creature as first play and fizzle', function () {
+            this.player1.play(this.exhume);
+            expect(this.player1).toBeAbleToSelect(this.bumblebird);
+            expect(this.player1).toBeAbleToSelect(this.shooler);
+            expect(this.player1).not.toBeAbleToSelect(this.markOfDis);
+            expect(this.player1).not.toBeAbleToSelect(this.dominatorBauble);
+            expect(this.player1).not.toBeAbleToSelect(this.collarOfSubordination);
+            this.player1.clickCard(this.bumblebird);
+            expect(this.bumblebird.location).toBe('discard');
+            expect(this.player1).isReadyToTakeAction();
+        });
+
+        it('should allow selecting alpha creature as second play and fizzle', function () {
+            this.player1.playCreature(this.gub);
+            this.player1.play(this.exhume);
+            expect(this.player1).toBeAbleToSelect(this.bumblebird);
+            expect(this.player1).toBeAbleToSelect(this.shooler);
+            this.player1.clickCard(this.bumblebird);
+            expect(this.bumblebird.location).toBe('discard');
             expect(this.player1).isReadyToTakeAction();
         });
     });

@@ -42,9 +42,16 @@ class PutIntoPlayAction extends CardGameAction {
 
     preEventHandler(context) {
         super.preEventHandler(context);
-        let card = this.target.length > 0 ? this.target[0] : context.source;
+        const card = this.target.length > 0 ? this.target[0] : context.source;
 
         if (card.gigantic && !this.canPutIntoPlayGigantic(context, card)) {
+            return;
+        }
+
+        // Check if creature should go to a different location instead of play
+        // area - eg Mimic Gel and Alpha. If so, skip flank selection.
+        const redirectLocation = card.mostRecentEffect('cardLocationAfterPlay');
+        if (redirectLocation && redirectLocation !== 'play area') {
             return;
         }
 
@@ -281,6 +288,21 @@ class PutIntoPlayAction extends CardGameAction {
                             effect: e.builder()
                         })
                         .resolve(card, context);
+                }
+
+                // Show play message
+                context.game.addMessage('{0} plays {1}', player, card);
+
+                // Check if creature should go to a different location instead of play area
+                let location = card.mostRecentEffect('cardLocationAfterPlay') || 'play area';
+                if (location !== 'play area') {
+                    context.game.addMessage(
+                        '{0} is unable to play {1} and returns it to {2}',
+                        player,
+                        card,
+                        location
+                    );
+                    return card.owner.moveCard(card, location);
                 }
 
                 player.moveCard(card, 'play area', {

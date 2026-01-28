@@ -57,7 +57,13 @@ class PlayCardAction extends CardGameAction {
             .getActions(this.location)
             .filter((action) => action.title.includes('Play'));
 
-        return playActions.some((action) => this.actionMeetsRequirement(event.context, action));
+        const hasValidPlayAction = playActions.some((action) =>
+            this.actionMeetsRequirement(event.context, action)
+        );
+
+        // If revealOnIllegalTarget is true, allow the event to proceed even without valid play actions
+        // so we can show an appropriate message
+        return hasValidPlayAction || this.revealOnIllegalTarget;
     }
 
     getEvent(card, context) {
@@ -87,8 +93,10 @@ class PlayCardAction extends CardGameAction {
                     event.illegalTarget = true;
                     if (this.revealOnIllegalTarget) {
                         context.game.addMessage(
-                            '{0} was unable to be played so is returned to its original location',
-                            card
+                            '{0} is unable to play {1} and returns it to {2}',
+                            context.player,
+                            card,
+                            card.location
                         );
                     }
                 }
