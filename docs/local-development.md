@@ -117,6 +117,8 @@ For hot reloading and React DevTools, run Node locally while using Docker for da
     npm start
     ```
 
+    The lobby server uses Vite middleware for the client in development; no separate client dev server is needed.
+
 -   In another terminal, run the game node:
 
     ```bash
