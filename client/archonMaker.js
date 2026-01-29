@@ -3,12 +3,6 @@ import QRCode from 'qrcode';
 
 import { Constants } from './constants';
 
-const imageAssets = import.meta.glob('./assets/img/**/*.{png,jpg,jpeg,svg}', {
-    eager: true,
-    import: 'default'
-});
-const imageUrl = (path) => imageAssets[`./assets/img/${path}`];
-
 const EnhancementBaseImages = {};
 const HouseIcons = {};
 const IdBackHouseIcons = {};
@@ -183,14 +177,14 @@ async function cacheImages() {
         IdBackDecals[cardBackDecal] = await loadImage(Constants.IdBackDecals[cardBackDecal]);
     }
 
-    TCOIcon = await loadImage(imageUrl('idbacks/tco.png'));
-    DeckListIcon = await loadImage(imageUrl('idbacks/decklist-h.png'));
-    Rarities.Common = await loadImage(imageUrl('idbacks/Common.png'));
-    Rarities.Token = Rarities.Rare = await loadImage(imageUrl('idbacks/Rare.png'));
-    Rarities.Special = await loadImage(imageUrl('idbacks/Special.png'));
-    Rarities.Uncommon = await loadImage(imageUrl('idbacks/Uncommon.png'));
-    Rarities['Evil Twin'] = await loadImage(imageUrl('idbacks/evil-twin.png'));
-    Rarities['The Tide'] = await loadImage(imageUrl('idbacks/tide.png'));
+    TCOIcon = await loadImage(require('./assets/img/idbacks/tco.png'));
+    DeckListIcon = await loadImage(require('./assets/img/idbacks/decklist-h.png'));
+    Rarities.Common = await loadImage(require('./assets/img/idbacks/Common.png'));
+    Rarities.Token = Rarities.Rare = await loadImage(require('./assets/img/idbacks/Rare.png'));
+    Rarities.Special = await loadImage(require('./assets/img/idbacks/Special.png'));
+    Rarities.Uncommon = await loadImage(require('./assets/img/idbacks/Uncommon.png'));
+    Rarities['Evil Twin'] = await loadImage(require('./assets/img/idbacks/evil-twin.png'));
+    Rarities['The Tide'] = await loadImage(require('./assets/img/idbacks/tide.png'));
     MaverickIcon = await loadImage(Constants.MaverickIcon);
     AnomalyIcon = await loadImage(Constants.AnomalyIcon);
     DefaultCard = await loadImage(Constants.DefaultCard);
@@ -882,7 +876,7 @@ export const buildCard = async (
         if (tokens) {
             for (const [index, { name, count, fade, showValue }] of printTokens.entries()) {
                 if (!Tokens[name]) {
-                    Tokens[name] = await loadImage(imageUrl(`${name}.png`));
+                    Tokens[name] = await loadImage(require(`./assets/img/${name}.png`));
                 }
 
                 const TokenImage = new fabric.Image(Tokens[name].toCanvasElement(), imgOptions);

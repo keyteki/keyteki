@@ -7,7 +7,6 @@ typings
 coverage
 *.log
 *.json
-!client/locales/*.json
 server/events.txt
 .DS_Store
 config/local*

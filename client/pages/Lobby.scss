@@ -1,13 +1,13 @@
 @import '../styles/colours';
-@import 'bootstrap/scss/functions';
-@import 'bootstrap/scss/variables';
+@import '~bootstrap/scss/functions';
+@import '~bootstrap/scss/variables';
 
 .event-banner {
     padding-top: 0px;
     margin-top: 0px;
     margin-bottom: 4px;
     border-radius: 10px;
-    background-image: url('assets/img/event-banner.png');
+    background-image: url('~assets/img/event-banner.png');
     height: 140px;
     background-repeat: no-repeat;
     background-position-x: center;

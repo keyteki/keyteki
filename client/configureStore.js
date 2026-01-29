@@ -1,6 +1,5 @@
-import configureStoreDev from './configureStore.dev';
-import configureStoreProd from './configureStore.prod';
-
-const configureStore = import.meta.env.PROD ? configureStoreProd : configureStoreDev;
-
-export default configureStore;
+if (process.env.NODE_ENV === 'production') {
+    module.exports = require('./configureStore.prod');
+} else {
+    module.exports = require('./configureStore.dev');
+}

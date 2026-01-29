@@ -1,8 +1,8 @@
 @import '../../styles/variables';
 @import '../../styles/colours';
-@import 'bootstrap/scss/functions';
-@import 'bootstrap/scss/variables';
-@import 'bootstrap/scss/mixins';
+@import '~bootstrap/scss/functions';
+@import '~bootstrap/scss/variables';
+@import '~bootstrap/scss/mixins';
 
 .selected {
     box-shadow: 0 0 1px 4px theme-color(secondary);

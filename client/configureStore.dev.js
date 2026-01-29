@@ -10,10 +10,10 @@ const enhancer = composeEnhancers(applyMiddleware(thunkMiddleware, callAPIMiddle
 export default function configureStore(initialState) {
     const store = createStore(rootReducer, initialState, enhancer);
 
-    if (import.meta.hot) {
-        import.meta.hot.accept('./redux/reducers', (mod) => {
-            store.replaceReducer(mod.default);
-        });
+    if (module.hot) {
+        module.hot.accept('./redux/reducers', () =>
+            store.replaceReducer(require('./redux/reducers').default)
+        );
     }
 
     return store;

@@ -1,9 +1,10 @@
+/* eslint-env node */
+
 import '@babel/polyfill';
-import './shims/jquery-global';
 import $ from 'jquery';
 import 'jquery-validation';
 import 'jquery-validation-unobtrusive';
-import 'react-redux-toastr/lib/css/react-redux-toastr.min.css';
+import 'react-redux-toastr/src/styles/index.scss';
 import 'core-js/stable';
 import 'regenerator-runtime/runtime';
 import './styles/index.scss';
@@ -19,8 +20,12 @@ $.validator.setDefaults({
     }
 });
 
-if (import.meta.env.PROD) {
-    import('./index.prod');
+let index;
+
+if (process.env.NODE_ENV === 'production') {
+    index = require('./index.prod');
 } else {
-    import('./index.dev');
+    index = require('./index.dev');
 }
+
+export default index;

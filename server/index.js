@@ -10,7 +10,7 @@ async function runServer() {
     options.userService = new UserService(options.configService);
 
     let server = new Server(process.env.NODE_ENV !== 'production');
-    let httpServer = await server.init(options);
+    let httpServer = server.init(options);
     let lobby = new Lobby(httpServer, options);
 
     await lobby.init();

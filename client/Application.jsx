@@ -7,8 +7,8 @@ import { Container } from 'react-bootstrap';
 import { Constants } from './constants';
 import ErrorBoundary from './Components/Site/ErrorBoundary';
 import Navigation from './Components/Navigation/Navigation';
-import Router from './Router.jsx';
-import { tryParseJSON } from './util.jsx';
+import Router from './Router';
+import { tryParseJSON } from './util';
 import AlertPanel from './Components/Site/AlertPanel';
 import * as actions from './redux/actions';
 

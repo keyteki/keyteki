@@ -10,7 +10,7 @@ import AlertPanel from '../Site/AlertPanel';
 import GameOptions from './GameOptions';
 import GameFormats from './GameFormats';
 import GameTypes from './GameTypes';
-import { getStandardControlProps } from '../../util.jsx';
+import { getStandardControlProps } from '../../util';
 import { cancelNewGame, sendSocketMessage } from '../../redux/actions';
 
 import './NewGame.scss';
