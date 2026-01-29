@@ -33,8 +33,7 @@ export default defineConfig(({ mode }) => ({
     },
     define: {
         'process.env.NODE_ENV': JSON.stringify(mode),
-        'process.env.VERSION': JSON.stringify(process.env.VERSION || 'development'),
-        'import.meta.env.VERSION': JSON.stringify(process.env.VERSION || 'development')
+        'process.env.VERSION': JSON.stringify(process.env.VERSION || 'development')
     },
     optimizeDeps: {
         esbuildOptions: {

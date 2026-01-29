@@ -148,7 +148,7 @@ export function connectLobby() {
         }
 
         let queryString = state.auth.token ? 'token=' + state.auth.token + '&' : '';
-        queryString += 'version=' + (import.meta.env.VERSION || 'Local build');
+        queryString += 'version=' + process.env.VERSION || 'Local build';
 
         let socket = io.connect(window.location.origin, {
             reconnection: true,

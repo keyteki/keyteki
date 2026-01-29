@@ -49,7 +49,7 @@ const sentryOptions = {
 
         return event;
     },
-    release: import.meta.env.VERSION || 'Local build'
+    release: process.env.VERSION || 'Local build'
 };
 
 Sentry.init(sentryOptions);
