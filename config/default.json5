@@ -3,12 +3,12 @@
 
     secret: 'somethingverysecret',
     redisKeyPrefix: 'keyteki:dev',
-    redisUrl: 'redis://localhost:6379/',
+    redisUrl: 'redis://redis:6379/',
     dbUser: 'keyteki',
-    dbHost: 'localhost',
+    dbHost: 'postgres',
     dbDatabase: 'keyteki',
     dbPassword: 'changemeplease',
-    dbPort: 54320,
+    dbPort: 5432,
     minLobbyChatTime: 0, // The time (in seconds) an account has to be registered before it can chat in the lobby
     /*
      * Other global configurations used, but not specified, include:
@@ -37,7 +37,7 @@
 
     gameNode: {
         name: 'test1',
-        host: 'localhost',
+        host: 'node',
         socketioPort: 9500
 
         /*
