@@ -31,7 +31,7 @@ For running unit tests, see [Testing Cards](testing-cards.md). It is not necessa
 ## Prerequisites
 
 -   Git
--   Node.js v16.20.2
+-   Node.js v22.22.0
 -   Docker (recommended) or PostgreSQL + Redis
 
 ## Quick Start (Docker)
@@ -44,15 +44,15 @@ Docker is the recommended approach for local development.
 
 -   Install a Node version manager ([nvm](https://github.com/nvm-sh/nvm) or [asdf](https://asdf-vm.com/))
 
--   Install Node v16.20.2:
+-   Install Node v22.22.0:
 
     ```bash
     # Using nvm
-    nvm install 16.20.2
-    nvm use 16.20.2
+    nvm install 22.22.0
+    nvm use 22.22.0
 
     # Using asdf (add `legacy_version_file = yes` to ~/.asdfrc first)
-    asdf install nodejs 16.20.2
+    asdf install nodejs 22.22.0
     ```
 
 -   Clone and set up the repository:
@@ -62,19 +62,19 @@ Docker is the recommended approach for local development.
     cd keyteki
     git submodule init
     git submodule update
-    npm install
+    npm ci
     ```
 
 -   Start the server:
 
     ```bash
-    docker-compose up --build
+    docker compose up --build
     ```
 
 -   In another terminal, fetch the card data:
 
     ```bash
-    docker-compose exec lobby node server/scripts/fetchdata
+    docker compose exec lobby node server/scripts/fetchdata
     ```
 
     > Note: It's normal to see "Failed to add card" errors about duplicates at the beginning. If images fail due to rate limits, run the command again.
@@ -82,7 +82,7 @@ Docker is the recommended approach for local development.
 -   Restart the server after fetchdata completes.
 
     ```bash
-    docker-compose restart
+    docker compose restart
     ```
 
 ### Accessing the Site
@@ -128,7 +128,7 @@ For hot reloading and React DevTools, run Node locally while using Docker for da
 ### Required Software
 
 -   Git
--   Node.js v16.20.2
+-   Node.js v22.22.0
 -   PostgreSQL
 -   Redis
 
@@ -141,7 +141,7 @@ For hot reloading and React DevTools, run Node locally while using Docker for da
     cd keyteki
     git submodule init
     git submodule update
-    npm install
+    npm ci
     mkdir server/logs
     ```
 
@@ -223,8 +223,8 @@ docker builder prune
 You're likely running with the wrong Node version. Verify:
 
 ```bash
-node --version   # Should be 16.20.2
-npm --version    # Should be ~8.19.4
+node --version   # Should be 22.22.0
+npm --version    # Should be ~10.x
 ```
 
 ### dlopen Errors
@@ -233,7 +233,7 @@ Node modules were built for a different architecture (e.g., built inside Docker 
 
 ```bash
 rm -rf node_modules
-npm install
+npm ci
 ```
 
 ### Git Submodule Issues
@@ -241,6 +241,6 @@ npm install
 ```bash
 git submodule init
 git submodule update
-npm install
+npm ci
 git submodule update --init --recursive
 ```
