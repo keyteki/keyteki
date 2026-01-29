@@ -15,7 +15,7 @@
         "game": "node server/gamenode",
         "test": "cross-env JASMINE_CONFIG_PATH=./jasmine.json jasmine",
         "lint": "eslint --ext=js --ext=jsx client/ server/ test/",
-        "build": "vite build",
+        "build": "vite build --config vite.config.mjs",
         "test-client": "jest --colors client",
         "lint:js": "eslint . --ext .js,.jsx,.ts,.tsx",
         "lint:js:fix": "npm run lint:js -- --fix"

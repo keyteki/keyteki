@@ -3,7 +3,7 @@ import './shims/jquery-global';
 import $ from 'jquery';
 import 'jquery-validation';
 import 'jquery-validation-unobtrusive';
-import 'react-redux-toastr/src/styles/index.scss';
+import 'react-redux-toastr/lib/css/react-redux-toastr.min.css';
 import 'core-js/stable';
 import 'regenerator-runtime/runtime';
 import './styles/index.scss';

@@ -69,11 +69,9 @@ class Server {
         }
 
         if (this.isDeveloping) {
-            const { createServer: createViteServer } = await import('vite');
-            const vite = await createViteServer({
-                root: path.join(__dirname, '..'),
-                server: { middlewareMode: true },
-                appType: 'custom'
+            const { createViteMiddleware } = await import('./vite-dev.mjs');
+            const { vite, templatePath } = await createViteMiddleware({
+                root: path.join(__dirname, '..')
             });
 
             app.use(vite.middlewares);
@@ -81,10 +79,7 @@ class Server {
             app.get('*', async (req, res, next) => {
                 try {
                     const url = req.originalUrl;
-                    const template = fs.readFileSync(
-                        path.join(__dirname, '..', 'index.html'),
-                        'utf-8'
-                    );
+                    const template = fs.readFileSync(templatePath, 'utf-8');
                     const html = await vite.transformIndexHtml(url, template);
                     res.status(200).set({ 'Content-Type': 'text/html' }).end(html);
                 } catch (err) {

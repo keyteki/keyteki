@@ -9,18 +9,33 @@ export default defineConfig(({ mode }) => ({
         })
     ],
     resolve: {
-        alias: {
-            assets: path.resolve(__dirname, 'client/assets'),
-            'react/jsx-runtime': path.resolve(__dirname, 'client/shims/react-jsx-runtime.js'),
-            'react/jsx-dev-runtime': path.resolve(__dirname, 'client/shims/react-jsx-runtime.js')
-        }
+        alias: [
+            {
+                find: 'assets',
+                replacement: path.resolve(__dirname, 'client/assets')
+            },
+            {
+                find: /^react-redux-toastr$/,
+                replacement: path.resolve(
+                    __dirname,
+                    'node_modules/react-redux-toastr/lib/index.js'
+                )
+            },
+            {
+                find: 'react/jsx-runtime',
+                replacement: path.resolve(__dirname, 'client/shims/react-jsx-runtime.js')
+            },
+            {
+                find: 'react/jsx-dev-runtime',
+                replacement: path.resolve(__dirname, 'client/shims/react-jsx-runtime.js')
+            }
+        ]
     },
     define: {
         'process.env.NODE_ENV': JSON.stringify(mode),
         'process.env.VERSION': JSON.stringify(process.env.VERSION || 'development')
     },
     optimizeDeps: {
-        include: ['react-redux-toastr'],
         esbuildOptions: {
             loader: {
                 '.js': 'jsx'
