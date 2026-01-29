@@ -235,24 +235,24 @@ module.exports.init = function (server, options) {
 
     server.post(
         '/api/account/register',
-        wrapAsync(async (req, res, next) => {
+        wrapAsync(async (req, res) => {
             let message = validateUserName(req.body.username);
             if (message) {
                 res.send({ success: false, message: message });
 
-                return next();
+                return;
             }
 
             message = validateEmail(req.body.email);
             if (message) {
                 res.send({ success: false, message: message });
-                return next();
+                return;
             }
 
             message = validatePassword(req.body.password);
             if (message) {
                 res.send({ success: false, message: message });
-                return next();
+                return;
             }
 
             let user = await userService.doesEmailExist(req.body.email);
@@ -262,7 +262,7 @@ module.exports.init = function (server, options) {
                     message: 'An account with that email already exists, please use another'
                 });
 
-                return next();
+                return;
             }
 
             user = await userService.doesUserExist(req.body.username);
@@ -272,7 +272,7 @@ module.exports.init = function (server, options) {
                     message: 'An account with that name already exists, please choose another'
                 });
 
-                return next();
+                return;
             }
 
             let emailBlockKey = configService.getValueForSection('lobby', 'emailBlockKey');
@@ -301,7 +301,7 @@ module.exports.init = function (server, options) {
                                 'One time use email services are not permitted on this site.  Please use a real email address'
                         });
 
-                        return next();
+                        return;
                     }
                 } catch (err) {
                     logger.warn(`Could not valid email address ${domain}`, err);
@@ -404,7 +404,7 @@ module.exports.init = function (server, options) {
 
     server.post(
         '/api/account/activate',
-        wrapAsync(async (req, res, next) => {
+        wrapAsync(async (req, res) => {
             if (!req.body.id || !req.body.token) {
                 return res.send({ success: false, message: 'Invalid parameters' });
             }
@@ -421,7 +421,7 @@ module.exports.init = function (server, options) {
                         'An error occurred activating your account, check the url you have entered and try again.'
                 });
 
-                return next();
+                return;
             }
 
             if (!user.activationToken) {
@@ -433,7 +433,7 @@ module.exports.init = function (server, options) {
                         'An error occurred activating your account, check the url you have entered and try again.'
                 });
 
-                return next();
+                return;
             }
 
             let now = moment().utc();
@@ -445,7 +445,7 @@ module.exports.init = function (server, options) {
 
                 logger.error('Token expired for %s', user.username);
 
-                return next();
+                return;
             }
 
             let hmac = crypto.createHmac(
@@ -465,7 +465,7 @@ module.exports.init = function (server, options) {
                         'An error occurred activating your account, check the url you have entered and try again.'
                 });
 
-                return next();
+                return;
             }
 
             try {
@@ -479,7 +479,7 @@ module.exports.init = function (server, options) {
                         'An error occurred activating your account, check the url you have entered and try again.'
                 });
 
-                return next();
+                return;
             }
 
             res.send({ success: true });
@@ -563,17 +563,17 @@ module.exports.init = function (server, options) {
 
     server.post(
         '/api/account/login',
-        wrapAsync(async (req, res, next) => {
+        wrapAsync(async (req, res) => {
             if (!req.body.username) {
                 res.send({ success: false, message: 'Username must be specified' });
 
-                return next();
+                return;
             }
 
             if (!req.body.password) {
                 res.send({ success: false, message: 'Password must be specified' });
 
-                return next();
+                return;
             }
 
             let user = await userService.getFullUserByUsername(req.body.username);
@@ -639,11 +639,11 @@ module.exports.init = function (server, options) {
 
     server.post(
         '/api/account/token',
-        wrapAsync(async (req, res, next) => {
+        wrapAsync(async (req, res) => {
             if (!req.body.token) {
                 res.send({ success: false, message: 'Refresh token must be specified' });
 
-                return next();
+                return;
             }
 
             let token = req.body.token;
@@ -652,7 +652,7 @@ module.exports.init = function (server, options) {
             if (!user) {
                 res.send({ success: false, message: 'Invalid refresh token' });
 
-                return next();
+                return;
             }
 
             if (user.username !== token.username) {
@@ -661,7 +661,7 @@ module.exports.init = function (server, options) {
                 );
                 res.send({ success: false, message: 'Invalid refresh token' });
 
-                return next();
+                return;
             }
 
             let refreshToken = user.tokens.find((t) => {
@@ -670,19 +670,19 @@ module.exports.init = function (server, options) {
             if (!refreshToken) {
                 res.send({ success: false, message: 'Invalid refresh token' });
 
-                return next();
+                return;
             }
 
             if (!userService.verifyRefreshToken(user.username, refreshToken)) {
                 res.send({ success: false, message: 'Invalid refresh token' });
 
-                return next();
+                return;
             }
 
             if (user.disabled) {
                 res.send({ success: false, message: 'Invalid refresh token' });
 
-                return next();
+                return;
             }
 
             let userObj = user.getWireSafeDetails();
@@ -704,7 +704,7 @@ module.exports.init = function (server, options) {
 
     server.post(
         '/api/account/password-reset-finish',
-        wrapAsync(async (req, res, next) => {
+        wrapAsync(async (req, res) => {
             let resetUser;
 
             if (!req.body.id || !req.body.token || !req.body.newPassword) {
@@ -719,7 +719,7 @@ module.exports.init = function (server, options) {
                         'An error occurred resetting your password, check the url you have entered and try again.'
                 });
 
-                return next();
+                return;
             }
 
             if (!user.resetToken) {
@@ -731,7 +731,7 @@ module.exports.init = function (server, options) {
                         'An error occurred resetting your password, check the url you have entered and try again.'
                 });
 
-                return next();
+                return;
             }
 
             let now = moment().utc();
@@ -743,7 +743,7 @@ module.exports.init = function (server, options) {
 
                 logger.error('Token expired for %s', user.username);
 
-                return next();
+                return;
             }
 
             let hmac = crypto.createHmac(
@@ -773,7 +773,7 @@ module.exports.init = function (server, options) {
                         'An error occurred resetting your password, check the url you have entered and try again.'
                 });
 
-                return next();
+                return;
             }
 
             resetUser = user;
@@ -855,7 +855,7 @@ module.exports.init = function (server, options) {
     server.put(
         '/api/account/:username',
         passport.authenticate('jwt', { session: false }),
-        wrapAsync(async (req, res, next) => {
+        wrapAsync(async (req, res) => {
             let userToSet = req.body.data;
 
             if (req.user.username !== req.params.username) {
@@ -875,7 +875,7 @@ module.exports.init = function (server, options) {
                         message: 'An account with that name already exists, please choose another'
                     });
 
-                    return next();
+                    return;
                 }
             }
 
