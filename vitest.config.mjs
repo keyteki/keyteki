@@ -20,8 +20,7 @@ export default defineConfig({
         isolate: false,
 
         // Reporter
-        // reporters: ['default'],
-        reporters: ['./test/helpers/reporter.js'],
+        reporters: ['./test/helpers/vitest-reporter.js'],
 
         // Timeout per test
         testTimeout: 1000,

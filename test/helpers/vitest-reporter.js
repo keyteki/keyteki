@@ -19,7 +19,7 @@ export default class CustomReporter extends DefaultReporter {
         this.startTime = Date.now();
         this._progressStarted = false;
         this._lastPrintTime = 0;
-        this._printInterval = 100; // Update at most 10x per second
+        this._printInterval = 100; // ms
         this._linesWritten = false;
 
         // Clean up progress on interrupt

@@ -2,7 +2,7 @@ const _ = require('underscore');
 
 const cards = require('../../../server/game/cards');
 const AbilityDsl = require('../../../server/game/abilitydsl');
-const localeEn = require('../../../public/locales/en.json');
+const localeEn = require('../../../client/locales/en.json');
 
 const card = {
     hasHouse: () => true,
