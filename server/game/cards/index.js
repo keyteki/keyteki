@@ -1,27 +1,28 @@
 const fs = require('fs');
 const path = require('path');
 
-// Map of fileKey (filename without .js) -> { filePath, loaded }
-const cardRegistry = {};
-// Cache of loaded card classes by cardId
+// Map cardId -> filePath (built by scanning files without requiring them)
+const cardIdToPath = {};
+// Cache of loaded card classes
 const loadedCards = {};
-// Map of cardId -> fileKey for direct lookups (built as cards are loaded)
-const cardIdToFileKey = {};
 
 /**
- * Convert PascalCase filename to kebab-case card ID (heuristic)
- * e.g., "AncientBear" -> "ancient-bear", "BaitAndSwitch" -> "bait-and-switch"
+ * Extract card.id from file contents without requiring the module
+ * Looks for pattern: CardName.id = 'card-id' or CardName.id = "card-id"
  */
-function filenameToCardId(filename) {
-    return filename
-        .replace(/([a-z])([A-Z])/g, '$1-$2')
-        .replace(/([A-Z]+)([A-Z][a-z])/g, '$1-$2')
-        .toLowerCase();
+function extractCardId(filePath) {
+    try {
+        const content = fs.readFileSync(filePath, 'utf8');
+        // Match: SomeClass.id = 'card-id' or SomeClass.id = "card-id"
+        const match = content.match(/\.id\s*=\s*['"]([^'"]+)['"]/);
+        return match ? match[1] : null;
+    } catch (e) {
+        return null;
+    }
 }
 
 /**
- * Scan directories to build the card registry (fileKey -> filePath)
- * Also builds a heuristic cardId -> fileKey mapping for fast lookups
+ * Scan directories and extract card IDs from file contents
  */
 function scanDirectory(directory) {
     const fullPath = path.join(__dirname, directory);
@@ -31,55 +32,17 @@ function scanDirectory(directory) {
         if (entry.isDirectory()) {
             scanDirectory(path.join(directory, entry.name));
         } else if (entry.name.endsWith('.js') && entry.name !== 'index.js') {
-            const filePath = './' + path.join(directory, entry.name).replace(/\\/g, '/');
-            const fileKey = entry.name.replace('.js', '');
-            cardRegistry[fileKey] = { filePath, loaded: false };
-
-            // Build heuristic mapping from likely cardId to fileKey
-            const likelyCardId = filenameToCardId(fileKey);
-            if (!cardIdToFileKey[likelyCardId]) {
-                cardIdToFileKey[likelyCardId] = fileKey;
+            const filePath = path.join(__dirname, directory, entry.name);
+            const relativePath = './' + path.join(directory, entry.name).replace(/\\/g, '/');
+            const cardId = extractCardId(filePath);
+            if (cardId) {
+                cardIdToPath[cardId] = relativePath;
             }
         }
     }
 }
 
-/**
- * Load a card by its file key and register it by its actual card ID
- */
-function loadCardByFileKey(fileKey) {
-    const entry = cardRegistry[fileKey];
-    if (!entry || entry.loaded) {
-        return;
-    }
-
-    try {
-        const card = require(entry.filePath);
-        if (card && card.id) {
-            loadedCards[card.id] = card;
-            // Update the mapping with the actual cardId
-            cardIdToFileKey[card.id] = fileKey;
-        }
-        entry.loaded = true;
-    } catch (e) {
-        // Mark as loaded to avoid retrying
-        entry.loaded = true;
-        console.error(`Failed to load card ${fileKey}:`, e.message);
-    }
-}
-
-/**
- * Preload all cards - call this in production for optimal performance
- */
-function preloadAll() {
-    for (const fileKey of Object.keys(cardRegistry)) {
-        if (!cardRegistry[fileKey].loaded) {
-            loadCardByFileKey(fileKey);
-        }
-    }
-}
-
-// Scan all card directories at module load (fast - just file paths)
+// Scan all card directories at module load (reads files but doesn't require them)
 const directories = fs
     .readdirSync(__dirname, { withFileTypes: true })
     .filter((entry) => entry.isDirectory())
@@ -89,50 +52,32 @@ for (const directory of directories) {
     scanDirectory(directory);
 }
 
-// Track cardIds we've already done a full search for (to avoid repeated scans)
-const searchedCardIds = new Set();
-
 // Create a Proxy that lazy-loads cards on demand
 const cards = new Proxy(loadedCards, {
     get(target, cardId) {
-        // Skip symbols and internal properties
-        if (typeof cardId === 'symbol' || cardId === 'preloadAll' || cardId === 'then') {
-            if (cardId === 'preloadAll') return preloadAll;
+        if (typeof cardId === 'symbol') {
             return undefined;
         }
 
-        // If already loaded, return it
+        // Return from cache if already loaded
         if (target[cardId]) {
             return target[cardId];
         }
 
-        // If we've already searched for this cardId and didn't find it, don't search again
-        if (searchedCardIds.has(cardId)) {
-            return undefined;
-        }
-
-        // Try the heuristic mapping first (fast path)
-        const fileKey = cardIdToFileKey[cardId];
-        if (fileKey && cardRegistry[fileKey] && !cardRegistry[fileKey].loaded) {
-            loadCardByFileKey(fileKey);
-            if (target[cardId]) {
-                return target[cardId];
-            }
-        }
-
-        // Fallback: scan unloaded files to find the card
-        // This handles cases where the heuristic mapping was wrong (e.g., BouncingDeathQuark -> bouncing-deathquark)
-        for (const fk of Object.keys(cardRegistry)) {
-            if (!cardRegistry[fk].loaded) {
-                loadCardByFileKey(fk);
-                if (target[cardId]) {
-                    return target[cardId];
+        // Load if we have a path for this cardId
+        const filePath = cardIdToPath[cardId];
+        if (filePath) {
+            try {
+                const card = require(filePath);
+                if (card && card.id) {
+                    target[card.id] = card;
                 }
+                return target[cardId];
+            } catch (e) {
+                console.error(`Failed to load card ${cardId}:`, e.message);
             }
         }
 
-        // Mark this cardId as searched to avoid future full scans
-        searchedCardIds.add(cardId);
         return undefined;
     },
 
@@ -140,32 +85,22 @@ const cards = new Proxy(loadedCards, {
         if (typeof cardId === 'symbol') {
             return false;
         }
-        if (cardId in target) {
-            return true;
-        }
-        // Check if it might exist via heuristic
-        return cardIdToFileKey[cardId] !== undefined;
+        return cardId in target || cardId in cardIdToPath;
     },
 
-    ownKeys(target) {
-        // Need to load all to enumerate
-        preloadAll();
-        return Object.keys(target);
+    ownKeys() {
+        return Object.keys(cardIdToPath);
     },
 
     getOwnPropertyDescriptor(target, cardId) {
         if (typeof cardId === 'symbol') {
             return undefined;
         }
-        const value = cards[cardId];
-        if (value !== undefined) {
-            return { configurable: true, enumerable: true, value };
+        if (cardId in cardIdToPath) {
+            return { configurable: true, enumerable: true, writable: true };
         }
         return undefined;
     }
 });
-
-// Attach preloadAll to the proxy for production use
-cards.preloadAll = preloadAll;
 
 module.exports = cards;

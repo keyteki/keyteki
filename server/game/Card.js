@@ -756,6 +756,10 @@ class Card extends EffectSource {
                     from === effect.location
                 ) {
                     if (effect.ref) {
+                        // Mark effects as unregistered before removing
+                        for (const e of effect.ref) {
+                            e.isRegistered = false;
+                        }
                         this.removeEffectFromEngine(effect.ref);
                     }
                     effect.ref = [];
@@ -909,15 +913,19 @@ class Card extends EffectSource {
     }
 
     isBlank() {
-        return this.anyEffect('blank');
+        // Direct check without going through anyEffect() to avoid overhead
+        // 'blank' is in unblankableEffects so the blank-check in anyEffect is redundant
+        return this.effects.some((effect) => effect.type === 'blank');
     }
 
     isBlankFight() {
-        return this.anyEffect('blankFight');
+        // Direct check without going through anyEffect() to avoid overhead
+        return this.effects.some((effect) => effect.type === 'blankFight');
     }
 
     isBlankDestroyed() {
-        return this.anyEffect('blankDestroyed');
+        // Direct check without going through anyEffect() to avoid overhead
+        return this.effects.some((effect) => effect.type === 'blankDestroyed');
     }
 
     hasKeyword(keyword) {
@@ -926,7 +934,39 @@ class Card extends EffectSource {
 
     getKeywordValue(keyword) {
         keyword = keyword.toLowerCase();
-        if (this.getEffects('removeKeyword').includes(keyword)) {
+
+        // If the card is blank, keyword effects (addKeyword/removeKeyword) don't apply
+        // This is the same check that getEffects does for blankable effect types
+        if (this.isBlank()) {
+            // For gigantic creatures with a composed part, get keywords from the bottom card
+            if (this.gigantic && this.composedPart) {
+                let copyEffect = this.mostRecentEffect('copyCard');
+                let baseKeywords = copyEffect
+                    ? copyEffect.printedKeywords
+                    : this.getBottomCard().printedKeywords;
+                return baseKeywords[keyword] || 0;
+            }
+            return 0;
+        }
+
+        // Single pass over effects for both removeKeyword and addKeyword
+        let removed = false;
+        let addedValue = 0;
+        for (const effect of this.effects) {
+            if (effect.type === 'removeKeyword') {
+                if (effect.getValue(this) === keyword) {
+                    removed = true;
+                    break; // Early exit if keyword is removed
+                }
+            } else if (effect.type === 'addKeyword') {
+                const keywords = effect.getValue(this);
+                if (keywords[keyword]) {
+                    addedValue += keywords[keyword];
+                }
+            }
+        }
+
+        if (removed) {
             return 0;
         }
 
@@ -941,10 +981,7 @@ class Card extends EffectSource {
             baseValue = baseKeywords[keyword] || 0;
         }
 
-        return this.getEffects('addKeyword').reduce(
-            (total, keywords) => total + (keywords[keyword] ? keywords[keyword] : 0),
-            baseValue
-        );
+        return addedValue + baseValue;
     }
 
     createSnapshot() {

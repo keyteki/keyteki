@@ -39,12 +39,17 @@ class GameObject {
     }
 
     sumEffects(type) {
-        let filteredEffects = this.effects.filter((effect) => effect.type === type);
-        return filteredEffects.reduce((total, effect) => total + effect.getValue(this), 0);
+        let total = 0;
+        for (const effect of this.effects) {
+            if (effect.type === type) {
+                total += effect.getValue(this);
+            }
+        }
+        return total;
     }
 
     anyEffect(type) {
-        return this.effects.filter((effect) => effect.type === type).length > 0;
+        return this.effects.some((effect) => effect.type === type);
     }
 
     mostRecentEffect(type) {

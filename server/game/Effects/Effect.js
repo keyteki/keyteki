@@ -39,6 +39,7 @@ class Effect {
         this.targets = [];
         this.effect = effect;
         this.effectController = properties.effectController;
+        this.isRegistered = true;
         this.refreshContext(properties.context);
     }
 
@@ -90,10 +91,27 @@ class Effect {
             return true;
         }
 
-        let effectOnSource = this.source.persistentEffects.some(
-            (effect) => effect.ref && effect.ref.includes(this)
-        );
-        return (this.location === 'any' || !this.source.facedown) && effectOnSource;
+        // Check if source is blanked and this is a printed ability (not a keyword effect)
+        if (this.printedAbility && this.source.isBlank && this.source.isBlank()) {
+            return false;
+        }
+
+        // Check if source has been transformed by copyCard (e.g., became a token)
+        // If so, verify this effect is still part of the source's active persistent effects
+        // Use direct array check instead of anyEffect() to avoid overhead
+        if (this.source.effects && this.source.effects.some((e) => e.type === 'copyCard')) {
+            // The source has been transformed - need to check if this effect is still valid
+            // by verifying it's referenced in the source's current persistentEffects
+            let effectOnSource = this.source.persistentEffects.some(
+                (effect) => effect.ref && effect.ref.includes(this)
+            );
+            if (!effectOnSource) {
+                return false;
+            }
+        }
+
+        // Use the isRegistered flag for the basic check
+        return (this.location === 'any' || !this.source.facedown) && this.isRegistered;
     }
 
     checkCondition(stateChanged) {
