@@ -2,8 +2,8 @@
     env: 'development',
 
     secret: 'somethingverysecret',
+    redisUrl: 'redis://redis/',
     redisKeyPrefix: 'keyteki:dev',
-    redisUrl: 'redis://redis:6379/',
     dbUser: 'keyteki',
     dbHost: 'postgres',
     dbDatabase: 'keyteki',
@@ -37,7 +37,7 @@
 
     gameNode: {
         name: 'test1',
-        host: 'node',
+        host: 'localhost',
         socketioPort: 9500
 
         /*

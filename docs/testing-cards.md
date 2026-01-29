@@ -648,11 +648,10 @@ Use the following to manually test a card in the game - this is usually only nee
 docker-compose up --build
 
 # Or with hybrid setup (hot reloading)
-docker-compose up -d redis postgres
-# Configure `config/default.json5` for the server to use the containerized DBs (see docs/local-development.md)
-npm start
+npm run dev:db
+npm run dev:lobby
 # In another terminal:
-npm run game
+npm run dev:gamenode
 ```
 
 Visit [http://localhost:4000](http://localhost:4000) and log in with test users (`test0`/`test1`, password: `password`).

@@ -15,6 +15,12 @@ services:
             - postgres
         depends_on:
             - postgres
+            - redis
+        environment:
+            - NODE_ENV=development
+            - REDIS_URL=redis://redis:6379/
+            - DB_HOST=postgres
+            - DB_PORT=5432
         command:
             - node
             - '--inspect=0.0.0.0:9229'
@@ -27,12 +33,15 @@ services:
             - '9339:9339'
         volumes:
             - './server:/usr/src/app/server'
+        depends_on:
+            - redis
         command:
             - node
             - '--inspect=0.0.0.0:9339'
             - 'server/gamenode'
         environment:
             - NODE_ENV=development
+            - REDIS_URL=redis://redis:6379/
     postgres:
         image: postgres
         environment:

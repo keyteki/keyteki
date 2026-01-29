@@ -9,6 +9,7 @@
     "scripts": {
         "mongod": "mongod --dbpath=/data --port 27017\n",
         "start": "node .",
+        "dev:db": "docker-compose up -d redis postgres",
         "dev:lobby": "nodemon --inspect=0.0.0.0:9229 .",
         "dev:gamenode": "nodemon --inspect=0.0.0.0:9229 server/gamenode",
         "fetchdata": "node server/scripts/fetchdata",
