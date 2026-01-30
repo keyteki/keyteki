@@ -76,8 +76,8 @@ class PlayCardAction extends CardGameAction {
                     context.game.promptWithHandlerMenu(context.player, {
                         activePromptTitle: 'Play ' + card.name + ':',
                         choices: playActions.map((ability) => ability.title),
-                        handlers: playActions.map((ability) => () =>
-                            this.resolveAction(context, ability)
+                        handlers: playActions.map(
+                            (ability) => () => this.resolveAction(context, ability)
                         ),
                         source: card
                     });

@@ -142,9 +142,8 @@ class ResolveBonusIconsAction extends CardGameAction {
 
                     for (let rc = 0; rc < resolveCount; ++rc) {
                         let choices = [icon];
-                        let mayResolveBonusIconsAsEffects = context.player.getEffects(
-                            'mayResolveBonusIconsAs'
-                        );
+                        let mayResolveBonusIconsAsEffects =
+                            context.player.getEffects('mayResolveBonusIconsAs');
 
                         if (mayResolveBonusIconsAsEffects) {
                             let noIconAdded = false;
@@ -171,8 +170,8 @@ class ResolveBonusIconsAction extends CardGameAction {
                                 activePromptTitle:
                                     'How do you wish to resolve this ' + icon + ' icon?',
                                 choices: choices,
-                                handlers: choices.map((choice) => () =>
-                                    this.resolveIcon(context, event, choice)
+                                handlers: choices.map(
+                                    (choice) => () => this.resolveIcon(context, event, choice)
                                 ),
                                 context: context,
                                 source: card

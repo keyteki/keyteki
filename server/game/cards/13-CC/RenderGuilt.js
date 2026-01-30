@@ -14,8 +14,7 @@ class RenderGuilt extends Card {
                     }))
                 ])
             },
-            effect:
-                'capture 1 amber onto {0} from the opponent and then deal 1 damage for each amber on {0} to a creature'
+            effect: 'capture 1 amber onto {0} from the opponent and then deal 1 damage for each amber on {0} to a creature'
         });
     }
 }
