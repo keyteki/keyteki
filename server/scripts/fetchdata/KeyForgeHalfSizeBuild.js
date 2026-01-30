@@ -51,6 +51,11 @@ fabric.nodeCanvas.registerFont(path.join(__dirname, './fonts/Kanit-Bold.ttf'), {
 });
 
 const buildHalfSize = async (card, imgPath, filename, language) => {
+    if (!card.locale || !card.locale[language] || !card.locale[language].name) {
+        console.warn(`Skipping half-size build for ${card.name || 'Unknown'}: missing ${language}`);
+        return;
+    }
+
     const canvas = new fabric.StaticCanvas(null, {
         width: parameters[card.type].width,
         height: parameters[card.type].height
@@ -277,7 +282,7 @@ const buildHalfSize = async (card, imgPath, filename, language) => {
         out.write(chunk);
     });
     stream.on('end', () => {
-        console.log('Built Half Sized image for ' + card.name + ': ' + card.locale[language].name);
+        console.log(`Built Half Sized image for ${card.name || 'Unknown'}: ${localizedName}`);
         canvasFinal.dispose();
     });
 };
