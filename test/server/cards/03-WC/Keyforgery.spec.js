@@ -153,12 +153,13 @@ describe('Keyforgery', function () {
                     hand: ['turnkey', 'gateway-to-dis']
                 },
                 player2: {
-                    inPlay: ['keyforgery']
+                    inPlay: ['keyforgery'],
+                    hand: ['turnkey', 'gateway-to-dis']
                 }
             });
         });
 
-        it('should not trigger Keyforgery when opponent forges via Turnkey', function () {
+        it('should not trigger Keyforgery when controller forges via Turnkey', function () {
             this.player2.player.keys = { yellow: false, red: true, blue: true };
             this.player1.playCreature(this.turnkey);
             this.player1.clickPrompt('Blue');
@@ -169,6 +170,21 @@ describe('Keyforgery', function () {
             this.player1.clickPrompt('Blue');
             expect(this.player2.player.getForgedKeys()).toBe(2);
             expect(this.player1).isReadyToTakeAction();
+        });
+
+        it('should trigger Keyforgery when opponent forges via Turnkey', function () {
+            this.player1.player.keys = { yellow: false, red: true, blue: true };
+            this.player1.endTurn();
+            this.player2.clickPrompt('dis');
+            this.player2.playCreature(this.turnkey);
+            this.player2.clickPrompt('Blue');
+            expect(this.player1.player.getForgedKeys()).toBe(1);
+            this.player2.play(this.gatewayToDis);
+            expect(this.player2).toHavePrompt('Keyforgery');
+            this.player2.clickPrompt('skyborn');
+            expect(this.player2).not.toHavePrompt('Forge a key');
+            expect(this.player1.player.getForgedKeys()).toBe(1);
+            expect(this.player2).isReadyToTakeAction();
         });
     });
 });
