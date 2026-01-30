@@ -89,4 +89,29 @@ describe('Cryptic Collapse', function () {
             expect(this.player1).isReadyToTakeAction();
         });
     });
+
+    describe('Cryptic Collapse with Brillix Ponder', function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'dis',
+                    hand: ['cryptic-collapse', 'brillix-ponder']
+                },
+                player2: {
+                    amber: 4,
+                    inPlay: ['troll']
+                }
+            });
+        });
+
+        it('should discard hand, draw, an discard', function () {
+            this.player1.play(this.crypticCollapse);
+            this.player1.clickCard(this.troll);
+            this.player1.clickCard(this.troll);
+            expect(this.troll.amber).toBe(2);
+            expect(this.player2.amber).toBe(2);
+            expect(this.player1.hand.length).toBe(0);
+            expect(this.player1).isReadyToTakeAction();
+        });
+    });
 });
