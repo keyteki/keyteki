@@ -1,11 +1,11 @@
-FROM --platform=linux/amd64 node:16
+FROM --platform=linux/amd64 node:22.22.0
 
 RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app
 COPY package.json /usr/src/app
 COPY package-lock.json /usr/src/app
 
-RUN npm install
+RUN npm ci
 
 ARG VERSION
 ENV VERSION ${VERSION}
