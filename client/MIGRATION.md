@@ -2,12 +2,6 @@
 
 This plan is scoped to client-only. Update the checklist as work completes.
 
-## Phase 0 - Inventory and Guardrails
-
--   [ ] Add/update this plan as work proceeds
--   [ ] Baseline smoke test notes (manual steps + expected outcomes)
--   [ ] Identify and list highest-risk screens (GameBoard, Lobby, Profile)
-
 ## Phase 1 - React Upgrade (no refactors)
 
 Goal: Run on latest React with minimal code changes.
@@ -18,14 +12,13 @@ Checklist
     -   [x] react-redux
     -   [x] react-dnd + react-dnd-touch-backend
     -   [x] react-transition-group
-    -   [ ] react-router (if present in client bundle)
 -   [x] Align UI deps:
     -   [x] react-bootstrap
     -   [x] react-bootstrap-typeahead
     -   [x] react-select
     -   [x] react-toastify
     -   [x] bootstrap (bump to v5 to align with react-bootstrap v2)
--   [ ] Test tooling: N/A (legacy client Jest/Enzyme removed)
+-   [x] Test tooling: N/A (legacy client Jest/Enzyme removed)
 -   [x] Ensure client entry points still render: client/index.dev.jsx, client/index.prod.jsx
 -   [x] Fix build/runtime breakages only (no refactors)
 
