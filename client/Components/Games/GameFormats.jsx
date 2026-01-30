@@ -24,7 +24,7 @@ const GameFormats = ({ formProps }) => {
         { name: 'dt', label: t('Dark Tidings') },
         { name: 'woe', label: t('Winds of Exchange') },
         { name: 'gr', label: t('Grim Reminders') },
-        { name: 'as', label: t('�mber Skies') },
+        { name: 'as', label: t('Æmber Skies') },
         { name: 'toc', label: t('Tokens of Change') },
         { name: 'momu', label: t('More Mutation') },
         { name: 'disc', label: t('Discovery') },
