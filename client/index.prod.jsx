@@ -1,11 +1,11 @@
 import React from 'react';
-import { render } from 'react-dom';
+import { createRoot } from 'react-dom/client';
 import Application from './Application';
 import { Provider } from 'react-redux';
 import configureStore from './configureStore';
 import { navigate } from './redux/actions';
 import 'bootstrap/dist/js/bootstrap';
-import ReduxToastr from 'react-redux-toastr';
+import { ToastContainer } from 'react-toastify';
 import * as Sentry from '@sentry/browser';
 import { DndProvider } from 'react-dnd';
 import { TouchBackend } from 'react-dnd-touch-backend';
@@ -62,17 +62,18 @@ window.onpopstate = function (e) {
     store.dispatch(navigate(e.target.location.pathname, null, true));
 };
 
-render(
+const container = document.getElementById('component');
+const root = createRoot(container);
+
+root.render(
     <DndProvider backend={TouchBackend} options={{ enableMouseEvents: true }}>
         <Provider store={store}>
             <div className='body'>
-                <ReduxToastr
-                    timeOut={4000}
+                <ToastContainer
+                    autoClose={4000}
                     newestOnTop
-                    preventDuplicates
                     position='top-right'
-                    transitionIn='fadeIn'
-                    transitionOut='fadeOut'
+                    pauseOnFocusLoss
                 />
                 <ErrorBoundary
                     message={
@@ -83,6 +84,5 @@ render(
                 </ErrorBoundary>
             </div>
         </Provider>
-    </DndProvider>,
-    document.getElementById('component')
+    </DndProvider>
 );

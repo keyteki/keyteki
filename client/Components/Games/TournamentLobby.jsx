@@ -5,7 +5,7 @@ import { Button, Col, Form, Row } from 'react-bootstrap';
 import ReactClipboard from 'react-clipboardjs-copy';
 import { Trans, useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
-import { toastr } from 'react-redux-toastr';
+import { toast } from 'react-toastify';
 
 import {
     attachMatchLink,
@@ -100,7 +100,7 @@ const TournamentLobby = () => {
 
         if (message) {
             const type = success ? 'success' : 'error';
-            toastr[type](type, t(message));
+            toast[type](t(message));
         }
     }, [tournaments, matches, message, dispatch, success, t]);
 

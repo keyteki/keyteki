@@ -1,7 +1,5 @@
-@import '../../styles/variables';
-@import '../../styles/colours';
-@import 'bootstrap/scss/functions';
-@import 'bootstrap/scss/variables';
+@use '../../styles/variables' as *;
+@use '../../styles/colours' as *;
 
 .deck-accolades {
     justify-content: flex-start;
@@ -99,3 +97,4 @@
 .enhanced-card {
     color: #4f779b;
 }
+

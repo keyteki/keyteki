@@ -1,6 +1,6 @@
 import React from 'react';
 import { Trans, useTranslation } from 'react-i18next';
-import { Form, Col } from 'react-bootstrap';
+import { Col, Form, Row } from 'react-bootstrap';
 
 import GameTypeInfo from './GameTypeInfo';
 
@@ -15,12 +15,12 @@ const GameTypes = ({ formProps }) => {
 
     return (
         <>
-            <Form.Row>
+            <Row>
                 <Col xs={12}>
                     <GameTypeInfo gameType={formProps.values.gameType} />
                 </Col>
-            </Form.Row>
-            <Form.Row>
+            </Row>
+            <Row>
                 <Col xs={12} className='font-weight-bold'>
                     <Trans>Type</Trans>
                 </Col>
@@ -39,7 +39,7 @@ const GameTypes = ({ formProps }) => {
                         ></Form.Check>
                     ))}
                 </Form.Group>
-            </Form.Row>
+            </Row>
         </>
     );
 };
