@@ -15,12 +15,20 @@ class FiendishApprentice extends Card {
             ],
             then: {
                 alwaysTriggers: true,
-                message: '{0} uses {1} to deal 3 damage to {3}',
-                messageArgs: (context) => [
+                condition: (context) => {
                     context.preThenEvents
                         .filter((event) => !event.cancelled && event.amount > 0)
-                        .map((event) => event.card.name)
-                ]
+                        .forEach((event) => {
+                            context.game.addMessage(
+                                '{0} uses {1} to deal {2} damage to {3}',
+                                context.player,
+                                context.source,
+                                event.amount,
+                                event.card
+                            );
+                        });
+                    return false;
+                }
             }
         });
     }
