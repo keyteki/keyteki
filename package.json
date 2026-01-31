@@ -9,8 +9,8 @@
     "scripts": {
         "mongod": "mongod --dbpath=/data --port 27017\n",
         "start": "node .",
-        "dev:lobby": "nodemon --inspect=0.0.0.0:9229 .",
-        "dev:gamenode": "nodemon --inspect=0.0.0.0:9229 server/gamenode",
+        "dev:lobby": "NODE_APP_INSTANCE=node nodemon --inspect=0.0.0.0:9229 .",
+        "dev:gamenode": "NODE_APP_INSTANCE=node nodemon --inspect=0.0.0.0:9229 server/gamenode",
         "fetchdata": "node server/scripts/fetchdata",
         "game": "node server/gamenode",
         "test": "cross-env JASMINE_CONFIG_PATH=./jasmine.json jasmine",
