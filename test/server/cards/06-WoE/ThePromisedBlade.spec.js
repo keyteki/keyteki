@@ -85,5 +85,53 @@ describe('The Promised Blade', function () {
                 );
             });
         });
+
+        describe('interaction with Haunted House', function () {
+            beforeEach(function () {
+                this.setupTest({
+                    player1: {
+                        house: 'sanctum',
+                        inPlay: [
+                            'tyxl-beambuckler',
+                            'myx-the-tallminded',
+                            'xanthyx-harvester',
+                            'the-promised-blade'
+                        ]
+                    },
+                    player2: {
+                        house: 'geistoid',
+                        inPlay: ['haunted-house'],
+                        deck: new Array(10).fill('poke'),
+                        discard: new Array(9).fill('poke')
+                    }
+                });
+            });
+
+            it('should allow taking control of The Promised Blade after triggering Haunted House', function () {
+                expect(this.thePromisedBlade.controller).toBe(this.player1.player);
+                this.player1.endTurn();
+                expect(this.player2).toHavePrompt('Any reactions?');
+                expect(this.player2).toBeAbleToSelect(this.thePromisedBlade);
+                expect(this.player2).toBeAbleToSelect(this.hauntedHouse);
+                this.player2.clickCard(this.hauntedHouse);
+                this.player2.clickPrompt('geistoid');
+                expect(this.player2).isReadyToTakeAction();
+                expect(this.player2.discard.length).toBe(10);
+                expect(this.thePromisedBlade.controller).toBe(this.player2.player);
+            });
+
+            it('should allow taking control of The Promised Blade before triggering Haunted House', function () {
+                expect(this.thePromisedBlade.controller).toBe(this.player1.player);
+                this.player1.endTurn();
+                expect(this.player2).toHavePrompt('Any reactions?');
+                expect(this.player2).toBeAbleToSelect(this.thePromisedBlade);
+                expect(this.player2).toBeAbleToSelect(this.hauntedHouse);
+                this.player2.clickCard(this.thePromisedBlade);
+                this.player2.clickPrompt('geistoid');
+                expect(this.player2).isReadyToTakeAction();
+                expect(this.player2.discard.length).toBe(10);
+                expect(this.thePromisedBlade.controller).toBe(this.player2.player);
+            });
+        });
     });
 });

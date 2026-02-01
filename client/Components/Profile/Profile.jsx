@@ -10,7 +10,7 @@ import ProfileBackground from './ProfileBackground';
 import KeyforgeGameSettings from './KeyforgeGameSettings';
 import ProfileCardSize from './ProfileCardSize';
 import { Constants } from '../../constants';
-import { toBase64 } from '../../util';
+import { toBase64 } from '../../util.jsx';
 import BlankBg from '../../assets/img/bgs/blank.png';
 import MassMutationBg from '../../assets/img/bgs/massmutation.png';
 

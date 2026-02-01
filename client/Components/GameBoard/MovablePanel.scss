@@ -1,7 +1,7 @@
 @import '../../styles/variables';
 @import '../../styles/colours';
-@import '~bootstrap/scss/functions';
-@import '~bootstrap/scss/variables';
+@import 'bootstrap/scss/functions';
+@import 'bootstrap/scss/variables';
 
 .panel-heading {
     text-align: center;
@@ -23,7 +23,7 @@
     border-color: theme-color(primary);
 
     .panel-heading {
-        background-image: url('~assets/img/panel-primary.png');
+        background-image: url('assets/img/panel-primary.png');
         border-color: theme-color(primary);
     }
 }
