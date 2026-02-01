@@ -51,6 +51,11 @@ fabric.nodeCanvas.registerFont(path.join(__dirname, './fonts/Kanit-Bold.ttf'), {
 });
 
 const buildHalfSize = async (card, imgPath, filename, language) => {
+    if (!card.locale || !card.locale[language] || !card.locale[language].name) {
+        console.warn(`Skipping half-size build for ${card.name || 'Unknown'}: missing ${language}`);
+        return;
+    }
+
     const canvas = new fabric.StaticCanvas(null, {
         width: parameters[card.type].width,
         height: parameters[card.type].height
@@ -82,11 +87,17 @@ const buildHalfSize = async (card, imgPath, filename, language) => {
     if (card.type === 'upgrade') finalArt.set({ top: 19 });
     canvasFinal.add(finalArt);
     canvasFinal.add(frame);
+    const localizedName =
+        (card.locale && card.locale[language] && card.locale[language].name) ||
+        (card.locale && card.locale.en && card.locale.en.name) ||
+        card.name ||
+        'Unknown';
+
     let bar;
     let barCanvas;
     let Power;
     let Armor;
-    let Name = new fabric.Text(card.locale[language].name, {
+    let Name = new fabric.Text(localizedName, {
         fill: '#fdfbfa',
         fontFamily: 'TeutonFett',
         textAlign: 'center',
@@ -150,7 +161,7 @@ const buildHalfSize = async (card, imgPath, filename, language) => {
                 left: 150
             });
             barCanvas.scaleToWidth(270);
-            Name = getCircularText(card.locale[language].name, 1200);
+            Name = getCircularText(localizedName, 1200);
             cardType.set({ originX: 'center', originY: 'center', left: 150, top: 242.5 });
             Power = new fabric.Text(card.power ? card.power.toString() : '0', {
                 fill: '#fdfbfa',
@@ -194,7 +205,7 @@ const buildHalfSize = async (card, imgPath, filename, language) => {
             }
             break;
         case 'artifact':
-            Name = getCircularText(card.locale[language].name, 1200);
+            Name = getCircularText(localizedName, 1200);
             bar = await loadImage(`file://${assetsPath + `/${card.house}_Upgrade.png`}`);
             if (card.house === 'untamed') {
                 barCanvas = new fabric.Image(bar.toCanvasElement()).set({
@@ -271,7 +282,7 @@ const buildHalfSize = async (card, imgPath, filename, language) => {
         out.write(chunk);
     });
     stream.on('end', () => {
-        console.log('Built Half Sized image for ' + card.name + ': ' + card.locale[language].name);
+        console.log(`Built Half Sized image for ${card.name || 'Unknown'}: ${localizedName}`);
         canvasFinal.dispose();
     });
 };
