@@ -383,7 +383,7 @@ const EVENTS = /** @type {const} */ ({
 
     /**
      * Event triggered when damage is dealt to a Creature under any circumstance
-     * (direct, fight, hazardous/assault, bonus pip, _&c._). Will get created
+     * (direct, fight, hazardous/assault, bonus amber, _&c._). Will get created
      * but then canceled if the damage is prevented by a ward.
      *
      * Params:

@@ -9,6 +9,7 @@ This document explains how to write tests for cards.
 -   [Setting Up Tests](#setting-up-tests)
     -   [setupTest Options](#setuptest-options)
     -   [Card State Setup](#card-state-setup)
+    -   [Recommended Test Creatures](#recommended-test-creatures)
     -   [Moving Cards Between Zones](#moving-cards-between-zones)
     -   [Changing a Card's House](#changing-a-cards-house)
 -   [Player Actions](#player-actions)
@@ -118,6 +119,8 @@ this.setupTest({
 inPlay: ['creature-left', 'creature-middle', 'creature-right'];
 ```
 
+**Choosing test cards:** When selecting cards for `hand`, `inPlay`, or `discard`, check the JSON data for any cards that will be played or used during the test. Cards may have aember bonuses, keywords (taunt, elusive, etc.), power values, or abilities that interfere with assertions. Use `jq '.cards[] | select(.id == "card-id") | {id, amber, power, keywords, text}' keyteki-json-data/packs/*.json` to verify a card's properties before using it.
+
 ### Card State Setup
 
 After `setupTest`, you can modify card state. The Card class provides convenient getters/setters for common token types:
@@ -167,6 +170,69 @@ beforeEach(function () {
 });
 ```
 
+### Recommended Test Creatures
+
+When writing tests, use creatures with minimal abilities to avoid unintended interactions. Creatures with keywords like Elusive, Taunt, or abilities can interfere with the card being tested. Use Brobnar creatures as a first choice.
+
+**Recommended creatures by house:**
+
+| House        | Creature               | Notes                                            |
+| ------------ | ---------------------- | ------------------------------------------------ |
+| Brobnar      | `troll`                | 8 power, Reap: heal 3 damage                     |
+| Brobnar      | `groggins`             | 8 power, can only attack flank creatures         |
+| Brobnar      | `honored-battlemaster` | 4 power, Action:                                 |
+| Dis          | `pit-demon`            | 5 power, Action:                                 |
+| Dis          | `hystricog`            | 4 power, Action:                                 |
+| Dis          | `snarette`             | 4 power, captures at end of turn, Action:        |
+| Ekwidon      | `antiquities-dealer`   | 3 power, Action:                                 |
+| Ekwidon      | `gemcoat-vendor`       | 6 power, Action:                                 |
+| Ekwidon      | `pen-pal`              | 5 power, Action:                                 |
+| Geistoid     | `shadys`               | 5 power, Action:                                 |
+| Geistoid     | `helichopper`          | 5 power, +power if haunted, Action:              |
+| Geistoid     | `echofly`              | 2 power, 1 armor, Action:                        |
+| Logos        | `even-ivan`            | 4 power, Action:                                 |
+| Logos        | `odd-clawde`           | 5 power, Action:                                 |
+| Logos        | `novu-archaeologist`   | 4 power, Action:                                 |
+| Mars         | `yxlix-mesmerist`      | 5 power, Action:                                 |
+| Mars         | `green-aeronaut`       | 3 power, Action:                                 |
+| Mars         | `white-aeronaut`       | 3 power, Action:                                 |
+| Redemption   | `even-ivan`            | 4 power, Action:                                 |
+| Redemption   | `odd-clawde`           | 5 power, Action:                                 |
+| Redemption   | `dark-centurion`       | 5 power, Action:                                 |
+| Sanctum      | `abond-the-armorsmith` | 3 power, other creatures +1 armor, Action:       |
+| Sanctum      | `lady-maxena`          | 5 power, 2 armor, Play: stun, Action:            |
+| Sanctum      | `protectrix`           | 5 power, Reap: heal and protect creature         |
+| Saurian      | `dark-centurion`       | 5 power, Action:                                 |
+| Saurian      | `cornicen-octavia`     | 5 power, 1 armor, Action:                        |
+| Saurian      | `eclectic-ambrosius`   | 4 power, knowledge counters, Action:             |
+| Shadows      | `lamindra`             | 1 power, Elusive; good fight target for testing Fight: abilities |
+| Shadows      | `yantzee-gang`         | 5 power, Action:                                 |
+| Shadows      | `hobnobber`            | 3 power, Action:                                 |
+| Skyborn      | `redhawk`              | 3 power, Action:                                 |
+| Skyborn      | `bux-bastian`          | 3 power, Scrap: exalt enemy flank creature       |
+| Skyborn      | `scalawag-finn`        | 6 power, After Fight: heal 3                     |
+| StarAlliance | `ensign-el-samra`      | 3 power, Action:                                 |
+| StarAlliance | `crewman-jörg`         | 3 power, Action:                                 |
+| StarAlliance | `ambassador-liu`       | 4 power, Action:                                 |
+| Unfathomable | `flamegill-enforcer`   | 6 power, enrages on tide raise, Action:          |
+| Unfathomable | `rustmiser`            | 5 power, Reap: exhaust artifacts                 |
+| Unfathomable | `bubbles`              | 5 power, Play: return creature to deck           |
+| Untamed      | `mighty-tiger`         | 4 power, Play: deal 4 damage                     |
+| Untamed      | `witch-of-the-dawn`    | 3 power, Play: return creature from discard      |
+| Untamed      | `conclave-witch`       | 3 power, Action:                                 |
+
+**Avoid** using creatures unless those keywords/abilities are being specifically tested:
+
+-   **Aember bonus** - Gains aember when played, interferes with aember counting
+-   **Persistent effects** - Should be completely avoided unless needed to test in combination with the card being tested
+-   **Taunt** - Forces fights to target them
+-   **Elusive** - Avoids damage from first fight
+-   **Assault/Hazardous** - Deals extra damage
+-   **Destroyed/Fight/Reap abilities** - May trigger unexpectedly
+-   **Armor** - Interferes with damage testing
+-   **Play abilities** - Fine for creatures that are used for `inPlay` setup, but avoid for creatures being played during the test
+-   **Action/Omni** - These are great because they don't interfere with other actions like Reap/Fight
+
 ### Moving Cards Between Zones
 
 Use `moveCard` to move cards between locations during test setup or mid-test:
@@ -209,24 +275,21 @@ it('should work when card is in discard', function () {
 
 ### Changing a Card's House
 
-Some tests need to change a card's house (e.g., when testing house-specific interactions):
+Some tests need to change a card's house (e.g., when testing house-specific interactions). Use the `makeMaverick` helper:
 
 ```javascript
 beforeEach(function () {
     this.setupTest({
         player1: {
             house: 'saurian',
-            hand: ['it-s-coming']
+            hand: ['tachyon-manifold']
         }
     });
 
     // Change the card's house to match the active house
-    this.itSComing.maverick = true;
-    this.itSComing.printedHouse = 'saurian';
+    this.player1.makeMaverick(this.tachyonManifold, 'saurian');
 });
 ```
-
-**Note:** You typically need to set both `maverick` and `printedHouse` for the change to take effect properly.
 
 ## Player Actions
 
