@@ -5,13 +5,9 @@ const ConfigService = require('./services/ConfigService');
 const passport = require('passport');
 const logger = require('./log.js');
 const api = require('./api');
+const fs = require('fs');
 const path = require('path');
 const http = require('http');
-const webpackDevMiddleware = require('webpack-dev-middleware');
-const webpackHotMiddleware = require('webpack-hot-middleware');
-const historyApiFallback = require('connect-history-api-fallback');
-const webpack = require('webpack');
-const webpackConfig = require('../webpack.dev.js');
 
 const passportJwt = require('passport-jwt');
 const Sentry = require('@sentry/node');
@@ -30,7 +26,7 @@ class Server {
         this.server = http.Server(app);
     }
 
-    init(options) {
+    async init(options) {
         if (!this.isDeveloping) {
             Sentry.init({
                 dsn: this.configService.getValue('sentryDsn'),
@@ -68,35 +64,29 @@ class Server {
         api.init(app, options);
 
         app.use(express.static(__dirname + '/../public'));
-        app.use(express.static(__dirname + '/../dist'));
+        if (!this.isDeveloping) {
+            app.use(express.static(__dirname + '/../dist'));
+        }
 
         if (this.isDeveloping) {
-            const compiler = webpack(webpackConfig);
-            const middleware = webpackDevMiddleware(compiler, {
-                publicPath: webpackConfig.output.publicPath,
-                stats: {
-                    colors: true,
-                    hash: false,
-                    timings: true,
-                    chunks: false,
-                    chunkModules: false,
-                    modules: false
-                }
+            const { createViteMiddleware } = await import('./vite-dev.mjs');
+            const { vite, templatePath } = await createViteMiddleware({
+                root: path.join(__dirname, '..')
             });
 
-            app.set('view engine', 'pug');
-            app.set('views', path.join(__dirname, '..', 'views'));
+            app.use(vite.middlewares);
 
-            app.use(middleware);
-            app.use(
-                webpackHotMiddleware(compiler, {
-                    log: false,
-                    path: '/__webpack_hmr',
-                    heartbeat: 2000
-                })
-            );
-            app.use(historyApiFallback());
-            app.use(middleware);
+            app.get('*', async (req, res, next) => {
+                try {
+                    const url = req.originalUrl;
+                    const template = fs.readFileSync(templatePath, 'utf-8');
+                    const html = await vite.transformIndexHtml(url, template);
+                    res.status(200).set({ 'Content-Type': 'text/html' }).end(html);
+                } catch (err) {
+                    vite.ssrFixStacktrace(err);
+                    next(err);
+                }
+            });
         } else {
             app.get('*', (req, res) => {
                 res.sendFile(path.join(__dirname, '..', 'dist', 'index.html'));
