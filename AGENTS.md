@@ -139,6 +139,7 @@ When implementing a new card, search for similar existing implementations:
 -   The end of each test should check that the active player doesn't have any pending prompts, eg `expect(this.player1).isReadyToTakeAction();`
 -   Assume that readers of the tests are well versed in the game. Tests only need comments when setting up complex or niche scenarios.
 -   The tests should only test the functionality of the card being implemented, not the metadata provided by the JSON data. For example, tests do not need to check the card's house, type, power, armor, traits, or keywords like "taunt" or "elusive", unless the card's ability interacts with those attributes. Tests should focus on the card's unique abilities and effects that are in their text box.
+-   When setting up a a test, the `this.setupTest()` function should not be run multiple times. For example in a `describe()` block nested in another `describe()` block, the inner block should not call `this.setupTest()` again - the second setupTest will not be run. Instead, set up the describe block without nesting.
 
 ### Debugging Cards
 
