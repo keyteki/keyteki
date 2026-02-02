@@ -127,11 +127,6 @@ class RandomDiscardAction extends PlayerAction {
             EVENTS.unnamedEvent,
             { player: players[0], players, context },
             () => {
-                // Prompt for player order
-                const choices = players.map((player) =>
-                    player === context.player ? 'Me' : 'Opponent'
-                );
-
                 const executeDiscards = (orderedPlayers) => {
                     const processNextPlayer = (remainingPlayers) => {
                         if (remainingPlayers.length === 0) {
@@ -153,6 +148,22 @@ class RandomDiscardAction extends PlayerAction {
 
                     processNextPlayer(orderedPlayers);
                 };
+
+                // If orderForcedAbilities is not enabled, use default order: active player then opponent
+                const activePlayer = context.game.activePlayer;
+                if (!activePlayer?.optionSettings?.orderForcedAbilities) {
+                    const orderedPlayers = [
+                        activePlayer,
+                        ...players.filter((p) => p !== activePlayer)
+                    ];
+                    executeDiscards(orderedPlayers);
+                    return;
+                }
+
+                // Prompt for player order
+                const choices = players.map((player) =>
+                    player === context.player ? 'Me' : 'Opponent'
+                );
 
                 const handlers = players.map((player) => () => {
                     const orderedPlayers = [player, ...players.filter((p) => p !== player)];
