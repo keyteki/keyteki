@@ -56,7 +56,7 @@
         "@babel/preset-react": "^7.9.4",
         "@fortawesome/fontawesome-svg-core": "^7.1.0",
         "@fortawesome/free-solid-svg-icons": "^7.1.0",
-        "@fortawesome/react-fontawesome": "^3.1.1",
+        "@fortawesome/react-fontawesome": "^0.1.9",
         "@popperjs/core": "^2.11.8",
         "@sendgrid/mail": "^6.5.5",
         "@sentry/browser": "^5.26.0",

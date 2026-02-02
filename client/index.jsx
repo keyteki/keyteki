@@ -4,7 +4,6 @@ import $ from 'jquery';
 import 'jquery-validation';
 import 'jquery-validation-unobtrusive';
 import 'react-toastify/dist/ReactToastify.css';
-import 'core-js/stable';
 import 'regenerator-runtime/runtime';
 import './styles/index.scss';
 
@@ -20,8 +19,8 @@ $.validator.setDefaults({
     }
 });
 
-if (process.env.NODE_ENV === 'production') {
-    require('./index.prod');
+if (import.meta.env.PROD) {
+    import('./index.prod.jsx');
 } else {
-    require('./index.dev');
+    import('./index.dev.jsx');
 }
