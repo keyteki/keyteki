@@ -1,4 +1,4 @@
-FROM node:16
+FROM node:22.22.0
 
 RUN mkdir -p /app/node
 WORKDIR /app/node
@@ -9,7 +9,8 @@ COPY package-lock.json /app/node/
 ARG VERSION
 ENV VERSION ${VERSION}
 
-RUN npm install
+RUN npm ci
+
 COPY . /app/node
 
 CMD [ "npm", "run", "game" ]
