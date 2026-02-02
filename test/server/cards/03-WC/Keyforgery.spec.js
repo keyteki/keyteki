@@ -64,6 +64,24 @@ describe('Keyforgery', function () {
             expect(this.keyforgery.location).toBe('discard');
             expect(this.player1).isReadyToTakeAction();
         });
+
+        it('should forge a key when controller has an empty hand', function () {
+            this.player2.amber = 6;
+            this.player1.player.deck = [];
+            this.player1.player.discard = [];
+            this.player1.player.hand = [];
+            expect(this.player1.hand.length).toBe(0);
+            this.player1.endTurn();
+            expect(this.player1.hand.length).toBe(0);
+            expect(this.player1.player.hand.length).toBe(0);
+            expect(this.player2).toHavePrompt('Keyforgery');
+            this.player2.clickPrompt('skyborn');
+            this.player2.forgeKey('Red');
+            this.player2.clickPrompt('Brobnar');
+            expect(this.player2.player.getForgedKeys()).toBe(1);
+            expect(this.keyforgery.location).toBe('play area');
+            expect(this.player2).isReadyToTakeAction();
+        });
     });
 
     describe("Keyforgery's constant ability with 2 in play", function () {
@@ -154,20 +172,26 @@ describe('Keyforgery', function () {
                 },
                 player2: {
                     inPlay: ['keyforgery'],
-                    hand: ['turnkey', 'gateway-to-dis']
+                    hand: ['turnkey', 'gateway-to-dis', 'ember-imp']
                 }
             });
+            this.turnkey1 = this.player1.hand[0];
+            this.gatewayToDis1 = this.player1.hand[1];
+            this.turnkey2 = this.player2.hand[0];
+            this.gatewayToDis2 = this.player2.hand[1];
         });
 
         it('should not trigger Keyforgery when controller forges via Turnkey', function () {
             this.player2.player.keys = { yellow: false, red: true, blue: true };
-            this.player1.playCreature(this.turnkey);
+            this.player1.playCreature(this.turnkey1);
             this.player1.clickPrompt('Blue');
             expect(this.player2.player.getForgedKeys()).toBe(1);
-            this.player1.play(this.gatewayToDis);
+            this.player1.play(this.gatewayToDis1);
             expect(this.player1).not.toHavePrompt('Keyforgery');
             expect(this.player1).toHavePrompt('Forge a key');
             this.player1.clickPrompt('Blue');
+            expect(this.keyforgery.location).toBe('play area');
+            expect(this.turnkey1.location).toBe('discard');
             expect(this.player2.player.getForgedKeys()).toBe(2);
             expect(this.player1).isReadyToTakeAction();
         });
@@ -176,13 +200,16 @@ describe('Keyforgery', function () {
             this.player1.player.keys = { yellow: false, red: true, blue: true };
             this.player1.endTurn();
             this.player2.clickPrompt('dis');
-            this.player2.playCreature(this.turnkey);
+            this.player2.playCreature(this.turnkey2);
             this.player2.clickPrompt('Blue');
             expect(this.player1.player.getForgedKeys()).toBe(1);
-            this.player2.play(this.gatewayToDis);
+            this.player2.play(this.gatewayToDis2);
             expect(this.player2).toHavePrompt('Keyforgery');
+            expect(this.player2).toHavePrompt('Choose a house');
             this.player2.clickPrompt('skyborn');
             expect(this.player2).not.toHavePrompt('Forge a key');
+            expect(this.keyforgery.location).toBe('discard');
+            expect(this.turnkey2.location).toBe('discard');
             expect(this.player1.player.getForgedKeys()).toBe(1);
             expect(this.player2).isReadyToTakeAction();
         });

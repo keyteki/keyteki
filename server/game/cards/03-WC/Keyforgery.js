@@ -20,7 +20,9 @@ class Keyforgery extends Card {
                 target: _.shuffle(context.player.hand)[0]
             })),
             then: (preThenContext) => ({
-                condition: (context) => !context.preThenEvent.card.hasHouse(preThenContext.house),
+                condition: (context) =>
+                    context.preThenEvent?.card &&
+                    !context.preThenEvent.card.hasHouse(preThenContext.house),
                 message: "{0} uses {1} to destroy itself and skip opponent's Forge Key step",
                 gameAction: [
                     ability.actions.destroy((context) => ({
