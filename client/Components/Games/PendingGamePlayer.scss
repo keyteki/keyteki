@@ -1,7 +1,5 @@
-@import '../../styles/variables';
-@import '../../styles/colours';
-@import 'bootstrap/scss/functions';
-@import 'bootstrap/scss/variables';
+@use '../../styles/variables' as *;
+@use '../../styles/colours' as *;
 
 .deck-selection {
     margin-left: 10px;
@@ -15,3 +13,4 @@
 .player-row {
     min-height: 35px;
 }
+

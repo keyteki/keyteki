@@ -15,8 +15,7 @@ class SpectralTunneler extends Card {
                     ]
                 })
             },
-            effect:
-                'give {0} a reap ability and it is considered to be on a flank for the remainder of the turn'
+            effect: 'give {0} a reap ability and it is considered to be on a flank for the remainder of the turn'
         });
     }
 }

@@ -1,7 +1,6 @@
-@import '../../styles/variables';
-@import '../../styles/colours';
-@import 'bootstrap/scss/functions';
-@import 'bootstrap/scss/variables';
+@use 'sass:color';
+@use '../../styles/variables' as *;
+@use '../../styles/colours' as *;
 
 .card-wrapper {
     margin: 0;
@@ -274,11 +273,11 @@
     }
 
     &.selectable {
-        box-shadow: 0 0 10px 1px fade-out(lighten(theme-color('primary'), 60%), 0.1);
+        box-shadow: 0 0 10px 1px color.adjust(theme-color('primary'), $lightness: 60%, $alpha: -0.1);
 
         &.controlled {
             box-shadow: $controlledBox,
-                0 0 10px 1px fade-out(lighten(theme-color('primary'), 60%), 0.1);
+                0 0 10px 1px color.adjust(theme-color('primary'), $lightness: 60%, $alpha: -0.1);
         }
     }
 
@@ -291,7 +290,7 @@
 
         &.controlled {
             box-shadow: $controlledBox,
-                0 0 10px 1px fadeout(lighten(theme-color('primary'), 60%), 10%);
+                0 0 10px 1px color.adjust(theme-color('primary'), $lightness: 60%, $alpha: -0.1);
         }
     }
 
@@ -422,3 +421,4 @@
         }
     }
 }
+

@@ -10,7 +10,6 @@ import admin from './admin';
 import user from './user';
 import account from './account';
 import lobby from './lobby';
-import { reducer as toastrReducer } from 'react-redux-toastr';
 
 const rootReducer = combineReducers({
     navigation,
@@ -19,7 +18,6 @@ const rootReducer = combineReducers({
     games,
     news,
     challonge,
-    toastr: toastrReducer,
     api,
     admin,
     user,

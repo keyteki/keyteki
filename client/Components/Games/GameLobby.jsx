@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { toastr } from 'react-redux-toastr';
+import { toast } from 'react-toastify';
 import { Trans, useTranslation } from 'react-i18next';
 import { Col, Row, Button, Form } from 'react-bootstrap';
 
@@ -72,7 +72,7 @@ const GameLobby = ({ gameId }) => {
             const game = games.find((x) => x.id === gameId);
 
             if (!game) {
-                toastr.error('Error', 'The game you tried to join was not found.');
+                toast.error(t('The game you tried to join was not found.'));
             } else {
                 if (!game.started && Object.keys(game.players).length < 2) {
                     if (game.needsPassword) {
@@ -90,7 +90,7 @@ const GameLobby = ({ gameId }) => {
             }
             dispatch(setUrl('/play'));
         }
-    }, [currentGame, dispatch, gameId, games]);
+    }, [currentGame, dispatch, gameId, games, t]);
 
     return (
         <Col md={{ offset: 2, span: 8 }}>

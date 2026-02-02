@@ -14,15 +14,16 @@ export default defineConfig(({ mode }) => ({
             {
                 find: 'assets',
                 replacement: path.resolve(__dirname, 'client/assets')
-            },
-            {
-                find: /^react-redux-toastr$/,
-                replacement: path.resolve(
-                    __dirname,
-                    'node_modules/react-redux-toastr/lib/index.js'
-                )
             }
         ]
+    },
+    css: {
+        preprocessorOptions: {
+            scss: {
+                quietDeps: true,
+                silenceDeprecations: ['legacy-js-api']
+            }
+        }
     },
     define: {
         process: {

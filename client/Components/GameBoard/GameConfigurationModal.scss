@@ -1,9 +1,8 @@
-@import '../../styles/variables';
-@import '../../styles/colours';
-@import 'bootstrap/scss/functions';
-@import 'bootstrap/scss/variables';
+@use '../../styles/variables' as *;
+@use '../../styles/colours' as *;
 
 .modal-header {
     background: theme-color(primary);
     font-family: Keyforge;
 }
+
