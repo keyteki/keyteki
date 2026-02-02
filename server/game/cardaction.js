@@ -78,6 +78,21 @@ class CardAction extends CardAbility {
     resolveTargets(context) {
         if (!this.condition(context)) {
             context.game.addMessage('{0} uses {1} without effect', context.player, context.source);
+
+            // Raise on use event even for actions without effect
+            // eg Friendly Guide and Aquilia, Lone Hero
+            if (!this.reap && !this.fight) {
+                context.game.raiseEvent(
+                    EVENTS.onUseCard,
+                    {
+                        card: this.card,
+                        context: context,
+                        action: true,
+                        omni: this.omni
+                    },
+                    () => {}
+                );
+            }
             return {
                 cancelled: true,
                 payCostsFirst: false,
