@@ -67,12 +67,13 @@ class DiscardEntireLocationAction extends PlayerAction {
             { player, context, discardEvents: [] },
             (event) => {
                 const cardsDiscarded = [];
-                if (player === context.game.activePlayer) {
-                    // Active player chooses discard order
-                    this.discardActivePlayerLocation(player, context, cardsDiscarded, event);
+                const activePlayer = context.game.activePlayer;
+                if (player === activePlayer && activePlayer?.optionSettings?.orderForcedAbilities) {
+                    // Active player chooses discard order (only if orderForcedAbilities enabled)
+                    this.discardLocationOrdered(player, context, cardsDiscarded, event);
                 } else {
-                    // Opponent discards randomly one at a time
-                    this.discardOpponentLocation(player, context, cardsDiscarded, event);
+                    // Discard randomly one at a time
+                    this.discardLocationRandom(player, context, cardsDiscarded, event);
                 }
             }
         );
@@ -140,7 +141,7 @@ class DiscardEntireLocationAction extends PlayerAction {
 
     // Active player chooses discard order - prompts to select cards one at a
     // time with option to autoresolve remaining cards
-    discardActivePlayerLocation(player, context, cardsDiscarded, event) {
+    discardLocationOrdered(player, context, cardsDiscarded, event) {
         const discardNextCard = () => {
             const cards = this.getCards(player);
             if (cards.length === 0) {
@@ -221,8 +222,8 @@ class DiscardEntireLocationAction extends PlayerAction {
         discardNextCard();
     }
 
-    // Cards in opponent's location are randomly discarded one at a time
-    discardOpponentLocation(player, context, cardsDiscarded, event) {
+    // Discard cards randomly one at a time
+    discardLocationRandom(player, context, cardsDiscarded, event) {
         const discardNextCard = () => {
             const cards = this.getCards(player);
             if (cards.length === 0) {
