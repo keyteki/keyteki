@@ -18,8 +18,7 @@ class BellatoranRecruiter extends Card {
                     ability.actions.fight()
                 ])
             },
-            effect:
-                'give {0} +2 power and +2 armor for the remainder of the turn, then ready and fight with it'
+            effect: 'give {0} +2 power and +2 armor for the remainder of the turn, then ready and fight with it'
         });
     }
 }
