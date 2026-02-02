@@ -11,15 +11,15 @@ describe('Gravid Cycle', function () {
             });
         });
 
-        it('should return a card from discard pile to hand on play', function () {
+        it('should return a card from discard pile to hand on play and end turn', function () {
             this.player1.play(this.gravidCycle);
-
             expect(this.player1).toBeAbleToSelect(this.flaxia);
             expect(this.player1).toBeAbleToSelect(this.niffleApe);
             this.player1.clickCard(this.flaxia);
-
             expect(this.flaxia.location).toBe('hand');
-            expect(this.player1).isReadyToTakeAction();
+            expect(this.niffleApe.location).toBe('discard');
+            this.player2.clickPrompt('sanctum');
+            expect(this.player2).isReadyToTakeAction();
         });
     });
 });

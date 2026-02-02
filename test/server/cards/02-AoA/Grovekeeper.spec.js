@@ -10,13 +10,18 @@ describe('Grovekeeper', function () {
             });
         });
 
-        it('should give each neighboring creature a +1 power counter at end of turn', function () {
+        it("should give each neighboring creature a +1 power counter at end of controller's turn", function () {
             this.player1.endTurn();
-
-            expect(this.dustPixie.tokens.power).toBe(1);
-            expect(this.flaxia.tokens.power).toBe(1);
-            expect(this.grovekeeper.tokens.power).toBeUndefined();
-            expect(this.player2).hasPrompt('Choose which house you want to activate this turn');
+            expect(this.dustPixie.powerCounters).toBe(1);
+            expect(this.flaxia.powerCounters).toBe(1);
+            expect(this.grovekeeper.powerCounters).toBe(0);
+            this.player2.clickPrompt('sanctum');
+            this.player2.endTurn();
+            expect(this.dustPixie.powerCounters).toBe(1);
+            expect(this.flaxia.powerCounters).toBe(1);
+            expect(this.grovekeeper.powerCounters).toBe(0);
+            this.player1.clickPrompt('untamed');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

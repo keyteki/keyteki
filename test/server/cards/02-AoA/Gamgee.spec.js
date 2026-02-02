@@ -21,9 +21,9 @@ describe('Gamgee', function () {
         });
 
         it('should not steal amber if player has equal or more amber', function () {
-            this.player1.amber = 5;
+            this.player1.amber = 4;
             this.player1.reap(this.gamgee);
-            expect(this.player1.amber).toBe(6);
+            expect(this.player1.amber).toBe(5);
             expect(this.player2.amber).toBe(5);
             expect(this.player1).isReadyToTakeAction();
         });

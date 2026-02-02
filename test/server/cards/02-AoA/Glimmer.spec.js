@@ -19,6 +19,7 @@ describe('Glimmer', function () {
             this.player1.clickCard(this.dustPixie);
 
             expect(this.dustPixie.location).toBe('hand');
+            expect(this.flaxia.location).toBe('discard');
             expect(this.player1).isReadyToTakeAction();
         });
     });

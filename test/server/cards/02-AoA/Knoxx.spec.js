@@ -3,39 +3,23 @@ describe('Knoxx', function () {
         beforeEach(function () {
             this.setupTest({
                 player1: {
-                    house: 'brobnar',
-                    inPlay: ['knoxx']
+                    house: 'untamed',
+                    inPlay: ['knoxx'],
+                    hand: ['flaxia', 'rustgnawer']
                 },
                 player2: {}
             });
         });
 
-        it('should have base power when on flank with no neighbors', function () {
-            expect(this.knoxx.power).toBe(5);
-        });
+        it('should have +3 power for each neighbor', function () {
+            expect(this.knoxx.power).toBe(3);
 
-        it('should get +3 power for each neighbor', function () {
-            this.setupTest({
-                player1: {
-                    house: 'brobnar',
-                    inPlay: ['tunk', 'knoxx']
-                },
-                player2: {}
-            });
+            this.player1.playCreature(this.flaxia, true);
+            expect(this.knoxx.power).toBe(6);
 
-            expect(this.knoxx.power).toBe(8);
-        });
-
-        it('should get +6 power with two neighbors', function () {
-            this.setupTest({
-                player1: {
-                    house: 'brobnar',
-                    inPlay: ['tunk', 'knoxx', 'troll']
-                },
-                player2: {}
-            });
-
-            expect(this.knoxx.power).toBe(11);
+            this.player1.playCreature(this.rustgnawer);
+            expect(this.knoxx.power).toBe(9);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

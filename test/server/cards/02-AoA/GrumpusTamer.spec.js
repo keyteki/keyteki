@@ -4,22 +4,45 @@ describe('Grumpus Tamer', function () {
             this.setupTest({
                 player1: {
                     house: 'brobnar',
-                    inPlay: ['grumpus-tamer']
+                    inPlay: ['grumpus-tamer'],
+                    hand: ['troll', 'war-grumpus', 'war-grumpus']
                 },
                 player2: {}
             });
-            this.player1.moveCard(
-                this.player1.player.findCardByName('war-grumpus', 'deck'),
-                'deck'
-            );
+            this.warGrumpus1 = this.player1.player.hand[1];
+            this.warGrumpus2 = this.player1.player.hand[2];
+
+            this.player1.moveCard(this.troll, 'deck');
+            this.player1.moveCard(this.warGrumpus1, 'deck');
+            this.player1.moveCard(this.warGrumpus2, 'deck');
         });
 
         it('should search deck for a War Grumpus on reap', function () {
             this.player1.reap(this.grumpusTamer);
-            this.player1.clickPrompt('War Grumpus');
+            expect(this.player1.hasPrompt('Choose a card')).toBe(true);
+            expect(this.player1).toBeAbleToSelect(this.warGrumpus1);
+            expect(this.player1).toBeAbleToSelect(this.warGrumpus2);
+            expect(this.player1).not.toBeAbleToSelect(this.troll);
+            this.player1.clickCard(this.warGrumpus1);
+            this.player1.clickPrompt('Done');
 
-            let warGrumpus = this.player1.player.hand.find((card) => card.name === 'War Grumpus');
-            expect(warGrumpus).not.toBeUndefined();
+            expect(this.troll.location).toBe('deck');
+            expect(this.warGrumpus1.location).toBe('hand');
+            expect(this.warGrumpus2.location).toBe('deck');
+            expect(this.player1).isReadyToTakeAction();
+
+            this.grumpusTamer.exhausted = false;
+            this.player1.reap(this.grumpusTamer);
+            expect(this.player1.hasPrompt('Choose a card')).toBe(true);
+            expect(this.player1).not.toBeAbleToSelect(this.warGrumpus1);
+            expect(this.player1).toBeAbleToSelect(this.warGrumpus2);
+            expect(this.player1).not.toBeAbleToSelect(this.troll);
+            this.player1.clickCard(this.warGrumpus2);
+            this.player1.clickPrompt('Done');
+
+            expect(this.troll.location).toBe('deck');
+            expect(this.warGrumpus1.location).toBe('hand');
+            expect(this.warGrumpus2.location).toBe('hand');
             expect(this.player1).isReadyToTakeAction();
         });
     });
