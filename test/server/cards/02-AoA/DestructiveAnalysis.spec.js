@@ -73,5 +73,20 @@ describe('Destructive Analysis', function () {
             this.player1.clickPrompt('done');
             expect(this.bumpsy.damage).toBe(2);
         });
+
+        it('should allow purging archive cards even when targeting a warded creature', function () {
+            this.bumpsy.ward();
+            this.player1.play(this.destructiveAnalysis);
+            expect(this.player1).toHavePrompt('Destructive Analysis');
+            this.player1.clickCard(this.bumpsy);
+            // Should still get the prompt to purge even though initial damage was prevented by ward
+            expect(this.player1).toBeAbleToSelect(this.tunk);
+            this.player1.clickCard(this.tunk);
+            this.player1.clickPrompt('done');
+            expect(this.tunk.location).toBe('purged');
+            expect(this.bumpsy.warded).toBe(false);
+            expect(this.bumpsy.damage).toBe(2);
+            expect(this.player1).isReadyToTakeAction();
+        });
     });
 });

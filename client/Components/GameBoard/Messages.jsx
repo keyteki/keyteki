@@ -14,8 +14,8 @@ const keyImages = {};
 
 for (const colour of ['red', 'blue', 'yellow']) {
     keyImages[colour] = {
-        forged: require(`../../assets/img/forgedkey${colour}.png`),
-        unforged: require(`../../assets/img/unforgedkey${colour}.png`)
+        forged: new URL(`../../assets/img/forgedkey${colour}.png`, import.meta.url).href,
+        unforged: new URL(`../../assets/img/unforgedkey${colour}.png`, import.meta.url).href
     };
 }
 
