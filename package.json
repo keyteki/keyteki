@@ -149,7 +149,6 @@
         "autoprefixer": "^10.4.16",
         "babel-eslint": "^10.1.0",
         "babel-loader": "^8.1.0",
-        "baseline-browser-mapping": "2.9.19",
         "body-parser": "^1.18.2",
         "command-line-args": "^5.1.1",
         "coveralls": "^3.0.11",
