@@ -8,7 +8,6 @@ class Ostracize extends Card {
                 target: context.player
             })),
             then: {
-                message: '{0} uses {1} to purge {2}',
                 target: {
                     cardType: 'creature',
                     gameAction: ability.actions.purge()

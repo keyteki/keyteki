@@ -16,12 +16,15 @@ class EnlistNumeri extends Card {
                 ],
                 effect: 'take control of {0}'
             },
-            then: (preThenContext) => ({
+            then: (context) => ({
                 gameAction: ability.actions.cardLastingEffect({
-                    target: preThenContext.target,
+                    target: context.target,
                     duration: 'lastingEffect',
-                    condition: (context, effect) =>
-                        effect.match.controller === preThenContext.player,
+                    until: {
+                        onTakeControl: (event) =>
+                            event.card === context.target &&
+                            event.player === context.player.opponent
+                    },
                     effect: ability.effects.changeHouse('saurian')
                 })
             })

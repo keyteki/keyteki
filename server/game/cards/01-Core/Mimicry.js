@@ -1,5 +1,4 @@
 const Card = require('../../Card.js');
-const { buildPlayAsCopyEffects } = require('../../helpers/playAsCopy.js');
 
 class Mimicry extends Card {
     // When you play this card, treat it as a copy of an action card in your opponents discard pile.
@@ -14,17 +13,37 @@ class Mimicry extends Card {
             target: {
                 cardType: 'action',
                 controller: 'opponent',
-                location: 'discard'
+                location: 'discard',
+                cardCondition: (card, context) =>
+                    context.game.firstThingThisPhase() || !card.hasKeyword('alpha')
             },
-            effect: 'copy {0}',
-            gameAction: ability.actions.cardLastingEffect((context) => ({
-                allowedLocations: 'any',
-                target: context.source,
-                effect: buildPlayAsCopyEffects({
-                    context: context,
-                    ability: ability
-                })
-            }))
+            effect: 'to copy {0}',
+            gameAction: ability.actions.cardLastingEffect((context) => {
+                let card = context.target;
+
+                let effects = [];
+                if (card) {
+                    effects.push(ability.effects.modifyBonusIcons(card.bonusIcons));
+                    if (card.hasKeyword('omega')) {
+                        effects.push(ability.effects.addKeyword({ omega: 1 }));
+                    }
+                    effects = effects.concat(
+                        card.abilities.reactions
+                            .filter((ability) => ability.properties.name === 'Play')
+                            .map((playAbility) =>
+                                ability.effects.gainAbility('play', playAbility.properties)
+                            )
+                    );
+                }
+
+                return {
+                    // Since Mimicry could be played from hand, but also from
+                    // top of deck by e.g. Wild Wormhole, we need to allow "any"
+                    // for the location.
+                    allowedLocations: 'any',
+                    effect: effects
+                };
+            })
         });
     }
 }

@@ -5,7 +5,8 @@ class Weasand extends Card {
     // If Weasand is on a flank, destroy it.
     // After a player forges a key, gain 2A.
     setupCardAbilities(ability) {
-        this.reaction({
+        this.interrupt({
+            condition: (context) => !!context.player.opponent,
             when: {
                 onForgeKey: () => true
             },

@@ -9,27 +9,7 @@ class FiendishApprentice extends Card {
                 damageStep: 3,
                 numSteps: context.player.creaturesInPlay.filter((c) => c.hasHouse('dis')).length
             })),
-            effect: 'deal 3 damage to a creature for each friendly Dis creature ({1})',
-            effectArgs: (context) => [
-                context.player.creaturesInPlay.filter((c) => c.hasHouse('dis')).map((c) => c.name)
-            ],
-            then: {
-                alwaysTriggers: true,
-                condition: (context) => {
-                    context.preThenEvents
-                        .filter((event) => !event.cancelled && event.amount > 0)
-                        .forEach((event) => {
-                            context.game.addMessage(
-                                '{0} uses {1} to deal {2} damage to {3}',
-                                context.player,
-                                context.source,
-                                event.amount,
-                                event.card
-                            );
-                        });
-                    return false;
-                }
-            }
+            effect: 'to deal 3 damage to a creature for each friendly Dis creature'
         });
     }
 }

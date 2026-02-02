@@ -7,15 +7,11 @@ class TheFirstScroll extends Card {
             when: {
                 onForgeKey: () => true
             },
-            preferActionPromptMessage: true,
+            effect: 'make each friendly creature capture 1 amber from their side',
             gameAction: ability.actions.capture((context) => ({
-                target: context.event.player.creaturesInPlay,
-                player: context.event.player
-            })),
-            then: {
-                message: '{0} uses {1} to make {3} capture 1 amber from their side',
-                messageArgs: (context) => [context.preThenEvents.map((e) => e.card)]
-            }
+                target: context.game.activePlayer.creaturesInPlay,
+                player: context.game.activePlayer
+            }))
         });
     }
 }

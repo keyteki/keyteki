@@ -9,7 +9,6 @@ class DestructiveAnalysis extends Card {
                 gameAction: ability.actions.dealDamage({ amount: 2 })
             },
             then: (preThenContext) => ({
-                alwaysTriggers: true,
                 target: {
                     activePromptTitle: 'Choose which cards to purge',
                     mode: 'unlimited',

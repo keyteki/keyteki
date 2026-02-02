@@ -19,7 +19,7 @@ class AnimatingForce extends Card {
                 duration: 'lastingEffect',
                 effect: [
                     ability.effects.changeType('creature'),
-                    ability.effects.setPower(4),
+                    ability.effects.modifyPower(4),
                     ability.effects.takeControl(context.player),
                     ability.effects.addKeyword({ versatile: 1 })
                 ]

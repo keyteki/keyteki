@@ -13,7 +13,6 @@ class TyxlBeambuckler extends Card {
                 })
             },
             then: (context) => ({
-                alwaysTriggers: true,
                 gameAction: ability.actions.moveToFlank({ target: context.target })
             })
         });

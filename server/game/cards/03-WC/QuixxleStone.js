@@ -4,21 +4,22 @@ class QuixxleStone extends Card {
     // If a player has more creatures in play than their opponent, they cannot play creatures.
     setupCardAbilities(ability) {
         this.persistentEffect({
-            targetController: 'any',
-            effect: ability.effects.playerCannot('play', (context) => {
-                if (context.source.type !== 'creature') {
-                    return false;
-                }
-
-                const playerCreatures = context.player.cardsInPlay.filter(
+            condition: () => {
+                let currentPlayerCreatures = this.game.activePlayer.cardsInPlay.filter(
                     (card) => card.type === 'creature'
                 );
-                const opponentCreatures = context.player.opponent
-                    ? context.player.opponent.cardsInPlay.filter((card) => card.type === 'creature')
+                let opponentCreatures = this.game.activePlayer.opponent
+                    ? this.game.activePlayer.opponent.cardsInPlay.filter(
+                          (card) => card.type === 'creature'
+                      )
                     : [];
-
-                return playerCreatures.length > opponentCreatures.length;
-            })
+                return currentPlayerCreatures.length > opponentCreatures.length;
+            },
+            targetController: 'any',
+            effect: ability.effects.playerCannot(
+                'play',
+                (context) => context.source.type === 'creature'
+            )
         });
     }
 }
