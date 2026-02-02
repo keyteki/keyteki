@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import classNames from 'classnames';
-import '../../shims/jquery-global';
 import 'jquery-migrate';
 import { useDrag } from 'react-dnd';
 
