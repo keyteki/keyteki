@@ -45,7 +45,7 @@ describe('Watch Your Step', function () {
             expect(this.player1.player.creaturesInPlay[1].exhausted).toBe(false);
         });
 
-        it("should not make tokens if the opponent does follow instructions and opponent's deck is empty", function () {
+        it("should make tokens if the opponent does not follow instructions and opponent's deck is empty", function () {
             this.player2.player.deck = [];
             expect(this.player1.player.deck.length).not.toBe(0);
             expect(this.player2.player.deck.length).toBe(0);
