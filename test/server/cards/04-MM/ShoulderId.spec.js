@@ -68,4 +68,29 @@ describe('Shoulder Id', function () {
             expect(this.player2.amber).toBe(5);
         });
     });
+
+    describe("Shoulder Id's interaction with Mindworm", function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    amber: 4,
+                    house: 'mars',
+                    inPlay: ['troll', 'mindworm', 'eyegor']
+                },
+                player2: {
+                    amber: 2,
+                    inPlay: ['batdrone', 'shoulder-id', 'umbra']
+                }
+            });
+        });
+
+        it('should steal instead of dealing damage to neighbors when Mindworm attacks Shoulder Id', function () {
+            this.player1.fightWith(this.mindworm, this.shoulderId);
+            expect(this.batdrone.damage).toBe(0);
+            expect(this.umbra.damage).toBe(0);
+            expect(this.player1.amber).toBe(3);
+            expect(this.player2.amber).toBe(3);
+            expect(this.player1).isReadyToTakeAction();
+        });
+    });
 });
