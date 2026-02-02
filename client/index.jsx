@@ -1,14 +1,17 @@
 import '@babel/polyfill';
-import './shims/jquery-global';
+import 'core-js/stable';
 import $ from 'jquery';
 import 'jquery-validation';
 import 'jquery-validation-unobtrusive';
-import 'react-redux-toastr/src/styles/index.scss';
-import 'core-js/stable';
-import 'regenerator-runtime/runtime';
-import './styles/index.scss';
 import 'react-bootstrap-table-next/dist/react-bootstrap-table2.min.css';
 import 'react-bootstrap-table2-paginator/dist/react-bootstrap-table2-paginator.min.css';
+import 'react-redux-toastr/lib/css/react-redux-toastr.min.css';
+import 'regenerator-runtime/runtime';
+import './shims/jquery-global';
+import './styles/index.scss';
+
+window.jQuery = $;
+window.$ = $;
 
 $.validator.setDefaults({
     highlight: function (element) {
@@ -19,8 +22,8 @@ $.validator.setDefaults({
     }
 });
 
-if (import.meta.env.PROD) {
-    import('./index.prod');
+if (process.env.NODE_ENV === 'production') {
+    require('./index.prod');
 } else {
-    import('./index.dev');
+    require('./index.dev');
 }

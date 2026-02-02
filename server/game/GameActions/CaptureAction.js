@@ -68,12 +68,7 @@ class CaptureAction extends CardAction {
                 player.modifyAmber(-amount);
             }
 
-            let extra = 0;
-            if (amount > 0) {
-                extra = player.sumEffects('captureMoreFromPool');
-            }
-
-            event.card.addToken('amber', amount + extra);
+            event.card.addToken('amber', amount);
         });
     }
 }

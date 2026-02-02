@@ -117,6 +117,11 @@ export default class CustomReporter extends DefaultReporter {
     }
 
     _printProgress(force = false) {
+        // Skip all progress updates in DEBUG_TEST mode to keep output stable
+        if (process.env.DEBUG_TEST) {
+            return;
+        }
+
         const now = Date.now();
         if (!force && now - this._lastPrintTime < this._printInterval) {
             return;
@@ -143,8 +148,6 @@ export default class CustomReporter extends DefaultReporter {
         const startAt = new Date(this.startTime).toLocaleTimeString('en-US', { hour12: false });
         const elapsedMs = Date.now() - this.startTime;
         const elapsed = elapsedMs >= 1000 ? `${(elapsedMs / 1000).toFixed(2)}s` : `${elapsedMs}ms`;
-
-        // Build the output
         const output =
             ` Test Files  ${fileFailed} | ${filePassed} | ${fileSkipped} (${this.filesRun}/${this.filesExpected} ${filePercent}%)\n` +
             `      Tests  ${testFailed} | ${testPassed} | ${testSkipped} (${testsTotal})\n` +
