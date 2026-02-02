@@ -34,8 +34,6 @@ const Effects = {
     ],
 
     // Card effects
-    actionCardLocationAfterPlay: (location) =>
-        EffectBuilder.card.static('actionCardLocationAfterPlay', location),
     addHouse: (house) => EffectBuilder.card.static('addHouse', house),
     addKeyword: (keyword) => EffectBuilder.card.flexible('addKeyword', keyword),
     addTrait: (trait) => EffectBuilder.card.static('addTrait', trait),
@@ -48,6 +46,8 @@ const Effects = {
     canAttachToArtifacts: () => EffectBuilder.card.static('canAttachToArtifacts'),
     cardCannot: (type, condition) =>
         EffectBuilder.card.static('abilityRestrictions', new CannotRestriction(type, condition)),
+    cardLocationAfterPlay: (location) =>
+        EffectBuilder.card.static('cardLocationAfterPlay', location),
     changeHouse: (house) => EffectBuilder.card.static('changeHouse', house),
     changeType: (type) => EffectBuilder.card.static('changeType', type),
     consideredAsFlank: () => EffectBuilder.card.static('consideredAsFlank'),
