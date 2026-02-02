@@ -1,5 +1,6 @@
 FROM node:22.22.0
 
+RUN npm install -g npm@11.8.0
 RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app
 COPY package.json /usr/src/app
