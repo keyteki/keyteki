@@ -71,5 +71,18 @@ describe('Tyxl Beambuckler', function () {
                 expect(this.player2.player.creaturesInPlay[3]).toBe(this.huntingWitch);
             });
         });
+
+        describe('when targeting a warded creature', function () {
+            it('ward should prevent damage but creature should still move', function () {
+                this.niffleApe.ward();
+                this.player1.play(this.tyxlBeambuckler);
+                this.player1.clickCard(this.niffleApe);
+                expect(this.niffleApe.warded).toBe(false);
+                expect(this.niffleApe.damage).toBe(0);
+                this.player1.clickPrompt('Left');
+                expect(this.player2.player.creaturesInPlay[0]).toBe(this.niffleApe);
+                expect(this.player1).isReadyToTakeAction();
+            });
+        });
     });
 });

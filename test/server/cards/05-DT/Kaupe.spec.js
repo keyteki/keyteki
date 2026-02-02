@@ -109,7 +109,7 @@ describe('Kaupe', function () {
             this.setupTest({
                 player1: {
                     house: 'logos',
-                    hand: ['wild-wormhole', 'dextre']
+                    hand: ['wild-wormhole', 'dextre', 'remote-access']
                 },
                 player2: {
                     inPlay: ['kaupe']
@@ -121,6 +121,15 @@ describe('Kaupe', function () {
             this.player1.moveCard(this.dextre, 'deck');
             this.player1.play(this.wildWormhole);
             expect(this.dextre.location).toBe('play area');
+            expect(this.player1).isReadyToTakeAction();
+        });
+
+        it('should stop wild wormhole from playing another action', function () {
+            this.player1.moveCard(this.remoteAccess, 'deck');
+            expect(this.player1.amber).toBe(0);
+            this.player1.play(this.wildWormhole);
+            expect(this.remoteAccess.location).toBe('deck');
+            expect(this.player1.amber).toBe(1);
             expect(this.player1).isReadyToTakeAction();
         });
     });

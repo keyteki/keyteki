@@ -52,6 +52,7 @@ class Game extends EventEmitter {
         this.createdAt = new Date();
         this.currentAbilityWindow = null;
         this.currentActionWindow = null;
+        this.currentDestructionWindow = null;
         this.currentEventWindow = null;
         this.currentPhase = '';
         this.effectEngine = new EffectEngine(this);
