@@ -15,15 +15,21 @@ class Bryozoarch extends Card {
                     event.player === context.player.opponent &&
                     context.source.location === 'play area'
             },
+            preferActionPromptMessage: true,
             gameAction: ability.actions.changeEvent((context) => ({
                 event: context.event,
                 cancel: true
             })),
-            then: {
+            then: (preThenContext) => ({
+                message: '{0} uses {1} to destroy {3} instead of resolving {4}',
+                messageArgs: (context) => [
+                    context.player.creaturesInPlay[0],
+                    preThenContext.event.card
+                ],
                 gameAction: ability.actions.destroy((context) => ({
                     target: context.player.creaturesInPlay[0]
                 }))
-            }
+            })
         });
     }
 }

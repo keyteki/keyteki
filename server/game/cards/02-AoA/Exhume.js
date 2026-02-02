@@ -8,9 +8,11 @@ class Exhume extends Card {
                 controller: 'self',
                 location: 'discard',
                 cardType: 'creature',
-                optional: true,
-                gameAction: ability.actions.playCard()
-            }
+                optional: true
+            },
+            gameAction: ability.actions.playCard((context) => ({
+                target: context.target
+            }))
         });
     }
 }

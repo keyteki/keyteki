@@ -115,4 +115,45 @@ describe('Ether Spider', function () {
             expect(this.player1.amber).toBe(0);
         });
     });
+
+    describe("Ether Spider's ability and Staff Up", function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'ekwidon',
+                    token: 'prospector',
+                    inPlay: ['pen-pal'],
+                    hand: ['staff-up']
+                },
+                player2: {
+                    inPlay: ['ether-spider']
+                }
+            });
+        });
+
+        it('should prompt for ordering Ether Spider first', function () {
+            this.player1.play(this.staffUp);
+            this.player1.reap(this.penPal);
+            expect(this.player1).toBeAbleToSelect(this.etherSpider);
+            expect(this.player1).toHavePromptButton(this.staffUp.name);
+            this.player1.clickCard(this.etherSpider);
+            expect(this.player1.amber).toBe(0);
+            expect(this.etherSpider.amber).toBe(1);
+            expect(this.player1.player.creaturesInPlay.length).toBe(1);
+            expect(this.player1).isReadyToTakeAction();
+        });
+
+        it('should prompt for ordering Staff Up first', function () {
+            this.player1.play(this.staffUp);
+            this.player1.reap(this.penPal);
+            expect(this.player1).toBeAbleToSelect(this.etherSpider);
+            expect(this.player1).toHavePromptButton(this.staffUp.name);
+            this.player1.clickPrompt(this.staffUp.name);
+            this.player1.clickPrompt('Right');
+            expect(this.player1.amber).toBe(0);
+            expect(this.etherSpider.amber).toBe(0);
+            expect(this.player1.player.creaturesInPlay.length).toBe(2);
+            expect(this.player1).isReadyToTakeAction();
+        });
+    });
 });

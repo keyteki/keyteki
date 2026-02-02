@@ -16,7 +16,7 @@ describe('De-Animator', function () {
                 },
                 player2: {
                     amber: 1,
-                    inPlay: ['noddy-the-thief', 'lamindra', 'memrox-the-red']
+                    inPlay: ['noddy-the-thief', 'lamindra', 'memrox-the-red', 'envoy-of-ekwirrĕ']
                 }
             });
 
@@ -83,7 +83,7 @@ describe('De-Animator', function () {
             expect(this.player1).isReadyToTakeAction();
         });
 
-        it('should keep mineralized creatures if one leaves play but another is still in play ', function () {
+        it('should keep creatures mineralized if one leaves play but another is still in play', function () {
             this.player1.playCreature(this.deAnimator);
             this.player1.clickCard(this.noddyTheThief);
             this.player1.playCreature(this.deAnimator2);
@@ -95,6 +95,30 @@ describe('De-Animator', function () {
             expect(this.deAnimator2.location).toBe('discard');
             expect(this.noddyTheThief.type).toBe('artifact');
             expect(this.botBookton.type).toBe('artifact');
+            expect(this.player1).isReadyToTakeAction();
+        });
+
+        it('should keep creatures mineralized if tokens are swapped', function () {
+            this.player1.playCreature(this.deAnimator);
+            this.player1.clickCard(this.memroxTheRed);
+            this.player1.moveCard(this.deAnimator, 'hand');
+            this.player1.clickPrompt('Right');
+            this.player1.endTurn();
+            this.player2.clickPrompt('ekwidon');
+            this.player2.reap(this.envoyOfEkwirrĕ);
+            this.player2.clickCard(this.memroxTheRed);
+            expect(this.player2).isReadyToTakeAction();
+            expect(this.memroxTheRed.tokens.mineralize).toBe(undefined);
+            expect(this.envoyOfEkwirrĕ.tokens.mineralize).toBe(1);
+            expect(this.memroxTheRed.type).toBe('creature');
+            expect(this.envoyOfEkwirrĕ.type).toBe('creature');
+            this.player2.endTurn();
+            this.player1.clickPrompt('logos');
+            this.player1.playCreature(this.deAnimator);
+            this.player1.clickCard(this.lamindra);
+            expect(this.memroxTheRed.type).toBe('creature');
+            expect(this.lamindra.type).toBe('artifact');
+            expect(this.envoyOfEkwirrĕ.type).toBe('artifact');
             expect(this.player1).isReadyToTakeAction();
         });
 
@@ -146,7 +170,7 @@ describe('De-Animator', function () {
             expect(this.player1).isReadyToTakeAction();
         });
 
-        it('should send æmber on destroyed creatures as artifacts to the common supply', function () {
+        it('should send amber on destroyed creatures as artifacts to the common supply', function () {
             this.botBookton.amber = 4;
 
             this.player1.playCreature(this.deAnimator);
@@ -159,6 +183,63 @@ describe('De-Animator', function () {
 
             expect(this.player1.amber).toBe(2);
             expect(this.player2.amber).toBe(1);
+        });
+    });
+
+    describe('De-Animator with Animating Force', function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'logos',
+                    hand: ['de-animator', 'positron-bolt'],
+                    inPlay: ['batdrone', 'troll']
+                },
+                player2: {
+                    house: 'geistoid',
+                    hand: ['animating-force']
+                }
+            });
+        });
+
+        it('should keep a mineralized creature as an artifact when Animating Force is attached while De-Animator is in play', function () {
+            // Mineralize Batdrone
+            this.player1.playCreature(this.deAnimator);
+            this.player1.clickCard(this.batdrone);
+            expect(this.batdrone.type).toBe('artifact');
+            expect(this.batdrone.tokens.mineralize).toBe(1);
+            expect(this.batdrone.hasKeyword('versatile')).toBe(false);
+            expect(this.batdrone.power).toBe(2); // Not relevant as an artifact, but is still set
+            this.player1.endTurn();
+
+            // Animating Force Batdrone - stays an artifact
+            this.player2.clickPrompt('geistoid');
+            this.player2.playUpgrade(this.animatingForce, this.batdrone);
+            expect(this.batdrone.type).toBe('artifact');
+            expect(this.batdrone.tokens.mineralize).toBe(1);
+            expect(this.batdrone.hasKeyword('versatile')).toBe(true);
+            expect(this.batdrone.power).toBe(4);
+            this.player2.endTurn();
+
+            // Remove De-Animator - Batdrone becomes a creature
+            this.player1.clickPrompt('logos');
+            this.player1.play(this.positronBolt);
+            this.player1.clickCard(this.deAnimator);
+            this.player1.clickPrompt('Right'); // Move Batdrone to battleline
+            expect(this.deAnimator.location).toBe('discard');
+            expect(this.batdrone.type).toBe('creature');
+            expect(this.batdrone.tokens.mineralize).toBe(1);
+            expect(this.batdrone.hasKeyword('versatile')).toBe(true);
+            expect(this.batdrone.power).toBe(4);
+
+            // De-Animator comes back - Batdrone goes back to being an artifact
+            this.player1.moveCard(this.deAnimator, 'hand');
+            this.player1.playCreature(this.deAnimator);
+            this.player1.clickCard(this.deAnimator);
+            expect(this.batdrone.type).toBe('artifact');
+            expect(this.batdrone.tokens.mineralize).toBe(1);
+            expect(this.batdrone.hasKeyword('versatile')).toBe(true);
+            expect(this.batdrone.power).toBe(4);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

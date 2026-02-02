@@ -41,7 +41,7 @@ describe('Fetchdrones', function () {
         });
 
         it('should not prompt for capture when no cards in deck', function () {
-            this.player1.deck = [];
+            this.player1.player.deck = [];
 
             this.player1.play(this.archimedes);
             this.player1.play(this.dextre);
@@ -130,7 +130,7 @@ describe('Fetchdrones', function () {
         });
 
         it('should prompt for a single creature when only one logos in deck', function () {
-            this.player1.deck = [];
+            this.player1.player.deck = [];
             this.player1.moveCard(this.dextre, 'deck');
 
             this.player1.play(this.archimedes);
