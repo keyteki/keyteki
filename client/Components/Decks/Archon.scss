@@ -1,4 +1,4 @@
-@import '../../styles/variables';
+@use '../../styles/variables' as *;
 
 .archon-zoom {
     position: fixed;
@@ -7,3 +7,4 @@
     width: $keyteki-card-width * 4;
     z-index: 999;
 }
+

@@ -1,16 +1,16 @@
 import React from 'react';
 import { Trans, useTranslation } from 'react-i18next';
-import { Col, Form, Button } from 'react-bootstrap';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { Button, Col, Form, Row } from 'react-bootstrap';
 import { Formik } from 'formik';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleNotch } from '@fortawesome/free-solid-svg-icons';
 import * as yup from 'yup';
 
-import Panel from '../Site/Panel';
 import ApiStatus from '../Site/ApiStatus';
-import { Decks } from '../../redux/types';
+import Panel from '../Site/Panel';
 import { clearApiStatus, navigate, saveDeck } from '../../redux/actions';
+import { Decks } from '../../redux/types';
 
 const ImportDeck = () => {
     const { t } = useTranslation();
@@ -98,7 +98,7 @@ const ImportDeck = () => {
                                     formProps.handleSubmit(event);
                                 }}
                             >
-                                <Form.Row>
+                                <Row>
                                     <Form.Group as={Col} xs='9' controlId='formGridDeckLink'>
                                         <Form.Label>{t('Deck Link')}</Form.Label>
                                         <Form.Control
@@ -117,7 +117,7 @@ const ImportDeck = () => {
                                             {formProps.errors.deckLink}
                                         </Form.Control.Feedback>
                                     </Form.Group>
-                                </Form.Row>
+                                </Row>
 
                                 <Col className='text-center'>
                                     <Button variant='secondary' type='submit'>

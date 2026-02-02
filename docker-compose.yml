@@ -11,16 +11,19 @@ services:
             - './server:/usr/src/app/server'
             - './public:/usr/src/app/public'
             - './less:/usr/src/app/less'
+            - './config:/usr/src/app/config'
         links:
             - postgres
+            - redis
         depends_on:
             - postgres
             - redis
         environment:
-            - NODE_ENV=development
-            - REDIS_URL=redis://redis:6379/
             - DB_HOST=postgres
             - DB_PORT=5432
+            - NODE_APP_INSTANCE=docker
+            - NODE_ENV=development
+            - REDIS_URL=redis://redis:6379
         command:
             - node
             - '--inspect=0.0.0.0:9229'
@@ -33,6 +36,9 @@ services:
             - '9339:9339'
         volumes:
             - './server:/usr/src/app/server'
+            - './config:/usr/src/app/config'
+        links:
+            - redis
         depends_on:
             - redis
         command:
@@ -40,8 +46,9 @@ services:
             - '--inspect=0.0.0.0:9339'
             - 'server/gamenode'
         environment:
+            - NODE_APP_INSTANCE=docker
             - NODE_ENV=development
-            - REDIS_URL=redis://redis:6379/
+            - REDIS_URL=redis://redis:6379
     postgres:
         image: postgres
         environment:

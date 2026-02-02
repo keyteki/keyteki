@@ -238,41 +238,33 @@ module.exports.init = function (server, options) {
         wrapAsync(async (req, res) => {
             let message = validateUserName(req.body.username);
             if (message) {
-                res.send({ success: false, message: message });
-
-                return;
+                return res.send({ success: false, message: message });
             }
 
             message = validateEmail(req.body.email);
             if (message) {
-                res.send({ success: false, message: message });
-                return;
+                return res.send({ success: false, message: message });
             }
 
             message = validatePassword(req.body.password);
             if (message) {
-                res.send({ success: false, message: message });
-                return;
+                return res.send({ success: false, message: message });
             }
 
             let user = await userService.doesEmailExist(req.body.email);
             if (user) {
-                res.send({
+                return res.send({
                     success: false,
                     message: 'An account with that email already exists, please use another'
                 });
-
-                return;
             }
 
             user = await userService.doesUserExist(req.body.username);
             if (user) {
-                res.send({
+                return res.send({
                     success: false,
                     message: 'An account with that name already exists, please choose another'
                 });
-
-                return;
             }
 
             let emailBlockKey = configService.getValueForSection('lobby', 'emailBlockKey');
@@ -295,13 +287,11 @@ module.exports.init = function (server, options) {
                         logger.warn(
                             `Blocking ${domain} from registering the account ${req.body.username}`
                         );
-                        res.send({
+                        return res.send({
                             success: false,
                             message:
                                 'One time use email services are not permitted on this site.  Please use a real email address'
                         });
-
-                        return;
                     }
                 } catch (err) {
                     logger.warn(`Could not valid email address ${domain}`, err);
@@ -415,37 +405,31 @@ module.exports.init = function (server, options) {
 
             let user = await userService.getUserById(req.body.id);
             if (!user) {
-                res.send({
+                return res.send({
                     success: false,
                     message:
                         'An error occurred activating your account, check the url you have entered and try again.'
                 });
-
-                return;
             }
 
             if (!user.activationToken) {
                 logger.error('Got unexpected activate request for user %s', user.username);
 
-                res.send({
+                return res.send({
                     success: false,
                     message:
                         'An error occurred activating your account, check the url you have entered and try again.'
                 });
-
-                return;
             }
 
             let now = moment().utc();
             if (user.activationTokenExpiry < now) {
-                res.send({
+                logger.error('Token expired for %s', user.username);
+
+                return res.send({
                     success: false,
                     message: 'The activation token you have provided has expired.'
                 });
-
-                logger.error('Token expired for %s', user.username);
-
-                return;
             }
 
             let hmac = crypto.createHmac(
@@ -459,13 +443,11 @@ module.exports.init = function (server, options) {
             if (resetToken !== req.body.token) {
                 logger.error('Invalid activation token for %s: %s', user.username, req.body.token);
 
-                res.send({
+                return res.send({
                     success: false,
                     message:
                         'An error occurred activating your account, check the url you have entered and try again.'
                 });
-
-                return;
             }
 
             try {
@@ -473,13 +455,11 @@ module.exports.init = function (server, options) {
             } catch (error) {
                 logger.error('Error activating', error);
 
-                res.send({
+                return res.send({
                     success: false,
                     message:
                         'An error occurred activating your account, check the url you have entered and try again.'
                 });
-
-                return;
             }
 
             res.send({ success: true });
@@ -565,15 +545,11 @@ module.exports.init = function (server, options) {
         '/api/account/login',
         wrapAsync(async (req, res) => {
             if (!req.body.username) {
-                res.send({ success: false, message: 'Username must be specified' });
-
-                return;
+                return res.send({ success: false, message: 'Username must be specified' });
             }
 
             if (!req.body.password) {
-                res.send({ success: false, message: 'Password must be specified' });
-
-                return;
+                return res.send({ success: false, message: 'Password must be specified' });
             }
 
             let user = await userService.getFullUserByUsername(req.body.username);
@@ -641,48 +617,36 @@ module.exports.init = function (server, options) {
         '/api/account/token',
         wrapAsync(async (req, res) => {
             if (!req.body.token) {
-                res.send({ success: false, message: 'Refresh token must be specified' });
-
-                return;
+                return res.send({ success: false, message: 'Refresh token must be specified' });
             }
 
             let token = req.body.token;
 
             let user = await userService.getFullUserByUsername(token.username);
             if (!user) {
-                res.send({ success: false, message: 'Invalid refresh token' });
-
-                return;
+                return res.send({ success: false, message: 'Invalid refresh token' });
             }
 
             if (user.username !== token.username) {
                 logger.error(
                     `Username ${user.username} did not match token username ${token.username}`
                 );
-                res.send({ success: false, message: 'Invalid refresh token' });
-
-                return;
+                return res.send({ success: false, message: 'Invalid refresh token' });
             }
 
             let refreshToken = user.tokens.find((t) => {
                 return t.id === token.id;
             });
             if (!refreshToken) {
-                res.send({ success: false, message: 'Invalid refresh token' });
-
-                return;
+                return res.send({ success: false, message: 'Invalid refresh token' });
             }
 
             if (!userService.verifyRefreshToken(user.username, refreshToken)) {
-                res.send({ success: false, message: 'Invalid refresh token' });
-
-                return;
+                return res.send({ success: false, message: 'Invalid refresh token' });
             }
 
             if (user.disabled) {
-                res.send({ success: false, message: 'Invalid refresh token' });
-
-                return;
+                return res.send({ success: false, message: 'Invalid refresh token' });
             }
 
             let userObj = user.getWireSafeDetails();
@@ -713,37 +677,31 @@ module.exports.init = function (server, options) {
 
             let user = await userService.getUserById(req.body.id);
             if (!user) {
-                res.send({
+                return res.send({
                     success: false,
                     message:
                         'An error occurred resetting your password, check the url you have entered and try again.'
                 });
-
-                return;
             }
 
             if (!user.resetToken) {
                 logger.error('Got unexpected reset request for user %s', user.username);
 
-                res.send({
+                return res.send({
                     success: false,
                     message:
                         'An error occurred resetting your password, check the url you have entered and try again.'
                 });
-
-                return;
             }
 
             let now = moment().utc();
             if (user.tokenExpires < now) {
-                res.send({
+                logger.error('Token expired for %s', user.username);
+
+                return res.send({
                     success: false,
                     message: 'The reset token you have provided has expired.'
                 });
-
-                logger.error('Token expired for %s', user.username);
-
-                return;
             }
 
             let hmac = crypto.createHmac(
@@ -767,13 +725,11 @@ module.exports.init = function (server, options) {
             if (resetToken !== req.body.token) {
                 logger.error(`Invalid reset token for ${user.username}: ${req.body.token}`);
 
-                res.send({
+                return res.send({
                     success: false,
                     message:
                         'An error occurred resetting your password, check the url you have entered and try again.'
                 });
-
-                return;
             }
 
             resetUser = user;
@@ -870,12 +826,10 @@ module.exports.init = function (server, options) {
             if (user.username !== userToSet.username) {
                 let userTest = await userService.doesUserExist(userToSet.username);
                 if (userTest) {
-                    res.send({
+                    return res.send({
                         success: false,
                         message: 'An account with that name already exists, please choose another'
                     });
-
-                    return;
                 }
             }
 

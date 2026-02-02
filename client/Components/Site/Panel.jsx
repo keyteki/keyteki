@@ -60,7 +60,7 @@ const Panel = ({ type = PanelType.Primary, title, titleClass, children }) => {
     }
 
     return (
-        <Card border={retType} bg='dark'>
+        <Card border={retType} bg='dark' text='light' className='keyteki-panel'>
             {title && <Card.Header className={`${titleClass} text-center`}>{title}</Card.Header>}
             <Card.Body>{children}</Card.Body>
         </Card>

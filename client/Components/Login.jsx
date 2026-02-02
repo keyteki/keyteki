@@ -1,6 +1,6 @@
 import React from 'react';
 import { useTranslation, Trans } from 'react-i18next';
-import { Col, Form, Button } from 'react-bootstrap';
+import { Col, Form, Button, Row } from 'react-bootstrap';
 import { Formik } from 'formik';
 import * as yup from 'yup';
 
@@ -45,7 +45,7 @@ const Login = (props) => {
                         formProps.handleSubmit(event);
                     }}
                 >
-                    <Form.Row>
+                    <Row>
                         <Form.Group as={Col} lg='6' controlId='formGridUsername'>
                             <Form.Label>{t('Username')}</Form.Label>
                             <Form.Control
@@ -80,7 +80,7 @@ const Login = (props) => {
                                 {formProps.errors.password}
                             </Form.Control.Feedback>
                         </Form.Group>
-                    </Form.Row>
+                    </Row>
                     <Link href='/forgot'>
                         <Trans>Forgotten your password?</Trans>
                     </Link>
