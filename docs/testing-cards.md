@@ -221,7 +221,7 @@ When writing tests, use creatures with minimal abilities to avoid unintended int
 | Untamed      | `witch-of-the-dawn`    | 3 power, Play: return creature from discard      |
 | Untamed      | `conclave-witch`       | 3 power, Action:                                 |
 
-**Avoid** using creatures unless those keywords/abilities are being specifically tested:
+**Avoid** using creatures with abilities or keywords unless those abilities/keywords are being specifically tested. When using a creature with an ability or keyword, make sure to account for its effects in your test assertions:
 
 -   **Aember bonus** - Gains aember when played, interferes with aember counting
 -   **Persistent effects** - Should be completely avoided unless needed to test in combination with the card being tested
