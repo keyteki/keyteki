@@ -1,70 +1,49 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+import React, { useCallback, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
 import Panel from '../Components/Site/Panel';
 
-import * as actions from '../redux/actions';
+import { sendSocketMessage } from '../redux/actions';
 import { Col } from 'react-bootstrap';
 
-class NodeAdmin extends React.Component {
-    constructor(props) {
-        super(props);
+const NodeAdmin = () => {
+    const dispatch = useDispatch();
+    const nodeStatus = useSelector((state) => state.admin.nodeStatus);
 
-        this.onRefreshClick = this.onRefreshClick.bind(this);
-    }
+    useEffect(() => {
+        dispatch(sendSocketMessage('getnodestatus'));
+    }, [dispatch]);
 
-    componentDidMount() {
-        this.props.sendSocketMessage('getnodestatus');
-    }
+    const onToggleNodeClick = useCallback(
+        (node, event) => {
+            event.preventDefault();
+            dispatch(sendSocketMessage('togglenode', node.name));
+        },
+        [dispatch]
+    );
 
-    onToggleNodeClick(node, event) {
-        event.preventDefault();
+    const onRefreshClick = useCallback(
+        (event) => {
+            event.preventDefault();
+            dispatch(sendSocketMessage('getnodestatus'));
+        },
+        [dispatch]
+    );
 
-        this.props.sendSocketMessage('togglenode', node.name);
-    }
+    const onRestartNodeClick = useCallback(
+        (node, event) => {
+            event.preventDefault();
+            dispatch(sendSocketMessage('restartnode', node.name));
+        },
+        [dispatch]
+    );
 
-    onRefreshClick(event) {
-        event.preventDefault();
+    let content;
 
-        this.props.sendSocketMessage('getnodestatus');
-    }
-
-    onRestartNodeClick(node, event) {
-        event.preventDefault();
-
-        this.props.sendSocketMessage('restartnode', node.name);
-    }
-
-    getNodesTable() {
-        const body = this.props.nodeStatus.map((node) => {
-            return (
-                <tr key={node.name}>
-                    <td>{node.name}</td>
-                    <td>{node.numGames}</td>
-                    <td>{node.status}</td>
-                    <td>{node.version}</td>
-                    <td>
-                        <button
-                            type='button'
-                            className='btn btn-primary'
-                            onClick={this.onToggleNodeClick.bind(this, node)}
-                        >
-                            {node.status === 'active' ? 'Disable' : 'Enable'}
-                        </button>
-                        <button
-                            type='button'
-                            className='btn btn-primary'
-                            onClick={this.onRestartNodeClick.bind(this, node)}
-                        >
-                            Restart
-                        </button>
-                    </td>
-                </tr>
-            );
-        });
-
-        return (
+    if (!nodeStatus) {
+        content = <div>Waiting for game node status from the lobby...</div>;
+    } else if (nodeStatus.length > 0) {
+        content = (
             <table className='table table-striped'>
                 <thead>
                     <tr>
@@ -75,46 +54,51 @@ class NodeAdmin extends React.Component {
                         <th>Actions</th>
                     </tr>
                 </thead>
-                <tbody>{body}</tbody>
+                <tbody>
+                    {nodeStatus.map((node) => (
+                        <tr key={node.name}>
+                            <td>{node.name}</td>
+                            <td>{node.numGames}</td>
+                            <td>{node.status}</td>
+                            <td>{node.version}</td>
+                            <td>
+                                <button
+                                    type='button'
+                                    className='btn btn-primary'
+                                    onClick={(event) => onToggleNodeClick(node, event)}
+                                >
+                                    {node.status === 'active' ? 'Disable' : 'Enable'}
+                                </button>
+                                <button
+                                    type='button'
+                                    className='btn btn-primary'
+                                    onClick={(event) => onRestartNodeClick(node, event)}
+                                >
+                                    Restart
+                                </button>
+                            </td>
+                        </tr>
+                    ))}
+                </tbody>
             </table>
         );
+    } else {
+        content = <div>There are no game nodes connected. This is probably bad.</div>;
     }
 
-    render() {
-        let content;
+    return (
+        <Col sm={{ span: 10, offset: 1 }}>
+            <Panel title='Game Node Administration'>
+                {content}
 
-        if (!this.props.nodeStatus) {
-            content = <div>Waiting for game node status from the lobby...</div>;
-        } else if (this.props.nodeStatus.length > 0) {
-            content = this.getNodesTable();
-        } else {
-            content = <div>There are no game nodes connected. This is probably bad.</div>;
-        }
-
-        return (
-            <Col sm={{ span: 10, offset: 1 }}>
-                <Panel title='Game Node Administration'>
-                    {content}
-
-                    <button className='btn btn-default btn-short' onClick={this.onRefreshClick}>
-                        Refresh
-                    </button>
-                </Panel>
-            </Col>
-        );
-    }
-}
-
-NodeAdmin.displayName = 'NodeAdmin';
-NodeAdmin.propTypes = {
-    nodeStatus: PropTypes.array,
-    sendSocketMessage: PropTypes.func
+                <button className='btn btn-default btn-short' onClick={onRefreshClick}>
+                    Refresh
+                </button>
+            </Panel>
+        </Col>
+    );
 };
 
-function mapStateToProps(state) {
-    return {
-        nodeStatus: state.admin.nodeStatus
-    };
-}
+NodeAdmin.displayName = 'NodeAdmin';
 
-export default connect(mapStateToProps, actions)(NodeAdmin);
+export default NodeAdmin;
