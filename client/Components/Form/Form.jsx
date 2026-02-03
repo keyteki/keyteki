@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import $ from 'jquery';
 import PropTypes from 'prop-types';
 
@@ -6,110 +6,102 @@ import Input from './Input.jsx';
 
 import formFields from './formFields.json';
 
-import { withTranslation } from 'react-i18next';
+import { useTranslation } from 'react-i18next';
 
-class Form extends React.Component {
-    constructor(props) {
-        super(props);
+const Form = (props) => {
+    const { t } = useTranslation();
+    const [values, setValues] = useState({});
+    const validatorRef = useRef(null);
 
-        this.state = {};
-
-        this.onSubmit = this.onSubmit.bind(this);
-    }
-
-    componentDidMount() {
+    useEffect(() => {
         $.validator.unobtrusive.parse('form');
+        validatorRef.current = $('form').validate();
 
-        this.validator = $('form').validate();
-    }
+        return () => {
+            validatorRef.current?.destroy();
+        };
+    }, []);
 
-    componentWillUnmount() {
-        this.validator.destroy();
-    }
+    const onChange = useCallback((field, event) => {
+        setValues((prevValues) => ({
+            ...prevValues,
+            [field]: event.target.value
+        }));
+    }, []);
 
-    onChange(field, event) {
-        var newState = {};
+    const translateValidationProps = useCallback(
+        (field) => {
+            let validationAttributes = {};
 
-        newState[field] = event.target.value;
-        this.setState(newState);
-    }
-
-    onSubmit(event) {
-        event.preventDefault();
-
-        if (!$('form').valid()) {
-            return;
-        }
-
-        if (this.props.onSubmit) {
-            this.props.onSubmit(this.state);
-        }
-    }
-
-    translateValidationProps(field) {
-        let t = this.props.t;
-        let validationAttributes = {};
-
-        if (field.validationProperties) {
-            for (let key of Object.keys(field.validationProperties)) {
-                if (
-                    key === 'data-val-required' ||
-                    key === 'data-val-length' ||
-                    key === 'data-val-equalto' ||
-                    key === 'data-val-regex'
-                ) {
-                    validationAttributes[key] = t(field.validationProperties[key]);
-                } else {
-                    validationAttributes[key] = field.validationProperties[key];
+            if (field.validationProperties) {
+                for (let key of Object.keys(field.validationProperties)) {
+                    if (
+                        key === 'data-val-required' ||
+                        key === 'data-val-length' ||
+                        key === 'data-val-equalto' ||
+                        key === 'data-val-regex'
+                    ) {
+                        validationAttributes[key] = t(field.validationProperties[key]);
+                    } else {
+                        validationAttributes[key] = field.validationProperties[key];
+                    }
                 }
             }
-        }
 
-        return validationAttributes;
-    }
+            return validationAttributes;
+        },
+        [t]
+    );
 
-    render() {
-        let t = this.props.t;
+    const onSubmit = useCallback(
+        (event) => {
+            event.preventDefault();
 
-        const fieldsToRender = formFields[this.props.name].map((field) => {
-            return (
+            if (!$('form').valid()) {
+                return;
+            }
+
+            if (props.onSubmit) {
+                props.onSubmit(values);
+            }
+        },
+        [props, values]
+    );
+
+    const fieldsToRender = useMemo(
+        () =>
+            formFields[props.name].map((field) => (
                 <Input
                     key={field.name}
                     name={field.name}
                     label={t(field.label)}
                     placeholder={t(field.placeholder)}
-                    validationAttributes={this.translateValidationProps(field)}
+                    validationAttributes={translateValidationProps(field)}
                     fieldClass={field.fieldClass}
                     labelClass={field.labelClass}
                     type={field.inputType}
-                    onChange={this.onChange.bind(this, field.name)}
-                    value={this.state[field.name]}
+                    onChange={(event) => onChange(field.name, event)}
+                    value={values[field.name]}
                 />
-            );
-        });
+            )),
+        [onChange, props.name, t, translateValidationProps, values]
+    );
 
-        return (
-            <form className='form form-horizontal' onSubmit={this.onSubmit}>
-                {fieldsToRender}
-                {this.props.children}
-                <div className='form-group'>
-                    <div className={this.props.buttonClass || 'col-sm-offset-4 col-sm-3'}>
-                        <button
-                            type='submit'
-                            className='btn btn-primary'
-                            disabled={this.props.apiLoading}
-                        >
-                            {t(this.props.buttonText) || t('Submit')}{' '}
-                            {this.props.apiLoading ? (
-                                <span className='spinner button-spinner' />
-                            ) : null}
-                        </button>
-                    </div>
+    return (
+        <form className='form form-horizontal' onSubmit={onSubmit}>
+            {fieldsToRender}
+            {props.children}
+            <div className='form-group'>
+                <div className={props.buttonClass || 'col-sm-offset-4 col-sm-3'}>
+                    <button type='submit' className='btn btn-primary' disabled={props.apiLoading}>
+                        {t(props.buttonText) || t('Submit')}{' '}
+                        {props.apiLoading ? <span className='spinner button-spinner' /> : null}
+                    </button>
                 </div>
-            </form>
-        );
-    }
-}
+            </div>
+        </form>
+    );
+};
 
 Form.displayName = 'Form';
 Form.propTypes = {
@@ -117,10 +109,8 @@ Form.propTypes = {
     buttonClass: PropTypes.string,
     buttonText: PropTypes.string,
     children: PropTypes.node,
-    i18n: PropTypes.object,
     name: PropTypes.string.isRequired,
-    onSubmit: PropTypes.func,
-    t: PropTypes.func
+    onSubmit: PropTypes.func
 };
 
-export default withTranslation()(Form);
+export default Form;

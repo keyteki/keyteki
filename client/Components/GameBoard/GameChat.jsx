@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import $ from 'jquery';
 
@@ -6,98 +6,80 @@ import Messages from './Messages';
 
 import './GameChat.scss';
 
-class GameChat extends React.Component {
-    constructor(props) {
-        super(props);
+const GameChat = (props) => {
+    const messagePanel = useRef(null);
+    const [canScroll, setCanScroll] = useState(true);
+    const [message, setMessage] = useState('');
 
-        this.onChange = this.onChange.bind(this);
-        this.onKeyPress = this.onKeyPress.bind(this);
-        this.onScroll = this.onScroll.bind(this);
-
-        this.state = {
-            canScroll: true,
-            message: ''
-        };
-    }
-
-    componentDidMount() {
-        if (this.state.canScroll) {
-            $(this.messagePanel).scrollTop(999999);
+    useEffect(() => {
+        if (canScroll && messagePanel.current) {
+            $(messagePanel.current).scrollTop(999999);
         }
-    }
+    }, [canScroll, props.messages]);
 
-    componentDidUpdate() {
-        if (this.state.canScroll) {
-            $(this.messagePanel).scrollTop(999999);
-        }
-    }
-
-    onScroll() {
-        let messages = this.messagePanel;
-
-        setTimeout(() => {
-            if (messages.scrollTop >= messages.scrollHeight - messages.offsetHeight - 20) {
-                this.setState({ canScroll: true });
-            } else {
-                this.setState({ canScroll: false });
-            }
-        }, 500);
-    }
-
-    onChange(event) {
-        this.setState({
-            message: event.target.value.substring(0, Math.min(512, event.target.value.length))
-        });
-    }
-
-    onKeyPress(event) {
-        if (event.key === 'Enter') {
-            this.sendMessage();
-
-            event.preventDefault();
-        }
-    }
-
-    sendMessage() {
-        if (this.state.message === '') {
+    const onScroll = useCallback(() => {
+        const messages = messagePanel.current;
+        if (!messages) {
             return;
         }
 
-        this.props.onSendChat(this.state.message);
+        setTimeout(() => {
+            if (messages.scrollTop >= messages.scrollHeight - messages.offsetHeight - 20) {
+                setCanScroll(true);
+            } else {
+                setCanScroll(false);
+            }
+        }, 500);
+    }, []);
 
-        this.setState({ message: '' });
-    }
+    const onKeyPress = useCallback(
+        (event) => {
+            if (event.key !== 'Enter') {
+                return;
+            }
 
-    render() {
-        let placeholder = this.props.muted ? 'Spectators cannot chat in this game' : 'Chat...';
+            if (message === '') {
+                return;
+            }
 
-        return (
-            <div className='chat'>
-                <div
-                    className='messages panel'
-                    ref={(m) => (this.messagePanel = m)}
-                    onScroll={this.onScroll}
-                >
-                    <Messages
-                        messages={this.props.messages}
-                        onCardMouseOver={this.props.onCardMouseOver}
-                        onCardMouseOut={this.props.onCardMouseOut}
-                    />
-                </div>
-                <form className='form chat-form'>
-                    <input
-                        className='form-control'
-                        placeholder={placeholder}
-                        onKeyPress={this.onKeyPress}
-                        onChange={this.onChange}
-                        value={this.state.message}
-                        disabled={this.props.muted}
-                    />
-                </form>
+            props.onSendChat(message);
+            setMessage('');
+            event.preventDefault();
+        },
+        [message, props]
+    );
+
+    const placeholder = props.muted ? 'Spectators cannot chat in this game' : 'Chat...';
+
+    return (
+        <div className='chat'>
+            <div className='messages panel' ref={messagePanel} onScroll={onScroll}>
+                <Messages
+                    messages={props.messages}
+                    onCardMouseOver={props.onCardMouseOver}
+                    onCardMouseOut={props.onCardMouseOut}
+                />
             </div>
-        );
-    }
-}
+            <form className='form chat-form'>
+                <input
+                    className='form-control'
+                    placeholder={placeholder}
+                    onKeyPress={onKeyPress}
+                    onChange={(event) =>
+                        setMessage(
+                            event.target.value.substring(
+                                0,
+                                Math.min(512, event.target.value.length)
+                            )
+                        )
+                    }
+                    value={message}
+                    disabled={props.muted}
+                />
+            </form>
+        </div>
+    );
+};
 
 GameChat.displayName = 'GameChat';
 GameChat.propTypes = {

@@ -1,46 +1,60 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import $ from 'jquery';
-import { connect } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Container } from 'react-bootstrap';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 import { Constants } from './constants';
 import ErrorBoundary from './Components/Site/ErrorBoundary';
 import Navigation from './Components/Navigation/Navigation';
-import Router from './Router.jsx';
+import AppRoutes from './AppRoutes';
 import { tryParseJSON } from './util.jsx';
 import AlertPanel from './Components/Site/AlertPanel';
-import * as actions from './redux/actions';
+import {
+    authenticate,
+    connectLobby,
+    loadCards,
+    loadFactions,
+    loadStandaloneDecks,
+    setAuthTokens,
+    setWindowBlur
+} from './redux/actions';
 
 import Background from './assets/img/bgs/keyforge.png';
 import BlankBg from './assets/img/bgs/blank.png';
 import MassMutationBg from './assets/img/bgs/massmutation.png';
 
-class Application extends React.Component {
-    constructor(props) {
-        super(props);
+const Application = () => {
+    const dispatch = useDispatch();
+    const location = useLocation();
+    const navigate = useNavigate();
+    const bgRef = useRef(null);
+    const [incompatibleBrowser, setIncompatibleBrowser] = useState(false);
+    const [cannotLoad, setCannotLoad] = useState(false);
+    const prevWindowBlurred = useRef(null);
 
-        this.router = new Router();
+    const { currentGame, user, windowBlurred } = useSelector((state) => ({
+        currentGame: state.lobby.currentGame,
+        user: state.account.user,
+        windowBlurred: state.lobby.windowBlurred
+    }));
 
-        this.onFocusChange = this.onFocusChange.bind(this);
-        this.blinkTab = this.blinkTab.bind(this);
-        this.state = {};
-        this.bgRef = React.createRef();
-
-        this.backgrounds = { blank: BlankBg };
+    const backgrounds = useMemo(() => {
+        const values = { blank: BlankBg };
 
         for (let i = 0; i < Constants.Houses.length; ++i) {
-            this.backgrounds[Constants.Houses[i]] = Constants.HouseBgPaths[Constants.Houses[i]];
+            values[Constants.Houses[i]] = Constants.HouseBgPaths[Constants.Houses[i]];
         }
 
-        this.backgrounds.massmutation = MassMutationBg;
-        this.backgrounds.keyforge = Background;
-    }
+        values.massmutation = MassMutationBg;
+        values.keyforge = Background;
 
-    // eslint-disable-next-line react/no-deprecated
-    componentWillMount() {
+        return values;
+    }, []);
+
+    useEffect(() => {
         if (!localStorage) {
-            this.setState({ incompatibleBrowser: true });
+            setIncompatibleBrowser(true);
         } else {
             try {
                 let token = localStorage.getItem('token');
@@ -48,58 +62,58 @@ class Application extends React.Component {
                 if (refreshToken) {
                     const parsedToken = tryParseJSON(refreshToken);
                     if (parsedToken) {
-                        this.props.setAuthTokens(token, parsedToken);
-                        this.props.authenticate();
+                        dispatch(setAuthTokens(token, parsedToken));
+                        dispatch(authenticate());
                     }
                 }
             } catch (error) {
-                this.setState({ cannotLoad: true });
+                setCannotLoad(true);
             }
         }
 
-        this.props.loadCards();
-        this.props.loadFactions();
-        this.props.loadStandaloneDecks();
+        dispatch(loadCards());
+        dispatch(loadFactions());
+        dispatch(loadStandaloneDecks());
 
-        $(document).ajaxError((event, xhr) => {
+        const handleAjaxError = (event, xhr) => {
             if (xhr.status === 403) {
-                this.props.navigate('/unauth');
+                navigate('/unauth');
             }
-        });
+        };
 
-        this.props.connectLobby();
-        window.addEventListener('focus', this.onFocusChange);
-        window.addEventListener('blur', this.onFocusChange);
-    }
+        $(document).ajaxError(handleAjaxError);
 
-    componentDidUpdate(props) {
-        if (!props.windowBlurred || this.props.windowBlurred) {
-            this.blinkTab();
-        }
-    }
+        dispatch(connectLobby());
 
-    componentWillUnmount() {
-        window.removeEventListener('focus', this.onFocusChange);
-        window.removeEventListener('blur', this.onFocusChange);
-    }
+        const onFocusChange = (event) => {
+            dispatch(setWindowBlur(event.type));
+        };
 
-    blinkTab() {
-        if (!this.props.currentGame || !this.props.currentGame.players) {
+        window.addEventListener('focus', onFocusChange);
+        window.addEventListener('blur', onFocusChange);
+
+        return () => {
+            $(document).off('ajaxError', handleAjaxError);
+            window.removeEventListener('focus', onFocusChange);
+            window.removeEventListener('blur', onFocusChange);
+        };
+    }, [dispatch, navigate]);
+
+    const blinkTab = useCallback(() => {
+        if (!currentGame || !currentGame.players) {
             return;
         }
 
-        if (Object.keys(this.props.currentGame.players).length < 2) {
+        if (Object.keys(currentGame.players).length < 2) {
             return;
         }
 
-        const activePlayer = Object.values(this.props.currentGame.players).find(
-            (x) => x.activePlayer
-        );
+        const activePlayer = Object.values(currentGame.players).find((x) => x.activePlayer);
         if (
             document.title !== 'Alert!' &&
             activePlayer &&
-            this.props.user &&
-            activePlayer.name === this.props.user.username
+            user &&
+            activePlayer.name === user.username
         ) {
             let oldTitle = document.title;
             let msg = 'Alert!';
@@ -118,110 +132,83 @@ class Application extends React.Component {
                 timeoutId = setInterval(blink, 500);
             }
         }
-    }
+    }, [currentGame, user]);
 
-    onFocusChange(event) {
-        this.props.setWindowBlur(event.type);
-    }
+    useEffect(() => {
+        const previous = prevWindowBlurred.current;
+        if (previous === null || !previous || windowBlurred) {
+            blinkTab();
+        }
+        prevWindowBlurred.current = windowBlurred;
+    }, [blinkTab, windowBlurred]);
 
-    render() {
-        let gameBoardVisible =
-            this.props.currentGame && this.props.currentGame.started && this.props.path === '/play';
+    const path = location?.pathname || '/';
+    const gameBoardVisible = currentGame && currentGame.started && path === '/play';
 
-        let component = this.router.resolvePath({
-            pathname: this.props.path,
-            user: this.props.user,
-            currentGame: this.props.currentGame
-        });
-
-        if (this.state.incompatibleBrowser) {
-            component = (
-                <AlertPanel
-                    type='error'
-                    message='Your browser does not provide the required functionality for this site to work.  Please upgrade your browser.  The site works best with a recent version of Chrome, Safari or Firefox.'
-                />
-            );
-        } else if (this.state.cannotLoad) {
-            component = (
-                <AlertPanel
-                    type='error'
-                    message='This site requires the ability to store cookies and local site data to function.  Please enable these features to use the site.'
-                />
-            );
+    useEffect(() => {
+        if (!bgRef.current) {
+            return;
         }
 
-        let background = 'keyforge';
-
-        if (gameBoardVisible && this.props.user) {
-            let houseIndex = Constants.HousesNames.indexOf(this.props.user.settings.background);
+        if (gameBoardVisible && user && user.settings) {
+            let background = 'keyforge';
+            let houseIndex = Constants.HousesNames.indexOf(user.settings.background);
             if (houseIndex === -1) {
-                background = `${this.props.user?.settings?.background}`;
+                background = `${user?.settings?.background}`;
             } else {
                 background = `${Constants.Houses[houseIndex]}`;
             }
 
-            if (
-                this.bgRef.current &&
-                background === 'custom' &&
-                this.props.user.settings.customBackground
-            ) {
-                this.bgRef.current.style.backgroundImage = `url('/img/bgs/${this.props.user.settings.customBackground}.png')`;
-            } else if (this.bgRef.current) {
-                this.bgRef.current.style.backgroundImage = `url('${this.backgrounds[background]}')`;
+            if (background === 'custom' && user.settings.customBackground) {
+                bgRef.current.style.backgroundImage = `url('/img/bgs/${user.settings.customBackground}.png')`;
+            } else {
+                bgRef.current.style.backgroundImage = `url('${backgrounds[background]}')`;
             }
-        } else if (this.bgRef.current) {
-            this.bgRef.current.style.backgroundImage = `url('${Background}')`;
+            return;
         }
 
-        return (
-            <div className='bg' ref={this.bgRef}>
-                <Navigation appName='The Crucible Online' user={this.props.user} />
-                <div className='wrapper'>
-                    <Container className='content'>
-                        <ErrorBoundary
-                            navigate={this.props.navigate}
-                            errorPath={this.props.path}
-                            message={"We're sorry - something's gone wrong."}
-                        >
-                            {component}
-                        </ErrorBoundary>
-                    </Container>
-                </div>
-                <div className='keyforge-font' style={{ zIndex: -999 }}>
-                    &nbsp;
-                </div>
-            </div>
+        bgRef.current.style.backgroundImage = `url('${Background}')`;
+    }, [backgrounds, gameBoardVisible, user]);
+
+    let component = <AppRoutes user={user} currentGame={currentGame} />;
+
+    if (incompatibleBrowser) {
+        component = (
+            <AlertPanel
+                type='error'
+                message='Your browser does not provide the required functionality for this site to work.  Please upgrade your browser.  The site works best with a recent version of Chrome, Safari or Firefox.'
+            />
+        );
+    } else if (cannotLoad) {
+        component = (
+            <AlertPanel
+                type='error'
+                message='This site requires the ability to store cookies and local site data to function.  Please enable these features to use the site.'
+            />
         );
     }
-}
 
-Application.displayName = 'Application';
-Application.propTypes = {
-    authenticate: PropTypes.func,
-    connectLobby: PropTypes.func,
-    currentGame: PropTypes.object,
-    loadCards: PropTypes.func,
-    loadFactions: PropTypes.func,
-    loadPacks: PropTypes.func,
-    loadRestrictedList: PropTypes.func,
-    loadStandaloneDecks: PropTypes.func,
-    navigate: PropTypes.func,
-    path: PropTypes.string,
-    setAuthTokens: PropTypes.func,
-    setWindowBlur: PropTypes.func,
-    token: PropTypes.string,
-    user: PropTypes.object,
-    windowBlurred: PropTypes.bool
+    return (
+        <div className='bg' ref={bgRef}>
+            <Navigation appName='The Crucible Online' user={user} />
+            <div className='wrapper'>
+                <Container className='content'>
+                    <ErrorBoundary
+                        navigate={navigate}
+                        errorPath={path}
+                        message={"We're sorry - something's gone wrong."}
+                    >
+                        {component}
+                    </ErrorBoundary>
+                </Container>
+            </div>
+            <div className='keyforge-font' style={{ zIndex: -999 }}>
+                &nbsp;
+            </div>
+        </div>
+    );
 };
 
-function mapStateToProps(state) {
-    return {
-        currentGame: state.lobby.currentGame,
-        path: state.navigation.path,
-        token: state.account.token,
-        user: state.account.user,
-        windowBlurred: state.lobby.windowBlurred
-    };
-}
+Application.displayName = 'Application';
 
-export default connect(mapStateToProps, actions)(Application);
+export default Application;

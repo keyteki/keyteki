@@ -1,6 +1,8 @@
 replicaCount: 1
 namespace: keyteki-development
 
+updatePartition: 0
+
 image:
     repository: cryogen/keyteki-node
     tag: latest

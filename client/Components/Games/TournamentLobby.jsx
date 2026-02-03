@@ -5,6 +5,7 @@ import { Button, Col, Form, Row } from 'react-bootstrap';
 import ReactClipboard from 'react-clipboardjs-copy';
 import { Trans, useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
 import {
@@ -12,8 +13,7 @@ import {
     clearApiStatus,
     fetchFullTournament,
     fetchMatches,
-    fetchTournaments,
-    navigate
+    fetchTournaments
 } from '../../redux/actions';
 import { Challonge } from '../../redux/types';
 import ApiStatus from '../Site/ApiStatus';
@@ -32,6 +32,7 @@ const TournamentLobby = () => {
     }));
     const games = useSelector((state) => state.lobby.games);
     const dispatch = useDispatch();
+    const navigate = useNavigate();
     const [tournament, setTournament] = useState();
     const [matchesToCreate, setMatchesToCreate] = useState();
     const { t } = useTranslation();
@@ -230,11 +231,8 @@ const TournamentLobby = () => {
                                                     variant='primary'
                                                     value={game.id}
                                                     onClick={(event) =>
-                                                        dispatch(
-                                                            navigate(
-                                                                '/play',
-                                                                `?gameId=${event.target.value}`
-                                                            )
+                                                        navigate(
+                                                            `/play?gameId=${event.target.value}`
                                                         )
                                                     }
                                                 >
