@@ -6,6 +6,7 @@ import AlertPanel from '../Components/Site/AlertPanel.jsx';
 import Panel from '../Components/Site/Panel.jsx';
 import Form from '../Components/Form/Form.jsx';
 import Link from '../Components/Navigation/Link.jsx';
+import withRouter from '../router/withRouter';
 
 import * as actions from '../redux/actions';
 
@@ -111,4 +112,4 @@ function mapStateToProps(state) {
     };
 }
 
-export default withTranslation()(connect(mapStateToProps, actions)(Register));
+export default withTranslation()(withRouter(connect(mapStateToProps, actions)(Register)));

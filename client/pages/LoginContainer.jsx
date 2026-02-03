@@ -1,5 +1,6 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { Col } from 'react-bootstrap';
 
@@ -7,11 +8,12 @@ import Login from '../Components/Login';
 import Panel from '../Components/Site/Panel';
 import ApiStatus from '../Components/Site/ApiStatus';
 import { Auth } from '../redux/types';
-import { loginAccount, clearApiStatus, authenticateSocket, navigate } from '../redux/actions';
+import { loginAccount, clearApiStatus, authenticateSocket } from '../redux/actions';
 
 const LoginContainer = () => {
     const dispatch = useDispatch();
     const { t } = useTranslation();
+    const navigate = useNavigate();
     const apiState = useSelector((state) => {
         const retState = state.api[Auth.LoginAccount];
 
@@ -23,7 +25,7 @@ const LoginContainer = () => {
             setTimeout(() => {
                 dispatch(clearApiStatus(Auth.LoginAccount));
                 dispatch(authenticateSocket());
-                dispatch(navigate('/'));
+                navigate('/');
             }, 500);
         }
 

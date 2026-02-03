@@ -2,8 +2,8 @@ import React from 'react';
 import { createRoot } from 'react-dom/client';
 import Application from './Application';
 import { Provider } from 'react-redux';
+import { BrowserRouter } from 'react-router-dom';
 import configureStore from './configureStore';
-import { navigate } from './redux/actions';
 import 'bootstrap/dist/js/bootstrap';
 import { ToastContainer } from 'react-toastify';
 import * as Sentry from '@sentry/browser';
@@ -56,33 +56,29 @@ Sentry.init(sentryOptions);
 
 const store = configureStore();
 
-store.dispatch(navigate(window.location.pathname, window.location.search, true));
-
-window.onpopstate = function (e) {
-    store.dispatch(navigate(e.target.location.pathname, null, true));
-};
-
 const container = document.getElementById('component');
 const root = createRoot(container);
 
 root.render(
-    <DndProvider backend={TouchBackend} options={{ enableMouseEvents: true }}>
-        <Provider store={store}>
-            <div className='body'>
-                <ToastContainer
-                    autoClose={4000}
-                    newestOnTop
-                    position='top-right'
-                    pauseOnFocusLoss
-                />
-                <ErrorBoundary
-                    message={
-                        "We're sorry, a critical error has occured in the client and we're unable to show you anything.  Please try refreshing your browser after filling out a report."
-                    }
-                >
-                    <Application />
-                </ErrorBoundary>
-            </div>
-        </Provider>
-    </DndProvider>
+    <Provider store={store}>
+        <BrowserRouter>
+            <DndProvider backend={TouchBackend} options={{ enableMouseEvents: true }}>
+                <div className='body'>
+                    <ToastContainer
+                        autoClose={4000}
+                        newestOnTop
+                        position='top-right'
+                        pauseOnFocusLoss
+                    />
+                    <ErrorBoundary
+                        message={
+                            "We're sorry, a critical error has occured in the client and we're unable to show you anything.  Please try refreshing your browser after filling out a report."
+                        }
+                    >
+                        <Application />
+                    </ErrorBoundary>
+                </div>
+            </DndProvider>
+        </BrowserRouter>
+    </Provider>
 );

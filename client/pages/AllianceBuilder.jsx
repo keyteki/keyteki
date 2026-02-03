@@ -1,12 +1,13 @@
 import React, { useMemo, useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import { Trans, useTranslation } from 'react-i18next';
 import { Col, Row, Form, Button } from 'react-bootstrap';
 
 import Panel from '../Components/Site/Panel';
 import ApiStatus from '../Components/Site/ApiStatus';
 import { Decks } from '../redux/types';
-import { clearApiStatus, navigate, saveAllianceDeck } from '../redux/actions';
+import { clearApiStatus, saveAllianceDeck } from '../redux/actions';
 import { Constants } from '../constants';
 import { loadDecks } from '../redux/actions';
 import AlertPanel from '../Components/Site/AlertPanel';
@@ -18,6 +19,7 @@ import './AllianceBuilder.scss';
 const AllianceBuilderPage = () => {
     const { i18n, t } = useTranslation();
     const dispatch = useDispatch();
+    const navigate = useNavigate();
     const apiState = useSelector((state) => {
         const retState = state.api[Decks.SaveAllianceDeck];
 
@@ -26,7 +28,7 @@ const AllianceBuilderPage = () => {
 
             setTimeout(() => {
                 dispatch(clearApiStatus(Decks.SaveAllianceDeck));
-                dispatch(navigate('/decks'));
+                navigate('/decks');
             }, 1000);
         }
 

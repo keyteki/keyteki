@@ -1,8 +1,8 @@
 import React from 'react';
 import { createRoot } from 'react-dom/client';
 import { Provider } from 'react-redux';
+import { BrowserRouter } from 'react-router-dom';
 import configureStore from './configureStore';
-import { navigate } from './redux/actions';
 import 'bootstrap/dist/js/bootstrap';
 import { ToastContainer } from 'react-toastify';
 import { DndProvider } from 'react-dnd';
@@ -12,12 +12,6 @@ import Application from './Application';
 import './i18n';
 
 const store = configureStore();
-
-store.dispatch(navigate(window.location.pathname, window.location.search, true));
-
-window.onpopstate = function (e) {
-    store.dispatch(navigate(e.target.location.pathname, null, true));
-};
 
 let ApplicationComponent = Application;
 let root;
@@ -31,17 +25,19 @@ const render = () => {
 
     root.render(
         <Provider store={store}>
-            <DndProvider backend={TouchBackend} options={{ enableMouseEvents: true }}>
-                <div className='body'>
-                    <ToastContainer
-                        autoClose={4000}
-                        newestOnTop
-                        position='top-right'
-                        pauseOnFocusLoss
-                    />
-                    <App />
-                </div>
-            </DndProvider>
+            <BrowserRouter>
+                <DndProvider backend={TouchBackend} options={{ enableMouseEvents: true }}>
+                    <div className='body'>
+                        <ToastContainer
+                            autoClose={4000}
+                            newestOnTop
+                            position='top-right'
+                            pauseOnFocusLoss
+                        />
+                        <App />
+                    </div>
+                </DndProvider>
+            </BrowserRouter>
         </Provider>
     );
 };
