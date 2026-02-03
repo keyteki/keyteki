@@ -1,24 +1,24 @@
 import React, { useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { Form, Col, Button, Table } from 'react-bootstrap';
+import { Trans, useTranslation } from 'react-i18next';
+import { useDispatch, useSelector } from 'react-redux';
+import { Button, Col, Form, Row, Table } from 'react-bootstrap';
 import { Formik } from 'formik';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTimes, faCircleNotch } from '@fortawesome/free-solid-svg-icons';
+import { faCircleNotch, faTimes } from '@fortawesome/free-solid-svg-icons';
 import * as yup from 'yup';
-import { Trans, useTranslation } from 'react-i18next';
 
+import ApiStatus from '../Components/Site/ApiStatus';
 import Panel from '../Components/Site/Panel';
 import {
-    loadBlockList,
     addBlockListEntry,
     clearApiStatus,
+    loadBlockList,
     removeBlockListEntry,
     sendSocketMessage
 } from '../redux/actions';
+import { UserAction } from '../redux/types';
 
 import './BlockList.scss';
-import { UserAction } from '../redux/types';
-import ApiStatus from '../Components/Site/ApiStatus';
 
 const BlockList = () => {
     const { user, token } = useSelector((state) => ({
@@ -157,7 +157,7 @@ const BlockList = () => {
                                                     their chat messages or their games.
                                                 </Trans>
                                             </p>
-                                            <Form.Row>
+                                            <Row>
                                                 <Form.Group
                                                     as={Col}
                                                     xs='9'
@@ -180,7 +180,7 @@ const BlockList = () => {
                                                         {formProps.errors.blockee}
                                                     </Form.Control.Feedback>
                                                 </Form.Group>
-                                            </Form.Row>
+                                            </Row>
 
                                             <Button variant='primary' type='submit'>
                                                 <Trans>Add</Trans>

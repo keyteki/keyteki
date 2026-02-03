@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { connect } from 'react-redux';
-import { toastr } from 'react-redux-toastr';
+import { toast } from 'react-toastify';
 import moment from 'moment';
 import { withTranslation, Trans } from 'react-i18next';
 import { Col } from 'react-bootstrap';
@@ -35,7 +35,7 @@ class GameList extends React.Component {
         event.preventDefault();
 
         if (!this.props.user) {
-            toastr.error(t('Error'), t('Please login before trying to join a game'));
+            toast.error(t('Please login before trying to join a game'));
             return;
         }
 
@@ -63,7 +63,7 @@ class GameList extends React.Component {
         event.preventDefault();
 
         if (!this.props.user) {
-            toastr.error(t('Error'), t('Please login before trying to watch a game'));
+            toast.error(t('Please login before trying to watch a game'));
             return;
         }
 

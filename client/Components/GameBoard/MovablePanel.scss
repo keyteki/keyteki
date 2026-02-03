@@ -1,7 +1,5 @@
-@import '../../styles/variables';
-@import '../../styles/colours';
-@import 'bootstrap/scss/functions';
-@import 'bootstrap/scss/variables';
+@use '../../styles/variables' as *;
+@use '../../styles/colours' as *;
 
 .panel-heading {
     text-align: center;
@@ -31,3 +29,4 @@
 .panel-body {
     padding: 15px;
 }
+

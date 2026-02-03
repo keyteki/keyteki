@@ -1,6 +1,4 @@
-@import '../styles/colours';
-@import 'bootstrap/scss/functions';
-@import 'bootstrap/scss/variables';
+@use '../styles/colours' as *;
 
 .event-banner {
     padding-top: 0px;
@@ -19,6 +17,7 @@
     flex: 1;
     display: flex;
     flex-direction: column;
+    position: relative;
 
     .card {
         flex: 1;
@@ -44,3 +43,4 @@
     left: 15px;
     right: 15px;
 }
+

@@ -1,8 +1,5 @@
-@import '../../styles/variables';
-@import '../../styles/colours';
-@import 'bootstrap/scss/functions';
-@import 'bootstrap/scss/variables';
-@import 'bootstrap/scss/mixins';
+@use '../../styles/variables' as *;
+@use '../../styles/colours' as *;
 
 .card-row {
     display: flex;
@@ -49,3 +46,4 @@
 .our-side.board-high-tide {
     background-image: linear-gradient(to bottom, rgba(255, 0, 0, 0) 50%, rgba(87, 218, 212, 0.6));
 }
+

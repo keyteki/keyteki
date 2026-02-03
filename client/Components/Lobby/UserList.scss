@@ -1,6 +1,4 @@
-@import '../../styles/colours';
-@import 'bootstrap/scss/functions';
-@import 'bootstrap/scss/variables';
+@use '../../styles/colours' as *;
 
 .userlist {
     text-align: center;
@@ -19,3 +17,4 @@
         background-color: rgba(theme-color('primary'), 0.2);
     }
 }
+

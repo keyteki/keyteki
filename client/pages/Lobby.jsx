@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { toastr } from 'react-redux-toastr';
+import { toast } from 'react-toastify';
 import { Trans, useTranslation } from 'react-i18next';
 import { Col } from 'react-bootstrap';
 import { Carousel } from 'react-responsive-carousel';
@@ -46,7 +46,7 @@ const Lobby = () => {
     if (!popupError && lobbyError) {
         setPopupError(true);
 
-        toastr.error('Error', 'New users are limited from chatting in the lobby, try again later');
+        toast.error(t('New users are limited from chatting in the lobby, try again later'));
 
         setTimeout(() => {
             dispatch(clearChatStatus());

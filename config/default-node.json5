@@ -1,0 +1,12 @@
+{
+    // Local development overrides (for running with `npm run dev:lobby` outside Docker)
+    // This file is loaded when NODE_ENV=local-docker
+
+    dbHost: 'localhost',
+    dbPort: 54320,
+    redisUrl: 'redis://localhost:6379/',
+
+    gameNode: {
+        host: 'localhost'
+    }
+}
