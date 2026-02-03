@@ -75,10 +75,10 @@ const ProxiedGameFlowWrapperMethods = [
     'getChatLog'
 ];
 
-var customMatchers = {
+const customMatchers = {
     toHavePrompt: function (actual, expected) {
-        var currentPrompt = actual.currentPrompt();
-        var pass = actual.hasPrompt(expected);
+        const currentPrompt = actual.currentPrompt();
+        const pass = actual.hasPrompt(expected);
 
         return {
             pass,
@@ -89,14 +89,14 @@ var customMatchers = {
         };
     },
     toHavePromptImage: function (actual, expected) {
-        var currentPrompt = actual.currentPrompt();
-        var currentImage =
+        const currentPrompt = actual.currentPrompt();
+        const currentImage =
             !!currentPrompt &&
             currentPrompt.controls.length > 0 &&
             !!currentPrompt.controls[0].source
                 ? currentPrompt.controls[0].source.image
                 : 'none';
-        var pass = actual.hasPromptImage(expected);
+        const pass = actual.hasPromptImage(expected);
 
         return {
             pass,
@@ -107,8 +107,8 @@ var customMatchers = {
         };
     },
     toHavePromptButton: function (actual, expected) {
-        var buttons = actual.currentButtons;
-        var pass = _.any(buttons, (button) => button === expected);
+        const buttons = actual.currentButtons;
+        const pass = _.any(buttons, (button) => button === expected);
 
         return {
             pass,
@@ -116,20 +116,20 @@ var customMatchers = {
                 if (pass) {
                     return `Expected ${actual.name} not to have prompt button "${expected}" but it did.`;
                 } else {
-                    var buttonText = _.map(buttons, (button) => '[' + button + ']').join('\n');
+                    const buttonText = _.map(buttons, (button) => '[' + button + ']').join('\n');
                     return `Expected ${actual.name} to have prompt button "${expected}" but it had buttons:\n${buttonText}`;
                 }
             }
         };
     },
     toHavePromptCardButton: function (actual, card) {
-        var buttons = actual.currentPrompt().buttons;
+        const buttons = actual.currentPrompt().buttons;
 
         if (_.isString(card)) {
             card = actual.findCardByName(card);
         }
 
-        var pass = _.any(buttons, (button) => (button.card ? button.card.id : '') === card.id);
+        const pass = _.any(buttons, (button) => (button.card ? button.card.id : '') === card.id);
 
         return {
             pass,
@@ -137,7 +137,7 @@ var customMatchers = {
                 if (pass) {
                     return `Expected ${actual.name} not to have prompt button "${card.name}" but it did.`;
                 } else {
-                    var buttonText = _.map(
+                    const buttonText = _.map(
                         buttons,
                         (button) => '[' + (button.card ? button.card.name : '') + ']'
                     ).join('\n');
@@ -151,8 +151,8 @@ var customMatchers = {
         player.game.continue();
         player.checkUnserializableGameState();
 
-        var buttons = player.currentPrompt().buttons;
-        var pass = _.any(buttons, (button) => button.text === 'No');
+        const buttons = player.currentPrompt().buttons;
+        const pass = _.any(buttons, (button) => button.text === 'No');
 
         if (pass) {
             player.clickPrompt('No');
@@ -171,7 +171,7 @@ var customMatchers = {
             card = player.findCardByName(card);
         }
 
-        var pass = player.currentActionTargets.includes(card);
+        const pass = player.currentActionTargets.includes(card);
 
         return {
             pass,
@@ -186,7 +186,7 @@ var customMatchers = {
             card = player.findCardByName(card);
         }
 
-        var pass = card.getLegalActions(player.player, false).length > 0;
+        const pass = card.getLegalActions(player.player, false).length > 0;
 
         return {
             pass,
@@ -197,8 +197,8 @@ var customMatchers = {
         };
     },
     toHaveRecentChatMessage: function (game, msg, numBack = 1) {
-        let logs = game.getChatLogs(numBack);
-        var pass = logs.filter((lastMsg) => lastMsg.includes(msg)).length > 0;
+        const logs = game.getChatLogs(numBack);
+        const pass = logs.filter((lastMsg) => lastMsg.includes(msg)).length > 0;
 
         return {
             pass,
@@ -209,7 +209,7 @@ var customMatchers = {
         };
     },
     isReadyToTakeAction: function (player) {
-        var pass = player.hasPrompt('Choose a card to play, discard or use');
+        const pass = player.hasPrompt('Choose a card to play, discard or use');
 
         return {
             pass,
