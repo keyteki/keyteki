@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import * as actions from '../redux/actions';
 import AlertPanel from '../Components/Site/AlertPanel';
 import ApiStatus from '../Components/Site/ApiStatus';
+import withRouter from '../router/withRouter';
 
 class Patreon extends React.Component {
     constructor(props) {
@@ -77,4 +78,4 @@ function mapStateToProps(state) {
     };
 }
 
-export default connect(mapStateToProps, actions)(Patreon);
+export default withRouter(connect(mapStateToProps, actions)(Patreon));

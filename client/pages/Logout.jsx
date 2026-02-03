@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Trans } from 'react-i18next';
 import AlertPanel from '../Components/Site/AlertPanel';
+import withRouter from '../router/withRouter';
 
 import * as actions from '../redux/actions';
 
@@ -52,4 +53,4 @@ function mapStateToProps(state) {
     };
 }
 
-export default connect(mapStateToProps, actions)(Logout);
+export default withRouter(connect(mapStateToProps, actions)(Logout));

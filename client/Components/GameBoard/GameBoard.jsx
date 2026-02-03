@@ -17,6 +17,7 @@ import PlayerBoard from './PlayerBoard';
 import PlayerStats from './PlayerStats';
 import TimeLimitClock from './TimeLimitClock';
 import * as actions from '../../redux/actions';
+import withRouter from '../../router/withRouter';
 
 import './GameBoard.scss';
 
@@ -731,4 +732,6 @@ function mapDispatchToProps(dispatch) {
     return boundActions;
 }
 
-export default withTranslation()(connect(mapStateToProps, mapDispatchToProps, null)(GameBoard));
+export default withTranslation()(
+    withRouter(connect(mapStateToProps, mapDispatchToProps, null)(GameBoard))
+);

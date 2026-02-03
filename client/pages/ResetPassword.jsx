@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import AlertPanel from '../Components/Site/AlertPanel';
 import Panel from '../Components/Site/Panel';
 import Form from '../Components/Form/Form';
+import withRouter from '../router/withRouter';
 
 import * as actions from '../redux/actions';
 
@@ -103,4 +104,4 @@ function mapStateToProps(state) {
     };
 }
 
-export default connect(mapStateToProps, actions)(ResetPassword);
+export default withRouter(connect(mapStateToProps, actions)(ResetPassword));

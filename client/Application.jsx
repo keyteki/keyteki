@@ -12,7 +12,6 @@ import AppRoutes from './AppRoutes';
 import { tryParseJSON } from './util.jsx';
 import AlertPanel from './Components/Site/AlertPanel';
 import * as actions from './redux/actions';
-import { setNavigate } from './router/navigate';
 
 import Background from './assets/img/bgs/keyforge.png';
 import BlankBg from './assets/img/bgs/blank.png';
@@ -227,11 +226,14 @@ const ApplicationWithRouter = (props) => {
     const navigate = useNavigate();
     const [searchParams] = useSearchParams();
 
-    React.useEffect(() => {
-        setNavigate(navigate);
-    }, [navigate]);
-
-    return <ConnectedApplication {...props} location={location} searchParams={searchParams} />;
+    return (
+        <ConnectedApplication
+            {...props}
+            location={location}
+            navigate={navigate}
+            searchParams={searchParams}
+        />
+    );
 };
 
 export default ApplicationWithRouter;

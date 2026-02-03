@@ -1,6 +1,7 @@
 import React from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import { Button, Col, Form, Row } from 'react-bootstrap';
 import { Formik } from 'formik';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -9,12 +10,13 @@ import * as yup from 'yup';
 
 import ApiStatus from '../Site/ApiStatus';
 import Panel from '../Site/Panel';
-import { clearApiStatus, navigate, saveDeck } from '../../redux/actions';
+import { clearApiStatus, saveDeck } from '../../redux/actions';
 import { Decks } from '../../redux/types';
 
 const ImportDeck = () => {
     const { t } = useTranslation();
     const dispatch = useDispatch();
+    const navigate = useNavigate();
     const apiState = useSelector((state) => {
         const retState = state.api[Decks.SaveDeck];
 
@@ -23,7 +25,7 @@ const ImportDeck = () => {
 
             setTimeout(() => {
                 dispatch(clearApiStatus(Decks.SaveDeck));
-                dispatch(navigate('/decks'));
+                navigate('/decks');
             }, 1000);
         }
 
