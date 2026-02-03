@@ -6,11 +6,11 @@ class Keyforgery extends Card {
     setupCardAbilities(ability) {
         this.interrupt({
             when: {
-                onForgeKey: (event, context) =>
-                    context.player.opponent === context.game.activePlayer
+                onForgeKey: (event, context) => event.player === context.player.opponent
             },
             target: {
-                mode: 'house'
+                mode: 'house',
+                player: 'opponent'
             },
             effect: 'make {1} name house {2}',
             effectArgs: (context) => [context.player.opponent, context.house],
@@ -20,7 +20,9 @@ class Keyforgery extends Card {
                 target: _.shuffle(context.player.hand)[0]
             })),
             then: (preThenContext) => ({
-                condition: (context) => !context.preThenEvent.card.hasHouse(preThenContext.house),
+                condition: (context) =>
+                    context.preThenEvent?.card &&
+                    !context.preThenEvent.card.hasHouse(preThenContext.house),
                 message: "{0} uses {1} to destroy itself and skip opponent's Forge Key step",
                 gameAction: [
                     ability.actions.destroy((context) => ({
