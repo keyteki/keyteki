@@ -1,8 +1,5 @@
-@import '../../styles/variables';
-@import '../../styles/colours';
-@import 'bootstrap/scss/functions';
-@import 'bootstrap/scss/variables';
-@import 'bootstrap/scss/mixins';
+@use '../../styles/variables' as *;
+@use '../../styles/colours' as *;
 
 .navbar-item {
     width: auto;
@@ -70,6 +67,11 @@
     height: $navbar-height;
 }
 
+.navbar.bg-dark,
+.navbar .bg-dark {
+    background-color: theme-color('dark') !important;
+}
+
 .navbar-sm .navbar-nav > li > span {
     padding: 0 15px;
     line-height: $navbar-height;
@@ -89,3 +91,4 @@
     padding: 0 15px;
     line-height: $navbar-height;
 }
+

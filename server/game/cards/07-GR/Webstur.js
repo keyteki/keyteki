@@ -11,8 +11,7 @@ class Webstur extends Card {
                 this.discards = 0;
                 return this.discards < context.source.damage;
             },
-            effect:
-                "choose whether to discard cards from each player's deck for each damage on {0}",
+            effect: "choose whether to discard cards from each player's deck for each damage on {0}",
             then: {
                 alwaysTriggers: true,
                 condition: (context) => this.discards < context.source.damage,

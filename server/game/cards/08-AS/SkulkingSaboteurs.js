@@ -7,8 +7,7 @@ class SkulkingSaboteurs extends Card {
     setupCardAbilities(ability) {
         this.reap({
             condition: (context) => context.player.opponent,
-            effect:
-                'destroy an anemy creature if their red key is forged, destroy an enemy artifact if their yellow key is forged, and destroy an enemy upgrade if their blue key is forged',
+            effect: 'destroy an anemy creature if their red key is forged, destroy an enemy artifact if their yellow key is forged, and destroy an enemy upgrade if their blue key is forged',
             gameAction: ability.actions.sequential([
                 ability.actions.conditional((context) => ({
                     condition: context.player.opponent && context.player.keys.red,

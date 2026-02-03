@@ -1,7 +1,5 @@
-@import '../../styles/variables';
-@import '../../styles/colours';
-@import 'bootstrap/scss/functions';
-@import 'bootstrap/scss/variables';
+@use '../../styles/variables' as *;
+@use '../../styles/colours' as *;
 
 .hover-image {
     position: fixed;
@@ -10,3 +8,4 @@
     width: $keyteki-card-width * 4;
     z-index: 999;
 }
+

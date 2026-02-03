@@ -1,7 +1,5 @@
-@import '../../styles/variables';
-@import '../../styles/colours';
-@import 'bootstrap/scss/functions';
-@import 'bootstrap/scss/variables';
+@use '../../styles/variables' as *;
+@use '../../styles/colours' as *;
 
 /**
   * Generates the specified property based on the calculation of:
@@ -171,3 +169,4 @@
         }
     }
 }
+

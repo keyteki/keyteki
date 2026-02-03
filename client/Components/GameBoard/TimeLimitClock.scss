@@ -1,7 +1,5 @@
-@import '../../styles/variables';
-@import '../../styles/colours';
-@import 'bootstrap/scss/functions';
-@import 'bootstrap/scss/variables';
+@use '../../styles/variables' as *;
+@use '../../styles/colours' as *;
 @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap');
 
 .time-limit-clock {
@@ -17,3 +15,4 @@
         margin-left: 23%;
     }
 }
+

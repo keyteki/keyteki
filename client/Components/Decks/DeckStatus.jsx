@@ -44,7 +44,7 @@ const DeckStatus = ({ status }) => {
 
     const popover = (
         <Popover id='deck-status-popover'>
-            <Popover.Content>
+            <Popover.Body>
                 <div>
                     <DeckStatusSummary status={status} />
                     {status.extendedStatus && status.extendedStatus.length !== 0 && (
@@ -55,7 +55,7 @@ const DeckStatus = ({ status }) => {
                         </ul>
                     )}
                 </div>
-            </Popover.Content>
+            </Popover.Body>
         </Popover>
     );
 

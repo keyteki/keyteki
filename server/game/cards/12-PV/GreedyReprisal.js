@@ -16,8 +16,7 @@ class GreedyReprisal extends Card {
         });
 
         this.fate({
-            effect:
-                'deal 2 damage to a friendly creature for each point of armor on enemy creatures',
+            effect: 'deal 2 damage to a friendly creature for each point of armor on enemy creatures',
             gameAction: ability.actions.allocateDamage((context) => ({
                 damageStep: 2,
                 numSteps: context.game.activePlayer.opponent.creaturesInPlay.reduce(
