@@ -3,14 +3,16 @@ import PropTypes from 'prop-types';
 import $ from 'jquery';
 import { connect } from 'react-redux';
 import { Container } from 'react-bootstrap';
+import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
 
 import { Constants } from './constants';
 import ErrorBoundary from './Components/Site/ErrorBoundary';
 import Navigation from './Components/Navigation/Navigation';
-import Router from './Router.jsx';
+import AppRoutes from './AppRoutes';
 import { tryParseJSON } from './util.jsx';
 import AlertPanel from './Components/Site/AlertPanel';
 import * as actions from './redux/actions';
+import { setNavigate } from './router/navigate';
 
 import Background from './assets/img/bgs/keyforge.png';
 import BlankBg from './assets/img/bgs/blank.png';
@@ -19,8 +21,6 @@ import MassMutationBg from './assets/img/bgs/massmutation.png';
 class Application extends React.Component {
     constructor(props) {
         super(props);
-
-        this.router = new Router();
 
         this.onFocusChange = this.onFocusChange.bind(this);
         this.blinkTab = this.blinkTab.bind(this);
@@ -125,14 +125,11 @@ class Application extends React.Component {
     }
 
     render() {
+        const path = this.props.location?.pathname || '/';
         let gameBoardVisible =
-            this.props.currentGame && this.props.currentGame.started && this.props.path === '/play';
+            this.props.currentGame && this.props.currentGame.started && path === '/play';
 
-        let component = this.router.resolvePath({
-            pathname: this.props.path,
-            user: this.props.user,
-            currentGame: this.props.currentGame
-        });
+        let component = <AppRoutes user={this.props.user} currentGame={this.props.currentGame} />;
 
         if (this.state.incompatibleBrowser) {
             component = (
@@ -180,7 +177,7 @@ class Application extends React.Component {
                     <Container className='content'>
                         <ErrorBoundary
                             navigate={this.props.navigate}
-                            errorPath={this.props.path}
+                            errorPath={path}
                             message={"We're sorry - something's gone wrong."}
                         >
                             {component}
@@ -206,7 +203,7 @@ Application.propTypes = {
     loadRestrictedList: PropTypes.func,
     loadStandaloneDecks: PropTypes.func,
     navigate: PropTypes.func,
-    path: PropTypes.string,
+    location: PropTypes.object,
     setAuthTokens: PropTypes.func,
     setWindowBlur: PropTypes.func,
     token: PropTypes.string,
@@ -217,11 +214,24 @@ Application.propTypes = {
 function mapStateToProps(state) {
     return {
         currentGame: state.lobby.currentGame,
-        path: state.navigation.path,
         token: state.account.token,
         user: state.account.user,
         windowBlurred: state.lobby.windowBlurred
     };
 }
 
-export default connect(mapStateToProps, actions)(Application);
+const ConnectedApplication = connect(mapStateToProps, actions)(Application);
+
+const ApplicationWithRouter = (props) => {
+    const location = useLocation();
+    const navigate = useNavigate();
+    const [searchParams] = useSearchParams();
+
+    React.useEffect(() => {
+        setNavigate(navigate);
+    }, [navigate]);
+
+    return <ConnectedApplication {...props} location={location} searchParams={searchParams} />;
+};
+
+export default ApplicationWithRouter;

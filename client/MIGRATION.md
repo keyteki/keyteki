@@ -59,20 +59,20 @@ Phase 1 target versions (as of 2026-01-29)
 
 Goal: Enable TS build without converting files yet.
 
--   [ ] Add TypeScript + type-check tooling in client build
--   [ ] Add base tsconfig aligned to Vite/build setup
--   [ ] Configure module resolution and path aliases used by client
--   [ ] Allow JS alongside TS during migration (noEmit, isolatedModules)
--   [ ] Define core shared types (API responses, redux state, common props)
+-   [x] Add TypeScript + type-check tooling in client build
+-   [x] Add base tsconfig aligned to Vite/build setup
+-   [x] Configure module resolution and path aliases used by client
+-   [x] Allow JS alongside TS during migration (noEmit, isolatedModules)
+-   [x] Define core shared types (API responses, redux state, common props)
 
 ## Phase 3 - Router Migration (custom -> react-router)
 
 Goal: Replace custom router with react-router without changing behavior.
 
--   [ ] Add react-router-dom and integrate in client entry points
--   [ ] Map existing routes (client/routes.\*) to react-router config
--   [ ] Migrate navigation/link helpers to react-router components
--   [ ] Replace any direct history handling with react-router equivalents
+-   [x] Add react-router-dom and integrate in client entry points
+-   [x] Map existing routes (client/routes.\*) to react-router config
+-   [x] Migrate navigation/link helpers to react-router components
+-   [x] Replace any direct history handling with react-router equivalents
 -   [ ] Verify page transitions and auth-gated routes
 
 ## Phase 4 - Redux Toolkit Bridge
@@ -159,6 +159,16 @@ Goal: Introduce new styling system without breaking everything at once.
 -   [ ] Upgrade @fortawesome/\* to latest
 -   [ ] Add client/Components/Icon.jsx wrapper
 -   [ ] Replace icon usage incrementally
+
+## Phase 10 - TypeScript Only (end goal)
+
+Goal: Remove remaining JS and enforce TypeScript-only client.
+
+-   [ ] Convert remaining .js/.jsx to .ts/.tsx
+-   [ ] Enable strict type-checking for client (strict, noImplicitAny)
+-   [ ] Remove allowJs and checkJs from client tsconfig
+-   [ ] Remove legacy JS-only tooling/configs for client
+-   [ ] Update linting to TS-first rules and types
 
 ## Notes
 
