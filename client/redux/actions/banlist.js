@@ -44,7 +44,7 @@ export function deleteBanlist(id) {
     };
 }
 
-export function clearbanlistStatus() {
+export function clearBanlistStatus() {
     return {
         type: 'CLEAR_BANLIST_STATUS'
     };

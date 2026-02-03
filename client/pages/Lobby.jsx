@@ -62,6 +62,7 @@ const Lobby = () => {
         dispatch(sendSocketMessage('lobbychat', message));
 
         setMessage('');
+        messageRef.current?.clear();
     };
 
     const onKeyPress = (event) => {
@@ -69,8 +70,6 @@ const Lobby = () => {
             event.preventDefault();
 
             sendMessage();
-
-            messageRef.current?.clear();
         }
     };
 
@@ -174,6 +173,7 @@ const Lobby = () => {
                             <Typeahead
                                 disabled={!isLoggedIn}
                                 ref={messageRef}
+                                id='lobby-chat-input'
                                 value={message}
                                 placeholder={t(placeholder)}
                                 labelKey={'name'}

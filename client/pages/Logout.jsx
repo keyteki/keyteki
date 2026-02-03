@@ -1,55 +1,40 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { Trans } from 'react-i18next';
 import AlertPanel from '../Components/Site/AlertPanel';
+import { useNavigate } from 'react-router-dom';
 
-import * as actions from '../redux/actions';
+import { logout } from '../redux/actions';
 
-class Logout extends React.Component {
-    componentDidMount() {
-        this.props.logout();
-    }
-
-    // eslint-disable-next-line camelcase
-    UNSAFE_componentWillReceiveProps(props) {
-        if (props.loggedOut) {
-            this.props.navigate('/');
-        }
-    }
-
-    render() {
-        let errorBar =
-            this.props.apiSuccess === false ? (
-                <AlertPanel type='error' message={this.props.apiMessage} />
-            ) : null;
-
-        return (
-            <div className='col-sm-6 col-sm-offset-3'>
-                {errorBar}
-                <Trans>Logging you out of your account, please wait...</Trans>
-            </div>
-        );
-    }
-}
-
-Logout.displayName = 'Logout';
-Logout.propTypes = {
-    apiLoading: PropTypes.bool,
-    apiMessage: PropTypes.string,
-    apiSuccess: PropTypes.bool,
-    loggedOut: PropTypes.bool,
-    logout: PropTypes.func,
-    navigate: PropTypes.func
-};
-
-function mapStateToProps(state) {
-    return {
-        apiLoading: state.api.LOGOUT_ACCOUNT ? state.api.LOGOUT_ACCOUNT.loading : undefined,
+const Logout = () => {
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+    const { apiMessage, apiSuccess, loggedOut } = useSelector((state) => ({
         apiMessage: state.api.LOGOUT_ACCOUNT ? state.api.LOGOUT_ACCOUNT.message : undefined,
         apiSuccess: state.api.LOGOUT_ACCOUNT ? state.api.LOGOUT_ACCOUNT.success : undefined,
         loggedOut: state.account.loggedOut
-    };
-}
+    }));
 
-export default connect(mapStateToProps, actions)(Logout);
+    useEffect(() => {
+        dispatch(logout());
+    }, [dispatch]);
+
+    useEffect(() => {
+        if (loggedOut) {
+            navigate('/');
+        }
+    }, [loggedOut, navigate]);
+
+    const errorBar = apiSuccess === false ? <AlertPanel type='error' message={apiMessage} /> : null;
+
+    return (
+        <div className='col-sm-6 col-sm-offset-3'>
+            {errorBar}
+            <Trans>Logging you out of your account, please wait...</Trans>
+        </div>
+    );
+};
+
+Logout.displayName = 'Logout';
+
+export default Logout;

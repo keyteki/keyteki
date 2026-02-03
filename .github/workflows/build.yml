@@ -44,6 +44,8 @@ jobs:
               with:
                   additionalArguments: /overrideconfig mode=Mainline
             - run: npm ci
+            - name: Typecheck client
+              run: npm run typecheck:client
             - run: npm run lint
             - name: Build client
               env:

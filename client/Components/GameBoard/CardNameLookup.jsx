@@ -30,6 +30,7 @@ const CardNameLookup = (props) => {
             <Typeahead
                 labelKey={'label'}
                 ref={typeheadRef}
+                id={props.id || 'card-name-lookup'}
                 options={cardNames}
                 dropup
                 onChange={(cards) => setCardName(cards[0])}
