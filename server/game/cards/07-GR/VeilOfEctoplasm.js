@@ -6,8 +6,7 @@ class VeilOfEctoplasm extends Card {
     setupCardAbilities(ability) {
         this.play({
             condition: (context) => !!context.player.opponent && context.player.opponent.amber > 0,
-            effect:
-                'capture 1 amber on a friendly creature for each Geistoid creature in your discard pile',
+            effect: 'capture 1 amber on a friendly creature for each Geistoid creature in your discard pile',
             gameAction: ability.actions.sequentialForEach((context) => ({
                 num: Math.min(
                     context.player.opponent.amber,

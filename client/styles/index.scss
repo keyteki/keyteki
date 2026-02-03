@@ -1,12 +1,8 @@
-@import 'colours';
-@import 'fonts';
-@import 'variables';
-@import 'bootstrap/scss/functions';
-@import 'bootstrap/scss/variables';
-
-@import 'bootstrap';
-
-@import './fixmeunassigned.scss';
+@use 'colours' as *;
+@use 'fonts' as *;
+@use 'variables' as *;
+@use 'bootstrap' as *;
+@use './fixmeunassigned.scss' as *;
 
 html,
 body {
@@ -21,6 +17,8 @@ body {
 
 body {
     font-size: 0.9rem;
+    color: $body-color;
+    background-color: $body-bg;
 }
 
 .wrapper {
@@ -103,13 +101,17 @@ a {
 
 .btn-default {
     background-image: url('assets/img/button-orange.png');
+    color: #f8f9fa;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
 
     &:hover {
         background-image: url('assets/img/button-orange-hover.png');
+        color: #f8f9fa;
     }
 
     &:focus:active {
         background-image: url('assets/img/button-orange-hover.png');
+        color: #f8f9fa;
     }
 }
 
@@ -172,6 +174,26 @@ a {
 
 .table-striped tbody tr:nth-of-type(odd) {
     background-color: theme-color('primary');
+}
+
+.table {
+    --bs-table-bg: rgba(0, 0, 0, 0.45);
+    --bs-table-color: #{$body-color};
+    --bs-table-striped-bg: rgba(theme-color('primary'), 0.4);
+    --bs-table-striped-color: #{$body-color};
+    --bs-table-hover-bg: rgba(theme-color('info'), 0.2);
+    --bs-table-hover-color: #{$body-color};
+    color: $body-color;
+}
+
+.table > :not(caption) > * > * {
+    background-color: var(--bs-table-bg);
+    color: inherit;
+}
+
+.table thead th {
+    background-color: rgba(theme-color('primary'), 0.6);
+    color: $body-color;
 }
 
 .bg {

@@ -38,7 +38,8 @@ const Card = ({
     const [showMenu, setShowMenu] = useState(false);
 
     const [{ dragOffset, isDragging }, drag, preview] = useDrag({
-        item: { card: card, source: source, type: ItemTypes.CARD },
+        type: ItemTypes.CARD,
+        item: { card: card, source: source },
         canDrag: () => canDrag || (!card.unselectable && card.canPlay),
         collect: (monitor) => ({
             isDragging: monitor.isDragging(),

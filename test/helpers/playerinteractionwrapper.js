@@ -553,6 +553,12 @@ class PlayerInteractionWrapper {
             card = this.mixedListToCardList([card], searchLocations)[0];
         }
 
+        if (!this.player.isLegalLocationForCard(card, targetLocation.replace(' bottom', ''))) {
+            throw new Error(
+                `'${targetLocation}' is not a valid location to move ${card.type} '${card.name}'`
+            );
+        }
+
         this.player.moveCard(card, targetLocation);
         this.game.continue();
         return card;

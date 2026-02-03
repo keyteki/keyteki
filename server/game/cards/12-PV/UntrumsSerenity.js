@@ -5,8 +5,7 @@ class UntrumsSerenity extends Card {
     // Play: Destroy each creature and artifact. Each player discards their archives and their hand, then refills their hand as if it were their "draw cards" step.
     setupCardAbilities(ability) {
         this.play({
-            effect:
-                "destroy each creature and artifact, discard {1} from their archives and {2} from their hand, discard {3} from {4}'s archives and {5} from {4}'s hand, then refill hands",
+            effect: "destroy each creature and artifact, discard {1} from their archives and {2} from their hand, discard {3} from {4}'s archives and {5} from {4}'s hand, then refill hands",
             effectArgs: (context) => [
                 context.player.archives.length > 0 ? context.player.archives : 'nothing',
                 context.player.hand.length > 0 ? context.player.hand : 'nothing',

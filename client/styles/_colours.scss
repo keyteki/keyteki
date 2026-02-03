@@ -1,11 +1,22 @@
+@use 'sass:map';
+
 $body-bg: #0e0b10;
 $body-color: #c1c2c3;
 
 $theme-colors: (
     'primary': #371c1c,
     'secondary': #009648,
+    'success': #198754,
+    'info': #0dcaf0,
+    'warning': #ffc107,
+    'danger': #dc3545,
+    'light': #f8f9fa,
     'dark': rgba(0, 0, 0, 0.8),
     'emphasis': #fbed18
 );
+
+@function theme-color($key) {
+    @return map.get($theme-colors, $key);
+}
 
 $controlled-border-color: #ffdf14;

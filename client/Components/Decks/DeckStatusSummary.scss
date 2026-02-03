@@ -1,7 +1,5 @@
-@import '../../styles/variables';
-@import '../../styles/colours';
-@import 'bootstrap/scss/functions';
-@import 'bootstrap/scss/variables';
+@use '../../styles/variables' as *;
+@use '../../styles/colours' as *;
 
 .deck-status-summary {
     font-size: 12px;
@@ -30,3 +28,4 @@
         color: theme-color('info');
     }
 }
+

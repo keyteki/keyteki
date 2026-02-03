@@ -1,8 +1,5 @@
-@import '../../styles/variables';
-@import '../../styles/colours';
-@import 'bootstrap/scss/functions';
-@import 'bootstrap/scss/variables';
-@import 'bootstrap/scss/mixins';
+@use '../../styles/variables' as *;
+@use '../../styles/colours' as *;
 
 .card-list {
     .card-wrapper {
@@ -23,3 +20,4 @@
     flex-wrap: wrap;
     justify-content: flex-start;
 }
+

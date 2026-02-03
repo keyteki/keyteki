@@ -6,8 +6,7 @@ class ReplicativeGrowth extends Card {
     // “After Reap: Move 1 from this creature to your pool.”
     setupCardAbilities(ability) {
         this.play({
-            effect:
-                "give each friendly creature 'Reap: Move 1 amber from this creature to your pool' for the remainder of the turn",
+            effect: "give each friendly creature 'Reap: Move 1 amber from this creature to your pool' for the remainder of the turn",
             gameAction: ability.actions.untilPlayerTurnEnd({
                 match: (card) => card.type === 'creature',
                 effect: ability.effects.gainAbility('reap', {
