@@ -1,5 +1,13 @@
 const AbilityResolver = require('../../../server/game/gamesteps/abilityresolver.js');
 
+function createSpyObj(name, methods) {
+    const obj = {};
+    for (const method of methods) {
+        obj[method] = vi.fn();
+    }
+    return obj;
+}
+
 describe.skip('AbilityResolver', function () {
     beforeEach(function () {
         this.game = createSpyObj('game', [
@@ -38,8 +46,8 @@ describe.skip('AbilityResolver', function () {
         this.ability.isTriggeredAbility.and.returnValue(false);
         this.ability.hasLegalTargets.and.returnValue(true);
         this.ability.resolveTargets.and.returnValue({});
-        this.source = jasmine.createSpyObj('source', ['createSnapshot', 'getType']);
-        this.costEvent = jasmine.createSpyObj('costEvent', ['getResult']);
+        this.source = createSpyObj('source', ['createSnapshot', 'getType']);
+        this.costEvent = createSpyObj('costEvent', ['getResult']);
         this.costEvent.getResult.and.returnValue({ resolved: true, cancelled: false });
         this.ability.payCosts.and.returnValue([this.costEvent]);
         this.player = { player: 1 };
@@ -103,7 +111,7 @@ describe.skip('AbilityResolver', function () {
             it('should not raise the onCardPlayed event', function () {
                 expect(this.game.raiseEvent).not.toHaveBeenCalledWith(
                     'onCardPlayed',
-                    jasmine.any(Object)
+                    expect.any(Object)
                 );
             });
         });
@@ -120,8 +128,8 @@ describe.skip('AbilityResolver', function () {
 
             it('should raise the InitiateAbility event', function () {
                 expect(this.game.raiseInitiateAbilityEvent).toHaveBeenCalledWith(
-                    jasmine.any(Object),
-                    jasmine.any(Function)
+                    expect.any(Object),
+                    expect.any(Function)
                 );
             });
         });
@@ -139,8 +147,8 @@ describe.skip('AbilityResolver', function () {
             it('should not raise the onCardAbilityInitiated event', function () {
                 expect(this.game.raiseEvent).not.toHaveBeenCalledWith(
                     'onCardAbilityInitiated',
-                    jasmine.any(Object),
-                    jasmine.any(Function)
+                    expect.any(Object),
+                    expect.any(Function)
                 );
             });
         });
@@ -157,7 +165,7 @@ describe.skip('AbilityResolver', function () {
             it('should raise the onCardPlayed event', function () {
                 expect(this.game.raiseEvent).toHaveBeenCalledWith(
                     'onCardPlayed',
-                    jasmine.any(Object)
+                    expect.any(Object)
                 );
             });
         });
@@ -324,7 +332,7 @@ describe.skip('AbilityResolver', function () {
 
             it('should report the error', function () {
                 this.resolver.continue();
-                expect(this.game.reportError).toHaveBeenCalledWith(jasmine.any(Error));
+                expect(this.game.reportError).toHaveBeenCalledWith(expect.any(Error));
             });
 
             describe.skip('when the current ability context is for this ability', function () {

@@ -6,6 +6,6 @@
         "jsx": "react",
         "types": ["vitest/globals"]
     },
-    "include": ["test/vitest.d.ts"],
+    "include": ["server/**/*.js", "client/**/*.js", "test/**/*.js"],
     "exclude": ["node_modules", "**/node_modules/*"]
 }

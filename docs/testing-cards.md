@@ -52,7 +52,7 @@ This document explains how to write tests for cards.
 
 ## Overview
 
-Tests are located in `test/server/cards/<Set>/<CardName>.spec.js`, mirroring the card implementation structure. Tests use Jasmine and a custom test harness that simulates game state.
+Tests are located in `test/server/cards/<Set>/<CardName>.spec.js`, mirroring the card implementation structure. Tests use Vitest and a custom test harness that simulates game state.
 
 **Key principles:**
 

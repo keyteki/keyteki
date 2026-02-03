@@ -14,8 +14,7 @@ module.exports = {
         'eslint:recommended',
         'plugin:react-hooks/recommended',
         'plugin:react/recommended',
-        'plugin:prettier/recommended',
-        'plugin:jest/recommended'
+        'plugin:prettier/recommended'
     ],
     rules: { 'react/prop-types': 'off' },
     settings: {
@@ -25,11 +24,17 @@ module.exports = {
     },
     overrides: [
         {
-            files: ['*.test.js'],
-            env: {
-                jasmine: true
-            },
-            plugins: ['jest']
+            files: ['**/*.spec.js'],
+            globals: {
+                describe: 'readonly',
+                it: 'readonly',
+                expect: 'readonly',
+                beforeEach: 'readonly',
+                afterEach: 'readonly',
+                beforeAll: 'readonly',
+                afterAll: 'readonly',
+                vi: 'readonly'
+            }
         }
     ]
 };

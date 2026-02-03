@@ -5,7 +5,7 @@ export default defineConfig({
         // Test file patterns
         include: ['test/**/*.spec.js'],
 
-        // Setup files (replaces jasmine helpers)
+        // Setup files
         setupFiles: ['test/helpers/integrationhelper.js'],
 
         // Enable globals (describe, it, expect, beforeEach, etc.)
