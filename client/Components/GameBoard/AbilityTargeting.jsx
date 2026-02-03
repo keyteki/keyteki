@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 import CardImage from './CardImage';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -6,47 +6,50 @@ import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
 
 import './AbilityTargetting.scss';
 
-class AbilityTargeting extends React.Component {
-    onMouseOver(event, card) {
-        if (card && this.props.onMouseOver) {
-            this.props.onMouseOver(card);
-        }
-    }
+const AbilityTargeting = (props) => {
+    const onMouseOver = useCallback(
+        (card) => {
+            if (card && props.onMouseOver) {
+                props.onMouseOver(card);
+            }
+        },
+        [props]
+    );
 
-    onMouseOut(event, card) {
-        if (card && this.props.onMouseOut) {
-            this.props.onMouseOut(card);
-        }
-    }
+    const onMouseOut = useCallback(
+        (card) => {
+            if (card && props.onMouseOut) {
+                props.onMouseOut(card);
+            }
+        },
+        [props]
+    );
 
-    renderSimpleCard(card) {
-        return (
-            <div
-                className='target-card vertical mb-2'
-                onMouseOut={(event) => this.onMouseOut(event, card)}
-                onMouseOver={(event) =>
-                    this.onMouseOver(event, {
-                        image: <CardImage card={{ ...card, facedown: false }} />,
-                        size: 'normal'
-                    })
-                }
-            >
-                <CardImage card={{ ...card, facedown: false }} />
-            </div>
-        );
-    }
+    const renderSimpleCard = (card) => (
+        <div
+            className='target-card vertical mb-2'
+            onMouseOut={() => onMouseOut(card)}
+            onMouseOver={() =>
+                onMouseOver({
+                    image: <CardImage card={{ ...card, facedown: false }} />,
+                    size: 'normal'
+                })
+            }
+        >
+            <CardImage card={{ ...card, facedown: false }} />
+        </div>
+    );
 
-    render() {
-        let targetCards = this.props.targets.map((target) => this.renderSimpleCard(target));
-        return (
-            <div className='prompt-control-targeting'>
-                {this.renderSimpleCard(this.props.source)}
-                {targetCards.length > 0 && <FontAwesomeIcon icon={faArrowRight} />}
-                {targetCards}
-            </div>
-        );
-    }
-}
+    const targetCards = props.targets.map((target) => renderSimpleCard(target));
+
+    return (
+        <div className='prompt-control-targeting'>
+            {renderSimpleCard(props.source)}
+            {targetCards.length > 0 && <FontAwesomeIcon icon={faArrowRight} />}
+            {targetCards}
+        </div>
+    );
+};
 
 AbilityTargeting.displayName = 'AbilityTargeting';
 AbilityTargeting.propTypes = {

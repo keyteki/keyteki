@@ -1,57 +1,49 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { withTranslation } from 'react-i18next';
+import { useTranslation } from 'react-i18next';
 import classNames from 'classnames';
 
 import './CardMenu.scss';
 
-class CardMenu extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            submenu: 'main'
-        };
-    }
+const CardMenu = (props) => {
+    const { t } = useTranslation();
+    const [submenu, setSubmenu] = useState('main');
 
-    onMenuItemClick(menuItem) {
+    const onMenuItemClick = (menuItem) => {
         if (['main', 'tokens'].includes(menuItem.command)) {
-            this.setState({ submenu: menuItem.command });
-        } else {
-            if (this.props.onMenuItemClick) {
-                this.props.onMenuItemClick(menuItem);
-            }
+            setSubmenu(menuItem.command);
+        } else if (props.onMenuItemClick) {
+            props.onMenuItemClick(menuItem);
         }
-    }
+    };
 
-    render() {
-        let menuIndex = 0;
-        let menuItems = this.props.menu.map((menuItem) => {
-            let className = classNames('menu-item', {
+    let menuIndex = 0;
+    const menuItems = props.menu
+        .map((menuItem) => {
+            const className = classNames('menu-item', {
                 disabled: !!menuItem.disabled
             });
-            if (menuItem.menu === this.state.submenu) {
+            if (menuItem.menu === submenu) {
                 return (
                     <div
                         key={menuIndex++}
                         className={className}
-                        onClick={this.onMenuItemClick.bind(this, menuItem)}
+                        onClick={() => onMenuItemClick(menuItem)}
                     >
-                        {this.props.t(menuItem.text)}
+                        {t(menuItem.text)}
                     </div>
                 );
             }
-        });
+        })
+        .filter(Boolean);
 
-        return <div className='panel menu'>{menuItems}</div>;
-    }
-}
+    return <div className='panel menu'>{menuItems}</div>;
+};
 
 CardMenu.displayName = 'CardMenu';
 CardMenu.propTypes = {
-    i18n: PropTypes.object,
     menu: PropTypes.array.isRequired,
-    onMenuItemClick: PropTypes.func,
-    t: PropTypes.func
+    onMenuItemClick: PropTypes.func
 };
 
-export default withTranslation()(CardMenu);
+export default CardMenu;
