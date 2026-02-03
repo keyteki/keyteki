@@ -4,7 +4,12 @@ import PropTypes from 'prop-types';
 
 class InternalTypeahead extends React.Component {
     clear() {
-        this.typeahead.getInstance().clear();
+        if (this.typeahead?.clear) {
+            this.typeahead.clear();
+            return;
+        }
+
+        this.typeahead?.getInstance?.()?.clear?.();
     }
 
     render() {
@@ -19,6 +24,7 @@ class InternalTypeahead extends React.Component {
                 <div className={this.props.fieldClass}>
                     <Typeahead
                         ref={(t) => (this.typeahead = t)}
+                        id={this.props.id || this.props.name}
                         options={this.props.options}
                         labelKey={this.props.labelKey}
                         emptyLabel={this.props.emptyLabel}
@@ -56,6 +62,7 @@ InternalTypeahead.propTypes = {
     dropup: PropTypes.bool,
     emptyLabel: PropTypes.string,
     fieldClass: PropTypes.string,
+    id: PropTypes.string,
     label: PropTypes.string,
     labelClass: PropTypes.string,
     labelKey: PropTypes.string,
