@@ -51,7 +51,8 @@ const MovablePanel = ({ children, name, onCloseClick, side, title, size }) => {
     };
 
     const [{ isDragging, dragOffset }, drag] = useDrag({
-        item: { name: key, type: ItemTypes.PANEL },
+        type: ItemTypes.PANEL,
+        item: { name: key },
         collect: (monitor) => {
             return {
                 isDragging: monitor.isDragging(),
@@ -60,6 +61,9 @@ const MovablePanel = ({ children, name, onCloseClick, side, title, size }) => {
         },
         end: (_, monitor) => {
             const offset = monitor.getSourceClientOffset();
+            if (!offset) {
+                return;
+            }
             const style = getStyle(offset);
 
             localStorage.setItem(`${key}`, JSON.stringify(style));
@@ -67,7 +71,7 @@ const MovablePanel = ({ children, name, onCloseClick, side, title, size }) => {
     });
 
     useEffect(() => {
-        if (isDragging) {
+        if (isDragging && dragOffset) {
             let style = getStyle(dragOffset);
 
             setPosition(style);
