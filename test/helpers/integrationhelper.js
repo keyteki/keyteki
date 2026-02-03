@@ -18,26 +18,42 @@ const testContext = {};
 
 // Wrap vitest's describe/it/beforeEach to bind `this` to testContext
 // This allows existing tests using `this.player1`, `this.game`, etc. to work
-const originalDescribe = globalThis.describe;
-const originalIt = globalThis.it;
-const originalBeforeEach = globalThis.beforeEach;
-const originalAfterEach = globalThis.afterEach;
+const originalDescribe = describe;
+const originalIt = it;
+const originalBeforeEach = beforeEach;
+const originalAfterEach = afterEach;
 
 globalThis.describe = function (name, fn) {
     return originalDescribe(name, function () {
         return fn.call(testContext);
     });
 };
-globalThis.describe.skip = originalDescribe.skip;
-globalThis.describe.only = originalDescribe.only;
+globalThis.describe.skip = function (name, fn) {
+    return originalDescribe.skip(name, function () {
+        return fn.call(testContext);
+    });
+};
+globalThis.describe.only = function (name, fn) {
+    return originalDescribe.only(name, function () {
+        return fn.call(testContext);
+    });
+};
 
 globalThis.it = function (name, fn) {
     return originalIt(name, function () {
         return fn.call(testContext);
     });
 };
-globalThis.it.skip = originalIt.skip;
-globalThis.it.only = originalIt.only;
+globalThis.it.skip = function (name, fn) {
+    return originalIt.skip(name, function () {
+        return fn.call(testContext);
+    });
+};
+globalThis.it.only = function (name, fn) {
+    return originalIt.only(name, function () {
+        return fn.call(testContext);
+    });
+};
 
 globalThis.beforeEach = function (fn) {
     return originalBeforeEach(function () {

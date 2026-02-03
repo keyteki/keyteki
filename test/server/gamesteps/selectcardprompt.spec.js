@@ -1,55 +1,51 @@
 const _ = require('underscore');
 const SelectCardPrompt = require('../../../server/game/gamesteps/selectcardprompt.js');
 
-function createSpyObj(name, methods) {
-    const obj = { _name: name };
-    for (const method of methods) {
-        obj[method] = vi.fn();
-    }
-    return obj;
-}
-
 describe.skip('the SelectCardPrompt', function () {
     function createCardSpy(properties = {}) {
-        let card = createSpyObj('card', ['allowGameAction', 'getType']);
-        card.getType.mockReturnValue('character');
-        card.allowGameAction.mockReturnValue(true);
+        let card = {
+            allowGameAction: vi.fn().mockReturnValue(true),
+            getType: vi.fn().mockReturnValue('character')
+        };
         _.extend(card, properties);
         return card;
     }
 
     beforeEach(function () {
-        this.game = createSpyObj('game', ['getPlayers', 'getCurrentAbilityContext']);
-        this.game.getCurrentAbilityContext.mockReturnValue({
-            source: 'framework',
-            card: null,
-            stage: 'framework'
-        });
+        this.game = {
+            getPlayers: vi.fn(),
+            getCurrentAbilityContext: vi.fn().mockReturnValue({
+                source: 'framework',
+                card: null,
+                stage: 'framework'
+            })
+        };
 
-        this.player = createSpyObj('player1', [
-            'setPrompt',
-            'cancelPrompt',
-            'clearSelectableCards',
-            'clearSelectedCards',
-            'setSelectableCards',
-            'setSelectedCards',
-            'clearSelectableRings',
-            'startClock',
-            'stopClock'
-        ]);
-        this.player.cardsInPlay = [];
-        this.otherPlayer = createSpyObj('player2', [
-            'setPrompt',
-            'cancelPrompt',
-            'clearSelectableCards',
-            'clearSelectedCards',
-            'setSelectableCards',
-            'setSelectedCards',
-            'startClock',
-            'stopClock'
-        ]);
+        this.player = {
+            setPrompt: vi.fn(),
+            cancelPrompt: vi.fn(),
+            clearSelectableCards: vi.fn(),
+            clearSelectedCards: vi.fn(),
+            setSelectableCards: vi.fn(),
+            setSelectedCards: vi.fn(),
+            clearSelectableRings: vi.fn(),
+            startClock: vi.fn(),
+            stopClock: vi.fn(),
+            cardsInPlay: []
+        };
+
+        this.otherPlayer = {
+            setPrompt: vi.fn(),
+            cancelPrompt: vi.fn(),
+            clearSelectableCards: vi.fn(),
+            clearSelectedCards: vi.fn(),
+            setSelectableCards: vi.fn(),
+            setSelectedCards: vi.fn(),
+            startClock: vi.fn(),
+            stopClock: vi.fn()
+        };
+
         this.card = createCardSpy({ controller: this.player });
-
         this.player.cardsInPlay.push(this.card);
 
         this.previousCard = createCardSpy({ selected: true, controller: this.player });
@@ -57,23 +53,11 @@ describe.skip('the SelectCardPrompt', function () {
 
         this.properties = {
             location: 'any',
-            cardCondition: function () {
-                return true;
-            },
-            onSelect: function () {
-                return true;
-            },
-            onMenuCommand: function () {
-                return true;
-            },
-            onCancel: function () {
-                return true;
-            }
+            cardCondition: vi.fn(),
+            onSelect: vi.fn(),
+            onMenuCommand: vi.fn(),
+            onCancel: vi.fn()
         };
-        this.properties.cardCondition = vi.fn();
-        this.properties.onSelect = vi.fn();
-        this.properties.onMenuCommand = vi.fn();
-        this.properties.onCancel = vi.fn();
     });
 
     describe('for a single card prompt', function () {

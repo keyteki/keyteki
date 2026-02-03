@@ -1,57 +1,58 @@
 const AbilityResolver = require('../../../server/game/gamesteps/abilityresolver.js');
 
-function createSpyObj(name, methods) {
-    const obj = {};
-    for (const method of methods) {
-        obj[method] = vi.fn();
-    }
-    return obj;
-}
-
 describe.skip('AbilityResolver', function () {
     beforeEach(function () {
-        this.game = createSpyObj('game', [
-            'getPlayers',
-            'markActionAsTaken',
-            'popAbilityContext',
-            'pushAbilityContext',
-            'raiseEvent',
-            'reportError',
-            'raiseInitiateAbilityEvent',
-            'openEventWindow'
-        ]);
-        this.game.raiseEvent.and.callFake((name, params, handler) => {
+        this.game = {
+            getPlayers: vi.fn(),
+            markActionAsTaken: vi.fn(),
+            popAbilityContext: vi.fn(),
+            pushAbilityContext: vi.fn(),
+            raiseEvent: vi.fn(),
+            reportError: vi.fn(),
+            raiseInitiateAbilityEvent: vi.fn(),
+            openEventWindow: vi.fn()
+        };
+        this.game.raiseEvent.mockImplementation((name, params, handler) => {
             if (handler) {
                 handler(params);
             }
         });
-        this.game.raiseInitiateAbilityEvent.and.callFake((params, handler) => {
+        this.game.raiseInitiateAbilityEvent.mockImplementation((params, handler) => {
             if (handler) {
                 handler(params);
             }
         });
 
-        this.ability = createSpyObj('ability', [
-            'isAction',
-            'isTriggeredAbility',
-            'isCardPlayed',
-            'displayMessage',
-            'resolveCosts',
-            'payCosts',
-            'resolveTargets',
-            'executeHandler',
-            'hasLegalTargets',
-            'checkAllTargets'
-        ]);
-        this.ability.isTriggeredAbility.and.returnValue(false);
-        this.ability.hasLegalTargets.and.returnValue(true);
-        this.ability.resolveTargets.and.returnValue({});
-        this.source = createSpyObj('source', ['createSnapshot', 'getType']);
-        this.costEvent = createSpyObj('costEvent', ['getResult']);
-        this.costEvent.getResult.and.returnValue({ resolved: true, cancelled: false });
-        this.ability.payCosts.and.returnValue([this.costEvent]);
+        this.ability = {
+            isAction: vi.fn(),
+            isTriggeredAbility: vi.fn(),
+            isCardPlayed: vi.fn(),
+            displayMessage: vi.fn(),
+            resolveCosts: vi.fn(),
+            payCosts: vi.fn(),
+            resolveTargets: vi.fn(),
+            executeHandler: vi.fn(),
+            hasLegalTargets: vi.fn(),
+            checkAllTargets: vi.fn()
+        };
+        this.ability.isTriggeredAbility.mockReturnValue(false);
+        this.ability.hasLegalTargets.mockReturnValue(true);
+        this.ability.resolveTargets.mockReturnValue({});
+
+        this.source = {
+            createSnapshot: vi.fn(),
+            getType: vi.fn()
+        };
+
+        this.costEvent = {
+            getResult: vi.fn()
+        };
+        this.costEvent.getResult.mockReturnValue({ resolved: true, cancelled: false });
+        this.ability.payCosts.mockReturnValue([this.costEvent]);
+
         this.player = { player: 1 };
-        this.game.getPlayers.and.returnValue([this.player]);
+        this.game.getPlayers.mockReturnValue([this.player]);
+
         this.context = {
             foo: 'bar',
             player: this.player,
@@ -67,7 +68,7 @@ describe.skip('AbilityResolver', function () {
     describe('continue()', function () {
         describe('when the ability comes from a character', function () {
             beforeEach(function () {
-                this.source.getType.and.returnValue('character');
+                this.source.getType.mockReturnValue('character');
                 this.resolver.continue();
             });
 
@@ -78,8 +79,8 @@ describe.skip('AbilityResolver', function () {
 
         describe.skip('when the ability is an action', function () {
             beforeEach(function () {
-                this.ability.isAction.and.returnValue(true);
-                this.ability.resolveCosts.and.returnValue([
+                this.ability.isAction.mockReturnValue(true);
+                this.ability.resolveCosts.mockReturnValue([
                     { resolved: true, value: true },
                     { resolved: true, value: true }
                 ]);
@@ -93,7 +94,7 @@ describe.skip('AbilityResolver', function () {
 
         describe('when all costs can be paid', function () {
             beforeEach(function () {
-                this.ability.resolveCosts.and.returnValue([
+                this.ability.resolveCosts.mockReturnValue([
                     { resolved: true, value: true },
                     { resolved: true, value: true }
                 ]);
@@ -118,11 +119,11 @@ describe.skip('AbilityResolver', function () {
 
         describe('when the ability is a card ability', function () {
             beforeEach(function () {
-                this.ability.resolveCosts.and.returnValue([
+                this.ability.resolveCosts.mockReturnValue([
                     { resolved: true, value: true },
                     { resolved: true, value: true }
                 ]);
-                this.ability.isTriggeredAbility.and.returnValue(true);
+                this.ability.isTriggeredAbility.mockReturnValue(true);
                 this.resolver.continue();
             });
 
@@ -136,11 +137,11 @@ describe.skip('AbilityResolver', function () {
 
         describe('when the ability is not a card ability', function () {
             beforeEach(function () {
-                this.ability.resolveCosts.and.returnValue([
+                this.ability.resolveCosts.mockReturnValue([
                     { resolved: true, value: true },
                     { resolved: true, value: true }
                 ]);
-                this.ability.isTriggeredAbility.and.returnValue(false);
+                this.ability.isTriggeredAbility.mockReturnValue(false);
                 this.resolver.continue();
             });
 
@@ -154,11 +155,11 @@ describe.skip('AbilityResolver', function () {
         });
         describe.skip('when the ability is an event being played', function () {
             beforeEach(function () {
-                this.ability.resolveCosts.and.returnValue([
+                this.ability.resolveCosts.mockReturnValue([
                     { resolved: true, value: true },
                     { resolved: true, value: true }
                 ]);
-                this.ability.isCardPlayed.and.returnValue(true);
+                this.ability.isCardPlayed.mockReturnValue(true);
                 this.resolver.continue();
             });
 
@@ -187,7 +188,7 @@ describe.skip('AbilityResolver', function () {
         describe.skip('when a cost cannot be immediately resolved', function () {
             beforeEach(function () {
                 this.canPayResult = { resolved: false };
-                this.ability.resolveCosts.and.returnValue([this.canPayResult]);
+                this.ability.resolveCosts.mockReturnValue([this.canPayResult]);
                 this.resolver.continue();
             });
 
@@ -203,7 +204,7 @@ describe.skip('AbilityResolver', function () {
         describe('when the costs have resolved', function () {
             beforeEach(function () {
                 this.canPayResult = { resolved: true };
-                this.ability.resolveCosts.and.returnValue([this.canPayResult]);
+                this.ability.resolveCosts.mockReturnValue([this.canPayResult]);
             });
 
             describe('and the cost could be paid', function () {
@@ -246,7 +247,7 @@ describe.skip('AbilityResolver', function () {
                     costsFirst: true,
                     mode: 'single'
                 };
-                this.ability.resolveTargets.and.returnValue([this.targetResult]);
+                this.ability.resolveTargets.mockReturnValue([this.targetResult]);
                 this.resolver.continue();
             });
 
@@ -317,7 +318,7 @@ describe.skip('AbilityResolver', function () {
         describe('when an exception occurs', function () {
             beforeEach(function () {
                 this.error = new Error('something bad');
-                this.ability.resolveCosts.and.callFake(() => {
+                this.ability.resolveCosts.mockImplementation(() => {
                     throw this.error;
                 });
             });
