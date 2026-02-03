@@ -1,8 +1,5 @@
-@import '../../styles/variables';
-@import '../../styles/colours';
-@import 'bootstrap/scss/functions';
-@import 'bootstrap/scss/variables';
-@import 'bootstrap/scss/mixins';
+@use '../../styles/variables' as *;
+@use '../../styles/colours' as *;
 
 .overlay {
     position: absolute;
@@ -31,3 +28,4 @@
         z-index: $layer-player-board-overlay;
     }
 }
+

@@ -1,8 +1,5 @@
-@import '../../styles/variables';
-@import '../../styles/colours';
-@import 'bootstrap/scss/functions';
-@import 'bootstrap/scss/variables';
-@import 'bootstrap/scss/mixins';
+@use '../../styles/variables' as *;
+@use '../../styles/colours' as *;
 
 .selected {
     box-shadow: 0 0 1px 4px theme-color(secondary);
@@ -24,3 +21,4 @@
     display: inline-block;
     text-align: center;
 }
+

@@ -1,8 +1,5 @@
-@import '../../styles/variables';
-@import '../../styles/colours';
-@import 'bootstrap/scss/functions';
-@import 'bootstrap/scss/variables';
-@import 'bootstrap/scss/mixins';
+@use '../../styles/variables' as *;
+@use '../../styles/colours' as *;
 
 .news-item {
     color: theme-color('secondary');
@@ -42,3 +39,4 @@
 .unforged-yellow {
     background-image: url('assets/img/unforgedkeyyellow.png');
 }
+

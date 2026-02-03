@@ -30,8 +30,7 @@ class ImmortalGreking extends Card {
                     }))
                 ])
             },
-            effect:
-                'take control of {1} and place it anywhere in their battleline, making it belong to {2} until {3} leaves play',
+            effect: 'take control of {1} and place it anywhere in their battleline, making it belong to {2} until {3} leaves play',
             effectArgs: (context) => [context.target, context.source.printedHouse, context.source]
         });
 

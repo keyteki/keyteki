@@ -1,7 +1,15 @@
-@import 'colours';
+@use 'colours' as *;
 
 $navbar-height: 50px;
 $scrollbar-width: 20px;
+$grid-breakpoints: (
+    xs: 0,
+    sm: 576px,
+    md: 768px,
+    lg: 992px,
+    xl: 1200px,
+    xxl: 1400px
+);
 
 // Z-index layers
 
@@ -62,3 +70,4 @@ $upgrade-offset-halfSize-xl: $upgrade-offset * 2;
 $underneath-offset-halfSize-sm: $underneath-offset * 0.6;
 $underneath-offset-halfSize-lg: $underneath-offset * 1.4;
 $underneath-offset-halfSize-xl: $underneath-offset * 2;
+

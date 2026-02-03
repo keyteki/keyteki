@@ -1,10 +1,79 @@
-@import '../../styles/variables';
-@import '../../styles/colours';
-@import 'bootstrap/scss/functions';
-@import 'bootstrap/scss/variables';
+@use '../../styles/variables' as *;
+@use '../../styles/colours' as *;
 
 .deck-list {
     padding-top: 15px;
+
+    .form-label {
+        color: $body-color;
+    }
+
+    .form-control {
+        background-color: #ffffff;
+        border-color: rgba(0, 0, 0, 0.2);
+        color: #111111;
+    }
+
+    .form-select {
+        background-color: #ffffff;
+        border-color: rgba(0, 0, 0, 0.2);
+        color: #111111;
+    }
+
+    .form-control::placeholder {
+        color: rgba(17, 17, 17, 0.6);
+    }
+
+    .form-control:focus {
+        background-color: #ffffff;
+        border-color: theme-color('info');
+        color: #111111;
+        box-shadow: 0 0 0 0.2rem rgba(theme-color('info'), 0.25);
+    }
+
+    .form-select:focus {
+        background-color: #ffffff;
+        border-color: theme-color('info');
+        color: #111111;
+        box-shadow: 0 0 0 0.2rem rgba(theme-color('info'), 0.25);
+    }
+
+    .deck-select__control {
+        background-color: #ffffff;
+        border-color: rgba(0, 0, 0, 0.2);
+        color: #111111;
+    }
+
+    .deck-select__control--is-focused {
+        border-color: theme-color('info');
+        box-shadow: 0 0 0 0.2rem rgba(theme-color('info'), 0.25);
+    }
+
+    .deck-select__multi-value {
+        background-color: rgba(theme-color('primary'), 0.2);
+    }
+
+    .deck-select__multi-value__label {
+        color: #111111;
+    }
+
+    .deck-select__multi-value__remove {
+        color: #111111;
+    }
+
+    .deck-select__menu {
+        background-color: #ffffff;
+        color: #111111;
+        border: 1px solid rgba(0, 0, 0, 0.2);
+    }
+
+    .deck-select__option--is-focused {
+        background-color: rgba(theme-color('info'), 0.15);
+    }
+
+    .deck-select__option--is-selected {
+        background-color: rgba(theme-color('info'), 0.25);
+    }
 
     .table-hover {
         tbody {
@@ -15,6 +84,12 @@
     }
 
     table {
+        --bs-table-bg: rgba(0, 0, 0, 0.35);
+        --bs-table-color: #{$body-color};
+        --bs-table-striped-bg: rgba(theme-color('primary'), 0.4);
+        --bs-table-striped-color: #{$body-color};
+        --bs-table-hover-bg: rgba(theme-color('info'), 0.2);
+        --bs-table-hover-color: #{$body-color};
         border: solid 1px #dee2e6;
         border-width: 0 1px 1px 0;
         border-spacing: 0;
@@ -33,8 +108,45 @@
         }
     }
 
+    .deck-table thead th {
+        background-color: rgba(theme-color('primary'), 0.6);
+        color: $body-color;
+    }
+
+    .pagination {
+        .page-link {
+            background-color: rgba(0, 0, 0, 0.5);
+            border-color: rgba(255, 255, 255, 0.15);
+            color: $body-color;
+        }
+
+        .page-item.active .page-link {
+            background-color: rgba(theme-color('info'), 0.35);
+            border-color: theme-color('info');
+            color: $body-color;
+        }
+
+        .page-item.disabled .page-link {
+            color: rgba($body-color, 0.4);
+        }
+    }
+
     .invalid {
         background-color: rgba(theme-color(danger), 0.6);
+    }
+
+    .deck-pagination {
+        margin-top: 10px;
+    }
+
+    .deck-page-size {
+        width: 70px;
+        display: inline-block;
+        font-weight: 600;
+    }
+
+    .deck-filter-form {
+        margin-bottom: 16px;
     }
 }
 

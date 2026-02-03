@@ -197,7 +197,7 @@ const NewGame = ({
                         {!quickJoin && (
                             <>
                                 {!tournament && (
-                                    <Form.Row>
+                                    <Row>
                                         <Form.Group as={Col} lg='8' controlId='formGridGameName'>
                                             <Form.Label>{t('Name')}</Form.Label>
                                             <Form.Label className='float-right'>
@@ -213,7 +213,7 @@ const NewGame = ({
                                                 {formProps.errors.name}
                                             </Form.Control.Feedback>
                                         </Form.Group>
-                                    </Form.Row>
+                                    </Row>
                                 )}
                                 <GameOptions formProps={formProps} />
                             </>

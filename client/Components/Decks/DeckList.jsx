@@ -1,14 +1,10 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { Col, Form } from 'react-bootstrap';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { Col, Form, Pagination, Table, Row } from 'react-bootstrap';
 import moment from 'moment';
-import BootstrapTable from 'react-bootstrap-table-next';
-import paginationFactory from 'react-bootstrap-table2-paginator';
-import filterFactory, { textFilter, multiSelectFilter } from 'react-bootstrap-table2-filter';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import Select from 'react-select';
 import debounce from 'lodash.debounce';
-import $ from 'jquery';
 
 import CardBack from './CardBack';
 import { loadDecks, selectDeck, loadStandaloneDecks } from '../../redux/actions';
@@ -16,7 +12,7 @@ import { loadDecks, selectDeck, loadStandaloneDecks } from '../../redux/actions'
 import './DeckList.scss';
 import { Constants } from '../../constants';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCheck } from '@fortawesome/free-solid-svg-icons';
+import { faCheck, faSort, faSortDown, faSortUp } from '@fortawesome/free-solid-svg-icons';
 
 /**
  * @typedef CardLanguage
@@ -93,6 +89,9 @@ const DeckList = ({
     expansions = Constants.Expansions
 }) => {
     const { t } = useTranslation();
+    const dispatch = useDispatch();
+    const initialExpansions = deckFilter?.expansion || expansions;
+    const [selectedExpansions, setSelectedExpansions] = useState(initialExpansions);
     const [pagingDetails, setPagingDetails] = useState({
         pageSize: 10,
         page: 1,
@@ -104,9 +103,7 @@ const DeckList = ({
               })
             : []
     });
-    const nameFilter = useRef(null);
-    const expansionFilter = useRef(null);
-    const dispatch = useDispatch();
+    const nameFilterValue = useRef('');
 
     const { decks, numDecks, selectedDeck } = useSelector((state) => ({
         decks: standaloneDecks ? state.cards.standaloneDecks : state.cards.decks,
@@ -114,251 +111,292 @@ const DeckList = ({
         selectedDeck: standaloneDecks ? null : state.cards.selectedDeck
     }));
 
+    const buildFilters = useCallback(
+        (nameValue, expansionValues) => {
+            let filters = [];
+            if (nameValue) {
+                filters.push({ name: 'name', value: nameValue });
+            }
+
+            if (expansionValues) {
+                filters.push({ name: 'expansion', value: expansionValues });
+            }
+
+            if (deckFilter) {
+                filters = filters.concat(
+                    Object.entries(deckFilter).map(([k, v]) => ({
+                        name: k,
+                        value: v
+                    }))
+                );
+            }
+
+            return filters;
+        },
+        [deckFilter]
+    );
+
+    const updateFilters = useMemo(
+        () =>
+            debounce((nextName, nextExpansions) => {
+                setPagingDetails((prev) => ({
+                    ...prev,
+                    page: 1,
+                    filter: buildFilters(nextName, nextExpansions)
+                }));
+            }, 500),
+        [buildFilters]
+    );
+
     useEffect(() => {
         if (standaloneDecks) {
             dispatch(loadStandaloneDecks());
         } else {
             dispatch(loadDecks(pagingDetails));
         }
-
-        $('.filter-label').parent().parent().hide();
     }, [pagingDetails, dispatch, standaloneDecks]);
 
-    const MultiSelectFilter = () => {
-        return (
-            <Select
-                isMulti
-                options={expansions}
-                defaultValue={expansions}
-                value={pagingDetails.filter.find((f) => f.name === 'expansion')?.value}
-                onChange={(values) => expansionFilter.current(values.map((v) => v))}
-            />
+    const onRowClick = (deck) => {
+        dispatch(selectDeck(deck));
+        if (onDeckSelected) {
+            onDeckSelected(deck);
+        }
+    };
+
+    const onSort = (field) => {
+        if (standaloneDecks) {
+            return;
+        }
+
+        setPagingDetails((prev) => {
+            const nextDir = prev.sort === field && prev.sortDir === 'asc' ? 'desc' : 'asc';
+            return {
+                ...prev,
+                sort: field,
+                sortDir: nextDir
+            };
+        });
+    };
+
+    const totalPages = standaloneDecks
+        ? 1
+        : Math.max(1, Math.ceil(numDecks / pagingDetails.pageSize));
+    const currentPage = standaloneDecks ? 1 : pagingDetails.page;
+    const pageSizeOptions = [10, 25, 50, 100];
+
+    const paginationItems = [];
+    for (let page = 1; page <= totalPages; page += 1) {
+        paginationItems.push(
+            <Pagination.Item
+                key={page}
+                active={page === currentPage}
+                onClick={() =>
+                    setPagingDetails((prev) => ({
+                        ...prev,
+                        page
+                    }))
+                }
+            >
+                {page}
+            </Pagination.Item>
         );
-    };
+    }
 
-    const selectRow = {
-        mode: 'radio',
-        clickToSelect: true,
-        hideSelectColumn: true,
-        selected: decks && selectedDeck ? [decks.find((d) => d.id === selectedDeck.id)?.id] : [],
-        classes: 'selected-deck',
-        onSelect: (deck, isSelect) => {
-            if (isSelect) {
-                dispatch(selectDeck(deck));
-            }
-        }
-    };
-
-    const rowEvents = {
-        onClick: (event, deck) => {
-            onDeckSelected && onDeckSelected(deck);
-        }
-    };
-
-    const rowClasses = (row) => {
-        if (!row.status.basicRules) {
-            return 'invalid';
+    const renderSortIcon = (field) => {
+        if (standaloneDecks) {
+            return null;
         }
 
-        return '';
-    };
-
-    /**
-     * @param {any} type
-     * @param {PagingDetails} data
-     */
-    const onTableChange = (type, data) => {
-        let newPageData = Object.assign({}, pagingDetails);
-        switch (type) {
-            case 'pagination':
-                if (
-                    (pagingDetails.page !== data.page && data.page !== 0) ||
-                    (pagingDetails.pageSize !== data.sizePerPage && data.sizePerPage !== 0)
-                ) {
-                    newPageData.page = data.page || pagingDetails.page;
-                    newPageData.pageSize = data.sizePerPage;
-                }
-
-                break;
-            case 'sort':
-                newPageData.sort = data.sortField;
-                newPageData.sortDir = data.sortOrder;
-
-                break;
-            case 'filter':
-                newPageData.filter = Object.keys(data.filters).map((k) => ({
-                    name: k,
-                    value: data.filters[k].filterVal
-                }));
-
-                //filter comming from elsewhere than the table change
-                if (deckFilter) {
-                    newPageData.filter.push({ name: 'isAlliance', value: deckFilter.isAlliance });
-                    newPageData.filter.push({ name: 'expansion', value: deckFilter.expansion });
-                }
-
-                break;
+        if (pagingDetails.sort !== field) {
+            return <FontAwesomeIcon icon={faSort} className='ms-1' />;
         }
 
-        setPagingDetails(newPageData);
+        const icon = pagingDetails.sortDir === 'asc' ? faSortUp : faSortDown;
+        return <FontAwesomeIcon icon={icon} className='ms-1' />;
     };
-
-    const columns = [
-        {
-            dataField: 'none',
-            headerStyle: {
-                width: '12%'
-            },
-            text: t('Id'),
-            sort: false,
-            // eslint-disable-next-line react/display-name
-            formatter: (_, row) => (
-                <div className='deck-image'>
-                    <CardBack deck={row} size={'normal'} />
-                </div>
-            )
-        },
-        {
-            dataField: 'name',
-            text: t('Name'),
-            sort: !standaloneDecks,
-            style: {
-                fontSize: '0.8rem'
-            },
-            filter: textFilter({
-                getFilter: (filter) => {
-                    nameFilter.current = filter;
-                }
-            })
-        },
-        {
-            dataField: 'expansion',
-            text: t('Set'),
-            headerStyle: {
-                width: '13%'
-            },
-            align: 'center',
-            sort: !standaloneDecks,
-            // eslint-disable-next-line react/display-name
-            formatter: (cell) => (
-                <img className='deck-expansion' src={Constants.SetIconPaths[cell]} />
-            ),
-            filter: multiSelectFilter({
-                options: {},
-                getFilter: (filter) => {
-                    expansionFilter.current = filter;
-                }
-            })
-        },
-        {
-            dataField: 'lastUpdated',
-            headerStyle: {
-                width: '18%'
-            },
-            style: {
-                fontSize: '0.7rem'
-            },
-            align: 'center',
-            text: t('Added'),
-            sort: !standaloneDecks,
-            /**
-             * @param {Date} cell
-             */
-            formatter: (cell) => moment(cell).format('YYYY-MM-DD')
-        },
-        {
-            dataField: 'winRate',
-            align: 'center',
-            text: t('Win %'),
-            headerStyle: {
-                width: '18%'
-            },
-            style: {
-                fontSize: '0.8rem'
-            },
-            sort: !standaloneDecks,
-            hidden: standaloneDecks,
-            /**
-             * @param {number} cell
-             */
-            formatter: (cell) => `${cell?.toFixed(2)}%`
-        },
-        {
-            dataField: 'isAlliance',
-            align: 'center',
-            text: t('A'),
-            headerStyle: {
-                width: '11%'
-            },
-            style: {
-                fontSize: '0.8rem'
-            },
-            sort: true,
-            // eslint-disable-next-line react/display-name
-            formatter: (_, row) =>
-                row.isAlliance ? (
-                    <div>
-                        <FontAwesomeIcon icon={faCheck} />
-                    </div>
-                ) : null
-        }
-    ];
-
-    let onNameChange = debounce((event) => {
-        nameFilter.current(event.target.value.toLowerCase());
-    }, 500);
 
     return (
         <div className='deck-list'>
             {!standaloneDecks && (
                 <Col md={12}>
-                    <Form>
-                        <Form.Row>
+                    <Form className='deck-filter-form'>
+                        <Row>
                             <Form.Group as={Col} lg='6' controlId='formGridName'>
                                 <Form.Label>{t('Name')}</Form.Label>
                                 <Form.Control
                                     name='name'
                                     type='text'
                                     onChange={(event) => {
-                                        event.persist();
-                                        onNameChange(event);
+                                        nameFilterValue.current = event.target.value.toLowerCase();
+                                        updateFilters(nameFilterValue.current, selectedExpansions);
                                     }}
                                     placeholder={t('Filter by name')}
                                 />
                             </Form.Group>
                             <Form.Group as={Col} lg='6' controlId='formGridExpansion'>
                                 <Form.Label>{t('Expansion')}</Form.Label>
-                                <Form.Control as={MultiSelectFilter} />
+                                <Select
+                                    className='deck-select'
+                                    classNamePrefix='deck-select'
+                                    isMulti
+                                    options={expansions}
+                                    value={selectedExpansions || []}
+                                    onChange={(values) => {
+                                        const nextValues = values || [];
+                                        setSelectedExpansions(nextValues);
+                                        updateFilters(nameFilterValue.current, nextValues);
+                                    }}
+                                />
                             </Form.Group>
-                        </Form.Row>
+                        </Row>
                     </Form>
                 </Col>
             )}
             <Col md={12}>
-                <BootstrapTable
-                    bootstrap4
-                    remote
-                    hover
-                    keyField='id'
-                    data={decks}
-                    columns={columns}
-                    selectRow={selectRow}
-                    rowEvents={rowEvents}
-                    rowClasses={rowClasses}
-                    pagination={
-                        standaloneDecks
-                            ? null
-                            : paginationFactory({
-                                  page: pagingDetails.page,
-                                  sizePerPage: pagingDetails.pageSize,
-                                  totalSize: numDecks
-                              })
-                    }
-                    filter={filterFactory()}
-                    filterPosition='top'
-                    onTableChange={onTableChange}
-                    defaultSorted={[{ dataField: 'datePublished', order: 'desc' }]}
-                />
+                <Table bordered hover size='sm' responsive className='deck-table'>
+                    <thead>
+                        <tr>
+                            <th style={{ width: '12%' }}>{t('Id')}</th>
+                            <th
+                                role={!standaloneDecks ? 'button' : undefined}
+                                onClick={() => onSort('name')}
+                            >
+                                {t('Name')}
+                                {renderSortIcon('name')}
+                            </th>
+                            <th
+                                style={{ width: '13%' }}
+                                className='text-center'
+                                role={!standaloneDecks ? 'button' : undefined}
+                                onClick={() => onSort('expansion')}
+                            >
+                                {t('Set')}
+                                {renderSortIcon('expansion')}
+                            </th>
+                            <th
+                                style={{ width: '18%' }}
+                                className='text-center'
+                                role={!standaloneDecks ? 'button' : undefined}
+                                onClick={() => onSort('lastUpdated')}
+                            >
+                                {t('Added')}
+                                {renderSortIcon('lastUpdated')}
+                            </th>
+                            {!standaloneDecks && (
+                                <th
+                                    style={{ width: '18%' }}
+                                    className='text-center'
+                                    role='button'
+                                    onClick={() => onSort('winRate')}
+                                >
+                                    {t('Win %')}
+                                    {renderSortIcon('winRate')}
+                                </th>
+                            )}
+                            <th
+                                style={{ width: '11%' }}
+                                className='text-center'
+                                role={!standaloneDecks ? 'button' : undefined}
+                                onClick={() => onSort('isAlliance')}
+                            >
+                                {t('A')}
+                                {renderSortIcon('isAlliance')}
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {decks?.map((deck) => {
+                            const isSelected = selectedDeck && deck.id === selectedDeck.id;
+                            const rowClass = `${!deck.status?.basicRules ? 'invalid' : ''} ${
+                                isSelected ? 'selected-deck' : ''
+                            }`;
+
+                            return (
+                                <tr
+                                    key={deck.id}
+                                    className={rowClass.trim()}
+                                    onClick={() => onRowClick(deck)}
+                                >
+                                    <td>
+                                        <div className='deck-image'>
+                                            <CardBack deck={deck} size={'normal'} />
+                                        </div>
+                                    </td>
+                                    <td style={{ fontSize: '0.8rem' }}>{deck.name}</td>
+                                    <td className='text-center'>
+                                        <img
+                                            className='deck-expansion'
+                                            src={Constants.SetIconPaths[deck.expansion]}
+                                        />
+                                    </td>
+                                    <td className='text-center' style={{ fontSize: '0.7rem' }}>
+                                        {moment(deck.lastUpdated).format('YYYY-MM-DD')}
+                                    </td>
+                                    {!standaloneDecks && (
+                                        <td className='text-center' style={{ fontSize: '0.8rem' }}>
+                                            {deck.winRate?.toFixed(2)}%
+                                        </td>
+                                    )}
+                                    <td className='text-center' style={{ fontSize: '0.8rem' }}>
+                                        {deck.isAlliance ? (
+                                            <FontAwesomeIcon icon={faCheck} />
+                                        ) : null}
+                                    </td>
+                                </tr>
+                            );
+                        })}
+                    </tbody>
+                </Table>
+                {!standaloneDecks && (
+                    <Row className='deck-pagination align-items-center'>
+                        <Col xs='12' md='4' className='mb-2 mb-md-0'>
+                            <Form.Select
+                                size='sm'
+                                className='deck-page-size'
+                                value={pagingDetails.pageSize}
+                                onChange={(event) => {
+                                    const pageSize = parseInt(event.target.value, 10);
+                                    setPagingDetails((prev) => ({
+                                        ...prev,
+                                        page: 1,
+                                        pageSize
+                                    }));
+                                }}
+                            >
+                                {pageSizeOptions.map((size) => (
+                                    <option key={size} value={size}>
+                                        {size}
+                                    </option>
+                                ))}
+                            </Form.Select>
+                        </Col>
+                        <Col xs='12' md='8'>
+                            {totalPages > 1 && (
+                                <Pagination className='justify-content-center justify-content-md-end mb-0'>
+                                    <Pagination.Prev
+                                        disabled={currentPage <= 1}
+                                        onClick={() =>
+                                            setPagingDetails((prev) => ({
+                                                ...prev,
+                                                page: Math.max(1, prev.page - 1)
+                                            }))
+                                        }
+                                    />
+                                    {paginationItems}
+                                    <Pagination.Next
+                                        disabled={currentPage >= totalPages}
+                                        onClick={() =>
+                                            setPagingDetails((prev) => ({
+                                                ...prev,
+                                                page: Math.min(totalPages, prev.page + 1)
+                                            }))
+                                        }
+                                    />
+                                </Pagination>
+                            )}
+                        </Col>
+                    </Row>
+                )}
             </Col>
         </div>
     );

@@ -1,7 +1,5 @@
-@import '../../styles/variables';
-@import '../../styles/colours';
-@import 'bootstrap/scss/functions';
-@import 'bootstrap/scss/variables';
+@use '../../styles/variables' as *;
+@use '../../styles/colours' as *;
 
 .message-list {
     height: 200px;
@@ -16,3 +14,4 @@
 .game-status {
     margin-top: 10px;
 }
+

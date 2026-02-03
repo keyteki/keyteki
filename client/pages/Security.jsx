@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import moment from 'moment';
-import { toastr } from 'react-redux-toastr';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
 
@@ -48,18 +47,15 @@ class Security extends React.Component {
             return;
         }
 
-        toastr.confirm(
+        const confirmed = window.confirm(
             t(
                 'Are you sure you want to remove this session?  It will be logged out and any games in progress may be abandonded.'
-            ),
-            {
-                okText: t('Ok'),
-                cancelText: t('Cancel'),
-                onOk: () => {
-                    this.props.removeSession(this.props.user.username, session.id);
-                }
-            }
+            )
         );
+
+        if (confirmed) {
+            this.props.removeSession(this.props.user.username, session.id);
+        }
     }
 
     render() {
