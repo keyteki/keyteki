@@ -73,7 +73,7 @@ Goal: Replace custom router with react-router without changing behavior.
 -   [x] Map existing routes (client/routes.\*) to react-router config
 -   [x] Migrate navigation/link helpers to react-router components
 -   [x] Replace any direct history handling with react-router equivalents
--   [ ] Verify page transitions and auth-gated routes
+-   [x] Verify page transitions and auth-gated routes
 
 ## Phase 4 - Redux Toolkit Bridge
 
