@@ -103,6 +103,7 @@ Card implementations in Keyteki follow a specific pattern where each card's game
 
 -   Card descriptions and metadata for each set are stored in JSON files under `keyteki-json-data/packs/<Set>.json`
 -   Each set has its own JSON file (e.g., [PV.json](keyteki-json-data/packs/PV.json))
+-   Use `jq` to read and parse JSON data instead of `grep` (e.g., `jq '.[] | select(.id == "card-id")' keyteki-json-data/packs/CotA.json`)
 -   The JSON data contains:
     -   Card name, ID, and number
     -   House affiliation
