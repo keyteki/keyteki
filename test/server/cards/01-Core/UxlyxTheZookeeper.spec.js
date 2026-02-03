@@ -46,4 +46,52 @@ describe('Uxlyx the Zookeeper', function () {
             expect(this.player2.hand).toContain(this.batdrone);
         });
     });
+
+    describe('Uxlyx the Zookeeper with Murkens', function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'mars',
+                    inPlay: ['uxlyx-the-zookeeper'],
+                    hand: ['scowly-caper']
+                },
+                player2: {
+                    inPlay: ['ember-imp'],
+                    hand: ['murkens']
+                }
+            });
+            this.player1.makeMaverick(this.scowlyCaper, 'mars');
+        });
+
+        it("should return unowned creature to owner's hand when Murkens tries to play it from archives", function () {
+            this.player1.reap(this.uxlyxTheZookeeper);
+            this.player1.clickCard(this.emberImp);
+            expect(this.player1.archives).toContain(this.emberImp);
+            this.player1.endTurn();
+            this.player2.clickPrompt('shadows');
+            this.player2.playCreature(this.murkens);
+            this.player2.clickPrompt('Random card from archives');
+            expect(this.player2.hand).toContain(this.emberImp);
+            expect(this.player2.discard).not.toContain(this.emberImp);
+            expect(this.player1.archives).not.toContain(this.emberImp);
+            expect(this.player2).isReadyToTakeAction();
+        });
+
+        it('should return owned creature to hand when Murkens tries to play it from archives', function () {
+            this.player1.playCreature(this.scowlyCaper);
+            expect(this.scowlyCaper.controller).toBe(this.player2.player);
+            this.player1.reap(this.uxlyxTheZookeeper);
+            this.player1.clickCard(this.scowlyCaper);
+            expect(this.player1.archives).toContain(this.scowlyCaper);
+            expect(this.player1).isReadyToTakeAction();
+            this.player1.endTurn();
+            this.player2.clickPrompt('shadows');
+            this.player2.playCreature(this.murkens);
+            this.player2.clickPrompt('Random card from archives');
+            expect(this.player1.archives).not.toContain(this.scowlyCaper);
+            expect(this.player1.hand).toContain(this.scowlyCaper);
+            expect(this.player2.battleline).not.toContain(this.scowlyCaper);
+            expect(this.player2).isReadyToTakeAction();
+        });
+    });
 });

@@ -2,6 +2,7 @@ const GameActions = require('./GameActions/index');
 
 const Actions = {
     // card actions
+    abduct: (propertyFactory) => new GameActions.AbductAction(propertyFactory),
     addPowerCounter: (propertyFactory) => new GameActions.AddTokenAction(propertyFactory, 'power'),
     addDamageToken: (propertyFactory) => new GameActions.AddTokenAction(propertyFactory, 'damage'),
     addDepthCounter: (propertyFactory) => new GameActions.AddTokenAction(propertyFactory, 'depth'),

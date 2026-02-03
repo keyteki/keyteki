@@ -10,6 +10,7 @@ class YzphyzKnowdrone extends Card {
                 gameAction: ability.actions.archive()
             },
             then: {
+                alwaysTriggers: true,
                 target: {
                     optional: true,
                     controller: 'any',
@@ -20,6 +21,7 @@ class YzphyzKnowdrone extends Card {
                 message: '{0} uses {1} to purge {2}',
                 messageArgs: (context) => [context.player, context.source, context.target],
                 then: {
+                    condition: (context) => context.preThenEvent?.card?.location === 'purged',
                     target: {
                         controller: 'any',
                         cardType: 'creature',
