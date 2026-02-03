@@ -1,16 +1,16 @@
 import React from 'react';
-import { useSelector, useDispatch } from 'react-redux';
 import ReCAPTCHA from 'react-google-recaptcha';
-
-import AlertPanel from '../Components/Site/AlertPanel';
-import Panel from '../Components/Site/Panel';
 import { useTranslation } from 'react-i18next';
-import { Account } from '../redux/types';
-import { clearApiStatus, forgotPassword } from '../redux/actions';
-import { Form, Col, Button } from 'react-bootstrap';
+import { useDispatch, useSelector } from 'react-redux';
+import { Button, Col, Form, Row } from 'react-bootstrap';
 import { Formik } from 'formik';
 import * as yup from 'yup';
+
+import AlertPanel from '../Components/Site/AlertPanel';
 import ApiStatus from '../Components/Site/ApiStatus';
+import Panel from '../Components/Site/Panel';
+import { clearApiStatus, forgotPassword } from '../redux/actions';
+import { Account } from '../redux/types';
 
 const ForgotPassword = () => {
     const { t } = useTranslation();
@@ -75,7 +75,7 @@ const ForgotPassword = () => {
                                 formProps.handleSubmit(event);
                             }}
                         >
-                            <Form.Row>
+                            <Row>
                                 <Form.Group as={Col} sm='8' controlId='formGridUsername'>
                                     <Form.Label>{t('Username')}</Form.Label>
                                     <Form.Control
@@ -94,8 +94,8 @@ const ForgotPassword = () => {
                                         {formProps.errors.username}
                                     </Form.Control.Feedback>
                                 </Form.Group>
-                            </Form.Row>
-                            <Form.Row>
+                            </Row>
+                            <Row>
                                 <Form.Group as={Col} sm={8}>
                                     <ReCAPTCHA
                                         className='is-invalid'
@@ -109,7 +109,7 @@ const ForgotPassword = () => {
                                         {formProps.errors.captchaValue}
                                     </Form.Control.Feedback>
                                 </Form.Group>
-                            </Form.Row>
+                            </Row>
                             <div className='text-center'>
                                 <Button variant='primary' type='submit'>
                                     {t('Submit')}

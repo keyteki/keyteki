@@ -1,27 +1,25 @@
 import React, { useRef, useState } from 'react';
-import { Col, Form, Button } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
+import { Button, Col, Form, Row } from 'react-bootstrap';
 
-import { PatreonStatus } from '../../types';
-import Panel from '../Site/Panel';
-import Avatar from '../Site/Avatar';
 import { PatreonClientId } from '../../constants';
-import { unlinkPatreon } from '../../redux/actions';
 import PatreonImage from '../../assets/img/Patreon_Mark_Coral.jpg';
+import { unlinkPatreon } from '../../redux/actions';
+import { PatreonStatus } from '../../types';
+import Avatar from '../Site/Avatar';
+import Panel from '../Site/Panel';
 
 import './ProfileMain.scss';
 
 /**
  * @typedef { import('./Profile').ProfileDetails } ProfileDetails
  */
-
 /**
  * @typedef ProfileMainProps
  * @property {import('formik').FormikProps<ProfileDetails>} formProps
  * @property {User} user
  */
-
 /**
  * @param {ProfileMainProps} props
  */
@@ -44,7 +42,7 @@ const ProfileMain = ({ user, formProps }) => {
 
     return (
         <Panel title={t('Profile')}>
-            <Form.Row>
+            <Row>
                 <Form.Group as={Col} md='6' controlId='formGridUsername'>
                     <Form.Label>{t('Username')}</Form.Label>
                     <Form.Control
@@ -136,8 +134,8 @@ const ProfileMain = ({ user, formProps }) => {
                         )}
                     </div>
                 </Form.Group>
-            </Form.Row>
-            <Form.Row>
+            </Row>
+            <Row>
                 <Form.Group as={Col} md='6' controlId='formGridPassword'>
                     <Form.Label>{t('Password')}</Form.Label>
                     <Form.Control
@@ -170,8 +168,8 @@ const ProfileMain = ({ user, formProps }) => {
                         {formProps.errors.passwordAgain}
                     </Form.Control.Feedback>
                 </Form.Group>
-            </Form.Row>
-            <Form.Row>
+            </Row>
+            <Row>
                 <Form.Group as={Col} md='6' controlId='formGridChallongeKey'>
                     <Form.Label>{t('Challonge API Key')}</Form.Label>
                     <Form.Control
@@ -207,7 +205,7 @@ const ProfileMain = ({ user, formProps }) => {
                         {formProps.errors.challongeApiSubdomain}
                     </Form.Control.Feedback>
                 </Form.Group>
-            </Form.Row>
+            </Row>
         </Panel>
     );
 };

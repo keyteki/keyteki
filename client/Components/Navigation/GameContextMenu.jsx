@@ -2,7 +2,6 @@ import React from 'react';
 import { Nav } from 'react-bootstrap';
 import { useSelector, useDispatch } from 'react-redux';
 import { useTranslation, Trans } from 'react-i18next';
-import { toastr } from 'react-redux-toastr';
 import { sendGameMessage, closeGameSocket } from '../../redux/actions';
 import { useState } from 'react';
 
@@ -48,21 +47,19 @@ const GameContextMenu = () => {
 
     const onLeaveClick = () => {
         if (!isSpectating && isGameActive()) {
-            toastr.confirm(
+            const confirmed = window.confirm(
                 t(
                     'Your game is not finished. If you leave you will concede the game. Are you sure you want to leave?'
-                ),
-                {
-                    okText: t('Ok'),
-                    cancelText: t('Cancel'),
-                    onOk: () => {
-                        dispatch(sendGameMessage('concede'));
-                        dispatch(sendGameMessage('leavegame'));
-                        dispatch(closeGameSocket());
-                    }
-                }
+                )
             );
 
+            if (!confirmed) {
+                return;
+            }
+
+            dispatch(sendGameMessage('concede'));
+            dispatch(sendGameMessage('leavegame'));
+            dispatch(closeGameSocket());
             return;
         }
 

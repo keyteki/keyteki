@@ -335,10 +335,11 @@ class ForcedTriggeredAbilityWindow extends BaseStep {
         }
 
         // This card has multiple abilities which can be used in this window - prompt the player to pick one
-        let handlers = menuChoices.map((button) => () =>
-            this.promptBetweenEventCards(
-                choices.filter((context) => this.getAbilityButton(context).key === button.key)
-            )
+        let handlers = menuChoices.map(
+            (button) => () =>
+                this.promptBetweenEventCards(
+                    choices.filter((context) => this.getAbilityButton(context).key === button.key)
+                )
         );
 
         if (this.noOptionalChoices) {

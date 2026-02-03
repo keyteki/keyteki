@@ -2,7 +2,7 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
 import { sendGameMessage } from '../../redux/actions';
-import { toastr } from 'react-redux-toastr';
+import { toast } from 'react-toastify';
 import classNames from 'classnames';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
@@ -166,8 +166,8 @@ const PlayerStats = ({
         if (messagePanel) {
             navigator.clipboard
                 .writeText(messagePanel.innerText)
-                .then(() => toastr.success('Copied game chat to clipboard'))
-                .catch((err) => toastr.error(`Could not copy game chat: ${err}`));
+                .then(() => toast.success('Copied game chat to clipboard'))
+                .catch((err) => toast.error(`Could not copy game chat: ${err}`));
         }
     };
 

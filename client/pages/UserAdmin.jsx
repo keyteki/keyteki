@@ -119,9 +119,8 @@ const UserAdmin = () => {
                         label={permission.label}
                         inline
                         onChange={() => {
-                            currentPermissions[permission.name] = !currentPermissions[
-                                permission.name
-                            ];
+                            currentPermissions[permission.name] =
+                                !currentPermissions[permission.name];
                             let newPermissions = Object.assign({}, currentPermissions);
                             setCurrentPermissions(newPermissions);
                         }}
@@ -292,7 +291,7 @@ const UserAdmin = () => {
                                 {user?.permissions.canManagePermissions ? (
                                     <Panel title='Permissions'>
                                         <Form.Group>
-                                            <Form.Row>{permissionsCheckBoxes}</Form.Row>
+                                            <Row>{permissionsCheckBoxes}</Row>
                                         </Form.Group>
                                     </Panel>
                                 ) : null}

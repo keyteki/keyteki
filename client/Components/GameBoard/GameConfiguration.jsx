@@ -1,8 +1,8 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
+import { Form, Row } from 'react-bootstrap';
 
 import Panel from '../Site/Panel';
-import { Form } from 'react-bootstrap';
 
 const GameConfiguration = ({ optionSettings, onOptionSettingToggle }) => {
     const { t } = useTranslation();
@@ -11,7 +11,7 @@ const GameConfiguration = ({ optionSettings, onOptionSettingToggle }) => {
         <div>
             <Form>
                 <Panel title={t('Game Settings')}>
-                    <Form.Row>
+                    <Row>
                         <Form.Check
                             id='orderForcedAbilities'
                             name='optionSettings.orderForcedAbilities'
@@ -42,7 +42,7 @@ const GameConfiguration = ({ optionSettings, onOptionSettingToggle }) => {
                                 onOptionSettingToggle('useHalfSizedCards', event.target.checked)
                             }
                         />
-                    </Form.Row>
+                    </Row>
                 </Panel>
             </Form>
         </div>
