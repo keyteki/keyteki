@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import classNames from 'classnames';
-import 'jquery-migrate';
 import { useDrag } from 'react-dnd';
 
 import CardMenu from './CardMenu';

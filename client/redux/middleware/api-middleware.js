@@ -1,5 +1,6 @@
 import $ from 'jquery';
-import { setAuthTokens, authenticateSocket } from '../actions';
+import { setAuthTokens } from '../actions/account';
+import { lobbyAuthenticateRequested } from '../socketActions';
 import { Api } from '../types';
 
 export default function callAPIMiddleware({ dispatch, getState }) {
@@ -74,7 +75,7 @@ export default function callAPIMiddleware({ dispatch, getState }) {
                 dispatch(
                     setAuthTokens(authResponse.token, state.auth.refreshToken, authResponse.user)
                 );
-                dispatch(authenticateSocket());
+                dispatch(lobbyAuthenticateRequested());
 
                 apiParams.headers = {
                     Authorization: `Bearer ${authResponse.token}`

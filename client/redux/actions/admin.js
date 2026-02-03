@@ -1,4 +1,5 @@
 import { Admin } from '../types';
+import { lobbySendMessage } from '../socketActions';
 
 export function findUser(username) {
     return {
@@ -9,14 +10,8 @@ export function findUser(username) {
 }
 
 export function clearUserSessions(username) {
-    return (dispatch, getState) => {
-        var socket = getState().lobby.socket;
-
-        if (!socket) {
-            return;
-        }
-
-        socket.emit('clearsessions', username);
+    return (dispatch) => {
+        dispatch(lobbySendMessage('clearsessions', username));
     };
 }
 

@@ -13,17 +13,16 @@ import {
     addBlockListEntry,
     clearApiStatus,
     loadBlockList,
-    removeBlockListEntry,
-    sendSocketMessage
+    removeBlockListEntry
 } from '../redux/actions';
 import { UserAction } from '../redux/types';
+import { lobbyAuthenticateRequested } from '../redux/socketActions';
 
 import './BlockList.scss';
 
 const BlockList = () => {
-    const { user, token } = useSelector((state) => ({
-        user: state.account.user,
-        token: state.account.token
+    const { user } = useSelector((state) => ({
+        user: state.account.user
     }));
     const dispatch = useDispatch();
     const { t } = useTranslation();
@@ -49,7 +48,7 @@ const BlockList = () => {
 
             setTimeout(() => {
                 dispatch(clearApiStatus(UserAction.DeleteBlockList));
-                dispatch(sendSocketMessage('authenticate', token));
+                dispatch(lobbyAuthenticateRequested());
             }, 5000);
         }
 

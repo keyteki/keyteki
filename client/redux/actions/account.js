@@ -1,4 +1,9 @@
-import { connectLobby, authenticateSocket } from '.';
+import {
+    gameCloseRequested,
+    lobbyAuthenticateRequested,
+    lobbyConnectRequested,
+    lobbyDisconnectRequested
+} from '../socketActions';
 import { Account } from '../types';
 
 export function registerAccount(user) {
@@ -54,14 +59,12 @@ export function logout() {
         }
 
         if (state.lobby.socket) {
-            state.lobby.socket.closing = true;
-            state.lobby.socket.disconnect();
-
-            dispatch(connectLobby());
+            dispatch(lobbyDisconnectRequested());
+            dispatch(lobbyConnectRequested());
         }
 
         if (state.games.socket) {
-            state.games.socket.disconnect();
+            dispatch(gameCloseRequested());
         }
 
         return dispatch(logoutAccount(state.auth.refreshToken.id));
@@ -138,7 +141,7 @@ export function authenticate() {
     return (dispatch) => {
         dispatch(verifyAuthentication());
 
-        return dispatch(authenticateSocket());
+        return dispatch(lobbyAuthenticateRequested());
     };
 }
 

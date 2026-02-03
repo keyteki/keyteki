@@ -8,7 +8,8 @@ import Login from '../Components/Login';
 import Panel from '../Components/Site/Panel';
 import ApiStatus from '../Components/Site/ApiStatus';
 import { Auth } from '../redux/types';
-import { loginAccount, clearApiStatus, authenticateSocket } from '../redux/actions';
+import { loginAccount, clearApiStatus } from '../redux/actions';
+import { lobbyAuthenticateRequested } from '../redux/socketActions';
 
 const LoginContainer = () => {
     const dispatch = useDispatch();
@@ -24,7 +25,7 @@ const LoginContainer = () => {
 
             setTimeout(() => {
                 dispatch(clearApiStatus(Auth.LoginAccount));
-                dispatch(authenticateSocket());
+                dispatch(lobbyAuthenticateRequested());
                 navigate('/');
             }, 500);
         }

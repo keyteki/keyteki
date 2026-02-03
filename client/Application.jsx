@@ -12,13 +12,13 @@ import { tryParseJSON } from './util.jsx';
 import AlertPanel from './Components/Site/AlertPanel';
 import {
     authenticate,
-    connectLobby,
     loadCards,
     loadFactions,
     loadStandaloneDecks,
-    setAuthTokens,
-    setWindowBlur
+    setAuthTokens
 } from './redux/actions';
+import { lobbyConnectRequested } from './redux/socketActions';
+import { lobbyActions } from './redux/slices/lobbySlice';
 
 import Background from './assets/img/bgs/keyforge.png';
 import BlankBg from './assets/img/bgs/blank.png';
@@ -83,10 +83,14 @@ const Application = () => {
 
         $(document).ajaxError(handleAjaxError);
 
-        dispatch(connectLobby());
+        dispatch(lobbyConnectRequested());
 
         const onFocusChange = (event) => {
-            dispatch(setWindowBlur(event.type));
+            if (event.type === 'blur') {
+                dispatch(lobbyActions.windowBlur());
+            } else {
+                dispatch(lobbyActions.windowFocus());
+            }
         };
 
         window.addEventListener('focus', onFocusChange);

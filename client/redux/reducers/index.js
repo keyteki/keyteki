@@ -1,26 +1,26 @@
 import { combineReducers } from 'redux';
 import auth from './auth';
 import cards from './cards';
-import games from './games';
+import games from '../slices/gamesSlice';
 import challonge from './challonge';
-import news from './news';
-import api from './api';
+import apiReducer from './api';
 import admin from './admin';
 import user from './user';
 import account from './account';
-import lobby from './lobby';
+import lobby from '../slices/lobbySlice';
+import { api as rtkApi } from '../api';
 
 const rootReducer = combineReducers({
     auth,
     cards,
     games,
-    news,
     challonge,
-    api,
+    api: apiReducer,
     admin,
     user,
     account,
-    lobby
+    lobby,
+    [rtkApi.reducerPath]: rtkApi.reducer
 });
 
 export default rootReducer;
