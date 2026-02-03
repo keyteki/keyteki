@@ -13,12 +13,14 @@ import Panel from '../Site/Panel';
 
 import './GameLobby.scss';
 import { useEffect } from 'react';
-import { startNewGame, joinPasswordGame, sendSocketMessage, setUrl } from '../../redux/actions';
+import { startNewGame, joinPasswordGame, sendSocketMessage } from '../../redux/actions';
 import { useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const GameLobby = ({ gameId }) => {
     const { t } = useTranslation();
     const dispatch = useDispatch();
+    const navigate = useNavigate();
     const filters = [
         { name: 'beginner', label: t('Beginner') },
         { name: 'casual', label: t('Casual') },
@@ -88,9 +90,9 @@ const GameLobby = ({ gameId }) => {
                     }
                 }
             }
-            dispatch(setUrl('/play'));
+            navigate('/play', { replace: true });
         }
-    }, [currentGame, dispatch, gameId, games, t]);
+    }, [currentGame, dispatch, gameId, games, navigate, t]);
 
     return (
         <Col md={{ offset: 2, span: 8 }}>

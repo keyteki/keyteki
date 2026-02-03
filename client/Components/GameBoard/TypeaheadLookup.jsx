@@ -24,6 +24,7 @@ const TypeaheadLookup = (props) => {
         <div>
             <Typeahead
                 labelKey={'label'}
+                id={props.id || 'typeahead-lookup'}
                 options={props.values}
                 dropup
                 onChange={(selectedValues) => setSelectedValue(selectedValues[0])}
