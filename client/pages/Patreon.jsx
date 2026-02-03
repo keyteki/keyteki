@@ -1,81 +1,64 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
-import * as actions from '../redux/actions';
+import { clearLinkStatus, linkPatreon } from '../redux/actions';
 import AlertPanel from '../Components/Site/AlertPanel';
 import ApiStatus from '../Components/Site/ApiStatus';
-import withRouter from '../router/withRouter';
+import { useNavigate } from 'react-router-dom';
 
-class Patreon extends React.Component {
-    constructor(props) {
-        super(props);
+const Patreon = ({ code }) => {
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+    const [successMessage, setSuccessMessage] = useState('');
+    const { accountLinked, apiState } = useSelector((state) => ({
+        accountLinked: state.account.accountLinked,
+        apiState: state.api.ACCOUNT_LINK_REQUEST || {}
+    }));
 
-        this.state = {};
-    }
+    useEffect(() => {
+        if (code) {
+            dispatch(linkPatreon(code));
+        }
+    }, [code, dispatch]);
 
-    componentDidMount() {
-        if (!this.props.code) {
+    useEffect(() => {
+        if (!accountLinked) {
             return;
         }
 
-        this.props.linkPatreon(this.props.code);
-    }
+        setSuccessMessage(
+            'Your account was linked successfully.  Sending you back to the profile page.'
+        );
 
-    // eslint-disable-next-line camelcase
-    UNSAFE_componentWillReceiveProps(props) {
-        if (props.accountLinked) {
-            this.setState({
-                successMessage:
-                    'Your account was linked successfully.  Sending you back to the profile page.'
-            });
+        const timeoutId = setTimeout(() => {
+            dispatch(clearLinkStatus());
+            navigate('/profile');
+        }, 5000);
 
-            setTimeout(() => {
-                this.props.clearLinkStatus();
-                this.props.navigate('/profile');
-            }, 5000);
-        }
-    }
+        return () => clearTimeout(timeoutId);
+    }, [accountLinked, dispatch, navigate]);
 
-    render() {
-        if (!this.props.code) {
-            return (
-                <AlertPanel
-                    type='error'
-                    message='This page is not intended to be viewed directly.  Please click on one of the links at the top of the page or your browser back button to return to the site.'
-                />
-            );
-        }
-
+    if (!code) {
         return (
-            <div>
-                <ApiStatus
-                    apiState={this.props.apiState}
-                    successMessage={this.state.successMessage}
-                />
-                {this.props.apiState.loading && (
-                    <div>Please wait while we verify your details..</div>
-                )}
-            </div>
+            <AlertPanel
+                type='error'
+                message='This page is not intended to be viewed directly.  Please click on one of the links at the top of the page or your browser back button to return to the site.'
+            />
         );
     }
-}
+
+    return (
+        <div>
+            <ApiStatus apiState={apiState} successMessage={successMessage} />
+            {apiState.loading && <div>Please wait while we verify your details..</div>}
+        </div>
+    );
+};
 
 Patreon.propTypes = {
-    accountLinked: PropTypes.bool,
-    apiState: PropTypes.object,
-    clearLinkStatus: PropTypes.func,
-    code: PropTypes.string.isRequired,
-    linkPatreon: PropTypes.func,
-    navigate: PropTypes.func
+    code: PropTypes.string.isRequired
 };
 Patreon.displayName = 'Patreon';
 
-function mapStateToProps(state) {
-    return {
-        accountLinked: state.account.accountLinked,
-        apiState: state.api.ACCOUNT_LINK_REQUEST || {}
-    };
-}
-
-export default withRouter(connect(mapStateToProps, actions)(Patreon));
+export default Patreon;
