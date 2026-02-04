@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 import * as fabricModule from 'fabric';
 
-const fabric = fabricModule.fabric ?? fabricModule;
+const fabric = fabricModule.fabric ?? fabricModule.default ?? fabricModule;
 import { buildCard } from '../../archonMaker';
 
 import './CardImage.scss';
@@ -27,14 +27,6 @@ const CardImage = ({ card, cardBack, size, halfSize, onMouseOver, onMouseOut }) 
             : true;
     const fabricRef = useRef(null);
     const renderIdRef = useRef(0);
-    const warnRef = useRef(false);
-
-    const logProdError = (...args) => {
-        if (import.meta.env.PROD) {
-            console.error(...args);
-        }
-    };
-
     const setCanvasRef = useCallback((node) => {
         if (!node) {
             if (fabricRef.current) {
@@ -48,8 +40,7 @@ const CardImage = ({ card, cardBack, size, halfSize, onMouseOver, onMouseOut }) 
             try {
                 fabricRef.current = new fabric.StaticCanvas(node);
                 fabricRef.current.renderOnAddRemove = false;
-            } catch (err) {
-                logProdError('CardImage failed to init fabric canvas', err);
+            } catch {
                 fabricRef.current = null;
             }
         }
@@ -58,9 +49,6 @@ const CardImage = ({ card, cardBack, size, halfSize, onMouseOver, onMouseOut }) 
     useEffect(() => {
         const canvas = fabricRef.current;
         if (!canvas || !card || card.facedown) {
-            if (!canvas && card && !warnRef.current) {
-                warnRef.current = true;
-            }
             return;
         }
 
@@ -80,8 +68,8 @@ const CardImage = ({ card, cardBack, size, halfSize, onMouseOver, onMouseOut }) 
                     showAccolades,
                     url
                 });
-            } catch (err) {
-                logProdError('CardImage buildCard failed', err);
+            } catch {
+                // ignore
             }
 
             if (renderId !== renderIdRef.current) {

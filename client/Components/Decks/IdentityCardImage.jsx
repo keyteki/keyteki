@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import * as fabricModule from 'fabric';
 
-const fabric = fabricModule.fabric ?? fabricModule;
+const fabric = fabricModule.fabric ?? fabricModule.default ?? fabricModule;
 
 import './Archon.scss';
 import { buildDeckList } from '../../archonMaker';
@@ -17,14 +17,7 @@ import { buildDeckList } from '../../archonMaker';
  */
 const IdentityCardImage = ({ deck, size, showAccolades = true }) => {
     const fabricRef = useRef();
-    const warnRef = useRef(false);
     const { t, i18n } = useTranslation();
-
-    const logProdError = (...args) => {
-        if (import.meta.env.PROD) {
-            console.error(...args);
-        }
-    };
 
     const setCanvasRef = useCallback((node) => {
         if (!node) {
@@ -39,8 +32,7 @@ const IdentityCardImage = ({ deck, size, showAccolades = true }) => {
             try {
                 fabricRef.current = new fabric.StaticCanvas(node);
                 fabricRef.current.renderOnAddRemove = false;
-            } catch (err) {
-                logProdError('IdentityCardImage failed to init fabric canvas', err);
+            } catch {
                 fabricRef.current = null;
             }
         }
@@ -49,9 +41,6 @@ const IdentityCardImage = ({ deck, size, showAccolades = true }) => {
     useEffect(() => {
         const canvas = fabricRef.current;
         if (!canvas || !deck) {
-            if (!canvas && deck && !warnRef.current) {
-                warnRef.current = true;
-            }
             return;
         }
 
@@ -59,8 +48,8 @@ const IdentityCardImage = ({ deck, size, showAccolades = true }) => {
         (async () => {
             try {
                 await buildDeckList(canvas, deck, i18n.language, t, size, showAccolades);
-            } catch (err) {
-                logProdError('IdentityCardImage buildDeckList failed', err);
+            } catch {
+                // ignore
             }
         })();
     }, [deck?.uuid, i18n.language, t, size, showAccolades, deck]);
