@@ -25,7 +25,7 @@ describe('Exterminate!Exterminate!', function () {
 
             // Now select a creature with power < 7 to destroy
             expect(this.player1).toHavePrompt(
-                'Zorg (7 power) chosen - choose a non-Mars creature with less power to destroy'
+                'Choose a non-Mars creature with less than 7 power to destroy'
             );
             expect(this.player1).toBeAbleToSelect(this.commanderRemiel); // power 3
             expect(this.player1).toBeAbleToSelect(this.sequis); // power 4
@@ -42,7 +42,7 @@ describe('Exterminate!Exterminate!', function () {
 
             // Now select a creature with power < 9 to destroy
             expect(this.player1).toHavePrompt(
-                'Yxilx Dominator (9 power) chosen - choose a non-Mars creature with less power to destroy'
+                'Choose a non-Mars creature with less than 9 power to destroy'
             );
             expect(this.player1).toBeAbleToSelect(this.commanderRemiel); // power 3
             expect(this.player1).not.toBeAbleToSelect(this.sequis); // already marked
