@@ -1,4 +1,4 @@
-import { fabric } from 'fabric';
+import * as fabric from 'fabric';
 import QRCode from 'qrcode';
 
 import { Constants } from './constants';
@@ -29,6 +29,7 @@ let DefaultCard;
 let MaverickCornerImage;
 let Tokens = {};
 let cacheLoaded = false;
+let cachePromise;
 let Rarities = {};
 
 const imgOptions = {
@@ -37,7 +38,7 @@ const imgOptions = {
     hasBorders: false,
     hasRotatingPoint: false,
     noScaleCache: false,
-    objectCaching: false
+    objectCaching: true
 };
 const fontProps = {
     fontWeight: 600,
@@ -45,7 +46,7 @@ const fontProps = {
     textAlign: 'left',
     fontSize: 10,
     enableRetinaScaling: true,
-    objectCaching: false,
+    objectCaching: true,
     noScaleCache: false,
     selectable: false,
     hasControls: false,
@@ -136,67 +137,90 @@ export const loadImage = (url) => {
     });
 };
 
+const initCanvas = (canvas) => {
+    canvas.renderOnAddRemove = false;
+};
+
 async function cacheImages() {
-    for (let [house, path] of Object.entries(Constants.HouseIconPaths)) {
-        await loadImage(path).then((image) => {
-            HouseIcons[house] = image;
-        });
+    if (cacheLoaded) {
+        return;
     }
 
-    for (let [type, path] of Object.entries(Constants.CardTypesPaths)) {
-        await loadImage(path).then((image) => {
-            CardTypesIcons[type] = image;
-        });
+    if (cachePromise) {
+        return cachePromise;
     }
 
-    for (let [house, path] of Object.entries(Constants.IdBackHousePaths)) {
-        await loadImage(path).then((image) => {
-            IdBackHouseIcons[house] = image;
-        });
-    }
+    const loadEntries = async (entries, target) =>
+        Promise.all(
+            entries.map(async ([key, path]) => {
+                target[key] = await loadImage(path);
+            })
+        );
 
-    for (let [x, path] of Object.entries(Constants.IdBackBlanksPaths)) {
-        await loadImage(path).then((image) => {
-            IdBackBlanksIcons[x] = image;
-        });
-    }
+    cachePromise = (async () => {
+        await Promise.all([
+            loadEntries(Object.entries(Constants.HouseIconPaths), HouseIcons),
+            loadEntries(Object.entries(Constants.CardTypesPaths), CardTypesIcons),
+            loadEntries(Object.entries(Constants.IdBackHousePaths), IdBackHouseIcons),
+            loadEntries(Object.entries(Constants.IdBackBlanksPaths), IdBackBlanksIcons),
+            loadEntries(Object.entries(Constants.SetIconPaths), SetIcons),
+            loadEntries(Object.entries(Constants.EnhancementBaseImages), EnhancementBaseImages),
+            loadEntries(Object.entries(Constants.EnhancementPips), EnhancementPipImages)
+        ]);
 
-    for (let [key, path] of Object.entries(Constants.SetIconPaths)) {
-        await loadImage(path).then((image) => {
-            SetIcons[key] = image;
-        });
-    }
+        const [
+            tcoIcon,
+            deckListIcon,
+            rarityCommon,
+            rarityRare,
+            raritySpecial,
+            rarityUncommon,
+            rarityEvilTwin,
+            rarityTide,
+            maverickIcon,
+            anomalyIcon,
+            defaultCard,
+            modifiedPowerToken,
+            armorToken,
+            cardBackDecalImage
+        ] = await Promise.all([
+            loadImage(imageUrl('idbacks/tco.png')),
+            loadImage(imageUrl('idbacks/decklist-h.png')),
+            loadImage(imageUrl('idbacks/Common.png')),
+            loadImage(imageUrl('idbacks/Rare.png')),
+            loadImage(imageUrl('idbacks/Special.png')),
+            loadImage(imageUrl('idbacks/Uncommon.png')),
+            loadImage(imageUrl('idbacks/evil-twin.png')),
+            loadImage(imageUrl('idbacks/tide.png')),
+            loadImage(Constants.MaverickIcon),
+            loadImage(Constants.AnomalyIcon),
+            loadImage(Constants.DefaultCard),
+            loadImage(Constants.Tokens.ModifiedPower),
+            loadImage(Constants.Tokens.Armor),
+            cardBackDecal ? loadImage(Constants.IdBackDecals[cardBackDecal]) : undefined
+        ]);
 
-    for (let [key, path] of Object.entries(Constants.EnhancementBaseImages)) {
-        await loadImage(path).then((image) => {
-            EnhancementBaseImages[key] = image;
-        });
-    }
+        if (cardBackDecal && cardBackDecalImage) {
+            IdBackDecals[cardBackDecal] = cardBackDecalImage;
+        }
 
-    for (let [key, path] of Object.entries(Constants.EnhancementPips)) {
-        await loadImage(path).then((image) => {
-            EnhancementPipImages[key] = image;
-        });
-    }
+        TCOIcon = tcoIcon;
+        DeckListIcon = deckListIcon;
+        Rarities.Common = rarityCommon;
+        Rarities.Token = Rarities.Rare = rarityRare;
+        Rarities.Special = raritySpecial;
+        Rarities.Uncommon = rarityUncommon;
+        Rarities['Evil Twin'] = rarityEvilTwin;
+        Rarities['The Tide'] = rarityTide;
+        MaverickIcon = maverickIcon;
+        AnomalyIcon = anomalyIcon;
+        DefaultCard = defaultCard;
+        Tokens.ModifiedPower = modifiedPowerToken;
+        Tokens.armor = armorToken;
+        cacheLoaded = true;
+    })();
 
-    if (cardBackDecal) {
-        IdBackDecals[cardBackDecal] = await loadImage(Constants.IdBackDecals[cardBackDecal]);
-    }
-
-    TCOIcon = await loadImage(imageUrl('idbacks/tco.png'));
-    DeckListIcon = await loadImage(imageUrl('idbacks/decklist-h.png'));
-    Rarities.Common = await loadImage(imageUrl('idbacks/Common.png'));
-    Rarities.Token = Rarities.Rare = await loadImage(imageUrl('idbacks/Rare.png'));
-    Rarities.Special = await loadImage(imageUrl('idbacks/Special.png'));
-    Rarities.Uncommon = await loadImage(imageUrl('idbacks/Uncommon.png'));
-    Rarities['Evil Twin'] = await loadImage(imageUrl('idbacks/evil-twin.png'));
-    Rarities['The Tide'] = await loadImage(imageUrl('idbacks/tide.png'));
-    MaverickIcon = await loadImage(Constants.MaverickIcon);
-    AnomalyIcon = await loadImage(Constants.AnomalyIcon);
-    DefaultCard = await loadImage(Constants.DefaultCard);
-    Tokens.ModifiedPower = await loadImage(Constants.Tokens.ModifiedPower);
-    Tokens.armor = await loadImage(Constants.Tokens.Armor);
-    cacheLoaded = true;
+    return cachePromise;
 }
 
 const cardData = {
@@ -334,6 +358,7 @@ export const buildDeckList = async (
     if (!cacheLoaded) {
         await cacheImages();
     }
+    initCanvas(canvas);
     const width = 840;
     const order = ['action', 'artifact', 'creature', 'upgrade'];
 
@@ -454,7 +479,7 @@ export const buildDeckList = async (
         canvas.add(name);
     }
 
-    for (const [index, house] of deck.houses.sort().entries()) {
+    for (const [index, house] of [...deck.houses].sort().entries()) {
         const houseImage = new fabric.Image(HouseIcons[house].toCanvasElement(), imgOptions);
         houseImage
             .set({
@@ -499,7 +524,10 @@ export const buildDeckList = async (
     cardList
         .sort((a, b) => +a.number - +b.number)
         .sort((a, b) => order.indexOf(a.type) - order.indexOf(b.type))
-        .sort((a, b) => deck.houses.sort().indexOf(a.house) - deck.houses.sort().indexOf(b.house));
+        .sort(
+            (a, b) =>
+                [...deck.houses].sort().indexOf(a.house) - [...deck.houses].sort().indexOf(b.house)
+        );
     for (const [index, card] of cardList.entries()) {
         let x = cardData.start.x,
             y = cardData.start.y + index * 28;
@@ -576,6 +604,7 @@ export const buildCardBack = async (canvas, deck, size, showDeckName) => {
     if (!cacheLoaded) {
         await cacheImages();
     }
+    initCanvas(canvas);
     const width = 300;
     const height = 420;
 
@@ -674,6 +703,7 @@ export const buildCard = async (
     if (!cacheLoaded) {
         await cacheImages();
     }
+    initCanvas(canvas);
     const tokenFontProps = {
         ...fontProps,
         fill: '#fdfbfa',

@@ -6,7 +6,7 @@ const moment = require('moment');
 const _ = require('underscore');
 const sendgrid = require('@sendgrid/mail');
 const fs = require('fs');
-const { fabric } = require('fabric');
+const fabric = require('fabric');
 
 const logger = require('../log.js');
 const { wrapAsync } = require('../util.js');

@@ -16,31 +16,33 @@ const Keys = ({ keys, manualMode }) => {
     const { t } = useTranslation();
     const dispatch = useDispatch();
 
-    let keysToRender = KeyColours.sort((a, b) => {
-        if (keys[a] === keys[b]) {
-            return 0;
-        }
+    let keysToRender = [...KeyColours]
+        .sort((a, b) => {
+            if (keys[a] === keys[b]) {
+                return 0;
+            }
 
-        return keys[a] ? -1 : 1;
-    }).map((colour) => {
-        return (
-            <img
-                className={
-                    keys[colour] && KeyImages[colour].forged
-                        ? 'forged-key'
-                        : 'unforged-key' + ' img-fluid'
-                }
-                key={`key ${colour}`}
-                src={keys[colour] ? KeyImages[colour].forged : KeyImages[colour].unforged}
-                onClick={() => {
-                    if (manualMode) {
-                        dispatch(gameSendMessage('modifyKey', colour, keys[colour]));
+            return keys[a] ? -1 : 1;
+        })
+        .map((colour) => {
+            return (
+                <img
+                    className={
+                        keys[colour] && KeyImages[colour].forged
+                            ? 'forged-key'
+                            : 'unforged-key' + ' img-fluid'
                     }
-                }}
-                title={t('Forged Key')}
-            />
-        );
-    });
+                    key={`key ${colour}`}
+                    src={keys[colour] ? KeyImages[colour].forged : KeyImages[colour].unforged}
+                    onClick={() => {
+                        if (manualMode) {
+                            dispatch(gameSendMessage('modifyKey', colour, keys[colour]));
+                        }
+                    }}
+                    title={t('Forged Key')}
+                />
+            );
+        });
 
     return <div className={`state`}>{keysToRender}</div>;
 };
