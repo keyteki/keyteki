@@ -148,7 +148,7 @@
         flex-direction: column;
         align-items: center;
         margin-bottom: 20px;
-
+        
         &:last-child {
             margin-bottom: 0;
         }
@@ -210,7 +210,7 @@
 
             &.clickable {
                 cursor: pointer;
-
+                
                 &:hover {
                     box-shadow: 0 0 8px 2px rgba(0, 150, 255, 0.5);
                 }
@@ -244,7 +244,7 @@
     margin: auto auto 75px 75px;
     width: 60px;
     height: 84px;
-
+    
     &.prophecy-card {
         margin: 0 !important;
         width: auto;
@@ -260,7 +260,7 @@
     &.tide-low {
         transform: rotate(180deg);
     }
-
+    
     &.can-raise-tide {
         animation: glowing 2000ms infinite;
     }
