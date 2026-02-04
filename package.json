@@ -64,7 +64,7 @@
         "@sentry/node": "^5.26.0",
         "@types/redis": "^2.8.21",
         "@types/socket.io": "^2.1.5",
-        "bcrypt": "^5.1.1",
+        "bcrypt": "^6.0.0",
         "bootstrap": "^5.3.8",
         "buffer": "^6.0.3",
         "canvas": "^3.0.0",
