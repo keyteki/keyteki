@@ -1,39 +1,36 @@
-/**
- * RandomDiscardAction - randomly discard amount of cards from a player's hand,
- * deck, or archives.
- */
 const { EVENTS } = require('../Events/types');
 const PlayerAction = require('./PlayerAction');
 const _ = require('underscore');
 
-class RandomDiscardAction extends PlayerAction {
+/**
+ * DiscardRandomCardsToAmountAction - Discards random cards from a player's hand
+ * until they have at most `amount` cards remaining. The active player chooses
+ * who discards first if there are multiple targets.
+ *
+ * Unlike RandomDiscardAction which discards a fixed number of cards, this
+ * discards until a threshold is reached. This matters when scrap abilities draw
+ * or discard cards.
+ */
+class DiscardRandomCardsToAmountAction extends PlayerAction {
     setDefaultProperties() {
-        this.amount = 1;
-        // hand, deck or archives
-        this.location = 'hand';
+        this.amount = (player) => player.maxHandSize; // Default to hand limit
     }
 
     setup() {
         super.setup();
         this.name = 'discard';
-        this.effectMsg = `discard ${
-            this.amount === 1 ? 'a card' : `${this.amount} cards`
-        } at random from {0}'s ${this.location}`;
+        this.effectMsg = `discard random cards until {0} has ${this.amount} cards in hand`;
     }
 
     canAffect(player, context) {
         if (!player) {
             return false;
         }
-        return (
-            this.getAmount(player) > 0 &&
-            this.getCards(player).length > 0 &&
-            super.canAffect(player, context)
-        );
+        return player.hand.length > this.getAmount(player) && super.canAffect(player, context);
     }
 
     /**
-     * Get the amount to discard for a given player.
+     * Get the target hand size for a given player.
      * Supports both a static number and a function that takes the player.
      */
     getAmount(player) {
@@ -41,17 +38,6 @@ class RandomDiscardAction extends PlayerAction {
             return this.amount(player);
         }
         return this.amount;
-    }
-
-    getCards(player) {
-        switch (this.location) {
-            case 'archives':
-                return player.archives;
-            case 'deck':
-                return player.deck;
-            default:
-                return player.hand;
-        }
     }
 
     getEvent(player, context) {
@@ -78,24 +64,16 @@ class RandomDiscardAction extends PlayerAction {
 
         return super.createEvent(EVENTS.unnamedEvent, { player, context, amount }, (event) => {
             const cardsDiscarded = [];
-            let remainingAmount = event.amount;
 
             const discardNextCard = () => {
-                // Check if amount of cards have been discarded
-                if (remainingAmount <= 0) {
+                // Check current hand size against target amount
+                if (player.hand.length <= amount) {
                     // Done discarding
                     event.cards = cardsDiscarded;
                     return;
                 }
 
-                const availableCards = this.getCards(player);
-                if (availableCards.length === 0) {
-                    // No more cards to discard
-                    event.cards = cardsDiscarded;
-                    return;
-                }
-
-                const randomCard = _.sample(availableCards);
+                const randomCard = _.sample(player.hand);
                 cardsDiscarded.push(randomCard);
                 context.game.addMessage('{0} randomly discards {1}', player, randomCard);
 
@@ -110,7 +88,6 @@ class RandomDiscardAction extends PlayerAction {
                 });
 
                 context.game.queueSimpleStep(() => {
-                    remainingAmount--;
                     discardNextCard();
                 });
             };
@@ -181,4 +158,4 @@ class RandomDiscardAction extends PlayerAction {
     }
 }
 
-module.exports = RandomDiscardAction;
+module.exports = DiscardRandomCardsToAmountAction;
