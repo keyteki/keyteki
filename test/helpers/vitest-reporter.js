@@ -24,7 +24,7 @@ export default class CustomReporter extends DefaultReporter {
 
         // Clean up progress on interrupt
         this._cleanup = () => {
-            if (this._linesWritten) {
+            if (process.stdout.isTTY && this._linesWritten) {
                 process.stdout.write('\x1b[2K\x1b[1A\x1b[2K\x1b[1A\x1b[2K\x1b[1A\x1b[2K\r');
             }
         };
@@ -87,8 +87,10 @@ export default class CustomReporter extends DefaultReporter {
     }
 
     _printFailure(testCase) {
-        // Clear progress lines, print failure, then re-print progress
-        process.stdout.write('\x1b[2K\x1b[1A\x1b[2K\x1b[1A\x1b[2K\x1b[1A\x1b[2K\r');
+        // Only clear progress lines if we have a TTY and wrote them
+        if (process.stdout.isTTY && this._linesWritten) {
+            process.stdout.write('\x1b[2K\x1b[1A\x1b[2K\x1b[1A\x1b[2K\x1b[1A\x1b[2K\r');
+        }
 
         const red = '\x1b[31m';
         const reset = '\x1b[0m';
@@ -112,13 +114,16 @@ export default class CustomReporter extends DefaultReporter {
         }
 
         console.log('');
-        // Re-print the 4 progress lines
-        process.stdout.write('\n\n\n\n');
+        // Re-print the 4 progress lines (only needed for TTY)
+        if (process.stdout.isTTY) {
+            process.stdout.write('\n\n\n\n');
+        }
     }
 
     _printProgress(force = false) {
         // Skip all progress updates in DEBUG_TEST mode to keep output stable
-        if (process.env.DEBUG_TEST) {
+        // Also skip in CI (no TTY) since ANSI escape codes don't work there
+        if (process.env.DEBUG_TEST || !process.stdout.isTTY) {
             return;
         }
 
@@ -178,8 +183,8 @@ export default class CustomReporter extends DefaultReporter {
         process.off('SIGTERM', this._cleanup);
         this._progressStarted = false;
 
-        // Clear the four progress lines if we wrote them
-        if (this._linesWritten) {
+        // Clear the four progress lines if we wrote them (TTY only)
+        if (process.stdout.isTTY && this._linesWritten) {
             process.stdout.write('\x1b[2K\x1b[1A\x1b[2K\x1b[1A\x1b[2K\x1b[1A\x1b[2K\r');
             this._linesWritten = false;
         }
