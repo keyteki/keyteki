@@ -74,7 +74,7 @@ if (isProd && sentryDsn) {
 
             return event;
         },
-        release: import.meta.env.VERSION || 'Local build',
+        release: import.meta.env.VITE_VERSION || 'Local build',
         environment: import.meta.env.MODE
     };
 

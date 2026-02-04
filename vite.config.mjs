@@ -15,7 +15,7 @@ export default defineConfig(({ mode }) => ({
                       project: process.env.SENTRY_PROJECT,
                       authToken: process.env.SENTRY_AUTH_TOKEN,
                       release: {
-                          name: process.env.VERSION || 'Local build'
+                          name: process.env.VITE_VERSION || process.env.VERSION || 'Local build'
                       },
                       sourcemaps: {
                           assets: './dist/**',
@@ -46,12 +46,16 @@ export default defineConfig(({ mode }) => ({
         process: {
             env: {
                 NODE_ENV: mode,
-                VERSION: process.env.VERSION || 'development'
+                VERSION: process.env.VERSION || process.env.VITE_VERSION || 'development'
             }
         },
         'process.env.NODE_ENV': JSON.stringify(mode),
-        'process.env.VERSION': JSON.stringify(process.env.VERSION || 'development'),
-        'import.meta.env.VERSION': JSON.stringify(process.env.VERSION || 'development')
+        'process.env.VERSION': JSON.stringify(
+            process.env.VERSION || process.env.VITE_VERSION || 'development'
+        ),
+        'import.meta.env.VITE_VERSION': JSON.stringify(
+            process.env.VITE_VERSION || process.env.VERSION || 'development'
+        )
     },
     build: {
         sourcemap: true,
