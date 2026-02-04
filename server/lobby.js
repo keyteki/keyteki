@@ -951,8 +951,21 @@ class Lobby {
         this.sendGameState(newGame);
         this.broadcastGameMessage('newgame', newGame);
 
+        const ownerDeck =
+            owner.deck || (oldGame.players || []).find((x) => x.name === owner.name)?.deck;
+
+        if (!ownerDeck || !ownerDeck.id) {
+            logger.error(`Tried to rematch but ${owner.name} has no deck selected`);
+            return;
+        }
+
         let promises = [
-            this.onSelectDeck(socket, newGame.id, owner.deck.id, owner.deck.isStandalone)
+            this.onSelectDeck(
+                socket,
+                newGame.id,
+                ownerDeck.id,
+                ownerDeck.isStandalone || ownerDeck.is_standalone
+            )
         ];
 
         for (let player of Object.values(game.getPlayers()).filter(
@@ -967,9 +980,22 @@ class Lobby {
                 continue;
             }
 
+            const playerDeck =
+                player.deck || (oldGame.players || []).find((x) => x.name === player.name)?.deck;
+
+            if (!playerDeck || !playerDeck.id) {
+                logger.warn(`Tried to rematch but ${player.name} has no deck selected`);
+                continue;
+            }
+
             newGame.join(socket.id, player.user);
             promises.push(
-                this.onSelectDeck(socket, newGame.id, player.deck.id, player.deck.isStandalone)
+                this.onSelectDeck(
+                    socket,
+                    newGame.id,
+                    playerDeck.id,
+                    playerDeck.isStandalone || playerDeck.is_standalone
+                )
             );
         }
 
@@ -1053,6 +1079,21 @@ class Lobby {
         socket.joinChannel(newGame.id);
         this.sendGameState(newGame);
         this.broadcastGameMessage('newgame', newGame);
+
+        const ownerDeck =
+            owner.deck || (oldGame.players || []).find((x) => x.name === owner.name)?.deck;
+
+        if (!ownerDeck || !ownerDeck.id) {
+            logger.error(`Tried to rematch with new decks but ${owner.name} has no deck selected`);
+            return;
+        }
+
+        this.onSelectDeck(
+            socket,
+            newGame.id,
+            ownerDeck.id,
+            ownerDeck.isStandalone || ownerDeck.is_standalone
+        );
 
         for (let player of Object.values(game.getPlayers()).filter(
             (player) => player.name !== owner.username
