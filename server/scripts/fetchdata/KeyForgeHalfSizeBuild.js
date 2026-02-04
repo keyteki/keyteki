@@ -1,4 +1,4 @@
-const fabric = require('fabric').fabric;
+const { fabric } = require('fabric');
 const fs = require('fs');
 const path = require('path');
 const mkdirp = require('mkdirp');
@@ -60,7 +60,9 @@ const buildHalfSize = async (card, imgPath, filename, language) => {
         width: parameters[card.type].width,
         height: parameters[card.type].height
     });
+    canvas.renderOnAddRemove = false;
     const canvasFinal = new fabric.StaticCanvas(null, { width: 300, height: 262.5 });
+    canvasFinal.renderOnAddRemove = false;
     let framePath = assetsPath + `/${card.house}_Frame`;
     if (card.type === 'upgrade') framePath += '_b';
     else if (card.type.includes('creature')) framePath += '_c';

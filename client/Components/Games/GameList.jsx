@@ -161,7 +161,7 @@ const GameList = (props) => {
             if (players.length === 1) {
                 if (canJoin(game)) {
                     players.push(
-                        <div key={players[0].name} className={'game-player-row other-player'}>
+                        <div key={`${game.id}-join`} className={'game-player-row other-player'}>
                             <div className='game-faction-row other-player'>
                                 <button
                                     className='btn btn-success gamelist-button img-fluid'
@@ -174,7 +174,7 @@ const GameList = (props) => {
                     );
                 } else {
                     players.push(
-                        <div key={players[0].name} className='game-faction-row other-player' />
+                        <div key={`${game.id}-empty`} className='game-faction-row other-player' />
                     );
                 }
             }

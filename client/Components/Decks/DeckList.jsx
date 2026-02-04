@@ -157,7 +157,10 @@ const DeckList = ({
         [buildFilters]
     );
 
-    useGetDecksQuery(pagingDetails, { skip: standaloneDecks || !hasAuth });
+    useGetDecksQuery(pagingDetails, {
+        skip: standaloneDecks || !hasAuth,
+        refetchOnMountOrArgChange: true
+    });
     useGetStandaloneDecksQuery(undefined, { skip: !standaloneDecks });
 
     const onRowClick = (deck) => {

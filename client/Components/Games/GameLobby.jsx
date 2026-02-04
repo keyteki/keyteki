@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { toast } from 'react-toastify';
 import { Trans, useTranslation } from 'react-i18next';
@@ -22,22 +22,27 @@ const GameLobby = ({ gameId }) => {
     const { t } = useTranslation();
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const filters = [
-        { name: 'beginner', label: t('Beginner') },
-        { name: 'casual', label: t('Casual') },
-        { name: 'competitive', label: t('Competitive') },
-        { name: 'normal', label: t('Normal') },
-        { name: 'sealed', label: t('Sealed') },
-        { name: 'reversal', label: t('Reversal') },
-        { name: 'adaptive-bo1', label: t('Adaptive (Bo1)') },
-        { name: 'alliance', label: t('Alliance') },
-        { name: 'unchained', label: t('Unchained') }
-    ];
-    const filterDefaults = {};
-
-    for (const filter of filters) {
-        filterDefaults[filter.name] = true;
-    }
+    const filters = useMemo(
+        () => [
+            { name: 'beginner', label: t('Beginner') },
+            { name: 'casual', label: t('Casual') },
+            { name: 'competitive', label: t('Competitive') },
+            { name: 'normal', label: t('Normal') },
+            { name: 'sealed', label: t('Sealed') },
+            { name: 'reversal', label: t('Reversal') },
+            { name: 'adaptive-bo1', label: t('Adaptive (Bo1)') },
+            { name: 'alliance', label: t('Alliance') },
+            { name: 'unchained', label: t('Unchained') }
+        ],
+        [t]
+    );
+    const filterDefaults = useMemo(() => {
+        const defaults = {};
+        for (const filter of filters) {
+            defaults[filter.name] = true;
+        }
+        return defaults;
+    }, [filters]);
 
     const { games, newGame, currentGame, passwordGame } = useSelector((state) => ({
         games: state.lobby.games,

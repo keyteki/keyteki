@@ -164,7 +164,7 @@ const AllianceBuilderPage = () => {
                 >
                     <span>{d.name}</span>
                     <div className='mt-2 d-flex align-items-center'>
-                        {d.houses.sort().map((h) => {
+                        {[...d.houses].sort().map((h) => {
                             let selection = [...selectedPods];
                             let selectionKey = `${d.uuid}:${h}`;
                             let imgClass = 'alliance-house';
