@@ -722,10 +722,11 @@ class PlayerInteractionWrapper {
     }
 
     checkUnserializableGameState() {
-        // Skip expensive serialization check unless explicitly enabled
-        // This check takes ~20% of test time - enable with CHECK_SERIALIZABLE=1
-        if (!process.env.CHECK_SERIALIZABLE) {
-            return;
+        // Skip expensive serialization check unless in CI
+        // This check takes ~15% of test time
+        if (!process.env.CI) {
+            throw new Error('Skipping unserializable game state check outside of CI');
+            // return;
         }
 
         let state = this.game.getState(this.player.name);

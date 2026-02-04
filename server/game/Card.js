@@ -919,18 +919,14 @@ class Card extends EffectSource {
     }
 
     isBlank() {
-        // Direct check without going through anyEffect() to avoid overhead
-        // 'blank' is in unblankableEffects so the blank-check in anyEffect is redundant
         return this.effects.some((effect) => effect.type === 'blank');
     }
 
     isBlankFight() {
-        // Direct check without going through anyEffect() to avoid overhead
         return this.effects.some((effect) => effect.type === 'blankFight');
     }
 
     isBlankDestroyed() {
-        // Direct check without going through anyEffect() to avoid overhead
         return this.effects.some((effect) => effect.type === 'blankDestroyed');
     }
 

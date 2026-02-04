@@ -39,13 +39,8 @@ class GameObject {
     }
 
     sumEffects(type) {
-        let total = 0;
-        for (const effect of this.effects) {
-            if (effect.type === type) {
-                total += effect.getValue(this);
-            }
-        }
-        return total;
+        let filteredEffects = this.effects.filter((effect) => effect.type === type);
+        return filteredEffects.reduce((total, effect) => total + effect.getValue(this), 0);
     }
 
     anyEffect(type) {
