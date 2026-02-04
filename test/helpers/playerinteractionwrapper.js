@@ -725,7 +725,6 @@ class PlayerInteractionWrapper {
         // Skip expensive serialization check unless in CI
         // This check takes ~15% of test time
         if (process.env.CI || process.env.DEBUG_TEST) {
-            console.log('hiiii');
             return;
         }
 
