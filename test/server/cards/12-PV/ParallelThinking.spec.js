@@ -98,4 +98,56 @@ describe('Parallel Thinking', function () {
             expect(this.player1).isReadyToTakeAction();
         });
     });
+
+    describe('Parallel Thinking with abducted cards', function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'logos',
+                    amber: 0,
+                    inPlay: ['uxlyx-the-zookeeper'],
+                    hand: ['parallel-thinking']
+                },
+                player2: {
+                    amber: 4,
+                    inPlay: ['batdrone', 'helper-bot']
+                }
+            });
+            this.player1.makeMaverick(this.uxlyxTheZookeeper, 'logos');
+        });
+
+        it('should not steal when abducted cards return to hand instead of discard', function () {
+            // Zookeeper abducts first creature
+            this.player1.reap(this.uxlyxTheZookeeper);
+            this.player1.clickCard(this.batdrone);
+            expect(this.player1.archives).toContain(this.batdrone);
+
+            // Next turn - abduct second creature
+            this.player1.endTurn();
+            this.player2.clickPrompt('logos');
+            this.player2.endTurn();
+            this.player1.clickPrompt('logos');
+            this.player1.clickPrompt('No');
+            this.player1.reap(this.uxlyxTheZookeeper);
+            this.player1.clickCard(this.helperBot);
+            expect(this.player1.archives).toContain(this.helperBot);
+
+            // Play Parallel Thinking to discard from archives
+            this.player1.play(this.parallelThinking);
+            this.player1.clickPrompt('My Archives');
+
+            // Abducted cards should return to owner's hand, not discard
+            expect(this.batdrone.location).toBe('hand');
+            expect(this.helperBot.location).toBe('hand');
+            expect(this.player2.hand).toContain(this.batdrone);
+            expect(this.player2.hand).toContain(this.helperBot);
+            expect(this.player2.discard).not.toContain(this.batdrone);
+            expect(this.player2.discard).not.toContain(this.helperBot);
+
+            // No steal since cards went to hand
+            expect(this.player1.amber).toBe(2);
+            expect(this.player2.amber).toBe(4);
+            expect(this.player1).isReadyToTakeAction();
+        });
+    });
 });

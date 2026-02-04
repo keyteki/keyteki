@@ -19,6 +19,11 @@ class AbductAction extends CardGameAction {
             // to redirect the card to owner's hand when leaving archives.
             card.abducted = true;
 
+            // For gigantic creatures, mark both halves as abducted
+            if (card.composedPart) {
+                card.composedPart.abducted = true;
+            }
+
             // Move the card to archives
             if (card.location === 'play area') {
                 context.game.raiseEvent(EVENTS.onCardLeavesPlay, { card, context }, () =>

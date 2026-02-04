@@ -37,6 +37,20 @@ class PlayerInteractionWrapper {
         }
     }
 
+    get keys() {
+        return this.player.keys;
+    }
+
+    set keys(newValue) {
+        this.player.keys = {
+            red: newValue?.red ?? false,
+            blue: newValue?.blue ?? false,
+            yellow: newValue?.yellow ?? false
+        };
+        this.game.continue();
+        this.checkUnserializableGameState();
+    }
+
     get hand() {
         return this.player.hand;
     }
