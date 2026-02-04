@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
-import { fabric } from 'fabric';
+import * as fabric from 'fabric';
 import { buildCard } from '../../archonMaker';
 
 import './CardImage.scss';

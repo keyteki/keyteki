@@ -1,7 +1,7 @@
 /*eslint no-console:0 */
 const fs = require('fs');
 const request = require('request');
-const { fabric } = require('fabric');
+const fabric = require('fabric');
 const path = require('path');
 const KeyForgeHalfSizeBuild = require('./KeyForgeHalfSizeBuild');
 

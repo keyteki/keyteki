@@ -1,4 +1,4 @@
-import { fabric } from 'fabric';
+import * as fabric from 'fabric';
 import QRCode from 'qrcode';
 
 import { Constants } from './constants';

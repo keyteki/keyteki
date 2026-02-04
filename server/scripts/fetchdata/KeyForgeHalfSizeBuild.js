@@ -1,4 +1,4 @@
-const { fabric } = require('fabric');
+const fabric = require('fabric');
 const fs = require('fs');
 const path = require('path');
 const mkdirp = require('mkdirp');

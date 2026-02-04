@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useRef } from 'react';
-import { fabric } from 'fabric';
+import * as fabric from 'fabric';
 import { buildCardBack } from '../../archonMaker';
 
 import './Archon.scss';

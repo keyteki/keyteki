@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
-import { fabric } from 'fabric';
+import * as fabric from 'fabric';
 
 import './Archon.scss';
 import { buildDeckList } from '../../archonMaker';
