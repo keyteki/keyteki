@@ -13,7 +13,8 @@ import Panel from '../Site/Panel';
 
 import './GameLobby.scss';
 import { useEffect } from 'react';
-import { startNewGame, joinPasswordGame, sendSocketMessage } from '../../redux/actions';
+import { lobbyActions } from '../../redux/slices/lobbySlice';
+import { lobbySendMessage } from '../../redux/socketActions';
 import { useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 
@@ -58,9 +59,9 @@ const GameLobby = ({ gameId }) => {
 
         let filter = localStorage.getItem('gameFilter');
         if (filter) {
-            setCurrentFilter(JSON.parse(filter));
+            setCurrentFilter({ ...filterDefaults, ...JSON.parse(filter) });
         }
-    }, []);
+    }, [filterDefaults]);
 
     const onFilterChecked = (name, checked) => {
         currentFilter[name] = checked;
@@ -78,15 +79,15 @@ const GameLobby = ({ gameId }) => {
             } else {
                 if (!game.started && Object.keys(game.players).length < 2) {
                     if (game.needsPassword) {
-                        dispatch(joinPasswordGame(game, 'Join'));
+                        dispatch(lobbyActions.joinPasswordGame({ game, joinType: 'Join' }));
                     } else {
-                        dispatch(sendSocketMessage('joingame', gameId));
+                        dispatch(lobbySendMessage('joingame', gameId));
                     }
                 } else {
                     if (game.needsPassword) {
-                        dispatch(joinPasswordGame(game, 'Watch'));
+                        dispatch(lobbyActions.joinPasswordGame({ game, joinType: 'Watch' }));
                     } else {
-                        dispatch(sendSocketMessage('watchgame', game.id));
+                        dispatch(lobbySendMessage('watchgame', game.id));
                     }
                 }
             }
@@ -116,7 +117,7 @@ const GameLobby = ({ gameId }) => {
                             variant='primary'
                             onClick={() => {
                                 setQuickJoin(false);
-                                dispatch(startNewGame());
+                                dispatch(lobbyActions.startNewGame());
                             }}
                         >
                             <Trans>New Game</Trans>
@@ -126,7 +127,7 @@ const GameLobby = ({ gameId }) => {
                             variant='primary'
                             onClick={() => {
                                 setQuickJoin(true);
-                                dispatch(startNewGame());
+                                dispatch(lobbyActions.startNewGame());
                             }}
                         >
                             <Trans>Quick Join</Trans>
@@ -149,7 +150,7 @@ const GameLobby = ({ gameId }) => {
                                                         event.target.checked
                                                     );
                                                 }}
-                                                checked={currentFilter[filter.name]}
+                                                checked={!!currentFilter[filter.name]}
                                             ></Form.Check>
                                         </Col>
                                     );
@@ -165,7 +166,7 @@ const GameLobby = ({ gameId }) => {
                                         onChange={(event) => {
                                             onFilterChecked('onlyShowNew', event.target.checked);
                                         }}
-                                        checked={currentFilter['onlyShowNew']}
+                                        checked={!!currentFilter['onlyShowNew']}
                                     ></Form.Check>
                                 </Col>
                             </Row>

@@ -8,25 +8,14 @@ import Link from '../Components/Navigation/Link';
 import DeckList from '../Components/Decks/DeckList';
 import ViewDeck from '../Components/Decks/ViewDeck';
 import ApiStatus from '../Components/Site/ApiStatus';
-import { Decks } from '../redux/types';
-import { clearApiStatus } from '../redux/actions';
+import { cardsActions } from '../redux/slices/cardsSlice';
 
 const DecksComponent = () => {
     const { t } = useTranslation();
     const dispatch = useDispatch();
-    const apiState = useSelector((state) => {
-        const retState = state.api[Decks.DeleteDeck];
-
-        if (retState && retState.success) {
-            retState.message = t('Deck deleted successfully');
-
-            setTimeout(() => {
-                dispatch(clearApiStatus(Decks.DeleteDeck));
-            }, 1000);
-        }
-
-        return retState;
-    });
+    const apiState = useSelector((state) =>
+        state.cards.deckDeleted ? { success: true, message: t('Deck deleted successfully') } : null
+    );
     const { selectedDeck } = useSelector((state) => ({
         selectedDeck: state.cards.selectedDeck
     }));
@@ -36,7 +25,7 @@ const DecksComponent = () => {
             <Col sm={12}>
                 <ApiStatus
                     state={apiState}
-                    onClose={() => dispatch(clearApiStatus(Decks.DeleteDeck))}
+                    onClose={() => dispatch(cardsActions.clearDeckStatus())}
                 />
             </Col>
             <Row>

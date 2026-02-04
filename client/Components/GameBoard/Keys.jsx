@@ -1,7 +1,7 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
-import { sendGameMessage } from '../../redux/actions';
+import { gameSendMessage } from '../../redux/socketActions';
 
 const KeyImages = {};
 const KeyColours = ['red', 'blue', 'yellow'];
@@ -34,7 +34,7 @@ const Keys = ({ keys, manualMode }) => {
                 src={keys[colour] ? KeyImages[colour].forged : KeyImages[colour].unforged}
                 onClick={() => {
                     if (manualMode) {
-                        dispatch(sendGameMessage('modifyKey', colour, keys[colour]));
+                        dispatch(gameSendMessage('modifyKey', colour, keys[colour]));
                     }
                 }}
                 title={t('Forged Key')}
