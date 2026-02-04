@@ -25,7 +25,7 @@ export const GameBoard = () => {
     const { cards, currentGame, user } = useSelector((state) => ({
         cards: state.cards.cards,
         currentGame: state.lobby.currentGame,
-        user: state.auth.user
+        user: state.account.user
     }));
     const [cardToZoom, setCardToZoom] = useState(null);
     const [showMessages, setShowMessages] = useState(true);

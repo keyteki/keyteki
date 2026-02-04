@@ -1,30 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 
-import { useDispatch, useSelector } from 'react-redux';
 import AlertPanel from '../Components/Site/AlertPanel';
 import Panel from '../Components/Site/Panel';
 import Form from '../Components/Form/Form';
 import { useNavigate } from 'react-router-dom';
 
-import { resetPassword } from '../redux/actions';
+import { useResetPasswordMutation } from '../redux/api';
 
 const ResetPassword = ({ id, token }) => {
-    const dispatch = useDispatch();
     const navigate = useNavigate();
     const [successMessage, setSuccessMessage] = useState('');
-    const { accountPasswordReset, apiLoading, apiMessage, apiSuccess } = useSelector((state) => ({
-        accountPasswordReset: state.account.passwordReset,
-        apiLoading: state.api.RESETPASSWORD_ACCOUNT
-            ? state.api.RESETPASSWORD_ACCOUNT.loading
-            : undefined,
-        apiMessage: state.api.RESETPASSWORD_ACCOUNT
-            ? state.api.RESETPASSWORD_ACCOUNT.message
-            : undefined,
-        apiSuccess: state.api.RESETPASSWORD_ACCOUNT
-            ? state.api.RESETPASSWORD_ACCOUNT.success
-            : undefined
-    }));
+    const [resetPassword, resetState] = useResetPasswordMutation();
+    const accountPasswordReset = resetState.isSuccess;
 
     useEffect(() => {
         if (!accountPasswordReset) {
@@ -51,7 +39,12 @@ const ResetPassword = ({ id, token }) => {
         );
     }
 
-    const errorBar = apiSuccess === false ? <AlertPanel type='error' message={apiMessage} /> : null;
+    const errorBar = resetState.isError ? (
+        <AlertPanel
+            type='error'
+            message={resetState.error?.data?.message || 'Unable to reset password'}
+        />
+    ) : null;
     const successBar = successMessage ? (
         <AlertPanel type='success' message={successMessage} />
     ) : null;
@@ -64,16 +57,14 @@ const ResetPassword = ({ id, token }) => {
                 <Panel title='Reset password'>
                     <Form
                         name='resetpassword'
-                        apiLoading={apiLoading}
+                        apiLoading={resetState.isLoading}
                         buttonText='Submit'
                         onSubmit={(state) =>
-                            dispatch(
-                                resetPassword({
-                                    id,
-                                    token,
-                                    newPassword: state.password
-                                })
-                            )
+                            resetPassword({
+                                id,
+                                token,
+                                newPassword: state.password
+                            })
                         }
                     />
                 </Panel>

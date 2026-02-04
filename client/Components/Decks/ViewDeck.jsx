@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import { ButtonGroup, Col } from 'react-bootstrap';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSync } from '@fortawesome/free-solid-svg-icons';
 
 import ConfirmButton from '../Form/ConfirmButton';
 import DeckSummary from './DeckSummary';
 import Panel from '../Site/Panel';
-import { deleteDeck, refreshAccolades } from '../../redux/actions';
+import { useDeleteDeckMutation, useRefreshAccoladesMutation } from '../../redux/api';
 
 /**
  * @typedef ViewDeckProps
@@ -19,20 +19,21 @@ import { deleteDeck, refreshAccolades } from '../../redux/actions';
  * @param {ViewDeckProps} props
  */
 const ViewDeck = ({ deck }) => {
-    const dispatch = useDispatch();
+    const [deleteDeck] = useDeleteDeckMutation();
+    const [refreshAccolades] = useRefreshAccoladesMutation();
     const { t } = useTranslation();
     const user = useSelector((state) => state.account.user);
     const [isRefreshing, setIsRefreshing] = useState(false);
     const showAccolades = user?.settings?.optionSettings?.showAccolades ?? true;
 
     const handleDeleteClick = () => {
-        dispatch(deleteDeck(deck));
+        deleteDeck(deck.id);
     };
 
     const handleRefreshAccolades = async () => {
         setIsRefreshing(true);
         try {
-            await dispatch(refreshAccolades(deck.id));
+            await refreshAccolades(deck.id);
         } finally {
             setIsRefreshing(false);
         }

@@ -313,7 +313,7 @@ const GameList = (props) => {
             }
 
             return (
-                <div>
+                <div key={gameType}>
                     <div className={gameHeaderClass}>
                         {t(gameType)} ({gamesToReturn.length})
                     </div>

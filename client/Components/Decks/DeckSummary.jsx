@@ -2,12 +2,12 @@ import React, { useState } from 'react';
 import { Col, Row } from 'react-bootstrap';
 import { sortBy } from 'underscore';
 import { useTranslation, Trans } from 'react-i18next';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 import { Constants } from '../../constants';
 import CardBack from './CardBack';
 import CardImage from '../GameBoard/CardImage';
-import { updateAccoladeShown } from '../../redux/actions';
+import { useUpdateAccoladeShownMutation } from '../../redux/api';
 
 import AmberImage from '../../assets/img/enhancements/amberui.png';
 import CaptureImage from '../../assets/img/enhancements/captureui.png';
@@ -19,7 +19,7 @@ import './DeckSummary.scss';
 
 const DeckSummary = ({ deck }) => {
     const { t, i18n } = useTranslation();
-    const dispatch = useDispatch();
+    const [triggerUpdateAccoladeShown] = useUpdateAccoladeShownMutation();
     const user = useSelector((state) => state.account.user);
     const showAccolades = user?.settings?.optionSettings?.showAccolades ?? true;
     let [zoomCard, setZoomCard] = useState(null);
@@ -34,10 +34,14 @@ const DeckSummary = ({ deck }) => {
                 return;
             }
         }
-        dispatch(updateAccoladeShown(deck.id, accolade.id, !accolade.shown));
+        triggerUpdateAccoladeShown({
+            deckId: deck.id,
+            accoladeId: accolade.id,
+            shown: !accolade.shown
+        });
     };
 
-    for (const house of deck.houses.sort()) {
+    for (const house of [...deck.houses].sort()) {
         cardsByHouse[house] = [];
         const filteredCards = sortBy(
             deck.cards.filter((c) => c.card.house === house && !c.isNonDeck),

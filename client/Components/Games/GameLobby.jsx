@@ -59,9 +59,9 @@ const GameLobby = ({ gameId }) => {
 
         let filter = localStorage.getItem('gameFilter');
         if (filter) {
-            setCurrentFilter(JSON.parse(filter));
+            setCurrentFilter({ ...filterDefaults, ...JSON.parse(filter) });
         }
-    }, []);
+    }, [filterDefaults]);
 
     const onFilterChecked = (name, checked) => {
         currentFilter[name] = checked;
@@ -150,7 +150,7 @@ const GameLobby = ({ gameId }) => {
                                                         event.target.checked
                                                     );
                                                 }}
-                                                checked={currentFilter[filter.name]}
+                                                checked={!!currentFilter[filter.name]}
                                             ></Form.Check>
                                         </Col>
                                     );
@@ -166,7 +166,7 @@ const GameLobby = ({ gameId }) => {
                                         onChange={(event) => {
                                             onFilterChecked('onlyShowNew', event.target.checked);
                                         }}
-                                        checked={currentFilter['onlyShowNew']}
+                                        checked={!!currentFilter['onlyShowNew']}
                                     ></Form.Check>
                                 </Col>
                             </Row>

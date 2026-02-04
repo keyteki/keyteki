@@ -1,12 +1,11 @@
 import { combineReducers } from 'redux';
-import auth from './auth';
-import cards from './cards';
+import auth from '../slices/authSlice';
+import cards from '../slices/cardsSlice';
 import games from '../slices/gamesSlice';
-import challonge from './challonge';
-import apiReducer from './api';
-import admin from './admin';
-import user from './user';
-import account from './account';
+import challonge from '../slices/challongeSlice';
+import admin from '../slices/adminSlice';
+import user from '../slices/userSlice';
+import account from '../slices/accountSlice';
 import lobby from '../slices/lobbySlice';
 import { api as rtkApi } from '../api';
 
@@ -15,7 +14,6 @@ const rootReducer = combineReducers({
     cards,
     games,
     challonge,
-    api: apiReducer,
     admin,
     user,
     account,

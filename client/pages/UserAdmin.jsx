@@ -8,8 +8,8 @@ import Panel from '../Components/Site/Panel';
 import ApiStatus from '../Components/Site/ApiStatus';
 import { Formik } from 'formik';
 import { useTranslation } from 'react-i18next';
-import { Admin } from '../redux/types';
-import { clearApiStatus, findUser, clearUserSessions, saveUser } from '../redux/actions';
+import { useFindUserQuery, useSaveUserMutation } from '../redux/api';
+import { clearUserSessions } from '../redux/slices/adminSlice';
 
 import './UserAdmin.scss';
 import { useState } from 'react';
@@ -58,30 +58,29 @@ const UserAdmin = () => {
     const currentUser = useSelector((state) => state.admin.currentUser);
     const user = useSelector((state) => state.account.user);
     const { t } = useTranslation();
-    const apiState = useSelector((state) => {
-        const retState = state.api[Admin.FindUser];
-
-        if (retState && retState.status === 404) {
-            retState.message = 'User was not found.';
-        } else if (retState && retState.success) {
-            retState.message = 'User details loaded';
-
-            setTimeout(() => dispatch(clearApiStatus(Admin.FindUser)), 3000);
-        }
-
-        return retState;
+    const [searchUsername, setSearchUsername] = useState('');
+    const findUserState = useFindUserQuery(searchUsername, {
+        skip: !searchUsername
     });
-    const apiSaveState = useSelector((state) => {
-        const retState = state.api[Admin.SaveUser];
-
-        if (retState && retState.success) {
-            retState.message = 'User details saved.';
-
-            setTimeout(() => dispatch(clearApiStatus(Admin.SaveUser)), 5000);
-        }
-
-        return retState;
-    });
+    const [saveUser, saveState] = useSaveUserMutation();
+    const apiState = findUserState.isUninitialized
+        ? null
+        : {
+              loading: findUserState.isFetching,
+              success: findUserState.isSuccess,
+              message: findUserState.isError
+                  ? findUserState.error?.status === 404
+                      ? 'User was not found.'
+                      : findUserState.error?.data?.message
+                  : 'User details loaded'
+          };
+    const apiSaveState = saveState.isUninitialized
+        ? null
+        : {
+              loading: saveState.isLoading,
+              success: saveState.isSuccess,
+              message: saveState.isSuccess ? 'User details saved.' : saveState.error?.data?.message
+          };
     const dispatch = useDispatch();
     const [currentPermissions, setCurrentPermissions] = useState(
         currentUser?.permissions || defaultPermissions
@@ -134,15 +133,12 @@ const UserAdmin = () => {
 
     return (
         <Col sm={{ span: 8, offset: 2 }}>
-            <ApiStatus state={apiState} onClose={() => dispatch(clearApiStatus(Admin.FindUser))} />
-            <ApiStatus
-                state={apiSaveState}
-                onClose={() => dispatch(clearApiStatus(Admin.SaveUser))}
-            />
+            <ApiStatus state={apiState} onClose={() => setSearchUsername('')} />
+            <ApiStatus state={apiSaveState} onClose={() => saveState.reset()} />
             <Formik
                 validationSchema={schema}
                 onSubmit={async (values) => {
-                    dispatch(findUser(values.username));
+                    setSearchUsername(values.username);
                 }}
                 initialValues={initialValues}
             >
@@ -252,7 +248,7 @@ const UserAdmin = () => {
                                                     <li key={name}>
                                                         <a
                                                             href='javascript:void(0)'
-                                                            onClick={() => dispatch(findUser(name))}
+                                                            onClick={() => setSearchUsername(name)}
                                                         >
                                                             {name}
                                                         </a>
@@ -313,7 +309,7 @@ const UserAdmin = () => {
                                             currentUser.verified = userVerified;
                                             currentUser.disabled = userDisabled;
 
-                                            dispatch(saveUser(currentUser));
+                                            saveUser(currentUser);
                                         }}
                                     >
                                         Save&nbsp;

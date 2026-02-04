@@ -10,14 +10,14 @@ import Navigation from './Components/Navigation/Navigation';
 import AppRoutes from './AppRoutes';
 import { tryParseJSON } from './util.jsx';
 import AlertPanel from './Components/Site/AlertPanel';
+import { setAuthTokens } from './redux/slices/authSlice';
 import {
-    authenticate,
-    loadCards,
-    loadFactions,
-    loadStandaloneDecks,
-    setAuthTokens
-} from './redux/actions';
-import { lobbyConnectRequested } from './redux/socketActions';
+    useGetCardsQuery,
+    useGetFactionsQuery,
+    useGetStandaloneDecksQuery,
+    useVerifyAuthenticationMutation
+} from './redux/api';
+import { lobbyAuthenticateRequested, lobbyConnectRequested } from './redux/socketActions';
 import { lobbyActions } from './redux/slices/lobbySlice';
 
 import Background from './assets/img/bgs/keyforge.png';
@@ -52,6 +52,11 @@ const Application = () => {
         return values;
     }, []);
 
+    const [verifyAuthentication] = useVerifyAuthenticationMutation();
+    useGetCardsQuery();
+    useGetFactionsQuery();
+    useGetStandaloneDecksQuery();
+
     useEffect(() => {
         if (!localStorage) {
             setIncompatibleBrowser(true);
@@ -62,18 +67,17 @@ const Application = () => {
                 if (refreshToken) {
                     const parsedToken = tryParseJSON(refreshToken);
                     if (parsedToken) {
-                        dispatch(setAuthTokens(token, parsedToken));
-                        dispatch(authenticate());
+                        dispatch(setAuthTokens({ token, refreshToken: parsedToken }));
+                        verifyAuthentication()
+                            .unwrap()
+                            .catch(() => {});
+                        dispatch(lobbyAuthenticateRequested());
                     }
                 }
             } catch (error) {
                 setCannotLoad(true);
             }
         }
-
-        dispatch(loadCards());
-        dispatch(loadFactions());
-        dispatch(loadStandaloneDecks());
 
         const handleAjaxError = (event, xhr) => {
             if (xhr.status === 403) {
@@ -101,7 +105,7 @@ const Application = () => {
             window.removeEventListener('focus', onFocusChange);
             window.removeEventListener('blur', onFocusChange);
         };
-    }, [dispatch, navigate]);
+    }, [dispatch, navigate, verifyAuthentication]);
 
     const blinkTab = useCallback(() => {
         if (!currentGame || !currentGame.players) {

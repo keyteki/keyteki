@@ -3,7 +3,6 @@ import { setupListeners } from '@reduxjs/toolkit/query';
 import { addBreadcrumb } from '@sentry/browser';
 
 import rootReducer from './redux/reducers';
-import callAPIMiddleware from './redux/middleware/api-middleware.js';
 import { socketMiddleware } from './redux/middleware/socket-middleware';
 import { api } from './redux/api';
 
@@ -27,12 +26,7 @@ export default function configureStoreRTK(initialState) {
             getDefaultMiddleware({
                 serializableCheck: false,
                 immutableCheck: false
-            }).concat(
-                socketMiddleware,
-                api.middleware,
-                callAPIMiddleware,
-                ...(isProd ? [sentryReporter] : [])
-            ),
+            }).concat(socketMiddleware, api.middleware, ...(isProd ? [sentryReporter] : [])),
         preloadedState: initialState,
         devTools: !import.meta.env.PROD
     });

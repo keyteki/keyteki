@@ -3,6 +3,7 @@ import * as jsondiffpatch from 'jsondiffpatch';
 
 import { gamesActions } from '../slices/gamesSlice';
 import { lobbyActions } from '../slices/lobbySlice';
+import { adminActions } from '../slices/adminSlice';
 import {
     gameCloseRequested,
     gameConnectRequested,
@@ -14,7 +15,8 @@ import {
     lobbySendMessage,
     lobbyStartGameRequested
 } from '../socketActions';
-import { setAuthTokens, authenticate } from '../actions/account';
+import { api } from '../api';
+import { setAuthTokens } from '../slices/authSlice';
 
 let lobbySocket;
 let gameSocket;
@@ -112,7 +114,13 @@ export const socketMiddleware = (store) => (next) => (action) => {
                 url += `:${handoff.port}`;
             }
 
-            store.dispatch(setAuthTokens(handoff.authToken, state.auth.refreshToken, handoff.user));
+            store.dispatch(
+                setAuthTokens({
+                    token: handoff.authToken,
+                    refreshToken: state.auth.refreshToken,
+                    user: handoff.user
+                })
+            );
 
             if (gameSocket && state.games.gameId !== handoff.gameId) {
                 store.dispatch(gameCloseRequested());
@@ -122,11 +130,12 @@ export const socketMiddleware = (store) => (next) => (action) => {
         });
 
         lobbySocket.on('authfailed', () => {
-            store.dispatch(authenticate());
+            store.dispatch(api.endpoints.verifyAuthentication.initiate());
+            store.dispatch(lobbyAuthenticateRequested());
         });
 
         lobbySocket.on('nodestatus', (status) => {
-            store.dispatch({ type: 'NODE_STATUS_RECEIVED', status });
+            store.dispatch(adminActions.nodeStatusReceived(status));
         });
 
         lobbySocket.on('removemessage', (messageId, deletedBy) => {
@@ -230,7 +239,7 @@ export const socketMiddleware = (store) => (next) => (action) => {
             let gameState;
 
             if (latestState.lobby.rootState) {
-                gameState = patcher.patch(latestState.lobby.currentGame, game);
+                gameState = patcher.patch(jsondiffpatch.clone(latestState.lobby.currentGame), game);
             } else {
                 gameState = game;
                 store.dispatch(lobbyActions.setRootState(game));
@@ -241,7 +250,7 @@ export const socketMiddleware = (store) => (next) => (action) => {
                     message: 'gamestate',
                     args: [
                         gameState,
-                        latestState.auth.user ? latestState.auth.user.username : undefined
+                        latestState.account.user ? latestState.account.user.username : undefined
                     ]
                 })
             );

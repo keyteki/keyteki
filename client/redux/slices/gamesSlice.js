@@ -1,4 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { api } from '../api';
 
 const initialState = {};
 
@@ -53,6 +54,11 @@ const gamesSlice = createSlice({
         userGamesReceived: (state, action) => {
             state.games = action.payload.games;
         }
+    },
+    extraReducers: (builder) => {
+        builder.addMatcher(api.endpoints.getUserGames.matchFulfilled, (state, action) => {
+            state.games = action.payload.games;
+        });
     }
 });
 

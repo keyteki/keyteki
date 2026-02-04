@@ -12,9 +12,8 @@ import Typeahead from '../Components/Form/Typeahead';
 import SideBar from '../Components/Lobby/SideBar';
 import UserList from '../Components/Lobby/UserList';
 import LobbyChat from '../Components/Lobby/LobbyChat';
-import { removeLobbyMessage } from '../redux/actions';
 import { lobbySendMessage } from '../redux/socketActions';
-import { useGetNewsQuery } from '../redux/api';
+import { useGetNewsQuery, useRemoveLobbyMessageMutation } from '../redux/api';
 import { lobbyActions } from '../redux/slices/lobbySlice';
 
 import './Lobby.scss';
@@ -36,6 +35,7 @@ const Lobby = () => {
     const [message, setMessage] = useState('');
     const { t } = useTranslation();
     const messageRef = useRef(null);
+    const [removeLobbyMessage] = useRemoveLobbyMessageMutation();
 
     if (!popupError && lobbyError) {
         setPopupError(true);
@@ -149,9 +149,7 @@ const Lobby = () => {
                         <LobbyChat
                             messages={messages}
                             isModerator={user?.permissions?.canModerateChat}
-                            onRemoveMessageClick={(messageId) =>
-                                dispatch(removeLobbyMessage(messageId))
-                            }
+                            onRemoveMessageClick={(messageId) => removeLobbyMessage(messageId)}
                         />
                     </div>
                 </Panel>
