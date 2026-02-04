@@ -54,23 +54,29 @@ describe('Senator Bracchus', function () {
             it('should allow spending amber from all friendly creatures', function () {
                 expect(this.grimlocusDux.amber).toBe(2);
                 expect(this.senatorBracchus.amber).toBe(1);
-                expect(this.player1).toHavePrompt(
-                    'How much amber do you want to use from Senator Bracchus?'
-                );
+                // New flow: select source first, then amount
+                expect(this.player1).toHavePrompt('Select an amber source to use');
+                this.player1.clickCard(this.senatorBracchus);
+                // Can choose 0 or 1 since pool + other sources can cover
                 this.player1.clickPrompt('1');
-                expect(this.player1).toHavePrompt(
-                    'How much amber do you want to use from Grimlocus Dux?'
-                );
+                expect(this.player1).toHavePrompt('Select an amber source to use');
+                this.player1.clickCard(this.grimlocusDux);
                 this.player1.clickPrompt('1');
+                // Only Shrix left as source, goes directly to amount prompt
                 expect(this.player1).toHavePrompt(
                     'How much amber do you want to use from Senator Shrix?'
                 );
                 this.player1.clickPrompt('1');
                 expect(this.player1).toHavePrompt('Which key would you like to forge?');
+                // Amber is not removed until key is forged
+                expect(this.grimlocusDux.amber).toBe(2);
+                expect(this.senatorBracchus.amber).toBe(1);
+                expect(this.senatorShrix.amber).toBe(1);
+                this.player1.forgeKey('Red');
+                // Now the amber is consumed
                 expect(this.grimlocusDux.amber).toBe(1);
                 expect(this.senatorBracchus.amber).toBe(0);
                 expect(this.senatorShrix.amber).toBe(0);
-                this.player1.forgeKey('Red');
                 expect(this.player1.amber).toBe(2);
             });
         });
@@ -111,15 +117,14 @@ describe('Senator Bracchus', function () {
             this.championAnaphiel.amber = 2;
             this.player1.endTurn();
 
-            expect(this.player2).toHavePrompt(
-                'How much amber do you want to use from Senator Bracchus?'
-            );
-            expect(this.player2).toHavePromptButton(0);
-            expect(this.player2).toHavePromptButton(1);
-            expect(this.player2).toHavePromptButton(2);
-            expect(this.player2).toHavePromptButton(3);
-            expect(this.player2).toHavePromptButton(4);
-            this.player2.clickPrompt(0);
+            // New flow: select source first, then amount if there's a choice
+            expect(this.player2).toHavePrompt('Select an amber source to use');
+            // Player has 2 pool amber, needs 4 more from creatures
+            this.player2.clickCard(this.senatorBracchus);
+            // Has 4 amber, can choose 0-4. Use 4 to cover remaining cost with pool
+            this.player2.clickPrompt('4');
+            // Still prompted for other sources, but can now skip since pool covers remaining
+            this.player2.clickPrompt('Done');
             expect(this.player2).toHavePrompt('Which key would you like to forge?');
             this.player2.forgeKey('Red');
         });

@@ -85,6 +85,10 @@ describe('Safe Place', function () {
             this.player2.clickPrompt('brobnar');
             this.player2.endTurn();
 
+            // With 3 pool + 2 on otherSafePlace + 1 on safePlace = 6, automatic selection happens
+            // since min == max for each source. Just select them in order.
+            this.player1.clickCard(otherSafePlace);
+            this.player1.clickCard(this.safePlace);
             this.player1.forgeKey('Red');
         });
     });
