@@ -100,7 +100,7 @@ describe('Overlord Greking', function () {
             this.player1.playUpgrade(this.werewolfCurse, this.overlordGreking);
             this.mother.damage = 2;
             this.troll.damage = 1;
-            this.overlordGreking.ward = 1;
+            this.overlordGreking.ward();
             this.player1.fightWith(this.overlordGreking, this.troll);
             this.player1.clickCard(this.batdrone);
             this.player1.clickPrompt('Left');
@@ -140,10 +140,10 @@ describe('Overlord Greking', function () {
             this.player1.clickPrompt('No');
             this.ultraGravitronA1.damage = 9;
             this.ultraGravitronB1.damage = 3;
-            this.overlordGreking.ward = 1;
+            this.overlordGreking.ward();
             this.player1.fightWith(this.overlordGreking, this.ultraGravitronB1);
             this.overlordGreking.exhausted = false;
-            this.overlordGreking.ward = 1;
+            this.overlordGreking.ward();
             this.player1.playUpgrade(this.werewolfCurse, this.overlordGreking);
 
             // Fight and destroy both Ultra Gravitrons
