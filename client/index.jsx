@@ -1,9 +1,9 @@
 import '@babel/polyfill';
-import 'core-js/stable';
 import $ from 'jquery';
 import 'jquery-validation';
 import 'jquery-validation-unobtrusive';
 import 'react-toastify/dist/ReactToastify.css';
+import 'core-js/stable';
 import 'regenerator-runtime/runtime';
 import './styles/index.scss';
 
