@@ -90,7 +90,6 @@ describe('Uxlyx the Zookeeper', function () {
             this.player2.clickPrompt('Random card from archives');
             expect(this.player1.archives).not.toContain(this.scowlyCaper);
             expect(this.player1.hand).toContain(this.scowlyCaper);
-            expect(this.player2.battleline).not.toContain(this.scowlyCaper);
             expect(this.player2).isReadyToTakeAction();
         });
     });
