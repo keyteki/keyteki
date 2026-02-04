@@ -1,7 +1,9 @@
 import React, { useCallback, useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
-import * as fabric from 'fabric';
+import * as fabricModule from 'fabric';
+
+const fabric = fabricModule.fabric ?? fabricModule;
 import { buildCard } from '../../archonMaker';
 
 import './CardImage.scss';
@@ -25,6 +27,7 @@ const CardImage = ({ card, cardBack, size, halfSize, onMouseOver, onMouseOut }) 
             : true;
     const fabricRef = useRef(null);
     const renderIdRef = useRef(0);
+    const warnRef = useRef(false);
 
     const setCanvasRef = useCallback((node) => {
         if (!node) {
@@ -48,6 +51,9 @@ const CardImage = ({ card, cardBack, size, halfSize, onMouseOver, onMouseOut }) 
     useEffect(() => {
         const canvas = fabricRef.current;
         if (!canvas || !card || card.facedown) {
+            if (!canvas && card && !warnRef.current) {
+                warnRef.current = true;
+            }
             return;
         }
 

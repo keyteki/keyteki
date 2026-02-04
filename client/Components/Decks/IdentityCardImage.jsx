@@ -1,6 +1,8 @@
 import React, { useCallback, useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
-import * as fabric from 'fabric';
+import * as fabricModule from 'fabric';
+
+const fabric = fabricModule.fabric ?? fabricModule;
 
 import './Archon.scss';
 import { buildDeckList } from '../../archonMaker';
@@ -15,6 +17,7 @@ import { buildDeckList } from '../../archonMaker';
  */
 const IdentityCardImage = ({ deck, size, showAccolades = true }) => {
     const fabricRef = useRef();
+    const warnRef = useRef(false);
     const { t, i18n } = useTranslation();
 
     const setCanvasRef = useCallback((node) => {
@@ -39,6 +42,9 @@ const IdentityCardImage = ({ deck, size, showAccolades = true }) => {
     useEffect(() => {
         const canvas = fabricRef.current;
         if (!canvas || !deck) {
+            if (!canvas && deck && !warnRef.current) {
+                warnRef.current = true;
+            }
             return;
         }
 

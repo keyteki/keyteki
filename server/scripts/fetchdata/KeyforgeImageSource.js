@@ -1,7 +1,7 @@
 /*eslint no-console:0 */
 const fs = require('fs');
 const request = require('request');
-const fabric = require('fabric');
+const { fabric } = require('fabric-legacy');
 const path = require('path');
 const KeyForgeHalfSizeBuild = require('./KeyForgeHalfSizeBuild');
 
@@ -51,9 +51,7 @@ class KeyforgeImageSource {
 
     loadImage(imgPath) {
         return new Promise((resolve) => {
-            fabric.Image.fromURL(`file://${imgPath}`, (image) => {
-                resolve(image);
-            });
+            fabric.Image.fromURL(`file://${imgPath}`, (image) => resolve(image));
         });
     }
 }

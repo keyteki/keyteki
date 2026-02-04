@@ -1,11 +1,12 @@
-const fabric = require('fabric');
+const { fabric } = require('fabric-legacy');
 const { registerFont } = require('canvas');
 const fs = require('fs');
 const path = require('path');
 const mkdirp = require('mkdirp');
-const loadImage = (imgPath) => {
-    return new Promise((resolve) => fabric.Image.fromURL(imgPath, (image) => resolve(image)));
-};
+const loadImage = (imgPath) =>
+    new Promise((resolve) => {
+        fabric.Image.fromURL(imgPath, (image) => resolve(image));
+    });
 const parameters = {
     action: { top: 0, height: 250, width: 297.5 },
     artifact: { top: 0, height: 250, width: 297.5 },
@@ -89,6 +90,7 @@ const buildHalfSize = async (card, imgPath, filename, language) => {
     const finalArt = new fabric.Image(canvas.toCanvasElement(), { left: 150, originX: 'center' });
     if (card.type === 'upgrade') finalArt.set({ top: 19 });
     canvasFinal.add(finalArt);
+    canvasFinal.add(frame);
     canvasFinal.add(frame);
     const localizedName =
         (card.locale && card.locale[language] && card.locale[language].name) ||

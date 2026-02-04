@@ -81,6 +81,7 @@
         "eventsource": "^1.1.1",
         "express": "^4.19.2",
         "fabric": "^7.1.0",
+        "fabric-legacy": "npm:fabric@^5.5.2",
         "formik": "^2.1.4",
         "helmet": "^3.22.0",
         "husky": "^4.3.8",

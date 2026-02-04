@@ -6,7 +6,7 @@ const moment = require('moment');
 const _ = require('underscore');
 const sendgrid = require('@sendgrid/mail');
 const fs = require('fs');
-const fabric = require('fabric');
+const { fabric } = require('fabric-legacy');
 
 const logger = require('../log.js');
 const { wrapAsync } = require('../util.js');
@@ -140,8 +140,8 @@ function processImage(image, width, height) {
         fabric.Image.fromURL(
             'data:image/png;base64,' + image,
             (img) => {
-                if (img.getElement() == null) {
-                    reject('Error occurred in fabric');
+                if (!img || img.getElement() == null) {
+                    reject(new Error('Error occurred in fabric'));
                 } else {
                     img.scaleToWidth(width)
                         .scaleToHeight(height)

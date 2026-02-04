@@ -1,4 +1,6 @@
-import * as fabric from 'fabric';
+import * as fabricModule from 'fabric';
+
+const fabric = fabricModule.fabric ?? fabricModule;
 import QRCode from 'qrcode';
 
 import { Constants } from './constants';
@@ -113,28 +115,39 @@ const houselessCards = [
     ...skybeasts
 ];
 
-export const loadImage = (url) => {
-    return new Promise((resolve) => {
-        fabric.util.loadImage(url, async (image) => {
-            if (image) {
-                resolve(new fabric.Image(image, imgOptions));
-                return;
-            }
+const createImageElement = (src) =>
+    new Promise((resolve, reject) => {
+        if (!src) {
+            reject(new Error('Missing image src'));
+            return;
+        }
 
-            const locale = Constants.Locales.find((x) => url.includes(`/${x}/`));
-            if (locale) {
-                fabric.util.loadImage(url.replace(`/${locale}/`, '/'), (image) => {
-                    if (image) {
-                        resolve(new fabric.Image(image, imgOptions));
-                        return;
-                    }
-                    resolve(new fabric.Image());
-                });
-                return;
-            }
-            resolve(new fabric.Image());
-        });
+        const img = new Image();
+        img.crossOrigin = 'anonymous';
+        img.onload = () => resolve(img);
+        img.onerror = () => reject(new Error(`Failed to load image: ${src}`));
+        img.src = src;
     });
+
+export const loadImage = async (url) => {
+    try {
+        const image = await createImageElement(url);
+        return new fabric.Image(image, imgOptions);
+    } catch (err) {
+        // Ignore and fall back to locale check.
+    }
+
+    const locale = Constants.Locales.find((x) => url && url.includes(`/${x}/`));
+    if (locale) {
+        try {
+            const image = await createImageElement(url.replace(`/${locale}/`, '/'));
+            return new fabric.Image(image, imgOptions);
+        } catch (err) {
+            // Ignore and fall back to empty image.
+        }
+    }
+
+    return new fabric.Image();
 };
 
 const initCanvas = (canvas) => {
@@ -956,17 +969,23 @@ const applyFilters = (canvas, size, width) => {
     canvas.renderAll();
     const scale = size ? (defaultCardWidth * getCardSizeMultiplier(size)) / width : 1;
     const finalImage = new fabric.Image(canvas.toCanvasElement(), imgOptions);
-    finalImage.filters.push(
-        new fabric.Image.filters.Resize({
-            resizeType: 'lanczos',
-            lanczosLobes: 3,
-            scaleX: scale,
-            scaleY: scale
-        })
-    );
     canvas.clear();
-    finalImage.applyFilters();
-    finalImage.scaleToWidth(width);
+    const resizeFilter = fabric.Image?.filters?.Resize;
+    if (resizeFilter && scale !== 1) {
+        finalImage.filters.push(
+            new resizeFilter({
+                resizeType: 'lanczos',
+                lanczosLobes: 3,
+                scaleX: scale,
+                scaleY: scale
+            })
+        );
+        finalImage.applyFilters();
+        finalImage.scaleToWidth(width);
+    } else {
+        finalImage.scaleX = scale;
+        finalImage.scaleY = scale;
+    }
     canvas.add(finalImage);
     canvas.renderAll();
 };
