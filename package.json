@@ -144,6 +144,9 @@
         "winston-daily-rotate-file": "^4.4.2",
         "yup": "^0.29.0"
     },
+    "optionalDependencies": {
+        "@rollup/rollup-linux-x64-gnu": "4.57.1"
+    },
     "devDependencies": {
         "@types/node": "^22.11.0",
         "@vitejs/plugin-react": "^4.2.1",
