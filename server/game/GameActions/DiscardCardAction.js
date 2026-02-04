@@ -106,13 +106,33 @@ class DiscardCardAction extends CardGameAction {
 
     getEvent(card, context) {
         let location = card.location;
-        return super.createEvent(EVENTS.onCardDiscarded, { card, context, location }, () => {
-            if (card.location === 'hand') {
-                context.game.cardDiscarded(card);
-            }
+        const event = super.createEvent(
+            EVENTS.onCardDiscarded,
+            { card, context, location, replaced: false },
+            () => {
+                // Abduct replacement effect: abducted cards go to owner's hand instead of discard
+                if (location === 'archives' && card.abducted) {
+                    context.game.addMessage(
+                        "{0} leaves {1}'s archives and is added to {2}'s hand instead of being discarded",
+                        card,
+                        card.controller,
+                        card.owner
+                    );
+                    card.controller = card.owner;
+                    card.abducted = false;
+                    card.owner.moveCard(card, 'hand');
+                    event.replaced = true;
+                    return;
+                }
 
-            card.owner.moveCard(card, 'discard');
-        });
+                if (card.location === 'hand') {
+                    context.game.cardDiscarded(card);
+                }
+
+                card.owner.moveCard(card, 'discard');
+            }
+        );
+        return event;
     }
 
     getEventArray(context) {

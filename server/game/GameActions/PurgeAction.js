@@ -89,15 +89,36 @@ class PurgeAction extends CardGameAction {
     }
 
     getEvent(card, context) {
-        return super.createEvent(EVENTS.onCardPurged, { card: card, context: context }, () => {
-            if (card.location === 'play area') {
-                context.game.raiseEvent(EVENTS.onCardLeavesPlay, { card, context }, () =>
-                    this.purge(card)
-                );
-            } else {
-                this.purge(card);
+        let location = card.location;
+        const event = super.createEvent(
+            EVENTS.onCardPurged,
+            { card: card, context: context, replaced: false },
+            () => {
+                // Abduct replacement effect: abducted cards go to owner's hand instead of purge
+                if (location === 'archives' && card.abducted) {
+                    context.game.addMessage(
+                        "{0} leaves {1}'s archives and is added to {2}'s hand instead of being purged",
+                        card,
+                        card.controller,
+                        card.owner
+                    );
+                    card.controller = card.owner;
+                    card.abducted = false;
+                    card.owner.moveCard(card, 'hand');
+                    event.replaced = true;
+                    return;
+                }
+
+                if (card.location === 'play area') {
+                    context.game.raiseEvent(EVENTS.onCardLeavesPlay, { card, context }, () =>
+                        this.purge(card)
+                    );
+                } else {
+                    this.purge(card);
+                }
             }
-        });
+        );
+        return event;
     }
 }
 
