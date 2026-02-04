@@ -53,7 +53,7 @@ This document explains how to write tests for cards.
 
 ## Overview
 
-Tests are located in `test/server/cards/<Set>/<CardName>.spec.js`, mirroring the card implementation structure. Tests use Vitest and a custom test harness that simulates game state.
+Tests are located in `test/server/cards/<Set>/<CardName>.spec.js`, mirroring the card implementation structure. Tests use Jasmine and a custom test harness that simulates game state.
 
 **Key principles:**
 
@@ -711,10 +711,11 @@ Use the following to manually test a card in the game - this is usually only nee
 docker-compose up --build
 
 # Or with hybrid setup (hot reloading)
-npm run dev:db
-npm run dev:lobby
+docker-compose up -d redis postgres
+# Configure `config/default.json5` for the server to use the containerized DBs (see docs/local-development.md)
+npm start
 # In another terminal:
-npm run dev:gamenode
+npm run game
 ```
 
 Visit [http://localhost:4000](http://localhost:4000) and log in with test users (`test0`/`test1`, password: `password`).

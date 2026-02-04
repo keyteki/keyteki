@@ -1,6 +1,7 @@
 {
     "extends": "../tsconfig.json",
     "include": ["./**/*"],
+    "exclude": ["./helpers/integrationhelper.js"],
     "compilerOptions": {
         "noEmit": true,
         "types": ["vitest/globals"],

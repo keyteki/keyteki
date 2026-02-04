@@ -97,15 +97,24 @@ For hot reloading and React DevTools, run Node locally while using Docker for da
 -   Start database services only:
 
     ```bash
-    npm run dev:db
+    docker-compose up -d redis postgres
     ```
 
--   The `config/local.json5` file contains overrides for connecting to the containerized databases from your local machine. This file is automatically loaded by node-config and takes precedence over `default.json5`.
+-   Update `config/default.json5` so the server connects to the containerized databases:
+
+    ```javascript
+    redisUrl: 'redis://localhost:6379/',
+    dbUser: 'keyteki',
+    dbHost: 'localhost',
+    dbDatabase: 'keyteki',
+    dbPassword: 'changemeplease',
+    dbPort: 54320,
+    ```
 
 -   Run the lobby server:
 
     ```bash
-    npm run dev:lobby
+    npm start
     ```
 
     The lobby server uses Vite middleware for the client in development; no separate client dev server is needed.
@@ -113,7 +122,7 @@ For hot reloading and React DevTools, run Node locally while using Docker for da
 -   In another terminal, run the game node:
 
     ```bash
-    npm run dev:gamenode
+    npm run game
     ```
 
 ## Non-Docker Setup

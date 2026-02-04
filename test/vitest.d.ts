@@ -1,4 +1,20 @@
-import 'vitest';
+/// <reference types="vitest/globals" />
+
+export {};
+
+type VitestDescribe = typeof import('vitest')['describe'];
+type VitestIt = typeof import('vitest')['it'];
+type VitestBeforeEach = typeof import('vitest')['beforeEach'];
+type VitestAfterEach = typeof import('vitest')['afterEach'];
+
+declare global {
+    interface globalThis {
+        describe: VitestDescribe;
+        it: VitestIt;
+        beforeEach: VitestBeforeEach;
+        afterEach: VitestAfterEach;
+    }
+}
 
 interface CustomMatchers<R = unknown> {
     toHavePrompt(expected: string): R;

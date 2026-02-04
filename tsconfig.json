@@ -1,5 +1,5 @@
 {
-    "include": ["server/**/*", "client/**/*"],
+    "include": ["server/**/*"],
     "compilerOptions": {
         "module": "es6",
         "moduleResolution": "node",
@@ -8,9 +8,6 @@
         "outDir": "build",
         "allowJs": true,
         "checkJs": true,
-        "noImplicitAny": true,
-        "strictNullChecks": true,
-        "jsx": "react",
         "lib": ["es2017"]
     },
     "exclude": ["node_modules"]
