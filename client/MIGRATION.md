@@ -115,29 +115,33 @@ Target list (from scan):
 
 Goal: Introduce RTK without removing legacy reducers yet.
 
--   [ ] Add @reduxjs/toolkit and @reduxjs/toolkit/query
--   [ ] Create RTK store entrypoint alongside legacy store
--   [ ] Migrate 1 small slice to RTK
--   [ ] Add 1 RTK Query endpoint and integrate into a low-risk screen
+-   [x] Add @reduxjs/toolkit and @reduxjs/toolkit/query
+-   [x] Create RTK store entrypoint alongside legacy store
+-   [x] Migrate 1 small slice to RTK
+-   [x] Add 1 RTK Query endpoint and integrate into a low-risk screen
 
 ## Phase 6 - Redux -> RTK/RTK Query
 
 Goal: Remove legacy redux usage.
 
--   [ ] Replace remaining connect(...) containers
-    -   [ ] client/Application.jsx
-    -   [ ] client/pages/BanlistAdmin.jsx
-    -   [ ] client/pages/Logout.jsx
-    -   [ ] client/pages/Matches.jsx
-    -   [ ] client/pages/Register.jsx
-    -   [ ] client/pages/ResetPassword.jsx
-    -   [ ] client/pages/Security.jsx
-    -   [ ] client/pages/Patreon.jsx
-    -   [ ] client/pages/NodesAdmin.jsx
-    -   [ ] client/Components/Games/GameList.jsx
+-   [x] Replace remaining connect(...) containers
+    -   [x] client/Application.jsx
+    -   [x] client/pages/BanlistAdmin.jsx
+    -   [x] client/pages/Logout.jsx
+    -   [x] client/pages/Matches.jsx
+    -   [x] client/pages/Register.jsx
+    -   [x] client/pages/ResetPassword.jsx
+    -   [x] client/pages/Security.jsx
+    -   [x] client/pages/Patreon.jsx
+    -   [x] client/pages/NodesAdmin.jsx
+    -   [x] client/Components/Games/GameList.jsx
     -   [x] client/Components/GameBoard/GameBoard.jsx
--   [ ] Convert thunks to RTK slices or RTK Query endpoints
--   [ ] Remove legacy store wiring and unused deps
+-   [x] Add RTK socket middleware for lobby + game node
+-   [x] Add RTK slices for lobby + games
+-   [x] Replace socket action usage in lobby/game UI
+-   [x] Remove legacy game/socket/misc actions and reducers
+-   [x] Convert remaining thunks to RTK slices or RTK Query endpoints
+-   [x] Remove legacy store wiring and unused deps
 
 ## Phase 7 - Tailwind + HeroUI (incremental)
 

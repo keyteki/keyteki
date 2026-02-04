@@ -16,7 +16,7 @@ const CardNameLookup = (props) => {
     const typeheadRef = useRef(null);
 
     let cardNames = [...new Set(Object.values(props.cards).map((card) => card.name))];
-    cardNames.sort();
+    cardNames = [...cardNames].sort();
 
     const onDoneClick = () => {
         if (cardName) {

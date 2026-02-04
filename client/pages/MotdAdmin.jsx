@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Col, Form, Button } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
-import { sendSocketMessage } from '../redux/actions';
+import { lobbySendMessage } from '../redux/socketActions';
 
 import Panel from '../Components/Site/Panel';
 
@@ -55,7 +55,7 @@ const MotdAdmin = () => {
                             type='button'
                             onClick={() =>
                                 dispatch(
-                                    sendSocketMessage('motd', {
+                                    lobbySendMessage('motd', {
                                         message: motdText,
                                         motdType: motdType
                                     })

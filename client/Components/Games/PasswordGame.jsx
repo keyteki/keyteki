@@ -7,7 +7,8 @@ import Panel from '../Site/Panel';
 import { Trans, useTranslation } from 'react-i18next';
 import { useState } from 'react';
 import { Button } from 'react-bootstrap';
-import { cancelPasswordJoin, sendSocketMessage } from '../../redux/actions';
+import { lobbyActions } from '../../redux/slices/lobbySlice';
+import { lobbySendMessage } from '../../redux/socketActions';
 
 const PasswordGame = () => {
     const { t } = useTranslation();
@@ -43,7 +44,7 @@ const PasswordGame = () => {
                         variant='primary'
                         onClick={() => {
                             dispatch(
-                                sendSocketMessage(
+                                lobbySendMessage(
                                     passwordJoinType === 'Join' ? 'joingame' : 'watchgame',
                                     passwordGame.id,
                                     password
@@ -53,7 +54,10 @@ const PasswordGame = () => {
                     >
                         {t(passwordJoinType)}
                     </Button>
-                    <Button variant='danger' onClick={() => dispatch(cancelPasswordJoin())}>
+                    <Button
+                        variant='danger'
+                        onClick={() => dispatch(lobbyActions.cancelPasswordJoin())}
+                    >
                         <Trans>Cancel</Trans>
                     </Button>
                 </div>
