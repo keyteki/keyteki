@@ -118,9 +118,10 @@ class DiscardCardAction extends CardGameAction {
                         card.controller,
                         card.owner
                     );
-                    card.controller = card.owner;
                     card.abducted = false;
-                    card.owner.moveCard(card, 'hand');
+                    // moveCard must be called before changing controller, as it uses
+                    // controller to find which pile to remove the card from
+                    card.controller.moveCard(card, 'hand');
                     event.replaced = true;
                     return;
                 }

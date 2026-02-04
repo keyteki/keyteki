@@ -21,7 +21,7 @@ class YzphyzKnowdrone extends Card {
                 message: '{0} uses {1} to purge {2}',
                 messageArgs: (context) => [context.player, context.source, context.target],
                 then: {
-                    condition: (context) => context.preThenEvent?.card?.location === 'purged',
+                    condition: (context) => !context.preThenEvent?.replaced,
                     target: {
                         controller: 'any',
                         cardType: 'creature',
