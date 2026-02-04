@@ -17,7 +17,7 @@ class ExterminateExterminate extends Card {
                     !card.hasHouse('mars') && card.power < sourceCard.power,
                 targetController: 'any',
                 targetPromptTitle: (sourceCard) =>
-                    `${sourceCard.name} (${sourceCard.power} power) chosen - choose a non-Mars creature with less power to destroy`
+                    `Choose a non-Mars creature with less than ${sourceCard.power} power to destroy`
             })
         });
     }
