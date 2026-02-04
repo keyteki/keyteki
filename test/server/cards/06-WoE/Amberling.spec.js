@@ -34,7 +34,7 @@ describe('Amberling', function () {
             this.player1.endTurn();
             this.player2.clickPrompt('untamed');
             this.player2.endTurn();
-            this.player1.clickPrompt('No');
+            this.player1.clickPrompt('Done');
             expect(this.player1).toHavePrompt('Which key would you like to forge?');
             this.player1.forgeKey('Blue');
             expect(this.æmberling.location).toBe('play area');
@@ -63,7 +63,7 @@ describe('Amberling', function () {
             this.player2.clickPrompt('untamed');
             this.player2.endTurn();
             this.player1.clickPrompt('1');
-            this.player1.clickPrompt('No');
+            this.player1.clickPrompt('Done');
             expect(this.player1).toHavePrompt('Which key would you like to forge?');
             this.player1.forgeKey('Blue');
             expect(this.senatorShrix.amber).toBe(0);
@@ -122,34 +122,35 @@ describe('Amberling', function () {
             this.player1.endTurn();
             this.player2.clickPrompt('untamed');
             this.player2.endTurn();
-            this.player1.clickPrompt('Yes');
-            this.player1.clickPrompt('Yes');
-            this.player1.clickPrompt('Yes');
-            this.player1.clickPrompt('Yes');
-            this.player1.clickPrompt('Yes');
-            this.player1.clickPrompt('Yes');
+            // Select 6 amberlings to cover the full 6 cost, leaving pool untouched
+            this.player1.clickCard(this.a1);
+            this.player1.clickCard(this.a2);
+            this.player1.clickCard(this.a3);
+            this.player1.clickCard(this.a4);
+            this.player1.clickCard(this.a5);
+            this.player1.clickCard(this.a6);
+            this.player1.clickPrompt('Done');
             expect(this.player1).toHavePrompt('Which key would you like to forge?');
             this.player1.forgeKey('Blue');
             expect(this.player1.amber).toBe(5);
             this.player1.clickPrompt('staralliance');
             expect(this.player1.player.creaturesInPlay.length).toBe(1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('cannot underpay', function () {
             this.player1.endTurn();
             this.player2.clickPrompt('untamed');
             this.player2.endTurn();
-            this.player1.clickPrompt('No');
-            this.player1.clickPrompt('No');
-            this.player1.clickPrompt('No');
-            this.player1.clickPrompt('No');
-            this.player1.clickPrompt('No');
-            this.player1.clickPrompt('No');
+            // Select minimum 1 amberling, 5 pool amber covers the rest
+            this.player1.clickCard(this.a1);
+            this.player1.clickPrompt('Done');
             expect(this.player1).toHavePrompt('Which key would you like to forge?');
             this.player1.forgeKey('Blue');
             expect(this.player1.amber).toBe(0);
             this.player1.clickPrompt('staralliance');
             expect(this.player1.player.creaturesInPlay.length).toBe(6);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

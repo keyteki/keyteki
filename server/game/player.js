@@ -880,40 +880,45 @@ class Player extends GameObject {
             return;
         }
 
-        // Spending a card itself as one amber towards a key.
-        let source = selfAmberSources[0];
-        selfAmberSources.shift();
+        // Spending cards themselves as amber towards a key (e.g., Amberlings).
+        // Calculate how many must be spent vs how many can optionally be spent.
+        let minToSpend = Math.max(0, modifiedCost - this.amber);
+        let maxToSpend = Math.min(modifiedCost, selfAmberSources.length);
+
         this.game.queueSimpleStep(() => {
-            let max = 1;
-            let min = Math.max(0, modifiedCost - this.amber - totalAvailable + 1);
-            if (max === min) {
-                this.game.addMessage(
-                    `{0} spends {1} to forge a key`,
-                    this.game.activePlayer,
-                    source
-                );
-                source.removeToken('ward', source.ward);
-                this.moveCard(source, 'discard');
-                this.chooseAmberSource(
-                    amberSources,
-                    selfAmberSources,
-                    totalAvailable - max,
-                    modifiedCost - max,
-                    initialCost,
-                    keyColor
-                );
+            if (minToSpend === maxToSpend) {
+                // Must spend exactly this many - no choice
+                let toSpend = selfAmberSources.slice(0, maxToSpend);
+                for (let source of toSpend) {
+                    this.game.addMessage(
+                        `{0} spends {1} to forge a key`,
+                        this.game.activePlayer,
+                        source
+                    );
+                    source.removeToken('ward', source.ward);
+                    this.moveCard(source, 'discard');
+                }
+                this.chooseKeyToForge(modifiedCost - toSpend.length, initialCost, keyColor);
                 return;
             }
 
-            this.game.promptWithHandlerMenu(this, {
+            // Let player select which cards to spend
+            this.game.promptForSelect(this, {
                 activePromptTitle: {
-                    text: 'Do you want to spend {{card}} to forge a key?',
-                    values: { card: source.name }
+                    text: 'Select cards to spend as amber ({{min}}-{{max}})',
+                    values: { min: minToSpend, max: maxToSpend }
                 },
-                source: source,
-                choices: ['Yes', 'No'],
-                handlers: [
-                    () => {
+                mode: 'upTo',
+                numCards: maxToSpend,
+                cardCondition: (card) => selfAmberSources.includes(card),
+                onSelect: (player, cards) => {
+                    if (!Array.isArray(cards)) {
+                        cards = [cards];
+                    }
+                    if (cards.length < minToSpend) {
+                        return false;
+                    }
+                    for (let source of cards) {
                         source.removeToken('ward', source.ward);
                         this.moveCard(source, 'discard');
                         this.game.addMessage(
@@ -921,28 +926,18 @@ class Player extends GameObject {
                             this.game.activePlayer,
                             source
                         );
-                        this.chooseAmberSource(
-                            amberSources,
-                            selfAmberSources,
-                            totalAvailable - 1,
-                            modifiedCost - 1,
-                            initialCost,
-                            keyColor
-                        );
-                        return true;
-                    },
-                    () => {
-                        this.chooseAmberSource(
-                            amberSources,
-                            selfAmberSources,
-                            totalAvailable - 1,
-                            modifiedCost,
-                            initialCost,
-                            keyColor
-                        );
-                        return true;
                     }
-                ]
+                    this.chooseKeyToForge(modifiedCost - cards.length, initialCost, keyColor);
+                    return true;
+                },
+                onCancel: () => {
+                    // If cancelled with no selection but we need some, stay in prompt
+                    if (minToSpend > 0) {
+                        return false;
+                    }
+                    this.chooseKeyToForge(modifiedCost, initialCost, keyColor);
+                    return true;
+                }
             });
         });
     }
