@@ -13,6 +13,17 @@ class AbilityContext {
         this.ignoreHouse = false;
     }
 
+    /**
+     * Returns all cards from preThenEvents, handling both single card (event.card)
+     * and multiple card (event.cards) event formats.
+     */
+    get preThenCards() {
+        if (!this.preThenEvents) {
+            return [];
+        }
+        return this.preThenEvents.flatMap((e) => e.cards || (e.card ? [e.card] : []));
+    }
+
     copy(newProps) {
         let copy = new AbilityContext(Object.assign({}, this.getProps(), newProps));
         for (const property of ['target', 'select', 'house', 'preThenEvent', 'preThenEvents']) {

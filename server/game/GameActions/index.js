@@ -18,6 +18,8 @@ module.exports = {
     DelayedEffectAction: require('./DelayedEffectAction'),
     DestroyAction: require('./DestroyAction'),
     DiscardCardAction: require('./DiscardCardAction'),
+    DiscardEntireLocationAction: require('./DiscardEntireLocationAction'),
+    DiscardRandomCardsToAmountAction: require('./DiscardRandomCardsToAmountAction'),
     DiscardTopOfDeckAction: require('./DiscardTopOfDeckAction'),
     DrawAction: require('./DrawAction'),
     EnrageAction: require('./EnrageAction'),
