@@ -1,4 +1,4 @@
-export { };
+export {};
 
 type VitestDescribe = typeof import('vitest')['describe'];
 type VitestIt = typeof import('vitest')['it'];

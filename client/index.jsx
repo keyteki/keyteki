@@ -1,5 +1,4 @@
 import '@babel/polyfill';
-import './shims/jquery-global';
 import $ from 'jquery';
 import 'react-toastify/dist/ReactToastify.css';
 import 'core-js/stable';
