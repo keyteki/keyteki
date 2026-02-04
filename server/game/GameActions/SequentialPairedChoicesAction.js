@@ -8,28 +8,20 @@ const CardSelector = require('../CardSelector');
  * The specified action is performed on all targets simultaneously after all pairs are selected.
  *
  * Properties:
- * - sourceCardType: String | Array - card type(s) for sources (default: any)
  * - sourceCondition: Function (card, context) => boolean - condition for source cards
- * - sourceController: String - 'self', 'opponent', or 'any' (default: 'any')
  * - sourcePromptTitle: String - title for source selection prompt
  * - targetAction: Function (targets) => GameAction - factory function that creates the action to perform on all targets
- * - targetCardType: String | Array - card type(s) for targets (default: any)
  * - targetCondition: Function (card, sourceCard, context) => boolean - condition for targets based on source
- * - targetController: String - 'self', 'opponent', or 'any' (default: 'any')
  * - targetPromptTitle: String | Function(sourceCard) => String - title for target selection prompt
  * - pairMessage: String - message template for each pair, uses {0}=player, {1}=source, {2}=sourceCard, {3}=targetCard
  */
 class SequentialPairedChoicesAction extends GameAction {
     setDefaultProperties() {
         this.pairMessage = null;
-        this.sourceCardType = undefined;
         this.sourceCondition = () => true;
-        this.sourceController = 'any';
         this.sourcePromptTitle = 'Choose a card';
         this.targetAction = null;
-        this.targetCardType = undefined;
         this.targetCondition = () => true;
-        this.targetController = 'any';
         this.targetPromptTitle = 'Choose a card';
     }
 
@@ -41,8 +33,6 @@ class SequentialPairedChoicesAction extends GameAction {
     hasLegalTarget(context) {
         this.update(context);
         const sourceSelector = CardSelector.for({
-            cardType: this.sourceCardType,
-            controller: this.sourceController,
             cardCondition: (card) => this.sourceCondition(card, context)
         });
         return sourceSelector.hasEnoughTargets(context);
@@ -61,8 +51,6 @@ class SequentialPairedChoicesAction extends GameAction {
 
                 // Build initial source selector to count sources
                 const initialSourceSelector = CardSelector.for({
-                    cardType: this.sourceCardType,
-                    controller: this.sourceController,
                     cardCondition: (card) => this.sourceCondition(card, context)
                 });
                 const sources = initialSourceSelector.getAllLegalTargets(context);
@@ -72,8 +60,6 @@ class SequentialPairedChoicesAction extends GameAction {
                     context.game.queueSimpleStep(() => {
                         // Prompt for source selection
                         const sourceSelector = CardSelector.for({
-                            cardType: this.sourceCardType,
-                            controller: this.sourceController,
                             cardCondition: (card) =>
                                 this.sourceCondition(card, context) && !usedSources.includes(card)
                         });
@@ -96,8 +82,6 @@ class SequentialPairedChoicesAction extends GameAction {
                                         : this.targetPromptTitle;
 
                                 const targetSelector = CardSelector.for({
-                                    cardType: this.targetCardType,
-                                    controller: this.targetController,
                                     cardCondition: (card) =>
                                         this.targetCondition(card, sourceCard, context) &&
                                         !markedTargets.includes(card)
