@@ -3,7 +3,7 @@ const CardGameAction = require('./CardGameAction');
 
 class AbductAction extends CardGameAction {
     setDefaultProperties() {
-        this.reveal = false;
+        this.player = null; // If set, archives to this player instead of context.player
     }
 
     setup() {
@@ -13,9 +13,8 @@ class AbductAction extends CardGameAction {
     }
 
     getEvent(card, context) {
+        const abductor = this.player || context.player;
         return super.createEvent(EVENTS.onCardArchived, { card: card, context: context }, () => {
-            let player = context.player;
-
             // Mark the card as abducted. This flag is checked in player.moveCard
             // to redirect the card to owner's hand when leaving archives.
             card.abducted = true;
@@ -23,10 +22,10 @@ class AbductAction extends CardGameAction {
             // Move the card to archives
             if (card.location === 'play area') {
                 context.game.raiseEvent(EVENTS.onCardLeavesPlay, { card, context }, () =>
-                    player.moveCard(card, 'archives')
+                    abductor.moveCard(card, 'archives')
                 );
             } else {
-                player.moveCard(card, 'archives');
+                abductor.moveCard(card, 'archives');
             }
         });
     }

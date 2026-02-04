@@ -14,11 +14,20 @@ class ScoopUp extends Card {
                     cardType: 'creature',
                     controller: 'self',
                     cardCondition: (card) => !card.hasHouse('mars'),
-                    gameAction: ability.actions.archive((context) => ({
-                        owner: context.targets.friendly
-                            ? context.targets.friendly.owner === context.player
-                            : false
-                    }))
+                    gameAction: [
+                        ability.actions.archive((context) => ({
+                            target:
+                                context.targets.friendly?.owner === context.player
+                                    ? context.targets.friendly
+                                    : []
+                        })),
+                        ability.actions.abduct((context) => ({
+                            target:
+                                context.targets.friendly?.owner !== context.player
+                                    ? context.targets.friendly
+                                    : []
+                        }))
+                    ]
                 },
                 enemy: {
                     mode: 'exactly',
@@ -26,9 +35,7 @@ class ScoopUp extends Card {
                     cardType: 'creature',
                     controller: 'opponent',
                     cardCondition: (card) => !card.hasHouse('mars'),
-                    gameAction: ability.actions.archive({
-                        owner: false
-                    })
+                    gameAction: ability.actions.abduct()
                 }
             },
             effect: 'archive {1}',

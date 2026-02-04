@@ -62,4 +62,44 @@ describe('Glimmerspore', function () {
             expect(this.player1).isReadyToTakeAction();
         });
     });
+
+    describe('Glimmerspore with abduction', function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    amber: 1,
+                    house: 'mars',
+                    hand: ['glimmerspore', 'yzphyz-knowdrone', 'ammonia-clouds'],
+                    inPlay: ['crystal-hive', 'zorg']
+                },
+                player2: {
+                    inPlay: ['ritual-of-balance']
+                }
+            });
+        });
+
+        it('should return enemy artifact to owner hand when purged from archives', function () {
+            this.player1.play(this.glimmerspore);
+            this.player1.clickCard(this.ritualOfBalance);
+            expect(this.player1.player.archives).toContain(this.ritualOfBalance);
+            this.player1.play(this.yzphyzKnowdrone);
+            this.player1.clickCard(this.ammoniaClouds);
+            this.player1.clickCard(this.ritualOfBalance);
+            expect(this.ritualOfBalance.location).toBe('hand');
+            expect(this.player2.hand).toContain(this.ritualOfBalance);
+            expect(this.player1).isReadyToTakeAction();
+        });
+
+        it('should allow owned artifact to be purged normally', function () {
+            this.player1.play(this.glimmerspore);
+            this.player1.clickCard(this.crystalHive);
+            expect(this.crystalHive.location).toBe('archives');
+            this.player1.play(this.yzphyzKnowdrone);
+            this.player1.clickCard(this.ammoniaClouds);
+            this.player1.clickCard(this.crystalHive);
+            this.player1.clickCard(this.zorg);
+            expect(this.crystalHive.location).toBe('purged');
+            expect(this.player1).isReadyToTakeAction();
+        });
+    });
 });
