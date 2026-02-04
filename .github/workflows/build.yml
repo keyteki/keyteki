@@ -50,6 +50,10 @@ jobs:
             - name: Build client
               env:
                   VERSION: ${{ steps.determine_version.outputs.semVer }}
+                  VITE_SENTRY_DSN: ${{ secrets.SENTRY_DSN }}
+                  SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
+                  SENTRY_ORG: ${{ vars.SENTRY_ORG }}
+                  SENTRY_PROJECT: ${{ vars.SENTRY_PROJECT }}
               run: npm run build --if-present
             - run: npm test
     package:
@@ -89,6 +93,10 @@ jobs:
               with:
                   build-args: |
                       "VERSION=${{ steps.determine_version.outputs.semVer }}"
+                      "VITE_SENTRY_DSN=${{ secrets.SENTRY_DSN }}"
+                      "SENTRY_AUTH_TOKEN=${{ secrets.SENTRY_AUTH_TOKEN }}"
+                      "SENTRY_ORG=${{ vars.SENTRY_ORG }}"
+                      "SENTRY_PROJECT=${{ vars.SENTRY_PROJECT }}"
                   push: true
                   tags: cryogen/keyteki-lobby:latest, cryogen/keyteki-lobby:${{ steps.determine_version.outputs.semVer }}
             - name: Build and push node

@@ -155,10 +155,10 @@ class GameServer {
             }
         }
 
-        Sentry.configureScope((scope) => {
+        Sentry.withScope((scope) => {
             scope.setExtra('extra', debugData);
+            Sentry.captureException(e);
         });
-        Sentry.captureException(e);
         if (game) {
             game.addMessage(
                 'A Server error has occurred processing your game state, apologies.  Your game may now be in an inconsistent state, or you may be able to continue.  The error has been logged.'

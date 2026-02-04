@@ -192,7 +192,9 @@ class Lobby {
             );
         }
 
-        if ((process.env.VERSION || 'Local build') !== ioSocket.handshake.query.version) {
+        const serverVersion = process.env.VERSION;
+        const clientVersion = ioSocket.handshake.query.version;
+        if (serverVersion && clientVersion && serverVersion !== clientVersion) {
             ioSocket.emit(
                 'banner',
                 'Your client version is out of date, please refresh or clear your cache to get the latest version'

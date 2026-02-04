@@ -3,7 +3,7 @@ import React from 'react';
 import Avatar from '../Site/Avatar';
 import { NavDropdown } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
-import Link from './Link';
+import { Link as RouterLink } from 'react-router-dom';
 
 /**
  * @typedef ProfileMenuProps
@@ -32,15 +32,14 @@ const ProfileMenu = ({ menu, user }) => {
         <NavDropdown id='nav-Profile' title={title} className='d-flex align-items-center'>
             {menu.map((menuItem) =>
                 menuItem.path ? (
-                    <Link key={menuItem.path} href={menuItem.path}>
-                        <NavDropdown.Item
-                            className='navbar-item interactable dropdown-child'
-                            as={Link}
-                            href={menuItem.path}
-                        >
-                            {t(menuItem.title)}
-                        </NavDropdown.Item>
-                    </Link>
+                    <NavDropdown.Item
+                        key={menuItem.path}
+                        className='navbar-item interactable dropdown-child'
+                        as={RouterLink}
+                        to={menuItem.path}
+                    >
+                        {t(menuItem.title)}
+                    </NavDropdown.Item>
                 ) : null
             )}
         </NavDropdown>
