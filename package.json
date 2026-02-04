@@ -165,7 +165,7 @@
         "typescript": "^5.4.5",
         "vite": "^5.4.21",
         "vitest": "4.0.18",
-        "webpack-dev-server": "^4.15.1",
+        "webpack-dev-server": "^5.2.1",
         "webpack-hot-middleware": "^2.19.1"
     }
 }
