@@ -5,18 +5,20 @@ class ExterminateExterminate extends Card {
     setupCardAbilities(ability) {
         this.play({
             effect: 'destroy a non-Mars creature for each Mars creature they control',
-            gameAction: ability.actions.sequentialForEach((context) => ({
-                forEach: context.player.creaturesInPlay.filter((card) => card.hasHouse('mars')),
-                action: (card) =>
-                    ability.actions.destroy({
-                        promptForSelect: {
-                            activePromptTitle: 'Choose a creature to destroy',
-                            cardType: 'creature',
-                            cardCondition: (c) => !c.hasHouse('mars') && c.power < card.power,
-                            context: context
-                        }
-                    })
-            }))
+            gameAction: ability.actions.sequentialPairedChoices({
+                pairMessage: '{0} uses {1} to choose {2} and destroy {3}',
+                sourceCardType: 'creature',
+                sourceCondition: (card) => card.hasHouse('mars'),
+                sourceController: 'self',
+                sourcePromptTitle: 'Choose a friendly Mars creature',
+                targetAction: (targets) => ability.actions.destroy({ target: targets }),
+                targetCardType: 'creature',
+                targetCondition: (card, sourceCard) =>
+                    !card.hasHouse('mars') && card.power < sourceCard.power,
+                targetController: 'any',
+                targetPromptTitle: (sourceCard) =>
+                    `${sourceCard.name} (${sourceCard.power} power) chosen - choose a non-Mars creature with less power to destroy`
+            })
         });
     }
 }
