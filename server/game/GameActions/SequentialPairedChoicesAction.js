@@ -9,7 +9,7 @@ const CardSelector = require('../CardSelector');
  *
  * Properties:
  * - sourceCondition: Function (card, context) => boolean - condition for source cards
- * - sourcePromptTitle: String - title for source selection prompt
+ * - sourcePromptTitle: String | Function(context) => String - title for source selection prompt
  * - targetAction: Function (targets) => GameAction - factory function that creates the action to perform on all targets
  * - targetCondition: Function (card, sourceCard, context) => boolean - condition for targets based on source
  * - targetPromptTitle: String | Function(sourceCard) => String - title for target selection prompt
@@ -68,8 +68,13 @@ class SequentialPairedChoicesAction extends GameAction {
                             return;
                         }
 
+                        const sourcePromptTitle =
+                            typeof this.sourcePromptTitle === 'function'
+                                ? this.sourcePromptTitle(context)
+                                : this.sourcePromptTitle;
+
                         context.game.promptForSelect(context.game.activePlayer, {
-                            activePromptTitle: this.sourcePromptTitle,
+                            activePromptTitle: sourcePromptTitle,
                             context: context,
                             selector: sourceSelector,
                             onSelect: (player, sourceCard) => {
