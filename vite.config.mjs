@@ -51,7 +51,7 @@ export default defineConfig(({ mode }) => ({
         },
         'process.env.NODE_ENV': JSON.stringify(mode),
         'process.env.VERSION': JSON.stringify(process.env.VERSION || 'development'),
-        'import.meta.env.VERSION': JSON.stringify(process.env.VERSION || 'development')
+        'import.meta.env.VITE_VERSION': JSON.stringify(process.env.VERSION || 'development')
     },
     build: {
         sourcemap: true,
