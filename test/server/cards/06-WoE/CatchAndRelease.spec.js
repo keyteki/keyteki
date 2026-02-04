@@ -114,7 +114,7 @@ describe('Catch and Release', function () {
             expect(this.player2.player.hand.length).toBe(0);
             // The discard and deck length is a constant, and after drawing from
             // scrap abilities the total number of cards lost should equal 2.
-            // Pick up 1 brillix, need to discard 2 to get to 6 cards in hand
+            // Picked up 1 brillix, need to discard 2 hookmasters to get to 6 cards in hand
             expect(
                 this.player1.player.discard.length + this.player1.player.deck.length - deckLength
             ).toEqual(2);
