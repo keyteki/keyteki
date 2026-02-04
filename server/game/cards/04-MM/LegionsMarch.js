@@ -4,8 +4,7 @@ class LegionsMarch extends Card {
     // Play: For the remainder of the turn, after you use a Dinosaur creature, deal 1D to each non-Dinosaur creature.
     setupCardAbilities(ability) {
         this.play({
-            effect:
-                'deal 1 damage to each non-Dinosaur creature after using a Dinosaur creature for the remainder of the turn',
+            effect: 'deal 1 damage to each non-Dinosaur creature after using a Dinosaur creature for the remainder of the turn',
             gameAction: ability.actions.untilPlayerTurnEnd((context) => ({
                 when: {
                     onUseCard: (event) =>

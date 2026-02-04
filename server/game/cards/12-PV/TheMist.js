@@ -11,8 +11,7 @@ class TheMist extends Card {
                     effect: ability.effects.addTrait('mutant')
                 })
             ],
-            effect:
-                'destroy {0} and make each creature gain the Mutant trait for the remainder of the turn',
+            effect: 'destroy {0} and make each creature gain the Mutant trait for the remainder of the turn',
             effectArgs: (context) => context.source
         });
     }

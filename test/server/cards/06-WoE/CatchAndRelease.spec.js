@@ -25,6 +25,8 @@ describe('Catch and Release', function () {
             let discardLength1 = this.player1.player.discard.length;
             let discardLength2 = this.player2.player.discard.length;
             this.player1.play(this.catchAndRelease);
+            expect(this.player1).toHavePrompt('Choose which player discards first');
+            this.player1.clickPrompt('Me');
             expect(this.player1.player.creaturesInPlay.length).toBe(0);
             expect(this.player1.player.hand.length).toBe(6);
             expect(this.player1.player.discard.length).toBe(discardLength1 + 2);
@@ -41,6 +43,8 @@ describe('Catch and Release', function () {
             let discardLength1 = this.player1.player.discard.length;
             let discardLength2 = this.player2.player.discard.length;
             this.player1.play(this.catchAndRelease);
+            expect(this.player1).toHavePrompt('Choose which player discards first');
+            this.player1.clickPrompt('Me');
             expect(this.player1.player.creaturesInPlay.length).toBe(0);
             expect(this.player1.player.hand.length).toBe(6);
             expect(this.player1.player.discard.length).toBe(discardLength1 + 2);
@@ -67,6 +71,40 @@ describe('Catch and Release', function () {
             expect(this.player2.player.creaturesInPlay.length).toBe(0);
             expect(this.player2.player.hand.length).toBe(6);
             expect(this.player2.player.discard.length).toBe(discardLength2 + 3);
+            expect(this.player1).isReadyToTakeAction();
+        });
+    });
+
+    describe('Catch and Release with scrap abilities', function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'unfathomable',
+                    inPlay: ['brillix-ponder', 'brillix-ponder', 'brillix-ponder'],
+                    hand: [
+                        'catch-and-release',
+                        'brillix-ponder',
+                        'brillix-ponder',
+                        'brillix-ponder',
+                        'brillix-ponder',
+                        'brillix-ponder',
+                        'brillix-ponder'
+                    ]
+                },
+                player2: {}
+            });
+        });
+
+        it('should continue discarding after scrap draws a card', function () {
+            this.player1.play(this.catchAndRelease);
+            expect(this.player1.player.hand.length).toBe(6);
+            expect(this.player2.player.hand.length).toBe(0);
+            expect(
+                this.player1.player.hand.filter((card) => card.name === 'Brillix Ponder').length
+            ).toBeLessThan(6);
+            expect(
+                this.player1.player.hand.filter((card) => card.name === 'Hookmaster').length
+            ).toBeGreaterThan(0);
             expect(this.player1).isReadyToTakeAction();
         });
     });

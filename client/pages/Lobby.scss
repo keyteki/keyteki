@@ -1,13 +1,11 @@
-@import '../styles/colours';
-@import 'bootstrap/scss/functions';
-@import 'bootstrap/scss/variables';
+@use '../styles/colours' as *;
 
 .event-banner {
     padding-top: 0px;
     margin-top: 0px;
     margin-bottom: 4px;
     border-radius: 10px;
-    background-image: url('../../assets/img/event-banner.png');
+    background-image: url('assets/img/event-banner.png');
     height: 140px;
     background-repeat: no-repeat;
     background-position-x: center;
@@ -19,6 +17,7 @@
     flex: 1;
     display: flex;
     flex-direction: column;
+    position: relative;
 
     .card {
         flex: 1;
@@ -44,3 +43,4 @@
     left: 15px;
     right: 15px;
 }
+

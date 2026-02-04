@@ -2,8 +2,7 @@ import React from 'react';
 import { Nav } from 'react-bootstrap';
 import { useSelector, useDispatch } from 'react-redux';
 import { useTranslation, Trans } from 'react-i18next';
-import { toastr } from 'react-redux-toastr';
-import { sendGameMessage, closeGameSocket } from '../../redux/actions';
+import { gameCloseRequested, gameSendMessage } from '../../redux/socketActions';
 import { useState } from 'react';
 
 import './GameContextMenu.scss';
@@ -48,26 +47,24 @@ const GameContextMenu = () => {
 
     const onLeaveClick = () => {
         if (!isSpectating && isGameActive()) {
-            toastr.confirm(
+            const confirmed = window.confirm(
                 t(
                     'Your game is not finished. If you leave you will concede the game. Are you sure you want to leave?'
-                ),
-                {
-                    okText: t('Ok'),
-                    cancelText: t('Cancel'),
-                    onOk: () => {
-                        dispatch(sendGameMessage('concede'));
-                        dispatch(sendGameMessage('leavegame'));
-                        dispatch(closeGameSocket());
-                    }
-                }
+                )
             );
 
+            if (!confirmed) {
+                return;
+            }
+
+            dispatch(gameSendMessage('concede'));
+            dispatch(gameSendMessage('leavegame'));
+            dispatch(gameCloseRequested());
             return;
         }
 
-        dispatch(sendGameMessage('leavegame'));
-        dispatch(closeGameSocket());
+        dispatch(gameSendMessage('leavegame'));
+        dispatch(gameCloseRequested());
     };
 
     if (!currentGame || !currentGame.started) {
@@ -92,7 +89,7 @@ const GameContextMenu = () => {
             {!isSpectating && (
                 <li className='navbar-item'>
                     <Nav.Link
-                        onClick={() => dispatch(sendGameMessage('concede'))}
+                        onClick={() => dispatch(gameSendMessage('concede'))}
                         className='navbar-item interactable'
                     >
                         <span>

@@ -1,174 +1,136 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+import React, { useCallback, useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import moment from 'moment';
-import { toastr } from 'react-redux-toastr';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
 
 import AlertPanel from '../Components/Site/AlertPanel';
 import Panel from '../Components/Site/Panel';
-import * as actions from '../redux/actions';
+import { useGetActiveSessionsQuery, useRemoveSessionMutation } from '../redux/api';
+import { userActions } from '../redux/slices/userSlice';
 
-import { withTranslation, Trans } from 'react-i18next';
+import { Trans, useTranslation } from 'react-i18next';
 
-class Security extends React.Component {
-    constructor(props) {
-        super(props);
+const Security = () => {
+    const dispatch = useDispatch();
+    const { t } = useTranslation();
+    const [detailsLoaded, setDetailsLoaded] = useState(false);
+    const user = useSelector((state) => state.account.user);
+    const sessionRemoved = useSelector((state) => state.user.sessionRemoved);
+    const sessions = useSelector((state) => state.user.sessions);
+    const { isLoading, isError, error } = useGetActiveSessionsQuery(user?.username, {
+        skip: !user
+    });
+    const [removeSession] = useRemoveSessionMutation();
 
-        this.state = {
-            detailsLoaded: false
-        };
-    }
-
-    // eslint-disable-next-line react/no-deprecated
-    componentWillMount() {
-        if (this.props.user) {
-            this.props.loadActiveSessions(this.props.user);
-
-            this.setState({ detailsLoaded: true });
+    useEffect(() => {
+        if (!detailsLoaded && user) {
+            setDetailsLoaded(true);
         }
-    }
+    }, [detailsLoaded, user]);
 
-    // eslint-disable-next-line camelcase
-    UNSAFE_componentWillReceiveProps(props) {
-        if (!this.state.detailsLoaded && props.user) {
-            this.props.loadActiveSessions(props.user);
+    useEffect(() => {
+        if (sessionRemoved) {
+            const timeoutId = setTimeout(() => {
+                dispatch(userActions.clearSessionStatus());
+            }, 5000);
 
-            this.setState({ detailsLoaded: true });
+            return () => clearTimeout(timeoutId);
         }
-    }
+    }, [dispatch, sessionRemoved]);
 
-    onRemoveClick(session, event) {
-        let t = this.props.t;
+    const onRemoveClick = useCallback(
+        (session, event) => {
+            event.preventDefault();
 
-        event.preventDefault();
-
-        if (!this.props.user) {
-            return;
-        }
-
-        toastr.confirm(
-            t(
-                'Are you sure you want to remove this session?  It will be logged out and any games in progress may be abandonded.'
-            ),
-            {
-                okText: t('Ok'),
-                cancelText: t('Cancel'),
-                onOk: () => {
-                    this.props.removeSession(this.props.user.username, session.id);
-                }
+            if (!user) {
+                return;
             }
+
+            const confirmed = window.confirm(
+                t(
+                    'Are you sure you want to remove this session?  It will be logged out and any games in progress may be abandonded.'
+                )
+            );
+
+            if (confirmed) {
+                removeSession({ username: user.username, sessionId: session.id });
+            }
+        },
+        [removeSession, t, user]
+    );
+
+    const successPanel = sessionRemoved ? (
+        <AlertPanel message={t('Session removed successfully')} type='success' />
+    ) : null;
+
+    const table =
+        sessions && sessions.length === 0 ? (
+            <div>You have no active sessions. This shouldn&quot;t really happen.</div>
+        ) : (
+            <table className='table table-striped'>
+                <thead>
+                    <tr>
+                        <th>
+                            <Trans>IP Address</Trans>
+                        </th>
+                        <th>
+                            <Trans>Last Used</Trans>
+                        </th>
+                        <th>
+                            <Trans>Remove</Trans>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {sessions?.map((session) => (
+                        <tr key={session.id}>
+                            <td>{session.ip}</td>
+                            <td>{moment(session.lastUsed).format('YYYY-MM-DD HH:mm')}</td>
+                            <td>
+                                <a
+                                    href='#'
+                                    onClick={(event) => onRemoveClick(session, event)}
+                                    className='text-danger'
+                                >
+                                    <FontAwesomeIcon icon={faTimes} />
+                                </a>
+                            </td>
+                        </tr>
+                    ))}
+                </tbody>
+            </table>
+        );
+
+    if (isLoading) {
+        return (
+            <div>
+                <Trans>Loading session details from the server...</Trans>
+            </div>
         );
     }
 
-    render() {
-        let t = this.props.t;
-        let content;
-        let successPanel;
-
-        if (this.props.sessionRemoved) {
-            setTimeout(() => {
-                this.props.clearSessionStatus();
-            }, 5000);
-            successPanel = (
-                <AlertPanel message={t('Session removed successfully')} type={'success'} />
-            );
-        }
-
-        let sessions = this.props.sessions
-            ? this.props.sessions.map((session) => {
-                  return (
-                      <tr key={session.id}>
-                          <td>{session.ip}</td>
-                          <td>{moment(session.lastUsed).format('YYYY-MM-DD HH:mm')}</td>
-                          <td>
-                              <a
-                                  href='#'
-                                  onClick={this.onRemoveClick.bind(this, session)}
-                                  className='text-danger'
-                              >
-                                  <FontAwesomeIcon icon={faTimes} />
-                              </a>
-                          </td>
-                      </tr>
-                  );
-              })
-            : null;
-        let table =
-            this.props.sessions && this.props.sessions.length === 0 ? (
-                <div>You have no active sessions. This shouldn&quot;t really happen.</div>
-            ) : (
-                <table className='table table-striped'>
-                    <thead>
-                        <tr>
-                            <th>
-                                <Trans>IP Address</Trans>
-                            </th>
-                            <th>
-                                <Trans>Last Used</Trans>
-                            </th>
-                            <th>
-                                <Trans>Remove</Trans>
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody>{sessions}</tbody>
-                </table>
-            );
-
-        if (this.props.loading) {
-            content = (
-                <div>
-                    <Trans>Loading session details from the server...</Trans>
-                </div>
-            );
-        } else if (this.props.apiError) {
-            content = <AlertPanel type='error' message={this.props.apiError} />;
-        } else {
-            content = (
-                <div className='col-sm-8 col-sm-offset-2 profile full-height'>
-                    {successPanel}
-                    <Panel title={t('Active Sessions')}>
-                        <p className='help-block'>
-                            <Trans i18nKey='security.note'>
-                                Below you will see the active &quot;sessions&quot; that you have on
-                                the website. If you see any unexpected activity on your account,
-                                remove the session and consider changing your password.
-                            </Trans>
-                        </p>
-                        {table}
-                    </Panel>
-                </div>
-            );
-        }
-
-        return content;
+    if (isError) {
+        return <AlertPanel type='error' message={error?.data?.message} />;
     }
-}
 
-Security.displayName = 'Security';
-Security.propTypes = {
-    apiError: PropTypes.string,
-    clearSessionStatus: PropTypes.func,
-    i18n: PropTypes.object,
-    loadActiveSessions: PropTypes.func,
-    loading: PropTypes.bool,
-    removeSession: PropTypes.func,
-    sessionRemoved: PropTypes.bool,
-    sessions: PropTypes.array,
-    t: PropTypes.func,
-    user: PropTypes.object
+    return (
+        <div className='col-sm-8 col-sm-offset-2 profile full-height'>
+            {successPanel}
+            <Panel title={t('Active Sessions')}>
+                <p className='help-block'>
+                    <Trans i18nKey='security.note'>
+                        Below you will see the active &quot;sessions&quot; that you have on the
+                        website. If you see any unexpected activity on your account, remove the
+                        session and consider changing your password.
+                    </Trans>
+                </p>
+                {table}
+            </Panel>
+        </div>
+    );
 };
 
-function mapStateToProps(state) {
-    return {
-        apiError: state.api.message,
-        loading: state.api.loading,
-        sessionRemoved: state.user.sessionRemoved,
-        sessions: state.user.sessions,
-        user: state.account.user
-    };
-}
+Security.displayName = 'Security';
 
-export default withTranslation()(connect(mapStateToProps, actions)(Security));
+export default Security;

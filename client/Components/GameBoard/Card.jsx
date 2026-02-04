@@ -1,7 +1,5 @@
 import React, { useState } from 'react';
 import classNames from 'classnames';
-import '../../shims/jquery-global';
-import 'jquery-migrate';
 import { useDrag } from 'react-dnd';
 
 import CardMenu from './CardMenu';
@@ -18,17 +16,17 @@ const Card = ({
     cardBack,
     className,
     disableMouseOver,
-    halfSize,
-    isSpectating,
+    halfSize = false,
+    isSpectating = true,
     onClick,
     onMenuItemClick,
     onMouseOut,
     onMouseOver,
-    orientation,
+    orientation = 'vertical',
     size,
     source,
     style,
-    wrapped
+    wrapped = true
 }) => {
     const { i18n } = useTranslation();
 
@@ -39,7 +37,8 @@ const Card = ({
     const [showMenu, setShowMenu] = useState(false);
 
     const [{ dragOffset, isDragging }, drag, preview] = useDrag({
-        item: { card: card, source: source, type: ItemTypes.CARD },
+        type: ItemTypes.CARD,
+        item: { card: card, source: source },
         canDrag: () => canDrag || (!card.unselectable && card.canPlay),
         collect: (monitor) => ({
             isDragging: monitor.isDragging(),
@@ -301,12 +300,5 @@ const Card = ({
 };
 
 Card.displayName = 'Card';
-
-Card.defaultProps = {
-    halfSize: false,
-    isSpectating: true,
-    orientation: 'vertical',
-    wrapped: true
-};
 
 export default Card;

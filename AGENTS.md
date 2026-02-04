@@ -52,6 +52,13 @@ Ask the user before proceeding when:
 -   Run tests matching a pattern: `DEBUG_TEST=1 npm test -- --filter='<pattern>'`
     -   Using just the filter option is slower than running test files, so prefer using filters in combination with specifying test files.
 
+## Version Control
+
+**IMPORTANT: Never run `git commit`, `git push`, or other version control commands without explicitly asking the user first.** The user manages all version control operations.
+
+-   You may use `git status`, `git diff`, `git log`, and other read-only git commands
+-   Always ask before committing changes, even if the work appears complete
+
 ## Architecture Overview
 
 ### Core Classes
@@ -76,6 +83,11 @@ For detailed documentation with examples, see the `docs/` folder, which includes
 -   Use arrow functions for conditions and callbacks
 -   Comment the card text above `setupCardAbilities`
 -   Always end files with a newline
+-   When writing a templated effect or message, use placeholders like `{0}`, `{1}`, etc., and provide corresponding values to ensure proper formatting. Do not concatenate strings or use template literals for game messages.
+-   Order object properties alphabetically where it makes sense when there isn't a strong logical order to the properties
+-   When adding guards to card implementations, prefer moving the guard into the underlying class rather than having every card implement the same guard logic.
+-   Use `const` instead of `var` or `let` when variables are not reassigned
+-   When making a git branch, use [conventional branch naming](https://conventional-branch.github.io/). If you have an issue number, include it in the branch name, e.g., `fix/123-card-name` or `feat/456-new-mechanic`.
 
 ## Card Implementation Guide
 
@@ -94,6 +106,7 @@ Card implementations in Keyteki follow a specific pattern where each card's game
 
 -   Card descriptions and metadata for each set are stored in JSON files under `keyteki-json-data/packs/<Set>.json`
 -   Each set has its own JSON file (e.g., [PV.json](keyteki-json-data/packs/PV.json))
+-   Use `jq` to read and parse JSON data instead of `grep` (e.g., `jq '.[] | select(.id == "card-id")' keyteki-json-data/packs/CotA.json`)
 -   The JSON data contains:
     -   Card name, ID, and number
     -   House affiliation
@@ -137,6 +150,7 @@ When implementing a new card, search for similar existing implementations:
 -   The end of each test should check that the active player doesn't have any pending prompts, eg `expect(this.player1).isReadyToTakeAction();`
 -   Assume that readers of the tests are well versed in the game. Tests only need comments when setting up complex or niche scenarios.
 -   The tests should only test the functionality of the card being implemented, not the metadata provided by the JSON data. For example, tests do not need to check the card's house, type, power, armor, traits, or keywords like "taunt" or "elusive", unless the card's ability interacts with those attributes. Tests should focus on the card's unique abilities and effects that are in their text box.
+-   When setting up a a test, the `this.setupTest()` function should not be run multiple times. For example in a `describe()` block nested in another `describe()` block, the inner block should not call `this.setupTest()` again - the second setupTest will not be run. Instead, set up the describe block without nesting.
 
 ### Debugging Cards
 

@@ -1,4 +1,4 @@
-describe.skip('Angry Mob', function () {
+describe('Angry Mob', function () {
     describe("Angry Mob's ability", function () {
         beforeEach(function () {
             this.setupTest({
@@ -21,7 +21,7 @@ describe.skip('Angry Mob', function () {
         it('should be optional', function () {
             expect(this.angryMob.location).toBe('play area');
             this.player1.fightWith(this.angryMob, this.gamgee);
-            expect(this.player1).toHavePrompt('Any reactions?');
+            expect(this.player1).toHavePrompt('Any interrupts?');
             expect(this.player1).toHavePromptButton('Done');
             this.player1.clickPrompt('Done');
             expect(this.angryMob2.location).toBe('deck');
@@ -29,7 +29,7 @@ describe.skip('Angry Mob', function () {
 
         it('should find an angry mob', function () {
             this.player1.fightWith(this.angryMob, this.gamgee);
-            expect(this.player1).toHavePrompt('Any reactions?');
+            expect(this.player1).toHavePrompt('Any interrupts?');
             this.player1.clickCard(this.angryMob);
             expect(this.angryMob2.location).toBe('hand');
         });
@@ -40,7 +40,7 @@ describe.skip('Angry Mob', function () {
             this.player1.moveCard(this.brabble, 'deck');
 
             this.player1.fightWith(this.angryMob, this.gamgee);
-            expect(this.player1).toHavePrompt('Any reactions?');
+            expect(this.player1).toHavePrompt('Any interrupts?');
             this.player1.clickCard(this.angryMob);
             expect(this.angryMob2.location).toBe('hand');
             expect(this.sequis.location).toBe('discard');
@@ -58,7 +58,7 @@ describe.skip('Angry Mob', function () {
             this.player1.moveCard(this.brabble, 'deck');
 
             this.player1.fightWith(this.angryMob, this.gamgee);
-            expect(this.player1).toHavePrompt('Any reactions?');
+            expect(this.player1).toHavePrompt('Any interrupts?');
             this.player1.clickCard(this.angryMob);
 
             expect(this.angryMob2.location).toBe('deck');

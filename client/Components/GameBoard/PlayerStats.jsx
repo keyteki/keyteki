@@ -1,8 +1,8 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
-import { sendGameMessage } from '../../redux/actions';
-import { toastr } from 'react-redux-toastr';
+import { gameSendMessage } from '../../redux/socketActions';
+import { toast } from 'react-toastify';
 import classNames from 'classnames';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
@@ -88,7 +88,7 @@ const PlayerStats = ({
                         href='#'
                         className='btn-stat'
                         onClick={() => {
-                            dispatch(sendGameMessage('changeStat', statToSet, -1));
+                            dispatch(gameSendMessage('changeStat', statToSet, -1));
                         }}
                     >
                         <img src={Minus} title='-' alt='-' />
@@ -101,7 +101,7 @@ const PlayerStats = ({
                         href='#'
                         className='btn-stat'
                         onClick={() => {
-                            dispatch(sendGameMessage('changeStat', statToSet, 1));
+                            dispatch(gameSendMessage('changeStat', statToSet, 1));
                         }}
                     >
                         <img src={Plus} title='+' alt='+' />
@@ -129,7 +129,7 @@ const PlayerStats = ({
                             key={house}
                             onClick={() => {
                                 if (showControls) {
-                                    dispatch(sendGameMessage('changeActiveHouse', house));
+                                    dispatch(gameSendMessage('changeActiveHouse', house));
                                 }
                             }}
                             className={`img-fluid ${
@@ -166,8 +166,8 @@ const PlayerStats = ({
         if (messagePanel) {
             navigator.clipboard
                 .writeText(messagePanel.innerText)
-                .then(() => toastr.success('Copied game chat to clipboard'))
-                .catch((err) => toastr.error(`Could not copy game chat: ${err}`));
+                .then(() => toast.success('Copied game chat to clipboard'))
+                .catch((err) => toast.error(`Could not copy game chat: ${err}`));
         }
     };
 

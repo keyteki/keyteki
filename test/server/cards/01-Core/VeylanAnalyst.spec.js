@@ -76,7 +76,7 @@ describe('Veylan Analyst', function () {
             this.setupTest({
                 player1: {
                     house: 'sanctum',
-                    inPlay: ['veylan-analyst', 'angry-mob', 'epic-quest', 'poltergeist'],
+                    inPlay: ['veylan-analyst', 'angry-mob', 'epic-quest'],
                     hand: [
                         'ardent-hero',
                         'cleansing-wave',

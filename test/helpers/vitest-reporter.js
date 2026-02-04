@@ -117,6 +117,11 @@ export default class CustomReporter extends DefaultReporter {
     }
 
     _printProgress(force = false) {
+        // Skip all progress updates in DEBUG_TEST mode to keep output stable
+        if (process.env.DEBUG_TEST) {
+            return;
+        }
+
         const now = Date.now();
         if (!force && now - this._lastPrintTime < this._printInterval) {
             return;
@@ -131,23 +136,29 @@ export default class CustomReporter extends DefaultReporter {
 
         const filePercent =
             this.filesExpected > 0 ? Math.round((this.filesRun / this.filesExpected) * 100) : 0;
-        const fileFailed = `${bold}${red}${this.filesFailed} failed${reset}`;
-        const filePassed = `${bold}${green}${this.filesPassed} passed${reset}`;
-        const fileSkipped = `${bold}${yellow}${this.filesSkipped} skipped${reset}`;
+        const fileStats = [
+            this.filesFailed > 0 ? `${bold}${red}${this.filesFailed} failed${reset}` : null,
+            `${bold}${green}${this.filesPassed} passed${reset}`,
+            this.filesSkipped > 0 ? `${bold}${yellow}${this.filesSkipped} skipped${reset}` : null
+        ]
+            .filter(Boolean)
+            .join(' | ');
 
         const testsTotal = this.testsPassed + this.testsFailed + this.testsSkipped;
-        const testFailed = `${bold}${red}${this.testsFailed} failed${reset}`;
-        const testPassed = `${bold}${green}${this.testsPassed} passed${reset}`;
-        const testSkipped = `${bold}${yellow}${this.testsSkipped} skipped${reset}`;
+        const testStats = [
+            this.testsFailed > 0 ? `${bold}${red}${this.testsFailed} failed${reset}` : null,
+            `${bold}${green}${this.testsPassed} passed${reset}`,
+            this.testsSkipped > 0 ? `${bold}${yellow}${this.testsSkipped} skipped${reset}` : null
+        ]
+            .filter(Boolean)
+            .join(' | ');
 
         const startAt = new Date(this.startTime).toLocaleTimeString('en-US', { hour12: false });
         const elapsedMs = Date.now() - this.startTime;
         const elapsed = elapsedMs >= 1000 ? `${(elapsedMs / 1000).toFixed(2)}s` : `${elapsedMs}ms`;
-
-        // Build the output
         const output =
-            ` Test Files  ${fileFailed} | ${filePassed} | ${fileSkipped} (${this.filesRun}/${this.filesExpected} ${filePercent}%)\n` +
-            `      Tests  ${testFailed} | ${testPassed} | ${testSkipped} (${testsTotal})\n` +
+            ` Test Files  ${fileStats} (${this.filesRun}/${this.filesExpected} ${filePercent}%)\n` +
+            `      Tests  ${testStats} (${testsTotal})\n` +
             `   Start at  ${startAt}\n` +
             `   Duration  ${elapsed}`;
 

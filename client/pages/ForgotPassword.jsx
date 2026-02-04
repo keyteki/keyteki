@@ -1,35 +1,39 @@
 import React from 'react';
-import { useSelector, useDispatch } from 'react-redux';
 import ReCAPTCHA from 'react-google-recaptcha';
-
-import AlertPanel from '../Components/Site/AlertPanel';
-import Panel from '../Components/Site/Panel';
 import { useTranslation } from 'react-i18next';
-import { Account } from '../redux/types';
-import { clearApiStatus, forgotPassword } from '../redux/actions';
-import { Form, Col, Button } from 'react-bootstrap';
+import { Button, Col, Form, Row } from 'react-bootstrap';
 import { Formik } from 'formik';
 import * as yup from 'yup';
+
+import AlertPanel from '../Components/Site/AlertPanel';
 import ApiStatus from '../Components/Site/ApiStatus';
+import Panel from '../Components/Site/Panel';
+import { useForgotPasswordMutation } from '../redux/api';
 
 const ForgotPassword = () => {
     const { t } = useTranslation();
-    const dispatch = useDispatch();
-    const apiState = useSelector((state) => {
-        const retState = state.api[Account.ForgotPasswordRequest];
+    const [forgotPassword, forgotState] = useForgotPasswordMutation();
 
-        if (retState && retState.success) {
-            retState.message = t(
-                'Your request was submitted.  If the username you entered is registered with the site, an email will be sent to the address registered on the account, detailing what to do next.'
-            );
+    const apiState = forgotState.isUninitialized
+        ? null
+        : {
+              loading: forgotState.isLoading,
+              success: forgotState.isSuccess,
+              message: forgotState.isSuccess
+                  ? t(
+                        'Your request was submitted.  If the username you entered is registered with the site, an email will be sent to the address registered on the account, detailing what to do next.'
+                    )
+                  : forgotState.error?.data?.message
+          };
 
-            setTimeout(() => {
-                dispatch(clearApiStatus(Account.ForgotPasswordRequest));
+    React.useEffect(() => {
+        if (forgotState.isSuccess) {
+            const timeoutId = setTimeout(() => {
+                forgotState.reset();
             }, 3000);
+            return () => clearTimeout(timeoutId);
         }
-
-        return retState;
-    });
+    }, [forgotState]);
 
     const initialValues = {
         username: '',
@@ -52,19 +56,16 @@ const ForgotPassword = () => {
                         )}
                     />
                 )}
-                <ApiStatus
-                    state={apiState}
-                    onClose={() => dispatch(clearApiStatus(Account.ForgotPasswordRequest))}
-                />
+                <ApiStatus state={apiState} onClose={() => forgotState.reset()} />
                 <Formik
                     validationSchema={schema}
                     onSubmit={(values) => {
-                        dispatch(
-                            forgotPassword({
-                                username: values.username,
-                                captcha: values.captchaValue
-                            })
-                        );
+                        localStorage.removeItem('token');
+                        localStorage.removeItem('refreshToken');
+                        forgotPassword({
+                            username: values.username,
+                            captcha: values.captchaValue
+                        });
                     }}
                     initialValues={initialValues}
                 >
@@ -75,7 +76,7 @@ const ForgotPassword = () => {
                                 formProps.handleSubmit(event);
                             }}
                         >
-                            <Form.Row>
+                            <Row>
                                 <Form.Group as={Col} sm='8' controlId='formGridUsername'>
                                     <Form.Label>{t('Username')}</Form.Label>
                                     <Form.Control
@@ -94,8 +95,8 @@ const ForgotPassword = () => {
                                         {formProps.errors.username}
                                     </Form.Control.Feedback>
                                 </Form.Group>
-                            </Form.Row>
-                            <Form.Row>
+                            </Row>
+                            <Row>
                                 <Form.Group as={Col} sm={8}>
                                     <ReCAPTCHA
                                         className='is-invalid'
@@ -109,7 +110,7 @@ const ForgotPassword = () => {
                                         {formProps.errors.captchaValue}
                                     </Form.Control.Feedback>
                                 </Form.Group>
-                            </Form.Row>
+                            </Row>
                             <div className='text-center'>
                                 <Button variant='primary' type='submit'>
                                     {t('Submit')}

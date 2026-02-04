@@ -12,8 +12,7 @@ class Sleight extends Card {
         });
 
         this.fate({
-            effect:
-                "for each enemy Shadows creature, shuffle a friendly creature into its owner's deck",
+            effect: "for each enemy Shadows creature, shuffle a friendly creature into its owner's deck",
             gameAction: ability.actions.sequentialForEach((context) => ({
                 num: context.game.activePlayer.opponent.creaturesInPlay.filter((card) =>
                     card.hasHouse('shadows')

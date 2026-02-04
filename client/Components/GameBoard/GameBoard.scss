@@ -1,8 +1,5 @@
-@import '../../styles/variables';
-@import '../../styles/colours';
-@import 'bootstrap/scss/functions';
-@import 'bootstrap/scss/variables';
-@import 'bootstrap/scss/mixins';
+@use '../../styles/variables' as *;
+@use '../../styles/colours' as *;
 
 .game-board {
     position: absolute;
@@ -15,7 +12,7 @@
     flex-direction: column;
 
     &.select-cursor {
-        cursor: url('../../assets/img/crosshairs.cur'), default;
+        cursor: url('assets/img/crosshairs.cur'), default;
     }
 
     .card {
@@ -334,3 +331,4 @@
         width: 80% !important;
     }
 }
+

@@ -1,74 +1,61 @@
-import React, { useState, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import React, { useMemo, useState } from 'react';
 import moment from 'moment';
 import { Table, Form, Col, Button } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleNotch } from '@fortawesome/free-solid-svg-icons';
 
 import Panel from '../Components/Site/Panel';
-import { loadNews, saveNews, deleteNews, clearApiStatus, addNews } from '../redux/actions';
-import { News } from '../redux/types';
 import ApiStatus from '../Components/Site/ApiStatus';
+import {
+    useAddNewsMutation,
+    useDeleteNewsMutation,
+    useGetNewsQuery,
+    useSaveNewsMutation
+} from '../redux/api';
 
 const NewsAdmin = () => {
-    const news = useSelector((state) => state.news.news);
+    const {
+        data: newsResponse,
+        isLoading: isNewsLoading,
+        isError: isNewsError,
+        error: newsError
+    } = useGetNewsQuery({ limit: 5 });
+    const [addNews, addResult] = useAddNewsMutation();
+    const [saveNews, saveResult] = useSaveNewsMutation();
+    const [deleteNews, deleteResult] = useDeleteNewsMutation();
+    const news = newsResponse?.news || [];
     const [newsText, setNewsText] = useState('');
     const [editText, setEditText] = useState('');
     const [editId, setEditId] = useState();
-    const dispatch = useDispatch();
 
-    const apiState = useSelector((state) => {
-        const retState = state.api[News.RequestNews];
-
-        return retState;
-    });
-
-    const addApiState = useSelector((state) => {
-        const retState = state.api[News.AddNews];
-
-        if (retState && retState.success) {
-            retState.message = 'News item added successfully';
-
-            setTimeout(() => {
-                dispatch(clearApiStatus(News.AddNews));
-            }, 5000);
+    const toApiStatus = (result, successMessage) => {
+        if (!result || result.isUninitialized) {
+            return null;
         }
 
-        return retState;
-    });
+        return {
+            loading: result.isLoading,
+            success: result.isSuccess,
+            message: result.isError
+                ? result.error?.data?.message || result.error?.error || 'An error occurred'
+                : result.isSuccess
+                ? successMessage
+                : undefined
+        };
+    };
 
-    const saveApiState = useSelector((state) => {
-        const retState = state.api[News.SaveNews];
-
-        if (retState && retState.success) {
-            retState.message = 'News item saved successfully';
-
-            setTimeout(() => {
-                dispatch(clearApiStatus(News.SaveNews));
-            }, 5000);
-        }
-
-        return retState;
-    });
-
-    const deleteApiState = useSelector((state) => {
-        const retState = state.api[News.DeleteNews];
-
-        if (retState && retState.success) {
-            retState.message = 'News item deleted successfully';
-
-            setTimeout(() => {
-                dispatch(clearApiStatus(News.DeleteNews));
-            }, 5000);
-        }
-
-        return retState;
-    });
-
-    useEffect(() => {
-        dispatch(loadNews({ limit: 5, forceLoad: true }));
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    const addApiState = useMemo(
+        () => toApiStatus(addResult, 'News item added successfully'),
+        [addResult]
+    );
+    const saveApiState = useMemo(
+        () => toApiStatus(saveResult, 'News item saved successfully'),
+        [saveResult]
+    );
+    const deleteApiState = useMemo(
+        () => toApiStatus(deleteResult, 'News item deleted successfully'),
+        [deleteResult]
+    );
 
     const renderedNews = news.map((newsItem) => {
         return (
@@ -95,7 +82,7 @@ const NewsAdmin = () => {
                                 variant='primary'
                                 type='button'
                                 onClick={() => {
-                                    dispatch(saveNews(editId, editText));
+                                    saveNews({ id: editId, text: editText });
                                     setEditId(undefined);
                                     setEditText(undefined);
                                 }}
@@ -117,7 +104,7 @@ const NewsAdmin = () => {
                         <Button
                             variant='danger'
                             type='button'
-                            onClick={() => dispatch(deleteNews(newsItem.id))}
+                            onClick={() => deleteNews(newsItem.id)}
                         >
                             Delete
                         </Button>
@@ -130,32 +117,30 @@ const NewsAdmin = () => {
     return (
         <div>
             <Panel title='News Admin'>
-                {apiState?.loading && (
+                {isNewsLoading && (
                     <div>
                         Please wait while the news is loaded...
                         <FontAwesomeIcon icon={faCircleNotch} spin />
                     </div>
                 )}
-                {!apiState?.loading && (
+                {!isNewsLoading && (
                     <>
-                        {!apiState?.success && (
+                        {isNewsError && (
                             <ApiStatus
-                                state={apiState}
-                                onClose={() => dispatch(clearApiStatus(News.RequestNews))}
+                                state={{
+                                    loading: false,
+                                    success: false,
+                                    message:
+                                        newsError?.data?.message ||
+                                        newsError?.error ||
+                                        'Error loading news'
+                                }}
+                                onClose={() => {}}
                             />
                         )}
-                        <ApiStatus
-                            state={addApiState}
-                            onClose={() => dispatch(clearApiStatus(News.AddNews))}
-                        />
-                        <ApiStatus
-                            state={saveApiState}
-                            onClose={() => dispatch(clearApiStatus(News.SaveNews))}
-                        />
-                        <ApiStatus
-                            state={deleteApiState}
-                            onClose={() => dispatch(clearApiStatus(News.DeleteNews))}
-                        />
+                        <ApiStatus state={addApiState} onClose={() => addResult.reset()} />
+                        <ApiStatus state={saveApiState} onClose={() => saveResult.reset()} />
+                        <ApiStatus state={deleteApiState} onClose={() => deleteResult.reset()} />
                         <Table striped>
                             <thead>
                                 <tr className='d-flex'>
@@ -184,7 +169,7 @@ const NewsAdmin = () => {
                                 variant='primary'
                                 type='button'
                                 onClick={() => {
-                                    dispatch(addNews(newsText));
+                                    addNews(newsText);
                                     setNewsText('');
                                 }}
                             >

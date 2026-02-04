@@ -7,50 +7,6 @@ const GameFlowWrapper = require('./gameflowwrapper.js');
 
 const deckBuilder = new DeckBuilder();
 
-// Pre-build cards dictionary once (used by GameFlowWrapper)
-const cardsByCode = {};
-for (let card of deckBuilder.cards) {
-    cardsByCode[card.id] = card;
-}
-
-// Shared test context that simulates `this` binding for jasmine-style tests
-const testContext = {};
-
-// Wrap vitest's describe/it/beforeEach to bind `this` to testContext
-// This allows existing tests using `this.player1`, `this.game`, etc. to work
-const originalDescribe = globalThis.describe;
-const originalIt = globalThis.it;
-const originalBeforeEach = globalThis.beforeEach;
-const originalAfterEach = globalThis.afterEach;
-
-globalThis.describe = function (name, fn) {
-    return originalDescribe(name, function () {
-        return fn.call(testContext);
-    });
-};
-globalThis.describe.skip = originalDescribe.skip;
-globalThis.describe.only = originalDescribe.only;
-
-globalThis.it = function (name, fn) {
-    return originalIt(name, function () {
-        return fn.call(testContext);
-    });
-};
-globalThis.it.skip = originalIt.skip;
-globalThis.it.only = originalIt.only;
-
-globalThis.beforeEach = function (fn) {
-    return originalBeforeEach(function () {
-        return fn.call(testContext);
-    });
-};
-
-globalThis.afterEach = function (fn) {
-    return originalAfterEach(function () {
-        return fn.call(testContext);
-    });
-};
-
 const ProxiedGameFlowWrapperMethods = [
     'startGame',
     'selectFirstPlayer',
@@ -60,165 +16,209 @@ const ProxiedGameFlowWrapperMethods = [
 ];
 
 var customMatchers = {
-    toHavePrompt: function (actual, expected) {
-        var currentPrompt = actual.currentPrompt();
-        var pass = actual.hasPrompt(expected);
-
+    toHavePrompt: function () {
         return {
-            pass,
-            message: () =>
-                pass
-                    ? `Expected ${actual.name} not to have prompt "${expected}" but it did.`
-                    : `Expected ${actual.name} to have prompt "${expected}" but it had menuTitle "${currentPrompt.menuTitle}" and promptTitle "${currentPrompt.promptTitle}".`
-        };
-    },
-    toHavePromptImage: function (actual, expected) {
-        var currentPrompt = actual.currentPrompt();
-        var currentImage =
-            !!currentPrompt &&
-            currentPrompt.controls.length > 0 &&
-            !!currentPrompt.controls[0].source
-                ? currentPrompt.controls[0].source.image
-                : 'none';
-        var pass = actual.hasPromptImage(expected);
+            compare: function (actual, expected) {
+                var result = {};
+                var currentPrompt = actual.currentPrompt();
+                result.pass = actual.hasPrompt(expected);
 
-        return {
-            pass,
-            message: () =>
-                pass
-                    ? `Expected ${actual.name} not to have prompt image "${expected}" but it did.`
-                    : `Expected ${actual.name} to have prompt image "${expected}" but it had "${currentImage}".`
-        };
-    },
-    toHavePromptButton: function (actual, expected) {
-        var buttons = actual.currentButtons;
-        var pass = _.any(buttons, (button) => button === expected);
-
-        return {
-            pass,
-            message: () => {
-                if (pass) {
-                    return `Expected ${actual.name} not to have prompt button "${expected}" but it did.`;
+                if (result.pass) {
+                    result.message = `Expected ${actual.name} not to have prompt "${expected}" but it did.`;
                 } else {
-                    var buttonText = _.map(buttons, (button) => '[' + button + ']').join('\n');
-                    return `Expected ${actual.name} to have prompt button "${expected}" but it had buttons:\n${buttonText}`;
+                    result.message = `Expected ${actual.name} to have prompt "${expected}" but it had menuTitle "${currentPrompt.menuTitle}" and promptTitle "${currentPrompt.promptTitle}".`;
                 }
+
+                return result;
             }
         };
     },
-    toHavePromptCardButton: function (actual, card) {
-        var buttons = actual.currentPrompt().buttons;
-
-        if (_.isString(card)) {
-            card = actual.findCardByName(card);
-        }
-
-        var pass = _.any(buttons, (button) => (button.card ? button.card.id : '') === card.id);
-
+    toHavePromptImage: function () {
         return {
-            pass,
-            message: () => {
-                if (pass) {
-                    return `Expected ${actual.name} not to have prompt button "${card.name}" but it did.`;
+            compare: function (actual, expected) {
+                var result = {};
+                var currentPrompt = actual.currentPrompt();
+                var currentImage =
+                    !!currentPrompt &&
+                    currentPrompt.controls.length > 0 &&
+                    !!currentPrompt.controls[0].source
+                        ? currentPrompt.controls[0].source.image
+                        : 'none';
+                result.pass = actual.hasPromptImage(expected);
+
+                if (result.pass) {
+                    result.message = `Expected ${actual.name} not to have prompt image "${expected}" but it did.`;
+                } else {
+                    result.message = `Expected ${actual.name} to have prompt image "${expected}" but it had "${currentImage}".`;
+                }
+
+                return result;
+            }
+        };
+    },
+    toHavePromptButton: function (util, customEqualityMatchers) {
+        return {
+            compare: function (actual, expected) {
+                var buttons = actual.currentButtons;
+                var result = {};
+
+                result.pass = _.any(buttons, (button) =>
+                    util.equals(button, expected, customEqualityMatchers)
+                );
+
+                if (result.pass) {
+                    result.message = `Expected ${actual.name} not to have prompt button "${expected}" but it did.`;
+                } else {
+                    var buttonText = _.map(buttons, (button) => '[' + button + ']').join('\n');
+                    result.message = `Expected ${actual.name} to have prompt button "${expected}" but it had buttons:\n${buttonText}`;
+                }
+
+                return result;
+            }
+        };
+    },
+    toHavePromptCardButton: function (util, customEqualityMatchers) {
+        return {
+            compare: function (actual, card) {
+                var buttons = actual.currentPrompt().buttons;
+                var result = {};
+
+                if (_.isString(card)) {
+                    card = actual.findCardByName(card);
+                }
+
+                result.pass = _.any(buttons, (button) =>
+                    util.equals(button.card ? button.card.id : '', card.id, customEqualityMatchers)
+                );
+
+                if (result.pass) {
+                    result.message = `Expected ${actual.name} not to have prompt button "${card.name}" but it did.`;
                 } else {
                     var buttonText = _.map(
                         buttons,
                         (button) => '[' + (button.card ? button.card.name : '') + ']'
                     ).join('\n');
-                    return `Expected ${actual.name} to have prompt button "${card.name}" but it had buttons:\n${buttonText}`;
+                    result.message = `Expected ${actual.name} to have prompt button "${card.name}" but it had buttons:\n${buttonText}`;
                 }
+
+                return result;
             }
         };
     },
-    toBeAbleToRaiseTide: function (player) {
-        player.game.clickTide(player.name);
-        player.game.continue();
-        player.checkUnserializableGameState();
-
-        var buttons = player.currentPrompt().buttons;
-        var pass = _.any(buttons, (button) => button.text === 'No');
-
-        if (pass) {
-            player.clickPrompt('No');
-        }
-
+    toBeAbleToRaiseTide: function (util, customEqualityMatchers) {
         return {
-            pass,
-            message: () =>
-                pass
-                    ? `Expected ${player.name} not to be able to raise the tide, but it was.`
-                    : `Expected ${player.name} to be able to raise the tide, but it wasn't.`
+            compare: function (player) {
+                let result = {};
+
+                player.game.clickTide(player.name);
+                player.game.continue();
+                player.checkUnserializableGameState();
+
+                var buttons = player.currentPrompt().buttons;
+                result.pass = _.any(buttons, (button) =>
+                    util.equals(button.text, 'No', customEqualityMatchers)
+                );
+
+                if (result.pass) {
+                    player.clickPrompt('No');
+                    result.message = `Expected ${player.name} not to be able to raise the tide, but it was.`;
+                } else {
+                    result.message = `Expected ${player.name} to be able to raise the tide, but it wasn't.`;
+                }
+
+                return result;
+            }
         };
     },
-    toBeAbleToSelect: function (player, card) {
-        if (_.isString(card)) {
-            card = player.findCardByName(card);
-        }
-
-        var pass = player.currentActionTargets.includes(card);
-
+    toBeAbleToSelect: function () {
         return {
-            pass,
-            message: () =>
-                pass
-                    ? `Expected ${card.name} not to be selectable by ${player.name} but it was.`
-                    : `Expected ${card.name} to be selectable by ${player.name} but it wasn't.`
+            compare: function (player, card) {
+                if (_.isString(card)) {
+                    card = player.findCardByName(card);
+                }
+
+                let result = {};
+
+                result.pass = player.currentActionTargets.includes(card);
+
+                if (result.pass) {
+                    result.message = `Expected ${card.name} not to be selectable by ${player.name} but it was.`;
+                } else {
+                    result.message = `Expected ${card.name} to be selectable by ${player.name} but it wasn't.`;
+                }
+
+                return result;
+            }
         };
     },
-    toBeAbleToPlay: function (player, card) {
-        if (_.isString(card)) {
-            card = player.findCardByName(card);
-        }
-
-        var pass = card.getLegalActions(player.player, false).length > 0;
-
+    toBeAbleToPlay: function () {
         return {
-            pass,
-            message: () =>
-                pass
-                    ? `Expected ${card.name} not to be playable by ${player.name} but it was.`
-                    : `Expected ${card.name} to be playable by ${player.name} but it wasn't.`
+            compare: function (player, card) {
+                if (_.isString(card)) {
+                    card = player.findCardByName(card);
+                }
+
+                let result = {};
+
+                result.pass = card.getLegalActions(player.player, false).length > 0;
+
+                if (result.pass) {
+                    result.message = `Expected ${card.name} not to be playable by ${player.name} but it was.`;
+                } else {
+                    result.message = `Expected ${card.name} to be playable by ${player.name} but it wasn't.`;
+                }
+
+                return result;
+            }
         };
     },
-    toHaveRecentChatMessage: function (game, msg, numBack = 1) {
-        let logs = game.getChatLogs(numBack);
-        var pass = logs.filter((lastMsg) => lastMsg.includes(msg)).length > 0;
-
+    toHaveRecentChatMessage: function () {
         return {
-            pass,
-            message: () =>
-                pass
-                    ? `Expected ${msg} not to be in ${logs} but it was.`
-                    : `Expected '${msg}' to be in [${logs}] but it wasn't.`
+            compare: function (game, msg, numBack = 1) {
+                let result = {};
+                let logs = game.getChatLogs(numBack);
+
+                result.pass = logs.filter((lastMsg) => lastMsg.includes(msg)).length > 0;
+
+                if (result.pass) {
+                    result.message = `Expected ${msg} not to be in ${logs} but it was.`;
+                } else {
+                    result.message = `Expected '${msg}' to be in [${logs}] but it wasn't.`;
+                }
+
+                return result;
+            }
         };
     },
-    isReadyToTakeAction: function (player) {
-        var pass = player.hasPrompt('Choose a card to play, discard or use');
-
+    isReadyToTakeAction: function () {
         return {
-            pass,
-            message: () => {
-                if (pass) {
-                    return `Expected ${player.name} not to be ready to take action, but it was.`;
+            compare: function (player) {
+                let result = {};
+                result.pass = player.hasPrompt('Choose a card to play, discard or use');
+
+                if (result.pass) {
+                    result.message = `Expected ${player.name} not to be ready to take action, but it was.`;
                 } else {
                     let currentPrompt = player.currentPrompt();
-                    return `Expected ${player.name} to be ready to take action, but it had menuTitle "${currentPrompt.menuTitle}" and promptTitle "${currentPrompt.promptTitle}".`;
+                    result.message = `Expected ${player.name} to be ready to take action, but it had menuTitle "${currentPrompt.menuTitle}" and promptTitle "${currentPrompt.promptTitle}".`;
                 }
+
+                return result;
             }
         };
     }
 };
 
-// Register custom matchers with vitest's expect.extend
-expect.extend(customMatchers);
-
 beforeEach(function () {
-    // Clear previous test context
-    for (let key of Object.keys(testContext)) {
-        delete testContext[key];
+    jasmine.addMatchers(customMatchers);
+
+    let cards = {};
+
+    for (let card of deckBuilder.cards) {
+        cards[card.id] = card;
     }
 
-    this.flow = new GameFlowWrapper(cardsByCode);
+    this.flow = new GameFlowWrapper(cards);
 
     this.game = this.flow.game;
     this.player1Object = this.game.getPlayerByName('player1');

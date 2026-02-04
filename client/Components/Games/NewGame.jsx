@@ -11,7 +11,8 @@ import GameOptions from './GameOptions';
 import GameFormats from './GameFormats';
 import GameTypes from './GameTypes';
 import { getStandardControlProps } from '../../util.jsx';
-import { cancelNewGame, sendSocketMessage } from '../../redux/actions';
+import { lobbyActions } from '../../redux/slices/lobbySlice';
+import { lobbySendMessage } from '../../redux/socketActions';
 
 import './NewGame.scss';
 
@@ -95,7 +96,7 @@ const NewGame = ({
                     if (tournament) {
                         for (let match of matches) {
                             dispatch(
-                                sendSocketMessage('newgame', {
+                                lobbySendMessage('newgame', {
                                     ...values,
                                     expansions: {
                                         aoa: values.aoa,
@@ -146,7 +147,7 @@ const NewGame = ({
                         };
                         values.quickJoin = quickJoin;
 
-                        dispatch(sendSocketMessage('newgame', values));
+                        dispatch(lobbySendMessage('newgame', values));
                     }
                 }}
                 initialValues={initialValues}
@@ -197,7 +198,7 @@ const NewGame = ({
                         {!quickJoin && (
                             <>
                                 {!tournament && (
-                                    <Form.Row>
+                                    <Row>
                                         <Form.Group as={Col} lg='8' controlId='formGridGameName'>
                                             <Form.Label>{t('Name')}</Form.Label>
                                             <Form.Label className='float-right'>
@@ -213,7 +214,7 @@ const NewGame = ({
                                                 {formProps.errors.name}
                                             </Form.Control.Feedback>
                                         </Form.Group>
-                                    </Form.Row>
+                                    </Row>
                                 )}
                                 <GameOptions formProps={formProps} />
                             </>
@@ -239,7 +240,7 @@ const NewGame = ({
                             <Button
                                 variant='primary'
                                 onClick={() => {
-                                    dispatch(cancelNewGame());
+                                    dispatch(lobbyActions.cancelNewGame());
                                     if (onClosed) {
                                         onClosed(false);
                                     }

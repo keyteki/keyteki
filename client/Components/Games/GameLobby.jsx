@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { toastr } from 'react-redux-toastr';
+import { toast } from 'react-toastify';
 import { Trans, useTranslation } from 'react-i18next';
 import { Col, Row, Button, Form } from 'react-bootstrap';
 
@@ -13,28 +13,36 @@ import Panel from '../Site/Panel';
 
 import './GameLobby.scss';
 import { useEffect } from 'react';
-import { startNewGame, joinPasswordGame, sendSocketMessage, setUrl } from '../../redux/actions';
+import { lobbyActions } from '../../redux/slices/lobbySlice';
+import { lobbySendMessage } from '../../redux/socketActions';
 import { useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const GameLobby = ({ gameId }) => {
     const { t } = useTranslation();
     const dispatch = useDispatch();
-    const filters = [
-        { name: 'beginner', label: t('Beginner') },
-        { name: 'casual', label: t('Casual') },
-        { name: 'competitive', label: t('Competitive') },
-        { name: 'normal', label: t('Normal') },
-        { name: 'sealed', label: t('Sealed') },
-        { name: 'reversal', label: t('Reversal') },
-        { name: 'adaptive-bo1', label: t('Adaptive (Bo1)') },
-        { name: 'alliance', label: t('Alliance') },
-        { name: 'unchained', label: t('Unchained') }
-    ];
-    const filterDefaults = {};
-
-    for (const filter of filters) {
-        filterDefaults[filter.name] = true;
-    }
+    const navigate = useNavigate();
+    const filters = useMemo(
+        () => [
+            { name: 'beginner', label: t('Beginner') },
+            { name: 'casual', label: t('Casual') },
+            { name: 'competitive', label: t('Competitive') },
+            { name: 'normal', label: t('Normal') },
+            { name: 'sealed', label: t('Sealed') },
+            { name: 'reversal', label: t('Reversal') },
+            { name: 'adaptive-bo1', label: t('Adaptive (Bo1)') },
+            { name: 'alliance', label: t('Alliance') },
+            { name: 'unchained', label: t('Unchained') }
+        ],
+        [t]
+    );
+    const filterDefaults = useMemo(() => {
+        const defaults = {};
+        for (const filter of filters) {
+            defaults[filter.name] = true;
+        }
+        return defaults;
+    }, [filters]);
 
     const { games, newGame, currentGame, passwordGame } = useSelector((state) => ({
         games: state.lobby.games,
@@ -56,9 +64,9 @@ const GameLobby = ({ gameId }) => {
 
         let filter = localStorage.getItem('gameFilter');
         if (filter) {
-            setCurrentFilter(JSON.parse(filter));
+            setCurrentFilter({ ...filterDefaults, ...JSON.parse(filter) });
         }
-    }, []);
+    }, [filterDefaults]);
 
     const onFilterChecked = (name, checked) => {
         currentFilter[name] = checked;
@@ -72,25 +80,25 @@ const GameLobby = ({ gameId }) => {
             const game = games.find((x) => x.id === gameId);
 
             if (!game) {
-                toastr.error('Error', 'The game you tried to join was not found.');
+                toast.error(t('The game you tried to join was not found.'));
             } else {
                 if (!game.started && Object.keys(game.players).length < 2) {
                     if (game.needsPassword) {
-                        dispatch(joinPasswordGame(game, 'Join'));
+                        dispatch(lobbyActions.joinPasswordGame({ game, joinType: 'Join' }));
                     } else {
-                        dispatch(sendSocketMessage('joingame', gameId));
+                        dispatch(lobbySendMessage('joingame', gameId));
                     }
                 } else {
                     if (game.needsPassword) {
-                        dispatch(joinPasswordGame(game, 'Watch'));
+                        dispatch(lobbyActions.joinPasswordGame({ game, joinType: 'Watch' }));
                     } else {
-                        dispatch(sendSocketMessage('watchgame', game.id));
+                        dispatch(lobbySendMessage('watchgame', game.id));
                     }
                 }
             }
-            dispatch(setUrl('/play'));
+            navigate('/play', { replace: true });
         }
-    }, [currentGame, dispatch, gameId, games]);
+    }, [currentGame, dispatch, gameId, games, navigate, t]);
 
     return (
         <Col md={{ offset: 2, span: 8 }}>
@@ -114,7 +122,7 @@ const GameLobby = ({ gameId }) => {
                             variant='primary'
                             onClick={() => {
                                 setQuickJoin(false);
-                                dispatch(startNewGame());
+                                dispatch(lobbyActions.startNewGame());
                             }}
                         >
                             <Trans>New Game</Trans>
@@ -124,7 +132,7 @@ const GameLobby = ({ gameId }) => {
                             variant='primary'
                             onClick={() => {
                                 setQuickJoin(true);
-                                dispatch(startNewGame());
+                                dispatch(lobbyActions.startNewGame());
                             }}
                         >
                             <Trans>Quick Join</Trans>
@@ -147,7 +155,7 @@ const GameLobby = ({ gameId }) => {
                                                         event.target.checked
                                                     );
                                                 }}
-                                                checked={currentFilter[filter.name]}
+                                                checked={!!currentFilter[filter.name]}
                                             ></Form.Check>
                                         </Col>
                                     );
@@ -163,7 +171,7 @@ const GameLobby = ({ gameId }) => {
                                         onChange={(event) => {
                                             onFilterChecked('onlyShowNew', event.target.checked);
                                         }}
-                                        checked={currentFilter['onlyShowNew']}
+                                        checked={!!currentFilter['onlyShowNew']}
                                     ></Form.Check>
                                 </Col>
                             </Row>

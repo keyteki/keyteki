@@ -1,9 +1,9 @@
-@import '../../styles/variables';
-@import '../../styles/colours';
-@import 'bootstrap/scss/functions';
-@import 'bootstrap/scss/variables';
+@use '../../styles/variables' as *;
+@use '../../styles/colours' as *;
 
 .panel-heading {
+    display: flex;
+    align-items: center;
     text-align: center;
     font-weight: bold;
     color: white;
@@ -11,6 +11,15 @@
     border-bottom: 1px solid transparent;
     border-top-left-radius: 3px;
     border-top-right-radius: 3px;
+}
+
+.panel-heading .text-center {
+    flex: 1;
+    text-align: center;
+}
+
+.panel-heading .float-right {
+    margin-left: auto;
 }
 
 .close-button {
@@ -23,7 +32,7 @@
     border-color: theme-color(primary);
 
     .panel-heading {
-        background-image: url('../../assets/img/panel-primary.png');
+        background-image: url('assets/img/panel-primary.png');
         border-color: theme-color(primary);
     }
 }

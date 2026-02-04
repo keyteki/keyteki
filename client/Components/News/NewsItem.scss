@@ -1,8 +1,5 @@
-@import '../../styles/variables';
-@import '../../styles/colours';
-@import 'bootstrap/scss/functions';
-@import 'bootstrap/scss/variables';
-@import 'bootstrap/scss/mixins';
+@use '../../styles/variables' as *;
+@use '../../styles/colours' as *;
 
 .news-item {
     color: theme-color('secondary');
@@ -32,13 +29,14 @@
 }
 
 .unforged-red {
-    background-image: url('../../assets/img/unforgedkeyred.png');
+    background-image: url('assets/img/unforgedkeyred.png');
 }
 
 .unforged-blue {
-    background-image: url('../../assets/img/unforgedkeyblue.png');
+    background-image: url('assets/img/unforgedkeyblue.png');
 }
 
 .unforged-yellow {
-    background-image: url('../../assets/img/unforgedkeyyellow.png');
+    background-image: url('assets/img/unforgedkeyyellow.png');
 }
+

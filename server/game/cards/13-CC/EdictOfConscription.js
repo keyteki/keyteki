@@ -13,8 +13,7 @@ class EdictOfConscription extends Card {
                     effect: ability.effects.changeHouse('saurian'),
                     target: context.player.creaturesInPlay
                 })),
-                effect:
-                    'make each friendly creature belong to house Saurian for the remainder of the turn'
+                effect: 'make each friendly creature belong to house Saurian for the remainder of the turn'
             }
         });
     }

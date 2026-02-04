@@ -370,7 +370,8 @@ class Card extends EffectSource {
                 match: this,
                 effect: [
                     ability.effects.cardCannot('damage'),
-                    ability.effects.cardCannot('destroy')
+                    ability.effects.cardCannot('destroy'),
+                    ability.effects.cardCannot('sacrifice')
                 ]
             })
         );
@@ -875,6 +876,11 @@ class Card extends EffectSource {
         this.tokens[type] += number;
     }
 
+    setToken(type, number) {
+        this.tokens[type] = number;
+        this.game?.checkGameState(true);
+    }
+
     hasToken(type) {
         return !!this.tokens[type];
     }
@@ -1043,7 +1049,7 @@ class Card extends EffectSource {
     }
 
     set amber(amber) {
-        this.tokens.amber = amber;
+        this.setToken('amber', amber);
     }
 
     get damage() {
@@ -1051,7 +1057,7 @@ class Card extends EffectSource {
     }
 
     set damage(damage) {
-        this.tokens.damage = damage;
+        this.setToken('damage', damage);
     }
 
     get powerCounters() {
@@ -1059,7 +1065,7 @@ class Card extends EffectSource {
     }
 
     set powerCounters(power) {
-        this.tokens.power = power;
+        this.setToken('power', power);
     }
 
     get enraged() {

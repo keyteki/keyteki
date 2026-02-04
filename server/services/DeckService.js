@@ -278,11 +278,14 @@ class DeckService {
         return retDeck;
     }
 
-    async getNumDecksForUser(user, options) {
+    async getNumDecksForUser(
+        user,
+        options = { page: 1, pageSize: 10, sort: 'lastUpdated', sortDir: 'desc', filter: [] }
+    ) {
         let ret;
         let params = [user.id];
         let index = 2;
-        const filter = this.processFilter(index, params, options.filter);
+        const filter = this.processFilter(index, params, options?.filter);
 
         try {
             ret = await db.query(
@@ -317,16 +320,30 @@ class DeckService {
     }
 
     processFilter(index, params, filterOptions) {
+        if (typeof filterOptions === 'string') {
+            try {
+                filterOptions = JSON.parse(filterOptions);
+            } catch (error) {
+                filterOptions = [];
+            }
+        }
         let filter = '';
 
         for (let filterObject of filterOptions || []) {
             if (filterObject.name === 'expansion') {
+                if (!filterObject.value || filterObject.value.length === 0) {
+                    continue;
+                }
                 filter += `AND ${this.mapColumn(filterObject.name)} IN ${expand(
                     1,
                     filterObject.value.length,
                     index
                 )} `;
-                params.push(...filterObject.value.map((v) => v.value));
+                params.push(
+                    ...filterObject.value.map((v) =>
+                        typeof v === 'object' && v !== null ? v.value : v
+                    )
+                );
                 index += filterObject.value.length;
             } else if (filterObject.name === 'isAlliance') {
                 filter += `AND ${this.mapColumn(filterObject.name)} = $${index++} `;

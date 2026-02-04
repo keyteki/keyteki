@@ -1,11 +1,14 @@
-@import '../../styles/colours';
-@import '../../styles/fonts';
-@import 'bootstrap/scss/functions';
-@import 'bootstrap/scss/variables';
+@use '../../styles/colours' as *;
+@use '../../styles/fonts' as *;
 
 .card {
     font-family: Keyforge, Helvetica, sans-serif;
     box-shadow: 3px 3px 5px theme-color('primary') !important;
+    background-color: theme-color('dark');
+    color: theme-color('light');
+    --bs-card-bg: #{theme-color('dark')};
+    --bs-card-color: #{theme-color('light')};
+    --bs-card-cap-color: #{theme-color('light')};
 
     .card-header {
         font-weight: normal;
@@ -15,9 +18,19 @@
 
     &.border-primary {
         .card-header {
-            background-image: url('../../assets/img/panel-primary.png');
+            background-image: url('assets/img/panel-primary.png');
             border-color: theme-color('primary');
             background-position: center;
         }
     }
 }
+
+.keyteki-panel {
+    border: none;
+}
+
+.card.bg-dark {
+    background-color: theme-color('dark') !important;
+    color: theme-color('light') !important;
+}
+
