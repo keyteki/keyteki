@@ -29,6 +29,12 @@ const CardImage = ({ card, cardBack, size, halfSize, onMouseOver, onMouseOut }) 
     const renderIdRef = useRef(0);
     const warnRef = useRef(false);
 
+    const logProdError = (...args) => {
+        if (import.meta.env.PROD) {
+            console.error(...args);
+        }
+    };
+
     const setCanvasRef = useCallback((node) => {
         if (!node) {
             if (fabricRef.current) {
@@ -42,7 +48,8 @@ const CardImage = ({ card, cardBack, size, halfSize, onMouseOver, onMouseOut }) 
             try {
                 fabricRef.current = new fabric.StaticCanvas(node);
                 fabricRef.current.renderOnAddRemove = false;
-            } catch {
+            } catch (err) {
+                logProdError('CardImage failed to init fabric canvas', err);
                 fabricRef.current = null;
             }
         }
@@ -73,8 +80,8 @@ const CardImage = ({ card, cardBack, size, halfSize, onMouseOver, onMouseOut }) 
                     showAccolades,
                     url
                 });
-            } catch {
-                // ignore
+            } catch (err) {
+                logProdError('CardImage buildCard failed', err);
             }
 
             if (renderId !== renderIdRef.current) {

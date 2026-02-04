@@ -20,6 +20,12 @@ const IdentityCardImage = ({ deck, size, showAccolades = true }) => {
     const warnRef = useRef(false);
     const { t, i18n } = useTranslation();
 
+    const logProdError = (...args) => {
+        if (import.meta.env.PROD) {
+            console.error(...args);
+        }
+    };
+
     const setCanvasRef = useCallback((node) => {
         if (!node) {
             if (fabricRef.current) {
@@ -33,7 +39,8 @@ const IdentityCardImage = ({ deck, size, showAccolades = true }) => {
             try {
                 fabricRef.current = new fabric.StaticCanvas(node);
                 fabricRef.current.renderOnAddRemove = false;
-            } catch {
+            } catch (err) {
+                logProdError('IdentityCardImage failed to init fabric canvas', err);
                 fabricRef.current = null;
             }
         }
@@ -52,8 +59,8 @@ const IdentityCardImage = ({ deck, size, showAccolades = true }) => {
         (async () => {
             try {
                 await buildDeckList(canvas, deck, i18n.language, t, size, showAccolades);
-            } catch {
-                // ignore
+            } catch (err) {
+                logProdError('IdentityCardImage buildDeckList failed', err);
             }
         })();
     }, [deck?.uuid, i18n.language, t, size, showAccolades, deck]);
