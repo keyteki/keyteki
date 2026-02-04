@@ -60,8 +60,8 @@
         "@popperjs/core": "^2.11.8",
         "@reduxjs/toolkit": "^2.2.3",
         "@sendgrid/mail": "^6.5.5",
-        "@sentry/browser": "^5.26.0",
-        "@sentry/node": "^5.26.0",
+        "@sentry/node": "^10.38.0",
+        "@sentry/react": "^10.38.0",
         "@types/redis": "^2.8.21",
         "@types/socket.io": "^2.1.5",
         "bcrypt": "^5.1.1",
@@ -148,6 +148,7 @@
         "@rollup/rollup-linux-x64-gnu": "4.57.1"
     },
     "devDependencies": {
+        "@sentry/vite-plugin": "^4.9.0",
         "@types/node": "^22.11.0",
         "@vitejs/plugin-react": "^4.2.1",
         "autoprefixer": "^10.4.16",

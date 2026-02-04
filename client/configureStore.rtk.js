@@ -1,6 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit';
 import { setupListeners } from '@reduxjs/toolkit/query';
-import { addBreadcrumb } from '@sentry/browser';
+import { addBreadcrumb } from '@sentry/react';
 
 import rootReducer from './redux/reducers';
 import { socketMiddleware } from './redux/middleware/socket-middleware';

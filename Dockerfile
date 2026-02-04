@@ -8,12 +8,20 @@ COPY package-lock.json /usr/src/app
 RUN npm ci
 
 ARG VERSION
+ARG VITE_SENTRY_DSN
+ARG SENTRY_AUTH_TOKEN
+ARG SENTRY_ORG
+ARG SENTRY_PROJECT
 ENV VERSION ${VERSION}
 
 ENV NODE_ENV production
 
 COPY . /usr/src/app
 
-RUN npm run build
+RUN SENTRY_AUTH_TOKEN=$SENTRY_AUTH_TOKEN \
+    SENTRY_ORG=$SENTRY_ORG \
+    SENTRY_PROJECT=$SENTRY_PROJECT \
+    VITE_SENTRY_DSN=$VITE_SENTRY_DSN \
+    npm run build
 
 CMD [ "node", "." ]

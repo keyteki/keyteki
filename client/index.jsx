@@ -15,7 +15,7 @@ import { BrowserRouter } from 'react-router-dom';
 import configureStore from './configureStore.rtk';
 import 'bootstrap/dist/js/bootstrap';
 import { ToastContainer } from 'react-toastify';
-import * as Sentry from '@sentry/browser';
+import * as Sentry from '@sentry/react';
 import { DndProvider } from 'react-dnd';
 import { TouchBackend } from 'react-dnd-touch-backend';
 
@@ -41,10 +41,11 @@ const ensureJqueryPlugins = async () => {
 };
 
 const isProd = import.meta.env.PROD;
+const sentryDsn = import.meta.env.VITE_SENTRY_DSN;
 
-if (isProd) {
+if (isProd && sentryDsn) {
     const sentryOptions = {
-        dsn: 'https://8e2615acba9548ba8d83fa2735de2bd2@sentry.io/1515148',
+        dsn: sentryDsn,
         denyUrls: [
             /graph\.facebook\.com/i,
             /connect\.facebook\.net\/en_US\/all\.js/i,
@@ -73,7 +74,8 @@ if (isProd) {
 
             return event;
         },
-        release: import.meta.env.VERSION || 'Local build'
+        release: import.meta.env.VERSION || 'Local build',
+        environment: import.meta.env.MODE
     };
 
     Sentry.init(sentryOptions);
