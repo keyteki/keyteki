@@ -140,8 +140,8 @@ function processImage(image, width, height) {
         fabric.Image.fromURL(
             'data:image/png;base64,' + image,
             (img) => {
-                if (img.getElement() == null) {
-                    reject('Error occurred in fabric');
+                if (!img || img.getElement() == null) {
+                    reject(new Error('Error occurred in fabric'));
                 } else {
                     img.scaleToWidth(width)
                         .scaleToHeight(height)

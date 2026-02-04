@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import * as Sentry from '@sentry/browser';
+import * as Sentry from '@sentry/react';
 
 import { withTranslation, Trans } from 'react-i18next';
 

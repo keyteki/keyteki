@@ -102,20 +102,4 @@ describe('Etaromme', function () {
             expect(this.shadowSelf.location).toBe('discard');
         });
     });
-
-    describe("Etaromme's reap ability", function () {
-        beforeEach(function () {
-            this.setupTest({
-                player1: {
-                    house: 'logos',
-                    inPlay: ['archimedes', 'troll'],
-                    hand: ['experimental-therapy']
-                },
-                player2: {
-                    amber: 3,
-                    inPlay: ['etaromme', 'lamindra', 'krump']
-                }
-            });
-        });
-    });
 });

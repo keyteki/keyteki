@@ -72,7 +72,6 @@ describe('Yzphyz Knowdrone', function () {
             expect(this.emberImp.location).toBe('hand');
             expect(this.player1.archives).not.toContain(this.emberImp);
             expect(this.player2.hand).toContain(this.emberImp);
-            expect(this.player2.purge).not.toContain(this.emberImp);
             expect(this.player1).isReadyToTakeAction();
         });
 

@@ -4,20 +4,41 @@ import { Trans } from 'react-i18next';
 import AlertPanel from '../Components/Site/AlertPanel';
 import { useNavigate } from 'react-router-dom';
 
-import { logout } from '../redux/actions';
+import { useLogoutAccountMutation } from '../redux/api';
+import {
+    gameCloseRequested,
+    lobbyConnectRequested,
+    lobbyDisconnectRequested
+} from '../redux/socketActions';
 
 const Logout = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const { apiMessage, apiSuccess, loggedOut } = useSelector((state) => ({
-        apiMessage: state.api.LOGOUT_ACCOUNT ? state.api.LOGOUT_ACCOUNT.message : undefined,
-        apiSuccess: state.api.LOGOUT_ACCOUNT ? state.api.LOGOUT_ACCOUNT.success : undefined,
-        loggedOut: state.account.loggedOut
+    const { loggedOut, refreshToken, hasLobbySocket, hasGameSocket } = useSelector((state) => ({
+        loggedOut: state.account.loggedOut,
+        refreshToken: state.auth.refreshToken,
+        hasLobbySocket: !!state.lobby.socket,
+        hasGameSocket: !!state.games.socket
     }));
+    const [logoutAccount, logoutState] = useLogoutAccountMutation();
 
     useEffect(() => {
-        dispatch(logout());
-    }, [dispatch]);
+        if (!refreshToken) {
+            navigate('/');
+            return;
+        }
+
+        if (hasLobbySocket) {
+            dispatch(lobbyDisconnectRequested());
+            dispatch(lobbyConnectRequested());
+        }
+
+        if (hasGameSocket) {
+            dispatch(gameCloseRequested());
+        }
+
+        logoutAccount({ tokenId: refreshToken.id });
+    }, [dispatch, hasGameSocket, hasLobbySocket, logoutAccount, navigate, refreshToken]);
 
     useEffect(() => {
         if (loggedOut) {
@@ -25,7 +46,12 @@ const Logout = () => {
         }
     }, [loggedOut, navigate]);
 
-    const errorBar = apiSuccess === false ? <AlertPanel type='error' message={apiMessage} /> : null;
+    const errorBar = logoutState.isError ? (
+        <AlertPanel
+            type='error'
+            message={logoutState.error?.data?.message || 'Unable to log out'}
+        />
+    ) : null;
 
     return (
         <div className='col-sm-6 col-sm-offset-3'>

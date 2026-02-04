@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import Panel from '../Components/Site/Panel';
 
-import { sendSocketMessage } from '../redux/actions';
+import { lobbySendMessage } from '../redux/socketActions';
 import { Col } from 'react-bootstrap';
 
 const NodeAdmin = () => {
@@ -11,13 +11,13 @@ const NodeAdmin = () => {
     const nodeStatus = useSelector((state) => state.admin.nodeStatus);
 
     useEffect(() => {
-        dispatch(sendSocketMessage('getnodestatus'));
+        dispatch(lobbySendMessage('getnodestatus'));
     }, [dispatch]);
 
     const onToggleNodeClick = useCallback(
         (node, event) => {
             event.preventDefault();
-            dispatch(sendSocketMessage('togglenode', node.name));
+            dispatch(lobbySendMessage('togglenode', node.name));
         },
         [dispatch]
     );
@@ -25,7 +25,7 @@ const NodeAdmin = () => {
     const onRefreshClick = useCallback(
         (event) => {
             event.preventDefault();
-            dispatch(sendSocketMessage('getnodestatus'));
+            dispatch(lobbySendMessage('getnodestatus'));
         },
         [dispatch]
     );
@@ -33,7 +33,7 @@ const NodeAdmin = () => {
     const onRestartNodeClick = useCallback(
         (node, event) => {
             event.preventDefault();
-            dispatch(sendSocketMessage('restartnode', node.name));
+            dispatch(lobbySendMessage('restartnode', node.name));
         },
         [dispatch]
     );

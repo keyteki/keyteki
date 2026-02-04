@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import React, { useCallback, useMemo, useRef, useState } from 'react';
 import { Col, Form, Pagination, Table, Row } from 'react-bootstrap';
 import moment from 'moment';
 import { useTranslation } from 'react-i18next';
@@ -7,7 +7,8 @@ import Select from 'react-select';
 import debounce from 'lodash.debounce';
 
 import CardBack from './CardBack';
-import { loadDecks, selectDeck, loadStandaloneDecks } from '../../redux/actions';
+import { cardsActions } from '../../redux/slices/cardsSlice';
+import { useGetDecksQuery, useGetStandaloneDecksQuery } from '../../redux/api';
 
 import './DeckList.scss';
 import { Constants } from '../../constants';
@@ -110,6 +111,11 @@ const DeckList = ({
         numDecks: state.cards.numDecks,
         selectedDeck: standaloneDecks ? null : state.cards.selectedDeck
     }));
+    const { authToken, refreshToken } = useSelector((state) => ({
+        authToken: state.auth.token,
+        refreshToken: state.auth.refreshToken
+    }));
+    const hasAuth = Boolean(authToken || refreshToken);
 
     const buildFilters = useCallback(
         (nameValue, expansionValues) => {
@@ -119,14 +125,17 @@ const DeckList = ({
             }
 
             if (expansionValues) {
-                filters.push({ name: 'expansion', value: expansionValues });
+                filters.push({
+                    name: 'expansion',
+                    value: expansionValues.map((expansion) => expansion.value)
+                });
             }
 
             if (deckFilter) {
                 filters = filters.concat(
                     Object.entries(deckFilter).map(([k, v]) => ({
                         name: k,
-                        value: v
+                        value: k === 'expansion' ? v.map((expansion) => expansion.value) : v
                     }))
                 );
             }
@@ -148,16 +157,14 @@ const DeckList = ({
         [buildFilters]
     );
 
-    useEffect(() => {
-        if (standaloneDecks) {
-            dispatch(loadStandaloneDecks());
-        } else {
-            dispatch(loadDecks(pagingDetails));
-        }
-    }, [pagingDetails, dispatch, standaloneDecks]);
+    useGetDecksQuery(pagingDetails, {
+        skip: standaloneDecks || !hasAuth,
+        refetchOnMountOrArgChange: true
+    });
+    useGetStandaloneDecksQuery(undefined, { skip: !standaloneDecks });
 
     const onRowClick = (deck) => {
-        dispatch(selectDeck(deck));
+        dispatch(cardsActions.selectDeck(deck));
         if (onDeckSelected) {
             onDeckSelected(deck);
         }
