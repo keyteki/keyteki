@@ -15,12 +15,14 @@ describe('Ifraneye', function () {
 
         it('should discard your hand when played', function () {
             this.player1.play(this.ifraneye);
+            this.player1.clickPrompt('Autoresolve');
             expect(this.player1.hand.length).toBe(0);
             expect(this.player1).isReadyToTakeAction();
         });
 
         it('should make opponent discard 2 random cards when reaping', function () {
             this.player1.playCreature(this.ifraneye);
+            this.player1.clickPrompt('Autoresolve');
             this.ifraneye.ready();
             this.player1.reap(this.ifraneye);
             expect(this.player2.hand.length).toBe(2);
@@ -34,6 +36,7 @@ describe('Ifraneye', function () {
             expect(this.player1).toBeAbleToSelect(this.batdrone);
             expect(this.player1).toBeAbleToSelect(this.emberImp);
             this.player1.clickCard(this.unityPrism);
+            this.player1.clickPrompt('Autoresolve'); // The rest of Ifraneye's discard
             expect(this.player1.amber).toBe(2);
             expect(this.player1.hand.length).toBe(0);
             expect(this.player1).isReadyToTakeAction();

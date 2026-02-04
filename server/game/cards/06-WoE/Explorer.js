@@ -8,7 +8,7 @@ class Explorer extends Card {
             gameAction: ability.actions.discard((context) => ({
                 promptWithHandlerMenu: {
                     optional: true,
-                    activePromptTitle: 'Select card to discard',
+                    activePromptTitle: 'Select a card to discard',
                     cards: [context.player.deck[0]],
                     choices: ['Leave on top of deck'],
                     handlers: [() => []]
