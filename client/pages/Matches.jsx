@@ -1,10 +1,9 @@
-import React, { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import React from 'react';
 import moment from 'moment';
 
 import AlertPanel from '../Components/Site/AlertPanel';
 import Panel from '../Components/Site/Panel';
-import { loadUserGames } from '../redux/actions';
+import { useGetUserGamesQuery } from '../redux/api';
 
 import { Trans, useTranslation } from 'react-i18next';
 
@@ -39,29 +38,15 @@ const computeWinner = (game) => {
 };
 
 const Matches = () => {
-    const dispatch = useDispatch();
     const { t } = useTranslation();
-    const { apiLoading, apiMessage, apiSuccess, games } = useSelector((state) => ({
-        apiLoading: state.api.REQUEST_USERGAMES ? state.api.REQUEST_USERGAMES.loading : undefined,
-        apiMessage: state.api.REQUEST_USERGAMES ? state.api.REQUEST_USERGAMES.message : undefined,
-        apiSuccess: state.api.REQUEST_USERGAMES ? state.api.REQUEST_USERGAMES.success : undefined,
-        games:
-            state.games &&
-            state.games.games &&
-            state.games.games.filter(
-                (game) =>
-                    game.players &&
-                    game.players.length === 2 &&
-                    game.decks &&
-                    game.decks.length === 2
-            )
-    }));
+    const { data: gamesResponse, isLoading, isError, error } = useGetUserGamesQuery();
+    const games =
+        gamesResponse?.games?.filter(
+            (game) =>
+                game.players && game.players.length === 2 && game.decks && game.decks.length === 2
+        ) || [];
 
-    useEffect(() => {
-        dispatch(loadUserGames());
-    }, [dispatch]);
-
-    if (apiLoading) {
+    if (isLoading) {
         return (
             <div>
                 <Trans>Loading matches from the server...</Trans>
@@ -69,8 +54,8 @@ const Matches = () => {
         );
     }
 
-    if (!apiSuccess) {
-        return <AlertPanel type='error' message={apiMessage} />;
+    if (isError) {
+        return <AlertPanel type='error' message={error?.data?.message} />;
     }
 
     const matches = games

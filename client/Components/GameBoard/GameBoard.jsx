@@ -1,6 +1,5 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { bindActionCreators } from 'redux';
 import classNames from 'classnames';
 import { Trans, useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
@@ -14,7 +13,7 @@ import PlayerBoard from './PlayerBoard';
 import PlayerStats from './PlayerStats';
 import ReferenceCardPane from './ReferenceCardPane';
 import TimeLimitClock from './TimeLimitClock';
-import * as actions from '../../redux/actions';
+import { gameSendMessage } from '../../redux/socketActions';
 import { canShowDeckName, getMatchRecord, isSpectating, normalizePlayer } from './gameboardUtils';
 
 import './GameBoard.scss';
@@ -26,7 +25,7 @@ export const GameBoard = () => {
     const { cards, currentGame, user } = useSelector((state) => ({
         cards: state.cards.cards,
         currentGame: state.lobby.currentGame,
-        user: state.auth.user
+        user: state.account.user
     }));
     const [cardToZoom, setCardToZoom] = useState(null);
     const [showMessages, setShowMessages] = useState(true);
@@ -35,8 +34,12 @@ export const GameBoard = () => {
     const [showModal, setShowModal] = useState(false);
 
     const currentMessageCount = currentGame ? currentGame.messages.length : 0;
-    const boundActionCreators = useMemo(() => bindActionCreators(actions, dispatch), [dispatch]);
-    const { sendGameMessage } = boundActionCreators;
+    const sendGameMessage = useMemo(
+        () =>
+            (message, ...args) =>
+                dispatch(gameSendMessage(message, ...args)),
+        [dispatch]
+    );
 
     useEffect(() => {
         if (!currentGame) {
@@ -330,7 +333,6 @@ export const GameBoard = () => {
                 </div>
             </div>
             <PlayerStats
-                {...boundActionCreators}
                 activeHouse={thisPlayer.activeHouse}
                 activePlayer={thisPlayer.activePlayer}
                 cardBack={

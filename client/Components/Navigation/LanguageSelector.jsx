@@ -67,7 +67,7 @@ const LanguageSelector = () => {
 
     return (
         <NavDropdown
-            drop='left'
+            align='end'
             className='d-flex align-items-center'
             id='nav-Lang'
             onSelect={(lang) => {

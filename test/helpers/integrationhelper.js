@@ -7,6 +7,66 @@ const GameFlowWrapper = require('./gameflowwrapper.js');
 
 const deckBuilder = new DeckBuilder();
 
+// Pre-build cards dictionary once (used by GameFlowWrapper)
+const cardsByCode = {};
+for (let card of deckBuilder.cards) {
+    cardsByCode[card.id] = card;
+}
+
+// Shared test context that simulates `this` binding for jasmine-style tests
+const testContext = {};
+
+// Wrap vitest's describe/it/beforeEach to bind `this` to testContext
+// This allows existing tests using `this.player1`, `this.game`, etc. to work
+const originalDescribe = describe;
+const originalIt = it;
+const originalBeforeEach = beforeEach;
+const originalAfterEach = afterEach;
+
+globalThis.describe = function (name, fn) {
+    return originalDescribe(name, function () {
+        return fn.call(testContext);
+    });
+};
+globalThis.describe.skip = function (name, fn) {
+    return originalDescribe.skip(name, function () {
+        return fn.call(testContext);
+    });
+};
+globalThis.describe.only = function (name, fn) {
+    return originalDescribe.only(name, function () {
+        return fn.call(testContext);
+    });
+};
+
+globalThis.it = function (name, fn) {
+    return originalIt(name, function () {
+        return fn.call(testContext);
+    });
+};
+globalThis.it.skip = function (name, fn) {
+    return originalIt.skip(name, function () {
+        return fn.call(testContext);
+    });
+};
+globalThis.it.only = function (name, fn) {
+    return originalIt.only(name, function () {
+        return fn.call(testContext);
+    });
+};
+
+globalThis.beforeEach = function (fn) {
+    return originalBeforeEach(function () {
+        return fn.call(testContext);
+    });
+};
+
+globalThis.afterEach = function (fn) {
+    return originalAfterEach(function () {
+        return fn.call(testContext);
+    });
+};
+
 const ProxiedGameFlowWrapperMethods = [
     'startGame',
     'selectFirstPlayer',
@@ -15,210 +75,166 @@ const ProxiedGameFlowWrapperMethods = [
     'getChatLog'
 ];
 
-var customMatchers = {
-    toHavePrompt: function () {
+const customMatchers = {
+    toHavePrompt: function (actual, expected) {
+        const currentPrompt = actual.currentPrompt();
+        const pass = actual.hasPrompt(expected);
+
         return {
-            compare: function (actual, expected) {
-                var result = {};
-                var currentPrompt = actual.currentPrompt();
-                result.pass = actual.hasPrompt(expected);
+            pass,
+            message: () =>
+                pass
+                    ? `Expected ${actual.name} not to have prompt "${expected}" but it did.`
+                    : `Expected ${actual.name} to have prompt "${expected}" but it had menuTitle "${currentPrompt.menuTitle}" and promptTitle "${currentPrompt.promptTitle}".`
+        };
+    },
+    toHavePromptImage: function (actual, expected) {
+        const currentPrompt = actual.currentPrompt();
+        const currentImage =
+            !!currentPrompt &&
+            currentPrompt.controls.length > 0 &&
+            !!currentPrompt.controls[0].source
+                ? currentPrompt.controls[0].source.image
+                : 'none';
+        const pass = actual.hasPromptImage(expected);
 
-                if (result.pass) {
-                    result.message = `Expected ${actual.name} not to have prompt "${expected}" but it did.`;
+        return {
+            pass,
+            message: () =>
+                pass
+                    ? `Expected ${actual.name} not to have prompt image "${expected}" but it did.`
+                    : `Expected ${actual.name} to have prompt image "${expected}" but it had "${currentImage}".`
+        };
+    },
+    toHavePromptButton: function (actual, expected) {
+        const buttons = actual.currentButtons;
+        const pass = _.any(buttons, (button) => button === expected);
+
+        return {
+            pass,
+            message: () => {
+                if (pass) {
+                    return `Expected ${actual.name} not to have prompt button "${expected}" but it did.`;
                 } else {
-                    result.message = `Expected ${actual.name} to have prompt "${expected}" but it had menuTitle "${currentPrompt.menuTitle}" and promptTitle "${currentPrompt.promptTitle}".`;
+                    const buttonText = _.map(buttons, (button) => '[' + button + ']').join('\n');
+                    return `Expected ${actual.name} to have prompt button "${expected}" but it had buttons:\n${buttonText}`;
                 }
-
-                return result;
             }
         };
     },
-    toHavePromptImage: function () {
+    toHavePromptCardButton: function (actual, card) {
+        const buttons = actual.currentPrompt().buttons;
+
+        if (_.isString(card)) {
+            card = actual.findCardByName(card);
+        }
+
+        const pass = _.any(buttons, (button) => (button.card ? button.card.id : '') === card.id);
+
         return {
-            compare: function (actual, expected) {
-                var result = {};
-                var currentPrompt = actual.currentPrompt();
-                var currentImage =
-                    !!currentPrompt &&
-                    currentPrompt.controls.length > 0 &&
-                    !!currentPrompt.controls[0].source
-                        ? currentPrompt.controls[0].source.image
-                        : 'none';
-                result.pass = actual.hasPromptImage(expected);
-
-                if (result.pass) {
-                    result.message = `Expected ${actual.name} not to have prompt image "${expected}" but it did.`;
+            pass,
+            message: () => {
+                if (pass) {
+                    return `Expected ${actual.name} not to have prompt button "${card.name}" but it did.`;
                 } else {
-                    result.message = `Expected ${actual.name} to have prompt image "${expected}" but it had "${currentImage}".`;
-                }
-
-                return result;
-            }
-        };
-    },
-    toHavePromptButton: function (util, customEqualityMatchers) {
-        return {
-            compare: function (actual, expected) {
-                var buttons = actual.currentButtons;
-                var result = {};
-
-                result.pass = _.any(buttons, (button) =>
-                    util.equals(button, expected, customEqualityMatchers)
-                );
-
-                if (result.pass) {
-                    result.message = `Expected ${actual.name} not to have prompt button "${expected}" but it did.`;
-                } else {
-                    var buttonText = _.map(buttons, (button) => '[' + button + ']').join('\n');
-                    result.message = `Expected ${actual.name} to have prompt button "${expected}" but it had buttons:\n${buttonText}`;
-                }
-
-                return result;
-            }
-        };
-    },
-    toHavePromptCardButton: function (util, customEqualityMatchers) {
-        return {
-            compare: function (actual, card) {
-                var buttons = actual.currentPrompt().buttons;
-                var result = {};
-
-                if (_.isString(card)) {
-                    card = actual.findCardByName(card);
-                }
-
-                result.pass = _.any(buttons, (button) =>
-                    util.equals(button.card ? button.card.id : '', card.id, customEqualityMatchers)
-                );
-
-                if (result.pass) {
-                    result.message = `Expected ${actual.name} not to have prompt button "${card.name}" but it did.`;
-                } else {
-                    var buttonText = _.map(
+                    const buttonText = _.map(
                         buttons,
                         (button) => '[' + (button.card ? button.card.name : '') + ']'
                     ).join('\n');
-                    result.message = `Expected ${actual.name} to have prompt button "${card.name}" but it had buttons:\n${buttonText}`;
+                    return `Expected ${actual.name} to have prompt button "${card.name}" but it had buttons:\n${buttonText}`;
                 }
-
-                return result;
             }
         };
     },
-    toBeAbleToRaiseTide: function (util, customEqualityMatchers) {
+    toBeAbleToRaiseTide: function (player) {
+        player.game.clickTide(player.name);
+        player.game.continue();
+        player.checkUnserializableGameState();
+
+        const buttons = player.currentPrompt().buttons;
+        const pass = _.any(buttons, (button) => button.text === 'No');
+
+        if (pass) {
+            player.clickPrompt('No');
+        }
+
         return {
-            compare: function (player) {
-                let result = {};
-
-                player.game.clickTide(player.name);
-                player.game.continue();
-                player.checkUnserializableGameState();
-
-                var buttons = player.currentPrompt().buttons;
-                result.pass = _.any(buttons, (button) =>
-                    util.equals(button.text, 'No', customEqualityMatchers)
-                );
-
-                if (result.pass) {
-                    player.clickPrompt('No');
-                    result.message = `Expected ${player.name} not to be able to raise the tide, but it was.`;
-                } else {
-                    result.message = `Expected ${player.name} to be able to raise the tide, but it wasn't.`;
-                }
-
-                return result;
-            }
+            pass,
+            message: () =>
+                pass
+                    ? `Expected ${player.name} not to be able to raise the tide, but it was.`
+                    : `Expected ${player.name} to be able to raise the tide, but it wasn't.`
         };
     },
-    toBeAbleToSelect: function () {
+    toBeAbleToSelect: function (player, card) {
+        if (_.isString(card)) {
+            card = player.findCardByName(card);
+        }
+
+        const pass = player.currentActionTargets.includes(card);
+
         return {
-            compare: function (player, card) {
-                if (_.isString(card)) {
-                    card = player.findCardByName(card);
-                }
-
-                let result = {};
-
-                result.pass = player.currentActionTargets.includes(card);
-
-                if (result.pass) {
-                    result.message = `Expected ${card.name} not to be selectable by ${player.name} but it was.`;
-                } else {
-                    result.message = `Expected ${card.name} to be selectable by ${player.name} but it wasn't.`;
-                }
-
-                return result;
-            }
+            pass,
+            message: () =>
+                pass
+                    ? `Expected ${card.name} not to be selectable by ${player.name} but it was.`
+                    : `Expected ${card.name} to be selectable by ${player.name} but it wasn't.`
         };
     },
-    toBeAbleToPlay: function () {
+    toBeAbleToPlay: function (player, card) {
+        if (_.isString(card)) {
+            card = player.findCardByName(card);
+        }
+
+        const pass = card.getLegalActions(player.player, false).length > 0;
+
         return {
-            compare: function (player, card) {
-                if (_.isString(card)) {
-                    card = player.findCardByName(card);
-                }
-
-                let result = {};
-
-                result.pass = card.getLegalActions(player.player, false).length > 0;
-
-                if (result.pass) {
-                    result.message = `Expected ${card.name} not to be playable by ${player.name} but it was.`;
-                } else {
-                    result.message = `Expected ${card.name} to be playable by ${player.name} but it wasn't.`;
-                }
-
-                return result;
-            }
+            pass,
+            message: () =>
+                pass
+                    ? `Expected ${card.name} not to be playable by ${player.name} but it was.`
+                    : `Expected ${card.name} to be playable by ${player.name} but it wasn't.`
         };
     },
-    toHaveRecentChatMessage: function () {
+    toHaveRecentChatMessage: function (game, msg, numBack = 1) {
+        const logs = game.getChatLogs(numBack);
+        const pass = logs.filter((lastMsg) => lastMsg.includes(msg)).length > 0;
+
         return {
-            compare: function (game, msg, numBack = 1) {
-                let result = {};
-                let logs = game.getChatLogs(numBack);
-
-                result.pass = logs.filter((lastMsg) => lastMsg.includes(msg)).length > 0;
-
-                if (result.pass) {
-                    result.message = `Expected ${msg} not to be in ${logs} but it was.`;
-                } else {
-                    result.message = `Expected '${msg}' to be in [${logs}] but it wasn't.`;
-                }
-
-                return result;
-            }
+            pass,
+            message: () =>
+                pass
+                    ? `Expected ${msg} not to be in ${logs} but it was.`
+                    : `Expected '${msg}' to be in [${logs}] but it wasn't.`
         };
     },
-    isReadyToTakeAction: function () {
-        return {
-            compare: function (player) {
-                let result = {};
-                result.pass = player.hasPrompt('Choose a card to play, discard or use');
+    isReadyToTakeAction: function (player) {
+        const pass = player.hasPrompt('Choose a card to play, discard or use');
 
-                if (result.pass) {
-                    result.message = `Expected ${player.name} not to be ready to take action, but it was.`;
+        return {
+            pass,
+            message: () => {
+                if (pass) {
+                    return `Expected ${player.name} not to be ready to take action, but it was.`;
                 } else {
                     let currentPrompt = player.currentPrompt();
-                    result.message = `Expected ${player.name} to be ready to take action, but it had menuTitle "${currentPrompt.menuTitle}" and promptTitle "${currentPrompt.promptTitle}".`;
+                    return `Expected ${player.name} to be ready to take action, but it had menuTitle "${currentPrompt.menuTitle}" and promptTitle "${currentPrompt.promptTitle}".`;
                 }
-
-                return result;
             }
         };
     }
 };
 
+// Register custom matchers with vitest's expect.extend
+expect.extend(customMatchers);
+
 beforeEach(function () {
-    jasmine.addMatchers(customMatchers);
-
-    let cards = {};
-
-    for (let card of deckBuilder.cards) {
-        cards[card.id] = card;
+    // Clear previous test context
+    for (let key of Object.keys(testContext)) {
+        delete testContext[key];
     }
 
-    this.flow = new GameFlowWrapper(cards);
+    this.flow = new GameFlowWrapper(cardsByCode);
 
     this.game = this.flow.game;
     this.player1Object = this.game.getPlayerByName('player1');
