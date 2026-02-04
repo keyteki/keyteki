@@ -1,52 +1,60 @@
 import { Typeahead } from 'react-bootstrap-typeahead';
-import React from 'react';
+import React, { useImperativeHandle, useRef } from 'react';
 import PropTypes from 'prop-types';
 
-class InternalTypeahead extends React.Component {
-    clear() {
-        this.typeahead.getInstance().clear();
-    }
+const InternalTypeahead = React.forwardRef((props, ref) => {
+    const typeaheadRef = useRef(null);
 
-    render() {
-        const label = this.props.label ? (
-            <label htmlFor={this.props.name} className={this.props.labelClass + ' control-label'}>
-                {this.props.label}
-            </label>
-        ) : null;
-        const control = (
-            <div>
-                {label}
-                <div className={this.props.fieldClass}>
-                    <Typeahead
-                        ref={(t) => (this.typeahead = t)}
-                        options={this.props.options}
-                        labelKey={this.props.labelKey}
-                        emptyLabel={this.props.emptyLabel}
-                        onChange={this.props.onChange}
-                        placeholder={this.props.placeholder}
-                        autoFocus={this.props.autoFocus}
-                        dropup={this.props.dropup}
-                        minLength={this.props.minLength}
-                        onInputChange={this.props.onInputChange}
-                        submitFormOnEnter={this.props.submitFormOnEnter}
-                        onKeyDown={this.props.onKeyDown}
-                        disabled={this.props.disabled}
-                    />
-                    {this.props.validationMessage ? (
-                        <span className='help-block'>{this.props.validationMessage} </span>
-                    ) : null}
-                </div>
-                {this.props.children}
-            </div>
-        );
+    useImperativeHandle(ref, () => ({
+        clear: () => {
+            if (typeaheadRef.current?.clear) {
+                typeaheadRef.current.clear();
+                return;
+            }
 
-        if (this.props.noGroup) {
-            return control;
+            typeaheadRef.current?.getInstance?.()?.clear?.();
         }
+    }));
 
-        return <div className='form-group'>{control}</div>;
+    const label = props.label ? (
+        <label htmlFor={props.name} className={`${props.labelClass} control-label`}>
+            {props.label}
+        </label>
+    ) : null;
+    const control = (
+        <div>
+            {label}
+            <div className={props.fieldClass}>
+                <Typeahead
+                    ref={typeaheadRef}
+                    id={props.id || props.name}
+                    options={props.options}
+                    labelKey={props.labelKey}
+                    emptyLabel={props.emptyLabel}
+                    onChange={props.onChange}
+                    placeholder={props.placeholder}
+                    autoFocus={props.autoFocus}
+                    dropup={props.dropup}
+                    minLength={props.minLength}
+                    onInputChange={props.onInputChange}
+                    submitFormOnEnter={props.submitFormOnEnter}
+                    onKeyDown={props.onKeyDown}
+                    disabled={props.disabled}
+                />
+                {props.validationMessage ? (
+                    <span className='help-block'>{props.validationMessage} </span>
+                ) : null}
+            </div>
+            {props.children}
+        </div>
+    );
+
+    if (props.noGroup) {
+        return control;
     }
-}
+
+    return <div className='form-group'>{control}</div>;
+});
 
 InternalTypeahead.displayName = 'Typeahead';
 InternalTypeahead.propTypes = {
@@ -56,6 +64,7 @@ InternalTypeahead.propTypes = {
     dropup: PropTypes.bool,
     emptyLabel: PropTypes.string,
     fieldClass: PropTypes.string,
+    id: PropTypes.string,
     label: PropTypes.string,
     labelClass: PropTypes.string,
     labelKey: PropTypes.string,

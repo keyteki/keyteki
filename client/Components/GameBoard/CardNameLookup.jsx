@@ -16,7 +16,7 @@ const CardNameLookup = (props) => {
     const typeheadRef = useRef(null);
 
     let cardNames = [...new Set(Object.values(props.cards).map((card) => card.name))];
-    cardNames.sort();
+    cardNames = [...cardNames].sort();
 
     const onDoneClick = () => {
         if (cardName) {
@@ -30,6 +30,7 @@ const CardNameLookup = (props) => {
             <Typeahead
                 labelKey={'label'}
                 ref={typeheadRef}
+                id={props.id || 'card-name-lookup'}
                 options={cardNames}
                 dropup
                 onChange={(cards) => setCardName(cards[0])}

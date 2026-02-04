@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useState, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 import { Trans, useTranslation } from 'react-i18next';
@@ -12,8 +12,9 @@ import Typeahead from '../Components/Form/Typeahead';
 import SideBar from '../Components/Lobby/SideBar';
 import UserList from '../Components/Lobby/UserList';
 import LobbyChat from '../Components/Lobby/LobbyChat';
-import { clearChatStatus, loadNews, removeLobbyMessage, sendSocketMessage } from '../redux/actions';
-import { News } from '../redux/types';
+import { lobbySendMessage } from '../redux/socketActions';
+import { useGetNewsQuery, useRemoveLobbyMessageMutation } from '../redux/api';
+import { lobbyActions } from '../redux/slices/lobbySlice';
 
 import './Lobby.scss';
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
@@ -28,20 +29,13 @@ const Lobby = () => {
         users: state.lobby.users
     }));
     const user = useSelector((state) => state.account.user);
-    const news = useSelector((state) => state.news.news);
-    const apiState = useSelector((state) => {
-        const retState = state.api[News.RequestNews];
-
-        return retState;
-    });
+    const { data: newsResponse, isLoading: isNewsLoading } = useGetNewsQuery({ limit: 3 });
+    const news = newsResponse?.news || [];
     const [popupError, setPopupError] = useState(false);
     const [message, setMessage] = useState('');
     const { t } = useTranslation();
     const messageRef = useRef(null);
-
-    useEffect(() => {
-        dispatch(loadNews({ limit: 3 }));
-    }, [dispatch]);
+    const [removeLobbyMessage] = useRemoveLobbyMessageMutation();
 
     if (!popupError && lobbyError) {
         setPopupError(true);
@@ -49,7 +43,7 @@ const Lobby = () => {
         toast.error(t('New users are limited from chatting in the lobby, try again later'));
 
         setTimeout(() => {
-            dispatch(clearChatStatus());
+            dispatch(lobbyActions.clearChatStatus());
             setPopupError(false);
         }, 5000);
     }
@@ -59,9 +53,10 @@ const Lobby = () => {
             return;
         }
 
-        dispatch(sendSocketMessage('lobbychat', message));
+        dispatch(lobbySendMessage('lobbychat', message));
 
         setMessage('');
+        messageRef.current?.clear();
     };
 
     const onKeyPress = (event) => {
@@ -69,8 +64,6 @@ const Lobby = () => {
             event.preventDefault();
 
             sendMessage();
-
-            messageRef.current?.clear();
         }
     };
 
@@ -137,7 +130,7 @@ const Lobby = () => {
             <div>
                 <Col sm={{ span: 10, offset: 1 }}>
                     <Panel title={t('Latest site news')}>
-                        {apiState?.loading ? (
+                        {isNewsLoading ? (
                             <div>
                                 <Trans>News loading, please wait...</Trans>
                             </div>
@@ -156,9 +149,7 @@ const Lobby = () => {
                         <LobbyChat
                             messages={messages}
                             isModerator={user?.permissions?.canModerateChat}
-                            onRemoveMessageClick={(messageId) =>
-                                dispatch(removeLobbyMessage(messageId))
-                            }
+                            onRemoveMessageClick={(messageId) => removeLobbyMessage(messageId)}
                         />
                     </div>
                 </Panel>
@@ -174,6 +165,7 @@ const Lobby = () => {
                             <Typeahead
                                 disabled={!isLoggedIn}
                                 ref={messageRef}
+                                id='lobby-chat-input'
                                 value={message}
                                 placeholder={t(placeholder)}
                                 labelKey={'name'}

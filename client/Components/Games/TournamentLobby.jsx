@@ -4,18 +4,16 @@ import React, { useEffect, useState } from 'react';
 import { Button, Col, Form, Row } from 'react-bootstrap';
 import ReactClipboard from 'react-clipboardjs-copy';
 import { Trans, useTranslation } from 'react-i18next';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
 import {
-    attachMatchLink,
-    clearApiStatus,
-    fetchFullTournament,
-    fetchMatches,
-    fetchTournaments,
-    navigate
-} from '../../redux/actions';
-import { Challonge } from '../../redux/types';
+    useAttachMatchLinkMutation,
+    useGetFullTournamentMutation,
+    useGetMatchesMutation,
+    useGetTournamentsQuery
+} from '../../redux/api';
 import ApiStatus from '../Site/ApiStatus';
 import Panel from '../Site/Panel';
 import NewGame from './NewGame';
@@ -31,68 +29,16 @@ const TournamentLobby = () => {
         tournaments: state.challonge.tournaments
     }));
     const games = useSelector((state) => state.lobby.games);
-    const dispatch = useDispatch();
+    const navigate = useNavigate();
     const [tournament, setTournament] = useState();
     const [matchesToCreate, setMatchesToCreate] = useState();
     const { t } = useTranslation();
-    const requestTournamentsState = useSelector((state) => {
-        const retState = state.api[Challonge.RequestTournaments];
-
-        if (retState && retState.success) {
-            retState.message = t('Tournaments fetched successfully');
-
-            setTimeout(() => {
-                dispatch(clearApiStatus(Challonge.RequestTournaments));
-            }, 5000);
-        }
-
-        return retState;
-    });
-    const fullTournamentState = useSelector((state) => {
-        const retState = state.api[Challonge.RequestFullTournament];
-
-        if (retState && retState.success) {
-            retState.message = t('Tournament fetched successfully');
-
-            setTimeout(() => {
-                dispatch(clearApiStatus(Challonge.RequestFullTournament));
-            }, 5000);
-        }
-
-        return retState;
-    });
-    const matchState = useSelector((state) => {
-        const retState = state.api[Challonge.RequestMatches];
-
-        if (retState && retState.success) {
-            retState.message = t('Matches fetched successfully');
-
-            setTimeout(() => {
-                dispatch(clearApiStatus(Challonge.RequestMatches));
-            }, 5000);
-        }
-
-        return retState;
-    });
-    const attachmentState = useSelector((state) => {
-        const retState = state.api[Challonge.CreateAttachments];
-
-        if (retState && retState.success) {
-            retState.message = t('Attachments created successfully');
-
-            setTimeout(() => {
-                dispatch(clearApiStatus(Challonge.CreateAttachments));
-            }, 5000);
-        }
-
-        return retState;
-    });
+    const { isLoading: tournamentsLoading, refetch: refetchTournaments } = useGetTournamentsQuery();
+    const [fetchFullTournament, fullTournamentState] = useGetFullTournamentMutation();
+    const [fetchMatches, matchState] = useGetMatchesMutation();
+    const [attachMatchLink, attachmentState] = useAttachMatchLinkMutation();
 
     useEffect(() => {
-        if (!tournaments) {
-            dispatch(fetchTournaments());
-        }
-
         if (matches?.length > 0) {
             let tournament = tournaments.find((x) => x.id === matches[0].tournament_id);
             setTournament(tournament);
@@ -102,7 +48,7 @@ const TournamentLobby = () => {
             const type = success ? 'success' : 'error';
             toast[type](t(message));
         }
-    }, [tournaments, matches, message, dispatch, success, t]);
+    }, [tournaments, matches, message, success, t]);
 
     const getParticipantName = (id) => {
         if (!participants) {
@@ -137,7 +83,7 @@ const TournamentLobby = () => {
             };
         });
 
-        dispatch(attachMatchLink(matchData));
+        attachMatchLink(matchData);
     };
 
     let openMatches = matches?.filter((match) => match.state === 'open') || [];
@@ -157,35 +103,62 @@ const TournamentLobby = () => {
     return (
         <Col md={{ span: 8, offset: 2 }}>
             <Panel title={t('Tournament Organizer Panel')}>
+                <ApiStatus state={tournamentsLoading ? { loading: true } : null} />
                 <ApiStatus
-                    state={requestTournamentsState}
-                    onClose={() => dispatch(clearApiStatus(Challonge.RequestTournaments))}
+                    state={
+                        fullTournamentState.isUninitialized
+                            ? null
+                            : {
+                                  loading: fullTournamentState.isLoading,
+                                  success: fullTournamentState.isSuccess,
+                                  message: fullTournamentState.isSuccess
+                                      ? t('Tournament fetched successfully')
+                                      : fullTournamentState.error?.data?.message
+                              }
+                    }
+                    onClose={() => fullTournamentState.reset()}
                 />
                 <ApiStatus
-                    state={fullTournamentState}
-                    onClose={() => dispatch(clearApiStatus(Challonge.RequestFullTournament))}
+                    state={
+                        matchState.isUninitialized
+                            ? null
+                            : {
+                                  loading: matchState.isLoading,
+                                  success: matchState.isSuccess,
+                                  message: matchState.isSuccess
+                                      ? t('Matches fetched successfully')
+                                      : matchState.error?.data?.message
+                              }
+                    }
+                    onClose={() => matchState.reset()}
                 />
                 <ApiStatus
-                    state={matchState}
-                    onClose={() => dispatch(clearApiStatus(Challonge.RequestMatches))}
-                />
-                <ApiStatus
-                    state={attachmentState}
-                    onClose={() => dispatch(clearApiStatus(Challonge.CreateAttachments))}
+                    state={
+                        attachmentState.isUninitialized
+                            ? null
+                            : {
+                                  loading: attachmentState.isLoading,
+                                  success: attachmentState.isSuccess,
+                                  message: attachmentState.isSuccess
+                                      ? t('Attachments created successfully')
+                                      : attachmentState.error?.data?.message
+                              }
+                    }
+                    onClose={() => attachmentState.reset()}
                 />
                 <Row>
                     <Form.Group as={Col} sm='8'>
                         <Form.Control
                             as='select'
                             value={tournament?.id}
-                            onChange={() => {
-                                let tournament = tournaments.find(
+                            onChange={(event) => {
+                                let nextTournament = tournaments.find(
                                     (t) => t.id === parseInt(event.target.value)
                                 );
 
-                                if (tournament) {
-                                    dispatch(fetchFullTournament(event.target.value));
-                                    setTournament(tournament);
+                                if (nextTournament) {
+                                    fetchFullTournament(event.target.value);
+                                    setTournament(nextTournament);
                                 }
                             }}
                         >
@@ -199,11 +172,9 @@ const TournamentLobby = () => {
                         </Form.Control>
                     </Form.Group>
                     <Col sm='4'>
-                        <Button variant='primary' onClick={() => dispatch(fetchTournaments())}>
+                        <Button variant='primary' onClick={() => refetchTournaments()}>
                             <Trans>Refresh Tournaments</Trans>
-                            {requestTournamentsState?.loading && (
-                                <FontAwesomeIcon icon={faCircleNotch} spin />
-                            )}
+                            {tournamentsLoading && <FontAwesomeIcon icon={faCircleNotch} spin />}
                         </Button>
                     </Col>
                 </Row>
@@ -230,11 +201,8 @@ const TournamentLobby = () => {
                                                     variant='primary'
                                                     value={game.id}
                                                     onClick={(event) =>
-                                                        dispatch(
-                                                            navigate(
-                                                                '/play',
-                                                                `?gameId=${event.target.value}`
-                                                            )
+                                                        navigate(
+                                                            `/play?gameId=${event.target.value}`
                                                         )
                                                     }
                                                 >
@@ -261,12 +229,10 @@ const TournamentLobby = () => {
                                         <Col sm='3'>
                                             <Button
                                                 variant='primary'
-                                                onClick={() =>
-                                                    dispatch(fetchMatches(tournament.id))
-                                                }
+                                                onClick={() => fetchMatches(tournament.id)}
                                             >
                                                 <Trans>Refresh Matches</Trans>
-                                                {matchState?.loading && (
+                                                {matchState.isLoading && (
                                                     <FontAwesomeIcon icon={faCircleNotch} spin />
                                                 )}
                                             </Button>
@@ -290,7 +256,7 @@ const TournamentLobby = () => {
                                 disabled={matchesWithGames.length <= 0}
                             >
                                 <Trans>Send Attachments</Trans>
-                                {attachmentState?.loading && (
+                                {attachmentState.isLoading && (
                                     <FontAwesomeIcon icon={faCircleNotch} spin />
                                 )}
                             </Button>

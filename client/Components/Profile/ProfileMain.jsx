@@ -1,11 +1,10 @@
 import React, { useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useDispatch } from 'react-redux';
 import { Button, Col, Form, Row } from 'react-bootstrap';
 
 import { PatreonClientId } from '../../constants';
 import PatreonImage from '../../assets/img/Patreon_Mark_Coral.jpg';
-import { unlinkPatreon } from '../../redux/actions';
+import { useUnlinkPatreonMutation } from '../../redux/api';
 import { PatreonStatus } from '../../types';
 import Avatar from '../Site/Avatar';
 import Panel from '../Site/Panel';
@@ -27,7 +26,7 @@ const ProfileMain = ({ user, formProps }) => {
     const { t } = useTranslation();
     const inputFile = useRef(null);
     const [localAvatar, setAvatar] = useState(null);
-    const dispatch = useDispatch();
+    const [unlinkPatreon] = useUnlinkPatreonMutation();
 
     const onAvatarUploadClick = () => {
         if (!inputFile.current) {
@@ -128,7 +127,7 @@ const ProfileMain = ({ user, formProps }) => {
                                 {t('Link Account')}
                             </Button>
                         ) : (
-                            <Button variant='secondary' onClick={() => dispatch(unlinkPatreon())}>
+                            <Button variant='secondary' onClick={() => unlinkPatreon()}>
                                 {t('Unlink Account')}
                             </Button>
                         )}

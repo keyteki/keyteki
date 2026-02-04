@@ -1,55 +1,66 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { Trans } from 'react-i18next';
 import AlertPanel from '../Components/Site/AlertPanel';
+import { useNavigate } from 'react-router-dom';
 
-import * as actions from '../redux/actions';
+import { useLogoutAccountMutation } from '../redux/api';
+import {
+    gameCloseRequested,
+    lobbyConnectRequested,
+    lobbyDisconnectRequested
+} from '../redux/socketActions';
 
-class Logout extends React.Component {
-    componentDidMount() {
-        this.props.logout();
-    }
+const Logout = () => {
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+    const { loggedOut, refreshToken, hasLobbySocket, hasGameSocket } = useSelector((state) => ({
+        loggedOut: state.account.loggedOut,
+        refreshToken: state.auth.refreshToken,
+        hasLobbySocket: !!state.lobby.socket,
+        hasGameSocket: !!state.games.socket
+    }));
+    const [logoutAccount, logoutState] = useLogoutAccountMutation();
 
-    // eslint-disable-next-line camelcase
-    UNSAFE_componentWillReceiveProps(props) {
-        if (props.loggedOut) {
-            this.props.navigate('/');
+    useEffect(() => {
+        if (!refreshToken) {
+            navigate('/');
+            return;
         }
-    }
 
-    render() {
-        let errorBar =
-            this.props.apiSuccess === false ? (
-                <AlertPanel type='error' message={this.props.apiMessage} />
-            ) : null;
+        if (hasLobbySocket) {
+            dispatch(lobbyDisconnectRequested());
+            dispatch(lobbyConnectRequested());
+        }
 
-        return (
-            <div className='col-sm-6 col-sm-offset-3'>
-                {errorBar}
-                <Trans>Logging you out of your account, please wait...</Trans>
-            </div>
-        );
-    }
-}
+        if (hasGameSocket) {
+            dispatch(gameCloseRequested());
+        }
 
-Logout.displayName = 'Logout';
-Logout.propTypes = {
-    apiLoading: PropTypes.bool,
-    apiMessage: PropTypes.string,
-    apiSuccess: PropTypes.bool,
-    loggedOut: PropTypes.bool,
-    logout: PropTypes.func,
-    navigate: PropTypes.func
+        logoutAccount({ tokenId: refreshToken.id });
+    }, [dispatch, hasGameSocket, hasLobbySocket, logoutAccount, navigate, refreshToken]);
+
+    useEffect(() => {
+        if (loggedOut) {
+            navigate('/');
+        }
+    }, [loggedOut, navigate]);
+
+    const errorBar = logoutState.isError ? (
+        <AlertPanel
+            type='error'
+            message={logoutState.error?.data?.message || 'Unable to log out'}
+        />
+    ) : null;
+
+    return (
+        <div className='col-sm-6 col-sm-offset-3'>
+            {errorBar}
+            <Trans>Logging you out of your account, please wait...</Trans>
+        </div>
+    );
 };
 
-function mapStateToProps(state) {
-    return {
-        apiLoading: state.api.LOGOUT_ACCOUNT ? state.api.LOGOUT_ACCOUNT.loading : undefined,
-        apiMessage: state.api.LOGOUT_ACCOUNT ? state.api.LOGOUT_ACCOUNT.message : undefined,
-        apiSuccess: state.api.LOGOUT_ACCOUNT ? state.api.LOGOUT_ACCOUNT.success : undefined,
-        loggedOut: state.account.loggedOut
-    };
-}
+Logout.displayName = 'Logout';
 
-export default connect(mapStateToProps, actions)(Logout);
+export default Logout;

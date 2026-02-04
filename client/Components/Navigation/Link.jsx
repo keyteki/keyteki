@@ -1,26 +1,35 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { useDispatch } from 'react-redux';
-import { navigate } from '../../redux/actions';
+import { Link as RouterLink } from 'react-router-dom';
 
-const Link = ({ children, className, href }) => {
-    const dispatch = useDispatch();
+const isExternalLink = (href) =>
+    !href ||
+    href.startsWith('#') ||
+    href.startsWith('mailto:') ||
+    href.startsWith('tel:') ||
+    /^https?:\/\//i.test(href);
 
-    const onClick = (event) => {
-        event.preventDefault();
-        dispatch(navigate(href));
-    };
+const Link = React.forwardRef(({ children, className, href }, ref) => {
+    if (isExternalLink(href)) {
+        return (
+            <a ref={ref} href={href} className={className}>
+                {children}
+            </a>
+        );
+    }
 
     return (
-        <a href={href} className={className} onClick={onClick}>
+        <RouterLink ref={ref} to={href} className={className}>
             {children}
-        </a>
+        </RouterLink>
     );
-};
+});
+
+Link.displayName = 'Link';
 
 Link.propTypes = {
     children: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
-    classname: PropTypes.string,
+    className: PropTypes.string,
     href: PropTypes.string
 };
 

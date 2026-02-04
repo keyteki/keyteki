@@ -2,7 +2,7 @@ import React from 'react';
 import { Nav } from 'react-bootstrap';
 import { useSelector, useDispatch } from 'react-redux';
 import { useTranslation, Trans } from 'react-i18next';
-import { sendGameMessage, closeGameSocket } from '../../redux/actions';
+import { gameCloseRequested, gameSendMessage } from '../../redux/socketActions';
 import { useState } from 'react';
 
 import './GameContextMenu.scss';
@@ -57,14 +57,14 @@ const GameContextMenu = () => {
                 return;
             }
 
-            dispatch(sendGameMessage('concede'));
-            dispatch(sendGameMessage('leavegame'));
-            dispatch(closeGameSocket());
+            dispatch(gameSendMessage('concede'));
+            dispatch(gameSendMessage('leavegame'));
+            dispatch(gameCloseRequested());
             return;
         }
 
-        dispatch(sendGameMessage('leavegame'));
-        dispatch(closeGameSocket());
+        dispatch(gameSendMessage('leavegame'));
+        dispatch(gameCloseRequested());
     };
 
     if (!currentGame || !currentGame.started) {
@@ -89,7 +89,7 @@ const GameContextMenu = () => {
             {!isSpectating && (
                 <li className='navbar-item'>
                     <Nav.Link
-                        onClick={() => dispatch(sendGameMessage('concede'))}
+                        onClick={() => dispatch(gameSendMessage('concede'))}
                         className='navbar-item interactable'
                     >
                         <span>
