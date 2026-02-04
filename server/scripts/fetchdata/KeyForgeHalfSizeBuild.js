@@ -1,4 +1,5 @@
 const fabric = require('fabric');
+const { registerFont } = require('canvas');
 const fs = require('fs');
 const path = require('path');
 const mkdirp = require('mkdirp');
@@ -24,27 +25,27 @@ const shadowProps = {
 };
 const assetsPath = path.join(__dirname, './assets');
 
-fabric.nodeCanvas.registerFont(path.join(__dirname, './fonts/TeutonNormal-Bold.otf'), {
+registerFont(path.join(__dirname, './fonts/TeutonNormal-Bold.otf'), {
     family: 'TeutonFett',
     weight: 'bold',
     style: 'normal'
 });
-fabric.nodeCanvas.registerFont(path.join(__dirname, './fonts/Bombardier.ttf'), {
+registerFont(path.join(__dirname, './fonts/Bombardier.ttf'), {
     family: 'Bombardier',
     weight: 'regular',
     style: 'normal'
 });
-fabric.nodeCanvas.registerFont(path.join(__dirname, './fonts/ZCOOL-Regular.ttf'), {
+registerFont(path.join(__dirname, './fonts/ZCOOL-Regular.ttf'), {
     family: 'TeutonFett',
     weight: 'regular',
     style: 'normal'
 });
-fabric.nodeCanvas.registerFont(path.join(__dirname, './fonts/Kanit-Regular.ttf'), {
+registerFont(path.join(__dirname, './fonts/Kanit-Regular.ttf'), {
     family: 'TeutonFett',
     weight: 'regular',
     style: 'normal'
 });
-fabric.nodeCanvas.registerFont(path.join(__dirname, './fonts/Kanit-Bold.ttf'), {
+registerFont(path.join(__dirname, './fonts/Kanit-Bold.ttf'), {
     family: 'TeutonFett',
     weight: 'bold',
     style: 'normal'
