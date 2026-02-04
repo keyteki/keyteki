@@ -19,8 +19,10 @@ services:
             - postgres
             - redis
         environment:
-            - NODE_ENV=development
+            - DB_HOST=postgres
+            - DB_PORT=5432
             - NODE_APP_INSTANCE=docker
+            - NODE_ENV=development
             - REDIS_URL=redis://redis:6379
         command:
             - node
@@ -44,8 +46,8 @@ services:
             - '--inspect=0.0.0.0:9339'
             - 'server/gamenode'
         environment:
-            - NODE_ENV=development
             - NODE_APP_INSTANCE=docker
+            - NODE_ENV=development
             - REDIS_URL=redis://redis:6379
     postgres:
         image: postgres
