@@ -13,17 +13,23 @@ class StealAction extends PlayerAction {
     }
 
     canAffect(player, context) {
-        if (!player.opponent || player.amber <= 0 || this.amount <= 0) {
-            return false;
+        return (
+            player.opponent &&
+            player.amber > 0 &&
+            this.amount > 0 &&
+            super.canAffect(player, context)
+        );
+    }
+
+    checkEventCondition(event) {
+        const canAffect = this.canAffect(event.player, event.context);
+        const passesRestrictions = event.player.checkRestrictions(this.name, event.context);
+
+        if (canAffect && !passesRestrictions) {
+            this.printPreventionMessage(event.player, event.context);
         }
 
-        if (!player.checkRestrictions('steal', context)) {
-            // Find and report which card(s) are preventing steal
-            this.printPreventionMessage(player, context);
-            return false;
-        }
-
-        return super.canAffect(player, context);
+        return canAffect && passesRestrictions;
     }
 
     printPreventionMessage(player, context) {
@@ -34,16 +40,18 @@ class StealAction extends PlayerAction {
                 effect.getValue(player).checkRestriction('steal', context, null, effect.context)
         );
 
-        for (const effect of preventingEffects) {
-            const source = effect.context?.source;
-            if (source) {
-                context.game.addMessage(
-                    '{0} uses {1} to prevent {2} from stealing amber',
-                    player,
-                    source,
-                    context.player
-                );
-            }
+        const sources = preventingEffects
+            .map((effect) => effect.context?.source)
+            .filter((source) => source);
+
+        if (sources.length > 0) {
+            const controllers = [...new Set(sources.map((source) => source.controller))];
+            context.game.addMessage(
+                '{0} uses {1} to prevent {2} from stealing amber',
+                controllers,
+                sources,
+                context.source
+            );
         }
     }
 
