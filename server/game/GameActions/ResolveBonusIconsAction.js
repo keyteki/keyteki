@@ -287,13 +287,7 @@ class ResolveBonusIconsAction extends CardGameAction {
                                                   choice
                                               )
                                             : [];
-                                    this.resolveIcon(
-                                        context,
-                                        event,
-                                        choice,
-                                        icon,
-                                        replacementChain
-                                    );
+                                    this.resolveIcon(context, event, choice, replacementChain);
                                 }),
                                 context: context,
                                 source: card
