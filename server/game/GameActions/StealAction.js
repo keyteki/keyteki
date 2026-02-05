@@ -13,12 +13,38 @@ class StealAction extends PlayerAction {
     }
 
     canAffect(player, context) {
-        return (
-            player.opponent &&
-            player.amber > 0 &&
-            this.amount > 0 &&
-            super.canAffect(player, context)
+        if (!player.opponent || player.amber <= 0 || this.amount <= 0) {
+            return false;
+        }
+
+        if (!player.checkRestrictions('steal', context)) {
+            // Find and report which card(s) are preventing steal
+            this.printPreventionMessage(player, context);
+            return false;
+        }
+
+        return super.canAffect(player, context);
+    }
+
+    printPreventionMessage(player, context) {
+        // Find effects that are preventing steal
+        const preventingEffects = player.effects.filter(
+            (effect) =>
+                effect.type === 'abilityRestrictions' &&
+                effect.getValue(player).checkRestriction('steal', context, null, effect.context)
         );
+
+        for (const effect of preventingEffects) {
+            const source = effect.context?.source;
+            if (source) {
+                context.game.addMessage(
+                    '{0} uses {1} to prevent {2} from stealing amber',
+                    player,
+                    source,
+                    context.player
+                );
+            }
+        }
     }
 
     getEvent(player, context) {
