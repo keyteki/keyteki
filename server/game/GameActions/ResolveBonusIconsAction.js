@@ -40,9 +40,11 @@ class ResolveBonusIconsAction extends CardGameAction {
     }
 
     promptForIconResolution(context, event, currentIcon, originalIcon, usedSources = new Set()) {
-        // Terminal results (steal, token) are actions, not icons - no further replacements
+        // Terminal replacements are actions, not icons and can no longer be
+        // chained - eg Amphora Capture can be replaced by Scrivener Favian, but
+        // not vice versa
         if (currentIcon in this.terminalReplacements) {
-            this.resolveIcon(context, event, currentIcon, currentIcon !== originalIcon);
+            this.resolveIcon(context, event, currentIcon);
             return;
         }
 
@@ -54,15 +56,13 @@ class ResolveBonusIconsAction extends CardGameAction {
 
         if (replacements.length === 0) {
             // No more replacements available, resolve the icon
-            this.resolveIcon(context, event, currentIcon, currentIcon !== originalIcon);
+            this.resolveIcon(context, event, currentIcon);
             return;
         }
 
         // Build choices: current icon + all possible replacements
         const choices = [currentIcon];
-        const handlers = [
-            () => this.resolveIcon(context, event, currentIcon, currentIcon !== originalIcon)
-        ];
+        const handlers = [() => this.resolveIcon(context, event, currentIcon)];
 
         for (const replacement of replacements) {
             if (!choices.includes(replacement.newIcon)) {
@@ -100,7 +100,6 @@ class ResolveBonusIconsAction extends CardGameAction {
                         context,
                         event,
                         replacement.newIcon,
-                        originalIcon,
                         newUsedSources
                     );
                 });
@@ -109,7 +108,8 @@ class ResolveBonusIconsAction extends CardGameAction {
 
         if (choices.length > 1) {
             context.game.promptWithHandlerMenu(context.player, {
-                activePromptTitle: 'How do you wish to resolve this ' + currentIcon + ' icon?',
+                activePromptTitle:
+                    'How do you wish to resolve this ' + currentIcon + ' bonus icon?',
                 choices: choices,
                 context: context,
                 handlers: handlers,
@@ -117,25 +117,21 @@ class ResolveBonusIconsAction extends CardGameAction {
             });
         } else {
             // Only one choice (no valid replacements), just resolve
-            this.resolveIcon(context, event, currentIcon, currentIcon !== originalIcon);
+            this.resolveIcon(context, event, currentIcon);
         }
     }
 
-    resolveIcon(context, event, icon, wasReplaced = false) {
+    resolveIcon(context, event, icon) {
         switch (icon) {
             case 'amber':
                 context.game.actions
                     .gainAmber({ bonus: true })
                     .resolve(context.player, context.game.getFrameworkContext(context.player));
-                if (wasReplaced) {
-                    context.game.addMessage('{0} gains 1 amber', context.player);
-                } else {
-                    context.game.addMessage(
-                        "{0} uses {1}'s amber bonus icon to gain 1 amber",
-                        context.player,
-                        event.card
-                    );
-                }
+                context.game.addMessage(
+                    "{0} uses {1}'s amber bonus icon to gain 1 amber",
+                    context.player,
+                    event.card
+                );
                 break;
             case 'capture':
                 if (
@@ -152,20 +148,12 @@ class ResolveBonusIconsAction extends CardGameAction {
                             context.game.actions
                                 .capture({ bonus: true })
                                 .resolve(card, context.game.getFrameworkContext(player));
-                            if (wasReplaced) {
-                                context.game.addMessage(
-                                    '{0} captures 1 amber onto {1}',
-                                    player,
-                                    card
-                                );
-                            } else {
-                                context.game.addMessage(
-                                    "{0} uses {1}'s capture bonus icon to capture 1 amber onto {2}",
-                                    player,
-                                    event.card,
-                                    card
-                                );
-                            }
+                            context.game.addMessage(
+                                "{0} uses {1}'s capture bonus icon to capture 1 amber onto {2}",
+                                player,
+                                event.card,
+                                card
+                            );
                             return true;
                         }
                     });
@@ -181,16 +169,12 @@ class ResolveBonusIconsAction extends CardGameAction {
                             context.game.actions
                                 .dealDamage({ bonus: true })
                                 .resolve(card, context.game.getFrameworkContext(player));
-                            if (wasReplaced) {
-                                context.game.addMessage('{0} deals 1 damage to {1}', player, card);
-                            } else {
-                                context.game.addMessage(
-                                    "{0} uses {1}'s damage bonus icon to deal 1 damage to {2}",
-                                    player,
-                                    event.card,
-                                    card
-                                );
-                            }
+                            context.game.addMessage(
+                                "{0} uses {1}'s damage bonus icon to deal 1 damage to {2}",
+                                player,
+                                event.card,
+                                card
+                            );
                             return true;
                         }
                     });
@@ -207,16 +191,12 @@ class ResolveBonusIconsAction extends CardGameAction {
                             context.game.actions
                                 .discard({ chatMessage: false })
                                 .resolve(card, context.game.getFrameworkContext(player));
-                            if (wasReplaced) {
-                                context.game.addMessage('{0} discards {1}', player, card);
-                            } else {
-                                context.game.addMessage(
-                                    "{0} uses {1}'s discard bonus icon to discard {2}",
-                                    player,
-                                    event.card,
-                                    card
-                                );
-                            }
+                            context.game.addMessage(
+                                "{0} uses {1}'s discard bonus icon to discard {2}",
+                                player,
+                                event.card,
+                                card
+                            );
                             return true;
                         }
                     });
@@ -226,15 +206,11 @@ class ResolveBonusIconsAction extends CardGameAction {
                 context.game.actions
                     .draw({ bonus: true })
                     .resolve(context.player, context.game.getFrameworkContext(context.player));
-                if (wasReplaced) {
-                    context.game.addMessage('{0} draws a card', context.player);
-                } else {
-                    context.game.addMessage(
-                        "{0} uses {1}'s draw bonus icon to draw a card",
-                        context.player,
-                        event.card
-                    );
-                }
+                context.game.addMessage(
+                    "{0} uses {1}'s draw bonus icon to draw a card",
+                    context.player,
+                    event.card
+                );
                 break;
             case 'steal':
                 if (context.player.opponent && context.player.opponent.amber > 0) {
@@ -244,15 +220,11 @@ class ResolveBonusIconsAction extends CardGameAction {
                             context.player.opponent,
                             context.game.getFrameworkContext(context.player)
                         );
-                    if (wasReplaced) {
-                        context.game.addMessage('{0} steals 1 amber', context.player);
-                    } else {
-                        context.game.addMessage(
-                            "{0} uses {1}'s steal bonus icon to steal 1 amber",
-                            context.player,
-                            event.card
-                        );
-                    }
+                    context.game.addMessage(
+                        "{0} uses {1}'s steal bonus icon to steal 1 amber",
+                        context.player,
+                        event.card
+                    );
                 }
                 break;
             case 'token':
@@ -263,13 +235,11 @@ class ResolveBonusIconsAction extends CardGameAction {
                             context.player.deck[0],
                             context.game.getFrameworkContext(context.player)
                         );
-                    if (!wasReplaced) {
-                        context.game.addMessage(
-                            "{0} uses {1}'s token bonus icon to make a token creature",
-                            context.player,
-                            event.card
-                        );
-                    }
+                    context.game.addMessage(
+                        "{0} uses {1}'s token bonus icon to make a token creature",
+                        context.player,
+                        event.card
+                    );
                 }
                 break;
             default:
@@ -292,7 +262,7 @@ class ResolveBonusIconsAction extends CardGameAction {
 
                     for (let rc = 0; rc < resolveCount; ++rc) {
                         context.game.queueSimpleStep(() => {
-                            this.promptForIconResolution(context, event, icon, icon);
+                            this.promptForIconResolution(context, event, icon);
                         });
                     }
                 }

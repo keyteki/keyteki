@@ -29,7 +29,9 @@ describe('Scrivener Favian', function () {
         it('should ask to replace capture with steal, and capture, if selected', function () {
             this.dustPixie.enhancements = ['amber', 'capture', 'draw'];
             this.player1.play(this.dustPixie);
-            expect(this.player1).toHavePrompt('How do you wish to resolve this capture icon?');
+            expect(this.player1).toHavePrompt(
+                'How do you wish to resolve this capture bonus icon?'
+            );
             expect(this.player1).toHavePromptButton('capture');
             expect(this.player1).toHavePromptButton('steal');
             this.player1.clickPrompt('capture');
@@ -44,7 +46,9 @@ describe('Scrivener Favian', function () {
         it('should ask to replace capture with steal, and steal, if selected', function () {
             this.dustPixie.enhancements = ['amber', 'capture', 'draw'];
             this.player1.play(this.dustPixie);
-            expect(this.player1).toHavePrompt('How do you wish to resolve this capture icon?');
+            expect(this.player1).toHavePrompt(
+                'How do you wish to resolve this capture bonus icon?'
+            );
             expect(this.player1).toHavePromptButton('capture');
             expect(this.player1).toHavePromptButton('steal');
             this.player1.clickPrompt('steal');
@@ -74,37 +78,45 @@ describe('Scrivener Favian', function () {
             this.dustPixie.enhancements = ['amber', 'capture', 'draw'];
             this.player1.play(this.dustPixie);
 
-            // First amber icon - convert to steal via step-by-step prompts (amber → capture → steal)
-            expect(this.player1).toHavePrompt('How do you wish to resolve this amber icon?');
+            // First amber icon - convert to steal via step-by-step prompts (amber to capture to steal)
+            expect(this.player1).toHavePrompt('How do you wish to resolve this amber bonus icon?');
             expect(this.player1).toHavePromptButton('amber');
             expect(this.player1).toHavePromptButton('capture');
             this.player1.clickPrompt('capture');
-            expect(this.player1).toHavePrompt('How do you wish to resolve this capture icon?');
+            expect(this.player1).toHavePrompt(
+                'How do you wish to resolve this capture bonus icon?'
+            );
             expect(this.player1).toHavePromptButton('capture');
             expect(this.player1).toHavePromptButton('steal');
             this.player1.clickPrompt('steal');
 
             // Second amber icon - convert to steal
-            expect(this.player1).toHavePrompt('How do you wish to resolve this amber icon?');
+            expect(this.player1).toHavePrompt('How do you wish to resolve this amber bonus icon?');
             this.player1.clickPrompt('capture');
-            expect(this.player1).toHavePrompt('How do you wish to resolve this capture icon?');
+            expect(this.player1).toHavePrompt(
+                'How do you wish to resolve this capture bonus icon?'
+            );
             this.player1.clickPrompt('steal');
 
             // Third amber icon - convert to steal
-            expect(this.player1).toHavePrompt('How do you wish to resolve this amber icon?');
+            expect(this.player1).toHavePrompt('How do you wish to resolve this amber bonus icon?');
             this.player1.clickPrompt('capture');
-            expect(this.player1).toHavePrompt('How do you wish to resolve this capture icon?');
+            expect(this.player1).toHavePrompt(
+                'How do you wish to resolve this capture bonus icon?'
+            );
             this.player1.clickPrompt('steal');
 
-            // Capture icon - keep as capture (already at capture, one step to steal)
-            expect(this.player1).toHavePrompt('How do you wish to resolve this capture icon?');
+            // Capture icon - keep as capture
+            expect(this.player1).toHavePrompt(
+                'How do you wish to resolve this capture bonus icon?'
+            );
             expect(this.player1).toHavePromptButton('capture');
             expect(this.player1).toHavePromptButton('steal');
             this.player1.clickPrompt('capture');
             this.player1.clickCard(this.senatorShrix);
 
             // Draw icon - keep as draw (can convert to capture via Amphora, no direct path)
-            expect(this.player1).toHavePrompt('How do you wish to resolve this draw icon?');
+            expect(this.player1).toHavePrompt('How do you wish to resolve this draw bonus icon?');
             expect(this.player1).toHavePromptButton('draw');
             expect(this.player1).toHavePromptButton('capture');
             this.player1.clickPrompt('draw');
