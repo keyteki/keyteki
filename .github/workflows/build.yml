@@ -58,7 +58,7 @@ jobs:
             - run: npm test
     package:
         name: Push Package
-        if: ${{ github.repository == 'keyteki/keyteki' && (github.ref_name == 'master') && github.event_name == 'push' }}
+        if: ${{ github.repository == 'keyteki/keyteki' && (github.ref_name == 'master') && (github.event_name == 'push' || github.event_name == 'workflow_dispatch') }}
         runs-on: ubuntu-latest
         environment: Production
         needs: 'build'
