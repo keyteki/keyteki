@@ -1154,8 +1154,8 @@ class Player extends GameObject {
 
         this.modifyAmber(-modifiedCost);
 
-        // Check if opponent has redirectForgeAmber effect (e.g. The Sting)
-        // Redirects the full key cost, including value from alternative sources
+        // Redirect the full key cost, including value from alternative
+        // sources, eg for The Sting
         const redirectEffect = this.effects.find((effect) => effect.type === 'redirectForgeAmber');
         if (this.opponent && redirectEffect) {
             this.opponent.modifyAmber(cost);
