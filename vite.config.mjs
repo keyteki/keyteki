@@ -11,16 +11,12 @@ export default defineConfig(({ mode }) => ({
         ...(process.env.SENTRY_AUTH_TOKEN
             ? [
                   sentryVitePlugin({
-                      org: process.env.SENTRY_ORG,
-                      project: process.env.SENTRY_PROJECT,
                       authToken: process.env.SENTRY_AUTH_TOKEN,
                       release: {
                           name: process.env.VITE_VERSION || process.env.VERSION || 'Local build'
                       },
-                      sourcemaps: {
-                          assets: './dist/**',
-                          filesToDeleteAfterUpload: ['./dist/**/*.map']
-                      }
+                      org: 'throneteki',
+                      project: 'keyteki'
                   })
               ]
             : [])

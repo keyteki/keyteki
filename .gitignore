@@ -20,3 +20,6 @@ mongodb
 /.idea/
 server/game/partialcards
 server/game/generatedcards
+
+# Sentry Config File
+.env.sentry-build-plugin
