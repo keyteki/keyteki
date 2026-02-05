@@ -104,7 +104,9 @@ describe('Amberling', function () {
             expect(this.player2.amber).toBe(1);
 
             // Now select Amberling again for its amber tokens
-            expect(this.player1).toHavePrompt('How much amber do you want to use from Æmberling?');
+            expect(this.player1).toHavePrompt(
+                'How much amber do you want to spend from Æmberling?'
+            );
             this.player1.clickPrompt('1');
 
             // Forge and spend amber and the card
@@ -150,7 +152,7 @@ describe('Amberling', function () {
 
             // Senator Shrix automatically prompts for remaining 3
             expect(this.player1).toHavePrompt(
-                'How much amber do you want to use from Senator Shrix?'
+                'How much amber do you want to spend from Senator Shrix?'
             );
             this.player1.clickCard(this.senatorShrix);
             this.player1.clickPrompt('2');
