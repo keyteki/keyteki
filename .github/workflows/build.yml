@@ -94,8 +94,7 @@ jobs:
               with:
                   build-args: |
                       VERSION=${{ steps.determine_version.outputs.semVer }}
-                      VITE_SENTRY_DSN=${{ secrets.SENTRY_DSN }}
-                      VITE_VERSION=${{ steps.determine_version.outputs.semVer }}
+                      SENTRY_DSN=${{ secrets.SENTRY_DSN }}
                       SENTRY_AUTH_TOKEN=${{ secrets.SENTRY_AUTH_TOKEN }}
                   push: true
                   tags: cryogen/keyteki-lobby:latest, cryogen/keyteki-lobby:${{ steps.determine_version.outputs.semVer }}
