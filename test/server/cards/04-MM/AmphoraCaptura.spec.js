@@ -72,4 +72,41 @@ describe('Amphora Captura', function () {
             expect(this.player1).isReadyToTakeAction();
         });
     });
+
+    describe('with two Amphora Capturas', function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'untamed',
+                    inPlay: ['amphora-captura', 'amphora-captura', 'senator-shrix'],
+                    hand: ['dust-pixie']
+                },
+                player2: {
+                    amber: 2
+                }
+            });
+        });
+
+        it('should only offer capture once even with two Amphoras and not cause a cycle', function () {
+            this.player1.play(this.dustPixie);
+
+            // First amber icon - both Amphoras can convert to capture, but only one choice appears
+            expect(this.player1).toHavePrompt('How do you wish to resolve this amber icon?');
+            expect(this.player1).toHavePromptButton('amber');
+            expect(this.player1).toHavePromptButton('capture');
+            this.player1.clickPrompt('capture');
+            this.player1.clickCard(this.senatorShrix);
+
+            // Second amber icon
+            expect(this.player1).toHavePrompt('How do you wish to resolve this amber icon?');
+            expect(this.player1).toHavePromptButton('amber');
+            expect(this.player1).toHavePromptButton('capture');
+            this.player1.clickPrompt('amber');
+
+            expect(this.senatorShrix.amber).toBe(1);
+            expect(this.player1.amber).toBe(1);
+            expect(this.player2.amber).toBe(1);
+            expect(this.player1).isReadyToTakeAction();
+        });
+    });
 });
