@@ -91,10 +91,10 @@ jobs:
               uses: docker/build-push-action@v3
               with:
                   build-args: |
-                      "VERSION=${{ steps.determine_version.outputs.semVer }}"
-                      "VITE_SENTRY_DSN=${{ secrets.SENTRY_DSN }}"
-                      "VITE_VERSION=${{ steps.determine_version.outputs.semVer }}"
-                      "SENTRY_AUTH_TOKEN=${{ secrets.SENTRY_AUTH_TOKEN }}"
+                      VERSION=${{ steps.determine_version.outputs.semVer }}
+                      VITE_SENTRY_DSN=${{ secrets.SENTRY_DSN }}
+                      VITE_VERSION=${{ steps.determine_version.outputs.semVer }}
+                      SENTRY_AUTH_TOKEN=${{ secrets.SENTRY_AUTH_TOKEN }}
                   push: true
                   tags: cryogen/keyteki-lobby:latest, cryogen/keyteki-lobby:${{ steps.determine_version.outputs.semVer }}
             - name: Build and push node
