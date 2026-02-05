@@ -65,7 +65,7 @@ describe('Senator Bracchus', function () {
 
                 // Only Shrix left as source, goes directly to amount prompt
                 expect(this.player1).toHavePrompt(
-                    'How much amber do you want to use from Senator Shrix?'
+                    'How much amber do you want to spend from Senator Shrix?'
                 );
                 this.player1.clickPrompt('1');
 
@@ -78,7 +78,9 @@ describe('Senator Bracchus', function () {
                 expect(this.senatorBracchus.amber).toBe(0);
                 expect(this.senatorShrix.amber).toBe(0);
                 expect(this.player1.amber).toBe(2);
-                expect(this.player1).isReadyToTakeAction();
+                expect(this.player1).toHavePrompt(
+                    'Choose which house you want to activate this turn'
+                );
             });
         });
 
