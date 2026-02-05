@@ -348,7 +348,7 @@ beforeEach(function () {
 });
 
 afterEach(function () {
-    if (process.env.DEBUG_TEST) {
+    if (process.env.DEBUG_TEST && this.game?.getPlainTextLog) {
         // eslint-disable-next-line no-console
         console.info(this.game.getPlainTextLog());
     }
