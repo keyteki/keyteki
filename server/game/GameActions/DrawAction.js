@@ -10,10 +10,9 @@ class DrawAction extends PlayerAction {
     }
 
     setup() {
-        const customEffectMsg = this.effectMsg;
         super.setup();
         this.name = 'draw';
-        this.customEffectMsg = customEffectMsg;
+        this.customEffectMsg = this.effectMsg;
         // Default effectMsg set here, may be updated in update() based on target
         this.effectMsg = `draw ${this.amount} card${this.amount > 1 ? 's' : ''}`;
     }
@@ -66,8 +65,7 @@ class DrawAction extends PlayerAction {
                 context: context
             },
             (event) => {
-                // Show event message for draws (self-draws are also mentioned in ability message,
-                // but displaying both is standard behavior)
+                // Show event message for draws
                 if (!this.bonus && event.amount > 0) {
                     context.game.addMessage(
                         '{0} draws {1} card{2}{3}',

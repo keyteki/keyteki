@@ -163,66 +163,83 @@ class CardAbility extends ThenAbility {
         }
 
         if (this.properties.message) {
-            let messageArgs = this.properties.messageArgs;
-            if (typeof messageArgs === 'function') {
-                messageArgs = messageArgs(context);
-            }
-
-            if (!Array.isArray(messageArgs)) {
-                messageArgs = [messageArgs];
-            }
-
-            if (this.properties.effectAlert) {
-                this.game.addAlert('bell', this.properties.message, ...messageArgs);
-            } else {
-                this.game.addMessage(this.properties.message, ...messageArgs);
-            }
+            this.displayCustomMessage(context);
             return;
         }
 
-        if (!this.properties.effect) {
-            let gameActions = this.getGameActions(context).filter((gameAction) =>
-                gameAction.hasLegalTarget(context)
-            );
-            if (!gameActions || gameActions.length === 0) {
-                this.addMessage(this.getMessageArgs(context));
-            } else {
-                let messageArgs = this.getMessageArgs(
-                    context,
-                    gameActions[0].effectMsg,
-                    [gameActions[0].target],
-                    gameActions[0].effectArgs
-                );
-                if (this.properties.effectStyle === 'append') {
-                    for (let i = 1; i < gameActions.length; ++i) {
-                        let gameAction = gameActions[i];
-                        messageArgs = this.getMessageArgs(
-                            context,
-                            gameAction.effectMsg,
-                            [gameAction.target],
-                            gameAction.effectArgs,
-                            messageArgs,
-                            i === gameActions.length - 1
-                        );
-                    }
-
-                    this.addMessage(messageArgs);
-                } else if (this.properties.effectStyle === 'all') {
-                    // Skip printing here - sequential handler prints messages interleaved with events
-                } else {
-                    this.addMessage(messageArgs);
-                }
-            }
-        } else {
-            this.addMessage(
-                this.getMessageArgs(
-                    context,
-                    this.properties.effect,
-                    [context.target || context.source],
-                    this.properties.effectArgs
-                )
-            );
+        if (this.properties.effect) {
+            this.displayEffectMessage(context);
+            return;
         }
+
+        // effectStyle: 'all' prints messages during sequential execution, not here
+        if (this.properties.effectStyle === 'all') {
+            return;
+        }
+
+        this.displayGameActionMessage(context);
+    }
+
+    displayCustomMessage(context) {
+        let messageArgs = this.properties.messageArgs;
+        if (typeof messageArgs === 'function') {
+            messageArgs = messageArgs(context);
+        }
+
+        if (!Array.isArray(messageArgs)) {
+            messageArgs = [messageArgs];
+        }
+
+        if (this.properties.effectAlert) {
+            this.game.addAlert('bell', this.properties.message, ...messageArgs);
+        } else {
+            this.game.addMessage(this.properties.message, ...messageArgs);
+        }
+    }
+
+    displayEffectMessage(context) {
+        this.addMessage(
+            this.getMessageArgs(
+                context,
+                this.properties.effect,
+                [context.target || context.source],
+                this.properties.effectArgs
+            )
+        );
+    }
+
+    displayGameActionMessage(context) {
+        const gameActions = this.getGameActions(context).filter((gameAction) =>
+            gameAction.hasLegalTarget(context)
+        );
+
+        if (!gameActions || gameActions.length === 0) {
+            this.addMessage(this.getMessageArgs(context));
+            return;
+        }
+
+        let messageArgs = this.getMessageArgs(
+            context,
+            gameActions[0].effectMsg,
+            [gameActions[0].target],
+            gameActions[0].effectArgs
+        );
+
+        if (this.properties.effectStyle === 'append') {
+            for (let i = 1; i < gameActions.length; ++i) {
+                const gameAction = gameActions[i];
+                messageArgs = this.getMessageArgs(
+                    context,
+                    gameAction.effectMsg,
+                    [gameAction.target],
+                    gameAction.effectArgs,
+                    messageArgs,
+                    i === gameActions.length - 1
+                );
+            }
+        }
+
+        this.addMessage(messageArgs);
     }
 
     isPlay() {
