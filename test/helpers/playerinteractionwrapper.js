@@ -722,9 +722,9 @@ class PlayerInteractionWrapper {
     }
 
     checkUnserializableGameState() {
-        // Skip expensive serialization check unless in CI
+        // Skip expensive serialization checks if requested, and not in debug mode
         // This check takes ~15% of test time
-        if (process.env.CI || process.env.DEBUG_TEST) {
+        if (process.env.KEYTEKI_SKIP_SERIALIZATION_CHECK && !process.env.DEBUG_TEST) {
             return;
         }
 
