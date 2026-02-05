@@ -1079,7 +1079,7 @@ class Player extends GameObject {
 
             this.game.promptWithHandlerMenu(this, {
                 activePromptTitle: {
-                    text: 'How much amber do you want to use from {{card}}?',
+                    text: 'How much amber do you want to spend from {{card}}?',
                     values: { card: source.name }
                 },
                 source: source,
