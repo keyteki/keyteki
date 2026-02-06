@@ -2,18 +2,14 @@
  * Checks that messages from the main phase match exactly.
  * @param {Object} context - The test context (this)
  * @param {Array<string>} expectedMessages - Array of messages to check in order
- * @param {Object} [options] - Optional configuration
- * @param {number} [options.numLogs=100] - Number of logs to retrieve
  * @returns {Object} Result with pass boolean and message function
  */
-function checkAllMessages(context, expectedMessages, options = {}) {
-    const { numLogs = 100 } = options;
-
+function checkAllMessages(context, expectedMessages) {
     if (!expectedMessages || expectedMessages.length === 0) {
         return { pass: false, message: () => 'Expected messages array cannot be empty' };
     }
 
-    const logs = context.getChatLogs(numLogs);
+    const logs = context.getChatLogs(Infinity);
 
     // Find the second player1 house choice (start of main phase after setupTest completes)
     let houseChoiceCount = 0;
@@ -44,7 +40,7 @@ function checkAllMessages(context, expectedMessages, options = {}) {
                 message: () =>
                     `Missing log entry at position ${i}. Expected: "${
                         expectedMessages[i]
-                    }"\nLogs from main phase:\n${relevantLogs.join('\n')}`
+                    }"\n\nGame logs:\n${relevantLogs.join('\n')}\n`
             };
         }
 
