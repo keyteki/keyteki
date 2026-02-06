@@ -202,7 +202,7 @@ class Player extends GameObject {
      */
     drawWithEmptyDeck() {
         this.game.addMessage(
-            '{0} attempts to draw with an empty deck, so they shuffle their discard pile to reset their deck',
+            '{0} goes to draw with an empty deck, so they shuffle their discard pile to reset their deck',
             this
         );
         for (let card of this.discard) {

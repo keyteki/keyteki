@@ -51,7 +51,7 @@ class DrawAction extends PlayerAction {
                 if (event.amount > 0) {
                     const logDraw = !this.bonus;
                     const refillSuffix = refill
-                        ? ` to refill their hand to ${player.maxHandSize} cards`
+                        ? ` to refill their hand to ${player.hand.length + amount} cards`
                         : '';
                     event.player.drawCardsToHand(amount, { logDraw, refillSuffix });
                 }
@@ -59,7 +59,7 @@ class DrawAction extends PlayerAction {
                 if (shedChains) {
                     event.player.modifyChains(-1);
                     context.game.addMessage(
-                        '{0} sheds 1 chain to {1}',
+                        '{0} sheds 1 chain to {1} chains',
                         event.player,
                         event.player.chains
                     );
