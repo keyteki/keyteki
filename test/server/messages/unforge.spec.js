@@ -11,7 +11,7 @@ describe('Unforge Messages', function () {
         });
 
         it('should log correct message when unforging a key', function () {
-            this.player2.keys = { red: true, blue: false, yellow: false };
+            this.player2.player.keys = { red: true, blue: false, yellow: false };
             this.player1.play(this.turnkey);
             expect(this).toHaveAllChatMessagesBe([
                 'player1 plays Turnkey',

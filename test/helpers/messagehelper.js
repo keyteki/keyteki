@@ -63,7 +63,7 @@ function checkAllMessages(context, expectedMessages) {
         };
     }
 
-    return { pass: true, message: () => 'Expected chat messages not to match but they did.' };
+    return { pass: true, message: () => '' };
 }
 
 module.exports = { checkAllMessages };

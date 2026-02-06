@@ -4,6 +4,24 @@ describe('Discard Messages', function () {
             this.setupTest({
                 player1: {
                     house: 'mars',
+                    hand: ['mindwarper']
+                },
+                player2: {}
+            });
+        });
+
+        it('should log correct message when using discarding a card from hand', function () {
+            this.player1.scrap(this.mindwarper);
+            expect(this).toHaveAllChatMessagesBe(['player1 discards Mindwarper']);
+            expect(this.player1).isReadyToTakeAction();
+        });
+    });
+
+    describe('discard card with ability', function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'mars',
                     hand: ['troll'],
                     inPlay: ['feeding-pit']
                 },
@@ -11,7 +29,7 @@ describe('Discard Messages', function () {
             });
         });
 
-        it('should log correct message when discarding a card', function () {
+        it('should log correct message when discarding a card using an ability', function () {
             this.player1.useAction(this.feedingPit);
             this.player1.clickCard(this.troll);
             expect(this).toHaveAllChatMessagesBe([

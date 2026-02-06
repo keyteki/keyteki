@@ -1,4 +1,29 @@
 describe('Destroy Messages', function () {
+    describe('destroy from action', function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'saurian',
+                    hand: ['saury-about-that']
+                },
+                player2: {
+                    inPlay: ['troll']
+                }
+            });
+        });
+
+        it('should log correct message when explicitly destroying a creature', function () {
+            this.player1.play(this.sauryAboutThat);
+            this.player1.clickCard(this.troll);
+            expect(this).toHaveAllChatMessagesBe([
+                'player1 plays Saury About That',
+                'player1 uses Saury About That to destroy Troll',
+                'player2 gains 1 amber from Saury About That'
+            ]);
+            expect(this.player1).isReadyToTakeAction();
+        });
+    });
+
     describe('destroy from fight', function () {
         beforeEach(function () {
             this.setupTest({
@@ -21,7 +46,7 @@ describe('Destroy Messages', function () {
         });
     });
 
-    describe('destroy from action', function () {
+    describe('destroy from damage', function () {
         beforeEach(function () {
             this.setupTest({
                 player1: {
@@ -34,7 +59,7 @@ describe('Destroy Messages', function () {
             });
         });
 
-        it('should log correct message when destroying a creature from action', function () {
+        it('should log correct message when dealing lethal damage from action', function () {
             this.player1.play(this.punch);
             this.player1.clickCard(this.emberImp);
             expect(this).toHaveAllChatMessagesBe([

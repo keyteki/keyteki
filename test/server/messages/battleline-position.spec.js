@@ -1,4 +1,4 @@
-describe('Position Messages', function () {
+describe('Battleline Position Messages', function () {
     describe('swap creatures', function () {
         beforeEach(function () {
             this.setupTest({
