@@ -73,8 +73,7 @@ const ActivePlayerPrompt = (props) => {
 
             if (values && values.card) {
                 // if there is a {{card}} property in the values, we should use localized source name
-                values.card = source.locale[i18n.language].name;
-                return t(text, values);
+                return t(text, { ...values, card: source.locale[i18n.language].name });
             }
 
             if (!values) {

@@ -464,6 +464,7 @@ class GameServer {
         socket.joinChannel(game.id);
 
         player.socket = socket;
+        game.jsonForUsers[player.name] = undefined;
 
         if (!game.isSpectator(player) && !player.disconnectedAt) {
             game.addAlert('info', '{0} has connected to the game server', player);

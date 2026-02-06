@@ -239,7 +239,8 @@ export const socketMiddleware = (store) => (next) => (action) => {
             let gameState;
 
             if (latestState.lobby.rootState) {
-                gameState = patcher.patch(jsondiffpatch.clone(latestState.lobby.currentGame), game);
+                gameState = patcher.patch(jsondiffpatch.clone(latestState.lobby.rootState), game);
+                store.dispatch(lobbyActions.setRootState(gameState));
             } else {
                 gameState = game;
                 store.dispatch(lobbyActions.setRootState(game));
