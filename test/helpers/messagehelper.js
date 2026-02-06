@@ -1,5 +1,5 @@
 /**
- * Checks that messages from the main phase match exactly.
+ * Checks that all log messages match exactly.
  * @param {Object} context - The test context (this)
  * @param {Array<string>} expectedMessages - Array of messages to check in order
  * @returns {Object} Result with pass boolean and message function
@@ -11,7 +11,7 @@ function checkAllMessages(context, expectedMessages) {
 
     const logs = context.getChatLogs(Infinity);
 
-    // Find the second player1 house choice (start of main phase after setupTest completes)
+    // Find the start of logs - after the turn 2 player1 house choice
     let houseChoiceCount = 0;
     let startIndex = logs.findIndex((log) => {
         if (log.includes('player1 chooses')) {
@@ -23,10 +23,7 @@ function checkAllMessages(context, expectedMessages) {
     if (startIndex === -1) {
         return {
             pass: false,
-            message: () =>
-                `Main phase start not found (expected 2nd occurrence of "player1 chooses")\nAvailable logs:\n${logs.join(
-                    '\n'
-                )}`
+            message: () => `Start of logs not found\n\nGame logs:\n${logs.join('\n')}\n`
         };
     }
     startIndex += 1;
@@ -50,9 +47,7 @@ function checkAllMessages(context, expectedMessages) {
                 message: () =>
                     `Message mismatch at position ${i}.\nExpected: "${
                         expectedMessages[i]
-                    }"\nActual:   "${relevantLogs[i]}"\nLogs from main phase:\n${relevantLogs.join(
-                        '\n'
-                    )}`
+                    }"\nActual:   "${relevantLogs[i]}"\n\nGame logs:\n${relevantLogs.join('\n')}\n`
             };
         }
     }
@@ -64,7 +59,7 @@ function checkAllMessages(context, expectedMessages) {
             message: () =>
                 `Found ${extraLogs.length} unexpected log(s) after expected messages:\n${extraLogs
                     .map((log, i) => `  ${expectedMessages.length + i}: "${log}"`)
-                    .join('\n')}\nLogs from main phase:\n${relevantLogs.join('\n')}`
+                    .join('\n')}\n\nGame logs:\n${relevantLogs.join('\n')}\n`
         };
     }
 
