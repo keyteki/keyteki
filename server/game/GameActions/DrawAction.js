@@ -48,24 +48,18 @@ class DrawAction extends PlayerAction {
                 context: context
             },
             (event) => {
-                if (!this.bonus && event.amount > 0) {
-                    context.game.addMessage(
-                        '{0} draws {1} card{2}{3}',
-                        player,
-                        amount,
-                        amount > 1 ? 's' : '',
-                        refill ? ` to their maximum of ${player.maxHandSize}` : ''
-                    );
-                }
-
                 if (event.amount > 0) {
-                    event.player.drawCardsToHand(amount);
+                    const logDraw = !this.bonus;
+                    const refillSuffix = refill
+                        ? ` to refill their hand to ${player.maxHandSize} cards`
+                        : '';
+                    event.player.drawCardsToHand(amount, { logDraw, refillSuffix });
                 }
 
                 if (shedChains) {
                     event.player.modifyChains(-1);
                     context.game.addMessage(
-                        "{0}'s chains are reduced by 1 to {1}",
+                        '{0} sheds 1 chain to {1}',
                         event.player,
                         event.player.chains
                     );

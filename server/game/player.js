@@ -163,8 +163,11 @@ class Player extends GameObject {
     /**
      * Draws the passed number of cards from the top of the deck into this players hand, shuffling if necessary
      * @param {number} numCards
+     * @param {Object} [options] - Optional logging settings
+     * @param {boolean} [options.logDraw] - Whether to log the draw messages
+     * @param {string} [options.refillSuffix] - Suffix to add on the final draw message (e.g. " to their maximum of 6")
      */
-    drawCardsToHand(numCards) {
+    drawCardsToHand(numCards, options = {}) {
         let remainingCards = 0;
 
         if (numCards > this.deck.length) {
@@ -172,21 +175,36 @@ class Player extends GameObject {
             numCards = this.deck.length;
         }
 
+        if (options.logDraw && numCards > 0) {
+            // Log draws before any shuffle, without the refill suffix if more cards remain
+            const suffix = remainingCards > 0 ? '' : options.refillSuffix || '';
+            this.game.addMessage(
+                '{0} draws {1} card{2}{3}',
+                this,
+                numCards,
+                numCards > 1 ? 's' : '',
+                suffix
+            );
+        }
+
         for (let card of this.deck.slice(0, numCards)) {
             this.moveCard(card, 'hand', { drawn: true });
         }
 
         if (remainingCards > 0 && this.discard.length > 0) {
-            this.deckRanOutOfCards();
-            this.game.queueSimpleStep(() => this.drawCardsToHand(remainingCards));
+            this.drawWithEmptyDeck();
+            this.drawCardsToHand(remainingCards, options);
         }
     }
 
     /**
-     * Called when one of the players decks runs out of cards, removing 5 honor and shuffling the discard pile back into the deck
+     * Called when a player goes to draw with an empty deck. Shuffles the discard pile back into the deck and displays a message in chat
      */
-    deckRanOutOfCards() {
-        this.game.addMessage("{0}'s deck has run out of cards, so they shuffle", this);
+    drawWithEmptyDeck() {
+        this.game.addMessage(
+            '{0} attempts to draw with an empty deck, so they shuffle their discard pile to reset their deck',
+            this
+        );
         for (let card of this.discard) {
             this.moveCard(card, 'deck', { aboutToShuffle: true });
         }
