@@ -99,11 +99,21 @@ class CardGameAction extends GameAction {
                 cardHandler: (card) => {
                     this.setTarget(card);
                     if (properties.message) {
+                        let messageArgs = properties.messageArgs || [];
+                        if (typeof messageArgs === 'function') {
+                            messageArgs = messageArgs(card);
+                        }
+
+                        if (!Array.isArray(messageArgs)) {
+                            messageArgs = [messageArgs];
+                        }
+
                         context.game.addMessage(
                             properties.message,
                             properties.player,
                             context.source,
-                            card
+                            card,
+                            ...messageArgs
                         );
                     }
                 }

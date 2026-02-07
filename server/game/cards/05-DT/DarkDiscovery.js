@@ -15,7 +15,7 @@ class DarkDiscovery extends Card {
                     activePromptTitle: 'Name the second card'
                 }
             },
-            effect: 'name {1} and {2} and discard {3}',
+            effect: 'name {1} and {2}',
             effectArgs: (context) => [
                 context.targets.firstCard,
                 context.targets.secondCard,

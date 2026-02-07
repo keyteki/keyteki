@@ -15,6 +15,18 @@ describe('Dark Discovery', function () {
             });
         });
 
+        it('should not discard any cards if opponent deck is empty', function () {
+            this.player2.player.deck = [];
+
+            this.player1.play(this.darkDiscovery);
+
+            this.player1.selectCardName('Dust Pixie');
+            this.player1.selectCardName('Krump');
+
+            expect(this.darkDiscovery.location).toBe('discard');
+            expect(this.player1).isReadyToTakeAction();
+        });
+
         it('should discard the bottom two cards of the opponents deck and not forge if wrong', function () {
             this.player2.player.deck = [];
             this.player2.moveCard(this.gub, 'deck');
@@ -29,8 +41,7 @@ describe('Dark Discovery', function () {
             expect(this.krump.location).toBe('discard');
             expect(this.gub.location).toBe('discard');
             expect(this.darkDiscovery.location).toBe('discard');
-
-            this.player1.endTurn();
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should discard the one card if there is only 1', function () {
@@ -44,8 +55,7 @@ describe('Dark Discovery', function () {
 
             expect(this.gub.location).toBe('discard');
             expect(this.darkDiscovery.location).toBe('discard');
-
-            this.player1.endTurn();
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should forge a key if the discarded cards are correct', function () {
@@ -65,8 +75,7 @@ describe('Dark Discovery', function () {
 
             this.player1.forgeKey('Red');
             expect(this.darkDiscovery.location).toBe('purged');
-
-            this.player1.endTurn();
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });
