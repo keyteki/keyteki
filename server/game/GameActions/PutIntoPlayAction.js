@@ -290,8 +290,10 @@ class PutIntoPlayAction extends CardGameAction {
                         .resolve(card, context);
                 }
 
-                // Show play message
-                context.game.addMessage('{0} plays {1}', player, card);
+                // Show play message for tokens only - non-tokens are handled by BasePlayAction
+                if (card.isToken()) {
+                    context.game.addMessage('{0} puts {1} into play', player, card);
+                }
 
                 // Check if creature should go to a different location instead of play area
                 let location = card.mostRecentEffect('cardLocationAfterPlay') || 'play area';
