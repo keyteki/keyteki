@@ -16,11 +16,7 @@ class DarkDiscovery extends Card {
                 }
             },
             effect: 'name {1} and {2}',
-            effectArgs: (context) => [
-                context.targets.firstCard,
-                context.targets.secondCard,
-                context.player.opponent.deck.slice(context.player.opponent.deck.length - 2)
-            ],
+            effectArgs: (context) => [context.targets.firstCard, context.targets.secondCard],
             gameAction: ability.actions.discard((context) => ({
                 target: context.player.opponent.deck.slice(context.player.opponent.deck.length - 2)
             })),
