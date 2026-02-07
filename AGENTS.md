@@ -49,8 +49,7 @@ Ask the user before proceeding when:
 -   Run all tests: `DEBUG_TEST=1 npm test`
 -   Run specific test file: `DEBUG_TEST=1 npm test -- test/server/cards/<Set>/<CardName>.spec.js`
 -   Run multiple test files: `DEBUG_TEST=1 npm test -- test/server/cards/<Set1>/<CardName1>.spec.js test/server/cards/<set2>/<CardName2>.spec.js`
--   Run tests matching a pattern: `DEBUG_TEST=1 npm test -- --filter='<pattern>'`
-    -   Using just the filter option is slower than running test files, so prefer using filters in combination with specifying test files.
+-   Run tests matching a pattern: `DEBUG_TEST=1 npm test -- --testNamePattern '<pattern>'`
 
 ## Version Control
 
