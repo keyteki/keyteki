@@ -5,26 +5,22 @@ import moment from 'moment';
 import Form from '../Components/Form/Form';
 import Panel from '../Components/Site/Panel';
 import ApiStatus from '../Components/Site/ApiStatus';
-import { addBanlist, clearBanlistStatus, deleteBanlist, loadBanlist } from '../redux/actions';
+import { useAddBanlistMutation, useDeleteBanlistMutation, useGetBanlistQuery } from '../redux/api';
+import { adminActions } from '../redux/slices/adminSlice';
 import { Col } from 'react-bootstrap';
 
 const BanlistAdmin = () => {
     const dispatch = useDispatch();
     const [currentRequest, setCurrentRequest] = useState('REQUEST_BANLIST');
     const [successMessage, setSuccessMessage] = useState(undefined);
-    const { apiAddState, apiDeleteState, apiState, banListAdded, banListDeleted, banlist } =
-        useSelector((state) => ({
-            apiAddState: state.api.ADD_BANLIST,
-            apiDeleteState: state.api.DELETE_BANLIST,
-            apiState: state.api.REQUEST_BANLIST,
-            banListAdded: state.admin.banlistAdded,
-            banListDeleted: state.admin.banlistDeleted,
-            banlist: state.admin.banlist
-        }));
-
-    useEffect(() => {
-        dispatch(loadBanlist());
-    }, [dispatch]);
+    const { isLoading } = useGetBanlistQuery();
+    const [addBanlist, addState] = useAddBanlistMutation();
+    const [deleteBanlist, deleteState] = useDeleteBanlistMutation();
+    const { banListAdded, banListDeleted, banlist } = useSelector((state) => ({
+        banListAdded: state.admin.banlistAdded,
+        banListDeleted: state.admin.banlistDeleted,
+        banlist: state.admin.banlist
+    }));
 
     useEffect(() => {
         if (!banListAdded && !banListDeleted) {
@@ -38,7 +34,7 @@ const BanlistAdmin = () => {
         }
 
         const timeoutId = setTimeout(() => {
-            dispatch(clearBanlistStatus());
+            dispatch(adminActions.clearBanlistStatus());
             setSuccessMessage(undefined);
         }, 5000);
 
@@ -48,32 +44,70 @@ const BanlistAdmin = () => {
     const onAddBanlistClick = useCallback(
         (state) => {
             setCurrentRequest('ADD_BANLIST');
-            dispatch(addBanlist(state.ip));
+            addBanlist(state.ip);
         },
-        [dispatch]
+        [addBanlist]
     );
 
     const onDeleteClick = useCallback(
         (id) => {
             setCurrentRequest('DELETE_BANLIST');
-            dispatch(deleteBanlist(id));
+            deleteBanlist(id);
         },
-        [dispatch]
+        [deleteBanlist]
     );
 
     const statusBar = useMemo(() => {
         switch (currentRequest) {
             case 'ADD_BANLIST':
-                return <ApiStatus apiState={apiAddState} successMessage={successMessage} />;
+                return (
+                    <ApiStatus
+                        state={
+                            addState.isUninitialized
+                                ? null
+                                : {
+                                      loading: addState.isLoading,
+                                      success: addState.isSuccess,
+                                      message: addState.isSuccess
+                                          ? successMessage
+                                          : addState.error?.data?.message
+                                  }
+                        }
+                    />
+                );
             case 'DELETE_BANLIST':
-                return <ApiStatus apiState={apiDeleteState} successMessage={successMessage} />;
+                return (
+                    <ApiStatus
+                        state={
+                            deleteState.isUninitialized
+                                ? null
+                                : {
+                                      loading: deleteState.isLoading,
+                                      success: deleteState.isSuccess,
+                                      message: deleteState.isSuccess
+                                          ? successMessage
+                                          : deleteState.error?.data?.message
+                                  }
+                        }
+                    />
+                );
             case 'REQUEST_BANLIST':
             default:
-                return <ApiStatus apiState={apiState} successMessage={successMessage} />;
+                return (
+                    <ApiStatus
+                        state={
+                            isLoading
+                                ? { loading: true }
+                                : successMessage
+                                ? { loading: false, success: true, message: successMessage }
+                                : null
+                        }
+                    />
+                );
         }
-    }, [apiAddState, apiDeleteState, apiState, currentRequest, successMessage]);
+    }, [addState, deleteState, currentRequest, isLoading, successMessage]);
 
-    if (apiState && apiState.loading) {
+    if (isLoading) {
         return 'Loading banlist, please wait...';
     }
 
@@ -103,7 +137,7 @@ const BanlistAdmin = () => {
                                         onClick={() => onDeleteClick(entry.id)}
                                     >
                                         Delete{' '}
-                                        {apiDeleteState && apiDeleteState.loading && (
+                                        {deleteState.isLoading && (
                                             <span className='spinner button-spinner' />
                                         )}
                                     </button>
@@ -116,7 +150,7 @@ const BanlistAdmin = () => {
             <Panel title='Add new ip'>
                 <Form
                     name='banlistAdmin'
-                    apiLoading={apiAddState && apiAddState.loading}
+                    apiLoading={addState.isLoading}
                     buttonClass='col-sm-offset-2 col-sm-4'
                     buttonText='Add'
                     onSubmit={onAddBanlistClick}

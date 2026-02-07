@@ -1,7 +1,7 @@
 /*eslint no-console:0 */
 const fs = require('fs');
 const request = require('request');
-const fabric = require('fabric').fabric;
+const { fabric } = require('fabric');
 const path = require('path');
 const KeyForgeHalfSizeBuild = require('./KeyForgeHalfSizeBuild');
 
@@ -29,6 +29,7 @@ class KeyforgeImageSource {
     async buildGigantics(card, language, imageLangDir, imgPath) {
         console.log(`Built gigantic image for ${card.id} in ${language}`);
         const canvas = new fabric.StaticCanvas();
+        canvas.renderOnAddRemove = false;
         canvas.setDimensions({ width: 300, height: 420 });
         const bottom = await this.loadImage(path.join(imageLangDir, card + '.png'));
         const top = await this.loadImage(path.join(imageLangDir, card + '2.png'));
@@ -50,9 +51,7 @@ class KeyforgeImageSource {
 
     loadImage(imgPath) {
         return new Promise((resolve) => {
-            fabric.Image.fromURL(`file://${imgPath}`, (image) => {
-                resolve(image);
-            });
+            fabric.Image.fromURL(`file://${imgPath}`, (image) => resolve(image));
         });
     }
 }

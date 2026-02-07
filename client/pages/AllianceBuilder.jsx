@@ -1,15 +1,13 @@
 import React, { useMemo, useEffect, useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { Trans, useTranslation } from 'react-i18next';
 import { Col, Row, Form, Button } from 'react-bootstrap';
 
 import Panel from '../Components/Site/Panel';
 import ApiStatus from '../Components/Site/ApiStatus';
-import { Decks } from '../redux/types';
-import { clearApiStatus, saveAllianceDeck } from '../redux/actions';
+import { useGetDecksQuery, useSaveAllianceDeckMutation } from '../redux/api';
 import { Constants } from '../constants';
-import { loadDecks } from '../redux/actions';
 import AlertPanel from '../Components/Site/AlertPanel';
 import DeckSummary from '../Components/Decks/DeckSummary';
 import CardImage from '../Components/GameBoard/CardImage';
@@ -18,22 +16,28 @@ import './AllianceBuilder.scss';
 
 const AllianceBuilderPage = () => {
     const { i18n, t } = useTranslation();
-    const dispatch = useDispatch();
     const navigate = useNavigate();
-    const apiState = useSelector((state) => {
-        const retState = state.api[Decks.SaveAllianceDeck];
+    const [saveAllianceDeck, saveState] = useSaveAllianceDeckMutation();
 
-        if (retState && retState.success) {
-            retState.message = t('Deck added successfully');
-
-            setTimeout(() => {
-                dispatch(clearApiStatus(Decks.SaveAllianceDeck));
+    useEffect(() => {
+        if (saveState.isSuccess) {
+            const timeoutId = setTimeout(() => {
+                saveState.reset();
                 navigate('/decks');
             }, 1000);
+            return () => clearTimeout(timeoutId);
         }
+    }, [navigate, saveState]);
 
-        return retState;
-    });
+    const apiState = saveState.isUninitialized
+        ? null
+        : {
+              loading: saveState.isLoading,
+              success: saveState.isSuccess,
+              message: saveState.isSuccess
+                  ? t('Deck added successfully')
+                  : saveState.error?.data?.message
+          };
     const { dbDecks } = useSelector((state) => ({
         dbDecks: state.cards.decks
     }));
@@ -101,17 +105,19 @@ const AllianceBuilderPage = () => {
     };
 
     useEffect(() => {
-        dispatch(
-            loadDecks({
-                page: 1,
-                pageSize: 999999,
-                sort: 'lastUpdated',
-                sortDir: 'desc',
-                filter: [{ name: 'isAlliance', value: false }]
-            })
-        );
-        dispatch(clearApiStatus(Decks.SaveAllianceDeck));
-    }, [dispatch]);
+        saveState.reset();
+    }, [saveState]);
+    const deckQueryArgs = useMemo(
+        () => ({
+            page: 1,
+            pageSize: 999999,
+            sort: 'lastUpdated',
+            sortDir: 'desc',
+            filter: [{ name: 'isAlliance', value: false }]
+        }),
+        []
+    );
+    useGetDecksQuery(deckQueryArgs);
 
     let decks = useMemo(() => {
         return dbDecks ? dbDecks.filter((d) => d.expansion == selectedExpansion) : [];
@@ -158,7 +164,7 @@ const AllianceBuilderPage = () => {
                 >
                     <span>{d.name}</span>
                     <div className='mt-2 d-flex align-items-center'>
-                        {d.houses.sort().map((h) => {
+                        {[...d.houses].sort().map((h) => {
                             let selection = [...selectedPods];
                             let selectionKey = `${d.uuid}:${h}`;
                             let imgClass = 'alliance-house';
@@ -224,10 +230,7 @@ const AllianceBuilderPage = () => {
             <Row>
                 <Col lg={6} className='full-height'>
                     <Panel title={t('Alliance')}>
-                        <ApiStatus
-                            state={apiState}
-                            onClose={() => dispatch(clearApiStatus(Decks.SaveAllianceDeck))}
-                        />
+                        <ApiStatus state={apiState} onClose={() => saveState.reset()} />
                         <Row>
                             <Col sm={12}>
                                 <Button
@@ -244,7 +247,7 @@ const AllianceBuilderPage = () => {
                                             allianceData.prophecySourceDeck = selectedProphecyDeck;
                                         }
 
-                                        dispatch(saveAllianceDeck(allianceData));
+                                        saveAllianceDeck(allianceData);
                                     }}
                                 >
                                     <Trans>Save</Trans>

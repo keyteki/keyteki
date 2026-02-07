@@ -11,7 +11,7 @@ import { faLock } from '@fortawesome/free-solid-svg-icons';
 
 import Avatar from '../Site/Avatar';
 import AlertPanel from '../Site/AlertPanel';
-import { joinPasswordGame } from '../../redux/actions';
+import { lobbyActions } from '../../redux/slices/lobbySlice';
 import TimeLimitIcon from '../../assets/img/Timelimit.png';
 import ShowHandIcon from '../../assets/img/ShowHandIcon.png';
 import SealedIcon from '../../assets/img/sealed.png';
@@ -58,7 +58,7 @@ const GameList = (props) => {
             }
 
             if (game.needsPassword) {
-                dispatch(joinPasswordGame(game, 'Join'));
+                dispatch(lobbyActions.joinPasswordGame({ game, joinType: 'Join' }));
             } else {
                 socket.emit('joingame', game.id);
             }
@@ -80,7 +80,7 @@ const GameList = (props) => {
             }
 
             if (game.needsPassword) {
-                dispatch(joinPasswordGame(game, 'Watch'));
+                dispatch(lobbyActions.joinPasswordGame({ game, joinType: 'Watch' }));
             } else {
                 socket.emit('watchgame', game.id);
             }
@@ -161,7 +161,7 @@ const GameList = (props) => {
             if (players.length === 1) {
                 if (canJoin(game)) {
                     players.push(
-                        <div key={players[0].name} className={'game-player-row other-player'}>
+                        <div key={`${game.id}-join`} className={'game-player-row other-player'}>
                             <div className='game-faction-row other-player'>
                                 <button
                                     className='btn btn-success gamelist-button img-fluid'
@@ -174,7 +174,7 @@ const GameList = (props) => {
                     );
                 } else {
                     players.push(
-                        <div key={players[0].name} className='game-faction-row other-player' />
+                        <div key={`${game.id}-empty`} className='game-faction-row other-player' />
                     );
                 }
             }
@@ -313,7 +313,7 @@ const GameList = (props) => {
             }
 
             return (
-                <div>
+                <div key={gameType}>
                     <div className={gameHeaderClass}>
                         {t(gameType)} ({gamesToReturn.length})
                     </div>

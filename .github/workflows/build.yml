@@ -13,6 +13,7 @@ on:
         paths-ignore:
             - '.github/workflows/**'
             - 'infrastructure/**'
+    workflow_dispatch: {}
 
 jobs:
     build:
@@ -50,12 +51,16 @@ jobs:
             - name: Build client
               env:
                   VERSION: ${{ steps.determine_version.outputs.semVer }}
+                  VITE_SENTRY_DSN: ${{ secrets.SENTRY_DSN }}
+                  VITE_VERSION: ${{ steps.determine_version.outputs.semVer }}
+                  SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
               run: npm run build --if-present
             - run: npm test
     package:
         name: Push Package
-        if: ${{ github.repository == 'keyteki/keyteki' && (github.ref_name == 'master') && github.event_name == 'push' }}
+        if: ${{ github.repository == 'keyteki/keyteki' && (github.ref_name == 'master') && (github.event_name == 'push' || github.event_name == 'workflow_dispatch') }}
         runs-on: ubuntu-latest
+        environment: Production
         needs: 'build'
         steps:
             - name: Checkout source and submodules
@@ -88,7 +93,9 @@ jobs:
               uses: docker/build-push-action@v3
               with:
                   build-args: |
-                      "VERSION=${{ steps.determine_version.outputs.semVer }}"
+                      VERSION=${{ steps.determine_version.outputs.semVer }}
+                      SENTRY_DSN=${{ secrets.SENTRY_DSN }}
+                      SENTRY_AUTH_TOKEN=${{ secrets.SENTRY_AUTH_TOKEN }}
                   push: true
                   tags: cryogen/keyteki-lobby:latest, cryogen/keyteki-lobby:${{ steps.determine_version.outputs.semVer }}
             - name: Build and push node

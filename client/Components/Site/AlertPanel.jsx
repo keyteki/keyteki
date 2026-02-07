@@ -85,6 +85,7 @@ const AlertPanel = ({ type = AlertType.Info, title, message, noIcon = false, chi
     let alertType;
 
     switch (type) {
+        case 'error':
         case AlertType.Warning:
             icon = faExclamationTriangle;
             alertType = 'warning';
@@ -103,6 +104,12 @@ const AlertPanel = ({ type = AlertType.Info, title, message, noIcon = false, chi
             break;
         case AlertType.Bell:
             icon = faBell;
+            alertType = 'primary';
+            break;
+        case AlertType.Default:
+        case AlertType.Primary:
+        default:
+            icon = faInfoCircle;
             alertType = 'primary';
             break;
     }

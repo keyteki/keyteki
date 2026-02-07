@@ -73,8 +73,7 @@ const ActivePlayerPrompt = (props) => {
 
             if (values && values.card) {
                 // if there is a {{card}} property in the values, we should use localized source name
-                values.card = source.locale[i18n.language].name;
-                return t(text, values);
+                return t(text, { ...values, card: source.locale[i18n.language].name });
             }
 
             if (!values) {
@@ -153,11 +152,13 @@ const ActivePlayerPrompt = (props) => {
             return null;
         }
 
-        return props.controls.map((control) => {
+        return props.controls.map((control, index) => {
+            const key = control.uuid || `${control.type}-${index}`;
             switch (control.type) {
                 case 'targeting':
                     return (
                         <AbilityTargeting
+                            key={key}
                             onMouseOut={props.onMouseOut}
                             onMouseOver={props.onMouseOver}
                             source={control.source}
@@ -167,6 +168,7 @@ const ActivePlayerPrompt = (props) => {
                 case 'card-name':
                     return (
                         <CardNameLookup
+                            key={key}
                             cards={props.cards}
                             onCardSelected={(cardName) =>
                                 onControlSelected(
@@ -181,6 +183,7 @@ const ActivePlayerPrompt = (props) => {
                 case 'trait-name':
                     return (
                         <TraitNameLookup
+                            key={key}
                             cards={props.cards}
                             onValueSelected={(trait) =>
                                 onControlSelected(
@@ -194,11 +197,16 @@ const ActivePlayerPrompt = (props) => {
                     );
                 case 'house-select':
                     return (
-                        <HouseSelect buttons={props.buttons} onHouseSelected={onControlSelected} />
+                        <HouseSelect
+                            key={key}
+                            buttons={props.buttons}
+                            onHouseSelected={onControlSelected}
+                        />
                     );
                 case 'options-select':
                     return (
                         <OptionsSelect
+                            key={key}
                             options={props.buttons}
                             onOptionSelected={onOptionSelected}
                         />
@@ -240,11 +248,18 @@ const ActivePlayerPrompt = (props) => {
         if (promptText.includes('\n')) {
             let split = promptText.split('\n');
             for (let token of split) {
-                promptTexts.push(localizedText(controlSource, token, props.promptText.values));
-                promptTexts.push(<br />);
+                const localized = localizedText(controlSource, token, props.promptText.values);
+                promptTexts.push(
+                    <span key={`prompt-text-${promptTexts.length}`}>{localized}</span>
+                );
+                promptTexts.push(<br key={`prompt-br-${promptTexts.length}`} />);
             }
         } else {
-            promptTexts.push(localizedText(controlSource, promptText, props.promptText.values));
+            promptTexts.push(
+                <span key='prompt-text-single'>
+                    {localizedText(controlSource, promptText, props.promptText.values)}
+                </span>
+            );
         }
     }
 

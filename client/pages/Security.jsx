@@ -6,7 +6,8 @@ import { faTimes } from '@fortawesome/free-solid-svg-icons';
 
 import AlertPanel from '../Components/Site/AlertPanel';
 import Panel from '../Components/Site/Panel';
-import { clearSessionStatus, loadActiveSessions, removeSession } from '../redux/actions';
+import { useGetActiveSessionsQuery, useRemoveSessionMutation } from '../redux/api';
+import { userActions } from '../redux/slices/userSlice';
 
 import { Trans, useTranslation } from 'react-i18next';
 
@@ -14,25 +15,24 @@ const Security = () => {
     const dispatch = useDispatch();
     const { t } = useTranslation();
     const [detailsLoaded, setDetailsLoaded] = useState(false);
-    const { apiError, loading, sessionRemoved, sessions, user } = useSelector((state) => ({
-        apiError: state.api.message,
-        loading: state.api.loading,
-        sessionRemoved: state.user.sessionRemoved,
-        sessions: state.user.sessions,
-        user: state.account.user
-    }));
+    const user = useSelector((state) => state.account.user);
+    const sessionRemoved = useSelector((state) => state.user.sessionRemoved);
+    const sessions = useSelector((state) => state.user.sessions);
+    const { isLoading, isError, error } = useGetActiveSessionsQuery(user?.username, {
+        skip: !user
+    });
+    const [removeSession] = useRemoveSessionMutation();
 
     useEffect(() => {
         if (!detailsLoaded && user) {
-            dispatch(loadActiveSessions(user));
             setDetailsLoaded(true);
         }
-    }, [detailsLoaded, dispatch, user]);
+    }, [detailsLoaded, user]);
 
     useEffect(() => {
         if (sessionRemoved) {
             const timeoutId = setTimeout(() => {
-                dispatch(clearSessionStatus());
+                dispatch(userActions.clearSessionStatus());
             }, 5000);
 
             return () => clearTimeout(timeoutId);
@@ -54,10 +54,10 @@ const Security = () => {
             );
 
             if (confirmed) {
-                dispatch(removeSession(user.username, session.id));
+                removeSession({ username: user.username, sessionId: session.id });
             }
         },
-        [dispatch, t, user]
+        [removeSession, t, user]
     );
 
     const successPanel = sessionRemoved ? (
@@ -102,7 +102,7 @@ const Security = () => {
             </table>
         );
 
-    if (loading) {
+    if (isLoading) {
         return (
             <div>
                 <Trans>Loading session details from the server...</Trans>
@@ -110,8 +110,8 @@ const Security = () => {
         );
     }
 
-    if (apiError) {
-        return <AlertPanel type='error' message={apiError} />;
+    if (isError) {
+        return <AlertPanel type='error' message={error?.data?.message} />;
     }
 
     return (

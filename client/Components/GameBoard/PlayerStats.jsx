@@ -1,7 +1,7 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
-import { sendGameMessage } from '../../redux/actions';
+import { gameSendMessage } from '../../redux/socketActions';
 import { toast } from 'react-toastify';
 import classNames from 'classnames';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -88,7 +88,7 @@ const PlayerStats = ({
                         href='#'
                         className='btn-stat'
                         onClick={() => {
-                            dispatch(sendGameMessage('changeStat', statToSet, -1));
+                            dispatch(gameSendMessage('changeStat', statToSet, -1));
                         }}
                     >
                         <img src={Minus} title='-' alt='-' />
@@ -101,7 +101,7 @@ const PlayerStats = ({
                         href='#'
                         className='btn-stat'
                         onClick={() => {
-                            dispatch(sendGameMessage('changeStat', statToSet, 1));
+                            dispatch(gameSendMessage('changeStat', statToSet, 1));
                         }}
                     >
                         <img src={Plus} title='+' alt='+' />
@@ -129,7 +129,7 @@ const PlayerStats = ({
                             key={house}
                             onClick={() => {
                                 if (showControls) {
-                                    dispatch(sendGameMessage('changeActiveHouse', house));
+                                    dispatch(gameSendMessage('changeActiveHouse', house));
                                 }
                             }}
                             className={`img-fluid ${
@@ -163,12 +163,17 @@ const PlayerStats = ({
     const writeChatToClipboard = (event) => {
         event.preventDefault();
         let messagePanel = document.getElementsByClassName('messages panel')[0];
-        if (messagePanel) {
-            navigator.clipboard
-                .writeText(messagePanel.innerText)
-                .then(() => toast.success('Copied game chat to clipboard'))
-                .catch((err) => toast.error(`Could not copy game chat: ${err}`));
+        if (!messagePanel) {
+            return;
         }
+        if (!navigator.clipboard || !navigator.clipboard.writeText) {
+            toast.error('Clipboard access is unavailable in this browser.');
+            return;
+        }
+        navigator.clipboard
+            .writeText(messagePanel.innerText)
+            .then(() => toast.success('Copied game chat to clipboard'))
+            .catch((err) => toast.error(`Could not copy game chat: ${err}`));
     };
 
     let playerAvatar = (

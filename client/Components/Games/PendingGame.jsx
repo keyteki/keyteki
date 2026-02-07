@@ -8,7 +8,11 @@ import $ from 'jquery';
 import Panel from '../Site/Panel';
 import Messages from '../GameBoard/Messages';
 import SelectDeckModal from './SelectDeckModal';
-import { startGame, leaveGame, sendSocketMessage } from '../../redux/actions';
+import {
+    lobbyLeaveGameRequested,
+    lobbySendMessage,
+    lobbyStartGameRequested
+} from '../../redux/socketActions';
 import PendingGamePlayers from './PendingGamePlayers';
 import GameTypeInfo from './GameTypeInfo';
 import { Constants } from '../../constants';
@@ -93,7 +97,7 @@ const PendingGame = () => {
 
     useEffect(() => {
         if (currentGame && currentGame.gameFormat === 'sealed') {
-            dispatch(sendSocketMessage('getsealeddeck', currentGame.id));
+            dispatch(lobbySendMessage('getsealeddeck', currentGame.id));
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
@@ -174,7 +178,7 @@ const PendingGame = () => {
             return;
         }
 
-        dispatch(sendSocketMessage('chat', message));
+        dispatch(lobbySendMessage('chat', message));
 
         setMessage('');
     };
@@ -191,7 +195,7 @@ const PendingGame = () => {
                     disabled={!canClickStart()}
                     onClick={() => {
                         setWaiting(true);
-                        dispatch(startGame(currentGame.id));
+                        dispatch(lobbyStartGameRequested(currentGame.id));
                     }}
                 >
                     <Trans>Start</Trans>
@@ -199,7 +203,7 @@ const PendingGame = () => {
                 <Button
                     variant='primary'
                     onClick={() => {
-                        dispatch(leaveGame(currentGame.id));
+                        dispatch(lobbyLeaveGameRequested(currentGame.id));
                     }}
                 >
                     <Trans>Leave</Trans>
@@ -238,6 +242,9 @@ const PendingGame = () => {
                     ref={messageRef}
                     onScroll={() => {
                         setTimeout(() => {
+                            if (!messageRef.current) {
+                                return;
+                            }
                             if (
                                 messageRef.current.scrollTop >=
                                 messageRef.current.scrollHeight -
@@ -278,7 +285,7 @@ const PendingGame = () => {
                     onDeckSelected={(deck) => {
                         setShowModal(false);
                         dispatch(
-                            sendSocketMessage(
+                            lobbySendMessage(
                                 'selectdeck',
                                 currentGame.id,
                                 deck.id,
