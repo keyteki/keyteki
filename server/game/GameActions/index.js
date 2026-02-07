@@ -1,4 +1,5 @@
 module.exports = {
+    AbductAction: require('./AbductAction'),
     ActivateProphecyAction: require('./ActivateProphecyAction'),
     AddEventToWindowAction: require('./AddEventToWindowAction'),
     AddTokenAction: require('./AddTokenAction'),

@@ -43,6 +43,7 @@ describe('Crop Circles', function () {
             expect(this.player1.amber).toBe(5);
             expect(this.player2.amber).toBe(1);
             expect(this.urchin.amber).toBe(2);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should selecting friendly creature to capture', function () {
@@ -61,6 +62,7 @@ describe('Crop Circles', function () {
             expect(this.player1.amber).toBe(3);
             expect(this.player2.amber).toBe(3);
             expect(this.batdrone.amber).toBe(2);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should return archived opponent cards to their hands and not capture', function () {
@@ -77,11 +79,13 @@ describe('Crop Circles', function () {
             this.player1.clickCard(this.troll);
             this.player1.clickPrompt('done');
             expect(this.tunk.location).toBe('purged');
+            expect(this.troll.location).toBe('hand');
             expect(this.player2.hand).toContain(this.troll);
             expect(this.player1.hand).not.toContain(this.troll);
             expect(this.player1.amber).toBe(5);
             expect(this.player2.amber).toBe(1);
             expect(this.urchin.amber).toBe(2);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should allow you to select no purges', function () {
@@ -98,6 +102,7 @@ describe('Crop Circles', function () {
             expect(this.player1.amber).toBe(5);
             expect(this.player2.amber).toBe(2);
             expect(this.urchin.amber).toBe(1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should work when opponent has no amber', function () {
@@ -106,6 +111,31 @@ describe('Crop Circles', function () {
             this.player1.clickCard(this.urchin);
             this.player1.clickPrompt('Done');
             expect(this.urchin.amber).toBe(0);
+            expect(this.player1).isReadyToTakeAction();
+        });
+    });
+
+    describe('with no valid creature target', function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    archives: ['tunk'],
+                    hand: ['crop-circles'],
+                    house: 'mars',
+                    inPlay: ['zorg']
+                },
+                player2: {
+                    inPlay: ['yxilx-dominator']
+                }
+            });
+        });
+
+        it('should still allow purging from archives without capture', function () {
+            this.player1.play(this.cropCircles);
+            expect(this.player1).toHavePrompt('Choose which cards to purge');
+            this.player1.clickCard(this.tunk);
+            this.player1.clickPrompt('Done');
+            expect(this.tunk.location).toBe('purged');
             expect(this.player1).isReadyToTakeAction();
         });
     });

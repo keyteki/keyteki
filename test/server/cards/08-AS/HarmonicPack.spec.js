@@ -58,4 +58,34 @@ describe('Harmonic Pack', function () {
             expect(this.player1).isReadyToTakeAction();
         });
     });
+
+    describe('with abducted cards', function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'mars',
+                    inPlay: ['uxlyx-the-zookeeper', 'cpo-zytar'],
+                    hand: ['harmonic-pack']
+                },
+                player2: {
+                    inPlay: ['batdrone', 'krump']
+                }
+            });
+        });
+
+        it('should reveal abducted card before returning it to owner hand', function () {
+            this.player1.reap(this.uxlyxTheZookeeper);
+            this.player1.clickCard(this.batdrone);
+            expect(this.batdrone.location).toBe('archives');
+            expect(this.player1.archives).toContain(this.batdrone);
+            this.player1.play(this.harmonicPack);
+            this.player1.clickCard(this.krump);
+            this.player1.clickPrompt('Mine');
+            // Batdrone is revealed, damage is always dealt, and then the discard is redirected to owner's hand
+            expect(this.krump.damage).toBe(5);
+            expect(this.batdrone.location).toBe('hand');
+            expect(this.player2.hand).toContain(this.batdrone);
+            expect(this.player1).isReadyToTakeAction();
+        });
+    });
 });

@@ -54,4 +54,38 @@ describe('Curse Of Disappearances', function () {
             });
         });
     });
+
+    describe('Curse of Disappearances with abduction', function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'mars',
+                    hand: ['curse-of-disappearances', 'yzphyz-knowdrone', 'zorg'],
+                    inPlay: ['brammo']
+                },
+                player2: {
+                    inPlay: ['john-smyth', 'ember-imp']
+                }
+            });
+        });
+
+        it('should return creature to owner hand when purged from archives', function () {
+            this.player1.play(this.curseOfDisappearances);
+            this.player1.endTurn();
+            this.player2.clickPrompt('mars');
+            this.player2.endTurn();
+            this.player2.clickCard(this.johnSmyth);
+            expect(this.johnSmyth.location).toBe('archives');
+            expect(this.player1.archives).toContain(this.johnSmyth);
+            this.player1.clickPrompt('mars');
+            this.player1.clickPrompt('No');
+            this.player1.playCreature(this.yzphyzKnowdrone);
+            this.player1.clickCard(this.zorg);
+            this.player1.clickCard(this.johnSmyth);
+            expect(this.johnSmyth.location).toBe('hand');
+            expect(this.player2.hand).toContain(this.johnSmyth);
+            expect(this.player1.archives).not.toContain(this.johnSmyth);
+            expect(this.player1).isReadyToTakeAction();
+        });
+    });
 });

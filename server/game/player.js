@@ -524,6 +524,24 @@ class Player extends GameObject {
             card.purgedBy = null;
         }
 
+        // Abduct replacement effect: abducted cards go to their owner's hand
+        // instead of anywhere else when leaving archives
+        if (location === 'archives' && card.abducted) {
+            if (targetLocation !== 'hand') {
+                this.game.addMessage(
+                    "{0} leaves {1}'s archives and is added to {2}'s hand",
+                    card,
+                    card.controller,
+                    card.owner
+                );
+                card.controller = card.owner;
+                targetLocation = 'hand';
+                targetPile = card.owner.getSourceList(targetLocation);
+            }
+            // Always clear the flag when leaving archives
+            card.abducted = false;
+        }
+
         // Clear wasComposed when the card moves to a new location.
         // This flag only applies within the zone where the gigantic landed after separation.
         if (card.wasComposed) {
@@ -549,8 +567,10 @@ class Player extends GameObject {
             return;
         } else if (card.location === 'archives' && card.controller !== card.owner) {
             this.game.addMessage(
-                `{0} leaves the archives and will be returned its owner hand`,
-                card
+                "{0} leaves {1}'s archives and is added to {2}'s hand",
+                card,
+                card.controller,
+                card.owner
             );
 
             card.controller = card.owner;

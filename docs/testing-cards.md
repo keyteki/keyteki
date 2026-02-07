@@ -123,7 +123,9 @@ inPlay: ['creature-left', 'creature-middle', 'creature-right'];
 
 ### Card State Setup
 
-After `setupTest`, you can modify card state. The Card class provides convenient getters/setters for common token types:
+After `setupTest`, you can modify card state. The Card class provides convenient getters/setters for common token types.
+
+**Important:** Always use the property getters (`.damage`, `.amber`, `.powerCounters`) for both setting and checking values - never access `.tokens.damage` directly for assertions.
 
 ```javascript
 beforeEach(function () {
@@ -137,7 +139,7 @@ beforeEach(function () {
     // Ready a creature
     this.myCreature.ready();
 
-    // Add damage tokens
+    // Add damage tokens (use .damage, not .tokens.damage)
     this.myCreature.damage = 3;
 
     // Add power counters
@@ -167,6 +169,10 @@ beforeEach(function () {
     // Set player aember
     this.player1.amber = 6;
     this.player2.amber = 3;
+
+    // Set player keys (defaults to false for unspecified colors)
+    this.player1.keys = { red: true, blue: true }; // yellow defaults to false
+    this.player2.keys = { red: true, blue: true, yellow: false }; // all three keys forged
 });
 ```
 
@@ -315,7 +321,11 @@ this.player1.play(this.myArtifact);
 this.player1.playUpgrade(this.myUpgrade, this.targetCreature);
 ```
 
-**Note:** Prefer using `playCreature()` for playing creatures, not `play()`. The `playCreature()` method handles card selection and flank positioning prompts with default values, while `play()` requires manually handling these aspects.
+**Important:** Always use type-specific methods when available:
+
+-   Use `playCreature()` for creatures - handles flank positioning prompts automatically
+-   Use `playUpgrade(upgrade, target)` for upgrades - handles target selection
+-   Use `play()` only for action cards and artifacts
 
 ### Using Cards
 
@@ -407,6 +417,8 @@ expect(this.player1).not.toBeAbleToPlay(this.wrongHouseCard);
 
 ### Card State Assertions
 
+**Important:** Always use property getters for assertions, never `.tokens.X` directly. The getters handle missing tokens properly (returning 0 instead of undefined).
+
 ```javascript
 // Check card location
 expect(this.myCard.location).toBe('play area');
@@ -416,7 +428,7 @@ expect(this.myCard.location).toBe('deck');
 expect(this.myCard.location).toBe('archives');
 expect(this.myCard.location).toBe('purged');
 
-// Check damage (using getter - returns 0 if no damage token)
+// Check damage - use .damage getter, NOT .tokens.damage
 expect(this.myCreature.damage).toBe(3);
 expect(this.myCreature.damage).toBe(0);
 
