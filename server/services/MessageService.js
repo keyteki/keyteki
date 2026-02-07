@@ -28,7 +28,7 @@ class MessageService extends EventEmitter {
 
         try {
             messages = await db.query(
-                'SELECT m.*, u."Username" AS "Poster", role."Name" AS "Role", ud."Username" AS "DeletedBy", u."Settings_Avatar" AS "Avatar" FROM "Messages" m ' +
+                'SELECT m.*, u."Username" AS "Poster", u."Disabled" AS "PosterDisabled", role."Name" AS "Role", ud."Username" AS "DeletedBy", u."Settings_Avatar" AS "Avatar" FROM "Messages" m ' +
                     'JOIN "Users" u ON u."Id" = m."PosterId" ' +
                     'LEFT JOIN LATERAL ( ' +
                     '    SELECT r."Name" ' +
@@ -116,6 +116,7 @@ class MessageService extends EventEmitter {
     }
 
     mapMessage(message, user) {
+        const isPosterDisabled = !!message.PosterDisabled;
         let retMessage = {
             id: message.Id,
             message:
@@ -125,10 +126,10 @@ class MessageService extends EventEmitter {
             deleted: !!message.Deleted,
             time: message.PostedTime,
             user: {
-                avatar: message.Avatar,
-                username: message.Poster,
-                name: message.Poster,
-                role: this.mapRole(message.Role)
+                avatar: isPosterDisabled ? null : message.Avatar,
+                username: isPosterDisabled ? 'Deleted user' : message.Poster,
+                name: isPosterDisabled ? 'Deleted user' : message.Poster,
+                role: isPosterDisabled ? undefined : this.mapRole(message.Role)
             }
         };
 
