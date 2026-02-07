@@ -61,6 +61,11 @@ class DestroyedTriggeredAbilityWindow extends ForcedTriggeredAbilityWindow {
             const parentDestroyedEvent = leavesPlayEvents[0].triggeringEvent;
 
             for (const destroyEvent of this.batchedDestroyEvents) {
+                // Skip cancelled events - they were prevented by an "instead" ability
+                if (destroyEvent.cancelled) {
+                    continue;
+                }
+
                 // Add this destruction event as a child of the parent destroyed event
                 // This makes them share the same reaction window
                 parentDestroyedEvent.addChildEvent(destroyEvent);
