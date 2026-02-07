@@ -21,6 +21,40 @@ class StealAction extends PlayerAction {
         );
     }
 
+    checkEventCondition(event) {
+        const canAffect = this.canAffect(event.player, event.context);
+        const passesRestrictions = event.player.checkRestrictions(this.name, event.context);
+
+        if (canAffect && !passesRestrictions) {
+            this.printPreventionMessage(event.player, event.context);
+        }
+
+        return canAffect && passesRestrictions;
+    }
+
+    printPreventionMessage(player, context) {
+        // Find effects that are preventing steal
+        const preventingEffects = player.effects.filter(
+            (effect) =>
+                effect.type === 'abilityRestrictions' &&
+                effect.getValue(player).checkRestriction('steal', context, null, effect.context)
+        );
+
+        const sources = preventingEffects
+            .map((effect) => effect.context?.source)
+            .filter((source) => source);
+
+        if (sources.length > 0) {
+            const controllers = [...new Set(sources.map((source) => source.controller))];
+            context.game.addMessage(
+                '{0} uses {1} to prevent {2} from stealing amber',
+                controllers,
+                sources,
+                context.source
+            );
+        }
+    }
+
     getEvent(player, context) {
         let params = {
             context: context,

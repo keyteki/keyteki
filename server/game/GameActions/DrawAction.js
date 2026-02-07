@@ -6,12 +6,29 @@ class DrawAction extends PlayerAction {
         this.amount = 1;
         this.refill = false;
         this.bonus = false;
+        this.effectMsg = null;
     }
 
     setup() {
         super.setup();
         this.name = 'draw';
-        this.effectMsg = 'draw ' + this.amount + ' card' + (this.amount > 1 ? 's' : '');
+        this.customEffectMsg = this.effectMsg;
+        // Default effectMsg set here, may be updated in update() based on target
+        this.effectMsg = `draw ${this.amount} card${this.amount > 1 ? 's' : ''}`;
+    }
+
+    update(context) {
+        this.effectMsg = null;
+        super.update(context);
+        // After target is set, update effectMsg based on whether target is opponent
+        if (!this.customEffectMsg && this.target.length > 0) {
+            const isOpponent = this.target.some((t) => t !== context.player);
+            if (isOpponent) {
+                this.effectMsg = `make {0} draw ${this.amount} card${this.amount > 1 ? 's' : ''}`;
+            }
+        } else if (this.customEffectMsg) {
+            this.effectMsg = this.customEffectMsg;
+        }
     }
 
     canAffect(player, context) {
@@ -48,6 +65,7 @@ class DrawAction extends PlayerAction {
                 context: context
             },
             (event) => {
+                // Show event message for draws
                 if (!this.bonus && event.amount > 0) {
                     context.game.addMessage(
                         '{0} draws {1} card{2}{3}',
