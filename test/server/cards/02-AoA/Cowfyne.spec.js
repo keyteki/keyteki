@@ -14,7 +14,7 @@ describe('Cowfyne', function () {
 
         it('should deal 2 damage to neighbors of the creature being fought before fight', function () {
             this.player1.fightWith(this.cowfyne, this.batdrone);
-            expect(this.zorg.tokens.damage).toBe(2);
+            expect(this.zorg.damage).toBe(2);
             expect(this.batdrone.location).toBe('discard');
             expect(this.dextre.damage).toBe(2);
             expect(this.player1).isReadyToTakeAction();
