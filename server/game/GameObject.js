@@ -44,7 +44,7 @@ class GameObject {
     }
 
     anyEffect(type) {
-        return this.effects.filter((effect) => effect.type === type).length > 0;
+        return this.effects.some((effect) => effect.type === type);
     }
 
     mostRecentEffect(type) {

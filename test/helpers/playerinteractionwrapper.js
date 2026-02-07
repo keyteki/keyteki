@@ -722,6 +722,12 @@ class PlayerInteractionWrapper {
     }
 
     checkUnserializableGameState() {
+        // Skip expensive serialization checks if requested, and not in debug mode
+        // This check takes ~15% of test time
+        if (process.env.KEYTEKI_SKIP_SERIALIZATION_CHECK && !process.env.DEBUG_TEST) {
+            return;
+        }
+
         let state = this.game.getState(this.player.name);
         let results = detectBinary(state);
 
