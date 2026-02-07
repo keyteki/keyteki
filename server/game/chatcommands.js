@@ -13,6 +13,7 @@ class ChatCommands {
             '/active-house': this.activeHouse,
             '/add-card': this.addCard,
             '/cancel-prompt': this.cancelPrompt,
+            '/discard-top-of-deck': this.discardtopofdeck,
             '/discard': this.discard,
             '/discardtopofdeck': this.discardtopofdeck,
             '/disconnectme': this.disconnectMe,

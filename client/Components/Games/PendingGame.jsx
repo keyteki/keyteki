@@ -242,6 +242,9 @@ const PendingGame = () => {
                     ref={messageRef}
                     onScroll={() => {
                         setTimeout(() => {
+                            if (!messageRef.current) {
+                                return;
+                            }
                             if (
                                 messageRef.current.scrollTop >=
                                 messageRef.current.scrollHeight -

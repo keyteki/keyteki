@@ -163,12 +163,17 @@ const PlayerStats = ({
     const writeChatToClipboard = (event) => {
         event.preventDefault();
         let messagePanel = document.getElementsByClassName('messages panel')[0];
-        if (messagePanel) {
-            navigator.clipboard
-                .writeText(messagePanel.innerText)
-                .then(() => toast.success('Copied game chat to clipboard'))
-                .catch((err) => toast.error(`Could not copy game chat: ${err}`));
+        if (!messagePanel) {
+            return;
         }
+        if (!navigator.clipboard || !navigator.clipboard.writeText) {
+            toast.error('Clipboard access is unavailable in this browser.');
+            return;
+        }
+        navigator.clipboard
+            .writeText(messagePanel.innerText)
+            .then(() => toast.success('Copied game chat to clipboard'))
+            .catch((err) => toast.error(`Could not copy game chat: ${err}`));
     };
 
     let playerAvatar = (
