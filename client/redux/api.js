@@ -68,7 +68,17 @@ const baseQueryWithReauth = async (args, api, extraOptions) => {
             api.dispatch(lobbyAuthenticateRequested());
             result = await baseQuery(args, api, extraOptions);
         } else {
-            window.location.assign('/login');
+            api.dispatch(authActions.clearAuthTokens());
+            const currentPath = window.location?.pathname || '';
+            if (
+                currentPath !== '/login' &&
+                currentPath !== '/register' &&
+                currentPath !== '/forgot' &&
+                currentPath !== '/reset-password' &&
+                currentPath !== '/activate'
+            ) {
+                window.location.assign('/login');
+            }
         }
     }
 

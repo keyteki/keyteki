@@ -117,6 +117,10 @@ const houselessCards = [
 
 export const loadImage = (url) => {
     return new Promise((resolve) => {
+        if (!url) {
+            resolve(new fabric.Image());
+            return;
+        }
         fabric.util.loadImage(url, async (image) => {
             if (image) {
                 resolve(new fabric.Image(image, imgOptions));
@@ -726,8 +730,6 @@ export const buildCard = async (
 
     const width = 300;
     const height = halfSize ? 262.5 : 420;
-
-    console.info(canvas);
 
     canvas.setWidth(width);
     canvas.setHeight(height);

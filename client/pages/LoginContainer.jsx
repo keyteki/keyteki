@@ -15,24 +15,29 @@ const LoginContainer = () => {
     const { t } = useTranslation();
     const navigate = useNavigate();
     const [loginAccount, loginState] = useLoginAccountMutation();
+    const { isSuccess, reset } = loginState;
 
     useEffect(() => {
-        if (loginState.isSuccess) {
+        reset();
+    }, [reset]);
+
+    useEffect(() => {
+        if (isSuccess) {
             const timeoutId = setTimeout(() => {
-                loginState.reset();
+                reset();
                 dispatch(lobbyAuthenticateRequested());
                 navigate('/');
             }, 500);
             return () => clearTimeout(timeoutId);
         }
-    }, [dispatch, loginState, navigate]);
+    }, [dispatch, isSuccess, navigate, reset]);
 
     const apiState = loginState.isUninitialized
         ? null
         : {
               loading: loginState.isLoading,
-              success: loginState.isSuccess,
-              message: loginState.isSuccess
+              success: isSuccess,
+              message: isSuccess
                   ? t('Login successful, redirecting you to the home page')
                   : loginState.error?.status === 401
                   ? t('Invalid username/password')

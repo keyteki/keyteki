@@ -54,7 +54,7 @@ export const socketMiddleware = (store) => (next) => (action) => {
         }
 
         let queryString = state.auth.token ? `token=${state.auth.token}&` : '';
-        queryString += `version=${import.meta.env.VERSION || 'Local build'}`;
+        queryString += `version=${import.meta.env.VITE_VERSION || 'Local build'}`;
 
         lobbySocket = io.connect(window.location.origin, {
             reconnection: true,
@@ -239,7 +239,8 @@ export const socketMiddleware = (store) => (next) => (action) => {
             let gameState;
 
             if (latestState.lobby.rootState) {
-                gameState = patcher.patch(jsondiffpatch.clone(latestState.lobby.currentGame), game);
+                gameState = patcher.patch(jsondiffpatch.clone(latestState.lobby.rootState), game);
+                store.dispatch(lobbyActions.setRootState(gameState));
             } else {
                 gameState = game;
                 store.dispatch(lobbyActions.setRootState(game));
