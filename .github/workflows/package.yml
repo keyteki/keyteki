@@ -47,7 +47,7 @@ jobs:
               with:
                   build-args: |
                       VERSION=${{ steps.determine_version.outputs.semVer }}
-                      SENTRY_KEY=${{ secrets.SENTRY_DSN }}
+                      SENTRY_DSN=${{ secrets.SENTRY_DSN }}
                       SENTRY_AUTH_TOKEN=${{ secrets.SENTRY_AUTH_TOKEN }}
                   push: true
                   tags: ${{ secrets.DOCKERHUB_USERNAME }}/keyteki-lobby:latest, ${{ secrets.DOCKERHUB_USERNAME }}/keyteki-lobby:${{ steps.determine_version.outputs.semVer }}
