@@ -119,7 +119,7 @@ describe('Self-Bolstering Automata', function () {
         });
     });
 
-    describe('with Shield-U-Later Evil Twin upgrade', function () {
+    describe('when power is reduced to negative', function () {
         beforeEach(function () {
             this.setupTest({
                 player1: {
@@ -133,16 +133,13 @@ describe('Self-Bolstering Automata', function () {
             });
         });
 
-        it('should immediately trigger replacement when upgrade reduces power to negative and gain 2 +1 power counters and not cause infinite loop', function () {
-            // Attach Shield-U-Later Evil Twin as upgrade (gives -2 power, so SBA power 1 -> -1)
-            // This immediately triggers destruction which SBA replaces
-            this.selfBolsteringAutomata.powerCounters = 1; // Set power to 1 so that it goes to -1 after attaching the upgrade
+        it('should survive and gain power counters', function () {
+            this.selfBolsteringAutomata.powerCounters = 1;
             this.selfBolsteringAutomata.damage = 1;
             this.player1.play(this.plagueWind);
             expect(this.player1).toHavePrompt('Self-Bolstering Automata');
             this.player1.clickPrompt('Right');
 
-            // Self-Bolstering Automata gains power counters and survives
             expect(this.selfBolsteringAutomata.location).toBe('play area');
             expect(this.selfBolsteringAutomata.damage).toBe(0);
             expect(this.selfBolsteringAutomata.exhausted).toBe(true);
@@ -150,11 +147,9 @@ describe('Self-Bolstering Automata', function () {
             expect(this.player1).isReadyToTakeAction();
         });
 
-        // TODO: This create a true infinite loop that needs to be handled
+        // TODO: This creates a true infinite loop that needs to be handled
         // https://github.com/keyteki/keyteki/issues/2778
-        it.skip('should not gain power counters when already exhausted and be destroyed', function () {
-            // Plague Wind gives -3 power, so SBA with power 2 (1 base + 1 counter) goes to -1
-            // This immediately triggers destruction which SBA replaces
+        it.skip('should be destroyed when already exhausted and cannot gain counters', function () {
             this.selfBolsteringAutomata.exhaust();
             this.selfBolsteringAutomata.powerCounters = 1;
             this.selfBolsteringAutomata.damage = 1;
@@ -162,7 +157,6 @@ describe('Self-Bolstering Automata', function () {
             expect(this.player1).toHavePrompt('Self-Bolstering Automata');
             this.player1.clickPrompt('Right');
 
-            // SBA doesn't gain counters (already exhausted), so power stays -1 and it's destroyed
             expect(this.selfBolsteringAutomata.location).toBe('discard');
             expect(this.player1).isReadyToTakeAction();
         });
