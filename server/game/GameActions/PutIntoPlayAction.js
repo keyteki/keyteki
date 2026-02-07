@@ -3,17 +3,18 @@ const CardGameAction = require('./CardGameAction');
 
 class PutIntoPlayAction extends CardGameAction {
     setDefaultProperties() {
-        this.left = false;
-        this.deployIndex = undefined;
-        this.myControl = false;
-        this.ready = false;
+        this.controller = null;
         this.deploy = false;
+        this.deployIndex = undefined;
+        this.flankPreselected = false;
+        this.left = false;
+        this.myControl = false;
+        this.numPlayAllowances = 1;
+        this.beingPlayed = false;
         this.playedOnLeftFlank = false;
         this.playedOnRightFlank = false;
         this.promptSource = false;
-        this.beingPlayed = false;
-        this.controller = null;
-        this.numPlayAllowances = 1;
+        this.ready = false;
     }
 
     setup() {
@@ -57,7 +58,8 @@ class PutIntoPlayAction extends CardGameAction {
 
         let player;
 
-        if (this.deployIndex !== undefined) {
+        // Skip flank prompt if flank was already selected (e.g., during PlayCreatureAction)
+        if (this.deployIndex !== undefined || this.flankPreselected) {
             return;
         }
 

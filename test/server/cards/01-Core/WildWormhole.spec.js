@@ -32,6 +32,16 @@ describe('Wild Wormhole', function () {
             expect(this.player1).isReadyToTakeAction();
         });
 
+        it('should not have a Back button when playing a creature not from hand', function () {
+            this.player1.moveCard(this.dextre, 'deck');
+            this.player1.play(this.wildWormhole);
+            expect(this.player1).toHavePrompt('Dextre');
+            expect(this.player1).not.toHavePromptButton('Back');
+            this.player1.clickPrompt('Right');
+            expect(this.dextre.location).toBe('play area');
+            expect(this.player1).isReadyToTakeAction();
+        });
+
         it('should play an artifact on top of the deck', function () {
             this.player1.moveCard(this.gauntletOfCommand, 'deck');
             expect(this.gauntletOfCommand.location).toBe('deck');
