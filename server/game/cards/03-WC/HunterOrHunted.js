@@ -9,7 +9,7 @@ class HunterOrHunted extends Card {
                     mode: 'select',
                     choices: {
                         'Ward a creature': () => true,
-                        'Move a ward': (context) => context.game.creaturesInPlay.length > 1
+                        'Move a ward': () => true
                     }
                 },
                 creature: {
