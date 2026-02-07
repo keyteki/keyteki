@@ -68,7 +68,17 @@ const baseQueryWithReauth = async (args, api, extraOptions) => {
             api.dispatch(lobbyAuthenticateRequested());
             result = await baseQuery(args, api, extraOptions);
         } else {
-            window.location.assign('/login');
+            api.dispatch(authActions.clearAuthTokens());
+            const currentPath = window.location?.pathname || '';
+            if (
+                currentPath !== '/login' &&
+                currentPath !== '/register' &&
+                currentPath !== '/forgot' &&
+                currentPath !== '/reset-password' &&
+                currentPath !== '/activate'
+            ) {
+                window.location.assign('/login');
+            }
         }
     }
 
@@ -311,6 +321,13 @@ export const api = createApi({
             }),
             invalidatesTags: [{ type: TAG_TYPES.USER, id: 'PROFILE' }]
         }),
+        deleteAccount: builder.mutation({
+            query: ({ username, password }) => ({
+                url: `/account/${username}/delete`,
+                method: 'POST',
+                body: { password }
+            })
+        }),
         findUser: builder.query({
             query: (username) => `/user/${username}`,
             providesTags: [{ type: TAG_TYPES.ADMIN, id: 'USER' }]
@@ -432,6 +449,7 @@ export const {
     useAddBlockListEntryMutation,
     useRemoveBlockListEntryMutation,
     useSaveProfileMutation,
+    useDeleteAccountMutation,
     useFindUserQuery,
     useSaveUserMutation,
     useVerifyDeckMutation,

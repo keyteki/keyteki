@@ -8,31 +8,39 @@ import Login from '../Components/Login';
 import Panel from '../Components/Site/Panel';
 import ApiStatus from '../Components/Site/ApiStatus';
 import { useLoginAccountMutation } from '../redux/api';
-import { lobbyAuthenticateRequested } from '../redux/socketActions';
+import { lobbyAuthenticateRequested, lobbyConnectRequested } from '../redux/socketActions';
 
 const LoginContainer = () => {
     const dispatch = useDispatch();
     const { t } = useTranslation();
     const navigate = useNavigate();
     const [loginAccount, loginState] = useLoginAccountMutation();
+    const { isSuccess, reset } = loginState;
 
     useEffect(() => {
-        if (loginState.isSuccess) {
+        return () => {
+            reset();
+        };
+    }, [reset]);
+
+    useEffect(() => {
+        if (isSuccess) {
             const timeoutId = setTimeout(() => {
-                loginState.reset();
+                reset();
+                dispatch(lobbyConnectRequested());
                 dispatch(lobbyAuthenticateRequested());
                 navigate('/');
             }, 500);
             return () => clearTimeout(timeoutId);
         }
-    }, [dispatch, loginState, navigate]);
+    }, [dispatch, isSuccess, navigate, reset]);
 
     const apiState = loginState.isUninitialized
         ? null
         : {
               loading: loginState.isLoading,
-              success: loginState.isSuccess,
-              message: loginState.isSuccess
+              success: isSuccess,
+              message: isSuccess
                   ? t('Login successful, redirecting you to the home page')
                   : loginState.error?.status === 401
                   ? t('Invalid username/password')
