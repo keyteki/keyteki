@@ -192,7 +192,11 @@ const DeckList = ({
     const pageSizeOptions = [10, 25, 50, 100];
 
     const paginationItems = [];
-    for (let page = 1; page <= totalPages; page += 1) {
+    const siblingsPerSide = 2;
+    const windowStart = Math.max(2, currentPage - siblingsPerSide);
+    const windowEnd = Math.min(totalPages - 1, currentPage + siblingsPerSide);
+
+    const addPageItem = (page) => {
         paginationItems.push(
             <Pagination.Item
                 key={page}
@@ -207,6 +211,20 @@ const DeckList = ({
                 {page}
             </Pagination.Item>
         );
+    };
+
+    addPageItem(1);
+    if (windowStart > 2) {
+        paginationItems.push(<Pagination.Ellipsis key='start-ellipsis' disabled />);
+    }
+    for (let page = windowStart; page <= windowEnd; page += 1) {
+        addPageItem(page);
+    }
+    if (windowEnd < totalPages - 1) {
+        paginationItems.push(<Pagination.Ellipsis key='end-ellipsis' disabled />);
+    }
+    if (totalPages > 1) {
+        addPageItem(totalPages);
     }
 
     const renderSortIcon = (field) => {

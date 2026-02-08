@@ -72,4 +72,27 @@ describe('Throwing Stars', function () {
             expect(this.player2.amber).toBe(0);
         });
     });
+
+    describe('Throwing Stars with Gub', function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'shadows',
+                    hand: ['throwing-stars'],
+                    inPlay: ['dark-minion', 'gub', 'rotgrub']
+                },
+                player2: {}
+            });
+        });
+
+        it('should not gain amber for Gub', function () {
+            this.player1.play(this.throwingStars);
+            this.player1.clickCard(this.darkMinion);
+            this.player1.clickCard(this.gub);
+            this.player1.clickCard(this.rotgrub);
+            this.player1.clickPrompt('done');
+            expect(this.player1.amber).toBe(2);
+            expect(this.player1).isReadyToTakeAction();
+        });
+    });
 });

@@ -5,11 +5,7 @@ import AlertPanel from '../Components/Site/AlertPanel';
 import { useNavigate } from 'react-router-dom';
 
 import { useLogoutAccountMutation } from '../redux/api';
-import {
-    gameCloseRequested,
-    lobbyConnectRequested,
-    lobbyDisconnectRequested
-} from '../redux/socketActions';
+import { gameCloseRequested, lobbyDisconnectRequested } from '../redux/socketActions';
 
 const Logout = () => {
     const dispatch = useDispatch();
@@ -30,7 +26,6 @@ const Logout = () => {
 
         if (hasLobbySocket) {
             dispatch(lobbyDisconnectRequested());
-            dispatch(lobbyConnectRequested());
         }
 
         if (hasGameSocket) {

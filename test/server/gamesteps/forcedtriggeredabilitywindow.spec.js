@@ -470,7 +470,7 @@ describe('Triggered Ability Window', function () {
                 expect(this.player1).toHavePromptButton('Almsmaster');
                 expect(this.player1).toHavePromptButton('Autoresolve');
                 expect(this.player1).toHavePromptButton('Back');
-                expect(this.player1).not.toHavePromptButton('Cancel Prompt');
+                expect(this.player1).toHavePromptButton('Cancel Prompt');
                 this.player1.clickPrompt('Back');
                 this.player1.clickPrompt('Cancel Prompt');
 
@@ -868,6 +868,34 @@ describe('Triggered Ability Window', function () {
             expect(this.player1).toHavePromptCardButton(this.magdaTheRat);
             expect(this.player1).toHavePromptButton('Autoresolve');
             this.player1.clickPrompt('General Sherman');
+        });
+    });
+
+    describe("Borr Nit's handler menu cancel in manual mode", function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'dis',
+                    inPlay: ['borr-nit'],
+                    hand: ['lamindra', 'shooler', 'gub', 'dextre', 'archimedes', 'spyyyder']
+                },
+                player2: {}
+            });
+
+            for (let card of this.player1.player.hand) {
+                this.player1.moveCard(card, 'deck');
+            }
+
+            this.game.manualMode = true;
+        });
+
+        it('should have cancel button when choosing which card to purge', function () {
+            this.player1.reap(this.borrNit);
+            this.player1.clickPrompt('Mine');
+            expect(this.player1).toHavePrompt('Choose which card to purge');
+            expect(this.player1).toHavePromptButton('Cancel Prompt');
+            this.player1.clickPrompt('Cancel Prompt');
+            this.player1.endTurn();
         });
     });
 });

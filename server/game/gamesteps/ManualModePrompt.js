@@ -41,9 +41,24 @@ class ManualModePrompt extends AllPlayerPrompt {
             this.cancelled = true;
         }
 
-        this.game.lastManualMode = this.requestingPlayer;
+        this.cancelOtherManualModePrompts();
 
         return true;
+    }
+
+    cancelOtherManualModePrompts() {
+        const cancelInPipeline = (pipeline) => {
+            for (const step of [...pipeline.pipeline, ...pipeline.queue]) {
+                if (step instanceof ManualModePrompt && step !== this) {
+                    step.cancelled = true;
+                }
+                if (step.pipeline) {
+                    cancelInPipeline(step.pipeline);
+                }
+            }
+        };
+
+        cancelInPipeline(this.game.pipeline);
     }
 
     onCompleted() {

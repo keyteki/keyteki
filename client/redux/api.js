@@ -321,6 +321,13 @@ export const api = createApi({
             }),
             invalidatesTags: [{ type: TAG_TYPES.USER, id: 'PROFILE' }]
         }),
+        deleteAccount: builder.mutation({
+            query: ({ username, password }) => ({
+                url: `/account/${username}/delete`,
+                method: 'POST',
+                body: { password }
+            })
+        }),
         findUser: builder.query({
             query: (username) => `/user/${username}`,
             providesTags: [{ type: TAG_TYPES.ADMIN, id: 'USER' }]
@@ -442,6 +449,7 @@ export const {
     useAddBlockListEntryMutation,
     useRemoveBlockListEntryMutation,
     useSaveProfileMutation,
+    useDeleteAccountMutation,
     useFindUserQuery,
     useSaveUserMutation,
     useVerifyDeckMutation,
