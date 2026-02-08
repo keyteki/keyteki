@@ -117,6 +117,20 @@ function writeFile(path, data, opts = 'utf8') {
     });
 }
 
+function removeFile(path) {
+    if (!path) {
+        return;
+    }
+
+    try {
+        if (fs.existsSync(path)) {
+            fs.unlinkSync(path);
+        }
+    } catch (err) {
+        logger.warn(`Failed to remove file ${path}`, err);
+    }
+}
+
 async function getRandomAvatar(user) {
     let stringToHash = crypto.randomBytes(32).toString('hex');
     let md5Hash = crypto.createHash('md5').update(stringToHash).digest('hex');
@@ -1057,6 +1071,47 @@ module.exports.init = function (server, options) {
                 username: lowerCaseUser,
                 user: updatedUser.getWireSafeDetails()
             });
+        })
+    );
+
+    server.post(
+        '/api/account/:username/delete',
+        passport.authenticate('jwt', { session: false }),
+        wrapAsync(async (req, res) => {
+            let user = await checkAuth(req, res);
+            if (!user) {
+                return;
+            }
+
+            if (!req.body.password) {
+                return res.send({ success: false, message: 'Password must be specified' });
+            }
+
+            let isValidPassword;
+            try {
+                isValidPassword = await verifyPassword(req.body.password, user.password);
+            } catch (err) {
+                logger.error(err);
+                return res.send({
+                    success: false,
+                    message:
+                        'There was an error validating your login details.  Please try again later'
+                });
+            }
+
+            if (!isValidPassword) {
+                return res.send({ success: false, message: 'Invalid username/password' });
+            }
+
+            const oldAvatar = user.settings && user.settings.avatar;
+            const oldCustomBackground = user.settings && user.settings.customBackground;
+
+            await userService.anonymizeUser(user);
+
+            removeFile(oldAvatar ? `public/img/avatar/${oldAvatar}.png` : null);
+            removeFile(oldCustomBackground ? `public/img/bgs/${oldCustomBackground}.png` : null);
+
+            return res.send({ success: true });
         })
     );
 

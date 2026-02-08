@@ -116,4 +116,56 @@ describe('Sci. Officer Morpheus', function () {
             this.player1.endTurn();
         });
     });
+
+    describe('Morpheus/Senator Shrix interaction', function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'saurian',
+                    hand: ['senator-shrix'],
+                    inPlay: ['sci-officer-morpheus']
+                },
+                player2: {}
+            });
+        });
+
+        it('should allow declining both optional play effects (0 exalts)', function () {
+            this.player1.playCreature(this.senatorShrix);
+            this.player1.clickPrompt('Done');
+            expect(this.senatorShrix.amber).toBe(0);
+            expect(this.player1).isReadyToTakeAction();
+        });
+
+        it('should allow doing Morpheus trigger only (1 exalt via Morpheus)', function () {
+            this.player1.playCreature(this.senatorShrix);
+            this.player1.clickCard(this.sciOfficerMorpheus);
+            this.player1.clickPrompt('Done');
+            expect(this.senatorShrix.amber).toBe(1);
+            expect(this.player1).isReadyToTakeAction();
+        });
+
+        it('should allow doing Shrix trigger only (1 exalt via Shrix)', function () {
+            this.player1.playCreature(this.senatorShrix);
+            this.player1.clickCard(this.senatorShrix);
+            this.player1.clickPrompt('Done');
+            expect(this.senatorShrix.amber).toBe(1);
+            expect(this.player1).isReadyToTakeAction();
+        });
+
+        it('should allow doing both triggers (2 exalts)', function () {
+            this.player1.playCreature(this.senatorShrix);
+            this.player1.clickCard(this.senatorShrix);
+            this.player1.clickCard(this.sciOfficerMorpheus);
+            expect(this.senatorShrix.amber).toBe(2);
+            expect(this.player1).isReadyToTakeAction();
+        });
+
+        it('should allow doing both triggers (2 exalts)', function () {
+            this.player1.playCreature(this.senatorShrix);
+            this.player1.clickCard(this.sciOfficerMorpheus);
+            this.player1.clickCard(this.senatorShrix);
+            expect(this.senatorShrix.amber).toBe(2);
+            expect(this.player1).isReadyToTakeAction();
+        });
+    });
 });

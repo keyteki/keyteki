@@ -176,50 +176,50 @@ When writing tests, use creatures with minimal abilities to avoid unintended int
 
 **Recommended creatures by house:**
 
-| House        | Creature               | Notes                                            |
-| ------------ | ---------------------- | ------------------------------------------------ |
-| Brobnar      | `troll`                | 8 power, Reap: heal 3 damage                     |
-| Brobnar      | `groggins`             | 8 power, can only attack flank creatures         |
-| Brobnar      | `honored-battlemaster` | 4 power, Action:                                 |
-| Dis          | `pit-demon`            | 5 power, Action:                                 |
-| Dis          | `hystricog`            | 4 power, Action:                                 |
-| Dis          | `snarette`             | 4 power, captures at end of turn, Action:        |
-| Ekwidon      | `antiquities-dealer`   | 3 power, Action:                                 |
-| Ekwidon      | `gemcoat-vendor`       | 6 power, Action:                                 |
-| Ekwidon      | `pen-pal`              | 5 power, Action:                                 |
-| Geistoid     | `shadys`               | 5 power, Action:                                 |
-| Geistoid     | `helichopper`          | 5 power, +power if haunted, Action:              |
-| Geistoid     | `echofly`              | 2 power, 1 armor, Action:                        |
-| Logos        | `even-ivan`            | 4 power, Action:                                 |
-| Logos        | `odd-clawde`           | 5 power, Action:                                 |
-| Logos        | `novu-archaeologist`   | 4 power, Action:                                 |
-| Mars         | `yxlix-mesmerist`      | 5 power, Action:                                 |
-| Mars         | `green-aeronaut`       | 3 power, Action:                                 |
-| Mars         | `white-aeronaut`       | 3 power, Action:                                 |
-| Redemption   | `even-ivan`            | 4 power, Action:                                 |
-| Redemption   | `odd-clawde`           | 5 power, Action:                                 |
-| Redemption   | `dark-centurion`       | 5 power, Action:                                 |
-| Sanctum      | `abond-the-armorsmith` | 3 power, other creatures +1 armor, Action:       |
-| Sanctum      | `lady-maxena`          | 5 power, 2 armor, Play: stun, Action:            |
-| Sanctum      | `protectrix`           | 5 power, Reap: heal and protect creature         |
-| Saurian      | `dark-centurion`       | 5 power, Action:                                 |
-| Saurian      | `cornicen-octavia`     | 5 power, 1 armor, Action:                        |
-| Saurian      | `eclectic-ambrosius`   | 4 power, knowledge counters, Action:             |
+| House        | Creature               | Notes                                                            |
+| ------------ | ---------------------- | ---------------------------------------------------------------- |
+| Brobnar      | `troll`                | 8 power, Reap: heal 3 damage                                     |
+| Brobnar      | `groggins`             | 8 power, can only attack flank creatures                         |
+| Brobnar      | `honored-battlemaster` | 4 power, Action:                                                 |
+| Dis          | `pit-demon`            | 5 power, Action:                                                 |
+| Dis          | `hystricog`            | 4 power, Action:                                                 |
+| Dis          | `snarette`             | 4 power, captures at end of turn, Action:                        |
+| Ekwidon      | `antiquities-dealer`   | 3 power, Action:                                                 |
+| Ekwidon      | `gemcoat-vendor`       | 6 power, Action:                                                 |
+| Ekwidon      | `pen-pal`              | 5 power, Action:                                                 |
+| Geistoid     | `shadys`               | 5 power, Action:                                                 |
+| Geistoid     | `helichopper`          | 5 power, +power if haunted, Action:                              |
+| Geistoid     | `echofly`              | 2 power, 1 armor, Action:                                        |
+| Logos        | `even-ivan`            | 4 power, Action:                                                 |
+| Logos        | `odd-clawde`           | 5 power, Action:                                                 |
+| Logos        | `novu-archaeologist`   | 4 power, Action:                                                 |
+| Mars         | `yxlix-mesmerist`      | 5 power, Action:                                                 |
+| Mars         | `green-aeronaut`       | 3 power, Action:                                                 |
+| Mars         | `white-aeronaut`       | 3 power, Action:                                                 |
+| Redemption   | `even-ivan`            | 4 power, Action:                                                 |
+| Redemption   | `odd-clawde`           | 5 power, Action:                                                 |
+| Redemption   | `dark-centurion`       | 5 power, Action:                                                 |
+| Sanctum      | `abond-the-armorsmith` | 3 power, other creatures +1 armor, Action:                       |
+| Sanctum      | `lady-maxena`          | 5 power, 2 armor, Play: stun, Action:                            |
+| Sanctum      | `protectrix`           | 5 power, Reap: heal and protect creature                         |
+| Saurian      | `dark-centurion`       | 5 power, Action:                                                 |
+| Saurian      | `cornicen-octavia`     | 5 power, 1 armor, Action:                                        |
+| Saurian      | `eclectic-ambrosius`   | 4 power, knowledge counters, Action:                             |
 | Shadows      | `lamindra`             | 1 power, Elusive; good fight target for testing Fight: abilities |
-| Shadows      | `yantzee-gang`         | 5 power, Action:                                 |
-| Shadows      | `hobnobber`            | 3 power, Action:                                 |
-| Skyborn      | `redhawk`              | 3 power, Action:                                 |
-| Skyborn      | `bux-bastian`          | 3 power, Scrap: exalt enemy flank creature       |
-| Skyborn      | `scalawag-finn`        | 6 power, After Fight: heal 3                     |
-| StarAlliance | `ensign-el-samra`      | 3 power, Action:                                 |
-| StarAlliance | `crewman-jörg`         | 3 power, Action:                                 |
-| StarAlliance | `ambassador-liu`       | 4 power, Action:                                 |
-| Unfathomable | `flamegill-enforcer`   | 6 power, enrages on tide raise, Action:          |
-| Unfathomable | `rustmiser`            | 5 power, Reap: exhaust artifacts                 |
-| Unfathomable | `bubbles`              | 5 power, Play: return creature to deck           |
-| Untamed      | `mighty-tiger`         | 4 power, Play: deal 4 damage                     |
-| Untamed      | `witch-of-the-dawn`    | 3 power, Play: return creature from discard      |
-| Untamed      | `conclave-witch`       | 3 power, Action:                                 |
+| Shadows      | `yantzee-gang`         | 5 power, Action:                                                 |
+| Shadows      | `hobnobber`            | 3 power, Action:                                                 |
+| Skyborn      | `redhawk`              | 3 power, Action:                                                 |
+| Skyborn      | `bux-bastian`          | 3 power, Scrap: exalt enemy flank creature                       |
+| Skyborn      | `scalawag-finn`        | 6 power, After Fight: heal 3                                     |
+| StarAlliance | `ensign-el-samra`      | 3 power, Action:                                                 |
+| StarAlliance | `crewman-jörg`         | 3 power, Action:                                                 |
+| StarAlliance | `ambassador-liu`       | 4 power, Action:                                                 |
+| Unfathomable | `flamegill-enforcer`   | 6 power, enrages on tide raise, Action:                          |
+| Unfathomable | `rustmiser`            | 5 power, Reap: exhaust artifacts                                 |
+| Unfathomable | `bubbles`              | 5 power, Play: return creature to deck                           |
+| Untamed      | `mighty-tiger`         | 4 power, Play: deal 4 damage                                     |
+| Untamed      | `witch-of-the-dawn`    | 3 power, Play: return creature from discard                      |
+| Untamed      | `conclave-witch`       | 3 power, Action:                                                 |
 
 **Avoid** using creatures with abilities or keywords unless those abilities/keywords are being specifically tested. When using a creature with an ability or keyword, make sure to account for its effects in your test assertions:
 
@@ -696,8 +696,8 @@ DEBUG_TEST=1 npm test -- test/server/cards/PV/BadOmen.spec.js
 # Run multiple test files
 DEBUG_TEST=1 npm test -- test/server/cards/PV/BadOmen.spec.js test/server/cards/CotA/MightyTiger.spec.js
 
-# Run tests matching a pattern (slower - prefer specifying files)
-DEBUG_TEST=1 npm test -- --filter='Bad Omen'
+# Run tests matching a pattern
+DEBUG_TEST=1 npm test -- --testNamePattern 'Bad Omen'
 ```
 
 ## Testing UI changes

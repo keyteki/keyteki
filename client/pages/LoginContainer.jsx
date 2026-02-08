@@ -8,7 +8,7 @@ import Login from '../Components/Login';
 import Panel from '../Components/Site/Panel';
 import ApiStatus from '../Components/Site/ApiStatus';
 import { useLoginAccountMutation } from '../redux/api';
-import { lobbyAuthenticateRequested } from '../redux/socketActions';
+import { lobbyAuthenticateRequested, lobbyConnectRequested } from '../redux/socketActions';
 
 const LoginContainer = () => {
     const dispatch = useDispatch();
@@ -18,13 +18,16 @@ const LoginContainer = () => {
     const { isSuccess, reset } = loginState;
 
     useEffect(() => {
-        reset();
+        return () => {
+            reset();
+        };
     }, [reset]);
 
     useEffect(() => {
         if (isSuccess) {
             const timeoutId = setTimeout(() => {
                 reset();
+                dispatch(lobbyConnectRequested());
                 dispatch(lobbyAuthenticateRequested());
                 navigate('/');
             }, 500);

@@ -78,6 +78,7 @@ module.exports = {
     SequentialForEachAction: require('./SequentialForEachAction'),
     SequentialFightAction: require('./SequentialFightAction'),
     SequentialMakeTokenCreatureAction: require('./SequentialMakeTokenCreatureAction'),
+    SequentialPairedChoicesAction: require('./SequentialPairedChoicesAction'),
     SequentialPlayAction: require('./SequentialPlayAction'),
     SequentialPutIntoPlayAction: require('./SequentialPutIntoPlayAction'),
     ShuffleDeckAction: require('./ShuffleDeckAction'),
