@@ -20,10 +20,10 @@ describe('Drawn Down', function () {
             this.player2.moveCard(this.dustPixie, 'deck');
         });
 
-        it('should not prompt for cards is deck is empty', function () {
+        it('should not prompt for cards if deck is empty', function () {
             this.player2.player.deck = [];
             this.player1.play(this.drawnDown);
-            this.player1.endTurn();
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should prompt for a single card if deck has only 1 card', function () {
