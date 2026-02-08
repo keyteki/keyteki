@@ -82,6 +82,10 @@ describe('Amberlution', function () {
                             );
                         });
 
+                        it('should not have a Back button', function () {
+                            expect(this.player1).not.toHavePromptButton('Back');
+                        });
+
                         describe('and a flank is selected', function () {
                             beforeEach(function () {
                                 this.player1.clickPrompt('left');

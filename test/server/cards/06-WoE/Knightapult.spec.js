@@ -36,6 +36,25 @@ describe('Knightapult', function () {
 
                 expect(this.holdfast.exhausted).toBe(false);
             });
+
+            it('can cancel and return creature to hand without consuming the action', function () {
+                expect(this.player1).toHavePromptButton('Cancel');
+                this.player1.clickPrompt('Cancel');
+                expect(this.holdfast.location).toBe('hand');
+                this.player1.clickCard(this.holdfast);
+                this.player1.clickPrompt('Play this creature');
+                expect(this.player1).toHavePrompt(
+                    'Which flank do you want to place this creature on?'
+                );
+                expect(this.player1).toHavePromptButton('Left');
+                expect(this.player1).toHavePromptButton('Right');
+                expect(this.player1).toHavePromptButton('Deploy Left');
+                expect(this.player1).toHavePromptButton('Deploy Right');
+                expect(this.player1).toHavePromptButton('Cancel');
+                this.player1.clickPrompt('Deploy Left');
+                this.player1.clickCard(this.flaxia);
+                expect(this.player1).isReadyToTakeAction();
+            });
         });
 
         describe('should cause the 2nd next creature played', function () {

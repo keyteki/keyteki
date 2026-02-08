@@ -41,6 +41,7 @@ class PlayCardAction extends CardGameAction {
         action.deploy = this.deploy;
         let actionContext = action.createContext(context.player);
         actionContext.ignoreHouse = true;
+        actionContext.mustPlay = true;
         context.game.resolveAbility(actionContext);
     }
 

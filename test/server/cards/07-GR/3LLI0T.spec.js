@@ -36,6 +36,16 @@ describe('3LL-I0T', function () {
             expect(this.insurancePolicy.parent).toBe(this['3llI0t']);
         });
 
+        it('should not have a Cancel button when playing upgrade via ability', function () {
+            this.player1.playCreature(this['3llI0t']);
+            expect(this.player1).toBeAbleToSelect(this.lightOfTheArchons);
+            expect(this.player1).not.toHavePromptButton('Cancel');
+            this.player1.clickCard(this.lightOfTheArchons);
+            expect(this.player1).not.toHavePromptButton('Cancel');
+            expect(this.lightOfTheArchons.parent).toBe(this['3llI0t']);
+            expect(this.player1).isReadyToTakeAction();
+        });
+
         it('can discard a card and resolve its play ability on scrap', function () {
             this.player1.playUpgrade(this.officerSBlaster, this.charette);
             this.player1.playUpgrade(this.quadracorder, this.flaxia);

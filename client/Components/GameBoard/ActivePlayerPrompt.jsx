@@ -1,11 +1,11 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
+import Panel from '../Site/Panel';
 import AbilityTargeting from './AbilityTargeting';
 import CardNameLookup from './CardNameLookup';
-import TraitNameLookup from './TraitNameLookup';
 import HouseSelect from './HouseSelect';
 import OptionsSelect from './OptionsSelect';
-import Panel from '../Site/Panel';
+import TraitNameLookup from './TraitNameLookup';
 
 import './ActivePlayerPrompt.scss';
 import CardImage from './CardImage';
@@ -109,10 +109,15 @@ const ActivePlayerPrompt = (props) => {
                 buttonText = buttonText.slice(0, MaxButtonTextLength - 3).trim() + '...';
             }
 
+            const buttonClass =
+                button.type === 'cancel'
+                    ? 'btn btn-default btn-cancel prompt-button btn-stretch'
+                    : 'btn btn-default prompt-button btn-stretch';
+
             let option = (
                 <button
                     key={button.command + buttonIndex.toString()}
-                    className='btn btn-default prompt-button btn-stretch'
+                    className={buttonClass}
                     title={originalButtonText}
                     onClick={(event) =>
                         onButtonClick(event, button.command, button.arg, button.uuid, button.method)
