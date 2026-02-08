@@ -11,7 +11,7 @@ class Amberling extends Card {
         });
 
         this.persistentEffect({
-            effect: ability.effects.isAmberInPool()
+            effect: ability.effects.forgeAmberSource('controller', 'card')
         });
     }
 }

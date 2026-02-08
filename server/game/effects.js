@@ -69,10 +69,9 @@ const Effects = {
     gainAbility: (type, properties) =>
         EffectBuilder.card.static('gainAbility', new GainAbility(type, properties)),
     fightAbilitiesAddReap: () => EffectBuilder.card.static('fightAbilitiesAddReap'),
+    forgeAmberSource: (player, sourceType) =>
+        EffectBuilder.card.static('forgeAmberSource', { player, sourceType }),
     ignores: (trait) => EffectBuilder.card.static('ignores', trait),
-    keyAmber: () => EffectBuilder.card.static('keyAmber'),
-    keyAmberOpponent: () => EffectBuilder.card.static('keyAmberOpponent'),
-    isAmberInPool: () => EffectBuilder.card.static('isAmberInPool'),
     limitFightDamage: (amount) => EffectBuilder.card.flexible('limitFightDamage', amount),
     modifyArmor: (amount) => EffectBuilder.card.flexible('modifyArmor', amount),
     modifyBonusIcons: (icons) => EffectBuilder.card.flexible('modifyBonusIcons', icons),
