@@ -15,11 +15,11 @@ describe('Bumblebird', function () {
 
         it('should add 2 power counters to each other friendly Untamed creature on play', function () {
             this.player1.playCreature(this.bumblebird);
-            expect(this.bumblebird.tokens.power).toBeUndefined();
-            expect(this.dustPixie.tokens.power).toBe(2);
-            expect(this.flaxia.tokens.power).toBe(2);
-            expect(this.batdrone.tokens.power).toBeUndefined();
-            expect(this.niffleApe.tokens.power).toBeUndefined();
+            expect(this.bumblebird.powerCounters).toBe(0);
+            expect(this.dustPixie.powerCounters).toBe(2);
+            expect(this.flaxia.powerCounters).toBe(2);
+            expect(this.batdrone.powerCounters).toBe(0);
+            expect(this.niffleApe.powerCounters).toBe(0);
             expect(this.player1).isReadyToTakeAction();
         });
     });

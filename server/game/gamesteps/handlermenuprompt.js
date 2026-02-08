@@ -71,6 +71,10 @@ class HandlerMenuPrompt extends UiPrompt {
             })
         );
 
+        if (this.game.manualMode) {
+            buttons = buttons.concat({ text: 'Cancel Prompt', arg: 'cancel' });
+        }
+
         return {
             menuTitle: this.properties.activePromptTitle || 'Select one',
             buttons: buttons,
@@ -135,6 +139,11 @@ class HandlerMenuPrompt extends UiPrompt {
     }
 
     menuCommand(player, arg) {
+        if (arg === 'cancel') {
+            this.complete();
+            return true;
+        }
+
         if (_.isString(arg)) {
             let card = _.find(this.properties.cards, (card) => card.uuid === arg);
             if (card && this.properties.cardHandler) {
