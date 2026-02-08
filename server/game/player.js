@@ -738,19 +738,70 @@ class Player extends GameObject {
     }
 
     getAmberSources() {
-        return this.cardsInPlay
-            .filter((card) => card.anyEffect('keyAmber') && card.hasToken('amber'))
-            .concat(
-                this.opponent
-                    ? this.opponent.cardsInPlay.filter(
-                          (card) => card.anyEffect('keyAmberOpponent') && card.hasToken('amber')
-                      )
-                    : []
-            );
+        // Cards with amber tokens that the controller can use
+        const controllerTokenSources = this.cardsInPlay.filter(
+            (card) =>
+                card
+                    .getEffects('forgeAmberSource')
+                    .some((e) => e.player === 'controller' && e.sourceType === 'onCard') &&
+                card.hasToken('amber')
+        );
+
+        // Opponent's cards with amber tokens that this player can use
+        const opponentTokenSources = this.opponent
+            ? this.opponent.cardsInPlay.filter(
+                  (card) =>
+                      card
+                          .getEffects('forgeAmberSource')
+                          .some((e) => e.player === 'opponent' && e.sourceType === 'onCard') &&
+                      card.hasToken('amber')
+              )
+            : [];
+
+        // Cards that count as amber themselves
+        const cardSources = this.cardsInPlay.filter((card) =>
+            card
+                .getEffects('forgeAmberSource')
+                .some((e) => e.player === 'controller' && e.sourceType === 'card')
+        );
+
+        // Deduplicate - a card may have both types of effects
+        return [...new Set([...controllerTokenSources, ...opponentTokenSources, ...cardSources])];
     }
 
-    getCardAmberInPoolSources() {
-        return this.cardsInPlay.filter((card) => card.anyEffect('isAmberInPool'));
+    hasUsableTokens(source) {
+        return (
+            source.getEffects('forgeAmberSource').some((e) => e.sourceType === 'onCard') &&
+            source.hasToken('amber')
+        );
+    }
+
+    hasCardAsAmberEffect(source) {
+        return source
+            .getEffects('forgeAmberSource')
+            .some((e) => e.player === 'controller' && e.sourceType === 'card');
+    }
+
+    isCardAsAmberSource(source) {
+        // A source is treated as card-only if it has the card effect but no usable tokens
+        return this.hasCardAsAmberEffect(source) && !this.hasUsableTokens(source);
+    }
+
+    getAmberValueFromSource(source) {
+        const effects = source.getEffects('forgeAmberSource');
+        let value = 0;
+
+        // Count token value if it has 'onCard' effect
+        if (effects.some((e) => e.sourceType === 'onCard') && source.hasToken('amber')) {
+            value += source.amber;
+        }
+
+        // Count card value if it has 'card' effect
+        if (effects.some((e) => e.player === 'controller' && e.sourceType === 'card')) {
+            value += 1;
+        }
+
+        return value;
     }
 
     canForgeKey(modifier = 0, keyColor = '') {
@@ -779,9 +830,10 @@ class Player extends GameObject {
             return false;
         }
 
-        let alternativeSources =
-            this.getAmberSources().reduce((total, source) => total + source.amber, 0) +
-            this.getCardAmberInPoolSources().length;
+        const alternativeSources = this.getAmberSources().reduce(
+            (total, source) => total + this.getAmberValueFromSource(source),
+            0
+        );
         return this.amber + alternativeSources >= this.getCurrentKeyCost() + modifier;
     }
 
@@ -794,160 +846,263 @@ class Player extends GameObject {
     }
 
     forgeKey(modifier, keyColor = '') {
-        let cost = Math.max(0, this.getCurrentKeyCost() + modifier);
-        let amberSources = this.getAmberSources();
-        let selfAmberSources = this.getCardAmberInPoolSources();
-        let totalAvailable =
-            amberSources.reduce((total, source) => total + source.amber, 0) +
-            selfAmberSources.length;
+        const cost = Math.max(0, this.getCurrentKeyCost() + modifier);
+        const amberSources = this.getAmberSources();
+        const totalAvailable = amberSources.reduce(
+            (total, source) => total + this.getAmberValueFromSource(source),
+            0
+        );
+        // Track pending selections - sources are consumed only when key is forged
+        const pendingSelections = { tokens: [], cards: [] };
         this.chooseAmberSource(
             amberSources,
-            selfAmberSources,
             totalAvailable,
             cost,
             cost,
-            keyColor
+            keyColor,
+            pendingSelections
         );
         return cost;
     }
 
     chooseAmberSource(
         amberSources,
-        selfAmberSources,
         totalAvailable,
         modifiedCost,
         initialCost,
-        keyColor
+        keyColor,
+        pendingSelections
     ) {
-        if (modifiedCost === 0 || (amberSources.length === 0 && selfAmberSources.length === 0)) {
-            this.chooseKeyToForge(modifiedCost, initialCost, keyColor);
+        if (modifiedCost === 0 || amberSources.length === 0) {
+            this.chooseKeyToForge(modifiedCost, initialCost, keyColor, pendingSelections);
             return;
         }
 
-        if (amberSources.length > 0) {
-            // Spending amber on cards for a key.
-            let source = amberSources[0];
-            amberSources.shift();
-            this.game.queueSimpleStep(() => {
-                let sourceAmber = source.amber;
-                let max = Math.min(modifiedCost, sourceAmber);
-                let min = Math.max(0, modifiedCost - this.amber - totalAvailable + sourceAmber);
-                if (max === min) {
-                    this.game.addMessage(
-                        `{0} uses ${max} amber from {1} to forge a key`,
-                        this.game.activePlayer,
-                        source
-                    );
-                    source.removeToken('amber', max);
-                    this.chooseAmberSource(
-                        amberSources,
-                        selfAmberSources,
-                        totalAvailable - max,
-                        modifiedCost - max,
-                        initialCost,
-                        keyColor
-                    );
-                    return;
-                }
+        // Can skip all alternative sources if pool amber is sufficient
+        const canSkip = this.amber >= modifiedCost;
 
+        // If only one source:
+        // - token source: use directly (prompts for amount including 0 if optional)
+        // - card-as-amber source that's required: use directly
+        // - card-as-amber source that's optional: prompt for selection
+        if (amberSources.length === 1) {
+            if (!this.isCardAsAmberSource(amberSources[0]) || !canSkip) {
+                this.useAmberSource(
+                    amberSources[0],
+                    amberSources,
+                    totalAvailable,
+                    modifiedCost,
+                    initialCost,
+                    keyColor,
+                    pendingSelections,
+                    canSkip
+                );
+                return;
+            }
+        }
+
+        // Multiple sources or single optional card-as-amber source - let player choose
+        this.game.queueSimpleStep(() => {
+            this.game.promptForSelect(this, {
+                activePromptTitle: 'Select an amber source to use',
+                cardCondition: (card) => amberSources.includes(card),
+                optional: canSkip,
+                onSelect: (player, card) => {
+                    this.useAmberSource(
+                        card,
+                        amberSources,
+                        totalAvailable,
+                        modifiedCost,
+                        initialCost,
+                        keyColor,
+                        pendingSelections,
+                        false // After selecting a source, recalculate canSkip on next iteration
+                    );
+                    return true;
+                },
+                onCancel: () => {
+                    // Player chose to use only pool amber
+                    this.chooseKeyToForge(modifiedCost, initialCost, keyColor, pendingSelections);
+                    return true;
+                }
+            });
+        });
+    }
+
+    useAmberSource(
+        source,
+        amberSources,
+        totalAvailable,
+        modifiedCost,
+        initialCost,
+        keyColor,
+        pendingSelections
+    ) {
+        const remainingSources = amberSources.filter((c) => c !== source);
+        const hasTokens = this.hasUsableTokens(source);
+        // Card can only be spent as amber if it hasn't already been selected for that
+        const hasCardEffect =
+            this.hasCardAsAmberEffect(source) && !pendingSelections.cards.includes(source);
+
+        // If source has both effects, prompt player to choose which to use
+        if (hasTokens && hasCardEffect) {
+            this.game.queueSimpleStep(() => {
                 this.game.promptWithHandlerMenu(this, {
                     activePromptTitle: {
-                        text: 'How much amber do you want to use from {{card}}?',
+                        text: 'Select an amber source to use from {{card}}',
                         values: { card: source.name }
                     },
                     source: source,
-                    choices: _.range(min, max + 1),
+                    choices: ['Spend amber tokens', 'Spend card as amber'],
                     choiceHandler: (choice) => {
-                        if (choice) {
-                            source.removeToken('amber', choice);
-                            this.game.addMessage(
-                                `{0} uses ${choice} amber from {1} to forge a key`,
-                                this.game.activePlayer,
-                                source
+                        if (choice === 'Spend card as amber') {
+                            this.selectCardAsAmber(
+                                source,
+                                remainingSources,
+                                totalAvailable,
+                                modifiedCost,
+                                initialCost,
+                                keyColor,
+                                pendingSelections
+                            );
+                        } else {
+                            this.selectTokensFromCard(
+                                source,
+                                remainingSources,
+                                totalAvailable,
+                                modifiedCost,
+                                initialCost,
+                                keyColor,
+                                pendingSelections,
+                                hasCardEffect
                             );
                         }
-                        this.chooseAmberSource(
-                            amberSources,
-                            selfAmberSources,
-                            totalAvailable - sourceAmber,
-                            modifiedCost - choice,
-                            initialCost,
-                            keyColor
-                        );
                     }
                 });
             });
-            return;
+        } else if (this.isCardAsAmberSource(source)) {
+            this.selectCardAsAmber(
+                source,
+                remainingSources,
+                totalAvailable,
+                modifiedCost,
+                initialCost,
+                keyColor,
+                pendingSelections
+            );
+        } else {
+            this.selectTokensFromCard(
+                source,
+                remainingSources,
+                totalAvailable,
+                modifiedCost,
+                initialCost,
+                keyColor,
+                pendingSelections,
+                hasCardEffect
+            );
         }
+    }
 
-        // Spending a card itself as one amber towards a key.
-        let source = selfAmberSources[0];
-        selfAmberSources.shift();
+    selectCardAsAmber(
+        source,
+        remainingSources,
+        totalAvailable,
+        modifiedCost,
+        initialCost,
+        keyColor,
+        pendingSelections
+    ) {
+        // Track the card for later consumption - don't consume yet
+        pendingSelections.cards.push(source);
+
+        // If the card still has usable tokens, keep it as a source for tokens
+        const sourcesAfterCard = this.hasUsableTokens(source)
+            ? [...remainingSources, source]
+            : remainingSources;
+
+        this.chooseAmberSource(
+            sourcesAfterCard,
+            totalAvailable - 1,
+            modifiedCost - 1,
+            initialCost,
+            keyColor,
+            pendingSelections
+        );
+    }
+
+    selectTokensFromCard(
+        source,
+        remainingSources,
+        totalAvailable,
+        modifiedCost,
+        initialCost,
+        keyColor,
+        pendingSelections,
+        alsoCountsAsCard
+    ) {
         this.game.queueSimpleStep(() => {
-            let max = 1;
-            let min = Math.max(0, modifiedCost - this.amber - totalAvailable + 1);
+            const sourceAmber = source.amber;
+            const max = Math.min(modifiedCost, sourceAmber);
+            const min = Math.max(0, modifiedCost - this.amber - totalAvailable + sourceAmber);
+
+            // After selecting tokens, if source also counts as a card, keep it in sources
+            const sourcesAfterTokens = alsoCountsAsCard
+                ? [...remainingSources, source]
+                : remainingSources;
+
             if (max === min) {
-                this.game.addMessage(
-                    `{0} spends {1} to forge a key`,
-                    this.game.activePlayer,
-                    source
-                );
-                source.removeToken('ward', source.ward);
-                this.moveCard(source, 'discard');
+                if (max === 0) {
+                    // Nothing to use from this source, skip it
+                    this.chooseAmberSource(
+                        sourcesAfterTokens,
+                        totalAvailable,
+                        modifiedCost,
+                        initialCost,
+                        keyColor,
+                        pendingSelections
+                    );
+                    return;
+                }
+                // Track the token selection for later consumption
+                pendingSelections.tokens.push({ source, amount: max });
                 this.chooseAmberSource(
-                    amberSources,
-                    selfAmberSources,
+                    sourcesAfterTokens,
                     totalAvailable - max,
                     modifiedCost - max,
                     initialCost,
-                    keyColor
+                    keyColor,
+                    pendingSelections
                 );
                 return;
             }
 
             this.game.promptWithHandlerMenu(this, {
                 activePromptTitle: {
-                    text: 'Do you want to spend {{card}} to forge a key?',
+                    text: 'How much amber do you want to spend from {{card}}?',
                     values: { card: source.name }
                 },
                 source: source,
-                choices: ['Yes', 'No'],
-                handlers: [
-                    () => {
-                        source.removeToken('ward', source.ward);
-                        this.moveCard(source, 'discard');
-                        this.game.addMessage(
-                            `{0} spends {1} to forge a key`,
-                            this.game.activePlayer,
-                            source
-                        );
-                        this.chooseAmberSource(
-                            amberSources,
-                            selfAmberSources,
-                            totalAvailable - 1,
-                            modifiedCost - 1,
-                            initialCost,
-                            keyColor
-                        );
-                        return true;
-                    },
-                    () => {
-                        this.chooseAmberSource(
-                            amberSources,
-                            selfAmberSources,
-                            totalAvailable - 1,
-                            modifiedCost,
-                            initialCost,
-                            keyColor
-                        );
-                        return true;
+                choices: _.range(min, max + 1),
+                choiceHandler: (choice) => {
+                    if (choice) {
+                        // Track the token selection for later consumption
+                        pendingSelections.tokens.push({ source, amount: choice });
                     }
-                ]
+                    this.chooseAmberSource(
+                        sourcesAfterTokens,
+                        totalAvailable - sourceAmber,
+                        modifiedCost - choice,
+                        initialCost,
+                        keyColor,
+                        pendingSelections
+                    );
+                }
             });
         });
     }
 
-    chooseKeyToForge(modifiedCost, initialCost, keyColor) {
+    chooseKeyToForge(modifiedCost, initialCost, keyColor, pendingSelections) {
         let unforgedKeys = this.getUnforgedKeys();
         if (keyColor) {
             unforgedKeys = unforgedKeys.filter((k) => k.value === keyColor);
@@ -959,21 +1114,48 @@ class Player extends GameObject {
                 choices: unforgedKeys,
                 choiceHandler: (key) => {
                     this.game.queueSimpleStep(() => {
-                        this.finalizeForge(key.value, modifiedCost, initialCost);
+                        this.finalizeForge(key.value, modifiedCost, initialCost, pendingSelections);
                     });
                 }
             });
         } else {
             this.game.queueSimpleStep(() =>
-                this.finalizeForge(unforgedKeys.shift().value, modifiedCost, initialCost)
+                this.finalizeForge(
+                    unforgedKeys.shift().value,
+                    modifiedCost,
+                    initialCost,
+                    pendingSelections
+                )
             );
         }
     }
 
-    finalizeForge(key, modifiedCost, cost) {
+    finalizeForge(key, modifiedCost, cost, pendingSelections) {
+        // Consume pending token selections
+        for (const tokenSelection of pendingSelections.tokens) {
+            tokenSelection.source.removeToken('amber', tokenSelection.amount);
+            this.game.addMessage(
+                `{0} spends ${tokenSelection.amount} amber from {1} to forge a key`,
+                this.game.activePlayer,
+                tokenSelection.source
+            );
+        }
+
+        // Consume pending card selections
+        for (const cardSource of pendingSelections.cards) {
+            this.game.addMessage(
+                `{0} spends {1} to forge a key`,
+                this.game.activePlayer,
+                cardSource
+            );
+            cardSource.removeToken('ward', cardSource.ward);
+            this.moveCard(cardSource, 'discard');
+        }
+
         this.modifyAmber(-modifiedCost);
 
-        // Check if opponent has redirectForgeAmber effect (e.g. The Sting)
+        // Redirect the full key cost, including value from alternative
+        // sources, eg for The Sting
         const redirectEffect = this.effects.find((effect) => effect.type === 'redirectForgeAmber');
         if (this.opponent && redirectEffect) {
             this.opponent.modifyAmber(cost);

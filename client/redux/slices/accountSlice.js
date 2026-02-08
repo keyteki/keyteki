@@ -50,6 +50,11 @@ const accountSlice = createSlice({
             .addMatcher(api.endpoints.saveProfile.matchFulfilled, (state, action) => {
                 state.user = action.payload.user;
             })
+            .addMatcher(api.endpoints.deleteAccount.matchFulfilled, (state) => {
+                state.loggedIn = false;
+                state.loggedOut = true;
+                state.user = undefined;
+            })
             .addMatcher(api.endpoints.linkPatreon.matchFulfilled, (state) => {
                 state.accountLinked = true;
             })

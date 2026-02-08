@@ -6,7 +6,7 @@ class MedicusLacus extends Card {
         this.persistentEffect({
             condition: (context) => context.player.isTideHigh(),
             match: (card) => card.type === 'creature',
-            effect: ability.effects.keyAmber()
+            effect: ability.effects.forgeAmberSource('controller', 'onCard')
         });
     }
 }
