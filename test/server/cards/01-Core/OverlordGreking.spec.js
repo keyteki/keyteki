@@ -98,9 +98,9 @@ describe('Overlord Greking', function () {
 
         it('should put into play creatures killed with splash', function () {
             this.player1.playUpgrade(this.werewolfCurse, this.overlordGreking);
-            this.mother.tokens.damage = 2;
-            this.troll.tokens.damage = 1;
-            this.overlordGreking.tokens.ward = 1;
+            this.mother.damage = 2;
+            this.troll.damage = 1;
+            this.overlordGreking.ward();
             this.player1.fightWith(this.overlordGreking, this.troll);
             this.player1.clickCard(this.batdrone);
             this.player1.clickPrompt('Left');
@@ -138,12 +138,12 @@ describe('Overlord Greking', function () {
             // Set up Ultra Gravitrons to be killed by Overlord Greking and Splash
             this.player1.clickPrompt('dis');
             this.player1.clickPrompt('No');
-            this.ultraGravitronA1.tokens.damage = 9;
-            this.ultraGravitronB1.tokens.damage = 3;
-            this.overlordGreking.tokens.ward = 1;
+            this.ultraGravitronA1.damage = 9;
+            this.ultraGravitronB1.damage = 3;
+            this.overlordGreking.ward();
             this.player1.fightWith(this.overlordGreking, this.ultraGravitronB1);
             this.overlordGreking.exhausted = false;
-            this.overlordGreking.tokens.ward = 1;
+            this.overlordGreking.ward();
             this.player1.playUpgrade(this.werewolfCurse, this.overlordGreking);
 
             // Fight and destroy both Ultra Gravitrons

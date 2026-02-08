@@ -14,6 +14,14 @@ class SciOfficerMorpheus extends Card {
                             Object.keys(ability.when).some((key) => key === 'onCardPlayed')
                     )
             },
+            optional: (context) =>
+                context.event.card.abilities.reactions
+                    .filter(
+                        (ability) =>
+                            ability.properties.name === 'Play' &&
+                            Object.keys(ability.when).some((key) => key === 'onCardPlayed')
+                    )
+                    .every((ability) => ability.optional),
             effect: 'trigger the play effect of {1} an additional time',
             effectArgs: (context) => context.event.card,
             gameAction: ability.actions.resolveAbility((context) => ({

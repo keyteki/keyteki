@@ -13,6 +13,7 @@ class ChatCommands {
             '/active-house': this.activeHouse,
             '/add-card': this.addCard,
             '/cancel-prompt': this.cancelPrompt,
+            '/discard-top-of-deck': this.discardtopofdeck,
             '/discard': this.discard,
             '/discardtopofdeck': this.discardtopofdeck,
             '/disconnectme': this.disconnectMe,
@@ -300,6 +301,7 @@ class ChatCommands {
             this.game.addAlert('danger', '{0} switches manual mode off', player);
         } else if (this.game.lastManualMode !== player) {
             this.game.addAlert('danger', '{0} is attempting to switch manual mode on', player);
+            this.game.lastManualMode = player;
             this.game.queueStep(new ManualModePrompt(this.game, player));
         }
     }
