@@ -55,6 +55,11 @@ class PutIntoPlayAction extends CardGameAction {
             return;
         }
 
+        // Abducted cards return to owner's hand when leaving archives - skip flank selection
+        if (card.abducted && card.location === 'archives') {
+            return;
+        }
+
         let player;
 
         if (this.deployIndex !== undefined) {

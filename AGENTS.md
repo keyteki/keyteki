@@ -150,6 +150,15 @@ When implementing a new card, search for similar existing implementations:
 -   Assume that readers of the tests are well versed in the game. Tests only need comments when setting up complex or niche scenarios.
 -   The tests should only test the functionality of the card being implemented, not the metadata provided by the JSON data. For example, tests do not need to check the card's house, type, power, armor, traits, or keywords like "taunt" or "elusive", unless the card's ability interacts with those attributes. Tests should focus on the card's unique abilities and effects that are in their text box.
 -   When setting up a a test, the `this.setupTest()` function should not be run multiple times. For example in a `describe()` block nested in another `describe()` block, the inner block should not call `this.setupTest()` again - the second setupTest will not be run. Instead, set up the describe block without nesting.
+-   **Card state assertions**: Always use property getters for checking card state, never `.tokens.X` directly:
+    -   Use `expect(creature.damage).toBe(3)` not `expect(creature.tokens.damage).toBe(3)`
+    -   Use `expect(creature.amber).toBe(2)` not `expect(creature.tokens.amber).toBe(2)`
+    -   Use `expect(creature.powerCounters).toBe(1)` not `expect(creature.tokens.power).toBe(1)`
+    -   The getters handle missing tokens properly (returning 0 instead of undefined)
+-   **Playing cards in tests**: Prefer type-specific methods over the generic `play()`:
+    -   Use `this.player1.playCreature(card)` for creatures (handles flank placement prompts)
+    -   Use `this.player1.playUpgrade(upgrade, target)` for upgrades
+    -   Use `this.player1.play(card)` only for action cards
 
 ### Debugging Cards
 

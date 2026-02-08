@@ -5,7 +5,7 @@ describe('Scoop Up', function () {
                 player1: {
                     house: 'mars',
                     inPlay: ['ironyx-vatminder', 'blypyp', 'pelf'],
-                    hand: ['scoop-up', 'hypnobeam']
+                    hand: ['scoop-up', 'hypnobeam', 'yzphyz-knowdrone']
                 },
                 player2: {
                     inPlay: ['john-smyth', 'bumpsy', 'troll']
@@ -81,6 +81,37 @@ describe('Scoop Up', function () {
             expect(this.player2.hand).toContain(this.bumpsy);
             expect(this.troll.location).toBe('hand');
             expect(this.player2.hand).toContain(this.troll);
+        });
+
+        it("should return unowned creature to owner's hand when purged from archives", function () {
+            this.player1.play(this.hypnobeam);
+            this.player1.clickCard(this.bumpsy);
+            this.player1.clickPrompt('Left');
+            this.player1.play(this.scoopUp);
+            this.player1.clickCard(this.bumpsy);
+            this.player1.clickCard(this.troll);
+            expect(this.bumpsy.location).toBe('archives');
+            expect(this.troll.location).toBe('archives');
+            this.player1.play(this.yzphyzKnowdrone);
+            this.player1.clickCard(this.bumpsy);
+            expect(this.bumpsy.location).toBe('hand');
+            expect(this.player2.hand).toContain(this.bumpsy);
+            expect(this.player1).isReadyToTakeAction();
+        });
+
+        it('should purge owned creature', function () {
+            this.player1.play(this.scoopUp);
+            this.player1.clickCard(this.pelf);
+            this.player1.clickCard(this.bumpsy);
+            expect(this.pelf.location).toBe('archives');
+            expect(this.bumpsy.location).toBe('archives');
+            this.player1.play(this.yzphyzKnowdrone);
+            this.player1.clickCard(this.hypnobeam);
+            this.player1.clickCard(this.pelf);
+            this.player1.clickCard(this.troll);
+            expect(this.pelf.location).toBe('hand');
+            expect(this.player1.hand).toContain(this.pelf);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

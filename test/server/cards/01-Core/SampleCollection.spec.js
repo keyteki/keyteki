@@ -39,6 +39,7 @@ describe('Sample Collection', function () {
 
         it('should prompt to choose two creatures and archive them sequentially when the opponent has 2 keys', function () {
             this.player2.player.keys = { red: true, blue: true, yellow: false };
+
             this.player1.play(this.sampleCollection);
             expect(this.player1).toHavePrompt('Sample Collection');
             expect(this.player1).toBeAbleToSelect(this.troll);
@@ -99,6 +100,33 @@ describe('Sample Collection', function () {
             this.player2.clickPrompt('untamed');
             this.player2.fightWith(this.tantadlin, this.batdrone);
             expect(this.player2.hand).toContain(this.troll);
+        });
+    });
+
+    describe('Sample Collection with abduction', function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'mars',
+                    hand: ['sample-collection', 'yzphyz-knowdrone'],
+                    inPlay: ['zorg']
+                },
+                player2: {
+                    inPlay: ['troll', 'bumpsy']
+                }
+            });
+        });
+
+        it('should return abducted creature to owner hand when purged', function () {
+            this.player2.keys = { red: true, blue: false, yellow: false };
+            this.player1.play(this.sampleCollection);
+            this.player1.clickCard(this.troll);
+            expect(this.player1.archives).toContain(this.troll);
+            this.player1.play(this.yzphyzKnowdrone);
+            this.player1.clickCard(this.troll);
+            expect(this.troll.location).toBe('hand');
+            expect(this.player2.hand).toContain(this.troll);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

@@ -12,7 +12,7 @@ class CurseOfDisappearances extends Card {
                 onTurnEnd: (_, context) => context.player === this.game.activePlayer
             },
             condition: (context) => !!context.player.opponent,
-            gameAction: ability.actions.archive((context) => ({
+            gameAction: ability.actions.abduct((context) => ({
                 promptForSelect: {
                     activePromptTitle: 'Choose a creature to archive',
                     cardType: 'creature',
@@ -25,8 +25,7 @@ class CurseOfDisappearances extends Card {
                         context.player.opponent
                     ]
                 },
-                owner: false,
-                opponent: true
+                player: context.player.opponent
             })),
             preferActionPromptMessage: true
         });

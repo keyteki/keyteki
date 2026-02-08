@@ -9,9 +9,14 @@ class Glimmerspore extends Card {
             target: {
                 cardType: 'artifact',
                 controller: 'any',
-                gameAction: ability.actions.archive((context) => ({
-                    owner: context.target.owner === context.player
-                }))
+                gameAction: [
+                    ability.actions.archive((context) => ({
+                        target: context.target?.owner === context.player ? context.target : []
+                    })),
+                    ability.actions.abduct((context) => ({
+                        target: context.target?.owner !== context.player ? context.target : []
+                    }))
+                ]
             }
         });
     }

@@ -1,118 +1,98 @@
 describe('Yzphyz Knowdrone', function () {
-    describe('when played', function () {
+    describe("Yzphyz Knowdrone's ability", function () {
         beforeEach(function () {
             this.setupTest({
                 player1: {
                     house: 'mars',
-                    amber: 0,
-                    inPlay: ['wretched-doll', 'zorg', 'collector-worm'],
+                    inPlay: ['collector-worm'],
                     archives: ['ember-imp'],
-                    hand: ['yzphyz-knowdrone', 'harbinger-of-doom', 'key-to-dis']
+                    hand: ['yzphyz-knowdrone', 'key-to-dis']
                 },
                 player2: {
-                    amber: 0,
-                    inPlay: ['mighty-tiger', 'hunting-witch'],
+                    inPlay: ['mighty-tiger'],
                     archives: ['troll']
                 }
             });
+        });
 
-            this.player2.moveCard(this.zorg, 'archives');
+        it('should archive a card from hand, purge an archived card, and stun a creature', function () {
             this.player1.play(this.yzphyzKnowdrone);
-        });
-
-        it('should allow a card to be archived', function () {
             expect(this.player1).toHavePrompt('Choose a card');
+            this.player1.clickCard(this.keyToDis);
+            expect(this.keyToDis.location).toBe('archives');
+            expect(this.player1).toHavePrompt('Choose which card to purge');
             expect(this.player1).toBeAbleToSelect(this.keyToDis);
-            expect(this.player1).not.toBeAbleToSelect(this.wretchedDoll);
+            expect(this.player1).toBeAbleToSelect(this.emberImp);
+            expect(this.player1).toBeAbleToSelect(this.troll);
+            this.player1.clickCard(this.troll);
+            expect(this.troll.location).toBe('purged');
+            expect(this.player1).toHavePrompt('Choose a creature to stun');
+            expect(this.player1).toBeAbleToSelect(this.mightyTiger);
+            expect(this.player1).toBeAbleToSelect(this.collectorWorm);
+            expect(this.player1).toBeAbleToSelect(this.yzphyzKnowdrone);
+            this.player1.clickCard(this.mightyTiger);
+            expect(this.mightyTiger.stunned).toBe(true);
+            expect(this.player1).isReadyToTakeAction();
         });
 
-        describe('and a card is selected', function () {
-            beforeEach(function () {
-                this.player1.clickCard(this.keyToDis);
+        it('should allow stunning a friendly creature', function () {
+            this.player1.play(this.yzphyzKnowdrone);
+            this.player1.clickCard(this.keyToDis);
+            this.player1.clickCard(this.troll);
+            this.player1.clickCard(this.collectorWorm);
+            expect(this.collectorWorm.stunned).toBe(true);
+            expect(this.player1).isReadyToTakeAction();
+        });
+    });
+
+    describe('Yzphyz Knowdrone with abduction', function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'mars',
+                    inPlay: ['uxlyx-the-zookeeper'],
+                    hand: ['yzphyz-knowdrone', 'scowly-caper']
+                },
+                player2: {
+                    inPlay: ['ember-imp']
+                }
             });
+            this.player1.makeMaverick(this.scowlyCaper, 'mars');
+        });
 
-            it('should archive the card', function () {
-                expect(this.keyToDis.location).toBe('archives');
-            });
+        it("should return abducted creature to owner's hand instead of purging or stunning", function () {
+            this.player1.reap(this.uxlyxTheZookeeper);
+            this.player1.clickCard(this.emberImp);
+            expect(this.player1.archives).toContain(this.emberImp);
+            this.player1.playCreature(this.yzphyzKnowdrone);
+            this.player1.clickCard(this.scowlyCaper);
+            this.player1.clickCard(this.emberImp);
+            expect(this.player1).isReadyToTakeAction();
+            expect(this.player1).not.toHavePrompt('Choose a creature to stun');
+            expect(this.emberImp.location).toBe('hand');
+            expect(this.player1.archives).not.toContain(this.emberImp);
+            expect(this.player2.hand).toContain(this.emberImp);
+            expect(this.player1).isReadyToTakeAction();
+        });
 
-            it('should offer to purge an archived card', function () {
-                expect(this.player1).toHavePrompt('Choose which card to purge');
-            });
-
-            it('should allow selecting a friendly archived card', function () {
-                expect(this.player1).toBeAbleToSelect(this.keyToDis);
-                expect(this.player1).toBeAbleToSelect(this.emberImp);
-            });
-
-            it("should allow selecting an opponent's archived card", function () {
-                expect(this.player1).toBeAbleToSelect(this.troll);
-                expect(this.player1).toBeAbleToSelect(this.zorg);
-            });
-
-            describe('and a friendly card is selected', function () {
-                beforeEach(function () {
-                    this.player1.clickCard(this.keyToDis);
-                });
-
-                it('should purge that card', function () {
-                    expect(this.keyToDis.location).toBe('purged');
-                });
-
-                it('should allow a creature to be stunned', function () {
-                    expect(this.player1).toHavePrompt('Choose a creature to stun');
-                });
-            });
-
-            describe('and an opponent card is selected', function () {
-                beforeEach(function () {
-                    this.player1.clickCard(this.troll);
-                });
-
-                it('should purge that card', function () {
-                    expect(this.troll.location).toBe('purged');
-                });
-
-                it('should allow a creature to be stunned', function () {
-                    expect(this.player1).toHavePrompt('Choose a creature to stun');
-                    expect(this.player1).toBeAbleToSelect(this.mightyTiger);
-                    expect(this.player1).toBeAbleToSelect(this.huntingWitch);
-                    expect(this.player1).toBeAbleToSelect(this.collectorWorm);
-                });
-
-                describe('and an opponent creature is selected', function () {
-                    beforeEach(function () {
-                        this.player1.clickCard(this.huntingWitch);
-                    });
-
-                    it('should stun that creature', function () {
-                        expect(this.huntingWitch.stunned).toBe(true);
-                    });
-                });
-
-                describe('and a friendly creature is selected', function () {
-                    beforeEach(function () {
-                        this.player1.clickCard(this.collectorWorm);
-                    });
-
-                    it('should stun that creature', function () {
-                        expect(this.collectorWorm.stunned).toBe(true);
-                    });
-                });
-            });
-
-            describe('and a card belong to us in opponent archives is selected', function () {
-                beforeEach(function () {
-                    this.player1.clickCard(this.zorg);
-                });
-
-                it('should return that card to our hand', function () {
-                    expect(this.zorg.location).toBe('hand');
-                });
-
-                it.skip('should not allow a creature to be stunned', function () {
-                    expect(this.player1).not.toHavePrompt('Choose a creature to stun');
-                });
-            });
+        it('should purge previously abducted creature', function () {
+            this.player1.playCreature(this.scowlyCaper);
+            this.player1.reap(this.uxlyxTheZookeeper);
+            this.player1.clickCard(this.scowlyCaper);
+            expect(this.player1.archives).toContain(this.scowlyCaper);
+            this.player1.endTurn();
+            this.player2.clickPrompt('dis');
+            this.player2.endTurn();
+            this.player1.clickPrompt('mars');
+            expect(this.player1).toHavePrompt('Access Archives');
+            this.player1.clickPrompt('Yes');
+            this.player1.playCreature(this.yzphyzKnowdrone);
+            this.player1.clickCard(this.scowlyCaper);
+            this.player1.clickCard(this.scowlyCaper);
+            this.player1.clickCard(this.emberImp);
+            expect(this.scowlyCaper.location).toBe('purged');
+            expect(this.emberImp.stunned).toBe(true);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });
