@@ -104,6 +104,19 @@ const ActivePlayerPrompt = (props) => {
         for (const button of props.buttons) {
             const originalButtonText = localizedText(button.card, button.text, button.values);
             let buttonText = originalButtonText;
+            let tooltipText;
+            if (button.tooltip && typeof button.tooltip === 'object') {
+                // Tooltip is a localization object with text and values
+                tooltipText = localizedText(
+                    button.card,
+                    button.tooltip.text,
+                    button.tooltip.values
+                );
+            } else {
+                tooltipText = button.tooltip
+                    ? localizedText(button.card, button.tooltip, button.values)
+                    : originalButtonText;
+            }
 
             if (buttonText.length > MaxButtonTextLength) {
                 buttonText = buttonText.slice(0, MaxButtonTextLength - 3).trim() + '...';
@@ -113,7 +126,7 @@ const ActivePlayerPrompt = (props) => {
                 <button
                     key={button.command + buttonIndex.toString()}
                     className='btn btn-default prompt-button btn-stretch'
-                    title={originalButtonText}
+                    title={tooltipText}
                     onClick={(event) =>
                         onButtonClick(event, button.command, button.arg, button.uuid, button.method)
                     }

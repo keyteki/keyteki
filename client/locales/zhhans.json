@@ -1,6 +1,7 @@
 {
     "navbar.language": "语言:",
     "decksummary.toverify": "此牌组已标记为需要认证，请透过邮件寄出牌组牌表卡与账号用户名的合照以供认证",
+    "{{title}} (from {{source}})": "{{title}}（来自{{source}}）",
     "Actions": "行动",
     "Archives": "存档",
     "Artifacts": "神器",
@@ -661,8 +662,8 @@
     "My Archives": "My Archives",
     "Opponent's Hand": "Opponent's Hand",
     "Opponent's Archives": "Opponent's Archives",
-    "Where to reveal a card from first?" : "Where to reveal a card from first?",
-    "Where to reveal a card from second?" : "Where to reveal a card from second?",
+    "Where to reveal a card from first?": "Where to reveal a card from first?",
+    "Where to reveal a card from second?": "Where to reveal a card from second?",
     "Discard archives": "Discard archives",
     "Purge action": "Purge action",
     "Exalt 3 times": "Exalt 3 times",

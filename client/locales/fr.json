@@ -1,6 +1,7 @@
 {
     "navbar.language": "Langue:",
     "decksummary.toverify": "Ce deck a été signalé, il requiert une vérification. Envoyez s'il vous plaît, par mail, une photo de votre deck avec un papier sur lequel apparaît votre pseudo.",
+    "{{title}} (from {{source}})": "{{title}} (de {{source}})",
     "Actions": "Actions",
     "Archives": "Archives",
     "Artifacts": "Artéfacts",
@@ -661,8 +662,8 @@
     "My Archives": "My Archives",
     "Opponent's Hand": "Opponent's Hand",
     "Opponent's Archives": "Opponent's Archives",
-    "Where to reveal a card from first?" : "Where to reveal a card from first?",
-    "Where to reveal a card from second?" : "Where to reveal a card from second?",
+    "Where to reveal a card from first?": "Where to reveal a card from first?",
+    "Where to reveal a card from second?": "Where to reveal a card from second?",
     "Discard archives": "Discard archives",
     "Purge action": "Purge action",
     "Exalt 3 times": "Exalt 3 times",

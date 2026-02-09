@@ -1,6 +1,7 @@
 {
     "navbar.language": "언어:",
     "decksummary.toverify": "이 덱은 인증이 필요합니다, 인증을 위해 카드 목록과 사용자의 이름이 같이 있는 사진을 다음 주소로 보내십시오.",
+    "{{title}} (from {{source}})": "{{title}} ({{source}}에서)",
     "Actions": "행동",
     "Archives": "보관 영역",
     "Artifacts": "유물",
@@ -661,8 +662,8 @@
     "My Archives": "My Archives",
     "Opponent's Hand": "Opponent's Hand",
     "Opponent's Archives": "Opponent's Archives",
-    "Where to reveal a card from first?" : "Where to reveal a card from first?",
-    "Where to reveal a card from second?" : "Where to reveal a card from second?",
+    "Where to reveal a card from first?": "Where to reveal a card from first?",
+    "Where to reveal a card from second?": "Where to reveal a card from second?",
     "Discard archives": "Discard archives",
     "Purge action": "Purge action",
     "Exalt 3 times": "Exalt 3 times",

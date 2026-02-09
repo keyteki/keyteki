@@ -1,6 +1,7 @@
 {
     "navbar.language": "Idioma:",
     "decksummary.toverify": "Esse deck foi marcado como pendente de verificação. Por favor, envie um email com a foto da lista de cartas do deck com o nome do seu usuário escrito em um pedaço de papel para",
+    "{{title}} (from {{source}})": "{{title}} (de {{source}})",
     "Actions": "Ações",
     "Archives": "Arquivo",
     "Artifacts": "Artefatos",
@@ -660,8 +661,8 @@
     "My Archives": "My Archives",
     "Opponent's Hand": "Opponent's Hand",
     "Opponent's Archives": "Opponent's Archives",
-    "Where to reveal a card from first?" : "Where to reveal a card from first?",
-    "Where to reveal a card from second?" : "Where to reveal a card from second?",
+    "Where to reveal a card from first?": "Where to reveal a card from first?",
+    "Where to reveal a card from second?": "Where to reveal a card from second?",
     "Discard archives": "Discard archives",
     "Purge action": "Purge action",
     "Exalt 3 times": "Exalt 3 times",

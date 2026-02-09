@@ -1,6 +1,7 @@
 {
     "navbar.language": "Idioma:",
     "decksummary.toverify": "This deck has been flagged as requiring verification. Please email a photo of the decklist with your username written on a piece of paper to",
+    "{{title}} (from {{source}})": "{{title}} (da {{source}})",
     "Actions": "Actions",
     "Archives": "Archives",
     "Artifacts": "Artifacts",
@@ -661,8 +662,8 @@
     "My Archives": "My Archives",
     "Opponent's Hand": "Opponent's Hand",
     "Opponent's Archives": "Opponent's Archives",
-    "Where to reveal a card from first?" : "Where to reveal a card from first?",
-    "Where to reveal a card from second?" : "Where to reveal a card from second?",
+    "Where to reveal a card from first?": "Where to reveal a card from first?",
+    "Where to reveal a card from second?": "Where to reveal a card from second?",
     "Discard archives": "Discard archives",
     "Purge action": "Purge action",
     "Exalt 3 times": "Exalt 3 times",

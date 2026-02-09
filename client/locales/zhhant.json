@@ -1,6 +1,7 @@
 {
     "navbar.language": "語言:",
     "decksummary.toverify": "此牌組已標記為需要認證，請透過電子郵件寄出卡牌列表與使用者名稱照片供認證",
+    "{{title}} (from {{source}})": "{{title}}（來自{{source}}）",
     "Actions": "行動",
     "Archives": "封存",
     "Artifacts": "神器",
@@ -661,8 +662,8 @@
     "My Archives": "My Archives",
     "Opponent's Hand": "Opponent's Hand",
     "Opponent's Archives": "Opponent's Archives",
-    "Where to reveal a card from first?" : "Where to reveal a card from first?",
-    "Where to reveal a card from second?" : "Where to reveal a card from second?",
+    "Where to reveal a card from first?": "Where to reveal a card from first?",
+    "Where to reveal a card from second?": "Where to reveal a card from second?",
     "Discard archives": "Discard archives",
     "Purge action": "Purge action",
     "Exalt 3 times": "Exalt 3 times",
