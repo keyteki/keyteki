@@ -4,6 +4,7 @@ require('./objectformatters.js');
 
 const DeckBuilder = require('./deckbuilder.js');
 const GameFlowWrapper = require('./gameflowwrapper.js');
+const { checkAllMessages } = require('./messagehelper.js');
 
 const deckBuilder = new DeckBuilder();
 
@@ -196,6 +197,9 @@ const customMatchers = {
                     : `Expected ${card.name} to be playable by ${player.name} but it wasn't.`
         };
     },
+    toHaveAllChatMessagesBe: function (context, expectedMessages, options = {}) {
+        return checkAllMessages(context, expectedMessages, options);
+    },
     toHaveRecentChatMessage: function (game, msg, numBack = 1) {
         const logs = game.getChatLogs(numBack);
         const pass = logs.filter((lastMsg) => lastMsg.includes(msg)).length > 0;
@@ -348,7 +352,7 @@ beforeEach(function () {
 });
 
 afterEach(function () {
-    if (process.env.DEBUG_TEST) {
+    if (process.env.DEBUG_TEST && this.game?.getPlainTextLog) {
         // eslint-disable-next-line no-console
         console.info(this.game.getPlainTextLog());
     }

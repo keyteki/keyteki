@@ -6,7 +6,7 @@ class SenatorBracchus extends Card {
     setupCardAbilities(ability) {
         this.persistentEffect({
             match: (card) => card.type === 'creature',
-            effect: ability.effects.keyAmber()
+            effect: ability.effects.forgeAmberSource('controller', 'onCard')
         });
 
         this.fight({

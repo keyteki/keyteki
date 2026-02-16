@@ -45,7 +45,9 @@ describe('The Callipygian Ideal', function () {
             });
 
             it('should prompt the player correctly', function () {
-                expect(this.player1).toHavePrompt('How much amber do you want to use from Troll?');
+                expect(this.player1).toHavePrompt(
+                    'How much amber do you want to spend from Troll?'
+                );
                 expect(this.player1).toHavePromptButton(1);
                 expect(this.player1).toHavePromptButton(2);
                 expect(this.player1).toHavePromptButton(3);

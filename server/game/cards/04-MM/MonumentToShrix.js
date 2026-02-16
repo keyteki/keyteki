@@ -5,7 +5,7 @@ class MonumentToShrix extends Card {
     // Action: Move 1A from your pool to Monument to Shrix. If Citizen Shrix is in your discard pile, move 1A from any players pool to Monument to Shrix instead.
     setupCardAbilities(ability) {
         this.persistentEffect({
-            effect: ability.effects.keyAmber()
+            effect: ability.effects.forgeAmberSource('controller', 'onCard')
         });
 
         this.action({

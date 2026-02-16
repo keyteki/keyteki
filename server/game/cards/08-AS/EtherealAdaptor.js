@@ -5,7 +5,7 @@ class EtherealAdaptor extends Card {
     // were in your pool.”
     setupCardAbilities(ability) {
         this.whileAttached({
-            effect: ability.effects.keyAmber()
+            effect: ability.effects.forgeAmberSource('controller', 'onCard')
         });
     }
 }

@@ -166,6 +166,8 @@ const Actions = {
     sequentialForEach: (propertyFactory) =>
         new GameActions.SequentialForEachAction(propertyFactory),
     sequentialFight: (propertyFactory) => new GameActions.SequentialFightAction(propertyFactory),
+    sequentialPairedChoices: (propertyFactory) =>
+        new GameActions.SequentialPairedChoicesAction(propertyFactory),
     sequentialPlay: (propertyFactory) => new GameActions.SequentialPlayAction(propertyFactory),
     sequentialPutIntoPlay: (propertyFactory) =>
         new GameActions.SequentialPutIntoPlayAction(propertyFactory),

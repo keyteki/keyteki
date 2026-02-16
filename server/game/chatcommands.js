@@ -234,7 +234,7 @@ class ChatCommands {
     }
 
     shuffle(player) {
-        this.game.addAlert('danger', '{0} is shuffling their deck', player);
+        this.game.addAlert('danger', '{0} shuffles their deck', player);
         player.shuffleDeck();
     }
 

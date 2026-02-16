@@ -53,7 +53,7 @@ describe('Safe Place', function () {
 
             it('should prompt how much amber to use', function () {
                 expect(this.player1).toHavePrompt(
-                    'How much amber do you want to use from Safe Place?'
+                    'How much amber do you want to spend from Safe Place?'
                 );
             });
 
@@ -85,6 +85,10 @@ describe('Safe Place', function () {
             this.player2.clickPrompt('brobnar');
             this.player2.endTurn();
 
+            // With 3 pool + 2 on otherSafePlace + 1 on safePlace = 6, automatic selection happens
+            // since min == max for each source. No prompts needed after selecting the card.
+            this.player1.clickCard(otherSafePlace);
+            this.player1.clickCard(this.safePlace);
             this.player1.forgeKey('Red');
         });
     });
