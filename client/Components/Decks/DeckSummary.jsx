@@ -27,6 +27,7 @@ const DeckSummary = ({ deck }) => {
     const [hoverPosition, setHoverPosition] = useState({ x: 0, y: 0 });
     const cardsByHouse = {};
     const enhancements = {};
+    const orderedHouses = Constants.Houses.filter((house) => deck.houses.includes(house));
 
     const handleAccoladeClick = (accolade) => {
         if (!accolade.shown) {
@@ -53,7 +54,7 @@ const DeckSummary = ({ deck }) => {
         setHoverPosition({ x: event.clientX + 5, y });
     };
 
-    for (const house of [...deck.houses].sort()) {
+    for (const house of orderedHouses) {
         cardsByHouse[house] = [];
         const filteredCards = sortBy(
             deck.cards.filter((c) => c.card.house === house && !c.isNonDeck),
@@ -230,7 +231,7 @@ const DeckSummary = ({ deck }) => {
             )}
             <div className='relative mt-4 grid grid-cols-1 gap-2 sm:justify-center sm:gap-x-10 sm:[grid-template-columns:repeat(3,max-content)]'>
                 <CardHoverPreview card={hoveredCard} position={hoverPosition} />
-                {deck.houses.map((house) => {
+                {orderedHouses.map((house) => {
                     return (
                         <div key={house} className='w-fit text-left'>
                             <div className='deck-houses rounded-sm px-0 py-2'>

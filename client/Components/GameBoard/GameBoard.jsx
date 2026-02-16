@@ -124,6 +124,20 @@ export const GameBoard = () => {
     };
 
     const onCardClick = (card) => {
+        const cannotPlayCard =
+            typeof card?.canPlay === 'boolean' &&
+            !card.canPlay &&
+            !card.selected &&
+            !card.selectable;
+
+        if (!card || card.unselectable || cannotPlayCard) {
+            return;
+        }
+
+        if (thisPlayer?.selectCard && !card.selectable) {
+            return;
+        }
+
         sendGameMessage('cardClicked', card.uuid);
     };
 

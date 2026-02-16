@@ -773,7 +773,9 @@ class DeckService {
             throw new Error('Prophecy cards are not allowed for this set');
         }
 
-        deck.houses = parsedPods.map((pod) => pod.house);
+        deck.houses = Constants.Houses.filter((house) =>
+            parsedPods.some((pod) => pod.house === house)
+        );
 
         let podCards = [];
 

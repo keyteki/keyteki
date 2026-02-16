@@ -52,6 +52,7 @@ const Card = ({
     const onCardClicked = (event, card) => {
         event.preventDefault();
         event.stopPropagation();
+
         if (isAllowedMenuSource() && card.menu && card.menu.length !== 0) {
             setShowMenu(!showMenu);
             return;

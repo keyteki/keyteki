@@ -591,97 +591,101 @@ const AllianceBuilderPage = () => {
                         )}
                     </div>
                     <div className='mt-2 flex flex-wrap gap-2'>
-                        {[...deck.houses].sort().map((house) => {
-                            const isSelectedInAnySlot = selectedHouses.some(
-                                (selection) =>
-                                    selection &&
-                                    selection.deckUuid === deck.uuid &&
-                                    selection.house === house
-                            );
-                            const isSelectedInActiveSlot =
-                                selectedHouses[activeSlotIndex]?.deckUuid === deck.uuid &&
-                                selectedHouses[activeSlotIndex]?.house === house;
-                            const isSelectedElsewhere = selectedHouses.some(
-                                (selection) =>
-                                    selection &&
-                                    selection.house === house &&
-                                    selection.deckUuid !== deck.uuid
-                            );
-                            const isDisabled = isSelectedElsewhere && !isSelectedInAnySlot;
-                            const houseCards = getDeckHousePreviewCards(deck, house);
+                        {Constants.Houses.filter((house) => deck.houses.includes(house)).map(
+                            (house) => {
+                                const isSelectedInAnySlot = selectedHouses.some(
+                                    (selection) =>
+                                        selection &&
+                                        selection.deckUuid === deck.uuid &&
+                                        selection.house === house
+                                );
+                                const isSelectedInActiveSlot =
+                                    selectedHouses[activeSlotIndex]?.deckUuid === deck.uuid &&
+                                    selectedHouses[activeSlotIndex]?.house === house;
+                                const isSelectedElsewhere = selectedHouses.some(
+                                    (selection) =>
+                                        selection &&
+                                        selection.house === house &&
+                                        selection.deckUuid !== deck.uuid
+                                );
+                                const isDisabled = isSelectedElsewhere && !isSelectedInAnySlot;
+                                const houseCards = getDeckHousePreviewCards(deck, house);
 
-                            const chipClasses = `inline-flex items-center rounded-md border px-2 py-1 text-xs transition ${
-                                isDisabled
-                                    ? 'cursor-not-allowed border-border/50 bg-surface-secondary/50 text-muted opacity-55'
-                                    : isSelectedInActiveSlot || isSelectedInAnySlot
-                                    ? 'border-accent/70 bg-accent/20 text-foreground'
-                                    : 'cursor-pointer border-border/70 bg-surface-secondary/75 text-foreground hover:bg-accent/10'
-                            }`;
+                                const chipClasses = `inline-flex items-center rounded-md border px-2 py-1 text-xs transition ${
+                                    isDisabled
+                                        ? 'cursor-not-allowed border-border/50 bg-surface-secondary/50 text-muted opacity-55'
+                                        : isSelectedInActiveSlot || isSelectedInAnySlot
+                                        ? 'border-accent/70 bg-accent/20 text-foreground'
+                                        : 'cursor-pointer border-border/70 bg-surface-secondary/75 text-foreground hover:bg-accent/10'
+                                }`;
 
-                            return (
-                                <div
-                                    key={house}
-                                    className='relative'
-                                    onMouseEnter={() =>
-                                        openHoverPanel(`house:${deck.uuid}:${house}`)
-                                    }
-                                    onMouseLeave={closeHoverPanel}
-                                >
-                                    <button
-                                        type='button'
-                                        className={chipClasses}
-                                        disabled={isDisabled}
-                                        onClick={() => chooseHouseForActiveSlot(deck, house)}
-                                    >
-                                        <img
-                                            src={Constants.HouseIconPaths[house]}
-                                            className='mr-1 h-4 w-4'
-                                            alt={getHouseLabel(house)}
-                                        />
-                                        <span>{getHouseLabel(house)}</span>
-                                    </button>
+                                return (
                                     <div
-                                        className={`absolute left-0 top-full -mt-px z-20 min-w-60 max-w-80 rounded-md border border-border/70 bg-surface/95 p-2 shadow-lg ${
-                                            activeHoverPanel === `house:${deck.uuid}:${house}`
-                                                ? 'block'
-                                                : 'hidden'
-                                        }`}
+                                        key={house}
+                                        className='relative'
                                         onMouseEnter={() =>
                                             openHoverPanel(`house:${deck.uuid}:${house}`)
                                         }
                                         onMouseLeave={closeHoverPanel}
                                     >
-                                        <div className='mb-1 text-xs uppercase tracking-wide text-muted'>
-                                            {getHouseLabel(house)}
-                                        </div>
-                                        <div className='max-h-56 space-y-1 overflow-y-auto pr-1'>
-                                            {houseCards.map((houseCard) => (
-                                                <button
-                                                    key={houseCard.key}
-                                                    type='button'
-                                                    className='pointer-events-auto flex w-full items-center justify-between rounded-sm px-1 py-0.5 text-left text-xs text-foreground hover:bg-accent/10'
-                                                    onMouseEnter={(event) => {
-                                                        setHoveredCard(houseCard.card);
-                                                        updateHoverPosition(event);
-                                                    }}
-                                                    onMouseMove={updateHoverPosition}
-                                                    onMouseLeave={() => setHoveredCard(undefined)}
-                                                >
-                                                    <span className='truncate'>
-                                                        {houseCard.name}
-                                                    </span>
-                                                    {houseCard.count > 1 && (
-                                                        <span className='ml-2 shrink-0 text-muted'>
-                                                            x{houseCard.count}
+                                        <button
+                                            type='button'
+                                            className={chipClasses}
+                                            disabled={isDisabled}
+                                            onClick={() => chooseHouseForActiveSlot(deck, house)}
+                                        >
+                                            <img
+                                                src={Constants.HouseIconPaths[house]}
+                                                className='mr-1 h-4 w-4'
+                                                alt={getHouseLabel(house)}
+                                            />
+                                            <span>{getHouseLabel(house)}</span>
+                                        </button>
+                                        <div
+                                            className={`absolute left-0 top-full -mt-px z-20 min-w-60 max-w-80 rounded-md border border-border/70 bg-surface/95 p-2 shadow-lg ${
+                                                activeHoverPanel === `house:${deck.uuid}:${house}`
+                                                    ? 'block'
+                                                    : 'hidden'
+                                            }`}
+                                            onMouseEnter={() =>
+                                                openHoverPanel(`house:${deck.uuid}:${house}`)
+                                            }
+                                            onMouseLeave={closeHoverPanel}
+                                        >
+                                            <div className='mb-1 text-xs uppercase tracking-wide text-muted'>
+                                                {getHouseLabel(house)}
+                                            </div>
+                                            <div className='max-h-56 space-y-1 overflow-y-auto pr-1'>
+                                                {houseCards.map((houseCard) => (
+                                                    <button
+                                                        key={houseCard.key}
+                                                        type='button'
+                                                        className='pointer-events-auto flex w-full items-center justify-between rounded-sm px-1 py-0.5 text-left text-xs text-foreground hover:bg-accent/10'
+                                                        onMouseEnter={(event) => {
+                                                            setHoveredCard(houseCard.card);
+                                                            updateHoverPosition(event);
+                                                        }}
+                                                        onMouseMove={updateHoverPosition}
+                                                        onMouseLeave={() =>
+                                                            setHoveredCard(undefined)
+                                                        }
+                                                    >
+                                                        <span className='truncate'>
+                                                            {houseCard.name}
                                                         </span>
-                                                    )}
-                                                </button>
-                                            ))}
+                                                        {houseCard.count > 1 && (
+                                                            <span className='ml-2 shrink-0 text-muted'>
+                                                                x{houseCard.count}
+                                                            </span>
+                                                        )}
+                                                    </button>
+                                                ))}
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                            );
-                        })}
+                                );
+                            }
+                        )}
                     </div>
                 </div>
             );
