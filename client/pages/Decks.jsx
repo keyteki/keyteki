@@ -155,7 +155,7 @@ const DecksComponent = () => {
                         </HeroModal.Body>
                         <HeroModal.Footer>
                             <Button
-                                variant='secondary'
+                                variant='tertiary'
                                 isDisabled={isDeleting}
                                 onPress={() => setShowDeleteModal(false)}
                             >

@@ -41,19 +41,40 @@ const Messages = ({ messages, onCardMouseOver, onCardMouseOut }) => {
         '!mb-1 !rounded-xl !px-3 !py-2 text-sm [&_svg]:text-base [&_[data-slot="alert-content"]]:gap-0.5 [&_[data-slot="alert-description"]]:text-sm';
 
     const tokens = {
-        amber: { className: 'icon-amber', imageSrc: AmberImage },
-        card: { className: 'icon-card', imageSrc: CardBackImage },
-        cards: { className: 'icon-card', imageSrc: CardBackImage },
-        forgedkeyblue: { className: 'icon-forgedKey', imageSrc: keyImages['blue'].forged },
-        forgedkeyyellow: { className: 'icon-forgedKey', imageSrc: keyImages['yellow'].forged },
-        forgedkeyred: { className: 'icon-forgedKey', imageSrc: keyImages['red'].forged },
-        tide: { className: 'icon-tide', imageSrc: TideImage },
-        unforgedkeyblue: { className: 'icon-forgedKey', imageSrc: keyImages['blue'].unforged },
+        amber: { className: 'inline-block h-3 w-3 align-text-bottom', imageSrc: AmberImage },
+        card: {
+            className: 'inline-block h-4 w-3 -mt-1 align-text-bottom',
+            imageSrc: CardBackImage
+        },
+        cards: {
+            className: 'inline-block h-4 w-3 -mt-1 align-text-bottom',
+            imageSrc: CardBackImage
+        },
+        forgedkeyblue: {
+            className: 'inline-block h-3 w-3 align-middle object-contain',
+            imageSrc: keyImages['blue'].forged
+        },
+        forgedkeyyellow: {
+            className: 'inline-block h-3 w-3 align-middle object-contain',
+            imageSrc: keyImages['yellow'].forged
+        },
+        forgedkeyred: {
+            className: 'inline-block h-3 w-3 align-middle object-contain',
+            imageSrc: keyImages['red'].forged
+        },
+        tide: { className: 'inline-block h-3 w-3 align-text-bottom', imageSrc: TideImage },
+        unforgedkeyblue: {
+            className: 'inline-block h-3 w-3 align-middle object-contain',
+            imageSrc: keyImages['blue'].unforged
+        },
         unforgedkeyyellow: {
-            className: 'icon-forgedKey',
+            className: 'inline-block h-3 w-3 align-middle object-contain',
             imageSrc: keyImages['yellow'].unforged
         },
-        unforgedkeyred: { className: 'icon-forgedKey', imageSrc: keyImages['red'].unforged }
+        unforgedkeyred: {
+            className: 'inline-block h-3 w-3 align-middle object-contain',
+            imageSrc: keyImages['red'].unforged
+        }
     };
 
     const owner = useSelector(

@@ -9,6 +9,9 @@ const CardPilePopup = ({
     cardBack,
     cards,
     disableMouseOver,
+    hasActiveHouse,
+    isMe,
+    isSpectating,
     manualMode,
     onCardClick,
     onCloseClick,
@@ -33,6 +36,9 @@ const CardPilePopup = ({
         onCardMouseOut: onMouseOut,
         onCardMouseOver: onMouseOver,
         onTouchMove,
+        hasActiveHouse,
+        isMe,
+        isSpectating,
         size,
         source
     };

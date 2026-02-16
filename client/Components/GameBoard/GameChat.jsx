@@ -173,7 +173,7 @@ const GameChat = (props) => {
                 <Button
                     type='button'
                     size='sm'
-                    variant='secondary'
+                    variant='tertiary'
                     className='absolute bottom-14 left-1/2 z-10 -translate-x-1/2'
                     onPress={() => scheduleScrollToBottom(true)}
                 >

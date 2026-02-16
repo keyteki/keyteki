@@ -165,7 +165,7 @@ const BlockList = () => {
                                                 value={formProps.values.blockee}
                                                 onChange={formProps.handleChange}
                                                 onBlur={formProps.handleBlur}
-                                                variant='secondary'
+                                                variant='tertiary'
                                             />
                                             {formProps.touched.blockee &&
                                             formProps.errors.blockee ? (
@@ -178,7 +178,7 @@ const BlockList = () => {
                                         <Button
                                             type='submit'
                                             className='mt-2'
-                                            variant='secondary'
+                                            variant='tertiary'
                                             isPending={addState.isLoading}
                                         >
                                             <Trans>Add</Trans>

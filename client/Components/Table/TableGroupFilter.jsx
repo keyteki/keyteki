@@ -65,7 +65,7 @@ const TableGroupFilter = ({ args, fetchData, onOkClick, filter, onCancelClick })
                 >
                     Ok
                 </Button>
-                <Button size='sm' variant='secondary' onPress={onCancelClick}>
+                <Button size='sm' variant='tertiary' onPress={onCancelClick}>
                     Cancel
                 </Button>
             </div>

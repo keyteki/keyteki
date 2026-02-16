@@ -6,8 +6,10 @@ import SquishableCardPanel from './SquishableCardPanel';
 const PlayerRow = ({
     cardBack,
     cardSize,
+    hasActiveHouse,
     hand,
     isMe,
+    isSpectating,
     isActivePlayer,
     manualMode,
     onCardClick,
@@ -41,6 +43,9 @@ const PlayerRow = ({
             source='hand'
             title={t('Hand')}
             cardSize={cardSize}
+            hasActiveHouse={hasActiveHouse}
+            isMe={isMe}
+            isSpectating={isSpectating}
         />
     );
 

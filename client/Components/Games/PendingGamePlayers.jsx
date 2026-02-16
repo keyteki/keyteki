@@ -1,5 +1,6 @@
 import React from 'react';
 import { useTranslation, Trans } from 'react-i18next';
+import { Button } from '@heroui/react';
 
 import Panel from '../Site/Panel';
 import Avatar from '../Site/Avatar';
@@ -116,13 +117,14 @@ const PendingGamePlayers = ({ currentGame, user, onSelectDeck }) => {
                         'username truncate font-semibold' +
                         (player.role ? ` ${player.role.toLowerCase()}-role` : '');
 
+                    const deckSelected = !!player.deck?.selected;
                     const deckName = playerIsMe
-                        ? player.deck?.selected
+                        ? deckSelected
                             ? isSealed
                                 ? t('Sealed deck selected')
                                 : player.deck?.name
                             : t('No deck selected')
-                        : player.deck?.selected
+                        : deckSelected
                         ? t('Selected')
                         : t('Not selected');
 
@@ -145,19 +147,19 @@ const PendingGamePlayers = ({ currentGame, user, onSelectDeck }) => {
                                 <span className='shrink-0 text-zinc-400'>
                                     <Trans>Deck:</Trans>
                                 </span>
-                                <div className='min-w-0 flex-1'>
-                                    {playerIsMe && !isSealed ? (
-                                        <button
-                                            className='block w-full truncate text-left align-middle text-zinc-200 underline decoration-border/60 underline-offset-2 hover:text-zinc-100'
-                                            onClick={onSelectDeck}
-                                            type='button'
+                                <div className='min-w-0 flex flex-wrap items-center gap-2'>
+                                    <span className='block min-w-0 flex-1 truncate text-zinc-200'>
+                                        {deckName}
+                                    </span>
+                                    {playerIsMe && !isSealed && (
+                                        <Button
+                                            className='shrink-0'
+                                            size='sm'
+                                            variant={deckSelected ? 'tertiary' : 'primary'}
+                                            onPress={onSelectDeck}
                                         >
-                                            {deckName}
-                                        </button>
-                                    ) : (
-                                        <span className='block truncate text-zinc-200'>
-                                            {deckName}
-                                        </span>
+                                            {deckSelected ? t('Change deck') : t('Select deck')}
+                                        </Button>
                                     )}
                                 </div>
                             </div>

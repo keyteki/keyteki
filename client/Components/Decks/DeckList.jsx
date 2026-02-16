@@ -218,13 +218,13 @@ const DeckList = ({
                 icon: <FontAwesomeIcon icon={faFileImport} />,
                 label: t('Import Deck'),
                 onPress: onImportDeck,
-                variant: 'secondary'
+                variant: 'tertiary'
             },
             {
                 icon: <FontAwesomeIcon icon={faPlus} />,
                 label: t('Build Alliance Deck'),
                 onPress: onNavigateAllianceDeck,
-                variant: 'secondary'
+                variant: 'tertiary'
             },
             {
                 icon: <FontAwesomeIcon icon={faTrash} />,
@@ -253,7 +253,7 @@ const DeckList = ({
                         <Input
                             name='name'
                             placeholder={t('Filter by name')}
-                            variant='secondary'
+                            variant='tertiary'
                             onChange={(event) => {
                                 nameFilterValue.current = event.target.value.toLowerCase();
                                 updateFilters(nameFilterValue.current, selectedExpansions);

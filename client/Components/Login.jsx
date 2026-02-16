@@ -58,7 +58,7 @@ const Login = (props) => {
                             value={formProps.values.username}
                             onChange={formProps.handleChange}
                             onBlur={formProps.handleBlur}
-                            variant='secondary'
+                            variant='tertiary'
                             className='w-full'
                         />
                         {formProps.touched.username && formProps.errors.username ? (
@@ -79,7 +79,7 @@ const Login = (props) => {
                             value={formProps.values.password}
                             onChange={formProps.handleChange}
                             onBlur={formProps.handleBlur}
-                            variant='secondary'
+                            variant='tertiary'
                             className='w-full'
                         />
                         {formProps.touched.password && formProps.errors.password ? (
@@ -94,7 +94,7 @@ const Login = (props) => {
                     </Link>
 
                     <div className='pt-1'>
-                        <Button type='submit' variant='secondary'>
+                        <Button type='submit' variant='tertiary'>
                             {t('Login')}
                         </Button>
                     </div>

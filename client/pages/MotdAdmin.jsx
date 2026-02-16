@@ -48,7 +48,7 @@ const MotdAdmin = () => {
                 <div className='mt-3 text-center'>
                     <Button
                         type='button'
-                        variant='secondary'
+                        variant='tertiary'
                         onClick={() =>
                             dispatch(
                                 lobbySendMessage('motd', {

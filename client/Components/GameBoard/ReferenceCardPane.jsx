@@ -73,11 +73,13 @@ const ReferenceCardPane = ({
                                 isController &&
                                 (card.canActivateProphecy || currentGame.manualMode);
                             const isActive = card.activeProphecy;
+                            const isAvailable = !isActive && Boolean(card.canActivateProphecy);
+                            const isUnavailable = !isActive && !card.canActivateProphecy;
                             const className = `normal reference-card prophecy-card block h-auto max-w-full ${
-                                isActive ? 'active' : 'inactive'
+                                isActive ? 'active' : isAvailable ? 'available' : 'inactive'
                             } ${isClickable ? 'is-clickable cursor-pointer' : ''} ${
-                                !isActive && card.canActivateProphecy ? 'can-activate' : ''
-                            }`;
+                                isAvailable ? 'can-activate' : ''
+                            } ${isUnavailable ? 'unavailable' : ''}`;
 
                             return (
                                 <div key={card.uuid} className='prophecy-card-container'>

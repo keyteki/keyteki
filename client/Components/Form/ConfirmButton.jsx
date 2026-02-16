@@ -35,7 +35,7 @@ const ConfirmButton = ({ children, onClick }) => {
 
     return (
         <>
-            <Button size='sm' variant='secondary' onPress={handleClick}>
+            <Button size='sm' variant='tertiary' onPress={handleClick}>
                 {btnText}
             </Button>
             {showConfirm ? (

@@ -130,7 +130,7 @@ const ProfileMain = ({ user, formProps, section }) => {
                         ) : (
                             <Avatar imgPath={user?.avatar} />
                         )}
-                        <HeroButton variant='secondary' onPress={() => inputFile.current?.click()}>
+                        <HeroButton variant='tertiary' onPress={() => inputFile.current?.click()}>
                             {t('Change avatar')}
                         </HeroButton>
                     </div>
@@ -196,7 +196,7 @@ const ProfileMain = ({ user, formProps, section }) => {
                             </HeroModal.Body>
                             <HeroModal.Footer>
                                 <HeroButton
-                                    variant='secondary'
+                                    variant='tertiary'
                                     onPress={() => setShowDeleteModal(false)}
                                 >
                                     {t('Cancel')}
@@ -250,13 +250,13 @@ const ProfileMain = ({ user, formProps, section }) => {
                     {!user?.patreon || user?.patreon === PatreonStatus.Unlinked ? (
                         <HeroButton
                             size='sm'
-                            variant='secondary'
+                            variant='tertiary'
                             onPress={() => window.location.assign(patreonUrl)}
                         >
                             {t('Link Account')}
                         </HeroButton>
                     ) : (
-                        <HeroButton size='sm' variant='secondary' onPress={() => unlinkPatreon()}>
+                        <HeroButton size='sm' variant='tertiary' onPress={() => unlinkPatreon()}>
                             {t('Unlink Account')}
                         </HeroButton>
                     )}

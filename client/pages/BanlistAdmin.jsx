@@ -154,7 +154,7 @@ const BanlistAdmin = () => {
                                         onChange={formProps.handleChange}
                                         onBlur={formProps.handleBlur}
                                         placeholder='Enter Ip'
-                                        variant='secondary'
+                                        variant='tertiary'
                                     />
                                     {formProps.touched.ip && formProps.errors.ip ? (
                                         <div className='mt-1 text-xs text-red-300'>
@@ -166,7 +166,7 @@ const BanlistAdmin = () => {
                             <div className='md:ml-[16.666667%] md:w-1/3'>
                                 <Button
                                     type='submit'
-                                    variant='secondary'
+                                    variant='tertiary'
                                     isPending={addState.isLoading}
                                 >
                                     Add

@@ -139,6 +139,11 @@ const PendingGame = () => {
     };
 
     const playerCountInGame = Object.values(currentGame.players || {}).length;
+    const myPlayer = Object.values(currentGame.players || {}).find(
+        (player) => player.name === user?.username
+    );
+    const myDeckSelected = !!myPlayer?.deck?.selected;
+    const requiresDeckSelection = currentGame.gameFormat !== 'sealed' && !myDeckSelected;
     const allPlayersReady =
         playerCountInGame === 2 &&
         Object.values(currentGame.players || {}).every((player) => !!player.deck?.selected);
@@ -331,6 +336,23 @@ const PendingGame = () => {
 
                     <GameTypeInfo gameType={currentGame.gameType} />
 
+                    {requiresDeckSelection && (
+                        <div className='rounded-md border border-amber-500/35 bg-amber-500/10 px-3 py-2 text-sm text-amber-200'>
+                            <div className='flex flex-wrap items-center justify-between gap-2'>
+                                <span>
+                                    {t('You need to select a deck before the game can start.')}
+                                </span>
+                                <Button
+                                    size='sm'
+                                    variant='primary'
+                                    onPress={() => setShowModal(true)}
+                                >
+                                    <Trans>Select deck</Trans>
+                                </Button>
+                            </div>
+                        </div>
+                    )}
+
                     <div className='flex flex-wrap items-center gap-2 border-t border-border/60 pt-3'>
                         <Button
                             variant='primary'
@@ -343,14 +365,14 @@ const PendingGame = () => {
                             <Trans>Start</Trans>
                         </Button>
                         <Button
-                            variant='secondary'
+                            variant='tertiary'
                             onPress={() => {
                                 dispatch(lobbyLeaveGameRequested(currentGame.id));
                             }}
                         >
                             <Trans>Leave</Trans>
                         </Button>
-                        <Button variant='secondary' onPress={handleCopyGameLink}>
+                        <Button variant='tertiary' onPress={handleCopyGameLink}>
                             <Trans>Copy Game Link</Trans>
                         </Button>
                         <span className='ms-auto text-xs text-zinc-400'>{getStartHint()}</span>

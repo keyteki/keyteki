@@ -91,7 +91,7 @@ const NewsAdmin = () => {
                             <Button
                                 type='button'
                                 size='sm'
-                                variant='secondary'
+                                variant='tertiary'
                                 onClick={() => {
                                     saveNews({ id: editId, text: editText });
                                     setEditId(undefined);
@@ -104,7 +104,7 @@ const NewsAdmin = () => {
                             <Button
                                 type='button'
                                 size='sm'
-                                variant='secondary'
+                                variant='tertiary'
                                 onClick={() => {
                                     setEditId(row.original.id);
                                     setEditText(row.original.text);
@@ -167,7 +167,7 @@ const NewsAdmin = () => {
                         <Button
                             type='button'
                             className='mt-2'
-                            variant='secondary'
+                            variant='tertiary'
                             onClick={() => {
                                 addNews(newsText);
                                 setNewsText('');

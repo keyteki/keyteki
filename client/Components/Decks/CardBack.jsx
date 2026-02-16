@@ -35,7 +35,7 @@ const CardBack = ({ className, imageClassName, deck, showDeckName = true, zoom =
                     style={{ left: mousePos.x + 5 + 'px', top: mousePos.y + 'px' }}
                 >
                     <CardBackImage
-                        className='block !h-auto !w-auto !max-w-none'
+                        className='block h-full w-full'
                         deck={deck}
                         showDeckName={showDeckName}
                     />

@@ -84,7 +84,7 @@ const ResetPassword = ({ id, token }) => {
                                         onChange={formProps.handleChange}
                                         onBlur={formProps.handleBlur}
                                         placeholder='Enter a password'
-                                        variant='secondary'
+                                        variant='tertiary'
                                     />
                                     {formProps.touched.password && formProps.errors.password ? (
                                         <div className='mt-1 text-xs text-red-300'>
@@ -107,7 +107,7 @@ const ResetPassword = ({ id, token }) => {
                                         onChange={formProps.handleChange}
                                         onBlur={formProps.handleBlur}
                                         placeholder='Enter your password again'
-                                        variant='secondary'
+                                        variant='tertiary'
                                     />
                                     {formProps.touched.password1 && formProps.errors.password1 ? (
                                         <div className='mt-1 text-xs text-red-300'>
@@ -118,7 +118,7 @@ const ResetPassword = ({ id, token }) => {
                                 <div className='pt-1'>
                                     <Button
                                         type='submit'
-                                        variant='secondary'
+                                        variant='tertiary'
                                         isPending={resetState.isLoading}
                                     >
                                         Submit

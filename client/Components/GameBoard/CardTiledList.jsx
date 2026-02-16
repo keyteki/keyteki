@@ -20,6 +20,9 @@ function CardTiledList(props) {
                     onTouchMove={props.onTouchMove}
                     orientation='vertical'
                     size={props.size}
+                    hasActiveHouse={props.hasActiveHouse}
+                    isMe={props.isMe}
+                    isSpectating={props.isSpectating}
                     source={props.source}
                 />
             );
@@ -46,6 +49,9 @@ CardTiledList.propTypes = {
     onCardMouseOut: PropTypes.func,
     onCardMouseOver: PropTypes.func,
     onTouchMove: PropTypes.func,
+    hasActiveHouse: PropTypes.bool,
+    isMe: PropTypes.bool,
+    isSpectating: PropTypes.bool,
     size: PropTypes.string,
     source: PropTypes.string,
     title: PropTypes.string,

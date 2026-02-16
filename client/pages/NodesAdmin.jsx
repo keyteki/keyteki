@@ -52,7 +52,7 @@ const NodeAdmin = () => {
                         <Button
                             type='button'
                             size='sm'
-                            variant='secondary'
+                            variant='tertiary'
                             onClick={(event) => onToggleNodeClick(row.original, event)}
                         >
                             {row.original.status === 'active' ? 'Disable' : 'Enable'}
@@ -60,7 +60,7 @@ const NodeAdmin = () => {
                         <Button
                             type='button'
                             size='sm'
-                            variant='secondary'
+                            variant='tertiary'
                             onClick={(event) => onRestartNodeClick(row.original, event)}
                         >
                             Restart
@@ -87,7 +87,7 @@ const NodeAdmin = () => {
             <Panel title='Game Node Administration'>
                 {content}
 
-                <Button className='mt-2' size='sm' variant='secondary' onClick={onRefreshClick}>
+                <Button className='mt-2' size='sm' variant='tertiary' onClick={onRefreshClick}>
                     Refresh
                 </Button>
             </Panel>

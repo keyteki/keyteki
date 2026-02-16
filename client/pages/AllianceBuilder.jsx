@@ -1211,7 +1211,7 @@ const AllianceBuilderPage = () => {
                                     </span>
                                 </div>
                                 <Button
-                                    variant='secondary'
+                                    variant='tertiary'
                                     isDisabled={saveValidation.disabled || saveState.isLoading}
                                     isPending={saveState.isLoading}
                                     onPress={handleSave}
@@ -1328,7 +1328,7 @@ const AllianceBuilderPage = () => {
                             </p>
                         </HeroModal.Body>
                         <HeroModal.Footer>
-                            <Button variant='secondary' onPress={cancelExpansionChange}>
+                            <Button variant='tertiary' onPress={cancelExpansionChange}>
                                 {t('Cancel')}
                             </Button>
                             <Button variant='primary' onPress={confirmExpansionChange}>

@@ -11,6 +11,9 @@ const CardPileLink = ({
     closeOnClick,
     disableMouseOver,
     disablePopup,
+    hasActiveHouse,
+    isMe,
+    isSpectating,
     manualMode,
     numDeckCards,
     onCardClick,
@@ -123,6 +126,9 @@ const CardPileLink = ({
                     onTouchMove={onTouchMove}
                     popupLocation={popupLocation}
                     popupMenu={popupMenu}
+                    hasActiveHouse={hasActiveHouse}
+                    isMe={isMe}
+                    isSpectating={isSpectating}
                     size={size}
                     source={source}
                     title={title}

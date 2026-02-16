@@ -77,7 +77,7 @@ const DeckSetFilter = ({ expansions = [], selectedExpansions = [], onChange, lab
                         aria-controls={panelId}
                         aria-expanded={isOpen}
                         className='w-full justify-between'
-                        variant='secondary'
+                        variant='tertiary'
                     >
                         <span className='truncate text-left'>
                             {selectedExpansions.length > 0
@@ -100,7 +100,7 @@ const DeckSetFilter = ({ expansions = [], selectedExpansions = [], onChange, lab
                                 placeholder={t('Search sets')}
                                 size='sm'
                                 value={search}
-                                variant='secondary'
+                                variant='tertiary'
                                 onChange={(event) => setSearch(event.target.value)}
                             />
                             <Button
@@ -129,7 +129,7 @@ const DeckSetFilter = ({ expansions = [], selectedExpansions = [], onChange, lab
                                                 : 'text-zinc-300 hover:bg-zinc-800/70'
                                         }`}
                                         isSelected={checked}
-                                        variant='secondary'
+                                        variant='tertiary'
                                         onChange={(isSelected) => toggleSet(expansion, isSelected)}
                                     >
                                         {expansionLabel}

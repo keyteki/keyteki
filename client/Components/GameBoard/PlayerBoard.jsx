@@ -70,6 +70,8 @@ const PlayerBoard = (props) => {
                                 onMouseOut={props.onMouseOut}
                                 onMouseOver={props.onMouseOver}
                                 size={props.user.settings.cardSize}
+                                hasActiveHouse={props.hasActiveHouse}
+                                isMe={props.isMe}
                                 source='play area'
                             />
                         ))}
@@ -82,12 +84,14 @@ const PlayerBoard = (props) => {
                     cardSize={props.cardSize}
                     hand={props.hand}
                     isMe={props.isMe}
+                    isSpectating={props.isSpectating}
                     manualMode={props.manualMode}
                     onCardClick={props.onCardClick}
                     onDragDrop={props.onDragDrop}
                     onMouseOut={props.onMouseOut}
                     onMouseOver={props.onMouseOver}
                     isActivePlayer={props.isMe && props.activePlayer}
+                    hasActiveHouse={props.hasActiveHouse}
                 />
             )}
         </div>
@@ -97,6 +101,7 @@ const PlayerBoard = (props) => {
 PlayerBoard.displayName = 'PlayerBoard';
 PlayerBoard.propTypes = {
     cardsInPlay: PropTypes.array,
+    hasActiveHouse: PropTypes.bool,
     manualMode: PropTypes.bool,
     isSpectating: PropTypes.bool,
     onCardClick: PropTypes.func,

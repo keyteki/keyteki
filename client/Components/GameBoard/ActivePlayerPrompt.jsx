@@ -119,7 +119,7 @@ const ActivePlayerPrompt = (props) => {
 
             let option = (
                 <Button
-                    variant='secondary'
+                    variant='tertiary'
                     key={button.command + buttonIndex.toString()}
                     className={buttonClass}
                     title={originalButtonText}

@@ -253,7 +253,7 @@ const NewGame = ({
                                 {quickJoin ? <Trans>Find game</Trans> : <Trans>Start</Trans>}
                             </Button>
                             <Button
-                                variant='secondary'
+                                variant='tertiary'
                                 onPress={() => {
                                     dispatch(lobbyActions.cancelNewGame());
                                     if (onClosed) {

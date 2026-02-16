@@ -210,6 +210,7 @@ pre {
   top: 0px;
   left: 0px;
   width: calc(var(--card-base-width) * var(--card-zoom-multiplier));
+  height: calc(var(--card-base-height) * var(--card-zoom-multiplier));
   z-index: 999;
 }
 
@@ -507,7 +508,7 @@ pre {
   filter: grayscale(100%) brightness(70%);
 }
 .game-card.cannot-play {
-  filter: brightness(0.72) saturate(0.82);
+  filter: brightness(0.78) saturate(0.86);
 }
 .game-card.can-play {
   animation: none;
@@ -1242,13 +1243,19 @@ pre {
   margin-bottom: 0;
 }
 .reference-card-pane .prophecy-grid {
+  --prophecy-card-scale: 1.08;
+  --prophecy-child-scale: 1.02;
+  --prophecy-card-width: calc(var(--card-base-width) * var(--prophecy-card-scale));
+  --prophecy-card-height: calc(var(--card-base-height) * var(--prophecy-card-scale));
+  --prophecy-child-width: calc(var(--card-base-width) * var(--prophecy-child-scale));
+  --prophecy-child-height: calc(var(--card-base-height) * var(--prophecy-child-scale));
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   justify-items: center;
   align-items: start;
   gap: 6px;
   width: 100%;
-  max-width: 162px;
+  max-width: calc((var(--prophecy-card-width) * 2) + 22px);
   margin: 0 0 10px 0;
   padding: 8px 8px 18px;
   border: 2px solid white;
@@ -1272,12 +1279,12 @@ pre {
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
-  width: 70px;
-  min-height: 118px;
+  width: var(--prophecy-card-width);
+  min-height: calc(var(--prophecy-card-height) + 20px);
 }
 .reference-card-pane .prophecy-grid .prophecy-card {
-  width: 70px;
-  height: 98px;
+  width: var(--prophecy-card-width);
+  height: var(--prophecy-card-height);
   object-fit: cover;
   border-radius: 4px;
   box-shadow: 0 2px 3px rgba(0, 0, 0, 0.2);
@@ -1308,8 +1315,8 @@ pre {
 }
 .reference-card-pane .prophecy-grid .child-card-under-prophecy {
   position: absolute;
-  width: 66px;
-  height: 92px;
+  width: var(--prophecy-child-width);
+  height: var(--prophecy-child-height);
   object-fit: cover;
   border-radius: 4px;
   box-shadow: 0 2px 3px rgba(0, 0, 0, 0.3);
@@ -1417,17 +1424,19 @@ pre {
     padding-top: 0 !important;
   }
   .reference-card-pane .prophecy-grid {
+    --prophecy-card-scale: 0.62;
+    --prophecy-child-scale: 0.53;
     min-height: 90px !important;
     padding: 2px 2px 25px 2px !important;
     gap: 2px !important;
   }
   .reference-card-pane .prophecy-card {
-    max-width: 40px !important;
-    width: 80% !important;
+    width: var(--prophecy-card-width) !important;
+    height: var(--prophecy-card-height) !important;
   }
   .reference-card-pane .child-card-under-prophecy {
-    max-width: 34px !important;
-    width: 80% !important;
+    width: var(--prophecy-child-width) !important;
+    height: var(--prophecy-child-height) !important;
   }
 }
 .icon-brobnar {
@@ -1654,32 +1663,10 @@ pre {
   font-weight: 300 !important;
 }
 
-.icon-amber {
-  display: inline-block;
-  height: 12px;
-  width: 12px;
-  vertical-align: text-bottom;
-}
-
-.icon-tide {
-  display: inline-block;
-  height: 12px;
-  width: 12px;
-  vertical-align: text-bottom;
-}
-
 .chat-house-icon {
   display: inline-block;
   height: 12px;
   width: 12px;
-  vertical-align: text-bottom;
-}
-
-.icon-card {
-  display: inline-block;
-  height: 16px;
-  width: 12px;
-  margin-top: -4px;
   vertical-align: text-bottom;
 }
 

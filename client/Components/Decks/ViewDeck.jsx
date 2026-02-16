@@ -90,7 +90,7 @@ const ViewDeck = ({ deck }) => {
                             </p>
                         </HeroModal.Body>
                         <HeroModal.Footer>
-                            <Button variant='secondary' onPress={() => setIsDeleteModalOpen(false)}>
+                            <Button variant='tertiary' onPress={() => setIsDeleteModalOpen(false)}>
                                 {t('Cancel')}
                             </Button>
                             <Button variant='danger' onPress={handleDeleteClick}>

@@ -205,7 +205,7 @@ const Navigation = (props) => {
                     <HeroButton
                         className='!h-8 !min-w-10 !px-2'
                         size='sm'
-                        variant='secondary'
+                        variant='tertiary'
                         onPress={() => setMobileMenuOpen((open) => !open)}
                     >
                         {mobileMenuOpen ? t('Close') : t('Menu')}

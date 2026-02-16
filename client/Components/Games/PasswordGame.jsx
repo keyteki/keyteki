@@ -70,7 +70,7 @@ const PasswordGame = () => {
                         </div>
                     </HeroModal.Body>
                     <HeroModal.Footer>
-                        <Button variant='secondary' onPress={onJoin}>
+                        <Button variant='tertiary' onPress={onJoin}>
                             {t(passwordJoinType)}
                         </Button>
                         <Button

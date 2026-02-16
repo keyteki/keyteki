@@ -226,7 +226,7 @@ function ReactTable({
                         </Button>
                     ))}
                     {refetch ? (
-                        <Button isIconOnly size='md' variant='secondary' onPress={() => refetch()}>
+                        <Button isIconOnly size='md' variant='tertiary' onPress={() => refetch()}>
                             <FontAwesomeIcon icon={faRefresh} />
                         </Button>
                     ) : null}
@@ -370,7 +370,7 @@ function ReactTable({
                                                         className='select-text max-w-[14rem] min-w-[8rem]'
                                                         placeholder='Filter'
                                                         size='sm'
-                                                        variant='secondary'
+                                                        variant='tertiary'
                                                         value={
                                                             header.column
                                                                 .getFilterValue()
@@ -556,7 +556,7 @@ function ReactTable({
                     <Button
                         isDisabled={currPage <= 1}
                         size='sm'
-                        variant='secondary'
+                        variant='tertiary'
                         onPress={() => table.setPageIndex(Math.max(0, currPage - 2))}
                     >
                         {'<'}
@@ -565,7 +565,7 @@ function ReactTable({
                     <Button
                         isDisabled={currPage >= pageCount}
                         size='sm'
-                        variant='secondary'
+                        variant='tertiary'
                         onPress={() => table.setPageIndex(Math.min(pageCount - 1, currPage))}
                     >
                         {'>'}

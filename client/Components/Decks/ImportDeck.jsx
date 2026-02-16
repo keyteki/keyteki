@@ -108,7 +108,7 @@ const ImportDeck = ({ onClose }) => {
                                     placeholder={t('Enter the deck link')}
                                     type='text'
                                     value={formProps.values.deckLink}
-                                    variant='secondary'
+                                    variant='tertiary'
                                     onBlur={formProps.handleBlur}
                                     onChange={formProps.handleChange}
                                 />
@@ -122,7 +122,7 @@ const ImportDeck = ({ onClose }) => {
                             <div className='mt-4 flex justify-end'>
                                 <Button
                                     type='submit'
-                                    variant='secondary'
+                                    variant='tertiary'
                                     isPending={saveDeckState.isLoading}
                                 >
                                     {t('Import')}

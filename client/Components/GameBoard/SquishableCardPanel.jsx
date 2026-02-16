@@ -68,6 +68,9 @@ const SquishableCardPanel = (props) => {
                 size={props.cardSize}
                 style={style}
                 language={i18n.language}
+                hasActiveHouse={props.hasActiveHouse}
+                isMe={props.isMe}
+                isSpectating={props.isSpectating}
                 source={props.source}
             />
         );
@@ -104,6 +107,9 @@ SquishableCardPanel.propTypes = {
     onCardClick: PropTypes.func,
     onMouseOut: PropTypes.func,
     onMouseOver: PropTypes.func,
+    hasActiveHouse: PropTypes.bool,
+    isMe: PropTypes.bool,
+    isSpectating: PropTypes.bool,
     source: PropTypes.string,
     title: PropTypes.string
 };

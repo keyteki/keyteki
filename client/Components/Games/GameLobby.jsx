@@ -242,7 +242,7 @@ const GameLobby = ({ gameId }) => {
                     <div className='grid gap-2'>
                         <Button
                             className='w-full'
-                            variant='secondary'
+                            variant='tertiary'
                             isDisabled={!user}
                             onPress={() => openNewGame(false)}
                         >
@@ -250,7 +250,7 @@ const GameLobby = ({ gameId }) => {
                         </Button>
                         <Button
                             className='w-full'
-                            variant='secondary'
+                            variant='tertiary'
                             isDisabled={!user}
                             onPress={() => openNewGame(true)}
                         >

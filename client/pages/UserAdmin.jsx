@@ -150,7 +150,7 @@ const UserAdmin = () => {
                                     value={formProps.values.username}
                                     onChange={formProps.handleChange}
                                     onBlur={formProps.handleBlur}
-                                    variant='secondary'
+                                    variant='tertiary'
                                 />
                                 {formProps.touched.username && formProps.errors.username ? (
                                     <div className='mt-1 text-xs text-red-300'>
@@ -162,7 +162,7 @@ const UserAdmin = () => {
                             <div className='mt-2'>
                                 <Button
                                     type='submit'
-                                    variant='secondary'
+                                    variant='tertiary'
                                     isPending={apiState?.loading}
                                 >
                                     Submit&nbsp;
@@ -268,7 +268,7 @@ const UserAdmin = () => {
                                 <div className='flex justify-center gap-2'>
                                     <Button
                                         type='button'
-                                        variant='secondary'
+                                        variant='tertiary'
                                         onClick={() =>
                                             dispatch(clearUserSessions(currentUser.username))
                                         }
@@ -277,7 +277,7 @@ const UserAdmin = () => {
                                     </Button>
                                     <Button
                                         type='button'
-                                        variant='secondary'
+                                        variant='tertiary'
                                         isPending={apiSaveState?.loading}
                                         onClick={() => {
                                             currentUser.permissions = currentPermissions;

@@ -226,6 +226,7 @@ export const GameBoard = () => {
                             />
                         }
                         cardsInPlay={otherPlayer.cardPiles.cardsInPlay}
+                        hasActiveHouse={false}
                         isSpectating={spectating}
                         onCardClick={onCardClick}
                         onMenuItemClick={onMenuItemClick}
@@ -246,6 +247,7 @@ export const GameBoard = () => {
                         cardsInPlay={thisPlayer.cardPiles.cardsInPlay}
                         cardSize={user.settings.cardSize}
                         hand={thisPlayer.cardPiles.hand}
+                        hasActiveHouse={Boolean(thisPlayer.activeHouse)}
                         isMe={!spectating}
                         isSpectating={spectating}
                         manualMode={currentGame.manualMode}

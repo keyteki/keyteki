@@ -89,7 +89,7 @@ const ForgotPassword = () => {
                                     value={formProps.values.username}
                                     onChange={formProps.handleChange}
                                     onBlur={formProps.handleBlur}
-                                    variant='secondary'
+                                    variant='tertiary'
                                     className='w-full'
                                 />
                                 {formProps.touched.username && formProps.errors.username ? (
@@ -118,7 +118,7 @@ const ForgotPassword = () => {
                             </div>
 
                             <div className='pt-1'>
-                                <Button type='submit' variant='secondary'>
+                                <Button type='submit' variant='tertiary'>
                                     {t('Submit')}
                                 </Button>
                             </div>

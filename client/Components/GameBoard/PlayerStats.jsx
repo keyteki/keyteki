@@ -188,7 +188,9 @@ const PlayerStats = ({
     let statsClass = classNames('panel player-stats');
 
     const pileProps = {
+        hasActiveHouse: isMe && Boolean(activeHouse),
         isMe,
+        isSpectating: spectating,
         onMenuItemClick,
         onPopupChange,
         onTouchMove,

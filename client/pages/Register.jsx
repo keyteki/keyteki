@@ -101,7 +101,7 @@ const Register = () => {
                                     onChange={formProps.handleChange}
                                     onBlur={formProps.handleBlur}
                                     placeholder={t('Username')}
-                                    variant='secondary'
+                                    variant='tertiary'
                                     className='w-full'
                                 />
                                 {formProps.touched.username && formProps.errors.username ? (
@@ -121,7 +121,7 @@ const Register = () => {
                                     onChange={formProps.handleChange}
                                     onBlur={formProps.handleBlur}
                                     placeholder={t('Email Address')}
-                                    variant='secondary'
+                                    variant='tertiary'
                                     className='w-full'
                                 />
                                 {formProps.touched.email && formProps.errors.email ? (
@@ -142,7 +142,7 @@ const Register = () => {
                                     onChange={formProps.handleChange}
                                     onBlur={formProps.handleBlur}
                                     placeholder={t('Password')}
-                                    variant='secondary'
+                                    variant='tertiary'
                                     className='w-full'
                                 />
                                 {formProps.touched.password && formProps.errors.password ? (
@@ -163,7 +163,7 @@ const Register = () => {
                                     onChange={formProps.handleChange}
                                     onBlur={formProps.handleBlur}
                                     placeholder={t('Password (again)')}
-                                    variant='secondary'
+                                    variant='tertiary'
                                     className='w-full'
                                 />
                                 {formProps.touched.password1 && formProps.errors.password1 ? (
@@ -175,7 +175,7 @@ const Register = () => {
                             <div className='pt-1'>
                                 <Button
                                     type='submit'
-                                    variant='secondary'
+                                    variant='tertiary'
                                     isPending={registerState.isLoading}
                                 >
                                     {t('Register')}
