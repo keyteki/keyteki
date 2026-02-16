@@ -12,14 +12,14 @@
 }
 
 .menu-item {
-    border: 1px solid theme-color(primary);
+    border: 1px solid app-color(primary);
     padding: 3px 6px;
     border-radius: 4px;
     margin-bottom: 4px;
     cursor: pointer;
 
     &:hover {
-        border-color: theme-color(info);
+        border-color: app-color(info);
     }
 
     &.disabled {
@@ -28,8 +28,9 @@
         cursor: not-allowed;
 
         &:hover {
-            border-color: theme-color(primary);
+            border-color: app-color(primary);
         }
     }
 }
+
 

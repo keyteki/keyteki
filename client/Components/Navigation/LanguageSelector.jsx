@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useEffect } from 'react';
-import { NavDropdown } from 'react-bootstrap';
+import { Dropdown, Label } from '@heroui/react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faChevronDown, faChevronUp } from '@fortawesome/free-solid-svg-icons';
 
 const languages = [
     {
@@ -9,7 +10,7 @@ const languages = [
         value: 'en'
     },
     {
-        name: 'Español',
+        name: 'Espanol',
         value: 'es'
     },
     {
@@ -17,7 +18,7 @@ const languages = [
         value: 'de'
     },
     {
-        name: 'Português',
+        name: 'Portugues',
         value: 'pt'
     },
     {
@@ -25,7 +26,7 @@ const languages = [
         value: 'it'
     },
     {
-        name: 'Français',
+        name: 'Francais',
         value: 'fr'
     },
     {
@@ -33,58 +34,76 @@ const languages = [
         value: 'pl'
     },
     {
-        name: 'ไทย',
+        name: 'Thai',
         value: 'th'
     },
     {
-        name: '简体中文',
+        name: 'Chinese (Simplified)',
         value: 'zhhans'
     },
     {
-        name: '繁體中文',
+        name: 'Chinese (Traditional)',
         value: 'zhhant'
     },
     {
-        name: '한국어',
+        name: 'Korean',
         value: 'ko'
     },
     {
-        name: 'Tiếng Việt',
+        name: 'Tieng Viet',
         value: 'vi'
     }
 ];
 
-const LanguageSelector = () => {
+const LanguageSelector = ({ mobile = false }) => {
     const { i18n } = useTranslation();
+    const [isOpen, setIsOpen] = useState(false);
 
     useEffect(() => {
-        let currentLanguage = languages.find((l) => l.value === i18n.language);
+        const currentLanguage = languages.find((language) => language.value === i18n.language);
 
         if (!currentLanguage) {
             i18n.changeLanguage('en');
         }
     }, [i18n]);
 
+    const triggerClass = mobile
+        ? '!inline-flex !h-9 !w-full !items-center !justify-start !rounded-md !bg-transparent !px-3 !text-sm !font-medium !text-foreground transition hover:!bg-accent/15 hover:!text-foreground'
+        : '!inline-flex !h-9 !min-w-0 !items-center !rounded-md !bg-transparent !px-4 !text-sm !font-medium !text-link transition hover:!bg-accent/15 hover:!text-accent lg:!h-[50px]';
+
     return (
-        <NavDropdown
-            align='end'
-            className='d-flex align-items-center'
-            id='nav-Lang'
-            onSelect={(lang) => {
-                i18n.changeLanguage(lang);
-            }}
-            title={i18n.language}
-        >
-            {languages.map((lang) => (
-                <NavDropdown.Item
-                    className='navbar-item interactable dropdown-child'
-                    key={lang.value}
-                    eventKey={lang.value}
+        <Dropdown onOpenChange={setIsOpen}>
+            <Dropdown.Trigger>
+                <span className={triggerClass}>
+                    <span className='inline-flex h-full items-center gap-1.5 leading-none'>
+                        <span className='inline-flex items-center leading-none'>
+                            {String(i18n.language || 'en').toUpperCase()}
+                        </span>
+                        <FontAwesomeIcon
+                            icon={isOpen ? faChevronUp : faChevronDown}
+                            className='text-[10px] text-current/90'
+                        />
+                    </span>
+                </span>
+            </Dropdown.Trigger>
+            <Dropdown.Popover className='min-w-[13rem] rounded-xl border border-border/70 bg-overlay/95 p-1 text-foreground'>
+                <Dropdown.Menu
+                    aria-label='Language selector'
+                    onAction={(key) => i18n.changeLanguage(String(key))}
                 >
-                    {lang.name}
-                </NavDropdown.Item>
-            ))}
-        </NavDropdown>
+                    {languages.map((language) => (
+                        <Dropdown.Item
+                            className='rounded-md px-3 py-2 data-[hovered]:bg-accent/12 data-[focused]:bg-accent/12'
+                            key={language.value}
+                            id={language.value}
+                            textValue={language.name}
+                        >
+                            <Label>{language.name}</Label>
+                        </Dropdown.Item>
+                    ))}
+                </Dropdown.Menu>
+            </Dropdown.Popover>
+        </Dropdown>
     );
 };
 

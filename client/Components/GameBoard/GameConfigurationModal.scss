@@ -2,7 +2,8 @@
 @use '../../styles/colours' as *;
 
 .modal-header {
-    background: theme-color(primary);
-    font-family: Keyforge;
+    background: app-color(primary);
+    font-family: PoppinsMedium, 'Segoe UI', Inter, 'Helvetica Neue', Arial, sans-serif;
 }
+
 

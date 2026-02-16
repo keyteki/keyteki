@@ -1,8 +1,7 @@
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { toast } from 'react-toastify';
+import { Button, Label, Switch, toast } from '@heroui/react';
 import { Trans, useTranslation } from 'react-i18next';
-import { Col, Row, Button, Form } from 'react-bootstrap';
 
 import NewGame from './NewGame';
 import GameList from './GameList';
@@ -10,18 +9,112 @@ import PendingGame from './PendingGame';
 import PasswordGame from './PasswordGame';
 import AlertPanel from '../Site/AlertPanel';
 import Panel from '../Site/Panel';
-
-import './GameLobby.scss';
-import { useEffect } from 'react';
 import { lobbyActions } from '../../redux/slices/lobbySlice';
 import { lobbySendMessage } from '../../redux/socketActions';
-import { useRef } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
+
+const createMockLobbyGames = () => {
+    const mockPlayers = {
+        admin: {
+            avatar: 'test0',
+            deck: { selected: true, status: { basicRules: true } },
+            id: 'p-admin',
+            name: 'admin',
+            role: 'admin'
+        },
+        test: {
+            avatar: 'test1',
+            deck: { selected: true, status: { basicRules: true } },
+            id: 'p-test',
+            name: 'test',
+            role: 'supporter'
+        },
+        contributor: {
+            avatar: 'test2',
+            deck: { selected: true, status: { basicRules: true } },
+            id: 'p-contributor',
+            name: 'contributor',
+            role: 'contributor'
+        }
+    };
+
+    const makeGame = (overrides) => ({
+        allowSpectators: true,
+        createdAt: new Date(Date.now() - 1000 * 60 * 9).toISOString(),
+        full: false,
+        gameFormat: 'normal',
+        gamePrivate: false,
+        gameType: 'casual',
+        id: `mock-${Math.random().toString(36).slice(2, 10)}`,
+        messages: [],
+        needsPassword: false,
+        owner: 'admin',
+        players: { admin: mockPlayers.admin },
+        showHand: false,
+        spectators: [{ id: 's1', name: 'spectator1' }],
+        started: false,
+        useGameTimeLimit: false,
+        ...overrides
+    });
+
+    return [
+        makeGame({
+            gameFormat: 'normal',
+            gameType: 'beginner',
+            name: 'Beginner Open Normal',
+            players: { admin: mockPlayers.admin }
+        }),
+        makeGame({
+            gameFormat: 'sealed',
+            gameType: 'casual',
+            name: 'Casual Sealed + Time',
+            useGameTimeLimit: true
+        }),
+        makeGame({
+            gameFormat: 'reversal',
+            gameType: 'competitive',
+            name: 'Competitive Reversal (password)',
+            needsPassword: true
+        }),
+        makeGame({
+            gameFormat: 'adaptive-bo1',
+            gameType: 'competitive',
+            name: 'Adaptive Bo1 + Show Hand',
+            showHand: true
+        }),
+        makeGame({
+            gameFormat: 'alliance',
+            gameType: 'casual',
+            name: 'Alliance Feature Match',
+            players: { admin: mockPlayers.admin, test: mockPlayers.test },
+            started: true,
+            full: true
+        }),
+        makeGame({
+            gameFormat: 'unchained',
+            gameType: 'beginner',
+            name: 'Unchained Ladder',
+            players: { admin: mockPlayers.admin, contributor: mockPlayers.contributor },
+            started: false,
+            full: true,
+            useGameTimeLimit: true
+        }),
+        makeGame({
+            gameFormat: 'normal',
+            gameType: 'casual',
+            name: 'Everything On',
+            needsPassword: true,
+            showHand: true,
+            useGameTimeLimit: true
+        })
+    ];
+};
 
 const GameLobby = ({ gameId }) => {
     const { t } = useTranslation();
     const dispatch = useDispatch();
     const navigate = useNavigate();
+    const location = useLocation();
     const filters = useMemo(
         () => [
             { name: 'beginner', label: t('Beginner') },
@@ -44,159 +137,187 @@ const GameLobby = ({ gameId }) => {
         return defaults;
     }, [filters]);
 
-    const { games, newGame, currentGame, passwordGame } = useSelector((state) => ({
-        games: state.lobby.games,
-        newGame: state.lobby.newGame,
-        currentGame: state.lobby.currentGame,
-        passwordGame: state.lobby.passwordGame
-    }));
+    const { games, newGame, newGameInstance, currentGame, passwordGame, gameError } = useSelector(
+        (state) => ({
+            games: state.lobby.games,
+            newGame: state.lobby.newGame,
+            newGameInstance: state.lobby.newGameInstance,
+            currentGame: state.lobby.currentGame,
+            passwordGame: state.lobby.passwordGame,
+            gameError: state.lobby.gameError
+        })
+    );
     const user = useSelector((state) => state.account.user);
     const [currentFilter, setCurrentFilter] = useState(filterDefaults);
     const [quickJoin, setQuickJoin] = useState(false);
     const topRef = useRef(null);
+    const useMockGames = useMemo(() => {
+        const search = new URLSearchParams(location.search);
+        return search.get('mockGames') === '1';
+    }, [location.search]);
+    const mockGames = useMemo(() => createMockLobbyGames(), []);
+    const visibleGames = useMemo(
+        () => (useMockGames ? mockGames : games),
+        [games, mockGames, useMockGames]
+    );
 
     useEffect(() => {
-        if ('Notification' in window) {
-            if (Notification.permission !== 'granted') {
-                Notification.requestPermission(() => {});
-            }
+        if ('Notification' in window && Notification.permission !== 'granted') {
+            Notification.requestPermission(() => {});
         }
 
-        let filter = localStorage.getItem('gameFilter');
+        const filter = localStorage.getItem('gameFilter');
         if (filter) {
             setCurrentFilter({ ...filterDefaults, ...JSON.parse(filter) });
         }
     }, [filterDefaults]);
 
     const onFilterChecked = (name, checked) => {
-        currentFilter[name] = checked;
-        setCurrentFilter(Object.assign({}, currentFilter));
+        const nextFilter = {
+            ...currentFilter,
+            [name]: checked
+        };
 
-        localStorage.setItem('gameFilter', JSON.stringify(currentFilter));
+        setCurrentFilter(nextFilter);
+        localStorage.setItem('gameFilter', JSON.stringify(nextFilter));
+    };
+
+    const openNewGame = (isQuickJoin) => {
+        setQuickJoin(isQuickJoin);
+        dispatch(lobbyActions.startNewGame());
     };
 
     useEffect(() => {
-        if (!currentGame && gameId && games.length > 0) {
-            const game = games.find((x) => x.id === gameId);
+        if (!currentGame && gameId && visibleGames.length > 0) {
+            const game = visibleGames.find((x) => x.id === gameId);
 
             if (!game) {
-                toast.error(t('The game you tried to join was not found.'));
-            } else {
-                if (!game.started && Object.keys(game.players).length < 2) {
-                    if (game.needsPassword) {
-                        dispatch(lobbyActions.joinPasswordGame({ game, joinType: 'Join' }));
-                    } else {
-                        dispatch(lobbySendMessage('joingame', gameId));
-                    }
+                toast.danger(t('The game you tried to join was not found.'));
+            } else if (!game.started && Object.keys(game.players).length < 2) {
+                if (game.needsPassword) {
+                    dispatch(lobbyActions.joinPasswordGame({ game, joinType: 'Join' }));
                 } else {
-                    if (game.needsPassword) {
-                        dispatch(lobbyActions.joinPasswordGame({ game, joinType: 'Watch' }));
-                    } else {
-                        dispatch(lobbySendMessage('watchgame', game.id));
-                    }
+                    dispatch(lobbySendMessage('joingame', gameId));
                 }
+            } else if (game.needsPassword) {
+                dispatch(lobbyActions.joinPasswordGame({ game, joinType: 'Watch' }));
+            } else {
+                dispatch(lobbySendMessage('watchgame', game.id));
             }
+
             navigate('/play', { replace: true });
         }
-    }, [currentGame, dispatch, gameId, games, navigate, t]);
+    }, [currentGame, dispatch, gameId, navigate, t, visibleGames]);
+
+    useEffect(() => {
+        if (!gameError) {
+            return;
+        }
+
+        const gameRemovedError = 'The game has timed out and is no longer available.';
+        const shouldToast = gameError === gameRemovedError;
+
+        if (!shouldToast) {
+            return;
+        }
+
+        toast.danger(t(gameError));
+        dispatch(lobbyActions.clearGameError());
+    }, [currentGame, dispatch, gameError, t]);
 
     return (
-        <Col md={{ offset: 2, span: 8 }}>
-            <div ref={topRef}>
-                {newGame && <NewGame quickJoin={quickJoin} />}
-                {currentGame?.started === false && <PendingGame />}
-                {passwordGame && <PasswordGame />}
-            </div>
+        <div className='mx-auto w-full max-w-[1100px]' ref={topRef}>
+            {newGame && <NewGame key={`new-game-${newGameInstance}`} quickJoin={quickJoin} />}
+            {currentGame?.started === false && <PendingGame />}
+            {passwordGame && <PasswordGame />}
+
             <Panel title={t('Current Games')}>
                 {!user && (
-                    <div className='text-center'>
-                        <AlertPanel type='warning'>
-                            {t('Please log in to be able to start a new game')}
-                        </AlertPanel>
-                    </div>
+                    <AlertPanel type='warning'>
+                        {t('Please log in to be able to start a new game')}
+                    </AlertPanel>
                 )}
-                <Row className='game-buttons'>
-                    <Col sm={4} lg={3}>
+
+                <div className='grid items-start gap-3 lg:grid-cols-[220px_minmax(0,1fr)]'>
+                    <div className='grid gap-2'>
                         <Button
-                            disabled={!user}
-                            variant='primary'
-                            onClick={() => {
-                                setQuickJoin(false);
-                                dispatch(lobbyActions.startNewGame());
-                            }}
+                            className='w-full'
+                            variant='secondary'
+                            isDisabled={!user}
+                            onPress={() => openNewGame(false)}
                         >
                             <Trans>New Game</Trans>
                         </Button>
                         <Button
-                            disabled={!user}
-                            variant='primary'
-                            onClick={() => {
-                                setQuickJoin(true);
-                                dispatch(lobbyActions.startNewGame());
-                            }}
+                            className='w-full'
+                            variant='secondary'
+                            isDisabled={!user}
+                            onPress={() => openNewGame(true)}
                         >
                             <Trans>Quick Join</Trans>
                         </Button>
-                    </Col>
-                    <Col sm={8} lg={9}>
-                        <Panel type='primary'>
-                            <Row>
-                                {filters.map((filter) => {
-                                    return (
-                                        <Col key={filter.name} sm={6} lg={4}>
-                                            <Form.Check
-                                                type='switch'
-                                                id={filter.name}
-                                                label={filter.label}
-                                                inline
-                                                onChange={(event) => {
-                                                    onFilterChecked(
-                                                        filter.name,
-                                                        event.target.checked
-                                                    );
-                                                }}
-                                                checked={!!currentFilter[filter.name]}
-                                            ></Form.Check>
-                                        </Col>
-                                    );
-                                })}
-                            </Row>
-                            <Row>
-                                <Col>
-                                    <Form.Check
-                                        type='switch'
-                                        id='onlyShowNew'
-                                        label={t('Only show new games')}
-                                        inline
-                                        onChange={(event) => {
-                                            onFilterChecked('onlyShowNew', event.target.checked);
-                                        }}
-                                        checked={!!currentFilter['onlyShowNew']}
-                                    ></Form.Check>
-                                </Col>
-                            </Row>
-                        </Panel>
-                    </Col>
-                </Row>
-                <Row>
-                    <Col xs='12' className='text-center'>
-                        {games.length === 0 ? (
-                            <AlertPanel type='info'>
-                                {t(
-                                    'No games are currently in progress. Click the buttons above to start one.'
-                                )}
-                            </AlertPanel>
-                        ) : (
-                            <GameList
-                                games={games}
-                                gameFilter={currentFilter}
-                                onJoinOrWatchClick={() => topRef.current.scrollIntoView(false)}
-                            />
-                        )}
-                    </Col>
-                </Row>
+                    </div>
+
+                    <Panel type='primary' headerVariant='context' title={t('Filters')}>
+                        <div className='grid gap-x-3 gap-y-2 sm:grid-cols-2 lg:grid-cols-3'>
+                            {filters.map((filter) => (
+                                <div
+                                    key={filter.name}
+                                    className='flex items-center justify-between gap-2 rounded bg-surface-secondary/70 px-2 py-1.5'
+                                >
+                                    <Label className='text-sm text-foreground'>
+                                        {filter.label}
+                                    </Label>
+                                    <Switch
+                                        id={filter.name}
+                                        isSelected={!!currentFilter[filter.name]}
+                                        onChange={(isSelected) =>
+                                            onFilterChecked(filter.name, isSelected)
+                                        }
+                                    >
+                                        <Switch.Control>
+                                            <Switch.Thumb />
+                                        </Switch.Control>
+                                    </Switch>
+                                </div>
+                            ))}
+                        </div>
+                        <div className='mt-2 flex items-center justify-between gap-2 rounded bg-surface-secondary/70 px-2 py-1.5'>
+                            <Label className='text-sm text-foreground'>
+                                {t('Only show new games')}
+                            </Label>
+                            <Switch
+                                id='onlyShowNew'
+                                isSelected={!!currentFilter.onlyShowNew}
+                                onChange={(isSelected) =>
+                                    onFilterChecked('onlyShowNew', isSelected)
+                                }
+                            >
+                                <Switch.Control>
+                                    <Switch.Thumb />
+                                </Switch.Control>
+                            </Switch>
+                        </div>
+                    </Panel>
+                </div>
+
+                <div className='mt-3'>
+                    {visibleGames.length === 0 ? (
+                        <AlertPanel type='info'>
+                            {t(
+                                'No games are currently in progress. Click the buttons above to start one.'
+                            )}
+                        </AlertPanel>
+                    ) : (
+                        <GameList
+                            games={visibleGames}
+                            gameFilter={currentFilter}
+                            onJoinOrWatchClick={() => topRef.current?.scrollIntoView(false)}
+                        />
+                    )}
+                </div>
             </Panel>
-        </Col>
+        </div>
     );
 };
 

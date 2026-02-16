@@ -1,0 +1,43 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;600&display=swap');
+@import "tailwindcss";
+@import "@heroui/styles";
+
+@layer base {
+    :root,
+    [data-theme='light'] {
+        color-scheme: light;
+        --font-sans: 'Noto Sans', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto,
+            'Helvetica Neue', Arial, sans-serif;
+        --background: oklch(0.975 0.004 286);
+        --foreground: oklch(0.24 0.01 286);
+        --surface: oklch(0.995 0 0);
+        --surface-foreground: var(--foreground);
+        --overlay: oklch(0.985 0 0);
+        --overlay-foreground: var(--foreground);
+        --accent: oklch(0.49 0.13 24);
+        --accent-foreground: oklch(0.98 0 0);
+        --border: oklch(0.86 0.003 286);
+        --link: oklch(0.44 0.16 155);
+        --surface-shadow: 0 1px 2px rgba(12, 16, 22, 0.05), 0 8px 20px rgba(12, 16, 22, 0.05);
+        --overlay-shadow: 0 4px 14px rgba(12, 16, 22, 0.08);
+    }
+
+    .dark,
+    [data-theme='dark'] {
+        color-scheme: dark;
+        --font-sans: 'Noto Sans', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto,
+            'Helvetica Neue', Arial, sans-serif;
+        --background: oklch(0.165 0.007 286);
+        --foreground: oklch(0.9 0.004 286);
+        --surface: oklch(0.225 0.008 286);
+        --surface-foreground: var(--foreground);
+        --overlay: oklch(0.205 0.008 286);
+        --overlay-foreground: var(--foreground);
+        --accent: oklch(0.57 0.16 24);
+        --accent-foreground: oklch(0.98 0 0);
+        --border: oklch(0.34 0.006 286);
+        --link: oklch(0.74 0.16 155);
+        --surface-shadow: 0 1px 0 rgba(255, 255, 255, 0.04), 0 10px 24px rgba(0, 0, 0, 0.2);
+        --overlay-shadow: 0 12px 28px rgba(0, 0, 0, 0.32);
+    }
+}

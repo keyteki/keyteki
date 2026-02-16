@@ -1,11 +1,11 @@
 import React from 'react';
-import { Col, Alert } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 
 import Profile from '../Components/Profile/Profile';
 import { useSaveProfileMutation } from '../redux/api';
 import ApiStatus from '../Components/Site/ApiStatus';
+import AlertPanel from '../Components/Site/AlertPanel';
 
 const ProfileContainer = () => {
     const { t } = useTranslation();
@@ -34,11 +34,16 @@ const ProfileContainer = () => {
           };
 
     if (!user) {
-        return <Alert variant='danger'>{t('You need to be logged in to view your profile')}</Alert>;
+        return (
+            <AlertPanel
+                type='danger'
+                message={t('You need to be logged in to view your profile')}
+            />
+        );
     }
 
     return (
-        <Col lg={{ span: 10, offset: 1 }}>
+        <div className='w-full lg:mx-auto lg:w-10/12'>
             <ApiStatus state={apiState} onClose={() => saveState.reset()} />
             <Profile
                 onSubmit={(profile) => {
@@ -46,7 +51,7 @@ const ProfileContainer = () => {
                 }}
                 isLoading={saveState.isLoading}
             />
-        </Col>
+        </div>
     );
 };
 

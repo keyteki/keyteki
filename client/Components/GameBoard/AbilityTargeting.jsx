@@ -4,8 +4,6 @@ import CardImage from './CardImage';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
 
-import './AbilityTargetting.scss';
-
 const AbilityTargeting = (props) => {
     const onMouseOver = useCallback(
         (card) => {
@@ -27,7 +25,7 @@ const AbilityTargeting = (props) => {
 
     const renderSimpleCard = (card) => (
         <div
-            className='target-card vertical mb-2'
+            className='mb-2 h-[91px] w-[65px] shrink-0 overflow-hidden rounded-[6.25%] [&>canvas]:!h-full [&>canvas]:!w-full'
             onMouseOut={() => onMouseOut(card)}
             onMouseOver={() =>
                 onMouseOver({
@@ -43,7 +41,7 @@ const AbilityTargeting = (props) => {
     const targetCards = props.targets.map((target) => renderSimpleCard(target));
 
     return (
-        <div className='prompt-control-targeting'>
+        <div className='flex flex-row items-center justify-center gap-2'>
             {renderSimpleCard(props.source)}
             {targetCards.length > 0 && <FontAwesomeIcon icon={faArrowRight} />}
             {targetCards}

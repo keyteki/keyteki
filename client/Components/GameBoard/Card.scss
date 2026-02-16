@@ -176,9 +176,13 @@
 .game-card {
     position: relative;
     border-radius: 4px;
-    box-shadow: 0 0 12px rgba(0, 0, 0, 0.4), inset 0 0 0 1px rgba(255, 255, 255, 0.1);
+    box-shadow: 0 0 14px rgba(0, 0, 0, 0.45), inset 0 0 0 1px rgba(255, 255, 255, 0.1);
     overflow: hidden;
     z-index: $layer-cards;
+    transition:
+        transform 120ms ease,
+        box-shadow 120ms ease,
+        filter 120ms ease;
 
     &.small {
         &.vertical {
@@ -273,24 +277,37 @@
     }
 
     &.selectable {
-        box-shadow: 0 0 10px 1px color.adjust(theme-color('primary'), $lightness: 60%, $alpha: -0.1);
+        box-shadow: 0 0 0 2px rgba(64, 201, 255, 0.7),
+            0 0 10px 1px color.adjust(app-color('primary'), $lightness: 60%, $alpha: -0.1);
 
         &.controlled {
             box-shadow: $controlledBox,
-                0 0 10px 1px color.adjust(theme-color('primary'), $lightness: 60%, $alpha: -0.1);
+                0 0 0 2px rgba(64, 201, 255, 0.7),
+                0 0 10px 1px color.adjust(app-color('primary'), $lightness: 60%, $alpha: -0.1);
+        }
+
+        &:hover {
+            transform: scale(1.04);
         }
     }
 
     &.unselectable {
-        filter: grayscale(100%) brightness(60%);
+        filter: grayscale(100%) brightness(70%);
+    }
+
+    &.cannot-play {
+        filter: brightness(0.72) saturate(0.82);
     }
 
     &.can-play {
-        animation: glowing 2000ms infinite;
+        animation: none;
+        transform: translateY(-1px);
+        box-shadow: 0 0 0 1px rgba(109, 216, 137, 0.8), 0 0 12px rgba(64, 201, 90, 0.22);
 
         &.controlled {
             box-shadow: $controlledBox,
-                0 0 10px 1px color.adjust(theme-color('primary'), $lightness: 60%, $alpha: -0.1);
+                0 0 0 1px rgba(109, 216, 137, 0.8),
+                0 0 12px rgba(64, 201, 90, 0.22);
         }
     }
 
@@ -303,15 +320,15 @@
     }
 
     &.selected {
-        box-shadow: 0 0 1px 4px theme-color('secondary');
+        box-shadow: 0 0 1px 4px app-color('secondary');
 
         &.controlled {
-            box-shadow: $controlledBox, 0 0 1px 4px theme-color('secondary');
+            box-shadow: $controlledBox, 0 0 1px 4px app-color('secondary');
         }
     }
 
     &.new {
-        box-shadow: 0 0 1px 2px theme-color('info');
+        box-shadow: 0 0 1px 2px app-color('info');
     }
 
     &.controlled {
@@ -319,8 +336,21 @@
     }
 
     &.token {
-        box-shadow: 0 0 1px 2px theme-color('warning');
+        box-shadow: 0 0 1px 2px app-color('warning');
     }
+
+    &.horizontal {
+        filter: brightness(0.88) saturate(0.9);
+        box-shadow: 0 0 8px rgba(0, 0, 0, 0.32), inset 0 0 0 1px rgba(255, 255, 255, 0.07);
+    }
+}
+
+.game-board.high-density .game-card {
+    box-shadow: 0 0 16px rgba(0, 0, 0, 0.52), inset 0 0 0 1px rgba(255, 255, 255, 0.1);
+}
+
+.game-board.select-cursor .game-card.unselectable {
+    filter: grayscale(100%) brightness(60%);
 }
 
 .drag-preview {
@@ -421,4 +451,5 @@
         }
     }
 }
+
 

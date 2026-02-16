@@ -80,18 +80,16 @@ const MovablePanel = ({ children, name, onCloseClick, side, title, size }) => {
 
     let content = (
         <div ref={popupRef}>
-            <div className={`panel panel-primary ${size}`} style={position}>
+            <div className={`panel movable-panel ${size}`} style={position}>
                 <div
                     ref={drag}
-                    className='panel-heading'
+                    className='movable-panel__header'
                     onClick={(event) => event.stopPropagation()}
                 >
-                    <span className='text-center'>{title}</span>
-                    <span className='float-right'>
-                        <a className='close-button' onClick={onCloseClick}>
-                            <FontAwesomeIcon icon={faTimes} />
-                        </a>
-                    </span>
+                    <span className='movable-panel__title'>{title}</span>
+                    <button type='button' className='movable-panel__close' onClick={onCloseClick}>
+                        <FontAwesomeIcon icon={faTimes} />
+                    </button>
                 </div>
                 {children}
             </div>

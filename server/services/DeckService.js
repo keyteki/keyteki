@@ -5,6 +5,21 @@ const { expand, flatten } = require('../Array');
 const Constants = require('../constants');
 const BonusOrder = Constants.Houses.concat(['amber', 'capture', 'damage', 'draw', 'discard']);
 
+const allianceRestrictedRules = {
+    befuddle: { expansions: [600] },
+    chronus: { expansions: [479, 609, 874] },
+    ghostform: { expansions: [452, 600] },
+    hallafest: { expansions: [600, 609, 737], maxQuantity: 1 },
+    'heart-of-the-forest': { expansions: [435] },
+    infurnace: { expansions: [452, 479, 874] },
+    jervi: { expansions: [700] },
+    'key-abduction': { expansions: [341, 435, 609, 700], maxQuantity: 1 },
+    'legionary-trainer': { expansions: [600] },
+    'stealth-mode': { expansions: [452, 609, 737] },
+    'united-action': { expansions: [452, 496] },
+    'winds-of-death': { expansions: [600, 609] }
+};
+
 class DeckService {
     constructor(configService, cardService) {
         this.configService = configService;
@@ -560,38 +575,76 @@ class DeckService {
 
         let validExpansion = await this.checkValidDeckExpansion(newDeck);
         if (!validExpansion) {
-            throw new Error('This deck is from a future expansion and not currently supported');
+            return {
+                success: false,
+                message: 'This deck is from a future expansion and not currently supported'
+            };
         }
 
         let deckExists = await this.deckExistsForUser(user, newDeck.identity);
         if (deckExists) {
-            throw new Error('Deck already exists.');
+            return {
+                success: false,
+                message: 'Deck already exists.'
+            };
         }
 
         newDeck.isAlliance = false;
 
         let response = await this.insertDeck(newDeck, user);
 
-        return this.getById(response.id);
+        return {
+            success: true,
+            deck: await this.getById(response.id)
+        };
     }
 
     async createAlliance(user, deck) {
-        let deckIds = deck.pods.map((p) => p.split(':')[0]);
-        let deckPromises = deckIds.map((d) => this.getByUuid(d));
-        let decksByUuid = {};
-        let cardsById;
+        if (!Array.isArray(deck.pods) || deck.pods.length !== 3) {
+            throw new Error('Alliance decks must be built from exactly 3 house pods');
+        }
 
-        let allCardsById = await this.cardService.getAllCards();
+        const parsedPods = deck.pods.map((pod) => {
+            const [deckId, house] = typeof pod === 'string' ? pod.split(':') : [];
+            return {
+                deckId,
+                house
+            };
+        });
+
+        if (parsedPods.some((pod) => !pod.deckId || !pod.house)) {
+            throw new Error('Each pod must be in the format deckUuid:house');
+        }
+
+        const uniqueHouses = new Set(parsedPods.map((pod) => pod.house));
+        if (uniqueHouses.size !== 3) {
+            throw new Error('Alliance decks must use 3 different houses');
+        }
+
+        const deckIds = parsedPods.map((pod) => pod.deckId);
+        const deckPromises = deckIds.map((deckId) => this.getByUuid(deckId));
+        const decksByUuid = {};
+        let cardsById;
+        const allCardsById = await this.cardService.getAllCards();
         let expansionId;
 
         for (let dbDeck of await Promise.all(deckPromises)) {
+            if (!dbDeck) {
+                throw new Error('Failed to create deck. One or more source decks do not exist');
+            }
+
+            if (dbDeck.username !== user.username) {
+                throw new Error('Failed to create deck. You may only use your own decks');
+            }
+
             if (!expansionId) {
                 expansionId = dbDeck.expansion;
-            } else if (expansionId != dbDeck.expansion) {
+            } else if (expansionId !== dbDeck.expansion) {
                 throw new Error(
-                    'Failed to create Deck. Only Alliance from the same expansion is allowed'
+                    'Failed to create deck. Only Alliance from the same expansion is allowed'
                 );
             }
+
             if (!cardsById) {
                 cardsById = await this.cardService.getCardsForExpansionById(
                     undefined,
@@ -603,86 +656,162 @@ class DeckService {
             decksByUuid[dbDeck.uuid] = dbDeck;
         }
 
-        deck.houses = [];
+        const expansion = Constants.Expansions.find((candidate) => candidate.id === expansionId);
+        const expansionRequiresTide = Boolean(expansion?.tideRequired);
+        const expansionRequiresToken = Boolean(expansion?.tokenRequired);
+        const expansionSupportsProphecy = Boolean(expansion?.prophecySupported);
+        const selectedDeckIds = Array.from(new Set(deckIds));
 
-        let podCards = [];
-        let prophecyCards = [];
+        for (let pod of parsedPods) {
+            const sourceDeck = decksByUuid[pod.deckId];
+            if (!sourceDeck.houses.includes(pod.house)) {
+                throw new Error('Failed to create deck. Invalid house selection for source deck');
+            }
+        }
 
-        // First pass: collect all prophecy cards from all decks
-        for (let pod of deck.pods) {
-            let [deckId] = pod.split(':');
-            let dbDeck = decksByUuid[deckId];
+        const selectedTokenId = deck.tokenCard && deck.tokenCard.id ? deck.tokenCard.id : undefined;
+        const selectedTokenSourceDeck = deck.tokenSourceDeck;
 
-            for (let card of dbDeck.cards) {
-                // Check if this is a prophecy card (either by card type or by having a prophecyId)
-                if ((card.card && card.card.type === 'prophecy') || card.prophecyId) {
-                    prophecyCards.push({
-                        ...card,
-                        sourceDeckId: deckId,
-                        sourceDeck: dbDeck
-                    });
+        if (expansionRequiresToken && !selectedTokenId && !selectedTokenSourceDeck) {
+            throw new Error('Token creature source must be specified for this set');
+        }
+
+        if (!expansionRequiresToken && (selectedTokenId || selectedTokenSourceDeck)) {
+            throw new Error('Token creature reference cards are not allowed for this set');
+        }
+
+        let tokenCardToAdd;
+        if (expansionRequiresToken) {
+            if (selectedTokenSourceDeck) {
+                const sourceDeck = decksByUuid[selectedTokenSourceDeck];
+                if (!sourceDeck || !selectedDeckIds.includes(selectedTokenSourceDeck)) {
+                    throw new Error(
+                        'Selected token source deck must contribute at least one selected pod'
+                    );
+                }
+
+                tokenCardToAdd = sourceDeck.cards.find(
+                    (card) =>
+                        card.isNonDeck &&
+                        card.card &&
+                        card.card.type === 'token creature' &&
+                        card.id !== 'the-tide'
+                );
+            } else {
+                for (const selectedDeckId of selectedDeckIds) {
+                    const selectedDeck = decksByUuid[selectedDeckId];
+                    const tokenCard = selectedDeck.cards.find(
+                        (card) =>
+                            card.isNonDeck &&
+                            card.id === selectedTokenId &&
+                            card.card &&
+                            card.card.type === 'token creature'
+                    );
+
+                    if (tokenCard) {
+                        tokenCardToAdd = tokenCard;
+                        break;
+                    }
+                }
+            }
+
+            if (!tokenCardToAdd) {
+                throw new Error('Selected token creature must come from a contributing deck');
+            }
+        }
+
+        const prophecySourceDecks = selectedDeckIds
+            .map((selectedDeckId) => decksByUuid[selectedDeckId])
+            .filter((selectedDeck) =>
+                selectedDeck.cards.some(
+                    (card) => (card.card && card.card.type === 'prophecy') || card.prophecyId
+                )
+            );
+
+        if (!expansionSupportsProphecy && deck.prophecySourceDeck) {
+            throw new Error('Prophecy cards are not allowed for this set');
+        }
+
+        let prophecySourceDeck;
+        if (expansionSupportsProphecy && prophecySourceDecks.length > 0) {
+            if (prophecySourceDecks.length === 1) {
+                prophecySourceDeck = prophecySourceDecks[0];
+                if (
+                    deck.prophecySourceDeck &&
+                    deck.prophecySourceDeck !== prophecySourceDeck.uuid
+                ) {
+                    throw new Error('Invalid prophecy source deck specified');
+                }
+            } else {
+                if (!deck.prophecySourceDeck) {
+                    throw new Error('Prophecy source deck must be specified for this alliance');
+                }
+
+                prophecySourceDeck = decksByUuid[deck.prophecySourceDeck];
+                if (!prophecySourceDeck) {
+                    throw new Error('Invalid prophecy source deck specified');
+                }
+
+                if (!selectedDeckIds.includes(prophecySourceDeck.uuid)) {
+                    throw new Error(
+                        'Prophecy source deck must contribute at least one selected pod'
+                    );
+                }
+
+                const sourceHasProphecy = prophecySourceDeck.cards.some(
+                    (card) => (card.card && card.card.type === 'prophecy') || card.prophecyId
+                );
+                if (!sourceHasProphecy) {
+                    throw new Error(
+                        'Selected prophecy source deck does not contain prophecy cards'
+                    );
                 }
             }
         }
 
-        // Handle prophecy card selection
-        if (prophecyCards.length > 0) {
-            if (!deck.prophecySourceDeck) {
-                throw new Error(
-                    'Prophecy source deck must be specified when creating an alliance with prophecy cards'
-                );
-            }
+        if (!expansionSupportsProphecy && prophecySourceDecks.length > 0) {
+            throw new Error('Prophecy cards are not allowed for this set');
+        }
 
-            // Only include prophecy cards from the selected source deck
-            let sourceDeck = decksByUuid[deck.prophecySourceDeck];
-            if (!sourceDeck) {
-                throw new Error('Invalid prophecy source deck specified');
-            }
+        deck.houses = parsedPods.map((pod) => pod.house);
 
-            let sourceProphecyCards = sourceDeck.cards.filter(
+        let podCards = [];
+
+        if (prophecySourceDeck) {
+            const sourceProphecyCards = prophecySourceDeck.cards.filter(
                 (card) => (card.card && card.card.type === 'prophecy') || card.prophecyId
             );
 
-            // Add prophecy cards with their original prophecy IDs
             for (let card of sourceProphecyCards) {
                 podCards.push({
                     ...card,
-                    prophecyId: card.prophecyId // explicitly preserve
+                    prophecyId: card.prophecyId
                 });
             }
         }
 
-        // Second pass: collect regular cards from selected houses
-        const tokenDecksAdded = new Set();
-        for (let pod of deck.pods) {
-            let [deckId, house] = pod.split(':');
+        if (expansionRequiresToken && tokenCardToAdd) {
+            podCards.push(tokenCardToAdd);
+        }
 
-            let dbDeck = decksByUuid[deckId];
+        for (let pod of parsedPods) {
+            const dbDeck = decksByUuid[pod.deckId];
+            const house = pod.house;
 
-            deck.houses.push(house);
             for (let card of dbDeck.cards) {
-                // Skip prophecy cards as they're handled separately
                 if ((card.card && card.card.type === 'prophecy') || card.prophecyId) {
                     continue;
                 }
-                // Skip archon power cards
+
                 if (card.card && card.card.type === 'archon power') {
                     continue;
                 }
 
-                // Only add the token card from a given deck once
-                if (card.id === deck.tokenCard?.id) {
-                    if (!tokenDecksAdded.has(deckId)) {
-                        podCards.push(card);
-                        tokenDecksAdded.add(deckId);
-                    }
-                } else if (card.isNonDeck) {
+                if (card.isNonDeck) {
                     continue;
-                } else if (
-                    card.maverick === house ||
-                    card.anomaly === house ||
-                    card.house === house
-                ) {
+                }
+
+                if (card.maverick === house || card.anomaly === house || card.house === house) {
                     podCards.push(card);
                 } else if (!card.maverick && !card.anomaly && !card.house) {
                     if (cardsById[card.id] && cardsById[card.id].house === house) {
@@ -694,13 +823,84 @@ class DeckService {
             }
         }
 
+        if (expansionRequiresTide) {
+            podCards.push({
+                count: 1,
+                id: 'the-tide',
+                isNonDeck: true
+            });
+        }
+
+        const isSingleUnmodifiedArchonDeck = this.isSingleUnmodifiedArchonDeck(
+            parsedPods,
+            decksByUuid
+        );
+        if (!isSingleUnmodifiedArchonDeck) {
+            this.validateAllianceRestrictedList(podCards, expansionId);
+        }
+
         deck.lastUpdated = new Date();
         deck.identity = deck.name;
         deck.cards = podCards;
-
         deck.isAlliance = true;
 
         return this.insertDeck(deck, user);
+    }
+
+    isSingleUnmodifiedArchonDeck(parsedPods, decksByUuid) {
+        const uniqueDeckIds = Array.from(new Set(parsedPods.map((pod) => pod.deckId)));
+        if (uniqueDeckIds.length !== 1) {
+            return false;
+        }
+
+        const sourceDeck = decksByUuid[uniqueDeckIds[0]];
+        if (!sourceDeck || !Array.isArray(sourceDeck.houses) || sourceDeck.houses.length !== 3) {
+            return false;
+        }
+
+        const selectedHouses = parsedPods.map((pod) => pod.house).sort();
+        const sourceHouses = [...sourceDeck.houses].sort();
+
+        return selectedHouses.join(':') === sourceHouses.join(':');
+    }
+
+    validateAllianceRestrictedList(cards, expansionId) {
+        const applicableRules = Object.entries(allianceRestrictedRules)
+            .filter(([, rule]) => rule.expansions.includes(expansionId))
+            .reduce((acc, [cardId, rule]) => {
+                acc[cardId] = rule;
+                return acc;
+            }, {});
+
+        if (Object.keys(applicableRules).length === 0) {
+            return;
+        }
+
+        const restrictedCardsInDeck = cards.filter(
+            (card) => !card.isNonDeck && applicableRules[card.id]
+        );
+
+        const quantitiesByCardId = restrictedCardsInDeck.reduce((acc, card) => {
+            acc[card.id] = (acc[card.id] || 0) + (card.count || 1);
+            return acc;
+        }, {});
+
+        const restrictedCardIds = Object.keys(quantitiesByCardId);
+        if (restrictedCardIds.length > 1) {
+            throw new Error('Alliance deck may include cards from only one restricted card name');
+        }
+
+        const restrictedCardId = restrictedCardIds[0];
+        if (!restrictedCardId) {
+            return;
+        }
+
+        const rule = applicableRules[restrictedCardId];
+        if (rule.maxQuantity && quantitiesByCardId[restrictedCardId] > rule.maxQuantity) {
+            throw new Error(
+                `Alliance restricted card ${restrictedCardId} exceeds quantity limit of ${rule.maxQuantity}`
+            );
+        }
     }
 
     async checkValidDeckExpansion(deck) {
@@ -875,6 +1075,47 @@ class DeckService {
             logger.error('Failed to delete deck', err);
 
             throw new Error('Failed to delete deck');
+        }
+    }
+
+    async deleteMany(ids) {
+        if (!ids || ids.length === 0) {
+            return;
+        }
+
+        try {
+            await db.query(`DELETE FROM "Decks" WHERE "Id" IN ${expand(1, ids.length)}`, ids);
+        } catch (err) {
+            logger.error('Failed to delete decks', err);
+
+            throw new Error('Failed to delete decks');
+        }
+    }
+
+    async checkDeckOwnershipForUser(userId, ids) {
+        if (!ids || ids.length === 0) {
+            return { allExist: false, allOwned: false };
+        }
+
+        try {
+            const result = await db.query(
+                `SELECT COUNT(*) AS "TotalCount", 
+                        COUNT(*) FILTER (WHERE "UserId" = $1) AS "OwnedCount"
+                 FROM "Decks"
+                 WHERE "Id" = ANY($2)`,
+                [userId, ids]
+            );
+            const totalCount = parseInt(result[0].TotalCount, 10);
+            const ownedCount = parseInt(result[0].OwnedCount, 10);
+
+            return {
+                allExist: totalCount === ids.length,
+                allOwned: ownedCount === ids.length
+            };
+        } catch (err) {
+            logger.error('Failed to verify deck ownership', err);
+
+            throw new Error('Failed to verify deck ownership');
         }
     }
 
@@ -1068,14 +1309,27 @@ class DeckService {
                 retCard.id += '2';
             }
 
-            // Revenants can be in any house, their real house is set on the deck itself
-            if (card.house.toLowerCase().replace(' ', '') !== allCards[retCard.id].house) {
-                retCard.house = card.house.toLowerCase().replace(' ', '');
+            const normalizedHouse = card.house.toLowerCase().replace(' ', '');
+            const cardData = allCards[retCard.id];
+
+            if (!cardData) {
+                logger.error(
+                    'Deck import failed: missing card metadata for id %s (title %s) in deck %s',
+                    retCard.id,
+                    card.card_title,
+                    deckResponse.data.id
+                );
+                throw new Error('There was a problem importing your deck, please try again later.');
+            }
+
+            // Revenants can be in any house, their real house is set on the deck itself.
+            if (normalizedHouse !== cardData.house) {
+                retCard.house = normalizedHouse;
             }
 
             // If this is one of the cards that has an entry for every house, get the correct house image
             if (specialCards[card.expansion] && specialCards[card.expansion][id]) {
-                retCard.house = card.house.toLowerCase().replace(' ', '');
+                retCard.house = normalizedHouse;
                 retCard.image = `${retCard.id}-${retCard.house}`;
             }
 

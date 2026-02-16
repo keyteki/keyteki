@@ -9,31 +9,31 @@
     color: black;
 
     &.valid {
-        background: theme-color('success');
+        background: app-color('success');
     }
 
     &.casual-play {
-        background: theme-color('warning');
+        background: app-color('warning');
     }
 
     &.used {
-        background: theme-color('warning');
+        background: app-color('warning');
     }
 
     &.popular {
-        background: theme-color('warning');
+        background: app-color('warning');
     }
 
     &.notorious {
-        background: theme-color('danger');
+        background: app-color('danger');
     }
 
     &.invalid {
-        background: theme-color('danger');
+        background: app-color('danger');
     }
 
     &.not-verified {
-        background: theme-color('info');
+        background: app-color('info');
     }
 }
 
@@ -63,4 +63,5 @@
         }
     }
 }
+
 

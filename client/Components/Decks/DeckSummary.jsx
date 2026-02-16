@@ -1,12 +1,11 @@
 import React, { useState } from 'react';
-import { Col, Row } from 'react-bootstrap';
 import { sortBy } from 'underscore';
 import { useTranslation, Trans } from 'react-i18next';
 import { useSelector } from 'react-redux';
 
 import { Constants } from '../../constants';
 import CardBack from './CardBack';
-import CardImage from '../GameBoard/CardImage';
+import CardHoverPreview from '../Site/CardHoverPreview';
 import { useUpdateAccoladeShownMutation } from '../../redux/api';
 
 import AmberImage from '../../assets/img/enhancements/amberui.png';
@@ -22,8 +21,12 @@ const DeckSummary = ({ deck }) => {
     const [triggerUpdateAccoladeShown] = useUpdateAccoladeShownMutation();
     const user = useSelector((state) => state.account.user);
     const showAccolades = user?.settings?.optionSettings?.showAccolades ?? true;
-    let [zoomCard, setZoomCard] = useState(null);
-    let [mousePos, setMousePosition] = useState({ x: 0, y: 0 });
+    const getHouseLabel = (house) => {
+        const translated = t(house) || '';
+        return translated ? translated[0].toUpperCase() + translated.slice(1) : translated;
+    };
+    const [hoveredCard, setHoveredCard] = useState(null);
+    const [hoverPosition, setHoverPosition] = useState({ x: 0, y: 0 });
     const cardsByHouse = {};
     const enhancements = {};
 
@@ -39,6 +42,17 @@ const DeckSummary = ({ deck }) => {
             accoladeId: accolade.id,
             shown: !accolade.shown
         });
+    };
+
+    const updateHoverPosition = (event) => {
+        let y = event.clientY;
+        const yPlusHeight = y + 420;
+
+        if (yPlusHeight >= window.innerHeight) {
+            y -= yPlusHeight - window.innerHeight;
+        }
+
+        setHoverPosition({ x: event.clientX + 5, y });
     };
 
     for (const house of [...deck.houses].sort()) {
@@ -63,18 +77,12 @@ const DeckSummary = ({ deck }) => {
                     <div
                         key={`${card.dbId}${i}`}
                         className={cardClass}
-                        onMouseOver={() => setZoomCard(card.card)}
-                        onMouseMove={(event) => {
-                            let y = event.clientY;
-                            let yPlusHeight = y + 420;
-
-                            if (yPlusHeight >= window.innerHeight) {
-                                y -= yPlusHeight - window.innerHeight;
-                            }
-
-                            setMousePosition({ x: event.clientX, y: y });
+                        onMouseEnter={(event) => {
+                            setHoveredCard(card.card);
+                            updateHoverPosition(event);
                         }}
-                        onMouseOut={() => setZoomCard(null)}
+                        onMouseMove={updateHoverPosition}
+                        onMouseLeave={() => setHoveredCard(null)}
                     >
                         {card.card.locale && card.card.locale[i18n.language]
                             ? card.card.locale[i18n.language].name
@@ -130,18 +138,12 @@ const DeckSummary = ({ deck }) => {
                 <div
                     key={`${card.dbId}${i}`}
                     className='deck-card-link'
-                    onMouseOver={() => setZoomCard(card.card)}
-                    onMouseMove={(event) => {
-                        let y = event.clientY;
-                        let yPlusHeight = y + 420;
-
-                        if (yPlusHeight >= window.innerHeight) {
-                            y -= yPlusHeight - window.innerHeight;
-                        }
-
-                        setMousePosition({ x: event.clientX, y: y });
+                    onMouseEnter={(event) => {
+                        setHoveredCard(card.card);
+                        updateHoverPosition(event);
                     }}
-                    onMouseOut={() => setZoomCard(null)}
+                    onMouseMove={updateHoverPosition}
+                    onMouseLeave={() => setHoveredCard(null)}
                 >
                     {card.card.locale && card.card.locale[i18n.language]
                         ? card.card.locale[i18n.language].name
@@ -156,75 +158,67 @@ const DeckSummary = ({ deck }) => {
             );
         });
 
+    const totalGames = parseInt(deck.wins || 0) + parseInt(deck.losses || 0);
+
     return (
-        <Col xs='12' className='deck-summary'>
-            <Row>
-                <Col xs='2' sm='3'>
-                    <CardBack deck={deck} size={'x-large'} />
-                </Col>
-                <Col xs='8' sm='5'>
-                    <Row>
-                        <Col xs='7'>
-                            <span>{t('Wins')}</span>
-                        </Col>
-                        <Col xs='5'>{deck.wins}</Col>
-                    </Row>
-                    <Row>
-                        <Col xs='7'>
-                            <span>{t('Losses')}</span>
-                        </Col>
-                        <Col xs='5'>{deck.losses}</Col>
-                    </Row>
-                    <Row>
-                        <Col xs='7'>
-                            <span>{t('Total')}</span>
-                        </Col>
-                        <Col xs='5'>{parseInt(deck.wins) + parseInt(deck.losses)}</Col>
-                    </Row>
-                    <Row>
-                        <Col xs='7'>
-                            <span>{t('Win Rate')}</span>
-                        </Col>
-                        <Col xs='5'>{deck.winRate?.toFixed(2)}%</Col>
-                    </Row>
+        <div className='deck-summary mx-auto mt-3 w-full max-w-[980px]'>
+            <div className='flex flex-wrap items-start gap-4'>
+                <div className='w-full max-w-[210px] shrink-0 aspect-[5/7] sm:w-[32%]'>
+                    <CardBack
+                        className='block h-full w-full overflow-hidden'
+                        imageClassName='!h-full !w-full !max-h-full !max-w-full'
+                        deck={deck}
+                    />
+                </div>
+                <div className='min-w-[220px] flex-1'>
+                    <div className='grid max-w-[300px] grid-cols-[1fr_auto] gap-x-4 gap-y-1 text-lg'>
+                        <span>{t('Wins')}</span>
+                        <span>{deck.wins}</span>
+                        <span>{t('Losses')}</span>
+                        <span>{deck.losses}</span>
+                        <span>{t('Total')}</span>
+                        <span>{totalGames}</span>
+                        <span>{t('Win Rate')}</span>
+                        <span>{deck.winRate?.toFixed(2)}%</span>
+                    </div>
                     {Object.keys(enhancements).length > 0 ? (
-                        <Row className='deck-enhancements'>
-                            <Col xs='2' className='deck-enhancement'>
+                        <div className='deck-enhancements flex flex-wrap items-center gap-3 ps-0 pt-3'>
+                            <div className='deck-enhancement inline-flex items-center'>
                                 <img src={AmberImage} className='deck-img-enhancement' />
                                 <span className='deck-text-enhancement'>
                                     {enhancements.amber || 0}
                                 </span>
-                            </Col>
-                            <Col xs='2' className='deck-enhancement'>
+                            </div>
+                            <div className='deck-enhancement inline-flex items-center'>
                                 <img src={CaptureImage} className='deck-img-enhancement' />
                                 <span className='deck-text-enhancement'>
                                     {enhancements.capture || 0}
                                 </span>
-                            </Col>
-                            <Col xs='2' className='deck-enhancement'>
+                            </div>
+                            <div className='deck-enhancement inline-flex items-center'>
                                 <img src={DrawImage} className='deck-img-enhancement' />
                                 <span className='deck-text-enhancement'>
                                     {enhancements.draw || 0}
                                 </span>
-                            </Col>
-                            <Col xs='2' className='deck-enhancement'>
+                            </div>
+                            <div className='deck-enhancement inline-flex items-center'>
                                 <img src={DamageImage} className='deck-img-enhancement' />
                                 <span className='deck-text-enhancement'>
                                     {enhancements.damage || 0}
                                 </span>
-                            </Col>
-                            <Col xs='2' className='deck-enhancement'>
+                            </div>
+                            <div className='deck-enhancement inline-flex items-center'>
                                 <img src={DiscardImage} className='deck-img-enhancement' />
                                 <span className='deck-text-enhancement'>
                                     {enhancements.discard || 0}
                                 </span>
-                            </Col>
-                        </Row>
+                            </div>
+                        </div>
                     ) : null}
-                </Col>
-            </Row>
+                </div>
+            </div>
             {showAccolades && deck.accolades && deck.accolades.length > 0 && (
-                <Row className='deck-accolades'>
+                <div className='deck-accolades mt-2 flex flex-wrap'>
                     {deck.accolades.map((accolade, index) => {
                         const shownCount = deck.accolades.filter((a) => a.shown).length;
                         const canSelect = accolade.shown || shownCount < 3;
@@ -243,52 +237,39 @@ const DeckSummary = ({ deck }) => {
                             />
                         );
                     })}
-                </Row>
+                </div>
             )}
-            <Row className='deck-houses'>
+            <div className='relative mt-4 grid grid-cols-1 gap-2 sm:justify-center sm:gap-x-10 sm:[grid-template-columns:repeat(3,max-content)]'>
+                <CardHoverPreview card={hoveredCard} position={hoverPosition} />
                 {deck.houses.map((house) => {
                     return (
-                        <Col key={house} sm='4'>
-                            <img
-                                className='deck-house-image img-fluid'
-                                src={Constants.HouseIconPaths[house]}
-                            />
-                            <span className='deck-house'>
-                                {t(house)[0].toUpperCase() + t(house).slice(1)}
-                            </span>
-                        </Col>
+                        <div key={house} className='w-fit text-left'>
+                            <div className='deck-houses rounded-sm px-0 py-2'>
+                                <div className='inline-flex w-fit items-center gap-2 text-left'>
+                                    <img
+                                        className='deck-house-image'
+                                        src={Constants.HouseIconPaths[house]}
+                                    />
+                                    <span className='deck-house !pl-0'>{getHouseLabel(house)}</span>
+                                </div>
+                            </div>
+                            <div className='deck-cards pt-3'>{cardsByHouse[house]}</div>
+                        </div>
                     );
                 })}
-            </Row>
-            <Row className='deck-cards'>
-                {zoomCard && (
-                    <div
-                        className='decklist-card-zoom'
-                        style={{ left: mousePos.x + 5 + 'px', top: mousePos.y + 'px' }}
-                    >
-                        <CardImage card={Object.assign({}, zoomCard)} />
-                    </div>
-                )}
-                {deck.houses.map((house) => {
-                    return (
-                        <Col key={house} sm='4'>
-                            {cardsByHouse[house]}
-                        </Col>
-                    );
-                })}
-            </Row>
+            </div>
 
             {deck.cards.some((c) => c.isNonDeck && (!c.card || c.card.type !== 'archon power')) && (
-                <Row className='deck-houses'>
-                    <Col xs='12'>
+                <div className='deck-houses mt-5 rounded-sm px-3 py-2'>
+                    <div>
                         <Trans>Non-Deck Cards</Trans>
-                    </Col>
-                </Row>
+                    </div>
+                </div>
             )}
-            <Row className='deck-cards'>
-                <Col sm='4'>{nonDeckCards}</Col>
-            </Row>
-        </Col>
+            <div className='deck-cards grid grid-cols-1 pt-3 sm:justify-center sm:gap-x-10 sm:[grid-template-columns:repeat(3,max-content)]'>
+                <div className='w-fit text-left'>{nonDeckCards}</div>
+            </div>
+        </div>
     );
 };
 

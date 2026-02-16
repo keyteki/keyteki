@@ -20,7 +20,7 @@ function CardSizeOption(props) {
             <div className={classNames('game-card', 'vertical', name, { selected: selected })}>
                 <img className={classNames('game-card', 'vertical', name)} src={IdentityDefault} />
             </div>
-            <span className='bg-label'>{label}</span>
+            <span className='inline-block w-full text-center'>{label}</span>
         </div>
     );
 }

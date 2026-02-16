@@ -34,36 +34,46 @@
     }
 }
 
-@mixin calculate-tiled-card-prop($property, $numCards, $cardMeasurement, $additionalOffset: 0px) {
-    #{$property}: $numCards * (card-var('keyteki-card-#{$cardMeasurement}') + 10px) +
-        $additionalOffset;
+@mixin calculate-tiled-card-prop(
+    $property,
+    $numCards,
+    $cardMeasurement,
+    $additionalOffset: 0px,
+    $cardGap: 10px
+) {
+    #{$property}: $numCards * card-var('keyteki-card-#{$cardMeasurement}') +
+        (($numCards - 1) * $cardGap) + $additionalOffset;
 
     &.small {
-        #{$property}: $numCards * (card-var('keyteki-card-sm-#{$cardMeasurement}') + 10px) +
-            $additionalOffset;
+        #{$property}: $numCards * card-var('keyteki-card-sm-#{$cardMeasurement}') +
+            (($numCards - 1) * $cardGap) + $additionalOffset;
     }
 
     &.normal {
-        #{$property}: $numCards * (card-var('keyteki-card-#{$cardMeasurement}') + 10px) +
-            $additionalOffset;
+        #{$property}: $numCards * card-var('keyteki-card-#{$cardMeasurement}') +
+            (($numCards - 1) * $cardGap) + $additionalOffset;
     }
 
     &.large {
-        #{$property}: $numCards * (card-var('keyteki-card-lg-#{$cardMeasurement}') + 10px) +
-            $additionalOffset;
+        #{$property}: $numCards * card-var('keyteki-card-lg-#{$cardMeasurement}') +
+            (($numCards - 1) * $cardGap) + $additionalOffset;
     }
 
     &.x-large {
-        #{$property}: $numCards * (card-var('keyteki-card-xl-#{$cardMeasurement}') + 10px) +
-            $additionalOffset;
+        #{$property}: $numCards * card-var('keyteki-card-xl-#{$cardMeasurement}') +
+            (($numCards - 1) * $cardGap) + $additionalOffset;
     }
 }
+
+$pile-card-gap: 8px;
+$pile-padding: 6px;
+$pile-header-height: 32px;
 
 .text {
     min-width: max-content;
     margin-left: 2px;
     margin-right: 2px;
-    font-family: Keyforge, serif;
+    font-family: PoppinsMedium, 'Segoe UI', Inter, 'Helvetica Neue', Arial, sans-serif;
     font-size: 0.9rem;
 }
 
@@ -78,6 +88,22 @@
 .icon {
     width: 21.4px;
     height: 30px;
+    min-width: 21.4px;
+    min-height: 30px;
+    max-width: 21.4px;
+    max-height: 30px;
+    overflow: hidden;
+    flex: 0 0 21.4px;
+    display: block;
+}
+
+.icon canvas,
+.icon img {
+    width: 100% !important;
+    height: 100% !important;
+    max-width: 100% !important;
+    max-height: 100% !important;
+    display: block;
 }
 
 .inner {
@@ -106,7 +132,7 @@
             text-decoration: none;
 
             &:hover {
-                color: theme-color(info);
+                color: app-color(info);
                 cursor: pointer;
             }
         }
@@ -122,18 +148,56 @@
     }
 }
 
+.card-pile-popup {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    min-height: 0;
+    overflow: hidden;
+}
+
+.movable-panel {
+    .drop-target.deck,
+    .drop-target.discard,
+    .drop-target.archives,
+    .drop-target.purged,
+    .drop-target.hand {
+        display: block;
+        align-items: stretch;
+        height: 100%;
+    }
+}
+
 .discard,
 .archives,
 .purged {
     .panel {
         min-height: 146px;
         z-index: $layer-pile-header;
-        @include calculate-tiled-card-prop(width, 5, width, $scrollbar-width + 10);
-        @include calculate-tiled-card-prop(height, 3, height);
+        @include calculate-tiled-card-prop(
+            width,
+            5,
+            width,
+            ($pile-padding * 2) + $scrollbar-width,
+            $pile-card-gap
+        );
+        @include calculate-tiled-card-prop(
+            height,
+            3,
+            height,
+            ($pile-padding * 2) + $pile-header-height,
+            $pile-card-gap
+        );
 
         .inner {
-            @include calculate-tiled-card-prop(width, 5, width, $scrollbar-width);
-            padding: 4px;
+            width: 100%;
+            height: 100%;
+            box-sizing: border-box;
+            padding: $pile-padding;
         }
     }
 }
@@ -141,11 +205,26 @@
 .draw {
     .panel {
         z-index: $layer-pile-header;
-        @include calculate-tiled-card-prop(width, 7, width, $scrollbar-width + 10);
-        @include calculate-tiled-card-prop(height, 3, height);
+        @include calculate-tiled-card-prop(
+            width,
+            7,
+            width,
+            ($pile-padding * 2) + $scrollbar-width,
+            $pile-card-gap
+        );
+        @include calculate-tiled-card-prop(
+            height,
+            3,
+            height,
+            ($pile-padding * 2) + $pile-header-height,
+            $pile-card-gap
+        );
 
         .inner {
-            @include calculate-tiled-card-prop(width, 7, width, $scrollbar-width);
+            width: 100%;
+            height: 100%;
+            box-sizing: border-box;
+            padding: $pile-padding;
         }
     }
 }
@@ -154,10 +233,19 @@
     .panel {
         z-index: $layer-card-menu;
         @include calculate-tiled-card-prop(width, 6, width, $scrollbar-width + 10);
-        @include calculate-tiled-card-prop(height, 1, height);
+        @include calculate-tiled-card-prop(
+            height,
+            1,
+            height,
+            ($pile-padding * 2) + $pile-header-height
+        );
 
         .inner {
             @include calculate-tiled-card-prop(width, 6, width, $scrollbar-width);
+            width: 100%;
+            height: 100%;
+            box-sizing: border-box;
+            padding: $pile-padding;
         }
     }
 }
@@ -169,4 +257,5 @@
         }
     }
 }
+
 

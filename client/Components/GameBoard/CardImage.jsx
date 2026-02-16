@@ -136,7 +136,7 @@ const CardImage = ({ card, cardBack, size, halfSize, onMouseOver, onMouseOut }) 
                     : null
             }
             onMouseOut={onMouseOut}
-            className='h-100 w-100'
+            className='block h-full w-full'
             ref={setCanvasRef}
         />
     );

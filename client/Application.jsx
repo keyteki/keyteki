@@ -1,7 +1,6 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import $ from 'jquery';
 import { useDispatch, useSelector } from 'react-redux';
-import { Container } from 'react-bootstrap';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 import { Constants } from './constants';
@@ -70,8 +69,10 @@ const Application = () => {
                         dispatch(setAuthTokens({ token, refreshToken: parsedToken }));
                         verifyAuthentication()
                             .unwrap()
+                            .then(() => {
+                                dispatch(lobbyAuthenticateRequested());
+                            })
                             .catch(() => {});
-                        dispatch(lobbyAuthenticateRequested());
                     }
                 }
             } catch (error) {
@@ -175,7 +176,7 @@ const Application = () => {
             return;
         }
 
-        bgRef.current.style.backgroundImage = `url('${Background}')`;
+        bgRef.current.style.backgroundImage = 'none';
     }, [backgrounds, gameBoardVisible, user]);
 
     let component = <AppRoutes user={user} currentGame={currentGame} />;
@@ -200,7 +201,7 @@ const Application = () => {
         <div className='bg' ref={bgRef}>
             <Navigation appName='The Crucible Online' user={user} />
             <div className='wrapper'>
-                <Container className='content'>
+                <div className='content mx-auto w-full px-3 sm:px-4 lg:max-w-[92vw] lg:px-6 2xl:max-w-[1800px]'>
                     <ErrorBoundary
                         navigate={navigate}
                         errorPath={path}
@@ -208,7 +209,7 @@ const Application = () => {
                     >
                         {component}
                     </ErrorBoundary>
-                </Container>
+                </div>
             </div>
             <div className='keyforge-font' style={{ zIndex: -999 }}>
                 &nbsp;

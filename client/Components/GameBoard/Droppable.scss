@@ -13,19 +13,20 @@
     pointer-events: none;
 
     &.drop-ok {
-        background-color: theme-color(success);
+        background-color: app-color(success);
     }
 
     &.can-drop {
-        background-color: theme-color(warning);
+        background-color: app-color(warning);
     }
 
     &.no-drop {
-        background-color: theme-color(danger);
+        background-color: app-color(danger);
     }
 
     &.play.area {
         z-index: $layer-player-board-overlay;
     }
 }
+
 

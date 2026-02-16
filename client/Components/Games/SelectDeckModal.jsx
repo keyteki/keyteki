@@ -1,12 +1,12 @@
 import React from 'react';
+import { Modal as HeroModal } from '@heroui/react';
 import { Trans, useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
-import { Modal } from 'react-bootstrap';
 
 import DeckList from '../Decks/DeckList.jsx';
+import { Constants } from '../../constants.js';
 
 import './SelectDeckModal.scss';
-import { Constants } from '../../constants.js';
 
 const SelectDeckModal = ({
     deckFilter,
@@ -18,30 +18,31 @@ const SelectDeckModal = ({
     const { t } = useTranslation();
 
     return (
-        <>
-            <Modal show={true} onHide={onClose}>
-                <Modal.Header closeButton>
-                    <Modal.Title>{t('Select Deck')}</Modal.Title>
-                </Modal.Header>
-                <Modal.Body>
-                    <div>
+        <HeroModal.Backdrop isOpen onOpenChange={onClose}>
+            <HeroModal.Container placement='center'>
+                <HeroModal.Dialog className='sm:max-w-5xl'>
+                    <HeroModal.CloseTrigger />
+                    <HeroModal.Header>
+                        <HeroModal.Heading>{t('Select Deck')}</HeroModal.Heading>
+                    </HeroModal.Header>
+                    <HeroModal.Body>
                         <DeckList
                             deckFilter={deckFilter}
                             onDeckSelected={onDeckSelected}
                             expansions={expansions}
                         />
-                        {standaloneDecks && standaloneDecks.length !== 0 && (
+                        {standaloneDecks && standaloneDecks.length !== 0 ? (
                             <div>
                                 <h4 className='deck-list-header'>
                                     <Trans>Or choose a standalone deck</Trans>:
                                 </h4>
                                 <DeckList standaloneDecks onDeckSelected={onDeckSelected} />
                             </div>
-                        )}
-                    </div>
-                </Modal.Body>
-            </Modal>
-        </>
+                        ) : null}
+                    </HeroModal.Body>
+                </HeroModal.Dialog>
+            </HeroModal.Container>
+        </HeroModal.Backdrop>
     );
 };
 

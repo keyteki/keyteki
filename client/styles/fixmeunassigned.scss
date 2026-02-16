@@ -7,11 +7,11 @@
 }
 
 .panel {
-    font-family: Keyforge;
+    font-family: PoppinsMedium, 'Segoe UI', Inter, 'Helvetica Neue', Arial, sans-serif;
 
-    -moz-box-shadow: 3px 3px 5px theme-color('primary');
-    -webkit-box-shadow: 3px 3px 5px theme-color('primary');
-    box-shadow: 3px 3px 5px theme-color('primary');
+    -moz-box-shadow: 3px 3px 5px app-color('primary');
+    -webkit-box-shadow: 3px 3px 5px app-color('primary');
+    box-shadow: 3px 3px 5px app-color('primary');
 
     .panel-heading {
         font-weight: normal;
@@ -47,4 +47,5 @@
 .shadow {
     box-shadow: 0 0 12px rgba(0, 0, 0, 0.4), inset 0 0 0 1px rgba(255, 255, 255, 0.1);
 }
+
 

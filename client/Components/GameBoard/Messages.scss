@@ -2,24 +2,49 @@
 @use '../../styles/colours' as *;
 
 .separator {
+    display: block;
+    width: 100%;
+    box-sizing: border-box;
+    overflow-wrap: anywhere;
+
     hr {
-        border-color: theme-color(primary);
+        border-color: app-color(primary);
+        margin: 0.25rem 0;
     }
 }
 
 .username {
     font-weight: bold;
-    color: white;
 }
 
 .message {
     word-wrap: break-word;
     line-height: 1.2;
     max-width: 290px;
-    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    //   font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
     padding: 0 0.4rem 0.4rem 0.4rem !important;
 }
 
+.message.startofturn-row {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+}
+
+.message .separator {
+    display: block;
+    max-width: 100%;
+    overflow: visible;
+    white-space: normal;
+    height: auto;
+    line-height: 1.3;
+    background: transparent;
+}
+
+.message .separator .message-fragment {
+    overflow-wrap: anywhere;
+    word-break: break-word;
+    white-space: normal;
+}
 
 .message.mb-1.this-player {
     background: #0035734d;
@@ -35,19 +60,19 @@
     }
 }
 
-.chat-bubble .message-chat{
+.chat-bubble .message-chat {
     background: #ffffff3d;
     border-radius: 5px 5px 0 0;
     padding: 5px;
 
-    .gravatar{
+    .gravatar {
         width: 14px;
         height: 14px;
         margin-top: -3px;
     }
 }
 
-.chat-bubble .message-fragment + .message-fragment{
+.chat-bubble .message-fragment + .message-fragment {
     background: #ffffff3d;
     border-radius: 0 0 5px 5px;
     padding: 0 5px 5px 5px;
@@ -86,90 +111,108 @@
     }
 }
 
-.messages .mb-1{
+.messages .mb-1 {
     margin-bottom: 0 !important;
     padding-bottom: 0.25rem;
 }
 
-.messages .mt-2{
+.messages .mt-2 {
     margin-top: 0 !important;
-    margin-bottom: 0.2rem;
-}
-
-.admin-role {
-    color: #e74c3b;
-}
-
-.contributor-role {
-    color: #20667c;
-}
-
-.supporter-role {
-    color: #2ecc71;
-}
-
-.winner-role {
-    color: #eebd1d;
-}
-
-.previouswinner-role {
-    color: #ff38c7;
+    margin-bottom: 0.45rem;
 }
 
 .endofturn {
     font-size: 0.9rem;
+    margin: 0.35rem 0;
+    filter: saturate(0.88);
 }
 
 .startofturn {
+    display: block;
+    width: 100%;
+    margin-left: 0;
+    margin-right: 0;
     font-size: 1.05rem;
-    background-image: url('assets/img/panel-primary.png');
-    border-top: 1px solid theme-color('primary');
+    background: rgba(220, 38, 38, 0.08);
+    border-top: 1px solid rgba(255, 255, 255, 0.16);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.16);
     text-transform: uppercase;
-    font-family: Keyforge, Helvetica, sans-serif;
+    font-family: PoppinsMedium, 'Segoe UI', Inter, 'Helvetica Neue', Arial, sans-serif;
     font-weight: 300 !important;
-    padding: 7px 10px 10px 6px;
-    margin: 0px -6px -7px -6px;
+    padding: 0.35rem 0.5rem;
+    margin: 0.45rem 0 0.3rem;
+    line-height: 1.2;
 }
 
-.startofturn .username{
+.startofturn.past-turn {
+    filter: saturate(0.78);
+    opacity: 0.86;
+}
+
+.separator.phasestart {
+    margin: 0.45rem 0 0.35rem;
+    filter: saturate(0.84);
+    opacity: 0.9;
+    background: transparent;
+    background-color: transparent !important;
+}
+
+.startofturn.current-turn {
+    filter: saturate(1);
+    opacity: 1;
+}
+
+.startofturn .username {
     text-transform: none;
     font-weight: 300 !important;
 }
 
 .icon-amber {
+    display: inline-block;
     height: 12px;
     width: 12px;
+    vertical-align: text-bottom;
 }
 
 .icon-tide {
+    display: inline-block;
     height: 12px;
     width: 12px;
+    vertical-align: text-bottom;
 }
 
 .chat-house-icon {
+    display: inline-block;
     height: 12px;
     width: 12px;
+    vertical-align: text-bottom;
 }
 
 .icon-card {
+    display: inline-block;
     height: 16px;
     width: 12px;
     margin-top: -4px;
+    vertical-align: text-bottom;
+}
+
+.message .message-fragment,
+.message .message-fragment img {
+    display: inline;
 }
 
 .card-link {
     cursor: pointer;
     cursor: hand;
-    color: theme-color(secondary);
+    color: app-color(secondary);
 }
 
 .card-link:hover {
-    color: theme-color(info);
+    color: app-color(info);
 }
 
 .alert {
     .user-role {
-        color: theme-color(info);
+        color: app-color(info);
     }
 }
-

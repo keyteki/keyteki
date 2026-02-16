@@ -105,27 +105,27 @@
 
 .game-list {
     hr {
-        border-top-color: theme-color(primary);
+        border-top-color: app-color(primary);
         margin: 0;
     }
 }
 
 .game-row:hover {
-    border-color: theme-color(info);
-    background-color: rgba(theme-color(info), 0.2);
+    border-color: app-color(info);
+    background-color: rgba(app-color(info), 0.2);
 }
 
 .game-row.active {
-    border-color: theme-color(info);
-    color: theme-color(danger);
+    border-color: app-color(info);
+    color: app-color(danger);
 }
 
 .node1 {
-    background-color: rgba(theme-color(warning), 0.2);
+    background-color: rgba(app-color(warning), 0.2);
 }
 
 .node2 {
-    background-color: rgba(theme-color(danger), 0.2);
+    background-color: rgba(app-color(danger), 0.2);
 }
 
 .game-list-icon {
@@ -138,4 +138,5 @@
     height: 1.5em;
     width: 1.5em;
 }
+
 

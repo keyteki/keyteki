@@ -31,19 +31,34 @@
     margin-bottom: 5px;
 }
 
+.player-board.has-dense-row .card-wrapper {
+    margin-right: 9.6px;
+}
+
+.player-board.has-dense-row .card-row.artifacts {
+    margin-top: -2px;
+}
+
 .board-low-tide {
-    background-image: linear-gradient(to top, rgba(255, 0, 0, 0) 50%, rgba(255, 143, 42, 0.6));
+    background-image: linear-gradient(to top, rgba(255, 0, 0, 0) 50%, rgba(255, 143, 42, 0.43));
 }
 
 .our-side.board-low-tide {
-    background-image: linear-gradient(to bottom, rgba(255, 0, 0, 0) 50%, rgba(255, 143, 42, 0.6));
+    background-image: linear-gradient(
+        to bottom,
+        rgba(255, 0, 0, 0) 50%,
+        rgba(255, 143, 42, 0.43)
+    );
 }
 
 .board-high-tide {
-    background-image: linear-gradient(to top, rgba(255, 0, 0, 0) 50%, rgba(87, 218, 212, 0.6));
+    background-image: linear-gradient(to top, rgba(255, 0, 0, 0) 50%, rgba(87, 218, 212, 0.43));
 }
 
 .our-side.board-high-tide {
-    background-image: linear-gradient(to bottom, rgba(255, 0, 0, 0) 50%, rgba(87, 218, 212, 0.6));
+    background-image: linear-gradient(
+        to bottom,
+        rgba(255, 0, 0, 0) 50%,
+        rgba(87, 218, 212, 0.43)
+    );
 }
-

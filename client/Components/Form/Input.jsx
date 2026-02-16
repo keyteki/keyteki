@@ -1,10 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const Input = (props) => {
+const Input = ({ labelClass = '', ...props }) => {
     const inputControl = (
         <div>
-            <label htmlFor={props.name} className={`${props.labelClass} control-label`}>
+            <label htmlFor={props.name} className={`${labelClass} control-label`}>
                 {props.label}
             </label>
             <div className={props.fieldClass}>
@@ -53,8 +53,4 @@ Input.propTypes = {
     validationAttributes: PropTypes.object,
     value: PropTypes.string
 };
-Input.defaultProps = {
-    labelClass: ''
-};
-
 export default Input;

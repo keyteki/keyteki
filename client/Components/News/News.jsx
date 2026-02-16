@@ -3,8 +3,6 @@ import { Trans } from 'react-i18next';
 
 import NewsItem from './NewsItem';
 
-import './News.scss';
-
 /**
  * @typedef News
  * @property {Date} datePublished When the news was published
@@ -24,16 +22,17 @@ const News = ({ news }) => {
     /**
      * @type import('./NewsItem').NewsIcon[]
      */
-    let icons = ['unforged-red', 'unforged-blue', 'unforged-yellow'];
+    const icons = ['unforged-red', 'unforged-blue', 'unforged-yellow'];
 
     let iconIndex = 0;
     let newsIndex = 0;
-    let renderedNews = news.map((newsItem) => {
-        let retNews = (
+    const renderedNews = news.map((newsItem) => {
+        const retNews = (
             <NewsItem
                 key={newsIndex++}
                 icon={icons[iconIndex++]}
                 date={newsItem.datePublished}
+                poster={newsItem.poster}
                 text={newsItem.text}
             />
         );
@@ -49,7 +48,7 @@ const News = ({ news }) => {
         renderedNews.push(<Trans key='nonews'>There is no site news at the moment</Trans>);
     }
 
-    return <div className='news-container'>{renderedNews}</div>;
+    return <div className='pe-1'>{renderedNews}</div>;
 };
 
 News.displayName = 'News';

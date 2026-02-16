@@ -9,3 +9,8 @@
     z-index: 999;
 }
 
+.card-image canvas {
+    display: block;
+    width: 100% !important;
+    height: 100% !important;
+}

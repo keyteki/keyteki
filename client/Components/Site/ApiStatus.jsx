@@ -1,6 +1,11 @@
 import React from 'react';
-import { Alert } from 'react-bootstrap';
+import { Alert, CloseButton } from '@heroui/react';
 import { useTranslation } from 'react-i18next';
+
+const AlertSurfaceClassByStatus = {
+    danger: 'border border-red-500/60 bg-red-900/40 text-red-100',
+    success: 'border border-emerald-500/60 bg-emerald-900/40 text-emerald-100'
+};
 
 /**
  * @typedef ApiStatusProps
@@ -32,13 +37,21 @@ const ApiStatus = (props) => {
         error = t(props.state.message);
     }
 
+    const status = props.state.success ? 'success' : 'danger';
+
     return (
-        <Alert
-            variant={props.state.success ? 'success' : 'danger'}
-            dismissible
-            onClose={props.onClose}
-        >
-            {error}
+        <Alert status={status} className={`${AlertSurfaceClassByStatus[status]} items-center`}>
+            <Alert.Indicator className='text-inherit' />
+            <Alert.Content className='flex-1 text-center'>
+                <Alert.Description>{error}</Alert.Description>
+            </Alert.Content>
+            {!!props.onClose && (
+                <CloseButton
+                    aria-label={t('Close status')}
+                    className='ml-auto text-inherit'
+                    onPress={props.onClose}
+                />
+            )}
         </Alert>
     );
 };

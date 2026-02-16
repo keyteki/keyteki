@@ -27,10 +27,16 @@
 
 .player-info {
     display: flex;
+    align-items: center;
+    gap: 0.35rem;
+    min-height: 100%;
 }
 
-.player-info b {
-    margin-top: 1px;
+.player-name {
+    display: inline-flex;
+    align-items: center;
+    line-height: 1;
+    font-weight: 700;
 }
 
 .state {
@@ -51,7 +57,7 @@
     }
 
     a:hover {
-        color: theme-color('secondary');
+        color: app-color('secondary');
     }
 
     span {
@@ -75,13 +81,18 @@
         margin: 0px 5px;
         padding: 5px;
         text-align: center;
-        background: theme-color('primary');
+        background: app-color('primary');
         border-radius: 0.25rem;
         border: 1px solid rgba(128, 128, 128, 0.53);
     }
 
     .gravatar {
-        margin-left: 3px;
+        margin-left: 0;
+    }
+
+    &.player-identity {
+        padding-left: 4px;
+        padding-right: 8px;
     }
 }
 
@@ -130,7 +141,20 @@
 
 .active-player:before {
     content: '\25B6';
-    color: theme-color('secondary');
+    color: app-color('secondary');
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+    margin-right: 2px;
+}
+
+.inactive-player:before {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+    margin-right: 2px;
 }
 
 .chat-status {
@@ -147,4 +171,5 @@
     opacity: 0.6;
     filter: alpha(opacity=60);
 }
+
 

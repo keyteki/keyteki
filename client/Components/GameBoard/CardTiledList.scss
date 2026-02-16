@@ -3,21 +3,24 @@
 
 .card-list {
     .card-wrapper {
-        margin: 0 5px 5px 0;
+        margin: 0;
     }
 }
 
 .card-list-title {
-    background-color: theme-color('primary');
+    background-color: app-color('primary');
     color: white;
     margin-bottom: 5px;
     text-align: center;
 }
 
 .card-list-cards {
-    align-items: center;
+    align-content: flex-start;
+    align-items: flex-start;
     display: flex;
     flex-wrap: wrap;
     justify-content: flex-start;
+    gap: 8px;
 }
+
 

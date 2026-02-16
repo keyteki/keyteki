@@ -44,6 +44,7 @@ const PlayerBoard = (props) => {
     const className = classNames('player-board', {
         'our-side': props.rowDirection === 'default',
         player: props.isMe,
+        'has-dense-row': rows.some((row) => row.cards.length >= 6),
         'board-high-tide': props.tide === 'high',
         'board-low-tide': props.tide === 'low'
     });
@@ -88,6 +89,7 @@ const PlayerBoard = (props) => {
                     onDragDrop={props.onDragDrop}
                     onMouseOut={props.onMouseOut}
                     onMouseOver={props.onMouseOver}
+                    isActivePlayer={props.isMe && props.activePlayer}
                 />
             )}
         </div>
@@ -103,6 +105,7 @@ PlayerBoard.propTypes = {
     onMenuItemClick: PropTypes.func,
     onMouseOut: PropTypes.func,
     onMouseOver: PropTypes.func,
+    activePlayer: PropTypes.bool,
     rowDirection: PropTypes.oneOf(['default', 'reverse']),
     tide: PropTypes.string,
     user: PropTypes.object

@@ -10,6 +10,7 @@ const PlayerRow = ({
     cardSize,
     hand,
     isMe,
+    isActivePlayer,
     manualMode,
     onCardClick,
     onDragDrop,
@@ -46,7 +47,7 @@ const PlayerRow = ({
     );
 
     return isMe ? (
-        <div className='player-home-row-container pt-1'>
+        <div className={`player-home-row-container pt-1${isActivePlayer ? '' : ' inactive-turn'}`}>
             <Droppable onDragDrop={onDragDrop} source='hand' manualMode={manualMode}>
                 {handToRender}
             </Droppable>

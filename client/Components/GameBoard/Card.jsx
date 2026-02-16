@@ -203,11 +203,12 @@ const Card = ({
                 'custom-card': card.code && card.code.startsWith('custom'),
                 horizontal: orientation !== 'vertical' || card.exhausted,
                 vertical: orientation === 'vertical' && !card.exhausted,
-                'can-play':
-                    statusClass !== 'selected' &&
-                    statusClass !== 'selectable' &&
-                    !card.unselectable &&
-                    card.canPlay,
+                'can-play': !card.unselectable && card.canPlay,
+                'cannot-play':
+                    typeof card.canPlay === 'boolean' &&
+                    !card.canPlay &&
+                    !card.selected &&
+                    !card.selectable,
                 unselectable: card.unselectable,
                 dragging: isDragging,
                 controlled: card.controlled,

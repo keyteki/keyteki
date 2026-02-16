@@ -73,7 +73,7 @@
         cursor: pointer;
 
         &:hover {
-            background-color: theme-color(primary);
+            background-color: app-color(primary);
         }
 
         &.disabled {
@@ -85,3 +85,4 @@
         }
     }
 }
+

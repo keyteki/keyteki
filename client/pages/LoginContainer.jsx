@@ -2,7 +2,6 @@ import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { Col } from 'react-bootstrap';
 
 import Login from '../Components/Login';
 import Panel from '../Components/Site/Panel';
@@ -48,12 +47,12 @@ const LoginContainer = () => {
           };
 
     return (
-        <Col lg={{ span: 8, offset: 2 }}>
+        <div className='mx-auto w-full max-w-[960px]'>
             <Panel title={t('Login')}>
                 <ApiStatus state={apiState} onClose={() => loginState.reset()} />
                 <Login onSubmit={(values) => loginAccount(values)} />
             </Panel>
-        </Col>
+        </div>
     );
 };
 

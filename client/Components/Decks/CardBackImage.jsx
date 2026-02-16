@@ -6,7 +6,7 @@ import { buildCardBack } from '../../archonMaker';
 
 import './Archon.scss';
 
-const CardBackImage = ({ deck, showDeckName = true, size }) => {
+const CardBackImage = ({ className = 'block h-full w-full', deck, showDeckName = true, size }) => {
     const fabricRef = useRef();
     const setCanvasRef = useCallback((node) => {
         if (!node) {
@@ -43,7 +43,7 @@ const CardBackImage = ({ deck, showDeckName = true, size }) => {
         })();
     }, [deck?.name, deck?.uuid, showDeckName, size, deck]);
 
-    return <canvas className='w-100 h-100' ref={setCanvasRef} />;
+    return <canvas className={className} ref={setCanvasRef} />;
 };
 
 export default CardBackImage;

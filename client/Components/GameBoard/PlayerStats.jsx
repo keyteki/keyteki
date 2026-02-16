@@ -2,7 +2,7 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
 import { gameSendMessage } from '../../redux/socketActions';
-import { toast } from 'react-toastify';
+import { toast } from '@heroui/react';
 import classNames from 'classnames';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
@@ -13,7 +13,6 @@ import {
     faCogs,
     faComment
 } from '@fortawesome/free-solid-svg-icons';
-import { Badge } from 'react-bootstrap';
 
 import Avatar from '../Site/Avatar';
 import { Constants } from '../../constants';
@@ -167,19 +166,23 @@ const PlayerStats = ({
             return;
         }
         if (!navigator.clipboard || !navigator.clipboard.writeText) {
-            toast.error('Clipboard access is unavailable in this browser.');
+            toast.danger('Clipboard access is unavailable in this browser.');
             return;
         }
         navigator.clipboard
             .writeText(messagePanel.innerText)
             .then(() => toast.success('Copied game chat to clipboard'))
-            .catch((err) => toast.error(`Could not copy game chat: ${err}`));
+            .catch((err) => toast.danger(`Could not copy game chat: ${err}`));
     };
 
     let playerAvatar = (
-        <div className={`pr-1 player-info ${activePlayer ? 'active-player' : 'inactive-player'}`}>
-            <Avatar imgPath={user?.avatar} />
-            <b>{user?.username || t('Noone')}</b>
+        <div className='state player-identity'>
+            <div
+                className={`pr-1 player-info ${activePlayer ? 'active-player' : 'inactive-player'}`}
+            >
+                <Avatar imgPath={user?.avatar} />
+                <span className='player-name'>{user?.username || t('Noone')}</span>
+            </div>
         </div>
     );
 
@@ -331,7 +334,11 @@ const PlayerStats = ({
                     <div className='state'>
                         <a href='#' onClick={onMessagesClick} className='pl-1'>
                             <FontAwesomeIcon icon={faComment}></FontAwesomeIcon>
-                            {numMessages > 0 && <Badge variant='danger'>{numMessages}</Badge>}
+                            {numMessages > 0 && (
+                                <span className='ml-1 inline-flex min-w-5 items-center justify-center rounded-full bg-red-600 px-1 text-xs text-white'>
+                                    {numMessages}
+                                </span>
+                            )}
                         </a>
                     </div>
                 </div>

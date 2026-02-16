@@ -18,6 +18,17 @@ import { canShowDeckName, getMatchRecord, isSpectating, normalizePlayer } from '
 
 import './GameBoard.scss';
 
+const hasDenseRow = (player) => {
+    const cardsInPlay = player?.cardPiles?.cardsInPlay || [];
+    const grouped = cardsInPlay.reduce((acc, card) => {
+        const key = card.type || 'other';
+        acc[key] = (acc[key] || 0) + 1;
+        return acc;
+    }, {});
+
+    return Object.values(grouped).some((count) => count >= 6);
+};
+
 export const GameBoard = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -94,9 +105,11 @@ export const GameBoard = () => {
 
     thisPlayer = normalizePlayer(thisPlayer);
     otherPlayer = normalizePlayer(otherPlayer);
+    const highDensity = hasDenseRow(thisPlayer) || hasDenseRow(otherPlayer);
 
     const boardClass = classNames('game-board', {
-        'select-cursor': thisPlayer && thisPlayer.selectCard
+        'select-cursor': thisPlayer && thisPlayer.selectCard,
+        'high-density': highDensity
     });
     const manualMode = currentGame.manualMode;
     const spectating = isSpectating(currentGame, user);
@@ -186,6 +199,11 @@ export const GameBoard = () => {
     const renderBoard = () => [
         <div key='board-middle' className='board-middle'>
             <div className='board-inner'>
+                <div
+                    className={classNames('board-atmosphere-overlay', {
+                        dense: highDensity
+                    })}
+                />
                 <div className='play-area'>
                     <PlayerBoard
                         cardBack={
@@ -225,6 +243,7 @@ export const GameBoard = () => {
                         onMouseOut={onMouseOut}
                         onMouseOver={onMouseOver}
                         rowDirection='default'
+                        activePlayer={thisPlayer.activePlayer}
                         tide={thisPlayer.stats.tide}
                         user={user}
                     />
@@ -278,8 +297,7 @@ export const GameBoard = () => {
                 {renderBoard()}
                 {cardToZoom && <CardZoom card={cardToZoom} />}
                 <div className='right-side'>
-                    <div className='prompt-area'>
-                        <div className='right-side-top'></div>
+                    <div className='prompt-area relative box-border flex w-64 shrink-0 flex-col items-center justify-end overflow-visible bg-black/55 px-0.5'>
                         <ReferenceCardPane
                             thisPlayer={thisPlayer}
                             otherPlayer={otherPlayer}
@@ -318,18 +336,20 @@ export const GameBoard = () => {
                             {timeLimitClock}
                         </div>
                     </div>
-                    {showMessages && (
-                        <div className='gamechat'>
-                            <GameChat
-                                key='gamechat'
-                                messages={currentGame.messages}
-                                onCardMouseOut={onMouseOut}
-                                onCardMouseOver={onMouseOver}
-                                onSendChat={sendChatMessage}
-                                muted={spectating && currentGame.muteSpectators}
-                            />
-                        </div>
-                    )}
+                    <div className='chat-scroll'>
+                        {showMessages && (
+                            <div className='relative flex min-h-0 min-w-0 flex-1 flex-col overflow-hidden box-border'>
+                                <GameChat
+                                    key='gamechat'
+                                    messages={currentGame.messages}
+                                    onCardMouseOut={onMouseOut}
+                                    onCardMouseOver={onMouseOver}
+                                    onSendChat={sendChatMessage}
+                                    muted={spectating && currentGame.muteSpectators}
+                                />
+                            </div>
+                        )}
+                    </div>
                 </div>
             </div>
             <PlayerStats

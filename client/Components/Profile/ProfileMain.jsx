@@ -1,17 +1,24 @@
 import React, { useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Button, Col, Form, Modal, Row } from 'react-bootstrap';
+import {
+    Button as HeroButton,
+    FieldError,
+    Input,
+    Label,
+    Modal as HeroModal,
+    TextField
+} from '@heroui/react';
+import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { toast } from '@heroui/react';
 
 import { PatreonClientId } from '../../constants';
 import PatreonImage from '../../assets/img/Patreon_Mark_Coral.jpg';
 import { useDeleteAccountMutation, useUnlinkPatreonMutation } from '../../redux/api';
+import { authActions } from '../../redux/slices/authSlice';
 import { PatreonStatus } from '../../types';
 import Avatar from '../Site/Avatar';
 import Panel from '../Site/Panel';
-import { toast } from 'react-toastify';
-import { useDispatch } from 'react-redux';
-import { authActions } from '../../redux/slices/authSlice';
-import { useNavigate } from 'react-router-dom';
 
 import './ProfileMain.scss';
 
@@ -19,14 +26,18 @@ import './ProfileMain.scss';
  * @typedef { import('./Profile').ProfileDetails } ProfileDetails
  */
 /**
+ * @typedef {'account' | 'integrations'} ProfileMainSection
+ */
+/**
  * @typedef ProfileMainProps
  * @property {import('formik').FormikProps<ProfileDetails>} formProps
+ * @property {ProfileMainSection} section
  * @property {User} user
  */
 /**
  * @param {ProfileMainProps} props
  */
-const ProfileMain = ({ user, formProps }) => {
+const ProfileMain = ({ user, formProps, section }) => {
     const { t } = useTranslation();
     const inputFile = useRef(null);
     const [localAvatar, setAvatar] = useState(null);
@@ -37,242 +48,267 @@ const ProfileMain = ({ user, formProps }) => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
-    const onAvatarUploadClick = () => {
-        if (!inputFile.current) {
-            return;
-        }
-
-        inputFile.current.click();
-    };
-
     const callbackUrl = `${window.location.origin}/patreon`;
     const patreonUrl = `https://www.patreon.com/oauth2/authorize?response_type=code&client_id=${PatreonClientId}&redirect_uri=${callbackUrl}`;
 
-    return (
-        <>
-            <Panel title={t('Profile')}>
-                <Row>
-                    <Form.Group as={Col} md='6' controlId='formGridUsername'>
-                        <Form.Label>{t('Username')}</Form.Label>
-                        <Form.Control
-                            name='username'
-                            type='text'
-                            placeholder={t('Enter a username')}
-                            value={formProps.values.username}
-                            onChange={formProps.handleChange}
-                            onBlur={formProps.handleBlur}
+    if (section === 'account') {
+        return (
+            <div className='space-y-3'>
+                <Panel type='default' compactHeader title={t('Credentials')}>
+                    <div className='grid gap-2 md:grid-cols-2'>
+                        <TextField
                             isInvalid={formProps.touched.username && !!formProps.errors.username}
-                        />
-                        <Form.Control.Feedback type='invalid'>
-                            {formProps.errors.username}
-                        </Form.Control.Feedback>
-                    </Form.Group>
-                    <Form.Group as={Col} md='6' controlId='formGridEmail'>
-                        <Form.Label>{t('Email')}</Form.Label>
-                        <Form.Control
-                            name='email'
-                            type='text'
-                            placeholder={t('Enter an email address')}
-                            value={formProps.values.email}
-                            onChange={formProps.handleChange}
-                            onBlur={formProps.handleBlur}
-                            isInvalid={formProps.touched.email && !!formProps.errors.email}
-                        />
-                        <Form.Control.Feedback type='invalid'>
-                            {formProps.errors.email}
-                        </Form.Control.Feedback>
-                    </Form.Group>
-                    <Form.Group as={Col} md='3'>
-                        <Form.Label>{t('Avatar')}</Form.Label>
-                        <div>
-                            {!formProps.errors.avatar && localAvatar ? (
-                                <img
-                                    className='profile-avatar'
-                                    src={localAvatar}
-                                    alt={user?.username}
-                                />
-                            ) : (
-                                <Avatar imgPath={user?.avatar}></Avatar>
-                            )}
-                            <Button variant='secondary' onClick={onAvatarUploadClick}>
-                                {t('Change avatar')}
-                            </Button>
-                        </div>
-                        <Form.Control
-                            name='avatar'
-                            type='file'
-                            accept='image/*'
-                            onChange={(event) => {
-                                if (
-                                    !event.currentTarget ||
-                                    !event.currentTarget.files ||
-                                    event.currentTarget.files.length === 0
-                                ) {
-                                    return;
-                                }
-
-                                const file = event.currentTarget.files[0];
-                                setAvatar(URL.createObjectURL(file));
-                                formProps.setFieldValue('avatar', file);
-                            }}
-                            onBlur={formProps.handleBlur}
-                            hidden
-                            ref={inputFile}
-                            isInvalid={!!formProps.errors.avatar}
-                        ></Form.Control>
-                        <Form.Control.Feedback type='invalid'>
-                            {formProps.errors.avatar}
-                        </Form.Control.Feedback>
-                    </Form.Group>
-                    <Form.Group as={Col} md='3'>
-                        <Form.Label>{t('Patreon')}</Form.Label>
-                        <div>
-                            <img
-                                className='profile-patreon-icon'
-                                src={PatreonImage}
-                                alt={t('Patreon Logo')}
+                        >
+                            <Label htmlFor='formGridUsername'>{t('Username')}</Label>
+                            <Input
+                                id='formGridUsername'
+                                name='username'
+                                placeholder={t('Enter a username')}
+                                value={formProps.values.username}
+                                onBlur={formProps.handleBlur}
+                                onChange={formProps.handleChange}
                             />
-                            {!user?.patreon || user?.patreon === PatreonStatus.Unlinked ? (
-                                <Button variant='secondary' href={patreonUrl}>
-                                    {t('Link Account')}
-                                </Button>
-                            ) : (
-                                <Button variant='secondary' onClick={() => unlinkPatreon()}>
-                                    {t('Unlink Account')}
-                                </Button>
+                            {formProps.touched.username && !!formProps.errors.username && (
+                                <FieldError>{formProps.errors.username}</FieldError>
                             )}
-                        </div>
-                    </Form.Group>
-                </Row>
-                <Row>
-                    <Form.Group as={Col} md='6' controlId='formGridPassword'>
-                        <Form.Label>{t('Password')}</Form.Label>
-                        <Form.Control
-                            name='password'
-                            type='password'
-                            placeholder={t('Enter a password')}
-                            value={formProps.values.password}
-                            onChange={formProps.handleChange}
-                            onBlur={formProps.handleBlur}
+                        </TextField>
+                        <TextField isInvalid={formProps.touched.email && !!formProps.errors.email}>
+                            <Label htmlFor='formGridEmail'>{t('Email')}</Label>
+                            <Input
+                                id='formGridEmail'
+                                name='email'
+                                placeholder={t('Enter an email address')}
+                                value={formProps.values.email}
+                                onBlur={formProps.handleBlur}
+                                onChange={formProps.handleChange}
+                            />
+                            {formProps.touched.email && !!formProps.errors.email && (
+                                <FieldError>{formProps.errors.email}</FieldError>
+                            )}
+                        </TextField>
+                        <TextField
                             isInvalid={formProps.touched.password && !!formProps.errors.password}
-                        />
-                        <Form.Control.Feedback type='invalid'>
-                            {formProps.errors.password}
-                        </Form.Control.Feedback>
-                    </Form.Group>
-                    <Form.Group as={Col} md='6' controlId='formGridPassword1'>
-                        <Form.Label>{t('Password (again)')}</Form.Label>
-                        <Form.Control
-                            name='passwordAgain'
-                            type='password'
-                            placeholder={t('Enter the same password')}
-                            value={formProps.values.passwordAgain}
-                            onChange={formProps.handleChange}
-                            onBlur={formProps.handleBlur}
+                        >
+                            <Label htmlFor='formGridPassword'>{t('Password')}</Label>
+                            <Input
+                                id='formGridPassword'
+                                name='password'
+                                type='password'
+                                placeholder={t('Enter a password')}
+                                value={formProps.values.password}
+                                onBlur={formProps.handleBlur}
+                                onChange={formProps.handleChange}
+                            />
+                            {formProps.touched.password && !!formProps.errors.password && (
+                                <FieldError>{formProps.errors.password}</FieldError>
+                            )}
+                        </TextField>
+                        <TextField
                             isInvalid={
                                 formProps.touched.passwordAgain && !!formProps.errors.passwordAgain
                             }
+                        >
+                            <Label htmlFor='formGridPassword1'>{t('Password (again)')}</Label>
+                            <Input
+                                id='formGridPassword1'
+                                name='passwordAgain'
+                                type='password'
+                                placeholder={t('Enter the same password')}
+                                value={formProps.values.passwordAgain}
+                                onBlur={formProps.handleBlur}
+                                onChange={formProps.handleChange}
+                            />
+                            {formProps.touched.passwordAgain &&
+                                !!formProps.errors.passwordAgain && (
+                                    <FieldError>{formProps.errors.passwordAgain}</FieldError>
+                                )}
+                        </TextField>
+                    </div>
+                </Panel>
+                <Panel type='default' compactHeader title={t('Avatar')}>
+                    <div className='flex items-center gap-3'>
+                        {!formProps.errors.avatar && localAvatar ? (
+                            <img
+                                className='profile-avatar'
+                                src={localAvatar}
+                                alt={user?.username}
+                            />
+                        ) : (
+                            <Avatar imgPath={user?.avatar} />
+                        )}
+                        <HeroButton variant='secondary' onPress={() => inputFile.current?.click()}>
+                            {t('Change avatar')}
+                        </HeroButton>
+                    </div>
+                    <input
+                        accept='image/*'
+                        hidden
+                        name='avatar'
+                        ref={inputFile}
+                        type='file'
+                        onBlur={formProps.handleBlur}
+                        onChange={(event) => {
+                            if (
+                                !event.currentTarget ||
+                                !event.currentTarget.files ||
+                                event.currentTarget.files.length === 0
+                            ) {
+                                return;
+                            }
+
+                            const file = event.currentTarget.files[0];
+                            setAvatar(URL.createObjectURL(file));
+                            formProps.setFieldValue('avatar', file);
+                        }}
+                    />
+                    {!!formProps.errors.avatar && (
+                        <p className='mt-2 text-sm text-red-400'>{formProps.errors.avatar}</p>
+                    )}
+                </Panel>
+                <Panel
+                    type='default'
+                    compactHeader
+                    title={t('Delete Account')}
+                    className='border border-danger/70 bg-danger/15'
+                    titleClass='text-red-300'
+                >
+                    <div className='grid items-center gap-3 md:grid-cols-[1fr_auto]'>
+                        <div className='text-sm text-foreground'>
+                            {t('Deletes profile identity and avatar permanently.')}
+                        </div>
+                        <HeroButton variant='danger' onPress={() => setShowDeleteModal(true)}>
+                            {t('Delete account')}
+                        </HeroButton>
+                    </div>
+                </Panel>
+                <HeroModal.Backdrop isOpen={showDeleteModal} onOpenChange={setShowDeleteModal}>
+                    <HeroModal.Container placement='center'>
+                        <HeroModal.Dialog className='sm:max-w-md'>
+                            <HeroModal.CloseTrigger />
+                            <HeroModal.Header>
+                                <HeroModal.Heading>
+                                    {t('Confirm account deletion')}
+                                </HeroModal.Heading>
+                            </HeroModal.Header>
+                            <HeroModal.Body>
+                                <TextField name='deleteAccountPassword' type='password'>
+                                    <Label>{t('Password')}</Label>
+                                    <Input
+                                        autoFocus
+                                        value={deletePassword}
+                                        onChange={(event) => setDeletePassword(event.target.value)}
+                                    />
+                                </TextField>
+                            </HeroModal.Body>
+                            <HeroModal.Footer>
+                                <HeroButton
+                                    variant='secondary'
+                                    onPress={() => setShowDeleteModal(false)}
+                                >
+                                    {t('Cancel')}
+                                </HeroButton>
+                                <HeroButton
+                                    variant='danger'
+                                    isDisabled={deleteState.isLoading || !deletePassword}
+                                    onPress={async () => {
+                                        try {
+                                            await deleteAccount({
+                                                username: user.username,
+                                                password: deletePassword
+                                            }).unwrap();
+                                            dispatch(authActions.clearAuthTokens());
+                                            setShowDeleteModal(false);
+                                            setDeletePassword('');
+                                            toast.success(t('Your account has been deleted.'));
+                                            navigate('/login');
+                                        } catch (err) {
+                                            toast.danger(
+                                                err?.data?.message || t('Failed to delete account.')
+                                            );
+                                        }
+                                    }}
+                                >
+                                    {deleteState.isLoading ? t('Deleting...') : t('Delete account')}
+                                </HeroButton>
+                            </HeroModal.Footer>
+                        </HeroModal.Dialog>
+                    </HeroModal.Container>
+                </HeroModal.Backdrop>
+            </div>
+        );
+    }
+
+    return (
+        <div className='space-y-3'>
+            <Panel type='default' compactHeader title={t('Connected Services')}>
+                <div className='flex items-center justify-between gap-3 rounded border border-border/70 bg-surface-secondary/75 px-3 py-2'>
+                    <div className='flex items-center gap-3'>
+                        <img
+                            className='profile-patreon-icon'
+                            src={PatreonImage}
+                            alt={t('Patreon Logo')}
                         />
-                        <Form.Control.Feedback type='invalid'>
-                            {formProps.errors.passwordAgain}
-                        </Form.Control.Feedback>
-                    </Form.Group>
-                </Row>
-                <Row>
-                    <Form.Group as={Col} md='6' controlId='formGridChallongeKey'>
-                        <Form.Label>{t('Challonge API Key')}</Form.Label>
-                        <Form.Control
+                        <div>
+                            <div className='text-sm text-foreground'>Patreon</div>
+                            <div className='text-xs text-muted'>
+                                {!user?.patreon || user?.patreon === PatreonStatus.Unlinked
+                                    ? t('Not connected')
+                                    : t('Connected')}
+                            </div>
+                        </div>
+                    </div>
+                    {!user?.patreon || user?.patreon === PatreonStatus.Unlinked ? (
+                        <HeroButton
+                            size='sm'
+                            variant='secondary'
+                            onPress={() => window.location.assign(patreonUrl)}
+                        >
+                            {t('Link Account')}
+                        </HeroButton>
+                    ) : (
+                        <HeroButton size='sm' variant='secondary' onPress={() => unlinkPatreon()}>
+                            {t('Unlink Account')}
+                        </HeroButton>
+                    )}
+                </div>
+            </Panel>
+            <Panel
+                type='default'
+                compactHeader
+                title={t('API Keys')}
+                className='border border-warning/70 bg-warning/10'
+                titleClass='text-amber-300'
+            >
+                <div className='grid gap-3 md:grid-cols-2'>
+                    <TextField>
+                        <Label htmlFor='formGridChallongeKey'>{t('Challonge API Key')}</Label>
+                        <Input
+                            id='formGridChallongeKey'
                             name='challongeApiKey'
                             type='password'
                             placeholder={t('Enter challonge API key')}
                             value={formProps.values.challongeApiKey}
-                            onChange={formProps.handleChange}
                             onBlur={formProps.handleBlur}
-                            isInvalid={
-                                formProps.touched.challongeApiKey &&
-                                !!formProps.errors.challongeApiKey
-                            }
+                            onChange={formProps.handleChange}
                         />
-                        <Form.Control.Feedback type='invalid'>
-                            {formProps.errors.challongeApiKey}
-                        </Form.Control.Feedback>
-                    </Form.Group>
-                    <Form.Group as={Col} md='6' controlId='formGridChallongeDomain'>
-                        <Form.Label>{t('Challonge API Subdomain')}</Form.Label>
-                        <Form.Control
+                    </TextField>
+                    <TextField>
+                        <Label htmlFor='formGridChallongeDomain'>
+                            {t('Challonge API Subdomain')}
+                        </Label>
+                        <Input
+                            id='formGridChallongeDomain'
                             name='challongeApiSubdomain'
                             type='password'
                             placeholder={t('Enter challonge API subdomain')}
                             value={formProps.values.challongeApiSubdomain}
-                            onChange={formProps.handleChange}
                             onBlur={formProps.handleBlur}
-                            isInvalid={
-                                formProps.touched.challongeApiSubdomain &&
-                                !!formProps.errors.challongeApiSubdomain
-                            }
+                            onChange={formProps.handleChange}
                         />
-                        <Form.Control.Feedback type='invalid'>
-                            {formProps.errors.challongeApiSubdomain}
-                        </Form.Control.Feedback>
-                    </Form.Group>
-                </Row>
+                    </TextField>
+                </div>
             </Panel>
-            <Panel title={t('Delete Account')}>
-                <Row>
-                    <Col md='8'>
-                        {t(
-                            'Deleting your account will anonymize your profile and remove your avatar. This action cannot be undone.'
-                        )}
-                    </Col>
-                    <Col md='4' className='text-right'>
-                        <Button variant='danger' onClick={() => setShowDeleteModal(true)}>
-                            {t('Delete account')}
-                        </Button>
-                    </Col>
-                </Row>
-            </Panel>
-            <Modal show={showDeleteModal} onHide={() => setShowDeleteModal(false)}>
-                <Modal.Header closeButton>
-                    <Modal.Title>{t('Confirm account deletion')}</Modal.Title>
-                </Modal.Header>
-                <Modal.Body>
-                    <Form.Group controlId='deleteAccountPassword'>
-                        <Form.Label className='delete-account-label'>{t('Password')}</Form.Label>
-                        <Form.Control
-                            type='password'
-                            value={deletePassword}
-                            onChange={(event) => setDeletePassword(event.target.value)}
-                        />
-                    </Form.Group>
-                </Modal.Body>
-                <Modal.Footer>
-                    <Button variant='secondary' onClick={() => setShowDeleteModal(false)}>
-                        {t('Cancel')}
-                    </Button>
-                    <Button
-                        variant='danger'
-                        disabled={deleteState.isLoading || !deletePassword}
-                        onClick={async () => {
-                            try {
-                                await deleteAccount({
-                                    username: user.username,
-                                    password: deletePassword
-                                }).unwrap();
-                                dispatch(authActions.clearAuthTokens());
-                                setShowDeleteModal(false);
-                                setDeletePassword('');
-                                toast.success(t('Your account has been deleted.'));
-                                navigate('/login');
-                            } catch (err) {
-                                toast.error(err?.data?.message || t('Failed to delete account.'));
-                            }
-                        }}
-                    >
-                        {deleteState.isLoading ? t('Deleting...') : t('Delete account')}
-                    </Button>
-                </Modal.Footer>
-            </Modal>
-        </>
+        </div>
     );
 };
 

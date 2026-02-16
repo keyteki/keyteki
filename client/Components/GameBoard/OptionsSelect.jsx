@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
+import { Button, ListBox, Select } from '@heroui/react';
 
 import { useTranslation } from 'react-i18next';
 
@@ -13,9 +14,7 @@ const OptionsSelect = (props) => {
         );
     }, [props.options]);
 
-    const onDoneClicked = (event) => {
-        event.preventDefault();
-
+    const onDoneClicked = () => {
         if (props.onOptionSelected) {
             props.onOptionSelected(selectedOption);
         }
@@ -24,24 +23,39 @@ const OptionsSelect = (props) => {
     const options = props.options || [];
 
     return (
-        <div>
-            <select
-                className='form-control'
-                onChange={(event) => setSelectedOption(event.target.value)}
-                value={selectedOption ?? -1}
+        <div className='space-y-2'>
+            <Select
+                aria-label={t('Options')}
+                className='w-full'
+                value={selectedOption ?? '-1'}
+                onChange={(value) => setSelectedOption(String(value))}
             >
-                {options.map((option) => (
-                    <option key={option.value} value={option.arg}>
-                        {option.text}
-                    </option>
-                ))}
-            </select>
-            <button
-                className='btn btn-default prompt-button btn-stretch option-button'
-                onClick={onDoneClicked}
+                <Select.Trigger>
+                    <Select.Value />
+                    <Select.Indicator />
+                </Select.Trigger>
+                <Select.Popover>
+                    <ListBox>
+                        {options.map((option) => (
+                            <ListBox.Item
+                                key={`${option.arg}`}
+                                id={`${option.arg}`}
+                                textValue={option.text}
+                            >
+                                {option.text}
+                                <ListBox.ItemIndicator />
+                            </ListBox.Item>
+                        ))}
+                    </ListBox>
+                </Select.Popover>
+            </Select>
+            <Button
+                variant='secondary'
+                className='w-full justify-center !px-3 !py-2.5'
+                onPress={onDoneClicked}
             >
                 {t('Done')}
-            </button>
+            </Button>
         </div>
     );
 };

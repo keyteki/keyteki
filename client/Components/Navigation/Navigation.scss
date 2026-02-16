@@ -14,7 +14,7 @@
 }
 
 .navbar-item.interactable {
-    color: theme-color('emphasis') !important;
+    color: app-color('emphasis') !important;
     &:hover {
         color: #ffffff !important;
         cursor: pointer;
@@ -23,7 +23,7 @@
 }
 
 .dropdown {
-    color: theme-color('emphasis');
+    color: app-color('emphasis');
     font-family: 'PoppinsMedium', serif;
     font-size: 16px;
     transition: all 0.4s ease-in-out;
@@ -35,7 +35,7 @@
 }
 
 .dropdown-toggle {
-    color: theme-color('emphasis') !important;
+    color: app-color('emphasis') !important;
     font-family: 'PoppinsMedium', serif;
     font-size: 16px;
     transition: all 0.4s ease-in-out;
@@ -69,7 +69,7 @@
 
 .navbar.bg-dark,
 .navbar .bg-dark {
-    background-color: theme-color('dark') !important;
+    background-color: app-color('dark') !important;
 }
 
 .navbar-sm .navbar-nav > li > span {
@@ -91,4 +91,5 @@
     padding: 0 15px;
     line-height: $navbar-height;
 }
+
 

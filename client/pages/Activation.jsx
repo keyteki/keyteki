@@ -1,11 +1,10 @@
 import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 import AlertPanel from '../Components/Site/AlertPanel';
-import { useActivateAccountMutation } from '../redux/api';
-import { useTranslation } from 'react-i18next';
-import { Col } from 'react-bootstrap';
 import ApiStatus from '../Components/Site/ApiStatus';
+import { useActivateAccountMutation } from '../redux/api';
 
 const Activation = ({ id, token }) => {
     const { t } = useTranslation();
@@ -33,6 +32,7 @@ const Activation = ({ id, token }) => {
                     )
                   : activateState.error?.data?.message
           };
+
     useEffect(() => {
         if (id && token) {
             activateAccount({ id, token });
@@ -51,10 +51,8 @@ const Activation = ({ id, token }) => {
     }
 
     return (
-        <div>
-            <Col sm={{ span: 6, offset: 3 }}>
-                <ApiStatus state={apiState} onClose={() => activateState.reset()} />
-            </Col>
+        <div className='mx-auto w-full max-w-[720px]'>
+            <ApiStatus state={apiState} onClose={() => activateState.reset()} />
         </div>
     );
 };

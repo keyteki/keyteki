@@ -35,7 +35,11 @@ const CardNameLookup = (props) => {
                 dropup
                 onChange={(cards) => setCardName(cards[0])}
             />
-            <button type='button' onClick={onDoneClick} className='btn btn-primary'>
+            <button
+                type='button'
+                onClick={onDoneClick}
+                className='rounded-md border border-zinc-600/80 bg-zinc-800/70 px-3 py-1.5 text-sm text-zinc-100 transition hover:bg-zinc-700/80'
+            >
                 <Trans>Done</Trans>
             </button>
         </div>

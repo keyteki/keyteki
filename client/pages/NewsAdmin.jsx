@@ -1,11 +1,10 @@
 import React, { useMemo, useState } from 'react';
 import moment from 'moment';
-import { Table, Form, Col, Button } from 'react-bootstrap';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCircleNotch } from '@fortawesome/free-solid-svg-icons';
+import { Spinner, TextArea } from '@heroui/react';
 
 import Panel from '../Components/Site/Panel';
 import ApiStatus from '../Components/Site/ApiStatus';
+import ReactTable from '../Components/Table/ReactTable';
 import {
     useAddNewsMutation,
     useDeleteNewsMutation,
@@ -19,7 +18,7 @@ const NewsAdmin = () => {
         isLoading: isNewsLoading,
         isError: isNewsError,
         error: newsError
-    } = useGetNewsQuery({ limit: 5 });
+    } = useGetNewsQuery({ limit: 50 });
     const [addNews, addResult] = useAddNewsMutation();
     const [saveNews, saveResult] = useSaveNewsMutation();
     const [deleteNews, deleteResult] = useDeleteNewsMutation();
@@ -57,129 +56,125 @@ const NewsAdmin = () => {
         [deleteResult]
     );
 
-    const renderedNews = news.map((newsItem) => {
-        return (
-            <tr key={newsItem.id} className='d-flex'>
-                <td className='col-2'>{moment(newsItem.datePublished).format('YYYY-MM-DD')}</td>
-                <td className='col-2'>{newsItem.poster}</td>
-                <td className='col'>
-                    {editId === newsItem.id ? (
-                        <Form.Control
-                            as='textarea'
-                            rows={4}
+    const columns = useMemo(
+        () => [
+            {
+                accessorKey: 'datePublished',
+                header: 'Date',
+                cell: ({ row }) => moment(row.original.datePublished).format('YYYY-MM-DD')
+            },
+            {
+                accessorKey: 'poster',
+                header: 'Poster'
+            },
+            {
+                accessorKey: 'text',
+                header: 'Text',
+                cell: ({ row }) =>
+                    editId === row.original.id ? (
+                        <TextArea
+                            rows={3}
                             name='editText'
                             value={editText}
                             onChange={(event) => setEditText(event.target.value)}
                         />
                     ) : (
-                        newsItem.text
-                    )}
-                </td>
-                <td className='col-3'>
-                    <div className='btn-group'>
-                        {editId === newsItem.id ? (
-                            <Button
-                                variant='primary'
+                        row.original.text
+                    )
+            },
+            {
+                id: 'action',
+                header: 'Action',
+                cell: ({ row }) => (
+                    <div className='flex gap-2'>
+                        {editId === row.original.id ? (
+                            <button
                                 type='button'
+                                className='rounded-md border border-zinc-600/80 bg-zinc-800/70 px-3 py-1.5 text-xs text-zinc-100 transition hover:bg-zinc-700/80'
                                 onClick={() => {
                                     saveNews({ id: editId, text: editText });
                                     setEditId(undefined);
-                                    setEditText(undefined);
+                                    setEditText('');
                                 }}
                             >
                                 Save
-                            </Button>
+                            </button>
                         ) : (
-                            <Button
-                                variant='primary'
+                            <button
                                 type='button'
+                                className='rounded-md border border-zinc-600/80 bg-zinc-800/70 px-3 py-1.5 text-xs text-zinc-100 transition hover:bg-zinc-700/80'
                                 onClick={() => {
-                                    setEditId(newsItem.id);
-                                    setEditText(newsItem.text);
+                                    setEditId(row.original.id);
+                                    setEditText(row.original.text);
                                 }}
                             >
                                 Edit
-                            </Button>
+                            </button>
                         )}
-                        <Button
-                            variant='danger'
+                        <button
                             type='button'
-                            onClick={() => deleteNews(newsItem.id)}
+                            className='rounded-md border border-red-500/70 bg-red-700/50 px-3 py-1.5 text-xs text-red-50 transition hover:bg-red-600/60'
+                            onClick={() => deleteNews(row.original.id)}
                         >
                             Delete
-                        </Button>
+                        </button>
                     </div>
-                </td>
-            </tr>
-        );
-    });
+                )
+            }
+        ],
+        [deleteNews, editId, editText, saveNews]
+    );
 
     return (
-        <div>
-            <Panel title='News Admin'>
-                {isNewsLoading && (
-                    <div>
-                        Please wait while the news is loaded...
-                        <FontAwesomeIcon icon={faCircleNotch} spin />
+        <Panel title='News Admin'>
+            {isNewsLoading ? (
+                <div className='flex items-center gap-2 text-sm text-zinc-300'>
+                    Please wait while the news is loaded...
+                    <Spinner size='sm' />
+                </div>
+            ) : (
+                <>
+                    {isNewsError ? (
+                        <ApiStatus
+                            state={{
+                                loading: false,
+                                success: false,
+                                message:
+                                    newsError?.data?.message ||
+                                    newsError?.error ||
+                                    'Error loading news'
+                            }}
+                            onClose={() => {}}
+                        />
+                    ) : null}
+                    <ApiStatus state={addApiState} onClose={() => addResult.reset()} />
+                    <ApiStatus state={saveApiState} onClose={() => saveResult.reset()} />
+                    <ApiStatus state={deleteApiState} onClose={() => deleteResult.reset()} />
+
+                    <ReactTable columns={columns} data={news} disableSelection isStriped={false} />
+
+                    <div className='mt-3'>
+                        <label className='mb-1 block text-sm text-zinc-200'>Add news item</label>
+                        <TextArea
+                            rows={4}
+                            name='newsText'
+                            value={newsText}
+                            onChange={(event) => setNewsText(event.target.value)}
+                        />
+                        <button
+                            type='button'
+                            className='mt-2 rounded-md border border-zinc-600/80 bg-zinc-800/70 px-3 py-2 text-sm text-zinc-100 transition hover:bg-zinc-700/80'
+                            onClick={() => {
+                                addNews(newsText);
+                                setNewsText('');
+                            }}
+                        >
+                            Add
+                        </button>
                     </div>
-                )}
-                {!isNewsLoading && (
-                    <>
-                        {isNewsError && (
-                            <ApiStatus
-                                state={{
-                                    loading: false,
-                                    success: false,
-                                    message:
-                                        newsError?.data?.message ||
-                                        newsError?.error ||
-                                        'Error loading news'
-                                }}
-                                onClose={() => {}}
-                            />
-                        )}
-                        <ApiStatus state={addApiState} onClose={() => addResult.reset()} />
-                        <ApiStatus state={saveApiState} onClose={() => saveResult.reset()} />
-                        <ApiStatus state={deleteApiState} onClose={() => deleteResult.reset()} />
-                        <Table striped>
-                            <thead>
-                                <tr className='d-flex'>
-                                    <th className='col-2'>Date</th>
-                                    <th className='col-2'>Poster</th>
-                                    <th className='col'>Text</th>
-                                    <th className='col-3'>Action</th>
-                                </tr>
-                            </thead>
-                            <tbody>{renderedNews}</tbody>
-                        </Table>
-
-                        <Form>
-                            <Form.Group controlId='newsText' as={Col} xs={12}>
-                                <Form.Label>Add news item</Form.Label>
-                                <Form.Control
-                                    as='textarea'
-                                    rows={4}
-                                    name='newsText'
-                                    value={newsText}
-                                    onChange={(event) => setNewsText(event.target.value)}
-                                />
-                            </Form.Group>
-
-                            <Button
-                                variant='primary'
-                                type='button'
-                                onClick={() => {
-                                    addNews(newsText);
-                                    setNewsText('');
-                                }}
-                            >
-                                Add
-                            </Button>
-                        </Form>
-                    </>
-                )}
-            </Panel>
-        </div>
+                </>
+            )}
+        </Panel>
     );
 };
 

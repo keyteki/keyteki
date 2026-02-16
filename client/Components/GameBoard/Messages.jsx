@@ -21,7 +21,27 @@ for (const colour of ['red', 'blue', 'yellow']) {
 
 import './Messages.scss';
 
+const getRoleTextClass = (role) => {
+    switch ((role || '').toLowerCase()) {
+        case 'admin':
+            return 'text-red-500';
+        case 'contributor':
+            return 'text-cyan-600 dark:text-cyan-400';
+        case 'supporter':
+            return 'text-emerald-600 dark:text-emerald-400';
+        case 'winner':
+            return 'text-amber-600 dark:text-amber-400';
+        case 'previouswinner':
+            return 'text-fuchsia-600 dark:text-fuchsia-400';
+        default:
+            return 'text-foreground';
+    }
+};
+
 const Messages = ({ messages, onCardMouseOver, onCardMouseOut }) => {
+    const compactChatAlertClass =
+        '!mb-1 !rounded-xl !px-3 !py-2 text-sm [&_svg]:text-base [&_[data-slot="alert-content"]]:gap-0.5 [&_[data-slot="alert-description"]]:text-sm';
+
     const tokens = {
         amber: { className: 'icon-amber', imageSrc: AmberImage },
         card: { className: 'icon-card', imageSrc: CardBackImage },
@@ -49,24 +69,45 @@ const Messages = ({ messages, onCardMouseOver, onCardMouseOut }) => {
         };
     }
 
+    const hasStartOfTurnAlert = (messageObject) =>
+        Object.values(messageObject || {}).some((fragment) => fragment?.type === 'startofturn');
+    const hasPhaseStartAlert = (messageObject) =>
+        Object.values(messageObject || {}).some((fragment) => fragment?.type === 'phasestart');
+
     const getMessage = () => {
+        const latestStartOfTurnIndex = [...messages]
+            .map((message, index) => ({
+                index,
+                isStartOfTurn: hasStartOfTurnAlert(message.message)
+            }))
+            .filter((entry) => entry.isStartOfTurn)
+            .map((entry) => entry.index)
+            .pop();
+
         return messages.map((message, index) => {
+            const hasStartOfTurn = hasStartOfTurnAlert(message.message);
+            const hasPhaseStart = hasPhaseStartAlert(message.message);
             let className = classNames('message', 'mb-1', {
                 'this-player': message.activePlayer && message.activePlayer == owner.name,
                 'other-player': message.activePlayer && message.activePlayer !== owner.name,
                 'chat-bubble': Object.values(message.message).some(
                     (m) => m.name && m.argType === 'player'
-                )
+                ),
+                'startofturn-row': hasStartOfTurn,
+                'phasestart-row': hasPhaseStart
             });
+
+            const isCurrentStartOfTurn =
+                latestStartOfTurnIndex !== undefined && index === latestStartOfTurnIndex;
             return (
                 <div key={index} className={className}>
-                    {formatMessageText(message.message)}
+                    {formatMessageText(message.message, { isCurrentStartOfTurn })}
                 </div>
             );
         });
     };
 
-    const formatMessageText = (message) => {
+    const formatMessageText = (message, context = {}) => {
         let index = 0;
         let messages = [];
 
@@ -78,7 +119,7 @@ const Messages = ({ messages, onCardMouseOver, onCardMouseOut }) => {
             }
 
             if (key === 'alert') {
-                let message = formatMessageText(fragment.message);
+                let message = formatMessageText(fragment.message, context);
                 switch (fragment.type) {
                     case 'endofturn':
                     case 'phasestart':
@@ -96,7 +137,14 @@ const Messages = ({ messages, onCardMouseOver, onCardMouseOut }) => {
                     case 'startofturn':
                         messages.push(
                             <div
-                                className={'font-weight-bold text-white separator ' + fragment.type}
+                                className={classNames(
+                                    'font-weight-bold text-white separator',
+                                    fragment.type,
+                                    {
+                                        'current-turn': context.isCurrentStartOfTurn,
+                                        'past-turn': !context.isCurrentStartOfTurn
+                                    }
+                                )}
                                 key={index++}
                             >
                                 {message}
@@ -105,35 +153,47 @@ const Messages = ({ messages, onCardMouseOver, onCardMouseOut }) => {
                         break;
                     case 'success':
                         messages.push(
-                            <AlertPanel type='success' key={index++}>
+                            <AlertPanel
+                                type='success'
+                                className={compactChatAlertClass}
+                                key={index++}
+                            >
                                 {message}
                             </AlertPanel>
                         );
                         break;
                     case 'info':
                         messages.push(
-                            <AlertPanel type='info' key={index++}>
+                            <AlertPanel type='info' className={compactChatAlertClass} key={index++}>
                                 {message}
                             </AlertPanel>
                         );
                         break;
                     case 'danger':
                         messages.push(
-                            <AlertPanel type='danger' key={index++}>
+                            <AlertPanel
+                                type='danger'
+                                className={compactChatAlertClass}
+                                key={index++}
+                            >
                                 {message}
                             </AlertPanel>
                         );
                         break;
                     case 'bell':
                         messages.push(
-                            <AlertPanel type='bell' key={index++}>
+                            <AlertPanel type='bell' className={compactChatAlertClass} key={index++}>
                                 {message}
                             </AlertPanel>
                         );
                         break;
                     case 'warning':
                         messages.push(
-                            <AlertPanel type='warning' key={index++}>
+                            <AlertPanel
+                                type='warning'
+                                className={compactChatAlertClass}
+                                key={index++}
+                            >
                                 {message}
                             </AlertPanel>
                         );
@@ -165,20 +225,18 @@ const Messages = ({ messages, onCardMouseOver, onCardMouseOut }) => {
                     </span>
                 );
             } else if (fragment.name && fragment.argType === 'player') {
-                let userClass =
-                    'username' + (fragment.role ? ` ${fragment.role.toLowerCase()}-role` : '');
+                const userClass = `username font-semibold ${getRoleTextClass(fragment.role)}`;
 
                 messages.push(
-                    <div key={index++} className='message-chat'>
-                        <Avatar imgPath={fragment.avatar} float />
+                    <div key={index++} className='message-chat flex items-center gap-1.5'>
+                        <Avatar imgPath={fragment.avatar} />
                         <span key={index++} className={userClass}>
                             {fragment.name}
                         </span>
                     </div>
                 );
             } else if (fragment.argType === 'nonAvatarPlayer') {
-                let userClass =
-                    'username' + (fragment.role ? ` ${fragment.role.toLowerCase()}-role` : '');
+                const userClass = `username font-semibold ${getRoleTextClass(fragment.role)}`;
 
                 messages.push(
                     <span key={index++} className={userClass}>

@@ -5,9 +5,9 @@ import moment from 'moment';
 import Form from '../Components/Form/Form';
 import Panel from '../Components/Site/Panel';
 import ApiStatus from '../Components/Site/ApiStatus';
+import ReactTable from '../Components/Table/ReactTable';
 import { useAddBanlistMutation, useDeleteBanlistMutation, useGetBanlistQuery } from '../redux/api';
 import { adminActions } from '../redux/slices/adminSlice';
-import { Col } from 'react-bootstrap';
 
 const BanlistAdmin = () => {
     const dispatch = useDispatch();
@@ -105,47 +105,40 @@ const BanlistAdmin = () => {
                     />
                 );
         }
-    }, [addState, deleteState, currentRequest, isLoading, successMessage]);
+    }, [addState, currentRequest, deleteState, isLoading, successMessage]);
 
     if (isLoading) {
         return 'Loading banlist, please wait...';
     }
 
+    const columns = [
+        { accessorKey: 'ip', header: 'Ip' },
+        {
+            accessorKey: 'added',
+            header: 'Added',
+            cell: ({ row }) => moment(row.original.added).format('YYYY-MM-DD')
+        },
+        { accessorKey: 'user', header: 'Added By' },
+        {
+            id: 'action',
+            header: 'Action',
+            cell: ({ row }) => (
+                <button
+                    type='button'
+                    className='rounded-md border border-red-500/70 bg-red-700/50 px-3 py-1.5 text-xs text-red-50 transition hover:bg-red-600/60'
+                    onClick={() => onDeleteClick(row.original.id)}
+                >
+                    Delete
+                </button>
+            )
+        }
+    ];
+
     return (
-        <Col>
+        <div>
             {statusBar}
             <Panel title='Banlist administration'>
-                <table className='table table-striped'>
-                    <thead>
-                        <tr>
-                            <th className='col-sm-2'>Ip</th>
-                            <th className='col-sm-2'>Added</th>
-                            <th className='col-sm-3'>Added By</th>
-                            <th className='col-sm-2'>Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {banlist.map((entry) => (
-                            <tr key={entry.id}>
-                                <td>{entry.ip}</td>
-                                <td>{moment(entry.added).format('YYYY-MM-DD')}</td>
-                                <td>{entry.user}</td>
-                                <td>
-                                    <button
-                                        type='button'
-                                        className='btn btn-danger'
-                                        onClick={() => onDeleteClick(entry.id)}
-                                    >
-                                        Delete{' '}
-                                        {deleteState.isLoading && (
-                                            <span className='spinner button-spinner' />
-                                        )}
-                                    </button>
-                                </td>
-                            </tr>
-                        ))}
-                    </tbody>
-                </table>
+                <ReactTable columns={columns} data={banlist} disableSelection isStriped={false} />
             </Panel>
             <Panel title='Add new ip'>
                 <Form
@@ -156,7 +149,7 @@ const BanlistAdmin = () => {
                     onSubmit={onAddBanlistClick}
                 />
             </Panel>
-        </Col>
+        </div>
     );
 };
 

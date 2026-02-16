@@ -5,27 +5,28 @@
     font-size: 12px;
 
     .valid {
-        color: theme-color('success');
+        color: app-color('success');
     }
 
     .popular {
-        color: theme-color('warning');
+        color: app-color('warning');
     }
 
     .used {
-        color: theme-color('warning');
+        color: app-color('warning');
     }
 
     .notorious {
-        color: theme-color('danger');
+        color: app-color('danger');
     }
 
     .invalid {
-        color: theme-color('danger');
+        color: app-color('danger');
     }
 
     .not-verified {
-        color: theme-color('info');
+        color: app-color('info');
     }
 }
+
 

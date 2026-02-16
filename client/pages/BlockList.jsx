@@ -1,7 +1,6 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
-import { Button, Col, Form, Row, Table } from 'react-bootstrap';
 import { Formik } from 'formik';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleNotch, faTimes } from '@fortawesome/free-solid-svg-icons';
@@ -9,6 +8,7 @@ import * as yup from 'yup';
 
 import ApiStatus from '../Components/Site/ApiStatus';
 import Panel from '../Components/Site/Panel';
+import ReactTable from '../Components/Table/ReactTable';
 import {
     useAddBlockListEntryMutation,
     useGetBlockListQuery,
@@ -57,67 +57,50 @@ const BlockList = () => {
         blockee: ''
     };
 
-    if (!blockList) {
-        return null;
-    }
-
-    let blockListToRender = blockList.map((username) => {
-        return (
-            <tr key={username}>
-                <td>{username}</td>
-                <td>
-                    <a
-                        href='#'
-                        className='text-danger'
+    const columns = useMemo(
+        () => [
+            { accessorKey: 'username', header: t('Username') },
+            {
+                id: 'remove',
+                header: t('Remove'),
+                cell: ({ row }) => (
+                    <button
+                        type='button'
+                        className='text-red-400 hover:text-red-300'
                         onClick={() =>
                             removeBlockListEntry({
                                 username: user.username,
-                                blockee: username
+                                blockee: row.original.username
                             })
                         }
                     >
                         <FontAwesomeIcon icon={faTimes} />
-                    </a>
-                </td>
-            </tr>
-        );
-    });
+                    </button>
+                )
+            }
+        ],
+        [removeBlockListEntry, t, user?.username]
+    );
 
-    let table =
-        blockList && blockList.length === 0 ? (
-            <div>
-                <Trans>No users currently blocked</Trans>
-            </div>
-        ) : (
-            <Table striped className='blocklist'>
-                <thead>
-                    <tr>
-                        <th>
-                            <Trans>Username</Trans>
-                        </th>
-                        <th>
-                            <Trans>Remove</Trans>
-                        </th>
-                    </tr>
-                </thead>
-                <tbody>{blockListToRender}</tbody>
-            </Table>
-        );
+    if (!blockList) {
+        return null;
+    }
+
+    const rows = blockList.map((username) => ({ username }));
 
     const schema = yup.object({
         blockee: yup.string().required(t('You must specify a username to block'))
     });
 
     return (
-        <Col sm={{ offset: 2, span: 8 }}>
+        <div className='mx-auto w-full max-w-[960px]'>
             <Panel title={t('Block list')}>
-                {isBlockListLoading && (
+                {isBlockListLoading ? (
                     <div>
                         Please wait while the blocklist is loaded...
                         <FontAwesomeIcon icon={faCircleNotch} spin />
                     </div>
-                )}
-                {!isBlockListLoading && (
+                ) : (
                     <>
                         <ApiStatus
                             state={
@@ -159,7 +142,7 @@ const BlockList = () => {
                                 initialValues={initialValues}
                             >
                                 {(formProps) => (
-                                    <Form
+                                    <form
                                         onSubmit={(event) => {
                                             event.preventDefault();
                                             formProps.handleSubmit(event);
@@ -174,66 +157,70 @@ const BlockList = () => {
                                                 or their games.
                                             </Trans>
                                         </p>
-                                        <Row>
-                                            <Form.Group as={Col} xs='9' controlId='formGridblockee'>
-                                                <Form.Label>{t('Username')}</Form.Label>
-                                                <Form.Control
-                                                    name='blockee'
-                                                    type='text'
-                                                    placeholder={t('Enter username to block')}
-                                                    value={formProps.values.blockee}
-                                                    onChange={formProps.handleChange}
-                                                    onBlur={formProps.handleBlur}
-                                                    isInvalid={
-                                                        formProps.touched.blockee &&
-                                                        !!formProps.errors.blockee
-                                                    }
-                                                />
-                                                <Form.Control.Feedback type='invalid'>
+                                        <div className='max-w-[520px]'>
+                                            <label
+                                                className='mb-1 block text-sm text-zinc-200'
+                                                htmlFor='blockee'
+                                            >
+                                                {t('Username')}
+                                            </label>
+                                            <input
+                                                id='blockee'
+                                                name='blockee'
+                                                type='text'
+                                                placeholder={t('Enter username to block')}
+                                                value={formProps.values.blockee}
+                                                onChange={formProps.handleChange}
+                                                onBlur={formProps.handleBlur}
+                                                className='w-full rounded-md border border-zinc-600/70 bg-black/80 px-3 py-2 text-sm text-zinc-100 placeholder:text-zinc-400 focus:border-zinc-400/80 focus:outline-none'
+                                            />
+                                            {formProps.touched.blockee &&
+                                            formProps.errors.blockee ? (
+                                                <div className='mt-1 text-xs text-red-300'>
                                                     {formProps.errors.blockee}
-                                                </Form.Control.Feedback>
-                                            </Form.Group>
-                                        </Row>
+                                                </div>
+                                            ) : null}
+                                        </div>
 
-                                        <Button variant='primary' type='submit'>
+                                        <button
+                                            type='submit'
+                                            className='mt-2 rounded-md border border-zinc-600/80 bg-zinc-800/70 px-3 py-2 text-sm text-zinc-100 transition hover:bg-zinc-700/80'
+                                        >
                                             <Trans>Add</Trans>
                                             &nbsp;
-                                            {addState.isLoading && (
+                                            {addState.isLoading ? (
                                                 <FontAwesomeIcon icon={faCircleNotch} spin />
-                                            )}
-                                        </Button>
+                                            ) : null}
+                                        </button>
 
                                         <div className='mt-3'>
                                             <h3 className='font-weight-bold'>
                                                 <Trans>Users Blocked</Trans>
                                             </h3>
-                                            {table}
+                                            {rows.length === 0 ? (
+                                                <div>
+                                                    <Trans>No users currently blocked</Trans>
+                                                </div>
+                                            ) : (
+                                                <ReactTable
+                                                    columns={columns}
+                                                    data={rows}
+                                                    disableSelection
+                                                    isStriped={false}
+                                                />
+                                            )}
                                         </div>
-                                    </Form>
+                                    </form>
                                 )}
                             </Formik>
                         </div>
                     </>
                 )}
             </Panel>
-        </Col>
+        </div>
     );
 };
 
 BlockList.displayName = 'BlockList';
-
-// function mapStateToProps(state) {
-//     return {
-//         apiLoading: state.api.ADD_BLOCKLIST ? state.api.ADD_BLOCKLIST.loading : undefined,
-//         apiMessage: state.api.ADD_BLOCKLIST ? state.api.ADD_BLOCKLIST.message : undefined,
-//         apiSuccess: state.api.ADD_BLOCKLIST ? state.api.ADD_BLOCKLIST.success : undefined,
-//         blockList: state.user.blockList,
-//         blockListAdded: state.user.blockListAdded,
-//         blockListDeleted: state.user.blockListDeleted,
-//         socket: state.lobby.socket,
-//         token: state.account.token,
-//         user: state.account.user
-//     };
-// }
 
 export default BlockList;

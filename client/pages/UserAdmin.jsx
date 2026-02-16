@@ -1,18 +1,18 @@
-import React, { useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { Col, Form, Table, Button, Spinner, Row } from 'react-bootstrap';
+import React, { useEffect, useMemo, useState } from 'react';
 import moment from 'moment';
+import { Formik } from 'formik';
+import { Spinner } from '@heroui/react';
 import * as yup from 'yup';
+import { useTranslation } from 'react-i18next';
+import { useDispatch, useSelector } from 'react-redux';
 
 import Panel from '../Components/Site/Panel';
 import ApiStatus from '../Components/Site/ApiStatus';
-import { Formik } from 'formik';
-import { useTranslation } from 'react-i18next';
+import ReactTable from '../Components/Table/ReactTable';
 import { useFindUserQuery, useSaveUserMutation } from '../redux/api';
 import { clearUserSessions } from '../redux/slices/adminSlice';
 
 import './UserAdmin.scss';
-import { useState } from 'react';
 
 const defaultPermissions = {
     canEditNews: false,
@@ -106,33 +106,20 @@ const UserAdmin = () => {
         username: yup.string().required('Username must be specified')
     });
 
-    let permissionsCheckBoxes;
-
-    if (currentUser) {
-        permissionsCheckBoxes = permissions.map((permission) => {
-            return (
-                <Col key={`permissions.${permission.name}`} md='4'>
-                    <Form.Check
-                        type='switch'
-                        id={`permissions.${permission.name}`}
-                        label={permission.label}
-                        inline
-                        onChange={() => {
-                            currentPermissions[permission.name] =
-                                !currentPermissions[permission.name];
-                            let newPermissions = Object.assign({}, currentPermissions);
-                            setCurrentPermissions(newPermissions);
-                        }}
-                        value='true'
-                        checked={currentPermissions[permission.name]}
-                    ></Form.Check>
-                </Col>
-            );
-        });
-    }
+    const sessionColumns = useMemo(
+        () => [
+            { accessorKey: 'ip', header: 'IP Address' },
+            {
+                accessorKey: 'lastUsed',
+                header: 'Last Used',
+                cell: ({ row }) => moment(row.original.lastUsed).format('YYYY-MM-DD HH:MM')
+            }
+        ],
+        []
+    );
 
     return (
-        <Col sm={{ span: 8, offset: 2 }}>
+        <div className='mx-auto w-full max-w-[1100px]'>
             <ApiStatus state={apiState} onClose={() => setSearchUsername('')} />
             <ApiStatus state={apiSaveState} onClose={() => saveState.reset()} />
             <Formik
@@ -143,167 +130,159 @@ const UserAdmin = () => {
                 initialValues={initialValues}
             >
                 {(formProps) => (
-                    <Form
+                    <form
                         onSubmit={(event) => {
                             event.preventDefault();
                             formProps.handleSubmit(event);
                         }}
                     >
                         <Panel title='User administration'>
-                            <Row>
-                                <Form.Group as={Col} md='6' controlId='formUsername'>
-                                    <Form.Label>{t('Username')}</Form.Label>
-                                    <Form.Control
-                                        name='username'
-                                        type='text'
-                                        placeholder={t('Enter a username')}
-                                        value={formProps.values.username}
-                                        onChange={formProps.handleChange}
-                                        onBlur={formProps.handleBlur}
-                                        isInvalid={
-                                            formProps.touched.username &&
-                                            !!formProps.errors.username
-                                        }
-                                    />
-                                    <Form.Control.Feedback type='invalid'>
+                            <div className='max-w-[520px]'>
+                                <label
+                                    className='mb-1 block text-sm text-zinc-200'
+                                    htmlFor='username'
+                                >
+                                    {t('Username')}
+                                </label>
+                                <input
+                                    id='username'
+                                    name='username'
+                                    type='text'
+                                    placeholder={t('Enter a username')}
+                                    value={formProps.values.username}
+                                    onChange={formProps.handleChange}
+                                    onBlur={formProps.handleBlur}
+                                    className='w-full rounded-md border border-zinc-600/70 bg-black/80 px-3 py-2 text-sm text-zinc-100 placeholder:text-zinc-400 focus:border-zinc-400/80 focus:outline-none'
+                                />
+                                {formProps.touched.username && formProps.errors.username ? (
+                                    <div className='mt-1 text-xs text-red-300'>
                                         {formProps.errors.username}
-                                    </Form.Control.Feedback>
-                                </Form.Group>
-                            </Row>
-                            <Row>
-                                <Col md={6}>
-                                    <Button type='submit' variant='primary'>
-                                        Submit&nbsp;
-                                        {apiState?.loading && (
-                                            <Spinner
-                                                animation='border'
-                                                size='sm'
-                                                as={'span'}
-                                                role='status'
-                                                aria-hidden='true'
-                                            />
-                                        )}
-                                    </Button>
-                                </Col>
-                            </Row>
+                                    </div>
+                                ) : null}
+                            </div>
+
+                            <div className='mt-2'>
+                                <button
+                                    type='submit'
+                                    className='rounded-md border border-zinc-600/80 bg-zinc-800/70 px-3 py-2 text-sm text-zinc-100 transition hover:bg-zinc-700/80'
+                                >
+                                    Submit&nbsp;
+                                    {apiState?.loading ? <Spinner size='sm' /> : null}
+                                </button>
+                            </div>
                         </Panel>
-                        {currentUser && (
+
+                        {currentUser ? (
                             <div>
                                 <Panel title={`${currentUser.username} - User details`}>
-                                    <dl>
-                                        <Row>
-                                            <Col md={3}>
-                                                <dt>Username:</dt>
-                                            </Col>
-                                            <Col md={3}>
-                                                <dd>{currentUser.username}</dd>
-                                            </Col>
-                                        </Row>
-                                        <Row>
-                                            <Col md={3}>
-                                                <dt>Email:</dt>
-                                            </Col>
-                                            <Col md={3}>
-                                                <dd>{currentUser.email}</dd>
-                                            </Col>
-                                        </Row>
-                                        <Row>
-                                            <Col md={3}>
-                                                <dt>Registered:</dt>
-                                            </Col>
-                                            <Col md={3}>
-                                                <dd>
-                                                    {moment(currentUser.registered).format(
-                                                        'YYYY-MM-DD HH:MM'
-                                                    )}
-                                                </dd>
-                                            </Col>
-                                        </Row>
+                                    <dl className='grid grid-cols-[140px_1fr] gap-y-1 text-sm'>
+                                        <dt>Username:</dt>
+                                        <dd>{currentUser.username}</dd>
+                                        <dt>Email:</dt>
+                                        <dd>{currentUser.email}</dd>
+                                        <dt>Registered:</dt>
+                                        <dd>
+                                            {moment(currentUser.registered).format(
+                                                'YYYY-MM-DD HH:MM'
+                                            )}
+                                        </dd>
                                     </dl>
 
-                                    <Form.Check
-                                        type='switch'
-                                        id='disabled'
-                                        label={'Disabled'}
-                                        inline
-                                        onChange={() => setUserDisabled(!userDisabled)}
-                                        value='true'
-                                        checked={userDisabled}
-                                    ></Form.Check>
-                                    <Form.Check
-                                        type='switch'
-                                        id='verified'
-                                        label={'Verified'}
-                                        inline
-                                        onChange={() => setUserVerified(!userVerified)}
-                                        value='true'
-                                        checked={userVerified}
-                                    ></Form.Check>
+                                    <div className='mt-2 grid gap-2 sm:grid-cols-2'>
+                                        <label className='flex items-center gap-2 text-sm text-zinc-200'>
+                                            <input
+                                                type='checkbox'
+                                                className='h-4 w-4 rounded border-zinc-500 bg-zinc-900/80 accent-red-600'
+                                                onChange={() => setUserDisabled(!userDisabled)}
+                                                checked={userDisabled}
+                                            />
+                                            <span>Disabled</span>
+                                        </label>
+                                        <label className='flex items-center gap-2 text-sm text-zinc-200'>
+                                            <input
+                                                type='checkbox'
+                                                className='h-4 w-4 rounded border-zinc-500 bg-zinc-900/80 accent-red-600'
+                                                onChange={() => setUserVerified(!userVerified)}
+                                                checked={userVerified}
+                                            />
+                                            <span>Verified</span>
+                                        </label>
+                                    </div>
                                 </Panel>
-                                {currentUser.linkedAccounts && (
+
+                                {currentUser.linkedAccounts ? (
                                     <Panel title='Possibly linked accounts'>
                                         <ul className='list'>
-                                            {currentUser.linkedAccounts.map((name) => {
-                                                return (
-                                                    <li key={name}>
-                                                        <a
-                                                            href='javascript:void(0)'
-                                                            onClick={() => setSearchUsername(name)}
-                                                        >
-                                                            {name}
-                                                        </a>
-                                                    </li>
-                                                );
-                                            })}
+                                            {currentUser.linkedAccounts.map((name) => (
+                                                <li key={name}>
+                                                    <button
+                                                        type='button'
+                                                        className='text-sky-300 underline'
+                                                        onClick={() => setSearchUsername(name)}
+                                                    >
+                                                        {name}
+                                                    </button>
+                                                </li>
+                                            ))}
                                         </ul>
                                     </Panel>
-                                )}
-                                {currentUser.tokens && (
+                                ) : null}
+
+                                {currentUser.tokens ? (
                                     <Panel title='Sessions'>
-                                        <Table striped>
-                                            <thead>
-                                                <tr>
-                                                    <th>IP Address</th>
-                                                    <th>Last Used</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                {currentUser.tokens.map((token) => {
-                                                    return (
-                                                        <tr key={token.ip}>
-                                                            <td>{token.ip}</td>
-                                                            <td>
-                                                                {moment(token.lastUsed).format(
-                                                                    'YYYY-MM-DD HH:MM'
-                                                                )}
-                                                            </td>
-                                                        </tr>
-                                                    );
-                                                })}
-                                            </tbody>
-                                        </Table>
-                                    </Panel>
-                                )}
-                                {user?.permissions.canManagePermissions ? (
-                                    <Panel title='Permissions'>
-                                        <Form.Group>
-                                            <Row>{permissionsCheckBoxes}</Row>
-                                        </Form.Group>
+                                        <ReactTable
+                                            columns={sessionColumns}
+                                            data={currentUser.tokens}
+                                            disableSelection
+                                        />
                                     </Panel>
                                 ) : null}
-                                <div className='text-center'>
-                                    <Button
+
+                                {user?.permissions.canManagePermissions ? (
+                                    <Panel title='Permissions'>
+                                        <div className='grid gap-2 md:grid-cols-3'>
+                                            {permissions.map((permission) => (
+                                                <label
+                                                    key={`permissions.${permission.name}`}
+                                                    className='flex items-center gap-2 text-sm text-zinc-200'
+                                                >
+                                                    <input
+                                                        type='checkbox'
+                                                        className='h-4 w-4 rounded border-zinc-500 bg-zinc-900/80 accent-red-600'
+                                                        onChange={() => {
+                                                            const nextPermissions = {
+                                                                ...currentPermissions,
+                                                                [permission.name]:
+                                                                    !currentPermissions[
+                                                                        permission.name
+                                                                    ]
+                                                            };
+                                                            setCurrentPermissions(nextPermissions);
+                                                        }}
+                                                        checked={
+                                                            !!currentPermissions[permission.name]
+                                                        }
+                                                    />
+                                                    <span>{permission.label}</span>
+                                                </label>
+                                            ))}
+                                        </div>
+                                    </Panel>
+                                ) : null}
+
+                                <div className='flex justify-center gap-2'>
+                                    <button
                                         type='button'
-                                        className='btn btn-primary col-xs-3'
+                                        className='rounded-md border border-zinc-600/80 bg-zinc-800/70 px-3 py-2 text-sm text-zinc-100 transition hover:bg-zinc-700/80'
                                         onClick={() =>
                                             dispatch(clearUserSessions(currentUser.username))
                                         }
                                     >
                                         Clear sessions
-                                    </Button>
-                                    <Button
+                                    </button>
+                                    <button
                                         type='button'
-                                        variant='primary'
+                                        className='rounded-md border border-zinc-600/80 bg-zinc-800/70 px-3 py-2 text-sm text-zinc-100 transition hover:bg-zinc-700/80'
                                         onClick={() => {
                                             currentUser.permissions = currentPermissions;
                                             currentUser.verified = userVerified;
@@ -313,23 +292,15 @@ const UserAdmin = () => {
                                         }}
                                     >
                                         Save&nbsp;
-                                        {apiSaveState?.loading && (
-                                            <Spinner
-                                                animation='border'
-                                                size='sm'
-                                                as={'span'}
-                                                role='status'
-                                                aria-hidden='true'
-                                            />
-                                        )}
-                                    </Button>
+                                        {apiSaveState?.loading ? <Spinner size='sm' /> : null}
+                                    </button>
                                 </div>
                             </div>
-                        )}
-                    </Form>
+                        ) : null}
+                    </form>
                 )}
             </Formik>
-        </Col>
+        </div>
     );
 };
 

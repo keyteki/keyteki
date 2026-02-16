@@ -47,6 +47,18 @@ const lobbyMessages = [
 export const socketMiddleware = (store) => (next) => (action) => {
     const result = next(action);
     const state = store.getState();
+    const refreshAndAuthenticateLobbySocket = () => {
+        const verifyRequest = store.dispatch(
+            api.endpoints.verifyAuthentication.initiate(undefined, { forceRefetch: true })
+        );
+
+        verifyRequest
+            .unwrap()
+            .then(() => {
+                store.dispatch(lobbyAuthenticateRequested());
+            })
+            .catch(() => {});
+    };
 
     if (lobbyConnectRequested.match(action)) {
         if (lobbySocket && lobbySocket.connected) {
@@ -130,8 +142,7 @@ export const socketMiddleware = (store) => (next) => (action) => {
         });
 
         lobbySocket.on('authfailed', () => {
-            store.dispatch(api.endpoints.verifyAuthentication.initiate());
-            store.dispatch(lobbyAuthenticateRequested());
+            refreshAndAuthenticateLobbySocket();
         });
 
         lobbySocket.on('nodestatus', (status) => {

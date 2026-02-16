@@ -53,7 +53,7 @@ const CardPilePopup = ({
         cardList = <CardTiledList cards={cards} {...listProps} />;
     }
 
-    let popupClass = classNames('panel', 'panel-body', {
+    let popupClass = classNames('card-pile-popup', {
         'our-side': popupLocation === 'bottom',
         [size]: true
     });

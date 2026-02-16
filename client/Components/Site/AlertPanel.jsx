@@ -7,19 +7,7 @@ import {
     faCheckCircle,
     faBell
 } from '@fortawesome/free-solid-svg-icons';
-import { Alert } from 'react-bootstrap';
-
-/**
- * @typedef {'primary'
- | 'secondary'
- | 'success'
- | 'bell'
- | 'danger'
- | 'warning'
- | 'info'
- | 'dark'
- | 'light'} AlertType
-*/
+import { Alert } from '@heroui/react';
 
 const AlertType = Object.freeze({
     Default: 'default',
@@ -30,6 +18,13 @@ const AlertType = Object.freeze({
     Success: 'success',
     Bell: 'bell'
 });
+
+const AlertSurfaceClassByStatus = {
+    accent: 'border border-cyan-500/60 bg-cyan-900/40 text-cyan-100',
+    danger: 'border border-red-500/60 bg-red-900/40 text-red-100',
+    success: 'border border-emerald-500/60 bg-emerald-900/40 text-emerald-100',
+    warning: 'border border-amber-500/60 bg-amber-900/45 text-amber-100'
+};
 
 /**
  * @typedef {Object} AlertPanelProps
@@ -46,8 +41,8 @@ const AlertType = Object.freeze({
  * @param {string} message
  */
 function getMessageWithLinks(message) {
-    let links = message.match(/(https?:\/\/)?([^.\s]+)?[^.\s]+\.[^\s]+/gi);
-    let retMessage = [];
+    const links = message.match(/(https?:\/\/)?([^.\s]+)?[^.\s]+\.[^\s]+/gi);
+    const retMessage = [];
 
     if (!links || links.length === 0) {
         return message;
@@ -56,17 +51,23 @@ function getMessageWithLinks(message) {
     let lastIndex = 0;
     let linkCount = 0;
 
-    for (let link of links) {
-        let index = message.indexOf(link);
+    for (const link of links) {
+        const index = message.indexOf(link, lastIndex);
 
         retMessage.push(message.substring(lastIndex, index));
         retMessage.push(
-            <Alert.Link key={linkCount++} href={link}>
+            <a
+                key={linkCount++}
+                href={link}
+                rel='noopener noreferrer'
+                target='_blank'
+                className='text-inherit underline'
+            >
                 {link}
-            </Alert.Link>
+            </a>
         );
 
-        lastIndex += index + link.length;
+        lastIndex = index + link.length;
     }
 
     retMessage.push(message.substr(lastIndex, message.length - lastIndex));
@@ -77,7 +78,14 @@ function getMessageWithLinks(message) {
 /**
  * @param {AlertPanelProps} props
  */
-const AlertPanel = ({ type = AlertType.Info, title, message, noIcon = false, children }) => {
+const AlertPanel = ({
+    type = AlertType.Info,
+    title,
+    message,
+    noIcon = false,
+    children,
+    className
+}) => {
     let icon;
     /**
      * @type {AlertType}
@@ -96,7 +104,7 @@ const AlertPanel = ({ type = AlertType.Info, title, message, noIcon = false, chi
             break;
         case AlertType.Info:
             icon = faInfoCircle;
-            alertType = 'info';
+            alertType = 'accent';
             break;
         case AlertType.Success:
             icon = faCheckCircle;
@@ -104,22 +112,42 @@ const AlertPanel = ({ type = AlertType.Info, title, message, noIcon = false, chi
             break;
         case AlertType.Bell:
             icon = faBell;
-            alertType = 'primary';
+            alertType = 'accent';
             break;
         case AlertType.Default:
         case AlertType.Primary:
         default:
             icon = faInfoCircle;
-            alertType = 'primary';
+            alertType = 'accent';
             break;
     }
 
     return (
-        <Alert variant={alertType}>
-            {title && <Alert.Heading>{title}</Alert.Heading>}
-            {!noIcon && <FontAwesomeIcon icon={icon} />}
-            {message && <span id='alert-message'>&nbsp;{getMessageWithLinks(message)}</span>}
-            {children && <span>&nbsp;{children}</span>}
+        <Alert
+            status={alertType}
+            className={`mb-2 ${AlertSurfaceClassByStatus[alertType]}${
+                className ? ` ${className}` : ''
+            }`}
+        >
+            {!noIcon && (
+                <Alert.Indicator className='text-inherit'>
+                    <FontAwesomeIcon icon={icon} />
+                </Alert.Indicator>
+            )}
+            <Alert.Content>
+                {title && <Alert.Title>{title}</Alert.Title>}
+                {(message || children) && (
+                    <Alert.Description>
+                        {message && <span id='alert-message'>{getMessageWithLinks(message)}</span>}
+                        {children && (
+                            <span>
+                                {message ? ' ' : null}
+                                {children}
+                            </span>
+                        )}
+                    </Alert.Description>
+                )}
+            </Alert.Content>
         </Alert>
     );
 };

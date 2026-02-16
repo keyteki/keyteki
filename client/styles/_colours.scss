@@ -15,7 +15,7 @@ $theme-colors: (
     'emphasis': #fbed18
 );
 
-@function theme-color($key) {
+@function app-color($key) {
     @return map.get($theme-colors, $key);
 }
 
