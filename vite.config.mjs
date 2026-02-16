@@ -46,6 +46,7 @@ export default defineConfig(({ mode }) => ({
         )
     },
     build: {
+        cssMinify: 'lightningcss',
         sourcemap: true,
         outDir: 'dist',
         emptyOutDir: true,
