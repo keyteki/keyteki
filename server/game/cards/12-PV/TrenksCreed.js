@@ -21,7 +21,7 @@ class TrenksCreed extends Card {
                     numCards: 1,
                     cardStat: (card) => card.power,
                     gameAction: ability.actions.capture((context) => ({
-                        amount: context.player.opponent.amber
+                        amount: context.player.opponent ? context.player.opponent.amber : 0
                     }))
                 },
                 'Move amber to common supply': {
