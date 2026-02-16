@@ -51,6 +51,8 @@ jobs:
             - name: Build client
               env:
                   VERSION: ${{ steps.determine_version.outputs.semVer }}
+                  # Public hCaptcha site key used by the frontend widget
+                  VITE_HCAPTCHA_SITEKEY: ${{ secrets.HCAPTCHA_SITE_KEY }}
                   VITE_SENTRY_DSN: ${{ secrets.SENTRY_DSN }}
                   VITE_VERSION: ${{ steps.determine_version.outputs.semVer }}
                   SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
@@ -92,6 +94,8 @@ jobs:
               uses: docker/build-push-action@v3
               with:
                   build-args: |
+                      # Public hCaptcha site key compiled into the client bundle
+                      HCAPTCHA_SITEKEY=${{ secrets.HCAPTCHA_SITE_KEY }}
                       VERSION=${{ steps.determine_version.outputs.semVer }}
                       SENTRY_DSN=${{ secrets.SENTRY_DSN }}
                       SENTRY_AUTH_TOKEN=${{ secrets.SENTRY_AUTH_TOKEN }}

@@ -28,7 +28,7 @@ const ProfileMenu = ({ menu, mobile = false, user }) => {
 
     const triggerClass = mobile
         ? '!inline-flex !h-9 !w-full !items-center !justify-start !rounded-md !bg-transparent !px-3 !text-sm !font-medium !text-foreground transition hover:!bg-accent/15 hover:!text-foreground'
-        : '!inline-flex !h-9 !min-w-0 !items-center !rounded-md !bg-transparent !px-4 !text-sm !font-medium !text-link transition hover:!bg-accent/15 hover:!text-accent lg:!h-[50px]';
+        : '!inline-flex !h-9 !min-w-0 !items-center !rounded-md !bg-transparent !px-4 !text-sm !font-medium !text-link transition hover:!bg-accent/15 hover:!text-accent lg:!h-12';
 
     return (
         <Dropdown onOpenChange={setIsOpen}>
@@ -41,7 +41,7 @@ const ProfileMenu = ({ menu, mobile = false, user }) => {
                         </span>
                         <FontAwesomeIcon
                             icon={isOpen ? faChevronUp : faChevronDown}
-                            className='text-[10px] text-current/90'
+                            className='text-xs text-current/90'
                         />
                     </span>
                 </span>

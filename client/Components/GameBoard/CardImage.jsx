@@ -6,8 +6,6 @@ import * as fabricModule from 'fabric';
 const fabric = fabricModule.fabric ?? fabricModule.default ?? fabricModule;
 import { buildCard } from '../../archonMaker';
 
-import './CardImage.scss';
-
 /**
  * @typedef CardImageProps
  * @property {object} card // The card data to render an image for

@@ -583,12 +583,12 @@ const AllianceBuilderPage = () => {
                     <div className='flex items-center gap-2'>
                         <span>{deck.name}</span>
                         {hasProphecies && (
-                            <span className='inline-flex rounded-md border border-border/70 bg-surface-secondary px-2 py-0.5 text-[10px] uppercase tracking-wide text-muted'>
+                            <span className='inline-flex rounded-md border border-border/70 bg-surface-secondary px-2 py-0.5 text-xs uppercase tracking-wide text-muted'>
                                 {t('Prophecy available')}
                             </span>
                         )}
                         {hasToken && (
-                            <span className='inline-flex rounded-md border border-border/70 bg-surface-secondary px-2 py-0.5 text-[10px] uppercase tracking-wide text-muted'>
+                            <span className='inline-flex rounded-md border border-border/70 bg-surface-secondary px-2 py-0.5 text-xs uppercase tracking-wide text-muted'>
                                 {t('Token available')}
                             </span>
                         )}
@@ -644,7 +644,7 @@ const AllianceBuilderPage = () => {
                                         <span>{getHouseLabel(house)}</span>
                                     </button>
                                     <div
-                                        className={`absolute left-0 top-[calc(100%-1px)] z-20 min-w-[240px] max-w-[320px] rounded-md border border-border/70 bg-surface/95 p-2 shadow-lg ${
+                                        className={`absolute left-0 top-full -mt-px z-20 min-w-60 max-w-80 rounded-md border border-border/70 bg-surface/95 p-2 shadow-lg ${
                                             activeHoverPanel === `house:${deck.uuid}:${house}`
                                                 ? 'block'
                                                 : 'hidden'
@@ -654,7 +654,7 @@ const AllianceBuilderPage = () => {
                                         }
                                         onMouseLeave={closeHoverPanel}
                                     >
-                                        <div className='mb-1 text-[11px] uppercase tracking-wide text-muted'>
+                                        <div className='mb-1 text-xs uppercase tracking-wide text-muted'>
                                             {getHouseLabel(house)}
                                         </div>
                                         <div className='max-h-56 space-y-1 overflow-y-auto pr-1'>
@@ -729,7 +729,7 @@ const AllianceBuilderPage = () => {
                                                     }`}
                                                     onClick={() => setActiveSlotIndex(slotIndex)}
                                                 >
-                                                    <div className='text-[11px] uppercase tracking-wide text-muted'>
+                                                    <div className='text-xs uppercase tracking-wide text-muted'>
                                                         {t('House')} {slotIndex + 1}
                                                     </div>
                                                     {selection ? (
@@ -787,7 +787,7 @@ const AllianceBuilderPage = () => {
 
                                         {expansionRequiresToken && (
                                             <div className='relative rounded-md border border-border/70 bg-surface-secondary/65 p-2 text-left'>
-                                                <div className='text-[11px] uppercase tracking-wide text-muted'>
+                                                <div className='text-xs uppercase tracking-wide text-muted'>
                                                     {t('Token')}
                                                 </div>
                                                 {selectedTokenDeck ? (
@@ -830,7 +830,7 @@ const AllianceBuilderPage = () => {
 
                                         {expansionSupportsProphecy && (
                                             <div className='relative rounded-md border border-border/70 bg-surface-secondary/65 p-2 text-left'>
-                                                <div className='text-[11px] uppercase tracking-wide text-muted'>
+                                                <div className='text-xs uppercase tracking-wide text-muted'>
                                                     {t('Prophecy')}
                                                 </div>
                                                 {selectedProphecyDeck ? (
@@ -981,12 +981,12 @@ const AllianceBuilderPage = () => {
                                                                 <span className='block font-medium'>
                                                                     {tokenDeck.deckName}
                                                                 </span>
-                                                                <span className='block text-[11px] text-muted'>
+                                                                <span className='block text-xs text-muted'>
                                                                     {tokenDeck.tokenName}
                                                                 </span>
                                                             </button>
                                                             <div
-                                                                className={`absolute left-0 top-[calc(100%-1px)] z-20 min-w-[240px] max-w-[320px] rounded-md border border-border/70 bg-surface/95 p-2 shadow-lg ${
+                                                                className={`absolute left-0 top-full -mt-px z-20 min-w-60 max-w-80 rounded-md border border-border/70 bg-surface/95 p-2 shadow-lg ${
                                                                     activeHoverPanel ===
                                                                     `token:${tokenDeck.deckUuid}`
                                                                         ? 'block'
@@ -999,7 +999,7 @@ const AllianceBuilderPage = () => {
                                                                 }
                                                                 onMouseLeave={closeHoverPanel}
                                                             >
-                                                                <div className='mb-1 text-[11px] uppercase tracking-wide text-muted'>
+                                                                <div className='mb-1 text-xs uppercase tracking-wide text-muted'>
                                                                     {t('Token')}
                                                                 </div>
                                                                 <button
@@ -1069,7 +1069,7 @@ const AllianceBuilderPage = () => {
                                                                 <span className='block font-medium'>
                                                                     {prophecyDeck.deckName}
                                                                 </span>
-                                                                <span className='block text-[11px] text-muted'>
+                                                                <span className='block text-xs text-muted'>
                                                                     {t(
                                                                         '{{count}} prophecy card(s)',
                                                                         {
@@ -1079,7 +1079,7 @@ const AllianceBuilderPage = () => {
                                                                 </span>
                                                             </button>
                                                             <div
-                                                                className={`absolute left-0 top-[calc(100%-1px)] z-20 min-w-[240px] max-w-[320px] rounded-md border border-border/70 bg-surface/95 p-2 shadow-lg ${
+                                                                className={`absolute left-0 top-full -mt-px z-20 min-w-60 max-w-80 rounded-md border border-border/70 bg-surface/95 p-2 shadow-lg ${
                                                                     activeHoverPanel ===
                                                                     `prophecy:${prophecyDeck.deckUuid}`
                                                                         ? 'block'
@@ -1092,7 +1092,7 @@ const AllianceBuilderPage = () => {
                                                                 }
                                                                 onMouseLeave={closeHoverPanel}
                                                             >
-                                                                <div className='mb-1 text-[11px] uppercase tracking-wide text-muted'>
+                                                                <div className='mb-1 text-xs uppercase tracking-wide text-muted'>
                                                                     {t('Prophecies')}
                                                                 </div>
                                                                 <div className='max-h-56 space-y-1 overflow-y-auto pr-1'>
@@ -1218,7 +1218,7 @@ const AllianceBuilderPage = () => {
                                     <Trans>Save alliance deck</Trans>
                                 </Button>
                             </div>
-                            <div className='mt-1 text-[11px] text-muted'>
+                            <div className='mt-1 text-xs text-muted'>
                                 {saveState.isSuccess
                                     ? t(
                                           'Your alliance deck was created. Taking you back to Decks...'

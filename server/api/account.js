@@ -762,11 +762,14 @@ module.exports.init = function (server, options) {
         wrapAsync(async (req, res) => {
             let resetToken;
 
-            let response = await util.httpRequest(
-                `https://www.google.com/recaptcha/api/siteverify?secret=${configService.getValue(
-                    'captchaKey'
-                )}&response=${req.body.captcha}`
-            );
+            let response = await util.httpRequest('https://hcaptcha.com/siteverify', {
+                method: 'POST',
+                form: {
+                    secret: configService.getValue('captchaKey'),
+                    response: req.body.captcha,
+                    remoteip: req.ip
+                }
+            });
             let answer = JSON.parse(response);
 
             if (!answer.success) {

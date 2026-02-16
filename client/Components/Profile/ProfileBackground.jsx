@@ -70,7 +70,7 @@ const ProfileBackground = ({
         >
             <img
                 alt={background.label}
-                className={`h-[86px] w-full rounded object-cover ${
+                className={`h-20 w-full rounded object-cover ${
                     selectedBackground === background.name ? 'shadow-[0_0_1px_3px_#009648]' : ''
                 }`}
                 src={background.imageUrl}
@@ -95,7 +95,7 @@ const ProfileBackground = ({
                 >
                     <img
                         alt={t('Custom')}
-                        className={`h-[86px] w-full rounded object-cover ${
+                        className={`h-20 w-full rounded object-cover ${
                             selectedBackground === 'custom' ? 'shadow-[0_0_1px_3px_#009648]' : ''
                         }`}
                         src={localCustomBg || backgrounds[0]?.imageUrl}

@@ -5,8 +5,6 @@ import { useTranslation } from 'react-i18next';
 
 import DeckStatusSummary from './DeckStatusSummary';
 
-import './DeckStatus.scss';
-
 const DeckStatus = ({ status }) => {
     const { t } = useTranslation();
 

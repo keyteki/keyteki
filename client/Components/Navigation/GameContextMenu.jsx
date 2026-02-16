@@ -14,7 +14,7 @@ const GameContextMenu = ({ mobile = false }) => {
 
     const itemClass = mobile
         ? 'inline-flex h-9 w-full items-center rounded-md px-3 text-left text-sm font-medium text-foreground transition hover:bg-accent/15 hover:text-foreground'
-        : 'inline-flex h-9 items-center rounded-md px-3 text-sm font-medium text-muted transition hover:bg-accent/15 hover:text-foreground lg:h-[50px]';
+        : 'inline-flex h-9 items-center rounded-md px-3 text-sm font-medium text-muted transition hover:bg-accent/15 hover:text-foreground lg:h-12';
 
     const isGameActive = () => {
         if (!currentGame || !user) {
@@ -90,7 +90,7 @@ const GameContextMenu = ({ mobile = false }) => {
                         className={
                             mobile
                                 ? 'mt-1 rounded-md border border-border/70 bg-overlay/95 px-3 py-2 text-xs text-foreground'
-                                : 'absolute left-0 top-full z-50 mt-1 min-w-[120px] rounded-md border border-border/70 bg-overlay/95 px-3 py-2 text-xs text-foreground'
+                                : 'absolute left-0 top-full z-50 mt-1 min-w-30 rounded-md border border-border/70 bg-overlay/95 px-3 py-2 text-xs text-foreground'
                         }
                     >
                         {currentGame.spectators.map((spectator) => (

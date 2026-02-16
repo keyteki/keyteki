@@ -30,14 +30,6 @@ export default defineConfig(({ mode }) => ({
             }
         ]
     },
-    css: {
-        preprocessorOptions: {
-            scss: {
-                quietDeps: true,
-                silenceDeprecations: ['legacy-js-api']
-            }
-        }
-    },
     define: {
         process: {
             env: {

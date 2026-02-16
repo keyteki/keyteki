@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { Button } from '@heroui/react';
 
 import Panel from '../Components/Site/Panel';
 import ReactTable from '../Components/Table/ReactTable';
@@ -48,20 +49,22 @@ const NodeAdmin = () => {
                 header: 'Actions',
                 cell: ({ row }) => (
                     <div className='flex gap-2'>
-                        <button
+                        <Button
                             type='button'
-                            className='rounded-md border border-zinc-600/80 bg-zinc-800/70 px-3 py-1.5 text-xs text-zinc-100 transition hover:bg-zinc-700/80'
+                            size='sm'
+                            variant='secondary'
                             onClick={(event) => onToggleNodeClick(row.original, event)}
                         >
                             {row.original.status === 'active' ? 'Disable' : 'Enable'}
-                        </button>
-                        <button
+                        </Button>
+                        <Button
                             type='button'
-                            className='rounded-md border border-zinc-600/80 bg-zinc-800/70 px-3 py-1.5 text-xs text-zinc-100 transition hover:bg-zinc-700/80'
+                            size='sm'
+                            variant='secondary'
                             onClick={(event) => onRestartNodeClick(row.original, event)}
                         >
                             Restart
-                        </button>
+                        </Button>
                     </div>
                 )
             }
@@ -80,16 +83,13 @@ const NodeAdmin = () => {
     }
 
     return (
-        <div className='mx-auto w-full max-w-[1100px]'>
+        <div className='mx-auto w-full max-w-6xl'>
             <Panel title='Game Node Administration'>
                 {content}
 
-                <button
-                    className='mt-2 rounded-md border border-zinc-600/80 bg-zinc-800/70 px-3 py-1.5 text-xs text-zinc-100 transition hover:bg-zinc-700/80'
-                    onClick={onRefreshClick}
-                >
+                <Button className='mt-2' size='sm' variant='secondary' onClick={onRefreshClick}>
                     Refresh
-                </button>
+                </Button>
             </Panel>
         </div>
     );

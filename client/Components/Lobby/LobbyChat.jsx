@@ -296,7 +296,7 @@ const LobbyChat = ({
     return (
         <div className='relative min-h-0 flex-1'>
             <div
-                className={`min-h-0 h-full overflow-y-auto px-1 pe-3 pt-2 [scrollbar-gutter:stable] text-[13px] [&_.message-deleted]:italic [&_.message-moderated]:line-through [&_.username]:me-1 ${className}`}
+                className={`min-h-0 h-full overflow-y-auto px-1 pe-3 pt-2 [scrollbar-gutter:stable] text-sm [&_.message-deleted]:italic [&_.message-moderated]:line-through [&_.username]:me-1 ${className}`}
                 ref={messageRef}
                 onScroll={onScroll}
             >
@@ -305,7 +305,7 @@ const LobbyChat = ({
             {!isPinnedToBottom ? (
                 <button
                     type='button'
-                    className='absolute bottom-2 left-1/2 -translate-x-1/2 rounded-full border border-border/80 bg-overlay/95 px-2.5 py-1 text-[11px] font-medium text-foreground shadow-[var(--overlay-shadow)] transition hover:bg-accent/15'
+                    className='absolute bottom-2 left-1/2 -translate-x-1/2 rounded-full border border-border/80 bg-overlay/95 px-2.5 py-1 text-xs font-medium text-foreground shadow-[var(--overlay-shadow)] transition hover:bg-accent/15'
                     onClick={() => scheduleScrollToBottom(true)}
                 >
                     Jump to latest

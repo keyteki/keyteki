@@ -175,16 +175,16 @@ const GameList = ({ gameFilter = {}, games = [], onJoinOrWatchClick }) => {
                                                 <span className='text-xs text-muted'>
                                                     [{elapsed}]
                                                 </span>
-                                                <span className='rounded-sm border border-border/70 bg-overlay/80 px-1.5 py-0.5 text-[10px] uppercase tracking-wide text-muted'>
+                                                <span className='rounded-sm border border-border/70 bg-overlay/80 px-1.5 py-0.5 text-xs uppercase tracking-wide text-muted'>
                                                     {game.gameFormat}
                                                 </span>
                                                 {game.gamePrivate && isAdmin ? (
-                                                    <span className='rounded-sm border border-border/70 bg-overlay/80 px-1.5 py-0.5 text-[10px] uppercase tracking-wide text-muted'>
+                                                    <span className='rounded-sm border border-border/70 bg-overlay/80 px-1.5 py-0.5 text-xs uppercase tracking-wide text-muted'>
                                                         Private
                                                     </span>
                                                 ) : null}
                                                 {game.node && isAdmin ? (
-                                                    <span className='rounded-sm border border-border/70 bg-overlay/80 px-1.5 py-0.5 text-[10px] uppercase tracking-wide text-muted'>
+                                                    <span className='rounded-sm border border-border/70 bg-overlay/80 px-1.5 py-0.5 text-xs uppercase tracking-wide text-muted'>
                                                         {game.node}
                                                     </span>
                                                 ) : null}
@@ -192,7 +192,7 @@ const GameList = ({ gameFilter = {}, games = [], onJoinOrWatchClick }) => {
                                         </div>
                                         <div className='flex items-center gap-1.5'>
                                             <span
-                                                className={`rounded-sm border px-1.5 py-0.5 text-[10px] font-medium uppercase tracking-wide ${
+                                                className={`rounded-sm border px-1.5 py-0.5 text-xs font-medium uppercase tracking-wide ${
                                                     typeBadgeClass[type] ||
                                                     'border-border/70 text-muted'
                                                 }`}

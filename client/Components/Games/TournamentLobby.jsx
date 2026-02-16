@@ -17,8 +17,6 @@ import ApiStatus from '../Site/ApiStatus';
 import Panel from '../Site/Panel';
 import NewGame from './NewGame';
 
-import './TournamentLobby.scss';
-
 const Row = ({ children, className = '' }) => (
     <div className={`flex flex-wrap ${className}`}>{children}</div>
 );
@@ -224,7 +222,9 @@ const TournamentLobby = () => {
                 <Row>
                     <Col>
                         {openMatches[0] && (
-                            <div className='match-turn'>{'Turn: ' + openMatches[0].turn}</div>
+                            <div className='text-xl font-extrabold'>
+                                {'Turn: ' + openMatches[0].turn}
+                            </div>
                         )}
                         {openMatches.map((match, index) => {
                             const game = tournamentGames.find(

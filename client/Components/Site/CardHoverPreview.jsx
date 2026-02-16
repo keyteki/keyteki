@@ -30,7 +30,7 @@ const CardHoverPreview = ({ card, position }) => {
             className='pointer-events-none fixed z-[1200]'
             style={{ left: `${left}px`, top: `${top}px` }}
         >
-            <div className='w-[300px]'>
+            <div className='w-72'>
                 <CardImage card={Object.assign({}, card)} />
             </div>
         </div>,

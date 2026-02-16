@@ -6,8 +6,6 @@ import { useSelector } from 'react-redux';
 import DeckList from '../Decks/DeckList.jsx';
 import { Constants } from '../../constants.js';
 
-import './SelectDeckModal.scss';
-
 const SelectDeckModal = ({
     deckFilter,
     onClose,
@@ -33,7 +31,7 @@ const SelectDeckModal = ({
                         />
                         {standaloneDecks && standaloneDecks.length !== 0 ? (
                             <div>
-                                <h4 className='deck-list-header'>
+                                <h4 className='ml-4'>
                                     <Trans>Or choose a standalone deck</Trans>:
                                 </h4>
                                 <DeckList standaloneDecks onDeckSelected={onDeckSelected} />

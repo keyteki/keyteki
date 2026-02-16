@@ -4,8 +4,6 @@ import classNames from 'classnames';
 import CardPilePopup from './CardPilePopup';
 import CardImage from './CardImage';
 
-import './CardPileLink.scss';
-
 const CardPileLink = ({
     cardBack,
     cards,

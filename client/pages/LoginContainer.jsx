@@ -47,7 +47,7 @@ const LoginContainer = () => {
           };
 
     return (
-        <div className='mx-auto w-full max-w-[960px]'>
+        <div className='mx-auto w-full max-w-2xl'>
             <Panel title={t('Login')}>
                 <ApiStatus state={apiState} onClose={() => loginState.reset()} />
                 <Login onSubmit={(values) => loginAccount(values)} />

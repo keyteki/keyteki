@@ -14,8 +14,6 @@ import DrawImage from '../../assets/img/enhancements/drawui.png';
 import DamageImage from '../../assets/img/enhancements/damageui.png';
 import DiscardImage from '../../assets/img/enhancements/discardui.png';
 
-import './DeckSummary.scss';
-
 const DeckSummary = ({ deck }) => {
     const { t, i18n } = useTranslation();
     const [triggerUpdateAccoladeShown] = useUpdateAccoladeShownMutation();
@@ -161,17 +159,17 @@ const DeckSummary = ({ deck }) => {
     const totalGames = parseInt(deck.wins || 0) + parseInt(deck.losses || 0);
 
     return (
-        <div className='deck-summary mx-auto mt-3 w-full max-w-[980px]'>
+        <div className='deck-summary mx-auto mt-3 w-full max-w-5xl'>
             <div className='flex flex-wrap items-start gap-4'>
-                <div className='w-full max-w-[210px] shrink-0 aspect-[5/7] sm:w-[32%]'>
+                <div className='w-full max-w-52 shrink-0 aspect-[5/7] sm:w-[32%]'>
                     <CardBack
                         className='block h-full w-full overflow-hidden'
                         imageClassName='!h-full !w-full !max-h-full !max-w-full'
                         deck={deck}
                     />
                 </div>
-                <div className='min-w-[220px] flex-1'>
-                    <div className='grid max-w-[300px] grid-cols-[1fr_auto] gap-x-4 gap-y-1 text-lg'>
+                <div className='min-w-56 flex-1'>
+                    <div className='grid max-w-72 grid-cols-[1fr_auto] gap-x-4 gap-y-1 text-lg'>
                         <span>{t('Wins')}</span>
                         <span>{deck.wins}</span>
                         <span>{t('Losses')}</span>

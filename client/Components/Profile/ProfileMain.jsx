@@ -20,8 +20,6 @@ import { PatreonStatus } from '../../types';
 import Avatar from '../Site/Avatar';
 import Panel from '../Site/Panel';
 
-import './ProfileMain.scss';
-
 /**
  * @typedef { import('./Profile').ProfileDetails } ProfileDetails
  */
@@ -128,11 +126,7 @@ const ProfileMain = ({ user, formProps, section }) => {
                 <Panel type='default' compactHeader title={t('Avatar')}>
                     <div className='flex items-center gap-3'>
                         {!formProps.errors.avatar && localAvatar ? (
-                            <img
-                                className='profile-avatar'
-                                src={localAvatar}
-                                alt={user?.username}
-                            />
+                            <img className='h-8 w-8' src={localAvatar} alt={user?.username} />
                         ) : (
                             <Avatar imgPath={user?.avatar} />
                         )}
@@ -243,11 +237,7 @@ const ProfileMain = ({ user, formProps, section }) => {
             <Panel type='default' compactHeader title={t('Connected Services')}>
                 <div className='flex items-center justify-between gap-3 rounded border border-border/70 bg-surface-secondary/75 px-3 py-2'>
                     <div className='flex items-center gap-3'>
-                        <img
-                            className='profile-patreon-icon'
-                            src={PatreonImage}
-                            alt={t('Patreon Logo')}
-                        />
+                        <img className='h-5' src={PatreonImage} alt={t('Patreon Logo')} />
                         <div>
                             <div className='text-sm text-foreground'>Patreon</div>
                             <div className='text-xs text-muted'>

@@ -12,7 +12,7 @@ import { Avatar as HeroAvatar } from '@heroui/react';
  * @param {AvatarProps} props
  */
 const Avatar = ({ float, imgPath }) => {
-    const className = `gravatar size-8 shrink-0 align-middle mr-[5px]${float ? ' float-left' : ''}`;
+    const className = `gravatar size-8 shrink-0 align-middle mr-1.5${float ? ' float-left' : ''}`;
     const imageSrc = imgPath ? `/img/avatar/${imgPath}.png` : undefined;
 
     return (

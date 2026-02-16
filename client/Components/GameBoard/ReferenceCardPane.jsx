@@ -34,7 +34,7 @@ const ReferenceCardPane = ({
         const img = getCardImage(i18n.language, player.tokenCard.image);
         return (
             <img
-                className='img-fluid normal reference-card'
+                className='normal reference-card block h-auto max-w-full'
                 src={img}
                 onMouseOver={() => {
                     onMouseOver({
@@ -73,9 +73,9 @@ const ReferenceCardPane = ({
                                 isController &&
                                 (card.canActivateProphecy || currentGame.manualMode);
                             const isActive = card.activeProphecy;
-                            const className = `img-fluid normal reference-card prophecy-card ${
+                            const className = `normal reference-card prophecy-card block h-auto max-w-full ${
                                 isActive ? 'active' : 'inactive'
-                            } ${isClickable ? 'clickable' : ''} ${
+                            } ${isClickable ? 'is-clickable cursor-pointer' : ''} ${
                                 !isActive && card.canActivateProphecy ? 'can-activate' : ''
                             }`;
 
@@ -209,7 +209,7 @@ const ReferenceCardPane = ({
             <div className='tide-card-slot'>
                 <img
                     onClick={onClickTide}
-                    className={`img-fluid normal reference-card tide-card tide-${
+                    className={`normal reference-card tide-card block h-auto max-w-full tide-${
                         thisPlayer.stats.tide
                     }
                         ${

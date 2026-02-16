@@ -80,11 +80,11 @@ const Navigation = (props) => {
     }, []);
 
     const navTextClass =
-        'inline-flex h-9 items-center px-3 text-sm font-medium text-foreground lg:h-[50px]';
+        'inline-flex h-9 items-center px-3 text-sm font-medium text-foreground lg:h-12';
     const navLinkClass =
-        'inline-flex h-9 items-center rounded-md px-3 text-sm font-medium text-muted transition hover:bg-accent/15 hover:text-foreground lg:h-[50px]';
+        'inline-flex h-9 items-center rounded-md px-3 text-sm font-medium text-muted transition hover:bg-accent/15 hover:text-foreground lg:h-12';
     const navDropdownTriggerClass =
-        '!inline-flex !h-9 !min-w-0 !items-center !gap-1.5 !rounded-md !bg-transparent !px-4 !text-sm !font-medium !text-link transition hover:!bg-accent/15 hover:!text-accent lg:!h-[50px]';
+        '!inline-flex !h-9 !min-w-0 !items-center !gap-1.5 !rounded-md !bg-transparent !px-4 !text-sm !font-medium !text-link transition hover:!bg-accent/15 hover:!text-accent lg:!h-12';
 
     /**
      * @param {MenuItem} menuItem The menu item
@@ -155,7 +155,7 @@ const Navigation = (props) => {
                                 <span>{t(menuItem.title)}</span>
                                 <FontAwesomeIcon
                                     icon={isOpen ? faChevronUp : faChevronDown}
-                                    className='text-[10px] text-current/90'
+                                    className='text-xs text-current/90'
                                 />
                             </span>
                         </Dropdown.Trigger>
@@ -195,7 +195,7 @@ const Navigation = (props) => {
     };
 
     return (
-        <nav className='fixed top-0 z-50 h-[50px] w-full border-b border-border/80 bg-overlay/95 text-foreground shadow-[0_1px_0_color-mix(in_oklab,var(--border)_88%,transparent)] backdrop-blur-sm'>
+        <nav className='fixed top-0 z-50 h-12 w-full border-b border-border/80 bg-overlay/95 text-foreground shadow-[0_1px_0_color-mix(in_oklab,var(--border)_88%,transparent)] backdrop-blur-sm'>
             <div className='mx-auto flex h-full w-full items-center px-2 sm:px-3 lg:px-4'>
                 <div className='flex w-full items-center justify-between lg:hidden'>
                     <div className='w-10' />
@@ -225,7 +225,7 @@ const Navigation = (props) => {
                                     ? HeaderIconLight
                                     : HeaderIcon
                             }
-                            className='h-8 w-[328px] object-contain'
+                            className='h-8 w-80 object-contain'
                             alt='TCO Logo'
                         />
                     </Link>
@@ -261,7 +261,7 @@ const Navigation = (props) => {
                 <div className='border-t border-border/70 bg-overlay/95 px-3 pb-3 pt-2 lg:hidden'>
                     <div className='grid gap-2'>
                         <div className='rounded-md border border-border/70 bg-surface/80 p-2'>
-                            <div className='mb-1 text-[11px] uppercase tracking-wide text-muted'>
+                            <div className='mb-1 text-xs uppercase tracking-wide text-muted'>
                                 {t('Navigation')}
                             </div>
                             <div className='grid gap-1'>
@@ -269,7 +269,7 @@ const Navigation = (props) => {
                             </div>
                         </div>
                         <div className='rounded-md border border-border/70 bg-surface/80 p-2'>
-                            <div className='mb-1 text-[11px] uppercase tracking-wide text-muted'>
+                            <div className='mb-1 text-xs uppercase tracking-wide text-muted'>
                                 {t('Account')}
                             </div>
                             <div className='grid gap-1'>

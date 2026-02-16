@@ -6,8 +6,6 @@ import Card from './Card';
 import PlayerRow from './PlayerRow';
 import Droppable from './Droppable';
 
-import './PlayerBoard.scss';
-
 const PlayerBoard = (props) => {
     const rows = useMemo(() => {
         const cardsInPlay = props.cardsInPlay || [];

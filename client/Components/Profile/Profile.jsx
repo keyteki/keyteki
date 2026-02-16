@@ -15,8 +15,6 @@ import BlankBg from '../../assets/img/bgs/blank.png';
 import MassMutationBg from '../../assets/img/bgs/massmutation.png';
 import AlertPanel from '../Site/AlertPanel';
 
-import './Profile.scss';
-
 /**
  * User profile settings
  * @typedef {Object} SettingsDetails

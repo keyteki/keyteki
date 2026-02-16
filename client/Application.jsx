@@ -1,5 +1,4 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import $ from 'jquery';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
 
@@ -80,14 +79,6 @@ const Application = () => {
             }
         }
 
-        const handleAjaxError = (event, xhr) => {
-            if (xhr.status === 403) {
-                navigate('/unauth');
-            }
-        };
-
-        $(document).ajaxError(handleAjaxError);
-
         dispatch(lobbyConnectRequested());
 
         const onFocusChange = (event) => {
@@ -102,11 +93,10 @@ const Application = () => {
         window.addEventListener('blur', onFocusChange);
 
         return () => {
-            $(document).off('ajaxError', handleAjaxError);
             window.removeEventListener('focus', onFocusChange);
             window.removeEventListener('blur', onFocusChange);
         };
-    }, [dispatch, navigate, verifyAuthentication]);
+    }, [dispatch, verifyAuthentication]);
 
     const blinkTab = useCallback(() => {
         if (!currentGame || !currentGame.players) {
@@ -201,7 +191,7 @@ const Application = () => {
         <div className='bg' ref={bgRef}>
             <Navigation appName='The Crucible Online' user={user} />
             <div className='wrapper'>
-                <div className='content mx-auto w-full px-3 sm:px-4 lg:max-w-[92vw] lg:px-6 2xl:max-w-[1800px]'>
+                <div className='content mx-auto w-full px-3 sm:px-4 lg:max-w-[92vw] lg:px-6 2xl:max-w-screen-2xl'>
                     <ErrorBoundary
                         navigate={navigate}
                         errorPath={path}

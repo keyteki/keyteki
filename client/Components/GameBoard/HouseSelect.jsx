@@ -2,8 +2,6 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Constants } from '../../constants';
 
-import './HouseSelect.scss';
-
 /**
  * @typedef HouseSelectProps
  * @property {Object[]} buttons array of buttons

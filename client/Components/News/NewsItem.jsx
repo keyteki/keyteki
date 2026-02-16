@@ -34,7 +34,7 @@ const NewsItem = ({ date, icon, poster, text }) => {
     return (
         <div className="relative flex min-h-9 items-center border-b border-dotted border-border/80 py-1.5 text-muted [&:first-child::before]:absolute [&:first-child::before]:-left-3 [&:first-child::before]:top-0 [&:first-child::before]:bottom-0 [&:first-child::before]:w-1 [&:first-child::before]:bg-accent [&:first-child::before]:content-[''] [&:first-child_.news-item-title]:font-medium [&:first-child_.news-item-title]:text-foreground">
             <span
-                className='me-2 inline-block h-[18px] min-w-[18px] bg-contain bg-center bg-no-repeat'
+                className='me-2 inline-block h-5 min-w-5 bg-contain bg-center bg-no-repeat'
                 style={{ backgroundImage: `url('${iconPath}')` }}
             />
             <span className='inline-flex items-center text-xs leading-5 text-muted'>

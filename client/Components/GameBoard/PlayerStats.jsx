@@ -24,7 +24,6 @@ import IdentityCard from './IdentityCard';
 import CardPileLink from './CardPileLink';
 import Droppable from './Droppable';
 import DrawDeck from './DrawDeck';
-import './PlayerStats.scss';
 
 const PlayerStats = ({
     activeHouse,
@@ -131,7 +130,7 @@ const PlayerStats = ({
                                     dispatch(gameSendMessage('changeActiveHouse', house));
                                 }
                             }}
-                            className={`img-fluid ${
+                            className={`block h-auto max-w-full ${
                                 activeHouse === house ? 'active' : 'inactive'
                             }-house`}
                             src={Constants.IdBackHousePaths[house]}
@@ -150,7 +149,7 @@ const PlayerStats = ({
                     <img
                         key='tide'
                         onClick={onClickTide}
-                        className='img-fluid tide'
+                        className='tide block h-auto max-w-full'
                         src={Constants.TideImages[stats.tide]}
                         title={t(`${stats.tide}-tide`)}
                     />
@@ -317,7 +316,7 @@ const PlayerStats = ({
                         <div className='state'>
                             <a
                                 href='#'
-                                className={manualMode ? 'text-danger' : ''}
+                                className={manualMode ? 'text-red-400' : ''}
                                 onClick={onManualModeClick}
                             >
                                 <FontAwesomeIcon icon={faWrench}></FontAwesomeIcon>

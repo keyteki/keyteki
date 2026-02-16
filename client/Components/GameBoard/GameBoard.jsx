@@ -16,8 +16,6 @@ import TimeLimitClock from './TimeLimitClock';
 import { gameSendMessage } from '../../redux/socketActions';
 import { canShowDeckName, getMatchRecord, isSpectating, normalizePlayer } from './gameboardUtils';
 
-import './GameBoard.scss';
-
 const hasDenseRow = (player) => {
     const cardsInPlay = player?.cardPiles?.cardsInPlay || [];
     const grouped = cardsInPlay.reduce((acc, card) => {

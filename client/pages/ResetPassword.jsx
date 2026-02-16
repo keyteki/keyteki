@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
+import { Formik } from 'formik';
+import * as yup from 'yup';
+import { Button, Input, Label } from '@heroui/react';
 
 import AlertPanel from '../Components/Site/AlertPanel';
 import Panel from '../Components/Site/Panel';
-import Form from '../Components/Form/Form';
 import { useNavigate } from 'react-router-dom';
 
 import { useResetPasswordMutation } from '../redux/api';
@@ -48,25 +50,95 @@ const ResetPassword = ({ id, token }) => {
     const successBar = successMessage ? (
         <AlertPanel type='success' message={successMessage} />
     ) : null;
+    const schema = yup.object({
+        password: yup
+            .string()
+            .required('You must specify a password')
+            .min(6, 'Password must be at least 6 characters'),
+        password1: yup
+            .string()
+            .required('You must confirm your password')
+            .oneOf([yup.ref('password'), null], 'The passwords you have entered do not match')
+    });
+    const initialValues = { password: '', password1: '' };
 
     return (
         <div>
-            <div className='col-sm-6 col-sm-offset-3'>
+            <div className='mx-auto w-full max-w-3xl'>
                 {errorBar}
                 {successBar}
                 <Panel title='Reset password'>
-                    <Form
-                        name='resetpassword'
-                        apiLoading={resetState.isLoading}
-                        buttonText='Submit'
-                        onSubmit={(state) =>
+                    <Formik
+                        validationSchema={schema}
+                        onSubmit={(values) =>
                             resetPassword({
                                 id,
                                 token,
-                                newPassword: state.password
+                                newPassword: values.password
                             })
                         }
-                    />
+                        initialValues={initialValues}
+                    >
+                        {(formProps) => (
+                            <form onSubmit={formProps.handleSubmit} className='space-y-3'>
+                                <div>
+                                    <Label
+                                        className='mb-1 block text-sm text-zinc-200'
+                                        htmlFor='password'
+                                    >
+                                        Password
+                                    </Label>
+                                    <Input
+                                        id='password'
+                                        name='password'
+                                        type='password'
+                                        value={formProps.values.password}
+                                        onChange={formProps.handleChange}
+                                        onBlur={formProps.handleBlur}
+                                        placeholder='Enter a password'
+                                        variant='secondary'
+                                    />
+                                    {formProps.touched.password && formProps.errors.password ? (
+                                        <div className='mt-1 text-xs text-red-300'>
+                                            {formProps.errors.password}
+                                        </div>
+                                    ) : null}
+                                </div>
+                                <div>
+                                    <Label
+                                        className='mb-1 block text-sm text-zinc-200'
+                                        htmlFor='password1'
+                                    >
+                                        Password (again)
+                                    </Label>
+                                    <Input
+                                        id='password1'
+                                        name='password1'
+                                        type='password'
+                                        value={formProps.values.password1}
+                                        onChange={formProps.handleChange}
+                                        onBlur={formProps.handleBlur}
+                                        placeholder='Enter your password again'
+                                        variant='secondary'
+                                    />
+                                    {formProps.touched.password1 && formProps.errors.password1 ? (
+                                        <div className='mt-1 text-xs text-red-300'>
+                                            {formProps.errors.password1}
+                                        </div>
+                                    ) : null}
+                                </div>
+                                <div className='pt-1'>
+                                    <Button
+                                        type='submit'
+                                        variant='secondary'
+                                        isPending={resetState.isLoading}
+                                    >
+                                        Submit
+                                    </Button>
+                                </div>
+                            </form>
+                        )}
+                    </Formik>
                 </Panel>
             </div>
         </div>

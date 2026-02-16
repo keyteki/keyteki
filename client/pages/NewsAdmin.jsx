@@ -1,6 +1,6 @@
 import React, { useMemo, useState } from 'react';
 import moment from 'moment';
-import { Spinner, TextArea } from '@heroui/react';
+import { Button, Label, Spinner, TextArea } from '@heroui/react';
 
 import Panel from '../Components/Site/Panel';
 import ApiStatus from '../Components/Site/ApiStatus';
@@ -88,9 +88,10 @@ const NewsAdmin = () => {
                 cell: ({ row }) => (
                     <div className='flex gap-2'>
                         {editId === row.original.id ? (
-                            <button
+                            <Button
                                 type='button'
-                                className='rounded-md border border-zinc-600/80 bg-zinc-800/70 px-3 py-1.5 text-xs text-zinc-100 transition hover:bg-zinc-700/80'
+                                size='sm'
+                                variant='secondary'
                                 onClick={() => {
                                     saveNews({ id: editId, text: editText });
                                     setEditId(undefined);
@@ -98,26 +99,28 @@ const NewsAdmin = () => {
                                 }}
                             >
                                 Save
-                            </button>
+                            </Button>
                         ) : (
-                            <button
+                            <Button
                                 type='button'
-                                className='rounded-md border border-zinc-600/80 bg-zinc-800/70 px-3 py-1.5 text-xs text-zinc-100 transition hover:bg-zinc-700/80'
+                                size='sm'
+                                variant='secondary'
                                 onClick={() => {
                                     setEditId(row.original.id);
                                     setEditText(row.original.text);
                                 }}
                             >
                                 Edit
-                            </button>
+                            </Button>
                         )}
-                        <button
+                        <Button
                             type='button'
-                            className='rounded-md border border-red-500/70 bg-red-700/50 px-3 py-1.5 text-xs text-red-50 transition hover:bg-red-600/60'
+                            size='sm'
+                            variant='danger'
                             onClick={() => deleteNews(row.original.id)}
                         >
                             Delete
-                        </button>
+                        </Button>
                     </div>
                 )
             }
@@ -154,23 +157,24 @@ const NewsAdmin = () => {
                     <ReactTable columns={columns} data={news} disableSelection isStriped={false} />
 
                     <div className='mt-3'>
-                        <label className='mb-1 block text-sm text-zinc-200'>Add news item</label>
+                        <Label className='mb-1 block text-sm text-zinc-200'>Add news item</Label>
                         <TextArea
                             rows={4}
                             name='newsText'
                             value={newsText}
                             onChange={(event) => setNewsText(event.target.value)}
                         />
-                        <button
+                        <Button
                             type='button'
-                            className='mt-2 rounded-md border border-zinc-600/80 bg-zinc-800/70 px-3 py-2 text-sm text-zinc-100 transition hover:bg-zinc-700/80'
+                            className='mt-2'
+                            variant='secondary'
                             onClick={() => {
                                 addNews(newsText);
                                 setNewsText('');
                             }}
                         >
                             Add
-                        </button>
+                        </Button>
                     </div>
                 </>
             )}

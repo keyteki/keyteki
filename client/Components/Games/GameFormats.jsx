@@ -91,7 +91,7 @@ const GameFormats = ({
                         <Trans>Allowed sets</Trans>
                     </div>
                     <div className='mb-1.5 flex items-center justify-between gap-3'>
-                        <p className='text-[11px] leading-tight text-zinc-500'>
+                        <p className='text-xs leading-tight text-zinc-500'>
                             <Trans>Select which sets can be used for sealed decks.</Trans>
                         </p>
                         <div className='flex items-center gap-3'>

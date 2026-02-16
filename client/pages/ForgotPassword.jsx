@@ -1,7 +1,8 @@
 import React from 'react';
-import ReCAPTCHA from 'react-google-recaptcha';
+import HCaptcha from '@hcaptcha/react-hcaptcha';
 import { Formik } from 'formik';
 import * as yup from 'yup';
+import { Button, Input, Label } from '@heroui/react';
 import { useTranslation } from 'react-i18next';
 
 import AlertPanel from '../Components/Site/AlertPanel';
@@ -11,6 +12,8 @@ import { useForgotPasswordMutation } from '../redux/api';
 
 const ForgotPassword = () => {
     const { t } = useTranslation();
+    const hcaptchaSiteKey =
+        import.meta.env.VITE_HCAPTCHA_SITEKEY || '10000000-ffff-ffff-ffff-000000000001';
     const [forgotPassword, forgotState] = useForgotPasswordMutation();
 
     const apiState = forgotState.isUninitialized
@@ -45,7 +48,7 @@ const ForgotPassword = () => {
     });
 
     return (
-        <div className='mx-auto w-full max-w-[720px]'>
+        <div className='mx-auto w-full max-w-2xl'>
             <Panel title={t('Forgot password')}>
                 {!apiState ? (
                     <AlertPanel
@@ -74,54 +77,52 @@ const ForgotPassword = () => {
                                 event.preventDefault();
                                 formProps.handleSubmit(event);
                             }}
+                            className='space-y-3'
                         >
-                            <div className='max-w-[520px]'>
-                                <label
-                                    className='mb-1 block text-sm text-zinc-200'
-                                    htmlFor='username'
-                                >
+                            <div>
+                                <Label className='sr-only' htmlFor='username'>
                                     {t('Username')}
-                                </label>
-                                <input
+                                </Label>
+                                <Input
                                     id='username'
                                     name='username'
                                     type='text'
-                                    placeholder={t('Enter your username or email address')}
+                                    placeholder={t('Username')}
                                     value={formProps.values.username}
                                     onChange={formProps.handleChange}
                                     onBlur={formProps.handleBlur}
-                                    className='w-full rounded-md border border-zinc-600/70 bg-black/80 px-3 py-2 text-sm text-zinc-100 placeholder:text-zinc-400 focus:border-zinc-400/80 focus:outline-none'
+                                    variant='secondary'
+                                    className='w-full'
                                 />
                                 {formProps.touched.username && formProps.errors.username ? (
-                                    <div className='mt-1 text-xs text-red-300'>
+                                    <div className='mt-1 text-sm text-red-300'>
                                         {formProps.errors.username}
                                     </div>
                                 ) : null}
                             </div>
 
-                            <div className='mt-3 max-w-[520px]'>
-                                <ReCAPTCHA
-                                    className='is-invalid'
-                                    sitekey='6LdMGfYUAAAAAJN_sqZOBPn0URaFkWQ1QXvQqBbj'
+                            <div>
+                                <HCaptcha
+                                    sitekey={hcaptchaSiteKey}
                                     theme='dark'
-                                    onChange={(value) =>
+                                    onVerify={(value) =>
                                         formProps.setFieldValue('captchaValue', value, true)
+                                    }
+                                    onExpire={() =>
+                                        formProps.setFieldValue('captchaValue', '', true)
                                     }
                                 />
                                 {formProps.errors.captchaValue ? (
-                                    <div className='mt-1 text-xs text-red-300'>
+                                    <div className='mt-1 text-sm text-red-300'>
                                         {formProps.errors.captchaValue}
                                     </div>
                                 ) : null}
                             </div>
 
-                            <div className='mt-3 text-center'>
-                                <button
-                                    type='submit'
-                                    className='rounded-md border border-zinc-600/80 bg-zinc-800/70 px-3 py-2 text-sm text-zinc-100 transition hover:bg-zinc-700/80'
-                                >
+                            <div className='pt-1'>
+                                <Button type='submit' variant='secondary'>
                                     {t('Submit')}
-                                </button>
+                                </Button>
                             </div>
                         </form>
                     )}

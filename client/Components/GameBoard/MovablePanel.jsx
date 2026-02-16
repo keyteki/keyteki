@@ -1,13 +1,10 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useDrag } from 'react-dnd';
-import $ from 'jquery';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
 
 import { ItemTypes } from '../../constants';
 import PopupDefaults from './PopupDefaults';
-
-import './MovablePanel.scss';
 
 const MovablePanel = ({ children, name, onCloseClick, side, title, size }) => {
     const key = `${name}-${side}`;
@@ -26,28 +23,18 @@ const MovablePanel = ({ children, name, onCloseClick, side, title, size }) => {
     const popupRef = useRef(null);
 
     const getStyle = (offset) => {
-        const style = {
-            left: Math.max(offset.x, 10),
-            top: Math.max(offset.y, 50),
+        const popupHeight = popupRef.current?.offsetHeight ?? 0;
+        const popupWidth = popupRef.current?.offsetWidth ?? 0;
+        const minLeft = 10;
+        const minTop = 50;
+        const maxLeft = Math.max(window.innerWidth - popupWidth, minLeft);
+        const maxTop = Math.max(window.innerHeight - popupHeight, minTop);
+
+        return {
+            left: Math.min(Math.max(offset.x, minLeft), maxLeft),
+            top: Math.min(Math.max(offset.y, minTop), maxTop),
             position: 'fixed'
         };
-
-        const popup = $(popupRef.current);
-
-        style.top -= popup.height();
-        if (style.top < 50) {
-            style.top = 50;
-        }
-
-        if (style.left + popup.width() > window.innerWidth) {
-            style.left = window.innerWidth - popup.width();
-        }
-
-        if (style.top + 50 > window.innerHeight) {
-            style.top = window.innerHeight - 50;
-        }
-
-        return style;
     };
 
     const [{ isDragging, dragOffset }, drag] = useDrag({
@@ -79,20 +66,28 @@ const MovablePanel = ({ children, name, onCloseClick, side, title, size }) => {
     }, [dragOffset, isDragging]);
 
     let content = (
-        <div ref={popupRef}>
-            <div className={`panel movable-panel ${size}`} style={position}>
-                <div
-                    ref={drag}
-                    className='movable-panel__header'
-                    onClick={(event) => event.stopPropagation()}
+        <div
+            ref={popupRef}
+            className={`panel relative flex flex-col overflow-hidden rounded-md border border-white/16 bg-black/88 text-[var(--heroui-foreground,#f5f5f5)] ${size}`}
+            style={position}
+        >
+            <div
+                ref={drag}
+                className='flex min-h-6 shrink-0 items-center justify-center gap-1 border-b border-white/16 bg-[rgba(45,6,6,0.95)] px-2 py-1 text-[var(--heroui-accent,#ef4444)]'
+                onClick={(event) => event.stopPropagation()}
+            >
+                <span className='flex-1 text-center text-base leading-none font-normal'>
+                    {title}
+                </span>
+                <button
+                    type='button'
+                    className='m-0 cursor-pointer border-0 bg-transparent p-0 leading-none text-inherit'
+                    onClick={onCloseClick}
                 >
-                    <span className='movable-panel__title'>{title}</span>
-                    <button type='button' className='movable-panel__close' onClick={onCloseClick}>
-                        <FontAwesomeIcon icon={faTimes} />
-                    </button>
-                </div>
-                {children}
+                    <FontAwesomeIcon icon={faTimes} />
+                </button>
             </div>
+            <div className='min-h-0 flex-1'>{children}</div>
         </div>
     );
 

@@ -132,7 +132,7 @@ const DeckList = ({
                     </div>
                 ),
                 enableColumnFilter: false,
-                meta: { className: 'w-[44px]', colWidth: '44px' }
+                meta: { className: 'w-11', colWidth: '44px' }
             },
             {
                 accessorKey: 'name',
@@ -158,7 +158,7 @@ const DeckList = ({
                 cell: ({ row }) => (
                     <div className='text-center'>
                         <img
-                            className='m-[2px] inline-block max-w-[15px]'
+                            className='m-0.5 inline-block max-w-4'
                             src={Constants.SetIconPaths[row.original.expansion]}
                         />
                     </div>

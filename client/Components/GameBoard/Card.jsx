@@ -7,7 +7,6 @@ import CardImage from './CardImage';
 import { ItemTypes } from '../../constants';
 import SquishableCardPanel from './SquishableCardPanel';
 
-import './Card.scss';
 import { useTranslation } from 'react-i18next';
 
 const Card = ({

@@ -79,7 +79,7 @@ const Lobby = () => {
 
     const banners = [];
 
-    const containerClass = 'mx-auto w-full max-w-[86%] lg:max-w-[70%] 2xl:max-w-[1180px]';
+    const containerClass = 'mx-auto w-full max-w-[86%] lg:max-w-[70%] 2xl:max-w-6xl';
     const announcements = [
         ...(bannerNotice
             ? [
@@ -248,7 +248,7 @@ const Lobby = () => {
                     contentClassName='pb-1'
                     headerVariant='context'
                     title={t('Latest site news')}
-                    titleClass='text-[11px] font-medium uppercase tracking-wide text-muted'
+                    titleClass='text-xs font-medium uppercase tracking-wide text-muted'
                 >
                     <div>
                         {announcements.length === 0 && news.length === 0 && !isNewsLoading ? (

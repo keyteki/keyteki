@@ -68,8 +68,9 @@ const CardPilePopup = ({
         <div>
             {popupMenu.map((menuItem) => {
                 return (
-                    <a
-                        className='btn btn-default'
+                    <button
+                        type='button'
+                        className='mb-2 mr-2 inline-flex items-center rounded-md border border-zinc-500/70 bg-zinc-800/70 px-2.5 py-1.5 text-xs text-zinc-100 transition hover:bg-zinc-700/80'
                         key={linkIndex++}
                         onClick={() => {
                             menuItem.handler && menuItem.handler();
@@ -78,7 +79,7 @@ const CardPilePopup = ({
                         }}
                     >
                         {menuItem.text}
-                    </a>
+                    </button>
                 );
             })}
         </div>

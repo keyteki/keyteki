@@ -370,7 +370,7 @@ const PendingGame = () => {
                 titleClass='text-xs font-medium tracking-wide text-zinc-300'
             >
                 <div
-                    className='mb-2 h-[150px] w-full overflow-y-auto rounded-md border border-border/55 bg-surface-secondary/35 px-3 py-2 text-sm'
+                    className='mb-2 h-36 w-full overflow-y-auto rounded-md border border-border/55 bg-surface-secondary/35 px-3 py-2 text-sm'
                     ref={messageRef}
                     onScroll={() => {
                         setTimeout(() => {

@@ -25,7 +25,7 @@ const AbilityTargeting = (props) => {
 
     const renderSimpleCard = (card) => (
         <div
-            className='mb-2 h-[91px] w-[65px] shrink-0 overflow-hidden rounded-[6.25%] [&>canvas]:!h-full [&>canvas]:!w-full'
+            className='mb-2 h-24 w-16 shrink-0 overflow-hidden rounded-[6.25%] [&>canvas]:!h-full [&>canvas]:!w-full'
             onMouseOut={() => onMouseOut(card)}
             onMouseOver={() =>
                 onMouseOver({

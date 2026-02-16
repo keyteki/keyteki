@@ -3,8 +3,6 @@ import { useTranslation } from 'react-i18next';
 import Droppable from './Droppable';
 import SquishableCardPanel from './SquishableCardPanel';
 
-import './PlayerRow.scss';
-
 const PlayerRow = ({
     cardBack,
     cardSize,

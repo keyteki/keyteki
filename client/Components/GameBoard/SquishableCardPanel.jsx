@@ -5,8 +5,6 @@ import { useTranslation } from 'react-i18next';
 
 import Card from './Card';
 
-import './SquishableCardPanel.scss';
-
 const SquishableCardPanel = (props) => {
     const { i18n } = useTranslation();
     const cards = props.cards || [];

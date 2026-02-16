@@ -1,12 +1,7 @@
 import '@babel/polyfill';
-import $ from 'jquery';
 import 'core-js/stable';
 import 'regenerator-runtime/runtime';
 import './styles/tailwind.css';
-import './styles/index.scss';
-
-window.jQuery = $;
-window.$ = $;
 
 import React from 'react';
 import { createRoot } from 'react-dom/client';
@@ -22,22 +17,6 @@ import Application from './Application';
 import ErrorBoundary from './Components/Site/ErrorBoundary';
 
 import './i18n';
-
-const ensureJqueryPlugins = async () => {
-    window.jQuery = $;
-    window.$ = $;
-    await import('jquery-migrate');
-    await import('jquery-validation');
-    await import('jquery-validation-unobtrusive');
-    $.validator.setDefaults({
-        highlight: function (element) {
-            $(element).closest('.form-group').addClass('has-error');
-        },
-        unhighlight: function (element) {
-            $(element).closest('.form-group').removeClass('has-error');
-        }
-    });
-};
 
 const isProd = import.meta.env.PROD;
 const sentryDsn = import.meta.env.VITE_SENTRY_DSN;
@@ -118,7 +97,6 @@ const registerThemeHelpers = () => {
 };
 
 const render = async () => {
-    await ensureJqueryPlugins();
     initializeTheme();
     registerThemeHelpers();
     if (!store) {

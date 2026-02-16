@@ -38,7 +38,7 @@ const ProfileCardSize = ({ cardSizes, selectedCardSize, onCardSizeSelected }) =>
 
     return (
         <div className='w-full border-t border-border/70'>
-            <div className='w-full max-w-[760px] pt-2'>
+            <div className='w-full max-w-3xl pt-2'>
                 <div className='mb-2 text-xs font-medium tracking-wide text-muted'>
                     {t('Card Image Size')}
                 </div>
@@ -70,7 +70,7 @@ const ProfileCardSize = ({ cardSizes, selectedCardSize, onCardSizeSelected }) =>
                                             aria-hidden='true'
                                             className={`${
                                                 glyphClassMap[cardSize.name]
-                                            } rounded-[2px] object-cover opacity-90`}
+                                            } rounded-sm object-cover opacity-90`}
                                             src={IdentityDefault}
                                         />
                                         <span

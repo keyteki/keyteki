@@ -51,7 +51,7 @@ const Activation = ({ id, token }) => {
     }
 
     return (
-        <div className='mx-auto w-full max-w-[720px]'>
+        <div className='mx-auto w-full max-w-3xl'>
             <ApiStatus state={apiState} onClose={() => activateState.reset()} />
         </div>
     );

@@ -95,7 +95,7 @@ const PendingGamePlayers = ({ currentGame, user, onSelectDeck }) => {
                     if (!player) {
                         return (
                             <div
-                                className='grid min-h-[82px] grid-cols-[minmax(0,1fr)_auto] grid-rows-2 items-center gap-x-3 gap-y-1 rounded-md border border-border/60 bg-surface-secondary/35 px-3 py-2'
+                                className='grid min-h-20 grid-cols-[minmax(0,1fr)_auto] grid-rows-2 items-center gap-x-3 gap-y-1 rounded-md border border-border/60 bg-surface-secondary/35 px-3 py-2'
                                 key={`seat-${index}`}
                             >
                                 <div className='min-w-0 text-sm font-semibold text-zinc-200'>
@@ -128,7 +128,7 @@ const PendingGamePlayers = ({ currentGame, user, onSelectDeck }) => {
 
                     return (
                         <div
-                            className='grid min-h-[82px] grid-cols-[minmax(0,1fr)_auto] grid-rows-2 items-center gap-x-3 gap-y-1 rounded-md border border-border/70 bg-surface-secondary/50 px-3 py-2'
+                            className='grid min-h-20 grid-cols-[minmax(0,1fr)_auto] grid-rows-2 items-center gap-x-3 gap-y-1 rounded-md border border-border/70 bg-surface-secondary/50 px-3 py-2'
                             key={player.name}
                         >
                             <div className='flex min-w-0 items-center gap-2'>
@@ -136,7 +136,7 @@ const PendingGamePlayers = ({ currentGame, user, onSelectDeck }) => {
                                 <span className={userClass}>{player.name}</span>
                             </div>
                             <span
-                                className={`shrink-0 whitespace-nowrap rounded border px-1.5 py-0 text-[10px] font-medium leading-4 ${readiness.tone}`}
+                                className={`shrink-0 whitespace-nowrap rounded border px-1.5 py-0 text-xs font-medium leading-4 ${readiness.tone}`}
                             >
                                 {readiness.label}
                             </span>
@@ -162,7 +162,7 @@ const PendingGamePlayers = ({ currentGame, user, onSelectDeck }) => {
                                 </div>
                             </div>
                             <span
-                                className={`shrink-0 whitespace-nowrap rounded border px-1.5 py-0 text-[10px] font-medium leading-4 ${deckValidity.tone}`}
+                                className={`shrink-0 whitespace-nowrap rounded border px-1.5 py-0 text-xs font-medium leading-4 ${deckValidity.tone}`}
                                 title={
                                     player.deck?.status?.notVerified
                                         ? t('Enhancements not verified')

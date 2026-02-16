@@ -1,8 +1,10 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import moment from 'moment';
+import { Formik } from 'formik';
+import * as yup from 'yup';
+import { Button, Input, Label } from '@heroui/react';
 
-import Form from '../Components/Form/Form';
 import Panel from '../Components/Site/Panel';
 import ApiStatus from '../Components/Site/ApiStatus';
 import ReactTable from '../Components/Table/ReactTable';
@@ -123,16 +125,21 @@ const BanlistAdmin = () => {
             id: 'action',
             header: 'Action',
             cell: ({ row }) => (
-                <button
+                <Button
                     type='button'
-                    className='rounded-md border border-red-500/70 bg-red-700/50 px-3 py-1.5 text-xs text-red-50 transition hover:bg-red-600/60'
+                    size='sm'
+                    variant='danger'
                     onClick={() => onDeleteClick(row.original.id)}
                 >
                     Delete
-                </button>
+                </Button>
             )
         }
     ];
+    const schema = yup.object({
+        ip: yup.string().required('Please enter the Ip address')
+    });
+    const initialValues = { ip: '' };
 
     return (
         <div>
@@ -141,13 +148,49 @@ const BanlistAdmin = () => {
                 <ReactTable columns={columns} data={banlist} disableSelection isStriped={false} />
             </Panel>
             <Panel title='Add new ip'>
-                <Form
-                    name='banlistAdmin'
-                    apiLoading={addState.isLoading}
-                    buttonClass='col-sm-offset-2 col-sm-4'
-                    buttonText='Add'
+                <Formik
+                    validationSchema={schema}
                     onSubmit={onAddBanlistClick}
-                />
+                    initialValues={initialValues}
+                >
+                    {(formProps) => (
+                        <form onSubmit={formProps.handleSubmit} className='space-y-3'>
+                            <div className='grid gap-1 md:grid-cols-12 md:items-start md:gap-2'>
+                                <Label
+                                    htmlFor='ip'
+                                    className='block text-sm text-zinc-100 md:col-span-2 md:pt-2 md:text-right'
+                                >
+                                    Add ip address
+                                </Label>
+                                <div className='md:col-span-4'>
+                                    <Input
+                                        id='ip'
+                                        name='ip'
+                                        value={formProps.values.ip}
+                                        onChange={formProps.handleChange}
+                                        onBlur={formProps.handleBlur}
+                                        placeholder='Enter Ip'
+                                        variant='secondary'
+                                    />
+                                    {formProps.touched.ip && formProps.errors.ip ? (
+                                        <div className='mt-1 text-xs text-red-300'>
+                                            {formProps.errors.ip}
+                                        </div>
+                                    ) : null}
+                                </div>
+                            </div>
+                            <div className='md:ml-[16.666667%] md:w-1/3'>
+                                <Button
+                                    type='submit'
+                                    variant='secondary'
+                                    isPending={addState.isLoading}
+                                >
+                                    Add
+                                </Button>
+                            </div>
+                        </form>
+                    )}
+                </Formik>
             </Panel>
         </div>
     );

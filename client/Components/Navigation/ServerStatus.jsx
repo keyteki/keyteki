@@ -35,7 +35,7 @@ const ServerStatus = (props) => {
             className={
                 mobile
                     ? 'inline-flex h-9 items-center px-3 text-sm font-medium'
-                    : 'inline-flex h-9 items-center px-3 text-sm font-medium lg:h-[50px]'
+                    : 'inline-flex h-9 items-center px-3 text-sm font-medium lg:h-12'
             }
         >
             <span className={pingLevel}>

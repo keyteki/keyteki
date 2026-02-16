@@ -1,8 +1,6 @@
 import React, { useState } from 'react';
 import CardBackImage from './CardBackImage';
 
-import './Archon.scss';
-
 const CardBack = ({ className, imageClassName, deck, showDeckName = true, zoom = true, size }) => {
     const [imageZoom, setImageZoom] = useState(false);
     const [mousePos, setMousePos] = useState({ x: 0, y: 0 });

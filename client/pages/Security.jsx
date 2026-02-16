@@ -68,21 +68,21 @@ const Security = () => {
         sessions && sessions.length === 0 ? (
             <div>You have no active sessions. This shouldn&quot;t really happen.</div>
         ) : (
-            <table className='table table-striped'>
+            <table className='w-full border-collapse text-left text-sm text-zinc-100'>
                 <thead>
-                    <tr>
-                        <th>
+                    <tr className='border-b border-zinc-600/70'>
+                        <th className='px-2 py-2 font-semibold'>
                             <Trans>IP Address</Trans>
                         </th>
-                        <th>
+                        <th className='px-2 py-2 font-semibold'>
                             <Trans>Last Used</Trans>
                         </th>
-                        <th>
+                        <th className='px-2 py-2 font-semibold'>
                             <Trans>Remove</Trans>
                         </th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody className='[&>tr:nth-child(odd)]:bg-black/20 [&>tr>td]:px-2 [&>tr>td]:py-1.5'>
                     {sessions?.map((session) => (
                         <tr key={session.id}>
                             <td>{session.ip}</td>
@@ -91,7 +91,7 @@ const Security = () => {
                                 <a
                                     href='#'
                                     onClick={(event) => onRemoveClick(session, event)}
-                                    className='text-danger'
+                                    className='text-red-400 hover:text-red-300'
                                 >
                                     <FontAwesomeIcon icon={faTimes} />
                                 </a>
@@ -115,7 +115,7 @@ const Security = () => {
     }
 
     return (
-        <div className='col-sm-8 col-sm-offset-2 profile full-height'>
+        <div className='profile mx-auto min-h-full w-full max-w-5xl'>
             {successPanel}
             <Panel title={t('Active Sessions')}>
                 <p className='help-block'>

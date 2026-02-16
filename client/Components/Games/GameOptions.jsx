@@ -102,7 +102,7 @@ const GameOptions = ({ formProps, gameLink }) => {
                         <div className='space-y-0.5'>
                             {renderToggle('useGameTimeLimit', t('Use a time limit (in minutes)'))}
                             {formProps.values.useGameTimeLimit && (
-                                <div className='ml-5 max-w-[260px] space-y-1 rounded-md border border-white/10 bg-surface-secondary/30 p-2'>
+                                <div className='ml-5 max-w-64 space-y-1 rounded-md border border-white/10 bg-surface-secondary/30 p-2'>
                                     <label
                                         className='block text-xs font-medium text-zinc-300'
                                         htmlFor='gameTimeLimit'

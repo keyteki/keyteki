@@ -6,6 +6,8 @@ import { Card } from '@heroui/react';
  * @property {import('react').ReactNode | import('react').ReactNodeArray} [children]
  * @property {string} [className]
  * @property {string} [contentClassName]
+ * @property {string} [headerClassName]
+ * @property {string} [headerTextClassName]
  * @property {string} [title]
  * @property {string} [titleClass]
  * @property {string} [type]
@@ -14,7 +16,15 @@ import { Card } from '@heroui/react';
 /**
  * @param {PanelProps} props
  */
-const Panel = ({ title, titleClass, children, className, contentClassName }) => {
+const Panel = ({
+    title,
+    titleClass,
+    children,
+    className,
+    contentClassName,
+    headerClassName,
+    headerTextClassName
+}) => {
     const baseClass =
         'min-h-0 flex flex-col !p-0 !gap-0 rounded-md border border-border/70 !bg-surface/88 !text-foreground shadow-[var(--surface-shadow)]';
     let contentClass =
@@ -23,8 +33,8 @@ const Panel = ({ title, titleClass, children, className, contentClassName }) => 
         contentClass += ` ${contentClassName}`;
     }
     const headerBaseClass = 'w-full !p-0 !m-0 rounded-tr-md rounded-tl-md flex items-center';
-    const headerTextClass = 'text-accent';
-    const headerClass = 'border-b border-border/70 bg-accent/8';
+    const headerTextClass = headerTextClassName || 'text-accent';
+    const headerClass = headerClassName || 'border-b border-border/70 bg-accent/8';
     const headerInnerClass = 'w-full px-3 py-0.5 flex items-center justify-center min-h-6';
 
     return (

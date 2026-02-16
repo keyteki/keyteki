@@ -49,7 +49,7 @@ const Logout = () => {
     ) : null;
 
     return (
-        <div className='col-sm-6 col-sm-offset-3'>
+        <div className='mx-auto w-full max-w-3xl'>
             {errorBar}
             <Trans>Logging you out of your account, please wait...</Trans>
         </div>

@@ -19,8 +19,6 @@ for (const colour of ['red', 'blue', 'yellow']) {
     };
 }
 
-import './Messages.scss';
-
 const getRoleTextClass = (role) => {
     switch ((role || '').toLowerCase()) {
         case 'admin':
@@ -125,7 +123,7 @@ const Messages = ({ messages, onCardMouseOver, onCardMouseOut }) => {
                     case 'phasestart':
                         messages.push(
                             <div
-                                className={'font-weight-bold text-white separator ' + fragment.type}
+                                className={'font-semibold text-white separator ' + fragment.type}
                                 key={index++}
                             >
                                 <hr className={'mt-2 mb-2 ' + fragment.type} />
@@ -138,7 +136,7 @@ const Messages = ({ messages, onCardMouseOver, onCardMouseOut }) => {
                         messages.push(
                             <div
                                 className={classNames(
-                                    'font-weight-bold text-white separator',
+                                    'font-semibold text-white separator',
                                     fragment.type,
                                     {
                                         'current-turn': context.isCurrentStartOfTurn,
@@ -214,7 +212,7 @@ const Messages = ({ messages, onCardMouseOver, onCardMouseOut }) => {
                 messages.push(
                     <span
                         key={index++}
-                        className='card-link'
+                        className='cursor-pointer text-emerald-500 hover:text-cyan-400'
                         onMouseOver={onCardMouseOver.bind(this, {
                             image: <CardImage card={fragment} />,
                             size: 'normal'

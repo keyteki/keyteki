@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Formik } from 'formik';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleNotch, faTimes } from '@fortawesome/free-solid-svg-icons';
+import { Button, Input, Label } from '@heroui/react';
 import * as yup from 'yup';
 
 import ApiStatus from '../Components/Site/ApiStatus';
@@ -16,8 +17,6 @@ import {
 } from '../redux/api';
 import { userActions } from '../redux/slices/userSlice';
 import { lobbyAuthenticateRequested } from '../redux/socketActions';
-
-import './BlockList.scss';
 
 const BlockList = () => {
     const { user } = useSelector((state) => ({
@@ -64,9 +63,11 @@ const BlockList = () => {
                 id: 'remove',
                 header: t('Remove'),
                 cell: ({ row }) => (
-                    <button
+                    <Button
                         type='button'
-                        className='text-red-400 hover:text-red-300'
+                        size='sm'
+                        variant='light'
+                        className='min-w-0 p-0 text-red-400 hover:text-red-300'
                         onClick={() =>
                             removeBlockListEntry({
                                 username: user.username,
@@ -75,7 +76,7 @@ const BlockList = () => {
                         }
                     >
                         <FontAwesomeIcon icon={faTimes} />
-                    </button>
+                    </Button>
                 )
             }
         ],
@@ -93,7 +94,7 @@ const BlockList = () => {
     });
 
     return (
-        <div className='mx-auto w-full max-w-[960px]'>
+        <div className='blocklist mx-auto w-full max-w-5xl'>
             <Panel title={t('Block list')}>
                 {isBlockListLoading ? (
                     <div>
@@ -157,14 +158,14 @@ const BlockList = () => {
                                                 or their games.
                                             </Trans>
                                         </p>
-                                        <div className='max-w-[520px]'>
-                                            <label
+                                        <div className='max-w-lg'>
+                                            <Label
                                                 className='mb-1 block text-sm text-zinc-200'
                                                 htmlFor='blockee'
                                             >
                                                 {t('Username')}
-                                            </label>
-                                            <input
+                                            </Label>
+                                            <Input
                                                 id='blockee'
                                                 name='blockee'
                                                 type='text'
@@ -172,7 +173,7 @@ const BlockList = () => {
                                                 value={formProps.values.blockee}
                                                 onChange={formProps.handleChange}
                                                 onBlur={formProps.handleBlur}
-                                                className='w-full rounded-md border border-zinc-600/70 bg-black/80 px-3 py-2 text-sm text-zinc-100 placeholder:text-zinc-400 focus:border-zinc-400/80 focus:outline-none'
+                                                variant='secondary'
                                             />
                                             {formProps.touched.blockee &&
                                             formProps.errors.blockee ? (
@@ -182,19 +183,21 @@ const BlockList = () => {
                                             ) : null}
                                         </div>
 
-                                        <button
+                                        <Button
                                             type='submit'
-                                            className='mt-2 rounded-md border border-zinc-600/80 bg-zinc-800/70 px-3 py-2 text-sm text-zinc-100 transition hover:bg-zinc-700/80'
+                                            className='mt-2'
+                                            variant='secondary'
+                                            isPending={addState.isLoading}
                                         >
                                             <Trans>Add</Trans>
                                             &nbsp;
                                             {addState.isLoading ? (
                                                 <FontAwesomeIcon icon={faCircleNotch} spin />
                                             ) : null}
-                                        </button>
+                                        </Button>
 
                                         <div className='mt-3'>
-                                            <h3 className='font-weight-bold'>
+                                            <h3 className='font-bold'>
                                                 <Trans>Users Blocked</Trans>
                                             </h3>
                                             {rows.length === 0 ? (

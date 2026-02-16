@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import moment from 'moment';
 import { Formik } from 'formik';
-import { Spinner } from '@heroui/react';
+import { Button, Checkbox, Input, Label, Spinner } from '@heroui/react';
 import * as yup from 'yup';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
@@ -11,8 +11,6 @@ import ApiStatus from '../Components/Site/ApiStatus';
 import ReactTable from '../Components/Table/ReactTable';
 import { useFindUserQuery, useSaveUserMutation } from '../redux/api';
 import { clearUserSessions } from '../redux/slices/adminSlice';
-
-import './UserAdmin.scss';
 
 const defaultPermissions = {
     canEditNews: false,
@@ -119,7 +117,7 @@ const UserAdmin = () => {
     );
 
     return (
-        <div className='mx-auto w-full max-w-[1100px]'>
+        <div className='mx-auto w-full max-w-6xl'>
             <ApiStatus state={apiState} onClose={() => setSearchUsername('')} />
             <ApiStatus state={apiSaveState} onClose={() => saveState.reset()} />
             <Formik
@@ -137,14 +135,14 @@ const UserAdmin = () => {
                         }}
                     >
                         <Panel title='User administration'>
-                            <div className='max-w-[520px]'>
-                                <label
+                            <div className='max-w-lg'>
+                                <Label
                                     className='mb-1 block text-sm text-zinc-200'
                                     htmlFor='username'
                                 >
                                     {t('Username')}
-                                </label>
-                                <input
+                                </Label>
+                                <Input
                                     id='username'
                                     name='username'
                                     type='text'
@@ -152,7 +150,7 @@ const UserAdmin = () => {
                                     value={formProps.values.username}
                                     onChange={formProps.handleChange}
                                     onBlur={formProps.handleBlur}
-                                    className='w-full rounded-md border border-zinc-600/70 bg-black/80 px-3 py-2 text-sm text-zinc-100 placeholder:text-zinc-400 focus:border-zinc-400/80 focus:outline-none'
+                                    variant='secondary'
                                 />
                                 {formProps.touched.username && formProps.errors.username ? (
                                     <div className='mt-1 text-xs text-red-300'>
@@ -162,13 +160,14 @@ const UserAdmin = () => {
                             </div>
 
                             <div className='mt-2'>
-                                <button
+                                <Button
                                     type='submit'
-                                    className='rounded-md border border-zinc-600/80 bg-zinc-800/70 px-3 py-2 text-sm text-zinc-100 transition hover:bg-zinc-700/80'
+                                    variant='secondary'
+                                    isPending={apiState?.loading}
                                 >
                                     Submit&nbsp;
                                     {apiState?.loading ? <Spinner size='sm' /> : null}
-                                </button>
+                                </Button>
                             </div>
                         </Panel>
 
@@ -189,39 +188,41 @@ const UserAdmin = () => {
                                     </dl>
 
                                     <div className='mt-2 grid gap-2 sm:grid-cols-2'>
-                                        <label className='flex items-center gap-2 text-sm text-zinc-200'>
-                                            <input
-                                                type='checkbox'
-                                                className='h-4 w-4 rounded border-zinc-500 bg-zinc-900/80 accent-red-600'
-                                                onChange={() => setUserDisabled(!userDisabled)}
-                                                checked={userDisabled}
-                                            />
-                                            <span>Disabled</span>
-                                        </label>
-                                        <label className='flex items-center gap-2 text-sm text-zinc-200'>
-                                            <input
-                                                type='checkbox'
-                                                className='h-4 w-4 rounded border-zinc-500 bg-zinc-900/80 accent-red-600'
-                                                onChange={() => setUserVerified(!userVerified)}
-                                                checked={userVerified}
-                                            />
-                                            <span>Verified</span>
-                                        </label>
+                                        <Checkbox
+                                            className='text-sm text-zinc-200'
+                                            isSelected={userDisabled}
+                                            onValueChange={(checked) =>
+                                                setUserDisabled(Boolean(checked))
+                                            }
+                                        >
+                                            Disabled
+                                        </Checkbox>
+                                        <Checkbox
+                                            className='text-sm text-zinc-200'
+                                            isSelected={userVerified}
+                                            onValueChange={(checked) =>
+                                                setUserVerified(Boolean(checked))
+                                            }
+                                        >
+                                            Verified
+                                        </Checkbox>
                                     </div>
                                 </Panel>
 
                                 {currentUser.linkedAccounts ? (
                                     <Panel title='Possibly linked accounts'>
-                                        <ul className='list'>
+                                        <ul className='m-0 list-none'>
                                             {currentUser.linkedAccounts.map((name) => (
                                                 <li key={name}>
-                                                    <button
+                                                    <Button
                                                         type='button'
-                                                        className='text-sky-300 underline'
+                                                        size='sm'
+                                                        variant='light'
+                                                        className='min-h-0 min-w-0 px-0 text-sky-300 underline'
                                                         onClick={() => setSearchUsername(name)}
                                                     >
                                                         {name}
-                                                    </button>
+                                                    </Button>
                                                 </li>
                                             ))}
                                         </ul>
@@ -242,47 +243,42 @@ const UserAdmin = () => {
                                     <Panel title='Permissions'>
                                         <div className='grid gap-2 md:grid-cols-3'>
                                             {permissions.map((permission) => (
-                                                <label
+                                                <Checkbox
                                                     key={`permissions.${permission.name}`}
-                                                    className='flex items-center gap-2 text-sm text-zinc-200'
+                                                    className='text-sm text-zinc-200'
+                                                    isSelected={
+                                                        !!currentPermissions[permission.name]
+                                                    }
+                                                    onValueChange={() => {
+                                                        const nextPermissions = {
+                                                            ...currentPermissions,
+                                                            [permission.name]:
+                                                                !currentPermissions[permission.name]
+                                                        };
+                                                        setCurrentPermissions(nextPermissions);
+                                                    }}
                                                 >
-                                                    <input
-                                                        type='checkbox'
-                                                        className='h-4 w-4 rounded border-zinc-500 bg-zinc-900/80 accent-red-600'
-                                                        onChange={() => {
-                                                            const nextPermissions = {
-                                                                ...currentPermissions,
-                                                                [permission.name]:
-                                                                    !currentPermissions[
-                                                                        permission.name
-                                                                    ]
-                                                            };
-                                                            setCurrentPermissions(nextPermissions);
-                                                        }}
-                                                        checked={
-                                                            !!currentPermissions[permission.name]
-                                                        }
-                                                    />
-                                                    <span>{permission.label}</span>
-                                                </label>
+                                                    {permission.label}
+                                                </Checkbox>
                                             ))}
                                         </div>
                                     </Panel>
                                 ) : null}
 
                                 <div className='flex justify-center gap-2'>
-                                    <button
+                                    <Button
                                         type='button'
-                                        className='rounded-md border border-zinc-600/80 bg-zinc-800/70 px-3 py-2 text-sm text-zinc-100 transition hover:bg-zinc-700/80'
+                                        variant='secondary'
                                         onClick={() =>
                                             dispatch(clearUserSessions(currentUser.username))
                                         }
                                     >
                                         Clear sessions
-                                    </button>
-                                    <button
+                                    </Button>
+                                    <Button
                                         type='button'
-                                        className='rounded-md border border-zinc-600/80 bg-zinc-800/70 px-3 py-2 text-sm text-zinc-100 transition hover:bg-zinc-700/80'
+                                        variant='secondary'
+                                        isPending={apiSaveState?.loading}
                                         onClick={() => {
                                             currentUser.permissions = currentPermissions;
                                             currentUser.verified = userVerified;
@@ -293,7 +289,7 @@ const UserAdmin = () => {
                                     >
                                         Save&nbsp;
                                         {apiSaveState?.loading ? <Spinner size='sm' /> : null}
-                                    </button>
+                                    </Button>
                                 </div>
                             </div>
                         ) : null}
