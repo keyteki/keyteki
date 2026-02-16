@@ -14,6 +14,7 @@ import { Constants } from '../../constants';
 const HouseSelect = (props) => {
     const MaxHousesPerRow = 5;
     const { t } = useTranslation();
+    const baseIconClasses = 'ms-1 h-6 w-6 bg-cover bg-center bg-no-repeat';
 
     const getHouse = (house) => {
         let houseTitle = t(house);
@@ -32,7 +33,7 @@ const HouseSelect = (props) => {
             icons.push(
                 <div
                     title={getHouse(houseButton.text)}
-                    className={`button-icon icon-${houseButton.text}`}
+                    className={`${baseIconClasses} cursor-pointer hover:bg-accent/30 icon-${houseButton.text}`}
                     key={houseButton.text}
                     onClick={() => {
                         if (props.onHouseSelected) {
@@ -47,12 +48,14 @@ const HouseSelect = (props) => {
                 />
             );
         } else {
-            icons.push(<div className={`button-icon icon-${house} disabled`} key={house} />);
+            icons.push(
+                <div className={`${baseIconClasses} opacity-40 icon-${house}`} key={house} />
+            );
         }
 
         if (++i === MaxHousesPerRow) {
             iconRows.push(
-                <div className='house-icon-row' key={`line-${++j}`}>
+                <div className='mb-1 flex justify-center' key={`line-${++j}`}>
                     {icons}
                 </div>
             );
@@ -62,7 +65,7 @@ const HouseSelect = (props) => {
     }
 
     iconRows.push(
-        <div className='house-icon-row' key={`line-${++j}`}>
+        <div className='mb-1 flex justify-center' key={`line-${++j}`}>
             {icons}
         </div>
     );

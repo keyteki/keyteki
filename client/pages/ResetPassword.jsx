@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Formik } from 'formik';
 import * as yup from 'yup';
-import { Button, Input, Label } from '@heroui/react';
+import { Button, Input, Label, toast } from '@heroui/react';
 
 import AlertPanel from '../Components/Site/AlertPanel';
 import Panel from '../Components/Site/Panel';
@@ -12,7 +12,6 @@ import { useResetPasswordMutation } from '../redux/api';
 
 const ResetPassword = ({ id, token }) => {
     const navigate = useNavigate();
-    const [successMessage, setSuccessMessage] = useState('');
     const [resetPassword, resetState] = useResetPasswordMutation();
     const accountPasswordReset = resetState.isSuccess;
 
@@ -21,15 +20,8 @@ const ResetPassword = ({ id, token }) => {
             return;
         }
 
-        setSuccessMessage(
-            'Your password has been changed.  You will shortly be redirected to the login page.'
-        );
-
-        const timeoutId = setTimeout(() => {
-            navigate('/login');
-        }, 3000);
-
-        return () => clearTimeout(timeoutId);
+        toast.success('Your password has been changed.');
+        navigate('/login');
     }, [accountPasswordReset, navigate]);
 
     if (!id || !token) {
@@ -47,9 +39,6 @@ const ResetPassword = ({ id, token }) => {
             message={resetState.error?.data?.message || 'Unable to reset password'}
         />
     ) : null;
-    const successBar = successMessage ? (
-        <AlertPanel type='success' message={successMessage} />
-    ) : null;
     const schema = yup.object({
         password: yup
             .string()
@@ -66,7 +55,6 @@ const ResetPassword = ({ id, token }) => {
         <div>
             <div className='mx-auto w-full max-w-3xl'>
                 {errorBar}
-                {successBar}
                 <Panel title='Reset password'>
                     <Formik
                         validationSchema={schema}

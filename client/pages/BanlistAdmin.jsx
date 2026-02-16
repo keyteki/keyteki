@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import moment from 'moment';
 import { Formik } from 'formik';
 import * as yup from 'yup';
-import { Button, Input, Label } from '@heroui/react';
+import { Button, Input, Label, toast } from '@heroui/react';
 
 import Panel from '../Components/Site/Panel';
 import ApiStatus from '../Components/Site/ApiStatus';
@@ -14,34 +14,32 @@ import { adminActions } from '../redux/slices/adminSlice';
 const BanlistAdmin = () => {
     const dispatch = useDispatch();
     const [currentRequest, setCurrentRequest] = useState('REQUEST_BANLIST');
-    const [successMessage, setSuccessMessage] = useState(undefined);
     const { isLoading } = useGetBanlistQuery();
     const [addBanlist, addState] = useAddBanlistMutation();
     const [deleteBanlist, deleteState] = useDeleteBanlistMutation();
-    const { banListAdded, banListDeleted, banlist } = useSelector((state) => ({
-        banListAdded: state.admin.banlistAdded,
-        banListDeleted: state.admin.banlistDeleted,
+    const { banlist } = useSelector((state) => ({
         banlist: state.admin.banlist
     }));
 
     useEffect(() => {
-        if (!banListAdded && !banListDeleted) {
+        if (!addState.isSuccess) {
             return;
         }
 
-        if (banListAdded) {
-            setSuccessMessage('Banlist item added successfully.');
-        } else if (banListDeleted) {
-            setSuccessMessage('Banlist item deleted successfully.');
+        toast.success('Banlist item added successfully.');
+        addState.reset();
+        dispatch(adminActions.clearBanlistStatus());
+    }, [addState, dispatch]);
+
+    useEffect(() => {
+        if (!deleteState.isSuccess) {
+            return;
         }
 
-        const timeoutId = setTimeout(() => {
-            dispatch(adminActions.clearBanlistStatus());
-            setSuccessMessage(undefined);
-        }, 5000);
-
-        return () => clearTimeout(timeoutId);
-    }, [banListAdded, banListDeleted, dispatch]);
+        toast.success('Banlist item deleted successfully.');
+        deleteState.reset();
+        dispatch(adminActions.clearBanlistStatus());
+    }, [deleteState, dispatch]);
 
     const onAddBanlistClick = useCallback(
         (state) => {
@@ -69,10 +67,8 @@ const BanlistAdmin = () => {
                                 ? null
                                 : {
                                       loading: addState.isLoading,
-                                      success: addState.isSuccess,
-                                      message: addState.isSuccess
-                                          ? successMessage
-                                          : addState.error?.data?.message
+                                      success: false,
+                                      message: addState.error?.data?.message
                                   }
                         }
                     />
@@ -85,29 +81,17 @@ const BanlistAdmin = () => {
                                 ? null
                                 : {
                                       loading: deleteState.isLoading,
-                                      success: deleteState.isSuccess,
-                                      message: deleteState.isSuccess
-                                          ? successMessage
-                                          : deleteState.error?.data?.message
+                                      success: false,
+                                      message: deleteState.error?.data?.message
                                   }
                         }
                     />
                 );
             case 'REQUEST_BANLIST':
             default:
-                return (
-                    <ApiStatus
-                        state={
-                            isLoading
-                                ? { loading: true }
-                                : successMessage
-                                ? { loading: false, success: true, message: successMessage }
-                                : null
-                        }
-                    />
-                );
+                return <ApiStatus state={isLoading ? { loading: true } : null} />;
         }
-    }, [addState, currentRequest, deleteState, isLoading, successMessage]);
+    }, [addState, currentRequest, deleteState, isLoading]);
 
     if (isLoading) {
         return 'Loading banlist, please wait...';

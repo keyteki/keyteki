@@ -4,9 +4,7 @@
 @import "@heroui/styles";
 
 @layer base {
-    :root,
-    [data-theme='light'] {
-        color-scheme: light;
+    :root {
         --font-sans: 'Noto Sans', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto,
             'Helvetica Neue', Arial, sans-serif;
         --card-base-height: 91px;
@@ -18,6 +16,11 @@
         --card-scale-large: 1.4;
         --card-scale-x-large: 2;
         --card-zoom-multiplier: 4;
+    }
+
+    :root,
+    [data-theme='light'] {
+        color-scheme: light;
         --background: oklch(0.975 0.004 286);
         --foreground: oklch(0.24 0.01 286);
         --surface: oklch(0.995 0 0);
@@ -35,17 +38,6 @@
     .dark,
     [data-theme='dark'] {
         color-scheme: dark;
-        --font-sans: 'Noto Sans', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto,
-            'Helvetica Neue', Arial, sans-serif;
-        --card-base-height: 91px;
-        --card-base-width: 65px;
-        --card-half-base-width: 75px;
-        --card-half-aspect-ratio: 0.875;
-        --card-scale-small: 0.6;
-        --card-scale-normal: 1;
-        --card-scale-large: 1.4;
-        --card-scale-x-large: 2;
-        --card-zoom-multiplier: 4;
         --background: oklch(0.165 0.007 286);
         --foreground: oklch(0.9 0.004 286);
         --surface: oklch(0.225 0.008 286);
@@ -199,40 +191,12 @@ a {
   background-image: url("assets/img/bgs/massmutation.png");
 }
 
-[class^=bg-board-],
-[class*=" bg-board-"] {
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
-}
-
-.keyforge-font {
-  font-family: var(--font-sans);
-}
-
-.content {
-  padding-top: 55px;
-}
-
-.card {
-  margin-bottom: 10px;
-}
-
 h4 {
   font-size: 0.9rem;
 }
 
 h3 {
   font-size: 1.1rem;
-}
-
-.rrt-message {
-  background: color-mix(in oklab, var(--surface) 80%, black 20%) !important;
-}
-
-.rrt-confirm {
-  background: var(--accent) !important;
-  color: var(--accent-foreground) !important;
 }
 
 pre {
@@ -320,47 +284,9 @@ pre {
   color: #0dcaf0;
 }
 
-.deck-accolades {
-  justify-content: flex-start;
-  flex-wrap: wrap;
-  margin-bottom: 0.5rem;
-  margin-top: 10px;
-}
-
-.deck-accolade-image {
-  width: 40px;
-  height: auto;
-  margin: 0 4px;
-  opacity: 0.5;
-  transition: opacity 0.2s;
-}
-.deck-accolade-image.selected {
-  opacity: 1;
-  box-shadow: 0 0 0 1px #0dcaf0;
-  border-radius: 4px;
-}
-.deck-accolade-image.disabled {
-  opacity: 0.3;
-}
-.deck-accolade-image:hover:not(.disabled) {
-  opacity: 0.8;
-}
-
-.deck-house {
-  padding-left: 15px;
-}
-
-.deck-house-image {
-  width: 32px;
-}
-
 .deck-img-enhancement {
   height: 20px;
   width: 20px;
-}
-
-.deck-text-enhancement {
-  padding-left: 5px;
 }
 
 .deck-card-link {
@@ -370,11 +296,6 @@ pre {
 
 .deck-card-link:hover {
   color: #0dcaf0;
-}
-
-.small-card-icon {
-  width: 16px;
-  height: 16px;
 }
 
 .decklist-card-zoom {
@@ -801,18 +722,6 @@ pre {
   border-color: #371c1c;
 }
 
-/**
-  * Generates the specified property based on the calculation of:
-  * property: numCards * (cardSize + cardSpacing) + additionalOffset
-  *
-  * for the various different card sizes. Example, mixing in
-  * @include calculate-tiled-card-prop(min-height, 2, height, 3px) will generate CSS for:
-  * min-height: 2 * (@card-height + 5px) + 3px
-  * &.small {
-  *   min-height: 2 * (@card-sm-height + 5px) + 3px
-  * }
-  * ... etc ...
-  */
 .text {
   min-width: max-content;
   margin-left: 2px;
@@ -1037,22 +946,6 @@ pre {
 
 .card-list .card-wrapper {
   margin: 0;
-}
-
-.card-list-title {
-  background-color: #371c1c;
-  color: white;
-  margin-bottom: 5px;
-  text-align: center;
-}
-
-.card-list-cards {
-  align-content: flex-start;
-  align-items: flex-start;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: flex-start;
-  gap: 8px;
 }
 
 .card-zoom {
@@ -1593,33 +1486,6 @@ pre {
   background-image: url("assets/img/house/redemption.png");
 }
 
-.button-icon {
-  width: 24px;
-  height: 24px;
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
-  margin-left: 5px;
-}
-
-.house-icon-row {
-  display: flex;
-  justify-content: center;
-  margin-bottom: 5px;
-}
-.house-icon-row div {
-  cursor: pointer;
-}
-.house-icon-row div:hover {
-  background-color: app-color(primary);
-}
-.house-icon-row div.disabled {
-  opacity: 0.4;
-}
-.house-icon-row div.disabled:hover {
-  background-color: initial;
-}
-
 .identity-zoom {
   position: fixed;
   top: 0px;
@@ -2087,4 +1953,3 @@ pre {
 @layer components {
   .blocklist td { vertical-align: middle !important; }
 }
-

@@ -1,4 +1,5 @@
 import React from 'react';
+import { toast } from '@heroui/react';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 
@@ -14,23 +15,21 @@ const ProfileContainer = () => {
 
     React.useEffect(() => {
         if (saveState.isSuccess) {
-            const timeoutId = setTimeout(() => {
-                saveState.reset();
-            }, 5000);
-            return () => clearTimeout(timeoutId);
+            toast.success(
+                t(
+                    'Profile saved successfully.  Please note settings changed here may only apply at the start of your next game.'
+                )
+            );
+            saveState.reset();
         }
-    }, [saveState]);
+    }, [saveState, t]);
 
     const apiState = saveState.isUninitialized
         ? null
         : {
               loading: saveState.isLoading,
-              success: saveState.isSuccess,
-              message: saveState.isSuccess
-                  ? t(
-                        'Profile saved successfully.  Please note settings changed here may only apply at the start of your next game.'
-                    )
-                  : saveState.error?.data?.message
+              success: false,
+              message: saveState.error?.data?.message
           };
 
     if (!user) {

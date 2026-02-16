@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Formik } from 'formik';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleNotch, faTimes } from '@fortawesome/free-solid-svg-icons';
-import { Button, Input, Label } from '@heroui/react';
+import { Button, Input, Label, toast } from '@heroui/react';
 import * as yup from 'yup';
 
 import ApiStatus from '../Components/Site/ApiStatus';
@@ -33,24 +33,20 @@ const BlockList = () => {
 
     useEffect(() => {
         if (addState.isSuccess) {
-            const timeoutId = setTimeout(() => {
-                addState.reset();
-                dispatch(userActions.clearBlockListStatus());
-            }, 5000);
-            return () => clearTimeout(timeoutId);
+            toast.success(t('Blocklist entry added successfully'));
+            addState.reset();
+            dispatch(userActions.clearBlockListStatus());
         }
-    }, [addState, dispatch]);
+    }, [addState, dispatch, t]);
 
     useEffect(() => {
         if (deleteState.isSuccess) {
-            const timeoutId = setTimeout(() => {
-                deleteState.reset();
-                dispatch(lobbyAuthenticateRequested());
-                dispatch(userActions.clearBlockListStatus());
-            }, 5000);
-            return () => clearTimeout(timeoutId);
+            toast.success(t('Blocklist entry deleted successfully'));
+            deleteState.reset();
+            dispatch(lobbyAuthenticateRequested());
+            dispatch(userActions.clearBlockListStatus());
         }
-    }, [deleteState, dispatch]);
+    }, [deleteState, dispatch, t]);
 
     const initialValues = {
         blockee: ''
@@ -109,10 +105,8 @@ const BlockList = () => {
                                     ? null
                                     : {
                                           loading: addState.isLoading,
-                                          success: addState.isSuccess,
-                                          message: addState.isSuccess
-                                              ? t('Blocklist entry added successfully')
-                                              : addState.error?.data?.message
+                                          success: false,
+                                          message: addState.error?.data?.message
                                       }
                             }
                             onClose={() => addState.reset()}
@@ -123,10 +117,8 @@ const BlockList = () => {
                                     ? null
                                     : {
                                           loading: deleteState.isLoading,
-                                          success: deleteState.isSuccess,
-                                          message: deleteState.isSuccess
-                                              ? t('Blocklist entry deleted successfully')
-                                              : deleteState.error?.data?.message
+                                          success: false,
+                                          message: deleteState.error?.data?.message
                                       }
                             }
                             onClose={() => deleteState.reset()}

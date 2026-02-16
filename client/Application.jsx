@@ -191,7 +191,7 @@ const Application = () => {
         <div className='bg' ref={bgRef}>
             <Navigation appName='The Crucible Online' user={user} />
             <div className='wrapper'>
-                <div className='content mx-auto w-full px-3 sm:px-4 lg:max-w-[92vw] lg:px-6 2xl:max-w-screen-2xl'>
+                <div className='mx-auto w-full pt-14 px-3 sm:px-4 lg:max-w-[92vw] lg:px-6 2xl:max-w-screen-2xl'>
                     <ErrorBoundary
                         navigate={navigate}
                         errorPath={path}
@@ -201,7 +201,7 @@ const Application = () => {
                     </ErrorBoundary>
                 </div>
             </div>
-            <div className='keyforge-font' style={{ zIndex: -999 }}>
+            <div className='font-sans' style={{ zIndex: -999 }}>
                 &nbsp;
             </div>
         </div>

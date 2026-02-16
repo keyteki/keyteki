@@ -86,10 +86,10 @@ const DeckSummary = ({ deck }) => {
                             ? card.card.locale[i18n.language].name
                             : card.card.name}
                         {card.card.maverick && (
-                            <img className='small-card-icon' src={Constants.MaverickIcon} />
+                            <img className='h-4 w-4' src={Constants.MaverickIcon} />
                         )}
                         {card.card.anomaly && (
-                            <img className='small-card-icon' src={Constants.AnomalyIcon} />
+                            <img className='h-4 w-4' src={Constants.AnomalyIcon} />
                         )}
                     </div>
                 );
@@ -146,12 +146,8 @@ const DeckSummary = ({ deck }) => {
                     {card.card.locale && card.card.locale[i18n.language]
                         ? card.card.locale[i18n.language].name
                         : card.card.name}
-                    {card.card.maverick && (
-                        <img className='small-card-icon' src={Constants.MaverickIcon} />
-                    )}
-                    {card.card.anomaly && (
-                        <img className='small-card-icon' src={Constants.AnomalyIcon} />
-                    )}
+                    {card.card.maverick && <img className='h-4 w-4' src={Constants.MaverickIcon} />}
+                    {card.card.anomaly && <img className='h-4 w-4' src={Constants.AnomalyIcon} />}
                 </div>
             );
         });
@@ -183,46 +179,42 @@ const DeckSummary = ({ deck }) => {
                         <div className='deck-enhancements flex flex-wrap items-center gap-3 ps-0 pt-3'>
                             <div className='deck-enhancement inline-flex items-center'>
                                 <img src={AmberImage} className='deck-img-enhancement' />
-                                <span className='deck-text-enhancement'>
-                                    {enhancements.amber || 0}
-                                </span>
+                                <span className='pl-1'>{enhancements.amber || 0}</span>
                             </div>
                             <div className='deck-enhancement inline-flex items-center'>
                                 <img src={CaptureImage} className='deck-img-enhancement' />
-                                <span className='deck-text-enhancement'>
-                                    {enhancements.capture || 0}
-                                </span>
+                                <span className='pl-1'>{enhancements.capture || 0}</span>
                             </div>
                             <div className='deck-enhancement inline-flex items-center'>
                                 <img src={DrawImage} className='deck-img-enhancement' />
-                                <span className='deck-text-enhancement'>
-                                    {enhancements.draw || 0}
-                                </span>
+                                <span className='pl-1'>{enhancements.draw || 0}</span>
                             </div>
                             <div className='deck-enhancement inline-flex items-center'>
                                 <img src={DamageImage} className='deck-img-enhancement' />
-                                <span className='deck-text-enhancement'>
-                                    {enhancements.damage || 0}
-                                </span>
+                                <span className='pl-1'>{enhancements.damage || 0}</span>
                             </div>
                             <div className='deck-enhancement inline-flex items-center'>
                                 <img src={DiscardImage} className='deck-img-enhancement' />
-                                <span className='deck-text-enhancement'>
-                                    {enhancements.discard || 0}
-                                </span>
+                                <span className='pl-1'>{enhancements.discard || 0}</span>
                             </div>
                         </div>
                     ) : null}
                 </div>
             </div>
             {showAccolades && deck.accolades && deck.accolades.length > 0 && (
-                <div className='deck-accolades mt-2 flex flex-wrap'>
+                <div className='mt-2.5 mb-2 flex flex-wrap justify-start'>
                     {deck.accolades.map((accolade, index) => {
                         const shownCount = deck.accolades.filter((a) => a.shown).length;
                         const canSelect = accolade.shown || shownCount < 3;
-                        const className = `deck-accolade-image ${
-                            accolade.shown ? 'selected' : ''
-                        } ${!canSelect ? 'disabled' : ''}`;
+                        const className = [
+                            'mx-1 w-10 h-auto',
+                            canSelect
+                                ? 'cursor-pointer hover:opacity-80'
+                                : 'cursor-not-allowed opacity-30',
+                            accolade.shown ? 'rounded ring-1 ring-[#0dcaf0]' : ''
+                        ]
+                            .filter(Boolean)
+                            .join(' ');
                         return (
                             <img
                                 key={index}
@@ -231,7 +223,6 @@ const DeckSummary = ({ deck }) => {
                                 title={accolade.name}
                                 className={className}
                                 onClick={() => canSelect && handleAccoladeClick(accolade)}
-                                style={{ cursor: canSelect ? 'pointer' : 'not-allowed' }}
                             />
                         );
                     })}
@@ -244,11 +235,8 @@ const DeckSummary = ({ deck }) => {
                         <div key={house} className='w-fit text-left'>
                             <div className='deck-houses rounded-sm px-0 py-2'>
                                 <div className='inline-flex w-fit items-center gap-2 text-left'>
-                                    <img
-                                        className='deck-house-image'
-                                        src={Constants.HouseIconPaths[house]}
-                                    />
-                                    <span className='deck-house !pl-0'>{getHouseLabel(house)}</span>
+                                    <img className='w-8' src={Constants.HouseIconPaths[house]} />
+                                    <span>{getHouseLabel(house)}</span>
                                 </div>
                             </div>
                             <div className='deck-cards pt-3'>{cardsByHouse[house]}</div>

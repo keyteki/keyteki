@@ -22,12 +22,9 @@ const AllianceBuilderPage = () => {
 
     useEffect(() => {
         if (saveState.isSuccess) {
-            toast.success(t('Alliance deck saved. Redirecting to decks...'));
-            const timeoutId = setTimeout(() => {
-                saveState.reset();
-                navigate('/decks');
-            }, 1000);
-            return () => clearTimeout(timeoutId);
+            toast.success(t('Alliance deck saved.'));
+            saveState.reset();
+            navigate('/decks');
         }
     }, [navigate, saveState, t]);
 
@@ -1220,9 +1217,7 @@ const AllianceBuilderPage = () => {
                             </div>
                             <div className='mt-1 text-xs text-muted'>
                                 {saveState.isSuccess
-                                    ? t(
-                                          'Your alliance deck was created. Taking you back to Decks...'
-                                      )
+                                    ? t('Your alliance deck was created.')
                                     : t(
                                           'Saving creates this alliance deck and returns you to the Decks page.'
                                       )}

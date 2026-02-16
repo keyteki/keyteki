@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
+import { toast } from '@heroui/react';
 
 import { accountActions } from '../redux/slices/accountSlice';
 import { useLinkPatreonMutation } from '../redux/api';
@@ -11,7 +12,6 @@ import { useNavigate } from 'react-router-dom';
 const Patreon = ({ code }) => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const [successMessage, setSuccessMessage] = useState('');
     const [linkPatreon, linkState] = useLinkPatreonMutation();
     const accountLinked = useSelector((state) => state.account.accountLinked);
 
@@ -26,16 +26,9 @@ const Patreon = ({ code }) => {
             return;
         }
 
-        setSuccessMessage(
-            'Your account was linked successfully.  Sending you back to the profile page.'
-        );
-
-        const timeoutId = setTimeout(() => {
-            dispatch(accountActions.clearLinkStatus());
-            navigate('/profile');
-        }, 5000);
-
-        return () => clearTimeout(timeoutId);
+        toast.success('Your account was linked successfully.');
+        dispatch(accountActions.clearLinkStatus());
+        navigate('/profile');
     }, [accountLinked, dispatch, navigate]);
 
     if (!code) {
@@ -52,18 +45,14 @@ const Patreon = ({ code }) => {
         : {
               loading: linkState.isLoading,
               success: linkState.isSuccess,
-              message: linkState.error?.data?.message
+              message: linkState.isSuccess
+                  ? 'Your account was linked successfully.'
+                  : linkState.error?.data?.message
           };
 
     return (
         <div>
-            <ApiStatus
-                state={
-                    apiState && apiState.success
-                        ? { ...apiState, message: successMessage || apiState.message }
-                        : apiState
-                }
-            />
+            <ApiStatus state={apiState} />
             {linkState.isLoading && <div>Please wait while we verify your details..</div>}
         </div>
     );

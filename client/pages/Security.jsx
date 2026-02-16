@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import moment from 'moment';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
+import { toast } from '@heroui/react';
 
 import AlertPanel from '../Components/Site/AlertPanel';
 import Panel from '../Components/Site/Panel';
@@ -31,13 +32,10 @@ const Security = () => {
 
     useEffect(() => {
         if (sessionRemoved) {
-            const timeoutId = setTimeout(() => {
-                dispatch(userActions.clearSessionStatus());
-            }, 5000);
-
-            return () => clearTimeout(timeoutId);
+            toast.success(t('Session removed successfully'));
+            dispatch(userActions.clearSessionStatus());
         }
-    }, [dispatch, sessionRemoved]);
+    }, [dispatch, sessionRemoved, t]);
 
     const onRemoveClick = useCallback(
         (session, event) => {
@@ -59,10 +57,6 @@ const Security = () => {
         },
         [removeSession, t, user]
     );
-
-    const successPanel = sessionRemoved ? (
-        <AlertPanel message={t('Session removed successfully')} type='success' />
-    ) : null;
 
     const table =
         sessions && sessions.length === 0 ? (
@@ -116,7 +110,6 @@ const Security = () => {
 
     return (
         <div className='profile mx-auto min-h-full w-full max-w-5xl'>
-            {successPanel}
             <Panel title={t('Active Sessions')}>
                 <p className='help-block'>
                     <Trans i18nKey='security.note'>

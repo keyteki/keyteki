@@ -140,7 +140,9 @@ const ActivePlayerPrompt = (props) => {
                                     className='inline-block h-5 w-5 shrink-0'
                                 />
                             ) : (
-                                <div className={`button-icon icon-${button.icon} !ms-0`} />
+                                <div
+                                    className={`h-6 w-6 shrink-0 bg-cover bg-center bg-no-repeat icon-${button.icon}`}
+                                />
                             ))}
                     </span>
                 </Button>

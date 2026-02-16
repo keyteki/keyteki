@@ -2,7 +2,7 @@ import React from 'react';
 import HCaptcha from '@hcaptcha/react-hcaptcha';
 import { Formik } from 'formik';
 import * as yup from 'yup';
-import { Button, Input, Label } from '@heroui/react';
+import { Button, Input, Label, toast } from '@heroui/react';
 import { useTranslation } from 'react-i18next';
 
 import AlertPanel from '../Components/Site/AlertPanel';
@@ -20,22 +20,20 @@ const ForgotPassword = () => {
         ? null
         : {
               loading: forgotState.isLoading,
-              success: forgotState.isSuccess,
-              message: forgotState.isSuccess
-                  ? t(
-                        'Your request was submitted.  If the username you entered is registered with the site, an email will be sent to the address registered on the account, detailing what to do next.'
-                    )
-                  : forgotState.error?.data?.message
+              success: false,
+              message: forgotState.error?.data?.message
           };
 
     React.useEffect(() => {
         if (forgotState.isSuccess) {
-            const timeoutId = setTimeout(() => {
-                forgotState.reset();
-            }, 3000);
-            return () => clearTimeout(timeoutId);
+            toast.success(
+                t(
+                    'Your request was submitted.  If the username you entered is registered with the site, an email will be sent to the address registered on the account, detailing what to do next.'
+                )
+            );
+            forgotState.reset();
         }
-    }, [forgotState]);
+    }, [forgotState, t]);
 
     const initialValues = {
         username: '',

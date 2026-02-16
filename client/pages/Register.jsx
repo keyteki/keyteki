@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { Formik } from 'formik';
 import * as yup from 'yup';
-import { Button, Input, Label } from '@heroui/react';
+import { Button, Input, Label, toast } from '@heroui/react';
 
 import AlertPanel from '../Components/Site/AlertPanel.jsx';
 import Panel from '../Components/Site/Panel.jsx';
@@ -14,7 +14,6 @@ import { useNavigate } from 'react-router-dom';
 const Register = () => {
     const navigate = useNavigate();
     const { t } = useTranslation();
-    const [successMessage, setSuccessMessage] = useState('');
     const [registerAccount, registerState] = useRegisterAccountMutation();
     const accountRegistered = registerState.isSuccess;
 
@@ -23,15 +22,10 @@ const Register = () => {
             return;
         }
 
-        setSuccessMessage(
+        toast.success(
             t('Your account was successfully registered.  You can now proceed to login.')
         );
-
-        const timeoutId = setTimeout(() => {
-            navigate('/login');
-        }, 2000);
-
-        return () => clearTimeout(timeoutId);
+        navigate('/login');
     }, [accountRegistered, navigate, t]);
 
     const errorBar = registerState.isError ? (
@@ -39,9 +33,6 @@ const Register = () => {
             type='error'
             message={t(registerState.error?.data?.message || 'Registration failed')}
         />
-    ) : null;
-    const successBar = successMessage ? (
-        <AlertPanel type='success' message={successMessage} />
     ) : null;
     const schema = yup.object({
         username: yup
@@ -77,7 +68,6 @@ const Register = () => {
     return (
         <div className='mx-auto w-full max-w-2xl'>
             {errorBar}
-            {successBar}
             <Panel title={t('Register an account')}>
                 <Trans i18nKey='register.disclosure'>
                     <p>

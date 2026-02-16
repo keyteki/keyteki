@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { Dropdown, Label } from '@heroui/react';
@@ -21,6 +21,38 @@ const ProfileMenu = ({ menu, mobile = false, user }) => {
     const { t } = useTranslation();
     const navigate = useNavigate();
     const [isOpen, setIsOpen] = useState(false);
+    const [theme, setTheme] = useState('dark');
+
+    useEffect(() => {
+        const htmlEl = document.documentElement;
+        const syncTheme = () => {
+            const dataTheme = htmlEl.getAttribute('data-theme');
+            setTheme(dataTheme === 'light' ? 'light' : 'dark');
+        };
+
+        syncTheme();
+
+        const observer = new MutationObserver(syncTheme);
+        observer.observe(htmlEl, {
+            attributes: true,
+            attributeFilter: ['class', 'data-theme']
+        });
+
+        return () => observer.disconnect();
+    }, []);
+
+    const toggleTheme = () => {
+        const nextTheme = theme === 'light' ? 'dark' : 'light';
+        if (typeof window.setAppTheme === 'function') {
+            window.setAppTheme(nextTheme);
+            return;
+        }
+
+        document.documentElement.classList.remove('light', 'dark');
+        document.documentElement.classList.add(nextTheme);
+        document.documentElement.setAttribute('data-theme', nextTheme);
+        window.localStorage.setItem('keyteki-theme', nextTheme);
+    };
 
     if (!user) {
         return null;
@@ -47,7 +79,31 @@ const ProfileMenu = ({ menu, mobile = false, user }) => {
                 </span>
             </Dropdown.Trigger>
             <Dropdown.Popover className='min-w-[11rem] rounded-xl border border-border/70 bg-overlay/95 p-1 text-foreground'>
-                <Dropdown.Menu aria-label={t('Profile')} onAction={(key) => navigate(String(key))}>
+                <Dropdown.Menu
+                    aria-label={t('Profile')}
+                    onAction={(key) => {
+                        if (String(key) === '__toggle-theme') {
+                            toggleTheme();
+                            return;
+                        }
+
+                        navigate(String(key));
+                    }}
+                >
+                    <Dropdown.Item
+                        className='rounded-md px-3 py-2 data-[hovered]:bg-accent/12 data-[focused]:bg-accent/12'
+                        key='__toggle-theme'
+                        id='__toggle-theme'
+                        textValue={t(
+                            theme === 'light' ? 'Switch to dark theme' : 'Switch to light theme'
+                        )}
+                    >
+                        <Label>
+                            {t(
+                                theme === 'light' ? 'Switch to dark theme' : 'Switch to light theme'
+                            )}
+                        </Label>
+                    </Dropdown.Item>
                     {menu.map((menuItem) =>
                         menuItem.path ? (
                             <Dropdown.Item
