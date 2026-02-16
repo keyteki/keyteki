@@ -52,7 +52,7 @@ jobs:
               env:
                   VERSION: ${{ steps.determine_version.outputs.semVer }}
                   # Public hCaptcha site key used by the frontend widget
-                  VITE_HCAPTCHA_SITEKEY: ${{ secrets.HCAPTCHA_SITE_KEY }}
+                  HCAPTCHA_SITEKEY: ${{ secrets.HCAPTCHA_SITE_KEY }}
                   VITE_SENTRY_DSN: ${{ secrets.SENTRY_DSN }}
                   VITE_VERSION: ${{ steps.determine_version.outputs.semVer }}
                   SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
