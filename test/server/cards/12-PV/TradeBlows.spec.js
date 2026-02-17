@@ -64,6 +64,26 @@ describe('Trade Blows', function () {
             expect(this.player1).isReadyToTakeAction();
         });
 
+        it('should repeatedly damage enemy creatures with no friendly creatures', function () {
+            this.player1.moveCard(this.emberImp, 'discard');
+            this.player1.moveCard(this.yurk, 'discard');
+            this.flaxia.damage = 3;
+            this.player1.play(this.tradeBlows);
+            this.player1.clickCard(this.searine);
+            expect(this.searine.damage).toBe(1);
+            this.player1.clickPrompt('Yes');
+            this.player1.clickCard(this.searine);
+            expect(this.searine.damage).toBe(2);
+            this.player1.clickPrompt('Yes');
+            this.player1.clickCard(this.searine);
+            expect(this.searine.damage).toBe(3);
+            this.player1.clickPrompt('Yes');
+            this.player1.clickCard(this.flaxia);
+            expect(this.flaxia.location).toBe('discard');
+            expect(this.searine.damage).toBe(3);
+            expect(this.player1).isReadyToTakeAction();
+        });
+
         it('should repeat if enemy creature was warded', function () {
             this.flaxia.ward();
             this.player1.play(this.tradeBlows);
