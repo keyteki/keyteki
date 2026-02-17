@@ -1,6 +1,6 @@
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import moment from 'moment';
-import { Button, Label, Spinner, TextArea } from '@heroui/react';
+import { Button, Label, Spinner, TextArea, toast } from '@heroui/react';
 
 import Panel from '../Components/Site/Panel';
 import ApiStatus from '../Components/Site/ApiStatus';
@@ -24,44 +24,42 @@ const NewsAdmin = () => {
     const [deleteNews, deleteResult] = useDeleteNewsMutation();
     const news = newsResponse?.news || [];
     const [newsText, setNewsText] = useState('');
-    const [editText, setEditText] = useState('');
     const [editId, setEditId] = useState();
+    const [selectedRows, setSelectedRows] = useState([]);
 
-    const toApiStatus = (result, successMessage) => {
-        if (!result || result.isUninitialized) {
-            return null;
+    useEffect(() => {
+        if (!addResult.isSuccess) {
+            return;
         }
 
-        return {
-            loading: result.isLoading,
-            success: result.isSuccess,
-            message: result.isError
-                ? result.error?.data?.message || result.error?.error || 'An error occurred'
-                : result.isSuccess
-                ? successMessage
-                : undefined
-        };
-    };
+        toast.success('News item added successfully');
+        addResult.reset();
+    }, [addResult]);
 
-    const addApiState = useMemo(
-        () => toApiStatus(addResult, 'News item added successfully'),
-        [addResult]
-    );
-    const saveApiState = useMemo(
-        () => toApiStatus(saveResult, 'News item saved successfully'),
-        [saveResult]
-    );
-    const deleteApiState = useMemo(
-        () => toApiStatus(deleteResult, 'News item deleted successfully'),
-        [deleteResult]
-    );
+    useEffect(() => {
+        if (!saveResult.isSuccess) {
+            return;
+        }
+
+        toast.success('News item saved successfully');
+        saveResult.reset();
+    }, [saveResult]);
+
+    useEffect(() => {
+        if (!deleteResult.isSuccess) {
+            return;
+        }
+
+        toast.success('News item deleted successfully');
+        deleteResult.reset();
+    }, [deleteResult]);
 
     const columns = useMemo(
         () => [
             {
                 accessorKey: 'datePublished',
-                header: 'Date',
-                cell: ({ row }) => moment(row.original.datePublished).format('YYYY-MM-DD')
+                header: 'Published At',
+                cell: ({ row }) => moment(row.original.datePublished).format('YYYY-MM-DD HH:mm')
             },
             {
                 accessorKey: 'poster',
@@ -70,115 +68,135 @@ const NewsAdmin = () => {
             {
                 accessorKey: 'text',
                 header: 'Text',
-                cell: ({ row }) =>
-                    editId === row.original.id ? (
-                        <TextArea
-                            rows={3}
-                            name='editText'
-                            value={editText}
-                            onChange={(event) => setEditText(event.target.value)}
-                        />
-                    ) : (
-                        row.original.text
-                    )
-            },
-            {
-                id: 'action',
-                header: 'Action',
                 cell: ({ row }) => (
-                    <div className='flex gap-2'>
-                        {editId === row.original.id ? (
-                            <Button
-                                type='button'
-                                size='sm'
-                                variant='tertiary'
-                                onClick={() => {
-                                    saveNews({ id: editId, text: editText });
-                                    setEditId(undefined);
-                                    setEditText('');
-                                }}
-                            >
-                                Save
-                            </Button>
-                        ) : (
-                            <Button
-                                type='button'
-                                size='sm'
-                                variant='tertiary'
-                                onClick={() => {
-                                    setEditId(row.original.id);
-                                    setEditText(row.original.text);
-                                }}
-                            >
-                                Edit
-                            </Button>
-                        )}
-                        <Button
-                            type='button'
-                            size='sm'
-                            variant='danger'
-                            onClick={() => deleteNews(row.original.id)}
-                        >
-                            Delete
-                        </Button>
+                    <div className='max-w-[72ch] truncate' title={row.original.text}>
+                        {row.original.text}
                     </div>
                 )
             }
         ],
-        [deleteNews, editId, editText, saveNews]
+        []
     );
 
+    const hasSelection = selectedRows.length > 0;
+    const isEditing = !!editId;
+    const editorLabel = isEditing ? 'Edit news item' : 'Add new news item';
+
+    const onSubmitEditor = () => {
+        const trimmed = newsText.trim();
+        if (!trimmed) {
+            return;
+        }
+
+        if (isEditing) {
+            saveNews({ id: editId, text: trimmed });
+        } else {
+            addNews(trimmed);
+        }
+
+        setNewsText('');
+        setEditId(undefined);
+    };
+
+    const onDeleteSelected = () => {
+        if (!hasSelection) {
+            return;
+        }
+
+        selectedRows.forEach((row) => deleteNews(row.original.id));
+        setSelectedRows([]);
+    };
+
     return (
-        <Panel title='News Admin'>
-            {isNewsLoading ? (
-                <div className='flex items-center gap-2 text-sm text-zinc-300'>
-                    Please wait while the news is loaded...
-                    <Spinner size='sm' />
-                </div>
-            ) : (
-                <>
-                    {isNewsError ? (
-                        <ApiStatus
-                            state={{
-                                loading: false,
-                                success: false,
-                                message:
-                                    newsError?.data?.message ||
-                                    newsError?.error ||
-                                    'Error loading news'
+        <div className='space-y-3'>
+            <Panel title='News administration' titleClass='text-base font-semibold tracking-wide'>
+                {isNewsLoading ? (
+                    <div className='flex items-center gap-2 text-sm text-muted'>
+                        Please wait while the news is loaded...
+                        <Spinner size='sm' />
+                    </div>
+                ) : (
+                    <>
+                        {isNewsError ? (
+                            <ApiStatus
+                                state={{
+                                    loading: false,
+                                    success: false,
+                                    message:
+                                        newsError?.data?.message ||
+                                        newsError?.error ||
+                                        'Error loading news'
+                                }}
+                                onClose={() => {}}
+                            />
+                        ) : null}
+                        <p className='mb-2 text-sm text-foreground/88'>
+                            Add a new news item below, or click an existing one to edit it.
+                        </p>
+
+                        <ReactTable
+                            columns={columns}
+                            data={news}
+                            isStriped={false}
+                            buttons={[
+                                {
+                                    label: 'Delete',
+                                    variant: 'danger',
+                                    onPress: onDeleteSelected,
+                                    disabled: !hasSelection
+                                }
+                            ]}
+                            onRowSelectionChange={setSelectedRows}
+                            onRowClick={(row) => {
+                                setEditId(row.original.id);
+                                setNewsText(row.original.text);
                             }}
-                            onClose={() => {}}
+                            getRowClassName={(row) =>
+                                editId === row.original.id
+                                    ? 'bg-[var(--table-selected-bg)] hover:bg-[var(--table-selected-bg-hover)]'
+                                    : ''
+                            }
                         />
-                    ) : null}
-                    <ApiStatus state={addApiState} onClose={() => addResult.reset()} />
-                    <ApiStatus state={saveApiState} onClose={() => saveResult.reset()} />
-                    <ApiStatus state={deleteApiState} onClose={() => deleteResult.reset()} />
+                    </>
+                )}
+            </Panel>
 
-                    <ReactTable columns={columns} data={news} disableSelection isStriped={false} />
-
-                    <div className='mt-3'>
-                        <Label className='mb-1 block text-sm text-zinc-200'>Add news item</Label>
-                        <TextArea
-                            rows={4}
-                            name='newsText'
-                            value={newsText}
-                            onChange={(event) => setNewsText(event.target.value)}
-                        />
+            <Panel title={editorLabel} titleClass='text-base font-semibold tracking-wide'>
+                <div className='space-y-2'>
+                    <Label className='sr-only'>{editorLabel}</Label>
+                    <TextArea
+                        className='w-full'
+                        rows={4}
+                        name='newsText'
+                        placeholder='Enter new news text'
+                        value={newsText}
+                        onChange={(event) => setNewsText(event.target.value)}
+                    />
+                    <div className='flex items-center gap-2'>
                         <Button
                             type='button'
-                            className='mt-2'
                             variant='tertiary'
-                            onClick={() => {
-                                addNews(newsText);
-                                setNewsText('');
-                            }}
+                            onPress={onSubmitEditor}
+                            isDisabled={!newsText.trim()}
                         >
-                            Add
+                            {isEditing ? 'Save' : 'Add'}
                         </Button>
+                        {isEditing ? (
+                            <Button
+                                type='button'
+                                variant='secondary'
+                                onPress={() => {
+                                    setEditId(undefined);
+                                    setNewsText('');
+                                }}
+                            >
+                                Cancel
+                            </Button>
+                        ) : null}
                     </div>
-                </>
-            )}
-        </Panel>
+                </div>
+            </Panel>
+        </div>
     );
 };
 

@@ -70,6 +70,9 @@
         --accent-foreground: oklch(0.98 0 0);
         --mention-bg: color-mix(in oklab, var(--brand-red) 16%, transparent);
         --mention-accent: var(--brand-red);
+        --chat-row-bg: oklch(0.245 0.007 286);
+        --chat-row-alt: oklch(0.265 0.007 286);
+        --chat-row-deleted: oklch(0.285 0.008 286);
         --chat-bubble-bg: oklch(0.31 0.01 286 / 0.8);
         --chat-bubble-border: oklch(0.56 0.01 286 / 0.35);
         --table-header-bg: oklch(0.285 0.007 286);
@@ -175,13 +178,13 @@ body {
 }
 
 a {
-  color: var(--link);
-}
-a:hover {
-  color: var(--accent);
   text-decoration: none;
 }
-a {
+a:not([class]) {
+  color: var(--link);
+}
+a:not([class]):hover {
+  color: color-mix(in oklab, var(--link) 76%, var(--accent));
   text-decoration: none;
 }
 

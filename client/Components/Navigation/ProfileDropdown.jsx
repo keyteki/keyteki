@@ -59,8 +59,8 @@ const ProfileMenu = ({ menu, mobile = false, user }) => {
     }
 
     const triggerClass = mobile
-        ? '!inline-flex !h-9 !w-full !items-center !justify-start !rounded-md !bg-transparent !px-3 !text-sm !font-medium !text-foreground transition hover:!bg-accent/15 hover:!text-foreground'
-        : '!inline-flex !h-9 !min-w-0 !items-center !rounded-md !bg-transparent !px-4 !text-sm !font-medium !text-link transition hover:!bg-accent/15 hover:!text-accent lg:!h-12';
+        ? '!inline-flex !h-9 !w-full !items-center !justify-start !rounded-md !bg-transparent !px-3 !text-sm !font-medium !text-foreground transition hover:!bg-surface-secondary/55 hover:!text-foreground'
+        : '!inline-flex !h-9 !min-w-0 !items-center !rounded-md !bg-transparent !px-4 !text-sm !font-medium !text-amber-600 dark:!text-amber-300 transition hover:!bg-surface-secondary/55 hover:!text-amber-700 dark:hover:!text-amber-200 lg:!h-12';
 
     return (
         <Dropdown onOpenChange={setIsOpen}>
@@ -91,7 +91,7 @@ const ProfileMenu = ({ menu, mobile = false, user }) => {
                     }}
                 >
                     <Dropdown.Item
-                        className='rounded-md px-3 py-2 data-[hovered]:bg-accent/12 data-[focused]:bg-accent/12'
+                        className='rounded-md px-3 py-2 data-[hovered]:bg-surface-secondary/55 data-[focused]:bg-surface-secondary/55'
                         key='__toggle-theme'
                         id='__toggle-theme'
                         textValue={t(
@@ -107,7 +107,7 @@ const ProfileMenu = ({ menu, mobile = false, user }) => {
                     {menu.map((menuItem) =>
                         menuItem.path ? (
                             <Dropdown.Item
-                                className='rounded-md px-3 py-2 data-[hovered]:bg-accent/12 data-[focused]:bg-accent/12'
+                                className='rounded-md px-3 py-2 data-[hovered]:bg-surface-secondary/55 data-[focused]:bg-surface-secondary/55'
                                 key={menuItem.path}
                                 id={menuItem.path}
                                 textValue={t(menuItem.title)}

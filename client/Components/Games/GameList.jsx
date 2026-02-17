@@ -62,13 +62,16 @@ const GameList = ({ gameFilter = {}, games = [], onJoinOrWatchClick }) => {
                 return;
             }
 
-            if (game.needsPassword) {
+            const isAdmin = !!user?.permissions?.canManageGames;
+            const requiresPassword = game.needsPassword && !isAdmin;
+
+            if (requiresPassword) {
                 dispatch(lobbyActions.joinPasswordGame({ game, joinType: 'Join' }));
             } else {
                 socket.emit('joingame', game.id);
             }
 
-            if (!game.needsPassword && onJoinOrWatchClick) {
+            if (!requiresPassword && onJoinOrWatchClick) {
                 onJoinOrWatchClick();
             }
         },
@@ -82,13 +85,16 @@ const GameList = ({ gameFilter = {}, games = [], onJoinOrWatchClick }) => {
                 return;
             }
 
-            if (game.needsPassword) {
+            const isAdmin = !!user?.permissions?.canManageGames;
+            const requiresPassword = game.needsPassword && !isAdmin;
+
+            if (requiresPassword) {
                 dispatch(lobbyActions.joinPasswordGame({ game, joinType: 'Watch' }));
             } else {
                 socket.emit('watchgame', game.id);
             }
 
-            if (!game.needsPassword && onJoinOrWatchClick) {
+            if (!requiresPassword && onJoinOrWatchClick) {
                 onJoinOrWatchClick();
             }
         },

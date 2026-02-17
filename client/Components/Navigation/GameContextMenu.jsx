@@ -13,8 +13,8 @@ const GameContextMenu = ({ mobile = false }) => {
     const isSpectating = !currentGame?.players[user?.username];
 
     const itemClass = mobile
-        ? 'inline-flex h-9 w-full items-center rounded-md px-3 text-left text-sm font-medium text-foreground transition hover:bg-accent/15 hover:text-foreground'
-        : 'inline-flex h-9 items-center rounded-md px-3 text-sm font-medium text-muted transition hover:bg-accent/15 hover:text-foreground lg:h-12';
+        ? 'inline-flex h-9 w-full items-center rounded-md px-3 text-left text-sm font-medium text-foreground transition hover:bg-surface-secondary/55 hover:text-foreground'
+        : 'inline-flex h-9 items-center rounded-md px-3 text-sm font-medium text-muted transition hover:bg-surface-secondary/55 hover:text-foreground lg:h-12';
 
     const isGameActive = () => {
         if (!currentGame || !user) {

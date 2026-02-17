@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Button, TextArea } from '@heroui/react';
+import { Button, TextArea, toast } from '@heroui/react';
 
 import Panel from '../Components/Site/Panel';
 import { lobbySendMessage } from '../redux/socketActions';
@@ -17,14 +17,46 @@ const MotdAdmin = () => {
 
     const [motdText, setMotdText] = useState(motd?.message);
     const [motdType, setMotdType] = useState(motd?.motdType ?? 'info');
+    const [isSaving, setIsSaving] = useState(false);
+    const [pendingPayload, setPendingPayload] = useState(null);
 
     const dispatch = useDispatch();
+
+    useEffect(() => {
+        if (!isSaving || !pendingPayload || !motd) {
+            return;
+        }
+
+        if (
+            motd.message === pendingPayload.message &&
+            (motd.motdType ?? 'info') === pendingPayload.motdType
+        ) {
+            setIsSaving(false);
+            setPendingPayload(null);
+            toast.success('MOTD saved.');
+        }
+    }, [isSaving, motd, pendingPayload]);
+
+    useEffect(() => {
+        if (!isSaving) {
+            return;
+        }
+
+        const timeoutId = setTimeout(() => {
+            setIsSaving(false);
+            setPendingPayload(null);
+            toast.danger('Could not confirm MOTD save. Please try again.');
+        }, 8000);
+
+        return () => clearTimeout(timeoutId);
+    }, [isSaving]);
 
     return (
         <div className='mx-auto w-full max-w-5xl'>
             <Panel title='Motd administration'>
-                <div className='max-w-4xl'>
+                <div className='w-full'>
                     <TextArea
+                        className='w-full'
                         rows={4}
                         value={motdText}
                         placeholder='Enter a motd message'
@@ -49,14 +81,17 @@ const MotdAdmin = () => {
                     <Button
                         type='button'
                         variant='tertiary'
-                        onClick={() =>
-                            dispatch(
-                                lobbySendMessage('motd', {
-                                    message: motdText,
-                                    motdType
-                                })
-                            )
-                        }
+                        isPending={isSaving}
+                        onClick={() => {
+                            const payload = {
+                                message: motdText,
+                                motdType
+                            };
+                            setIsSaving(true);
+                            setPendingPayload(payload);
+                            toast.success('Saving MOTD...');
+                            dispatch(lobbySendMessage('motd', payload));
+                        }}
                     >
                         Save
                     </Button>

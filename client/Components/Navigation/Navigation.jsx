@@ -82,9 +82,25 @@ const Navigation = (props) => {
     const navTextClass =
         'inline-flex h-9 items-center px-3 text-sm font-medium text-foreground lg:h-12';
     const navLinkClass =
-        'inline-flex h-9 items-center rounded-md px-3 text-sm font-medium text-muted transition hover:bg-accent/15 hover:text-foreground lg:h-12';
+        'inline-flex h-9 items-center rounded-md px-3 text-sm font-medium text-amber-600 dark:text-amber-300 transition hover:bg-surface-secondary/55 hover:text-amber-700 dark:hover:text-amber-200 lg:h-12';
+    const navLinkActiveClass =
+        'bg-[color:color-mix(in_oklab,var(--brand-red)_18%,var(--surface))] text-[color:color-mix(in_oklab,var(--brand-red)_82%,black)] dark:bg-accent/24 dark:text-amber-100 ring-1 ring-[color:color-mix(in_oklab,var(--brand-red)_42%,transparent)]';
     const navDropdownTriggerClass =
-        '!inline-flex !h-9 !min-w-0 !items-center !gap-1.5 !rounded-md !bg-transparent !px-4 !text-sm !font-medium !text-link transition hover:!bg-accent/15 hover:!text-accent lg:!h-12';
+        '!inline-flex !h-9 !min-w-0 !items-center !gap-1.5 !rounded-md !bg-transparent !px-4 !text-sm !font-medium !text-amber-600 dark:!text-amber-300 transition hover:!bg-surface-secondary/55 hover:!text-amber-700 dark:hover:!text-amber-200 lg:!h-12';
+    const navDropdownActiveClass =
+        '!bg-[color:color-mix(in_oklab,var(--brand-red)_18%,var(--surface))] !text-[color:color-mix(in_oklab,var(--brand-red)_82%,black)] dark:!bg-accent/24 dark:!text-amber-100 !ring-1 !ring-[color:color-mix(in_oklab,var(--brand-red)_42%,transparent)]';
+
+    const isPathActive = (path) => {
+        if (!path) {
+            return false;
+        }
+
+        if (location.pathname === path) {
+            return true;
+        }
+
+        return location.pathname.startsWith(`${path}/`);
+    };
 
     /**
      * @param {MenuItem} menuItem The menu item
@@ -132,15 +148,18 @@ const Navigation = (props) => {
     const renderMenuItems = (menuItems, options = {}) => {
         const { mobile = false } = options;
         const linkClass = mobile
-            ? 'inline-flex h-9 items-center rounded-md px-3 text-sm font-medium text-foreground transition hover:bg-accent/15 hover:text-foreground'
+            ? 'inline-flex h-9 items-center rounded-md px-3 text-sm font-medium text-amber-700 dark:text-amber-300 transition hover:bg-surface-secondary/55 hover:text-amber-800 dark:hover:text-amber-200'
             : navLinkClass;
         const dropdownTriggerClass = mobile
-            ? '!inline-flex !h-9 !w-full !items-center !justify-start !gap-1.5 !rounded-md !bg-transparent !px-3 !text-sm !font-medium !text-foreground transition hover:!bg-accent/15 hover:!text-foreground'
+            ? '!inline-flex !h-9 !w-full !items-center !justify-start !gap-1.5 !rounded-md !bg-transparent !px-3 !text-sm !font-medium !text-foreground transition hover:!bg-surface-secondary/55 hover:!text-foreground'
             : navDropdownTriggerClass;
 
         return filterMenuItems(menuItems, props.user).map((menuItem) => {
             const children =
                 menuItem.childItems && filterMenuItems(menuItem.childItems, props.user);
+            const selfActive = isPathActive(menuItem.path);
+            const childActive = !!children?.some((childItem) => isPathActive(childItem.path));
+            const isActive = selfActive || childActive;
 
             if (children && children.length > 0) {
                 const dropdownKey = `${mobile ? 'mobile' : 'desktop'}-${menuItem.title}`;
@@ -151,7 +170,11 @@ const Navigation = (props) => {
                         onOpenChange={(open) => setOpenDropdownKey(open ? dropdownKey : '')}
                     >
                         <Dropdown.Trigger>
-                            <span className={dropdownTriggerClass}>
+                            <span
+                                className={`${dropdownTriggerClass}${
+                                    isActive ? ` ${navDropdownActiveClass}` : ''
+                                }`}
+                            >
                                 <span>{t(menuItem.title)}</span>
                                 <FontAwesomeIcon
                                     icon={isOpen ? faChevronUp : faChevronDown}
@@ -167,7 +190,11 @@ const Navigation = (props) => {
                                 {children.map((childItem) =>
                                     childItem.path ? (
                                         <Dropdown.Item
-                                            className='rounded-md px-3 py-2 data-[hovered]:bg-accent/12 data-[focused]:bg-accent/12'
+                                            className={`rounded-md px-3 py-2 data-[hovered]:bg-surface-secondary/55 data-[focused]:bg-surface-secondary/55${
+                                                isPathActive(childItem.path)
+                                                    ? ' bg-[color:color-mix(in_oklab,var(--brand-red)_18%,var(--surface))] text-[color:color-mix(in_oklab,var(--brand-red)_82%,black)] dark:bg-accent/24 dark:text-amber-100'
+                                                    : ''
+                                            }`}
                                             key={childItem.title || childItem.path}
                                             id={childItem.path}
                                             textValue={t(childItem.title)}
@@ -187,7 +214,11 @@ const Navigation = (props) => {
             }
 
             return (
-                <Link key={menuItem.title} className={linkClass} href={menuItem.path}>
+                <Link
+                    key={menuItem.title}
+                    className={`${linkClass}${isActive ? ` ${navLinkActiveClass}` : ''}`}
+                    href={menuItem.path}
+                >
                     {t(menuItem.title)}
                 </Link>
             );

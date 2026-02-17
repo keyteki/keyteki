@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import moment from 'moment';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
-import { toast } from '@heroui/react';
+import { Button, Modal as HeroModal, toast } from '@heroui/react';
 
 import AlertPanel from '../Components/Site/AlertPanel';
 import Panel from '../Components/Site/Panel';
@@ -16,6 +16,7 @@ const Security = () => {
     const dispatch = useDispatch();
     const { t } = useTranslation();
     const [detailsLoaded, setDetailsLoaded] = useState(false);
+    const [sessionToRemove, setSessionToRemove] = useState(null);
     const user = useSelector((state) => state.account.user);
     const sessionRemoved = useSelector((state) => state.user.sessionRemoved);
     const sessions = useSelector((state) => state.user.sessions);
@@ -45,18 +46,19 @@ const Security = () => {
                 return;
             }
 
-            const confirmed = window.confirm(
-                t(
-                    'Are you sure you want to remove this session?  It will be logged out and any games in progress may be abandonded.'
-                )
-            );
-
-            if (confirmed) {
-                removeSession({ username: user.username, sessionId: session.id });
-            }
+            setSessionToRemove(session);
         },
-        [removeSession, t, user]
+        [user]
     );
+
+    const onConfirmRemoveSession = useCallback(() => {
+        if (!user || !sessionToRemove) {
+            return;
+        }
+
+        removeSession({ username: user.username, sessionId: sessionToRemove.id });
+        setSessionToRemove(null);
+    }, [removeSession, sessionToRemove, user]);
 
     const table =
         sessions && sessions.length === 0 ? (
@@ -120,6 +122,34 @@ const Security = () => {
                 </p>
                 {table}
             </Panel>
+            <HeroModal.Backdrop
+                isOpen={!!sessionToRemove}
+                onOpenChange={() => setSessionToRemove(null)}
+            >
+                <HeroModal.Container placement='center'>
+                    <HeroModal.Dialog className='sm:max-w-md'>
+                        <HeroModal.CloseTrigger />
+                        <HeroModal.Header>
+                            <HeroModal.Heading>{t('Remove session')}</HeroModal.Heading>
+                        </HeroModal.Header>
+                        <HeroModal.Body>
+                            <p className='text-sm text-foreground/88'>
+                                {t(
+                                    'Are you sure you want to remove this session? It will be logged out and any games in progress may be abandoned.'
+                                )}
+                            </p>
+                        </HeroModal.Body>
+                        <HeroModal.Footer>
+                            <Button variant='danger' onPress={onConfirmRemoveSession}>
+                                <Trans>Remove</Trans>
+                            </Button>
+                            <Button variant='tertiary' onPress={() => setSessionToRemove(null)}>
+                                <Trans>Cancel</Trans>
+                            </Button>
+                        </HeroModal.Footer>
+                    </HeroModal.Dialog>
+                </HeroModal.Container>
+            </HeroModal.Backdrop>
         </div>
     );
 };

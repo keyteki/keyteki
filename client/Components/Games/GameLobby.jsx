@@ -57,56 +57,82 @@ const createMockLobbyGames = () => {
         ...overrides
     });
 
+    const demoNodes = ['node1', 'node2', 'node3'];
+    let nodeIndex = 0;
+    const withDemoNode = (game) => {
+        const nextNode = demoNodes[nodeIndex % demoNodes.length];
+        nodeIndex += 1;
+
+        return {
+            ...game,
+            node: nextNode
+        };
+    };
+
     return [
-        makeGame({
-            gameFormat: 'normal',
-            gameType: 'beginner',
-            name: 'Beginner Open Normal',
-            players: { admin: mockPlayers.admin }
-        }),
-        makeGame({
-            gameFormat: 'sealed',
-            gameType: 'casual',
-            name: 'Casual Sealed + Time',
-            useGameTimeLimit: true
-        }),
-        makeGame({
-            gameFormat: 'reversal',
-            gameType: 'competitive',
-            name: 'Competitive Reversal (password)',
-            needsPassword: true
-        }),
-        makeGame({
-            gameFormat: 'adaptive-bo1',
-            gameType: 'competitive',
-            name: 'Adaptive Bo1 + Show Hand',
-            showHand: true
-        }),
-        makeGame({
-            gameFormat: 'alliance',
-            gameType: 'casual',
-            name: 'Alliance Feature Match',
-            players: { admin: mockPlayers.admin, test: mockPlayers.test },
-            started: true,
-            full: true
-        }),
-        makeGame({
-            gameFormat: 'unchained',
-            gameType: 'beginner',
-            name: 'Unchained Ladder',
-            players: { admin: mockPlayers.admin, contributor: mockPlayers.contributor },
-            started: false,
-            full: true,
-            useGameTimeLimit: true
-        }),
-        makeGame({
-            gameFormat: 'normal',
-            gameType: 'casual',
-            name: 'Everything On',
-            needsPassword: true,
-            showHand: true,
-            useGameTimeLimit: true
-        })
+        withDemoNode(
+            makeGame({
+                gameFormat: 'normal',
+                gameType: 'beginner',
+                name: 'Beginner Open Normal',
+                players: { admin: mockPlayers.admin }
+            })
+        ),
+        withDemoNode(
+            makeGame({
+                gameFormat: 'sealed',
+                gameType: 'casual',
+                name: 'Casual Sealed + Time',
+                useGameTimeLimit: true
+            })
+        ),
+        withDemoNode(
+            makeGame({
+                gameFormat: 'reversal',
+                gameType: 'competitive',
+                name: 'Competitive Reversal (password)',
+                needsPassword: true
+            })
+        ),
+        withDemoNode(
+            makeGame({
+                gameFormat: 'adaptive-bo1',
+                gameType: 'competitive',
+                name: 'Adaptive Bo1 + Show Hand',
+                showHand: true
+            })
+        ),
+        withDemoNode(
+            makeGame({
+                gameFormat: 'alliance',
+                gameType: 'casual',
+                name: 'Alliance Feature Match',
+                players: { admin: mockPlayers.admin, test: mockPlayers.test },
+                started: true,
+                full: true
+            })
+        ),
+        withDemoNode(
+            makeGame({
+                gameFormat: 'unchained',
+                gameType: 'beginner',
+                name: 'Unchained Ladder',
+                players: { admin: mockPlayers.admin, contributor: mockPlayers.contributor },
+                started: false,
+                full: true,
+                useGameTimeLimit: true
+            })
+        ),
+        withDemoNode(
+            makeGame({
+                gameFormat: 'normal',
+                gameType: 'casual',
+                name: 'Everything On',
+                needsPassword: true,
+                showHand: true,
+                useGameTimeLimit: true
+            })
+        )
     ];
 };
 
@@ -190,16 +216,18 @@ const GameLobby = ({ gameId }) => {
     useEffect(() => {
         if (!currentGame && gameId && visibleGames.length > 0) {
             const game = visibleGames.find((x) => x.id === gameId);
+            const isAdmin = !!user?.permissions?.canManageGames;
+            const requiresPassword = game?.needsPassword && !isAdmin;
 
             if (!game) {
                 toast.danger(t('The game you tried to join was not found.'));
             } else if (!game.started && Object.keys(game.players).length < 2) {
-                if (game.needsPassword) {
+                if (requiresPassword) {
                     dispatch(lobbyActions.joinPasswordGame({ game, joinType: 'Join' }));
                 } else {
                     dispatch(lobbySendMessage('joingame', gameId));
                 }
-            } else if (game.needsPassword) {
+            } else if (requiresPassword) {
                 dispatch(lobbyActions.joinPasswordGame({ game, joinType: 'Watch' }));
             } else {
                 dispatch(lobbySendMessage('watchgame', game.id));
@@ -207,7 +235,7 @@ const GameLobby = ({ gameId }) => {
 
             navigate('/play', { replace: true });
         }
-    }, [currentGame, dispatch, gameId, navigate, t, visibleGames]);
+    }, [currentGame, dispatch, gameId, navigate, t, user, visibleGames]);
 
     useEffect(() => {
         if (!gameError) {

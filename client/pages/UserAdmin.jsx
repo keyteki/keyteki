@@ -1,7 +1,7 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import moment from 'moment';
 import { Formik } from 'formik';
-import { Button, Checkbox, Input, Label, Spinner } from '@heroui/react';
+import { Button, Input, Label, Spinner, Switch, toast } from '@heroui/react';
 import * as yup from 'yup';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
@@ -57,29 +57,26 @@ const UserAdmin = () => {
     const user = useSelector((state) => state.account.user);
     const { t } = useTranslation();
     const [searchUsername, setSearchUsername] = useState('');
+    const lastLoadedUsernameRef = useRef('');
     const findUserState = useFindUserQuery(searchUsername, {
         skip: !searchUsername
     });
     const [saveUser, saveState] = useSaveUserMutation();
-    const apiState = findUserState.isUninitialized
-        ? null
-        : {
-              loading: findUserState.isFetching,
-              success: findUserState.isSuccess,
-              message: findUserState.isError
-                  ? findUserState.error?.status === 404
-                      ? 'User was not found.'
-                      : findUserState.error?.data?.message
-                  : 'User details loaded'
-          };
-    const apiSaveState = saveState.isUninitialized
-        ? null
-        : {
-              loading: saveState.isLoading,
-              success: saveState.isSuccess,
-              message: saveState.isSuccess ? 'User details saved.' : saveState.error?.data?.message
-          };
+    const findUserErrorMessage = findUserState.isError
+        ? findUserState.error?.status === 404
+            ? 'User was not found.'
+            : findUserState.error?.data?.message
+        : undefined;
+    const apiState =
+        findUserState.isUninitialized || (!findUserState.isFetching && !findUserErrorMessage)
+            ? null
+            : {
+                  loading: findUserState.isFetching,
+                  success: false,
+                  message: findUserErrorMessage
+              };
     const dispatch = useDispatch();
+    const [isClearingSessions, setIsClearingSessions] = useState(false);
     const [currentPermissions, setCurrentPermissions] = useState(
         currentUser?.permissions || defaultPermissions
     );
@@ -93,6 +90,32 @@ const UserAdmin = () => {
             setUserVerified(currentUser.verified);
         }
     }, [currentUser]);
+
+    useEffect(() => {
+        if (!findUserState.isSuccess || !searchUsername) {
+            return;
+        }
+
+        if (lastLoadedUsernameRef.current === searchUsername) {
+            return;
+        }
+
+        lastLoadedUsernameRef.current = searchUsername;
+        toast.success(t('User details loaded.'));
+    }, [findUserState.isSuccess, searchUsername, t]);
+
+    useEffect(() => {
+        if (saveState.isSuccess) {
+            toast.success(t('User details saved.'));
+            saveState.reset();
+            return;
+        }
+
+        if (saveState.isError) {
+            toast.danger(t(saveState.error?.data?.message || 'Unable to save user details.'));
+            saveState.reset();
+        }
+    }, [saveState, t]);
 
     const initialValues = {
         username: '',
@@ -116,10 +139,32 @@ const UserAdmin = () => {
         []
     );
 
+    const handleClearSessions = () => {
+        if (!currentUser?.username || isClearingSessions) {
+            return;
+        }
+
+        setIsClearingSessions(true);
+        dispatch(clearUserSessions(currentUser.username));
+        toast.success(t('Clear sessions request sent.'));
+
+        setTimeout(async () => {
+            try {
+                if (findUserState.refetch) {
+                    await findUserState.refetch();
+                }
+                toast.success(t('Sessions refreshed.'));
+            } catch (error) {
+                toast.danger(t('Unable to refresh sessions.'));
+            } finally {
+                setIsClearingSessions(false);
+            }
+        }, 1500);
+    };
+
     return (
         <div className='mx-auto w-full max-w-6xl'>
             <ApiStatus state={apiState} onClose={() => setSearchUsername('')} />
-            <ApiStatus state={apiSaveState} onClose={() => saveState.reset()} />
             <Formik
                 validationSchema={schema}
                 onSubmit={async (values) => {
@@ -188,25 +233,68 @@ const UserAdmin = () => {
                                     </dl>
 
                                     <div className='mt-2 grid gap-2 sm:grid-cols-2'>
-                                        <Checkbox
-                                            className='text-sm text-zinc-200'
-                                            isSelected={userDisabled}
-                                            onValueChange={(checked) =>
-                                                setUserDisabled(Boolean(checked))
-                                            }
-                                        >
-                                            Disabled
-                                        </Checkbox>
-                                        <Checkbox
-                                            className='text-sm text-zinc-200'
-                                            isSelected={userVerified}
-                                            onValueChange={(checked) =>
-                                                setUserVerified(Boolean(checked))
-                                            }
-                                        >
-                                            Verified
-                                        </Checkbox>
+                                        <div className='flex items-center justify-between rounded-md border border-border/45 bg-surface-secondary/30 px-2 py-1'>
+                                            <Label className='text-sm text-foreground'>
+                                                Disabled
+                                            </Label>
+                                            <Switch
+                                                id='userDisabled'
+                                                isSelected={!!userDisabled}
+                                                onChange={(isSelected) =>
+                                                    setUserDisabled(Boolean(isSelected))
+                                                }
+                                            >
+                                                <Switch.Control>
+                                                    <Switch.Thumb />
+                                                </Switch.Control>
+                                            </Switch>
+                                        </div>
+                                        <div className='flex items-center justify-between rounded-md border border-border/45 bg-surface-secondary/30 px-2 py-1'>
+                                            <Label className='text-sm text-foreground'>
+                                                Verified
+                                            </Label>
+                                            <Switch
+                                                id='userVerified'
+                                                isSelected={!!userVerified}
+                                                onChange={(isSelected) =>
+                                                    setUserVerified(Boolean(isSelected))
+                                                }
+                                            >
+                                                <Switch.Control>
+                                                    <Switch.Thumb />
+                                                </Switch.Control>
+                                            </Switch>
+                                        </div>
                                     </div>
+                                    {!user?.permissions.canManagePermissions ? (
+                                        <div className='mt-3 flex justify-center gap-2 border-t border-border/55 pt-3'>
+                                            <Button
+                                                type='button'
+                                                variant='tertiary'
+                                                isPending={isClearingSessions}
+                                                isDisabled={isClearingSessions}
+                                                onClick={handleClearSessions}
+                                            >
+                                                Clear sessions
+                                            </Button>
+                                            <Button
+                                                type='button'
+                                                variant='tertiary'
+                                                isPending={saveState.isLoading}
+                                                onClick={() => {
+                                                    saveUser({
+                                                        ...currentUser,
+                                                        disabled: userDisabled,
+                                                        permissions: currentPermissions,
+                                                        verified: userVerified
+                                                    });
+                                                }}
+                                            >
+                                                Save&nbsp;
+                                                {saveState.isLoading ? <Spinner size='sm' /> : null}
+                                            </Button>
+                                        </div>
+                                    ) : null}
                                 </Panel>
 
                                 {currentUser.linkedAccounts ? (
@@ -243,54 +331,65 @@ const UserAdmin = () => {
                                     <Panel title='Permissions'>
                                         <div className='grid gap-2 md:grid-cols-3'>
                                             {permissions.map((permission) => (
-                                                <Checkbox
+                                                <div
                                                     key={`permissions.${permission.name}`}
-                                                    className='text-sm text-zinc-200'
-                                                    isSelected={
-                                                        !!currentPermissions[permission.name]
-                                                    }
-                                                    onValueChange={() => {
-                                                        const nextPermissions = {
-                                                            ...currentPermissions,
-                                                            [permission.name]:
-                                                                !currentPermissions[permission.name]
-                                                        };
-                                                        setCurrentPermissions(nextPermissions);
-                                                    }}
+                                                    className='flex items-center justify-between gap-3 rounded-md border border-border/45 bg-surface-secondary/30 px-2 py-1'
                                                 >
-                                                    {permission.label}
-                                                </Checkbox>
+                                                    <Label className='text-sm text-foreground'>
+                                                        {permission.label}
+                                                    </Label>
+                                                    <Switch
+                                                        id={`permissions.${permission.name}`}
+                                                        isSelected={
+                                                            !!currentPermissions[permission.name]
+                                                        }
+                                                        onChange={() => {
+                                                            const nextPermissions = {
+                                                                ...currentPermissions,
+                                                                [permission.name]:
+                                                                    !currentPermissions[
+                                                                        permission.name
+                                                                    ]
+                                                            };
+                                                            setCurrentPermissions(nextPermissions);
+                                                        }}
+                                                    >
+                                                        <Switch.Control>
+                                                            <Switch.Thumb />
+                                                        </Switch.Control>
+                                                    </Switch>
+                                                </div>
                                             ))}
+                                        </div>
+                                        <div className='mt-3 flex justify-center gap-2 border-t border-border/55 pt-3'>
+                                            <Button
+                                                type='button'
+                                                variant='tertiary'
+                                                isPending={isClearingSessions}
+                                                isDisabled={isClearingSessions}
+                                                onClick={handleClearSessions}
+                                            >
+                                                Clear sessions
+                                            </Button>
+                                            <Button
+                                                type='button'
+                                                variant='tertiary'
+                                                isPending={saveState.isLoading}
+                                                onClick={() => {
+                                                    saveUser({
+                                                        ...currentUser,
+                                                        disabled: userDisabled,
+                                                        permissions: currentPermissions,
+                                                        verified: userVerified
+                                                    });
+                                                }}
+                                            >
+                                                Save&nbsp;
+                                                {saveState.isLoading ? <Spinner size='sm' /> : null}
+                                            </Button>
                                         </div>
                                     </Panel>
                                 ) : null}
-
-                                <div className='flex justify-center gap-2'>
-                                    <Button
-                                        type='button'
-                                        variant='tertiary'
-                                        onClick={() =>
-                                            dispatch(clearUserSessions(currentUser.username))
-                                        }
-                                    >
-                                        Clear sessions
-                                    </Button>
-                                    <Button
-                                        type='button'
-                                        variant='tertiary'
-                                        isPending={apiSaveState?.loading}
-                                        onClick={() => {
-                                            currentUser.permissions = currentPermissions;
-                                            currentUser.verified = userVerified;
-                                            currentUser.disabled = userDisabled;
-
-                                            saveUser(currentUser);
-                                        }}
-                                    >
-                                        Save&nbsp;
-                                        {apiSaveState?.loading ? <Spinner size='sm' /> : null}
-                                    </Button>
-                                </div>
                             </div>
                         ) : null}
                     </form>

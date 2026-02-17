@@ -335,135 +335,142 @@ function ReactTable({
                                                 width: header.column.columnDef.meta?.colWidth
                                             }}
                                         >
-                                            {header.column.getCanFilter() &&
-                                            !header.column.columnDef.meta?.groupingFilter ? (
-                                                <div className='flex items-center gap-2'>
-                                                    <div
-                                                        className='flex min-w-0 flex-grow items-center gap-1'
-                                                        role={
-                                                            header.column.getCanSort()
-                                                                ? 'button'
-                                                                : undefined
-                                                        }
-                                                        onPointerDown={header.column.getToggleSortingHandler()}
-                                                    >
-                                                        <span className='truncate'>
-                                                            {flexRender(
-                                                                header.column.columnDef.header,
-                                                                header.getContext()
-                                                            )}
-                                                        </span>
-                                                        {
-                                                            {
-                                                                asc: (
-                                                                    <FontAwesomeIcon
-                                                                        icon={faArrowUpLong}
-                                                                    />
-                                                                ),
-                                                                desc: (
-                                                                    <FontAwesomeIcon
-                                                                        icon={faArrowDownLong}
-                                                                    />
-                                                                )
-                                                            }[header.column.getIsSorted()]
-                                                        }
-                                                    </div>
-                                                    <Input
-                                                        className='select-text max-w-[14rem] min-w-[8rem]'
-                                                        placeholder='Filter'
-                                                        size='sm'
-                                                        variant='tertiary'
-                                                        value={
-                                                            header.column
-                                                                .getFilterValue()
-                                                                ?.toString() || ''
-                                                        }
-                                                        onPointerDown={(event) => {
-                                                            event.target.focus();
-                                                            event.stopPropagation();
-                                                            event.preventDefault();
-                                                        }}
-                                                        onChange={(event) =>
-                                                            header.column.setFilterValue(
-                                                                event.target.value
-                                                            )
-                                                        }
-                                                    />
-                                                </div>
-                                            ) : (
-                                                <div
-                                                    className='flex items-center gap-1'
-                                                    role={
-                                                        header.column.getCanSort()
-                                                            ? 'button'
-                                                            : undefined
-                                                    }
-                                                    onPointerDown={header.column.getToggleSortingHandler()}
-                                                >
-                                                    <span className='flex-grow'>
-                                                        {flexRender(
-                                                            header.column.columnDef.header,
-                                                            header.getContext()
-                                                        )}
-                                                    </span>
-                                                    {
-                                                        {
-                                                            asc: (
-                                                                <FontAwesomeIcon
-                                                                    icon={faArrowUpLong}
-                                                                />
-                                                            ),
-                                                            desc: (
-                                                                <FontAwesomeIcon
-                                                                    icon={faArrowDownLong}
-                                                                />
-                                                            )
-                                                        }[header.column.getIsSorted()]
-                                                    }
-                                                    {header.column.getCanFilter() &&
-                                                    header.column.columnDef.meta?.groupingFilter ? (
-                                                        <Popover
-                                                            isOpen={isFilterPopOverOpen[header.id]}
-                                                            onOpenChange={(open) => {
-                                                                isFilterPopOverOpen[header.id] =
-                                                                    open;
-                                                                setFilterPopOverOpen({
-                                                                    ...isFilterPopOverOpen
-                                                                });
-                                                            }}
+                                            {(() => {
+                                                const columnClassName =
+                                                    header.column.columnDef.meta?.className || '';
+                                                const isDataColumn = Boolean(
+                                                    header.column.columnDef.accessorKey ||
+                                                        header.column.columnDef.accessorFn
+                                                );
+                                                const hasGroupingFilter = Boolean(
+                                                    header.column.columnDef.meta?.groupingFilter
+                                                );
+                                                const isCenterAligned =
+                                                    columnClassName.includes('text-center');
+                                                const isRightAligned =
+                                                    columnClassName.includes('text-right');
+                                                const alignmentClass = isCenterAligned
+                                                    ? 'justify-center text-center'
+                                                    : isRightAligned
+                                                    ? 'justify-end text-right'
+                                                    : 'justify-start text-left';
+                                                const showFilterIcon =
+                                                    header.column.getCanFilter() &&
+                                                    (hasGroupingFilter || isDataColumn) &&
+                                                    header.column.columnDef.meta?.hideFilter !==
+                                                        true;
+
+                                                return (
+                                                    <div className='flex items-center gap-1'>
+                                                        <button
+                                                            type='button'
+                                                            className={`m-0 inline-flex w-full min-w-0 flex-grow items-center gap-1 border-0 bg-transparent p-0 ${alignmentClass}`}
+                                                            disabled={!header.column.getCanSort()}
+                                                            onClick={header.column.getToggleSortingHandler()}
                                                         >
-                                                            <Popover.Trigger>
-                                                                <button
-                                                                    type='button'
-                                                                    className='text-foreground dark:text-zinc-200'
-                                                                >
-                                                                    <FontAwesomeIcon
-                                                                        icon={faFilter}
-                                                                    />
-                                                                </button>
-                                                            </Popover.Trigger>
-                                                            <Popover.Content offset={20}>
-                                                                <Popover.Dialog>
-                                                                    {header.column.columnDef.meta?.groupingFilter(
-                                                                        header.getContext().table,
-                                                                        () => {
-                                                                            isFilterPopOverOpen[
-                                                                                header.id
-                                                                            ] =
-                                                                                !isFilterPopOverOpen[
-                                                                                    header.id
-                                                                                ];
-                                                                            setFilterPopOverOpen({
-                                                                                ...isFilterPopOverOpen
-                                                                            });
-                                                                        }
-                                                                    )}
-                                                                </Popover.Dialog>
-                                                            </Popover.Content>
-                                                        </Popover>
-                                                    ) : null}
-                                                </div>
-                                            )}
+                                                            <span className='truncate'>
+                                                                {flexRender(
+                                                                    header.column.columnDef.header,
+                                                                    header.getContext()
+                                                                )}
+                                                            </span>
+                                                            {
+                                                                {
+                                                                    asc: (
+                                                                        <FontAwesomeIcon
+                                                                            icon={faArrowUpLong}
+                                                                        />
+                                                                    ),
+                                                                    desc: (
+                                                                        <FontAwesomeIcon
+                                                                            icon={faArrowDownLong}
+                                                                        />
+                                                                    )
+                                                                }[header.column.getIsSorted()]
+                                                            }
+                                                        </button>
+                                                        {showFilterIcon ? (
+                                                            <Popover
+                                                                isOpen={
+                                                                    isFilterPopOverOpen[header.id]
+                                                                }
+                                                                onOpenChange={(open) => {
+                                                                    setFilterPopOverOpen(
+                                                                        (previous) => ({
+                                                                            ...previous,
+                                                                            [header.id]: open
+                                                                        })
+                                                                    );
+                                                                }}
+                                                            >
+                                                                <Popover.Trigger>
+                                                                    <button
+                                                                        type='button'
+                                                                        className={`rounded px-1 py-0.5 text-xs ${
+                                                                            header.column.getFilterValue()
+                                                                                ? 'text-[color:var(--brand-red)]'
+                                                                                : 'text-foreground/70 dark:text-zinc-300'
+                                                                        }`}
+                                                                    >
+                                                                        <FontAwesomeIcon
+                                                                            icon={faFilter}
+                                                                        />
+                                                                    </button>
+                                                                </Popover.Trigger>
+                                                                <Popover.Content offset={12}>
+                                                                    <Popover.Dialog>
+                                                                        {hasGroupingFilter ? (
+                                                                            header.column.columnDef.meta.groupingFilter(
+                                                                                header.getContext()
+                                                                                    .table,
+                                                                                () => {
+                                                                                    setFilterPopOverOpen(
+                                                                                        (
+                                                                                            previous
+                                                                                        ) => ({
+                                                                                            ...previous,
+                                                                                            [header.id]:
+                                                                                                !previous[
+                                                                                                    header
+                                                                                                        .id
+                                                                                                ]
+                                                                                        })
+                                                                                    );
+                                                                                }
+                                                                            )
+                                                                        ) : (
+                                                                            <Input
+                                                                                autoFocus
+                                                                                className='select-text min-w-[13rem]'
+                                                                                placeholder='Filter'
+                                                                                size='sm'
+                                                                                variant='tertiary'
+                                                                                value={
+                                                                                    header.column
+                                                                                        .getFilterValue()
+                                                                                        ?.toString() ||
+                                                                                    ''
+                                                                                }
+                                                                                onPointerDown={(
+                                                                                    event
+                                                                                ) => {
+                                                                                    event.stopPropagation();
+                                                                                }}
+                                                                                onChange={(event) =>
+                                                                                    header.column.setFilterValue(
+                                                                                        event.target
+                                                                                            .value
+                                                                                    )
+                                                                                }
+                                                                            />
+                                                                        )}
+                                                                    </Popover.Dialog>
+                                                                </Popover.Content>
+                                                            </Popover>
+                                                        ) : null}
+                                                    </div>
+                                                );
+                                            })()}
                                         </th>
                                     )
                                 )}
