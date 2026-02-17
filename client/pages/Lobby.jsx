@@ -248,7 +248,7 @@ const Lobby = () => {
                     contentClassName='pb-1'
                     headerVariant='context'
                     title={t('Latest site news')}
-                    titleClass='text-xs font-medium uppercase tracking-wide'
+                    titleClass='text-xs font-medium tracking-wide'
                 >
                     <div>
                         {announcements.length === 0 && news.length === 0 && !isNewsLoading ? (
