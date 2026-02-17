@@ -2,7 +2,7 @@ const Card = require('../../Card.js');
 
 class SciOfficerQincan extends Card {
     // Elusive. (The first time this creature is attacked each turn, no damage is dealt.)
-    // After a player chooses an active house which matches no cards in play, steal 1.
+    // After a player chooses an active house, if there are no cards in play of the active house, steal 1.
     setupCardAbilities(ability) {
         this.reaction({
             when: {

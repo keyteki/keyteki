@@ -15,48 +15,68 @@ describe('Trade Blows', function () {
             });
         });
 
-        it('should deal 1 damage to an enemy creature', function () {
+        it('should deal 1 damage to a friendly creature and 1 to an enemy creature', function () {
             this.player1.play(this.tradeBlows);
+            expect(this.player1).toBeAbleToSelect(this.emberImp);
+            expect(this.player1).toBeAbleToSelect(this.yurk);
+            expect(this.player1).not.toBeAbleToSelect(this.flaxia);
+            expect(this.player1).not.toBeAbleToSelect(this.searine);
+            this.player1.clickCard(this.emberImp);
             expect(this.player1).toBeAbleToSelect(this.flaxia);
             expect(this.player1).toBeAbleToSelect(this.searine);
-            expect(this.player1).not.toBeAbleToSelect(this.emberImp);
-            expect(this.player1).not.toBeAbleToSelect(this.yurk);
             this.player1.clickCard(this.flaxia);
+            expect(this.emberImp.damage).toBe(1);
             expect(this.flaxia.damage).toBe(1);
-            this.player1.clickPrompt('Done');
+            this.player1.clickPrompt('No');
             expect(this.player1).isReadyToTakeAction();
         });
 
-        it('should not repeat if enemy creature is destroyed', function () {
+        it('should not offer repeat if enemy creature is destroyed', function () {
             this.flaxia.damage = 3;
             this.player1.play(this.tradeBlows);
+            this.player1.clickCard(this.emberImp);
             this.player1.clickCard(this.flaxia);
             expect(this.flaxia.location).toBe('discard');
             expect(this.player1).isReadyToTakeAction();
         });
 
-        it('should repeat if enemy creature survives and player chooses to damage friendly creature', function () {
+        it('should repeat if enemy creature survives and player chooses to continue', function () {
             this.player1.play(this.tradeBlows);
+            this.player1.clickCard(this.emberImp);
             this.player1.clickCard(this.flaxia);
+            expect(this.emberImp.damage).toBe(1);
             expect(this.flaxia.damage).toBe(1);
+            this.player1.clickPrompt('Yes');
+            this.player1.clickCard(this.yurk);
+            this.player1.clickCard(this.searine);
+            expect(this.yurk.damage).toBe(1);
+            expect(this.searine.damage).toBe(1);
+            this.player1.clickPrompt('No');
+            expect(this.player1).isReadyToTakeAction();
+        });
+
+        it('should deal damage to friendly creature but fizzle with no enemy creatures', function () {
+            this.player2.moveCard(this.flaxia, 'discard');
+            this.player2.moveCard(this.searine, 'discard');
+            this.player1.play(this.tradeBlows);
             this.player1.clickCard(this.emberImp);
             expect(this.emberImp.damage).toBe(1);
-            this.player1.clickCard(this.searine);
-            expect(this.searine.damage).toBe(1);
-            this.player1.clickPrompt('Done');
             expect(this.player1).isReadyToTakeAction();
         });
 
         it('should repeat if enemy creature was warded', function () {
             this.flaxia.ward();
             this.player1.play(this.tradeBlows);
-            this.player1.clickCard(this.flaxia);
-            expect(this.flaxia.warded).toBe(false);
             this.player1.clickCard(this.emberImp);
+            this.player1.clickCard(this.flaxia);
             expect(this.emberImp.damage).toBe(1);
+            expect(this.flaxia.warded).toBe(false);
+            this.player1.clickPrompt('Yes');
+            this.player1.clickCard(this.yurk);
             this.player1.clickCard(this.searine);
+            expect(this.yurk.damage).toBe(1);
             expect(this.searine.damage).toBe(1);
-            this.player1.clickPrompt('Done');
+            this.player1.clickPrompt('No');
             expect(this.player1).isReadyToTakeAction();
         });
     });
