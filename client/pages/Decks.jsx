@@ -68,15 +68,15 @@ const DecksComponent = () => {
     }, [apiState]);
 
     return (
-        <div className='flex h-auto flex-col lg:h-[calc(100vh-65px)] lg:overflow-hidden'>
+        <div className='flex h-[calc(100dvh-65px)] flex-col overflow-hidden'>
             <ApiStatus state={apiState} onClose={() => dispatch(cardsActions.clearDeckStatus())} />
-            <div className='grid min-h-0 gap-3 lg:h-full lg:grid-cols-2'>
+            <div className='grid min-h-0 flex-1 gap-3 lg:grid-cols-2'>
                 <div className='min-h-0'>
                     <Panel
                         className='h-full !mb-0'
                         title={t('Your decks')}
                         headerVariant='context'
-                        titleClass='text-sm font-semibold tracking-wide text-foreground'
+                        titleClass='text-sm font-semibold tracking-wide'
                     >
                         <DeckList
                             onDeleteDecks={() => setShowDeleteModal(true)}
@@ -162,7 +162,7 @@ const DecksComponent = () => {
                                 {t('Cancel')}
                             </Button>
                             <Button
-                                variant='danger'
+                                variant='primary'
                                 isDisabled={selectedDeckCount === 0}
                                 isPending={isDeleting}
                                 onPress={deleteSelectedDecks}

@@ -144,7 +144,9 @@ const Messages = ({ messages, onCardMouseOver, onCardMouseOut }) => {
                     case 'phasestart':
                         messages.push(
                             <div
-                                className={'font-semibold text-white separator ' + fragment.type}
+                                className={
+                                    'font-semibold text-foreground separator ' + fragment.type
+                                }
                                 key={index++}
                             >
                                 <hr className={'mt-2 mb-2 ' + fragment.type} />
@@ -157,7 +159,7 @@ const Messages = ({ messages, onCardMouseOver, onCardMouseOut }) => {
                         messages.push(
                             <div
                                 className={classNames(
-                                    'font-semibold text-white separator',
+                                    'font-semibold text-foreground separator',
                                     fragment.type,
                                     {
                                         'current-turn': context.isCurrentStartOfTurn,

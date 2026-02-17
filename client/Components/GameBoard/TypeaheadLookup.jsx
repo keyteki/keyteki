@@ -32,7 +32,7 @@ const TypeaheadLookup = (props) => {
             <button
                 type='button'
                 onClick={handleDoneClick}
-                className='rounded-md border border-zinc-600/80 bg-zinc-800/70 px-3 py-1.5 text-sm text-zinc-100 transition hover:bg-zinc-700/80'
+                className='rounded-md border border-border/70 bg-surface-secondary/55 px-3 py-1.5 text-sm text-foreground transition hover:bg-surface-secondary/75'
             >
                 <Trans>Done</Trans>
             </button>

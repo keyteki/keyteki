@@ -43,18 +43,21 @@ const PasswordGame = () => {
             onOpenChange={() => dispatch(lobbyActions.cancelPasswordJoin())}
         >
             <HeroModal.Container placement='center'>
-                <HeroModal.Dialog className='sm:max-w-md'>
+                <HeroModal.Dialog className='w-full max-w-md'>
                     <HeroModal.CloseTrigger />
                     <HeroModal.Header>
-                        <HeroModal.Heading>{passwordGame.name}</HeroModal.Heading>
+                        <HeroModal.Heading className='text-foreground/92'>
+                            {passwordGame.name}
+                        </HeroModal.Heading>
                     </HeroModal.Header>
-                    <HeroModal.Body>
+                    <HeroModal.Body className='w-full min-w-0 overflow-visible'>
                         {passwordError && <AlertPanel type='danger' message={t(passwordError)} />}
-                        <div className='space-y-2'>
-                            <h3 className='text-base font-medium text-zinc-100'>
+                        <div className='w-full min-w-0 space-y-2'>
+                            <h3 className='text-base font-medium text-foreground/85'>
                                 <Trans>Enter the password</Trans>
                             </h3>
                             <form
+                                className='w-full min-w-0'
                                 onSubmit={(event) => {
                                     event.preventDefault();
                                     onJoin();
@@ -62,7 +65,9 @@ const PasswordGame = () => {
                             >
                                 <Input
                                     autoFocus
+                                    className='w-full min-w-0 max-w-full [&_[data-slot="input"]]:!text-foreground [&_[data-slot="input"]]:placeholder:!text-foreground/52 [&_[data-slot="input-wrapper"]]:!w-full [&_[data-slot="input-wrapper"]]:!min-w-0 [&_[data-slot="input-wrapper"]]:!max-w-full [&_[data-slot="input-wrapper"]]:!border [&_[data-slot="input-wrapper"]]:!border-black/20 [&_[data-slot="input-wrapper"]]:!bg-white [&_[data-slot="input-wrapper"]]:!shadow-[inset_0_1px_2px_rgba(15,23,42,0.06)]'
                                     type='password'
+                                    placeholder={t('Password')}
                                     onChange={(event) => setPassword(event.target.value)}
                                     value={password}
                                 />
@@ -70,11 +75,11 @@ const PasswordGame = () => {
                         </div>
                     </HeroModal.Body>
                     <HeroModal.Footer>
-                        <Button variant='tertiary' onPress={onJoin}>
+                        <Button variant='primary' onPress={onJoin}>
                             {t(passwordJoinType)}
                         </Button>
                         <Button
-                            variant='danger'
+                            variant='tertiary'
                             onPress={() => dispatch(lobbyActions.cancelPasswordJoin())}
                         >
                             <Trans>Cancel</Trans>

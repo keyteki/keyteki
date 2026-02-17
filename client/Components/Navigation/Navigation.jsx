@@ -194,8 +194,14 @@ const Navigation = (props) => {
         });
     };
 
+    const navClassName = `fixed top-0 z-50 h-12 w-full text-foreground backdrop-blur-sm ${
+        isLightTheme
+            ? 'bg-[var(--nav-light-bg)]'
+            : 'border-b border-border/80 bg-overlay/95 shadow-[0_1px_0_color-mix(in_oklab,var(--border)_88%,transparent)]'
+    }`;
+
     return (
-        <nav className='fixed top-0 z-50 h-12 w-full border-b border-border/80 bg-overlay/95 text-foreground shadow-[0_1px_0_color-mix(in_oklab,var(--border)_88%,transparent)] backdrop-blur-sm'>
+        <nav className={navClassName}>
             <div className='mx-auto flex h-full w-full items-center px-2 sm:px-3 lg:px-4'>
                 <div className='flex w-full items-center justify-between lg:hidden'>
                     <div className='w-10' />

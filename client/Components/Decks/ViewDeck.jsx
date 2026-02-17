@@ -40,36 +40,29 @@ const ViewDeck = ({ deck }) => {
         }
     };
 
-    const titleContent = (
-        <div className='relative w-full'>
-            <span className='block text-center'>{deck.name}</span>
-            {showAccolades ? (
-                <Button
-                    isIconOnly
-                    size='sm'
-                    variant='tertiary'
-                    onPress={handleRefreshAccolades}
-                    isDisabled={isRefreshing}
-                    className='absolute right-0 top-1/2 -translate-y-1/2'
-                    title={t('Refresh accolades')}
-                >
-                    <FontAwesomeIcon icon={faSync} spin={isRefreshing} />
-                </Button>
-            ) : null}
-        </div>
-    );
-
     return (
         <Panel
             className='h-full !mb-0'
             contentClassName='flex h-full min-h-0 flex-col'
-            title={titleContent}
+            title={deck.name}
             headerVariant='context'
-            titleClass='text-sm font-semibold tracking-wide text-foreground'
+            titleClass='text-sm font-semibold tracking-wide'
         >
             <div className='mb-2 text-center'>
                 <div className='inline-flex gap-2'>
-                    <Button variant='danger' onPress={() => setIsDeleteModalOpen(true)}>
+                    {showAccolades ? (
+                        <Button
+                            variant='tertiary'
+                            onPress={handleRefreshAccolades}
+                            isDisabled={isRefreshing}
+                        >
+                            <span className='inline-flex items-center gap-2'>
+                                <FontAwesomeIcon icon={faSync} spin={isRefreshing} />
+                                <span>{t('Refresh Accolades')}</span>
+                            </span>
+                        </Button>
+                    ) : null}
+                    <Button variant='primary' onPress={() => setIsDeleteModalOpen(true)}>
                         <Trans>Delete</Trans>
                     </Button>
                 </div>
@@ -93,7 +86,7 @@ const ViewDeck = ({ deck }) => {
                             <Button variant='tertiary' onPress={() => setIsDeleteModalOpen(false)}>
                                 {t('Cancel')}
                             </Button>
-                            <Button variant='danger' onPress={handleDeleteClick}>
+                            <Button variant='primary' onPress={handleDeleteClick}>
                                 {t('Delete')}
                             </Button>
                         </HeroModal.Footer>

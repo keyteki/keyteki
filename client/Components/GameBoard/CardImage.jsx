@@ -25,6 +25,9 @@ const CardImage = ({ card, cardBack, size, halfSize, onMouseOver, onMouseOut }) 
             : true;
     const fabricRef = useRef(null);
     const renderIdRef = useRef(0);
+    const enhancementSignature = Array.isArray(card?.enhancements)
+        ? card.enhancements.join('|')
+        : '';
     const setCanvasRef = useCallback((node) => {
         if (!node) {
             if (fabricRef.current) {
@@ -76,6 +79,7 @@ const CardImage = ({ card, cardBack, size, halfSize, onMouseOver, onMouseOut }) 
         })();
     }, [
         card?.id,
+        enhancementSignature,
         card?.location,
         card?.modifiedPower,
         card?.tokens && card.tokens.amber,

@@ -141,9 +141,13 @@ const DeckList = ({
                     <span
                         className={`block max-w-full truncate text-[0.8rem] ${
                             selectedDeck && row.original.id === selectedDeck.id
-                                ? 'text-zinc-100 font-semibold'
+                                ? 'text-foreground font-semibold'
                                 : ''
-                        } ${row.original.status?.basicRules === false ? 'text-red-300' : ''}`}
+                        } ${
+                            row.original.status?.basicRules === false
+                                ? 'text-[color:color-mix(in_oklab,var(--brand-red)_70%,white)] dark:text-red-300'
+                                : ''
+                        }`}
                         title={row.original.name}
                     >
                         {row.original.name}
@@ -232,7 +236,7 @@ const DeckList = ({
                     selectedDeckCount > 0 ? `${t('Delete')} (${selectedDeckCount})` : t('Delete'),
                 disabled: selectedDeckCount === 0,
                 onPress: onDeleteDecks,
-                variant: 'danger'
+                variant: 'primary'
             }
         ];
     }, [
@@ -249,8 +253,9 @@ const DeckList = ({
             {!standaloneDecks ? (
                 <div className='mb-3 grid gap-3 lg:grid-cols-2'>
                     <div>
-                        <label className='mb-1 block text-sm text-zinc-200'>{t('Name')}</label>
+                        <label className='mb-1 block text-sm text-foreground'>{t('Name')}</label>
                         <Input
+                            className='w-full'
                             name='name'
                             placeholder={t('Filter by name')}
                             variant='tertiary'
@@ -285,7 +290,7 @@ const DeckList = ({
                             : undefined
                     }
                     dataProperty='decks'
-                    isStriped={false}
+                    isStriped
                     maxVisibleRows={15}
                     pageSizeOptions={[15, 25, 50]}
                     remote={!standaloneDecks && hasAuth}
@@ -296,12 +301,13 @@ const DeckList = ({
                     getRowClassName={(row) => {
                         const isSelected = selectedDeck && row.original.id === selectedDeck.id;
                         const isInvalid = row.original.status?.basicRules === false;
-                        const baseRowClass = 'border-white/10 hover:bg-white/5';
+                        const baseRowClass =
+                            'border-[color:var(--table-border)] hover:bg-[var(--table-row-hover)] dark:border-white/10 dark:hover:bg-white/5';
                         const selectedRowClass = isSelected
-                            ? 'bg-red-500/10 ring-1 ring-inset ring-red-400/30 [box-shadow:inset_4px_0_0_0_rgba(248,113,113,0.95)] hover:!bg-red-500/15'
+                            ? 'bg-[var(--table-selected-bg)] ring-1 ring-inset ring-[color:var(--table-selected-ring)] [box-shadow:inset_4px_0_0_0_var(--brand-red)] hover:!bg-[var(--table-selected-bg-hover)] dark:bg-red-500/10 dark:ring-red-400/30 dark:[box-shadow:inset_4px_0_0_0_rgba(248,113,113,0.95)] dark:hover:!bg-red-500/15'
                             : '';
                         const invalidRowClass = isInvalid
-                            ? 'bg-red-900/25 hover:!bg-red-900/35'
+                            ? 'bg-[color:color-mix(in_oklab,var(--brand-red)_8%,white)] hover:!bg-[color:color-mix(in_oklab,var(--brand-red)_12%,white)] dark:bg-red-900/25 dark:hover:!bg-red-900/35'
                             : '';
 
                         return `${baseRowClass} ${selectedRowClass} ${invalidRowClass}`.trim();

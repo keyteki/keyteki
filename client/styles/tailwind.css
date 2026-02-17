@@ -21,18 +21,39 @@
     :root,
     [data-theme='light'] {
         color-scheme: light;
-        --background: oklch(0.975 0.004 286);
-        --foreground: oklch(0.24 0.01 286);
-        --surface: oklch(0.995 0 0);
+        --background: oklch(0.942 0.006 252);
+        --foreground: oklch(0.2 0.008 255);
+        --surface: oklch(1 0 0);
         --surface-foreground: var(--foreground);
-        --overlay: oklch(0.985 0 0);
+        --overlay: oklch(0.978 0.003 252);
         --overlay-foreground: var(--foreground);
-        --accent: oklch(0.49 0.13 24);
+        --brand-red: oklch(0.48 0.152 24);
+        --accent: var(--brand-red);
         --accent-foreground: oklch(0.98 0 0);
-        --border: oklch(0.86 0.003 286);
+        --mention-bg: color-mix(in oklab, var(--brand-red) 7%, white);
+        --mention-accent: var(--brand-red);
+        --chat-row-bg: oklch(0.998 0.001 252);
+        --chat-row-alt: oklch(0.962 0.002 252);
+        --chat-row-deleted: oklch(0.956 0.005 252);
+        --chat-bubble-bg: oklch(0.946 0.003 252);
+        --chat-bubble-border: oklch(0.82 0.004 252 / 0.95);
+        --nav-light-bg: oklch(0.914 0.006 252 / 0.95);
+        --table-header-bg: oklch(0.972 0.002 252);
+        --table-header-text: oklch(0.3 0.007 252);
+        --table-header-border: oklch(0.74 0.004 252);
+        --table-row-bg: oklch(0.998 0.001 252);
+        --table-row-alt: oklch(0.975 0.002 252);
+        --table-row-hover: oklch(0.958 0.003 252);
+        --table-border: oklch(0.83 0.003 252);
+        --table-selected-bg: color-mix(in oklab, var(--brand-red) 10%, var(--table-row-alt));
+        --table-selected-bg-hover: color-mix(in oklab, var(--brand-red) 13%, var(--table-row-alt));
+        --table-selected-ring: color-mix(in oklab, var(--brand-red) 34%, transparent);
+        --deck-link: oklch(0.4 0.09 165);
+        --deck-link-hover: oklch(0.43 0.1 170);
+        --border: oklch(0.79 0.004 252);
         --link: oklch(0.44 0.16 155);
-        --surface-shadow: 0 1px 2px rgba(12, 16, 22, 0.05), 0 8px 20px rgba(12, 16, 22, 0.05);
-        --overlay-shadow: 0 4px 14px rgba(12, 16, 22, 0.08);
+        --surface-shadow: 0 1px 2px rgba(10, 16, 24, 0.05), 0 4px 12px rgba(10, 16, 24, 0.06);
+        --overlay-shadow: 0 2px 10px rgba(10, 16, 24, 0.08);
     }
 
     .dark,
@@ -44,8 +65,25 @@
         --surface-foreground: var(--foreground);
         --overlay: oklch(0.205 0.008 286);
         --overlay-foreground: var(--foreground);
-        --accent: oklch(0.57 0.16 24);
+        --brand-red: oklch(0.57 0.16 24);
+        --accent: var(--brand-red);
         --accent-foreground: oklch(0.98 0 0);
+        --mention-bg: color-mix(in oklab, var(--brand-red) 16%, transparent);
+        --mention-accent: var(--brand-red);
+        --chat-bubble-bg: oklch(0.31 0.01 286 / 0.8);
+        --chat-bubble-border: oklch(0.56 0.01 286 / 0.35);
+        --table-header-bg: oklch(0.285 0.007 286);
+        --table-header-text: oklch(0.86 0.004 286);
+        --table-header-border: oklch(0.34 0.006 286);
+        --table-row-bg: oklch(0.22 0.007 286);
+        --table-row-alt: oklch(0.245 0.007 286);
+        --table-row-hover: oklch(0.275 0.008 286);
+        --table-border: oklch(0.34 0.006 286);
+        --table-selected-bg: color-mix(in oklab, var(--brand-red) 16%, transparent);
+        --table-selected-bg-hover: color-mix(in oklab, var(--brand-red) 22%, transparent);
+        --table-selected-ring: color-mix(in oklab, var(--brand-red) 42%, transparent);
+        --deck-link: oklch(0.74 0.14 165);
+        --deck-link-hover: oklch(0.79 0.14 170);
         --border: oklch(0.34 0.006 286);
         --link: oklch(0.74 0.16 155);
         --surface-shadow: 0 1px 0 rgba(255, 255, 255, 0.04), 0 10px 24px rgba(0, 0, 0, 0.2);
@@ -67,14 +105,14 @@
   font-style: normal;
 }
 .panel {
-  background-color: rgba(0, 0, 0, 0.65);
+  background-color: color-mix(in oklab, var(--surface) 92%, transparent);
 }
 
 .panel {
   font-family: PoppinsMedium, "Segoe UI", Inter, "Helvetica Neue", Arial, sans-serif;
-  -moz-box-shadow: 3px 3px 5px #371c1c;
-  -webkit-box-shadow: 3px 3px 5px #371c1c;
-  box-shadow: 3px 3px 5px #371c1c;
+  -moz-box-shadow: var(--surface-shadow);
+  -webkit-box-shadow: var(--surface-shadow);
+  box-shadow: var(--surface-shadow);
 }
 .panel .panel-heading {
   font-weight: normal;
@@ -89,8 +127,8 @@
   padding: 1px 4px;
   font-size: 10px;
   line-height: 14px;
-  background: rgba(0, 0, 0, 0.6);
-  text-shadow: 1px 1px 2px #000;
+  background: color-mix(in oklab, var(--surface) 84%, var(--overlay));
+  color: var(--foreground);
   border-radius: 4px;
 }
 
@@ -244,12 +282,14 @@ pre {
 }
 
 .popover-body {
-  background-color: #0e0b10;
+  background-color: var(--overlay);
+  color: var(--overlay-foreground);
 }
 
 .popover {
-  background-color: #0e0b10;
-  color: white;
+  background-color: var(--overlay);
+  color: var(--overlay-foreground);
+  border-color: var(--border);
 }
 .popover ul {
   padding: 0;
@@ -260,7 +300,7 @@ pre {
 }
 
 .popover.bs-popover-right .arrow:after {
-  border-right-color: #0e0b10;
+  border-right-color: var(--overlay);
 }
 
 .deck-status-summary {
@@ -292,11 +332,11 @@ pre {
 
 .deck-card-link {
   cursor: pointer;
-  color: #009648;
+  color: var(--deck-link);
 }
 
 .deck-card-link:hover {
-  color: #0dcaf0;
+  color: var(--deck-link-hover);
 }
 
 .decklist-card-zoom {
@@ -705,22 +745,24 @@ pre {
 }
 
 .menu-item {
-  border: 1px solid #371c1c;
+  border: 1px solid var(--border);
   padding: 3px 6px;
   border-radius: 4px;
   margin-bottom: 4px;
   cursor: pointer;
+  background: color-mix(in oklab, var(--surface) 76%, var(--overlay));
+  color: var(--foreground);
 }
 .menu-item:hover {
-  border-color: #0dcaf0;
+  border-color: var(--link);
 }
 .menu-item.disabled {
-  background-color: fadeout(#222, 20%);
-  color: #666;
+  background-color: color-mix(in oklab, var(--surface) 75%, black);
+  color: color-mix(in oklab, var(--foreground) 45%, transparent);
   cursor: not-allowed;
 }
 .menu-item.disabled:hover {
-  border-color: #371c1c;
+  border-color: var(--border);
 }
 
 .text {
@@ -794,7 +836,7 @@ pre {
 }
 .card-pile-link .panel {
   z-index: 120;
-  background-color: rgba(0, 0, 0, 0.85);
+  background-color: color-mix(in oklab, var(--surface) 92%, transparent);
   position: fixed;
 }
 .card-pile-link .panel a {
@@ -803,7 +845,7 @@ pre {
   text-decoration: none;
 }
 .card-pile-link .panel a:hover {
-  color: #0dcaf0;
+  color: var(--link);
   cursor: pointer;
 }
 .card-pile-link .panel .panel {
@@ -1034,7 +1076,7 @@ pre {
   bottom: 0;
   left: 0;
   right: 0;
-  top: 50px;
+  top: 48px;
   display: flex;
   justify-content: space-between;
   flex-direction: column;
@@ -1079,10 +1121,10 @@ pre {
   inset: 0;
   pointer-events: none;
   z-index: 1;
-  background: radial-gradient(circle at center, rgba(0, 0, 0, 0.08) 0%, rgba(0, 0, 0, 0.26) 78%);
+  background: radial-gradient(circle at center, color-mix(in oklab, var(--foreground) 4%, transparent) 0%, color-mix(in oklab, var(--foreground) 12%, transparent) 78%);
 }
 .board-atmosphere-overlay.dense {
-  background: radial-gradient(circle at center, rgba(0, 0, 0, 0.1) 0%, rgba(0, 0, 0, 0.32) 80%);
+  background: radial-gradient(circle at center, color-mix(in oklab, var(--foreground) 6%, transparent) 0%, color-mix(in oklab, var(--foreground) 16%, transparent) 80%);
 }
 
 .right-side {
@@ -1144,7 +1186,7 @@ pre {
   right: 6px;
   bottom: -1px;
   height: 2px;
-  background: linear-gradient(90deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.18) 50%, rgba(255, 255, 255, 0.08) 100%);
+  background: linear-gradient(90deg, color-mix(in oklab, var(--border) 38%, transparent) 0%, color-mix(in oklab, var(--border) 72%, transparent) 50%, color-mix(in oklab, var(--border) 38%, transparent) 100%);
 }
 .player-board.has-dense-row::before {
   content: "";
@@ -1258,7 +1300,7 @@ pre {
   max-width: calc((var(--prophecy-card-width) * 2) + 22px);
   margin: 0 0 10px 0;
   padding: 8px 8px 18px;
-  border: 2px solid white;
+  border: 2px solid color-mix(in oklab, var(--border) 90%, transparent);
   border-radius: 6px;
   position: relative;
   min-height: auto;
@@ -1270,7 +1312,7 @@ pre {
   top: 8px;
   bottom: 8px;
   width: 1px;
-  background-color: white;
+  background-color: color-mix(in oklab, var(--border) 90%, transparent);
   transform: translateX(-50%);
 }
 .reference-card-pane .prophecy-grid .prophecy-card-container {
@@ -1323,7 +1365,7 @@ pre {
   transition: transform 0.2s ease-in-out;
   cursor: default;
   z-index: 1;
-  border: 1px solid rgba(255, 255, 255, 0.3);
+  border: 1px solid color-mix(in oklab, var(--border) 90%, transparent);
 }
 .reference-card-pane .prophecy-grid .child-card-under-prophecy.is-interactive:hover {
   transform: scale(1.05);
@@ -1384,11 +1426,12 @@ pre {
 }
 
 .right-side .prompt-area .inset-pane {
-  background: rgba(0, 0, 0, 0.95);
+  background: color-mix(in oklab, var(--overlay) 94%, transparent);
+  border: 1px solid color-mix(in oklab, var(--border) 92%, transparent);
   border-radius: 4px;
   margin: 2px 0;
   z-index: 111;
-  box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 -2px 10px color-mix(in oklab, var(--border) 28%, transparent);
 }
 
 .game-board.high-density .board-high-tide {
@@ -1510,7 +1553,7 @@ pre {
   overflow-wrap: anywhere;
 }
 .separator hr {
-  border-color: #371c1c;
+  border-color: color-mix(in oklab, var(--accent) 32%, transparent);
   margin: 0.25rem 0;
 }
 
@@ -1547,19 +1590,21 @@ pre {
 }
 
 .message.mb-1.this-player {
-  background: rgba(0, 53, 115, 0.3019607843);
+  background: color-mix(in oklab, var(--link) 24%, transparent);
 }
 
 .message.mb-1.other-player {
-  background: rgba(121, 30, 30, 0.3019607843);
+  background: color-mix(in oklab, var(--accent) 20%, transparent);
 }
 
 .message-chat b {
-  color: white;
+  color: var(--foreground);
 }
 
 .chat-bubble .message-chat {
-  background: rgba(255, 255, 255, 0.2392156863);
+  background: var(--chat-bubble-bg);
+  border: 1px solid var(--chat-bubble-border);
+  border-bottom: 0;
   border-radius: 5px 5px 0 0;
   padding: 5px;
 }
@@ -1570,7 +1615,9 @@ pre {
 }
 
 .chat-bubble .message-fragment + .message-fragment {
-  background: rgba(255, 255, 255, 0.2392156863);
+  background: var(--chat-bubble-bg);
+  border: 1px solid var(--chat-bubble-border);
+  border-top: 0;
   border-radius: 0 0 5px 5px;
   padding: 0 5px 5px 5px;
   position: relative;
@@ -1586,7 +1633,7 @@ pre {
   width: 0;
   height: 0;
   border: 10px solid transparent;
-  border-top-color: rgba(255, 255, 255, 0.2392156863);
+  border-top-color: var(--chat-bubble-bg);
   border-bottom: 0;
   border-left: 0;
   margin-left: -10px;
@@ -1630,8 +1677,8 @@ pre {
   margin-right: 0;
   font-size: 1.05rem;
   background: rgba(220, 38, 38, 0.08);
-  border-top: 1px solid rgba(255, 255, 255, 0.16);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.16);
+  border-top: 1px solid color-mix(in oklab, var(--accent) 32%, transparent);
+  border-bottom: 1px solid color-mix(in oklab, var(--accent) 32%, transparent);
   text-transform: uppercase;
   font-family: PoppinsMedium, "Segoe UI", Inter, "Helvetica Neue", Arial, sans-serif;
   font-weight: 300 !important;
@@ -1676,7 +1723,7 @@ pre {
 }
 
 .alert .user-role {
-  color: #0dcaf0;
+  color: var(--link);
 }
 
 .card-row {
@@ -1806,7 +1853,7 @@ pre {
   height: 30px;
   padding-left: 7px;
   padding-right: 7px;
-  border-right: dotted 2px #324e8e;
+  border-right: dotted 2px color-mix(in oklab, var(--border) 90%, transparent);
   display: flex;
   align-items: center;
   min-width: fit-content;
@@ -1815,10 +1862,10 @@ pre {
   opacity: 1;
 }
 .state a {
-  color: #c1c2c3;
+  color: color-mix(in oklab, var(--foreground) 72%, transparent);
 }
 .state a:hover {
-  color: #009648;
+  color: var(--link);
 }
 .state span {
   padding-right: 3px;
@@ -1837,9 +1884,9 @@ pre {
   margin: 0px 5px;
   padding: 5px;
   text-align: center;
-  background: #371c1c;
+  background: color-mix(in oklab, var(--brand-red) 14%, var(--surface));
   border-radius: 0.25rem;
-  border: 1px solid rgba(128, 128, 128, 0.53);
+  border: 1px solid color-mix(in oklab, var(--brand-red) 34%, var(--border));
 }
 .state .gravatar {
   margin-left: 0;
@@ -1882,7 +1929,7 @@ pre {
 }
 
 .active-player .state svg {
-  color: white;
+  color: var(--foreground);
 }
 
 .active-player:before {

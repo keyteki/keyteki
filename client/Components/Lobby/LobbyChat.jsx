@@ -22,7 +22,7 @@ const containsUserMention = (messageText, username) => {
 const getRoleTextClass = (role) => {
     switch ((role || '').toLowerCase()) {
         case 'admin':
-            return 'text-red-500';
+            return 'text-[color:var(--brand-red)] dark:text-accent';
         case 'contributor':
             return 'text-cyan-600 dark:text-cyan-400';
         case 'supporter':
@@ -197,7 +197,7 @@ const LobbyChat = ({
             lastUser = message.user.username;
         }
 
-        return Object.values(groupedMessages).map((messages) => {
+        return Object.values(groupedMessages).map((messages, groupIndex) => {
             let timestamp;
             const firstMessage = messages[0];
 
@@ -217,6 +217,7 @@ const LobbyChat = ({
             const userWasMentioned = messages.some((message) =>
                 containsUserMention(message?.message, highlightUsername)
             );
+            const hasDeletedMessage = messages.some((message) => message.deleted);
             const renderedMessages = messages.map((message) => {
                 if (!message.user) {
                     return undefined;
@@ -255,7 +256,7 @@ const LobbyChat = ({
                         {isModerator && !message.deleted ? (
                             <button
                                 type='button'
-                                className='shrink-0 px-1.5 text-red-500 !opacity-0 transition hover:text-red-400 group-hover/message:!opacity-100 focus-visible:!opacity-100'
+                                className='shrink-0 px-1.5 text-[color:var(--brand-red)] !opacity-0 transition hover:opacity-85 group-hover/message:!opacity-100 focus-visible:!opacity-100'
                                 onClick={() => onRemoveMessageClick(message.id)}
                             >
                                 <FontAwesomeIcon icon={faTimes} />
@@ -270,10 +271,14 @@ const LobbyChat = ({
             return (
                 <div
                     key={timestamp + firstMessage.user.username + (index++).toString()}
-                    className={`mb-1 flex items-start gap-2 rounded-md border border-border/45 px-2.5 py-2 shadow-[inset_0_1px_0_rgba(255,255,255,0.04)] transition hover:bg-surface-secondary/90 ${
+                    className={`mb-1 flex items-start gap-2 rounded-md border border-border/50 px-2.5 py-2 shadow-[inset_0_1px_0_rgba(255,255,255,0.04)] transition hover:bg-surface-secondary/90 ${
                         userWasMentioned
-                            ? 'bg-accent/16 ring-1 ring-accent/45'
-                            : 'bg-surface-secondary/72'
+                            ? 'bg-[var(--mention-bg)] shadow-[-3px_0_0_0_var(--mention-accent)_inset]'
+                            : hasDeletedMessage
+                            ? 'bg-[var(--chat-row-deleted)]'
+                            : groupIndex % 2 === 0
+                            ? 'bg-[var(--chat-row-bg)] dark:bg-surface-secondary/72'
+                            : 'bg-[var(--chat-row-alt)] dark:bg-surface-secondary/78'
                     }`}
                 >
                     <div className='shrink-0 pt-0.5'>
@@ -282,7 +287,7 @@ const LobbyChat = ({
                     <div className='min-w-0 flex-1'>
                         <div className='flex items-center gap-2 leading-5'>
                             <span className={userClass}>{firstMessage.user.username}</span>
-                            <span className='inline-flex items-center text-foreground/70'>
+                            <span className='inline-flex items-center text-foreground/50'>
                                 {timestamp}
                             </span>
                         </div>

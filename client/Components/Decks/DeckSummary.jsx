@@ -167,14 +167,16 @@ const DeckSummary = ({ deck }) => {
                 </div>
                 <div className='min-w-56 flex-1'>
                     <div className='grid max-w-72 grid-cols-[1fr_auto] gap-x-4 gap-y-1 text-lg'>
-                        <span>{t('Wins')}</span>
-                        <span>{deck.wins}</span>
-                        <span>{t('Losses')}</span>
-                        <span>{deck.losses}</span>
-                        <span>{t('Total')}</span>
-                        <span>{totalGames}</span>
-                        <span>{t('Win Rate')}</span>
-                        <span>{deck.winRate?.toFixed(2)}%</span>
+                        <span className='text-muted'>{t('Wins')}</span>
+                        <span className='font-bold text-foreground'>{deck.wins}</span>
+                        <span className='text-muted'>{t('Losses')}</span>
+                        <span className='font-bold text-foreground'>{deck.losses}</span>
+                        <span className='text-muted'>{t('Total')}</span>
+                        <span className='font-bold text-foreground'>{totalGames}</span>
+                        <span className='text-muted'>{t('Win Rate')}</span>
+                        <span className='font-bold text-foreground'>
+                            {deck.winRate?.toFixed(2)}%
+                        </span>
                     </div>
                     {Object.keys(enhancements).length > 0 ? (
                         <div className='deck-enhancements flex flex-wrap items-center gap-3 ps-0 pt-3'>
@@ -247,13 +249,13 @@ const DeckSummary = ({ deck }) => {
             </div>
 
             {deck.cards.some((c) => c.isNonDeck && (!c.card || c.card.type !== 'archon power')) && (
-                <div className='deck-houses mt-5 rounded-sm px-3 py-2'>
+                <div className='deck-houses mt-5 inline-block rounded-sm px-0 py-2 text-left'>
                     <div>
                         <Trans>Non-Deck Cards</Trans>
                     </div>
                 </div>
             )}
-            <div className='deck-cards grid grid-cols-1 pt-3 sm:justify-center sm:gap-x-10 sm:[grid-template-columns:repeat(3,max-content)]'>
+            <div className='deck-cards pt-3'>
                 <div className='w-fit text-left'>{nonDeckCards}</div>
             </div>
         </div>

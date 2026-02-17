@@ -170,7 +170,7 @@ function ReactTable({
     }, [defaultColumnFilters, table]);
 
     useEffect(() => {
-        if (!maxVisibleRows || !tableRef.current) {
+        if (fillHeight || !maxVisibleRows || !tableRef.current) {
             setMaxHeightPx(null);
             return;
         }
@@ -192,7 +192,7 @@ function ReactTable({
         window.addEventListener('resize', updateMaxHeight);
 
         return () => window.removeEventListener('resize', updateMaxHeight);
-    }, [currentPageSize, maxVisibleRows, tableData.length]);
+    }, [currentPageSize, fillHeight, maxVisibleRows, tableData.length]);
 
     useEffect(() => {
         if (!onRowSelectionChange) {
@@ -272,7 +272,7 @@ function ReactTable({
     addPageButton(1);
     if (windowStart > 2) {
         pageButtons.push(
-            <span key='start-ellipsis' className='px-1 text-xs text-zinc-400'>
+            <span key='start-ellipsis' className='px-1 text-xs text-muted'>
                 ...
             </span>
         );
@@ -282,7 +282,7 @@ function ReactTable({
     }
     if (windowEnd < pageCount - 1) {
         pageButtons.push(
-            <span key='end-ellipsis' className='px-1 text-xs text-zinc-400'>
+            <span key='end-ellipsis' className='px-1 text-xs text-muted'>
                 ...
             </span>
         );
@@ -302,16 +302,18 @@ function ReactTable({
             <div
                 className={`${
                     fillHeight ? 'min-h-0 flex-1 overflow-auto' : 'overflow-x-auto'
-                } rounded-lg border border-zinc-700/60 bg-black/35`}
+                } rounded-lg border border-[color:var(--table-border)] bg-[var(--surface)] dark:border-zinc-700/60 dark:bg-black/35`}
                 ref={tableRef}
-                style={maxHeightPx ? { maxHeight: `${maxHeightPx}px` } : undefined}
+                style={!fillHeight && maxHeightPx ? { maxHeight: `${maxHeightPx}px` } : undefined}
             >
-                <table className={`w-full text-sm text-zinc-100 ${tableClassName}`}>
-                    <thead className='text-left text-xs text-zinc-300'>
+                <table
+                    className={`w-full text-sm text-foreground dark:text-zinc-100 ${tableClassName}`}
+                >
+                    <thead className='text-left text-xs text-[color:var(--table-header-text)] dark:text-zinc-300'>
                         {table.getHeaderGroups().map((headerGroup) => (
                             <tr
                                 key={headerGroup.id}
-                                className='border-b border-zinc-700/60 bg-zinc-900/60'
+                                className='border-b border-[color:var(--table-header-border)] bg-[var(--table-header-bg)] dark:border-zinc-700/60 dark:bg-zinc-900/60'
                             >
                                 {!disableSelection ? (
                                     <th className='w-10 px-2 py-2 align-middle'>
@@ -433,7 +435,7 @@ function ReactTable({
                                                             <Popover.Trigger>
                                                                 <button
                                                                     type='button'
-                                                                    className='text-zinc-200'
+                                                                    className='text-foreground dark:text-zinc-200'
                                                                 >
                                                                     <FontAwesomeIcon
                                                                         icon={faFilter}
@@ -489,11 +491,15 @@ function ReactTable({
                             table.getRowModel().rows.map((row, index) => (
                                 <tr
                                     key={row.id}
-                                    className={`border-b border-zinc-800/60 ${
-                                        isStriped && index % 2 === 1 ? 'bg-zinc-900/25' : ''
-                                    } ${onRowClick ? 'cursor-pointer hover:bg-zinc-800/35' : ''} ${
-                                        getRowClassName ? getRowClassName(row) : ''
-                                    }`}
+                                    className={`border-b border-[color:var(--table-border)] ${
+                                        isStriped && index % 2 === 1
+                                            ? 'bg-[var(--table-row-alt)] dark:bg-zinc-900/25'
+                                            : 'bg-[var(--table-row-bg)]'
+                                    } ${
+                                        onRowClick
+                                            ? 'cursor-pointer hover:bg-[var(--table-row-hover)] dark:hover:bg-zinc-800/35'
+                                            : ''
+                                    } ${getRowClassName ? getRowClassName(row) : ''}`}
                                     onClick={() => onRowClick && onRowClick(row)}
                                 >
                                     {!disableSelection ? (
@@ -571,7 +577,7 @@ function ReactTable({
                         {'>'}
                     </Button>
                 </div>
-                <span className='text-sm text-zinc-300'>
+                <span className='text-sm text-muted'>
                     Page {currPage} of {pageCount} ({totalCount} items)
                 </span>
             </div>

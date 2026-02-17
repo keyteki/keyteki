@@ -231,7 +231,7 @@ const GameLobby = ({ gameId }) => {
             {currentGame?.started === false && <PendingGame />}
             {passwordGame && <PasswordGame />}
 
-            <Panel title={t('Current Games')}>
+            <Panel title={t('Current Games')} titleClass='text-base font-semibold tracking-wide'>
                 {!user && (
                     <AlertPanel type='warning'>
                         {t('Please log in to be able to start a new game')}
@@ -258,12 +258,18 @@ const GameLobby = ({ gameId }) => {
                         </Button>
                     </div>
 
-                    <Panel type='primary' headerVariant='context' title={t('Filters')}>
+                    <Panel
+                        type='primary'
+                        className='border-border/55 !bg-surface/97 [--accent:color-mix(in_oklab,var(--brand-red)_88%,white)]'
+                        headerVariant='context'
+                        title={t('Filters')}
+                        titleClass='text-xs font-medium uppercase tracking-wide text-muted'
+                    >
                         <div className='grid gap-x-3 gap-y-2 sm:grid-cols-2 lg:grid-cols-3'>
                             {filters.map((filter) => (
                                 <div
                                     key={filter.name}
-                                    className='flex items-center justify-between gap-2 rounded bg-surface-secondary/70 px-2 py-1.5'
+                                    className='flex items-center justify-between gap-2 rounded border border-border/45 bg-surface-secondary/45 px-2 py-1.5'
                                 >
                                     <Label className='text-sm text-foreground'>
                                         {filter.label}
@@ -282,7 +288,7 @@ const GameLobby = ({ gameId }) => {
                                 </div>
                             ))}
                         </div>
-                        <div className='mt-2 flex items-center justify-between gap-2 rounded bg-surface-secondary/70 px-2 py-1.5'>
+                        <div className='mt-2 flex items-center justify-between gap-2 rounded border border-border/45 bg-surface-secondary/45 px-2 py-1.5'>
                             <Label className='text-sm text-foreground'>
                                 {t('Only show new games')}
                             </Label>

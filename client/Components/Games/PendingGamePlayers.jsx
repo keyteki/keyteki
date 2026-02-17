@@ -35,20 +35,20 @@ const PendingGamePlayers = ({ currentGame, user, onSelectDeck }) => {
         if (!player || !player.deck || !player.deck.selected) {
             return {
                 label: t('Waiting for deck'),
-                tone: 'text-amber-300 bg-amber-500/10 border-amber-500/30'
+                tone: 'text-[color:color-mix(in_oklab,var(--brand-red)_82%,black)] bg-[color:color-mix(in_oklab,var(--brand-red)_10%,white)] border-[color:color-mix(in_oklab,var(--brand-red)_32%,transparent)] dark:text-rose-300 dark:bg-rose-500/10 dark:border-rose-500/30'
             };
         }
 
         if (player.deck.status?.basicRules === false) {
             return {
                 label: t('Deck needs fixes'),
-                tone: 'text-amber-300 bg-amber-500/10 border-amber-500/30'
+                tone: 'text-[color:color-mix(in_oklab,var(--brand-red)_82%,black)] bg-[color:color-mix(in_oklab,var(--brand-red)_10%,white)] border-[color:color-mix(in_oklab,var(--brand-red)_32%,transparent)] dark:text-rose-300 dark:bg-rose-500/10 dark:border-rose-500/30'
             };
         }
 
         return {
             label: t('Ready'),
-            tone: 'text-emerald-300 bg-emerald-500/10 border-emerald-500/30'
+            tone: 'text-emerald-700 bg-emerald-500/12 border-emerald-500/30 dark:text-emerald-300 dark:bg-emerald-500/10'
         };
     };
 
@@ -56,7 +56,7 @@ const PendingGamePlayers = ({ currentGame, user, onSelectDeck }) => {
         if (!status) {
             return {
                 label: t('Pending'),
-                tone: 'text-zinc-300 bg-zinc-500/10 border-zinc-500/25'
+                tone: 'text-foreground/75 bg-surface-secondary/35 border-border/50'
             };
         }
 
@@ -70,13 +70,13 @@ const PendingGamePlayers = ({ currentGame, user, onSelectDeck }) => {
         if (isValid) {
             return {
                 label: t('Valid'),
-                tone: 'text-emerald-300 bg-emerald-500/10 border-emerald-500/30'
+                tone: 'text-emerald-700 bg-emerald-500/12 border-emerald-500/30 dark:text-emerald-300 dark:bg-emerald-500/10'
             };
         }
 
         return {
             label: t('Invalid'),
-            tone: 'text-rose-300 bg-rose-500/10 border-rose-500/30'
+            tone: 'text-[color:color-mix(in_oklab,var(--brand-red)_85%,black)] bg-[color:color-mix(in_oklab,var(--brand-red)_12%,white)] border-[color:color-mix(in_oklab,var(--brand-red)_35%,transparent)] dark:text-rose-300 dark:bg-rose-500/10 dark:border-rose-500/30'
         };
     };
 
@@ -84,7 +84,7 @@ const PendingGamePlayers = ({ currentGame, user, onSelectDeck }) => {
         <Panel
             headerVariant='context'
             title={t('Players')}
-            titleClass='text-sm font-medium tracking-wide text-zinc-200'
+            titleClass='text-sm font-medium tracking-wide text-foreground/85'
             contentClassName='py-3'
         >
             <div className='grid gap-3 sm:grid-cols-2'>
@@ -96,14 +96,14 @@ const PendingGamePlayers = ({ currentGame, user, onSelectDeck }) => {
                     if (!player) {
                         return (
                             <div
-                                className='grid min-h-20 grid-cols-[minmax(0,1fr)_auto] grid-rows-2 items-center gap-x-3 gap-y-1 rounded-md border border-border/60 bg-surface-secondary/35 px-3 py-2'
+                                className='grid min-h-20 grid-cols-[minmax(0,1fr)_auto] grid-rows-2 items-center gap-x-3 gap-y-1 rounded-md border border-border/50 bg-surface-secondary/26 px-3 py-2'
                                 key={`seat-${index}`}
                             >
-                                <div className='min-w-0 text-sm font-semibold text-zinc-200'>
+                                <div className='min-w-0 text-sm font-semibold text-foreground/90'>
                                     <Trans>Empty seat</Trans>
                                 </div>
                                 <div />
-                                <div className='min-w-0 text-sm text-zinc-400'>
+                                <div className='min-w-0 text-sm text-muted'>
                                     <span className='block truncate'>
                                         <Trans>Waiting for player</Trans>
                                     </span>
@@ -130,7 +130,7 @@ const PendingGamePlayers = ({ currentGame, user, onSelectDeck }) => {
 
                     return (
                         <div
-                            className='grid min-h-20 grid-cols-[minmax(0,1fr)_auto] grid-rows-2 items-center gap-x-3 gap-y-1 rounded-md border border-border/70 bg-surface-secondary/50 px-3 py-2'
+                            className='grid min-h-20 grid-cols-[minmax(0,1fr)_auto] grid-rows-2 items-center gap-x-3 gap-y-1 rounded-md border border-border/50 bg-surface-secondary/30 px-3 py-2'
                             key={player.name}
                         >
                             <div className='flex min-w-0 items-center gap-2'>
@@ -143,12 +143,12 @@ const PendingGamePlayers = ({ currentGame, user, onSelectDeck }) => {
                                 {readiness.label}
                             </span>
 
-                            <div className='min-w-0 flex items-center gap-1 text-sm text-zinc-300'>
-                                <span className='shrink-0 text-zinc-400'>
+                            <div className='min-w-0 flex items-center gap-1 text-sm text-foreground/78 dark:text-foreground/75'>
+                                <span className='shrink-0 text-foreground/62 dark:text-muted'>
                                     <Trans>Deck:</Trans>
                                 </span>
                                 <div className='min-w-0 flex flex-wrap items-center gap-2'>
-                                    <span className='block min-w-0 flex-1 truncate text-zinc-200'>
+                                    <span className='block min-w-0 flex-1 truncate text-foreground/90'>
                                         {deckName}
                                     </span>
                                     {playerIsMe && !isSealed && (

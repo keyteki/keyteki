@@ -35,7 +35,11 @@ function CardTiledList(props) {
 
     return (
         <div className='card-list'>
-            {title && <div className='mb-1 bg-black/60 text-center text-white'>{title}</div>}
+            {title && (
+                <div className='mb-1 rounded-sm border border-border/60 bg-surface-secondary/55 text-center text-foreground'>
+                    {title}
+                </div>
+            )}
             <div className='flex flex-wrap content-start items-start justify-start'>{cardList}</div>
         </div>
     );

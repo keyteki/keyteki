@@ -29,9 +29,11 @@ const formatIconEntries = [
 ];
 
 const typeBadgeClass = {
-    beginner: 'bg-emerald-600/25 text-emerald-300 border-emerald-500/40',
-    casual: 'bg-amber-600/20 text-amber-300 border-amber-500/40',
-    competitive: 'bg-rose-600/20 text-rose-300 border-rose-500/40'
+    beginner:
+        'bg-emerald-500/12 text-emerald-700 border-emerald-500/28 dark:bg-emerald-600/25 dark:text-emerald-300 dark:border-emerald-500/40',
+    casual: 'bg-amber-500/12 text-amber-700 border-amber-500/28 dark:bg-amber-600/20 dark:text-amber-300 dark:border-amber-500/40',
+    competitive:
+        'bg-[color:color-mix(in_oklab,var(--brand-red)_12%,white)] text-[color:color-mix(in_oklab,var(--brand-red)_85%,black)] border-[color:color-mix(in_oklab,var(--brand-red)_35%,transparent)] dark:bg-rose-600/20 dark:text-rose-300 dark:border-rose-500/40'
 };
 
 const GameList = ({ gameFilter = {}, games = [], onJoinOrWatchClick }) => {
@@ -157,14 +159,14 @@ const GameList = ({ gameFilter = {}, games = [], onJoinOrWatchClick }) => {
                             const iconClass = 'h-5 w-5 object-contain invert-[0.9]';
                             const rowTone =
                                 game.node && isAdmin
-                                    ? 'bg-surface-secondary/75'
-                                    : 'bg-surface-secondary/60';
+                                    ? 'bg-surface-secondary/52'
+                                    : 'bg-surface-secondary/38';
                             const seats = [players[0], players[1]];
 
                             return (
                                 <div
                                     key={game.id}
-                                    className={`rounded-md border border-border/70 px-3 py-2 transition hover:border-accent/45 hover:bg-surface-secondary/80 ${rowTone}`}
+                                    className={`rounded-md border border-border/50 px-3 py-2 transition hover:border-border/60 hover:bg-surface-secondary/58 ${rowTone}`}
                                 >
                                     <div className='flex flex-wrap items-start justify-between gap-2'>
                                         <div className='min-w-0'>
@@ -214,7 +216,7 @@ const GameList = ({ gameFilter = {}, games = [], onJoinOrWatchClick }) => {
                                         </div>
                                     </div>
 
-                                    <div className='mt-2 rounded-md border border-border/65 bg-overlay/55 p-2'>
+                                    <div className='mt-2 rounded-md border border-border/45 bg-overlay/45 p-2'>
                                         <div className='grid gap-2 sm:grid-cols-2'>
                                             {seats.map((player, seatIndex) => {
                                                 if (player) {
@@ -227,7 +229,7 @@ const GameList = ({ gameFilter = {}, games = [], onJoinOrWatchClick }) => {
                                                     return (
                                                         <div
                                                             key={`${game.id}-${player.name}`}
-                                                            className='flex min-h-11 items-center gap-2 rounded-md border border-border/60 bg-surface-secondary/70 px-2 py-1.5'
+                                                            className='flex min-h-11 items-center gap-2 rounded-md border border-border/45 bg-surface-secondary/55 px-2 py-1.5 text-foreground'
                                                         >
                                                             <Avatar imgPath={player.avatar} />
                                                             <span className={userClass}>
@@ -242,11 +244,11 @@ const GameList = ({ gameFilter = {}, games = [], onJoinOrWatchClick }) => {
                                                         <button
                                                             key={`${game.id}-seat-${seatIndex}`}
                                                             type='button'
-                                                            className='flex min-h-11 items-center gap-2 rounded-md border border-dashed border-border/60 bg-surface-secondary/45 px-2 py-1.5 text-left text-muted transition hover:cursor-pointer hover:border-accent/55 hover:bg-accent/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/55'
+                                                            className='flex min-h-11 items-center gap-2 rounded-md border border-dashed border-border/50 bg-surface-secondary/35 px-2 py-1.5 text-left text-foreground/78 transition hover:cursor-pointer hover:border-accent/45 hover:bg-accent/8 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/45'
                                                             onClick={() => joinGame(game)}
                                                         >
                                                             <span className='h-7 w-7 rounded-full border border-dashed border-border/55 bg-surface-secondary/55' />
-                                                            <span className='text-sm font-medium text-accent'>
+                                                            <span className='text-sm font-semibold text-[color:var(--brand-red)]'>
                                                                 {t('+ Join')}
                                                             </span>
                                                         </button>
@@ -318,7 +320,7 @@ const GameList = ({ gameFilter = {}, games = [], onJoinOrWatchClick }) => {
                                             <Button
                                                 size='sm'
                                                 variant='tertiary'
-                                                className='text-muted hover:text-foreground'
+                                                className='text-foreground/75 hover:text-foreground'
                                                 onPress={() => watchGame(game)}
                                             >
                                                 {t('Watch')}

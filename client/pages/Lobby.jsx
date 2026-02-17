@@ -248,7 +248,7 @@ const Lobby = () => {
                     contentClassName='pb-1'
                     headerVariant='context'
                     title={t('Latest site news')}
-                    titleClass='text-xs font-medium uppercase tracking-wide text-muted'
+                    titleClass='text-xs font-medium uppercase tracking-wide'
                 >
                     <div>
                         {announcements.length === 0 && news.length === 0 && !isNewsLoading ? (
@@ -287,12 +287,12 @@ const Lobby = () => {
                 </Panel>
 
                 <Panel
-                    className='min-h-0 flex-1 !bg-surface/88'
+                    className='min-h-0 flex-1'
                     headerVariant='context'
                     title={t('Lobby Chat ({{users}}) online', {
                         users: users.length
                     })}
-                    titleClass='text-sm font-semibold tracking-wide text-foreground'
+                    titleClass='text-sm font-semibold tracking-wide'
                 >
                     <div className='flex h-full min-h-0 flex-col'>
                         <LobbyChat
@@ -339,7 +339,7 @@ const Lobby = () => {
                                     ref={inputRef}
                                     id='lobby-chat-input'
                                     type='text'
-                                    className='w-full rounded-md border border-border/80 bg-surface-secondary/85 px-3 py-2 text-sm text-foreground placeholder:text-muted focus:border-accent/70 focus:outline-none'
+                                    className='w-full rounded-md border border-black/25 bg-white px-3 py-2 text-sm text-foreground placeholder:text-foreground/52 shadow-[inset_0_1px_2px_rgba(15,23,42,0.06)] focus:border-accent/65 focus:outline-none dark:border-border/80 dark:bg-surface-secondary/85 dark:placeholder:text-muted dark:shadow-none'
                                     placeholder={t(placeholder)}
                                     value={message}
                                     disabled={!isLoggedIn}

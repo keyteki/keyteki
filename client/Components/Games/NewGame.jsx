@@ -87,7 +87,11 @@ const NewGame = ({
     }
 
     return (
-        <Panel title={t(quickJoin ? 'Quick Join' : 'New game')}>
+        <Panel
+            className='border-border/70 !bg-surface'
+            title={t(quickJoin ? 'Quick Join' : 'New game')}
+            titleClass='text-base font-semibold tracking-wide'
+        >
             <Formik
                 validationSchema={schema}
                 onSubmit={(values) => {
@@ -144,6 +148,7 @@ const NewGame = ({
             >
                 {(formProps) => (
                     <form
+                        className='[--accent:color-mix(in_oklab,var(--brand-red)_90%,white)]'
                         onSubmit={(event) => {
                             event.preventDefault();
                             const wrapper = document.querySelector('.wrapper');
@@ -184,7 +189,7 @@ const NewGame = ({
                         }}
                     >
                         {quickJoin && (
-                            <div className='rounded-md border border-white/8 bg-surface-secondary/25 px-3 py-1.5 text-xs text-zinc-400'>
+                            <div className='rounded-md border border-border/45 bg-surface-secondary/32 px-3 py-1.5 text-xs text-muted'>
                                 <Trans>
                                     Choose a game mode and type. We&apos;ll match you to an open
                                     game or create one with default options.
@@ -199,16 +204,16 @@ const NewGame = ({
                                         <div className='mb-1 flex items-center justify-between'>
                                             <label
                                                 htmlFor='name'
-                                                className='block text-sm text-zinc-200'
+                                                className='block text-sm text-foreground/90'
                                             >
                                                 {t('Name')}
                                             </label>
-                                            <span className='text-xs text-zinc-400'>
+                                            <span className='text-xs text-muted'>
                                                 {GameNameMaxLength - formProps.values.name.length}
                                             </span>
                                         </div>
                                         <Input
-                                            className='w-full'
+                                            className='w-full [&_[data-slot="input"]]:!text-foreground [&_[data-slot="input"]]:placeholder:!text-foreground/52 [&_[data-slot="input-wrapper"]]:!border [&_[data-slot="input-wrapper"]]:!border-black/20 [&_[data-slot="input-wrapper"]]:!bg-white [&_[data-slot="input-wrapper"]]:!shadow-[inset_0_1px_2px_rgba(15,23,42,0.06)]'
                                             id='name'
                                             name='name'
                                             type='text'
@@ -248,7 +253,7 @@ const NewGame = ({
                             </div>
                         )}
 
-                        <div className='mt-6 flex justify-center gap-2 border-t border-white/10 pt-4'>
+                        <div className='mt-6 flex justify-center gap-2 border-t border-border/55 pt-4'>
                             <Button variant='primary' type='submit'>
                                 {quickJoin ? <Trans>Find game</Trans> : <Trans>Start</Trans>}
                             </Button>

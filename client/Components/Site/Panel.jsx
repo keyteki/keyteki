@@ -26,15 +26,17 @@ const Panel = ({
     headerTextClassName
 }) => {
     const baseClass =
-        'min-h-0 flex flex-col !p-0 !gap-0 rounded-md border border-border/70 !bg-surface/88 !text-foreground shadow-[var(--surface-shadow)]';
+        'min-h-0 flex flex-col !p-0 !gap-0 rounded-md border border-border/75 !bg-surface !text-foreground shadow-[var(--surface-shadow)]';
     let contentClass =
         'min-h-0 flex flex-1 flex-col overflow-hidden px-3 py-2 text-foreground [&_label]:!text-foreground [&_.form-label]:!text-foreground';
     if (contentClassName) {
         contentClass += ` ${contentClassName}`;
     }
     const headerBaseClass = 'w-full !p-0 !m-0 rounded-tr-md rounded-tl-md flex items-center';
-    const headerTextClass = headerTextClassName || 'text-accent';
-    const headerClass = headerClassName || 'border-b border-border/70 bg-accent/8';
+    const headerTextClass = headerTextClassName || 'text-[color:var(--brand-red)] dark:text-accent';
+    const headerClass =
+        headerClassName ||
+        'border-b border-[color:color-mix(in_oklab,var(--brand-red)_88%,black)] bg-white dark:border-border/70 dark:bg-accent/8';
     const headerInnerClass = 'w-full px-3 py-0.5 flex items-center justify-center min-h-6';
 
     return (

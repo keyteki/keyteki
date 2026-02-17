@@ -68,12 +68,12 @@ const MovablePanel = ({ children, name, onCloseClick, side, title, size }) => {
     let content = (
         <div
             ref={popupRef}
-            className={`panel relative flex flex-col overflow-hidden rounded-md border border-white/16 bg-black/88 text-[var(--heroui-foreground,#f5f5f5)] ${size}`}
+            className={`panel relative flex flex-col overflow-hidden rounded-md border border-border/70 bg-[color:color-mix(in_oklab,var(--surface)_92%,transparent)] text-foreground ${size}`}
             style={position}
         >
             <div
                 ref={drag}
-                className='flex min-h-6 shrink-0 items-center justify-center gap-1 border-b border-white/16 bg-[rgba(45,6,6,0.95)] px-2 py-1 text-[var(--heroui-accent,#ef4444)]'
+                className='flex min-h-6 shrink-0 items-center justify-center gap-1 border-b border-border/70 bg-[color:color-mix(in_oklab,var(--brand-red)_10%,var(--surface))] px-2 py-1 text-[color:var(--brand-red)]'
                 onClick={(event) => event.stopPropagation()}
             >
                 <span className='flex-1 text-center text-base leading-none font-normal'>

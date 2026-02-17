@@ -168,13 +168,13 @@ const PendingGame = () => {
     const getLiveStateClass = () => {
         const liveState = getLiveState();
         if (liveState === t('Ready')) {
-            return 'border-emerald-500/35 bg-emerald-500/10 text-emerald-300';
+            return 'border-emerald-500/35 bg-emerald-500/12 text-emerald-700 dark:bg-emerald-500/10 dark:text-emerald-300';
         }
         if (liveState === t('Connecting')) {
-            return 'border-sky-500/35 bg-sky-500/10 text-sky-300';
+            return 'border-sky-500/35 bg-sky-500/12 text-sky-700 dark:bg-sky-500/10 dark:text-sky-300';
         }
 
-        return 'border-amber-500/35 bg-amber-500/10 text-amber-300';
+        return 'border-[color:color-mix(in_oklab,var(--brand-red)_32%,transparent)] bg-[color:color-mix(in_oklab,var(--brand-red)_10%,white)] text-[color:color-mix(in_oklab,var(--brand-red)_82%,black)] dark:border-rose-500/35 dark:bg-rose-500/10 dark:text-rose-300';
     };
 
     const getLiveDotClass = () => {
@@ -191,14 +191,18 @@ const PendingGame = () => {
 
         if (playerCountInGame < 2) {
             return {
-                ping: anyDeckSelected ? 'bg-amber-400/45' : 'bg-rose-400/45',
-                dot: anyDeckSelected ? 'bg-amber-400' : 'bg-rose-400'
+                ping: anyDeckSelected
+                    ? 'bg-[color:color-mix(in_oklab,var(--brand-red)_34%,transparent)]'
+                    : 'bg-[color:color-mix(in_oklab,var(--brand-red)_48%,transparent)]',
+                dot: anyDeckSelected
+                    ? 'bg-[color:color-mix(in_oklab,var(--brand-red)_70%,black)]'
+                    : 'bg-[color:color-mix(in_oklab,var(--brand-red)_84%,black)]'
             };
         }
 
         return {
-            ping: 'bg-rose-400/45',
-            dot: 'bg-rose-400'
+            ping: 'bg-[color:color-mix(in_oklab,var(--brand-red)_48%,transparent)]',
+            dot: 'bg-[color:color-mix(in_oklab,var(--brand-red)_84%,black)]'
         };
     };
 
@@ -306,13 +310,13 @@ const PendingGame = () => {
             <Panel title={currentGame.name} titleClass='text-base font-semibold tracking-wide'>
                 <div className='space-y-3'>
                     <div className='flex flex-wrap items-center gap-2'>
-                        <span className='rounded-md border border-border/70 bg-surface-secondary/60 px-2 py-0.5 text-xs text-zinc-300'>
+                        <span className='rounded-md border border-border/60 bg-surface-secondary/42 px-2 py-0.5 text-xs text-foreground/75'>
                             {formatLabel(currentGame.gameFormat)}
                         </span>
-                        <span className='rounded-md border border-border/70 bg-surface-secondary/60 px-2 py-0.5 text-xs text-zinc-300'>
+                        <span className='rounded-md border border-border/60 bg-surface-secondary/42 px-2 py-0.5 text-xs text-foreground/75'>
                             {formatLabel(currentGame.gameType)}
                         </span>
-                        <span className='rounded-md border border-border/70 bg-surface-secondary/60 px-2 py-0.5 text-xs text-zinc-300'>
+                        <span className='rounded-md border border-border/60 bg-surface-secondary/42 px-2 py-0.5 text-xs text-foreground/75'>
                             {t('{{players}} / 2 players', { players: playerCountInGame })}
                         </span>
                         <span
@@ -322,7 +326,7 @@ const PendingGame = () => {
                         </span>
                     </div>
 
-                    <div className='flex items-center gap-2 text-lg font-semibold text-zinc-100'>
+                    <div className='flex items-center gap-2 text-lg font-semibold text-foreground'>
                         <span className='relative inline-flex h-2.5 w-2.5'>
                             <span
                                 className={`absolute inline-flex h-full w-full animate-ping rounded-full opacity-80 ${liveDotClass.ping}`}
@@ -337,7 +341,7 @@ const PendingGame = () => {
                     <GameTypeInfo gameType={currentGame.gameType} />
 
                     {requiresDeckSelection && (
-                        <div className='rounded-md border border-amber-500/35 bg-amber-500/10 px-3 py-2 text-sm text-amber-200'>
+                        <div className='rounded-md border border-[color:color-mix(in_oklab,var(--brand-red)_32%,transparent)] bg-[color:color-mix(in_oklab,var(--brand-red)_8%,white)] px-3 py-2 text-sm text-[color:color-mix(in_oklab,var(--brand-red)_84%,black)] dark:border-rose-500/35 dark:bg-rose-500/10 dark:text-rose-200'>
                             <div className='flex flex-wrap items-center justify-between gap-2'>
                                 <span>
                                     {t('You need to select a deck before the game can start.')}
@@ -375,7 +379,9 @@ const PendingGame = () => {
                         <Button variant='tertiary' onPress={handleCopyGameLink}>
                             <Trans>Copy Game Link</Trans>
                         </Button>
-                        <span className='ms-auto text-xs text-zinc-400'>{getStartHint()}</span>
+                        <span className='ms-auto text-xs text-foreground/65 dark:text-muted'>
+                            {getStartHint()}
+                        </span>
                     </div>
                 </div>
             </Panel>
@@ -389,7 +395,7 @@ const PendingGame = () => {
             <Panel
                 headerVariant='context'
                 title={t('Chat')}
-                titleClass='text-xs font-medium tracking-wide text-zinc-300'
+                titleClass='text-xs font-medium tracking-wide text-foreground/75'
             >
                 <div
                     className='mb-2 h-36 w-full overflow-y-auto rounded-md border border-border/55 bg-surface-secondary/35 px-3 py-2 text-sm'
@@ -443,16 +449,16 @@ const PendingGame = () => {
                     title={t('Spectators ({{users}})', {
                         users: currentGame.spectators.length
                     })}
-                    titleClass='text-xs font-medium tracking-wide text-zinc-300'
+                    titleClass='text-xs font-medium tracking-wide text-foreground/75'
                 >
-                    <div className='flex flex-wrap gap-x-3 gap-y-1 text-sm text-zinc-200'>
+                    <div className='flex flex-wrap gap-x-3 gap-y-1 text-sm text-foreground/85'>
                         {currentGame.spectators.map((spectator) => (
                             <span key={spectator.name}>{spectator.name}</span>
                         ))}
                     </div>
                 </Panel>
             ) : (
-                <div className='rounded-md border border-border/60 bg-surface-secondary/35 px-3 py-1.5 text-xs text-zinc-400'>
+                <div className='rounded-md border border-border/55 bg-surface-secondary/28 px-3 py-1.5 text-xs text-foreground/62 dark:text-muted'>
                     <Trans>Spectators: none</Trans>
                 </div>
             )}

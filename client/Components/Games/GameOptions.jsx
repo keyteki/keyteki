@@ -35,15 +35,15 @@ const GameOptions = ({ formProps, gameLink }) => {
 
     return (
         <div>
-            <div className='mb-2 text-sm font-semibold text-zinc-100'>
+            <div className='mb-2 text-sm font-semibold text-foreground/90'>
                 <Trans>Options</Trans>
             </div>
             <div className='space-y-3'>
                 <div>
-                    <div className='mb-1 text-xs font-medium tracking-wide text-zinc-400'>
+                    <div className='mb-1 text-xs font-medium tracking-wide text-foreground/75'>
                         <Trans>Visibility</Trans>
                     </div>
-                    <div className='rounded-md bg-surface-secondary/25 px-2 py-1'>
+                    <div className='rounded-md border border-border/45 bg-surface-secondary/30 px-2 py-1'>
                         <div className='space-y-1 px-1 py-1'>
                             <div className='flex items-center justify-between gap-3'>
                                 <Label className='text-sm text-foreground'>
@@ -62,7 +62,7 @@ const GameOptions = ({ formProps, gameLink }) => {
                                     </Switch.Control>
                                 </Switch>
                             </div>
-                            <p className='text-xs text-zinc-400'>
+                            <p className='text-xs text-foreground/65'>
                                 {t("Won't appear in Current Games.")}
                             </p>
                             {formProps.values.gamePrivate && gameLink && (
@@ -82,11 +82,11 @@ const GameOptions = ({ formProps, gameLink }) => {
                 </div>
 
                 <div>
-                    <div className='mb-1 text-xs font-medium tracking-wide text-zinc-400'>
+                    <div className='mb-1 text-xs font-medium tracking-wide text-foreground/75'>
                         <Trans>Spectators</Trans>
                     </div>
-                    <div className='rounded-md bg-surface-secondary/25 px-2 py-1'>
-                        <div className='divide-y divide-white/5'>
+                    <div className='rounded-md border border-border/45 bg-surface-secondary/30 px-2 py-1'>
+                        <div className='divide-y divide-border/35'>
                             {renderToggle('allowSpectators', t('Allow spectators'))}
                             {renderToggle('showHand', t('Show hands to spectators'))}
                             {renderToggle('muteSpectators', t('Mute spectators'))}
@@ -95,16 +95,16 @@ const GameOptions = ({ formProps, gameLink }) => {
                 </div>
 
                 <div>
-                    <div className='mb-1 text-xs font-medium tracking-wide text-zinc-400'>
+                    <div className='mb-1 text-xs font-medium tracking-wide text-foreground/75'>
                         <Trans>Time</Trans>
                     </div>
-                    <div className='rounded-md bg-surface-secondary/25 px-2 py-1'>
+                    <div className='rounded-md border border-border/45 bg-surface-secondary/30 px-2 py-1'>
                         <div className='space-y-0.5'>
                             {renderToggle('useGameTimeLimit', t('Use a time limit (in minutes)'))}
                             {formProps.values.useGameTimeLimit && (
-                                <div className='ml-5 max-w-64 space-y-1 rounded-md border border-white/10 bg-surface-secondary/30 p-2'>
+                                <div className='ml-5 max-w-64 space-y-1 rounded-md border border-border/50 bg-surface-secondary/35 p-2'>
                                     <label
-                                        className='block text-xs font-medium text-zinc-300'
+                                        className='block text-xs font-medium text-foreground/75'
                                         htmlFor='gameTimeLimit'
                                     >
                                         {t('Time Limit')}
@@ -131,27 +131,27 @@ const GameOptions = ({ formProps, gameLink }) => {
                 </div>
 
                 <div>
-                    <div className='mb-1 text-xs font-medium tracking-wide text-zinc-400'>
+                    <div className='mb-1 text-xs font-medium tracking-wide text-foreground/75'>
                         <Trans>Deck info</Trans>
                     </div>
-                    <div className='rounded-md bg-surface-secondary/25 px-2 py-1'>
-                        <div className='divide-y divide-white/5'>
+                    <div className='rounded-md border border-border/45 bg-surface-secondary/30 px-2 py-1'>
+                        <div className='divide-y divide-border/35'>
                             {renderToggle('hideDeckLists', t('Hide deck lists'))}
                         </div>
                     </div>
                 </div>
 
                 <div>
-                    <div className='mb-1 text-xs font-medium tracking-wide text-zinc-400'>
+                    <div className='mb-1 text-xs font-medium tracking-wide text-foreground/75'>
                         <Trans>Access</Trans>
                     </div>
-                    <div className='rounded-md bg-surface-secondary/25 px-2 py-1'>
+                    <div className='rounded-md border border-border/45 bg-surface-secondary/30 px-2 py-1'>
                         <div className='space-y-0.5'>
                             {renderToggle('requirePassword', t('Require password'))}
                             {formProps.values.requirePassword && (
-                                <div className='ml-5 max-w-xl space-y-1 rounded-md border border-white/10 bg-surface-secondary/30 p-2'>
+                                <div className='ml-5 max-w-xl space-y-1 rounded-md border border-border/50 bg-surface-secondary/35 p-2'>
                                     <label
-                                        className='block text-xs font-medium text-zinc-300'
+                                        className='block text-xs font-medium text-foreground/75'
                                         htmlFor='password'
                                     >
                                         {t('Password')}

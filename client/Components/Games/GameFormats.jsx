@@ -49,7 +49,7 @@ const GameFormats = ({
         <div className='space-y-3'>
             {showGameMode && (
                 <div>
-                    <div className='mb-1 text-sm font-semibold text-zinc-100'>
+                    <div className='mb-1 text-sm font-semibold text-foreground/90'>
                         <Trans>Game mode</Trans>
                     </div>
                     <div className='grid gap-x-3.5 gap-y-1 sm:grid-cols-2 lg:grid-cols-3'>
@@ -65,7 +65,7 @@ const GameFormats = ({
                                     type='radio'
                                     value={format.name}
                                 />
-                                <div className='rounded-md border border-white/10 bg-surface-secondary/35 px-3 py-2 text-sm text-zinc-200 transition-colors hover:bg-surface-secondary/55 peer-checked:border-accent/70 peer-checked:bg-accent/4 peer-checked:text-zinc-100'>
+                                <div className='rounded-md border border-border/45 bg-surface-secondary/30 px-3 py-2 text-sm text-foreground/80 transition-colors hover:border-border/60 hover:bg-surface-secondary/48 peer-checked:border-accent/60 peer-checked:bg-[color:color-mix(in_oklab,var(--brand-red)_10%,var(--surface))] peer-checked:text-foreground'>
                                     {format.label}
                                 </div>
                             </label>
@@ -84,26 +84,26 @@ const GameFormats = ({
                     <div
                         className={`mb-0.5 ${
                             allowedSetsSecondary
-                                ? 'text-xs font-medium text-zinc-400'
-                                : 'text-sm font-semibold text-zinc-100'
+                                ? 'text-xs font-medium text-foreground/75'
+                                : 'text-sm font-semibold text-foreground/90'
                         }`}
                     >
                         <Trans>Allowed sets</Trans>
                     </div>
                     <div className='mb-1.5 flex items-center justify-between gap-3'>
-                        <p className='text-xs leading-tight text-zinc-500'>
+                        <p className='text-xs leading-tight text-foreground/65'>
                             <Trans>Select which sets can be used for sealed decks.</Trans>
                         </p>
                         <div className='flex items-center gap-3'>
                             <button
-                                className='text-xs text-zinc-400 transition-colors hover:text-zinc-200'
+                                className='text-xs text-muted transition-colors hover:text-foreground'
                                 onClick={() => setAllExpansions(true)}
                                 type='button'
                             >
                                 <Trans>Select all</Trans>
                             </button>
                             <button
-                                className='text-xs text-zinc-400 transition-colors hover:text-zinc-200'
+                                className='text-xs text-muted transition-colors hover:text-foreground'
                                 onClick={() => setAllExpansions(false)}
                                 type='button'
                             >
@@ -115,7 +115,7 @@ const GameFormats = ({
                         {expansions.map((expansion) => (
                             <div
                                 key={expansion.name}
-                                className='flex items-center justify-between gap-2 rounded-md border border-white/10 bg-surface-secondary/35 px-3 py-0.5'
+                                className='flex items-center justify-between gap-2 rounded-md border border-border/45 bg-surface-secondary/32 px-3 py-0.5'
                             >
                                 <Label className='text-sm text-foreground'>{expansion.label}</Label>
                                 <Switch

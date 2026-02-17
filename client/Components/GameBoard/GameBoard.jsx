@@ -311,7 +311,7 @@ export const GameBoard = () => {
                 {renderBoard()}
                 {cardToZoom && <CardZoom card={cardToZoom} />}
                 <div className='right-side'>
-                    <div className='prompt-area relative box-border flex w-64 shrink-0 flex-col items-center justify-end overflow-visible bg-black/55 px-0.5'>
+                    <div className='prompt-area relative box-border flex w-64 shrink-0 flex-col items-center justify-end overflow-visible bg-[color:color-mix(in_oklab,var(--overlay)_84%,transparent)] px-0.5'>
                         <ReferenceCardPane
                             thisPlayer={thisPlayer}
                             otherPlayer={otherPlayer}
@@ -350,7 +350,7 @@ export const GameBoard = () => {
                             {timeLimitClock}
                         </div>
                     </div>
-                    <div className='chat-scroll'>
+                    <div className='chat-scroll border-l border-[color:color-mix(in_oklab,var(--border)_88%,transparent)] bg-[color:color-mix(in_oklab,var(--surface)_94%,transparent)]'>
                         {showMessages && (
                             <div className='relative flex min-h-0 min-w-0 flex-1 flex-col overflow-hidden box-border'>
                                 <GameChat

@@ -40,7 +40,7 @@ const InternalTypeahead = React.forwardRef((props, ref) => {
     const label = props.label ? (
         <label
             htmlFor={dataListId}
-            className={props.labelClass || 'mb-1 block text-sm text-zinc-200'}
+            className={props.labelClass || 'mb-1 block text-sm text-foreground'}
         >
             {props.label}
         </label>
@@ -65,7 +65,7 @@ const InternalTypeahead = React.forwardRef((props, ref) => {
                         emitSelection(value);
                     }}
                     onKeyDown={props.onKeyDown}
-                    className='w-full rounded-md border border-zinc-600/70 bg-black/80 px-3 py-2 text-sm text-zinc-100 placeholder:text-zinc-400 focus:border-zinc-400/80 focus:outline-none'
+                    className='w-full rounded-md border border-border/75 bg-surface px-3 py-2 text-sm text-foreground placeholder:text-foreground/55 focus:border-border focus:outline-none'
                 />
                 <datalist id={`${dataListId}-list`}>
                     {normalizedOptions
@@ -79,7 +79,7 @@ const InternalTypeahead = React.forwardRef((props, ref) => {
                         ))}
                 </datalist>
                 {props.validationMessage ? (
-                    <span className='mt-1 block text-xs text-red-300'>
+                    <span className='mt-1 block text-xs text-[color:var(--brand-red)]'>
                         {props.validationMessage}
                     </span>
                 ) : null}

@@ -157,7 +157,7 @@ const GameChat = (props) => {
     return (
         <div className='relative flex h-full min-h-0 flex-1 flex-col overflow-hidden'>
             <div
-                className='messages min-h-0 flex-1 overflow-y-auto rounded-md border border-border/60 bg-black/55 p-1 [scrollbar-gutter:stable]'
+                className='messages min-h-0 flex-1 overflow-y-auto rounded-md border p-1 [scrollbar-gutter:stable] border-[color:color-mix(in_oklab,var(--border)_92%,transparent)] bg-[color:color-mix(in_oklab,var(--surface)_92%,transparent)]'
                 ref={messagePanel}
                 onScroll={onScroll}
             >
@@ -180,9 +180,13 @@ const GameChat = (props) => {
                     Jump to latest
                 </Button>
             ) : null}
-            <form className='shrink-0 p-1' onSubmit={onSubmit}>
+            <form
+                className='shrink-0 border-t border-[color:color-mix(in_oklab,var(--border)_88%,transparent)] bg-[color:color-mix(in_oklab,var(--surface)_94%,transparent)] p-1'
+                onSubmit={onSubmit}
+            >
                 <Input
-                    className='w-full'
+                    variant='tertiary'
+                    className='w-full [&_[data-slot="input-wrapper"]]:!bg-surface [&_[data-slot="input-wrapper"]]:!border [&_[data-slot="input-wrapper"]]:!border-border/75 [&_[data-slot="input-wrapper"]]:!shadow-none [&_[data-slot="input-wrapper"]]:data-[hover=true]:!border-border [&_[data-slot="input-wrapper"]]:data-[focus=true]:!border-border [&_[data-slot="input"]]:!text-foreground [&_[data-slot="input"]]:placeholder:!text-foreground/55'
                     placeholder={placeholder}
                     onKeyDown={(event) => {
                         if (event.key === 'Enter') {
