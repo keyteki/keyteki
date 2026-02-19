@@ -19,16 +19,23 @@ const IdentityCard = ({ deck, showDeckName, onMouseOut, onMouseOver }) => {
             className='state'
             onMouseOver={() =>
                 onMouseOver({
-                    image: <IdentityCardImage deck={deck} showAccolades={showAccolades} />,
+                    image: (
+                        <IdentityCardImage
+                            deck={deck}
+                            size='x-large'
+                            showAccolades={showAccolades}
+                        />
+                    ),
                     size: 'x-large',
-                    orientation: 'horizontal'
+                    orientation: 'horizontal',
+                    zoomClass: 'identity-zoom-card'
                 })
             }
             onMouseOut={onMouseOut}
         >
             <img
                 key='expansion'
-                className='expansion block h-auto max-w-full'
+                className='expansion expansion-icon'
                 title={deck.name}
                 src={Constants.DeckIconPaths[deck.expansion]}
             />

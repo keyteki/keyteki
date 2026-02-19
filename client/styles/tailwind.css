@@ -995,35 +995,41 @@ pre {
 }
 
 .card-zoom {
-  --card-zoom-width-scale: 4;
-  --card-zoom-height-scale: 4;
-  right: 50px;
+  --card-zoom-width-scale: 5.2;
+  --card-zoom-height-scale: 5.2;
+  right: 20px;
   top: calc(50px + 8px);
   position: fixed;
   z-index: 9999;
   pointer-events: none;
+  border-radius: 22px;
+  overflow: hidden;
   width: calc(var(--card-base-width) * var(--card-zoom-width-scale));
   height: calc(var(--card-base-height) * var(--card-zoom-height-scale));
 }
 .card-zoom.small {
-  --card-zoom-width-scale: 3;
-  --card-zoom-height-scale: 3;
+  --card-zoom-width-scale: 3.9;
+  --card-zoom-height-scale: 3.9;
 }
 .card-zoom.normal {
-  --card-zoom-width-scale: 4;
-  --card-zoom-height-scale: 4;
+  --card-zoom-width-scale: 5.2;
+  --card-zoom-height-scale: 5.2;
 }
 .card-zoom.large {
-  --card-zoom-width-scale: 5;
-  --card-zoom-height-scale: 5;
+  --card-zoom-width-scale: 6.5;
+  --card-zoom-height-scale: 6.5;
 }
 .card-zoom.x-large.horizontal {
+  width: calc(var(--card-base-height) * 9.1);
+  height: calc(var(--card-base-height) * 6.5);
+}
+.card-zoom.identity-zoom-card.x-large.horizontal {
   width: calc(var(--card-base-height) * 7);
   height: calc(var(--card-base-height) * 5);
 }
 .card-zoom.x-large {
-  --card-zoom-width-scale: 6;
-  --card-zoom-height-scale: 6;
+  --card-zoom-width-scale: 7.8;
+  --card-zoom-height-scale: 7.8;
 }
 .card-zoom.tide-neutral {
   top: 300px;
@@ -1039,16 +1045,13 @@ pre {
   top: 5px;
 }
 
-.card-zoomed {
-  width: 100%;
-  height: 100%;
-}
-.card-zoomed img {
-  position: absolute;
-  top: 0;
-  left: 0;
-  border-radius: 12px;
-  z-index: 9999;
+.card-zoom > img,
+.card-zoom > canvas {
+  width: 100% !important;
+  height: 100% !important;
+  max-width: 100% !important;
+  max-height: 100% !important;
+  display: block;
 }
 
 .overlay {
@@ -1882,6 +1885,13 @@ pre {
 }
 .state img:not(:last-child) {
   margin-right: 2px;
+}
+.state img.expansion-icon {
+  width: auto;
+  max-width: 100%;
+  max-height: 100%;
+  height: 100%;
+  display: block;
 }
 .state.first-player {
   margin: 0px 5px;
