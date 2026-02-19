@@ -244,7 +244,13 @@ const NewGame = ({
                             </>
                         )}
 
-                        <div className={quickJoin ? 'mt-7' : 'mt-6'}>
+                        <div
+                            className={
+                                quickJoin
+                                    ? 'mt-7 border-t-2 border-border/75 pt-5'
+                                    : 'mt-6 border-t-2 border-border/75 pt-5'
+                            }
+                        >
                             <GameFormats formProps={formProps} />
                         </div>
                         {!tournament && (

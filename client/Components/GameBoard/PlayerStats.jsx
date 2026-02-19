@@ -318,7 +318,7 @@ const PlayerStats = ({
                         <div className='state'>
                             <a
                                 href='#'
-                                className={manualMode ? 'text-red-400' : ''}
+                                className={classNames({ 'manual-mode-indicator': manualMode })}
                                 onClick={onManualModeClick}
                             >
                                 <FontAwesomeIcon icon={faWrench}></FontAwesomeIcon>

@@ -14,7 +14,7 @@ const GameTypes = ({ formProps }) => {
 
     return (
         <div className='mt-3'>
-            <div className='mb-2 text-sm font-semibold text-foreground/90'>
+            <div className='mb-2 text-sm font-semibold text-foreground'>
                 <Trans>Type</Trans>
             </div>
             <div className='grid gap-2 sm:grid-cols-3'>
@@ -28,7 +28,7 @@ const GameTypes = ({ formProps }) => {
                             type='radio'
                             value={type.name}
                         />
-                        <div className='rounded-md border border-border/45 bg-surface-secondary/30 px-3 py-2 text-center text-sm text-foreground/80 transition-colors hover:border-border/60 hover:bg-surface-secondary/48 peer-checked:border-accent/65 peer-checked:bg-[color:color-mix(in_oklab,var(--brand-red)_12%,var(--surface))] peer-checked:text-foreground'>
+                        <div className='rounded-md border border-border/20 bg-surface-secondary/78 px-3 py-2 text-center text-sm text-foreground/92 shadow-[inset_0_1px_0_rgba(255,255,255,0.05)] transition-colors hover:bg-surface-secondary/92 peer-checked:border-accent/55 peer-checked:bg-[color:color-mix(in_oklab,var(--surface-secondary)_82%,var(--brand-red)_18%)] peer-checked:text-foreground'>
                             {type.label}
                         </div>
                     </label>

@@ -36,7 +36,7 @@ const Panel = ({
     const headerTextClass = headerTextClassName || 'text-[color:var(--brand-red)] dark:text-accent';
     const headerClass =
         headerClassName ||
-        'border-b border-[color:color-mix(in_oklab,var(--brand-red)_88%,black)] bg-white dark:border-border/70 dark:bg-accent/8';
+        'border-b border-border/45 bg-surface [box-shadow:inset_0_1px_0_color-mix(in_oklab,var(--brand-red)_62%,transparent)]';
     const headerInnerClass = 'w-full px-3 py-0.5 flex items-center justify-center min-h-6';
 
     return (

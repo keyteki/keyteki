@@ -113,8 +113,11 @@ const ActivePlayerPrompt = (props) => {
             const isCancel =
                 normalizedButtonText === 'cancel' ||
                 (button.command || '').toLowerCase().includes('cancel');
+            const hasIcon = Boolean(button.icon);
             const buttonClass = isCancel
                 ? 'w-full justify-center whitespace-nowrap text-sm capitalize !px-2 !py-1.5 !text-foreground/70'
+                : hasIcon
+                ? 'w-full justify-center whitespace-nowrap text-sm capitalize !px-2 !py-1.5'
                 : 'w-full justify-center whitespace-nowrap text-sm capitalize !px-2 !py-1.5';
 
             let option = (
@@ -130,10 +133,9 @@ const ActivePlayerPrompt = (props) => {
                     onMouseOut={() => onMouseOut(button.card)}
                     isDisabled={button.disabled}
                 >
-                    <span className='inline-flex w-full min-w-0 items-center gap-2'>
-                        <span className='min-w-0 flex-1 truncate text-center'>{buttonText}</span>
-                        {button.icon &&
-                            (iconAssetByName[button.icon] ? (
+                    {hasIcon ? (
+                        <span className='inline-flex min-w-0 items-center justify-center gap-2'>
+                            {iconAssetByName[button.icon] ? (
                                 <img
                                     src={iconAssetByName[button.icon]}
                                     alt=''
@@ -143,8 +145,14 @@ const ActivePlayerPrompt = (props) => {
                                 <div
                                     className={`h-6 w-6 shrink-0 bg-cover bg-center bg-no-repeat icon-${button.icon}`}
                                 />
-                            ))}
-                    </span>
+                            )}
+                            <span className='min-w-0 truncate text-center'>{buttonText}</span>
+                        </span>
+                    ) : (
+                        <span className='inline-flex w-full min-w-0 items-center justify-center'>
+                            <span className='min-w-0 truncate text-center'>{buttonText}</span>
+                        </span>
+                    )}
                 </Button>
             );
 

@@ -25,7 +25,7 @@ const GameTypeInfo = ({ gameType }) => {
     }
 
     return (
-        <div className='rounded-md border border-border/45 bg-surface-secondary/33 px-2 py-1 text-sm text-foreground/75 transition-colors duration-150 ease-out'>
+        <div className='rounded-md border border-border/20 bg-surface-secondary/70 px-2 py-1 text-sm text-foreground/78 transition-colors duration-150 ease-out'>
             <span className='font-semibold text-foreground/88'>{title}</span>{' '}
             <span className='text-foreground/72'>{description}</span>
         </div>

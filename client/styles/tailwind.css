@@ -21,6 +21,10 @@
     :root,
     [data-theme='light'] {
         color-scheme: light;
+        --bg: oklch(0.942 0.006 252);
+        --panel: oklch(1 0 0);
+        --section: oklch(0.966 0.002 252);
+        --control: oklch(0.99 0.001 252);
         --background: oklch(0.942 0.006 252);
         --foreground: oklch(0.2 0.008 255);
         --surface: oklch(1 0 0);
@@ -59,35 +63,41 @@
     .dark,
     [data-theme='dark'] {
         color-scheme: dark;
-        --background: oklch(0.165 0.007 286);
+        --bg: oklch(0.105 0.005 286);
+        --panel: oklch(0.235 0.007 286);
+        --section: oklch(0.305 0.007 286);
+        --control: oklch(0.37 0.007 286);
+        --background: var(--bg);
         --foreground: oklch(0.9 0.004 286);
-        --surface: oklch(0.225 0.008 286);
+        --surface: var(--panel);
+        --surface-secondary: oklch(0.355 0.007 286);
         --surface-foreground: var(--foreground);
-        --overlay: oklch(0.205 0.008 286);
+        --overlay: var(--surface-secondary);
         --overlay-foreground: var(--foreground);
+        --muted: oklch(0.8 0.004 286);
         --brand-red: oklch(0.57 0.16 24);
         --accent: var(--brand-red);
         --accent-foreground: oklch(0.98 0 0);
         --mention-bg: color-mix(in oklab, var(--brand-red) 16%, transparent);
         --mention-accent: var(--brand-red);
-        --chat-row-bg: oklch(0.245 0.007 286);
-        --chat-row-alt: oklch(0.265 0.007 286);
-        --chat-row-deleted: oklch(0.285 0.008 286);
-        --chat-bubble-bg: oklch(0.31 0.01 286 / 0.8);
-        --chat-bubble-border: oklch(0.56 0.01 286 / 0.35);
-        --table-header-bg: oklch(0.285 0.007 286);
+        --chat-row-bg: oklch(0.275 0.007 286);
+        --chat-row-alt: oklch(0.31 0.007 286);
+        --chat-row-deleted: oklch(0.33 0.008 286);
+        --chat-bubble-bg: oklch(0.36 0.01 286 / 0.9);
+        --chat-bubble-border: oklch(0.62 0.01 286 / 0.4);
+        --table-header-bg: oklch(0.35 0.007 286);
         --table-header-text: oklch(0.86 0.004 286);
-        --table-header-border: oklch(0.34 0.006 286);
-        --table-row-bg: oklch(0.22 0.007 286);
-        --table-row-alt: oklch(0.245 0.007 286);
-        --table-row-hover: oklch(0.275 0.008 286);
-        --table-border: oklch(0.34 0.006 286);
-        --table-selected-bg: color-mix(in oklab, var(--brand-red) 16%, transparent);
-        --table-selected-bg-hover: color-mix(in oklab, var(--brand-red) 22%, transparent);
-        --table-selected-ring: color-mix(in oklab, var(--brand-red) 42%, transparent);
+        --table-header-border: oklch(0.5 0.006 286);
+        --table-row-bg: oklch(0.255 0.007 286);
+        --table-row-alt: oklch(0.295 0.007 286);
+        --table-row-hover: oklch(0.355 0.008 286);
+        --table-border: oklch(0.5 0.006 286);
+        --table-selected-bg: color-mix(in oklab, var(--table-row-alt) 84%, var(--brand-red));
+        --table-selected-bg-hover: color-mix(in oklab, var(--table-row-hover) 80%, var(--brand-red));
+        --table-selected-ring: color-mix(in oklab, var(--brand-red) 48%, transparent);
         --deck-link: oklch(0.74 0.14 165);
         --deck-link-hover: oklch(0.79 0.14 170);
-        --border: oklch(0.34 0.006 286);
+        --border: oklch(0.5 0.006 286);
         --link: oklch(0.74 0.16 155);
         --surface-shadow: 0 1px 0 rgba(255, 255, 255, 0.04), 0 10px 24px rgba(0, 0, 0, 0.2);
         --overlay-shadow: 0 12px 28px rgba(0, 0, 0, 0.32);
@@ -1432,7 +1442,7 @@ pre {
 }
 
 .right-side .prompt-area .inset-pane {
-  background: color-mix(in oklab, var(--overlay) 94%, transparent);
+  background: color-mix(in oklab, var(--surface) 94%, transparent);
   border: 1px solid color-mix(in oklab, var(--border) 92%, transparent);
   border-radius: 4px;
   margin: 2px 0;
@@ -1872,6 +1882,20 @@ pre {
 }
 .state a:hover {
   color: var(--link);
+}
+.state a.manual-mode-indicator {
+  color: var(--brand-red);
+  background: color-mix(in oklab, var(--brand-red) 18%, transparent);
+  border: 1px solid color-mix(in oklab, var(--brand-red) 48%, transparent);
+  border-radius: 9999px;
+  padding: 2px 8px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.state a.manual-mode-indicator:hover {
+  color: var(--brand-red);
+  background: color-mix(in oklab, var(--brand-red) 26%, transparent);
 }
 .state span {
   padding-right: 3px;
