@@ -114,6 +114,7 @@ const ActivePlayerPrompt = (props) => {
                 normalizedButtonText === 'cancel' ||
                 (button.command || '').toLowerCase().includes('cancel');
             const hasIcon = Boolean(button.icon);
+            const buttonVariant = isCancel ? 'tertiary' : 'primary';
             const buttonClass = isCancel
                 ? 'w-full justify-center whitespace-nowrap text-sm capitalize !px-2 !py-1.5 !text-foreground/78'
                 : hasIcon
@@ -122,7 +123,7 @@ const ActivePlayerPrompt = (props) => {
 
             let option = (
                 <Button
-                    variant='tertiary'
+                    variant={buttonVariant}
                     key={button.command + buttonIndex.toString()}
                     className={buttonClass}
                     title={originalButtonText}

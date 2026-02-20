@@ -87,7 +87,7 @@ const NodeAdmin = () => {
             <Panel title='Game Node Administration'>
                 {content}
 
-                <Button className='mt-2' size='sm' variant='tertiary' onClick={onRefreshClick}>
+                <Button className='mt-2' size='sm' variant='primary' onClick={onRefreshClick}>
                     Refresh
                 </Button>
             </Panel>

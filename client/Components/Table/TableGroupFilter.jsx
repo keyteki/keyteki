@@ -51,6 +51,7 @@ const TableGroupFilter = ({ args, fetchData, onOkClick, filter, onCancelClick })
                 <Button
                     color='primary'
                     size='sm'
+                    variant='primary'
                     onPress={() => {
                         const filterResult = [];
 

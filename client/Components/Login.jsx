@@ -94,7 +94,7 @@ const Login = (props) => {
                     </Link>
 
                     <div className='pt-1'>
-                        <Button type='submit' variant='tertiary'>
+                        <Button type='submit' variant='primary'>
                             {t('Login')}
                         </Button>
                     </div>

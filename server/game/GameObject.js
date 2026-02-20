@@ -1,4 +1,4 @@
-const uuid = require('uuid');
+const { randomUUID } = require('node:crypto');
 const _ = require('underscore');
 const GameActions = require('./GameActions');
 
@@ -11,7 +11,7 @@ class GameObject {
         this.image = '';
         this.id = '';
         this.facedown = false;
-        this.uuid = uuid.v1();
+        this.uuid = randomUUID();
         this.effects = [];
     }
 

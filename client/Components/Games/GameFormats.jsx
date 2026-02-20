@@ -65,7 +65,7 @@ const GameFormats = ({
                                     type='radio'
                                     value={format.name}
                                 />
-                                <div className='rounded-md border border-border/20 bg-surface-secondary/78 px-3 py-2 text-sm text-foreground/92 shadow-[inset_0_1px_0_rgba(255,255,255,0.05)] transition-colors hover:bg-surface-secondary/92 peer-checked:border-accent/55 peer-checked:bg-[color:color-mix(in_oklab,var(--surface-secondary)_82%,var(--brand-red)_18%)] peer-checked:text-foreground'>
+                                <div className='rounded-md border border-border/20 bg-surface-secondary/78 px-3 py-2 text-sm text-foreground/92 shadow-[inset_0_1px_0_rgba(255,255,255,0.05)] transition-colors hover:bg-surface-secondary/92 peer-checked:border-accent/55 peer-checked:bg-[color:color-mix(in_oklab,var(--surface-secondary)_82%,var(--brand)_18%)] peer-checked:text-foreground'>
                                     {format.label}
                                 </div>
                             </label>
@@ -96,7 +96,7 @@ const GameFormats = ({
                         </p>
                         <div className='flex items-center gap-2'>
                             <Button
-                                className='h-auto min-h-0 rounded-md px-2 py-1 text-xs font-medium text-muted hover:bg-[var(--table-row-hover)] hover:text-[color:var(--brand-red)]'
+                                className='h-auto min-h-0 rounded-md px-2 py-1 text-xs font-medium text-muted hover:bg-[var(--table-row-hover)] hover:text-[color:var(--brand)]'
                                 size='sm'
                                 variant='ghost'
                                 onPress={() => setAllExpansions(true)}
@@ -104,7 +104,7 @@ const GameFormats = ({
                                 <Trans>Select all</Trans>
                             </Button>
                             <Button
-                                className='h-auto min-h-0 rounded-md px-2 py-1 text-xs font-medium text-muted hover:bg-[var(--table-row-hover)] hover:text-[color:var(--brand-red)]'
+                                className='h-auto min-h-0 rounded-md px-2 py-1 text-xs font-medium text-muted hover:bg-[var(--table-row-hover)] hover:text-[color:var(--brand)]'
                                 size='sm'
                                 variant='ghost'
                                 onPress={() => setAllExpansions(false)}

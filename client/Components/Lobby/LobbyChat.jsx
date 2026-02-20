@@ -22,7 +22,7 @@ const containsUserMention = (messageText, username) => {
 const getRoleTextClass = (role) => {
     switch ((role || '').toLowerCase()) {
         case 'admin':
-            return 'text-[color:var(--brand-red)] dark:text-accent';
+            return 'text-red-500 dark:text-red-400';
         case 'contributor':
             return 'text-cyan-600 dark:text-cyan-400';
         case 'supporter':
@@ -256,7 +256,7 @@ const LobbyChat = ({
                         {isModerator && !message.deleted ? (
                             <button
                                 type='button'
-                                className='shrink-0 px-1.5 text-[color:var(--brand-red)] !opacity-0 transition hover:opacity-85 group-hover/message:!opacity-100 focus-visible:!opacity-100'
+                                className='shrink-0 px-1.5 text-[color:var(--brand)] !opacity-0 transition hover:opacity-85 group-hover/message:!opacity-100 focus-visible:!opacity-100'
                                 onClick={() => onRemoveMessageClick(message.id)}
                             >
                                 <Icon icon={faTimes} />

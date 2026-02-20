@@ -28,7 +28,7 @@ const GameTypes = ({ formProps }) => {
                             type='radio'
                             value={type.name}
                         />
-                        <div className='rounded-md border border-border/20 bg-surface-secondary/78 px-3 py-2 text-center text-sm text-foreground/92 shadow-[inset_0_1px_0_rgba(255,255,255,0.05)] transition-colors hover:bg-surface-secondary/92 peer-checked:border-accent/55 peer-checked:bg-[color:color-mix(in_oklab,var(--surface-secondary)_82%,var(--brand-red)_18%)] peer-checked:text-foreground'>
+                        <div className='rounded-md border border-border/20 bg-surface-secondary/78 px-3 py-2 text-center text-sm text-foreground/92 shadow-[inset_0_1px_0_rgba(255,255,255,0.05)] transition-colors hover:bg-surface-secondary/92 peer-checked:border-accent/55 peer-checked:bg-[color:color-mix(in_oklab,var(--surface-secondary)_82%,var(--brand)_18%)] peer-checked:text-foreground'>
                             {type.label}
                         </div>
                     </label>

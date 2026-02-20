@@ -80,7 +80,7 @@ const MotdAdmin = () => {
                 <div className='mt-3 text-center'>
                     <Button
                         type='button'
-                        variant='tertiary'
+                        variant='primary'
                         isPending={isSaving}
                         onClick={() => {
                             const payload = {

@@ -148,7 +148,7 @@ const NewGame = ({
             >
                 {(formProps) => (
                     <form
-                        className='[--accent:color-mix(in_oklab,var(--brand-red)_90%,white)]'
+                        className='[--accent:color-mix(in_oklab,var(--brand)_90%,white)]'
                         onSubmit={(event) => {
                             event.preventDefault();
                             const wrapper = document.querySelector('.wrapper');

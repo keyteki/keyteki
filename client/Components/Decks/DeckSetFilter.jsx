@@ -122,7 +122,7 @@ const DeckSetFilter = ({ expansions = [], selectedExpansions = [], onChange, lab
                                         key={expansion.value}
                                         className={`w-full rounded px-2 py-1.5 text-sm transition [&_[data-slot=label]]:!text-foreground [&_[data-slot=label]]:!opacity-100 [&_[data-slot=wrapper]]:!opacity-100 ${
                                             checked
-                                                ? 'bg-[var(--table-selected-bg)] !text-foreground dark:bg-red-500/15 dark:!text-zinc-100 dark:[&_[data-slot=label]]:!text-zinc-100'
+                                                ? 'bg-[var(--table-selected-bg)] !text-foreground dark:bg-[var(--table-selected-bg)] dark:!text-zinc-100 dark:[&_[data-slot=label]]:!text-zinc-100'
                                                 : '!text-foreground hover:bg-[var(--table-row-hover)] dark:text-zinc-300 dark:hover:bg-zinc-800/70'
                                         }`}
                                         isSelected={checked}
@@ -140,7 +140,7 @@ const DeckSetFilter = ({ expansions = [], selectedExpansions = [], onChange, lab
                         <div className='mt-2 border-t border-[color:var(--table-border)] pt-2 dark:border-white/10'>
                             <div className='mt-2 flex items-center justify-between gap-2'>
                                 <Button
-                                    className='h-auto min-h-0 rounded-md px-2 py-1 text-xs font-medium text-muted hover:bg-[var(--table-row-hover)] hover:text-[color:var(--brand-red)]'
+                                    className='h-auto min-h-0 rounded-md px-2 py-1 text-xs font-medium text-muted hover:bg-[var(--table-row-hover)] hover:text-[color:var(--brand)]'
                                     size='sm'
                                     variant='ghost'
                                     onPress={selectAllSets}
@@ -148,7 +148,7 @@ const DeckSetFilter = ({ expansions = [], selectedExpansions = [], onChange, lab
                                     {t('Select all')}
                                 </Button>
                                 <Button
-                                    className='h-auto min-h-0 rounded-md px-2 py-1 text-xs font-medium text-muted hover:bg-[var(--table-row-hover)] hover:text-[color:var(--brand-red)]'
+                                    className='h-auto min-h-0 rounded-md px-2 py-1 text-xs font-medium text-muted hover:bg-[var(--table-row-hover)] hover:text-[color:var(--brand)]'
                                     size='sm'
                                     variant='ghost'
                                     onPress={clearAllSets}

@@ -1,4 +1,4 @@
-const socketio = require('socket.io');
+const { Server } = require('socket.io');
 const Socket = require('./socket.js');
 const jwt = require('jsonwebtoken');
 const _ = require('underscore');
@@ -37,8 +37,12 @@ class Lobby {
 
         this.userService.on('onBlocklistChanged', this.onBlocklistChanged.bind(this));
 
-        this.io = options.io || socketio(server, { perMessageDeflate: false });
-        this.io.set('heartbeat timeout', 30000);
+        this.io =
+            options.io ||
+            new Server(server, {
+                perMessageDeflate: false,
+                pingTimeout: 30000
+            });
         this.io.use(this.handshake.bind(this));
         this.io.on('connection', this.onConnection.bind(this));
 
@@ -151,49 +155,56 @@ class Lobby {
     }
 
     handshake(ioSocket, next) {
-        if (ioSocket.handshake.query.token && ioSocket.handshake.query.token !== 'undefined') {
-            jwt.verify(
-                ioSocket.handshake.query.token,
-                this.configService.getValue('secret'),
-                (err, user) => {
-                    if (err) {
-                        ioSocket.emit('authfailed');
-                        return;
-                    }
-
-                    this.userService
-                        .getUserById(user.id)
-                        .then((dbUser) => {
-                            let socket = this.sockets[ioSocket.id];
-                            if (!socket) {
-                                logger.error(
-                                    'Tried to authenticate socket for %s but could not find it',
-                                    dbUser.username
-                                );
-                                return;
-                            }
-
-                            if (dbUser.disabled) {
-                                ioSocket.disconnect();
-                                return;
-                            }
-
-                            ioSocket.request.user = dbUser.getWireSafeDetails();
-                            socket.user = dbUser;
-                            this.users[dbUser.username] = socket.user;
-                            this.socketsByName[dbUser.username] = socket;
-
-                            this.doPostAuth(socket);
-                        })
-                        .catch((err) => {
-                            logger.error(err);
-                        });
+        const token = ioSocket.handshake.auth?.token || ioSocket.handshake.query?.token;
+        if (token && token !== 'undefined') {
+            jwt.verify(token, this.configService.getValue('secret'), (err, user) => {
+                if (err) {
+                    ioSocket.emit('authfailed');
+                    return;
                 }
-            );
+
+                this.userService
+                    .getUserById(user.id)
+                    .then((dbUser) => {
+                        let socket = this.sockets[ioSocket.id];
+                        if (!socket) {
+                            logger.error(
+                                'Tried to authenticate socket for %s but could not find it',
+                                dbUser?.username || user?.username || user?.id
+                            );
+                            return;
+                        }
+
+                        if (!dbUser) {
+                            logger.error(
+                                'Tried to authenticate socket for %s but user lookup returned no result',
+                                user?.username || user?.id
+                            );
+                            ioSocket.emit('authfailed');
+                            ioSocket.disconnect();
+                            return;
+                        }
+
+                        if (dbUser.disabled) {
+                            ioSocket.disconnect();
+                            return;
+                        }
+
+                        ioSocket.request.user = dbUser.getWireSafeDetails();
+                        socket.user = dbUser;
+                        this.users[dbUser.username] = socket.user;
+                        this.socketsByName[dbUser.username] = socket;
+
+                        this.doPostAuth(socket);
+                    })
+                    .catch((err) => {
+                        logger.error(err);
+                    });
+            });
         }
 
         const serverVersion = process.env.VERSION;
-        const clientVersion = ioSocket.handshake.query.version;
+        const clientVersion = ioSocket.handshake.auth?.version || ioSocket.handshake.query?.version;
         if (serverVersion && clientVersion && serverVersion !== clientVersion) {
             ioSocket.emit(
                 'banner',
@@ -328,10 +339,16 @@ class Lobby {
     }
 
     sendFilteredMessages(socket) {
-        this.messageService.getLastMessagesForUser(socket.user).then((messages) => {
-            let messagesToSend = this.filterMessages(messages, socket);
-            socket.send('lobbymessages', messagesToSend.reverse());
-        });
+        this.messageService
+            .getLastMessagesForUser(socket.user)
+            .then((messages) => {
+                let messagesToSend = this.filterMessages(messages, socket);
+                socket.send('lobbymessages', messagesToSend.reverse());
+            })
+            .catch((err) => {
+                logger.error('Unable to send lobby messages', err);
+                socket.send('lobbymessages', []);
+            });
     }
 
     filterMessages(messages, socket) {
@@ -429,6 +446,16 @@ class Lobby {
         this.userService
             .getUserById(user.id)
             .then((dbUser) => {
+                if (!dbUser) {
+                    logger.error(
+                        'Tried to authenticate socket for %s but user lookup returned no result',
+                        user?.username || user?.id
+                    );
+                    socket.send('authfailed');
+                    socket.disconnect();
+                    return;
+                }
+
                 this.users[dbUser.username] = dbUser;
                 this.socketsByName[dbUser.username] = socket;
 

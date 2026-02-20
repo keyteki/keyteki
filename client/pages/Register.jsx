@@ -175,7 +175,7 @@ const Register = () => {
                             <div className='pt-1'>
                                 <Button
                                     type='submit'
-                                    variant='tertiary'
+                                    variant='primary'
                                     isPending={registerState.isLoading}
                                 >
                                     {t('Register')}

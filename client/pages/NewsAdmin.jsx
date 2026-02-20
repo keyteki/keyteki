@@ -175,7 +175,7 @@ const NewsAdmin = () => {
                     <div className='flex items-center gap-2'>
                         <Button
                             type='button'
-                            variant='tertiary'
+                            variant='primary'
                             onPress={onSubmitEditor}
                             isDisabled={!newsText.trim()}
                         >

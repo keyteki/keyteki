@@ -33,7 +33,7 @@ const typeBadgeClass = {
         'bg-emerald-500/12 text-emerald-700 border-emerald-500/28 dark:bg-emerald-600/25 dark:text-emerald-300 dark:border-emerald-500/40',
     casual: 'bg-amber-500/12 text-amber-700 border-amber-500/28 dark:bg-amber-600/20 dark:text-amber-300 dark:border-amber-500/40',
     competitive:
-        'bg-[color:color-mix(in_oklab,var(--brand-red)_12%,white)] text-[color:color-mix(in_oklab,var(--brand-red)_85%,black)] border-[color:color-mix(in_oklab,var(--brand-red)_35%,transparent)] dark:bg-rose-600/20 dark:text-rose-300 dark:border-rose-500/40'
+        'bg-[color:color-mix(in_oklab,var(--brand)_12%,white)] text-[color:color-mix(in_oklab,var(--brand)_85%,black)] border-[color:color-mix(in_oklab,var(--brand)_35%,transparent)] dark:bg-rose-600/20 dark:text-rose-300 dark:border-rose-500/40'
 };
 
 const GameList = ({ gameFilter = {}, games = [], onJoinOrWatchClick }) => {
@@ -254,7 +254,7 @@ const GameList = ({ gameFilter = {}, games = [], onJoinOrWatchClick }) => {
                                                             onClick={() => joinGame(game)}
                                                         >
                                                             <span className='h-7 w-7 rounded-full border border-dashed border-border/55 bg-surface-secondary/55' />
-                                                            <span className='text-sm font-semibold text-[color:var(--brand-red)]'>
+                                                            <span className='text-sm font-semibold text-[color:var(--brand)]'>
                                                                 {t('+ Join')}
                                                             </span>
                                                         </button>

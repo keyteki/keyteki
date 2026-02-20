@@ -166,7 +166,7 @@ const BanlistAdmin = () => {
                             <div className='md:ml-[16.666667%] md:w-1/3'>
                                 <Button
                                     type='submit'
-                                    variant='tertiary'
+                                    variant='primary'
                                     isPending={addState.isLoading}
                                 >
                                     Add

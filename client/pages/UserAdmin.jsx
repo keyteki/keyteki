@@ -207,7 +207,7 @@ const UserAdmin = () => {
                             <div className='mt-2'>
                                 <Button
                                     type='submit'
-                                    variant='tertiary'
+                                    variant='primary'
                                     isPending={apiState?.loading}
                                 >
                                     Submit&nbsp;
@@ -279,7 +279,7 @@ const UserAdmin = () => {
                                             </Button>
                                             <Button
                                                 type='button'
-                                                variant='tertiary'
+                                                variant='primary'
                                                 isPending={saveState.isLoading}
                                                 onClick={() => {
                                                     saveUser({
@@ -373,7 +373,7 @@ const UserAdmin = () => {
                                             </Button>
                                             <Button
                                                 type='button'
-                                                variant='tertiary'
+                                                variant='primary'
                                                 isPending={saveState.isLoading}
                                                 onClick={() => {
                                                     saveUser({

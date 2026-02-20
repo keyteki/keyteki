@@ -95,7 +95,7 @@ const ImportDeck = ({ onClose }) => {
                         >
                             <div className='w-full'>
                                 <label
-                                    className='mb-1 block text-sm text-zinc-200'
+                                    className='mb-1 block text-sm text-foreground/85'
                                     htmlFor='deckLink'
                                 >
                                     {t('Deck Link')}
@@ -113,7 +113,7 @@ const ImportDeck = ({ onClose }) => {
                                     onChange={formProps.handleChange}
                                 />
                                 {formProps.touched.deckLink && formProps.errors.deckLink ? (
-                                    <div className='mt-1 text-xs text-red-300'>
+                                    <div className='mt-1 text-xs text-red-500'>
                                         {formProps.errors.deckLink}
                                     </div>
                                 ) : null}
@@ -122,7 +122,7 @@ const ImportDeck = ({ onClose }) => {
                             <div className='mt-4 flex justify-end'>
                                 <Button
                                     type='submit'
-                                    variant='tertiary'
+                                    variant='primary'
                                     isPending={saveDeckState.isLoading}
                                 >
                                     {t('Import')}

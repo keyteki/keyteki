@@ -1211,7 +1211,7 @@ const AllianceBuilderPage = () => {
                                     </span>
                                 </div>
                                 <Button
-                                    variant='tertiary'
+                                    variant='primary'
                                     isDisabled={saveValidation.disabled || saveState.isLoading}
                                     isPending={saveState.isLoading}
                                     onPress={handleSave}

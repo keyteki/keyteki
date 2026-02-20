@@ -162,7 +162,7 @@ const DecksComponent = () => {
                                 {t('Cancel')}
                             </Button>
                             <Button
-                                variant='primary'
+                                variant='danger'
                                 isDisabled={selectedDeckCount === 0}
                                 isPending={isDeleting}
                                 onPress={deleteSelectedDecks}

@@ -145,7 +145,7 @@ const DeckList = ({
                                 : ''
                         } ${
                             row.original.status?.basicRules === false
-                                ? 'text-[color:color-mix(in_oklab,var(--brand-red)_70%,white)] dark:text-red-300'
+                                ? 'text-[color:color-mix(in_oklab,var(--brand)_78%,black)] dark:text-[color:var(--brand-strong)]'
                                 : ''
                         }`}
                         title={row.original.name}
@@ -222,7 +222,7 @@ const DeckList = ({
                 icon: <Icon icon={faFileImport} />,
                 label: t('Import Deck'),
                 onPress: onImportDeck,
-                variant: 'tertiary'
+                variant: 'primary'
             },
             {
                 icon: <Icon icon={faPlus} />,
@@ -236,7 +236,7 @@ const DeckList = ({
                     selectedDeckCount > 0 ? `${t('Delete')} (${selectedDeckCount})` : t('Delete'),
                 disabled: selectedDeckCount === 0,
                 onPress: onDeleteDecks,
-                variant: 'primary'
+                variant: 'danger'
             }
         ];
     }, [
@@ -304,10 +304,10 @@ const DeckList = ({
                         const baseRowClass =
                             'border-[color:var(--table-border)] hover:bg-[var(--table-row-hover)] dark:border-white/10 dark:hover:bg-white/5';
                         const selectedRowClass = isSelected
-                            ? 'bg-[var(--table-selected-bg)] ring-1 ring-inset ring-[color:var(--table-selected-ring)] [box-shadow:inset_4px_0_0_0_var(--brand-red)] hover:!bg-[var(--table-selected-bg-hover)] dark:bg-red-500/10 dark:ring-red-400/30 dark:[box-shadow:inset_4px_0_0_0_rgba(248,113,113,0.95)] dark:hover:!bg-red-500/15'
+                            ? 'bg-[var(--table-selected-bg)] ring-1 ring-inset ring-[color:var(--table-selected-ring)] [box-shadow:inset_4px_0_0_0_var(--brand)] hover:!bg-[var(--table-selected-bg-hover)]'
                             : '';
                         const invalidRowClass = isInvalid
-                            ? 'bg-[color:color-mix(in_oklab,var(--brand-red)_8%,white)] hover:!bg-[color:color-mix(in_oklab,var(--brand-red)_12%,white)] dark:bg-red-900/25 dark:hover:!bg-red-900/35'
+                            ? 'bg-[color:color-mix(in_oklab,var(--table-row-bg)_88%,var(--brand))] hover:!bg-[color:color-mix(in_oklab,var(--table-row-hover)_82%,var(--brand))]'
                             : '';
 
                         return `${baseRowClass} ${selectedRowClass} ${invalidRowClass}`.trim();

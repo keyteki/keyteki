@@ -1,5 +1,6 @@
 import React from 'react';
 import { Trans, useTranslation } from 'react-i18next';
+import { Button } from '@heroui/react';
 
 import Link from '../Components/Navigation/Link';
 import Panel from '../Components/Site/Panel';
@@ -10,14 +11,19 @@ const HowToPlay = () => {
     return (
         <div className='min-h-full w-full'>
             <Panel title={t('How To Play on The Crucible Online')}>
-                <a
-                    className='mb-3 ml-auto inline-flex rounded-md border border-red-500/70 bg-red-700/60 px-3 py-2 text-sm text-red-50 transition hover:bg-red-600/70'
-                    target='_blank'
-                    href='https://github.com/keyteki/keyteki/issues'
-                    rel='noopener noreferrer'
+                <Button
+                    className='mb-3 ml-auto inline-flex'
+                    variant='primary'
+                    onPress={() =>
+                        window.open(
+                            'https://github.com/keyteki/keyteki/issues',
+                            '_blank',
+                            'noopener,noreferrer'
+                        )
+                    }
                 >
                     <Trans>Report Problems</Trans>
-                </a>
+                </Button>
                 <h3>
                     <Trans>Introduction</Trans>
                 </h3>

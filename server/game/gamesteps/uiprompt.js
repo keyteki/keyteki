@@ -1,12 +1,12 @@
 const _ = require('underscore');
 const BaseStep = require('./basestep.js');
-const uuid = require('uuid');
+const { randomUUID } = require('node:crypto');
 
 class UiPrompt extends BaseStep {
     constructor(game) {
         super(game);
         this.completed = false;
-        this.uuid = uuid.v1();
+        this.uuid = randomUUID();
     }
 
     isComplete() {

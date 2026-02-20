@@ -21,43 +21,48 @@
     :root,
     [data-theme='light'] {
         color-scheme: light;
-        --bg: oklch(0.942 0.006 252);
-        --panel: oklch(1 0 0);
-        --section: oklch(0.966 0.002 252);
-        --control: oklch(0.99 0.001 252);
-        --background: oklch(0.942 0.006 252);
+        --bg: oklch(0.906 0.008 252);
+        --panel: oklch(0.972 0.008 92);
+        --section: oklch(0.952 0.006 94);
+        --control: oklch(0.984 0.004 96);
+        --background: var(--bg);
         --foreground: oklch(0.2 0.008 255);
-        --surface: oklch(1 0 0);
+        --heading: oklch(0.19 0.008 255);
+        --muted: oklch(0.47 0.01 252);
+        --surface: var(--panel);
         --surface-foreground: var(--foreground);
-        --overlay: oklch(0.978 0.003 252);
+        --overlay: oklch(0.958 0.005 96);
         --overlay-foreground: var(--foreground);
-        --brand-red: oklch(0.48 0.152 24);
-        --accent: var(--brand-red);
+        --brand: #efc54a;
+        --brand-strong: #684500;
+        --accent-strong: #5a3d00;
+        --brand-soft: color-mix(in oklab, var(--brand) 34%, white);
+        --accent: var(--brand);
         --accent-foreground: oklch(0.98 0 0);
-        --mention-bg: color-mix(in oklab, var(--brand-red) 7%, white);
-        --mention-accent: var(--brand-red);
-        --chat-row-bg: oklch(0.998 0.001 252);
-        --chat-row-alt: oklch(0.962 0.002 252);
-        --chat-row-deleted: oklch(0.956 0.005 252);
-        --chat-bubble-bg: oklch(0.946 0.003 252);
-        --chat-bubble-border: oklch(0.82 0.004 252 / 0.95);
-        --nav-light-bg: oklch(0.914 0.006 252 / 0.95);
-        --table-header-bg: oklch(0.972 0.002 252);
-        --table-header-text: oklch(0.3 0.007 252);
-        --table-header-border: oklch(0.74 0.004 252);
-        --table-row-bg: oklch(0.998 0.001 252);
-        --table-row-alt: oklch(0.975 0.002 252);
-        --table-row-hover: oklch(0.958 0.003 252);
-        --table-border: oklch(0.83 0.003 252);
-        --table-selected-bg: color-mix(in oklab, var(--brand-red) 10%, var(--table-row-alt));
-        --table-selected-bg-hover: color-mix(in oklab, var(--brand-red) 13%, var(--table-row-alt));
-        --table-selected-ring: color-mix(in oklab, var(--brand-red) 34%, transparent);
+        --mention-bg: color-mix(in oklab, var(--brand) 18%, white);
+        --mention-accent: var(--brand);
+        --chat-row-bg: oklch(0.978 0.004 98);
+        --chat-row-alt: oklch(0.942 0.005 100);
+        --chat-row-deleted: color-mix(in oklab, var(--chat-row-alt) 86%, var(--border));
+        --chat-bubble-bg: oklch(0.936 0.005 98);
+        --chat-bubble-border: oklch(0.74 0.005 96 / 0.9);
+        --nav-light-bg: oklch(0.892 0.008 252 / 0.95);
+        --table-header-bg: oklch(0.948 0.004 96);
+        --table-header-text: oklch(0.27 0.008 252);
+        --table-header-border: oklch(0.66 0.005 252);
+        --table-row-bg: oklch(0.98 0.004 96);
+        --table-row-alt: oklch(0.95 0.005 96);
+        --table-row-hover: oklch(0.932 0.006 96);
+        --table-border: oklch(0.72 0.005 252);
+        --table-selected-bg: color-mix(in oklab, var(--brand) 14%, var(--table-row-alt));
+        --table-selected-bg-hover: color-mix(in oklab, var(--brand) 20%, var(--table-row-alt));
+        --table-selected-ring: color-mix(in oklab, var(--brand) 34%, transparent);
         --deck-link: oklch(0.4 0.09 165);
         --deck-link-hover: oklch(0.43 0.1 170);
-        --border: oklch(0.79 0.004 252);
+        --border: oklch(0.71 0.006 252);
         --link: oklch(0.44 0.16 155);
-        --surface-shadow: 0 1px 2px rgba(10, 16, 24, 0.05), 0 4px 12px rgba(10, 16, 24, 0.06);
-        --overlay-shadow: 0 2px 10px rgba(10, 16, 24, 0.08);
+        --surface-shadow: 0 1px 0 rgba(255, 255, 255, 0.5), 0 8px 22px rgba(10, 16, 24, 0.12);
+        --overlay-shadow: 0 6px 18px rgba(10, 16, 24, 0.14);
     }
 
     .dark,
@@ -69,17 +74,21 @@
         --control: oklch(0.37 0.007 286);
         --background: var(--bg);
         --foreground: oklch(0.9 0.004 286);
+        --heading: oklch(0.92 0.004 286);
         --surface: var(--panel);
         --surface-secondary: oklch(0.355 0.007 286);
         --surface-foreground: var(--foreground);
         --overlay: var(--surface-secondary);
         --overlay-foreground: var(--foreground);
         --muted: oklch(0.8 0.004 286);
-        --brand-red: oklch(0.57 0.16 24);
-        --accent: var(--brand-red);
-        --accent-foreground: oklch(0.98 0 0);
-        --mention-bg: color-mix(in oklab, var(--brand-red) 16%, transparent);
-        --mention-accent: var(--brand-red);
+        --brand: #f0c44d;
+        --brand-strong: #ffd56f;
+        --accent-strong: #ffd56f;
+        --brand-soft: color-mix(in oklab, var(--brand) 30%, transparent);
+        --accent: var(--brand);
+        --accent-foreground: oklch(0.16 0.01 270);
+        --mention-bg: color-mix(in oklab, var(--brand) 16%, transparent);
+        --mention-accent: var(--brand);
         --chat-row-bg: oklch(0.275 0.007 286);
         --chat-row-alt: oklch(0.31 0.007 286);
         --chat-row-deleted: oklch(0.33 0.008 286);
@@ -92,9 +101,9 @@
         --table-row-alt: oklch(0.295 0.007 286);
         --table-row-hover: oklch(0.355 0.008 286);
         --table-border: oklch(0.5 0.006 286);
-        --table-selected-bg: color-mix(in oklab, var(--table-row-alt) 84%, var(--brand-red));
-        --table-selected-bg-hover: color-mix(in oklab, var(--table-row-hover) 80%, var(--brand-red));
-        --table-selected-ring: color-mix(in oklab, var(--brand-red) 48%, transparent);
+        --table-selected-bg: color-mix(in oklab, var(--table-row-alt) 84%, var(--brand));
+        --table-selected-bg-hover: color-mix(in oklab, var(--table-row-hover) 80%, var(--brand));
+        --table-selected-ring: color-mix(in oklab, var(--brand) 48%, transparent);
         --deck-link: oklch(0.74 0.14 165);
         --deck-link-hover: oklch(0.79 0.14 170);
         --border: oklch(0.5 0.006 286);
@@ -134,10 +143,18 @@
 
 /* Global tertiary button contrast override */
 .button--tertiary {
+  --button-bg: color-mix(in oklab, var(--section) 88%, var(--table-row-hover));
+  --button-bg-hover: color-mix(in oklab, var(--section) 72%, var(--table-row-hover));
+  --button-bg-pressed: color-mix(in oklab, var(--section) 58%, var(--table-row-hover));
+  --button-fg: var(--foreground);
+  border: 1px solid color-mix(in oklab, var(--border) 92%, transparent);
+}
+
+.dark .button--tertiary,
+[data-theme='dark'] .button--tertiary {
   --button-bg: color-mix(in oklab, var(--surface) 58%, var(--overlay));
   --button-bg-hover: color-mix(in oklab, var(--surface) 46%, var(--overlay));
   --button-bg-pressed: color-mix(in oklab, var(--surface) 40%, var(--overlay));
-  --button-fg: var(--foreground);
   border: 1px solid color-mix(in oklab, var(--border) 72%, transparent);
 }
 
@@ -1893,9 +1910,9 @@ pre {
   color: var(--link);
 }
 .state a.manual-mode-indicator {
-  color: var(--brand-red);
-  background: color-mix(in oklab, var(--brand-red) 18%, transparent);
-  border: 1px solid color-mix(in oklab, var(--brand-red) 48%, transparent);
+  color: var(--brand-strong);
+  background: var(--brand-soft);
+  border: 1px solid color-mix(in oklab, var(--brand) 48%, transparent);
   border-radius: 9999px;
   padding: 2px 8px;
   display: inline-flex;
@@ -1903,8 +1920,8 @@ pre {
   gap: 6px;
 }
 .state a.manual-mode-indicator:hover {
-  color: var(--brand-red);
-  background: color-mix(in oklab, var(--brand-red) 26%, transparent);
+  color: var(--brand-strong);
+  background: color-mix(in oklab, var(--brand) 30%, transparent);
 }
 .state span {
   padding-right: 3px;
@@ -1930,9 +1947,9 @@ pre {
   margin: 0px 5px;
   padding: 5px;
   text-align: center;
-  background: color-mix(in oklab, var(--brand-red) 14%, var(--surface));
+  background: color-mix(in oklab, var(--brand) 14%, var(--surface));
   border-radius: 0.25rem;
-  border: 1px solid color-mix(in oklab, var(--brand-red) 34%, var(--border));
+  border: 1px solid color-mix(in oklab, var(--brand) 34%, var(--border));
 }
 .state .gravatar {
   margin-left: 0;

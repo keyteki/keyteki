@@ -270,7 +270,7 @@ const GameLobby = ({ gameId }) => {
                     <div className='grid gap-2'>
                         <Button
                             className='w-full'
-                            variant='tertiary'
+                            variant='primary'
                             isDisabled={!user}
                             onPress={() => openNewGame(false)}
                         >
@@ -288,7 +288,7 @@ const GameLobby = ({ gameId }) => {
 
                     <Panel
                         type='primary'
-                        className='border-border/55 !bg-surface/97 [--accent:color-mix(in_oklab,var(--brand-red)_88%,white)]'
+                        className='border-border/55 !bg-surface/97 [--accent:color-mix(in_oklab,var(--brand)_88%,white)]'
                         headerVariant='context'
                         title={t('Filters')}
                         titleClass='text-xs font-medium uppercase tracking-wide text-muted'

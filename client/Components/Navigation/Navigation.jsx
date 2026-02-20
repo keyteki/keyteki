@@ -84,11 +84,11 @@ const Navigation = (props) => {
     const navLinkClass =
         'inline-flex h-9 items-center rounded-md px-3 text-sm font-medium text-amber-600 dark:text-amber-300 transition hover:bg-surface-secondary/55 hover:text-amber-700 dark:hover:text-amber-200 lg:h-12';
     const navLinkActiveClass =
-        'bg-[color:color-mix(in_oklab,var(--brand-red)_18%,var(--surface))] text-[color:color-mix(in_oklab,var(--brand-red)_82%,black)] dark:bg-accent/24 dark:text-amber-100 ring-1 ring-[color:color-mix(in_oklab,var(--brand-red)_42%,transparent)]';
+        'bg-[color:color-mix(in_oklab,var(--brand)_18%,var(--surface))] text-[color:color-mix(in_oklab,var(--brand)_82%,black)] dark:bg-accent/24 dark:text-amber-100 ring-1 ring-[color:color-mix(in_oklab,var(--brand)_42%,transparent)]';
     const navDropdownTriggerClass =
         '!inline-flex !h-9 !min-w-0 !items-center !gap-1.5 !rounded-md !bg-transparent !px-4 !text-sm !font-medium !text-amber-600 dark:!text-amber-300 transition hover:!bg-surface-secondary/55 hover:!text-amber-700 dark:hover:!text-amber-200 lg:!h-12';
     const navDropdownActiveClass =
-        '!bg-[color:color-mix(in_oklab,var(--brand-red)_18%,var(--surface))] !text-[color:color-mix(in_oklab,var(--brand-red)_82%,black)] dark:!bg-accent/24 dark:!text-amber-100 !ring-1 !ring-[color:color-mix(in_oklab,var(--brand-red)_42%,transparent)]';
+        '!bg-[color:color-mix(in_oklab,var(--brand)_18%,var(--surface))] !text-[color:color-mix(in_oklab,var(--brand)_82%,black)] dark:!bg-accent/24 dark:!text-amber-100 !ring-1 !ring-[color:color-mix(in_oklab,var(--brand)_42%,transparent)]';
 
     const isPathActive = (path) => {
         if (!path) {
@@ -192,7 +192,7 @@ const Navigation = (props) => {
                                         <Dropdown.Item
                                             className={`rounded-md px-3 py-2 data-[hovered]:bg-surface-secondary/55 data-[focused]:bg-surface-secondary/55${
                                                 isPathActive(childItem.path)
-                                                    ? ' bg-[color:color-mix(in_oklab,var(--brand-red)_18%,var(--surface))] text-[color:color-mix(in_oklab,var(--brand-red)_82%,black)] dark:bg-accent/24 dark:text-amber-100'
+                                                    ? ' bg-[color:color-mix(in_oklab,var(--brand)_18%,var(--surface))] text-[color:color-mix(in_oklab,var(--brand)_82%,black)] dark:bg-accent/24 dark:text-amber-100'
                                                     : ''
                                             }`}
                                             key={childItem.title || childItem.path}

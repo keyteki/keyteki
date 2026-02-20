@@ -79,7 +79,7 @@ const InternalTypeahead = React.forwardRef((props, ref) => {
                         ))}
                 </datalist>
                 {props.validationMessage ? (
-                    <span className='mt-1 block text-xs text-[color:var(--brand-red)]'>
+                    <span className='mt-1 block text-xs text-[color:var(--brand)]'>
                         {props.validationMessage}
                     </span>
                 ) : null}

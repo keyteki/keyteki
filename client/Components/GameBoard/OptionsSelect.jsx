@@ -50,7 +50,7 @@ const OptionsSelect = (props) => {
                 </Select.Popover>
             </Select>
             <Button
-                variant='tertiary'
+                variant='primary'
                 className='w-full justify-center !px-3 !py-2.5'
                 onPress={onDoneClicked}
             >

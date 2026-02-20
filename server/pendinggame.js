@@ -1,4 +1,4 @@
-const uuid = require('uuid');
+const { randomUUID } = require('node:crypto');
 const _ = require('underscore');
 const crypto = require('crypto');
 
@@ -18,7 +18,7 @@ class PendingGame {
         this.gameTimeLimit = details.gameTimeLimit;
         this.gameType = details.gameType;
         this.hideDeckLists = details.hideDeckLists;
-        this.id = uuid.v1();
+        this.id = randomUUID();
         this.muteSpectators = details.muteSpectators;
         this.name = details.name;
         this.node = {};

@@ -118,7 +118,7 @@ const ForgotPassword = () => {
                             </div>
 
                             <div className='pt-1'>
-                                <Button type='submit' variant='tertiary'>
+                                <Button type='submit' variant='primary'>
                                     {t('Submit')}
                                 </Button>
                             </div>

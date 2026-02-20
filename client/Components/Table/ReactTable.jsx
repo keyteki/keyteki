@@ -408,7 +408,7 @@ function ReactTable({
                                                                         type='button'
                                                                         className={`rounded px-1 py-0.5 text-xs ${
                                                                             header.column.getFilterValue()
-                                                                                ? 'text-[color:var(--brand-red)]'
+                                                                                ? 'text-[color:var(--brand)]'
                                                                                 : 'text-foreground/70 dark:text-zinc-300'
                                                                         }`}
                                                                     >

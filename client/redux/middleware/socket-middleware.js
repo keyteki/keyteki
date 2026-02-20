@@ -1,4 +1,4 @@
-import io from 'socket.io-client';
+import { io } from 'socket.io-client';
 import * as jsondiffpatch from 'jsondiffpatch';
 
 import { gamesActions } from '../slices/gamesSlice';
@@ -65,15 +65,15 @@ export const socketMiddleware = (store) => (next) => (action) => {
             return result;
         }
 
-        let queryString = state.auth.token ? `token=${state.auth.token}&` : '';
-        queryString += `version=${import.meta.env.VITE_VERSION || 'Local build'}`;
-
-        lobbySocket = io.connect(window.location.origin, {
+        lobbySocket = io(window.location.origin, {
             reconnection: true,
             reconnectionDelay: 1000,
             reconnectionDelayMax: 5000,
             reconnectionAttempts: Infinity,
-            query: queryString
+            auth: {
+                token: state.auth.token || undefined,
+                version: import.meta.env.VITE_VERSION || 'Local build'
+            }
         });
 
         store.dispatch(lobbyActions.connecting({ socket: lobbySocket }));
@@ -90,7 +90,7 @@ export const socketMiddleware = (store) => (next) => (action) => {
             store.dispatch(lobbyActions.disconnected());
         });
 
-        lobbySocket.on('reconnect', () => {
+        lobbySocket.io.on('reconnect_attempt', () => {
             store.dispatch(lobbyActions.reconnecting());
         });
 
@@ -197,13 +197,15 @@ export const socketMiddleware = (store) => (next) => (action) => {
     if (gameConnectRequested.match(action)) {
         const { url, name } = action.payload;
         const currentState = store.getState();
-        gameSocket = io.connect(url, {
+        gameSocket = io(url, {
             path: `/${name}/socket.io`,
             reconnection: true,
             reconnectionDelay: 1000,
             reconnectionDelayMax: 5000,
             reconnectionAttempts: 5,
-            query: currentState.auth.token ? `token=${currentState.auth.token}` : undefined
+            auth: {
+                token: currentState.auth.token || undefined
+            }
         });
 
         store.dispatch(
@@ -233,15 +235,15 @@ export const socketMiddleware = (store) => (next) => (action) => {
             store.dispatch(lobbyActions.gameSocketDisconnected());
         });
 
-        gameSocket.on('reconnecting', () => {
+        gameSocket.io.on('reconnect_attempt', () => {
             store.dispatch(gamesActions.socketReconnecting());
         });
 
-        gameSocket.on('reconnect', () => {
+        gameSocket.io.on('reconnect', () => {
             store.dispatch(gamesActions.socketReconnected());
         });
 
-        gameSocket.on('reconnect_failed', () => {
+        gameSocket.io.on('reconnect_failed', () => {
             store.dispatch(gamesActions.socketConnectFailed());
         });
 

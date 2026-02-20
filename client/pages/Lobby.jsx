@@ -5,6 +5,7 @@ import { Trans, useTranslation } from 'react-i18next';
 import { Carousel } from 'react-responsive-carousel';
 
 import NewsComponent from '../Components/News/News';
+import AlertPanel from '../Components/Site/AlertPanel';
 import Panel from '../Components/Site/Panel';
 import LobbyChat from '../Components/Lobby/LobbyChat';
 import { lobbySendMessage } from '../redux/socketActions';
@@ -176,18 +177,12 @@ const Lobby = () => {
         }
     };
 
-    const getAnnouncementTone = (type) => {
-        switch (type) {
-            case 'danger':
-            case 'error':
-                return 'border-red-500/40 bg-red-900/20 text-red-100';
-            case 'warning':
-                return 'border-amber-500/40 bg-amber-900/20 text-amber-100';
-            case 'success':
-                return 'border-emerald-500/40 bg-emerald-900/20 text-emerald-100';
-            default:
-                return 'border-sky-500/35 bg-sky-900/15 text-zinc-100';
+    const toAlertType = (type) => {
+        if (type === 'error') {
+            return 'danger';
         }
+
+        return type || 'info';
     };
 
     return (
@@ -234,13 +229,9 @@ const Lobby = () => {
                 </div>
 
                 {motd?.message && (
-                    <div
-                        className={`rounded-md border px-3 py-2 text-sm leading-5 ${getAnnouncementTone(
-                            motd.motdType || 'info'
-                        )}`}
-                    >
+                    <AlertPanel className='!mb-0 text-sm' type={toAlertType(motd.motdType)}>
                         {motd.message}
-                    </div>
+                    </AlertPanel>
                 )}
 
                 <Panel
@@ -258,14 +249,13 @@ const Lobby = () => {
                         ) : announcements.length > 0 ? (
                             <div className='grid gap-1'>
                                 {announcements.map((item, index) => (
-                                    <div
+                                    <AlertPanel
                                         key={`${item.type}-${index}`}
-                                        className={`rounded-md border px-3 py-2 text-sm leading-5 ${getAnnouncementTone(
-                                            item.type
-                                        )}`}
+                                        className='!mb-0 text-sm'
+                                        type={toAlertType(item.type)}
                                     >
                                         {truncateAnnouncement(item.message)}
-                                    </div>
+                                    </AlertPanel>
                                 ))}
                             </div>
                         ) : null}
@@ -303,7 +293,7 @@ const Lobby = () => {
                             onRemoveMessageClick={(messageId) => removeLobbyMessage(messageId)}
                         />
                         <form
-                            className='mt-2 border-t border-border/70 bg-overlay/75 px-2 pt-2'
+                            className='mt-2'
                             onSubmit={(event) => {
                                 event.preventDefault();
                                 sendMessage();
@@ -339,7 +329,7 @@ const Lobby = () => {
                                     ref={inputRef}
                                     id='lobby-chat-input'
                                     type='text'
-                                    className='w-full rounded-md border border-black/25 bg-white px-3 py-2 text-sm text-foreground placeholder:text-foreground/52 shadow-[inset_0_1px_2px_rgba(15,23,42,0.06)] focus:border-accent/65 focus:outline-none dark:border-border/80 dark:bg-surface-secondary/85 dark:placeholder:text-muted dark:shadow-none'
+                                    className='w-full rounded-md border border-border/65 bg-surface-secondary/55 px-3 py-2 text-sm text-foreground placeholder:text-muted shadow-none focus:border-border/90 focus:outline-none dark:border-border/80 dark:bg-surface-secondary/85 dark:placeholder:text-muted dark:shadow-none'
                                     placeholder={t(placeholder)}
                                     value={message}
                                     disabled={!isLoggedIn}

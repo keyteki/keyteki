@@ -333,7 +333,7 @@ const PlayerStats = ({
                         <a href='#' onClick={onMessagesClick} className='pl-1'>
                             <Icon icon={faComment}></Icon>
                             {numMessages > 0 && (
-                                <span className='ml-1 inline-flex min-w-5 items-center justify-center rounded-full bg-[color:var(--brand-red)] px-1 text-xs text-[color:var(--accent-foreground)]'>
+                                <span className='ml-1 inline-flex min-w-5 items-center justify-center rounded-full bg-[color:var(--brand)] px-1 text-xs text-[color:var(--accent-foreground)]'>
                                     {numMessages}
                                 </span>
                             )}

@@ -20,10 +20,12 @@ const AlertType = Object.freeze({
 });
 
 const AlertSurfaceClassByStatus = {
-    accent: 'border border-cyan-500/60 bg-cyan-900/40 text-cyan-100',
-    danger: 'border border-red-500/60 bg-red-900/40 text-red-100',
-    success: 'border border-emerald-500/60 bg-emerald-900/40 text-emerald-100',
-    warning: 'border border-amber-500/60 bg-amber-900/45 text-amber-100'
+    accent: 'border border-slate-300 bg-slate-100 text-slate-800 dark:border-sky-500/50 dark:bg-sky-900/30 dark:text-sky-100',
+    danger: 'border border-red-300 bg-red-100 text-red-900 dark:border-red-500/60 dark:bg-red-900/40 dark:text-red-100',
+    success:
+        'border border-emerald-300 bg-emerald-100 text-emerald-900 dark:border-emerald-500/60 dark:bg-emerald-900/40 dark:text-emerald-100',
+    warning:
+        'border border-amber-300 bg-amber-100 text-amber-900 dark:border-amber-500/60 dark:bg-amber-900/45 dark:text-amber-100'
 };
 
 /**

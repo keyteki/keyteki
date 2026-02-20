@@ -1,5 +1,5 @@
 const passport = require('passport');
-const uuid = require('uuid');
+const { randomUUID } = require('node:crypto');
 
 const ConfigService = require('../services/ConfigService');
 const DeckService = require('../services/DeckService.js');
@@ -146,7 +146,7 @@ module.exports.init = function (server) {
                 {},
                 {
                     name: req.body.name,
-                    uuid: uuid.v1(),
+                    uuid: randomUUID(),
                     username: req.user.username,
                     pods: req.body.pods,
                     tokenCard: req.body.token,

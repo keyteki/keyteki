@@ -178,7 +178,7 @@ const BlockList = () => {
                                         <Button
                                             type='submit'
                                             className='mt-2'
-                                            variant='tertiary'
+                                            variant='primary'
                                             isPending={addState.isLoading}
                                         >
                                             <Trans>Add</Trans>

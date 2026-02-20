@@ -4,6 +4,7 @@ import { Trans, useTranslation } from 'react-i18next';
 import { Button, Input, toast } from '@heroui/react';
 
 import Panel from '../Site/Panel';
+import AlertPanel from '../Site/AlertPanel';
 import Messages from '../GameBoard/Messages';
 import SelectDeckModal from './SelectDeckModal';
 import {
@@ -174,7 +175,7 @@ const PendingGame = () => {
             return 'border-sky-500/35 bg-sky-500/12 text-sky-700 dark:bg-sky-500/10 dark:text-sky-300';
         }
 
-        return 'border-[color:color-mix(in_oklab,var(--brand-red)_32%,transparent)] bg-[color:color-mix(in_oklab,var(--brand-red)_10%,white)] text-[color:color-mix(in_oklab,var(--brand-red)_82%,black)] dark:border-rose-500/35 dark:bg-rose-500/10 dark:text-rose-300';
+        return 'border-[color:color-mix(in_oklab,var(--brand)_32%,transparent)] bg-[color:color-mix(in_oklab,var(--brand)_10%,white)] text-[color:color-mix(in_oklab,var(--brand)_82%,black)] dark:border-rose-500/35 dark:bg-rose-500/10 dark:text-rose-300';
     };
 
     const getLiveDotClass = () => {
@@ -192,17 +193,17 @@ const PendingGame = () => {
         if (playerCountInGame < 2) {
             return {
                 ping: anyDeckSelected
-                    ? 'bg-[color:color-mix(in_oklab,var(--brand-red)_34%,transparent)]'
-                    : 'bg-[color:color-mix(in_oklab,var(--brand-red)_48%,transparent)]',
+                    ? 'bg-[color:color-mix(in_oklab,var(--brand)_34%,transparent)]'
+                    : 'bg-[color:color-mix(in_oklab,var(--brand)_48%,transparent)]',
                 dot: anyDeckSelected
-                    ? 'bg-[color:color-mix(in_oklab,var(--brand-red)_70%,black)]'
-                    : 'bg-[color:color-mix(in_oklab,var(--brand-red)_84%,black)]'
+                    ? 'bg-[color:color-mix(in_oklab,var(--brand)_70%,black)]'
+                    : 'bg-[color:color-mix(in_oklab,var(--brand)_84%,black)]'
             };
         }
 
         return {
-            ping: 'bg-[color:color-mix(in_oklab,var(--brand-red)_48%,transparent)]',
-            dot: 'bg-[color:color-mix(in_oklab,var(--brand-red)_84%,black)]'
+            ping: 'bg-[color:color-mix(in_oklab,var(--brand)_48%,transparent)]',
+            dot: 'bg-[color:color-mix(in_oklab,var(--brand)_84%,black)]'
         };
     };
 
@@ -341,20 +342,14 @@ const PendingGame = () => {
                     <GameTypeInfo gameType={currentGame.gameType} />
 
                     {requiresDeckSelection && (
-                        <div className='rounded-md border border-[color:color-mix(in_oklab,var(--brand-red)_32%,transparent)] bg-[color:color-mix(in_oklab,var(--brand-red)_8%,white)] px-3 py-2 text-sm text-[color:color-mix(in_oklab,var(--brand-red)_84%,black)] dark:border-rose-500/35 dark:bg-rose-500/10 dark:text-rose-200'>
-                            <div className='flex flex-wrap items-center justify-between gap-2'>
-                                <span>
-                                    {t('You need to select a deck before the game can start.')}
-                                </span>
-                                <Button
-                                    size='sm'
-                                    variant='primary'
-                                    onPress={() => setShowModal(true)}
-                                >
-                                    <Trans>Select deck</Trans>
-                                </Button>
-                            </div>
-                        </div>
+                        <AlertPanel
+                            type='warning'
+                            className='!mb-2 !items-center !py-1.5 [&_[data-slot=indicator]]:self-center [&_[data-slot=content]]:flex-1 [&_[data-slot=content]]:w-full [&_[data-slot=description]]:w-full'
+                        >
+                            <span className='text-sm'>
+                                {t('You need to select a deck before the game can start.')}
+                            </span>
+                        </AlertPanel>
                     )}
 
                     <div className='flex flex-wrap items-center gap-2 border-t border-border/60 pt-3'>
@@ -422,16 +417,19 @@ const PendingGame = () => {
                     <Messages messages={currentGame.messages} />
                 </div>
                 <form
+                    className='mt-2'
                     onSubmit={(event) => {
                         event.preventDefault();
                         sendMessage();
                     }}
                 >
                     <Input
-                        className='w-full'
+                        className='w-full [&_[data-slot="input-wrapper"]]:!bg-surface-secondary/55 [&_[data-slot="input-wrapper"]]:!border [&_[data-slot="input-wrapper"]]:!border-border/65 [&_[data-slot="input-wrapper"]]:!shadow-none [&_[data-slot="input-wrapper"]]:data-[hover=true]:!border-border/80 [&_[data-slot="input-wrapper"]]:data-[focus=true]:!border-border/90'
+                        variant='tertiary'
                         type='text'
                         placeholder={t('Enter a message...')}
                         value={message}
+                        maxLength={512}
                         onKeyDown={(event) => {
                             if (event.key === 'Enter') {
                                 event.preventDefault();

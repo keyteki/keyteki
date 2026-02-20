@@ -118,7 +118,7 @@ const ResetPassword = ({ id, token }) => {
                                 <div className='pt-1'>
                                     <Button
                                         type='submit'
-                                        variant='tertiary'
+                                        variant='primary'
                                         isPending={resetState.isLoading}
                                     >
                                         Submit

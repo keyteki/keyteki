@@ -35,14 +35,14 @@ const PendingGamePlayers = ({ currentGame, user, onSelectDeck }) => {
         if (!player || !player.deck || !player.deck.selected) {
             return {
                 label: t('Waiting for deck'),
-                tone: 'text-[color:color-mix(in_oklab,var(--brand-red)_82%,black)] bg-[color:color-mix(in_oklab,var(--brand-red)_10%,white)] border-[color:color-mix(in_oklab,var(--brand-red)_32%,transparent)] dark:text-rose-300 dark:bg-rose-500/10 dark:border-rose-500/30'
+                tone: 'text-[color:color-mix(in_oklab,var(--brand)_82%,black)] bg-[color:color-mix(in_oklab,var(--brand)_10%,white)] border-[color:color-mix(in_oklab,var(--brand)_32%,transparent)] dark:text-rose-300 dark:bg-rose-500/10 dark:border-rose-500/30'
             };
         }
 
         if (player.deck.status?.basicRules === false) {
             return {
                 label: t('Deck needs fixes'),
-                tone: 'text-[color:color-mix(in_oklab,var(--brand-red)_82%,black)] bg-[color:color-mix(in_oklab,var(--brand-red)_10%,white)] border-[color:color-mix(in_oklab,var(--brand-red)_32%,transparent)] dark:text-rose-300 dark:bg-rose-500/10 dark:border-rose-500/30'
+                tone: 'text-[color:color-mix(in_oklab,var(--brand)_82%,black)] bg-[color:color-mix(in_oklab,var(--brand)_10%,white)] border-[color:color-mix(in_oklab,var(--brand)_32%,transparent)] dark:text-rose-300 dark:bg-rose-500/10 dark:border-rose-500/30'
             };
         }
 
@@ -76,7 +76,7 @@ const PendingGamePlayers = ({ currentGame, user, onSelectDeck }) => {
 
         return {
             label: t('Invalid'),
-            tone: 'text-[color:color-mix(in_oklab,var(--brand-red)_85%,black)] bg-[color:color-mix(in_oklab,var(--brand-red)_12%,white)] border-[color:color-mix(in_oklab,var(--brand-red)_35%,transparent)] dark:text-rose-300 dark:bg-rose-500/10 dark:border-rose-500/30'
+            tone: 'text-[color:color-mix(in_oklab,var(--brand)_85%,black)] bg-[color:color-mix(in_oklab,var(--brand)_12%,white)] border-[color:color-mix(in_oklab,var(--brand)_35%,transparent)] dark:text-rose-300 dark:bg-rose-500/10 dark:border-rose-500/30'
         };
     };
 

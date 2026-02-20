@@ -33,10 +33,10 @@ const Panel = ({
         contentClass += ` ${contentClassName}`;
     }
     const headerBaseClass = 'w-full !p-0 !m-0 rounded-tr-md rounded-tl-md flex items-center';
-    const headerTextClass = headerTextClassName || 'text-[color:var(--brand-red)] dark:text-accent';
+    const headerTextClass = headerTextClassName || 'text-[color:var(--heading)]';
     const headerClass =
         headerClassName ||
-        'border-b border-border/45 bg-surface [box-shadow:inset_0_1px_0_color-mix(in_oklab,var(--brand-red)_62%,transparent)]';
+        'border-b border-border/50 bg-surface [box-shadow:inset_0_1px_0_color-mix(in_oklab,var(--accent-strong)_38%,transparent)]';
     const headerInnerClass = 'w-full px-3 py-0.5 flex items-center justify-center min-h-6';
 
     return (
