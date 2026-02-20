@@ -1,26 +1,53 @@
-const request = require('request');
+async function httpRequest(url, options = {}) {
+    const {
+        method = 'GET',
+        headers: inputHeaders = {},
+        body,
+        form,
+        json = false,
+        encoding
+    } = options;
 
-function httpRequest(url, options = {}) {
-    return new Promise((resolve, reject) => {
-        request(url, options, (err, res, body) => {
-            if (err) {
-                if (res) {
-                    err.statusCode = res.statusCode;
-                }
+    const headers = { ...inputHeaders };
+    let requestBody;
 
-                return reject(err);
+    if (form) {
+        requestBody = new URLSearchParams(form).toString();
+        if (!headers['Content-Type'] && !headers['content-type']) {
+            headers['Content-Type'] = 'application/x-www-form-urlencoded';
+        }
+    } else if (body !== undefined) {
+        if (json && typeof body === 'object' && !Buffer.isBuffer(body)) {
+            requestBody = JSON.stringify(body);
+            if (!headers['Content-Type'] && !headers['content-type']) {
+                headers['Content-Type'] = 'application/json';
             }
+        } else {
+            requestBody = body;
+        }
+    }
 
-            if (res.statusCode !== 200) {
-                let err = new Error('Request failed');
-                err.statusCode = res.statusCode;
-
-                return reject(err);
-            }
-
-            resolve(body);
-        });
+    let response = await fetch(url, {
+        method,
+        headers,
+        body: requestBody
     });
+
+    if (response.status !== 200) {
+        let error = new Error('Request failed');
+        error.statusCode = response.status;
+        throw error;
+    }
+
+    if (encoding === null) {
+        return Buffer.from(await response.arrayBuffer());
+    }
+
+    if (json) {
+        return response.json();
+    }
+
+    return response.text();
 }
 
 function wrapAsync(fn) {
