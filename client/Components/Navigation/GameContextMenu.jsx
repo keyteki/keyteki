@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
+import { Button } from '@heroui/react';
 import { gameCloseRequested, gameSendMessage } from '../../redux/socketActions';
 
 const GameContextMenu = ({ mobile = false }) => {
@@ -78,13 +79,13 @@ const GameContextMenu = ({ mobile = false }) => {
                 onMouseEnter={() => !mobile && setShowPopup(true)}
                 onMouseLeave={() => !mobile && setShowPopup(false)}
             >
-                <button
-                    type='button'
+                <Button
+                    variant='light'
                     className={itemClass}
-                    onClick={() => mobile && setShowPopup((open) => !open)}
+                    onPress={() => mobile && setShowPopup((open) => !open)}
                 >
                     {t('{{users}} spectators', { users: currentGame.spectators.length })}
-                </button>
+                </Button>
                 {showPopup && (
                     <ul
                         className={
@@ -100,17 +101,17 @@ const GameContextMenu = ({ mobile = false }) => {
                 )}
             </div>
             {!isSpectating && (
-                <button
-                    type='button'
+                <Button
+                    variant='light'
                     className={itemClass}
-                    onClick={() => dispatch(gameSendMessage('concede'))}
+                    onPress={() => dispatch(gameSendMessage('concede'))}
                 >
                     {t('Concede')}
-                </button>
+                </Button>
             )}
-            <button type='button' className={itemClass} onClick={onLeaveClick}>
+            <Button variant='light' className={itemClass} onPress={onLeaveClick}>
                 {t('Leave Game')}
-            </button>
+            </Button>
         </div>
     );
 };

@@ -115,7 +115,7 @@ const ActivePlayerPrompt = (props) => {
                 (button.command || '').toLowerCase().includes('cancel');
             const hasIcon = Boolean(button.icon);
             const buttonClass = isCancel
-                ? 'w-full justify-center whitespace-nowrap text-sm capitalize !px-2 !py-1.5 !text-foreground/70'
+                ? 'w-full justify-center whitespace-nowrap text-sm capitalize !px-2 !py-1.5 !text-foreground/78'
                 : hasIcon
                 ? 'w-full justify-center whitespace-nowrap text-sm capitalize !px-2 !py-1.5'
                 : 'w-full justify-center whitespace-nowrap text-sm capitalize !px-2 !py-1.5';

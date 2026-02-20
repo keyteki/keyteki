@@ -132,6 +132,15 @@
   background-size: cover;
 }
 
+/* Global tertiary button contrast override */
+.button--tertiary {
+  --button-bg: color-mix(in oklab, var(--surface) 58%, var(--overlay));
+  --button-bg-hover: color-mix(in oklab, var(--surface) 46%, var(--overlay));
+  --button-bg-pressed: color-mix(in oklab, var(--surface) 40%, var(--overlay));
+  --button-fg: var(--foreground);
+  border: 1px solid color-mix(in oklab, var(--border) 72%, transparent);
+}
+
 .panel-header {
   position: absolute;
   top: 0;
