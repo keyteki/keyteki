@@ -1,5 +1,5 @@
 import React from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import Icon from '../Icon';
 import {
     faExclamationCircle,
     faExclamationTriangle,
@@ -131,7 +131,7 @@ const AlertPanel = ({
         >
             {!noIcon && (
                 <Alert.Indicator className='text-inherit'>
-                    <FontAwesomeIcon icon={icon} />
+                    <Icon icon={icon} />
                 </Alert.Indicator>
             )}
             <Alert.Content>

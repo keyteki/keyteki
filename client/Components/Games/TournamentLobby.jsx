@@ -1,5 +1,5 @@
 import { faCircleNotch } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import Icon from '../Icon';
 import React, { useEffect, useState } from 'react';
 import ReactClipboard from 'react-clipboardjs-copy';
 import { Trans, useTranslation } from 'react-i18next';
@@ -215,7 +215,7 @@ const TournamentLobby = () => {
                     <Col sm='4'>
                         <Button variant='primary' onClick={() => refetchTournaments()}>
                             <Trans>Refresh Tournaments</Trans>
-                            {tournamentsLoading && <FontAwesomeIcon icon={faCircleNotch} spin />}
+                            {tournamentsLoading && <Icon icon={faCircleNotch} spin />}
                         </Button>
                     </Col>
                 </Row>
@@ -276,7 +276,7 @@ const TournamentLobby = () => {
                                             >
                                                 <Trans>Refresh Matches</Trans>
                                                 {matchState.isLoading && (
-                                                    <FontAwesomeIcon icon={faCircleNotch} spin />
+                                                    <Icon icon={faCircleNotch} spin />
                                                 )}
                                             </Button>
                                         </Col>
@@ -299,9 +299,7 @@ const TournamentLobby = () => {
                                 disabled={matchesWithGames.length <= 0}
                             >
                                 <Trans>Send Attachments</Trans>
-                                {attachmentState.isLoading && (
-                                    <FontAwesomeIcon icon={faCircleNotch} spin />
-                                )}
+                                {attachmentState.isLoading && <Icon icon={faCircleNotch} spin />}
                             </Button>
                         </div>
                     </Col>

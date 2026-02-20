@@ -8,7 +8,7 @@ import {
     useReactTable
 } from '@tanstack/react-table';
 import { Button, Input, ListBox, Popover, Select, Spinner } from '@heroui/react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import Icon from '../Icon';
 import {
     faArrowDownLong,
     faArrowUpLong,
@@ -227,7 +227,7 @@ function ReactTable({
                     ))}
                     {refetch ? (
                         <Button isIconOnly size='md' variant='tertiary' onPress={() => refetch()}>
-                            <FontAwesomeIcon icon={faRefresh} />
+                            <Icon icon={faRefresh} />
                         </Button>
                     ) : null}
                 </div>
@@ -377,12 +377,12 @@ function ReactTable({
                                                             {
                                                                 {
                                                                     asc: (
-                                                                        <FontAwesomeIcon
+                                                                        <Icon
                                                                             icon={faArrowUpLong}
                                                                         />
                                                                     ),
                                                                     desc: (
-                                                                        <FontAwesomeIcon
+                                                                        <Icon
                                                                             icon={faArrowDownLong}
                                                                         />
                                                                     )
@@ -412,9 +412,7 @@ function ReactTable({
                                                                                 : 'text-foreground/70 dark:text-zinc-300'
                                                                         }`}
                                                                     >
-                                                                        <FontAwesomeIcon
-                                                                            icon={faFilter}
-                                                                        />
+                                                                        <Icon icon={faFilter} />
                                                                     </button>
                                                                 </Popover.Trigger>
                                                                 <Popover.Content offset={12}>

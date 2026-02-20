@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import debounce from 'lodash.debounce';
 import { Input } from '@heroui/react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import Icon from '../Icon';
 import { faCheck, faFileImport, faPlus, faTrash } from '@fortawesome/free-solid-svg-icons';
 
 import CardBack from './CardBack';
@@ -202,7 +202,7 @@ const DeckList = ({
             header: t('A'),
             cell: ({ row }) => (
                 <div className='text-center text-[0.8rem]'>
-                    {row.original.isAlliance ? <FontAwesomeIcon icon={faCheck} /> : null}
+                    {row.original.isAlliance ? <Icon icon={faCheck} /> : null}
                 </div>
             ),
             enableColumnFilter: false,
@@ -219,19 +219,19 @@ const DeckList = ({
 
         return [
             {
-                icon: <FontAwesomeIcon icon={faFileImport} />,
+                icon: <Icon icon={faFileImport} />,
                 label: t('Import Deck'),
                 onPress: onImportDeck,
                 variant: 'tertiary'
             },
             {
-                icon: <FontAwesomeIcon icon={faPlus} />,
+                icon: <Icon icon={faPlus} />,
                 label: t('Build Alliance Deck'),
                 onPress: onNavigateAllianceDeck,
                 variant: 'tertiary'
             },
             {
-                icon: <FontAwesomeIcon icon={faTrash} />,
+                icon: <Icon icon={faTrash} />,
                 label:
                     selectedDeckCount > 0 ? `${t('Delete')} (${selectedDeckCount})` : t('Delete'),
                 disabled: selectedDeckCount === 0,

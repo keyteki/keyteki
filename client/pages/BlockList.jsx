@@ -2,7 +2,7 @@ import React, { useEffect, useMemo } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import { Formik } from 'formik';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import Icon from '../Components/Icon';
 import { faCircleNotch, faTimes } from '@fortawesome/free-solid-svg-icons';
 import { Button, Input, Label, toast } from '@heroui/react';
 import * as yup from 'yup';
@@ -71,7 +71,7 @@ const BlockList = () => {
                             })
                         }
                     >
-                        <FontAwesomeIcon icon={faTimes} />
+                        <Icon icon={faTimes} />
                     </Button>
                 )
             }
@@ -95,7 +95,7 @@ const BlockList = () => {
                 {isBlockListLoading ? (
                     <div>
                         Please wait while the blocklist is loaded...
-                        <FontAwesomeIcon icon={faCircleNotch} spin />
+                        <Icon icon={faCircleNotch} spin />
                     </div>
                 ) : (
                     <>
@@ -184,7 +184,7 @@ const BlockList = () => {
                                             <Trans>Add</Trans>
                                             &nbsp;
                                             {addState.isLoading ? (
-                                                <FontAwesomeIcon icon={faCircleNotch} spin />
+                                                <Icon icon={faCircleNotch} spin />
                                             ) : null}
                                         </Button>
 

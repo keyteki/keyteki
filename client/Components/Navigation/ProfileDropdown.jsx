@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { Dropdown, Label } from '@heroui/react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import Icon from '../Icon';
 import { faChevronDown, faChevronUp } from '@fortawesome/free-solid-svg-icons';
 
 import Avatar from '../Site/Avatar';
@@ -71,7 +71,7 @@ const ProfileMenu = ({ menu, mobile = false, user }) => {
                         <span className='inline-flex items-center leading-none'>
                             {user.username}
                         </span>
-                        <FontAwesomeIcon
+                        <Icon
                             icon={isOpen ? faChevronUp : faChevronDown}
                             className='text-xs text-current/90'
                         />

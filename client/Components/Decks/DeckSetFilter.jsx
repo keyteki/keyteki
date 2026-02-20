@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Button, Checkbox, Input, Popover } from '@heroui/react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import Icon from '../Icon';
 import { faChevronDown, faChevronUp, faXmark } from '@fortawesome/free-solid-svg-icons';
 
 const DeckSetFilter = ({ expansions = [], selectedExpansions = [], onChange, label, t }) => {
@@ -84,10 +84,7 @@ const DeckSetFilter = ({ expansions = [], selectedExpansions = [], onChange, lab
                                 ? `${t('Sets')}: ${selectedExpansions.length} ${t('selected')}`
                                 : t('All sets')}
                         </span>
-                        <FontAwesomeIcon
-                            className='text-muted'
-                            icon={isOpen ? faChevronUp : faChevronDown}
-                        />
+                        <Icon className='text-muted' icon={isOpen ? faChevronUp : faChevronDown} />
                     </Button>
                 </Popover.Trigger>
                 <Popover.Content className='w-[min(520px,calc(100vw-3rem))] max-w-full rounded-md border border-[color:var(--table-border)] !bg-[var(--surface)] p-2 !text-foreground shadow-[var(--overlay-shadow)] dark:border-white/10 dark:!bg-zinc-900/95 dark:!text-zinc-100'>
@@ -110,7 +107,7 @@ const DeckSetFilter = ({ expansions = [], selectedExpansions = [], onChange, lab
                                 variant='ghost'
                                 onPress={() => setIsOpen(false)}
                             >
-                                <FontAwesomeIcon icon={faXmark} />
+                                <Icon icon={faXmark} />
                             </Button>
                         </div>
 

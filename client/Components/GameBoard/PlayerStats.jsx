@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux';
 import { gameSendMessage } from '../../redux/socketActions';
 import { toast } from '@heroui/react';
 import classNames from 'classnames';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import Icon from '../Icon';
 import {
     faEye,
     faEyeSlash,
@@ -300,18 +300,15 @@ const PlayerStats = ({
                 <div className='state'>
                     <div className='state'>
                         <a href='#' className='pr-1 pl-1'>
-                            <FontAwesomeIcon
+                            <Icon
                                 icon={muteSpectators ? faEyeSlash : faEye}
                                 onClick={onMuteClick}
-                            ></FontAwesomeIcon>
+                            ></Icon>
                         </a>
                     </div>
                     <div className='state'>
                         <a href='#' className='pr-1 pl-1'>
-                            <FontAwesomeIcon
-                                icon={faCopy}
-                                onClick={writeChatToClipboard}
-                            ></FontAwesomeIcon>
+                            <Icon icon={faCopy} onClick={writeChatToClipboard}></Icon>
                         </a>
                     </div>
                     {showManualMode && (
@@ -321,20 +318,20 @@ const PlayerStats = ({
                                 className={classNames({ 'manual-mode-indicator': manualMode })}
                                 onClick={onManualModeClick}
                             >
-                                <FontAwesomeIcon icon={faWrench}></FontAwesomeIcon>
+                                <Icon icon={faWrench}></Icon>
                                 {t('Manual Mode')}
                             </a>
                         </div>
                     )}
                     <div className='state'>
                         <a href='#' onClick={onSettingsClick} className='pr-1 pl-1'>
-                            <FontAwesomeIcon icon={faCogs}></FontAwesomeIcon>
+                            <Icon icon={faCogs}></Icon>
                             <span className='ml-1'>{t('Settings')}</span>
                         </a>
                     </div>
                     <div className='state'>
                         <a href='#' onClick={onMessagesClick} className='pl-1'>
-                            <FontAwesomeIcon icon={faComment}></FontAwesomeIcon>
+                            <Icon icon={faComment}></Icon>
                             {numMessages > 0 && (
                                 <span className='ml-1 inline-flex min-w-5 items-center justify-center rounded-full bg-[color:var(--brand-red)] px-1 text-xs text-[color:var(--accent-foreground)]'>
                                     {numMessages}

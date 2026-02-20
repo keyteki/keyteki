@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useTranslation, Trans } from 'react-i18next';
 import { Button, Modal as HeroModal } from '@heroui/react';
 import { useSelector } from 'react-redux';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import Icon from '../Icon';
 import { faSync } from '@fortawesome/free-solid-svg-icons';
 
 import DeckSummary from './DeckSummary';
@@ -57,7 +57,7 @@ const ViewDeck = ({ deck }) => {
                             isDisabled={isRefreshing}
                         >
                             <span className='inline-flex items-center gap-2'>
-                                <FontAwesomeIcon icon={faSync} spin={isRefreshing} />
+                                <Icon icon={faSync} spin={isRefreshing} />
                                 <span>{t('Refresh Accolades')}</span>
                             </span>
                         </Button>

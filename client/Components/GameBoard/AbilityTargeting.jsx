@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 import CardImage from './CardImage';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import Icon from '../Icon';
 import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
 
 const AbilityTargeting = (props) => {
@@ -43,7 +43,7 @@ const AbilityTargeting = (props) => {
     return (
         <div className='flex flex-row items-center justify-center gap-2'>
             {renderSimpleCard(props.source)}
-            {targetCards.length > 0 && <FontAwesomeIcon icon={faArrowRight} />}
+            {targetCards.length > 0 && <Icon icon={faArrowRight} />}
             {targetCards}
         </div>
     );

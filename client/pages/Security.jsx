@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import moment from 'moment';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import Icon from '../Components/Icon';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
 import { Button, Modal as HeroModal, toast } from '@heroui/react';
 
@@ -89,7 +89,7 @@ const Security = () => {
                                     onClick={(event) => onRemoveClick(session, event)}
                                     className='text-red-400 hover:text-red-300'
                                 >
-                                    <FontAwesomeIcon icon={faTimes} />
+                                    <Icon icon={faTimes} />
                                 </a>
                             </td>
                         </tr>

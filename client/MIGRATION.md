@@ -198,8 +198,8 @@ Phase 7 target versions (as of 2026-02-07)
     -   react: 19.2.x
     -   react-dom: 19.2.x
 -   HeroUI stack:
-    -   @heroui/react: 3.0.0-beta.6 (beta tag)
-    -   @heroui/styles: 3.0.0-beta.6 (beta tag)
+    -   @heroui/react: 3.0.0-beta.7 (beta tag)
+    -   @heroui/styles: 3.0.0-beta.7 (beta tag)
 -   Styling stack:
     -   tailwindcss: 4.x
 
@@ -216,8 +216,8 @@ Phase 7 target versions (as of 2026-02-07)
 ## Phase 9 - Font Awesome
 
 -   [ ] Upgrade @fortawesome/\* to latest
--   [ ] Add client/Components/Icon.jsx wrapper
--   [ ] Replace icon usage incrementally
+-   [x] Add client/Components/Icon.jsx wrapper
+-   [x] Replace icon usage incrementally
 
 ## Phase 10 - TypeScript Only (end goal)
 

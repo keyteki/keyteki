@@ -1,6 +1,6 @@
 import React, { useRef, useEffect, useState, useLayoutEffect } from 'react';
 import moment from 'moment';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import Icon from '../Icon';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
 
 import Avatar from '../Site/Avatar';
@@ -259,7 +259,7 @@ const LobbyChat = ({
                                 className='shrink-0 px-1.5 text-[color:var(--brand-red)] !opacity-0 transition hover:opacity-85 group-hover/message:!opacity-100 focus-visible:!opacity-100'
                                 onClick={() => onRemoveMessageClick(message.id)}
                             >
-                                <FontAwesomeIcon icon={faTimes} />
+                                <Icon icon={faTimes} />
                             </button>
                         ) : null}
                     </div>

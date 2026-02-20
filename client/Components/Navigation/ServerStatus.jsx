@@ -1,7 +1,7 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import Icon from '../Icon';
 import { faCheckCircle, faTimesCircle, faBan } from '@fortawesome/free-solid-svg-icons';
 
 const ServerStatus = (props) => {
@@ -39,7 +39,7 @@ const ServerStatus = (props) => {
             }
         >
             <span className={pingLevel}>
-                {pingText} <FontAwesomeIcon icon={connectionIcon} title={t(toolTip)} />
+                {pingText} <Icon icon={connectionIcon} title={t(toolTip)} />
             </span>
         </div>
     );

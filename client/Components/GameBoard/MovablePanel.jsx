@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useDrag } from 'react-dnd';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import Icon from '../Icon';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
 
 import { ItemTypes } from '../../constants';
@@ -84,7 +84,7 @@ const MovablePanel = ({ children, name, onCloseClick, side, title, size }) => {
                     className='m-0 cursor-pointer border-0 bg-transparent p-0 leading-none text-inherit'
                     onClick={onCloseClick}
                 >
-                    <FontAwesomeIcon icon={faTimes} />
+                    <Icon icon={faTimes} />
                 </button>
             </div>
             <div className='min-h-0 flex-1'>{children}</div>

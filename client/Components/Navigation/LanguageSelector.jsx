@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Dropdown, Label } from '@heroui/react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import Icon from '../Icon';
 import { faChevronDown, faChevronUp } from '@fortawesome/free-solid-svg-icons';
 
 const languages = [
@@ -79,7 +79,7 @@ const LanguageSelector = ({ mobile = false }) => {
                         <span className='inline-flex items-center leading-none'>
                             {String(i18n.language || 'en').toUpperCase()}
                         </span>
-                        <FontAwesomeIcon
+                        <Icon
                             icon={isOpen ? faChevronUp : faChevronDown}
                             className='text-xs text-current/90'
                         />

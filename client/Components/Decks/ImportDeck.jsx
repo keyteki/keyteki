@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { Formik } from 'formik';
 import * as yup from 'yup';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import Icon from '../Icon';
 import { faCircleNotch } from '@fortawesome/free-solid-svg-icons';
 import { Trans, useTranslation } from 'react-i18next';
 import { Button, Input } from '@heroui/react';
@@ -128,7 +128,7 @@ const ImportDeck = ({ onClose }) => {
                                     {t('Import')}
                                     &nbsp;
                                     {saveDeckState.isLoading ? (
-                                        <FontAwesomeIcon icon={faCircleNotch} spin />
+                                        <Icon icon={faCircleNotch} spin />
                                     ) : null}
                                 </Button>
                             </div>

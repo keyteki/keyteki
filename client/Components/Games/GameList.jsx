@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Button, toast } from '@heroui/react';
 import moment from 'moment';
 import { useTranslation } from 'react-i18next';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import Icon from '../Icon';
 import { faLock, faTrash } from '@fortawesome/free-solid-svg-icons';
 
 import Avatar from '../Site/Avatar';
@@ -216,7 +216,7 @@ const GameList = ({ gameFilter = {}, games = [], onJoinOrWatchClick }) => {
                                                     title={t('Remove game')}
                                                     onPress={() => removeGame(game)}
                                                 >
-                                                    <FontAwesomeIcon icon={faTrash} />
+                                                    <Icon icon={faTrash} />
                                                 </Button>
                                             ) : null}
                                         </div>
@@ -292,7 +292,7 @@ const GameList = ({ gameFilter = {}, games = [], onJoinOrWatchClick }) => {
                                                 />
                                             )}
                                             {game.needsPassword ? (
-                                                <FontAwesomeIcon
+                                                <Icon
                                                     icon={faLock}
                                                     className='text-sm text-foreground/85'
                                                     title={t('Password protected')}
