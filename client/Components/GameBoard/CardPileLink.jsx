@@ -4,8 +4,6 @@ import classNames from 'classnames';
 import CardPilePopup from './CardPilePopup';
 import CardImage from './CardImage';
 
-import './CardPileLink.scss';
-
 const CardPileLink = ({
     cardBack,
     cards,
@@ -13,6 +11,9 @@ const CardPileLink = ({
     closeOnClick,
     disableMouseOver,
     disablePopup,
+    hasActiveHouse,
+    isMe,
+    isSpectating,
     manualMode,
     numDeckCards,
     onCardClick,
@@ -125,6 +126,9 @@ const CardPileLink = ({
                     onTouchMove={onTouchMove}
                     popupLocation={popupLocation}
                     popupMenu={popupMenu}
+                    hasActiveHouse={hasActiveHouse}
+                    isMe={isMe}
+                    isSpectating={isSpectating}
                     size={size}
                     source={source}
                     title={title}

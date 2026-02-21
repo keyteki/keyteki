@@ -21,7 +21,7 @@ jobs:
 
         strategy:
             matrix:
-                node-version: [20.x, 22.x]
+                node-version: [22.x, 24.x]
                 # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
 
         steps:
@@ -31,10 +31,12 @@ jobs:
                   fetch-depth: '0'
                   submodules: recursive
             - name: Use Node.js ${{ matrix.node-version }}
-              uses: actions/setup-node@v3
+              uses: actions/setup-node@v4
               with:
                   node-version: ${{ matrix.node-version }}
                   cache: 'npm'
+            - name: Use npm 11
+              run: npm install -g npm@11.6.0
             - name: Install GitVersion
               uses: gittools/actions/gitversion/setup@v0.9.14
               with:
@@ -44,13 +46,15 @@ jobs:
               uses: gittools/actions/gitversion/execute@v0.9.14
               with:
                   additionalArguments: /overrideconfig mode=Mainline
-            - run: npm ci
+            - run: npm ci --include=optional
             - name: Typecheck client
               run: npm run typecheck:client
             - run: npm run lint
             - name: Build client
               env:
                   VERSION: ${{ steps.determine_version.outputs.semVer }}
+                  # Public hCaptcha site key used by the frontend widget
+                  HCAPTCHA_SITEKEY: ${{ secrets.HCAPTCHA_SITE_KEY }}
                   VITE_SENTRY_DSN: ${{ secrets.SENTRY_DSN }}
                   VITE_VERSION: ${{ steps.determine_version.outputs.semVer }}
                   SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
@@ -76,7 +80,7 @@ jobs:
               with:
                   username: ${{ secrets.DOCKERHUB_USERNAME }}
                   password: ${{ secrets.DOCKERHUB_PASSWORD }}
-            - uses: actions/setup-node@v3
+            - uses: actions/setup-node@v4
               with:
                   node-version: lts/*
             - name: Install GitVersion
@@ -92,6 +96,8 @@ jobs:
               uses: docker/build-push-action@v3
               with:
                   build-args: |
+                      # Public hCaptcha site key compiled into the client bundle
+                      HCAPTCHA_SITEKEY=${{ secrets.HCAPTCHA_SITE_KEY }}
                       VERSION=${{ steps.determine_version.outputs.semVer }}
                       SENTRY_DSN=${{ secrets.SENTRY_DSN }}
                       SENTRY_AUTH_TOKEN=${{ secrets.SENTRY_AUTH_TOKEN }}

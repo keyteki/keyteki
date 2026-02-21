@@ -5,7 +5,11 @@ import AlertPanel from '../Components/Site/AlertPanel';
 import { useNavigate } from 'react-router-dom';
 
 import { useLogoutAccountMutation } from '../redux/api';
-import { gameCloseRequested, lobbyDisconnectRequested } from '../redux/socketActions';
+import {
+    gameCloseRequested,
+    lobbyConnectRequested,
+    lobbyDisconnectRequested
+} from '../redux/socketActions';
 
 const Logout = () => {
     const dispatch = useDispatch();
@@ -37,9 +41,10 @@ const Logout = () => {
 
     useEffect(() => {
         if (loggedOut) {
+            dispatch(lobbyConnectRequested());
             navigate('/');
         }
-    }, [loggedOut, navigate]);
+    }, [dispatch, loggedOut, navigate]);
 
     const errorBar = logoutState.isError ? (
         <AlertPanel
@@ -49,7 +54,7 @@ const Logout = () => {
     ) : null;
 
     return (
-        <div className='col-sm-6 col-sm-offset-3'>
+        <div className='mx-auto w-full max-w-3xl'>
             {errorBar}
             <Trans>Logging you out of your account, please wait...</Trans>
         </div>

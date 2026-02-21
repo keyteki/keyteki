@@ -2,6 +2,7 @@
 const monk = require('monk');
 const _ = require('underscore');
 const fs = require('fs');
+const path = require('path');
 const request = require('request');
 const crypto = require('crypto');
 
@@ -9,9 +10,9 @@ let db = monk('mongodb://127.0.0.1:27017/keyforge');
 
 let dbUsers = db.get('users');
 
-function writeFile(path, data, opts = 'utf8') {
+function writeFile(filePath, data, opts = 'utf8') {
     return new Promise((resolve, reject) => {
-        fs.writeFile(path, data, opts, (err) => {
+        fs.writeFile(filePath, data, opts, (err) => {
             if (err) {
                 return reject(err);
             }
@@ -19,6 +20,25 @@ function writeFile(path, data, opts = 'utf8') {
             resolve();
         });
     });
+}
+
+function sanitizePathSegment(input) {
+    return String(input || '').replace(/[^A-Za-z0-9_-]/g, '');
+}
+
+function buildAvatarPath(fileBaseName) {
+    const safeName = sanitizePathSegment(fileBaseName);
+    if (!safeName) {
+        throw new Error('Invalid avatar filename');
+    }
+
+    const resolvedBase = path.resolve(process.cwd());
+    const resolvedFile = path.resolve(resolvedBase, `${safeName}.png`);
+    if (!resolvedFile.startsWith(resolvedBase + path.sep)) {
+        throw new Error('Invalid avatar file path');
+    }
+
+    return resolvedFile;
 }
 
 function httpRequest(url, options = {}) {
@@ -51,7 +71,7 @@ const getProfilePics = async () => {
                 `https://www.gravatar.com/avatar/${emailHash}?d=identicon&s=24`,
                 { encoding: null }
             );
-            await writeFile(`${user.username}.png`, avatar, 'binary');
+            await writeFile(buildAvatarPath(user.username), avatar, 'binary');
         }
 
         numberProcessed += _.size(users);

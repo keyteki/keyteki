@@ -347,6 +347,11 @@ this.player1.clickPrompt('Done');
 // Select a card as a target
 this.player1.clickCard(this.targetCreature);
 
+// If a hand card has a "Play/Discard/Cancel" menu open, clicking a different
+// card in hand reselects that new card directly.
+this.player1.clickCard(this.firstHandCard);
+this.player1.clickCard(this.secondHandCard);
+
 // Select a house
 this.player1.clickPrompt('brobnar');
 

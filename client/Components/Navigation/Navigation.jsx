@@ -1,18 +1,20 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { Button as HeroButton, Dropdown, Label } from '@heroui/react';
+import Icon from '../Icon';
+import { faChevronDown, faChevronUp } from '@fortawesome/free-solid-svg-icons';
 
 import { RightMenu, ProfileMenu, LeftMenu } from '../../menus';
 import LanguageSelector from './LanguageSelector';
 import ProfileDropdown from './ProfileDropdown';
 import ServerStatus from './ServerStatus';
 import GameContextMenu from './GameContextMenu';
-
-import './Navigation.scss';
 import Link from './Link';
-import { Nav, Navbar, NavDropdown } from 'react-bootstrap';
 
 import HeaderIcon from '../../assets/img/main_header_logo.png';
+import HeaderIconLight from '../../assets/img/main_header_logo_light.png';
 import SmallHeaderIcon from '../../assets/img/header_icon.png';
 
 /**
@@ -30,6 +32,11 @@ import SmallHeaderIcon from '../../assets/img/header_icon.png';
  */
 const Navigation = (props) => {
     const { t } = useTranslation();
+    const location = useLocation();
+    const navigate = useNavigate();
+    const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+    const [openDropdownKey, setOpenDropdownKey] = useState('');
+    const [isLightTheme, setIsLightTheme] = useState(false);
     const {
         gameConnected,
         gameConnecting,
@@ -49,6 +56,51 @@ const Navigation = (props) => {
         lobbySocketConnected: state.lobby.connected,
         lobbySocketConnecting: state.lobby.connecting
     }));
+
+    useEffect(() => {
+        setMobileMenuOpen(false);
+    }, [location.pathname]);
+
+    useEffect(() => {
+        const htmlEl = document.documentElement;
+        const setThemeState = () => {
+            const dataTheme = htmlEl.getAttribute('data-theme');
+            setIsLightTheme(dataTheme === 'light' || htmlEl.classList.contains('light'));
+        };
+
+        setThemeState();
+
+        const observer = new MutationObserver(setThemeState);
+        observer.observe(htmlEl, {
+            attributes: true,
+            attributeFilter: ['class', 'data-theme']
+        });
+
+        return () => observer.disconnect();
+    }, []);
+
+    const navTextClass =
+        'inline-flex h-9 items-center px-3 text-sm font-medium text-foreground lg:h-12';
+    const navLinkClass =
+        'inline-flex h-9 items-center rounded-md px-3 text-sm font-medium text-amber-600 dark:text-amber-300 transition hover:bg-surface-secondary/55 hover:text-amber-700 dark:hover:text-amber-200 lg:h-12';
+    const navLinkActiveClass =
+        'bg-[color:color-mix(in_oklab,var(--brand)_18%,var(--surface))] text-[color:color-mix(in_oklab,var(--brand)_82%,black)] dark:bg-accent/24 dark:text-amber-100 ring-1 ring-[color:color-mix(in_oklab,var(--brand)_42%,transparent)]';
+    const navDropdownTriggerClass =
+        '!inline-flex !h-9 !min-w-0 !items-center !gap-1.5 !rounded-md !bg-transparent !px-4 !text-sm !font-medium !text-amber-600 dark:!text-amber-300 transition hover:!bg-surface-secondary/55 hover:!text-amber-700 dark:hover:!text-amber-200 lg:!h-12';
+    const navDropdownActiveClass =
+        '!bg-[color:color-mix(in_oklab,var(--brand)_18%,var(--surface))] !text-[color:color-mix(in_oklab,var(--brand)_82%,black)] dark:!bg-accent/24 dark:!text-amber-100 !ring-1 !ring-[color:color-mix(in_oklab,var(--brand)_42%,transparent)]';
+
+    const isPathActive = (path) => {
+        if (!path) {
+            return false;
+        }
+
+        if (location.pathname === path) {
+            return true;
+        }
+
+        return location.pathname.startsWith(`${path}/`);
+    };
 
     /**
      * @param {MenuItem} menuItem The menu item
@@ -90,112 +142,206 @@ const Navigation = (props) => {
     /**
      * Render a list of menu items to react components
      * @param {MenuItem[]} menuItems The menu items
+     * @param {{ mobile?: boolean }} [options]
      * @returns {JSX.Element[]} The list of rendered menu items
      */
-    const renderMenuItems = (menuItems) => {
+    const renderMenuItems = (menuItems, options = {}) => {
+        const { mobile = false } = options;
+        const linkClass = mobile
+            ? 'inline-flex h-9 items-center rounded-md px-3 text-sm font-medium text-amber-700 dark:text-amber-300 transition hover:bg-surface-secondary/55 hover:text-amber-800 dark:hover:text-amber-200'
+            : navLinkClass;
+        const dropdownTriggerClass = mobile
+            ? '!inline-flex !h-9 !w-full !items-center !justify-start !gap-1.5 !rounded-md !bg-transparent !px-3 !text-sm !font-medium !text-foreground transition hover:!bg-surface-secondary/55 hover:!text-foreground'
+            : navDropdownTriggerClass;
+
         return filterMenuItems(menuItems, props.user).map((menuItem) => {
             const children =
                 menuItem.childItems && filterMenuItems(menuItem.childItems, props.user);
+            const selfActive = isPathActive(menuItem.path);
+            const childActive = !!children?.some((childItem) => isPathActive(childItem.path));
+            const isActive = selfActive || childActive;
 
             if (children && children.length > 0) {
+                const dropdownKey = `${mobile ? 'mobile' : 'desktop'}-${menuItem.title}`;
+                const isOpen = openDropdownKey === dropdownKey;
                 return (
-                    <NavDropdown
+                    <Dropdown
                         key={menuItem.title}
-                        id={`nav-${menuItem.title}`}
-                        title={t(menuItem.title)}
+                        onOpenChange={(open) => setOpenDropdownKey(open ? dropdownKey : '')}
                     >
-                        {children.map((childItem) =>
-                            childItem.path ? (
-                                <NavDropdown.Item
-                                    key={childItem.title || childItem.path}
-                                    as={Link}
-                                    href={childItem.path}
-                                    className='navbar-item interactable dropdown-child'
-                                >
-                                    {t(childItem.title)}
-                                </NavDropdown.Item>
-                            ) : null
-                        )}
-                    </NavDropdown>
+                        <Dropdown.Trigger>
+                            <span
+                                className={`${dropdownTriggerClass}${
+                                    isActive ? ` ${navDropdownActiveClass}` : ''
+                                }`}
+                            >
+                                <span>{t(menuItem.title)}</span>
+                                <Icon
+                                    icon={isOpen ? faChevronUp : faChevronDown}
+                                    className='text-xs text-current/90'
+                                />
+                            </span>
+                        </Dropdown.Trigger>
+                        <Dropdown.Popover className='min-w-[12rem] rounded-xl border border-border/70 bg-overlay/95 p-1 text-foreground'>
+                            <Dropdown.Menu
+                                aria-label={t(menuItem.title)}
+                                onAction={(key) => navigate(String(key))}
+                            >
+                                {children.map((childItem) =>
+                                    childItem.path ? (
+                                        <Dropdown.Item
+                                            className={`rounded-md px-3 py-2 data-[hovered]:bg-surface-secondary/55 data-[focused]:bg-surface-secondary/55${
+                                                isPathActive(childItem.path)
+                                                    ? ' bg-[color:color-mix(in_oklab,var(--brand)_18%,var(--surface))] text-[color:color-mix(in_oklab,var(--brand)_82%,black)] dark:bg-accent/24 dark:text-amber-100'
+                                                    : ''
+                                            }`}
+                                            key={childItem.title || childItem.path}
+                                            id={childItem.path}
+                                            textValue={t(childItem.title)}
+                                        >
+                                            <Label>{t(childItem.title)}</Label>
+                                        </Dropdown.Item>
+                                    ) : null
+                                )}
+                            </Dropdown.Menu>
+                        </Dropdown.Popover>
+                    </Dropdown>
                 );
             }
 
             if (!menuItem.path) {
-                return <></>;
+                return null;
             }
+
             return (
-                <li key={menuItem.title}>
-                    <Nav.Link className='navbar-item interactable' as={Link} href={menuItem.path}>
-                        {t(menuItem.title)}
-                    </Nav.Link>
-                </li>
+                <Link
+                    key={menuItem.title}
+                    className={`${linkClass}${isActive ? ` ${navLinkActiveClass}` : ''}`}
+                    href={menuItem.path}
+                >
+                    {t(menuItem.title)}
+                </Link>
             );
         });
     };
 
-    const numGames = games && (
-        <li className='navbar-item'>
-            <span>{`${t(`${games.length} Games`)}`}</span>
-        </li>
-    );
+    const navClassName = `fixed top-0 z-50 h-12 w-full text-foreground backdrop-blur-sm ${
+        isLightTheme
+            ? 'bg-[var(--nav-light-bg)]'
+            : 'border-b border-border/80 bg-overlay/95 shadow-[0_1px_0_color-mix(in_oklab,var(--border)_88%,transparent)]'
+    }`;
 
     return (
-        <Navbar bg='dark' variant='dark' className='navbar-sm' fixed='top' expand='lg'>
-            <div className='d-flex justify-content-between flex-grow-1 d-lg-none'>
-                <div className='flex-basis-0 flex-grow-1'></div>
-                <Navbar.Brand className='navbar-brand bg-dark  mr-0' as={Link} href='/'>
-                    <img
-                        src={SmallHeaderIcon}
-                        height='32'
-                        className='d-inline-block align-top'
-                        alt='TCO Logo'
-                    />
-                </Navbar.Brand>
-                <div className='flex-grow-1 flex-basis-0 d-flex justify-content-end'>
-                    <Navbar.Toggle aria-controls='navbar' />
+        <nav className={navClassName}>
+            <div className='mx-auto flex h-full w-full items-center px-2 sm:px-3 lg:px-4'>
+                <div className='flex w-full items-center justify-between lg:hidden'>
+                    <div className='w-10' />
+                    <Link href='/' className='inline-flex h-full items-center'>
+                        <img src={SmallHeaderIcon} height='32' alt='TCO Logo' />
+                    </Link>
+                    <HeroButton
+                        className='!h-8 !min-w-10 !px-2'
+                        size='sm'
+                        variant='tertiary'
+                        onPress={() => setMobileMenuOpen((open) => !open)}
+                    >
+                        {mobileMenuOpen ? t('Close') : t('Menu')}
+                    </HeroButton>
+                </div>
+
+                <div className='hidden h-full w-full items-center gap-2 lg:flex'>
+                    <div className='flex h-full min-w-0 flex-1 items-center gap-1'>
+                        {renderMenuItems(LeftMenu)}
+                    </div>
+                    <Link href='/' className='inline-flex h-full items-center px-2'>
+                        <img
+                            src={
+                                currentGame?.started
+                                    ? SmallHeaderIcon
+                                    : isLightTheme
+                                    ? HeaderIconLight
+                                    : HeaderIcon
+                            }
+                            className='h-8 w-80 object-contain'
+                            alt='TCO Logo'
+                        />
+                    </Link>
+                    <div className='flex h-full min-w-0 flex-1 items-center justify-end gap-1 whitespace-nowrap'>
+                        <GameContextMenu />
+                        {!currentGame?.started && (
+                            <div className={navTextClass}>
+                                <span>{`${t(`${games.length} Games`)}`}</span>
+                            </div>
+                        )}
+                        {currentGame?.started ? (
+                            <ServerStatus
+                                connected={gameConnected}
+                                connecting={gameConnecting}
+                                serverType='Game server'
+                                responseTime={gameResponse}
+                            />
+                        ) : (
+                            <ServerStatus
+                                connected={lobbySocketConnected}
+                                connecting={lobbySocketConnecting}
+                                serverType='Lobby'
+                                responseTime={lobbyResponse}
+                            />
+                        )}
+                        {renderMenuItems(RightMenu)}
+                        <ProfileDropdown menu={ProfileMenu} user={props.user} />
+                        <LanguageSelector />
+                    </div>
                 </div>
             </div>
-
-            <Navbar.Collapse id='navbar' className='flex-grow-1 justify-content-between'>
-                <Nav className='mb-2 mb-lg-0 bg-dark flex-grow-1 flex-basis-0'>
-                    {renderMenuItems(LeftMenu)}
-                </Nav>
-                <Navbar.Brand
-                    className='navbar-brand bg-dark d-none d-lg-block mr-0'
-                    as={Link}
-                    href='/'
-                >
-                    <img
-                        src={currentGame?.started ? SmallHeaderIcon : HeaderIcon}
-                        height='32'
-                        className='d-inline-block align-top'
-                        alt='TCO Logo'
-                    />
-                </Navbar.Brand>
-                <Nav className='bg-dark flex-grow-1 flex-basis-0 d-flex justify-content-end text-nowrap'>
-                    <GameContextMenu />
-                    {!currentGame?.started && numGames}
-                    {currentGame?.started ? (
-                        <ServerStatus
-                            connected={gameConnected}
-                            connecting={gameConnecting}
-                            serverType='Game server'
-                            responseTime={gameResponse}
-                        />
-                    ) : (
-                        <ServerStatus
-                            connected={lobbySocketConnected}
-                            connecting={lobbySocketConnecting}
-                            serverType='Lobby'
-                            responseTime={lobbyResponse}
-                        />
-                    )}
-                    {renderMenuItems(RightMenu)}
-                    <ProfileDropdown menu={ProfileMenu} user={props.user} />
-                    <LanguageSelector />
-                </Nav>
-            </Navbar.Collapse>
-        </Navbar>
+            {mobileMenuOpen && (
+                <div className='border-t border-border/70 bg-overlay/95 px-3 pb-3 pt-2 lg:hidden'>
+                    <div className='grid gap-2'>
+                        <div className='rounded-md border border-border/70 bg-surface/80 p-2'>
+                            <div className='mb-1 text-xs uppercase tracking-wide text-muted'>
+                                {t('Navigation')}
+                            </div>
+                            <div className='grid gap-1'>
+                                {renderMenuItems(LeftMenu, { mobile: true })}
+                            </div>
+                        </div>
+                        <div className='rounded-md border border-border/70 bg-surface/80 p-2'>
+                            <div className='mb-1 text-xs uppercase tracking-wide text-muted'>
+                                {t('Account')}
+                            </div>
+                            <div className='grid gap-1'>
+                                <GameContextMenu mobile />
+                                {!currentGame?.started && (
+                                    <div className='inline-flex h-9 items-center px-3 text-sm text-foreground'>
+                                        <span>{`${t(`${games.length} Games`)}`}</span>
+                                    </div>
+                                )}
+                                {currentGame?.started ? (
+                                    <ServerStatus
+                                        connected={gameConnected}
+                                        connecting={gameConnecting}
+                                        serverType='Game server'
+                                        responseTime={gameResponse}
+                                        mobile
+                                    />
+                                ) : (
+                                    <ServerStatus
+                                        connected={lobbySocketConnected}
+                                        connecting={lobbySocketConnecting}
+                                        serverType='Lobby'
+                                        responseTime={lobbyResponse}
+                                        mobile
+                                    />
+                                )}
+                                {renderMenuItems(RightMenu, { mobile: true })}
+                                <ProfileDropdown menu={ProfileMenu} user={props.user} mobile />
+                                <LanguageSelector mobile />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            )}
+        </nav>
     );
 };
 

@@ -70,19 +70,19 @@ const Matches = () => {
               return (
                   <tr key={game.gameId}>
                       <td>{game.decks[0].name}</td>
-                      <td style={{ 'white-space': 'nowrap' }}>{game.players[1].name}</td>
+                      <td className='whitespace-nowrap'>{game.players[1].name}</td>
                       <td>{game.decks[1].name}</td>
                       <td>{computeWinner(game)}</td>
-                      <td style={{ 'white-space': 'nowrap' }}>{t(game.winReason)}</td>
-                      <td style={{ 'white-space': 'nowrap' }}>
+                      <td className='whitespace-nowrap'>{t(game.winReason)}</td>
+                      <td className='whitespace-nowrap'>
                           {myKeys} x {oppKeys}
                       </td>
-                      <td style={{ 'white-space': 'nowrap' }}>{t(game.gameType)}</td>
-                      <td style={{ 'white-space': 'nowrap' }}>{t(game.gameFormat)}</td>
-                      <td style={{ 'white-space': 'nowrap' }}>
+                      <td className='whitespace-nowrap'>{t(game.gameType)}</td>
+                      <td className='whitespace-nowrap'>{t(game.gameFormat)}</td>
+                      <td className='whitespace-nowrap'>
                           {moment(game.startedAt).format('YYYY-MM-DD HH:mm')}
                       </td>
-                      <td style={{ 'white-space': 'nowrap' }}>
+                      <td className='whitespace-nowrap'>
                           {duration.get('minutes')}m {duration.get('seconds')}s
                       </td>
                   </tr>
@@ -94,47 +94,49 @@ const Matches = () => {
         games && games.length === 0 ? (
             <div>You have no recorded matches.</div>
         ) : (
-            <table className='table table-striped'>
+            <table className='w-full border-collapse text-left text-sm text-zinc-100'>
                 <thead>
-                    <tr>
-                        <th>
+                    <tr className='border-b border-zinc-600/70'>
+                        <th className='px-2 py-2 font-semibold'>
                             <Trans>My Deck</Trans>
                         </th>
-                        <th>
+                        <th className='px-2 py-2 font-semibold'>
                             <Trans>Opponent</Trans>
                         </th>
-                        <th>
+                        <th className='px-2 py-2 font-semibold'>
                             <Trans>Opponent&apos;s Deck</Trans>
                         </th>
-                        <th>
+                        <th className='px-2 py-2 font-semibold'>
                             <Trans>Winner</Trans>
                         </th>
-                        <th>
+                        <th className='px-2 py-2 font-semibold'>
                             <Trans>Reason</Trans>
                         </th>
-                        <th>
+                        <th className='px-2 py-2 font-semibold'>
                             <Trans>Keys</Trans>
                         </th>
-                        <th>
+                        <th className='px-2 py-2 font-semibold'>
                             <Trans>Type</Trans>
                         </th>
-                        <th>
+                        <th className='px-2 py-2 font-semibold'>
                             <Trans>Format</Trans>
                         </th>
-                        <th>
+                        <th className='px-2 py-2 font-semibold'>
                             <Trans>Started At</Trans>
                         </th>
-                        <th>
+                        <th className='px-2 py-2 font-semibold'>
                             <Trans>Duration</Trans>
                         </th>
                     </tr>
                 </thead>
-                <tbody>{matches}</tbody>
+                <tbody className='[&>tr:nth-child(odd)]:bg-black/20 [&>tr>td]:px-2 [&>tr>td]:py-1.5'>
+                    {matches}
+                </tbody>
             </table>
         );
 
     return (
-        <div className='col-sm-10 col-sm-offset-1 profile full-height'>
+        <div className='profile mx-auto min-h-full w-full max-w-6xl'>
             <Panel title={t('Matches')}>{table}</Panel>
         </div>
     );

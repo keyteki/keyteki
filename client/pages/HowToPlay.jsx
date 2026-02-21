@@ -1,25 +1,29 @@
 import React from 'react';
 import { Trans, useTranslation } from 'react-i18next';
+import { Button } from '@heroui/react';
 
 import Link from '../Components/Navigation/Link';
 import Panel from '../Components/Site/Panel';
-
-import './HowToPlay.scss';
 
 const HowToPlay = () => {
     const { t } = useTranslation();
 
     return (
-        <div className='col-xs-12 full-height'>
+        <div className='min-h-full w-full'>
             <Panel title={t('How To Play on The Crucible Online')}>
-                <a
-                    className='btn btn-danger pull-right float-right'
-                    target='_blank'
-                    href='https://github.com/keyteki/keyteki/issues'
-                    rel='noopener noreferrer'
+                <Button
+                    className='mb-3 ml-auto inline-flex'
+                    variant='primary'
+                    onPress={() =>
+                        window.open(
+                            'https://github.com/keyteki/keyteki/issues',
+                            '_blank',
+                            'noopener,noreferrer'
+                        )
+                    }
                 >
                     <Trans>Report Problems</Trans>
-                </a>
+                </Button>
                 <h3>
                     <Trans>Introduction</Trans>
                 </h3>
@@ -59,7 +63,7 @@ const HowToPlay = () => {
                     <Trans>Topics</Trans>
                 </h3>
 
-                <ul className='htp-main-list font-weight-bold mb-3'>
+                <ul className='mb-3 m-0 list-none p-0 font-semibold'>
                     <li>
                         <a href='#decks'>
                             <Trans>Adding Decks</Trans>

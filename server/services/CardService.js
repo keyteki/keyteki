@@ -234,7 +234,7 @@ class CardService {
     }
 
     async shutdown() {
-        await this.redis.disconnect();
+        await this.redis.close();
     }
 
     mapCard(card, languages, options, locale) {

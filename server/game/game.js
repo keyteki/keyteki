@@ -332,6 +332,30 @@ class Game extends EventEmitter {
             return;
         }
 
+        const currentPrompt = player.currentPrompt();
+        const menuTitleText =
+            typeof currentPrompt?.menuTitle === 'string'
+                ? currentPrompt.menuTitle
+                : currentPrompt?.menuTitle?.text;
+        const canReselectHandCard =
+            card.location === 'hand' &&
+            currentPrompt &&
+            typeof menuTitleText === 'string' &&
+            menuTitleText.startsWith('Play ') &&
+            Array.isArray(currentPrompt.buttons) &&
+            currentPrompt.buttons.some((button) => button.text === 'Cancel') &&
+            currentPrompt.promptTitle &&
+            currentPrompt.promptTitle !== card.name;
+
+        if (canReselectHandCard) {
+            // If a "Play/Discard/Cancel" style hand prompt is open, allow direct
+            // reselection by dismissing it and handling the newly clicked card.
+            this.pipeline.cancelStep();
+            this.pipeline.continue();
+            this.pipeline.handleCardClicked(player, card);
+            return;
+        }
+
         // Check to see if the current step in the pipeline is waiting for input
         this.pipeline.handleCardClicked(player, card);
     }

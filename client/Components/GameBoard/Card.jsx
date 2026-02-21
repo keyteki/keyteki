@@ -7,7 +7,6 @@ import CardImage from './CardImage';
 import { ItemTypes } from '../../constants';
 import SquishableCardPanel from './SquishableCardPanel';
 
-import './Card.scss';
 import { useTranslation } from 'react-i18next';
 
 const Card = ({
@@ -17,6 +16,8 @@ const Card = ({
     className,
     disableMouseOver,
     halfSize = false,
+    hasActiveHouse = false,
+    isMe = false,
     isSpectating = true,
     onClick,
     onMenuItemClick,
@@ -53,6 +54,7 @@ const Card = ({
     const onCardClicked = (event, card) => {
         event.preventDefault();
         event.stopPropagation();
+
         if (isAllowedMenuSource() && card.menu && card.menu.length !== 0) {
             setShowMenu(!showMenu);
             return;
@@ -96,6 +98,8 @@ const Card = ({
                     onMenuItemClick={onMenuItemClick}
                     size={size}
                     halfSize={halfSize}
+                    hasActiveHouse={hasActiveHouse}
+                    isMe={isMe}
                 />
             );
 
@@ -125,6 +129,8 @@ const Card = ({
                 onCardClick={onClick}
                 onMouseOut={onMouseOut}
                 onMouseOver={onMouseOver}
+                hasActiveHouse={hasActiveHouse}
+                isMe={isMe}
                 source='underneath'
             />
         );
@@ -190,6 +196,7 @@ const Card = ({
             return <div />;
         }
 
+        const shouldMuteCannotPlay = !isSpectating && isMe && hasActiveHouse;
         let statusClass = getStatusClass();
 
         let cardClass = classNames(
@@ -204,10 +211,13 @@ const Card = ({
                 horizontal: orientation !== 'vertical' || card.exhausted,
                 vertical: orientation === 'vertical' && !card.exhausted,
                 'can-play':
-                    statusClass !== 'selected' &&
-                    statusClass !== 'selectable' &&
-                    !card.unselectable &&
-                    card.canPlay,
+                    !card.unselectable && card.canPlay && !card.selected && !card.selectable,
+                'cannot-play':
+                    shouldMuteCannotPlay &&
+                    typeof card.canPlay === 'boolean' &&
+                    !card.canPlay &&
+                    !card.selected &&
+                    !card.selectable,
                 unselectable: card.unselectable,
                 dragging: isDragging,
                 controlled: card.controlled,

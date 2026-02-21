@@ -1,12 +1,11 @@
 import { faCircleNotch } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import Icon from '../Icon';
 import React, { useEffect, useState } from 'react';
-import { Button, Col, Form, Row } from 'react-bootstrap';
 import ReactClipboard from 'react-clipboardjs-copy';
 import { Trans, useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { toast } from 'react-toastify';
+import { toast } from '@heroui/react';
 
 import {
     useAttachMatchLinkMutation,
@@ -18,7 +17,46 @@ import ApiStatus from '../Site/ApiStatus';
 import Panel from '../Site/Panel';
 import NewGame from './NewGame';
 
-import './TournamentLobby.scss';
+const Row = ({ children, className = '' }) => (
+    <div className={`flex flex-wrap ${className}`}>{children}</div>
+);
+Row.displayName = 'TournamentLobbyRow';
+
+const Col = ({ children, className = '' }) => <div className={className}>{children}</div>;
+Col.displayName = 'TournamentLobbyCol';
+
+const Button = ({ children, className = '', ...props }) => (
+    <button
+        type='button'
+        className={`rounded-md border border-zinc-600/80 bg-zinc-800/70 px-3 py-1.5 text-sm text-zinc-100 transition hover:bg-zinc-700/80 disabled:cursor-not-allowed disabled:opacity-50 ${className}`}
+        {...props}
+    >
+        {children}
+    </button>
+);
+Button.displayName = 'TournamentLobbyButton';
+
+const Form = ({ children }) => <div>{children}</div>;
+Form.displayName = 'TournamentLobbyForm';
+
+Form.Group = ({ children, className = '' }) => <div className={className}>{children}</div>;
+Form.Group.displayName = 'TournamentLobbyFormGroup';
+
+Form.Control = ({ as, className = '', children, ...props }) =>
+    as === 'select' ? (
+        <select
+            className={`w-full rounded-md border border-zinc-600/70 bg-black/80 px-3 py-2 text-sm text-zinc-100 focus:border-zinc-400/80 focus:outline-none ${className}`}
+            {...props}
+        >
+            {children}
+        </select>
+    ) : (
+        <input
+            className={`w-full rounded-md border border-zinc-600/70 bg-black/80 px-3 py-2 text-sm text-zinc-100 focus:border-zinc-400/80 focus:outline-none ${className}`}
+            {...props}
+        />
+    );
+Form.Control.displayName = 'TournamentLobbyFormControl';
 
 const TournamentLobby = () => {
     const { tournaments, matches, message, participants, success } = useSelector((state) => ({
@@ -45,8 +83,11 @@ const TournamentLobby = () => {
         }
 
         if (message) {
-            const type = success ? 'success' : 'error';
-            toast[type](t(message));
+            if (success) {
+                toast.success(t(message));
+            } else {
+                toast.danger(t(message));
+            }
         }
     }, [tournaments, matches, message, success, t]);
 
@@ -174,14 +215,16 @@ const TournamentLobby = () => {
                     <Col sm='4'>
                         <Button variant='primary' onClick={() => refetchTournaments()}>
                             <Trans>Refresh Tournaments</Trans>
-                            {tournamentsLoading && <FontAwesomeIcon icon={faCircleNotch} spin />}
+                            {tournamentsLoading && <Icon icon={faCircleNotch} spin />}
                         </Button>
                     </Col>
                 </Row>
                 <Row>
                     <Col>
                         {openMatches[0] && (
-                            <div className='match-turn'>{'Turn: ' + openMatches[0].turn}</div>
+                            <div className='text-xl font-extrabold'>
+                                {'Turn: ' + openMatches[0].turn}
+                            </div>
                         )}
                         {openMatches.map((match, index) => {
                             const game = tournamentGames.find(
@@ -233,7 +276,7 @@ const TournamentLobby = () => {
                                             >
                                                 <Trans>Refresh Matches</Trans>
                                                 {matchState.isLoading && (
-                                                    <FontAwesomeIcon icon={faCircleNotch} spin />
+                                                    <Icon icon={faCircleNotch} spin />
                                                 )}
                                             </Button>
                                         </Col>
@@ -256,9 +299,7 @@ const TournamentLobby = () => {
                                 disabled={matchesWithGames.length <= 0}
                             >
                                 <Trans>Send Attachments</Trans>
-                                {attachmentState.isLoading && (
-                                    <FontAwesomeIcon icon={faCircleNotch} spin />
-                                )}
+                                {attachmentState.isLoading && <Icon icon={faCircleNotch} spin />}
                             </Button>
                         </div>
                     </Col>

@@ -4,7 +4,6 @@ import * as fabricModule from 'fabric';
 
 const fabric = fabricModule.fabric ?? fabricModule.default ?? fabricModule;
 
-import './Archon.scss';
 import { buildDeckList } from '../../archonMaker';
 
 /**
@@ -54,7 +53,7 @@ const IdentityCardImage = ({ deck, size, showAccolades = true }) => {
         })();
     }, [deck?.uuid, i18n.language, t, size, showAccolades, deck]);
 
-    return <canvas className='w-100 h-100' ref={setCanvasRef} />;
+    return <canvas className='h-full w-full' ref={setCanvasRef} />;
 };
 
 export default IdentityCardImage;

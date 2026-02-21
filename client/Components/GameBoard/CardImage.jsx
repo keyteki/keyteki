@@ -6,8 +6,6 @@ import * as fabricModule from 'fabric';
 const fabric = fabricModule.fabric ?? fabricModule.default ?? fabricModule;
 import { buildCard } from '../../archonMaker';
 
-import './CardImage.scss';
-
 /**
  * @typedef CardImageProps
  * @property {object} card // The card data to render an image for
@@ -27,6 +25,9 @@ const CardImage = ({ card, cardBack, size, halfSize, onMouseOver, onMouseOut }) 
             : true;
     const fabricRef = useRef(null);
     const renderIdRef = useRef(0);
+    const enhancementSignature = Array.isArray(card?.enhancements)
+        ? card.enhancements.join('|')
+        : '';
     const setCanvasRef = useCallback((node) => {
         if (!node) {
             if (fabricRef.current) {
@@ -78,6 +79,7 @@ const CardImage = ({ card, cardBack, size, halfSize, onMouseOver, onMouseOut }) 
         })();
     }, [
         card?.id,
+        enhancementSignature,
         card?.location,
         card?.modifiedPower,
         card?.tokens && card.tokens.amber,
@@ -136,7 +138,7 @@ const CardImage = ({ card, cardBack, size, halfSize, onMouseOver, onMouseOut }) 
                     : null
             }
             onMouseOut={onMouseOut}
-            className='h-100 w-100'
+            className='block h-full w-full'
             ref={setCanvasRef}
         />
     );

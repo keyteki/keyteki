@@ -1,5 +1,6 @@
 {
     env: 'NODE_ENV',
+    captchaKey: 'CAPTCHA_KEY',
     dbPath: 'DB_PATH',
     redisUrl: 'REDIS_URL',
     domain: 'thecrucible.online',

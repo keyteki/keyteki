@@ -1,13 +1,11 @@
 import React, { useCallback, useMemo } from 'react';
 import PropTypes from 'prop-types';
-import classNames from 'classnames';
 import { useDispatch, useSelector } from 'react-redux';
-import { toast } from 'react-toastify';
+import { Button, toast } from '@heroui/react';
 import moment from 'moment';
-import { Trans, useTranslation } from 'react-i18next';
-import { Col } from 'react-bootstrap';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faLock } from '@fortawesome/free-solid-svg-icons';
+import { useTranslation } from 'react-i18next';
+import Icon from '../Icon';
+import { faLock, faTrash } from '@fortawesome/free-solid-svg-icons';
 
 import Avatar from '../Site/Avatar';
 import AlertPanel from '../Site/AlertPanel';
@@ -20,9 +18,25 @@ import AdaptiveIcon from '../../assets/img/adaptive.png';
 import AllianceIcon from '../../assets/img/alliance.png';
 import UnchainedIcon from '../../assets/img/601.png';
 
-import './GameList.scss';
+const formatIconEntries = [
+    ['showHand', { src: ShowHandIcon, title: 'Show hands to spectators' }],
+    ['useGameTimeLimit', { src: TimeLimitIcon, title: 'Time limit used' }],
+    ['sealed', { src: SealedIcon, title: 'Sealed game format' }],
+    ['alliance', { src: AllianceIcon, title: 'Alliance game format', noInvert: true }],
+    ['reversal', { src: ReversalIcon, title: 'Reversal game format' }],
+    ['adaptive-bo1', { src: AdaptiveIcon, title: 'Adaptive (Best of 1) game format' }],
+    ['unchained', { src: UnchainedIcon, title: 'Unchained game format' }]
+];
 
-const GameList = (props) => {
+const typeBadgeClass = {
+    beginner:
+        'bg-emerald-500/12 text-emerald-700 border-emerald-500/28 dark:bg-emerald-600/25 dark:text-emerald-300 dark:border-emerald-500/40',
+    casual: 'bg-amber-500/12 text-amber-700 border-amber-500/28 dark:bg-amber-600/20 dark:text-amber-300 dark:border-amber-500/40',
+    competitive:
+        'bg-[color:color-mix(in_oklab,var(--brand)_12%,white)] text-[color:color-mix(in_oklab,var(--brand)_85%,black)] border-[color:color-mix(in_oklab,var(--brand)_35%,transparent)] dark:bg-rose-600/20 dark:text-rose-300 dark:border-rose-500/40'
+};
+
+const GameList = ({ gameFilter = {}, games = [], onJoinOrWatchClick }) => {
     const dispatch = useDispatch();
     const { t } = useTranslation();
     const { currentGame, socket, user } = useSelector((state) => ({
@@ -30,346 +44,302 @@ const GameList = (props) => {
         socket: state.lobby.socket,
         user: state.account.user
     }));
+
     const canWatch = useCallback(
-        (game) => {
-            return !currentGame && (game.allowSpectators || user?.permissions?.canManageGames);
-        },
+        (game) => !currentGame && (game.allowSpectators || user?.permissions?.canManageGames),
         [currentGame, user]
     );
 
     const canJoin = useCallback(
-        (game) => {
-            if (currentGame || game.started || game.full) {
-                return false;
-            }
-
-            return true;
-        },
+        (game) => !currentGame && !game.started && !game.full,
         [currentGame]
     );
 
     const joinGame = useCallback(
-        (event, game) => {
-            event.preventDefault();
-
+        (game) => {
             if (!user) {
-                toast.error(t('Please login before trying to join a game'));
+                toast.danger(t('Please login before trying to join a game'));
                 return;
             }
 
-            if (game.needsPassword) {
+            const isAdmin = !!user?.permissions?.canManageGames;
+            const requiresPassword = game.needsPassword && !isAdmin;
+
+            if (requiresPassword) {
                 dispatch(lobbyActions.joinPasswordGame({ game, joinType: 'Join' }));
             } else {
                 socket.emit('joingame', game.id);
             }
 
-            if (props.onJoinOrWatchClick) {
-                props.onJoinOrWatchClick();
+            if (!requiresPassword && onJoinOrWatchClick) {
+                onJoinOrWatchClick();
             }
         },
-        [dispatch, props, socket, t, user]
+        [dispatch, onJoinOrWatchClick, socket, t, user]
     );
 
     const watchGame = useCallback(
-        (event, game) => {
-            event.preventDefault();
-
+        (game) => {
             if (!user) {
-                toast.error(t('Please login before trying to watch a game'));
+                toast.danger(t('Please login before trying to watch a game'));
                 return;
             }
 
-            if (game.needsPassword) {
+            const isAdmin = !!user?.permissions?.canManageGames;
+            const requiresPassword = game.needsPassword && !isAdmin;
+
+            if (requiresPassword) {
                 dispatch(lobbyActions.joinPasswordGame({ game, joinType: 'Watch' }));
             } else {
                 socket.emit('watchgame', game.id);
             }
 
-            if (props.onJoinOrWatchClick) {
-                props.onJoinOrWatchClick();
+            if (!requiresPassword && onJoinOrWatchClick) {
+                onJoinOrWatchClick();
             }
         },
-        [dispatch, props, socket, t, user]
+        [dispatch, onJoinOrWatchClick, socket, t, user]
     );
 
     const removeGame = useCallback(
-        (event, game) => {
-            event.preventDefault();
+        (game) => {
             socket.emit('removegame', game.id);
         },
         [socket]
     );
 
-    const gameList = useMemo(() => {
-        let groupedGames = {};
-        let isAdmin = user && user.permissions.canManageGames;
-        const games = props.games || [];
-        const gameFilter = props.gameFilter || {};
-        const getPlayerNameAndAvatar = (player, firstPlayer) => {
-            const userClass =
-                'username' + (player.role ? ` ${player.role.toLowerCase()}-role` : '');
-
-            if (firstPlayer) {
-                return (
-                    <div className='game-player-name'>
-                        <span className='gamelist-avatar'>
-                            <Avatar imgPath={player.avatar} />
-                        </span>
-                        <span className={userClass}>{player.name}</span>
-                    </div>
-                );
-            }
-
-            return (
-                <div className='game-player-name'>
-                    <span className={userClass}>{player.name}</span>
-                    <span className='gamelist-avatar'>
-                        <Avatar imgPath={player.avatar} />
-                    </span>
-                </div>
-            );
-        };
-        const getPlayers = (game) => {
-            let firstPlayer = true;
-            let players = Object.values(game.players).map((player) => {
-                const classes = classNames('game-player-row', {
-                    'first-player': firstPlayer,
-                    'other-player': !firstPlayer
-                });
-
-                const retPlayer = (
-                    <div key={player.name} className={classes}>
-                        <div>
-                            {firstPlayer ? (
-                                <div className='game-faction-row first-player'>
-                                    {getPlayerNameAndAvatar(player, firstPlayer)}
-                                </div>
-                            ) : (
-                                <div className='game-faction-row other-player'>
-                                    {getPlayerNameAndAvatar(player, firstPlayer)}
-                                </div>
-                            )}
-                        </div>
-                    </div>
-                );
-
-                firstPlayer = false;
-
-                return retPlayer;
-            });
-
-            if (players.length === 1) {
-                if (canJoin(game)) {
-                    players.push(
-                        <div key={`${game.id}-join`} className={'game-player-row other-player'}>
-                            <div className='game-faction-row other-player'>
-                                <button
-                                    className='btn btn-success gamelist-button img-fluid'
-                                    onClick={(event) => joinGame(event, game)}
-                                >
-                                    <Trans>Join</Trans>
-                                </button>
-                            </div>
-                        </div>
-                    );
-                } else {
-                    players.push(
-                        <div key={`${game.id}-empty`} className='game-faction-row other-player' />
-                    );
-                }
-            }
-
-            return players;
-        };
-        const getGamesForType = (gameType, gamesToProcess) => {
-            let gamesToReturn = [];
-
-            for (const game of gamesToProcess) {
-                if (gameFilter.onlyShowNew && game.started) {
-                    continue;
-                }
-
-                if (!gameFilter[game.gameFormat]) {
-                    continue;
-                }
-
-                const players = getPlayers(game);
-
-                const rowClass = classNames('game-row', {
-                    [game.node]: game.node && isAdmin,
-                    ['private-game']: game.gamePrivate && isAdmin
-                });
-
-                let timeDifference = moment().diff(moment(game.createdAt));
-                if (timeDifference < 0) {
-                    timeDifference = 0;
-                }
-
-                const formattedTime = moment.utc(timeDifference).format('HH:mm');
-
-                gamesToReturn.push(
-                    <div key={game.id}>
-                        <hr />
-                        <div className={rowClass}>
-                            <div className='game-header-row'>
-                                <span className='game-title'>
-                                    <b>{game.name}</b>
-                                </span>
-                                <span className='game-time'>{`[${formattedTime}]`}</span>
-                                <span className='game-icons'>
-                                    {game.showHand && (
-                                        <img
-                                            src={ShowHandIcon}
-                                            className='game-list-icon'
-                                            alt={t('Show hands to spectators')}
-                                            title={t('Show hands to spectators')}
-                                        />
-                                    )}
-                                    {game.needsPassword && <FontAwesomeIcon icon={faLock} />}
-                                    {game.useGameTimeLimit && (
-                                        <img
-                                            src={TimeLimitIcon}
-                                            className='game-list-icon'
-                                            alt={t('Time limit used')}
-                                        />
-                                    )}
-                                    {game.gameFormat === 'sealed' && (
-                                        <img
-                                            src={SealedIcon}
-                                            className='game-list-icon'
-                                            alt={t('Sealed game format')}
-                                            title={t('Sealed game format')}
-                                        />
-                                    )}
-                                    {game.gameFormat === 'alliance' && (
-                                        <img
-                                            src={AllianceIcon}
-                                            className='game-list-icon-no-invert'
-                                            alt={t('Alliance game format')}
-                                            title={t('Alliance game format')}
-                                        />
-                                    )}
-                                    {game.gameFormat === 'reversal' && (
-                                        <img
-                                            src={ReversalIcon}
-                                            className='game-list-icon'
-                                            alt={t('Reversal game format')}
-                                            title={t('Reversal game format')}
-                                        />
-                                    )}
-                                    {game.gameFormat === 'adaptive-bo1' && (
-                                        <img
-                                            src={AdaptiveIcon}
-                                            className='game-list-icon'
-                                            alt={t('Adaptive (Best of 1) game format')}
-                                            title={t('Adaptive (Best of 1) game format')}
-                                        />
-                                    )}
-                                    {game.gameFormat === 'unchained' && (
-                                        <img
-                                            src={UnchainedIcon}
-                                            className='game-list-icon'
-                                            alt={t('Unchained game format')}
-                                            title={t('Unchained game format')}
-                                        />
-                                    )}
-                                </span>
-                            </div>
-                            <div className='game-middle-row'>{players}</div>
-                            <div className='game-row-buttons'>
-                                {canWatch(game) && (
-                                    <button
-                                        className='btn btn-primary gamelist-button'
-                                        onClick={(event) => watchGame(event, game)}
-                                    >
-                                        <Trans>Watch</Trans>
-                                    </button>
-                                )}
-                                {isAdmin && (
-                                    <button
-                                        className='btn btn-danger gamelist-button'
-                                        onClick={(event) => removeGame(event, game)}
-                                    >
-                                        <Trans>Remove</Trans>
-                                    </button>
-                                )}
-                            </div>
-                        </div>
-                    </div>
-                );
-            }
-
-            let gameHeaderClass = 'game-header';
-            switch (gameType) {
-                case 'beginner':
-                    gameHeaderClass += ' badge-success';
-                    break;
-                case 'casual':
-                    gameHeaderClass += ' badge-warning';
-                    break;
-                case 'competitive':
-                    gameHeaderClass += ' badge-danger';
-                    break;
-            }
-
-            return (
-                <div key={gameType}>
-                    <div className={gameHeaderClass}>
-                        {t(gameType)} ({gamesToReturn.length})
-                    </div>
-                    {gamesToReturn}
-                </div>
-            );
-        };
+    const groupedGames = useMemo(() => {
+        const isAdmin = !!user?.permissions?.canManageGames;
+        const groups = { beginner: [], casual: [], competitive: [] };
 
         for (const game of games) {
             if (!game.started && game.gamePrivate && !isAdmin) {
                 continue;
             }
 
-            if (!groupedGames[game.gameType]) {
-                groupedGames[game.gameType] = [game];
-            } else {
-                groupedGames[game.gameType].push(game);
+            if (gameFilter.onlyShowNew && game.started) {
+                continue;
+            }
+
+            if (!gameFilter[game.gameFormat] || !gameFilter[game.gameType]) {
+                continue;
+            }
+
+            if (groups[game.gameType]) {
+                groups[game.gameType].push(game);
             }
         }
 
-        let list = [];
+        return groups;
+    }, [gameFilter, games, user]);
 
-        for (const gameType of ['beginner', 'casual', 'competitive']) {
-            if (gameFilter[gameType] && groupedGames[gameType]) {
-                list.push(getGamesForType(gameType, groupedGames[gameType]));
-            }
-        }
+    const sectionOrder = ['beginner', 'casual', 'competitive'];
+    const renderedSections = sectionOrder
+        .filter((type) => groupedGames[type]?.length > 0)
+        .map((type) => ({ games: groupedGames[type], type }));
 
-        return list;
-    }, [
-        canJoin,
-        canWatch,
-        joinGame,
-        props.gameFilter,
-        props.games,
-        removeGame,
-        t,
-        user,
-        watchGame
-    ]);
-
-    if (gameList.length === 0) {
+    if (renderedSections.length === 0) {
         return (
-            <Col className='game-list' xs='12'>
+            <div className='w-full'>
                 <AlertPanel
                     type='info'
                     message={t('There are no games matching the filters you have selected')}
                 />
-            </Col>
+            </div>
         );
     }
 
     return (
-        <Col className='game-list' xs='12'>
-            {gameList}
-        </Col>
+        <div className='w-full space-y-3'>
+            {renderedSections.map(({ games: typeGames, type }) => (
+                <section key={type} className='space-y-2'>
+                    <div className='inline-flex items-center rounded-md border border-border/70 bg-surface-secondary/65 px-2.5 py-1 text-xs font-semibold uppercase tracking-wide text-foreground'>
+                        {t(type)} ({typeGames.length})
+                    </div>
+                    <div className='space-y-2'>
+                        {typeGames.map((game) => {
+                            const isAdmin = !!user?.permissions?.canManageGames;
+                            const elapsedMs = Math.max(0, moment().diff(moment(game.createdAt)));
+                            const elapsed = moment.utc(elapsedMs).format('HH:mm');
+                            const players = Object.values(game.players || {});
+                            const iconClass = 'h-5 w-5 object-contain invert-[0.9]';
+                            const rowTone =
+                                game.node && isAdmin
+                                    ? 'bg-surface-secondary/52'
+                                    : 'bg-surface-secondary/38';
+                            const seats = [players[0], players[1]];
+
+                            return (
+                                <div
+                                    key={game.id}
+                                    className={`rounded-md border border-border/50 px-3 py-2 transition hover:border-border/60 hover:bg-surface-secondary/58 ${rowTone}`}
+                                >
+                                    <div className='flex flex-wrap items-start justify-between gap-2'>
+                                        <div className='min-w-0'>
+                                            <div className='flex flex-wrap items-center gap-1.5'>
+                                                <span className='truncate text-base font-semibold text-foreground'>
+                                                    {game.name}
+                                                </span>
+                                                <span className='text-xs text-muted'>
+                                                    [{elapsed}]
+                                                </span>
+                                                <span className='rounded-sm border border-border/70 bg-overlay/80 px-1.5 py-0.5 text-xs uppercase tracking-wide text-muted'>
+                                                    {game.gameFormat}
+                                                </span>
+                                                {game.gamePrivate && isAdmin ? (
+                                                    <span className='rounded-sm border border-border/70 bg-overlay/80 px-1.5 py-0.5 text-xs uppercase tracking-wide text-muted'>
+                                                        Private
+                                                    </span>
+                                                ) : null}
+                                                {game.node && isAdmin ? (
+                                                    <span className='rounded-sm border border-border/70 bg-overlay/80 px-1.5 py-0.5 text-xs uppercase tracking-wide text-muted'>
+                                                        {game.node}
+                                                    </span>
+                                                ) : null}
+                                            </div>
+                                        </div>
+                                        <div className='flex items-center gap-1.5'>
+                                            <span
+                                                className={`rounded-sm border px-1.5 py-0.5 text-xs font-medium uppercase tracking-wide ${
+                                                    typeBadgeClass[type] ||
+                                                    'border-border/70 text-muted'
+                                                }`}
+                                            >
+                                                {t(type)}
+                                            </span>
+                                            {isAdmin ? (
+                                                <Button
+                                                    isIconOnly
+                                                    size='sm'
+                                                    variant='tertiary'
+                                                    className='h-7 w-7 text-muted hover:text-foreground'
+                                                    title={t('Remove game')}
+                                                    onPress={() => removeGame(game)}
+                                                >
+                                                    <Icon icon={faTrash} />
+                                                </Button>
+                                            ) : null}
+                                        </div>
+                                    </div>
+
+                                    <div className='mt-2 rounded-md border border-border/45 bg-overlay/45 p-2'>
+                                        <div className='grid gap-2 sm:grid-cols-2'>
+                                            {seats.map((player, seatIndex) => {
+                                                if (player) {
+                                                    const userClass = `username ${
+                                                        player.role
+                                                            ? `${player.role.toLowerCase()}-role`
+                                                            : ''
+                                                    }`;
+
+                                                    return (
+                                                        <div
+                                                            key={`${game.id}-${player.name}`}
+                                                            className='flex min-h-11 items-center gap-2 rounded-md border border-border/45 bg-surface-secondary/55 px-2 py-1.5 text-foreground'
+                                                        >
+                                                            <Avatar imgPath={player.avatar} />
+                                                            <span className={userClass}>
+                                                                {player.name}
+                                                            </span>
+                                                        </div>
+                                                    );
+                                                }
+
+                                                if (canJoin(game)) {
+                                                    return (
+                                                        <button
+                                                            key={`${game.id}-seat-${seatIndex}`}
+                                                            type='button'
+                                                            className='flex min-h-11 items-center gap-2 rounded-md border border-dashed border-border/50 bg-surface-secondary/35 px-2 py-1.5 text-left text-foreground/78 transition hover:cursor-pointer hover:border-accent/45 hover:bg-accent/8 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/45'
+                                                            onClick={() => joinGame(game)}
+                                                        >
+                                                            <span className='h-7 w-7 rounded-full border border-dashed border-border/55 bg-surface-secondary/55' />
+                                                            <span className='text-sm font-semibold text-[color:var(--brand)]'>
+                                                                {t('+ Join')}
+                                                            </span>
+                                                        </button>
+                                                    );
+                                                }
+
+                                                return (
+                                                    <div
+                                                        key={`${game.id}-seat-${seatIndex}`}
+                                                        className='flex min-h-11 items-center rounded-md border border-border/50 bg-surface-secondary/45 px-2 py-1.5 text-sm text-muted'
+                                                    >
+                                                        {t('Open slot')}
+                                                    </div>
+                                                );
+                                            })}
+                                        </div>
+                                    </div>
+
+                                    <div className='mt-2 flex flex-wrap items-center justify-between gap-2'>
+                                        <div className='flex items-center gap-1.5 text-foreground'>
+                                            {game.showHand && (
+                                                <img
+                                                    src={ShowHandIcon}
+                                                    className={iconClass}
+                                                    alt={t('Show hands to spectators')}
+                                                    title={t('Show hands to spectators')}
+                                                />
+                                            )}
+                                            {game.useGameTimeLimit && (
+                                                <img
+                                                    src={TimeLimitIcon}
+                                                    className={iconClass}
+                                                    alt={t('Time limit used')}
+                                                    title={t('Time limit used')}
+                                                />
+                                            )}
+                                            {game.needsPassword ? (
+                                                <Icon
+                                                    icon={faLock}
+                                                    className='text-sm text-foreground/85'
+                                                    title={t('Password protected')}
+                                                />
+                                            ) : null}
+                                            {formatIconEntries.map(([key, icon]) => {
+                                                if (
+                                                    key === 'showHand' ||
+                                                    key === 'useGameTimeLimit' ||
+                                                    game.gameFormat !== key
+                                                ) {
+                                                    return null;
+                                                }
+
+                                                return (
+                                                    <img
+                                                        key={key}
+                                                        src={icon.src}
+                                                        className={
+                                                            icon.noInvert
+                                                                ? 'h-5 w-5 object-contain'
+                                                                : iconClass
+                                                        }
+                                                        alt={t(icon.title)}
+                                                        title={t(icon.title)}
+                                                    />
+                                                );
+                                            })}
+                                        </div>
+                                        {canWatch(game) ? (
+                                            <Button
+                                                size='sm'
+                                                variant='tertiary'
+                                                className='text-foreground/75 hover:text-foreground'
+                                                onPress={() => watchGame(game)}
+                                            >
+                                                {t('Watch')}
+                                            </Button>
+                                        ) : null}
+                                    </div>
+                                </div>
+                            );
+                        })}
+                    </div>
+                </section>
+            ))}
+        </div>
     );
 };
 

@@ -1,5 +1,6 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
+import { Button } from '@heroui/react';
 import AbilityTargeting from './AbilityTargeting';
 import CardNameLookup from './CardNameLookup';
 import TraitNameLookup from './TraitNameLookup';
@@ -7,7 +8,6 @@ import HouseSelect from './HouseSelect';
 import OptionsSelect from './OptionsSelect';
 import Panel from '../Site/Panel';
 
-import './ActivePlayerPrompt.scss';
 import CardImage from './CardImage';
 
 /**
@@ -27,12 +27,17 @@ import CardImage from './CardImage';
  * @param {ActivePlayerPromptProps} props
  */
 const ActivePlayerPrompt = (props) => {
-    const MaxButtonTextLength = 28;
     const { t, i18n } = useTranslation();
+    const iconAssetByName = {
+        forgedkeyblue: new URL('../../assets/img/forgedkeyblue.png', import.meta.url).href,
+        forgedkeyred: new URL('../../assets/img/forgedkeyred.png', import.meta.url).href,
+        forgedkeyyellow: new URL('../../assets/img/forgedkeyyellow.png', import.meta.url).href,
+        unforgedkeyblue: new URL('../../assets/img/unforgedkeyblue.png', import.meta.url).href,
+        unforgedkeyred: new URL('../../assets/img/unforgedkeyred.png', import.meta.url).href,
+        unforgedkeyyellow: new URL('../../assets/img/unforgedkeyyellow.png', import.meta.url).href
+    };
 
-    const onButtonClick = (event, command, arg, uuid, method) => {
-        event.preventDefault();
-
+    const onButtonClick = (command, arg, uuid, method) => {
         if (props.onButtonClick) {
             props.onButtonClick(command, arg, uuid, method);
         }
@@ -104,26 +109,52 @@ const ActivePlayerPrompt = (props) => {
         for (const button of props.buttons) {
             const originalButtonText = localizedText(button.card, button.text, button.values);
             let buttonText = originalButtonText;
-
-            if (buttonText.length > MaxButtonTextLength) {
-                buttonText = buttonText.slice(0, MaxButtonTextLength - 3).trim() + '...';
-            }
+            const normalizedButtonText = (originalButtonText || '').trim().toLowerCase();
+            const isCancel =
+                normalizedButtonText === 'cancel' ||
+                (button.command || '').toLowerCase().includes('cancel');
+            const hasIcon = Boolean(button.icon);
+            const buttonVariant = isCancel ? 'tertiary' : 'primary';
+            const buttonClass = isCancel
+                ? 'w-full justify-center whitespace-nowrap text-sm capitalize !px-2 !py-1.5 !text-foreground/78'
+                : hasIcon
+                ? 'w-full justify-center whitespace-nowrap text-sm capitalize !px-2 !py-1.5'
+                : 'w-full justify-center whitespace-nowrap text-sm capitalize !px-2 !py-1.5';
 
             let option = (
-                <button
+                <Button
+                    variant={buttonVariant}
                     key={button.command + buttonIndex.toString()}
-                    className='btn btn-default prompt-button btn-stretch'
+                    className={buttonClass}
                     title={originalButtonText}
-                    onClick={(event) =>
-                        onButtonClick(event, button.command, button.arg, button.uuid, button.method)
+                    onPress={() =>
+                        onButtonClick(button.command, button.arg, button.uuid, button.method)
                     }
                     onMouseOver={() => onMouseOver(button.card)}
                     onMouseOut={() => onMouseOut(button.card)}
-                    disabled={button.disabled}
+                    isDisabled={button.disabled}
                 >
-                    {buttonText}{' '}
-                    {button.icon && <div className={`button-icon icon-${button.icon}`} />}
-                </button>
+                    {hasIcon ? (
+                        <span className='inline-flex min-w-0 items-center justify-center gap-2'>
+                            {iconAssetByName[button.icon] ? (
+                                <img
+                                    src={iconAssetByName[button.icon]}
+                                    alt=''
+                                    className='inline-block h-5 w-5 shrink-0'
+                                />
+                            ) : (
+                                <div
+                                    className={`h-6 w-6 shrink-0 bg-cover bg-center bg-no-repeat icon-${button.icon}`}
+                                />
+                            )}
+                            <span className='min-w-0 truncate text-center'>{buttonText}</span>
+                        </span>
+                    ) : (
+                        <span className='inline-flex w-full min-w-0 items-center justify-center'>
+                            <span className='min-w-0 truncate text-center'>{buttonText}</span>
+                        </span>
+                    )}
+                </Button>
             );
 
             buttonIndex++;
@@ -234,7 +265,7 @@ const ActivePlayerPrompt = (props) => {
         let promptTitleText = safePromptText(props.promptTitle);
 
         promptTitle = (
-            <div className='menu-pane-source'>
+            <div className='-mx-3 -mt-2 mb-3 border-b border-border/70 bg-accent/12 px-3 py-1 text-center text-sm'>
                 {localizedText(controlSource, promptTitleText, props.promptTitle.values)}
             </div>
         );
@@ -264,15 +295,22 @@ const ActivePlayerPrompt = (props) => {
     }
 
     return (
-        <Panel title={t(props.phase + ' phase')} titleClass='phase-indicator'>
-            {timer}
-            {promptTitle}
-            <div className='menu-pane'>
-                <h4>{promptTexts}</h4>
-                {getControls()}
-                {getButtons()}
-            </div>
-        </Panel>
+        <div className='mx-auto w-full max-w-full px-1'>
+            <Panel
+                title={t(props.phase + ' phase')}
+                titleClass='text-sm font-medium uppercase tracking-wide'
+                contentClassName='px-2 py-1.5'
+                className='!w-full !rounded-xl overflow-hidden'
+            >
+                {timer}
+                {promptTitle}
+                <div className='px-1 text-center'>
+                    <h4 className='mb-2 text-base font-medium leading-snug'>{promptTexts}</h4>
+                    <div className='space-y-1.5'>{getControls()}</div>
+                    <div className='mt-2 space-y-1.5'>{getButtons()}</div>
+                </div>
+            </Panel>
+        </div>
     );
 };
 

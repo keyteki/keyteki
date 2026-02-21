@@ -2,9 +2,9 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
 import { gameSendMessage } from '../../redux/socketActions';
-import { toast } from 'react-toastify';
+import { toast } from '@heroui/react';
 import classNames from 'classnames';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import Icon from '../Icon';
 import {
     faEye,
     faEyeSlash,
@@ -13,7 +13,6 @@ import {
     faCogs,
     faComment
 } from '@fortawesome/free-solid-svg-icons';
-import { Badge } from 'react-bootstrap';
 
 import Avatar from '../Site/Avatar';
 import { Constants } from '../../constants';
@@ -25,7 +24,6 @@ import IdentityCard from './IdentityCard';
 import CardPileLink from './CardPileLink';
 import Droppable from './Droppable';
 import DrawDeck from './DrawDeck';
-import './PlayerStats.scss';
 
 const PlayerStats = ({
     activeHouse,
@@ -132,7 +130,7 @@ const PlayerStats = ({
                                     dispatch(gameSendMessage('changeActiveHouse', house));
                                 }
                             }}
-                            className={`img-fluid ${
+                            className={`block h-auto max-w-full ${
                                 activeHouse === house ? 'active' : 'inactive'
                             }-house`}
                             src={Constants.IdBackHousePaths[house]}
@@ -151,7 +149,7 @@ const PlayerStats = ({
                     <img
                         key='tide'
                         onClick={onClickTide}
-                        className='img-fluid tide'
+                        className='tide block h-auto max-w-full'
                         src={Constants.TideImages[stats.tide]}
                         title={t(`${stats.tide}-tide`)}
                     />
@@ -167,26 +165,32 @@ const PlayerStats = ({
             return;
         }
         if (!navigator.clipboard || !navigator.clipboard.writeText) {
-            toast.error('Clipboard access is unavailable in this browser.');
+            toast.danger('Clipboard access is unavailable in this browser.');
             return;
         }
         navigator.clipboard
             .writeText(messagePanel.innerText)
             .then(() => toast.success('Copied game chat to clipboard'))
-            .catch((err) => toast.error(`Could not copy game chat: ${err}`));
+            .catch((err) => toast.danger(`Could not copy game chat: ${err}`));
     };
 
     let playerAvatar = (
-        <div className={`pr-1 player-info ${activePlayer ? 'active-player' : 'inactive-player'}`}>
-            <Avatar imgPath={user?.avatar} />
-            <b>{user?.username || t('Noone')}</b>
+        <div className='state player-identity'>
+            <div
+                className={`pr-1 player-info ${activePlayer ? 'active-player' : 'inactive-player'}`}
+            >
+                <Avatar imgPath={user?.avatar} />
+                <span className='player-name'>{user?.username || t('Noone')}</span>
+            </div>
         </div>
     );
 
     let statsClass = classNames('panel player-stats');
 
     const pileProps = {
+        hasActiveHouse: isMe && Boolean(activeHouse),
         isMe,
+        isSpectating: spectating,
         onMenuItemClick,
         onPopupChange,
         onTouchMove,
@@ -296,42 +300,43 @@ const PlayerStats = ({
                 <div className='state'>
                     <div className='state'>
                         <a href='#' className='pr-1 pl-1'>
-                            <FontAwesomeIcon
+                            <Icon
                                 icon={muteSpectators ? faEyeSlash : faEye}
                                 onClick={onMuteClick}
-                            ></FontAwesomeIcon>
+                            ></Icon>
                         </a>
                     </div>
                     <div className='state'>
                         <a href='#' className='pr-1 pl-1'>
-                            <FontAwesomeIcon
-                                icon={faCopy}
-                                onClick={writeChatToClipboard}
-                            ></FontAwesomeIcon>
+                            <Icon icon={faCopy} onClick={writeChatToClipboard}></Icon>
                         </a>
                     </div>
                     {showManualMode && (
                         <div className='state'>
                             <a
                                 href='#'
-                                className={manualMode ? 'text-danger' : ''}
+                                className={classNames({ 'manual-mode-indicator': manualMode })}
                                 onClick={onManualModeClick}
                             >
-                                <FontAwesomeIcon icon={faWrench}></FontAwesomeIcon>
+                                <Icon icon={faWrench}></Icon>
                                 {t('Manual Mode')}
                             </a>
                         </div>
                     )}
                     <div className='state'>
                         <a href='#' onClick={onSettingsClick} className='pr-1 pl-1'>
-                            <FontAwesomeIcon icon={faCogs}></FontAwesomeIcon>
+                            <Icon icon={faCogs}></Icon>
                             <span className='ml-1'>{t('Settings')}</span>
                         </a>
                     </div>
                     <div className='state'>
                         <a href='#' onClick={onMessagesClick} className='pl-1'>
-                            <FontAwesomeIcon icon={faComment}></FontAwesomeIcon>
-                            {numMessages > 0 && <Badge variant='danger'>{numMessages}</Badge>}
+                            <Icon icon={faComment}></Icon>
+                            {numMessages > 0 && (
+                                <span className='ml-1 inline-flex min-w-5 items-center justify-center rounded-full bg-[color:var(--brand)] px-1 text-xs text-[color:var(--accent-foreground)]'>
+                                    {numMessages}
+                                </span>
+                            )}
                         </a>
                     </div>
                 </div>

@@ -1,4 +1,4 @@
-const socketio = require('socket.io');
+const { Server } = require('socket.io');
 const jwt = require('jsonwebtoken');
 const Sentry = require('@sentry/node');
 const http = require('http');
@@ -84,7 +84,7 @@ class GameServer {
 
         const corsOrigin = this.configService.getValueForSection('gameNode', 'origin');
         if (corsOrigin) {
-            options.origins = corsOrigin;
+            options.cors = { origin: corsOrigin };
         }
 
         logger.info(
@@ -93,7 +93,7 @@ class GameServer {
             }/socket.io`
         );
 
-        this.io = socketio(server, options);
+        this.io = new Server(server, options);
         this.io.use(this.handshake.bind(this));
 
         this.io.on('connection', this.onConnection.bind(this));
@@ -256,18 +256,15 @@ class GameServer {
      * @param {() => void} next
      */
     handshake(socket, next) {
-        if (socket.handshake.query.token && socket.handshake.query.token !== 'undefined') {
-            jwt.verify(
-                socket.handshake.query.token,
-                this.configService.getValue('secret'),
-                function (err, user) {
-                    if (err) {
-                        return;
-                    }
-
-                    socket.request.user = user;
+        const token = socket.handshake.auth?.token || socket.handshake.query?.token;
+        if (token && token !== 'undefined') {
+            jwt.verify(token, this.configService.getValue('secret'), function (err, user) {
+                if (err) {
+                    return;
                 }
-            );
+
+                socket.request.user = user;
+            });
         }
 
         next();
