@@ -1,3 +1,67 @@
+function isPrivateIpv4(hostname) {
+    if (!/^\d{1,3}(\.\d{1,3}){3}$/.test(hostname)) {
+        return false;
+    }
+
+    const parts = hostname.split('.').map((part) => Number(part));
+    if (parts.some((part) => Number.isNaN(part) || part < 0 || part > 255)) {
+        return true;
+    }
+
+    const [a, b] = parts;
+
+    return (
+        a === 10 ||
+        a === 127 ||
+        (a === 169 && b === 254) ||
+        (a === 172 && b >= 16 && b <= 31) ||
+        (a === 192 && b === 168) ||
+        a === 0
+    );
+}
+
+function isLocalOrPrivateHost(hostname) {
+    const normalized = String(hostname || '').toLowerCase();
+
+    if (
+        normalized === 'localhost' ||
+        normalized === '::1' ||
+        normalized === '[::1]' ||
+        normalized.endsWith('.localhost')
+    ) {
+        return true;
+    }
+
+    return isPrivateIpv4(normalized);
+}
+
+function getValidatedRequestUrl(rawUrl, allowedHosts) {
+    let parsed;
+    try {
+        parsed = new URL(rawUrl);
+    } catch (err) {
+        throw new Error('Invalid request url');
+    }
+
+    if (parsed.protocol !== 'http:' && parsed.protocol !== 'https:') {
+        throw new Error('Unsupported protocol');
+    }
+
+    const hostname = parsed.hostname.toLowerCase();
+    if (isLocalOrPrivateHost(hostname)) {
+        throw new Error('Blocked request host');
+    }
+
+    if (allowedHosts && allowedHosts.length > 0) {
+        const normalizedAllowedHosts = allowedHosts.map((host) => String(host).toLowerCase());
+        if (!normalizedAllowedHosts.includes(hostname)) {
+            throw new Error('Request host not allowed');
+        }
+    }
+
+    return parsed.toString();
+}
+
 async function httpRequest(url, options = {}) {
     const {
         method = 'GET',
@@ -5,10 +69,12 @@ async function httpRequest(url, options = {}) {
         body,
         form,
         json = false,
-        encoding
+        encoding,
+        allowedHosts = []
     } = options;
 
     const headers = { ...inputHeaders };
+    const requestUrl = getValidatedRequestUrl(url, allowedHosts);
     let requestBody;
 
     if (form) {
@@ -27,7 +93,7 @@ async function httpRequest(url, options = {}) {
         }
     }
 
-    let response = await fetch(url, {
+    let response = await fetch(requestUrl, {
         method,
         headers,
         body: requestBody

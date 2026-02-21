@@ -40,7 +40,10 @@ class JsonCardSource {
         let pageErrors = [];
 
         try {
-            response = await util.httpRequest(apiUrl, { json: true });
+            response = await util.httpRequest(apiUrl, {
+                json: true,
+                allowedHosts: ['www.keyforgegame.com']
+            });
         } catch (err) {
             console.info(err);
 
@@ -56,7 +59,7 @@ class JsonCardSource {
             try {
                 response = await util.httpRequest(
                     `${apiUrl}/?page=${i}&links=cards&page_size=${pageSize}&ordering=-date`,
-                    { json: true }
+                    { json: true, allowedHosts: ['www.keyforgegame.com'] }
                 );
             } catch (err) {
                 if (err.statusCode === 429) {

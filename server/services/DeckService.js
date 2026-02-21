@@ -548,7 +548,8 @@ class DeckService {
 
         try {
             let response = await util.httpRequest(
-                `https://www.keyforgegame.com/api/decks/${deck.uuid}/?links=cards`
+                `https://www.keyforgegame.com/api/decks/${deck.uuid}/?links=cards`,
+                { allowedHosts: ['www.keyforgegame.com'] }
             );
 
             if (response[0] === '<') {
@@ -1446,7 +1447,8 @@ class DeckService {
         let deckResponse;
         try {
             let response = await util.httpRequest(
-                `https://www.keyforgegame.com/api/decks/${deck.uuid}/?links=cards`
+                `https://www.keyforgegame.com/api/decks/${deck.uuid}/?links=cards`,
+                { allowedHosts: ['www.keyforgegame.com'] }
             );
 
             if (response[0] === '<') {
