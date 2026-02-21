@@ -1,25 +1,23 @@
 /*eslint no-console:0 */
 const fs = require('fs');
-const request = require('request');
 const { fabric } = require('fabric');
 const path = require('path');
 const KeyForgeHalfSizeBuild = require('./KeyForgeHalfSizeBuild');
 
 class KeyforgeImageSource {
-    fetchImage(card, imageUrl, imagePath) {
-        return new Promise((resolve) => {
-            let file = fs.createWriteStream(imagePath);
-            request({ url: imageUrl, encoding: null })
-                .pipe(file)
-                .on('finish', () => {
-                    console.log('Downloaded image for ' + card.name + ' from ' + imageUrl);
-                    resolve();
-                })
-                .on('error', (err) => {
-                    console.log(`Error converting image for ${card.name}: ${err}`);
-                    resolve();
-                });
-        });
+    async fetchImage(card, imageUrl, imagePath) {
+        try {
+            const response = await fetch(imageUrl);
+            if (!response.ok) {
+                throw new Error(`HTTP ${response.status} ${response.statusText}`);
+            }
+
+            const buffer = Buffer.from(await response.arrayBuffer());
+            await fs.promises.writeFile(imagePath, buffer);
+            console.log('Downloaded image for ' + card.name + ' from ' + imageUrl);
+        } catch (err) {
+            console.log(`Error converting image for ${card.name}: ${err}`);
+        }
     }
 
     getHalfSizeBuilder() {
