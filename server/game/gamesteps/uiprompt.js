@@ -45,8 +45,8 @@ class UiPrompt extends BaseStep {
         }
 
         if (prompt.controls) {
-            for (let control of prompt.controls) {
-                control.uuid = this.uuid;
+            for (let [index, control] of prompt.controls.entries()) {
+                control.uuid = `${this.uuid}:${index}`;
             }
         }
 
@@ -77,7 +77,10 @@ class UiPrompt extends BaseStep {
     }
 
     onMenuCommand(player, arg, uuid, method) {
-        if (!this.activeCondition(player) || uuid !== this.uuid) {
+        if (
+            !this.activeCondition(player) ||
+            (uuid !== this.uuid && !(typeof uuid === 'string' && uuid.startsWith(`${this.uuid}:`)))
+        ) {
             return false;
         }
 
