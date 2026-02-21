@@ -35,6 +35,8 @@ jobs:
               with:
                   node-version: ${{ matrix.node-version }}
                   cache: 'npm'
+            - name: Use npm 11
+              run: npm install -g npm@11.6.0
             - name: Install GitVersion
               uses: gittools/actions/gitversion/setup@v0.9.14
               with:
@@ -44,7 +46,7 @@ jobs:
               uses: gittools/actions/gitversion/execute@v0.9.14
               with:
                   additionalArguments: /overrideconfig mode=Mainline
-            - run: npm ci
+            - run: npm ci --include=optional
             - name: Typecheck client
               run: npm run typecheck:client
             - run: npm run lint
