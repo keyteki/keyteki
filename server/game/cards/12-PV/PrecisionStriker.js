@@ -7,7 +7,7 @@ class PrecisionStriker extends Card {
             fight: true,
             reap: true,
             gameAction: ability.actions.discard((context) => ({
-                target: context.player.opponent.deck.slice(0, 3)
+                target: context.player.opponent ? context.player.opponent.deck.slice(0, 3) : []
             })),
             then: {
                 target: {
