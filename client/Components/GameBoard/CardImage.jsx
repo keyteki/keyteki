@@ -28,6 +28,8 @@ const CardImage = ({ card, cardBack, size, halfSize, onMouseOver, onMouseOut }) 
     const enhancementSignature = Array.isArray(card?.enhancements)
         ? card.enhancements.join('|')
         : '';
+    const renderScale =
+        typeof window !== 'undefined' && (window.devicePixelRatio || 1) < 1.5 ? 2 : 1;
     const setCanvasRef = useCallback((node) => {
         if (!node) {
             if (fabricRef.current) {
@@ -67,6 +69,7 @@ const CardImage = ({ card, cardBack, size, halfSize, onMouseOver, onMouseOut }) 
                     size,
                     halfSize,
                     showAccolades,
+                    renderScale,
                     url
                 });
             } catch {
@@ -114,6 +117,7 @@ const CardImage = ({ card, cardBack, size, halfSize, onMouseOver, onMouseOut }) 
         size,
         halfSize,
         showAccolades,
+        renderScale,
         i18n.language
     ]);
 

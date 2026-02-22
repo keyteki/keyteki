@@ -38,7 +38,7 @@ const ReferenceCardPane = ({
                 src={img}
                 onMouseOver={() => {
                     onMouseOver({
-                        image: <img src={img} className='card-zoom normal' />,
+                        image: <img src={img} className='block h-full w-full' />,
                         size: 'normal'
                     });
                 }}
@@ -110,7 +110,10 @@ const ReferenceCardPane = ({
                                         onMouseOver={() => {
                                             onMouseOver({
                                                 image: card.facedown ? (
-                                                    <img src={img} className='card-zoom normal' />
+                                                    <img
+                                                        src={img}
+                                                        className='block h-full w-full'
+                                                    />
                                                 ) : (
                                                     <CardImage
                                                         card={{ ...card, location: 'zoom' }}
@@ -222,7 +225,7 @@ const ReferenceCardPane = ({
                     src={img}
                     onMouseOver={() => {
                         onMouseOver({
-                            image: <img src={img} className='card-zoom normal' />,
+                            image: <img src={img} className='block h-full w-full' />,
                             size: `tide-${thisPlayer.stats.tide}`
                         });
                     }}

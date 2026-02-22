@@ -705,6 +705,7 @@ export const buildCard = async (
         modifiedPower,
         tokens = {},
         showAccolades = true,
+        renderScale = 1,
         ...card
     }
 ) => {
@@ -732,9 +733,13 @@ export const buildCard = async (
 
     const width = 300;
     const height = halfSize ? 262.5 : 420;
+    const internalRenderScale = Math.max(1, Number(renderScale) || 1);
 
-    canvas.setWidth(width);
-    canvas.setHeight(height);
+    canvas.setZoom(1);
+    canvas.setViewportTransform([1, 0, 0, 1, 0, 0]);
+    canvas.setWidth(width * internalRenderScale);
+    canvas.setHeight(height * internalRenderScale);
+    canvas.setZoom(internalRenderScale);
 
     const cardImage = new fabric.Image(
         DeckCards[halfSize ? 'halfSize' : 'cards'][image].toCanvasElement(),
