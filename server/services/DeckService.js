@@ -726,6 +726,12 @@ class DeckService {
             throw new Error('Token creature reference cards are not allowed for this set');
         }
 
+        const isTokenCreatureCard = (card) => {
+            const cardType =
+                card?.card?.type || cardsById?.[card?.id]?.type || allCardsById?.[card?.id]?.type;
+            return card?.isNonDeck && card?.id !== 'the-tide' && cardType === 'token creature';
+        };
+
         let tokenCardToAdd;
         if (expansionRequiresToken) {
             if (selectedTokenSourceDeck) {
@@ -736,22 +742,12 @@ class DeckService {
                     );
                 }
 
-                tokenCardToAdd = sourceDeck.cards.find(
-                    (card) =>
-                        card.isNonDeck &&
-                        card.card &&
-                        card.card.type === 'token creature' &&
-                        card.id !== 'the-tide'
-                );
+                tokenCardToAdd = sourceDeck.cards.find((card) => isTokenCreatureCard(card));
             } else {
                 for (const selectedDeckId of selectedDeckIds) {
                     const selectedDeck = decksByUuid[selectedDeckId];
                     const tokenCard = selectedDeck.cards.find(
-                        (card) =>
-                            card.isNonDeck &&
-                            card.id === selectedTokenId &&
-                            card.card &&
-                            card.card.type === 'token creature'
+                        (card) => card.id === selectedTokenId && isTokenCreatureCard(card)
                     );
 
                     if (tokenCard) {
