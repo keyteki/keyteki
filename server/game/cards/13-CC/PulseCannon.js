@@ -7,7 +7,7 @@ class PulseCannon extends Card {
             target: {
                 cardType: 'creature',
                 gameAction: ability.actions.stun((context) => ({
-                    target: context.target.neighbors.concat(context.target)
+                    target: context.target ? context.target.neighbors.concat(context.target) : []
                 }))
             }
         });
