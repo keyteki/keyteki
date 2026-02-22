@@ -85,6 +85,35 @@ class DeckService {
         return retDeck;
     }
 
+    async getByUuidForUser(id, userId) {
+        let deck;
+
+        try {
+            deck = await db.query(
+                'SELECT d.*, u."Username", e."ExpansionId" as "Expansion"' +
+                    'FROM "Decks" d ' +
+                    'JOIN "Users" u ON u."Id" = "UserId" ' +
+                    'JOIN "Expansions" e on e."Id" = d."ExpansionId" ' +
+                    'WHERE d."Uuid" = $1 AND d."UserId" = $2',
+                [id, userId]
+            );
+        } catch (err) {
+            logger.error(`Failed to retrieve deck: ${id} for user: ${userId}`, err);
+
+            throw new Error('Unable to fetch deck: ' + id);
+        }
+
+        if (!deck || deck.length === 0) {
+            return undefined;
+        }
+
+        let retDeck = this.mapDeck(deck[0]);
+
+        await this.getDeckCardsAndHouses(retDeck);
+
+        return retDeck;
+    }
+
     async getById(id) {
         let deck;
 
@@ -623,19 +652,23 @@ class DeckService {
         }
 
         const deckIds = parsedPods.map((pod) => pod.deckId);
-        const deckPromises = deckIds.map((deckId) => this.getByUuid(deckId));
+        const uniqueDeckIds = Array.from(new Set(deckIds));
+        const ownedDeckPromises = uniqueDeckIds.map((deckId) =>
+            this.getByUuidForUser(deckId, user.id)
+        );
         const decksByUuid = {};
         let cardsById;
         const allCardsById = await this.cardService.getAllCards();
         let expansionId;
 
-        for (let dbDeck of await Promise.all(deckPromises)) {
-            if (!dbDeck) {
-                throw new Error('Failed to create deck. One or more source decks do not exist');
-            }
+        const ownedDecks = await Promise.all(ownedDeckPromises);
+        const missingOwnedDeckIds = [];
 
-            if (dbDeck.username !== user.username) {
-                throw new Error('Failed to create deck. You may only use your own decks');
+        for (let i = 0; i < ownedDecks.length; i++) {
+            const dbDeck = ownedDecks[i];
+            if (!dbDeck) {
+                missingOwnedDeckIds.push(uniqueDeckIds[i]);
+                continue;
             }
 
             if (!expansionId) {
@@ -657,11 +690,23 @@ class DeckService {
             decksByUuid[dbDeck.uuid] = dbDeck;
         }
 
+        if (missingOwnedDeckIds.length > 0) {
+            const missingDeckChecks = await Promise.all(
+                missingOwnedDeckIds.map((deckId) => this.getByUuid(deckId))
+            );
+
+            if (missingDeckChecks.some((dbDeck) => !!dbDeck)) {
+                throw new Error('Failed to create deck. You may only use your own decks');
+            }
+
+            throw new Error('Failed to create deck. One or more source decks do not exist');
+        }
+
         const expansion = Constants.Expansions.find((candidate) => candidate.id === expansionId);
         const expansionRequiresTide = Boolean(expansion?.tideRequired);
         const expansionRequiresToken = Boolean(expansion?.tokenRequired);
         const expansionSupportsProphecy = Boolean(expansion?.prophecySupported);
-        const selectedDeckIds = Array.from(new Set(deckIds));
+        const selectedDeckIds = uniqueDeckIds;
 
         for (let pod of parsedPods) {
             const sourceDeck = decksByUuid[pod.deckId];

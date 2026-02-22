@@ -622,6 +622,12 @@ pre {
   filter: brightness(0.88) saturate(0.9);
   box-shadow: 0 0 8px rgba(0, 0, 0, 0.32), inset 0 0 0 1px rgba(255, 255, 255, 0.07);
 }
+.game-card.horizontal.selected {
+  box-shadow: 0 0 1px 4px #009648, 0 0 8px rgba(0, 0, 0, 0.32), inset 0 0 0 1px rgba(255, 255, 255, 0.07);
+}
+.game-card.horizontal.selected.controlled {
+  box-shadow: 0 0 1px 2px #ffdf14, 0 0 1px 4px #009648, 0 0 8px rgba(0, 0, 0, 0.32), inset 0 0 0 1px rgba(255, 255, 255, 0.07);
+}
 
 .game-board.high-density .game-card {
   box-shadow: 0 0 16px rgba(0, 0, 0, 0.52), inset 0 0 0 1px rgba(255, 255, 255, 0.1);
