@@ -113,15 +113,14 @@ function ReactTable({
         sorting: sorting || []
     };
 
-    const queryResult = dataLoadFn
-        ? dataLoadFn(dataLoadArg ? Object.assign(fetchDataOptions, dataLoadArg) : fetchDataOptions)
-        : null;
+    const queryArgs = dataLoadArg ? { ...fetchDataOptions, ...dataLoadArg } : fetchDataOptions;
+    const queryResult = dataLoadFn ? dataLoadFn(queryArgs) : null;
 
     const response = queryResult?.data;
-    const isLoading = dataLoadFn ? queryResult?.isLoading : localIsLoading;
-    const isError = dataLoadFn ? queryResult?.isError : localIsError;
-    const refetch = queryResult?.refetch || onRefresh;
-    const tableData = dataLoadFn ? response?.[dataProperty] || [] : data || [];
+    const isLoading = remote ? queryResult?.isLoading : localIsLoading;
+    const isError = remote ? queryResult?.isError : localIsError;
+    const refetch = remote ? queryResult?.refetch || onRefresh : onRefresh;
+    const tableData = remote ? response?.[dataProperty] || [] : data || [];
     const maxVisibleRows = fillHeight ? maxVisibleRowsProp || 10 : null;
 
     const table = useReactTable({

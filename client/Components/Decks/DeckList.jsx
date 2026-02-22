@@ -69,6 +69,11 @@ const DeckList = ({
         refreshToken: state.auth.refreshToken
     }));
     const hasAuth = Boolean(authToken || refreshToken);
+    const shouldUseRemoteDecks = !standaloneDecks && hasAuth;
+    const useDecksQuery = (queryArgs) =>
+        useGetDecksQuery(queryArgs, {
+            skip: !shouldUseRemoteDecks
+        });
 
     const buildFilters = useCallback(
         (nameValue, expansionValues) => {
@@ -281,9 +286,9 @@ const DeckList = ({
                     fillHeight
                     columns={columns}
                     data={decks}
-                    dataLoadFn={!standaloneDecks && hasAuth ? useGetDecksQuery : undefined}
+                    dataLoadFn={useDecksQuery}
                     dataLoadArg={
-                        !standaloneDecks && hasAuth
+                        shouldUseRemoteDecks
                             ? {
                                   filter: activeFilters
                               }
@@ -293,7 +298,7 @@ const DeckList = ({
                     isStriped
                     maxVisibleRows={15}
                     pageSizeOptions={[15, 25, 50]}
-                    remote={!standaloneDecks && hasAuth}
+                    remote={shouldUseRemoteDecks}
                     defaultSort={[{ id: 'lastUpdated', desc: true }]}
                     selectedRows={selectedRows}
                     startPageSize={15}

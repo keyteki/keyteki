@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 import * as fabricModule from 'fabric';
@@ -28,8 +28,28 @@ const CardImage = ({ card, cardBack, size, halfSize, onMouseOver, onMouseOut }) 
     const enhancementSignature = Array.isArray(card?.enhancements)
         ? card.enhancements.join('|')
         : '';
+    const [imageSrc, setImageSrc] = useState('');
     const renderScale =
         typeof window !== 'undefined' && (window.devicePixelRatio || 1) < 1.5 ? 2 : 1;
+    const imageExtension = halfSize ? 'jpg' : 'png';
+    const languageSegment = i18n.language === 'en' ? '' : `${i18n.language}/`;
+    const imageName = card?.image ? card.image.replace(/\*/g, '_') : '';
+    const localizedImageUrl = `/img/cards/${
+        halfSize ? 'halfSize/' : ''
+    }${languageSegment}${imageName}.${imageExtension}`;
+    const englishImageUrl = `/img/cards/${
+        halfSize ? 'halfSize/' : ''
+    }${imageName}.${imageExtension}`;
+    const shouldRenderCanvas =
+        Boolean(card?.maverick) ||
+        Boolean(card?.anomaly) ||
+        (Array.isArray(card?.enhancements) && card.enhancements.length > 0) ||
+        card?.location === 'play area' ||
+        card?.location === 'zoom';
+
+    useEffect(() => {
+        setImageSrc(localizedImageUrl);
+    }, [localizedImageUrl]);
     const setCanvasRef = useCallback((node) => {
         if (!node) {
             if (fabricRef.current) {
@@ -58,10 +78,6 @@ const CardImage = ({ card, cardBack, size, halfSize, onMouseOver, onMouseOut }) 
         const renderId = ++renderIdRef.current;
         canvas.clear();
 
-        const url = `/img/cards/${halfSize ? 'halfSize/' : ''}${
-            i18n.language === 'en' ? '' : i18n.language
-        }/${card.image.replace(/\*/g, '_')}.${halfSize ? 'jpg' : 'png'}`;
-
         (async () => {
             try {
                 await buildCard(canvas, {
@@ -70,7 +86,7 @@ const CardImage = ({ card, cardBack, size, halfSize, onMouseOver, onMouseOut }) 
                     halfSize,
                     showAccolades,
                     renderScale,
-                    url
+                    url: localizedImageUrl
                 });
             } catch {
                 // ignore
@@ -118,11 +134,41 @@ const CardImage = ({ card, cardBack, size, halfSize, onMouseOver, onMouseOut }) 
         halfSize,
         showAccolades,
         renderScale,
+        localizedImageUrl,
         i18n.language
     ]);
 
     if (card?.facedown) {
         return cardBack || <div />;
+    }
+
+    if (!shouldRenderCanvas) {
+        return (
+            <img
+                src={imageSrc}
+                onError={() => {
+                    if (imageSrc !== englishImageUrl) {
+                        setImageSrc(englishImageUrl);
+                    }
+                }}
+                onMouseOver={
+                    onMouseOver
+                        ? () =>
+                              onMouseOver({
+                                  image: (
+                                      <CardImage
+                                          card={{ ...card, location: 'zoom' }}
+                                          cardBack={cardBack}
+                                      />
+                                  ),
+                                  size: 'normal'
+                              })
+                        : undefined
+                }
+                onMouseOut={onMouseOut}
+                className='block h-full w-full'
+            />
+        );
     }
 
     return (

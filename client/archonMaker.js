@@ -145,6 +145,11 @@ export const loadImage = (url) => {
 
 const initCanvas = (canvas) => {
     canvas.renderOnAddRemove = false;
+    const context = canvas.getContext();
+    if (context) {
+        context.imageSmoothingEnabled = true;
+        context.imageSmoothingQuality = 'high';
+    }
 };
 
 async function cacheImages() {
@@ -733,13 +738,20 @@ export const buildCard = async (
 
     const width = 300;
     const height = halfSize ? 262.5 : 420;
+    const sizeMultiplier = getCardSizeMultiplier(size);
+    const isZoomCard = card.location === 'zoom';
+    const displayWidth = isZoomCard
+        ? width * sizeMultiplier
+        : (halfSize ? 75 : defaultCardWidth) * sizeMultiplier;
+    const displayHeight = displayWidth * (height / width);
+    const displayScale = displayWidth / width;
     const internalRenderScale = Math.max(1, Number(renderScale) || 1);
 
     canvas.setZoom(1);
     canvas.setViewportTransform([1, 0, 0, 1, 0, 0]);
-    canvas.setWidth(width * internalRenderScale);
-    canvas.setHeight(height * internalRenderScale);
-    canvas.setZoom(internalRenderScale);
+    canvas.setWidth(displayWidth * internalRenderScale);
+    canvas.setHeight(displayHeight * internalRenderScale);
+    canvas.setZoom(displayScale * internalRenderScale);
 
     const cardImage = new fabric.Image(
         DeckCards[halfSize ? 'halfSize' : 'cards'][image].toCanvasElement(),
@@ -763,8 +775,12 @@ export const buildCard = async (
             if (!MaverickCornerImage) {
                 MaverickCornerImage = await loadImage(Constants.MaverickCornerImage);
             }
-            MaverickCornerImage.set({ left: 210 });
-            canvas.add(MaverickCornerImage);
+            const maverickCornerImage = new fabric.Image(
+                MaverickCornerImage.toCanvasElement(),
+                imgOptions
+            );
+            maverickCornerImage.set({ left: 210 });
+            canvas.add(maverickCornerImage);
             house = maverick;
         } else if (anomaly) {
             house = anomaly;
@@ -778,12 +794,20 @@ export const buildCard = async (
                     Constants.MaverickHouseAmberImages[house]
                 );
             }
-            canvas.add(MaverickHouseAmberImages[house]);
+            const maverickHouseAmberImage = new fabric.Image(
+                MaverickHouseAmberImages[house].toCanvasElement(),
+                imgOptions
+            );
+            canvas.add(maverickHouseAmberImage);
         } else {
             if (!MaverickHouseImages[house]) {
                 MaverickHouseImages[house] = await loadImage(Constants.MaverickHouseImages[house]);
             }
-            canvas.add(MaverickHouseImages[house]);
+            const maverickHouseImage = new fabric.Image(
+                MaverickHouseImages[house].toCanvasElement(),
+                imgOptions
+            );
+            canvas.add(maverickHouseImage);
         }
     }
     if (enhancements && enhancements.length > 0 && enhancements[0] !== '') {

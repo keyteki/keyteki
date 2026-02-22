@@ -108,11 +108,13 @@ const ActivePlayerPrompt = (props) => {
 
         for (const button of props.buttons) {
             const originalButtonText = localizedText(button.card, button.text, button.values);
-            let buttonText = originalButtonText;
-            const normalizedButtonText = (originalButtonText || '').trim().toLowerCase();
+            const buttonText = originalButtonText == null ? '' : String(originalButtonText);
+            const normalizedButtonText = buttonText.trim().toLowerCase();
             const isCancel =
                 normalizedButtonText === 'cancel' ||
-                (button.command || '').toLowerCase().includes('cancel');
+                String(button.command || '')
+                    .toLowerCase()
+                    .includes('cancel');
             const hasIcon = Boolean(button.icon);
             const buttonVariant = isCancel ? 'tertiary' : 'primary';
             const buttonClass = isCancel
@@ -126,7 +128,7 @@ const ActivePlayerPrompt = (props) => {
                     variant={buttonVariant}
                     key={button.command + buttonIndex.toString()}
                     className={buttonClass}
-                    title={originalButtonText}
+                    title={buttonText}
                     onPress={() =>
                         onButtonClick(button.command, button.arg, button.uuid, button.method)
                     }
