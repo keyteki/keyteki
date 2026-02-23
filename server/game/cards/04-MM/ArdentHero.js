@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class ArdentHero extends Card {
     // Taunt. (This creatures neighbors cannot be attacked unless they have taunt.)
     // Ardent Hero cannot be dealt damage by Mutant creatures or creatures with power 5 or higher.
@@ -31,4 +30,4 @@ class ArdentHero extends Card {
 
 ArdentHero.id = 'ardent-hero';
 
-module.exports = ArdentHero;
+export default ArdentHero;

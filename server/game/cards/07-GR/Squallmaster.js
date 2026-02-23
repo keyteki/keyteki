@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class Squallmaster extends Card {
     // After Fight/After Reap: Each player discards a random card from their hand.
     //
@@ -24,4 +23,4 @@ class Squallmaster extends Card {
 
 Squallmaster.id = 'squallmaster';
 
-module.exports = Squallmaster;
+export default Squallmaster;

@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class Necromorph extends Card {
     // Destroyed: If Necromorph has a non-Star Alliance neighbor,
     // fully heal Necromorph and destroy that neighbor instead.
@@ -33,4 +32,4 @@ class Necromorph extends Card {
 
 Necromorph.id = 'necromorph';
 
-module.exports = Necromorph;
+export default Necromorph;

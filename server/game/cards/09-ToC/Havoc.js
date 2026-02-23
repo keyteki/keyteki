@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class Havoc extends Card {
     // Play: Make a token creature.
     setupCardAbilities(ability) {
@@ -11,4 +10,4 @@ class Havoc extends Card {
 
 Havoc.id = 'havoc';
 
-module.exports = Havoc;
+export default Havoc;

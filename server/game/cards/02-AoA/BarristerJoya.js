@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class BarristerJoya extends Card {
     // Enemy creatures cannot reap.
     setupCardAbilities(ability) {
@@ -13,4 +12,4 @@ class BarristerJoya extends Card {
 
 BarristerJoya.id = 'barrister-joya';
 
-module.exports = BarristerJoya;
+export default BarristerJoya;

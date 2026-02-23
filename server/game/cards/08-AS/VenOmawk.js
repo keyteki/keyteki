@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class VenOmawk extends Card {
     // During their “draw cards” step, your opponent refills their
     // hand to 1 less card.
@@ -13,4 +12,4 @@ class VenOmawk extends Card {
 
 VenOmawk.id = 'ven-omawk';
 
-module.exports = VenOmawk;
+export default VenOmawk;

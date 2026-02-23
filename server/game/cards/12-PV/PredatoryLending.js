@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class PredatoryLending extends Card {
     // Play: Exalt and enrage an enemy creature.
     // Fate: Pay your opponent 1 for each enemy Shadows creature.
@@ -27,4 +26,4 @@ class PredatoryLending extends Card {
 
 PredatoryLending.id = 'predatory-lending';
 
-module.exports = PredatoryLending;
+export default PredatoryLending;

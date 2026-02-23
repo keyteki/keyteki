@@ -1,9 +1,7 @@
-const _ = require('underscore');
-
-const cards = require('../../../server/game/cards');
-const AbilityDsl = require('../../../server/game/abilitydsl');
-const localeEn = require('../../../client/locales/en.json');
-
+import _ from 'underscore';
+import cards from '../../../server/game/cards/index.js';
+import AbilityDsl from '../../../server/game/abilitydsl.js';
+import localeEn from '../../../client/locales/en.json';
 const card = {
     hasHouse: () => true,
     isOnFlank: () => true,

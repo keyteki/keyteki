@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class Munchling extends Card {
     // Skirmish. (When you use this creature to fight, it is dealt no damage in return.)
     // Fight: You may discard a Logos card from your hand or archives. If you do, gain 1A.
@@ -21,4 +20,4 @@ class Munchling extends Card {
 
 Munchling.id = 'munchling';
 
-module.exports = Munchling;
+export default Munchling;

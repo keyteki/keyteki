@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class Extinction extends Card {
     // Play: Choose a creature. Destroy that creature and each creature that shares a trait with it. Gain 1 chain.
     setupCardAbilities(ability) {
@@ -23,4 +22,4 @@ class Extinction extends Card {
 
 Extinction.id = 'extinction';
 
-module.exports = Extinction;
+export default Extinction;

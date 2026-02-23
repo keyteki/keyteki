@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class GabosLongarms extends Card {
     // Before Fight: Choose a creature. Gabos Longarms deals damage to that creature rather than the one it is fighting.
     setupCardAbilities(ability) {
@@ -20,4 +19,4 @@ class GabosLongarms extends Card {
 
 GabosLongarms.id = 'gabos-longarms';
 
-module.exports = GabosLongarms;
+export default GabosLongarms;

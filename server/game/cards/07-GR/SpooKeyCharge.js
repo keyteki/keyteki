@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class SpooKeyCharge extends Card {
     // Play: If you are haunted, forge a key at current cost. Shuffle
     // your discard pile into your deck.
@@ -22,4 +21,4 @@ class SpooKeyCharge extends Card {
 
 SpooKeyCharge.id = 'spoo-key-charge';
 
-module.exports = SpooKeyCharge;
+export default SpooKeyCharge;

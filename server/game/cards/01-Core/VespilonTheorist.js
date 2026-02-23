@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class VespilonTheorist extends Card {
     // Elusive. (The first time this creature is attacked each turn, no damage is dealt.)
     // Reap: Choose a house. Reveal the top card of your deck. If it is of that house, archive it and gain 1<A>. Otherwise, discard it.
@@ -40,4 +39,4 @@ class VespilonTheorist extends Card {
 
 VespilonTheorist.id = 'vespilon-theorist';
 
-module.exports = VespilonTheorist;
+export default VespilonTheorist;

@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class Paradrone extends Card {
     // After Fight: A friendly creature captures 1A.
     setupCardAbilities(ability) {
@@ -15,4 +14,4 @@ class Paradrone extends Card {
 
 Paradrone.id = 'paradrone';
 
-module.exports = Paradrone;
+export default Paradrone;

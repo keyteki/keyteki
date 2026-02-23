@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class HiddenStash extends Card {
     // Play: Archive a card.
     setupCardAbilities(ability) {
@@ -15,4 +14,4 @@ class HiddenStash extends Card {
 
 HiddenStash.id = 'hidden-stash';
 
-module.exports = HiddenStash;
+export default HiddenStash;

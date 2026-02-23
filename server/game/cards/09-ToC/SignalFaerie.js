@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class SignalFaerie extends Card {
     // Play/After Reap: Make a token creature.
     setupCardAbilities(ability) {
@@ -12,4 +11,4 @@ class SignalFaerie extends Card {
 
 SignalFaerie.id = 'signal-faerie';
 
-module.exports = SignalFaerie;
+export default SignalFaerie;

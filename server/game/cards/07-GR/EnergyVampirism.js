@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class EnergyVampirism extends Card {
     // Play: A creature captures 1 A from its own side. For each A on
     // that creature, deal 1 D to a creature.
@@ -25,4 +24,4 @@ class EnergyVampirism extends Card {
 
 EnergyVampirism.id = 'energy-vampirism';
 
-module.exports = EnergyVampirism;
+export default EnergyVampirism;

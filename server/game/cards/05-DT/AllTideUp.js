@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class AllTideUp extends Card {
     // (T) Play: If the tide is high, gain 1A. Otherwise, raise the tide.
     setupCardAbilities(ability) {
@@ -18,4 +17,4 @@ class AllTideUp extends Card {
 
 AllTideUp.id = 'all-tide-up';
 
-module.exports = AllTideUp;
+export default AllTideUp;

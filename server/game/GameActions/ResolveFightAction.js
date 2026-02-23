@@ -1,6 +1,5 @@
-const { EVENTS } = require('../Events/types');
-const CardGameAction = require('./CardGameAction');
-
+import { EVENTS } from '../Events/types.js';
+import CardGameAction from './CardGameAction.js';
 class ResolveFightAction extends CardGameAction {
     setDefaultProperties() {
         this.attacker = null;
@@ -180,4 +179,4 @@ class ResolveFightAction extends CardGameAction {
     }
 }
 
-module.exports = ResolveFightAction;
+export default ResolveFightAction;

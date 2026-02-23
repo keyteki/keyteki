@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class SkulkingSaboteurs extends Card {
     // After Reap: If your red key is forged, destroy an enemy
     // creature. If your yellow key is forged, destroy an enemy artifact. If
@@ -52,4 +51,4 @@ class SkulkingSaboteurs extends Card {
 
 SkulkingSaboteurs.id = 'skulking-saboteurs';
 
-module.exports = SkulkingSaboteurs;
+export default SkulkingSaboteurs;

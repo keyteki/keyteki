@@ -1,5 +1,4 @@
-const StaticEffect = require('./StaticEffect');
-
+import StaticEffect from './StaticEffect.js';
 class DynamicEffect extends StaticEffect {
     constructor(type, calculate) {
         super(type);
@@ -45,4 +44,4 @@ class DynamicEffect extends StaticEffect {
     }
 }
 
-module.exports = DynamicEffect;
+export default DynamicEffect;

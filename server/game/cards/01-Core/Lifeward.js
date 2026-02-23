@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class Lifeward extends Card {
     // Omni: Sacrifice Lifeward. Your opponent cannot play creatures
     // on their next turn.
@@ -25,4 +24,4 @@ class Lifeward extends Card {
 
 Lifeward.id = 'lifeward';
 
-module.exports = Lifeward;
+export default Lifeward;

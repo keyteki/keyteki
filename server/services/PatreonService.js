@@ -1,10 +1,16 @@
-const patreon = require('patreon');
+import patreon from 'patreon';
 const patreonAPI = patreon.patreon;
 const patreonOAuth = patreon.oauth;
-const pledgeSchema = require('patreon/dist/schemas/pledge').default;
 
-const logger = require('../log.js');
+import logger from '../log.js';
 
+const pledgeFields = [
+    'amount_cents',
+    'declined_since',
+    'created_at',
+    'pledge_cap_cents',
+    'patron_pays_fees'
+];
 class PatreonService {
     constructor(clientId, secret, userService, callbackUrl) {
         this.userService = userService;
@@ -20,11 +26,7 @@ class PatreonService {
         try {
             response = await patreonApiClient('/current_user', {
                 fields: {
-                    pledge: [
-                        ...pledgeSchema.default_attributes,
-                        pledgeSchema.attributes.declined_since,
-                        pledgeSchema.attributes.created_at
-                    ]
+                    pledge: pledgeFields
                 }
             });
         } catch (err) {
@@ -147,4 +149,4 @@ class PatreonService {
     }
 }
 
-module.exports = PatreonService;
+export default PatreonService;

@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class AutoAutopsy21 extends Card {
     // Play: Make a token creature.
     // Omni: Destroy a friendly creature. If you do, gain 1A.
@@ -24,4 +23,4 @@ class AutoAutopsy21 extends Card {
 
 AutoAutopsy21.id = 'auto-autopsy-21';
 
-module.exports = AutoAutopsy21;
+export default AutoAutopsy21;

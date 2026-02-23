@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class CircleOfPower extends Card {
     // Each friendly Untamed creature is considered to have 5 power.
     setupCardAbilities(ability) {
@@ -12,4 +11,4 @@ class CircleOfPower extends Card {
 
 CircleOfPower.id = 'circle-of-power';
 
-module.exports = CircleOfPower;
+export default CircleOfPower;

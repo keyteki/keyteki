@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class Searine extends Card {
     // Scrap: Deal 2D to a friendly creature.
     setupCardAbilities(ability) {
@@ -15,4 +14,4 @@ class Searine extends Card {
 
 Searine.id = 'searine';
 
-module.exports = Searine;
+export default Searine;

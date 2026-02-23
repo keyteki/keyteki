@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class OfferingToKiligog extends Card {
     // Omni: Destroy a friendly creature. If you do, choose a creature
     // in your discard pile. Place it facedown under Offering to
@@ -40,4 +39,4 @@ class OfferingToKiligog extends Card {
 
 OfferingToKiligog.id = 'offering-to-kiligog';
 
-module.exports = OfferingToKiligog;
+export default OfferingToKiligog;

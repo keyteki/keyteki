@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class SenatorQuintina extends Card {
     // After a creature reaps, exalt it.
     setupCardAbilities(ability) {
@@ -16,4 +15,4 @@ class SenatorQuintina extends Card {
 
 SenatorQuintina.id = 'senator-quintina';
 
-module.exports = SenatorQuintina;
+export default SenatorQuintina;

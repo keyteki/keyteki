@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class TheFeatheredShaman extends Card {
     // Elusive.
     // Fight/Reap: Ward each of The Feathered Shamans neighbors.
@@ -15,4 +14,4 @@ class TheFeatheredShaman extends Card {
 
 TheFeatheredShaman.id = 'the-feathered-shaman';
 
-module.exports = TheFeatheredShaman;
+export default TheFeatheredShaman;

@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class Shikari extends Card {
     // Play: Make a token creature.
     // After Fight: Return Shikari to your hand.
@@ -16,4 +15,4 @@ class Shikari extends Card {
 
 Shikari.id = 'shikari';
 
-module.exports = Shikari;
+export default Shikari;

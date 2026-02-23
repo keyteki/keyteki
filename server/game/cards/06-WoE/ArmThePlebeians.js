@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class ArmThePlebeians extends Card {
     //Play: Make a token creature. Ward it.
     setupCardAbilities(ability) {
@@ -16,4 +15,4 @@ class ArmThePlebeians extends Card {
 
 ArmThePlebeians.id = 'arm-the-plebeians';
 
-module.exports = ArmThePlebeians;
+export default ArmThePlebeians;

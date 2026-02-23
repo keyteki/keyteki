@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class AwayTeam extends Card {
     // Destroyed: Put each upgrade on Away Team into its owners archives.
     setupCardAbilities(ability) {
@@ -11,4 +10,4 @@ class AwayTeam extends Card {
 
 AwayTeam.id = 'away-team';
 
-module.exports = AwayTeam;
+export default AwayTeam;

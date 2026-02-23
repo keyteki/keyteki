@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class DinoFiend extends Card {
     // Play: You may exalt Dino-Fiend. If you do, deal 3D to a creature.
     // Destroyed: Steal 1A.
@@ -23,4 +22,4 @@ class DinoFiend extends Card {
 
 DinoFiend.id = 'dino-fiend';
 
-module.exports = DinoFiend;
+export default DinoFiend;

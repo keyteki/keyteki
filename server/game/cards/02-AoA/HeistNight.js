@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class HeistNight extends Card {
     // Alpha. (You can only play this card before doing anything else this step.)
     // Play: Steal 1A for each friendly Thief creature.
@@ -15,4 +14,4 @@ class HeistNight extends Card {
 
 HeistNight.id = 'heist-night';
 
-module.exports = HeistNight;
+export default HeistNight;

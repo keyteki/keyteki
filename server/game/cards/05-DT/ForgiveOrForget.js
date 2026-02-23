@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class ForgiveOrForget extends Card {
     // Play: Choose one:
     //  Archive 2 cards of different types from your discard pile.
@@ -73,4 +72,4 @@ class ForgiveOrForget extends Card {
 
 ForgiveOrForget.id = 'forgive-or-forget';
 
-module.exports = ForgiveOrForget;
+export default ForgiveOrForget;

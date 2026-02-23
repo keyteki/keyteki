@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class TheSting extends Card {
     // Skip your forge a key step.
     // You get all A spent by your opponent when forging keys.
@@ -22,4 +21,4 @@ class TheSting extends Card {
 
 TheSting.id = 'the-sting';
 
-module.exports = TheSting;
+export default TheSting;

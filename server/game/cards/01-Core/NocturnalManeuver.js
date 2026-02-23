@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class NocturnalManeuver extends Card {
     // Play: Exhaust up to 3 creatures.
     setupCardAbilities(ability) {
@@ -16,4 +15,4 @@ class NocturnalManeuver extends Card {
 
 NocturnalManeuver.id = 'nocturnal-maneuver';
 
-module.exports = NocturnalManeuver;
+export default NocturnalManeuver;

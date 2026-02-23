@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class OneLastJob extends Card {
     // Play: Purge each friendly Shadows creature. Steal 1<A> for each creature purged this way.
     setupCardAbilities(ability) {
@@ -21,4 +20,4 @@ class OneLastJob extends Card {
 
 OneLastJob.id = 'one-last-job';
 
-module.exports = OneLastJob;
+export default OneLastJob;

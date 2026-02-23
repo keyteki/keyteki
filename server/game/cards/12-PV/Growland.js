@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class Growland extends Card {
     // After Fight/After Reap: You may destroy a Mutant creature.
     // Scrap: Fully heal each friendly Mutant creature.
@@ -25,4 +24,4 @@ class Growland extends Card {
 
 Growland.id = 'growland';
 
-module.exports = Growland;
+export default Growland;

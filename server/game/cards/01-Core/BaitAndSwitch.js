@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class BaitAndSwitch extends Card {
     // Play: If your opponent has more <A> than you, steal 1<A>. Repeat this card's effect if your opponent still has more <A> than you.
     setupCardAbilities(ability) {
@@ -20,4 +19,4 @@ class BaitAndSwitch extends Card {
 
 BaitAndSwitch.id = 'bait-and-switch';
 
-module.exports = BaitAndSwitch;
+export default BaitAndSwitch;

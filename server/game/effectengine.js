@@ -1,7 +1,5 @@
-const _ = require('underscore');
-
-const EventRegistrar = require('./eventregistrar.js');
-
+import _ from 'underscore';
+import EventRegistrar from './eventregistrar.js';
 class EffectEngine {
     constructor(game) {
         this.game = game;
@@ -226,4 +224,4 @@ class EffectEngine {
     }
 }
 
-module.exports = EffectEngine;
+export default EffectEngine;

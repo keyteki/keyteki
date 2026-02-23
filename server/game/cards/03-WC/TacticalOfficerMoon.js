@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class TacticalOfficerMoon extends Card {
     // Assault 2. (Before this creature attacks, deal 2D to the attacked enemy.)
     // Play: You may rearrange the creatures in a players battleline.
@@ -22,4 +21,4 @@ class TacticalOfficerMoon extends Card {
 
 TacticalOfficerMoon.id = 'tactical-officer-moon';
 
-module.exports = TacticalOfficerMoon;
+export default TacticalOfficerMoon;

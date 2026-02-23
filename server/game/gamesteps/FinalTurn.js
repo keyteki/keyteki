@@ -1,8 +1,7 @@
-const { EVENTS } = require('../Events/types.js');
-const BaseStep = require('./basestep.js');
-const SimpleStep = require('./simplestep.js');
-const KeyPhase = require('./key/KeyPhase.js');
-
+import { EVENTS } from '../Events/types.js';
+import BaseStep from './basestep.js';
+import SimpleStep from './simplestep.js';
+import KeyPhase from './key/KeyPhase.js';
 /**
  * FinalTurn handles the final partial turn after time is called.
  * Per tiebreaker rules:
@@ -50,4 +49,4 @@ class FinalTurn extends BaseStep {
     }
 }
 
-module.exports = FinalTurn;
+export default FinalTurn;

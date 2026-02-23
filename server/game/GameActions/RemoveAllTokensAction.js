@@ -1,7 +1,6 @@
-const { EVENTS } = require('../Events/types');
-const CardGameAction = require('./CardGameAction');
-const RemoveTokenAction = require('./RemoveTokenAction');
-
+import { EVENTS } from '../Events/types.js';
+import CardGameAction from './CardGameAction.js';
+import RemoveTokenAction from './RemoveTokenAction.js';
 class RemoveAllTokensAction extends CardGameAction {
     setup() {
         this.name = 'removeAllTokens';
@@ -43,4 +42,4 @@ class RemoveAllTokensAction extends CardGameAction {
     }
 }
 
-module.exports = RemoveAllTokensAction;
+export default RemoveAllTokensAction;

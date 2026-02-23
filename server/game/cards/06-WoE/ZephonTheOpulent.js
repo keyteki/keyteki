@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class ZephonTheOpulent extends Card {
     // Play: Make 2 token creatures.
     // Zephon the Opulent cannot be used unless there are 2 or more friendly token creatures in play.
@@ -25,4 +24,4 @@ class ZephonTheOpulent extends Card {
 
 ZephonTheOpulent.id = 'zephon-the-opulent';
 
-module.exports = ZephonTheOpulent;
+export default ZephonTheOpulent;

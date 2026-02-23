@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class Braindart extends Card {
     //Play: Enrage an enemy creature. It captures 1A from its own side.
     setupCardAbilities(ability) {
@@ -22,4 +21,4 @@ class Braindart extends Card {
 
 Braindart.id = 'braindart';
 
-module.exports = Braindart;
+export default Braindart;

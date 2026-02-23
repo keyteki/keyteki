@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class CurseOfForgery extends Card {
     // Treachery. (This card enters play under your opponent's control.)
     // When you would forge a key, purge Curse of Forgery and do not forge that key (no amber is spent).
@@ -25,4 +24,4 @@ class CurseOfForgery extends Card {
 
 CurseOfForgery.id = 'curse-of-forgery';
 
-module.exports = CurseOfForgery;
+export default CurseOfForgery;

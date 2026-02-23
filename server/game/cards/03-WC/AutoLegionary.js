@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class AutoLegionary extends Card {
     // Action: Put Auto-Legionary on a flank of your battleline. While in the battleline, it is considered a creature with 5 power and belongs to all houses.
     setupCardAbilities(ability) {
@@ -27,4 +26,4 @@ class AutoLegionary extends Card {
 
 AutoLegionary.id = 'auto-legionary';
 
-module.exports = AutoLegionary;
+export default AutoLegionary;

@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class BadgeOfUnity extends Card {
     //This creature belongs to house Star Alliance in addition to its other houses.
     setupCardAbilities(ability) {
@@ -11,4 +10,4 @@ class BadgeOfUnity extends Card {
 
 BadgeOfUnity.id = 'badge-of-unity';
 
-module.exports = BadgeOfUnity;
+export default BadgeOfUnity;

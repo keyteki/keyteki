@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class RevivedZaOrha extends Card {
     // Play: If your opponent has more forged keys than you, forge a key at
     // current cost. If you do, purge Revived Ză-Orhă.
@@ -27,4 +26,4 @@ class RevivedZaOrha extends Card {
 
 RevivedZaOrha.id = 'revived-ză-orhă';
 
-module.exports = RevivedZaOrha;
+export default RevivedZaOrha;

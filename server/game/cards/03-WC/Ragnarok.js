@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class Ragnarok extends Card {
     // Alpha.
     // Play: For the remainder of the turn, creatures cannot reap and you gain 1A whenever a friendly creature fights. At the end of the turn, destroy each creature.
@@ -31,4 +30,4 @@ class Ragnarok extends Card {
 
 Ragnarok.id = 'ragnarok';
 
-module.exports = Ragnarok;
+export default Ragnarok;

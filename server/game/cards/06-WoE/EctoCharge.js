@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class EctoCharge extends Card {
     // Play: Forge a key at +20A current cost, reduced by 1A for each
     // card in your discard pile (to a minimum of 6). If you do, purge
@@ -24,4 +23,4 @@ class EctoCharge extends Card {
 
 EctoCharge.id = 'ecto-charge';
 
-module.exports = EctoCharge;
+export default EctoCharge;

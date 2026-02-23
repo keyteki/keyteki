@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class RichScore extends Card {
     // Play: Make a token creature. Steal A equal to half the number
     // of friendly token creatures (rounded up).
@@ -27,4 +26,4 @@ class RichScore extends Card {
 
 RichScore.id = 'rich-score';
 
-module.exports = RichScore;
+export default RichScore;

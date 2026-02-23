@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class Hysteria extends Card {
     // Play: Return each creature to its owners hand.
     setupCardAbilities(ability) {
@@ -14,4 +13,4 @@ class Hysteria extends Card {
 
 Hysteria.id = 'hysteria';
 
-module.exports = Hysteria;
+export default Hysteria;

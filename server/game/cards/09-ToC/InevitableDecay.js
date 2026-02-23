@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class InevitableDecay extends Card {
     // Play: Destroy each artifact and upgrade. For each card
     // destroyed this way, make a token creature.
@@ -26,4 +25,4 @@ class InevitableDecay extends Card {
 
 InevitableDecay.id = 'inevitable-decay';
 
-module.exports = InevitableDecay;
+export default InevitableDecay;

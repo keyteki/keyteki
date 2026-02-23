@@ -1,5 +1,4 @@
-const SirsColossus = require('./SirsColossus.js');
-
+import SirsColossus from './SirsColossus.js';
 class SirsColossus2 extends SirsColossus {
     constructor(owner, cardData) {
         super(owner, cardData);
@@ -8,4 +7,4 @@ class SirsColossus2 extends SirsColossus {
 
 SirsColossus2.id = 'sirs-colossus2';
 
-module.exports = SirsColossus2;
+export default SirsColossus2;

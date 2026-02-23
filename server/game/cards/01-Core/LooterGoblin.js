@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class LooterGoblin extends Card {
     // Elusive. (The first time this creature is attacked each turn, no damage is dealt.)
     // Reap: For the remainder of the turn, gain 1<A> each time an enemy creature is destroyed.
@@ -19,4 +18,4 @@ class LooterGoblin extends Card {
 
 LooterGoblin.id = 'looter-goblin';
 
-module.exports = LooterGoblin;
+export default LooterGoblin;

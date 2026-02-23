@@ -1,6 +1,5 @@
-const _ = require('underscore');
-const { EVENTS } = require('../Events/types');
-
+import _ from 'underscore';
+import { EVENTS } from '../Events/types.js';
 const EventToTitleFunc = {
     onCardAbilityInitiated: (event) => 'the effects of ' + event.card.name,
     onCardDestroyed: (event) => event.card.name + ' being destroyed',
@@ -81,4 +80,4 @@ const AbilityWindowTitles = {
     }
 };
 
-module.exports = AbilityWindowTitles;
+export default AbilityWindowTitles;

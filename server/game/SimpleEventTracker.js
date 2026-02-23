@@ -1,6 +1,5 @@
-const EventRegistrar = require('./eventregistrar.js');
-const { EVENTS } = require('./Events/types.js');
-
+import EventRegistrar from './eventregistrar.js';
+import { EVENTS } from './Events/types.js';
 class SimpleEventTracker {
     /**
      * @param {import('./game')} game
@@ -18,4 +17,4 @@ class SimpleEventTracker {
     }
 }
 
-module.exports = SimpleEventTracker;
+export default SimpleEventTracker;

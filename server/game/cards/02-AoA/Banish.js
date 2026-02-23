@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class Banish extends Card {
     // Play: Put an enemy creature into your opponents archives.
     setupCardAbilities(ability) {
@@ -15,4 +14,4 @@ class Banish extends Card {
 
 Banish.id = 'banish';
 
-module.exports = Banish;
+export default Banish;

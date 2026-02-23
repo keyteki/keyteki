@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class FinishingBlow extends Card {
     // Play: Destroy a damaged creature. If you do, steal 1<A>.
     setupCardAbilities(ability) {
@@ -20,4 +19,4 @@ class FinishingBlow extends Card {
 
 FinishingBlow.id = 'finishing-blow';
 
-module.exports = FinishingBlow;
+export default FinishingBlow;

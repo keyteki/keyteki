@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class CreedOfNature extends Card {
     // Omni: Destroy Creed of Nature. If you do, choose a creature. For the remainder of the turn, that creature gains skirmish and assault X. X is its power.
     setupCardAbilities(ability) {
@@ -22,4 +21,4 @@ class CreedOfNature extends Card {
 
 CreedOfNature.id = 'creed-of-nature';
 
-module.exports = CreedOfNature;
+export default CreedOfNature;

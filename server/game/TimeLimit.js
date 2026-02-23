@@ -1,6 +1,5 @@
-const moment = require('moment');
-const { EVENTS } = require('./Events/types');
-
+import moment from 'moment';
+import { EVENTS } from './Events/types.js';
 class TimeLimit {
     constructor(game) {
         this.game = game;
@@ -53,4 +52,4 @@ class TimeLimit {
     }
 }
 
-module.exports = TimeLimit;
+export default TimeLimit;

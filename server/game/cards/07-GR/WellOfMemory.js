@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class WellOfMemory extends Card {
     // Play: Purge any number of cards from your hand. For each card
     // purged this way, return a card from your discard pile to your
@@ -38,4 +37,4 @@ class WellOfMemory extends Card {
 
 WellOfMemory.id = 'well-of-memory';
 
-module.exports = WellOfMemory;
+export default WellOfMemory;

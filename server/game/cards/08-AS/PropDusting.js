@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class PropDusting extends Card {
     // Play: Destroy an enemy flank creature.
     setupCardAbilities(ability) {
@@ -16,4 +15,4 @@ class PropDusting extends Card {
 
 PropDusting.id = 'prop-dusting';
 
-module.exports = PropDusting;
+export default PropDusting;

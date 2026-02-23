@@ -1,5 +1,4 @@
-const GiganticCard = require('../../GiganticCard.js');
-
+import GiganticCard from '../../GiganticCard.js';
 class Tormax extends GiganticCard {
     // (Play only with the other half of Tormax.)
     // Play/After Fight/After Reap: Discard your hand. Purge 2 random cards
@@ -31,4 +30,4 @@ class Tormax extends GiganticCard {
 
 Tormax.id = 'tormax';
 
-module.exports = Tormax;
+export default Tormax;

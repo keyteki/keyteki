@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class SanctumGuardian extends Card {
     // Taunt. (This creatures neighbors cannot be attacked unless they have taunt.)
     // Fight/Reap: Swap Sanctum Guardian with another friendly creature in your battleline.
@@ -18,4 +17,4 @@ class SanctumGuardian extends Card {
 
 SanctumGuardian.id = 'sanctum-guardian';
 
-module.exports = SanctumGuardian;
+export default SanctumGuardian;

@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class ShiGzisoBuggy extends Card {
     //Action: Destroy a friendly creature. If you do, gain 2A.
     setupCardAbilities(ability) {
@@ -18,4 +17,4 @@ class ShiGzisoBuggy extends Card {
 
 ShiGzisoBuggy.id = 'shĭgzisŏ-buggy';
 
-module.exports = ShiGzisoBuggy;
+export default ShiGzisoBuggy;

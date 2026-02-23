@@ -1,6 +1,5 @@
-const Card = require('../../Card.js');
-const { EVENTS } = require('../../Events/types.js');
-
+import Card from '../../Card.js';
+import { EVENTS } from '../../Events/types.js';
 class MercurialWormhole extends Card {
     // Play: Play the top card of your deck. That card's house becomes your active house.
     setupCardAbilities(ability) {
@@ -33,4 +32,4 @@ class MercurialWormhole extends Card {
 
 MercurialWormhole.id = 'mercurial-wormhole';
 
-module.exports = MercurialWormhole;
+export default MercurialWormhole;

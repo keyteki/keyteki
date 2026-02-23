@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class GolisArtificer extends Card {
     // After Reap: Make a token creature.
     setupCardAbilities(ability) {
@@ -11,4 +10,4 @@ class GolisArtificer extends Card {
 
 GolisArtificer.id = 'golis-artificer';
 
-module.exports = GolisArtificer;
+export default GolisArtificer;

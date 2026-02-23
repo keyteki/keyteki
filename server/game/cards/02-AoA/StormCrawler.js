@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class StormCrawler extends Card {
     // Storm Crawler only deals 1D when fighting.
     // After an enemy creature reaps, stun it.
@@ -22,4 +21,4 @@ class StormCrawler extends Card {
 
 StormCrawler.id = 'storm-crawler';
 
-module.exports = StormCrawler;
+export default StormCrawler;

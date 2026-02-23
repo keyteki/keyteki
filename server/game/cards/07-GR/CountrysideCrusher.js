@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class CountrysideCrusher extends Card {
     // After Fight: If your opponent is haunted, you may ready and
     // fight with a neighboring creature.
@@ -40,4 +39,4 @@ class CountrysideCrusher extends Card {
 
 CountrysideCrusher.id = 'countryside-crusher';
 
-module.exports = CountrysideCrusher;
+export default CountrysideCrusher;

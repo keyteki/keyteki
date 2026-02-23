@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class DrainingTouch extends Card {
     // Play: Destroy a creature with no A on it.
     setupCardAbilities(ability) {
@@ -17,4 +16,4 @@ class DrainingTouch extends Card {
 
 DrainingTouch.id = 'draining-touch';
 
-module.exports = DrainingTouch;
+export default DrainingTouch;

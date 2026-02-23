@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class AncientBattleground extends Card {
     //Each friendly creature cannot reap and gains, "After Fight: Gain 1A."
     setupCardAbilities(ability) {
@@ -17,4 +16,4 @@ class AncientBattleground extends Card {
 
 AncientBattleground.id = 'ancient-battleground';
 
-module.exports = AncientBattleground;
+export default AncientBattleground;

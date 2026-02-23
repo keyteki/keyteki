@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class Shadys extends Card {
     // Action: Play a creature from your discard pile. If that
     // creature is Purse-a-phone, destroy Shadys.
@@ -23,4 +22,4 @@ class Shadys extends Card {
 
 Shadys.id = 'shadys';
 
-module.exports = Shadys;
+export default Shadys;

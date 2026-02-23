@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class RevoHooligans extends Card {
     // After Reap: Put a paint counter on an artifact. While that
     // artifact has a paint counter, it belongs to house Mars (instead
@@ -28,4 +27,4 @@ class RevoHooligans extends Card {
 
 RevoHooligans.id = 'revo-hooligans';
 
-module.exports = RevoHooligans;
+export default RevoHooligans;

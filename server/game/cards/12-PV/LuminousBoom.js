@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class LuminousBoom extends Card {
     // Enhance 1.
     // Play: You may discard a Sanctum card. If you do, a friendly creature captures all of your opponent's A.
@@ -29,4 +28,4 @@ class LuminousBoom extends Card {
 
 LuminousBoom.id = 'luminous-boom';
 
-module.exports = LuminousBoom;
+export default LuminousBoom;

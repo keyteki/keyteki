@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class LesserOxtet extends Card {
     // Elusive.
     // Play: Purge each card in your hand.
@@ -24,4 +23,4 @@ class LesserOxtet extends Card {
 
 LesserOxtet.id = 'lesser-oxtet';
 
-module.exports = LesserOxtet;
+export default LesserOxtet;

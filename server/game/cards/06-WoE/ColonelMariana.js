@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class ColonelMariana extends Card {
     //Play: Each friendly Knight captures 1A.
     setupCardAbilities(ability) {
@@ -16,4 +15,4 @@ class ColonelMariana extends Card {
 
 ColonelMariana.id = 'colonel-mariana';
 
-module.exports = ColonelMariana;
+export default ColonelMariana;

@@ -1,5 +1,4 @@
-const BaseCardSelector = require('./BaseCardSelector.js');
-
+import BaseCardSelector from './BaseCardSelector.js';
 class UnlimitedCardSelector extends BaseCardSelector {
     hasEnoughSelected() {
         return true;
@@ -14,4 +13,4 @@ class UnlimitedCardSelector extends BaseCardSelector {
     }
 }
 
-module.exports = UnlimitedCardSelector;
+export default UnlimitedCardSelector;

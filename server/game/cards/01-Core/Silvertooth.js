@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class Silvertooth extends Card {
     // Silvertooth enters play ready.
     setupCardAbilities(ability) {
@@ -12,4 +11,4 @@ class Silvertooth extends Card {
 
 Silvertooth.id = 'silvertooth';
 
-module.exports = Silvertooth;
+export default Silvertooth;

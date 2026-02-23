@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class PhosphorusBlast extends Card {
     // Play: Deal 2D to each non-Mars creature.
     setupCardAbilities(ability) {
@@ -15,4 +14,4 @@ class PhosphorusBlast extends Card {
 
 PhosphorusBlast.id = 'phosphorus-blast';
 
-module.exports = PhosphorusBlast;
+export default PhosphorusBlast;

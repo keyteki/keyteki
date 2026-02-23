@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class RumorSower extends Card {
     // After Reap: Your opponent discards the top card of their
     // deck. Stun an enemy creature that shares a house with the
@@ -31,4 +30,4 @@ class RumorSower extends Card {
 
 RumorSower.id = 'rumor-sower';
 
-module.exports = RumorSower;
+export default RumorSower;

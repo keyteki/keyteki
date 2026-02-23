@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class DarkCenturion extends Card {
     // Enhance PTPT.
     // Action: Move 1A from a creature to the common supply. If you do, ward that creature.
@@ -22,4 +21,4 @@ class DarkCenturion extends Card {
 
 DarkCenturion.id = 'dark-centurion';
 
-module.exports = DarkCenturion;
+export default DarkCenturion;

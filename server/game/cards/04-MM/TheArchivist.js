@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class TheArchivist extends Card {
     // If you archive The Archivist, archive it faceup.
     // While The Archivist is in your archives, instead of picking up all of your archives, you may choose to pick up any number of cards in your archives.
@@ -20,4 +19,4 @@ class TheArchivist extends Card {
 
 TheArchivist.id = 'the-archivist';
 
-module.exports = TheArchivist;
+export default TheArchivist;

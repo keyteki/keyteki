@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class GonePearShaped extends Card {
     // Play: Each player discards their archives.
     // Fate: For the remainder of the turn, creatures cannot reap.
@@ -25,4 +24,4 @@ class GonePearShaped extends Card {
 
 GonePearShaped.id = 'gone-pear-shaped';
 
-module.exports = GonePearShaped;
+export default GonePearShaped;

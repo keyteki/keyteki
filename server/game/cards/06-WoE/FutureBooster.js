@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class FutureBooster extends Card {
     // Omni: Look at the top card of your deck. You may put it on the
     // bottom of your deck.
@@ -31,4 +30,4 @@ class FutureBooster extends Card {
 
 FutureBooster.id = 'future-booster';
 
-module.exports = FutureBooster;
+export default FutureBooster;

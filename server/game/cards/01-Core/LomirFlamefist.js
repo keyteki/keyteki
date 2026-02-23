@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class LomirFlamefist extends Card {
     // Play: If your opponent has 7<A> or more, they lose 2<A>.
     setupCardAbilities(ability) {
@@ -12,4 +11,4 @@ class LomirFlamefist extends Card {
 
 LomirFlamefist.id = 'lomir-flamefist';
 
-module.exports = LomirFlamefist;
+export default LomirFlamefist;

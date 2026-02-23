@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class IntoTheNight extends Card {
     // Play: Until the start of your next turn, non-Shadows creatures cannot be used to fight.
     setupCardAbilities(ability) {
@@ -20,4 +19,4 @@ class IntoTheNight extends Card {
 
 IntoTheNight.id = 'into-the-night';
 
-module.exports = IntoTheNight;
+export default IntoTheNight;

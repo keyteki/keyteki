@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class ReplicativeGrowth extends Card {
     // Play: For the remainder of the turn, each friendly creature gains,
     //
@@ -23,4 +22,4 @@ class ReplicativeGrowth extends Card {
 
 ReplicativeGrowth.id = 'replicative-growth';
 
-module.exports = ReplicativeGrowth;
+export default ReplicativeGrowth;

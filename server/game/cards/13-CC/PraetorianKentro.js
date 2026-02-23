@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class PraetorianKentro extends Card {
     // Enhance .
     // Each friendly Saurian creature gets +1 power.
@@ -16,4 +15,4 @@ class PraetorianKentro extends Card {
 
 PraetorianKentro.id = 'praetorian-kentro';
 
-module.exports = PraetorianKentro;
+export default PraetorianKentro;

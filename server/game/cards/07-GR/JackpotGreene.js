@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class JackpotGreene extends Card {
     // After a creature reaps, discard the top card of its
     // controller's deck. If the discarded card is a Star Alliance
@@ -28,4 +27,4 @@ class JackpotGreene extends Card {
 
 JackpotGreene.id = 'jackpot-greene';
 
-module.exports = JackpotGreene;
+export default JackpotGreene;

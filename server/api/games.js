@@ -1,11 +1,9 @@
-const passport = require('passport');
-
-const GameService = require('../services/GameService.js');
-const { wrapAsync } = require('../util.js');
-
+import passport from 'passport';
+import GameService from '../services/GameService.js';
+import { wrapAsync } from '../util.js';
 let gameService = new GameService();
 
-module.exports.init = function (server) {
+export const init = function (server) {
     server.get(
         '/api/games',
         passport.authenticate('jwt', { session: false }),

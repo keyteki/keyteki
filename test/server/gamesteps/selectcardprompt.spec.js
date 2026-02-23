@@ -1,6 +1,5 @@
-const _ = require('underscore');
-const SelectCardPrompt = require('../../../server/game/gamesteps/selectcardprompt.js');
-
+import _ from 'underscore';
+import SelectCardPrompt from '../../../server/game/gamesteps/selectcardprompt.js';
 describe.skip('the SelectCardPrompt', function () {
     function createCardSpy(properties = {}) {
         let card = {

@@ -1,7 +1,6 @@
-const { EVENTS } = require('../Events/types');
-const CardListSelector = require('./CardListSelector');
-const GameAction = require('./GameAction');
-
+import { EVENTS } from '../Events/types.js';
+import CardListSelector from './CardListSelector.js';
+import GameAction from './GameAction.js';
 class SequentialFightAction extends GameAction {
     setDefaultProperties() {
         this.revealList = [];
@@ -74,4 +73,4 @@ class SequentialFightAction extends GameAction {
     }
 }
 
-module.exports = SequentialFightAction;
+export default SequentialFightAction;

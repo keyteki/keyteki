@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class YxiliMarauder extends Card {
     // Yxili Marauder gets +1 power for each <A> on it.
     // Play: Capture 1<A> for each friendly ready Mars creature.
@@ -20,4 +19,4 @@ class YxiliMarauder extends Card {
 
 YxiliMarauder.id = 'yxili-marauder';
 
-module.exports = YxiliMarauder;
+export default YxiliMarauder;

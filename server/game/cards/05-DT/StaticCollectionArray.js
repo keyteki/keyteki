@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class StaticCollectionArray extends Card {
     // (T) Your keys cost –1A while the tide is high and +1A while the tide is low.
     setupCardAbilities(ability) {
@@ -13,4 +12,4 @@ class StaticCollectionArray extends Card {
 
 StaticCollectionArray.id = 'static-collection-array';
 
-module.exports = StaticCollectionArray;
+export default StaticCollectionArray;

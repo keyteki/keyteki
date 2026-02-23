@@ -1,7 +1,5 @@
-const EventEmitter = require('events');
-
-const AbilityLimit = require('../../server/game/abilitylimit.js');
-
+import EventEmitter from 'events';
+import AbilityLimit from '../../server/game/abilitylimit.js';
 describe('AbilityLimit', function () {
     beforeEach(function () {
         this.eventEmitterSpy = {

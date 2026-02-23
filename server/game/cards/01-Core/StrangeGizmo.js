@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class StrangeGizmo extends Card {
     // After you forge a key, destroy each creature and artifact.
     setupCardAbilities(ability) {
@@ -17,4 +16,4 @@ class StrangeGizmo extends Card {
 
 StrangeGizmo.id = 'strange-gizmo';
 
-module.exports = StrangeGizmo;
+export default StrangeGizmo;

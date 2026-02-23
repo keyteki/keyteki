@@ -1,5 +1,4 @@
-const GiganticCard = require('../../GiganticCard.js');
-
+import GiganticCard from '../../GiganticCard.js';
 class NiffleKong extends GiganticCard {
     // (Play only with the other half of Niffle Kong.)
     // Play: Search your deck and discard pile for any number of Niffle creatures, reveal them, and put them into your hand. Shuffle your deck.
@@ -61,4 +60,4 @@ class NiffleKong extends GiganticCard {
 
 NiffleKong.id = 'niffle-kong';
 
-module.exports = NiffleKong;
+export default NiffleKong;

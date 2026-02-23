@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class TrickleDownTheory extends Card {
     // (T) Play: Raise the tide.
     // Omni: Gain 1A if your opponent has 6A or more.
@@ -17,4 +16,4 @@ class TrickleDownTheory extends Card {
 
 TrickleDownTheory.id = 'trickle-down-theory';
 
-module.exports = TrickleDownTheory;
+export default TrickleDownTheory;

@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class SignalFire extends Card {
     // Omni: Sacrifice Signal Fire. For the remainder of the turn, friendly Brobnar creatures may fight as though they belonged to the active house.
     setupCardAbilities(ability) {
@@ -31,4 +30,4 @@ class SignalFire extends Card {
 
 SignalFire.id = 'signal-fire';
 
-module.exports = SignalFire;
+export default SignalFire;

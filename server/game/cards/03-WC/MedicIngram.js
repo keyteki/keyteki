@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class MedicIngram extends Card {
     // Play/Fight/Reap: You may heal 3 damage from a creature and ward it.
     setupCardAbilities(ability) {
@@ -22,4 +21,4 @@ class MedicIngram extends Card {
 
 MedicIngram.id = 'medic-ingram';
 
-module.exports = MedicIngram;
+export default MedicIngram;

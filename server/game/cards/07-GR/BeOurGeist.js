@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class BeOurGeist extends Card {
     // Play: Choose a creature in any haunted player's discard
     // pile. Play that creature as if it were in your hand.
@@ -18,4 +17,4 @@ class BeOurGeist extends Card {
 
 BeOurGeist.id = 'be-our-geist';
 
-module.exports = BeOurGeist;
+export default BeOurGeist;

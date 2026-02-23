@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class WitchOfTheWilds extends Card {
     // During each turn in which Untamed is not your active house, you may play one Untamed card.
     setupCardAbilities(ability) {
@@ -12,4 +11,4 @@ class WitchOfTheWilds extends Card {
 
 WitchOfTheWilds.id = 'witch-of-the-wilds';
 
-module.exports = WitchOfTheWilds;
+export default WitchOfTheWilds;

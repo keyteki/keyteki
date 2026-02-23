@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class UniversalKeylock extends Card {
     // Keys cost +3.
     // After a player forges a key, destroy Universal Keylock.
@@ -21,4 +20,4 @@ class UniversalKeylock extends Card {
 
 UniversalKeylock.id = 'universal-keylock';
 
-module.exports = UniversalKeylock;
+export default UniversalKeylock;

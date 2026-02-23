@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class TraumaticEcho extends Card {
     // Play: Purge a card from your discard pile. During your opponent's next turn,
     // they cannot play cards of the purged card's type.
@@ -34,4 +33,4 @@ class TraumaticEcho extends Card {
 
 TraumaticEcho.id = 'traumatic-echo';
 
-module.exports = TraumaticEcho;
+export default TraumaticEcho;

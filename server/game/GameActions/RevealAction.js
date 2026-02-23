@@ -1,6 +1,5 @@
-const { EVENTS } = require('../Events/types');
-const CardGameAction = require('./CardGameAction');
-
+import { EVENTS } from '../Events/types.js';
+import CardGameAction from './CardGameAction.js';
 class RevealAction extends CardGameAction {
     setDefaultProperties() {
         this.chatMessage = false;
@@ -30,4 +29,4 @@ class RevealAction extends CardGameAction {
     }
 }
 
-module.exports = RevealAction;
+export default RevealAction;

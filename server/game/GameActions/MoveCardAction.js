@@ -1,6 +1,5 @@
-const { EVENTS } = require('../Events/types');
-const CardGameAction = require('./CardGameAction');
-
+import { EVENTS } from '../Events/types.js';
+import CardGameAction from './CardGameAction.js';
 class MoveCardAction extends CardGameAction {
     setDefaultProperties() {
         this.destination = '';
@@ -37,4 +36,4 @@ class MoveCardAction extends CardGameAction {
     }
 }
 
-module.exports = MoveCardAction;
+export default MoveCardAction;

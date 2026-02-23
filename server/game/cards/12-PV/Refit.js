@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class Refit extends Card {
     // Play: You may move an upgrade in play to another creature.
     // Fate: Destroy an upgrade attached to a friendly creature.
@@ -42,4 +41,4 @@ class Refit extends Card {
 
 Refit.id = 'refit';
 
-module.exports = Refit;
+export default Refit;

@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class FreebooterFaye extends Card {
     // (T) Play: Raise the tide.
     // (T) Reap: If the tide is high, steal 1A.
@@ -17,4 +16,4 @@ class FreebooterFaye extends Card {
 
 FreebooterFaye.id = 'freebooter-faye';
 
-module.exports = FreebooterFaye;
+export default FreebooterFaye;

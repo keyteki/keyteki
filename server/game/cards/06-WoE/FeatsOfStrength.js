@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class FeatsOfStrength extends Card {
     // Play: For the remainder of the turn, each time an enemy
     // creature is destroyed in a fight, make a token creature.
@@ -22,4 +21,4 @@ class FeatsOfStrength extends Card {
 
 FeatsOfStrength.id = 'feats-of-strength';
 
-module.exports = FeatsOfStrength;
+export default FeatsOfStrength;

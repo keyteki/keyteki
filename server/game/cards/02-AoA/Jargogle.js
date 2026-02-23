@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class Jargogle extends Card {
     // Elusive.
     // Play: Put a card from your hand facedown under Jargogle.
@@ -44,4 +43,4 @@ class Jargogle extends Card {
 
 Jargogle.id = 'jargogle';
 
-module.exports = Jargogle;
+export default Jargogle;

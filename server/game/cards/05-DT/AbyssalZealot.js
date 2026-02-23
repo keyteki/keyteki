@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class AbyssalZealot extends Card {
     // (T) After you raise the tide, capture 2A.
     // (T) After your opponent raises the tide, move 2A from Abyssal Zealot to the common supply.
@@ -24,4 +23,4 @@ class AbyssalZealot extends Card {
 
 AbyssalZealot.id = 'abyssal-zealot';
 
-module.exports = AbyssalZealot;
+export default AbyssalZealot;

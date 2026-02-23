@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class FinchCloak extends Card {
     // Fight/Reap: If you have less  than your opponent, steal 1. Otherwise, each player gains 1.
     setupCardAbilities(ability) {
@@ -31,4 +30,4 @@ class FinchCloak extends Card {
 }
 FinchCloak.id = 'finch-cloak';
 
-module.exports = FinchCloak;
+export default FinchCloak;

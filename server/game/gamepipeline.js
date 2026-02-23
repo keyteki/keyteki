@@ -1,5 +1,4 @@
-const _ = require('underscore');
-
+import _ from 'underscore';
 class GamePipeline {
     constructor() {
         this.pipeline = [];
@@ -177,4 +176,4 @@ class GamePipeline {
     }
 }
 
-module.exports = GamePipeline;
+export default GamePipeline;

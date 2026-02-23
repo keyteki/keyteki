@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class Hapsis extends Card {
     // After an enemy creature is destroyed fighting Hapsis, ward Hapsis and draw a card.
     setupCardAbilities(ability) {
@@ -15,4 +14,4 @@ class Hapsis extends Card {
 
 Hapsis.id = 'hapsis';
 
-module.exports = Hapsis;
+export default Hapsis;

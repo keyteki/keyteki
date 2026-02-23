@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class Rorqual extends Card {
     // Rorqual gets +1 power for each A on it.
     // After Fight/After Reap: Exalt Rorqual.
@@ -30,4 +29,4 @@ class Rorqual extends Card {
 
 Rorqual.id = 'rorqual';
 
-module.exports = Rorqual;
+export default Rorqual;

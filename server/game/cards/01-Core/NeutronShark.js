@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class NeutronShark extends Card {
     // Play/Fight/Reap: Destroy an enemy creature or artifact and a friendly creature or artifact. Discard the top card of your deck. If that card is not a Logos card, trigger this effect again.
     setupCardAbilities(ability) {
@@ -57,4 +56,4 @@ class NeutronShark extends Card {
 
 NeutronShark.id = 'neutron-shark';
 
-module.exports = NeutronShark;
+export default NeutronShark;

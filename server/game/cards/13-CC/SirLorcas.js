@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class SirLorcas extends Card {
     // If your red key is forged, Sir Lorcas gains skirmish.
     // If your yellow key is forged, Sir Lorcas gains elusive.
@@ -24,4 +23,4 @@ class SirLorcas extends Card {
 
 SirLorcas.id = 'sir-lorcas';
 
-module.exports = SirLorcas;
+export default SirLorcas;

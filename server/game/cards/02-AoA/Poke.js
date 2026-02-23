@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class Poke extends Card {
     // Play: Deal 1D to an enemy creature. If this damage destroys that creature, draw a card.
     setupCardAbilities(ability) {
@@ -23,4 +22,4 @@ class Poke extends Card {
 
 Poke.id = 'poke';
 
-module.exports = Poke;
+export default Poke;

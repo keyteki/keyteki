@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class FlintsLegend extends Card {
     // Play: Move 1A from your opponent's pool to Treasure Island.
     setupCardAbilities(ability) {
@@ -23,4 +22,4 @@ class FlintsLegend extends Card {
 
 FlintsLegend.id = 'flint-s-legend';
 
-module.exports = FlintsLegend;
+export default FlintsLegend;

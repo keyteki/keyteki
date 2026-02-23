@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class ScientistsBane extends Card {
     // Play: Destroy a Scientist creature.
     setupCardAbilities(ability) {
@@ -19,4 +18,4 @@ class ScientistsBane extends Card {
 
 ScientistsBane.id = 'scientists--bane';
 
-module.exports = ScientistsBane;
+export default ScientistsBane;

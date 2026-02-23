@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class WrathOrRuin extends Card {
     // Play: Choose one:
     // • Destroy a flank creature.
@@ -37,4 +36,4 @@ class WrathOrRuin extends Card {
 
 WrathOrRuin.id = 'wrath-or-ruin';
 
-module.exports = WrathOrRuin;
+export default WrathOrRuin;

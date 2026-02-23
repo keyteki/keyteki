@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class EeOnTheFringes extends Card {
     // Elusive.
     // During your turn, after you discard a Dis card from your hand, you may purge a Dis card from a discard pile. If you do, steal 1A.
@@ -29,4 +28,4 @@ class EeOnTheFringes extends Card {
 
 EeOnTheFringes.id = 'e-e-on-the-fringes';
 
-module.exports = EeOnTheFringes;
+export default EeOnTheFringes;

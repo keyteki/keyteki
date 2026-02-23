@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class SergeantZakiel extends Card {
     // Play: You may ready and fight with a neighboring creature.
     setupCardAbilities(ability) {
@@ -21,4 +20,4 @@ class SergeantZakiel extends Card {
 
 SergeantZakiel.id = 'sergeant-zakiel';
 
-module.exports = SergeantZakiel;
+export default SergeantZakiel;

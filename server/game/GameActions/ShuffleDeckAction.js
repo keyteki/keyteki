@@ -1,6 +1,5 @@
-const { EVENTS } = require('../Events/types');
-const PlayerAction = require('./PlayerAction');
-
+import { EVENTS } from '../Events/types.js';
+import PlayerAction from './PlayerAction.js';
 class ShuffleDeckAction extends PlayerAction {
     setup() {
         super.setup();
@@ -24,4 +23,4 @@ class ShuffleDeckAction extends PlayerAction {
     }
 }
 
-module.exports = ShuffleDeckAction;
+export default ShuffleDeckAction;

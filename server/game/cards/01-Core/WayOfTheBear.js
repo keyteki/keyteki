@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class WayOfTheBear extends Card {
     // This creature gains assault 2. (Before this creature attacks, deal 2<D> to the attacked enemy.)
     setupCardAbilities(ability) {
@@ -11,4 +10,4 @@ class WayOfTheBear extends Card {
 
 WayOfTheBear.id = 'way-of-the-bear';
 
-module.exports = WayOfTheBear;
+export default WayOfTheBear;

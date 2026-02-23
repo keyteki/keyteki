@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class Bonecrusher extends Card {
     // This creature gains, “Action: Destroy a creature.”
     setupCardAbilities(ability) {
@@ -16,4 +15,4 @@ class Bonecrusher extends Card {
 
 Bonecrusher.id = 'bonecrusher';
 
-module.exports = Bonecrusher;
+export default Bonecrusher;

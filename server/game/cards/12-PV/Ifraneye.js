@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class Ifraneye extends Card {
     // Play: Discard your hand.
     // After Reap: Your opponent discards 2 random cards from their hand.
@@ -22,4 +21,4 @@ class Ifraneye extends Card {
 
 Ifraneye.id = 'ifraneye';
 
-module.exports = Ifraneye;
+export default Ifraneye;

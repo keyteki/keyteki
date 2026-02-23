@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class Freelancer extends Card {
     // At the start of each turn, the active player takes control of
     // this creature. This creature may be used as if it belonged to
@@ -27,4 +26,4 @@ class Freelancer extends Card {
 
 Freelancer.id = 'freelancer';
 
-module.exports = Freelancer;
+export default Freelancer;

@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class KajuZhan extends Card {
     // While Kaju Zhan is attacking, ignore armor and taunt
     // After Fight: Put an enemy creature on top of its owner's deck
@@ -20,4 +19,4 @@ class KajuZhan extends Card {
 
 KajuZhan.id = 'kaju-zhan';
 
-module.exports = KajuZhan;
+export default KajuZhan;

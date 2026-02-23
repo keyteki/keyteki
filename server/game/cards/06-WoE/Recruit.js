@@ -1,6 +1,5 @@
-const Card = require('../../Card.js');
-const EventRegistrar = require('../../eventregistrar.js');
-
+import Card from '../../Card.js';
+import EventRegistrar from '../../eventregistrar.js';
 class Recruit extends Card {
     // Play: Make a token creature. If you exalted a friendly creature
     // this turn, archive Recruit.
@@ -48,4 +47,4 @@ class Recruit extends Card {
 
 Recruit.id = 'recruit';
 
-module.exports = Recruit;
+export default Recruit;

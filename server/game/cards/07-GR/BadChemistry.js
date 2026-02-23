@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class BadChemistry extends Card {
     // Play: Stun each creature that shares a house with one or more
     // of its neighbors.
@@ -16,4 +15,4 @@ class BadChemistry extends Card {
 
 BadChemistry.id = 'bad-chemistry';
 
-module.exports = BadChemistry;
+export default BadChemistry;

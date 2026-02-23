@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class Technorachnophobia extends Card {
     // Play: Discard the top 10 cards of your deck. If you discard 5
     // or more cards of the same house this way, steal 2.
@@ -30,4 +29,4 @@ class Technorachnophobia extends Card {
 
 Technorachnophobia.id = 'technorachnophobia';
 
-module.exports = Technorachnophobia;
+export default Technorachnophobia;

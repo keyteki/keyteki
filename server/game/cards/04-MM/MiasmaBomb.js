@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class MiasmaBomb extends Card {
     // Enhance . (These icons have already been added to cards in your deck.)
     // Action: Destroy Miasma Bomb. Your opponent skips the "forge a key" step during their next turn.
@@ -21,4 +20,4 @@ class MiasmaBomb extends Card {
 
 MiasmaBomb.id = 'miasma-bomb';
 
-module.exports = MiasmaBomb;
+export default MiasmaBomb;

@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class StaralliancePlant extends Card {
     // Elusive.
     // After a player chooses Star Alliance as their active house, gain 1A.
@@ -15,4 +14,4 @@ class StaralliancePlant extends Card {
 
 StaralliancePlant.id = 'star-alliance-plant';
 
-module.exports = StaralliancePlant;
+export default StaralliancePlant;

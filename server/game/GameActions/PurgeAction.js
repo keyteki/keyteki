@@ -1,6 +1,5 @@
-const { EVENTS } = require('../Events/types');
-const CardGameAction = require('./CardGameAction');
-
+import { EVENTS } from '../Events/types.js';
+import CardGameAction from './CardGameAction.js';
 const locationsHiddenFromPurge = ['hand', 'archives'];
 
 class PurgeAction extends CardGameAction {
@@ -101,4 +100,4 @@ class PurgeAction extends CardGameAction {
     }
 }
 
-module.exports = PurgeAction;
+export default PurgeAction;

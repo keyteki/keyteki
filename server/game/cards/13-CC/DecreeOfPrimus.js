@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class DecreeOfPrimus extends Card {
     // Play: Choose a creature. Move all amber from that creature to another creature.
     setupCardAbilities(ability) {
@@ -31,4 +30,4 @@ class DecreeOfPrimus extends Card {
 
 DecreeOfPrimus.id = 'decree-of-primus';
 
-module.exports = DecreeOfPrimus;
+export default DecreeOfPrimus;

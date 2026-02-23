@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class CurseOfDisappearances extends Card {
     // Treachery. (This card enters play under your opponent’s control.)
     //
@@ -35,4 +34,4 @@ class CurseOfDisappearances extends Card {
 
 CurseOfDisappearances.id = 'curse-of-disappearances';
 
-module.exports = CurseOfDisappearances;
+export default CurseOfDisappearances;

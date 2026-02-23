@@ -1,5 +1,4 @@
-const GameAction = require('./GameAction');
-
+import GameAction from './GameAction.js';
 class ChooseGameAction extends GameAction {
     setDefaultProperties() {
         this.choice = null;
@@ -89,4 +88,4 @@ class ChooseGameAction extends GameAction {
     }
 }
 
-module.exports = ChooseGameAction;
+export default ChooseGameAction;

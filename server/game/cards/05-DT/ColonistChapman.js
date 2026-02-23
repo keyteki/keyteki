@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class ColonistChapman extends Card {
     // Taunt.
     // Each of Colonist Chapman's non-Star Alliance neighbors gains, "Reap: Gain 1A."
@@ -19,4 +18,4 @@ class ColonistChapman extends Card {
 
 ColonistChapman.id = 'colonist-chapman';
 
-module.exports = ColonistChapman;
+export default ColonistChapman;

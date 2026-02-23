@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class BurningGlare extends Card {
     // Enhance D. (These icons have already been added to cards in your deck.)
     // Play: Stun an enemy creature, or stun each enemy Mutant creature.
@@ -33,4 +32,4 @@ class BurningGlare extends Card {
 
 BurningGlare.id = 'burning-glare';
 
-module.exports = BurningGlare;
+export default BurningGlare;

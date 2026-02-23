@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class CorrosiveMonk extends Card {
     // Each creature is considered to have 0 armor. Each creature cannot gain armor.
     // Fate: Destroy a friendly creature for each enemy Mutant creature.
@@ -27,4 +26,4 @@ class CorrosiveMonk extends Card {
 
 CorrosiveMonk.id = 'corrosive-monk';
 
-module.exports = CorrosiveMonk;
+export default CorrosiveMonk;

@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class Charybdis extends Card {
     // Each enemy creatures gains, "Before Fight: Lose 1."
     setupCardAbilities(ability) {
@@ -17,4 +16,4 @@ class Charybdis extends Card {
 
 Charybdis.id = 'charybdis';
 
-module.exports = Charybdis;
+export default Charybdis;

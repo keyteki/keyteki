@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class ChaosPortal extends Card {
     // Action: Choose a house. Reveal the top card of your deck. If it is of that house, play it.
     setupCardAbilities(ability) {
@@ -21,4 +20,4 @@ class ChaosPortal extends Card {
 
 ChaosPortal.id = 'chaos-portal';
 
-module.exports = ChaosPortal;
+export default ChaosPortal;

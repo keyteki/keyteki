@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class EaterOfTheDead extends Card {
     // Fight/Reap: Purge a creature from a discard pile. If you do, put a +1 power counter on Eater of the Dead.
     setupCardAbilities(ability) {
@@ -19,4 +18,4 @@ class EaterOfTheDead extends Card {
 
 EaterOfTheDead.id = 'eater-of-the-dead';
 
-module.exports = EaterOfTheDead;
+export default EaterOfTheDead;

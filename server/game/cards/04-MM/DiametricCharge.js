@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class DiametricCharge extends Card {
     // Play: Deal 1D to a creature, with 2D splash.
     setupCardAbilities(ability) {
@@ -17,4 +16,4 @@ class DiametricCharge extends Card {
 
 DiametricCharge.id = 'diametric-charge';
 
-module.exports = DiametricCharge;
+export default DiametricCharge;

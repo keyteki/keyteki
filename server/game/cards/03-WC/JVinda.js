@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class JVinda extends Card {
     // Elusive. (The first time this creature is attacked each turn, no damage is dealt.)
     // Reap: Deal 1D to a creature. If this damage destroys that creature, steal 1A.
@@ -24,4 +23,4 @@ class JVinda extends Card {
 
 JVinda.id = 'j-vinda';
 
-module.exports = JVinda;
+export default JVinda;

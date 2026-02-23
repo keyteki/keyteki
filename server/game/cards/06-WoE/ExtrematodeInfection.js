@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class ExtrematodeInfection extends Card {
     //Play: Put 3 hatch counters on Extrematode Infection.
     // At the start of your turn, remove 1 hatch counter from Extrematode Infection.
@@ -37,4 +36,4 @@ class ExtrematodeInfection extends Card {
 
 ExtrematodeInfection.id = 'extrematode-infection';
 
-module.exports = ExtrematodeInfection;
+export default ExtrematodeInfection;

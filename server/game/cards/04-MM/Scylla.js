@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class Scylla extends Card {
     // Each enemy creature gains, "Reap: Deal 4 to this creature."
     setupCardAbilities(ability) {
@@ -18,4 +17,4 @@ class Scylla extends Card {
 
 Scylla.id = 'scylla';
 
-module.exports = Scylla;
+export default Scylla;

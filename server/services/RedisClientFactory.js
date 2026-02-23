@@ -1,5 +1,4 @@
-const redis = require('redis');
-
+import redis from 'redis';
 class RedisClientFactory {
     constructor(configService) {
         this.configService = configService;
@@ -48,4 +47,4 @@ class RedisClientFactory {
     }
 }
 
-module.exports = RedisClientFactory;
+export default RedisClientFactory;

@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class PlowSword extends Card {
     // Action: Put a creature in a discard pile on the bottom of its
     // owner’s deck. If you do, deal 3 to a creature.
@@ -28,4 +27,4 @@ class PlowSword extends Card {
 
 PlowSword.id = 'plow-sword';
 
-module.exports = PlowSword;
+export default PlowSword;

@@ -1,5 +1,4 @@
-const BlasterCard = require('./BlasterCard.js');
-
+import BlasterCard from './BlasterCard.js';
 class MolinasBlaster extends BlasterCard {
     // This creature gains, Fight/Reap: You may deal 2D to a creature, or attach Molinas Blaster to Armsmaster Molina.
     // After you attach Molinas Blaster to Armsmaster Molina, you may deal 3D to a creature.
@@ -25,4 +24,4 @@ class MolinasBlaster extends BlasterCard {
 
 MolinasBlaster.id = 'molina-s-blaster';
 
-module.exports = MolinasBlaster;
+export default MolinasBlaster;

@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class MogghuntersBrew extends Card {
     // Play: Give a creature two +1 power counters.
     setupCardAbilities(ability) {
@@ -16,4 +15,4 @@ class MogghuntersBrew extends Card {
 
 MogghuntersBrew.id = 'mogghunter-s-brew';
 
-module.exports = MogghuntersBrew;
+export default MogghuntersBrew;

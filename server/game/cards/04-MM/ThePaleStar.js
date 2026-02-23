@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class ThePaleStar extends Card {
     // Omni: Destroy The Pale Star. For the remainder of the turn, each creature is considered to have 1 power and 0 armor.
     setupCardAbilities(ability) {
@@ -18,4 +17,4 @@ class ThePaleStar extends Card {
 
 ThePaleStar.id = 'the-pale-star';
 
-module.exports = ThePaleStar;
+export default ThePaleStar;

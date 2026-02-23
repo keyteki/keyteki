@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class MarmoSwarm extends Card {
     // Marmo Swarm gets +1 power for each A in your pool.
     setupCardAbilities(ability) {
@@ -11,4 +10,4 @@ class MarmoSwarm extends Card {
 
 MarmoSwarm.id = 'marmo-swarm';
 
-module.exports = MarmoSwarm;
+export default MarmoSwarm;

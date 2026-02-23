@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class RhetorGallim extends Card {
     // Play: Your opponents keys cost +3A during their next turn.
     // Reap: You may exalt Rhetor Gallim. If you do, your opponents keys cost +3A during their next turn.
@@ -30,4 +29,4 @@ class RhetorGallim extends Card {
 
 RhetorGallim.id = 'rhetor-gallim';
 
-module.exports = RhetorGallim;
+export default RhetorGallim;

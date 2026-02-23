@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class Thoughtswim extends Card {
     // This creature gains, “While your opponent is haunted, this
     // creature cannot be dealt damage.”
@@ -14,4 +13,4 @@ class Thoughtswim extends Card {
 
 Thoughtswim.id = 'thoughtswim';
 
-module.exports = Thoughtswim;
+export default Thoughtswim;

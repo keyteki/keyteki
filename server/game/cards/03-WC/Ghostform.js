@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class Ghostform extends Card {
     // This creature gains invulnerable. (It cannot be destroyed or dealt damage.)
     // This creature gains, Fight/Reap: Archive Ghostform.
@@ -18,4 +17,4 @@ class Ghostform extends Card {
 
 Ghostform.id = 'ghostform';
 
-module.exports = Ghostform;
+export default Ghostform;

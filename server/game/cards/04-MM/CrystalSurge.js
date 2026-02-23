@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class CrystalSurge extends Card {
     // Play: Exalt each Mutant creature.
     setupCardAbilities(ability) {
@@ -13,4 +12,4 @@ class CrystalSurge extends Card {
 
 CrystalSurge.id = 'crystal-surge';
 
-module.exports = CrystalSurge;
+export default CrystalSurge;

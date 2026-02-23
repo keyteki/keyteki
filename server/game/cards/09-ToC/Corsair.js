@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class Corsair extends Card {
     // While your red key is forged, Corsair gets +1 power and gains skirmish.
     setupCardAbilities(ability) {
@@ -14,4 +13,4 @@ class Corsair extends Card {
 
 Corsair.id = 'corsair';
 
-module.exports = Corsair;
+export default Corsair;

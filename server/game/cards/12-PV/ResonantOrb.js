@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class ResonantOrb extends Card {
     // After Reap: Discard the top card of your deck. If it is a creature,
     // destroy an enemy creature and put the discarded card into play.
@@ -77,4 +76,4 @@ class ResonantOrb extends Card {
 
 ResonantOrb.id = 'resonant-orb';
 
-module.exports = ResonantOrb;
+export default ResonantOrb;

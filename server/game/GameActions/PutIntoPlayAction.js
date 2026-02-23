@@ -1,6 +1,5 @@
-const { EVENTS } = require('../Events/types');
-const CardGameAction = require('./CardGameAction');
-
+import { EVENTS } from '../Events/types.js';
+import CardGameAction from './CardGameAction.js';
 class PutIntoPlayAction extends CardGameAction {
     setDefaultProperties() {
         this.left = false;
@@ -331,4 +330,4 @@ class PutIntoPlayAction extends CardGameAction {
     }
 }
 
-module.exports = PutIntoPlayAction;
+export default PutIntoPlayAction;

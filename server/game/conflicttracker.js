@@ -1,5 +1,4 @@
-const _ = require('underscore');
-
+import _ from 'underscore';
 class ConflictTracker {
     constructor() {
         this.complete = 0;
@@ -148,4 +147,4 @@ class ConflictTracker {
     }
 }
 
-module.exports = ConflictTracker;
+export default ConflictTracker;

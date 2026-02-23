@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class ColonistChapmanEvilTwin extends Card {
     // Elusive. (The first time this creature is attacked each turn, no damage is dealt.)
     // Play: Capture all A from each player.
@@ -22,4 +21,4 @@ class ColonistChapmanEvilTwin extends Card {
 
 ColonistChapmanEvilTwin.id = 'colonist-chapman-evil-twin';
 
-module.exports = ColonistChapmanEvilTwin;
+export default ColonistChapmanEvilTwin;

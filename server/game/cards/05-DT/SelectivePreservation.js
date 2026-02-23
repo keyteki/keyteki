@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class SelectivePreservation extends Card {
     // Play: Choose a creature of each power value. Destroy each creature not chosen.
     setupCardAbilities(ability) {
@@ -42,4 +41,4 @@ class SelectivePreservation extends Card {
 
 SelectivePreservation.id = 'selective-preservation';
 
-module.exports = SelectivePreservation;
+export default SelectivePreservation;

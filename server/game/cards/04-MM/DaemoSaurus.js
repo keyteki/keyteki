@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class DaemoSaurus extends Card {
     // Play: You may exalt Dmo-Saurus. If you do, deal 3D to a creature.
     // Destroyed: Steal 1A.
@@ -23,4 +22,4 @@ class DaemoSaurus extends Card {
 
 DaemoSaurus.id = 'dæmo-saurus';
 
-module.exports = DaemoSaurus;
+export default DaemoSaurus;

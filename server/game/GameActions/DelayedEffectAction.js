@@ -1,6 +1,5 @@
-const { EVENTS } = require('../Events/types');
-const CardGameAction = require('./CardGameAction');
-
+import { EVENTS } from '../Events/types.js';
+import CardGameAction from './CardGameAction.js';
 class DelayedEffectAction extends CardGameAction {
     setDefaultProperties() {
         this.when = {};
@@ -40,4 +39,4 @@ class DelayedEffectAction extends CardGameAction {
     }
 }
 
-module.exports = DelayedEffectAction;
+export default DelayedEffectAction;

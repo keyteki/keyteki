@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class ImmortalGreking extends Card {
     // Play: Take control of an enemy creature and place it anywhere
     // in your battleline. Until Immortal Greking leaves play, that
@@ -43,4 +42,4 @@ class ImmortalGreking extends Card {
 
 ImmortalGreking.id = 'immortal-greking';
 
-module.exports = ImmortalGreking;
+export default ImmortalGreking;

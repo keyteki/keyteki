@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class BitByte extends Card {
     // Skirmish.
     // After Fight: Put the creature Bit Byte fights into its owner's archives.
@@ -28,4 +27,4 @@ class BitByte extends Card {
 
 BitByte.id = 'bit-byte';
 
-module.exports = BitByte;
+export default BitByte;

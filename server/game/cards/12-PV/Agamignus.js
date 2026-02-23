@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class Agamignus extends Card {
     // After another Mutant creature enters play, gain 1A.
     // Fate: Destroy each non-Mutant creature.
@@ -24,4 +23,4 @@ class Agamignus extends Card {
 
 Agamignus.id = 'agamignus';
 
-module.exports = Agamignus;
+export default Agamignus;

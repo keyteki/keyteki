@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class OneEyedWillaEvilTwin extends Card {
     // Elusive. Skirmish.
     // (T) Fight: If the tide is high, your opponent loses 2A.
@@ -13,4 +12,4 @@ class OneEyedWillaEvilTwin extends Card {
 
 OneEyedWillaEvilTwin.id = 'one-eyed-willa-evil-twin';
 
-module.exports = OneEyedWillaEvilTwin;
+export default OneEyedWillaEvilTwin;

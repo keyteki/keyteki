@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class HealOrHarm extends Card {
     // Play: Choose one:
     // • Fully heal a creature and gain 1A.
@@ -41,4 +40,4 @@ class HealOrHarm extends Card {
 
 HealOrHarm.id = 'heal-or-harm';
 
-module.exports = HealOrHarm;
+export default HealOrHarm;

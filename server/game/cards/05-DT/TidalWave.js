@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class TidalWave extends Card {
     // (T) Play: If the tide is high, destroy a creature and each of its neighbors. Your opponent raises the tide.
     setupCardAbilities(ability) {
@@ -21,4 +20,4 @@ class TidalWave extends Card {
 
 TidalWave.id = 'tidal-wave';
 
-module.exports = TidalWave;
+export default TidalWave;

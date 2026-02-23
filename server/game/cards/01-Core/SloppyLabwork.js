@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class SloppyLabwork extends Card {
     // Play: Archive a card. Discard a card.
     setupCardAbilities(ability) {
@@ -29,4 +28,4 @@ class SloppyLabwork extends Card {
 
 SloppyLabwork.id = 'sloppy-labwork';
 
-module.exports = SloppyLabwork;
+export default SloppyLabwork;

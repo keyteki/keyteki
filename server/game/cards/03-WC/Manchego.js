@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class Manchego extends Card {
     // Play: If you have 5 or fewer cards in your deck, steal 2A.
     // Fight/Reap: You may shuffle Manchego into your deck.
@@ -19,4 +18,4 @@ class Manchego extends Card {
 
 Manchego.id = 'manchego';
 
-module.exports = Manchego;
+export default Manchego;

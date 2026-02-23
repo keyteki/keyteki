@@ -1,6 +1,5 @@
-const Card = require('../../Card.js');
-const EventRegistrar = require('../../eventregistrar.js');
-
+import Card from '../../Card.js';
+import EventRegistrar from '../../eventregistrar.js';
 class Ragwarg extends Card {
     // After a creature reaps, if it is the first time a creature has reaped this turn, deal 2D to it.
     setupCardAbilities(ability) {
@@ -32,4 +31,4 @@ class Ragwarg extends Card {
 
 Ragwarg.id = 'ragwarg';
 
-module.exports = Ragwarg;
+export default Ragwarg;

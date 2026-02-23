@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class RatPixie extends Card {
     // Play/After Reap: If you have 4A or fewer, gain 1A.
     setupCardAbilities(ability) {
@@ -13,4 +12,4 @@ class RatPixie extends Card {
 
 RatPixie.id = 'rat-pixie';
 
-module.exports = RatPixie;
+export default RatPixie;

@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class FriendlyGuide extends Card {
     //Elusive
     //After you use one of Friendly Guide's neighbors, you may use Friendly Guide.
@@ -18,4 +17,4 @@ class FriendlyGuide extends Card {
 
 FriendlyGuide.id = 'friendly-guide';
 
-module.exports = FriendlyGuide;
+export default FriendlyGuide;

@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class Skoll extends Card {
     // Assault 3. (Before this creature attacks, deal 3D to the attacked enemy.)
     // After an enemy creature is destroyed by Sklls assault damage, give a friendly creature a +1 power counter.
@@ -26,4 +25,4 @@ class Skoll extends Card {
 
 Skoll.id = 'sköll';
 
-module.exports = Skoll;
+export default Skoll;

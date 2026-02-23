@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class SinkOrSwim extends Card {
     // Play: Choose one:
     // • Your opponent discards a random card from their hand.
@@ -36,4 +35,4 @@ class SinkOrSwim extends Card {
 
 SinkOrSwim.id = 'sink-or-swim';
 
-module.exports = SinkOrSwim;
+export default SinkOrSwim;

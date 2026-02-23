@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class Thoughtcatcher extends Card {
     // Each friendly creature with A on it gains, “Destroyed: Draw 1
     // card.”
@@ -15,4 +14,4 @@ class Thoughtcatcher extends Card {
 
 Thoughtcatcher.id = 'thoughtcatcher';
 
-module.exports = Thoughtcatcher;
+export default Thoughtcatcher;

@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class CROfficerHawkins extends Card {
     // Deploy. (This creature can enter play anywhere in your battleline.)
     // Play: Gain 1A for each of C.R. Officer Hawkins's non-Star Alliance neighbors.
@@ -14,4 +13,4 @@ class CROfficerHawkins extends Card {
 
 CROfficerHawkins.id = 'cr-officer-hawkins';
 
-module.exports = CROfficerHawkins;
+export default CROfficerHawkins;

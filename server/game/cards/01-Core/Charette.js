@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class Charette extends Card {
     // Play: Capture 3A.
     setupCardAbilities(ability) {
@@ -11,4 +10,4 @@ class Charette extends Card {
 
 Charette.id = 'charette';
 
-module.exports = Charette;
+export default Charette;

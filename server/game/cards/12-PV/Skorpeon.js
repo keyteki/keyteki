@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class Skorpeon extends Card {
     // Enhance .
     // After Reap: Deal 2 to an enemy creature for each of Skorpeon's Dis neighbors.
@@ -23,4 +22,4 @@ class Skorpeon extends Card {
 
 Skorpeon.id = 'skorpeon';
 
-module.exports = Skorpeon;
+export default Skorpeon;

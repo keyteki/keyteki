@@ -1,11 +1,9 @@
-const _ = require('underscore');
-
-const CardEffect = require('./CardEffect');
-const PlayerEffect = require('./PlayerEffect');
-const StaticEffect = require('./StaticEffect');
-const DynamicEffect = require('./DynamicEffect');
-const DetachedEffect = require('./DetachedEffect');
-
+import _ from 'underscore';
+import CardEffect from './CardEffect.js';
+import PlayerEffect from './PlayerEffect.js';
+import StaticEffect from './StaticEffect.js';
+import DynamicEffect from './DynamicEffect.js';
+import DetachedEffect from './DetachedEffect.js';
 const EffectBuilder = {
     card: {
         static: (type, value) => (game, source, props) =>
@@ -43,4 +41,4 @@ const EffectBuilder = {
     }
 };
 
-module.exports = EffectBuilder;
+export default EffectBuilder;

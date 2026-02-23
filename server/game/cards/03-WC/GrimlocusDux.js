@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class GrimlocusDux extends Card {
     // Taunt.
     // Play: Exalt Grimlocus Dux twice.
@@ -13,4 +12,4 @@ class GrimlocusDux extends Card {
 
 GrimlocusDux.id = 'grimlocus-dux';
 
-module.exports = GrimlocusDux;
+export default GrimlocusDux;

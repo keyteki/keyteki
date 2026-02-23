@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class RuinsOfArchonis extends Card {
     // Play: Put  4A on Ruins of Archonis from the common supply. Archive a card.
     // After a player plays their 6th card in a turn, if Ruins of Archonis is ready, move each A from Ruins of Archonis to that player's pool.
@@ -37,4 +36,4 @@ class RuinsOfArchonis extends Card {
 
 RuinsOfArchonis.id = 'ruins-of-archonis';
 
-module.exports = RuinsOfArchonis;
+export default RuinsOfArchonis;

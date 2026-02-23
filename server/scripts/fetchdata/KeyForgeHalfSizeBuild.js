@@ -1,7 +1,10 @@
-const { fabric } = require('fabric');
-const { registerFont } = require('canvas');
-const fs = require('fs');
-const path = require('path');
+import { fabric } from 'fabric';
+import { registerFont } from 'canvas';
+import fs from 'fs';
+import path from 'path';
+import { fileURLToPath } from 'url';
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 const loadImage = (imgPath) =>
     new Promise((resolve) => {
         fabric.Image.fromURL(imgPath, (image) => resolve(image));
@@ -335,4 +338,4 @@ const getCurvedFontSize = (length) => {
     return (20 / length) * 20;
 };
 
-module.exports = buildHalfSize;
+export default buildHalfSize;

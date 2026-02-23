@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class TirelessCrocag extends Card {
     // Tireless Crocag cannot reap.
     // You may use Tireless Crocag as if it belonged to the active house.
@@ -28,4 +27,4 @@ class TirelessCrocag extends Card {
 
 TirelessCrocag.id = 'tireless-crocag';
 
-module.exports = TirelessCrocag;
+export default TirelessCrocag;

@@ -1,8 +1,7 @@
 /*eslint no-console:0 */
-const _ = require('underscore');
-const monk = require('monk');
-const DeckService = require('../services/DeckService.js');
-
+import _ from 'underscore';
+import monk from 'monk';
+import DeckService from '../services/DeckService.js';
 let db = monk('mongodb://127.0.0.1:27017/keyforge');
 let deckService = new DeckService(db);
 deckService.decks

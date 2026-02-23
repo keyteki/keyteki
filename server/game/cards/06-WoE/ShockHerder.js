@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class ShockHerder extends Card {
     // Deploy. (This creature can enter play anywhere in your battleline.)
     // Play: Ready and fight with a neighboring creature.
@@ -21,4 +20,4 @@ class ShockHerder extends Card {
 
 ShockHerder.id = 'shock-herder';
 
-module.exports = ShockHerder;
+export default ShockHerder;

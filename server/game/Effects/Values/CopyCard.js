@@ -1,6 +1,5 @@
-const EffectValue = require('./EffectValue');
-const GainAbility = require('./GainAbility');
-
+import EffectValue from './EffectValue.js';
+import GainAbility from './GainAbility.js';
 class CopyCard extends EffectValue {
     constructor(card, cascadeEffects = true) {
         super(card);
@@ -94,4 +93,4 @@ class CopyCard extends EffectValue {
     }
 }
 
-module.exports = CopyCard;
+export default CopyCard;

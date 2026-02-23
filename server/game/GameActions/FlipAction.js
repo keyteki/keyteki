@@ -1,6 +1,5 @@
-const { EVENTS } = require('../Events/types');
-const CardGameAction = require('./CardGameAction');
-
+import { EVENTS } from '../Events/types.js';
+import CardGameAction from './CardGameAction.js';
 class FlipAction extends CardGameAction {
     setDefaultProperties() {
         /** May be "any", "face-down", or "face-up". */
@@ -96,4 +95,4 @@ class FlipAction extends CardGameAction {
     }
 }
 
-module.exports = FlipAction;
+export default FlipAction;

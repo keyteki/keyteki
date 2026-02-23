@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class D1V3Pod extends Card {
     // (T) While the tide is high, this creature gains skirmish.
     // (T) While the tide is low, this creature gains elusive.
@@ -18,4 +17,4 @@ class D1V3Pod extends Card {
 
 D1V3Pod.id = 'd1-v3-pod';
 
-module.exports = D1V3Pod;
+export default D1V3Pod;

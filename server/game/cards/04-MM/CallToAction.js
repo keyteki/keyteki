@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class CallToAction extends Card {
     // Play: Ready each friendly Knight creature.
     setupCardAbilities(ability) {
@@ -13,4 +12,4 @@ class CallToAction extends Card {
 
 CallToAction.id = 'call-to-action';
 
-module.exports = CallToAction;
+export default CallToAction;

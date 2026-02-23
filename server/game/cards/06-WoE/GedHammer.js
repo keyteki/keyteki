@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class GedHammer extends Card {
     //Destroyed: Ready and enrage each other friendly Brobnar creature.
     setupCardAbilities(ability) {
@@ -31,4 +30,4 @@ class GedHammer extends Card {
 
 GedHammer.id = 'ged-hammer';
 
-module.exports = GedHammer;
+export default GedHammer;

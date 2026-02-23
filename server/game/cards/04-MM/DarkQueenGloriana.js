@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class DarkQueenGloriana extends Card {
     // Enhance AA. (These icons have already been added to cards in your deck.)
     // Play: Return a friendly non-Untamed creature to your hand.
@@ -17,4 +16,4 @@ class DarkQueenGloriana extends Card {
 
 DarkQueenGloriana.id = 'dark-queen-gloriana';
 
-module.exports = DarkQueenGloriana;
+export default DarkQueenGloriana;

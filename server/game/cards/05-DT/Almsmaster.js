@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class Almsmaster extends Card {
     // Deploy. Taunt.
     // Play: Each of Almsmaster's neighbors captures 1A.
@@ -14,4 +13,4 @@ class Almsmaster extends Card {
 
 Almsmaster.id = 'almsmaster';
 
-module.exports = Almsmaster;
+export default Almsmaster;

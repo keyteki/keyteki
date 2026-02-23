@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class SeraphicArmor extends Card {
     // This creature gets +1 armor.
     // Play: Fully heal this creature.
@@ -18,4 +17,4 @@ class SeraphicArmor extends Card {
 
 SeraphicArmor.id = 'seraphic-armor';
 
-module.exports = SeraphicArmor;
+export default SeraphicArmor;

@@ -57,4 +57,4 @@ class CardVisibility {
     }
 }
 
-module.exports = CardVisibility;
+export default CardVisibility;

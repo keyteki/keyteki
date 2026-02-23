@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class DarkMemento extends Card {
     // At the start of your turn, if you are not haunted, discard
     // cards from the top of your deck until you are haunted.
@@ -62,4 +61,4 @@ class DarkMemento extends Card {
 
 DarkMemento.id = 'dark-memento';
 
-module.exports = DarkMemento;
+export default DarkMemento;

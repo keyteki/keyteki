@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class Redhawk extends Card {
     // Action: Each player gains 1A. Make a token creature.
     setupCardAbilities(ability) {
@@ -18,4 +17,4 @@ class Redhawk extends Card {
 
 Redhawk.id = 'redhawk';
 
-module.exports = Redhawk;
+export default Redhawk;

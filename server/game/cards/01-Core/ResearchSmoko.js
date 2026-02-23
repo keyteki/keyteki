@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class ResearchSmoko extends Card {
     // Destroyed: Archive the top card of your deck.
     setupCardAbilities(ability) {
@@ -14,4 +13,4 @@ class ResearchSmoko extends Card {
 
 ResearchSmoko.id = 'research-smoko';
 
-module.exports = ResearchSmoko;
+export default ResearchSmoko;

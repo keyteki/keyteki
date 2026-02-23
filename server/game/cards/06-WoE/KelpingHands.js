@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class KelpingHands extends Card {
     //Omni: Destroy Kelping Hands. For the remainder of the turn, each friendly creature gains poison.
     setupCardAbilities(ability) {
@@ -23,4 +22,4 @@ class KelpingHands extends Card {
 
 KelpingHands.id = 'kelping-hands';
 
-module.exports = KelpingHands;
+export default KelpingHands;

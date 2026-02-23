@@ -1,6 +1,5 @@
-const { EVENTS } = require('../Events/types');
-const CardGameAction = require('./CardGameAction');
-
+import { EVENTS } from '../Events/types.js';
+import CardGameAction from './CardGameAction.js';
 class ResolveBonusIconsAction extends CardGameAction {
     setup() {
         super.setup();
@@ -188,4 +187,4 @@ class ResolveBonusIconsAction extends CardGameAction {
     }
 }
 
-module.exports = ResolveBonusIconsAction;
+export default ResolveBonusIconsAction;

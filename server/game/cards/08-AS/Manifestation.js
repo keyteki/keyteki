@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class Manifestation extends Card {
     // Play: Choose a card in a haunted player’s discard pile. Resolve
     // its bonus icons as if you had played it.
@@ -17,4 +16,4 @@ class Manifestation extends Card {
 
 Manifestation.id = 'manifestation';
 
-module.exports = Manifestation;
+export default Manifestation;

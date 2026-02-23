@@ -1,11 +1,13 @@
 /*eslint no-console:0 */
 
-const path = require('path');
-const fs = require('fs');
-const _ = require('underscore');
-const nunjucks = require('nunjucks');
-const peg = require('pegjs');
-
+import path from 'path';
+import fs from 'fs';
+import _ from 'underscore';
+import nunjucks from 'nunjucks';
+import peg from 'pegjs';
+import { fileURLToPath } from 'url';
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 class CardGenerator {
     constructor(dataSource, fullOutputDir, partialOutputDir, comments) {
         this.dataSource = dataSource;
@@ -322,4 +324,4 @@ function findEventListeners(abilities) {
     return _.uniq(listeners);
 }
 
-module.exports = CardGenerator;
+export default CardGenerator;

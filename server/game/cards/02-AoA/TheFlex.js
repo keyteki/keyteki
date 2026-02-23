@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class TheFlex extends Card {
     // Play: Choose a ready friendly Brobnar creature. Exhaust it and gain A equal to half its power (rounding down the gain).
     setupCardAbilities(ability) {
@@ -24,4 +23,4 @@ class TheFlex extends Card {
 
 TheFlex.id = 'the-flex';
 
-module.exports = TheFlex;
+export default TheFlex;

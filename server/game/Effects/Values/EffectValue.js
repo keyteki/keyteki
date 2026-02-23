@@ -18,4 +18,4 @@ class EffectValue {
     unapply(target, state) {}
 }
 
-module.exports = EffectValue;
+export default EffectValue;

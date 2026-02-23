@@ -1,6 +1,5 @@
 /*eslint no-console:0 */
-const util = require('../../util');
-
+import util from '../../util.js';
 const ValidKeywords = [
     'elusive',
     'skirmish',
@@ -125,4 +124,4 @@ class JsonCardSource {
     }
 }
 
-module.exports = JsonCardSource;
+export default JsonCardSource;

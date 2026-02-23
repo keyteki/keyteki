@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class Calv1N extends Card {
     // Fight/Reap: Draw a card.
     // CALV-1N may be played as an upgrade instead of a creature, with the text: This creature gains, Fight/Reap: Draw a card.
@@ -29,4 +28,4 @@ class Calv1N extends Card {
 
 Calv1N.id = 'calv-1n';
 
-module.exports = Calv1N;
+export default Calv1N;

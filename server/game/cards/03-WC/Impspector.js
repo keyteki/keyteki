@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class Impspector extends Card {
     // Destroyed: Your opponent purges a random card from their hand.
     setupCardAbilities(ability) {
@@ -12,4 +11,4 @@ class Impspector extends Card {
 
 Impspector.id = 'impspector';
 
-module.exports = Impspector;
+export default Impspector;

@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class Ostracize extends Card {
     // Play: Lose 1A. If you do, purge a creature.
     setupCardAbilities(ability) {
@@ -20,4 +19,4 @@ class Ostracize extends Card {
 
 Ostracize.id = 'ostracize';
 
-module.exports = Ostracize;
+export default Ostracize;

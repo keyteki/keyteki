@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class Daughter extends Card {
     // Elusive. (The first time this creature is attacked each turn, no damage is dealt.)
     // During your draw cards step, refill your hand to 1 additional card.
@@ -12,4 +11,4 @@ class Daughter extends Card {
 
 Daughter.id = 'daughter';
 
-module.exports = Daughter;
+export default Daughter;

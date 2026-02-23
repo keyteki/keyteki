@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class Befuddle extends Card {
     //Play: Choose a house on your opponent's identity card. During their next turn, they cannot play cards of other houses.
     setupCardAbilities(ability) {
@@ -24,4 +23,4 @@ class Befuddle extends Card {
 
 Befuddle.id = 'befuddle';
 
-module.exports = Befuddle;
+export default Befuddle;

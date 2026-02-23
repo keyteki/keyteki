@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class Aurascope extends Card {
     // Action: Discard a card. If you do, purge a card of the same
     // type as the discarded card from a discard pile.
@@ -30,4 +29,4 @@ class Aurascope extends Card {
 
 Aurascope.id = 'aurascope';
 
-module.exports = Aurascope;
+export default Aurascope;

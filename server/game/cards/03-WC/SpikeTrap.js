@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class SpikeTrap extends Card {
     // Omni: Destroy Spike Trap. If you do, deal 3D to each flank creature.
     setupCardAbilities(ability) {
@@ -21,4 +20,4 @@ class SpikeTrap extends Card {
 
 SpikeTrap.id = 'spike-trap';
 
-module.exports = SpikeTrap;
+export default SpikeTrap;

@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class BorkaRikk extends Card {
     // Each time a Mars card is discarded from your hand, make a token
     // creature.
@@ -18,4 +17,4 @@ class BorkaRikk extends Card {
 
 BorkaRikk.id = 'borka-rikk';
 
-module.exports = BorkaRikk;
+export default BorkaRikk;

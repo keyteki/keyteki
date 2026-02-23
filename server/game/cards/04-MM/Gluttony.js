@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class Gluttony extends Card {
     // Play: Exalt Gluttony once for each friendly Sin creature.
     // Reap: Move each A from friendly creatures to your pool.
@@ -31,4 +30,4 @@ class Gluttony extends Card {
 
 Gluttony.id = 'gluttony';
 
-module.exports = Gluttony;
+export default Gluttony;

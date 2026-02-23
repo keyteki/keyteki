@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class QMechs extends Card {
     // Play: Draw a card.
     // Destroyed: Archive Q-Mechs.
@@ -15,4 +14,4 @@ class QMechs extends Card {
 
 QMechs.id = 'q-mechs';
 
-module.exports = QMechs;
+export default QMechs;

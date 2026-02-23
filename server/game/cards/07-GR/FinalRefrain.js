@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class FinalRefrain extends Card {
     // Play: Put each creature from your discard pile into play ready,
     // then fight with them one at a time. Destroy each creature put
@@ -42,4 +41,4 @@ class FinalRefrain extends Card {
 
 FinalRefrain.id = 'final-refrain';
 
-module.exports = FinalRefrain;
+export default FinalRefrain;

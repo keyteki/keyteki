@@ -1,6 +1,5 @@
-const { EVENTS } = require('../Events/types');
-const CardGameAction = require('./CardGameAction');
-
+import { EVENTS } from '../Events/types.js';
+import CardGameAction from './CardGameAction.js';
 class RemoveTokenAction extends CardGameAction {
     constructor(propertyFactory, type = 'power') {
         super(propertyFactory);
@@ -76,4 +75,4 @@ class RemoveTokenAction extends CardGameAction {
     }
 }
 
-module.exports = RemoveTokenAction;
+export default RemoveTokenAction;

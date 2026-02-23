@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class RocketeerTryska extends Card {
     // (T) While the tide is high, Rocketeer Tryska’s neighbors enter play ready.
     setupCardAbilities(ability) {
@@ -17,4 +16,4 @@ class RocketeerTryska extends Card {
 
 RocketeerTryska.id = 'rocketeer-tryska';
 
-module.exports = RocketeerTryska;
+export default RocketeerTryska;

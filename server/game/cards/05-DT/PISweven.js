@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class PiSweven extends Card {
     // (T) Reap: If the tide is high, draw 3 cards.
     setupCardAbilities(ability) {
@@ -12,4 +11,4 @@ class PiSweven extends Card {
 
 PiSweven.id = 'pi-sweven';
 
-module.exports = PiSweven;
+export default PiSweven;

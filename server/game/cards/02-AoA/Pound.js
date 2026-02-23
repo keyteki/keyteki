@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class Pound extends Card {
     // Play: Deal 2D to a creature,
     // with 1D splash.
@@ -18,4 +17,4 @@ class Pound extends Card {
 
 Pound.id = 'pound';
 
-module.exports = Pound;
+export default Pound;

@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class DoorstepToHeaven extends Card {
     // Play: Each player with 6A or more is reduced to 5A.
     setupCardAbilities(ability) {
@@ -23,4 +22,4 @@ class DoorstepToHeaven extends Card {
 
 DoorstepToHeaven.id = 'doorstep-to-heaven';
 
-module.exports = DoorstepToHeaven;
+export default DoorstepToHeaven;

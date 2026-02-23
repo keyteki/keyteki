@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class OpalKnight extends Card {
     // Play: Destroy each creature with even power.
     setupCardAbilities(ability) {
@@ -13,4 +12,4 @@ class OpalKnight extends Card {
 
 OpalKnight.id = 'opal-knight';
 
-module.exports = OpalKnight;
+export default OpalKnight;

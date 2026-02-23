@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class Akugyo extends Card {
     // Each A that would be added to your opponent’s pool is captured
     // by Akugyo instead.
@@ -39,4 +38,4 @@ class Akugyo extends Card {
 
 Akugyo.id = 'akugyo';
 
-module.exports = Akugyo;
+export default Akugyo;

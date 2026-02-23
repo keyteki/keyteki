@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class BiggerGunsForEveryone extends Card {
     // This creature gains, ”After Fight: Deal 5D to a creature."
     setupCardAbilities(ability) {
@@ -16,4 +15,4 @@ class BiggerGunsForEveryone extends Card {
 
 BiggerGunsForEveryone.id = 'bigger-guns-for-everyone';
 
-module.exports = BiggerGunsForEveryone;
+export default BiggerGunsForEveryone;

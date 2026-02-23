@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class HorsemanOfDeath extends Card {
     // Play: Return each Horseman creature from your discard pile to your hand.
     setupCardAbilities(ability) {
@@ -16,4 +15,4 @@ class HorsemanOfDeath extends Card {
 
 HorsemanOfDeath.id = 'horseman-of-death';
 
-module.exports = HorsemanOfDeath;
+export default HorsemanOfDeath;

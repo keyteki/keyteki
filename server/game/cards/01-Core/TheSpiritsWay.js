@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class TheSpiritsWay extends Card {
     // Play: Destroy each creature with power 3or higher.
     setupCardAbilities(ability) {
@@ -13,4 +12,4 @@ class TheSpiritsWay extends Card {
 
 TheSpiritsWay.id = 'the-spirit-s-way';
 
-module.exports = TheSpiritsWay;
+export default TheSpiritsWay;

@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class UntrumsSerenity extends Card {
     // Omega.
     // Play: Destroy each creature and artifact. Each player discards their archives and their hand, then refills their hand as if it were their "draw cards" step.
@@ -50,4 +49,4 @@ class UntrumsSerenity extends Card {
 
 UntrumsSerenity.id = 'untrum-s-serenity';
 
-module.exports = UntrumsSerenity;
+export default UntrumsSerenity;

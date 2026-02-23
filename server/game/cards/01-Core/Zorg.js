@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class Zorg extends Card {
     // Zorg enters play stunned.
     // Before Fight: Stun the creature Zorg fights and each of that creatures neighbors.
@@ -19,4 +18,4 @@ class Zorg extends Card {
 
 Zorg.id = 'zorg';
 
-module.exports = Zorg;
+export default Zorg;

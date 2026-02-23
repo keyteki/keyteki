@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class ShizyokuBuggy extends Card {
     // Action: Reveal two cards from your hand. If they share a house,
     // discard them and make a token creature.
@@ -45,4 +44,4 @@ class ShizyokuBuggy extends Card {
 
 ShizyokuBuggy.id = 'shĭzyokŭ-buggy';
 
-module.exports = ShizyokuBuggy;
+export default ShizyokuBuggy;

@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class TerribleTeammates extends Card {
     // Play. You may discard a non-Mars card.
     setupCardAbilities(ability) {
@@ -17,4 +16,4 @@ class TerribleTeammates extends Card {
 
 TerribleTeammates.id = 'terrible-teammates';
 
-module.exports = TerribleTeammates;
+export default TerribleTeammates;

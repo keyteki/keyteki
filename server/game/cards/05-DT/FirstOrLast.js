@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class FirstOrLast extends Card {
     // Play: Choose one:
     // • Purge each creature with the highest power.
@@ -41,4 +40,4 @@ class FirstOrLast extends Card {
 
 FirstOrLast.id = 'first-or-last';
 
-module.exports = FirstOrLast;
+export default FirstOrLast;

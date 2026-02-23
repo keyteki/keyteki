@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class NiffleSanctuary extends Card {
     // Action: Make a Niffle Brute. Until the end of the turn each
     // Niffle Brute gains, “After Fight: Gain 1A.”
@@ -34,4 +33,4 @@ class NiffleSanctuary extends Card {
 
 NiffleSanctuary.id = 'niffle-sanctuary';
 
-module.exports = NiffleSanctuary;
+export default NiffleSanctuary;

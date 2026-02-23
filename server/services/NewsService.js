@@ -1,6 +1,5 @@
-const logger = require('../log.js');
-const db = require('../db');
-
+import logger from '../log.js';
+import db from '../db/index.js';
 class NewsService {
     async getRecentNewsItems(options) {
         let news;
@@ -67,4 +66,4 @@ class NewsService {
     }
 }
 
-module.exports = NewsService;
+export default NewsService;

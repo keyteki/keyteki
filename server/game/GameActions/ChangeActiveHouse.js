@@ -1,6 +1,5 @@
-const { EVENTS } = require('../Events/types');
-const GameAction = require('./GameAction');
-
+import { EVENTS } from '../Events/types.js';
+import GameAction from './GameAction.js';
 class ChangeActiveHouseAction extends GameAction {
     setDefaultProperties() {
         this.house = undefined;
@@ -58,4 +57,4 @@ class ChangeActiveHouseAction extends GameAction {
     }
 }
 
-module.exports = ChangeActiveHouseAction;
+export default ChangeActiveHouseAction;

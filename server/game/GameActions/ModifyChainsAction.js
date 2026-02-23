@@ -1,6 +1,5 @@
-const { EVENTS } = require('../Events/types');
-const PlayerAction = require('./PlayerAction');
-
+import { EVENTS } from '../Events/types.js';
+import PlayerAction from './PlayerAction.js';
 class ModifyChainsAction extends PlayerAction {
     setDefaultProperties() {
         this.amount = 1;
@@ -36,4 +35,4 @@ class ModifyChainsAction extends PlayerAction {
     }
 }
 
-module.exports = ModifyChainsAction;
+export default ModifyChainsAction;

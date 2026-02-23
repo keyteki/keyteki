@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class DrawnDown extends Card {
     // Play: Look at the top 3 cards of your opponent's deck. Discard 1, put 1 on the bottom of their deck, and put 1 on top of their deck.
     setupCardAbilities(ability) {
@@ -47,4 +46,4 @@ class DrawnDown extends Card {
 
 DrawnDown.id = 'drawn-down';
 
-module.exports = DrawnDown;
+export default DrawnDown;

@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class RedeemTheCrucible extends Card {
     // Omega.
     // Play: Destroy each creature. You may forge a key at +6A current cost, reduced by 1A for each Mutant creature destroyed this way. Purge Redeem the Crucible.
@@ -32,4 +31,4 @@ class RedeemTheCrucible extends Card {
 
 RedeemTheCrucible.id = 'redeem-the-crucible';
 
-module.exports = RedeemTheCrucible;
+export default RedeemTheCrucible;

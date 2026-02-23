@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class AmberImp extends Card {
     // Elusive.(The first time this creature is attacked each turn, no damage is dealt.)
     // After a creature reaps, stun it.
@@ -17,4 +16,4 @@ class AmberImp extends Card {
 
 AmberImp.id = 'æmber-imp';
 
-module.exports = AmberImp;
+export default AmberImp;

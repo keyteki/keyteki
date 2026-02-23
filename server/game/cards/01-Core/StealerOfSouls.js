@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class StealerOfSouls extends Card {
     // After an enemy creature is destroyed fighting Stealer of Souls, purge that creature and gain 1<A>.
     setupCardAbilities(ability) {
@@ -24,4 +23,4 @@ class StealerOfSouls extends Card {
 
 StealerOfSouls.id = 'stealer-of-souls';
 
-module.exports = StealerOfSouls;
+export default StealerOfSouls;

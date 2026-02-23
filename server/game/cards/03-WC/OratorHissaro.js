@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class OratorHissaro extends Card {
     // Deploy.
     // Play: Ready and exalt each of Orator Hissaros neighbors. For the remainder of the turn, they belong to house Saurian.
@@ -24,4 +23,4 @@ class OratorHissaro extends Card {
 
 OratorHissaro.id = 'orator-hissaro';
 
-module.exports = OratorHissaro;
+export default OratorHissaro;

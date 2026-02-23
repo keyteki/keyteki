@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class WurmTunnel extends Card {
     // Play: Move 1A from a creature to the common supply. If you do,
     // draw 2 cards.
@@ -22,4 +21,4 @@ class WurmTunnel extends Card {
 
 WurmTunnel.id = 'wurm-tunnel';
 
-module.exports = WurmTunnel;
+export default WurmTunnel;

@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class HallowedEveFestival extends Card {
     // Play: Discard the top 5 cards of your deck. For each Geistoid
     // card discarded this way, a friendly creature captures 1 A.
@@ -34,4 +33,4 @@ class HallowedEveFestival extends Card {
 
 HallowedEveFestival.id = 'hallowed-eve-festival';
 
-module.exports = HallowedEveFestival;
+export default HallowedEveFestival;

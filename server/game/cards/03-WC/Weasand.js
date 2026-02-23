@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class Weasand extends Card {
     // Deploy. Elusive.
     // If Weasand is on a flank, destroy it.
@@ -24,4 +23,4 @@ class Weasand extends Card {
 
 Weasand.id = 'weasand';
 
-module.exports = Weasand;
+export default Weasand;

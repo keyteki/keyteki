@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class LootOrPillage extends Card {
     // Play: Choose one:
     // • Steal 1A.
@@ -27,4 +26,4 @@ class LootOrPillage extends Card {
 
 LootOrPillage.id = 'loot-or-pillage';
 
-module.exports = LootOrPillage;
+export default LootOrPillage;

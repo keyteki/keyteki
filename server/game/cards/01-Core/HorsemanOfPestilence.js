@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class HorsemanOfPestilence extends Card {
     // Play/Fight/Reap: Deal 1<D> to each non-Horseman creature.
     setupCardAbilities(ability) {
@@ -20,4 +19,4 @@ class HorsemanOfPestilence extends Card {
 
 HorsemanOfPestilence.id = 'horseman-of-pestilence';
 
-module.exports = HorsemanOfPestilence;
+export default HorsemanOfPestilence;

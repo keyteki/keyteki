@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class TheBodySnatchers extends Card {
     // Play: For the remainder of the turn, each enemy creature gains,
     // “Destroyed: Fully heal this creature and give control of it to
@@ -33,4 +32,4 @@ class TheBodySnatchers extends Card {
 
 TheBodySnatchers.id = 'the-body-snatchers';
 
-module.exports = TheBodySnatchers;
+export default TheBodySnatchers;

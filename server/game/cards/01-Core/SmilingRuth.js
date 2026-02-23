@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class SmilingRuth extends Card {
     // Elusive. (The first time this creature is attacked each turn, no damage is dealt.)
     // Reap: If you forged a key this turn, take control of an enemy flank creature.
@@ -22,4 +21,4 @@ class SmilingRuth extends Card {
 
 SmilingRuth.id = 'smiling-ruth';
 
-module.exports = SmilingRuth;
+export default SmilingRuth;

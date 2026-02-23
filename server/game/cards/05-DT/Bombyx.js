@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class Bombyx extends Card {
     // Play: Destroy a friendly Chenille. If you do not, destroy Bombyx.
     // Action: Return a Fifalde from your discard pile to your hand.
@@ -34,4 +33,4 @@ class Bombyx extends Card {
 
 Bombyx.id = 'bombyx';
 
-module.exports = Bombyx;
+export default Bombyx;

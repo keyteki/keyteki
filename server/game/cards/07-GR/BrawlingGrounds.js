@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class BrawlingGrounds extends Card {
     // Omni: For the remainder of the turn, each time a creature is
     // destroyed in a fight, its controller discards a random card
@@ -24,4 +23,4 @@ class BrawlingGrounds extends Card {
 
 BrawlingGrounds.id = 'brawling-grounds';
 
-module.exports = BrawlingGrounds;
+export default BrawlingGrounds;

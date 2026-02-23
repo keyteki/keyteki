@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class HistorianLiDarkin extends Card {
     // After Reap: Each player returns the top card of their discard pile to
     // their hand.
@@ -22,4 +21,4 @@ class HistorianLiDarkin extends Card {
 
 HistorianLiDarkin.id = 'historian-li-darkin';
 
-module.exports = HistorianLiDarkin;
+export default HistorianLiDarkin;

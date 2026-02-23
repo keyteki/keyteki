@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class Amberlution extends Card {
     // Omega.
     // Play: Destroy each creature. Each player reveals their hand and puts each creature from their hand into play ready.
@@ -34,4 +33,4 @@ class Amberlution extends Card {
 
 Amberlution.id = 'æmberlution';
 
-module.exports = Amberlution;
+export default Amberlution;

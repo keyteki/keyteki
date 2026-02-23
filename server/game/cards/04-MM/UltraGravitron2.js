@@ -1,5 +1,4 @@
-const UltraGravitron = require('./UltraGravitron.js');
-
+import UltraGravitron from './UltraGravitron.js';
 class UltraGravitron2 extends UltraGravitron {
     constructor(owner, cardData) {
         super(owner, cardData);
@@ -8,4 +7,4 @@ class UltraGravitron2 extends UltraGravitron {
 
 UltraGravitron2.id = 'ultra-gravitron2';
 
-module.exports = UltraGravitron2;
+export default UltraGravitron2;

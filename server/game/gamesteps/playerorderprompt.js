@@ -1,6 +1,5 @@
-const _ = require('underscore');
-const UiPrompt = require('./uiprompt.js');
-
+import _ from 'underscore';
+import UiPrompt from './uiprompt.js';
 /**
  * Represents a UI Prompt that prompts each player individually in first-player
  * order. Inheritors should call completePlayer() when the prompt for the
@@ -53,4 +52,4 @@ class PlayerOrderPrompt extends UiPrompt {
     }
 }
 
-module.exports = PlayerOrderPrompt;
+export default PlayerOrderPrompt;

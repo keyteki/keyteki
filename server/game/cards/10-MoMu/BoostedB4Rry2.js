@@ -1,5 +1,4 @@
-const BoostedB4Rry = require('./BoostedB4Rry.js');
-
+import BoostedB4Rry from './BoostedB4Rry.js';
 class BoostedB4Rry2 extends BoostedB4Rry {
     constructor(owner, cardData) {
         super(owner, cardData);
@@ -8,4 +7,4 @@ class BoostedB4Rry2 extends BoostedB4Rry {
 
 BoostedB4Rry2.id = 'boosted-b4-rry2';
 
-module.exports = BoostedB4Rry2;
+export default BoostedB4Rry2;

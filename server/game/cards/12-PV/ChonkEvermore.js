@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class ChonkEvermore extends Card {
     // Play: You may give two creatures a +1 power counter. Double the number of +1 power counters on each creature.
     // Fate: Give each enemy creature two +1 power counters.
@@ -47,4 +46,4 @@ class ChonkEvermore extends Card {
 
 ChonkEvermore.id = 'chonk-evermore';
 
-module.exports = ChonkEvermore;
+export default ChonkEvermore;

@@ -1,13 +1,11 @@
-const _ = require('underscore');
-
-const Constants = require('../constants');
-const GameObject = require('./GameObject');
-const Deck = require('./deck');
-const ClockSelector = require('./Clocks/ClockSelector');
-const PlayableLocation = require('./playablelocation');
-const PlayerPromptState = require('./playerpromptstate');
-const { EVENTS } = require('./Events/types');
-
+import _ from 'underscore';
+import Constants from '../constants.js';
+import GameObject from './GameObject.js';
+import Deck from './deck.js';
+import ClockSelector from './Clocks/ClockSelector.js';
+import PlayableLocation from './playablelocation.js';
+import PlayerPromptState from './playerpromptstate.js';
+import { EVENTS } from './Events/types.js';
 class Player extends GameObject {
     constructor(id, user, owner, game, clockdetails) {
         super(game);
@@ -1484,4 +1482,4 @@ class Player extends GameObject {
     }
 }
 
-module.exports = Player;
+export default Player;

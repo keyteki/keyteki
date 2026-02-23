@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class QuartermasterBotty extends Card {
     // Play/After Fight/After Reap: If you are haunted, capture 2A.
     setupCardAbilities(ability) {
@@ -14,4 +13,4 @@ class QuartermasterBotty extends Card {
 
 QuartermasterBotty.id = 'quartermaster-botty';
 
-module.exports = QuartermasterBotty;
+export default QuartermasterBotty;

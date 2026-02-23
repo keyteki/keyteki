@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class NogiSmartfist extends Card {
     // Fight: Draw 2 cards. Discard 2 random cards from your hand.
     setupCardAbilities(ability) {
@@ -18,4 +17,4 @@ class NogiSmartfist extends Card {
 
 NogiSmartfist.id = 'nogi-smartfist';
 
-module.exports = NogiSmartfist;
+export default NogiSmartfist;

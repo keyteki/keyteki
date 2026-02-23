@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class Jahneerie extends Card {
     // Each friendly creature with A on it gains, “After Reap: Move 1A
     // from this creature to your pool.”
@@ -19,4 +18,4 @@ class Jahneerie extends Card {
 
 Jahneerie.id = 'jahneerie';
 
-module.exports = Jahneerie;
+export default Jahneerie;

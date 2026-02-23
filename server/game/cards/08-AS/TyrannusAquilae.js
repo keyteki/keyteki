@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class TyrannusAquilae extends Card {
     // At the end of each player’s turn, Tyrannus Aquilae captures 1A.
     // After Fight: Move 1A from Tyrannus Aquilae to your pool.
@@ -26,4 +25,4 @@ class TyrannusAquilae extends Card {
 
 TyrannusAquilae.id = 'tyrannus-aquilae';
 
-module.exports = TyrannusAquilae;
+export default TyrannusAquilae;

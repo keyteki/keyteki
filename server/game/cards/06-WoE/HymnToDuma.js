@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class HymnToDuma extends Card {
     //Each friendly creature gains, "Omni: Destroy this creature. A friendly creature captures 2A."
     setupCardAbilities(ability) {
@@ -29,4 +28,4 @@ class HymnToDuma extends Card {
 
 HymnToDuma.id = 'hymn-to-duma';
 
-module.exports = HymnToDuma;
+export default HymnToDuma;

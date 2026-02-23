@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class EmeraldDuelist extends Card {
     // After Fight: Each of Emerald Duelist’s neighbors capture 1A.
     setupCardAbilities(ability) {
@@ -14,4 +13,4 @@ class EmeraldDuelist extends Card {
 
 EmeraldDuelist.id = 'emerald-duelist';
 
-module.exports = EmeraldDuelist;
+export default EmeraldDuelist;

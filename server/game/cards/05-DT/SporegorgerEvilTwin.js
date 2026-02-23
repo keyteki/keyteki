@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class SporegorgerEvilTwin extends Card {
     // Play: Move each +1 power counter in play to Sporegorger.
     // Reap: You may remove each +1 power counter from Sporegorger. For each counter removed this way, deal 1D to each other creature.
@@ -34,4 +33,4 @@ class SporegorgerEvilTwin extends Card {
 
 SporegorgerEvilTwin.id = 'sporegorger-evil-twin';
 
-module.exports = SporegorgerEvilTwin;
+export default SporegorgerEvilTwin;

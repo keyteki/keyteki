@@ -1,5 +1,4 @@
-const GameAction = require('./GameAction');
-
+import GameAction from './GameAction.js';
 class PlayerAction extends GameAction {
     setup() {
         this.targetType = ['player'];
@@ -17,4 +16,4 @@ class PlayerAction extends GameAction {
     }
 }
 
-module.exports = PlayerAction;
+export default PlayerAction;

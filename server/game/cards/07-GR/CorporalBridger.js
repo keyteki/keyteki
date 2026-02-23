@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class CorporalBridger extends Card {
     // Play/After Fight/After Reap: You may use a non-Star Alliance
     // creature this turn.
@@ -17,4 +16,4 @@ class CorporalBridger extends Card {
 
 CorporalBridger.id = 'corporal-bridger';
 
-module.exports = CorporalBridger;
+export default CorporalBridger;

@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class Scrapscrounger extends Card {
     // Reap: Swap an artifact in your discard pile with a card in your hand.
     setupCardAbilities(ability) {
@@ -27,4 +26,4 @@ class Scrapscrounger extends Card {
 
 Scrapscrounger.id = 'scrapscrounger';
 
-module.exports = Scrapscrounger;
+export default Scrapscrounger;

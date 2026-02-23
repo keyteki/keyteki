@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class FissionBloom extends Card {
     // Enhance R. (These icons have already been added to cards in your deck.)
     // Action: The next time you play a card this turn, resolve each of its bonus icons an additional time.
@@ -32,4 +31,4 @@ class FissionBloom extends Card {
 
 FissionBloom.id = 'fission-bloom';
 
-module.exports = FissionBloom;
+export default FissionBloom;

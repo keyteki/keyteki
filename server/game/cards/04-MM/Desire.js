@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class Desire extends Card {
     // Keys cost +4A.
     // Reap: Forge a key at current cost, reduced by 1A for each friendly Sin creature.
@@ -22,4 +21,4 @@ class Desire extends Card {
 
 Desire.id = 'desire';
 
-module.exports = Desire;
+export default Desire;

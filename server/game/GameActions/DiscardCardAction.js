@@ -1,6 +1,5 @@
-const { EVENTS } = require('../Events/types');
-const CardGameAction = require('./CardGameAction');
-
+import { EVENTS } from '../Events/types.js';
+import CardGameAction from './CardGameAction.js';
 class DiscardCardAction extends CardGameAction {
     preEventHandler(context) {
         super.preEventHandler(context);
@@ -197,4 +196,4 @@ DiscardCardAction.collectDiscardedCards = function (preThenEvents) {
     return successfullyDiscardedCards;
 };
 
-module.exports = DiscardCardAction;
+export default DiscardCardAction;

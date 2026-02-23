@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class SpecialDelivery extends Card {
     // Omni: Sacrifice Special Delivery. Deal 3D to a flank creature. If this damage destroys that creature, purge it.
     setupCardAbilities(ability) {
@@ -34,4 +33,4 @@ class SpecialDelivery extends Card {
 
 SpecialDelivery.id = 'special-delivery';
 
-module.exports = SpecialDelivery;
+export default SpecialDelivery;

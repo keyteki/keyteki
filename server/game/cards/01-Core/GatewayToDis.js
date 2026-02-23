@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class GatewayToDis extends Card {
     // Play: Destroy each creature. Gain 3 chains.
     setupCardAbilities(ability) {
@@ -15,4 +14,4 @@ class GatewayToDis extends Card {
 
 GatewayToDis.id = 'gateway-to-dis';
 
-module.exports = GatewayToDis;
+export default GatewayToDis;

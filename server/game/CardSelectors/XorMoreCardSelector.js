@@ -1,5 +1,4 @@
-const BaseCardSelector = require('./BaseCardSelector.js');
-
+import BaseCardSelector from './BaseCardSelector.js';
 class XorMoreCardSelector extends BaseCardSelector {
     constructor(numCards, properties) {
         super(properties);
@@ -36,4 +35,4 @@ class XorMoreCardSelector extends BaseCardSelector {
     }
 }
 
-module.exports = XorMoreCardSelector;
+export default XorMoreCardSelector;

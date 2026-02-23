@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class GlyxlProliferator extends Card {
     // Reap: If Glyxl Proliferator is on a flank, archive a Mars card from your discard pile.
     setupCardAbilities(ability) {
@@ -17,4 +16,4 @@ class GlyxlProliferator extends Card {
 
 GlyxlProliferator.id = 'glyxl-proliferator';
 
-module.exports = GlyxlProliferator;
+export default GlyxlProliferator;

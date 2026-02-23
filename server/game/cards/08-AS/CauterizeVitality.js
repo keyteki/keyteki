@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class CauterizeVitality extends Card {
     // Play: Destroy a creature or artifact. If you do, your opponent
     // loses A equal to the number of bonus icons on the destroyed
@@ -29,4 +28,4 @@ class CauterizeVitality extends Card {
 
 CauterizeVitality.id = 'cauterize-vitality';
 
-module.exports = CauterizeVitality;
+export default CauterizeVitality;

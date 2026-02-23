@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class Velum extends Card {
     // Reap: Archive a card. If you control Hyde, archive 2 cards instead.
     // Destroyed: Archive Hyde from your discard pile. If you do, archive Velum.
@@ -35,4 +34,4 @@ class Velum extends Card {
 
 Velum.id = 'velum';
 
-module.exports = Velum;
+export default Velum;

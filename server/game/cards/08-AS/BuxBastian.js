@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class BuxBastian extends Card {
     // Scrap: Exalt an enemy flank creature.
     setupCardAbilities(ability) {
@@ -16,4 +15,4 @@ class BuxBastian extends Card {
 
 BuxBastian.id = 'bux-bastian';
 
-module.exports = BuxBastian;
+export default BuxBastian;

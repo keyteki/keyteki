@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class Spendthrift extends Card {
     // Play: Move each A from a creature to the common supply. Exalt that creature.
     // Fate: Move each A from enemy creatures to your opponent's pool.
@@ -42,4 +41,4 @@ class Spendthrift extends Card {
 
 Spendthrift.id = 'spendthrift';
 
-module.exports = Spendthrift;
+export default Spendthrift;

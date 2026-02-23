@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class ShaeCloudkicker extends Card {
     // Play/After Reap: Swap Shae “Cloudkicker” with another friendly
     // creature in your battleline.
@@ -18,4 +17,4 @@ class ShaeCloudkicker extends Card {
 
 ShaeCloudkicker.id = 'shae-cloudkicker';
 
-module.exports = ShaeCloudkicker;
+export default ShaeCloudkicker;

@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class SilAT8 extends Card {
     // Enhance .
     // After Fight/After Reap: You may ready a non-Robot creature for each of Sil-A-T8's Star Alliance neighbors.
@@ -31,4 +30,4 @@ class SilAT8 extends Card {
 
 SilAT8.id = 'sil-a-t8';
 
-module.exports = SilAT8;
+export default SilAT8;

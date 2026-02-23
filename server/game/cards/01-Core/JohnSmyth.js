@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class JohnSmyth extends Card {
     // Elusive. (The first time this creature is attacked each turn, no damage is dealt.)
     // Fight/Reap: Ready a non-Agent Mars creature.
@@ -17,4 +16,4 @@ class JohnSmyth extends Card {
 
 JohnSmyth.id = 'john-smyth';
 
-module.exports = JohnSmyth;
+export default JohnSmyth;

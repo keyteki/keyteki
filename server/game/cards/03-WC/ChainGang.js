@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class ChainGang extends Card {
     // After you play Subtle Chain, ready Chain Gang.
     // Action: Steal 1A. Shuffle a Subtle Chain from your discard pile into your deck.
@@ -28,4 +27,4 @@ class ChainGang extends Card {
 
 ChainGang.id = 'chain-gang';
 
-module.exports = ChainGang;
+export default ChainGang;

@@ -73,4 +73,6 @@ function buildPlayAsCopyEffects({ context, ability, additionalEffects = [] }) {
     return effects;
 }
 
-module.exports = { buildPlayAsCopyEffects };
+export { buildPlayAsCopyEffects };
+
+export default { buildPlayAsCopyEffects };

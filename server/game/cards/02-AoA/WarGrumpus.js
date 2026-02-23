@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class WarGrumpus extends Card {
     // Fight/Reap: Ready and fight with a neighboring Giant.
     setupCardAbilities(ability) {
@@ -22,4 +21,4 @@ class WarGrumpus extends Card {
 
 WarGrumpus.id = 'war-grumpus';
 
-module.exports = WarGrumpus;
+export default WarGrumpus;

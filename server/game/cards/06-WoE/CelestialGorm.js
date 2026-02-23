@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class CelestialGorm extends Card {
     //Omni: Destroy $this. Return each other artifact to its owner's hand.
     setupCardAbilities(ability) {
@@ -21,4 +20,4 @@ class CelestialGorm extends Card {
 
 CelestialGorm.id = 'celestial-gorm';
 
-module.exports = CelestialGorm;
+export default CelestialGorm;

@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class ConductorJarroya extends Card {
     // After Reap: Ready each friendly Buggy artifact.
     setupCardAbilities(ability) {
@@ -15,4 +14,4 @@ class ConductorJarroya extends Card {
 
 ConductorJarroya.id = 'conductor-jărroyă';
 
-module.exports = ConductorJarroya;
+export default ConductorJarroya;

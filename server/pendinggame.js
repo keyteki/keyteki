@@ -1,10 +1,8 @@
-const { randomUUID } = require('node:crypto');
-const _ = require('underscore');
-const crypto = require('crypto');
-
-const GameChat = require('./game/gamechat.js');
-const logger = require('./log');
-
+import { randomUUID } from 'node:crypto';
+import _ from 'underscore';
+import crypto from 'crypto';
+import GameChat from './game/gamechat.js';
+import logger from './log.js';
 class PendingGame {
     constructor(owner, details) {
         this.adaptive = details.adaptive;
@@ -418,4 +416,4 @@ class PendingGame {
     }
 }
 
-module.exports = PendingGame;
+export default PendingGame;

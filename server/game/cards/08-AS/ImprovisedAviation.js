@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class ImprovisedAviation extends Card {
     // Play: The next creature you play this turn enters play
     // ready. Until the end of your turn it gains, ”After Fight:
@@ -47,4 +46,4 @@ class ImprovisedAviation extends Card {
 
 ImprovisedAviation.id = 'improvised-aviation';
 
-module.exports = ImprovisedAviation;
+export default ImprovisedAviation;

@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class AquiliaLoneHero extends Card {
     // Omni: Capture 1A if there are more enemy creatures than friendly creatures.
     setupCardAbilities(ability) {
@@ -16,4 +15,4 @@ class AquiliaLoneHero extends Card {
 
 AquiliaLoneHero.id = 'aquilia-lone-hero';
 
-module.exports = AquiliaLoneHero;
+export default AquiliaLoneHero;

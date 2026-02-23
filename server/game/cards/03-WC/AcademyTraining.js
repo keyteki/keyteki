@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class AcademyTraining extends Card {
     // If you control this creature, it belongs to house Logos. (Instead of its original house.)
     // This creature gains, Reap: Draw a card.
@@ -18,4 +17,4 @@ class AcademyTraining extends Card {
 
 AcademyTraining.id = 'academy-training';
 
-module.exports = AcademyTraining;
+export default AcademyTraining;

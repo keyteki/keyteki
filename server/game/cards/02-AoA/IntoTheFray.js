@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class IntoTheFray extends Card {
     // Play: For the remainder of the turn, a friendly Brobnar creature gains, Fight:Ready this creature.
     setupCardAbilities(ability) {
@@ -20,4 +19,4 @@ class IntoTheFray extends Card {
 
 IntoTheFray.id = 'into-the-fray';
 
-module.exports = IntoTheFray;
+export default IntoTheFray;

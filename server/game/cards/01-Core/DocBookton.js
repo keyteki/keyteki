@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class DocBookton extends Card {
     // Reap: Draw a card.
     setupCardAbilities(ability) {
@@ -11,4 +10,4 @@ class DocBookton extends Card {
 
 DocBookton.id = 'doc-bookton';
 
-module.exports = DocBookton;
+export default DocBookton;

@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class MushroomWithAView extends Card {
     // Omni: Heal 1 damage from each friendly creature.
     setupCardAbilities(ability) {
@@ -14,4 +13,4 @@ class MushroomWithAView extends Card {
 
 MushroomWithAView.id = 'mushroom-with-a-view';
 
-module.exports = MushroomWithAView;
+export default MushroomWithAView;

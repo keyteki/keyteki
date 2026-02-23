@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class ExperimentQ extends Card {
     // Enhance .
     // Experiment Q gets +1 power for each Mars creature in play.
@@ -29,4 +28,4 @@ class ExperimentQ extends Card {
 
 ExperimentQ.id = 'experiment-q';
 
-module.exports = ExperimentQ;
+export default ExperimentQ;

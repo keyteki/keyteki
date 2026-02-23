@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class Valoocanth extends Card {
     //  While the tide is low, Valoocanth cannot be used.
     // Fight/Reap: Exhaust an enemy creature and each of its neighbors.
@@ -23,4 +22,4 @@ class Valoocanth extends Card {
 
 Valoocanth.id = 'valoocanth';
 
-module.exports = Valoocanth;
+export default Valoocanth;

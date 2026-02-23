@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class StrengthWithin extends Card {
     // This creature gains, “Your opponent’s keys cost +1A for each
     // damage on this creature.”
@@ -17,4 +16,4 @@ class StrengthWithin extends Card {
 
 StrengthWithin.id = 'strength-within';
 
-module.exports = StrengthWithin;
+export default StrengthWithin;

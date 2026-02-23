@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class WayOfTheCrow extends Card {
     // This creature gains elusive.
     setupCardAbilities(ability) {
@@ -11,4 +10,4 @@ class WayOfTheCrow extends Card {
 
 WayOfTheCrow.id = 'way-of-the-crow';
 
-module.exports = WayOfTheCrow;
+export default WayOfTheCrow;

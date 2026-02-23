@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class SoldiersToFlowers extends Card {
     // Play: Purge each Untamed creature from each players discard pile. For each card purged this way, its owner gains 1A.
     setupCardAbilities(ability) {
@@ -36,4 +35,4 @@ class SoldiersToFlowers extends Card {
 
 SoldiersToFlowers.id = 'soldiers-to-flowers';
 
-module.exports = SoldiersToFlowers;
+export default SoldiersToFlowers;

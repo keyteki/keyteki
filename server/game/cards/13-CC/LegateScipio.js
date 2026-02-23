@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class LegateScipio extends Card {
     // Enhance .
     // Play: You may exalt each Saurian creature.
@@ -16,4 +15,4 @@ class LegateScipio extends Card {
 
 LegateScipio.id = 'legate-scipio';
 
-module.exports = LegateScipio;
+export default LegateScipio;

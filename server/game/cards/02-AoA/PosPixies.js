@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class PosPixies extends Card {
     // Elusive.(The first time this creature is attacked each turn, no damage is dealt.)
     // A stolen or captured from your pool is taken from the common supply instead.
@@ -12,4 +11,4 @@ class PosPixies extends Card {
 
 PosPixies.id = 'po-s-pixies';
 
-module.exports = PosPixies;
+export default PosPixies;

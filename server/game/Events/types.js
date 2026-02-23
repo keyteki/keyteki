@@ -1233,6 +1233,4 @@ const EVENTS = /** @type {const} */ ({
 // labels.
 /** @typedef {(typeof EVENTS)[keyof EVENTS]} EventName */
 
-module.exports = {
-    EVENTS
-};
+export { EVENTS };

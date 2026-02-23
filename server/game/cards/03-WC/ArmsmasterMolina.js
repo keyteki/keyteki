@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class ArmsmasterMolina extends Card {
     // Hazardous 3. (Before this creature is attacked, deal 3D to the attacking enemy.)
     // Each of Armsmaster Molinas neighbors gains hazardous 3.
@@ -13,4 +12,4 @@ class ArmsmasterMolina extends Card {
 
 ArmsmasterMolina.id = 'armsmaster-molina';
 
-module.exports = ArmsmasterMolina;
+export default ArmsmasterMolina;

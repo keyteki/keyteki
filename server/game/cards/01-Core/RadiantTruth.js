@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class RadiantTruth extends Card {
     // Play: Stun each enemy creature not on a flank.
     setupCardAbilities(ability) {
@@ -14,4 +13,4 @@ class RadiantTruth extends Card {
 
 RadiantTruth.id = 'radiant-truth';
 
-module.exports = RadiantTruth;
+export default RadiantTruth;

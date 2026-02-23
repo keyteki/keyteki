@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class FlamegillEnforcer extends Card {
     // (T) After your opponent raises the tide, enrage Flamegill Enforcer.
     // Action: Capture 3A.
@@ -18,4 +17,4 @@ class FlamegillEnforcer extends Card {
 
 FlamegillEnforcer.id = 'flamegill-enforcer';
 
-module.exports = FlamegillEnforcer;
+export default FlamegillEnforcer;

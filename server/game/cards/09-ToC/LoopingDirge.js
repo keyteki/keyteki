@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class LoopingDirge extends Card {
     // Play: If you are haunted, make a token creature.
     setupCardAbilities(ability) {
@@ -12,4 +11,4 @@ class LoopingDirge extends Card {
 
 LoopingDirge.id = 'looping-dirge';
 
-module.exports = LoopingDirge;
+export default LoopingDirge;

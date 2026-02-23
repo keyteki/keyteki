@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class FlintsMap extends Card {
     // Omni: Search your deck and discard pile for Flint’s Legend,
     // Flint’s Stash, or Treasure Island, reveal the card and archive
@@ -20,4 +19,4 @@ class FlintsMap extends Card {
 
 FlintsMap.id = 'flint-s-map';
 
-module.exports = FlintsMap;
+export default FlintsMap;

@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class Molephin extends Card {
     // Hazardous 3. (Before this creature is attacked, deal 3D to the attacking enemy.)
     // After A is stolen from you, deal 1D to each enemy creature for each A stolen.
@@ -18,4 +17,4 @@ class Molephin extends Card {
 
 Molephin.id = 'molephin';
 
-module.exports = Molephin;
+export default Molephin;

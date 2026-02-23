@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class MegaGronNineToes extends Card {
     // Mega Gron Nine-Toes gets +4 power while it is damaged. (Mega Gron Nine-Toes gets the power bonus only if he survives the damage.)
     setupCardAbilities(ability) {
@@ -12,4 +11,4 @@ class MegaGronNineToes extends Card {
 
 MegaGronNineToes.id = 'mega-gron-nine-toes';
 
-module.exports = MegaGronNineToes;
+export default MegaGronNineToes;

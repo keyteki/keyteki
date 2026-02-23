@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class CROfficerHawkinsEvilTwin extends Card {
     // Deploy. (This creature can enter play anywhere in your battleline.)
     // Play: Your opponent loses 1A for each of C.R. Officer Hawkins's non-Star Alliance neighbors.
@@ -14,4 +13,4 @@ class CROfficerHawkinsEvilTwin extends Card {
 
 CROfficerHawkinsEvilTwin.id = 'cr-officer-hawkins-evil-twin';
 
-module.exports = CROfficerHawkinsEvilTwin;
+export default CROfficerHawkinsEvilTwin;

@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class Ambitrage extends Card {
     //Your keys cost +1A. During your "draw cards" step, refill your hand to 1 additional card.
     setupCardAbilities(ability) {
@@ -14,4 +13,4 @@ class Ambitrage extends Card {
 
 Ambitrage.id = 'æmbitrage';
 
-module.exports = Ambitrage;
+export default Ambitrage;

@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class Yardbird extends Card {
     // Before Fight: Ready another Yardbird.
     setupCardAbilities(ability) {
@@ -17,4 +16,4 @@ class Yardbird extends Card {
 
 Yardbird.id = 'yardbird';
 
-module.exports = Yardbird;
+export default Yardbird;

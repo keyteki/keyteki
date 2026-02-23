@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class LibraryCard extends Card {
     // Action: Purge Library Card. If you do, for the remainder of the turn, after you play a card, draw a card.
     setupCardAbilities(ability) {
@@ -20,4 +19,4 @@ class LibraryCard extends Card {
 
 LibraryCard.id = 'library-card';
 
-module.exports = LibraryCard;
+export default LibraryCard;

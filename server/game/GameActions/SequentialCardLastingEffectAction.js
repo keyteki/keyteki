@@ -1,7 +1,6 @@
-const { EVENTS } = require('../Events/types');
-const CardListSelector = require('./CardListSelector');
-const GameAction = require('./GameAction');
-
+import { EVENTS } from '../Events/types.js';
+import CardListSelector from './CardListSelector.js';
+import GameAction from './GameAction.js';
 class SequentialCardLastingEffectAction extends GameAction {
     setDefaultProperties() {
         this.duration = 'untilPlayerTurnEnd';
@@ -82,4 +81,4 @@ class SequentialCardLastingEffectAction extends GameAction {
     }
 }
 
-module.exports = SequentialCardLastingEffectAction;
+export default SequentialCardLastingEffectAction;

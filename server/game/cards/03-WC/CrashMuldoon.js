@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class CrashMuldoon extends Card {
     // Deploy.
     // Crash Muldoon enters play ready.
@@ -27,4 +26,4 @@ class CrashMuldoon extends Card {
 
 CrashMuldoon.id = 'crash-muldoon';
 
-module.exports = CrashMuldoon;
+export default CrashMuldoon;

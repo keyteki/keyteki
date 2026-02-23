@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class ShardOfStrength extends Card {
     // Action: Give a friendly creature a +1 power counter for each friendly Shard.
     setupCardAbilities(ability) {
@@ -21,4 +20,4 @@ class ShardOfStrength extends Card {
 
 ShardOfStrength.id = 'shard-of-strength';
 
-module.exports = ShardOfStrength;
+export default ShardOfStrength;

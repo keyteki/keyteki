@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class DameMargaret extends Card {
     // Deploy. Taunt.
     // Dame Margaret gets +2 armor for each key your opponent has forged.
@@ -14,4 +13,4 @@ class DameMargaret extends Card {
 
 DameMargaret.id = 'dame-margaret';
 
-module.exports = DameMargaret;
+export default DameMargaret;

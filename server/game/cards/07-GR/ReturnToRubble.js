@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class ReturnToRubble extends Card {
     // Play: Shuffle the top 10 cards of your discard pile into your
     // deck. If you do, destroy each creature.
@@ -22,4 +21,4 @@ class ReturnToRubble extends Card {
 
 ReturnToRubble.id = 'return-to-rubble';
 
-module.exports = ReturnToRubble;
+export default ReturnToRubble;

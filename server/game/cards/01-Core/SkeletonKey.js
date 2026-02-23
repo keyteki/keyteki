@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class SkeletonKey extends Card {
     // Action: A friendly creature captures 1A.
     setupCardAbilities(ability) {
@@ -15,4 +14,4 @@ class SkeletonKey extends Card {
 
 SkeletonKey.id = 'skeleton-key';
 
-module.exports = SkeletonKey;
+export default SkeletonKey;

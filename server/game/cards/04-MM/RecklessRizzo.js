@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class RecklessRizzo extends Card {
     // Elusive. (The first time this creature is attacked each turn, no damage is dealt.)
     // Action: Steal 2A. Until the start of your next turn, Reckless Rizzo loses elusive.
@@ -18,4 +17,4 @@ class RecklessRizzo extends Card {
 
 RecklessRizzo.id = 'reckless-rizzo';
 
-module.exports = RecklessRizzo;
+export default RecklessRizzo;

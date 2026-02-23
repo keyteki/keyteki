@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class CapReigns extends Card {
     // Elusive.
     // Each enemy creature gains, "After Reap: Pay your opponent 1."
@@ -19,4 +18,4 @@ class CapReigns extends Card {
 
 CapReigns.id = 'cap-reigns';
 
-module.exports = CapReigns;
+export default CapReigns;

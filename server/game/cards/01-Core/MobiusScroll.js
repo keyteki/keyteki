@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class MobiusScroll extends Card {
     // Action: Archive Mobius Scroll and up to 2 cards from your hand.
     setupCardAbilities(ability) {
@@ -19,4 +18,4 @@ class MobiusScroll extends Card {
 
 MobiusScroll.id = 'mobius-scroll';
 
-module.exports = MobiusScroll;
+export default MobiusScroll;

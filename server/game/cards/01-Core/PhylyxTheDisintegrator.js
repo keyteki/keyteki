@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class PhylyxTheDisintegrator extends Card {
     // Elusive. (The first time this creature is attacked each turn, no damage is dealt.)
     // Action: Your opponent loses 1<A> for each other friendly Mars creature.
@@ -17,4 +16,4 @@ class PhylyxTheDisintegrator extends Card {
 
 PhylyxTheDisintegrator.id = 'phylyx-the-disintegrator';
 
-module.exports = PhylyxTheDisintegrator;
+export default PhylyxTheDisintegrator;

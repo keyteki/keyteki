@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class UnityPrism extends Card {
     // Alpha.
     // Play: For the remainder of the turn, you may play cards from any house.
@@ -36,4 +35,4 @@ class UnityPrism extends Card {
 
 UnityPrism.id = 'unity-prism';
 
-module.exports = UnityPrism;
+export default UnityPrism;

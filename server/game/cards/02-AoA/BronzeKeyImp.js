@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class BronzeKeyImp extends Card {
     // Elusive.(The first time this creature is attacked each turn, no damage is dealt.)
     // Players cannot forge their first key.
@@ -16,4 +15,4 @@ class BronzeKeyImp extends Card {
 
 BronzeKeyImp.id = 'bronze-key-imp';
 
-module.exports = BronzeKeyImp;
+export default BronzeKeyImp;

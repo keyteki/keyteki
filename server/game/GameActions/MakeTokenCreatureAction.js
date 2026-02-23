@@ -1,6 +1,5 @@
-const { EVENTS } = require('../Events/types');
-const CardGameAction = require('./CardGameAction');
-
+import { EVENTS } from '../Events/types.js';
+import CardGameAction from './CardGameAction.js';
 class MakeTokenCreatureAction extends CardGameAction {
     setDefaultProperties() {
         this.amount = 1;
@@ -71,4 +70,4 @@ class MakeTokenCreatureAction extends CardGameAction {
     }
 }
 
-module.exports = MakeTokenCreatureAction;
+export default MakeTokenCreatureAction;

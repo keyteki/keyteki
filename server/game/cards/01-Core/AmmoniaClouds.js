@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class AmmoniaClouds extends Card {
     // Play: Deal 3<D> to each creature.
     setupCardAbilities(ability) {
@@ -16,4 +15,4 @@ class AmmoniaClouds extends Card {
 
 AmmoniaClouds.id = 'ammonia-clouds';
 
-module.exports = AmmoniaClouds;
+export default AmmoniaClouds;

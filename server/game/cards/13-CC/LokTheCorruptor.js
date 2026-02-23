@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class LokTheCorruptor extends Card {
     // Enhance .
     // After Reap: Your opponent loses 1 for each friendly Dis creature in play.
@@ -17,4 +16,4 @@ class LokTheCorruptor extends Card {
 
 LokTheCorruptor.id = 'lok-the-corruptor';
 
-module.exports = LokTheCorruptor;
+export default LokTheCorruptor;

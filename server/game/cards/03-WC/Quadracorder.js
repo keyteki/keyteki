@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class Quadracorder extends Card {
     // Your opponents keys cost +1A for each house represented among friendly creatures (to a maximum of3).
     setupCardAbilities(ability) {
@@ -14,4 +13,4 @@ class Quadracorder extends Card {
 
 Quadracorder.id = 'quadracorder';
 
-module.exports = Quadracorder;
+export default Quadracorder;

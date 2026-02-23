@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class TalonOfInvidius extends Card {
     // Play: Exalt Talon of Invidius 3 times.
     // Destroyed: Move each A from Talon of Invidius to an enemy creature.
@@ -38,4 +37,4 @@ class TalonOfInvidius extends Card {
 
 TalonOfInvidius.id = 'talon-of-invidius';
 
-module.exports = TalonOfInvidius;
+export default TalonOfInvidius;

@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class Picaroon extends Card {
     // Deploy. (This creature can enter play anywhere in your battleline.)
     // X is the combined power of Picaroons non-Changeling neighbors.
@@ -17,4 +16,4 @@ class Picaroon extends Card {
 
 Picaroon.id = 'picaroon';
 
-module.exports = Picaroon;
+export default Picaroon;

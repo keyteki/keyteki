@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class Balaenora extends Card {
     // Balaenora cannot be played unless your opponent has 7A or more
     // in their pool.
@@ -36,4 +35,4 @@ class Balaenora extends Card {
 
 Balaenora.id = 'balaenora';
 
-module.exports = Balaenora;
+export default Balaenora;

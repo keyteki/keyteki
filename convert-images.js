@@ -1,8 +1,8 @@
 /* eslint-disable no-console */
-var Jimp = require('jimp');
-var fs = require('fs');
-var path = './public/img/';
-var cardpath = path + 'cardsResize/';
+import Jimp from 'jimp';
+import fs from 'fs';
+const path = './public/img/';
+const cardpath = path + 'cardsResize/';
 
 Jimp.read(path + 'watermark.png').then((watermark) => {
     var files = fs.readdirSync(cardpath);

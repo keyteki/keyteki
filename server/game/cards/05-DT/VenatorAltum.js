@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class VenatorAltum extends Card {
     // (T) After Venator Altum is dealt damage, if the tide is low, exalt Venator Altum.
     setupCardAbilities(ability) {
@@ -15,4 +14,4 @@ class VenatorAltum extends Card {
 
 VenatorAltum.id = 'venator-altum';
 
-module.exports = VenatorAltum;
+export default VenatorAltum;

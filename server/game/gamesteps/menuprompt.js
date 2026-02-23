@@ -1,6 +1,5 @@
-const _ = require('underscore');
-const UiPrompt = require('./uiprompt.js');
-
+import _ from 'underscore';
+import UiPrompt from './uiprompt.js';
 /**
  * General purpose menu prompt. By specifying a context object, the buttons in
  * the active prompt can call the corresponding method on the context object.
@@ -60,4 +59,4 @@ class MenuPrompt extends UiPrompt {
     }
 }
 
-module.exports = MenuPrompt;
+export default MenuPrompt;

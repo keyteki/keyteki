@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class PanpacaAnga extends Card {
     // Creatures to the right of Panpaca, Anga in the battleline get +2 power.
     setupCardAbilities(ability) {
@@ -14,4 +13,4 @@ class PanpacaAnga extends Card {
 
 PanpacaAnga.id = 'panpaca-anga';
 
-module.exports = PanpacaAnga;
+export default PanpacaAnga;

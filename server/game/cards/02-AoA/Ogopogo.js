@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class Ogopogo extends Card {
     // After Ogopogo attacks and destroys a creature, you may deal 2D to a creature.
     setupCardAbilities(ability) {
@@ -20,4 +19,4 @@ class Ogopogo extends Card {
 
 Ogopogo.id = 'ogopogo';
 
-module.exports = Ogopogo;
+export default Ogopogo;

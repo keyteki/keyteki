@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class Mogg extends Card {
     // Play: Deal 4 damage to each creature with power 5 or higher.
     // Fate: Stun each friendly creature with power 5 or higher.
@@ -23,4 +22,4 @@ class Mogg extends Card {
 
 Mogg.id = 'mogg';
 
-module.exports = Mogg;
+export default Mogg;

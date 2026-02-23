@@ -1,6 +1,6 @@
-const flatMap = require('../../Array').flatMap;
-const AbilityTarget = require('./AbilityTarget');
-
+import ArrayHelpers from '../../Array.js';
+import AbilityTarget from './AbilityTarget.js';
+const { flatMap } = ArrayHelpers;
 class AbilityTargetTrait extends AbilityTarget {
     constructor(name, properties, ability) {
         super(name, properties, ability);
@@ -73,4 +73,4 @@ class AbilityTargetTrait extends AbilityTarget {
     }
 }
 
-module.exports = AbilityTargetTrait;
+export default AbilityTargetTrait;

@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class SacroBot extends Card {
     // Reap: Discard a card from your hand. If you do, draw a card.
     setupCardAbilities(ability) {
@@ -18,4 +17,4 @@ class SacroBot extends Card {
 
 SacroBot.id = 'sacro-bot';
 
-module.exports = SacroBot;
+export default SacroBot;

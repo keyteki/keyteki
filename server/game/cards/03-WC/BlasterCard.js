@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class BlasterCard extends Card {
     getAttachedAbility(ability, creatureName) {
         let choices = {
@@ -47,4 +46,4 @@ class BlasterCard extends Card {
     }
 }
 
-module.exports = BlasterCard;
+export default BlasterCard;

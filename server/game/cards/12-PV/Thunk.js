@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class Thunk extends Card {
     // Play: Deal 2 to an enemy creature and exhaust it.
     // Fate: Destroy each exhausted creature.
@@ -24,4 +23,4 @@ class Thunk extends Card {
 
 Thunk.id = 'thunk';
 
-module.exports = Thunk;
+export default Thunk;

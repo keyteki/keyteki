@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class CloudburstCommand extends Card {
     // Your opponent’s keys cost +1A for each Skyborn creature on a flank.
     setupCardAbilities(ability) {
@@ -17,4 +16,4 @@ class CloudburstCommand extends Card {
 
 CloudburstCommand.id = 'cloudburst-command';
 
-module.exports = CloudburstCommand;
+export default CloudburstCommand;

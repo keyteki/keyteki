@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class EndlessHordes extends Card {
     // Play: For each enemy creature, make a token creature, ready it,
     // and have it fight that enemy creature, ignoring taunt. Resolve
@@ -58,4 +57,4 @@ class EndlessHordes extends Card {
 
 EndlessHordes.id = 'endless-hordes';
 
-module.exports = EndlessHordes;
+export default EndlessHordes;

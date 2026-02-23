@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class LibraryOfBabble extends Card {
     // Action: Draw a card.
     setupCardAbilities(ability) {
@@ -11,4 +10,4 @@ class LibraryOfBabble extends Card {
 
 LibraryOfBabble.id = 'library-of-babble';
 
-module.exports = LibraryOfBabble;
+export default LibraryOfBabble;

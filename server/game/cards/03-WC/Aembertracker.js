@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class Ambertracker extends Card {
     // Play: Deal 2D to each enemy creature with A on it. This damage cannot be prevented by armor.
     setupCardAbilities(ability) {
@@ -19,4 +18,4 @@ class Ambertracker extends Card {
 
 Ambertracker.id = 'æmbertracker';
 
-module.exports = Ambertracker;
+export default Ambertracker;

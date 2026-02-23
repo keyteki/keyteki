@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class ChiefEngineerWalls extends Card {
     // Elusive. (The first time this creature is attacked each turn, no damage is dealt.)
     // Play/Fight/Reap: You may return an upgrade or Robot card from your discard pile to your hand.
@@ -20,4 +19,4 @@ class ChiefEngineerWalls extends Card {
 
 ChiefEngineerWalls.id = 'chief-engineer-walls';
 
-module.exports = ChiefEngineerWalls;
+export default ChiefEngineerWalls;

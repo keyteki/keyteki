@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class SummonedCounsel extends Card {
     // After Reap: Choose a card in your discard pile or a purged card
     // you own. Shuffle the chosen card into your deck.
@@ -16,4 +15,4 @@ class SummonedCounsel extends Card {
 
 SummonedCounsel.id = 'summoned-counsel';
 
-module.exports = SummonedCounsel;
+export default SummonedCounsel;

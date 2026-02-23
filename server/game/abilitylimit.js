@@ -1,5 +1,4 @@
-const { EVENTS } = require('./Events/types');
-
+import { EVENTS } from './Events/types.js';
 class FixedAbilityLimit {
     constructor(max) {
         this.max = max;
@@ -79,4 +78,4 @@ AbilityLimit.perTurn = function (max) {
     return new RepeatableAbilityLimit(max, EVENTS.onTurnEnd);
 };
 
-module.exports = AbilityLimit;
+export default AbilityLimit;

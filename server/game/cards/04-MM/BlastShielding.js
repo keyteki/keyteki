@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class BlastShielding extends Card {
     // This creature gets +2 armor.
     // After this creature is used, its controller may attach Blast Shielding to one of this creatures neighbors.
@@ -26,4 +25,4 @@ class BlastShielding extends Card {
 
 BlastShielding.id = 'blast-shielding';
 
-module.exports = BlastShielding;
+export default BlastShielding;

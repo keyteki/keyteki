@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class SquireRecruitment extends Card {
     // Play: Make a token creature for each friendly Knight creature.
     setupCardAbilities(ability) {
@@ -15,4 +14,4 @@ class SquireRecruitment extends Card {
 
 SquireRecruitment.id = 'squire-recruitment';
 
-module.exports = SquireRecruitment;
+export default SquireRecruitment;

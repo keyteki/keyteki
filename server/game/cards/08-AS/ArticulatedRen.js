@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class ArticulatedRen extends Card {
     // At the end of your turn, you may exhaust a friendly
     // creature. If you do, draw a card.
@@ -23,4 +22,4 @@ class ArticulatedRen extends Card {
 
 ArticulatedRen.id = 'articulated-ren';
 
-module.exports = ArticulatedRen;
+export default ArticulatedRen;

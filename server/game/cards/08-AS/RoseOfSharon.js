@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class RoseOfSharon extends Card {
     // Action: Choose one of Rose of Sharon’s neighbors. Deal damage
     // to an enemy creature equal to that neighbor’s power. If your
@@ -51,4 +50,4 @@ class RoseOfSharon extends Card {
 
 RoseOfSharon.id = 'rose-of-sharon';
 
-module.exports = RoseOfSharon;
+export default RoseOfSharon;

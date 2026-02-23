@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class LeyEarlOfHurl extends Card {
     // Destroyed: If Ley, Earl of Hurl is not on a flank, fully heal
     // it, exhaust it, ward it, and move it to a flank instead.
@@ -29,4 +28,4 @@ class LeyEarlOfHurl extends Card {
 
 LeyEarlOfHurl.id = 'ley-earl-of-hurl';
 
-module.exports = LeyEarlOfHurl;
+export default LeyEarlOfHurl;

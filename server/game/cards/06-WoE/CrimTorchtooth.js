@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class CrimTorchtooth extends Card {
     // After Fight: Enrage with each of Crim Torchtooth's neighbors.
     setupCardAbilities(ability) {
@@ -14,4 +13,4 @@ class CrimTorchtooth extends Card {
 
 CrimTorchtooth.id = 'crim-torchtooth';
 
-module.exports = CrimTorchtooth;
+export default CrimTorchtooth;

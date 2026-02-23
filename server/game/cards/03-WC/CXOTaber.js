@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class CXOTaber extends Card {
     // Fight/Reap: You may play or use a non-Star Alliance card this turn.
     setupCardAbilities(ability) {
@@ -15,4 +14,4 @@ class CXOTaber extends Card {
 
 CXOTaber.id = 'cxo-taber';
 
-module.exports = CXOTaber;
+export default CXOTaber;

@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class Naja extends Card {
     // After Reap: Gain 3A.
     setupCardAbilities(ability) {
@@ -11,4 +10,4 @@ class Naja extends Card {
 
 Naja.id = 'naja';
 
-module.exports = Naja;
+export default Naja;

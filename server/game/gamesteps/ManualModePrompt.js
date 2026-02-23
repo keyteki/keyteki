@@ -1,5 +1,4 @@
-const AllPlayerPrompt = require('./allplayerprompt');
-
+import AllPlayerPrompt from './allplayerprompt.js';
 class ManualModePrompt extends AllPlayerPrompt {
     constructor(game, requestingPlayer) {
         super(game);
@@ -72,4 +71,4 @@ class ManualModePrompt extends AllPlayerPrompt {
     }
 }
 
-module.exports = ManualModePrompt;
+export default ManualModePrompt;

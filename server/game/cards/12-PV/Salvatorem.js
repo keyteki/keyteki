@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class Salvatorem extends Card {
     // You cannot play Salvatorem.
     // Each friendly ready creature with A on it cannot be dealt damage.
@@ -26,4 +25,4 @@ class Salvatorem extends Card {
 
 Salvatorem.id = 'salvatorem';
 
-module.exports = Salvatorem;
+export default Salvatorem;

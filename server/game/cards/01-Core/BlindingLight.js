@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class BlindingLight extends Card {
     // Play: Choose a house. Stun each creature of that house.
     setupCardAbilities(ability) {
@@ -16,4 +15,4 @@ class BlindingLight extends Card {
 
 BlindingLight.id = 'blinding-light';
 
-module.exports = BlindingLight;
+export default BlindingLight;

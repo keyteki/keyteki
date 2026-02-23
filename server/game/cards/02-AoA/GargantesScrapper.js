@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class GargantesScrapper extends Card {
     // Alpha. (You can only play this card before doing anything else this step.)
     // Play: If you have 3A or more,
@@ -18,4 +17,4 @@ class GargantesScrapper extends Card {
 
 GargantesScrapper.id = 'gargantes-scrapper';
 
-module.exports = GargantesScrapper;
+export default GargantesScrapper;

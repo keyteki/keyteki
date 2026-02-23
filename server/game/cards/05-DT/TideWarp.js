@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class TideWarp extends Card {
     // (T) At the start of your turn, if the tide is high, your opponent raises the tide. Otherwise, you raise the tide.
     setupCardAbilities(ability) {
@@ -19,4 +18,4 @@ class TideWarp extends Card {
 
 TideWarp.id = 'tide-warp';
 
-module.exports = TideWarp;
+export default TideWarp;

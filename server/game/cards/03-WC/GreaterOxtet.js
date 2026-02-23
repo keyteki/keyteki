@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class GreaterOxtet extends Card {
     // Taunt.
     // At the end of your ready cards step, purge a card from your hand. If you do, give Greater Oxtet two +1 power counters.
@@ -23,4 +22,4 @@ class GreaterOxtet extends Card {
 
 GreaterOxtet.id = 'greater-oxtet';
 
-module.exports = GreaterOxtet;
+export default GreaterOxtet;

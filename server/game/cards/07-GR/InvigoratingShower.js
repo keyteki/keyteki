@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class InvigoratingShower extends Card {
     // Play: Choose a house. Shuffle each card of that house from your
     // discard pile into your deck.
@@ -20,4 +19,4 @@ class InvigoratingShower extends Card {
 
 InvigoratingShower.id = 'invigorating-shower';
 
-module.exports = InvigoratingShower;
+export default InvigoratingShower;

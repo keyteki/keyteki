@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class CheloniaEvilTwin extends Card {
     // Elusive. (The first time this creature is attacked each turn, no damage is dealt.)
     // (T) After you play another creature, if the tide is high, your opponent loses 1A.
@@ -19,4 +18,4 @@ class CheloniaEvilTwin extends Card {
 
 CheloniaEvilTwin.id = 'chelonia-evil-twin';
 
-module.exports = CheloniaEvilTwin;
+export default CheloniaEvilTwin;

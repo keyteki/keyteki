@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class BoschTheUnyielding extends Card {
     // After Fight: Fully heal Bosch the Unyielding.
     setupCardAbilities(ability) {
@@ -11,4 +10,4 @@ class BoschTheUnyielding extends Card {
 
 BoschTheUnyielding.id = 'bosch-the-unyielding';
 
-module.exports = BoschTheUnyielding;
+export default BoschTheUnyielding;

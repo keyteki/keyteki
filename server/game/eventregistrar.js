@@ -1,5 +1,4 @@
-const _ = require('underscore');
-
+import _ from 'underscore';
 /**
  * @import {EventName} from './Events/types');
  */
@@ -74,4 +73,4 @@ class EventRegistrar {
     }
 }
 
-module.exports = EventRegistrar;
+export default EventRegistrar;

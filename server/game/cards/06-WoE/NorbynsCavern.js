@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class NorbynsCavern extends Card {
     // Each friendly Æmberling gets +3 power and gains skirmish.
     setupCardAbilities(ability) {
@@ -13,4 +12,4 @@ class NorbynsCavern extends Card {
 
 NorbynsCavern.id = 'norbyn-s-cavern';
 
-module.exports = NorbynsCavern;
+export default NorbynsCavern;

@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class ExperimentalTherapy extends Card {
     // This creature belongs to all houses.
     // Play: Stun and exhaust this creature.
@@ -20,4 +19,4 @@ class ExperimentalTherapy extends Card {
 
 ExperimentalTherapy.id = 'experimental-therapy';
 
-module.exports = ExperimentalTherapy;
+export default ExperimentalTherapy;

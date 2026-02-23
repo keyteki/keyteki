@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class RogueOperation extends Card {
     // Play: Discard the top 2 cards of your deck. Steal 1 Aember for each house represented among the discarded cards.
     setupCardAbilities(ability) {
@@ -37,4 +36,4 @@ class RogueOperation extends Card {
 
 RogueOperation.id = 'rogue-operation';
 
-module.exports = RogueOperation;
+export default RogueOperation;

@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class GiantsBane extends Card {
     // Play: Destroy a Giant creature.
     setupCardAbilities(ability) {
@@ -18,4 +17,4 @@ class GiantsBane extends Card {
 
 GiantsBane.id = 'giants--bane';
 
-module.exports = GiantsBane;
+export default GiantsBane;

@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class Vulka extends Card {
     // Each friendly Brobnar creature gains splash-attack 1.
     setupCardAbilities(ability) {
@@ -14,4 +13,4 @@ class Vulka extends Card {
 
 Vulka.id = 'vulka';
 
-module.exports = Vulka;
+export default Vulka;

@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class Halacor extends Card {
     // Each friendly flank creature gains skirmish. (When you use a creature with skirmish to fight, it is dealt no damage in return.)
     setupCardAbilities(ability) {
@@ -12,4 +11,4 @@ class Halacor extends Card {
 
 Halacor.id = 'halacor';
 
-module.exports = Halacor;
+export default Halacor;

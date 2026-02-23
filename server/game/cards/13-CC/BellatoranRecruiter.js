@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class BellatoranRecruiter extends Card {
     // Enhance .
     // After Fight/After Reap: Choose a friendly non-Dinosaur creature. For the remainder of the turn, that creature gets +2 power and +2 armor. Ready and fight with that creature.
@@ -25,4 +24,4 @@ class BellatoranRecruiter extends Card {
 
 BellatoranRecruiter.id = 'bellatoran-recruiter';
 
-module.exports = BellatoranRecruiter;
+export default BellatoranRecruiter;

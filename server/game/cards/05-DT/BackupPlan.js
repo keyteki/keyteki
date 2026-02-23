@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class BackupPlan extends Card {
     // Play: For each creature your opponent controls in excess of you, archive the top card of your deck.
     setupCardAbilities(ability) {
@@ -21,4 +20,4 @@ class BackupPlan extends Card {
 
 BackupPlan.id = 'backup-plan';
 
-module.exports = BackupPlan;
+export default BackupPlan;

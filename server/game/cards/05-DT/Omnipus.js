@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class Omnipus extends Card {
     // Omnipus cannot fight.
     // Play: Discard the top 8 cards of your deck. Play each Tentaclid from your discard pile, one at a time.
@@ -35,4 +34,4 @@ class Omnipus extends Card {
 
 Omnipus.id = 'omnipus';
 
-module.exports = Omnipus;
+export default Omnipus;

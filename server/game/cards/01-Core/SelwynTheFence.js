@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class SelwynTheFence extends Card {
     // Fight/Reap: Move 1A from one of your cards to your pool.
     setupCardAbilities(ability) {
@@ -21,4 +20,4 @@ class SelwynTheFence extends Card {
 
 SelwynTheFence.id = 'selwyn-the-fence';
 
-module.exports = SelwynTheFence;
+export default SelwynTheFence;

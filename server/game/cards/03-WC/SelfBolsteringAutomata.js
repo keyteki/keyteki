@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class SelfBolsteringAutomata extends Card {
     // Destroyed: If you have any other creatures in play, instead of destroying Self-Bolstering Automata, fully heal it, exhaust it, and move it to a flank. If you do, give it two +1 power counters.
     setupCardAbilities(ability) {
@@ -37,4 +36,4 @@ class SelfBolsteringAutomata extends Card {
 
 SelfBolsteringAutomata.id = 'self-bolstering-automata';
 
-module.exports = SelfBolsteringAutomata;
+export default SelfBolsteringAutomata;

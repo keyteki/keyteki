@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class Impzilla extends Card {
     // After Fight: Destroy the most powerful enemy creature.
     setupCardAbilities(ability) {
@@ -18,4 +17,4 @@ class Impzilla extends Card {
 
 Impzilla.id = 'impzilla';
 
-module.exports = Impzilla;
+export default Impzilla;

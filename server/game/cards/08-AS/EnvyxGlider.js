@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class EnvyxGlider extends Card {
     // After Fight: During your opponent's next turn, keys cost +1A for each friendly Mars creature in play.
     setupCardAbilities(ability) {
@@ -21,4 +20,4 @@ class EnvyxGlider extends Card {
 
 EnvyxGlider.id = 'envyx-glider';
 
-module.exports = EnvyxGlider;
+export default EnvyxGlider;

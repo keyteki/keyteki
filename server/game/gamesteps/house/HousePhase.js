@@ -1,7 +1,6 @@
-const { EVENTS } = require('../../Events/types.js');
-const Phase = require('../phase.js');
-const SimpleStep = require('../simplestep.js');
-
+import { EVENTS } from '../../Events/types.js';
+import Phase from '../phase.js';
+import SimpleStep from '../simplestep.js';
 class HousePhase extends Phase {
     constructor(game) {
         super(game, 'house');
@@ -141,4 +140,4 @@ class HousePhase extends Phase {
     }
 }
 
-module.exports = HousePhase;
+export default HousePhase;

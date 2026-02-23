@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class TomesGigantica extends Card {
     // Play: Search your deck and discard pile for two halves of a
     // gigantic creature, reveal them, and put them in your
@@ -25,4 +24,4 @@ class TomesGigantica extends Card {
 
 TomesGigantica.id = 'tomes-gigantica';
 
-module.exports = TomesGigantica;
+export default TomesGigantica;

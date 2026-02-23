@@ -1,6 +1,5 @@
-const { EVENTS } = require('../Events/types');
-const PlayerAction = require('./PlayerAction');
-
+import { EVENTS } from '../Events/types.js';
+import PlayerAction from './PlayerAction.js';
 class LoseAmberAction extends PlayerAction {
     setDefaultProperties() {
         this.amount = 1;
@@ -34,4 +33,4 @@ class LoseAmberAction extends PlayerAction {
     }
 }
 
-module.exports = LoseAmberAction;
+export default LoseAmberAction;

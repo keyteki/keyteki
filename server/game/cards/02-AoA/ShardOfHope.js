@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class ShardOfHope extends Card {
     // Action: A friendly creature captures
     // 1A for each friendly Shard.
@@ -39,4 +38,4 @@ class ShardOfHope extends Card {
 
 ShardOfHope.id = 'shard-of-hope';
 
-module.exports = ShardOfHope;
+export default ShardOfHope;

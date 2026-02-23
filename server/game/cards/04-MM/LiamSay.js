@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class LiamSay extends Card {
     // Elusive.
     // At the start of your turn, you may deal 1D to a creature.
@@ -20,4 +19,4 @@ class LiamSay extends Card {
 
 LiamSay.id = 'liam-say';
 
-module.exports = LiamSay;
+export default LiamSay;

@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class Whisper extends Card {
     // Elusive.
     // Action: Lose 1. If you do, destroy a creature.
@@ -19,4 +18,4 @@ class Whisper extends Card {
 
 Whisper.id = 'whisper';
 
-module.exports = Whisper;
+export default Whisper;

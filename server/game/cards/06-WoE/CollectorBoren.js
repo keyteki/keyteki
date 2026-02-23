@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class CollectorBoren extends Card {
     // Play: Put an upgrade from your disard pile into your hand.
     //
@@ -26,4 +25,4 @@ class CollectorBoren extends Card {
 
 CollectorBoren.id = 'collector-boren';
 
-module.exports = CollectorBoren;
+export default CollectorBoren;

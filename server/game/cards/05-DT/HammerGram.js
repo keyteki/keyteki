@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class HammerGram extends Card {
     // Play: Deal 3D to a creature and stun it.
     setupCardAbilities(ability) {
@@ -18,4 +17,4 @@ class HammerGram extends Card {
 
 HammerGram.id = 'hammer-gram';
 
-module.exports = HammerGram;
+export default HammerGram;

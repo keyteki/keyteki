@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class Equalize extends Card {
     // Play: Redistribute the A on friendly creatures among friendly creatures. Then, redistribute the A on enemy creatures among enemy creatures.
     setupCardAbilities(ability) {
@@ -59,4 +58,4 @@ class Equalize extends Card {
 
 Equalize.id = 'equalize';
 
-module.exports = Equalize;
+export default Equalize;

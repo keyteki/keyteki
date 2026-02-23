@@ -1,5 +1,4 @@
-const AscendantHester = require('./AscendantHester.js');
-
+import AscendantHester from './AscendantHester.js';
 class AscendantHester2 extends AscendantHester {
     constructor(owner, cardData) {
         super(owner, cardData);
@@ -8,4 +7,4 @@ class AscendantHester2 extends AscendantHester {
 
 AscendantHester2.id = 'ascendant-hester2';
 
-module.exports = AscendantHester2;
+export default AscendantHester2;

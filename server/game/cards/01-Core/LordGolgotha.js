@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class LordGolgotha extends Card {
     // Before Fight: Deal 3D to each neighbor of the creature Lord Golgotha fights.
     setupCardAbilities(ability) {
@@ -16,4 +15,4 @@ class LordGolgotha extends Card {
 
 LordGolgotha.id = 'lord-golgotha';
 
-module.exports = LordGolgotha;
+export default LordGolgotha;

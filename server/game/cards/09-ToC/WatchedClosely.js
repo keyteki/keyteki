@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class WatchedClosely extends Card {
     // This creature gains, “After Reap: Your opponent makes a token creature.”
     setupCardAbilities(ability) {
@@ -20,4 +19,4 @@ class WatchedClosely extends Card {
 
 WatchedClosely.id = 'watched-closely';
 
-module.exports = WatchedClosely;
+export default WatchedClosely;

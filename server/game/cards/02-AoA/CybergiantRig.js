@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class CybergiantRig extends Card {
     // This creature gains, At the end of your turn, this creature loses a +1 power counter.
     // Play: Fully heal this creature and give it a +1 power counter for each damage healed.
@@ -32,4 +31,4 @@ class CybergiantRig extends Card {
 
 CybergiantRig.id = 'cybergiant-rig';
 
-module.exports = CybergiantRig;
+export default CybergiantRig;

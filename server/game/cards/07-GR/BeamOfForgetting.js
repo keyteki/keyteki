@@ -1,6 +1,5 @@
-const _ = require('underscore');
-const Card = require('../../Card.js');
-
+import _ from 'underscore';
+import Card from '../../Card.js';
 class BeamOfForgetting extends Card {
     // Play: Reveal a random card from your opponent’s hand. Put that
     // card on the bottom of their deck.
@@ -29,4 +28,4 @@ class BeamOfForgetting extends Card {
 
 BeamOfForgetting.id = 'beam-of-forgetting';
 
-module.exports = BeamOfForgetting;
+export default BeamOfForgetting;

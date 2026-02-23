@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class DoubleDoom extends Card {
     // Play: Return an enemy creature to its owners hand. Your opponent discards a random card from their hand.
     setupCardAbilities(ability) {
@@ -19,4 +18,4 @@ class DoubleDoom extends Card {
 
 DoubleDoom.id = 'double-doom';
 
-module.exports = DoubleDoom;
+export default DoubleDoom;

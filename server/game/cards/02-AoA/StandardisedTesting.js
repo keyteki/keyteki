@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class StandardizedTesting extends Card {
     // Play: Destroy each creature with the lowest power and each creature with the highest power.
     setupCardAbilities(ability) {
@@ -26,4 +25,4 @@ class StandardizedTesting extends Card {
 
 StandardizedTesting.id = 'standardized-testing';
 
-module.exports = StandardizedTesting;
+export default StandardizedTesting;

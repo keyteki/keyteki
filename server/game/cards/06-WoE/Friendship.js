@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class Friendship extends Card {
     setupCardAbilities(ability) {
         this.interrupt({
@@ -97,4 +96,4 @@ class Friendship extends Card {
 
 Friendship.id = 'friendship';
 
-module.exports = Friendship;
+export default Friendship;

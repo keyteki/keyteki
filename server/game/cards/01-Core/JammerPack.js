@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class JammerPack extends Card {
     // This creature gains, Your opponent's keys cost +2<A>.
     setupCardAbilities(ability) {
@@ -14,4 +13,4 @@ class JammerPack extends Card {
 
 JammerPack.id = 'jammer-pack';
 
-module.exports = JammerPack;
+export default JammerPack;

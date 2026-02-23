@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class EasyMarks extends Card {
     // Play: Exalt each damaged enemy creature.
     setupCardAbilities(ability) {
@@ -17,4 +16,4 @@ class EasyMarks extends Card {
 
 EasyMarks.id = 'easy-marks';
 
-module.exports = EasyMarks;
+export default EasyMarks;

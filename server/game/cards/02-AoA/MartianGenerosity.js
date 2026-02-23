@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class MartianGenerosity extends Card {
     // Play: Lose all of your A. Draw 2cards for each Alost.
     setupCardAbilities(ability) {
@@ -21,4 +20,4 @@ class MartianGenerosity extends Card {
 
 MartianGenerosity.id = 'martian-generosity';
 
-module.exports = MartianGenerosity;
+export default MartianGenerosity;

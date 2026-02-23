@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class Science extends Card {
     // Play: For the remainder of the turn, after you play another action card, gain 1A .
     setupCardAbilities(ability) {
@@ -19,4 +18,4 @@ class Science extends Card {
 
 Science.id = 'science';
 
-module.exports = Science;
+export default Science;

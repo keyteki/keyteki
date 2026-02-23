@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class KeyOfDarkness extends Card {
     // Play: Forge a key at +6A current cost.
     // If your opponent has no A, forge a key at +2A current cost instead.
@@ -14,4 +13,4 @@ class KeyOfDarkness extends Card {
 
 KeyOfDarkness.id = 'key-of-darkness';
 
-module.exports = KeyOfDarkness;
+export default KeyOfDarkness;

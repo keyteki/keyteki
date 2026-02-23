@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class HeavySubsidies extends Card {
     //Keys cost +6A. Each creature gains, "After Reap: Gain 1A."
     setupCardAbilities(ability) {
@@ -19,4 +18,4 @@ class HeavySubsidies extends Card {
 
 HeavySubsidies.id = 'heavy-subsidies';
 
-module.exports = HeavySubsidies;
+export default HeavySubsidies;

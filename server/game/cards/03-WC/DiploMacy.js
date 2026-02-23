@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class DiploMacy extends Card {
     // Alpha.
     // Play: Until the start of your next turn, each creature gains, Before Fight: Exalt this creature.
@@ -19,4 +18,4 @@ class DiploMacy extends Card {
 
 DiploMacy.id = 'diplo-macy';
 
-module.exports = DiploMacy;
+export default DiploMacy;

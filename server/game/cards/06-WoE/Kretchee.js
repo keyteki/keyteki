@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class Kretchee extends Card {
     // Each time a player exalts a creature or a creature captures , put 1 on that creature from the common supply.
     setupCardAbilities(ability) {
@@ -18,4 +17,4 @@ class Kretchee extends Card {
 
 Kretchee.id = 'kretchee';
 
-module.exports = Kretchee;
+export default Kretchee;

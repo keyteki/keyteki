@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class TomeOfAbatement extends Card {
     // Each creature loses and cannot gain elusive, skirmish, and taunt.
     setupCardAbilities(ability) {
@@ -17,4 +16,4 @@ class TomeOfAbatement extends Card {
 
 TomeOfAbatement.id = 'tome-of-abatement';
 
-module.exports = TomeOfAbatement;
+export default TomeOfAbatement;

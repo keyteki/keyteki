@@ -1,6 +1,5 @@
-const { EVENTS } = require('../Events/types');
-const GameAction = require('./GameAction');
-
+import { EVENTS } from '../Events/types.js';
+import GameAction from './GameAction.js';
 class SequentialAction extends GameAction {
     constructor(gameActions) {
         super({ gameActions: gameActions });
@@ -59,4 +58,4 @@ class SequentialAction extends GameAction {
     }
 }
 
-module.exports = SequentialAction;
+export default SequentialAction;

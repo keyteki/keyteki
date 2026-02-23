@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class TargetYynxzdyl extends Card {
     // Play: Archive a card from your discard pile.
     // After Reap: Archive Target Yynxzdyl.
@@ -20,4 +19,4 @@ class TargetYynxzdyl extends Card {
 
 TargetYynxzdyl.id = 'target-yynxzdyl';
 
-module.exports = TargetYynxzdyl;
+export default TargetYynxzdyl;

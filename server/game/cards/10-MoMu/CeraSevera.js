@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class CeraSevera extends Card {
     // After Fight/After Reap: Capture 1A.
     // Destroyed: Choose an enemy creature. Deal 1D to that creature for each
@@ -24,4 +23,4 @@ class CeraSevera extends Card {
 
 CeraSevera.id = 'cera-severa';
 
-module.exports = CeraSevera;
+export default CeraSevera;

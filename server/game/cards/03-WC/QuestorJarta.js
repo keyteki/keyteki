@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class QuestorJarta extends Card {
     // Elusive. (The first time this creature is attacked each turn, no damage is dealt.)
     // Reap: You may exalt Questor Jarta. If you do, gain 1A.
@@ -17,4 +16,4 @@ class QuestorJarta extends Card {
 
 QuestorJarta.id = 'questor-jarta';
 
-module.exports = QuestorJarta;
+export default QuestorJarta;

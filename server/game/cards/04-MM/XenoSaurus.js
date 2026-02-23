@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class XenoSaurus extends Card {
     // Play: You may exalt Xeno-Saurus. If you do, deal 3D to a creature.
     // Fight: Look at the top 3 cards of your deck. Put 1 into your hand and 1 on the bottom of your deck.
@@ -39,4 +38,4 @@ class XenoSaurus extends Card {
 
 XenoSaurus.id = 'xeno-saurus';
 
-module.exports = XenoSaurus;
+export default XenoSaurus;

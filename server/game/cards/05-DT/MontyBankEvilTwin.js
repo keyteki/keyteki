@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class MontyBankEvilTwin extends Card {
     // Elusive.
     // Play: Exalt Monty Bank 2 times.
@@ -20,4 +19,4 @@ class MontyBankEvilTwin extends Card {
 
 MontyBankEvilTwin.id = 'monty-bank-evil-twin';
 
-module.exports = MontyBankEvilTwin;
+export default MontyBankEvilTwin;

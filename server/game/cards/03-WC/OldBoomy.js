@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class OldBoomy extends Card {
     // Reap: Reveal cards from the top of your deck until you reveal a Brobnar card or choose to stop. Deal 2D to Old Boomy if a Brobnar card was revealed. Archive each card revealed this way.
     setupCardAbilities(ability) {
@@ -38,4 +37,4 @@ class OldBoomy extends Card {
 
 OldBoomy.id = 'old-boomy';
 
-module.exports = OldBoomy;
+export default OldBoomy;

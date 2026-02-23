@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class CollectiveCalm extends Card {
     // Each creature gains, “After Reap: Gain 1A.”
     // After a friendly creature is used to fight, destroy Collective Calm.
@@ -26,4 +25,4 @@ class CollectiveCalm extends Card {
 
 CollectiveCalm.id = 'collective-calm';
 
-module.exports = CollectiveCalm;
+export default CollectiveCalm;

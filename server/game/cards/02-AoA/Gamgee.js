@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class Gamgee extends Card {
     // Elusive.(The first time this creature is attacked each turn, no damage is dealt.)
     // Reap: If your opponent has more A than you, steal 1A.
@@ -14,4 +13,4 @@ class Gamgee extends Card {
 
 Gamgee.id = 'gamgee';
 
-module.exports = Gamgee;
+export default Gamgee;

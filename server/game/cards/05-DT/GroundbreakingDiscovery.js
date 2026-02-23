@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class GroundbreakingDiscovery extends Card {
     // Play: If you control Dr. Verokter, Rooftop Laboratory, and Reckless Experimentation, destroy each card in play, unforge an opponent’s key, and purge Groundbreaking Discovery.
     setupCardAbilities(ability) {
@@ -31,4 +30,4 @@ class GroundbreakingDiscovery extends Card {
 
 GroundbreakingDiscovery.id = 'groundbreaking-discovery';
 
-module.exports = GroundbreakingDiscovery;
+export default GroundbreakingDiscovery;

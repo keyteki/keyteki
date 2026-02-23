@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class Noname extends Card {
     // Noname gets +1 power for each purged card.
     // Play/Fight/Reap: Purge a card in a discard pile.
@@ -24,4 +23,4 @@ class Noname extends Card {
 
 Noname.id = 'noname';
 
-module.exports = Noname;
+export default Noname;

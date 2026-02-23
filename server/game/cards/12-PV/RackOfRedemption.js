@@ -1,6 +1,5 @@
-const Card = require('../../Card.js');
-const EventRegistrar = require('../../eventregistrar.js');
-
+import Card from '../../Card.js';
+import EventRegistrar from '../../eventregistrar.js';
 class RackOfRedemption extends Card {
     // Each turn, after the first Mutant creature is destroyed, its owner gains 1A.
     setupCardAbilities(ability) {
@@ -50,4 +49,4 @@ class RackOfRedemption extends Card {
 
 RackOfRedemption.id = 'rack-of-redemption';
 
-module.exports = RackOfRedemption;
+export default RackOfRedemption;

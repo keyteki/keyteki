@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class Diplomat extends Card {
     // After Reap: Each player gains 1 Aember.
     setupCardAbilities(ability) {
@@ -17,4 +16,4 @@ class Diplomat extends Card {
 
 Diplomat.id = 'diplomat';
 
-module.exports = Diplomat;
+export default Diplomat;

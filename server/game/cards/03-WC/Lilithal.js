@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class Lilithal extends Card {
     // Fight/Reap: Capture 1A.
     setupCardAbilities(ability) {
@@ -12,4 +11,4 @@ class Lilithal extends Card {
 
 Lilithal.id = 'lilithal';
 
-module.exports = Lilithal;
+export default Lilithal;

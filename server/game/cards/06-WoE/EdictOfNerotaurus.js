@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class EdictOfNerotaurus extends Card {
     // After a creature reaps, the next creature used this turn cannot reap.
     //
@@ -37,4 +36,4 @@ class EdictOfNerotaurus extends Card {
 
 EdictOfNerotaurus.id = 'edict-of-nerotaurus';
 
-module.exports = EdictOfNerotaurus;
+export default EdictOfNerotaurus;

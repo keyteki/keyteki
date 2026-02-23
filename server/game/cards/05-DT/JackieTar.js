@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class JackieTar extends Card {
     // Elusive. (The first time this creature is attacked each turn, no damage is dealt.)
     // (T) Reap: Deal 1D to a creature. If the tide is high, deal 6D to a creature instead.
@@ -17,4 +16,4 @@ class JackieTar extends Card {
 
 JackieTar.id = 'jackie-tar';
 
-module.exports = JackieTar;
+export default JackieTar;

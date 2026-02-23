@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class TheBigOne extends Card {
     // After a creature is played, put a fuse counter on The Big One.
     // If there are 10 or more fuse counters on The Big One, destroy each creature and artifact.
@@ -27,4 +26,4 @@ class TheBigOne extends Card {
 
 TheBigOne.id = 'the-big-one';
 
-module.exports = TheBigOne;
+export default TheBigOne;

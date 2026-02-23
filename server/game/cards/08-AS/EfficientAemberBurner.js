@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class EfficientAmberBurner extends Card {
     // This creature gains, “Your opponent’s keys cost –1A for each A
     // on this creature.”
@@ -21,4 +20,4 @@ class EfficientAmberBurner extends Card {
 
 EfficientAmberBurner.id = 'efficient-æmber-burner';
 
-module.exports = EfficientAmberBurner;
+export default EfficientAmberBurner;

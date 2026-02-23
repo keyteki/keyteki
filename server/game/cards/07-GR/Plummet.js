@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class Plummet extends Card {
     // Play: Discard your hand. Deal 1 to each creature for each card
     // discarded this way.
@@ -23,4 +22,4 @@ class Plummet extends Card {
 
 Plummet.id = 'plummet';
 
-module.exports = Plummet;
+export default Plummet;

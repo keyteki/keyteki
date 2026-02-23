@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class SpareArmCarmine extends Card {
     // After Reap: If there are more friendly Mutant creatures than
     // enemy Mutant creatures, steal 2A. Otherwise, steal 1A.
@@ -19,4 +18,4 @@ class SpareArmCarmine extends Card {
 
 SpareArmCarmine.id = 'spare-arm-carmine';
 
-module.exports = SpareArmCarmine;
+export default SpareArmCarmine;

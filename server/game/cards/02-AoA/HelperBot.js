@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class HelperBot extends Card {
     // Play: You may play one non-Logos card this turn.
     setupCardAbilities(ability) {
@@ -14,4 +13,4 @@ class HelperBot extends Card {
 
 HelperBot.id = 'helper-bot';
 
-module.exports = HelperBot;
+export default HelperBot;

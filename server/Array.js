@@ -64,7 +64,9 @@ function sortBy(array, transform) {
     return [...array].sort(sortByComparison(transform));
 }
 
-module.exports = {
+export { flatten, flatMap, partition, sortBy, expand };
+
+export default {
     flatten,
     flatMap,
     partition,

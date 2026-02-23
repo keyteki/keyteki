@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class GrizzledWyvern extends Card {
     // Play: Capture 6A from any combination of players. Then, if
     // Grizzled Wyvern has fewer than 6A on it, destroy it.
@@ -65,4 +64,4 @@ class GrizzledWyvern extends Card {
 
 GrizzledWyvern.id = 'grizzled-wyvern';
 
-module.exports = GrizzledWyvern;
+export default GrizzledWyvern;

@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class TeleporterChiefTink extends Card {
     // Elusive. (The first time this creature is attacked each turn, no damage is dealt.)
     // Action: Swap Teleporter Chief Tink with another friendly creature in the battleline. You may use that other creature this turn.
@@ -21,4 +20,4 @@ class TeleporterChiefTink extends Card {
 
 TeleporterChiefTink.id = 'teleporter-chief-tink';
 
-module.exports = TeleporterChiefTink;
+export default TeleporterChiefTink;

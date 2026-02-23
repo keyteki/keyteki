@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class TransparencyReport extends Card {
     // Play: Reveal your hand. If it contains no cards of the active
     // house, gain 2A.
@@ -24,4 +23,4 @@ class TransparencyReport extends Card {
 
 TransparencyReport.id = 'transparency-report';
 
-module.exports = TransparencyReport;
+export default TransparencyReport;

@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class PaleIntoInsignificance extends Card {
     // Play: Destroy each creature with the lowest power.
     setupCardAbilities(ability) {
@@ -24,4 +23,4 @@ class PaleIntoInsignificance extends Card {
 
 PaleIntoInsignificance.id = 'pale-into-insignificance';
 
-module.exports = PaleIntoInsignificance;
+export default PaleIntoInsignificance;

@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class TyxlBeambuckler extends Card {
     // Play: Deal 2D to a creature and move it to either flank of its controllers battleline.
     setupCardAbilities(ability) {
@@ -22,4 +21,4 @@ class TyxlBeambuckler extends Card {
 
 TyxlBeambuckler.id = 'tyxl-beambuckler';
 
-module.exports = TyxlBeambuckler;
+export default TyxlBeambuckler;

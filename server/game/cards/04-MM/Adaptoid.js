@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class Adaptoid extends Card {
     // Enhance PTDR.
     // After you play a card with a bonus icon, for the remainder of the turn, Adaptoid gains (choose one): +2 armor, assault 2, or Fight: Steal 1A.
@@ -34,4 +33,4 @@ class Adaptoid extends Card {
 
 Adaptoid.id = 'adaptoid';
 
-module.exports = Adaptoid;
+export default Adaptoid;

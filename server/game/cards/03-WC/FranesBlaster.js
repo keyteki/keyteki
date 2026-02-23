@@ -1,5 +1,4 @@
-const BlasterCard = require('./BlasterCard.js');
-
+import BlasterCard from './BlasterCard.js';
 class FranesBlaster extends BlasterCard {
     // This creature gains, Fight/Reap: You may deal 2D to a creature, or attach Franes Blaster to First Officer Frane.
     // After you attach Franes Blaster to First Officer Frane, move each A from First Officer Frane to your pool.
@@ -24,4 +23,4 @@ class FranesBlaster extends BlasterCard {
 
 FranesBlaster.id = 'frane-s-blaster';
 
-module.exports = FranesBlaster;
+export default FranesBlaster;

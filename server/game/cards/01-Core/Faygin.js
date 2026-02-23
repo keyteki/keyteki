@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class Faygin extends Card {
     // Elusive. (The first time this creature is attacked each turn, no damage is dealt.)
     // Reap: Return an Urchin from play or from your discard pile to your hand.
@@ -20,4 +19,4 @@ class Faygin extends Card {
 
 Faygin.id = 'faygin';
 
-module.exports = Faygin;
+export default Faygin;

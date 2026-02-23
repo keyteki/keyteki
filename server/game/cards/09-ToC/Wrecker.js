@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class Wrecker extends Card {
     // After Reap: Discard the top card of a player’s deck.
     setupCardAbilities(ability) {
@@ -24,4 +23,4 @@ class Wrecker extends Card {
 
 Wrecker.id = 'wrecker';
 
-module.exports = Wrecker;
+export default Wrecker;

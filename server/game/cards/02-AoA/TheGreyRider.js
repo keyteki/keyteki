@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class TheGreyRider extends Card {
     // Deploy. (This creature can enter play anywhere in your battleline.)
     // Play/Fight/Reap: You may ready and fight with a neighboring creature.
@@ -24,4 +23,4 @@ class TheGreyRider extends Card {
 
 TheGreyRider.id = 'the-grey-rider';
 
-module.exports = TheGreyRider;
+export default TheGreyRider;

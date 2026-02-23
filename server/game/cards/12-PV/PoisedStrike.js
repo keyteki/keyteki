@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class PoisedStrike extends Card {
     // After a player readies this creature, destroy it.
     // Fate: Skip your "ready cards" step this turn.
@@ -23,4 +22,4 @@ class PoisedStrike extends Card {
 
 PoisedStrike.id = 'poised-strike';
 
-module.exports = PoisedStrike;
+export default PoisedStrike;

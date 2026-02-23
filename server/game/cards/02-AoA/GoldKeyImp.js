@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class GoldKeyImp extends Card {
     // Elusive.(The first time this creature is attacked each turn, no damage is dealt.)
     // Players cannot forge their third key.
@@ -16,4 +15,4 @@ class GoldKeyImp extends Card {
 
 GoldKeyImp.id = 'gold-key-imp';
 
-module.exports = GoldKeyImp;
+export default GoldKeyImp;

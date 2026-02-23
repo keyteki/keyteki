@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class DBGobber extends Card {
     // After Reap: Your opponent loses 1A.
     // Scrap: Each player with 7A or more loses 2A.
@@ -33,4 +32,4 @@ class DBGobber extends Card {
 
 DBGobber.id = 'db-gobber';
 
-module.exports = DBGobber;
+export default DBGobber;

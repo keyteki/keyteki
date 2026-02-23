@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class Pandemonium extends Card {
     // Play: Each undamaged creature captures 1A from its opponent.
     setupCardAbilities(ability) {
@@ -26,4 +25,4 @@ class Pandemonium extends Card {
 
 Pandemonium.id = 'pandemonium';
 
-module.exports = Pandemonium;
+export default Pandemonium;

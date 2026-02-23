@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class Miasma extends Card {
     // Play: Your opponent skips the forge a key step on their next turn.
     setupCardAbilities(ability) {
@@ -17,4 +16,4 @@ class Miasma extends Card {
 
 Miasma.id = 'miasma';
 
-module.exports = Miasma;
+export default Miasma;

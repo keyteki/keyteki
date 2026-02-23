@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class Harlock extends Card {
     // After Fight: If the creature Harlock fought was destroyed, make
     // a token creature.
@@ -16,4 +15,4 @@ class Harlock extends Card {
 
 Harlock.id = 'harlock';
 
-module.exports = Harlock;
+export default Harlock;

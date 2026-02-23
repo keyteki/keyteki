@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class AmberVac extends Card {
     // (T) Play: Raise the tide.
     // (T) This creature gains, "At the start of your turn, if the tide is high, capture 2A."
@@ -24,4 +23,4 @@ class AmberVac extends Card {
 
 AmberVac.id = 'æmber-vac';
 
-module.exports = AmberVac;
+export default AmberVac;

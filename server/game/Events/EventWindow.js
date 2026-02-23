@@ -1,9 +1,8 @@
-const BaseStepWithPipeline = require('../gamesteps/basestepwithpipeline.js');
-const ForcedTriggeredAbilityWindow = require('../gamesteps/forcedtriggeredabilitywindow.js');
-const DestroyedAbilityWindow = require('../gamesteps/DestroyedAbilityWindow.js');
-const SimpleStep = require('../gamesteps/simplestep.js');
-const { EVENTS } = require('./types.js');
-
+import BaseStepWithPipeline from '../gamesteps/basestepwithpipeline.js';
+import ForcedTriggeredAbilityWindow from '../gamesteps/forcedtriggeredabilitywindow.js';
+import DestroyedAbilityWindow from '../gamesteps/DestroyedAbilityWindow.js';
+import SimpleStep from '../gamesteps/simplestep.js';
+import { EVENTS } from './types.js';
 class EventWindow extends BaseStepWithPipeline {
     constructor(game, event) {
         super(game);
@@ -92,4 +91,4 @@ class EventWindow extends BaseStepWithPipeline {
     }
 }
 
-module.exports = EventWindow;
+export default EventWindow;

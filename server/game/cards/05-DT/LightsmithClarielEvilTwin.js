@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class LightsmithClarielEvilTwin extends Card {
     // Action: Switch a creature's power and armor for the remainder of the turn.
     setupCardAbilities(ability) {
@@ -25,4 +24,4 @@ class LightsmithClarielEvilTwin extends Card {
 
 LightsmithClarielEvilTwin.id = 'lightsmith-clariel-evil-twin';
 
-module.exports = LightsmithClarielEvilTwin;
+export default LightsmithClarielEvilTwin;

@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class CleansingWave extends Card {
     // Play: Heal 1 damage from each creature. Gain 1<A> for each creature healed this way.
     setupCardAbilities(ability) {
@@ -29,4 +28,4 @@ class CleansingWave extends Card {
 
 CleansingWave.id = 'cleansing-wave';
 
-module.exports = CleansingWave;
+export default CleansingWave;

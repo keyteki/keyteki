@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class StrangeTorpedo extends Card {
     // Play: Deal 1 D to a creature, with 1 D splash. If your opponent
     // is haunted, stun and exhaust each creature damaged in this way.
@@ -46,4 +45,4 @@ class StrangeTorpedo extends Card {
 
 StrangeTorpedo.id = 'strange-torpedo';
 
-module.exports = StrangeTorpedo;
+export default StrangeTorpedo;

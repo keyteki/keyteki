@@ -1,7 +1,6 @@
-const GameAction = require('./GameAction');
-const Effects = require('../effects.js');
-const { EVENTS } = require('../Events/types');
-
+import GameAction from './GameAction.js';
+import Effects from '../effects.js';
+import { EVENTS } from '../Events/types.js';
 class LastingEffectAction extends GameAction {
     constructor(propertyFactory, duration) {
         super(propertyFactory);
@@ -73,4 +72,4 @@ class LastingEffectAction extends GameAction {
     }
 }
 
-module.exports = LastingEffectAction;
+export default LastingEffectAction;

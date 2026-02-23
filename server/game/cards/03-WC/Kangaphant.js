@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class Kangaphant extends Card {
     // Each creature gains, Reap: Destroy this creature.
     setupCardAbilities(ability) {
@@ -15,4 +14,4 @@ class Kangaphant extends Card {
 
 Kangaphant.id = 'kangaphant';
 
-module.exports = Kangaphant;
+export default Kangaphant;

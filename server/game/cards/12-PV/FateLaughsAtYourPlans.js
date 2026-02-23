@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class FateLaughsAtYourPlans extends Card {
     // During your opponent's turn, when your opponent adds their archives to their hand, fulfill Fate Laughs at Your Plans.
     setupCardAbilities(ability) {
@@ -17,4 +16,4 @@ class FateLaughsAtYourPlans extends Card {
 
 FateLaughsAtYourPlans.id = 'fate-laughs-at-your-plans';
 
-module.exports = FateLaughsAtYourPlans;
+export default FateLaughsAtYourPlans;

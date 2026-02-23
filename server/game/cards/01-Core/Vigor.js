@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class Vigor extends Card {
     // Play: Heal up to 3 damage from a creature. If you healed 3 damage, gain 1<A>.
     setupCardAbilities(ability) {
@@ -19,4 +18,4 @@ class Vigor extends Card {
 
 Vigor.id = 'vigor';
 
-module.exports = Vigor;
+export default Vigor;

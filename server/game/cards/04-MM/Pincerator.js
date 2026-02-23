@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class Pincerator extends Card {
     // At the end of each turn, deal 1D to each flank creature.
     setupCardAbilities(ability) {
@@ -17,4 +16,4 @@ class Pincerator extends Card {
 
 Pincerator.id = 'pincerator';
 
-module.exports = Pincerator;
+export default Pincerator;

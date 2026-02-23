@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class ElenyaTheCharming extends Card {
     // Treachery. (This card enters play under your opponent’s control.)
     //
@@ -30,4 +29,4 @@ class ElenyaTheCharming extends Card {
 
 ElenyaTheCharming.id = 'elenya-the-charming';
 
-module.exports = ElenyaTheCharming;
+export default ElenyaTheCharming;

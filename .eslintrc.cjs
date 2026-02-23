@@ -6,7 +6,7 @@ module.exports = {
         browser: true
     },
     parserOptions: {
-        ecmaVersion: 11,
+        ecmaVersion: 2022,
         sourceType: 'module',
         ecmaFeatures: {
             jsx: true

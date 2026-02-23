@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class TitanOutpost extends Card {
     // Action: Put a friendly creature on the bottom of its owner's
     // deck. If you do, make a token creature and archive a card.
@@ -29,4 +28,4 @@ class TitanOutpost extends Card {
 
 TitanOutpost.id = 'titan-outpost';
 
-module.exports = TitanOutpost;
+export default TitanOutpost;

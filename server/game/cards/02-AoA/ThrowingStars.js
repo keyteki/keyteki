@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class ThrowingStars extends Card {
     // Play: Deal 1D to up to 3 creatures. Gain 1A for each creature destroyed this way.
     setupCardAbilities(ability) {
@@ -45,4 +44,4 @@ class ThrowingStars extends Card {
 
 ThrowingStars.id = 'throwing-stars';
 
-module.exports = ThrowingStars;
+export default ThrowingStars;

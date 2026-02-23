@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class NaturesCall extends Card {
     // Play: Return up to 3creatures to their owners hands.
     setupCardAbilities(ability) {
@@ -16,4 +15,4 @@ class NaturesCall extends Card {
 
 NaturesCall.id = 'nature-s-call';
 
-module.exports = NaturesCall;
+export default NaturesCall;

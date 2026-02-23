@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class MonumentToShrix extends Card {
     // You may spend A on Monument to Shrix as if it were in your pool.
     // Action: Move 1A from your pool to Monument to Shrix. If Citizen Shrix is in your discard pile, move 1A from any players pool to Monument to Shrix instead.
@@ -48,4 +47,4 @@ class MonumentToShrix extends Card {
 
 MonumentToShrix.id = 'monument-to-shrix';
 
-module.exports = MonumentToShrix;
+export default MonumentToShrix;

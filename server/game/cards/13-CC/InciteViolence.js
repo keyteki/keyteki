@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class InciteViolence extends Card {
     // Play: For the remainder of the turn, each friendly creature gains splash-attack 1.
     setupCardAbilities(ability) {
@@ -15,4 +14,4 @@ class InciteViolence extends Card {
 
 InciteViolence.id = 'incite-violence';
 
-module.exports = InciteViolence;
+export default InciteViolence;

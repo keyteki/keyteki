@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class TheConstant extends Card {
     // Each player skips their ”draw cards” step.
     // At the start of your turn, remove a time counter from The Constant, then destroy it if there are no time counters on it.
@@ -36,4 +35,4 @@ class TheConstant extends Card {
 
 TheConstant.id = 'the-constant';
 
-module.exports = TheConstant;
+export default TheConstant;

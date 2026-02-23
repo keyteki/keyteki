@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class GravePixie extends Card {
     // Destroyed: If you are haunted, archive Grave Pixie.
     setupCardAbilities(ability) {
@@ -14,4 +13,4 @@ class GravePixie extends Card {
 
 GravePixie.id = 'grave-pixie';
 
-module.exports = GravePixie;
+export default GravePixie;

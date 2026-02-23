@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class DeimosBurst extends Card {
     // Play: Destroy each friendly artifact and each friendly flank
     // creature. Gain 1A for each card destroyed this way.
@@ -28,4 +27,4 @@ class DeimosBurst extends Card {
 
 DeimosBurst.id = 'deimos-burst';
 
-module.exports = DeimosBurst;
+export default DeimosBurst;

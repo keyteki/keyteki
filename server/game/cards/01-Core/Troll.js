@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class Troll extends Card {
     // Reap: Troll heals 3 damage.
     setupCardAbilities(ability) {
@@ -11,4 +10,4 @@ class Troll extends Card {
 
 Troll.id = 'troll';
 
-module.exports = Troll;
+export default Troll;

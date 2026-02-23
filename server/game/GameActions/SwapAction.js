@@ -1,6 +1,5 @@
-const { EVENTS } = require('../Events/types');
-const CardGameAction = require('./CardGameAction');
-
+import { EVENTS } from '../Events/types.js';
+import CardGameAction from './CardGameAction.js';
 class SwapAction extends CardGameAction {
     constructor(propertyFactory, swapTokens = false, swapUpgrades = false) {
         super(propertyFactory);
@@ -59,4 +58,4 @@ class SwapAction extends CardGameAction {
     }
 }
 
-module.exports = SwapAction;
+export default SwapAction;

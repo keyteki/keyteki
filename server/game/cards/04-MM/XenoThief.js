@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class XenoThief extends Card {
     // Elusive. (The first time this creature is attacked each turn, no damage is dealt.)
     // Fight: Look at the top 3 cards of your deck. Put 1 into your hand and 1 on the bottom of your deck.
@@ -28,4 +27,4 @@ class XenoThief extends Card {
 
 XenoThief.id = 'xeno-thief';
 
-module.exports = XenoThief;
+export default XenoThief;

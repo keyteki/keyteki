@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class HedonisticIntent extends Card {
     // Play: Exalt each flank creature.
     setupCardAbilities(ability) {
@@ -13,4 +12,4 @@ class HedonisticIntent extends Card {
 
 HedonisticIntent.id = 'hedonistic-intent';
 
-module.exports = HedonisticIntent;
+export default HedonisticIntent;

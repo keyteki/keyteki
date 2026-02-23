@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class Reiteration extends Card {
     // Play: Draw 2 cards. Put 2 cards from your hand on the bottom of your deck.
     // Fate: Discard 2 random cards from your hand.
@@ -45,4 +44,4 @@ class Reiteration extends Card {
 
 Reiteration.id = 'reiteration';
 
-module.exports = Reiteration;
+export default Reiteration;

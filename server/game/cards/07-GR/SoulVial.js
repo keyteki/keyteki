@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class SoulVial extends Card {
     // Each friendly creature with on it gains: “Destroyed: Archive
     // this creature.”
@@ -17,4 +16,4 @@ class SoulVial extends Card {
 
 SoulVial.id = 'soul-vial';
 
-module.exports = SoulVial;
+export default SoulVial;

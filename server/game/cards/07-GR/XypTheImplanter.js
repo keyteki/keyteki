@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class XypTheImplanter extends Card {
     // After Reap: Take control of an enemy creature. Destroy a
     // friendly creature.
@@ -31,4 +30,4 @@ class XypTheImplanter extends Card {
 
 XypTheImplanter.id = 'xyp-the-implanter';
 
-module.exports = XypTheImplanter;
+export default XypTheImplanter;

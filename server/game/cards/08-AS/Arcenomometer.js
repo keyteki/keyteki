@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class Arcenomometer extends Card {
     // Action: During your opponent’s next turn, each time they play a
     // card, they lose 1A.
@@ -21,4 +20,4 @@ class Arcenomometer extends Card {
 
 Arcenomometer.id = 'arcenomometer';
 
-module.exports = Arcenomometer;
+export default Arcenomometer;

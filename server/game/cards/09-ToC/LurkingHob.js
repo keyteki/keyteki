@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class LurkingHob extends Card {
     // After Reap: Make a token creature.
     setupCardAbilities(ability) {
@@ -11,4 +10,4 @@ class LurkingHob extends Card {
 
 LurkingHob.id = 'lurking-hob';
 
-module.exports = LurkingHob;
+export default LurkingHob;

@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class UnstableDale extends Card {
     // After Reap: Deal 1 damage to each creature for each card in your hand.
     // Fate: Deal 3 damage to each friendly creature.
@@ -24,4 +23,4 @@ class UnstableDale extends Card {
 
 UnstableDale.id = 'unstable-dale';
 
-module.exports = UnstableDale;
+export default UnstableDale;

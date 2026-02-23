@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class ThreeFates extends Card {
     // Play: Destroy the 3most powerful creatures.
     setupCardAbilities(ability) {
@@ -17,4 +16,4 @@ class ThreeFates extends Card {
 
 ThreeFates.id = 'three-fates';
 
-module.exports = ThreeFates;
+export default ThreeFates;

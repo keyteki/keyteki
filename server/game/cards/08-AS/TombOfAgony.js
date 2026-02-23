@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class TombOfAgony extends Card {
     // This creature gains, “After Reap: Purge an enemy creature."
     setupCardAbilities(ability) {
@@ -17,4 +16,4 @@ class TombOfAgony extends Card {
 
 TombOfAgony.id = 'tomb-of-agony';
 
-module.exports = TombOfAgony;
+export default TombOfAgony;

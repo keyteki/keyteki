@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class Spartasaur extends Card {
     // After a friendly creature is destroyed, destroy each non-Dinosaur creature.
     // Fight: Gain 2A.
@@ -22,4 +21,4 @@ class Spartasaur extends Card {
 
 Spartasaur.id = 'spartasaur';
 
-module.exports = Spartasaur;
+export default Spartasaur;

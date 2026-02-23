@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class TechnoAlien extends Card {
     // Fight: Look at the top 3 cards of your deck. Put 1 into your hand and 1 on the bottom of your deck.
     // Reap: Discard a card from your hand. If you do, draw a card.
@@ -38,4 +37,4 @@ class TechnoAlien extends Card {
 
 TechnoAlien.id = 'techno-alien';
 
-module.exports = TechnoAlien;
+export default TechnoAlien;

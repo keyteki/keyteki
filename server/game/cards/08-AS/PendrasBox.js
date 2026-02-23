@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class PendrasBox extends Card {
     // This creature gains, “After Reap: Exalt this creature and each
     // of its neighbors.
@@ -16,4 +15,4 @@ class PendrasBox extends Card {
 
 PendrasBox.id = 'pendra-s-box';
 
-module.exports = PendrasBox;
+export default PendrasBox;

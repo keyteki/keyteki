@@ -1,5 +1,4 @@
-const _ = require('underscore');
-
+import _ from 'underscore';
 class Event {
     /**
      * @param {import('./types').EventName} name
@@ -115,4 +114,4 @@ class Event {
     }
 }
 
-module.exports = Event;
+export default Event;

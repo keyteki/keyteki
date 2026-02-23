@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class QuixoTheAdventurer extends Card {
     // Skirmish. (When you use this creature to fight, it is dealt no damage in return.)
     // Fight: Draw a card.
@@ -12,4 +11,4 @@ class QuixoTheAdventurer extends Card {
 
 QuixoTheAdventurer.id = 'quixo-the-adventurer';
 
-module.exports = QuixoTheAdventurer;
+export default QuixoTheAdventurer;

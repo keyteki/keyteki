@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class EnchantedMurmook extends Card {
     // Enhance .
     // Your opponent's keys cost +1 for each of Enchanted Murmook's Untamed neighbors.
@@ -18,4 +17,4 @@ class EnchantedMurmook extends Card {
 
 EnchantedMurmook.id = 'enchanted-murmook';
 
-module.exports = EnchantedMurmook;
+export default EnchantedMurmook;

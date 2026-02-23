@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class ScalawagFinn extends Card {
     // After Fight: Scalawag Finn heals 3 damage.
     setupCardAbilities(ability) {
@@ -11,4 +10,4 @@ class ScalawagFinn extends Card {
 
 ScalawagFinn.id = 'scalawag-finn';
 
-module.exports = ScalawagFinn;
+export default ScalawagFinn;

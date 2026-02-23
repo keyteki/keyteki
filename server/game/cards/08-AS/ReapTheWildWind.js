@@ -1,6 +1,5 @@
-const _ = require('underscore');
-const Card = require('../../Card.js');
-
+import _ from 'underscore';
+import Card from '../../Card.js';
 class ReapTheWildWind extends Card {
     // Play: Each player reveals a random card from their hand and
     // gains 1A for each A bonus icon on their revealed card.
@@ -69,4 +68,4 @@ class ReapTheWildWind extends Card {
 
 ReapTheWildWind.id = 'reap-the-wild-wind';
 
-module.exports = ReapTheWildWind;
+export default ReapTheWildWind;

@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class UnderPressure extends Card {
     // This creature cannot ready.
     setupCardAbilities(ability) {
@@ -11,4 +10,4 @@ class UnderPressure extends Card {
 
 UnderPressure.id = 'under-pressure';
 
-module.exports = UnderPressure;
+export default UnderPressure;

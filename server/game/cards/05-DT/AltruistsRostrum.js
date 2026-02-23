@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class AltruistsRostrum extends Card {
     // Action: Move 1A from a creature to another creature.
     setupCardAbilities(ability) {
@@ -26,4 +25,4 @@ class AltruistsRostrum extends Card {
 
 AltruistsRostrum.id = 'altruist-s-rostrum';
 
-module.exports = AltruistsRostrum;
+export default AltruistsRostrum;

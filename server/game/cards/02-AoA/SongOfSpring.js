@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class SongOfSpring extends Card {
     // Play: Shuffle any number of friendly Untamed creatures from your hand, discard pile, or battleline back into your deck.
     setupCardAbilities(ability) {
@@ -17,4 +16,4 @@ class SongOfSpring extends Card {
 
 SongOfSpring.id = 'song-of-spring';
 
-module.exports = SongOfSpring;
+export default SongOfSpring;

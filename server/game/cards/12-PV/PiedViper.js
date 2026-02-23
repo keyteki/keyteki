@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class PiedViper extends Card {
     // Elusive.
     // After an enemy creature reaps, if there are more enemy creatures than friendly creatures, gain control of that creature.
@@ -25,4 +24,4 @@ class PiedViper extends Card {
 
 PiedViper.id = 'pied-viper';
 
-module.exports = PiedViper;
+export default PiedViper;

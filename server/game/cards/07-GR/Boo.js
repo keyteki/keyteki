@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class Boo extends Card {
     // Play: Discard the top 10 cards of a player’s deck.
     setupCardAbilities(ability) {
@@ -36,4 +35,4 @@ class Boo extends Card {
 
 Boo.id = 'boo';
 
-module.exports = Boo;
+export default Boo;

@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class UncommonCurrency extends Card {
     // Action: Swap control of Uncommon Currency and an enemy artifact.
     setupCardAbilities(ability) {
@@ -30,4 +29,4 @@ class UncommonCurrency extends Card {
 
 UncommonCurrency.id = 'uncommon-currency';
 
-module.exports = UncommonCurrency;
+export default UncommonCurrency;

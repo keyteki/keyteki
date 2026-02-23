@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class RazorsGambit extends Card {
     // Action: Ready and fight with a friendly Skyborn creature. If
     // your blue key is forged, repeat the preceding effect.
@@ -36,4 +35,4 @@ class RazorsGambit extends Card {
 
 RazorsGambit.id = 'razor-s-gambit';
 
-module.exports = RazorsGambit;
+export default RazorsGambit;

@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class GeneticStrain extends Card {
     // Play: Each Mutant captures 1A.
     // Fate: If there are any enemy Mutant creatures, your opponent gains 2A.
@@ -36,4 +35,4 @@ class GeneticStrain extends Card {
 
 GeneticStrain.id = 'genetic-strain';
 
-module.exports = GeneticStrain;
+export default GeneticStrain;

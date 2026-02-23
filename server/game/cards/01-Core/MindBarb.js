@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class MindBarb extends Card {
     // Play: Your opponent discards a random card from their hand.
     setupCardAbilities(ability) {
@@ -11,4 +10,4 @@ class MindBarb extends Card {
 
 MindBarb.id = 'mind-barb';
 
-module.exports = MindBarb;
+export default MindBarb;

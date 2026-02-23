@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class TheCircleOfLife extends Card {
     // Each haunted player gains 2.
     setupCardAbilities(ability) {
@@ -33,4 +32,4 @@ class TheCircleOfLife extends Card {
 
 TheCircleOfLife.id = 'the-circle-of-life';
 
-module.exports = TheCircleOfLife;
+export default TheCircleOfLife;

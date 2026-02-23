@@ -1,5 +1,4 @@
-const Optional = require('../optional.js');
-
+import Optional from '../optional.js';
 class BaseCardSelector {
     constructor(properties) {
         this.cardCondition = properties.cardCondition;
@@ -167,4 +166,4 @@ class BaseCardSelector {
     }
 }
 
-module.exports = BaseCardSelector;
+export default BaseCardSelector;

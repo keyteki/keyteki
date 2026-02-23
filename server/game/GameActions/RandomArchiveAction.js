@@ -1,7 +1,6 @@
-const { EVENTS } = require('../Events/types');
-const PlayerAction = require('./PlayerAction');
-const _ = require('underscore');
-
+import { EVENTS } from '../Events/types.js';
+import PlayerAction from './PlayerAction.js';
+import _ from 'underscore';
 class RandomArchiveAction extends PlayerAction {
     setDefaultProperties() {
         this.amount = 1;
@@ -27,4 +26,4 @@ class RandomArchiveAction extends PlayerAction {
     }
 }
 
-module.exports = RandomArchiveAction;
+export default RandomArchiveAction;

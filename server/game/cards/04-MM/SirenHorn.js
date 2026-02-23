@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class SirenHorn extends Card {
     // This creature gains, "Before Fight: Move 1 from this creature to the creature it fights."
     setupCardAbilities(ability) {
@@ -23,4 +22,4 @@ class SirenHorn extends Card {
 
 SirenHorn.id = 'siren-horn';
 
-module.exports = SirenHorn;
+export default SirenHorn;

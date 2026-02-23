@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class RipperJack extends Card {
     // Play: Steal 1.
     // After Fight: Put Ripper Jack into its owner's hand.
@@ -16,4 +15,4 @@ class RipperJack extends Card {
 
 RipperJack.id = 'ripper-jack';
 
-module.exports = RipperJack;
+export default RipperJack;

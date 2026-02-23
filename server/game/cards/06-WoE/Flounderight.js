@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class Flounderight extends Card {
     // Destroyed: Destroy the creature on your opponent's right flank.
     setupCardAbilities(ability) {
@@ -15,4 +14,4 @@ class Flounderight extends Card {
 
 Flounderight.id = 'flounderight';
 
-module.exports = Flounderight;
+export default Flounderight;

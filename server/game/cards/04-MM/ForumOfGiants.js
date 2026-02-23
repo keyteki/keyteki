@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class ForumOfGiants extends Card {
     // At the start of your turn, the player who controls the most powerful creature gains 1A.
     setupCardAbilities(ability) {
@@ -32,4 +31,4 @@ class ForumOfGiants extends Card {
 
 ForumOfGiants.id = 'forum-of-giants';
 
-module.exports = ForumOfGiants;
+export default ForumOfGiants;

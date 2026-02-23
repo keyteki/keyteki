@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class MegaNarp extends Card {
     // Mega Narps neighbors cannot reap.
     setupCardAbilities(ability) {
@@ -12,4 +11,4 @@ class MegaNarp extends Card {
 
 MegaNarp.id = 'mega-narp';
 
-module.exports = MegaNarp;
+export default MegaNarp;

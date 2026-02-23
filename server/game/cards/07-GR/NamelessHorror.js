@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class NamelessHorror extends Card {
     // While you are haunted, Nameless Horror gains elusive and skirmish.
     setupCardAbilities(ability) {
@@ -15,4 +14,4 @@ class NamelessHorror extends Card {
 
 NamelessHorror.id = 'nameless-horror';
 
-module.exports = NamelessHorror;
+export default NamelessHorror;

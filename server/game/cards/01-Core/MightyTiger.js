@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class MightyTiger extends Card {
     // Play: Deal 4D to an enemy creature.
     setupCardAbilities(ability) {
@@ -15,4 +14,4 @@ class MightyTiger extends Card {
 
 MightyTiger.id = 'mighty-tiger';
 
-module.exports = MightyTiger;
+export default MightyTiger;

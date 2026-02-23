@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class Ghosthawk extends Card {
     // Deploy. (This creature can enter play anywhere in your battleline.)
     // Play: You may reap with each neighboring creature, one at a time.
@@ -26,4 +25,4 @@ class Ghosthawk extends Card {
 
 Ghosthawk.id = 'ghosthawk';
 
-module.exports = Ghosthawk;
+export default Ghosthawk;

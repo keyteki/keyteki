@@ -1,5 +1,4 @@
-const GiganticCard = require('../../GiganticCard.js');
-
+import GiganticCard from '../../GiganticCard.js';
 class J43G3RV extends GiganticCard {
     // (Play only with the other half of J43G3R V.)
     // After Reap: You may reap with up to 2 non-Star Alliance creatures this
@@ -37,4 +36,4 @@ class J43G3RV extends GiganticCard {
 
 J43G3RV.id = 'j43g3r-v';
 
-module.exports = J43G3RV;
+export default J43G3RV;

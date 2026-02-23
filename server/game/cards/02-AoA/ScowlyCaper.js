@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class ScowlyCaper extends Card {
     // Skirmish.
     // Scowly Caper enters play under your opponents control and can be used as if it belonged to any house.
@@ -33,4 +32,4 @@ class ScowlyCaper extends Card {
 
 ScowlyCaper.id = 'scowly-caper';
 
-module.exports = ScowlyCaper;
+export default ScowlyCaper;

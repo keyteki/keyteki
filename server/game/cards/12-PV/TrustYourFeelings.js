@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class TrustYourFeelings extends Card {
     // When a card is placed under Trust Your Feelings, name a house. The next time your opponent chooses the named house as their active house, fulfill Trust Your Feelings.
     setupCardAbilities(ability) {
@@ -35,4 +34,4 @@ class TrustYourFeelings extends Card {
 
 TrustYourFeelings.id = 'trust-your-feelings';
 
-module.exports = TrustYourFeelings;
+export default TrustYourFeelings;

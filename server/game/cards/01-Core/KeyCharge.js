@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class KeyCharge extends Card {
     // Play: Lose 1A. If you do, you may forge a key at current cost.
     setupCardAbilities(ability) {
@@ -15,4 +14,4 @@ class KeyCharge extends Card {
 
 KeyCharge.id = 'key-charge';
 
-module.exports = KeyCharge;
+export default KeyCharge;

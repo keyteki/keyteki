@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class Envy extends Card {
     // Elusive.
     // Reap: If there are 2 or more friendly Sin creatures, capture all of your opponents A.
@@ -17,4 +16,4 @@ class Envy extends Card {
 
 Envy.id = 'envy';
 
-module.exports = Envy;
+export default Envy;

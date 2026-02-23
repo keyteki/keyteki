@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class Outflank extends Card {
     // Play: Each Sanctum flank creature captures 2 from its opponent.
     setupCardAbilities(ability) {
@@ -28,4 +27,4 @@ class Outflank extends Card {
 
 Outflank.id = 'outflank';
 
-module.exports = Outflank;
+export default Outflank;

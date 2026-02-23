@@ -1,6 +1,5 @@
-const { EVENTS } = require('../Events/types');
-const CardGameAction = require('./CardGameAction');
-
+import { EVENTS } from '../Events/types.js';
+import CardGameAction from './CardGameAction.js';
 class PlaceUnderAction extends CardGameAction {
     constructor(propertyFactory, isGraft = false) {
         super(propertyFactory);
@@ -68,4 +67,4 @@ class PlaceUnderAction extends CardGameAction {
     }
 }
 
-module.exports = PlaceUnderAction;
+export default PlaceUnderAction;

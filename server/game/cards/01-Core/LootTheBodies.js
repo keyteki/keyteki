@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class LootTheBodies extends Card {
     // Play: For the remainder of the turn, gain 1<A> each time an enemy creature is destroyed.
     setupCardAbilities(ability) {
@@ -18,4 +17,4 @@ class LootTheBodies extends Card {
 
 LootTheBodies.id = 'loot-the-bodies';
 
-module.exports = LootTheBodies;
+export default LootTheBodies;

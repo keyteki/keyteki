@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class MemorializeTheFallen extends Card {
     // Play: Each player loses A equal to the number of creatures in
     // their discard pile.
@@ -32,4 +31,4 @@ class MemorializeTheFallen extends Card {
 
 MemorializeTheFallen.id = 'memorialize-the-fallen';
 
-module.exports = MemorializeTheFallen;
+export default MemorializeTheFallen;

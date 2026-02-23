@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class ShoppingSpree extends Card {
     // Play: Discard your hand. Draw a card for each card discarded
     // this way.
@@ -20,4 +19,4 @@ class ShoppingSpree extends Card {
 
 ShoppingSpree.id = 'shopping-spree';
 
-module.exports = ShoppingSpree;
+export default ShoppingSpree;

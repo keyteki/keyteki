@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class TheRedBaron extends Card {
     // While your red key is forged, The Red Baron gains, Reap: Steal 1A.
     // While your opponents red key is forged, The Red Baron gains elusive.
@@ -23,4 +22,4 @@ class TheRedBaron extends Card {
 
 TheRedBaron.id = 'the-red-baron';
 
-module.exports = TheRedBaron;
+export default TheRedBaron;

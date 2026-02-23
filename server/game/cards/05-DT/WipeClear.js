@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class WipeClear extends Card {
     // Play: Deal 1D to each creature. Destroy each upgrade.
     setupCardAbilities(ability) {
@@ -19,4 +18,4 @@ class WipeClear extends Card {
 
 WipeClear.id = 'wipe-clear';
 
-module.exports = WipeClear;
+export default WipeClear;

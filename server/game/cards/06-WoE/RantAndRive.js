@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class RantAndRive extends Card {
     // Play: If your opponent has 8 or more, they lose half their  (rounding down the loss).
     setupCardAbilities(ability) {
@@ -14,4 +13,4 @@ class RantAndRive extends Card {
 
 RantAndRive.id = 'rant-and-rive';
 
-module.exports = RantAndRive;
+export default RantAndRive;

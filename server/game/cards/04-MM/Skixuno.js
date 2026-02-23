@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class Skixuno extends Card {
     // Omega.
     // Play: Destroy each other creature. For each creature destroyed this way, give Skixuno a +1 power counter.
@@ -21,4 +20,4 @@ class Skixuno extends Card {
 
 Skixuno.id = 'skixuno';
 
-module.exports = Skixuno;
+export default Skixuno;

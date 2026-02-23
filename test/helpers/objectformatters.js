@@ -1,9 +1,7 @@
-const _ = require('underscore');
-
-const Card = require('../../server/game/Card.js');
-const Game = require('../../server/game/game.js');
-const Player = require('../../server/game/player.js');
-
+import _ from 'underscore';
+import Card from '../../server/game/Card.js';
+import Game from '../../server/game/game.js';
+import Player from '../../server/game/player.js';
 // Pretty print a value for test output
 function pp(value) {
     if (value === null) return 'null';

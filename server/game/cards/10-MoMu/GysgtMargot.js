@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class GysgtMargot extends Card {
     // After Fight/After Reap: Deal 2D to an enemy creature. Ward a
     // friendly creature.
@@ -27,4 +26,4 @@ class GysgtMargot extends Card {
 
 GysgtMargot.id = 'gysgt-margot';
 
-module.exports = GysgtMargot;
+export default GysgtMargot;

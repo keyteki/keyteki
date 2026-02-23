@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class PirateChampion extends Card {
     // After Fight: You may move Pirate Champion to a flank.
     setupCardAbilities(ability) {
@@ -13,4 +12,4 @@ class PirateChampion extends Card {
 
 PirateChampion.id = 'pirate-champion';
 
-module.exports = PirateChampion;
+export default PirateChampion;

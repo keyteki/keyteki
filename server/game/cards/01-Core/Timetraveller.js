@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class Timetraveller extends Card {
     // Play: Draw 2cards.
     // Action: Shuffle Timetraveller into your deck.
@@ -16,4 +15,4 @@ class Timetraveller extends Card {
 
 Timetraveller.id = 'timetraveller';
 
-module.exports = Timetraveller;
+export default Timetraveller;

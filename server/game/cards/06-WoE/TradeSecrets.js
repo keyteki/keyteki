@@ -1,6 +1,5 @@
-const Card = require('../../Card.js');
-const { DiscardCardAction } = require('../../GameActions/index.js');
-
+import Card from '../../Card.js';
+import { DiscardCardAction } from '../../GameActions/index.js';
 class TradeSecrets extends Card {
     // Play: Discard any number of Ekwidon cards from your hand. Steal
     // 1 Aember icon for each card discarded this way.
@@ -27,4 +26,4 @@ class TradeSecrets extends Card {
 
 TradeSecrets.id = 'trade-secrets';
 
-module.exports = TradeSecrets;
+export default TradeSecrets;

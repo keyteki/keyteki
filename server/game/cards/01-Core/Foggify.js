@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class Foggify extends Card {
     // Play: Your opponent cannot use creatures to fight on their next turn.
     setupCardAbilities(ability) {
@@ -18,4 +17,4 @@ class Foggify extends Card {
 
 Foggify.id = 'foggify';
 
-module.exports = Foggify;
+export default Foggify;

@@ -1,8 +1,6 @@
-const EventEmitter = require('events');
-
-const logger = require('../log.js');
-const db = require('../db');
-
+import EventEmitter from 'events';
+import logger from '../log.js';
+import db from '../db/index.js';
 class MessageService extends EventEmitter {
     async addMessage(message, user) {
         let ret;
@@ -141,4 +139,4 @@ class MessageService extends EventEmitter {
     }
 }
 
-module.exports = MessageService;
+export default MessageService;

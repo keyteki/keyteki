@@ -1,9 +1,7 @@
-const _ = require('underscore');
-
-const CardAbility = require('./CardAbility.js');
-const TriggeredAbilityContext = require('./TriggeredAbilityContext.js');
-const { EVENTS } = require('./Events/types.js');
-
+import _ from 'underscore';
+import CardAbility from './CardAbility.js';
+import TriggeredAbilityContext from './TriggeredAbilityContext.js';
+import { EVENTS } from './Events/types.js';
 /**
  * Represents a reaction/interrupt ability provided by card text.
  *
@@ -155,4 +153,4 @@ class TriggeredAbility extends CardAbility {
     }
 }
 
-module.exports = TriggeredAbility;
+export default TriggeredAbility;

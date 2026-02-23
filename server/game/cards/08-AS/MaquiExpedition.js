@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class MaquiExpedition extends Card {
     // Play: Gain control of an enemy flank creature.
     setupCardAbilities(ability) {
@@ -21,4 +20,4 @@ class MaquiExpedition extends Card {
 
 MaquiExpedition.id = 'maqui-expedition';
 
-module.exports = MaquiExpedition;
+export default MaquiExpedition;

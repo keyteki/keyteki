@@ -1,6 +1,5 @@
-const Constants = require('../../../constants.js');
-const Card = require('../../Card.js');
-
+import Constants from '../../../constants.js';
+import Card from '../../Card.js';
 class NoSafetyInNumbers extends Card {
     // Play: Deal 3D to each creature that belongs to a house that has 3 or more creatures in play.
     setupCardAbilities(ability) {
@@ -28,4 +27,4 @@ class NoSafetyInNumbers extends Card {
 
 NoSafetyInNumbers.id = 'no-safety-in-numbers';
 
-module.exports = NoSafetyInNumbers;
+export default NoSafetyInNumbers;

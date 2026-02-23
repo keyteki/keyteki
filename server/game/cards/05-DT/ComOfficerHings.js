@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class ComOfficerHings extends Card {
     // Play: You may search your deck for Com. Officer Gross, reveal it, and put it into your hand. Shuffle your deck.
     // Fight/Reap: Draw 1 card for each creature between Com. Officer Hings and Com. Officer Gross.
@@ -39,4 +38,4 @@ class ComOfficerHings extends Card {
 
 ComOfficerHings.id = 'com-officer-hings';
 
-module.exports = ComOfficerHings;
+export default ComOfficerHings;

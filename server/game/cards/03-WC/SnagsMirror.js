@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class SnagsMirror extends Card {
     // After a player chooses an active house, their opponent cannot choose the same house as their active house on their next turn.
     setupCardAbilities(ability) {
@@ -43,4 +42,4 @@ class SnagsMirror extends Card {
 
 SnagsMirror.id = 'snag-s-mirror';
 
-module.exports = SnagsMirror;
+export default SnagsMirror;

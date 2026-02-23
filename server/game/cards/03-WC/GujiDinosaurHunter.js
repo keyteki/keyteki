@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class GujiDinosaurHunter extends Card {
     // Elusive.
     // Action: Deal 2D to a creature. Deal 6D instead if it is a Dinosaur creature or has A on it.
@@ -31,4 +30,4 @@ class GujiDinosaurHunter extends Card {
 
 GujiDinosaurHunter.id = 'guji-dinosaur-hunter';
 
-module.exports = GujiDinosaurHunter;
+export default GujiDinosaurHunter;

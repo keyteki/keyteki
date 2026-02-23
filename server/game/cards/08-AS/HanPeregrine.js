@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class HanPeregrine extends Card {
     // After Fight/After Reap: You may exalt Han Peregrine. If you do,
     // fully heal a damaged creature and move it to either flank of
@@ -32,4 +31,4 @@ class HanPeregrine extends Card {
 
 HanPeregrine.id = 'han-peregrine';
 
-module.exports = HanPeregrine;
+export default HanPeregrine;

@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class OmegaTT extends Card {
     // Play: Purge 2 cards from a discard pile.
     // Action: Shuffle Omega TT into its owner's deck.
@@ -38,4 +37,4 @@ class OmegaTT extends Card {
 
 OmegaTT.id = 'omega-tt';
 
-module.exports = OmegaTT;
+export default OmegaTT;

@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class FaustTheGreat extends Card {
     // Your opponent's keys cost +1 for each friendly creature with  on it.
     // Play: You may exalt a friendly creature.
@@ -26,4 +25,4 @@ class FaustTheGreat extends Card {
 
 FaustTheGreat.id = 'faust-the-great';
 
-module.exports = FaustTheGreat;
+export default FaustTheGreat;

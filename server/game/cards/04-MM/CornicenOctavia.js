@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class CornicenOctavia extends Card {
     // Action: Capture 2.
     setupCardAbilities(ability) {
@@ -11,4 +10,4 @@ class CornicenOctavia extends Card {
 
 CornicenOctavia.id = 'cornicen-octavia';
 
-module.exports = CornicenOctavia;
+export default CornicenOctavia;

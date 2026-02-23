@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class Eruption extends Card {
     // Play: Exalt Eruption 3 times.
     // After Fight: Move 1A from Eruption to your pool.
@@ -21,4 +20,4 @@ class Eruption extends Card {
 
 Eruption.id = 'eruption';
 
-module.exports = Eruption;
+export default Eruption;

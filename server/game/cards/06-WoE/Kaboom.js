@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class Kaboom extends Card {
     //Play: Put each Mars creature into its owner's archives. Destroy each creature. Gain 3 chains.
     setupCardAbilities(ability) {
@@ -20,4 +19,4 @@ class Kaboom extends Card {
 
 Kaboom.id = 'kaboom';
 
-module.exports = Kaboom;
+export default Kaboom;

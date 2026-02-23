@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class Physaloha extends Card {
     // Damaged creatures do not ready during the "ready cards" step.
     setupCardAbilities(ability) {
@@ -14,4 +13,4 @@ class Physaloha extends Card {
 
 Physaloha.id = 'physaloha';
 
-module.exports = Physaloha;
+export default Physaloha;

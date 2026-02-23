@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class HarmalAtoon extends Card {
     // Each other friendly Brobnar creature gains "Destroyed: Return this creature to its owner's hand"
     setupCardAbilities(ability) {
@@ -15,4 +14,4 @@ class HarmalAtoon extends Card {
 
 HarmalAtoon.id = 'harmal-atoon';
 
-module.exports = HarmalAtoon;
+export default HarmalAtoon;

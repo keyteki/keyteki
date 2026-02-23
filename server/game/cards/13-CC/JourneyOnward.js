@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class JourneyOnward extends Card {
     // Play: Choose a friendly Skyborn creature. For the remainder of the turn, it gains "After Fight: Steal 1." Ready and fight with that creature.
     setupCardAbilities(ability) {
@@ -24,4 +23,4 @@ class JourneyOnward extends Card {
 
 JourneyOnward.id = 'journey-onward';
 
-module.exports = JourneyOnward;
+export default JourneyOnward;

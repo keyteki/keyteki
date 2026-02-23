@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class CutthroatResearch extends Card {
     // Play: Steal 2A if your opponent has
     // 8A or more.
@@ -13,4 +12,4 @@ class CutthroatResearch extends Card {
 
 CutthroatResearch.id = 'cutthroat-research';
 
-module.exports = CutthroatResearch;
+export default CutthroatResearch;

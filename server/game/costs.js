@@ -1,7 +1,6 @@
-const ThenAbility = require('./ThenAbility');
-const DestroyAction = require('./GameActions/DestroyAction');
-const { EVENTS } = require('./Events/types');
-
+import ThenAbility from './ThenAbility.js';
+import DestroyAction from './GameActions/DestroyAction.js';
+import { EVENTS } from './Events/types.js';
 const HouseUseEffects = ['canUseHouse', 'canPlayOrUseHouse'];
 const NonHouseUseEffects = ['canPlayOrUseNonHouse', 'canUseNonHouse'];
 const NonHouseReapEffects = ['canReapNonHouse'];
@@ -289,4 +288,4 @@ const Costs = {
     })
 };
 
-module.exports = Costs;
+export default Costs;

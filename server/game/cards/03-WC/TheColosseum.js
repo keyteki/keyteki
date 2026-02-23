@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class TheColosseum extends Card {
     // After an enemy creature is destroyed while fighting, put a glory counter on The Colosseum.
     // Omni: If there are 6 or more glory counters on The Colosseum, remove 6 and forge a key at current cost.
@@ -37,4 +36,4 @@ class TheColosseum extends Card {
 
 TheColosseum.id = 'the-colosseum';
 
-module.exports = TheColosseum;
+export default TheColosseum;

@@ -1,6 +1,5 @@
-const { EVENTS } = require('../Events/types');
-const CardGameAction = require('./CardGameAction');
-
+import { EVENTS } from '../Events/types.js';
+import CardGameAction from './CardGameAction.js';
 class ResolveReapAction extends CardGameAction {
     setup() {
         this.name = 'reap';
@@ -33,4 +32,4 @@ class ResolveReapAction extends CardGameAction {
     }
 }
 
-module.exports = ResolveReapAction;
+export default ResolveReapAction;

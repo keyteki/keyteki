@@ -1,6 +1,5 @@
-const AllPlayerPrompt = require('../allplayerprompt');
-const _ = require('underscore');
-
+import AllPlayerPrompt from '../allplayerprompt.js';
+import _ from 'underscore';
 class FirstPlayerSelection extends AllPlayerPrompt {
     constructor(game) {
         super(game);
@@ -62,4 +61,4 @@ class FirstPlayerSelection extends AllPlayerPrompt {
     }
 }
 
-module.exports = FirstPlayerSelection;
+export default FirstPlayerSelection;

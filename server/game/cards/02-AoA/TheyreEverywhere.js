@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class TheyreEverywhere extends Card {
     // Play: Deal 2D to each enemy flank creature. Deal 1D to each enemy creature not on a flank.
     setupCardAbilities(ability) {
@@ -25,4 +24,4 @@ class TheyreEverywhere extends Card {
 
 TheyreEverywhere.id = 'they-re-everywhere';
 
-module.exports = TheyreEverywhere;
+export default TheyreEverywhere;

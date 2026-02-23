@@ -16,4 +16,4 @@ class AnonymousSpectator {
     }
 }
 
-module.exports = AnonymousSpectator;
+export default AnonymousSpectator;

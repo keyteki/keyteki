@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class EmberImp extends Card {
     // Your opponent cannot play more than 2 cards each turn.
     setupCardAbilities(ability) {
@@ -13,4 +12,4 @@ class EmberImp extends Card {
 
 EmberImp.id = 'ember-imp';
 
-module.exports = EmberImp;
+export default EmberImp;

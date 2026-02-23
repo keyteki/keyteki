@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class IronyxBanner extends Card {
     // Play: Make a token creature.
     // Each friendly Ironyx creature gets +1 power and +1 armor.
@@ -18,4 +17,4 @@ class IronyxBanner extends Card {
 
 IronyxBanner.id = 'ironyx-banner';
 
-module.exports = IronyxBanner;
+export default IronyxBanner;

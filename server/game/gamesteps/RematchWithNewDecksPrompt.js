@@ -1,5 +1,4 @@
-const AllPlayerPrompt = require('./allplayerprompt');
-
+import AllPlayerPrompt from './allplayerprompt.js';
 class RematchWithNewDecksPrompt extends AllPlayerPrompt {
     constructor(game, requestingPlayer) {
         super(game);
@@ -63,4 +62,4 @@ class RematchWithNewDecksPrompt extends AllPlayerPrompt {
     }
 }
 
-module.exports = RematchWithNewDecksPrompt;
+export default RematchWithNewDecksPrompt;

@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class FrostGiant extends Card {
     // Frost Giant does not ready during your ready cards step.
     setupCardAbilities(ability) {
@@ -11,4 +10,4 @@ class FrostGiant extends Card {
 
 FrostGiant.id = 'frost-giant';
 
-module.exports = FrostGiant;
+export default FrostGiant;

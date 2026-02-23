@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class ObservUMax extends Card {
     // This creature gains, Fight/Reap: Capture 1A.
     setupCardAbilities(ability) {
@@ -18,4 +17,4 @@ class ObservUMax extends Card {
 
 ObservUMax.id = 'observ-u-max';
 
-module.exports = ObservUMax;
+export default ObservUMax;

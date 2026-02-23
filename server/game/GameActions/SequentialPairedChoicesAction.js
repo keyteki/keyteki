@@ -1,7 +1,6 @@
-const { EVENTS } = require('../Events/types');
-const GameAction = require('./GameAction');
-const CardSelector = require('../CardSelector');
-
+import { EVENTS } from '../Events/types.js';
+import GameAction from './GameAction.js';
+import CardSelector from '../CardSelector.js';
 /**
  * A game action that pairs cards from one group with cards from another group.
  * For each source card, prompts to select a target card based on the source's properties.
@@ -135,4 +134,4 @@ class SequentialPairedChoicesAction extends GameAction {
     }
 }
 
-module.exports = SequentialPairedChoicesAction;
+export default SequentialPairedChoicesAction;

@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class NyyonOutpost extends Card {
     // Action: Put a friendly creature on the bottom of its owner's
     // deck. If you do, make 2 token creatures.
@@ -19,4 +18,4 @@ class NyyonOutpost extends Card {
 
 NyyonOutpost.id = 'nyyon-outpost';
 
-module.exports = NyyonOutpost;
+export default NyyonOutpost;

@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class LionBautrem extends Card {
     // Deploy. (This creature can enter play anywhere in your battleline.)
     // Lion Bautrems neighbors get +2 power.
@@ -13,4 +12,4 @@ class LionBautrem extends Card {
 
 LionBautrem.id = 'lion-bautrem';
 
-module.exports = LionBautrem;
+export default LionBautrem;

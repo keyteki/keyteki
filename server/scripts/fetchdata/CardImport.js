@@ -1,11 +1,9 @@
 /*eslint no-console:0 */
 
-const fs = require('fs');
-const path = require('path');
-
-const CardService = require('../../services/CardService');
-const ConfigService = require('../../services/ConfigService');
-
+import fs from 'fs';
+import path from 'path';
+import CardService from '../../services/CardService.js';
+import ConfigService from '../../services/ConfigService.js';
 const LANGUAGE_MAP = {
     zhhans: 'zh-hans',
     zhhant: 'zh-hant'
@@ -243,4 +241,4 @@ class CardImport {
     }
 }
 
-module.exports = CardImport;
+export default CardImport;

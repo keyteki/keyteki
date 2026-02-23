@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class OrtannuTheChained extends Card {
     // Reap: Return each copy of Ortannus Binding from your discard pile to your hand. For each one returned this way, deal 2D to a creature, with 2D splash.
     setupCardAbilities(ability) {
@@ -24,4 +23,4 @@ class OrtannuTheChained extends Card {
 
 OrtannuTheChained.id = 'ortannu-the-chained';
 
-module.exports = OrtannuTheChained;
+export default OrtannuTheChained;

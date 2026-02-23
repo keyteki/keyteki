@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class Snudge extends Card {
     // Fight/Reap: Return an artifact or flank creature to its owners hand.
     setupCardAbilities(ability) {
@@ -15,4 +14,4 @@ class Snudge extends Card {
 
 Snudge.id = 'snudge';
 
-module.exports = Snudge;
+export default Snudge;

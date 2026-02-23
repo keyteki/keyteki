@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class HeartOfSteel extends Card {
     // Play: Play a Skyborn creature from your discard pile.
     setupCardAbilities(ability) {
@@ -17,4 +16,4 @@ class HeartOfSteel extends Card {
 
 HeartOfSteel.id = 'heart-of-steel';
 
-module.exports = HeartOfSteel;
+export default HeartOfSteel;

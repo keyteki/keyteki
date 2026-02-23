@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class Sample42C extends Card {
     // Action: Move 1A from your opponent’s pool to Sample 42-C.
     // If there are 4A or more on Sample 42-C, forge a key at no cost and purge Sample 42-C.
@@ -40,4 +39,4 @@ class Sample42C extends Card {
 
 Sample42C.id = 'sample-42-c';
 
-module.exports = Sample42C;
+export default Sample42C;

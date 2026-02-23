@@ -1,10 +1,8 @@
-const _ = require('underscore');
-
-const AbilityDsl = require('./abilitydsl.js');
-const DelayedEffect = require('./DelayedEffect.js');
-const GameObject = require('./GameObject');
-const TerminalCondition = require('./TerminalCondition.js');
-
+import _ from 'underscore';
+import AbilityDsl from './abilitydsl.js';
+import DelayedEffect from './DelayedEffect.js';
+import GameObject from './GameObject.js';
+import TerminalCondition from './TerminalCondition.js';
 // This class is inherited by Ring and BaseCard and also represents Framework effects
 
 class EffectSource extends GameObject {
@@ -93,4 +91,4 @@ class EffectSource extends GameObject {
     }
 }
 
-module.exports = EffectSource;
+export default EffectSource;

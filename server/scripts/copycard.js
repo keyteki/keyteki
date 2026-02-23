@@ -1,8 +1,10 @@
 /*eslint no-console:0 */
-const commandLineArgs = require('command-line-args');
-const path = require('path');
-const fs = require('fs');
-
+import commandLineArgs from 'command-line-args';
+import path from 'path';
+import fs from 'fs';
+import { fileURLToPath } from 'url';
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 const optionsDefinition = [
     { name: 'cards-dir', type: String, defaultValue: path.join(__dirname, '..', 'game', 'cards') },
     { name: 'source', type: String },

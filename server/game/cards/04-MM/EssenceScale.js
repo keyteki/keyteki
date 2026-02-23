@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class EssenceScale extends Card {
     // Action: Destroy a friendly creature. If you do, ready and use a friendly creature that shares a house with the destroyed creature.
     setupCardAbilities(ability) {
@@ -30,4 +29,4 @@ class EssenceScale extends Card {
 
 EssenceScale.id = 'essence-scale';
 
-module.exports = EssenceScale;
+export default EssenceScale;

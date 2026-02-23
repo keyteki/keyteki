@@ -1,7 +1,6 @@
 /*eslint no-console:0 */
-const fs = require('fs');
-const path = require('path');
-
+import fs from 'fs';
+import path from 'path';
 class JsonCardSource {
     constructor(directory, codes, ids) {
         this.cards = this.loadPackFiles(directory, codes, ids);
@@ -40,4 +39,4 @@ class JsonCardSource {
     }
 }
 
-module.exports = JsonCardSource;
+export default JsonCardSource;

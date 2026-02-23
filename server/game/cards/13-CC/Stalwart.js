@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class Stalwart extends Card {
     // Deploy. Skirmish. Taunt.
     // After Fight: You may move Stalwart anywhere in your battleline.
@@ -17,4 +16,4 @@ class Stalwart extends Card {
 
 Stalwart.id = 'stalwart';
 
-module.exports = Stalwart;
+export default Stalwart;

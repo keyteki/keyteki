@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class CooperativeHunting extends Card {
     // Play: Deal 1<D> for each friendly creature in play. You may divide this damage among any number of creatures.
     setupCardAbilities(ability) {
@@ -14,4 +13,4 @@ class CooperativeHunting extends Card {
 
 CooperativeHunting.id = 'cooperative-hunting';
 
-module.exports = CooperativeHunting;
+export default CooperativeHunting;

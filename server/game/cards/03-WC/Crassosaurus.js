@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class Crassosaurus extends Card {
     // Elusive.
     // Play: Capture 10 from any combination of players. Then, if Crassosaurus has fewer than 10 on it, purge Crassosaurus.
@@ -65,4 +64,4 @@ class Crassosaurus extends Card {
 
 Crassosaurus.id = 'crassosaurus';
 
-module.exports = Crassosaurus;
+export default Crassosaurus;

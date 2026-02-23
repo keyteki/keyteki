@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class TheEarlyBird extends Card {
     // At the end of your opponent's turn, if they have more A in their pool than you, fulfill The Early Bird.
     setupCardAbilities(ability) {
@@ -18,4 +17,4 @@ class TheEarlyBird extends Card {
 
 TheEarlyBird.id = 'the-early-bird';
 
-module.exports = TheEarlyBird;
+export default TheEarlyBird;

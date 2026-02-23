@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class IronyxRebel extends Card {
     // Play: Ready each of Ironyx Rebel's Mars neighbors.
     setupCardAbilities(ability) {
@@ -13,4 +12,4 @@ class IronyxRebel extends Card {
 
 IronyxRebel.id = 'ironyx-rebel';
 
-module.exports = IronyxRebel;
+export default IronyxRebel;

@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class LollopTheTitanic extends Card {
     // Lollop the Titanic deals no damage when attacked.
     setupCardAbilities(ability) {
@@ -11,4 +10,4 @@ class LollopTheTitanic extends Card {
 
 LollopTheTitanic.id = 'lollop-the-titanic';
 
-module.exports = LollopTheTitanic;
+export default LollopTheTitanic;

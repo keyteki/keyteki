@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class FiendishApprentice extends Card {
     // Play: For each friendly Dis creature, deal 3D to an enemy creature.
     setupCardAbilities(ability) {
@@ -36,4 +35,4 @@ class FiendishApprentice extends Card {
 
 FiendishApprentice.id = 'fiendish-apprentice';
 
-module.exports = FiendishApprentice;
+export default FiendishApprentice;

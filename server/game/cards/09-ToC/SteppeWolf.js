@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class SteppeWolf extends Card {
     // Steppe Wolf gets +1 power for each other friendly Wolf creature in play.
     setupCardAbilities(ability) {
@@ -15,4 +14,4 @@ class SteppeWolf extends Card {
 
 SteppeWolf.id = 'steppe-wolf';
 
-module.exports = SteppeWolf;
+export default SteppeWolf;

@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class CovetousIdol extends Card {
     // During your "draw cards" step, if your opponent has more A than you, refill your hand to 1 additional card.
     setupCardAbilities(ability) {
@@ -13,4 +12,4 @@ class CovetousIdol extends Card {
 
 CovetousIdol.id = 'covetous-idol';
 
-module.exports = CovetousIdol;
+export default CovetousIdol;

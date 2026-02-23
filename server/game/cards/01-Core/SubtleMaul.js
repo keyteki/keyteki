@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class SubtleMaul extends Card {
     // Action: Your opponent discards a random card from their hand.
     setupCardAbilities(ability) {
@@ -12,4 +11,4 @@ class SubtleMaul extends Card {
 
 SubtleMaul.id = 'subtle-maul';
 
-module.exports = SubtleMaul;
+export default SubtleMaul;

@@ -1,5 +1,4 @@
-const ExactlyXCardSelector = require('./ExactlyXCardSelector');
-
+import ExactlyXCardSelector from './ExactlyXCardSelector.js';
 class MostStatCardSelector extends ExactlyXCardSelector {
     constructor(properties) {
         super(properties.numCards, properties);
@@ -31,4 +30,4 @@ class MostStatCardSelector extends ExactlyXCardSelector {
     }
 }
 
-module.exports = MostStatCardSelector;
+export default MostStatCardSelector;

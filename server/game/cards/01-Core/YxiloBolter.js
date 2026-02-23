@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class YxiloBolter extends Card {
     // Fight/Reap: Deal 2<D> to a creature. If this damage destroys that creature, purge it.
     setupCardAbilities(ability) {
@@ -25,4 +24,4 @@ class YxiloBolter extends Card {
 
 YxiloBolter.id = 'yxilo-bolter';
 
-module.exports = YxiloBolter;
+export default YxiloBolter;

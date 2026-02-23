@@ -150,8 +150,10 @@ function detectBinary(state, path = '', results = []) {
     return results;
 }
 
-module.exports = {
-    detectBinary: detectBinary,
-    httpRequest: httpRequest,
-    wrapAsync: wrapAsync
+export { detectBinary, httpRequest, wrapAsync };
+
+export default {
+    detectBinary,
+    httpRequest,
+    wrapAsync
 };

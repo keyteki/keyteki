@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class GleamingTheCube extends Card {
     // Play: Ready and use a friendly creature.
     // Fate: Discard the top card of your deck. The discarded card's house becomes your active house.
@@ -44,4 +43,4 @@ class GleamingTheCube extends Card {
 
 GleamingTheCube.id = 'gleaming-the-cube';
 
-module.exports = GleamingTheCube;
+export default GleamingTheCube;

@@ -1,7 +1,6 @@
-const { EVENTS } = require('../Events/types.js');
-const BaseStepWithPipeline = require('./basestepwithpipeline.js');
-const SimpleStep = require('./simplestep.js');
-
+import { EVENTS } from '../Events/types.js';
+import BaseStepWithPipeline from './basestepwithpipeline.js';
+import SimpleStep from './simplestep.js';
 class AbilityResolver extends BaseStepWithPipeline {
     constructor(game, context) {
         super(game);
@@ -118,4 +117,4 @@ class AbilityResolver extends BaseStepWithPipeline {
     }
 }
 
-module.exports = AbilityResolver;
+export default AbilityResolver;

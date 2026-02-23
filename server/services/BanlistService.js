@@ -1,6 +1,5 @@
-const logger = require('../log');
-const db = require('../db');
-
+import logger from '../log.js';
+import db from '../db/index.js';
 class UserService {
     constructor(_, configService) {
         this.configService = configService;
@@ -94,4 +93,4 @@ class UserService {
     }
 }
 
-module.exports = UserService;
+export default UserService;

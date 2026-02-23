@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class LegionaryTrainer extends Card {
     // Play: Make a token creature. Each friendly token creature enters play ready.
     setupCardAbilities(ability) {
@@ -17,4 +16,4 @@ class LegionaryTrainer extends Card {
 
 LegionaryTrainer.id = 'legionary-trainer';
 
-module.exports = LegionaryTrainer;
+export default LegionaryTrainer;

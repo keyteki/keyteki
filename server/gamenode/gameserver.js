@@ -1,24 +1,24 @@
-const { Server } = require('socket.io');
-const jwt = require('jsonwebtoken');
-const Sentry = require('@sentry/node');
-const http = require('http');
-const https = require('https');
-const fs = require('fs');
-const { URL } = require('url');
-const jsondiffpatch = require('jsondiffpatch').create({
+import { Server } from 'socket.io';
+import jwt from 'jsonwebtoken';
+import * as Sentry from '@sentry/node';
+import http from 'http';
+import https from 'https';
+import fs from 'fs';
+import { URL } from 'url';
+import jsondiffpatchModule from 'jsondiffpatch';
+const jsondiffpatch = jsondiffpatchModule.create({
     objectHash: (obj, index) => {
         return obj.uuid || obj.name || obj.id || obj._id || '$$index:' + index;
     }
 });
 
-const { detectBinary } = require('../util');
-const logger = require('../log');
-const GameSocket = require('./gamesocket');
-const Game = require('../game/game');
-const Socket = require('../socket');
-const ConfigService = require('../services/ConfigService');
-const HealthServer = require('./healthserver.js');
-
+import { detectBinary } from '../util.js';
+import logger from '../log.js';
+import GameSocket from './gamesocket.js';
+import Game from '../game/game.js';
+import Socket from '../socket.js';
+import ConfigService from '../services/ConfigService.js';
+import HealthServer from './healthserver.js';
 class GameServer {
     constructor() {
         this.configService = new ConfigService();
@@ -588,4 +588,4 @@ class GameServer {
     }
 }
 
-module.exports = GameServer;
+export default GameServer;

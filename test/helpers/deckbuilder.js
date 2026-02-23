@@ -1,9 +1,10 @@
-const fs = require('fs');
-const path = require('path');
-const _ = require('underscore');
-
-const { matchCardByNameAndPack } = require('./cardutil.js');
-
+import fs from 'fs';
+import path from 'path';
+import _ from 'underscore';
+import { fileURLToPath } from 'url';
+import { matchCardByNameAndPack } from './cardutil.js';
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 const PathToSubModulePacks = path.join(__dirname, '../../keyteki-json-data/packs');
 
 const defaultFiller = {
@@ -39,7 +40,7 @@ class DeckBuilder {
         let jsonPacks = fs.readdirSync(directory).filter((file) => file.endsWith('.json'));
 
         for (let file of jsonPacks) {
-            let pack = require(path.join(directory, file));
+            let pack = JSON.parse(fs.readFileSync(path.join(directory, file), 'utf8'));
 
             for (let card of pack.cards) {
                 // Ignore with cards that changed house in a later set.
@@ -181,4 +182,4 @@ class DeckBuilder {
     }
 }
 
-module.exports = DeckBuilder;
+export default DeckBuilder;

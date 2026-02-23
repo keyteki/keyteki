@@ -1,6 +1,5 @@
-const _ = require('underscore');
-const Card = require('../../Card.js');
-
+import _ from 'underscore';
+import Card from '../../Card.js';
 class SabotageMission extends Card {
     // Play: Keys cost +1A for each different power value among friendly creatures during your opponent’s next turn.
     setupCardAbilities(ability) {
@@ -19,4 +18,4 @@ class SabotageMission extends Card {
 
 SabotageMission.id = 'sabotage-mission';
 
-module.exports = SabotageMission;
+export default SabotageMission;

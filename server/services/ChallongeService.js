@@ -1,6 +1,5 @@
-const util = require('../util.js');
-const logger = require('../log.js');
-
+import util from '../util.js';
+import logger from '../log.js';
 class ChallongeService {
     async getTournamentsForUser(user) {
         if (!user.challonge.key) {
@@ -112,4 +111,4 @@ class ChallongeService {
     }
 }
 
-module.exports = ChallongeService;
+export default ChallongeService;

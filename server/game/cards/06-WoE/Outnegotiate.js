@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class Outnegotiate extends Card {
     // Play: Choose a card in your opponent's discard pile. Steal
     // Aember equal to the number of Aember bonus icons on it and put
@@ -24,4 +23,4 @@ class Outnegotiate extends Card {
 
 Outnegotiate.id = 'outnegotiate';
 
-module.exports = Outnegotiate;
+export default Outnegotiate;

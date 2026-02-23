@@ -1,18 +1,16 @@
-const { Server } = require('socket.io');
-const Socket = require('./socket.js');
-const jwt = require('jsonwebtoken');
-const _ = require('underscore');
-
-const logger = require('./log');
-const PendingGame = require('./pendinggame');
-const GameRouter = require('./gamerouter');
-const ServiceFactory = require('./services/ServiceFactory');
-const DeckService = require('./services/DeckService');
-const UserService = require('./services/UserService');
-const ConfigService = require('./services/ConfigService');
-const User = require('./models/User');
-const { sortBy } = require('./Array');
-
+import { Server } from 'socket.io';
+import Socket from './socket.js';
+import jwt from 'jsonwebtoken';
+import _ from 'underscore';
+import logger from './log.js';
+import PendingGame from './pendinggame.js';
+import GameRouter from './gamerouter.js';
+import ServiceFactory from './services/ServiceFactory.js';
+import DeckService from './services/DeckService.js';
+import UserService from './services/UserService.js';
+import ConfigService from './services/ConfigService.js';
+import User from './models/User.js';
+import { sortBy } from './Array.js';
 class Lobby {
     constructor(server, options = {}) {
         this.sockets = {};
@@ -1298,4 +1296,4 @@ class Lobby {
     }
 }
 
-module.exports = Lobby;
+export default Lobby;

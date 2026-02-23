@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class UntamedPlant extends Card {
     // Elusive.
     // After a player chooses Untamed as their active house, gain 1A.
@@ -15,4 +14,4 @@ class UntamedPlant extends Card {
 
 UntamedPlant.id = 'untamed-plant';
 
-module.exports = UntamedPlant;
+export default UntamedPlant;

@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class SlimyJark extends Card {
     // Skirmish. Elusive.
     // Fight: Enrage the creature Slimy Jark fights.
@@ -14,4 +13,4 @@ class SlimyJark extends Card {
 
 SlimyJark.id = 'slimy-jark';
 
-module.exports = SlimyJark;
+export default SlimyJark;

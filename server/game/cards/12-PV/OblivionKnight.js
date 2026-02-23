@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class OblivionKnight extends Card {
     // After Fight: Purge the creature Oblivion Knight fights.
     // Fate: Purge the most powerful friendly creature.
@@ -25,4 +24,4 @@ class OblivionKnight extends Card {
 
 OblivionKnight.id = 'oblivion-knight';
 
-module.exports = OblivionKnight;
+export default OblivionKnight;

@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class Cephaloist extends Card {
     // While you have 4A or more, your A cannot be stolen.
     setupCardAbilities(ability) {
@@ -12,4 +11,4 @@ class Cephaloist extends Card {
 
 Cephaloist.id = 'cephaloist';
 
-module.exports = Cephaloist;
+export default Cephaloist;

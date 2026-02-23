@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class Rustgnawer extends Card {
     // Fight: Destroy an artifact. If that artifact had an mber bonus, you gain that much A.
     setupCardAbilities(ability) {
@@ -21,4 +20,4 @@ class Rustgnawer extends Card {
 
 Rustgnawer.id = 'rustgnawer';
 
-module.exports = Rustgnawer;
+export default Rustgnawer;

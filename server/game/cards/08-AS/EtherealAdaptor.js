@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class EtherealAdaptor extends Card {
     // This creature gains, “You may spend A on this creature as if it
     // were in your pool.”
@@ -12,4 +11,4 @@ class EtherealAdaptor extends Card {
 
 EtherealAdaptor.id = 'ethereal-adaptor';
 
-module.exports = EtherealAdaptor;
+export default EtherealAdaptor;

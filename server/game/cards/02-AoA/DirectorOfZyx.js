@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class DirectorOfZyx extends Card {
     // Elusive.(The first time this creature is attacked each turn, no damage is dealt.)
     // At the start of your turn, archive the top card of your deck.
@@ -17,4 +16,4 @@ class DirectorOfZyx extends Card {
 
 DirectorOfZyx.id = 'director-of-zyx';
 
-module.exports = DirectorOfZyx;
+export default DirectorOfZyx;

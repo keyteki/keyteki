@@ -1,17 +1,16 @@
-const passport = require('passport');
-const { randomUUID } = require('node:crypto');
-
-const ConfigService = require('../services/ConfigService');
-const DeckService = require('../services/DeckService.js');
-const { wrapAsync } = require('../util.js');
-const logger = require('../log.js');
-const ServiceFactory = require('../services/ServiceFactory');
+import passport from 'passport';
+import { randomUUID } from 'node:crypto';
+import ConfigService from '../services/ConfigService.js';
+import DeckService from '../services/DeckService.js';
+import { wrapAsync } from '../util.js';
+import logger from '../log.js';
+import ServiceFactory from '../services/ServiceFactory.js';
 const configService = new ConfigService();
 const cardService = ServiceFactory.cardService(configService);
 
 const deckService = new DeckService(configService, cardService);
 
-module.exports.init = function (server) {
+export const init = function (server) {
     server.get(
         '/api/standalone-decks',
         wrapAsync(async function (req, res) {

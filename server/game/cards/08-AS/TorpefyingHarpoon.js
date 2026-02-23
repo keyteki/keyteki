@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class TorpefyingHarpoon extends Card {
     // This creature gains, “At the end of your turn, if this creature
     // is not on a flank, destroy it.”
@@ -18,4 +17,4 @@ class TorpefyingHarpoon extends Card {
 
 TorpefyingHarpoon.id = 'torpefying-harpoon';
 
-module.exports = TorpefyingHarpoon;
+export default TorpefyingHarpoon;

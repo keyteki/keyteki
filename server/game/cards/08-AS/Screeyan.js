@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class Screeyan extends Card {
     // At the end of your turn, your opponent discards the top card of
     // their deck. Your opponent cannot choose the house of the
@@ -33,4 +32,4 @@ class Screeyan extends Card {
 
 Screeyan.id = 'screeyan';
 
-module.exports = Screeyan;
+export default Screeyan;

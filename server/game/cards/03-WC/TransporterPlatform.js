@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class TransporterPlatform extends Card {
     // Action: Return a friendly creature and each upgrade attached to it to their owners hands.
     setupCardAbilities(ability) {
@@ -17,4 +16,4 @@ class TransporterPlatform extends Card {
 
 TransporterPlatform.id = 'transporter-platform';
 
-module.exports = TransporterPlatform;
+export default TransporterPlatform;

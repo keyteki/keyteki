@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class RedlineRotation extends Card {
     // Play: If your opponent has 7A or more, steal half of their A
     // (rounding down).
@@ -15,4 +14,4 @@ class RedlineRotation extends Card {
 
 RedlineRotation.id = 'redline-rotation';
 
-module.exports = RedlineRotation;
+export default RedlineRotation;

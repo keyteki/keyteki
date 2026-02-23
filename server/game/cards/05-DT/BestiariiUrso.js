@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class BestiariiUrso extends Card {
     // Play/Reap: You may unstun a creature.
     setupCardAbilities(ability) {
@@ -16,4 +15,4 @@ class BestiariiUrso extends Card {
 
 BestiariiUrso.id = 'bestiarii-urso';
 
-module.exports = BestiariiUrso;
+export default BestiariiUrso;

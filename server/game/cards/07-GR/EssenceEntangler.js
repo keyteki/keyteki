@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class EssenceEntangler extends Card {
     // This creature gets -X power, where X is the number of A on this
     // creature.
@@ -33,4 +32,4 @@ class EssenceEntangler extends Card {
 
 EssenceEntangler.id = 'essence-entangler';
 
-module.exports = EssenceEntangler;
+export default EssenceEntangler;

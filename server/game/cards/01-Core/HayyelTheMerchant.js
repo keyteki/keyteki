@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class HayyelTheMerchant extends Card {
     // Each time you play an artifact, gain 1<A>.
     setupCardAbilities(ability) {
@@ -15,4 +14,4 @@ class HayyelTheMerchant extends Card {
 
 HayyelTheMerchant.id = 'hayyel-the-merchant';
 
-module.exports = HayyelTheMerchant;
+export default HayyelTheMerchant;

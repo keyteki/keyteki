@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class Legerdemain extends Card {
     // Play: Return a damaged creature to its owner’s hand. If you do,
     // its controller gains 1.
@@ -22,4 +21,4 @@ class Legerdemain extends Card {
 
 Legerdemain.id = 'legerdemain';
 
-module.exports = Legerdemain;
+export default Legerdemain;

@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class Amberheart extends Card {
     // Action: Exalt, ward, and fully heal a friendly creature.
     setupCardAbilities(ability) {
@@ -21,4 +20,4 @@ class Amberheart extends Card {
 
 Amberheart.id = 'æmberheart';
 
-module.exports = Amberheart;
+export default Amberheart;

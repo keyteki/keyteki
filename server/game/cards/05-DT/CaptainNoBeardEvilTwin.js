@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class CaptainNoBeardEvilTwin extends Card {
     // Taunt. (This creature’s neighbors cannot be attacked unless they have taunt.)
     // Destroyed: Each of Captain No-Beard's neighbors captures 1A.
@@ -14,4 +13,4 @@ class CaptainNoBeardEvilTwin extends Card {
 
 CaptainNoBeardEvilTwin.id = 'captain-no-beard-evil-twin';
 
-module.exports = CaptainNoBeardEvilTwin;
+export default CaptainNoBeardEvilTwin;

@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class HorsemanOfWar extends Card {
     // Play: For the remainder of the turn, each friendly creature can be used as if they were in the active house, but can only fight.
     setupCardAbilities(ability) {
@@ -21,4 +20,4 @@ class HorsemanOfWar extends Card {
 
 HorsemanOfWar.id = 'horseman-of-war';
 
-module.exports = HorsemanOfWar;
+export default HorsemanOfWar;

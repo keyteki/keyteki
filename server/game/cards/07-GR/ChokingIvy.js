@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class ChokingIvy extends Card {
     // Play: Destroy each creature with the lowest power. If you are
     // not haunted, repeat the preceding effect.
@@ -45,4 +44,4 @@ class ChokingIvy extends Card {
 
 ChokingIvy.id = 'choking-ivy';
 
-module.exports = ChokingIvy;
+export default ChokingIvy;

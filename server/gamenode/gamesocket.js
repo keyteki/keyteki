@@ -1,11 +1,9 @@
-const EventEmitter = require('events');
-const { spawnSync } = require('child_process');
-
-const config = require('config');
-const logger = require('../log.js');
-const RedisClientFactory = require('../services/RedisClientFactory');
-const { detectBinary } = require('../util');
-
+import EventEmitter from 'events';
+import { spawnSync } from 'child_process';
+import config from 'config';
+import logger from '../log.js';
+import RedisClientFactory from '../services/RedisClientFactory.js';
+import { detectBinary } from '../util.js';
 class GameSocket extends EventEmitter {
     /**
      * @param {import("../services/ConfigService.js")} configService
@@ -174,4 +172,4 @@ class GameSocket extends EventEmitter {
     }
 }
 
-module.exports = GameSocket;
+export default GameSocket;

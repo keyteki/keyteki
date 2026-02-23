@@ -1,5 +1,4 @@
-const AllPlayerPrompt = require('./allplayerprompt');
-
+import AllPlayerPrompt from './allplayerprompt.js';
 class RematchPrompt extends AllPlayerPrompt {
     /**
      * @param {boolean} swap If true, request is for a rematch with swapped
@@ -71,4 +70,4 @@ class RematchPrompt extends AllPlayerPrompt {
     }
 }
 
-module.exports = RematchPrompt;
+export default RematchPrompt;

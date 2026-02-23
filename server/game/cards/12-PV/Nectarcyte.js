@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class Nectarcyte extends Card {
     // After Fight/After Reap: Give Nectarcyte three +1 power counters.
     // You may move any number of +1 power counters from Nectarcyte to another friendly creature.
@@ -44,4 +43,4 @@ class Nectarcyte extends Card {
 
 Nectarcyte.id = 'nectarcyte';
 
-module.exports = Nectarcyte;
+export default Nectarcyte;

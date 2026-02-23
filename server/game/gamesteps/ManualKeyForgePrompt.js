@@ -1,5 +1,4 @@
-const AllPlayerPrompt = require('./allplayerprompt');
-
+import AllPlayerPrompt from './allplayerprompt.js';
 class ManualKeyForgePrompt extends AllPlayerPrompt {
     constructor(game, requestingPlayer, color) {
         super(game);
@@ -61,4 +60,4 @@ class ManualKeyForgePrompt extends AllPlayerPrompt {
     }
 }
 
-module.exports = ManualKeyForgePrompt;
+export default ManualKeyForgePrompt;

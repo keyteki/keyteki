@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class Imperium extends Card {
     // Play: Ward 2 friendly creatures.
     setupCardAbilities(ability) {
@@ -17,4 +16,4 @@ class Imperium extends Card {
 
 Imperium.id = 'imperium';
 
-module.exports = Imperium;
+export default Imperium;

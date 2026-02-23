@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class TotalRecall extends Card {
     // Play: For each friendly ready creature, gain 1A. Return each friendly creature to your hand.
     setupCardAbilities(ability) {
@@ -19,4 +18,4 @@ class TotalRecall extends Card {
 
 TotalRecall.id = 'total-recall';
 
-module.exports = TotalRecall;
+export default TotalRecall;

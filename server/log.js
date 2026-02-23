@@ -1,5 +1,4 @@
-const { createLogger, format, transports } = require('winston');
-
+import { createLogger, format, transports } from 'winston';
 const prettyJson = format.printf((info) => {
     if (info.meta && info.meta instanceof Error) {
         info.message = `${info.message} ${info.meta.stack}`;
@@ -34,4 +33,4 @@ const logger = createLogger({
     ]
 });
 
-module.exports = logger;
+export default logger;

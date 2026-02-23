@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class BingleBangBang extends Card {
     // Before Fight: Deal 5D to each neighbor of the creature Bingle Bangbang fights.
     setupCardAbilities(ability) {
@@ -15,4 +14,4 @@ class BingleBangBang extends Card {
 
 BingleBangBang.id = 'bingle-bangbang';
 
-module.exports = BingleBangBang;
+export default BingleBangBang;

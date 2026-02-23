@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class BoNithing extends Card {
     // Play: Steal 1A for each forged key your opponent has.
     setupCardAbilities(ability) {
@@ -13,4 +12,4 @@ class BoNithing extends Card {
 
 BoNithing.id = 'bo-nithing';
 
-module.exports = BoNithing;
+export default BoNithing;

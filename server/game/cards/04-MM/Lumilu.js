@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class Lumilu extends Card {
     // Reap: Gain 1A for each other friendly Beast creature.
     setupCardAbilities(ability) {
@@ -15,4 +14,4 @@ class Lumilu extends Card {
 
 Lumilu.id = 'lumilu';
 
-module.exports = Lumilu;
+export default Lumilu;

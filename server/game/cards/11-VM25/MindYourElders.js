@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class MindYourElders extends Card {
     // Play: If there are more friendly Mars creatures than enemy Mars creatures, a friendly creature captures 3.
     setupCardAbilities(ability) {
@@ -26,4 +25,4 @@ class MindYourElders extends Card {
 
 MindYourElders.id = 'mind-your-elders';
 
-module.exports = MindYourElders;
+export default MindYourElders;

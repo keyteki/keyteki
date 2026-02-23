@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class TheQuietAnvil extends Card {
     // Keys cost 2A.
     // After a player forges a key, destroy The Quiet Anvil.
@@ -19,4 +18,4 @@ class TheQuietAnvil extends Card {
 
 TheQuietAnvil.id = 'the-quiet-anvil';
 
-module.exports = TheQuietAnvil;
+export default TheQuietAnvil;

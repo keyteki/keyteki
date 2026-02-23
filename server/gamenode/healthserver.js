@@ -1,6 +1,5 @@
-const http = require('http');
-const logger = require('../log.js');
-
+import http from 'http';
+import logger from '../log.js';
 class HealthServer {
     constructor(gameServer, port = 9000) {
         this.gameServer = gameServer;
@@ -118,4 +117,4 @@ class HealthServer {
     }
 }
 
-module.exports = HealthServer;
+export default HealthServer;

@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class KathaTheWise extends Card {
     // Omni: You may play an Untamed creature from your hand.
     setupCardAbilities(ability) {
@@ -17,4 +16,4 @@ class KathaTheWise extends Card {
 
 KathaTheWise.id = 'katha-the-wise';
 
-module.exports = KathaTheWise;
+export default KathaTheWise;

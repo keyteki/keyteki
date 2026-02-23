@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class DarkDiscovery extends Card {
     // Play: Name 2 cards. Discard the bottom 2 cards of your opponent's deck. If they are the named cards, purge Dark Discovery and forge a key at no cost.
     setupCardAbilities(ability) {
@@ -50,4 +49,4 @@ class DarkDiscovery extends Card {
 
 DarkDiscovery.id = 'dark-discovery';
 
-module.exports = DarkDiscovery;
+export default DarkDiscovery;

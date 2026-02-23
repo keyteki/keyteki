@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class Gatewatcher extends Card {
     // Destroyed: If your opponent is haunted, destroy each enemy
     // flank creature.
@@ -15,4 +14,4 @@ class Gatewatcher extends Card {
 
 Gatewatcher.id = 'gatewatcher';
 
-module.exports = Gatewatcher;
+export default Gatewatcher;

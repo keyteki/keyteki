@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class TheForsaken extends Card {
     // Each time your opponent discards a card from their hand, make a token
     // creature on your left flank.
@@ -18,4 +17,4 @@ class TheForsaken extends Card {
 
 TheForsaken.id = 'the-forsaken';
 
-module.exports = TheForsaken;
+export default TheForsaken;

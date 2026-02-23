@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class WashedAway extends Card {
     // (T) Play: If the tide is high, destroy each artifact. Otherwise, raise the tide.
     setupCardAbilities(ability) {
@@ -20,4 +19,4 @@ class WashedAway extends Card {
 
 WashedAway.id = 'washed-away';
 
-module.exports = WashedAway;
+export default WashedAway;

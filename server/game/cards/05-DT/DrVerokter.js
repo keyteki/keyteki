@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class DrVerokter extends Card {
     // Elusive.
     // Reap: Put an upgrade or action card from your discard pile on top of your deck.
@@ -17,4 +16,4 @@ class DrVerokter extends Card {
 
 DrVerokter.id = 'dr-verokter';
 
-module.exports = DrVerokter;
+export default DrVerokter;

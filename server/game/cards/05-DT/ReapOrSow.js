@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class ReapOrSow extends Card {
     // Play: Choose one:
     // • Ready and reap with a friendly creature.
@@ -39,4 +38,4 @@ class ReapOrSow extends Card {
 
 ReapOrSow.id = 'reap-or-sow';
 
-module.exports = ReapOrSow;
+export default ReapOrSow;

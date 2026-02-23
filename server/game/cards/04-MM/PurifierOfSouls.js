@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class PurifierOfSouls extends Card {
     // Destroyed effects cannot trigger.
     setupCardAbilities(ability) {
@@ -16,4 +15,4 @@ class PurifierOfSouls extends Card {
 
 PurifierOfSouls.id = 'purifier-of-souls';
 
-module.exports = PurifierOfSouls;
+export default PurifierOfSouls;

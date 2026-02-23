@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class RenderGuilt extends Card {
     // Play: A friendly creature captures 1A. For each A on that creature, deal 1D to a creature.
     setupCardAbilities(ability) {
@@ -21,4 +20,4 @@ class RenderGuilt extends Card {
 
 RenderGuilt.id = 'render-guilt';
 
-module.exports = RenderGuilt;
+export default RenderGuilt;

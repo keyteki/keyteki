@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class Daat extends Card {
     // Play: Choose a house. That house becomes the active house.
     setupCardAbilities(ability) {
@@ -18,4 +17,4 @@ class Daat extends Card {
 
 Daat.id = 'daat';
 
-module.exports = Daat;
+export default Daat;

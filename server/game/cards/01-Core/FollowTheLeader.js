@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class FollowTheLeader extends Card {
     // Play: For the remainder of the turn, each friendly creature may fight.
     setupCardAbilities(ability) {
@@ -14,4 +13,4 @@ class FollowTheLeader extends Card {
 
 FollowTheLeader.id = 'follow-the-leader';
 
-module.exports = FollowTheLeader;
+export default FollowTheLeader;

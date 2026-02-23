@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class BreakOfDawn extends Card {
     // Play: Discard the top 3 cards of your deck. Put each Untamed card discarded this way into your hand.
     setupCardAbilities(ability) {
@@ -27,4 +26,4 @@ class BreakOfDawn extends Card {
 
 BreakOfDawn.id = 'break-of-dawn';
 
-module.exports = BreakOfDawn;
+export default BreakOfDawn;

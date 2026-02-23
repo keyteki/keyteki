@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class Camaraderie extends Card {
     // Play: Exhaust a friendly Star Alliance creature. If you do,
     // draw 2 cards for each of its non-Star Alliance neighbors.
@@ -25,4 +24,4 @@ class Camaraderie extends Card {
 
 Camaraderie.id = 'camaraderie';
 
-module.exports = Camaraderie;
+export default Camaraderie;

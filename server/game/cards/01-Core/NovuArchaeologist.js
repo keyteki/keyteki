@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class NovuArcheologist extends Card {
     // Action: Archive a card from your discard pile.
     setupCardAbilities(ability) {
@@ -15,4 +14,4 @@ class NovuArcheologist extends Card {
 
 NovuArcheologist.id = 'novu-archaeologist';
 
-module.exports = NovuArcheologist;
+export default NovuArcheologist;

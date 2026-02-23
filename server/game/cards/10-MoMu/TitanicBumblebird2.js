@@ -1,5 +1,4 @@
-const TitanicBumblebird = require('./TitanicBumblebird.js');
-
+import TitanicBumblebird from './TitanicBumblebird.js';
 class TitanicBumblebird2 extends TitanicBumblebird {
     constructor(owner, cardData) {
         super(owner, cardData);
@@ -8,4 +7,4 @@ class TitanicBumblebird2 extends TitanicBumblebird {
 
 TitanicBumblebird2.id = 'titanic-bumblebird2';
 
-module.exports = TitanicBumblebird2;
+export default TitanicBumblebird2;

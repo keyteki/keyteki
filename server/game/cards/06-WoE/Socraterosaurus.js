@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class Socraterosaurus extends Card {
     // After Reap: Draw 1 card. You may put a wisdom counter on
     // Platopelta.
@@ -24,4 +23,4 @@ class Socraterosaurus extends Card {
 
 Socraterosaurus.id = 'socraterosaurus';
 
-module.exports = Socraterosaurus;
+export default Socraterosaurus;

@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class CurseOfVanity extends Card {
     // Play: Exalt a friendly creature and an enemy creature.
     setupCardAbilities(ability) {
@@ -28,4 +27,4 @@ class CurseOfVanity extends Card {
 
 CurseOfVanity.id = 'curse-of-vanity';
 
-module.exports = CurseOfVanity;
+export default CurseOfVanity;

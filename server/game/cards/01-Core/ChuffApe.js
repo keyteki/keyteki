@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class ChuffApe extends Card {
     // Taunt. (This creatures neighbors cannot be attacked unless they have taunt.)
     // Chuff Ape enters play stunned.
@@ -29,4 +28,4 @@ class ChuffApe extends Card {
 
 ChuffApe.id = 'chuff-ape';
 
-module.exports = ChuffApe;
+export default ChuffApe;

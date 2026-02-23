@@ -1,6 +1,5 @@
-const { EVENTS } = require('../Events/types');
-const GameAction = require('./GameAction');
-
+import { EVENTS } from '../Events/types.js';
+import GameAction from './GameAction.js';
 class SequentialForEachAction extends GameAction {
     setDefaultProperties() {
         this.num = 0;
@@ -70,4 +69,4 @@ class SequentialForEachAction extends GameAction {
     }
 }
 
-module.exports = SequentialForEachAction;
+export default SequentialForEachAction;

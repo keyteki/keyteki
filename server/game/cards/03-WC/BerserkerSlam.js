@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class BerserkerSlam extends Card {
     // Play: Deal 4D to a flank creature. If this damage destroys that creature, its controller loses 1A.
     setupCardAbilities(ability) {
@@ -30,4 +29,4 @@ class BerserkerSlam extends Card {
 
 BerserkerSlam.id = 'berserker-slam';
 
-module.exports = BerserkerSlam;
+export default BerserkerSlam;

@@ -1,7 +1,7 @@
-const Server = require('./server');
-const Lobby = require('./lobby');
-const UserService = require('./services/UserService');
-const ConfigService = require('./services/ConfigService');
+import Server from './server.js';
+import Lobby from './lobby.js';
+import UserService from './services/UserService.js';
+import ConfigService from './services/ConfigService.js';
 const configService = new ConfigService();
 
 async function runServer() {
@@ -18,4 +18,4 @@ async function runServer() {
     server.run();
 }
 
-module.exports = runServer;
+export default runServer;

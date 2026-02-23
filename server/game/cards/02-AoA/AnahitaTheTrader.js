@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class AnahitaTheTrader extends Card {
     // Reap: Give control of a friendly artifact to your opponent. If you do, they must give you 2A.
     setupCardAbilities(ability) {
@@ -24,4 +23,4 @@ class AnahitaTheTrader extends Card {
 
 AnahitaTheTrader.id = 'anahita-the-trader';
 
-module.exports = AnahitaTheTrader;
+export default AnahitaTheTrader;

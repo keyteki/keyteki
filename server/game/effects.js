@@ -1,11 +1,10 @@
-const CannotRestriction = require('./Effects/Values/CannotRestriction');
-const CanUse = require('./Effects/Values/CanUse');
-const ConditionValue = require('./Effects/Values/ConditionValue');
-const CopyCard = require('./Effects/Values/CopyCard');
-const EffectBuilder = require('./Effects/EffectBuilder');
-const EffectValue = require('./Effects/Values/EffectValue');
-const GainAbility = require('./Effects/Values/GainAbility');
-
+import CannotRestriction from './Effects/Values/CannotRestriction.js';
+import CanUse from './Effects/Values/CanUse.js';
+import ConditionValue from './Effects/Values/ConditionValue.js';
+import CopyCard from './Effects/Values/CopyCard.js';
+import EffectBuilder from './Effects/EffectBuilder.js';
+import EffectValue from './Effects/Values/EffectValue.js';
+import GainAbility from './Effects/Values/GainAbility.js';
 /* Types of effect
     1. Static effects - do something for a period
     2. Dynamic effects - like static, but what they do depends on the game state
@@ -175,4 +174,4 @@ const Effects = {
     redirectForgeAmber: () => EffectBuilder.player.static('redirectForgeAmber')
 };
 
-module.exports = Effects;
+export default Effects;

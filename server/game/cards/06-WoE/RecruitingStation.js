@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class RecruitingStation extends Card {
     // Omni: Choose a house. Discard the top card of your deck. If it
     // belongs to the chosen house, make a token creature.
@@ -25,4 +24,4 @@ class RecruitingStation extends Card {
 
 RecruitingStation.id = 'recruiting-station';
 
-module.exports = RecruitingStation;
+export default RecruitingStation;

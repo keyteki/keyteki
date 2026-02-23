@@ -1,6 +1,5 @@
-const Card = require('../../Card.js');
-const _ = require('underscore');
-
+import Card from '../../Card.js';
+import _ from 'underscore';
 class ParallelThinking extends Card {
     // Play: Discard the top 2 cards of a player's deck or 2 random cards from a player's archives. If the discarded cards share a type, steal 2 amber.
     setupCardAbilities(ability) {
@@ -48,4 +47,4 @@ class ParallelThinking extends Card {
 
 ParallelThinking.id = 'parallel-thinking';
 
-module.exports = ParallelThinking;
+export default ParallelThinking;

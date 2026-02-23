@@ -1,6 +1,5 @@
-const { EVENTS } = require('../Events/types');
-const GameAction = require('./GameAction');
-
+import { EVENTS } from '../Events/types.js';
+import GameAction from './GameAction.js';
 class AddEventToWindowAction extends GameAction {
     setDefaultProperties() {
         this.eventToAdd = null;
@@ -25,4 +24,4 @@ class AddEventToWindowAction extends GameAction {
     }
 }
 
-module.exports = AddEventToWindowAction;
+export default AddEventToWindowAction;

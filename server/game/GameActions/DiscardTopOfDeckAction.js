@@ -1,6 +1,5 @@
-const { EVENTS } = require('../Events/types');
-const PlayerAction = require('./PlayerAction');
-
+import { EVENTS } from '../Events/types.js';
+import PlayerAction from './PlayerAction.js';
 class DiscardTopOfDeckAction extends PlayerAction {
     setDefaultProperties() {
         this.amount = 1;
@@ -28,4 +27,4 @@ class DiscardTopOfDeckAction extends PlayerAction {
     }
 }
 
-module.exports = DiscardTopOfDeckAction;
+export default DiscardTopOfDeckAction;

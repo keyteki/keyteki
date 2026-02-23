@@ -1,6 +1,5 @@
-const { EVENTS } = require('../Events/types');
-const CardGameAction = require('./CardGameAction');
-
+import { EVENTS } from '../Events/types.js';
+import CardGameAction from './CardGameAction.js';
 class MoveToBottomAction extends CardGameAction {
     constructor(propertyFactory) {
         super(propertyFactory);
@@ -22,4 +21,4 @@ class MoveToBottomAction extends CardGameAction {
     }
 }
 
-module.exports = MoveToBottomAction;
+export default MoveToBottomAction;

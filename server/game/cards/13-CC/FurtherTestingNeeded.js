@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class FurtherTestingNeeded extends Card {
     // Play: Put a friendly card into its owner's archives.
     setupCardAbilities(ability) {
@@ -14,4 +13,4 @@ class FurtherTestingNeeded extends Card {
 }
 FurtherTestingNeeded.id = 'further-testing-needed';
 
-module.exports = FurtherTestingNeeded;
+export default FurtherTestingNeeded;

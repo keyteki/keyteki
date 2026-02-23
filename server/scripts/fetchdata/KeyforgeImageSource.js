@@ -1,9 +1,8 @@
 /*eslint no-console:0 */
-const fs = require('fs');
-const { fabric } = require('fabric');
-const path = require('path');
-const KeyForgeHalfSizeBuild = require('./KeyForgeHalfSizeBuild');
-
+import fs from 'fs';
+import { fabric } from 'fabric';
+import path from 'path';
+import KeyForgeHalfSizeBuild from './KeyForgeHalfSizeBuild.js';
 class KeyforgeImageSource {
     async fetchImage(card, imageUrl, imagePath) {
         try {
@@ -54,4 +53,4 @@ class KeyforgeImageSource {
     }
 }
 
-module.exports = KeyforgeImageSource;
+export default KeyforgeImageSource;

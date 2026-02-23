@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class AmberAirhart extends Card {
     // After Fight/After Reap: Shuffle Æmber Airhart into its owner’s deck.
     setupCardAbilities(ability) {
@@ -14,4 +13,4 @@ class AmberAirhart extends Card {
 
 AmberAirhart.id = 'æmber-airhart';
 
-module.exports = AmberAirhart;
+export default AmberAirhart;

@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class AGiftOfAmber extends Card {
     // Play: Destroy up to 2 creatures. For each creature destroyed
     // this way, the creature's controller gains 1A.
@@ -57,4 +56,4 @@ class AGiftOfAmber extends Card {
 
 AGiftOfAmber.id = 'a-gift-of-æmber';
 
-module.exports = AGiftOfAmber;
+export default AGiftOfAmber;

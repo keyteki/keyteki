@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class CurseOfForgetfulness extends Card {
     // Treachery. (This card enters play under your opponent’s control.)
     //
@@ -24,4 +23,4 @@ class CurseOfForgetfulness extends Card {
 
 CurseOfForgetfulness.id = 'curse-of-forgetfulness';
 
-module.exports = CurseOfForgetfulness;
+export default CurseOfForgetfulness;

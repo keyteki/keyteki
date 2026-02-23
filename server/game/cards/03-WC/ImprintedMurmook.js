@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class ImprintedMurmook extends Card {
     // Elusive. (The first time this creature is attacked each turn, no damage is dealt.)
     // Your keys cost 1A.
@@ -12,4 +11,4 @@ class ImprintedMurmook extends Card {
 
 ImprintedMurmook.id = 'imprinted-murmook';
 
-module.exports = ImprintedMurmook;
+export default ImprintedMurmook;

@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class FesteringTouch extends Card {
     // Play: Choose up to 2 creatures. Deal 1D to each chosen creature. If that creature was already damaged, deal 3D instead.
     setupCardAbilities(ability) {
@@ -25,4 +24,4 @@ class FesteringTouch extends Card {
 
 FesteringTouch.id = 'festering-touch';
 
-module.exports = FesteringTouch;
+export default FesteringTouch;

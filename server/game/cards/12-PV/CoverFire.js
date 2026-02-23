@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class CoverFire extends Card {
     // Play: Your opponent loses half of their A (rounding down). Steal 1A.
     setupCardAbilities(ability) {
@@ -19,4 +18,4 @@ class CoverFire extends Card {
 
 CoverFire.id = 'cover-fire';
 
-module.exports = CoverFire;
+export default CoverFire;

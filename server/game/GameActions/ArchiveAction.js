@@ -1,6 +1,5 @@
-const { EVENTS } = require('../Events/types');
-const CardGameAction = require('./CardGameAction');
-
+import { EVENTS } from '../Events/types.js';
+import CardGameAction from './CardGameAction.js';
 class ArchiveAction extends CardGameAction {
     setDefaultProperties() {
         this.owner = true;
@@ -41,4 +40,4 @@ class ArchiveAction extends CardGameAction {
     }
 }
 
-module.exports = ArchiveAction;
+export default ArchiveAction;

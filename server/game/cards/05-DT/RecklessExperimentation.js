@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class RecklessExperimentation extends Card {
     // This creature gains, "Reap: Play the top card of your deck."
     setupCardAbilities(ability) {
@@ -16,4 +15,4 @@ class RecklessExperimentation extends Card {
 
 RecklessExperimentation.id = 'reckless-experimentation';
 
-module.exports = RecklessExperimentation;
+export default RecklessExperimentation;

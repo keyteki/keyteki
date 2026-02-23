@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class Cauldron extends Card {
     // Omni: Put the top card of your deck faceup under Cauldron. If
     // there are 3 or more cards under Cauldron, play them one at a
@@ -24,4 +23,4 @@ class Cauldron extends Card {
 
 Cauldron.id = 'cauldron';
 
-module.exports = Cauldron;
+export default Cauldron;

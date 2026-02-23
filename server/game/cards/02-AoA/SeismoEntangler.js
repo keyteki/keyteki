@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class SeismoEntangler extends Card {
     // Action: Choose a house. During your opponents next turn, creatures of the chosen house cannot be used to reap.
     setupCardAbilities(ability) {
@@ -22,4 +21,4 @@ class SeismoEntangler extends Card {
 
 SeismoEntangler.id = 'seismo-entangler';
 
-module.exports = SeismoEntangler;
+export default SeismoEntangler;

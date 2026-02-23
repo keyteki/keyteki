@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class YanthiGhostfin extends Card {
     //After Reap: Purge a creature from a discard pile. If you do, make a token creature.
     setupCardAbilities(ability) {
@@ -18,4 +17,4 @@ class YanthiGhostfin extends Card {
 
 YanthiGhostfin.id = 'yanthi-ghostfin';
 
-module.exports = YanthiGhostfin;
+export default YanthiGhostfin;

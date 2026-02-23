@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class TrenksCreed extends Card {
     // Play: Choose one:
     // The most powerful creature captures all of your opponent's amber.
@@ -39,4 +38,4 @@ class TrenksCreed extends Card {
 
 TrenksCreed.id = 'trenk-s-creed';
 
-module.exports = TrenksCreed;
+export default TrenksCreed;

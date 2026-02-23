@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class BigMagnet extends Card {
     // Play: Choose a friendly creature. Take control of each upgrade in play and move it to that creature.
     setupCardAbilities(ability) {
@@ -20,4 +19,4 @@ class BigMagnet extends Card {
 
 BigMagnet.id = 'big-magnet';
 
-module.exports = BigMagnet;
+export default BigMagnet;

@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class HaydenOswin extends Card {
     // Reap: Gain 1A for each upgrade on Hayden Oswin.
     setupCardAbilities(ability) {
@@ -13,4 +12,4 @@ class HaydenOswin extends Card {
 
 HaydenOswin.id = 'hayden-oswin';
 
-module.exports = HaydenOswin;
+export default HaydenOswin;

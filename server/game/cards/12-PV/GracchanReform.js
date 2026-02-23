@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class GracchanReform extends Card {
     // Play: Play the top card of your opponent's deck as if it were yours.
     // Fate: Your opponent archives the top 2 cards of their deck.
@@ -22,4 +21,4 @@ class GracchanReform extends Card {
 
 GracchanReform.id = 'gracchan-reform';
 
-module.exports = GracchanReform;
+export default GracchanReform;

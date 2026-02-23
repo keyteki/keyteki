@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class PrinceBufo extends Card {
     // Fate: Your opponent forges a key at current cost.
     setupCardAbilities(ability) {
@@ -15,4 +14,4 @@ class PrinceBufo extends Card {
 
 PrinceBufo.id = 'prince-bufo';
 
-module.exports = PrinceBufo;
+export default PrinceBufo;

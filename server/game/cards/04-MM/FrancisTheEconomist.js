@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class FrancisTheEconomist extends Card {
     // Skirmish. (When you use this creature to fight, it is dealt no damage in return.)
     // Fight: Each player gains 1.
@@ -22,4 +21,4 @@ class FrancisTheEconomist extends Card {
 
 FrancisTheEconomist.id = 'francis-the-economist';
 
-module.exports = FrancisTheEconomist;
+export default FrancisTheEconomist;

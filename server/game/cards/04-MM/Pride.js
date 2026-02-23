@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class Pride extends Card {
     // Reap: Ward each friendly Sin creature.
     setupCardAbilities(ability) {
@@ -14,4 +13,4 @@ class Pride extends Card {
 
 Pride.id = 'pride';
 
-module.exports = Pride;
+export default Pride;

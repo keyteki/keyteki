@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class Bilgewarden extends Card {
     // (T) Play/Reap: If the tide is high, your opponent raises the tide. Otherwise, you raise the tide.
     setupCardAbilities(ability) {
@@ -17,4 +16,4 @@ class Bilgewarden extends Card {
 
 Bilgewarden.id = 'bilgewarden';
 
-module.exports = Bilgewarden;
+export default Bilgewarden;

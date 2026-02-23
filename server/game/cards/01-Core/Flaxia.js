@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class Flaxia extends Card {
     // Play: Gain 2A if you control more creatures than your opponent.
     setupCardAbilities(ability) {
@@ -16,4 +15,4 @@ class Flaxia extends Card {
 
 Flaxia.id = 'flaxia';
 
-module.exports = Flaxia;
+export default Flaxia;

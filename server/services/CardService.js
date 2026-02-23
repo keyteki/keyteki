@@ -1,7 +1,6 @@
-const logger = require('../log.js');
-const db = require('../db');
-const RedisClientFactory = require('./RedisClientFactory');
-
+import logger from '../log.js';
+import db from '../db/index.js';
+import RedisClientFactory from './RedisClientFactory.js';
 class CardService {
     constructor(configService) {
         const factory = new RedisClientFactory(configService);
@@ -269,4 +268,4 @@ class CardService {
     }
 }
 
-module.exports = CardService;
+export default CardService;

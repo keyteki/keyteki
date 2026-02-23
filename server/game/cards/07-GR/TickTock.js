@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class TickTock extends Card {
     // At the end of your turn, put a time counter on each friendly
     // Clock creature. If there are 3 or more time counters on
@@ -52,4 +51,4 @@ class TickTock extends Card {
 
 TickTock.id = 'tick-tock';
 
-module.exports = TickTock;
+export default TickTock;

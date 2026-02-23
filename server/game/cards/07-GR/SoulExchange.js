@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 function firstCreatureInDiscard(context) {
     const player =
         !context.select || context.select === 'Mine' ? context.player : context.player.opponent;
@@ -53,4 +52,4 @@ class SoulExchange extends Card {
 
 SoulExchange.id = 'soul-exchange';
 
-module.exports = SoulExchange;
+export default SoulExchange;

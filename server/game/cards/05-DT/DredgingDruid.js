@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class DredgingDruid extends Card {
     // Elusive.
     // (T) Reap: If the tide is high, put up to 3 creatures from your discard pile on top of your deck.
@@ -21,4 +20,4 @@ class DredgingDruid extends Card {
 
 DredgingDruid.id = 'dredging-druid';
 
-module.exports = DredgingDruid;
+export default DredgingDruid;

@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class Election extends Card {
     // Each creature gains, "After Reap: Put a 'Yea' or 'Nay'
     // counter on Election".
@@ -44,4 +43,4 @@ class Election extends Card {
 
 Election.id = 'election';
 
-module.exports = Election;
+export default Election;

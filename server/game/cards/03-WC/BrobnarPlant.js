@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class BrobnarPlant extends Card {
     // Elusive.
     // After a player chooses Brobnar as their active house, gain 1A.
@@ -15,4 +14,4 @@ class BrobnarPlant extends Card {
 
 BrobnarPlant.id = 'brobnar-plant';
 
-module.exports = BrobnarPlant;
+export default BrobnarPlant;

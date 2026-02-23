@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class Philophosaurus extends Card {
     // Reap: You may look at the top 3 cards of your deck. Archive 1, add 1 to your hand, and discard 1.
     setupCardAbilities(ability) {
@@ -35,4 +34,4 @@ class Philophosaurus extends Card {
 
 Philophosaurus.id = 'philophosaurus';
 
-module.exports = Philophosaurus;
+export default Philophosaurus;

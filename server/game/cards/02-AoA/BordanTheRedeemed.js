@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class BordanTheRedeemed extends Card {
     // Elusive.(The first time this creature is attacked each turn, no damage is dealt.)
     // Action: Capture 2A.
@@ -12,4 +11,4 @@ class BordanTheRedeemed extends Card {
 
 BordanTheRedeemed.id = 'bordan-the-redeemed';
 
-module.exports = BordanTheRedeemed;
+export default BordanTheRedeemed;

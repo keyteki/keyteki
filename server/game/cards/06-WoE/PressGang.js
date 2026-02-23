@@ -1,6 +1,5 @@
-const Card = require('../../Card.js');
-const EventRegistrar = require('../../eventregistrar.js');
-
+import Card from '../../Card.js';
+import EventRegistrar from '../../eventregistrar.js';
 class PressGang extends Card {
     // Play: Make a token creature. If an enemy creature was destroyed
     // this turn, archive Press Gang.
@@ -51,4 +50,4 @@ class PressGang extends Card {
 
 PressGang.id = 'press-gang';
 
-module.exports = PressGang;
+export default PressGang;

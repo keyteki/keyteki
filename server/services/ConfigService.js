@@ -1,6 +1,5 @@
-const config = require('config');
-const logger = require('../log.js');
-
+import config from 'config';
+import logger from '../log.js';
 class ConfigService {
     getValue(key) {
         if (!config[key]) {
@@ -25,4 +24,4 @@ class ConfigService {
     }
 }
 
-module.exports = ConfigService;
+export default ConfigService;

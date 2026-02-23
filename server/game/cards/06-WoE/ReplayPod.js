@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class ReplayPod extends Card {
     // Each friendly Mars creature gains "Destroyed: Place this
     // creature facedown under Replay Pod."
@@ -31,4 +30,4 @@ class ReplayPod extends Card {
 
 ReplayPod.id = 'replay-pod';
 
-module.exports = ReplayPod;
+export default ReplayPod;

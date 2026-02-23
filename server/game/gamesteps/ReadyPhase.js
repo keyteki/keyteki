@@ -1,7 +1,6 @@
-const { EVENTS } = require('../Events/types.js');
-const Phase = require('./phase.js');
-const SimpleStep = require('./simplestep.js');
-
+import { EVENTS } from '../Events/types.js';
+import Phase from './phase.js';
+import SimpleStep from './simplestep.js';
 class ReadyPhase extends Phase {
     /**
      * @param {import('../game')} game
@@ -32,4 +31,4 @@ class ReadyPhase extends Phase {
     }
 }
 
-module.exports = ReadyPhase;
+export default ReadyPhase;

@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class TyaArhiEsquire extends Card {
     // Each friendly non-token creature gains, "Destroyed: Make a
     // token creature.”
@@ -15,4 +14,4 @@ class TyaArhiEsquire extends Card {
 
 TyaArhiEsquire.id = 'tya-arhĭ-esquire';
 
-module.exports = TyaArhiEsquire;
+export default TyaArhiEsquire;

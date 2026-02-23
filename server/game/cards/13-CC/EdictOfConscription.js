@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class EdictOfConscription extends Card {
     // Action: Destroy Edict of Conscription. For the remainder of the turn, each friendly creature belongs to house Saurian.
     setupCardAbilities(ability) {
@@ -21,4 +20,4 @@ class EdictOfConscription extends Card {
 
 EdictOfConscription.id = 'edict-of-conscription';
 
-module.exports = EdictOfConscription;
+export default EdictOfConscription;

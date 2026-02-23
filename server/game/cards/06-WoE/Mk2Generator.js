@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class Mk2Generator extends Card {
     //Reap: Mk.2 Generator enter play ready. Action: Make a token creature.
     setupCardAbilities(ability) {
@@ -16,4 +15,4 @@ class Mk2Generator extends Card {
 
 Mk2Generator.id = 'mk2-generator';
 
-module.exports = Mk2Generator;
+export default Mk2Generator;

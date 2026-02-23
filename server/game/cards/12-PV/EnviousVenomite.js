@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class EnviousVenomite extends Card {
     // Skirmish.
     // While your opponent has more amber than you, Envious Venomite gains poison.
@@ -27,4 +26,4 @@ class EnviousVenomite extends Card {
 
 EnviousVenomite.id = 'envious-venomite';
 
-module.exports = EnviousVenomite;
+export default EnviousVenomite;

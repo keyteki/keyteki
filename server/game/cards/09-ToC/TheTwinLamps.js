@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class TheTwinLamps extends Card {
     // Play: Steal 1A. If you have more A in your pool than your
     // opponent, make a token creature.
@@ -19,4 +18,4 @@ class TheTwinLamps extends Card {
 
 TheTwinLamps.id = 'the-twin-lamps';
 
-module.exports = TheTwinLamps;
+export default TheTwinLamps;

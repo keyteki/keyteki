@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class ExchangeOfficer extends Card {
     // Play/Fight/Reap: Use a friendly Star Alliance card.
     setupCardAbilities(ability) {
@@ -17,4 +16,4 @@ class ExchangeOfficer extends Card {
 
 ExchangeOfficer.id = 'exchange-officer';
 
-module.exports = ExchangeOfficer;
+export default ExchangeOfficer;

@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class WorldTree extends Card {
     // Action: Return a creature from your discard pile to the top of your deck.
     setupCardAbilities(ability) {
@@ -16,4 +15,4 @@ class WorldTree extends Card {
 
 WorldTree.id = 'world-tree';
 
-module.exports = WorldTree;
+export default WorldTree;

@@ -1,10 +1,8 @@
-const EventEmitter = require('events');
-
-const logger = require('./log');
-const GameService = require('./services/GameService');
-const RedisClientFactory = require('./services/RedisClientFactory');
-const { detectBinary } = require('./util');
-
+import EventEmitter from 'events';
+import logger from './log.js';
+import GameService from './services/GameService.js';
+import RedisClientFactory from './services/RedisClientFactory.js';
+import { detectBinary } from './util.js';
 class GameRouter extends EventEmitter {
     /**
      * @param {import("./services/ConfigService.js")} configService
@@ -364,4 +362,4 @@ class GameRouter extends EventEmitter {
     }
 }
 
-module.exports = GameRouter;
+export default GameRouter;

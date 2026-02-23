@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class EmeritusDarn extends Card {
     // Elusive.
     // After Reap: Archive the top 2 cards of your deck.
@@ -15,4 +14,4 @@ class EmeritusDarn extends Card {
 
 EmeritusDarn.id = 'emeritus-darn';
 
-module.exports = EmeritusDarn;
+export default EmeritusDarn;

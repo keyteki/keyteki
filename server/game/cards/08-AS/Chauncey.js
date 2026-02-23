@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class Chauncey extends Card {
     // Action: Destroy another friendly creature and Chauncey.  If you
     // do, gain 3A.
@@ -32,4 +31,4 @@ class Chauncey extends Card {
 
 Chauncey.id = 'chauncey';
 
-module.exports = Chauncey;
+export default Chauncey;

@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class Chonkers extends Card {
     // Skirmish.
     // After an enemy creature is destroyed fighting Chonkers, double the number of +1 power counters on Chonkers.
@@ -25,4 +24,4 @@ class Chonkers extends Card {
 
 Chonkers.id = 'chonkers';
 
-module.exports = Chonkers;
+export default Chonkers;

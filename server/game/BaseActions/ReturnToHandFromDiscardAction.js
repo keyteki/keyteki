@@ -1,6 +1,5 @@
-const AbilityContext = require('../AbilityContext');
-const BaseAbility = require('../baseability.js');
-
+import AbilityContext from '../AbilityContext.js';
+import BaseAbility from '../baseability.js';
 class ReturnToHandFromDiscardAction extends BaseAbility {
     constructor(card) {
         super({});
@@ -35,4 +34,4 @@ class ReturnToHandFromDiscardAction extends BaseAbility {
     }
 }
 
-module.exports = ReturnToHandFromDiscardAction;
+export default ReturnToHandFromDiscardAction;

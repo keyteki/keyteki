@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class LadyMaxena extends Card {
     // Play: Stun a creature.
     // Action: Return Lady Maxena to its owners hand.
@@ -19,4 +18,4 @@ class LadyMaxena extends Card {
 
 LadyMaxena.id = 'lady-maxena';
 
-module.exports = LadyMaxena;
+export default LadyMaxena;

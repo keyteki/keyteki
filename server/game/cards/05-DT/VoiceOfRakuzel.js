@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class VoiceOfRakuzel extends Card {
     // (T) While the tide is high, each friendly creature gets +1 power and +1 armor.
     // (T) While the tide is low, each enemy creature gets +1 power and +1 armor.
@@ -20,4 +19,4 @@ class VoiceOfRakuzel extends Card {
 
 VoiceOfRakuzel.id = 'voice-of-rakuzel';
 
-module.exports = VoiceOfRakuzel;
+export default VoiceOfRakuzel;

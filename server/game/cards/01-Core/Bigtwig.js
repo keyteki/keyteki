@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class Bigtwig extends Card {
     // Bigtwig can only fight stunned creatures.
     // Reap: Stun and exhaust a creature.
@@ -22,4 +21,4 @@ class Bigtwig extends Card {
 
 Bigtwig.id = 'bigtwig';
 
-module.exports = Bigtwig;
+export default Bigtwig;

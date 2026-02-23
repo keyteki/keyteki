@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class SubmersivePrinciple extends Card {
     // (T) Play: Each player loses 1A. If the tide is high, each player loses half their A instead (rounding down the loss).
     setupCardAbilities(ability) {
@@ -33,4 +32,4 @@ class SubmersivePrinciple extends Card {
 
 SubmersivePrinciple.id = 'submersive-principle';
 
-module.exports = SubmersivePrinciple;
+export default SubmersivePrinciple;

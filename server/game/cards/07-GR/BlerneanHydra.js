@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class BlerneanHydra extends Card {
     // While it is damaged, Blernean Hydra gains splash-attack X,
     // where X is the amount of damage on Blernean Hydra.
@@ -15,4 +14,4 @@ class BlerneanHydra extends Card {
 
 BlerneanHydra.id = 'blernean-hydra';
 
-module.exports = BlerneanHydra;
+export default BlerneanHydra;

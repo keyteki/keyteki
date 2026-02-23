@@ -1,9 +1,11 @@
 /*eslint no-console:0 */
-const commandLineArgs = require('command-line-args');
-const path = require('path');
-const fs = require('fs');
-const JsonCardSource = require('./fetchdata/JsonCardSource');
-
+import commandLineArgs from 'command-line-args';
+import path from 'path';
+import fs from 'fs';
+import JsonCardSource from './fetchdata/JsonCardSource.js';
+import { fileURLToPath } from 'url';
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 const optionsDefinition = [
     { name: 'card-source', type: String, defaultValue: 'json' },
     {

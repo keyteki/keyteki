@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class WretchedDoll extends Card {
     // Action: If there is a doom counter in play, destroy all creatures with doom counters. Otherwise, put a doom counter on a creature.
     setupCardAbilities(ability) {
@@ -22,4 +21,4 @@ class WretchedDoll extends Card {
 
 WretchedDoll.id = 'wretched-doll';
 
-module.exports = WretchedDoll;
+export default WretchedDoll;

@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class ReturningChampion extends Card {
     // Play: Deal 3 to Returning Champion.
     //
@@ -37,4 +36,4 @@ class ReturningChampion extends Card {
 
 ReturningChampion.id = 'returning-champion';
 
-module.exports = ReturningChampion;
+export default ReturningChampion;

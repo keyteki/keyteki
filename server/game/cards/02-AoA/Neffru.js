@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class Neffru extends Card {
     // After a creature is destroyed, its owner gains 1A.
     setupCardAbilities(ability) {
@@ -18,4 +17,4 @@ class Neffru extends Card {
 
 Neffru.id = 'neffru';
 
-module.exports = Neffru;
+export default Neffru;

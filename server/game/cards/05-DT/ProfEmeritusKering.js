@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class ProfEmeritusKering extends Card {
     // Deploy.
     // (T) Play/Fight/Reap: Use 1 of Prof. Emeritus Kering's neighbors. If the tide is high, also use Prof. Emeritus Kering's other neighbor.
@@ -28,4 +27,4 @@ class ProfEmeritusKering extends Card {
 
 ProfEmeritusKering.id = 'prof-emeritus-kering';
 
-module.exports = ProfEmeritusKering;
+export default ProfEmeritusKering;

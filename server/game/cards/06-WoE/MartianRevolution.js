@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class MartianRevolution extends Card {
     // Play: Destroy each friendly creature. For each creature
     // destroyed this way, make a token creature.
@@ -21,4 +20,4 @@ class MartianRevolution extends Card {
 
 MartianRevolution.id = 'martian-revolution';
 
-module.exports = MartianRevolution;
+export default MartianRevolution;

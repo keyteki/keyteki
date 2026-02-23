@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class BadOmen extends Card {
     // At the end of your opponent's turn, if they have exactly 6A, fulfill Bad Omen.
     setupCardAbilities(ability) {
@@ -18,4 +17,4 @@ class BadOmen extends Card {
 
 BadOmen.id = 'bad-omen';
 
-module.exports = BadOmen;
+export default BadOmen;

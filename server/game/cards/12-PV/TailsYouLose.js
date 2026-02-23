@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class TailsYouLose extends Card {
     // At the end of your turn, you may flip Tails, You Lose.
     // During your opponent's turn, after your opponent plays a creature adjacent to a creature belonging to a different house, fulfill Tails, You Lose.
@@ -35,4 +34,4 @@ class TailsYouLose extends Card {
 
 TailsYouLose.id = 'tails-you-lose';
 
-module.exports = TailsYouLose;
+export default TailsYouLose;

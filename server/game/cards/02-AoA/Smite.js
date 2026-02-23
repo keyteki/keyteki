@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class Smite extends Card {
     // Play: Ready and fight with a friendly creature. Deal 2D to the attacked creature's neighbors.
     setupCardAbilities(ability) {
@@ -46,4 +45,4 @@ class Smite extends Card {
 
 Smite.id = 'smite';
 
-module.exports = Smite;
+export default Smite;

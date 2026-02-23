@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class EldritchSynan extends Card {
     // Eldritch Synan cannot be dealt damage by damaged creatures.
     setupCardAbilities(ability) {
@@ -35,4 +34,4 @@ class EldritchSynan extends Card {
 
 EldritchSynan.id = 'eldritch-synan';
 
-module.exports = EldritchSynan;
+export default EldritchSynan;

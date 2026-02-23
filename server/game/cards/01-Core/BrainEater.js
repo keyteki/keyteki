@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class BrainEater extends Card {
     // After a creature is destroyed fighting Brain Eater, draw a card.
     setupCardAbilities(ability) {
@@ -15,4 +14,4 @@ class BrainEater extends Card {
 
 BrainEater.id = 'brain-eater';
 
-module.exports = BrainEater;
+export default BrainEater;

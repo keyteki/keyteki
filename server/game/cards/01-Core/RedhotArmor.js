@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class RedhotArmor extends Card {
     // Play: Each enemy creature with armor loses all of its armor until the end of the turn and is dealt 1D for each point of armor it lost this way.
     setupCardAbilities(ability) {
@@ -27,4 +26,4 @@ class RedhotArmor extends Card {
 
 RedhotArmor.id = 'red-hot-armor';
 
-module.exports = RedhotArmor;
+export default RedhotArmor;

@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class Amberwind extends Card {
     // Play: Exalt Æmberwind 3 times.
     // After Reap: Move 1A from Æmberwind to your pool.
@@ -21,4 +20,4 @@ class Amberwind extends Card {
 
 Amberwind.id = 'æmberwind';
 
-module.exports = Amberwind;
+export default Amberwind;

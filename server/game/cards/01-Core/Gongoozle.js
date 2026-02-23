@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class Gongoozle extends Card {
     // Play: Deal 3D to a creature. If it is not destroyed, its owner discards a random card from their hand.
     setupCardAbilities(ability) {
@@ -23,4 +22,4 @@ class Gongoozle extends Card {
 
 Gongoozle.id = 'gongoozle';
 
-module.exports = Gongoozle;
+export default Gongoozle;

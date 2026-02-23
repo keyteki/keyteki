@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class BrendTheFanatic extends Card {
     // Skirmish.
     // Play: Your opponent gains 1A.
@@ -23,4 +22,4 @@ class BrendTheFanatic extends Card {
 
 BrendTheFanatic.id = 'brend-the-fanatic';
 
-module.exports = BrendTheFanatic;
+export default BrendTheFanatic;

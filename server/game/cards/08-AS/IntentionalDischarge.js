@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class IntentionalDischarge extends Card {
     // Play: Return a friendly creature to its owner's hand. If you do, ready a friendly Mars creature.
     setupCardAbilities(ability) {
@@ -23,4 +22,4 @@ class IntentionalDischarge extends Card {
 
 IntentionalDischarge.id = 'intentional-discharge';
 
-module.exports = IntentionalDischarge;
+export default IntentionalDischarge;

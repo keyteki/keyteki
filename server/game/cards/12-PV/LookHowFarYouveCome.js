@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class LookHowFarYouveCome extends Card {
     // During your opponent's turn, after they play a creature, fulfill Look How Far You've Come.
     setupCardAbilities(ability) {
@@ -18,4 +17,4 @@ class LookHowFarYouveCome extends Card {
 
 LookHowFarYouveCome.id = 'look-how-far-you-ve-come';
 
-module.exports = LookHowFarYouveCome;
+export default LookHowFarYouveCome;

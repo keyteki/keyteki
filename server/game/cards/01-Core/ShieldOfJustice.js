@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class ShieldOfJustice extends Card {
     // Play: For the remainder of the turn, each friendly creature cannot be dealt damage.
     setupCardAbilities(ability) {
@@ -14,4 +13,4 @@ class ShieldOfJustice extends Card {
 
 ShieldOfJustice.id = 'shield-of-justice';
 
-module.exports = ShieldOfJustice;
+export default ShieldOfJustice;

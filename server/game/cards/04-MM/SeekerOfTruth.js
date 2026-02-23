@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class SeekerOfTruth extends Card {
     // Fight: You may fight with a friendly non-Sanctum creature.
     setupCardAbilities(ability) {
@@ -18,4 +17,4 @@ class SeekerOfTruth extends Card {
 
 SeekerOfTruth.id = 'seeker-of-truth';
 
-module.exports = SeekerOfTruth;
+export default SeekerOfTruth;

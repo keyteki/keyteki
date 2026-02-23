@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class Tremor extends Card {
     // Play: Stun a creature and each of its neighbors.
     setupCardAbilities(ability) {
@@ -16,4 +15,4 @@ class Tremor extends Card {
 
 Tremor.id = 'tremor';
 
-module.exports = Tremor;
+export default Tremor;

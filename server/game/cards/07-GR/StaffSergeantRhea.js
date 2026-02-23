@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class StaffSergeantRhea extends Card {
     // Staff Sergeant Rhea's neighbors may be used as if they belonged
     // to house Star Alliance.
@@ -30,4 +29,4 @@ class StaffSergeantRhea extends Card {
 
 StaffSergeantRhea.id = 'staff-sergeant-rhea';
 
-module.exports = StaffSergeantRhea;
+export default StaffSergeantRhea;

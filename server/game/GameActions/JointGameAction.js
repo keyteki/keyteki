@@ -1,5 +1,4 @@
-const GameAction = require('./GameAction');
-
+import GameAction from './GameAction.js';
 class JointGameAction extends GameAction {
     constructor(gameActions) {
         super({ gameActions: gameActions });
@@ -51,4 +50,4 @@ class JointGameAction extends GameAction {
     }
 }
 
-module.exports = JointGameAction;
+export default JointGameAction;

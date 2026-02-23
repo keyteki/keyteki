@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class AncientPower extends Card {
     // Play: Ward each friendly creature with A on it.
     setupCardAbilities(ability) {
@@ -14,4 +13,4 @@ class AncientPower extends Card {
 
 AncientPower.id = 'ancient-power';
 
-module.exports = AncientPower;
+export default AncientPower;

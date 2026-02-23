@@ -1,5 +1,4 @@
-const EventWindow = require('./EventWindow.js');
-
+import EventWindow from './EventWindow.js';
 class ThenEventWindow extends EventWindow {
     constructor(game, events, checkState = true) {
         super(game, events);
@@ -29,4 +28,4 @@ class ThenEventWindow extends EventWindow {
     }
 }
 
-module.exports = ThenEventWindow;
+export default ThenEventWindow;

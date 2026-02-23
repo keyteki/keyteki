@@ -1,6 +1,5 @@
-const { EVENTS } = require('../Events/types');
-const CardGameAction = require('./CardGameAction');
-
+import { EVENTS } from '../Events/types.js';
+import CardGameAction from './CardGameAction.js';
 class ReturnToDeckAction extends CardGameAction {
     setDefaultProperties() {
         this.bottom = false;
@@ -122,4 +121,4 @@ class ReturnToDeckAction extends CardGameAction {
     }
 }
 
-module.exports = ReturnToDeckAction;
+export default ReturnToDeckAction;

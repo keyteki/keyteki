@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class WasteNot extends Card {
     // Play: Destroy a friendly creature. Draw cards equal to half that creature's power (rounding up).
     setupCardAbilities(ability) {
@@ -26,4 +25,4 @@ class WasteNot extends Card {
 
 WasteNot.id = 'waste-not';
 
-module.exports = WasteNot;
+export default WasteNot;

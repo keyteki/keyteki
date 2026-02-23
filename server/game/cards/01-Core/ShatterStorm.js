@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class ShatterStorm extends Card {
     // Play: Lose all your A. Then, your opponent loses triple the amount
     // of A you lost this way.
@@ -27,4 +26,4 @@ class ShatterStorm extends Card {
 
 ShatterStorm.id = 'shatter-storm';
 
-module.exports = ShatterStorm;
+export default ShatterStorm;

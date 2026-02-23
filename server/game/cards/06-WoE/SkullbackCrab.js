@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class SkullbackCrab extends Card {
     // Poison. (Any damage dealt by this creatures power during a fight destroys the damaged creature.)
     // Action: Steal 1.
@@ -12,4 +11,4 @@ class SkullbackCrab extends Card {
 
 SkullbackCrab.id = 'skullback-crab';
 
-module.exports = SkullbackCrab;
+export default SkullbackCrab;

@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class Flarie extends Card {
     // At the start of your turn, gain 1 amber.
     setupCardAbilities(ability) {
@@ -14,4 +13,4 @@ class Flarie extends Card {
 
 Flarie.id = 'flarie';
 
-module.exports = Flarie;
+export default Flarie;

@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class TaxingJourney extends Card {
     // Play: A friendly creature captures 1A. Each of its neighbors that shares a house with it also captures 1A.
     setupCardAbilities(ability) {
@@ -32,4 +31,4 @@ class TaxingJourney extends Card {
 
 TaxingJourney.id = 'taxing-journey';
 
-module.exports = TaxingJourney;
+export default TaxingJourney;

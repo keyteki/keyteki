@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class CupOfWater extends Card {
     // Play: Stun each Cyborg creature and each Robot creature.
     setupCardAbilities(ability) {
@@ -15,4 +14,4 @@ class CupOfWater extends Card {
 
 CupOfWater.id = 'cup-of-water';
 
-module.exports = CupOfWater;
+export default CupOfWater;

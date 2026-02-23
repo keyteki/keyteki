@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class DestroyThemAll extends Card {
     // Play: Destroy an artifact, a creature,
     // and an upgrade.
@@ -32,4 +31,4 @@ class DestroyThemAll extends Card {
 
 DestroyThemAll.id = 'destroy-them-all';
 
-module.exports = DestroyThemAll;
+export default DestroyThemAll;

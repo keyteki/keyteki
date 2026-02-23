@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class BatarielOfTheGrey extends Card {
     // After Reap: Ready each Disciple.
     setupCardAbilities(ability) {
@@ -13,4 +12,4 @@ class BatarielOfTheGrey extends Card {
 
 BatarielOfTheGrey.id = 'batariel-of-the-grey';
 
-module.exports = BatarielOfTheGrey;
+export default BatarielOfTheGrey;

@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class Synchronizer extends Card {
     // Each friendly Clock creature gains, “Destroyed: Move half the time
     // counters (rounding up) from this creature to Synchronizer.”
@@ -38,4 +37,4 @@ class Synchronizer extends Card {
 
 Synchronizer.id = 'synchronizer';
 
-module.exports = Synchronizer;
+export default Synchronizer;

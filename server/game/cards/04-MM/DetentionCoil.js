@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class DetentionCoil extends Card {
     // This creature cannot fight.
     setupCardAbilities(ability) {
@@ -11,4 +10,4 @@ class DetentionCoil extends Card {
 
 DetentionCoil.id = 'detention-coil';
 
-module.exports = DetentionCoil;
+export default DetentionCoil;

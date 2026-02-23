@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class Lamindra extends Card {
     // Deploy. (This creature can enter play anywhere in your battleline.)
     // Elusive.(The first time this creature is attacked each turn, no damage is dealt.)
@@ -14,4 +13,4 @@ class Lamindra extends Card {
 
 Lamindra.id = 'lamindra';
 
-module.exports = Lamindra;
+export default Lamindra;

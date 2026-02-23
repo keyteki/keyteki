@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class Pelf extends Card {
     // Skirmish. (When you use this creature to fight, it is dealt no damage in return.)
     // After Fight: Your opponent loses 1.
@@ -12,4 +11,4 @@ class Pelf extends Card {
 
 Pelf.id = 'pelf';
 
-module.exports = Pelf;
+export default Pelf;

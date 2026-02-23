@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class PhalanxLeader extends Card {
     // Play: Make a token creature immediately to Phalanx Leader's left.
     // After Fight/After Reap: Each creature to Phalanx Leader's left gets +2 power for the remainder of the turn.
@@ -25,4 +24,4 @@ class PhalanxLeader extends Card {
 
 PhalanxLeader.id = 'phalanx-leader';
 
-module.exports = PhalanxLeader;
+export default PhalanxLeader;

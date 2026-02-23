@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class TachyonManifold extends Card {
     // Action: Take another turn after this one. Your opponent draws
     // 10 cards. Purge Tachyon Manifold.
@@ -26,4 +25,4 @@ class TachyonManifold extends Card {
 
 TachyonManifold.id = 'tachyon-manifold';
 
-module.exports = TachyonManifold;
+export default TachyonManifold;

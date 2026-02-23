@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class Ceaseforge extends Card {
     // Play: Put 2 time counters on Ceaseforge.
     // Players cannot forge keys.
@@ -36,4 +35,4 @@ class Ceaseforge extends Card {
 
 Ceaseforge.id = 'ceaseforge';
 
-module.exports = Ceaseforge;
+export default Ceaseforge;

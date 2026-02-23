@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class BinateRupture extends Card {
     // Alpha. (You can only play this card before doing anything else this step.)
     // Play: Each player gains A equal to
@@ -23,4 +22,4 @@ class BinateRupture extends Card {
 
 BinateRupture.id = 'binate-rupture';
 
-module.exports = BinateRupture;
+export default BinateRupture;

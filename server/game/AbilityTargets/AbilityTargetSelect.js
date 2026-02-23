@@ -1,8 +1,7 @@
-const _ = require('underscore');
-const SelectChoice = require('./SelectChoice.js');
-const AbilityTarget = require('./AbilityTarget.js');
-const Optional = require('../optional.js');
-
+import _ from 'underscore';
+import SelectChoice from './SelectChoice.js';
+import AbilityTarget from './AbilityTarget.js';
+import Optional from '../optional.js';
 class AbilityTargetSelect extends AbilityTarget {
     constructor(name, properties, ability) {
         super(name, properties, ability);
@@ -152,4 +151,4 @@ class AbilityTargetSelect extends AbilityTarget {
     }
 }
 
-module.exports = AbilityTargetSelect;
+export default AbilityTargetSelect;

@@ -1,5 +1,4 @@
-const AllPlayerPrompt = require('../allplayerprompt');
-
+import AllPlayerPrompt from '../allplayerprompt.js';
 class ChainBiddingPrompt extends AllPlayerPrompt {
     constructor(game, bidDeck) {
         super(game);
@@ -62,4 +61,4 @@ class ChainBiddingPrompt extends AllPlayerPrompt {
     }
 }
 
-module.exports = ChainBiddingPrompt;
+export default ChainBiddingPrompt;

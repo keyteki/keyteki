@@ -1,5 +1,4 @@
-const BasePlayAction = require('./BasePlayAction');
-
+import BasePlayAction from './BasePlayAction.js';
 class PlayAction extends BasePlayAction {
     constructor(card) {
         super(card);
@@ -34,4 +33,4 @@ class PlayAction extends BasePlayAction {
     }
 }
 
-module.exports = PlayAction;
+export default PlayAction;

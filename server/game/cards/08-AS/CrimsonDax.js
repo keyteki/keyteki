@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class CrimsonDax extends Card {
     // After Reap: You may reveal a non-Mars card from your hand. If you do, purge it and give a Mars creature three +1 power counters.
     setupCardAbilities(ability) {
@@ -26,4 +25,4 @@ class CrimsonDax extends Card {
 
 CrimsonDax.id = 'crimson-dax';
 
-module.exports = CrimsonDax;
+export default CrimsonDax;

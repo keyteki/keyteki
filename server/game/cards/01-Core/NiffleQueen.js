@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class NiffleQueen extends Card {
     // Each other friendly Beast creature gets +1 power.
     // Each other friendly Niffle creature gets +1 power.
@@ -20,4 +19,4 @@ class NiffleQueen extends Card {
 
 NiffleQueen.id = 'niffle-queen';
 
-module.exports = NiffleQueen;
+export default NiffleQueen;

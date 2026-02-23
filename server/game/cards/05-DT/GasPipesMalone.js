@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class GasPipesMalone extends Card {
     // Before Fight: The creature Gas-Pipes Malone fights captures 1A from its own side.
     setupCardAbilities(ability) {
@@ -15,4 +14,4 @@ class GasPipesMalone extends Card {
 
 GasPipesMalone.id = 'gas-pipes-malone';
 
-module.exports = GasPipesMalone;
+export default GasPipesMalone;

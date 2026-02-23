@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class HonoredBattlemaster extends Card {
     // Enhance . Action: Ready and fight with one of Honored Battlemaster's neighbors.
     setupCardAbilities(ability) {
@@ -20,4 +19,4 @@ class HonoredBattlemaster extends Card {
 
 HonoredBattlemaster.id = 'honored-battlemaster';
 
-module.exports = HonoredBattlemaster;
+export default HonoredBattlemaster;

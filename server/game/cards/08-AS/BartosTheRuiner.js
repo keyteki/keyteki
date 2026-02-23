@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class BartosTheRuiner extends Card {
     // Each non-Mars creature and artifact gains, “After this card is
     // used, destroy it.”
@@ -22,4 +21,4 @@ class BartosTheRuiner extends Card {
 
 BartosTheRuiner.id = 'bartos-the-ruiner';
 
-module.exports = BartosTheRuiner;
+export default BartosTheRuiner;

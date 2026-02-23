@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class WakingNightmare extends Card {
     // Enhance PT. (These icons have already been added to cards in your deck.)
     // Play: Keys cost +1A for each Dis creature in play during your opponents next turn.
@@ -19,4 +18,4 @@ class WakingNightmare extends Card {
 
 WakingNightmare.id = 'waking-nightmare';
 
-module.exports = WakingNightmare;
+export default WakingNightmare;

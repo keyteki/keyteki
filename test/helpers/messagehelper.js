@@ -4,7 +4,7 @@
  * @param {Array<string>} expectedMessages - Array of messages to check in order
  * @returns {Object} Result with pass boolean and message function
  */
-function checkAllMessages(context, expectedMessages) {
+export function checkAllMessages(context, expectedMessages) {
     if (!expectedMessages || expectedMessages.length === 0) {
         return { pass: false, message: () => 'Expected messages array cannot be empty' };
     }
@@ -66,4 +66,4 @@ function checkAllMessages(context, expectedMessages) {
     return { pass: true, message: () => '' };
 }
 
-module.exports = { checkAllMessages };
+export default { checkAllMessages };

@@ -1,9 +1,8 @@
-const ChessClock = require('./ChessClock');
-
+import ChessClock from './ChessClock.js';
 class Byoyomi extends ChessClock {
     updateTimeLeft(secs) {
         super.updateTimeLeft(secs - (secs % 30));
     }
 }
 
-module.exports = Byoyomi;
+export default Byoyomi;

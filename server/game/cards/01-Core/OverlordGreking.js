@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class OverlordGreking extends Card {
     // After an enemy creature is destroyed fighting Overlord Greking, put that creature into play under your control.
     setupCardAbilities(ability) {
@@ -28,4 +27,4 @@ class OverlordGreking extends Card {
 
 OverlordGreking.id = 'overlord-greking';
 
-module.exports = OverlordGreking;
+export default OverlordGreking;

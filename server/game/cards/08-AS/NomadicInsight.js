@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class NomadicInsight extends Card {
     // Play: Each friendly flank creature captures 1A.
     setupCardAbilities(ability) {
@@ -17,4 +16,4 @@ class NomadicInsight extends Card {
 
 NomadicInsight.id = 'nomadic-insight';
 
-module.exports = NomadicInsight;
+export default NomadicInsight;

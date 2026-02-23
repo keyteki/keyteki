@@ -1,8 +1,7 @@
-const _ = require('underscore');
-const AbilityContext = require('../AbilityContext.js');
-const EffectSource = require('../EffectSource.js');
-const UiPrompt = require('./uiprompt.js');
-
+import _ from 'underscore';
+import AbilityContext from '../AbilityContext.js';
+import EffectSource from '../EffectSource.js';
+import UiPrompt from './uiprompt.js';
 /**
  * General purpose menu prompt. Takes a choices object with menu options and
  * a handler for each. Handlers should return true in order to complete the
@@ -172,4 +171,4 @@ class HandlerMenuPrompt extends UiPrompt {
     }
 }
 
-module.exports = HandlerMenuPrompt;
+export default HandlerMenuPrompt;

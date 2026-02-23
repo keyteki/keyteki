@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class CommanderDhrxgar extends Card {
     // After an upgrade is attached to Commander Dhrxgar or 1 of its neighbors, gain 1.
     setupCardAbilities(ability) {
@@ -16,4 +15,4 @@ class CommanderDhrxgar extends Card {
 
 CommanderDhrxgar.id = 'commander-dhrxgar';
 
-module.exports = CommanderDhrxgar;
+export default CommanderDhrxgar;

@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class UndagnathusEvilTwin extends Card {
     // (T) While the tide is low, double all damage dealt to Undagnathus.
     setupCardAbilities(ability) {
@@ -19,4 +18,4 @@ class UndagnathusEvilTwin extends Card {
 
 UndagnathusEvilTwin.id = 'undagnathus-evil-twin';
 
-module.exports = UndagnathusEvilTwin;
+export default UndagnathusEvilTwin;

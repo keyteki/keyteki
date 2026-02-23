@@ -1,12 +1,13 @@
 /*eslint no-console:0 */
-const commandLineArgs = require('command-line-args');
-const path = require('path');
-const fs = require('fs');
-const { execSync } = require('child_process');
-
-const CardGenerator = require('./generatecards/CardGenerator');
-const JsonCardSource = require('./fetchdata/JsonCardSource');
-
+import commandLineArgs from 'command-line-args';
+import path from 'path';
+import fs from 'fs';
+import { execSync } from 'child_process';
+import CardGenerator from './generatecards/CardGenerator.js';
+import JsonCardSource from './fetchdata/JsonCardSource.js';
+import { fileURLToPath } from 'url';
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 const optionsDefinition = [
     { name: 'card-source', type: String, defaultValue: 'json' },
     {

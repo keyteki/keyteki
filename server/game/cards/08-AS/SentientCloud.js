@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class SentientCloud extends Card {
     // Each friendly creature with the highest power gains, “After
     // Fight: Gain 2A.”
@@ -22,4 +21,4 @@ class SentientCloud extends Card {
 
 SentientCloud.id = 'sentient-cloud';
 
-module.exports = SentientCloud;
+export default SentientCloud;

@@ -1,5 +1,4 @@
-const GiganticCard = require('../../GiganticCard.js');
-
+import GiganticCard from '../../GiganticCard.js';
 class TitanicBumblebird extends GiganticCard {
     // (Play only with the other half of Titanic Bumblebird.)
     // Play/After Reap: Destroy an enemy creature. If you do, give +1 power
@@ -48,4 +47,4 @@ class TitanicBumblebird extends GiganticCard {
 
 TitanicBumblebird.id = 'titanic-bumblebird';
 
-module.exports = TitanicBumblebird;
+export default TitanicBumblebird;

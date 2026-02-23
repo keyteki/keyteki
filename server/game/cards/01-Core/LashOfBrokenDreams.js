@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class LashOfBrokenDreams extends Card {
     // Action: Keys cost +3A during your opponents next turn.
     setupCardAbilities(ability) {
@@ -16,4 +15,4 @@ class LashOfBrokenDreams extends Card {
 
 LashOfBrokenDreams.id = 'lash-of-broken-dreams';
 
-module.exports = LashOfBrokenDreams;
+export default LashOfBrokenDreams;

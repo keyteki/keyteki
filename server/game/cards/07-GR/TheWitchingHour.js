@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class TheWitchingHour extends Card {
     // Play: Return each Witch creature from your discard pile to your hand.
     setupCardAbilities(ability) {
@@ -16,4 +15,4 @@ class TheWitchingHour extends Card {
 
 TheWitchingHour.id = 'the-witching-hour';
 
-module.exports = TheWitchingHour;
+export default TheWitchingHour;

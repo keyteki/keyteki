@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class StrongerTogether extends Card {
     // Play: Ready each Star Alliance creature that has 2 non-Star
     // Alliance neighbors of different houses.
@@ -25,4 +24,4 @@ class StrongerTogether extends Card {
 
 StrongerTogether.id = 'stronger-together';
 
-module.exports = StrongerTogether;
+export default StrongerTogether;

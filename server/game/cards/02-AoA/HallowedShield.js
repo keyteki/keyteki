@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class HallowedShield extends Card {
     // Action: Choose a creature. For the remainder of the turn, the chosen creature cannot be dealt damage.
     setupCardAbilities(ability) {
@@ -17,4 +16,4 @@ class HallowedShield extends Card {
 
 HallowedShield.id = 'hallowed-shield';
 
-module.exports = HallowedShield;
+export default HallowedShield;

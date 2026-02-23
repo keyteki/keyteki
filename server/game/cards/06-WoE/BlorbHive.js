@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class BlorbHive extends Card {
     // Omni: Destroy a friendly creature. If you do, make 2
     // Blorbs. Then, if you control 10 or more, Blorbs, destroy Blorb
@@ -38,4 +37,4 @@ class BlorbHive extends Card {
 
 BlorbHive.id = 'blorb-hive';
 
-module.exports = BlorbHive;
+export default BlorbHive;

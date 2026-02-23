@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class BattleFleet extends Card {
     // Play: Reveal any number of Mars cards from your hand. For each card revealed this way, draw 1 card.
     setupCardAbilities(ability) {
@@ -23,4 +22,4 @@ class BattleFleet extends Card {
 
 BattleFleet.id = 'battle-fleet';
 
-module.exports = BattleFleet;
+export default BattleFleet;

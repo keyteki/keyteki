@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class UnitedAction extends Card {
     // Alpha.
     // Play: For the remainder of the turn, you may play cards from any house for which you have a card in play. You cannot use cards this turn.
@@ -25,4 +24,4 @@ class UnitedAction extends Card {
 
 UnitedAction.id = 'united-action';
 
-module.exports = UnitedAction;
+export default UnitedAction;

@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class PrimordialVault extends Card {
     // At the start of your turn, make a Cultist.
     //
@@ -41,4 +40,4 @@ class PrimordialVault extends Card {
 
 PrimordialVault.id = 'primordial-vault';
 
-module.exports = PrimordialVault;
+export default PrimordialVault;

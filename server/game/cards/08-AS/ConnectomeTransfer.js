@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class ConnectomeTransfer extends Card {
     // Play: Put each flank creature into its owner’s archives.
     setupCardAbilities(ability) {
@@ -14,4 +13,4 @@ class ConnectomeTransfer extends Card {
 
 ConnectomeTransfer.id = 'connectome-transfer';
 
-module.exports = ConnectomeTransfer;
+export default ConnectomeTransfer;

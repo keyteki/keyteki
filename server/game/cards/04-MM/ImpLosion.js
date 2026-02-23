@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class ImpLosion extends Card {
     // Play: Destroy a friendly creature and an enemy creature.
     setupCardAbilities(ability) {
@@ -28,4 +27,4 @@ class ImpLosion extends Card {
 
 ImpLosion.id = 'imp-losion';
 
-module.exports = ImpLosion;
+export default ImpLosion;

@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class RitualOfTheHunt extends Card {
     // Omni: Sacrifice Ritual of the Hunt. For the remainder of the turn, you may use friendly Untamed creatures.
     setupCardAbilities(ability) {
@@ -18,4 +17,4 @@ class RitualOfTheHunt extends Card {
 
 RitualOfTheHunt.id = 'ritual-of-the-hunt';
 
-module.exports = RitualOfTheHunt;
+export default RitualOfTheHunt;

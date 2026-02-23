@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class MightyJavelin extends Card {
     // Omni: Sacrifice Mighty Javelin. Deal 4<D> to a creature.
     setupCardAbilities(ability) {
@@ -17,4 +16,4 @@ class MightyJavelin extends Card {
 
 MightyJavelin.id = 'mighty-javelin';
 
-module.exports = MightyJavelin;
+export default MightyJavelin;

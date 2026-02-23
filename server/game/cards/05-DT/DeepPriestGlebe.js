@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class DeepPriestGlebe extends Card {
     // After you play an Aquan creature, exhaust an enemy creature.
     setupCardAbilities(ability) {
@@ -21,4 +20,4 @@ class DeepPriestGlebe extends Card {
 
 DeepPriestGlebe.id = 'deep-priest-glebe';
 
-module.exports = DeepPriestGlebe;
+export default DeepPriestGlebe;

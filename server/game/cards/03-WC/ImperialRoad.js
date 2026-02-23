@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class ImperialRoad extends Card {
     // Omni: Play a Saurian creature. That creature enters play stunned.
     setupCardAbilities(ability) {
@@ -24,4 +23,4 @@ class ImperialRoad extends Card {
 
 ImperialRoad.id = 'imperial-road';
 
-module.exports = ImperialRoad;
+export default ImperialRoad;

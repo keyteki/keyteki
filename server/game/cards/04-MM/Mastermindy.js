@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class Mastermindy extends Card {
     // Elusive.
     // At the end of your turn, put a scheme counter on Mastermindy.
@@ -25,4 +24,4 @@ class Mastermindy extends Card {
 
 Mastermindy.id = 'mastermindy';
 
-module.exports = Mastermindy;
+export default Mastermindy;

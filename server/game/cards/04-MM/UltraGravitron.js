@@ -1,5 +1,4 @@
-const GiganticCard = require('../../GiganticCard.js');
-
+import GiganticCard from '../../GiganticCard.js';
 class UltraGravitron extends GiganticCard {
     // (Play only with the other half of Ultra Gravitron.)
     // Play: Archive the top 5 cards of your deck.
@@ -37,4 +36,4 @@ class UltraGravitron extends GiganticCard {
 
 UltraGravitron.id = 'ultra-gravitron';
 
-module.exports = UltraGravitron;
+export default UltraGravitron;

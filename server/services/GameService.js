@@ -1,8 +1,6 @@
-const _ = require('underscore');
-
-const logger = require('../log.js');
-const db = require('../db');
-
+import _ from 'underscore';
+import logger from '../log.js';
+import db from '../db/index.js';
 class GameService {
     async create(game) {
         let gameId;
@@ -178,4 +176,4 @@ class GameService {
     }
 }
 
-module.exports = GameService;
+export default GameService;

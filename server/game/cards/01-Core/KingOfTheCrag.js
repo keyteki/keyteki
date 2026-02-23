@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class KingOfTheCrag extends Card {
     // Each enemy Brobnar creature gets -2 power.
     setupCardAbilities(ability) {
@@ -13,4 +12,4 @@ class KingOfTheCrag extends Card {
 
 KingOfTheCrag.id = 'king-of-the-crag';
 
-module.exports = KingOfTheCrag;
+export default KingOfTheCrag;

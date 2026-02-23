@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class Poltergeistoids extends Card {
     // Play: Purge a card from a discard pile. If you do, play a
     // creature or artifact from your purged zone as if it were in your hand.
@@ -57,4 +56,4 @@ class Poltergeistoids extends Card {
 
 Poltergeistoids.id = 'poltergeistoids';
 
-module.exports = Poltergeistoids;
+export default Poltergeistoids;

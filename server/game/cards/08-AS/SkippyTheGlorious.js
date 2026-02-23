@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class SkippyTheGlorious extends Card {
     // Play/After Reap: Archive the top card of your deck.
     // Scrap: Use an opponent’s artifact as if it were yours. If you do, draw
@@ -32,4 +31,4 @@ class SkippyTheGlorious extends Card {
 
 SkippyTheGlorious.id = 'skippy-the-glorious';
 
-module.exports = SkippyTheGlorious;
+export default SkippyTheGlorious;

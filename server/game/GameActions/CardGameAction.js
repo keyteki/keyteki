@@ -1,6 +1,5 @@
-const GameAction = require('./GameAction');
-const CardSelector = require('../CardSelector');
-
+import GameAction from './GameAction.js';
+import CardSelector from '../CardSelector.js';
 class CardGameAction extends GameAction {
     constructor(propertyFactory) {
         super(propertyFactory);
@@ -142,4 +141,4 @@ class CardGameAction extends GameAction {
     }
 }
 
-module.exports = CardGameAction;
+export default CardGameAction;

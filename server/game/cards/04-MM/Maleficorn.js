@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class Maleficorn extends Card {
     // Enhance DDDD.
     // After an enemy creature is dealt damage by a D bonus icon, deal 1D to that creature.
@@ -19,4 +18,4 @@ class Maleficorn extends Card {
 
 Maleficorn.id = 'maleficorn';
 
-module.exports = Maleficorn;
+export default Maleficorn;

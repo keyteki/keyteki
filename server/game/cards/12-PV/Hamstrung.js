@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class Hamstrung extends Card {
     // Play: Discard the top card of a player's deck. If it is a creature, purge it.
     setupCardAbilities(ability) {
@@ -51,4 +50,4 @@ class Hamstrung extends Card {
 
 Hamstrung.id = 'hamstrung';
 
-module.exports = Hamstrung;
+export default Hamstrung;

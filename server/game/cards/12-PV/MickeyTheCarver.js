@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class MickeyTheCarver extends Card {
     // Hazardous 2.
     // After a player chooses an active house other than Shadows, steal 1A.
@@ -15,4 +14,4 @@ class MickeyTheCarver extends Card {
 
 MickeyTheCarver.id = 'mickey-the-carver';
 
-module.exports = MickeyTheCarver;
+export default MickeyTheCarver;

@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class Murmook extends Card {
     // Your opponents keys cost +1<A>.
     setupCardAbilities(ability) {
@@ -12,4 +11,4 @@ class Murmook extends Card {
 
 Murmook.id = 'murmook';
 
-module.exports = Murmook;
+export default Murmook;

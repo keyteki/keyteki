@@ -1,5 +1,4 @@
-const AbilityResolver = require('../../../server/game/gamesteps/abilityresolver.js');
-
+import AbilityResolver from '../../../server/game/gamesteps/abilityresolver.js';
 describe.skip('AbilityResolver', function () {
     beforeEach(function () {
         this.game = {

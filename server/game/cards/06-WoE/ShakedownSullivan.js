@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class ShakedownSullivan extends Card {
     // After Reap: Choose a creature and discard the top card of its
     // controller's deck. If that card shares a housewith the chosen creature,
@@ -38,4 +37,4 @@ class ShakedownSullivan extends Card {
 
 ShakedownSullivan.id = 'shakedown-sullivan';
 
-module.exports = ShakedownSullivan;
+export default ShakedownSullivan;

@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class StirCrazy extends Card {
     //Play: Each ready creature captures 1A from its opponent.
     setupCardAbilities(ability) {
@@ -22,4 +21,4 @@ class StirCrazy extends Card {
 
 StirCrazy.id = 'stir-crazy';
 
-module.exports = StirCrazy;
+export default StirCrazy;

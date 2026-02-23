@@ -1,6 +1,5 @@
-const { EVENTS } = require('../Events/types');
-const PlayerAction = require('./PlayerAction');
-
+import { EVENTS } from '../Events/types.js';
+import PlayerAction from './PlayerAction.js';
 class ForgeAction extends PlayerAction {
     setDefaultProperties() {
         this.modifier = 0;
@@ -44,4 +43,4 @@ class ForgeAction extends PlayerAction {
     }
 }
 
-module.exports = ForgeAction;
+export default ForgeAction;

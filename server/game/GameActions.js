@@ -1,5 +1,4 @@
-const GameActions = require('./GameActions/index');
-
+import GameActions from './GameActions/index.js';
 const Actions = {
     // card actions
     addPowerCounter: (propertyFactory) => new GameActions.AddTokenAction(propertyFactory, 'power'),
@@ -181,4 +180,4 @@ const Actions = {
     resolveFate: (propertyFactory) => new GameActions.ResolveFateAction(propertyFactory)
 };
 
-module.exports = Actions;
+export default Actions;

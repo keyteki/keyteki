@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class SkyboosterSquadron extends Card {
     // Reap: Return Skybooster Squadron to your hand.
     setupCardAbilities(ability) {
@@ -11,4 +10,4 @@ class SkyboosterSquadron extends Card {
 
 SkyboosterSquadron.id = 'skybooster-squadron';
 
-module.exports = SkyboosterSquadron;
+export default SkyboosterSquadron;

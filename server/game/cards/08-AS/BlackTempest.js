@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class BlackTempest extends Card {
     // After Fight: If you have no forged keys, steal 3A. Otherwise,
     // steal 2A.
@@ -14,4 +13,4 @@ class BlackTempest extends Card {
 
 BlackTempest.id = 'black-tempest';
 
-module.exports = BlackTempest;
+export default BlackTempest;

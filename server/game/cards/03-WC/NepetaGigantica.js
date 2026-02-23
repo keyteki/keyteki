@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class NepetaGigantica extends Card {
     // Action: Stun a creature with power 5 or higher, or stun a Giant creature.
     setupCardAbilities(ability) {
@@ -15,4 +14,4 @@ class NepetaGigantica extends Card {
 
 NepetaGigantica.id = 'nepeta-gigantica';
 
-module.exports = NepetaGigantica;
+export default NepetaGigantica;

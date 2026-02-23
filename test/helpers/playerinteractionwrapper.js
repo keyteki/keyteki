@@ -1,10 +1,8 @@
 /*eslint no-console:0 */
-const _ = require('underscore');
-
-const Constants = require('../../server/constants');
-const { matchCardByNameAndPack } = require('./cardutil.js');
-const { detectBinary } = require('../../server/util');
-
+import _ from 'underscore';
+import Constants from '../../server/constants.js';
+import { matchCardByNameAndPack } from './cardutil.js';
+import { detectBinary } from '../../server/util.js';
 class PlayerInteractionWrapper {
     constructor(game, player) {
         this.game = game;
@@ -768,4 +766,4 @@ class PlayerInteractionWrapper {
     }
 }
 
-module.exports = PlayerInteractionWrapper;
+export default PlayerInteractionWrapper;

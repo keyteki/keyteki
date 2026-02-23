@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class OverclockedShockCollar extends Card {
     // This creature gains, “After Reap: Stun this creature and each
     // of its neighbors.”
@@ -24,4 +23,4 @@ class OverclockedShockCollar extends Card {
 
 OverclockedShockCollar.id = 'overclocked-shock-collar';
 
-module.exports = OverclockedShockCollar;
+export default OverclockedShockCollar;

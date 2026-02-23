@@ -1,6 +1,5 @@
-const { EVENTS } = require('../Events/types');
-const CardGameAction = require('./CardGameAction');
-
+import { EVENTS } from '../Events/types.js';
+import CardGameAction from './CardGameAction.js';
 class StunAction extends CardGameAction {
     setup() {
         this.name = 'stun';
@@ -19,4 +18,4 @@ class StunAction extends CardGameAction {
     }
 }
 
-module.exports = StunAction;
+export default StunAction;

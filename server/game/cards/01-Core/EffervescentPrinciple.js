@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class EffervescentPrinciple extends Card {
     // Play: Each player loses half their <A> (rounding down the loss). Gain 1 chain.
     setupCardAbilities(ability) {
@@ -29,4 +28,4 @@ class EffervescentPrinciple extends Card {
 
 EffervescentPrinciple.id = 'effervescent-principle';
 
-module.exports = EffervescentPrinciple;
+export default EffervescentPrinciple;

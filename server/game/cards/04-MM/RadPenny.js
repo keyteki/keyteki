@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class RadPenny extends Card {
     // Play: Steal 1A.
     // Destroyed: Shuffle Rad Penny into your deck.
@@ -15,4 +14,4 @@ class RadPenny extends Card {
 
 RadPenny.id = 'rad-penny';
 
-module.exports = RadPenny;
+export default RadPenny;

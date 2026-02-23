@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class MarsAmbassador extends Card {
     // Elusive.(The first time this creature is attacked each turn, no damage is dealt.)
     // Fight/Reap: You may play or use a Marscard this turn.
@@ -16,4 +15,4 @@ class MarsAmbassador extends Card {
 
 MarsAmbassador.id = 'mars-ambassador';
 
-module.exports = MarsAmbassador;
+export default MarsAmbassador;

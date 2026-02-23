@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class SpeedSigil extends Card {
     // The first creature played each turn enters play ready.
     setupCardAbilities(ability) {
@@ -22,4 +21,4 @@ class SpeedSigil extends Card {
 
 SpeedSigil.id = 'speed-sigil';
 
-module.exports = SpeedSigil;
+export default SpeedSigil;

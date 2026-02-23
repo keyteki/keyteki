@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class Gebuk extends Card {
     // Destroyed: Discard the top card of your deck. If it is a creature, after Gebuk leaves play, put that creature into play in Gebuks position in the battleline.
     setupCardAbilities(ability) {
@@ -32,4 +31,4 @@ class Gebuk extends Card {
 
 Gebuk.id = 'gebuk';
 
-module.exports = Gebuk;
+export default Gebuk;

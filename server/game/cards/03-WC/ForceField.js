@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class ForceField extends Card {
     // This creature gains, "Reap: Ward this creature."
     setupCardAbilities(ability) {
@@ -13,4 +12,4 @@ class ForceField extends Card {
 
 ForceField.id = 'force-field';
 
-module.exports = ForceField;
+export default ForceField;

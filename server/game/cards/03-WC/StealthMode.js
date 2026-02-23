@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class StealthMode extends Card {
     // Play: Your opponent cannot play action cards during their next turn.
     setupCardAbilities(ability) {
@@ -21,4 +20,4 @@ class StealthMode extends Card {
 
 StealthMode.id = 'stealth-mode';
 
-module.exports = StealthMode;
+export default StealthMode;

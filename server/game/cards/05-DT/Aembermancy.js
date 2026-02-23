@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class Ambermancy extends Card {
     // Play: Remove up to three +1 power counters from a creature. Gain 1A for each counter removed this way.
     setupCardAbilities(ability) {
@@ -19,4 +18,4 @@ class Ambermancy extends Card {
 
 Ambermancy.id = 'æmbermancy';
 
-module.exports = Ambermancy;
+export default Ambermancy;

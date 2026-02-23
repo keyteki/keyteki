@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class SarielTheSteadfast extends Card {
     // While it is not your turn, your creatures cannot become exhausted.
     setupCardAbilities(ability) {
@@ -13,4 +12,4 @@ class SarielTheSteadfast extends Card {
 
 SarielTheSteadfast.id = 'sariel-the-steadfast';
 
-module.exports = SarielTheSteadfast;
+export default SarielTheSteadfast;

@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class ArmoredSpikes extends Card {
     // This creature gets +2 armor and gains hazardous 2.
     setupCardAbilities(ability) {
@@ -11,4 +10,4 @@ class ArmoredSpikes extends Card {
 
 ArmoredSpikes.id = 'armored-spikes';
 
-module.exports = ArmoredSpikes;
+export default ArmoredSpikes;

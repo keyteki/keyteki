@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class Gaius extends Card {
     // After Reap: Ward each other friendly creature with A on it.
     // Scrap: Ward a friendly creature.
@@ -24,4 +23,4 @@ class Gaius extends Card {
 
 Gaius.id = 'gaius';
 
-module.exports = Gaius;
+export default Gaius;

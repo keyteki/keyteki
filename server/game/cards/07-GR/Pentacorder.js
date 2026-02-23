@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class Pentacorder extends Card {
     // This creature gains, “Your opponent's keys cost +1A for each
     // house represented among friendly creatures.”
@@ -19,4 +18,4 @@ class Pentacorder extends Card {
 
 Pentacorder.id = 'pentacorder';
 
-module.exports = Pentacorder;
+export default Pentacorder;

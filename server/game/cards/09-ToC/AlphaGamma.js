@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class AlphaGamma extends Card {
     // Destroyed: Archive Alpha-Gamma.
     setupCardAbilities(ability) {
@@ -11,4 +10,4 @@ class AlphaGamma extends Card {
 
 AlphaGamma.id = 'alpha-gamma';
 
-module.exports = AlphaGamma;
+export default AlphaGamma;

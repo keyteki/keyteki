@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class Molluscaller extends Card {
     // After Reap: For the remainder of the turn, each friendly
     // Strange Shell gets +3 power and loses all abilities.
@@ -16,4 +15,4 @@ class Molluscaller extends Card {
 
 Molluscaller.id = 'molluscaller';
 
-module.exports = Molluscaller;
+export default Molluscaller;

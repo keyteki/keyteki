@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class Chenille extends Card {
     // Hazardous 6.
     // Action: Return a Bombyx from your discard pile to your hand.
@@ -18,4 +17,4 @@ class Chenille extends Card {
 
 Chenille.id = 'chenille';
 
-module.exports = Chenille;
+export default Chenille;

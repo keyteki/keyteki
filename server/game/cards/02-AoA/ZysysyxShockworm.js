@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class ZysysyxShockworm extends Card {
     // After an enemy creature reaps, stun it.
     setupCardAbilities(ability) {
@@ -18,4 +17,4 @@ class ZysysyxShockworm extends Card {
 
 ZysysyxShockworm.id = 'zysysyx-shockworm';
 
-module.exports = ZysysyxShockworm;
+export default ZysysyxShockworm;

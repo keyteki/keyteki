@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class PunctuatedEquilibrium extends Card {
     // Play: Each player discards their hand, then refills their hand as if it were the end of their turn.
     setupCardAbilities(ability) {
@@ -28,4 +27,4 @@ class PunctuatedEquilibrium extends Card {
 
 PunctuatedEquilibrium.id = 'punctuated-equilibrium';
 
-module.exports = PunctuatedEquilibrium;
+export default PunctuatedEquilibrium;

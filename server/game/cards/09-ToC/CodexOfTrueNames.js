@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class CodexOfTrueNames extends Card {
     // Action: Destroy Codex of True Names. If you do, return each
     // friendly Catena Fiend to its owner’s hand. For each card
@@ -40,4 +39,4 @@ class CodexOfTrueNames extends Card {
 
 CodexOfTrueNames.id = 'codex-of-true-names';
 
-module.exports = CodexOfTrueNames;
+export default CodexOfTrueNames;

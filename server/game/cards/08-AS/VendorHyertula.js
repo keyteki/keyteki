@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class VendorHyertula extends Card {
     // After Reap: You may destroy Vendor Hyertula. If you do, take
     // control of an enemy artifact. While under your control, it
@@ -38,4 +37,4 @@ class VendorHyertula extends Card {
 
 VendorHyertula.id = 'vendor-hyertula';
 
-module.exports = VendorHyertula;
+export default VendorHyertula;

@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class Priest extends Card {
     // Action: Exhaust an enemy creature.
     setupCardAbilities(ability) {
@@ -15,4 +14,4 @@ class Priest extends Card {
 
 Priest.id = 'priest';
 
-module.exports = Priest;
+export default Priest;

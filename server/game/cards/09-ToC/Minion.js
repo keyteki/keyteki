@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class Minion extends Card {
     // After Reap: Put the top card of a haunted player’s discard pile
     // on top of its owner’s deck.
@@ -29,4 +28,4 @@ class Minion extends Card {
 
 Minion.id = 'minion';
 
-module.exports = Minion;
+export default Minion;

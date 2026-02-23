@@ -1,9 +1,7 @@
-const { randomUUID } = require('node:crypto');
-
-const Card = require('./Card.js');
-const Spectator = require('./spectator.js');
-const Player = require('./player.js');
-
+import { randomUUID } from 'node:crypto';
+import Card from './Card.js';
+import Spectator from './spectator.js';
+import Player from './player.js';
 class GameChat {
     constructor(game) {
         this.messages = [];
@@ -134,4 +132,4 @@ class GameChat {
     }
 }
 
-module.exports = GameChat;
+export default GameChat;

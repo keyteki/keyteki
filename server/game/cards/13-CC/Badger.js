@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class Badger extends Card {
     // Play/After Reap: For the remainder of the turn, after you play a Brobnar creature, deal 3 damage to an enemy creature.
     setupCardAbilities(ability) {
@@ -30,4 +29,4 @@ class Badger extends Card {
 
 Badger.id = 'badger';
 
-module.exports = Badger;
+export default Badger;

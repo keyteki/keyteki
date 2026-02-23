@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class Dextre extends Card {
     // Play: Capture 1<A>.
     // Destroyed: Put Dextre on top of your deck.
@@ -16,4 +15,4 @@ class Dextre extends Card {
 
 Dextre.id = 'dextre';
 
-module.exports = Dextre;
+export default Dextre;

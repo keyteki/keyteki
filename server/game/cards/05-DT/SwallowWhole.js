@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class SwallowWhole extends Card {
     // (T) Play only if the tide is high.
     // Play: Choose 2 creatures. Purge the chosen creature with the lowest power and give +1 power counters equal to its power to the other chosen creature.
@@ -42,4 +41,4 @@ class SwallowWhole extends Card {
 
 SwallowWhole.id = 'swallow-whole';
 
-module.exports = SwallowWhole;
+export default SwallowWhole;

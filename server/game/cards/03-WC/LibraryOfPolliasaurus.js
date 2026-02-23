@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class LibraryOfPolliasaurus extends Card {
     // Action: Move 1A from a friendly creature to your pool.
     setupCardAbilities(ability) {
@@ -19,4 +18,4 @@ class LibraryOfPolliasaurus extends Card {
 
 LibraryOfPolliasaurus.id = 'library-of-polliasaurus';
 
-module.exports = LibraryOfPolliasaurus;
+export default LibraryOfPolliasaurus;

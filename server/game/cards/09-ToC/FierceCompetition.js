@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class FierceCompetition extends Card {
     // Play: Make a token creature. If you and your opponent have the same
     // number of forged keys, archive Fierce Competition.
@@ -24,4 +23,4 @@ class FierceCompetition extends Card {
 
 FierceCompetition.id = 'fierce-competition';
 
-module.exports = FierceCompetition;
+export default FierceCompetition;

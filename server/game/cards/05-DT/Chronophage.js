@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class Chronophage extends Card {
     // Your opponent's creatures and artifacts gain omega. (After they play that card, end the current step.)
     setupCardAbilities(ability) {
@@ -14,4 +13,4 @@ class Chronophage extends Card {
 
 Chronophage.id = 'chronophage';
 
-module.exports = Chronophage;
+export default Chronophage;

@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class ShadowSelf extends Card {
     // Shadow Self deals no damage when fighting.
     // Damage dealt to non-Specter neighbors is dealt to Shadow Self instead.
@@ -26,4 +25,4 @@ class ShadowSelf extends Card {
 
 ShadowSelf.id = 'shadow-self';
 
-module.exports = ShadowSelf;
+export default ShadowSelf;

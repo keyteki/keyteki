@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class WatchYourStep extends Card {
     // Play: Choose a house on your opponent's identity card. If they
     // do not choose this house as their active house during their
@@ -42,4 +41,4 @@ class WatchYourStep extends Card {
 
 WatchYourStep.id = 'watch-your-step';
 
-module.exports = WatchYourStep;
+export default WatchYourStep;

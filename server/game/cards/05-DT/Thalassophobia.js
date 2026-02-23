@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class Thalassophobia extends Card {
     // Play: Discard the top 10 cards of your opponent's deck.
     setupCardAbilities(ability) {
@@ -18,4 +17,4 @@ class Thalassophobia extends Card {
 
 Thalassophobia.id = 'thalassophobia';
 
-module.exports = Thalassophobia;
+export default Thalassophobia;

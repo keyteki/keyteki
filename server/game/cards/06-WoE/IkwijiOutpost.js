@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class IkwijiOutpost extends Card {
     // Action: Put a friendly creature on the bottom of its owners deck. If you do, draw 3 cards.
     setupCardAbilities(ability) {
@@ -18,4 +17,4 @@ class IkwijiOutpost extends Card {
 
 IkwijiOutpost.id = 'ikwijĭ-outpost';
 
-module.exports = IkwijiOutpost;
+export default IkwijiOutpost;

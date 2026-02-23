@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class PsionicOfficerLang extends Card {
     // After an enemy creature reaps, archive the top card of your deck.
     setupCardAbilities(ability) {
@@ -21,4 +20,4 @@ class PsionicOfficerLang extends Card {
 
 PsionicOfficerLang.id = 'psionic-officer-lang';
 
-module.exports = PsionicOfficerLang;
+export default PsionicOfficerLang;

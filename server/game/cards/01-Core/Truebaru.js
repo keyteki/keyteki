@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class Truebaru extends Card {
     // You must lose 3<A> in order to play Truebaru.
     // Taunt. (This creatures neighbors cannot be attacked unless they have taunt.)
@@ -24,4 +23,4 @@ class Truebaru extends Card {
 
 Truebaru.id = 'truebaru';
 
-module.exports = Truebaru;
+export default Truebaru;

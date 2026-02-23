@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class UFO extends Card {
     // Play. Discard cards from the top of your deck until you discard a
     //       Mars card or run out of cards. If you discard a Mars card this way,
@@ -34,4 +33,4 @@ class UFO extends Card {
 
 UFO.id = 'ufo';
 
-module.exports = UFO;
+export default UFO;

@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class NicheMarket extends Card {
     // Each creature with the lowest power gains, “Action: Steal 1A.”
     setupCardAbilities(ability) {
@@ -23,4 +22,4 @@ class NicheMarket extends Card {
 
 NicheMarket.id = 'niche-market';
 
-module.exports = NicheMarket;
+export default NicheMarket;

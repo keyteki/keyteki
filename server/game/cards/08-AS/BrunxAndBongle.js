@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class BrunxAndBongle extends Card {
     // After Fight: If this was the first time Brunx and Bongle was
     // used this turn, you may ready and reap with it.
@@ -20,4 +19,4 @@ class BrunxAndBongle extends Card {
 
 BrunxAndBongle.id = 'brunx-and-bongle';
 
-module.exports = BrunxAndBongle;
+export default BrunxAndBongle;

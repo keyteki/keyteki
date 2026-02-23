@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class Tentacus extends Card {
     // Your opponent must pay you 1A in order to use an artifact.
     setupCardAbilities(ability) {
@@ -20,4 +19,4 @@ class Tentacus extends Card {
 
 Tentacus.id = 'tentacus';
 
-module.exports = Tentacus;
+export default Tentacus;

@@ -1,6 +1,5 @@
-const Card = require('../../Card.js');
-const { buildPlayAsCopyEffects } = require('../../helpers/playAsCopy.js');
-
+import Card from '../../Card.js';
+import { buildPlayAsCopyEffects } from '../../helpers/playAsCopy.js';
 class MimicGel extends Card {
     // Mimic Gel cannot be played unless there is another creature in play.
     // Mimic Gel enters play as a copy of another creature in play, except it belongs to house Logos.
@@ -39,4 +38,4 @@ class MimicGel extends Card {
 
 MimicGel.id = 'mimic-gel';
 
-module.exports = MimicGel;
+export default MimicGel;

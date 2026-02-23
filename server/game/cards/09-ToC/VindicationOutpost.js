@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class VindicationOutpost extends Card {
     // Action: Put a friendly creature on the bottom of its owner's
     // deck. If you do, make a token creature, ready it, and fight with it.
@@ -30,4 +29,4 @@ class VindicationOutpost extends Card {
 
 VindicationOutpost.id = 'vindication-outpost';
 
-module.exports = VindicationOutpost;
+export default VindicationOutpost;

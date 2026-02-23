@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class Undagnathus extends Card {
     // (T) While the tide is low, Undagnathus deals no damage when fighting.
     setupCardAbilities(ability) {
@@ -12,4 +11,4 @@ class Undagnathus extends Card {
 
 Undagnathus.id = 'undagnathus';
 
-module.exports = Undagnathus;
+export default Undagnathus;

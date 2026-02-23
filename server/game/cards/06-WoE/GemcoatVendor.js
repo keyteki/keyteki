@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class GemcoatVendor extends Card {
     //Action: Steal 1A. Deal 1D to $this.
     setupCardAbilities(ability) {
@@ -17,4 +16,4 @@ class GemcoatVendor extends Card {
 
 GemcoatVendor.id = 'gemcoat-vendor';
 
-module.exports = GemcoatVendor;
+export default GemcoatVendor;

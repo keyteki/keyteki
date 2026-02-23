@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class VeilOfEctoplasm extends Card {
     // Play: For each Geistoid card in your discard pile, a friendly
     // creature captures 1 A.
@@ -26,4 +25,4 @@ class VeilOfEctoplasm extends Card {
 
 VeilOfEctoplasm.id = 'veil-of-ectoplasm';
 
-module.exports = VeilOfEctoplasm;
+export default VeilOfEctoplasm;

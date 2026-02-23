@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class Mender extends Card {
     // Play/After Reap: Purge a card from a discard pile. Fully heal
     // and ward each Robot creature.
@@ -33,4 +32,4 @@ class Mender extends Card {
 
 Mender.id = 'mender';
 
-module.exports = Mender;
+export default Mender;

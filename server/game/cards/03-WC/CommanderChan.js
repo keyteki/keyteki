@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class CommanderChan extends Card {
     // Fight/Reap: Use another friendly creature.
     setupCardAbilities(ability) {
@@ -17,4 +16,4 @@ class CommanderChan extends Card {
 
 CommanderChan.id = 'commander-chan';
 
-module.exports = CommanderChan;
+export default CommanderChan;

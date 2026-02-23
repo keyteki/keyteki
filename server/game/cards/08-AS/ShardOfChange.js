@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 function numShards(context) {
     return (
         1 +
@@ -52,4 +51,4 @@ class ShardOfChange extends Card {
 
 ShardOfChange.id = 'shard-of-change';
 
-module.exports = ShardOfChange;
+export default ShardOfChange;

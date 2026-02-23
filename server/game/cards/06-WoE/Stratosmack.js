@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class Stratosmack extends Card {
     // Play: Deal 3 Damage to a creature. If this damage destroys that
     // creature, make a token creature.
@@ -24,4 +23,4 @@ class Stratosmack extends Card {
 
 Stratosmack.id = 'stratosmack';
 
-module.exports = Stratosmack;
+export default Stratosmack;

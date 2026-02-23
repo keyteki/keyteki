@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class UnlockedGateway extends Card {
     // Omega. (After you play this card,
     // end this step.)
@@ -15,4 +14,4 @@ class UnlockedGateway extends Card {
 
 UnlockedGateway.id = 'unlocked-gateway';
 
-module.exports = UnlockedGateway;
+export default UnlockedGateway;

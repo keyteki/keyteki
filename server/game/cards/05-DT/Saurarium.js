@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class Saurarium extends Card {
     // Each creature with the lowest power cannot reap.
     setupCardAbilities(ability) {
@@ -21,4 +20,4 @@ class Saurarium extends Card {
 
 Saurarium.id = 'saurarium';
 
-module.exports = Saurarium;
+export default Saurarium;

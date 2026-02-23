@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class Gargantodon extends Card {
     // Gargantodon enters play stunned.
     // Gargantodon only deals 4D when fighting.
@@ -51,4 +50,4 @@ class Gargantodon extends Card {
 
 Gargantodon.id = 'gargantodon';
 
-module.exports = Gargantodon;
+export default Gargantodon;

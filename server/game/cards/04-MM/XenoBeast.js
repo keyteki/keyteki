@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class XenoBeast extends Card {
     // Skirmish. (When you use this creature to fight, it is dealt no damage in return.)
     // Fight: Look at the top 3 cards of your deck. Put 1 into your hand and 1 on the bottom of your deck.
@@ -28,4 +27,4 @@ class XenoBeast extends Card {
 
 XenoBeast.id = 'xeno-beast';
 
-module.exports = XenoBeast;
+export default XenoBeast;

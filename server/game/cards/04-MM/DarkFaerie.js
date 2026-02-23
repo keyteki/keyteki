@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class DarkFaerie extends Card {
     // Skirmish. (When you use this creature to fight, it is dealt no damage in return.)
     // Fight: Gain 2A.
@@ -16,4 +15,4 @@ class DarkFaerie extends Card {
 
 DarkFaerie.id = 'dark-faerie';
 
-module.exports = DarkFaerie;
+export default DarkFaerie;

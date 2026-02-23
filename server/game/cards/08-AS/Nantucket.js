@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class Nantucket extends Card {
     // After Fight/After Reap: Gain 1A for each of Nantucket’s Skyborn
     // neighbors.
@@ -15,4 +14,4 @@ class Nantucket extends Card {
 
 Nantucket.id = 'nantucket';
 
-module.exports = Nantucket;
+export default Nantucket;

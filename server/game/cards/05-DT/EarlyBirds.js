@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class EarlyBirds extends Card {
     // Alpha.
     // Play: Ready each Shadows card.
@@ -14,4 +13,4 @@ class EarlyBirds extends Card {
 
 EarlyBirds.id = 'early-birds';
 
-module.exports = EarlyBirds;
+export default EarlyBirds;

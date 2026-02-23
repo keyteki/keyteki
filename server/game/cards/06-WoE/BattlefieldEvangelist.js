@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class BattlefieldEvangelist extends Card {
     //After Fight: Make a token creature.
     setupCardAbilities(ability) {
@@ -11,4 +10,4 @@ class BattlefieldEvangelist extends Card {
 
 BattlefieldEvangelist.id = 'battlefield-evangelist';
 
-module.exports = BattlefieldEvangelist;
+export default BattlefieldEvangelist;

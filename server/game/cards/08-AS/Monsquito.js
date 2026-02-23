@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class Monsquito extends Card {
     // After Fight: Fully heal Monsquito. Deal 2D to a creature.
     setupCardAbilities(ability) {
@@ -18,4 +17,4 @@ class Monsquito extends Card {
 
 Monsquito.id = 'monsquito';
 
-module.exports = Monsquito;
+export default Monsquito;

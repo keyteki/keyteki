@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class Cowfyne extends Card {
     // Before Fight: Deal 2D to each neighbor of the creature Cowfyne fights.
     setupCardAbilities(ability) {
@@ -15,4 +14,4 @@ class Cowfyne extends Card {
 
 Cowfyne.id = 'cowfyne';
 
-module.exports = Cowfyne;
+export default Cowfyne;

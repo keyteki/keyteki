@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class VezymaThinkdrone extends Card {
     // Reap: You may archive a friendly creature or artifact from play.
     setupCardAbilities(ability) {
@@ -16,4 +15,4 @@ class VezymaThinkdrone extends Card {
 
 VezymaThinkdrone.id = 'vezyma-thinkdrone';
 
-module.exports = VezymaThinkdrone;
+export default VezymaThinkdrone;

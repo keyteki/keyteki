@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class BiomatrixBackup extends Card {
     // This creature gains, Destroyed: You may put this creature into its owner's archives.
     setupCardAbilities(ability) {
@@ -13,4 +12,4 @@ class BiomatrixBackup extends Card {
 
 BiomatrixBackup.id = 'biomatrix-backup';
 
-module.exports = BiomatrixBackup;
+export default BiomatrixBackup;

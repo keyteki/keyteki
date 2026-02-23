@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class CementShoes extends Card {
     // (T) Play: Deal 2D to a creature. If this damage destroys that creature, raise the tide.
     setupCardAbilities(ability) {
@@ -22,4 +21,4 @@ class CementShoes extends Card {
 
 CementShoes.id = 'cement-shoes';
 
-module.exports = CementShoes;
+export default CementShoes;

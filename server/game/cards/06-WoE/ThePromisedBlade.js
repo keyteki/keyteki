@@ -1,6 +1,5 @@
-const Card = require('../../Card.js');
-const EventRegistrar = require('../../eventregistrar.js');
-
+import Card from '../../Card.js';
+import EventRegistrar from '../../eventregistrar.js';
 class ThePromisedBlade extends Card {
     // At the start of each player's turn, the player with the fewest creatures in play takes control of The Promised Blade.
     // Omni: A friendly creature captures 1 amber.
@@ -91,4 +90,4 @@ class ThePromisedBlade extends Card {
 
 ThePromisedBlade.id = 'the-promised-blade';
 
-module.exports = ThePromisedBlade;
+export default ThePromisedBlade;

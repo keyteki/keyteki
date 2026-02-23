@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class VestedHarold extends Card {
     // Scrap: Choose a friendly creature and an enemy creature. Put
     // each chosen creature into its owner's archives.
@@ -33,4 +32,4 @@ class VestedHarold extends Card {
 
 VestedHarold.id = 'vĕsted-harŏld';
 
-module.exports = VestedHarold;
+export default VestedHarold;

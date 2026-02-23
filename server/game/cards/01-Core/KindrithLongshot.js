@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class KindrithLongshot extends Card {
     // Elusive. Skirmish.
     // Reap: Deal 2D to a creature.
@@ -15,4 +14,4 @@ class KindrithLongshot extends Card {
 
 KindrithLongshot.id = 'kindrith-longshot';
 
-module.exports = KindrithLongshot;
+export default KindrithLongshot;

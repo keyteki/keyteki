@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class EclecticAmbrosius extends Card {
     // At the end of your turn, put a knowledge counter on Eclectic Ambrosius.
     // Action: Remove 3 knowledge counters from Eclectic Ambrosius. If you do, gain 6A.
@@ -23,4 +22,4 @@ class EclecticAmbrosius extends Card {
 
 EclecticAmbrosius.id = 'eclectic-ambrosius';
 
-module.exports = EclecticAmbrosius;
+export default EclecticAmbrosius;

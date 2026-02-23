@@ -1,6 +1,5 @@
-const { EVENTS } = require('../Events/types');
-const CardGameAction = require('./CardGameAction');
-
+import { EVENTS } from '../Events/types.js';
+import CardGameAction from './CardGameAction.js';
 class CardLastingEffectAction extends CardGameAction {
     setDefaultProperties() {
         this.duration = 'untilPlayerTurnEnd';
@@ -74,4 +73,4 @@ class CardLastingEffectAction extends CardGameAction {
     }
 }
 
-module.exports = CardLastingEffectAction;
+export default CardLastingEffectAction;

@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class GiltspineNetcasterEvilTwin extends Card {
     // Enhance (PTPT). (These icons have already been added to cards in your deck.)
     // Reap: Ready and use a friendly non-Aquan creature.
@@ -21,4 +20,4 @@ class GiltspineNetcasterEvilTwin extends Card {
 
 GiltspineNetcasterEvilTwin.id = 'giltspine-netcaster-evil-twin';
 
-module.exports = GiltspineNetcasterEvilTwin;
+export default GiltspineNetcasterEvilTwin;

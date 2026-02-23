@@ -1,6 +1,5 @@
-const Card = require('../../Card.js');
-const EventRegistrar = require('../../eventregistrar.js');
-
+import Card from '../../Card.js';
+import EventRegistrar from '../../eventregistrar.js';
 class BanditCulver extends Card {
     // Elusive. Enhance .
     // After you discard a Shadows card, if it is the first time you have discarded a Shadows card this turn, steal 1.
@@ -37,4 +36,4 @@ class BanditCulver extends Card {
 
 BanditCulver.id = 'bandit-culver';
 
-module.exports = BanditCulver;
+export default BanditCulver;

@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class Narplet extends Card {
     // Narplet’s neighbors gain versatile.
     setupCardAbilities(ability) {
@@ -12,4 +11,4 @@ class Narplet extends Card {
 
 Narplet.id = 'narplet';
 
-module.exports = Narplet;
+export default Narplet;

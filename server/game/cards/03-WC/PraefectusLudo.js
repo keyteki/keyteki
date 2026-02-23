@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class PraefectusLudo extends Card {
     // Each other friendly creature gains, Destroyed: Move each A from this creature to the common supply.
     setupCardAbilities(ability) {
@@ -14,4 +13,4 @@ class PraefectusLudo extends Card {
 
 PraefectusLudo.id = 'praefectus-ludo';
 
-module.exports = PraefectusLudo;
+export default PraefectusLudo;

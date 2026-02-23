@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class DontBelieveYourEyes extends Card {
     // Play: If you are haunted, a creature captures 2A from its own
     // side. Otherwise, a creature captures 1A.
@@ -21,4 +20,4 @@ class DontBelieveYourEyes extends Card {
 
 DontBelieveYourEyes.id = 'don-t-believe-your-eyes';
 
-module.exports = DontBelieveYourEyes;
+export default DontBelieveYourEyes;

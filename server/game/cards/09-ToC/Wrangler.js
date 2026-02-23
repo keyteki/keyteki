@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class Wrangler extends Card {
     // Action: Each player gains 1A.
     setupCardAbilities(ability) {
@@ -17,4 +16,4 @@ class Wrangler extends Card {
 
 Wrangler.id = 'wrangler';
 
-module.exports = Wrangler;
+export default Wrangler;

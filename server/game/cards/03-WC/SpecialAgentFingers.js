@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class SpecialAgentFingers extends Card {
     // Elusive.
     // Action: Steal 1A.
@@ -12,4 +11,4 @@ class SpecialAgentFingers extends Card {
 
 SpecialAgentFingers.id = 'special-agent-fingers';
 
-module.exports = SpecialAgentFingers;
+export default SpecialAgentFingers;

@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class RedhandRegistry extends Card {
     // After A is stolen from you, your opponent skips the "forge a key" step during their next turn.
     setupCardAbilities(ability) {
@@ -17,4 +16,4 @@ class RedhandRegistry extends Card {
 
 RedhandRegistry.id = 'redhand-registry';
 
-module.exports = RedhandRegistry;
+export default RedhandRegistry;

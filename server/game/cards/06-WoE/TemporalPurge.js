@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class TemporalPurge extends Card {
     //Play: Flip each token creature faceup. Put each non-creature card flipped this way into its owner's discard pile.
     setupCardAbilities(ability) {
@@ -13,4 +12,4 @@ class TemporalPurge extends Card {
 
 TemporalPurge.id = 'temporal-purge';
 
-module.exports = TemporalPurge;
+export default TemporalPurge;

@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class BelligerentGuard extends Card {
     // Belligerent Guard enters play ready.
     // Play: Your opponent draws a card.
@@ -19,4 +18,4 @@ class BelligerentGuard extends Card {
 
 BelligerentGuard.id = 'belligerent-guard';
 
-module.exports = BelligerentGuard;
+export default BelligerentGuard;

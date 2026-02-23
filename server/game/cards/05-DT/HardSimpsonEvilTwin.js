@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class HardSimpsonEvilTwin extends Card {
     // (T) Reap: If the tide is high, a damaged creature captures 1A from its own side.
     setupCardAbilities(ability) {
@@ -18,4 +17,4 @@ class HardSimpsonEvilTwin extends Card {
 
 HardSimpsonEvilTwin.id = 'hard-simpson-evil-twin';
 
-module.exports = HardSimpsonEvilTwin;
+export default HardSimpsonEvilTwin;

@@ -1,7 +1,6 @@
-const ActivateProphecyAction = require('./GameActions/ActivateProphecyAction');
-const DeactivateProphecyAction = require('./GameActions/DeactivateProphecyAction');
-const FulfillProphecyAction = require('./GameActions/FulfillProphecyAction');
-
+import ActivateProphecyAction from './GameActions/ActivateProphecyAction.js';
+import DeactivateProphecyAction from './GameActions/DeactivateProphecyAction.js';
+import FulfillProphecyAction from './GameActions/FulfillProphecyAction.js';
 class MenuCommands {
     static cardMenuClick(menuItem, game, player, card) {
         switch (menuItem.command) {
@@ -119,4 +118,4 @@ class MenuCommands {
     }
 }
 
-module.exports = MenuCommands;
+export default MenuCommands;

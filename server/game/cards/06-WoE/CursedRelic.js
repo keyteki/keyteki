@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class CursedRelic extends Card {
     // Enhance .
     // You cannot play Cursed Relic.
@@ -17,4 +16,4 @@ class CursedRelic extends Card {
 
 CursedRelic.id = 'cursed-relic';
 
-module.exports = CursedRelic;
+export default CursedRelic;

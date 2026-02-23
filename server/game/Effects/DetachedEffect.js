@@ -1,5 +1,4 @@
-const StaticEffect = require('./StaticEffect');
-
+import StaticEffect from './StaticEffect.js';
 class DetachedEffect extends StaticEffect {
     constructor(type, applyFunc, unapplyFunc) {
         super(type);
@@ -16,4 +15,4 @@ class DetachedEffect extends StaticEffect {
     }
 }
 
-module.exports = DetachedEffect;
+export default DetachedEffect;

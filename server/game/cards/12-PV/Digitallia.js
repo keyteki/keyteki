@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class Digitallia extends Card {
     // Enhance 1.
     // After Reap: Draw a card for each of Digitallia's Logos neighbors.
@@ -15,4 +14,4 @@ class Digitallia extends Card {
 
 Digitallia.id = 'digitallia';
 
-module.exports = Digitallia;
+export default Digitallia;

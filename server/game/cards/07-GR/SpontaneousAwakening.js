@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class SpontaneousAwakening extends Card {
     // Play: If your opponent is haunted, destroy an enemy artifact,
     // Cyborg creature, or Robot creature. If you do, play that card
@@ -59,4 +58,4 @@ class SpontaneousAwakening extends Card {
 
 SpontaneousAwakening.id = 'spontaneous-awakening';
 
-module.exports = SpontaneousAwakening;
+export default SpontaneousAwakening;

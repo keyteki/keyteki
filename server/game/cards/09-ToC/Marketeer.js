@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class Marketeer extends Card {
     // While your blue key is forged, Marketeer gains, “Action: Gain
     // 2A. Destroy Marketeer.”
@@ -17,4 +16,4 @@ class Marketeer extends Card {
 
 Marketeer.id = 'marketeer';
 
-module.exports = Marketeer;
+export default Marketeer;

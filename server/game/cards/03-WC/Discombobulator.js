@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class Discombobulator extends Card {
     // This creature gains, Your A cannot be stolen.
     setupCardAbilities(ability) {
@@ -13,4 +12,4 @@ class Discombobulator extends Card {
 
 Discombobulator.id = 'discombobulator';
 
-module.exports = Discombobulator;
+export default Discombobulator;

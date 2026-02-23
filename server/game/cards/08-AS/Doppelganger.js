@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class Doppelganger extends Card {
     // At the start of your turn, choose one of Doppelganger’s
     // neighbors.  For the remainder of the turn, Doppelganger gains
@@ -59,4 +58,4 @@ class Doppelganger extends Card {
 
 Doppelganger.id = 'doppelganger';
 
-module.exports = Doppelganger;
+export default Doppelganger;

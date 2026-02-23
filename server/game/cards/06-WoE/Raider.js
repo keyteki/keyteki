@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class Raider extends Card {
     // Raider gains poison during your turn.
     setupCardAbilities(ability) {
@@ -12,4 +11,4 @@ class Raider extends Card {
 
 Raider.id = 'raider';
 
-module.exports = Raider;
+export default Raider;

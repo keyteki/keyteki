@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class GegrrokuuSapper extends Card {
     // Play/After Fight: Take control of an enemy artifact. Give your
     // opponent control of Gegrrŏkŭŭ Sapper.
@@ -50,4 +49,4 @@ class GegrrokuuSapper extends Card {
 
 GegrrokuuSapper.id = 'gegrrŏkŭŭ-sapper';
 
-module.exports = GegrrokuuSapper;
+export default GegrrokuuSapper;

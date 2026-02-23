@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class Exhume extends Card {
     // Play: You may play a creature from your discard pile.
     setupCardAbilities(ability) {
@@ -19,4 +18,4 @@ class Exhume extends Card {
 
 Exhume.id = 'exhume';
 
-module.exports = Exhume;
+export default Exhume;

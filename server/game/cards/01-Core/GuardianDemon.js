@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class GuardianDemon extends Card {
     // Play/Fight/Reap: Heal up to 2 damage from a creature. Deal that amount of damage to another creature.
     setupCardAbilities(ability) {
@@ -32,4 +31,4 @@ class GuardianDemon extends Card {
 
 GuardianDemon.id = 'guardian-demon';
 
-module.exports = GuardianDemon;
+export default GuardianDemon;

@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class HoplitesDory extends Card {
     // This creature gets +2 power for each exhausted creature to its left.
     setupCardAbilities(ability) {
@@ -18,4 +17,4 @@ class HoplitesDory extends Card {
 
 HoplitesDory.id = 'hoplite-s-dory';
 
-module.exports = HoplitesDory;
+export default HoplitesDory;

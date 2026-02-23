@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class BlueAmberdrake extends Card {
     // Destroyed: Gain 4A. Forge your blue key at current cost.
     setupCardAbilities(ability) {
@@ -15,4 +14,4 @@ class BlueAmberdrake extends Card {
 
 BlueAmberdrake.id = 'blue-æmberdrake';
 
-module.exports = BlueAmberdrake;
+export default BlueAmberdrake;

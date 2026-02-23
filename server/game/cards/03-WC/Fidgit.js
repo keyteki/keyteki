@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class Fidgit extends Card {
     // Elusive.
     // Reap: Discard a random card from your opponents archives or the top card of their deck. If that card is an action, play it as if it were yours.
@@ -39,4 +38,4 @@ class Fidgit extends Card {
 
 Fidgit.id = 'fidgit';
 
-module.exports = Fidgit;
+export default Fidgit;

@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class CityGates extends Card {
     // Action: A friendly creature captures 1A. If that creature is a Dinosaur, it captures 2A instead.
     setupCardAbilities(ability) {
@@ -18,4 +17,4 @@ class CityGates extends Card {
 
 CityGates.id = 'city-gates';
 
-module.exports = CityGates;
+export default CityGates;

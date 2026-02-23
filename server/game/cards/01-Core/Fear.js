@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class Fear extends Card {
     // Play: Return an enemy creature to its owners hand.
     setupCardAbilities(ability) {
@@ -15,4 +14,4 @@ class Fear extends Card {
 
 Fear.id = 'fear';
 
-module.exports = Fear;
+export default Fear;

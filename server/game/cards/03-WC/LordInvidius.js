@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class LordInvidius extends Card {
     // Elusive.
     // While Lord Invidius is in the center of your battleline, it gains, Reap: Take control of an enemy flank creature and exhaust it. While under your control, it belongs to house Dis.
@@ -39,4 +38,4 @@ class LordInvidius extends Card {
 
 LordInvidius.id = 'lord-invidius';
 
-module.exports = LordInvidius;
+export default LordInvidius;

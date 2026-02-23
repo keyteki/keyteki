@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class Savant extends Card {
     // Action: You may choose a card in your archives and put it into
     // its owner’s hand. Otherwise, archive a card.
@@ -25,4 +24,4 @@ class Savant extends Card {
 
 Savant.id = 'savant';
 
-module.exports = Savant;
+export default Savant;

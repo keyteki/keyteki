@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class Masterplan extends Card {
     // Play: Put a card from your hand facedown beneath Masterplan.
     // Omni: Play the card beneath Masterplan. Sacrifice Masterplan.
@@ -28,4 +27,4 @@ class Masterplan extends Card {
 
 Masterplan.id = 'masterplan';
 
-module.exports = Masterplan;
+export default Masterplan;

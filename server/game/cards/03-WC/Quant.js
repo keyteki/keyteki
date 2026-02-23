@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class Quant extends Card {
     // Reap: You may play one non-Logos action card this turn.
     setupCardAbilities(ability) {
@@ -17,4 +16,4 @@ class Quant extends Card {
 
 Quant.id = 'quant';
 
-module.exports = Quant;
+export default Quant;

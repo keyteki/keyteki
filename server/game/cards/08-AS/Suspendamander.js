@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class Suspendamander extends Card {
     // After Fight: Choose a house. Your opponent cannot play action
     // cards of that house during their next turn.
@@ -26,4 +25,4 @@ class Suspendamander extends Card {
 
 Suspendamander.id = 'suspendamander';
 
-module.exports = Suspendamander;
+export default Suspendamander;

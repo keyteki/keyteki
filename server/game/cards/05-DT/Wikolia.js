@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class Wikolia extends Card {
     // Reap: Keys cost +2A during your opponent's next turn.
     setupCardAbilities(ability) {
@@ -16,4 +15,4 @@ class Wikolia extends Card {
 
 Wikolia.id = 'wikolia';
 
-module.exports = Wikolia;
+export default Wikolia;

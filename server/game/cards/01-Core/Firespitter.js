@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class Firespitter extends Card {
     // Before Fight: Deal 1<D> to each enemy creature.
     setupCardAbilities(ability) {
@@ -17,4 +16,4 @@ class Firespitter extends Card {
 
 Firespitter.id = 'firespitter';
 
-module.exports = Firespitter;
+export default Firespitter;

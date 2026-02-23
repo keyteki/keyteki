@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class Knoxx extends Card {
     // Knoxx gets +3 power for each neighbor it has.
     setupCardAbilities(ability) {
@@ -11,4 +10,4 @@ class Knoxx extends Card {
 
 Knoxx.id = 'knoxx';
 
-module.exports = Knoxx;
+export default Knoxx;

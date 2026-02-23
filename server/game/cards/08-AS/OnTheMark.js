@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class OnTheMark extends Card {
     // Play: Choose a friendly creature. Move each A on that creature
     // to an enemy creature.
@@ -36,4 +35,4 @@ class OnTheMark extends Card {
 
 OnTheMark.id = 'on-the-mark';
 
-module.exports = OnTheMark;
+export default OnTheMark;

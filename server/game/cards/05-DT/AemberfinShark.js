@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class AmberfinShark extends Card {
     // Play: Give Æmberfin Shark three +1 power counters.
     // At the end of your turn, remove a +1 power counter from Æmberfin Shark. If you do, each player gains 1A.
@@ -24,4 +23,4 @@ class AmberfinShark extends Card {
 
 AmberfinShark.id = 'æmberfin-shark';
 
-module.exports = AmberfinShark;
+export default AmberfinShark;

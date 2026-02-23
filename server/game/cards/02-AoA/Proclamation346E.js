@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class Proclamation346E extends Card {
     // While your opponent does not control creatures from 3different houses, their keys cost +2A.
     setupCardAbilities(ability) {
@@ -15,4 +14,4 @@ class Proclamation346E extends Card {
 
 Proclamation346E.id = 'proclamation-346e';
 
-module.exports = Proclamation346E;
+export default Proclamation346E;

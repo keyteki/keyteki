@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class Pismire extends Card {
     // While there are more friendly Mutant creatures than enemy Mutant creatures, your opponents keys cost +2A.
     setupCardAbilities(ability) {
@@ -18,4 +17,4 @@ class Pismire extends Card {
 
 Pismire.id = 'pismire';
 
-module.exports = Pismire;
+export default Pismire;

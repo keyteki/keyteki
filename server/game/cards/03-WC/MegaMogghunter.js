@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class MegaMogghunter extends Card {
     // Fight: Deal 2D to a flank creature.
     setupCardAbilities(ability) {
@@ -15,4 +14,4 @@ class MegaMogghunter extends Card {
 
 MegaMogghunter.id = 'mega-mogghunter';
 
-module.exports = MegaMogghunter;
+export default MegaMogghunter;

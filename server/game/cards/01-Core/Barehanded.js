@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class Barehanded extends Card {
     // Play: Put each artifact on top of its owners deck.
     setupCardAbilities(ability) {
@@ -13,4 +12,4 @@ class Barehanded extends Card {
 
 Barehanded.id = 'barehanded';
 
-module.exports = Barehanded;
+export default Barehanded;

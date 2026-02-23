@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class DrivingCourage extends Card {
     // Play: Ready and use a friendly Mutant creature.
     // Fate: Exhaust each friendly non-Mutant creature.
@@ -30,4 +29,4 @@ class DrivingCourage extends Card {
 
 DrivingCourage.id = 'driving-courage';
 
-module.exports = DrivingCourage;
+export default DrivingCourage;

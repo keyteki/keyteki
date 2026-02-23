@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class CWOTucheay extends Card {
     // Play/After Reap: Fully heal and use a friendly creature.
     setupCardAbilities(ability) {
@@ -20,4 +19,4 @@ class CWOTucheay extends Card {
 
 CWOTucheay.id = 'cwo-tucheay';
 
-module.exports = CWOTucheay;
+export default CWOTucheay;

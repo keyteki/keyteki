@@ -1,6 +1,5 @@
-const Card = require('../../Card.js');
-const { buildPlayAsCopyEffects } = require('../../helpers/playAsCopy.js');
-
+import Card from '../../Card.js';
+import { buildPlayAsCopyEffects } from '../../helpers/playAsCopy.js';
 class Mimicry extends Card {
     // When you play this card, treat it as a copy of an action card in your opponents discard pile.
     setupCardAbilities(ability) {
@@ -31,4 +30,4 @@ class Mimicry extends Card {
 
 Mimicry.id = 'mimicry';
 
-module.exports = Mimicry;
+export default Mimicry;

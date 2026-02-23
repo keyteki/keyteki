@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class Bubbles extends Card {
     // Play: Put an enemy creature on top of its owner's deck.
     setupCardAbilities(ability) {
@@ -15,4 +14,4 @@ class Bubbles extends Card {
 
 Bubbles.id = 'bubbles';
 
-module.exports = Bubbles;
+export default Bubbles;

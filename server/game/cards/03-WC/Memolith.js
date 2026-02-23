@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class Memolith extends Card {
     // Action: Graft an action card from your hand onto Memolith (place it faceup under this card), or trigger the play effect of an action card grafted onto Memolith.
     setupCardAbilities(ability) {
@@ -26,4 +25,4 @@ class Memolith extends Card {
 
 Memolith.id = 'memolith';
 
-module.exports = Memolith;
+export default Memolith;

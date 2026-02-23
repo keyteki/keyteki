@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 function anachronometerAbility(ability) {
     return {
         effect: 'shuffle their discard into their deck, draw a card, and discard the top {1} cards of the deck',
@@ -46,4 +45,4 @@ class Anachronometer extends Card {
 
 Anachronometer.id = 'anachronometer';
 
-module.exports = Anachronometer;
+export default Anachronometer;

@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class Dredge extends Card {
     // Play: For the remainder of the turn, each friendly creature
     // gains: "After Reap: Return a card from your discard pile to the
@@ -23,4 +22,4 @@ class Dredge extends Card {
 
 Dredge.id = 'dredge';
 
-module.exports = Dredge;
+export default Dredge;

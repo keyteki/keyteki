@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class NiffleBrute extends Card {
     // Destroyed: If Niffle Sanctuary is in your discard pile, return
     // it to your hand. Otherwise, return a Niffle card from your
@@ -40,4 +39,4 @@ class NiffleBrute extends Card {
 
 NiffleBrute.id = 'niffle-brute';
 
-module.exports = NiffleBrute;
+export default NiffleBrute;

@@ -1,11 +1,9 @@
-const passport = require('passport');
-
-const BanlistService = require('../services/BanlistService');
-const { wrapAsync } = require('../util');
-
+import passport from 'passport';
+import BanlistService from '../services/BanlistService.js';
+import { wrapAsync } from '../util.js';
 let banlistService = new BanlistService();
 
-module.exports.init = function (server) {
+export const init = function (server) {
     server.get(
         '/api/banlist',
         passport.authenticate('jwt', { session: false }),

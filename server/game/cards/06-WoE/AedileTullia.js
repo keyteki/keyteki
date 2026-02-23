@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class AedileTullia extends Card {
     // Each time you exalt a friendly non-token creature, make a token
     // creature.
@@ -20,4 +19,4 @@ class AedileTullia extends Card {
 
 AedileTullia.id = 'aedile-tullia';
 
-module.exports = AedileTullia;
+export default AedileTullia;

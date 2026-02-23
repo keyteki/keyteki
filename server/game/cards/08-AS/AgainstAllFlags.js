@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class AgainstAllFlags extends Card {
     // Play: Steal 2A if any flank creature shares a house with
     // another flank creature. Otherwise, steal 1A.
@@ -26,4 +25,4 @@ class AgainstAllFlags extends Card {
 
 AgainstAllFlags.id = 'against-all-flags';
 
-module.exports = AgainstAllFlags;
+export default AgainstAllFlags;

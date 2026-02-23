@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class HonorOrGlory extends Card {
     // Play: Choose one:
     // • Deal 3D to each flank creature.
@@ -28,4 +27,4 @@ class HonorOrGlory extends Card {
 
 HonorOrGlory.id = 'honor-or-glory';
 
-module.exports = HonorOrGlory;
+export default HonorOrGlory;

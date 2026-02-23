@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class Sinestra extends Card {
     // After your opponent plays a creature on their left flank, they lose 1A.
     setupCardAbilities(ability) {
@@ -17,4 +16,4 @@ class Sinestra extends Card {
 
 Sinestra.id = 'sinestra';
 
-module.exports = Sinestra;
+export default Sinestra;

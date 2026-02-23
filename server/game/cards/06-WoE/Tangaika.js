@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class Tangaika extends Card {
     // You cannot play Tanagaika unless you control 4 or more
     // Cultists.
@@ -26,4 +25,4 @@ class Tangaika extends Card {
 
 Tangaika.id = 'tangaika';
 
-module.exports = Tangaika;
+export default Tangaika;

@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class MissileOfficerMyers extends Card {
     // Play/After Reap: Resolve the play effect of a neighboring
     // creature as if you had just played it.
@@ -30,4 +29,4 @@ class MissileOfficerMyers extends Card {
 
 MissileOfficerMyers.id = 'missile-officer-myers';
 
-module.exports = MissileOfficerMyers;
+export default MissileOfficerMyers;

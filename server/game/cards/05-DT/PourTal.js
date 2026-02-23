@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class PourTal extends Card {
     // (T) Play: If the tide is high, archive Pour-tal. Otherwise, raise the tide.
     setupCardAbilities(ability) {
@@ -20,4 +19,4 @@ class PourTal extends Card {
 
 PourTal.id = 'pour-tal';
 
-module.exports = PourTal;
+export default PourTal;

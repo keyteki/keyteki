@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class ReservistJones extends Card {
     // Deploy.
     // Play: Capture 2 amber for each of Reservist Jones's non-Star Alliance neighbors.
@@ -17,4 +16,4 @@ class ReservistJones extends Card {
 
 ReservistJones.id = 'reservist-jones';
 
-module.exports = ReservistJones;
+export default ReservistJones;

@@ -1,9 +1,7 @@
-const _ = require('underscore');
-
-const CardSelector = require('../CardSelector.js');
-const AbilityTarget = require('./AbilityTarget.js');
-const Optional = require('../optional.js');
-
+import _ from 'underscore';
+import CardSelector from '../CardSelector.js';
+import AbilityTarget from './AbilityTarget.js';
+import Optional from '../optional.js';
 class AbilityTargetCard extends AbilityTarget {
     constructor(name, properties, ability) {
         super(name, properties, ability);
@@ -120,4 +118,4 @@ class AbilityTargetCard extends AbilityTarget {
     }
 }
 
-module.exports = AbilityTargetCard;
+export default AbilityTargetCard;

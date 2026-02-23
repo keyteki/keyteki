@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class Decadence extends Card {
     // Play: Choose one:
     // • Exalt, ready, and use a friendly creature.
@@ -47,4 +46,4 @@ class Decadence extends Card {
 
 Decadence.id = 'decadence';
 
-module.exports = Decadence;
+export default Decadence;

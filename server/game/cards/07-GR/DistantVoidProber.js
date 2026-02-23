@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class DistantVoidProber extends Card {
     // After Reap: If you are haunted, your opponent’s keys cost +3A during
     // their next turn.
@@ -30,4 +29,4 @@ class DistantVoidProber extends Card {
 
 DistantVoidProber.id = 'distant-void-prober';
 
-module.exports = DistantVoidProber;
+export default DistantVoidProber;

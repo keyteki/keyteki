@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class TalmageSteelheart extends Card {
     // Play: Give Talmage Steelheart a +1 power counter for each card you have played this turn (including this one).
     setupCardAbilities(ability) {
@@ -13,4 +12,4 @@ class TalmageSteelheart extends Card {
 
 TalmageSteelheart.id = 'talmage-steelheart';
 
-module.exports = TalmageSteelheart;
+export default TalmageSteelheart;

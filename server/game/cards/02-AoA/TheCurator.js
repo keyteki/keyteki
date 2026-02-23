@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class TheCurator extends Card {
     // Friendly artifacts enter play ready.
     setupCardAbilities(ability) {
@@ -13,4 +12,4 @@ class TheCurator extends Card {
 
 TheCurator.id = 'the-curator';
 
-module.exports = TheCurator;
+export default TheCurator;

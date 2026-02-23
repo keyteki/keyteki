@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class IgonTheGreen extends Card {
     // Destroyed: Purge Igon the Green. Return an Igon the Terrible from your discard pile to your hand.
     setupCardAbilities(ability) {
@@ -18,4 +17,4 @@ class IgonTheGreen extends Card {
 
 IgonTheGreen.id = 'igon-the-green';
 
-module.exports = IgonTheGreen;
+export default IgonTheGreen;

@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class AnkyloFormation extends Card {
     // Play: Choose one:
     // • For the remainder of the turn, a friendly creature gains skirmish.
@@ -50,4 +49,4 @@ class AnkyloFormation extends Card {
 
 AnkyloFormation.id = 'ankylo-formation';
 
-module.exports = AnkyloFormation;
+export default AnkyloFormation;

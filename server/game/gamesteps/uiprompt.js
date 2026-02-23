@@ -1,7 +1,6 @@
-const _ = require('underscore');
-const BaseStep = require('./basestep.js');
-const { randomUUID } = require('node:crypto');
-
+import _ from 'underscore';
+import BaseStep from './basestep.js';
+import { randomUUID } from 'node:crypto';
 class UiPrompt extends BaseStep {
     constructor(game) {
         super(game);
@@ -98,4 +97,4 @@ class UiPrompt extends BaseStep {
     onCompleted() {}
 }
 
-module.exports = UiPrompt;
+export default UiPrompt;

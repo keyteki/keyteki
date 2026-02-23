@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class BrassKlein extends Card {
     // While on a flank, Brass Klein gains skirmish.
     // While not on a flank, Brass Klein gains taunt.
@@ -26,4 +25,4 @@ class BrassKlein extends Card {
 
 BrassKlein.id = 'brass-klein';
 
-module.exports = BrassKlein;
+export default BrassKlein;

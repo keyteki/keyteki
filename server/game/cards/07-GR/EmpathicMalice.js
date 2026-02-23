@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class EmpathicMalice extends Card {
     // Play: A friendly creature captures 3. If you are haunted, put
     // Empathic Malice on the bottom of your deck.
@@ -25,4 +24,4 @@ class EmpathicMalice extends Card {
 
 EmpathicMalice.id = 'empathic-malice';
 
-module.exports = EmpathicMalice;
+export default EmpathicMalice;

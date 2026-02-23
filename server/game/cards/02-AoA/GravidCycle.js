@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class GravidCycle extends Card {
     // Omega. (After you play this card,
     // end this step.)
@@ -17,4 +16,4 @@ class GravidCycle extends Card {
 
 GravidCycle.id = 'gravid-cycle';
 
-module.exports = GravidCycle;
+export default GravidCycle;

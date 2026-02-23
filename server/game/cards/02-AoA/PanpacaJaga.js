@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class PanpacaJaga extends Card {
     // Skirmish.
     // Creatures to the left of Panpaca,
@@ -16,4 +15,4 @@ class PanpacaJaga extends Card {
 
 PanpacaJaga.id = 'panpaca-jaga';
 
-module.exports = PanpacaJaga;
+export default PanpacaJaga;

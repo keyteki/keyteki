@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class OhYouShouldntHave extends Card {
     setupCardAbilities(ability) {
         this.fate({
@@ -13,4 +12,4 @@ class OhYouShouldntHave extends Card {
 
 OhYouShouldntHave.id = 'oh-you-shouldn-t-have';
 
-module.exports = OhYouShouldntHave;
+export default OhYouShouldntHave;

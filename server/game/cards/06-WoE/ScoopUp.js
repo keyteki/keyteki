@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class ScoopUp extends Card {
     // Play: Put a friendly non-Mars creature and an enemy non-Mars
     // creature into your archives. If either card leaves your
@@ -39,4 +38,4 @@ class ScoopUp extends Card {
 
 ScoopUp.id = 'scoop-up';
 
-module.exports = ScoopUp;
+export default ScoopUp;

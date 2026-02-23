@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class MidyearFestivities extends Card {
     // Play: Choose 9 creatures. Move all on the chosen creatures to
     // their controllers’ pools. Destroy the chosen creatures.
@@ -30,4 +29,4 @@ class MidyearFestivities extends Card {
 
 MidyearFestivities.id = 'midyear-festivities';
 
-module.exports = MidyearFestivities;
+export default MidyearFestivities;

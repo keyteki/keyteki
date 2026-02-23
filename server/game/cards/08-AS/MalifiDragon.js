@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class MalifiDragon extends Card {
     // At the end your turn, if you have 4A or fewer, gain 2A.
     setupCardAbilities(ability) {
@@ -15,4 +14,4 @@ class MalifiDragon extends Card {
 
 MalifiDragon.id = 'malifi-dragon';
 
-module.exports = MalifiDragon;
+export default MalifiDragon;

@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class MarsFirst extends Card {
     // Play: Ready and use a friendly Mars creature.
     setupCardAbilities(ability) {
@@ -20,4 +19,4 @@ class MarsFirst extends Card {
 
 MarsFirst.id = 'mars-first';
 
-module.exports = MarsFirst;
+export default MarsFirst;

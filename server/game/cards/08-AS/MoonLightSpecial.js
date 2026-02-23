@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class MoonLightSpecial extends Card {
     // Play: Discard a random card from your hand. If you do, gain 1A.
     setupCardAbilities(ability) {
@@ -17,4 +16,4 @@ class MoonLightSpecial extends Card {
 
 MoonLightSpecial.id = 'moon-light-special';
 
-module.exports = MoonLightSpecial;
+export default MoonLightSpecial;

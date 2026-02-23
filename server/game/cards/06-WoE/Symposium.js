@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class Symposium extends Card {
     // Play: Exalt, ready, and use a friendly creature. If it is a
     // token creature, you may exalt, ready and use another friendly
@@ -43,4 +42,4 @@ class Symposium extends Card {
 
 Symposium.id = 'symposium';
 
-module.exports = Symposium;
+export default Symposium;

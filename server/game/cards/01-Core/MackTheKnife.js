@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class MackTheKnife extends Card {
     // Elusive.
     // You may use Mack the Knife as if it belonged to the active house.
@@ -30,4 +29,4 @@ class MackTheKnife extends Card {
 
 MackTheKnife.id = 'mack-the-knife';
 
-module.exports = MackTheKnife;
+export default MackTheKnife;

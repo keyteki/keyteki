@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class BrobnarAmbassador extends Card {
     // Elusive.(The first time this creature is attacked each turn, no damage is dealt.)
     // Fight/Reap: You may play or use a Brobnarcard this turn.
@@ -16,4 +15,4 @@ class BrobnarAmbassador extends Card {
 
 BrobnarAmbassador.id = 'brobnar-ambassador';
 
-module.exports = BrobnarAmbassador;
+export default BrobnarAmbassador;

@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class OxSarbane extends Card {
     // Each enemy creature gains, "After Fight/After Reap: Exhaust each friendly creature that shares a house with this creature."
     setupCardAbilities(ability) {
@@ -28,4 +27,4 @@ class OxSarbane extends Card {
 
 OxSarbane.id = 'ox-sarbane';
 
-module.exports = OxSarbane;
+export default OxSarbane;

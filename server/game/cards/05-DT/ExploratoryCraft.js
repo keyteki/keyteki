@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class ExploratoryCraft extends Card {
     // Action: Exhaust up to 3 friendly creatures. For each house represented among creatures exhausted this way, draw a card.
     setupCardAbilities(ability) {
@@ -24,4 +23,4 @@ class ExploratoryCraft extends Card {
 
 ExploratoryCraft.id = 'exploratory-craft';
 
-module.exports = ExploratoryCraft;
+export default ExploratoryCraft;

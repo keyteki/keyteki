@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class CandleUnit extends Card {
     // After an enemy creature reaps, draw a card.
     // Action: Capture 1A.
@@ -20,4 +19,4 @@ class CandleUnit extends Card {
 
 CandleUnit.id = 'cændle-unit';
 
-module.exports = CandleUnit;
+export default CandleUnit;

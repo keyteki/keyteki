@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class OddClawde extends Card {
     // Action: If your opponent has an odd amount of A, steal 1A.
     setupCardAbilities(ability) {
@@ -13,4 +12,4 @@ class OddClawde extends Card {
 
 OddClawde.id = 'odd-clawde';
 
-module.exports = OddClawde;
+export default OddClawde;

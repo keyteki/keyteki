@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class DeepwoodDruid extends Card {
     // Deploy. (This creature can enter play anywhere in your battleline.)
     // Play/Reap: Fully heal a neighboring creature.
@@ -19,4 +18,4 @@ class DeepwoodDruid extends Card {
 
 DeepwoodDruid.id = 'deepwood-druid';
 
-module.exports = DeepwoodDruid;
+export default DeepwoodDruid;

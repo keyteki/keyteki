@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class RecoveryOperation extends Card {
     // Play: Discard the bottom 3 cards of your deck. You may put any number of the discarded cards on top of your deck in any order.
     setupCardAbilities(ability) {
@@ -33,4 +32,4 @@ class RecoveryOperation extends Card {
 
 RecoveryOperation.id = 'recovery-operation';
 
-module.exports = RecoveryOperation;
+export default RecoveryOperation;

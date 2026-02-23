@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class Shooler extends Card {
     // Play: If your opponent has 4A or more, steal 1A.
     setupCardAbilities(ability) {
@@ -12,4 +11,4 @@ class Shooler extends Card {
 
 Shooler.id = 'shooler';
 
-module.exports = Shooler;
+export default Shooler;

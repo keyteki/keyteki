@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class Succubus extends Card {
     // During their draw cards step, your opponent refills their hand to 1 less card.
     setupCardAbilities(ability) {
@@ -12,4 +11,4 @@ class Succubus extends Card {
 
 Succubus.id = 'succubus';
 
-module.exports = Succubus;
+export default Succubus;

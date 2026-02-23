@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class DewFaerie extends Card {
     // Elusive. (The first time this creature is attacked each turn, no damage is dealt.)
     // Reap: Gain 1<A>.
@@ -12,4 +11,4 @@ class DewFaerie extends Card {
 
 DewFaerie.id = 'dew-faerie';
 
-module.exports = DewFaerie;
+export default DewFaerie;

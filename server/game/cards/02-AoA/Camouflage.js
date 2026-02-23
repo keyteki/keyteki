@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class Camouflage extends Card {
     // Creatures not on a flank cannot fight this creature.
     setupCardAbilities(ability) {
@@ -11,4 +10,4 @@ class Camouflage extends Card {
 
 Camouflage.id = 'camouflage';
 
-module.exports = Camouflage;
+export default Camouflage;

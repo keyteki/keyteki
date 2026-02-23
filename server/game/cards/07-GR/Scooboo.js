@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class Scooboo extends Card {
     // While Scooboo is in your discard pile, if you would draw a card
     // during your turn, you may discard the top 3 cards of your deck
@@ -38,4 +37,4 @@ class Scooboo extends Card {
 
 Scooboo.id = 'scooboo';
 
-module.exports = Scooboo;
+export default Scooboo;

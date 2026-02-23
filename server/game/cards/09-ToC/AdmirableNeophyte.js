@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class AdmirableNeophyte extends Card {
     // Play: Make a token creature.
     setupCardAbilities(ability) {
@@ -11,4 +10,4 @@ class AdmirableNeophyte extends Card {
 
 AdmirableNeophyte.id = 'admirable-neophyte';
 
-module.exports = AdmirableNeophyte;
+export default AdmirableNeophyte;

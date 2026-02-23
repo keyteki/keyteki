@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class ReallocationAccessory extends Card {
     // This creature gains, “After Reap: Archive a card. Choose a
     // player. For each card in the chosen player's archives, deal 1A
@@ -43,4 +42,4 @@ class ReallocationAccessory extends Card {
 
 ReallocationAccessory.id = 'reallocation-accessory';
 
-module.exports = ReallocationAccessory;
+export default ReallocationAccessory;

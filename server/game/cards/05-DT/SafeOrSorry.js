@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class SafeOrSorry extends Card {
     // Play: Choose one:
     // • Archive any number of friendly creatures from play.
@@ -36,4 +35,4 @@ class SafeOrSorry extends Card {
 
 SafeOrSorry.id = 'safe-or-sorry';
 
-module.exports = SafeOrSorry;
+export default SafeOrSorry;

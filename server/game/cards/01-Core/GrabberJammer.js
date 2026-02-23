@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class GrabberJammer extends Card {
     // Your opponents keys cost +1<A>.
     // Fight/Reap: Capture 1<A>.
@@ -18,4 +17,4 @@ class GrabberJammer extends Card {
 
 GrabberJammer.id = 'grabber-jammer';
 
-module.exports = GrabberJammer;
+export default GrabberJammer;

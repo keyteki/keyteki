@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class CrystallineHarvest extends Card {
     // Play: For the remainder of the turn, gain 1 amber each time you play an action card (including this one).
     // Fate: For the remainder of the turn, lose 1 amber each time you play an action card.
@@ -28,4 +27,4 @@ class CrystallineHarvest extends Card {
 
 CrystallineHarvest.id = 'crystalline-harvest';
 
-module.exports = CrystallineHarvest;
+export default CrystallineHarvest;

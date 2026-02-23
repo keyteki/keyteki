@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class PhalanxStrike extends Card {
     // Play: Choose a creature. Deal 1D to it for each friendly creature. You may exalt a friendly creature to repeat the preceding effect.
     setupCardAbilities(ability) {
@@ -42,4 +41,4 @@ class PhalanxStrike extends Card {
 
 PhalanxStrike.id = 'phalanx-strike';
 
-module.exports = PhalanxStrike;
+export default PhalanxStrike;

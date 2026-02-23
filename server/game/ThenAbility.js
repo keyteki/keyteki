@@ -1,6 +1,5 @@
-const AbilityContext = require('./AbilityContext.js');
-const BaseAbility = require('./baseability.js');
-
+import AbilityContext from './AbilityContext.js';
+import BaseAbility from './baseability.js';
 class ThenAbility extends BaseAbility {
     constructor(game, card, properties) {
         super(properties);
@@ -140,4 +139,4 @@ class ThenAbility extends BaseAbility {
     }
 }
 
-module.exports = ThenAbility;
+export default ThenAbility;

@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class TransmutingLift extends Card {
     // This creature gains, “After Reap: You may move this creature
     // anywhere in its controller’s battleline.”
@@ -19,4 +18,4 @@ class TransmutingLift extends Card {
 
 TransmutingLift.id = 'transmuting-lift';
 
-module.exports = TransmutingLift;
+export default TransmutingLift;

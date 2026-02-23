@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class Chaosodon extends Card {
     // Splash-attack 3. (When this creature attacks, also deal 3 to each of the attacked creatures neighbors.)
     // Before Fight: Deal 3 to each of Chaosodons neighbors.
@@ -17,4 +16,4 @@ class Chaosodon extends Card {
 
 Chaosodon.id = 'chaosodon';
 
-module.exports = Chaosodon;
+export default Chaosodon;

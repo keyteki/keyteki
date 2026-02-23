@@ -1,5 +1,4 @@
-const DeckBuilder = require('../helpers/deckbuilder.js');
-
+import DeckBuilder from '../helpers/deckbuilder.js';
 describe('Mulligan', function () {
     beforeEach(function () {
         const deckBuilder = new DeckBuilder();

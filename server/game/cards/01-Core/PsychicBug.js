@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class PsychicBug extends Card {
     // Play/Reap: Look at your opponents hand.
     setupCardAbilities(ability) {
@@ -15,4 +14,4 @@ class PsychicBug extends Card {
 
 PsychicBug.id = 'psychic-bug';
 
-module.exports = PsychicBug;
+export default PsychicBug;

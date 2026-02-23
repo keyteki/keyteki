@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class RakuzelsChant extends Card {
     // (T) Play: Exhaust a creature. If the tide is high, exhaust each creature instead.
     setupCardAbilities(ability) {
@@ -22,4 +21,4 @@ class RakuzelsChant extends Card {
 
 RakuzelsChant.id = 'rakuzel-s-chant';
 
-module.exports = RakuzelsChant;
+export default RakuzelsChant;

@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class PhoenixHeart extends Card {
     // This creature gains, Destroyed: Return this creature to its owners hand and deal 3D to each creature in play.
     setupCardAbilities(ability) {
@@ -20,4 +19,4 @@ class PhoenixHeart extends Card {
 
 PhoenixHeart.id = 'phoenix-heart';
 
-module.exports = PhoenixHeart;
+export default PhoenixHeart;

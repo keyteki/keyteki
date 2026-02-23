@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class Spinnertech extends Card {
     // Play/Destroyed: Choose a card in your discard pile and put it
     // on top of your deck. Make a token creature.
@@ -34,4 +33,4 @@ class Spinnertech extends Card {
 
 Spinnertech.id = 'spinnertech';
 
-module.exports = Spinnertech;
+export default Spinnertech;

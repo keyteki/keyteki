@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class BeyondAllDarkness extends Card {
     // Play: For the remainder of the turn, after a creature is
     // destroyed, make a token creature.
@@ -18,4 +17,4 @@ class BeyondAllDarkness extends Card {
 
 BeyondAllDarkness.id = 'beyond-all-darkness';
 
-module.exports = BeyondAllDarkness;
+export default BeyondAllDarkness;

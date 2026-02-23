@@ -1,12 +1,13 @@
 /*eslint no-console:0 */
 
-const fs = require('fs');
-const path = require('path');
-
-const CardService = require('../services/CardService');
-const DeckService = require('../services/DeckService');
-const ConfigService = require('../services/ConfigService');
-
+import fs from 'fs';
+import path from 'path';
+import CardService from '../services/CardService.js';
+import DeckService from '../services/DeckService.js';
+import ConfigService from '../services/ConfigService.js';
+import { fileURLToPath } from 'url';
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 class ImportStandaloneDecks {
     constructor() {
         this.cardService = new CardService(new ConfigService());

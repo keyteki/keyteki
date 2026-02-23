@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class GizelhartsStandard extends Card {
     // Each friendly creature with A on it gets +1 armor.
     // Play: Exalt a friendly creature.
@@ -21,4 +20,4 @@ class GizelhartsStandard extends Card {
 
 GizelhartsStandard.id = 'gizelhart-s-standard';
 
-module.exports = GizelhartsStandard;
+export default GizelhartsStandard;

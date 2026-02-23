@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class GreyAugur extends Card {
     // Each of Grey Augur's neighbors gains, "Fight: Gain 1A."
     setupCardAbilities(ability) {
@@ -16,4 +15,4 @@ class GreyAugur extends Card {
 
 GreyAugur.id = 'grey-augur';
 
-module.exports = GreyAugur;
+export default GreyAugur;

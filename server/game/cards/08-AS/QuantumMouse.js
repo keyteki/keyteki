@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class QuantumMouse extends Card {
     // When you would resolve a draw bonus icon, you may choose to
     // resolve it as a discard bonus icon instead.
@@ -12,4 +11,4 @@ class QuantumMouse extends Card {
 
 QuantumMouse.id = 'quantum-mouse';
 
-module.exports = QuantumMouse;
+export default QuantumMouse;

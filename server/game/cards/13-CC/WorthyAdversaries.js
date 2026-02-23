@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class WorthyAdversaries extends Card {
     // Play: Deal 1 damage to 2 different enemy creatures. Exalt each damaged creature in play.
     setupCardAbilities(ability) {
@@ -23,4 +22,4 @@ class WorthyAdversaries extends Card {
 
 WorthyAdversaries.id = 'worthy-adversaries';
 
-module.exports = WorthyAdversaries;
+export default WorthyAdversaries;

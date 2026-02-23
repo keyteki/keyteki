@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class Holdfast extends Card {
     // After 1 of Holdfast's neighbors is dealt damage, ready Holdfast.
     setupCardAbilities(ability) {
@@ -15,4 +14,4 @@ class Holdfast extends Card {
 
 Holdfast.id = 'holdfast';
 
-module.exports = Holdfast;
+export default Holdfast;

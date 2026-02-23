@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class MartianPropagandist extends Card {
     // Play/After Reap: For the remainder of the turn, each of Martian Propagandist's neighbors belong to house Mars.
     setupCardAbilities(ability) {
@@ -17,4 +16,4 @@ class MartianPropagandist extends Card {
 
 MartianPropagandist.id = 'martian-propagandist';
 
-module.exports = MartianPropagandist;
+export default MartianPropagandist;

@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class EffigyOfMelerukh extends Card {
     // After an enemy creature reaps, put an awakening counter on Effigy of Melerukh.
     // If there are 6 or more awakening counters on Effigy of Melerukh, move it to a flank of your battleline as a creature with 100 power and 100 armor. Its text box is considered blank.
@@ -37,4 +36,4 @@ class EffigyOfMelerukh extends Card {
 
 EffigyOfMelerukh.id = 'effigy-of-melerukh';
 
-module.exports = EffigyOfMelerukh;
+export default EffigyOfMelerukh;

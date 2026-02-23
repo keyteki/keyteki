@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class Brachiaditus extends Card {
     // Deploy.
     // Play: Stun each of Brachiaditus's neighbors and move 1A from each of them to the common supply.
@@ -20,4 +19,4 @@ class Brachiaditus extends Card {
 
 Brachiaditus.id = 'brachiaditus';
 
-module.exports = Brachiaditus;
+export default Brachiaditus;

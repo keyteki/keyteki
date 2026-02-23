@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class FieryJark extends Card {
     // Play: Destroy an enemy creature and a friendly creature. You
     // may repeat this effect as many times as you like, as long as it
@@ -40,4 +39,4 @@ class FieryJark extends Card {
 
 FieryJark.id = 'fiery-jark';
 
-module.exports = FieryJark;
+export default FieryJark;

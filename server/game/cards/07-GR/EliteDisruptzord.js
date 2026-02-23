@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class EliteDisruptzord extends Card {
     // Creatures more powerful than Elite Disruptzord cannot be played.
     setupCardAbilities(ability) {
@@ -16,4 +15,4 @@ class EliteDisruptzord extends Card {
 
 EliteDisruptzord.id = 'elite-disruptzord';
 
-module.exports = EliteDisruptzord;
+export default EliteDisruptzord;

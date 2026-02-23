@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class SnarriWarriorPoet extends Card {
     // Elusive. After a friendly creature is used to fight, draw a card.
     setupCardAbilities(ability) {
@@ -14,4 +13,4 @@ class SnarriWarriorPoet extends Card {
 
 SnarriWarriorPoet.id = 'snarri-warrior-poet';
 
-module.exports = SnarriWarriorPoet;
+export default SnarriWarriorPoet;

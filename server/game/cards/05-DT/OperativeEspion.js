@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class OperativeEspion extends Card {
     // Elusive. (The first time this creature is attacked each turn, no damage is dealt.)
     // (T) After a player raises the tide during their turn, they may use a creature they control.
@@ -21,4 +20,4 @@ class OperativeEspion extends Card {
 
 OperativeEspion.id = 'operative-espion';
 
-module.exports = OperativeEspion;
+export default OperativeEspion;

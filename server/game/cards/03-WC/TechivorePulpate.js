@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class TechivorePulpate extends Card {
     // After a player chooses an active house, destroy each artifact of that house.
     setupCardAbilities(ability) {
@@ -19,4 +18,4 @@ class TechivorePulpate extends Card {
 
 TechivorePulpate.id = 'techivore-pulpate';
 
-module.exports = TechivorePulpate;
+export default TechivorePulpate;

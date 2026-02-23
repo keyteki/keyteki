@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class CaptainKresageEvilTwin extends Card {
     // Each creature loses elusive, taunt, poison, and skirmish.
     setupCardAbilities(ability) {
@@ -18,4 +17,4 @@ class CaptainKresageEvilTwin extends Card {
 
 CaptainKresageEvilTwin.id = 'captain-kresage-evil-twin';
 
-module.exports = CaptainKresageEvilTwin;
+export default CaptainKresageEvilTwin;

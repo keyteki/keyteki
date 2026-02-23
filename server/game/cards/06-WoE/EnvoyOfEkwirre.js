@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class EnvoyOfEkwirre extends Card {
     // After Reap: Swap Envoy of Ekwirr with one of its neighbors. Also swap all , damage, counters, and upgrades on these creatures.
     setupCardAbilities(ability) {
@@ -20,4 +19,4 @@ class EnvoyOfEkwirre extends Card {
 
 EnvoyOfEkwirre.id = 'envoy-of-ekwirrĕ';
 
-module.exports = EnvoyOfEkwirre;
+export default EnvoyOfEkwirre;

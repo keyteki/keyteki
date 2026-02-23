@@ -1,7 +1,6 @@
-const { randomUUID } = require('node:crypto');
-const _ = require('underscore');
-const GameActions = require('./GameActions');
-
+import { randomUUID } from 'node:crypto';
+import _ from 'underscore';
+import GameActions from './GameActions.js';
 class GameObject {
     /**
      * @param {import('./game')} game
@@ -122,4 +121,4 @@ class GameObject {
     }
 }
 
-module.exports = GameObject;
+export default GameObject;

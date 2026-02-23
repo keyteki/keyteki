@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class IgonTheTerrible extends Card {
     // Play: If Igon the Green has not been purged, destroy Igon the Terrible.
     // Fight: Steal 1A.
@@ -17,4 +16,4 @@ class IgonTheTerrible extends Card {
 
 IgonTheTerrible.id = 'igon-the-terrible';
 
-module.exports = IgonTheTerrible;
+export default IgonTheTerrible;

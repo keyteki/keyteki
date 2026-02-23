@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class AxiomOfGrisk extends Card {
     // Play: Ward a creature. Destroy each creature with no A on it. Gain 2 chains.
     setupCardAbilities(ability) {
@@ -25,4 +24,4 @@ class AxiomOfGrisk extends Card {
 
 AxiomOfGrisk.id = 'axiom-of-grisk';
 
-module.exports = AxiomOfGrisk;
+export default AxiomOfGrisk;

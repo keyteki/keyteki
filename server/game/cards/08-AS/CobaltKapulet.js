@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class CobaltKapulet extends Card {
     // Reap: After Reap: Capture 2A for each of Cobalt Kapulet’s Mars neighbors.
     setupCardAbilities(ability) {
@@ -13,4 +12,4 @@ class CobaltKapulet extends Card {
 
 CobaltKapulet.id = 'cobalt-kapulet';
 
-module.exports = CobaltKapulet;
+export default CobaltKapulet;

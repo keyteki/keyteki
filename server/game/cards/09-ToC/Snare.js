@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class Snare extends Card {
     // Destroyed: If it is your turn, your opponent loses 1A.
     setupCardAbilities(ability) {
@@ -12,4 +11,4 @@ class Snare extends Card {
 
 Snare.id = 'snare';
 
-module.exports = Snare;
+export default Snare;

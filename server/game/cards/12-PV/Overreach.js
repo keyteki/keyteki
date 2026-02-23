@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class Overreach extends Card {
     // During your opponent's turn, after an enemy creature is used to reap, fulfill Overreach.
     setupCardAbilities(ability) {
@@ -19,4 +18,4 @@ class Overreach extends Card {
 
 Overreach.id = 'overreach';
 
-module.exports = Overreach;
+export default Overreach;

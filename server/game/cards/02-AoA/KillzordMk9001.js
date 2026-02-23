@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class KillzordMk9001 extends Card {
     // This creature gets +2 armor and +2 power.
     // This creature gains skirmish and, Fight: Gain 1chain.
@@ -19,4 +18,4 @@ class KillzordMk9001 extends Card {
 
 KillzordMk9001.id = 'killzord-mk-9001';
 
-module.exports = KillzordMk9001;
+export default KillzordMk9001;

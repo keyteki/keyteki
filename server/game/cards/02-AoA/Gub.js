@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class Gub extends Card {
     // While Gub is not on a flank, it gets +5 power and gains taunt.
     setupCardAbilities(ability) {
@@ -12,4 +11,4 @@ class Gub extends Card {
 
 Gub.id = 'gub';
 
-module.exports = Gub;
+export default Gub;

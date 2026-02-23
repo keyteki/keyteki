@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class Spyyyder extends Card {
     // Skirmish.(When you use this creature to fight, it is dealt no damage in return.)
     // Spyyyder gains poison while attacking an enemy flank creature.
@@ -19,4 +18,4 @@ class Spyyyder extends Card {
 
 Spyyyder.id = 'spyyyder';
 
-module.exports = Spyyyder;
+export default Spyyyder;

@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class ShardOfKnowledge extends Card {
     // Action: Draw a card for each friendly Shard.
     setupCardAbilities(ability) {
@@ -17,4 +16,4 @@ class ShardOfKnowledge extends Card {
 
 ShardOfKnowledge.id = 'shard-of-knowledge';
 
-module.exports = ShardOfKnowledge;
+export default ShardOfKnowledge;

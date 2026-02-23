@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class OptioGorkus extends Card {
     // Elusive.
     // Each of Optio Gorkus's neighbors gains, "Destroyed: Move each A on this creature to a neighboring Optio Gorkus."
@@ -28,4 +27,4 @@ class OptioGorkus extends Card {
 
 OptioGorkus.id = 'optio-gorkus';
 
-module.exports = OptioGorkus;
+export default OptioGorkus;

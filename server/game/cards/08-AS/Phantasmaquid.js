@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class Phantasmaquid extends Card {
     // Your opponent cannot play creatures on their right flank.
     // At the end of your turn, if there are no enemy creatures in play,
@@ -37,4 +36,4 @@ class Phantasmaquid extends Card {
 
 Phantasmaquid.id = 'phantasmaquid';
 
-module.exports = Phantasmaquid;
+export default Phantasmaquid;

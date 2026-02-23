@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class CoupDeGrace extends Card {
     // Play: Destroy each damaged creature.
     // Fate: Deal 4 to each friendly creature.
@@ -21,4 +20,4 @@ class CoupDeGrace extends Card {
 
 CoupDeGrace.id = 'coup-de-grâce';
 
-module.exports = CoupDeGrace;
+export default CoupDeGrace;

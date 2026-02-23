@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class OutlookNotSoGood extends Card {
     // After your opponent chooses an active house that matches no cards in play, fulfill Outlook Not So Good.
     setupCardAbilities(ability) {
@@ -20,4 +19,4 @@ class OutlookNotSoGood extends Card {
 
 OutlookNotSoGood.id = 'outlook-not-so-good';
 
-module.exports = OutlookNotSoGood;
+export default OutlookNotSoGood;

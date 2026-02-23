@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class Ragatha extends Card {
     // Treachery.
     // After an enemy creature reaps, deal 3D to each of Ragatha’s neighbors.
@@ -20,4 +19,4 @@ class Ragatha extends Card {
 
 Ragatha.id = 'ragatha';
 
-module.exports = Ragatha;
+export default Ragatha;

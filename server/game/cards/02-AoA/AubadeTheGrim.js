@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class AubadeTheGrim extends Card {
     // Play: Capture 3A.
     // Reap: Discard 1A from Aubade the Grim.
@@ -19,4 +18,4 @@ class AubadeTheGrim extends Card {
 
 AubadeTheGrim.id = 'aubade-the-grim';
 
-module.exports = AubadeTheGrim;
+export default AubadeTheGrim;

@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class BetaForge extends Card {
     // Action: Make an Alpha-Gamma. You may forge a key at +12A
     // current cost, reduced by 1A for each card in your archives. If
@@ -36,4 +35,4 @@ class BetaForge extends Card {
 
 BetaForge.id = 'beta-forge';
 
-module.exports = BetaForge;
+export default BetaForge;

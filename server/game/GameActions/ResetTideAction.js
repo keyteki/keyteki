@@ -1,7 +1,6 @@
-const Constants = require('../../constants');
-const { EVENTS } = require('../Events/types');
-const PlayerAction = require('./PlayerAction');
-
+import Constants from '../../constants.js';
+import { EVENTS } from '../Events/types.js';
+import PlayerAction from './PlayerAction.js';
 class ResetTideAction extends PlayerAction {
     setDefaultProperties() {
         this.chainCost = 0;
@@ -28,4 +27,4 @@ class ResetTideAction extends PlayerAction {
     }
 }
 
-module.exports = ResetTideAction;
+export default ResetTideAction;

@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class VividFaerie extends Card {
     // After Reap: Gain 1A for each of Vivid Faerie’s Untamed neighbors.
     setupCardAbilities(ability) {
@@ -13,4 +12,4 @@ class VividFaerie extends Card {
 
 VividFaerie.id = 'vivid-faerie';
 
-module.exports = VividFaerie;
+export default VividFaerie;

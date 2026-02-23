@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class RicketyCybergiant extends Card {
     // After Fight: Deal 1 D to Rickety Cybergiant.
     setupCardAbilities(ability) {
@@ -13,4 +12,4 @@ class RicketyCybergiant extends Card {
 
 RicketyCybergiant.id = 'rickety-cybergiant';
 
-module.exports = RicketyCybergiant;
+export default RicketyCybergiant;

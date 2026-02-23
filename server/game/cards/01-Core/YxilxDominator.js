@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class YxilxDominator extends Card {
     // Taunt.(This creatures neighbors cannot be attacked unless they have taunt.)
     // Yxilx Dominator enters play stunned.
@@ -13,4 +12,4 @@ class YxilxDominator extends Card {
 
 YxilxDominator.id = 'yxilx-dominator';
 
-module.exports = YxilxDominator;
+export default YxilxDominator;

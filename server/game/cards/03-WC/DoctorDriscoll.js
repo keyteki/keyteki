@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class DoctorDriscoll extends Card {
     // Elusive.
     // Action: Heal 2 damage from a creature. Gain 1 for each damage healed this way.
@@ -22,4 +21,4 @@ class DoctorDriscoll extends Card {
 
 DoctorDriscoll.id = 'doctor-driscoll';
 
-module.exports = DoctorDriscoll;
+export default DoctorDriscoll;

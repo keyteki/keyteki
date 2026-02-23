@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class Hallafest extends Card {
     // Play: Search your deck and discard pile for up to 4 Bräkken cards with different names.
     // Reveal those cards and put them into your hand.
@@ -29,4 +28,4 @@ class Hallafest extends Card {
 }
 Hallafest.id = 'hallafest';
 
-module.exports = Hallafest;
+export default Hallafest;

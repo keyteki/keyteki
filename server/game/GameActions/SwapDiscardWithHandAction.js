@@ -1,6 +1,5 @@
-const { EVENTS } = require('../Events/types');
-const CardGameAction = require('./CardGameAction');
-
+import { EVENTS } from '../Events/types.js';
+import CardGameAction from './CardGameAction.js';
 class SwapDiscardWithHandAction extends CardGameAction {
     setDefaultProperties() {
         this.discardCard = null;
@@ -49,4 +48,4 @@ class SwapDiscardWithHandAction extends CardGameAction {
     }
 }
 
-module.exports = SwapDiscardWithHandAction;
+export default SwapDiscardWithHandAction;

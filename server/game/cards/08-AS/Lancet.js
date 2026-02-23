@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class Lancet extends Card {
     // Each friendly creature gains, “After Fight: Capture 1A.”
     setupCardAbilities(ability) {
@@ -14,4 +13,4 @@ class Lancet extends Card {
 
 Lancet.id = 'lancet';
 
-module.exports = Lancet;
+export default Lancet;

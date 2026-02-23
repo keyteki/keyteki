@@ -1,7 +1,6 @@
-const { EVENTS } = require('../Events/types');
-const PlayerAction = require('./PlayerAction');
-const _ = require('underscore');
-
+import { EVENTS } from '../Events/types.js';
+import PlayerAction from './PlayerAction.js';
+import _ from 'underscore';
 /**
  * DiscardEntireLocationAction - Discards all cards from a player's hand or
  * archives, prompting the active player to choose which player discards first.
@@ -289,4 +288,4 @@ class DiscardEntireLocationAction extends PlayerAction {
     }
 }
 
-module.exports = DiscardEntireLocationAction;
+export default DiscardEntireLocationAction;

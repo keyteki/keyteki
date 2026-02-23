@@ -1,13 +1,12 @@
-const _ = require('underscore');
-const Phase = require('../phase.js');
-const SimpleStep = require('../simplestep.js');
-const MulliganPrompt = require('./mulliganprompt.js');
-const AdaptiveDeckSelectionPrompt = require('./AdaptiveDeckSelectionPrompt');
-const FirstPlayerSelection = require('./FirstPlayerSelection');
-const GameStartPrompt = require('./GameStartPrompt');
-const Effects = require('../../effects.js');
-const { EVENTS } = require('../../Events/types.js');
-
+import _ from 'underscore';
+import Phase from '../phase.js';
+import SimpleStep from '../simplestep.js';
+import MulliganPrompt from './mulliganprompt.js';
+import AdaptiveDeckSelectionPrompt from './AdaptiveDeckSelectionPrompt.js';
+import FirstPlayerSelection from './FirstPlayerSelection.js';
+import GameStartPrompt from './GameStartPrompt.js';
+import Effects from '../../effects.js';
+import { EVENTS } from '../../Events/types.js';
 class SetupPhase extends Phase {
     constructor(game) {
         super(game, 'setup');
@@ -88,4 +87,4 @@ class SetupPhase extends Phase {
     }
 }
 
-module.exports = SetupPhase;
+export default SetupPhase;

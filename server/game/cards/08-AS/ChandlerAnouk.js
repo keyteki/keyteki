@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class ChandlerAnouk extends Card {
     // Each friendly flank creature gets +2 armor and gains taunt.
     setupCardAbilities(ability) {
@@ -12,4 +11,4 @@ class ChandlerAnouk extends Card {
 
 ChandlerAnouk.id = 'chandler-anouk';
 
-module.exports = ChandlerAnouk;
+export default ChandlerAnouk;

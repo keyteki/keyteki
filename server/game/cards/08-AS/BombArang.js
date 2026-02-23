@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class BombArang extends Card {
     // Play: Deal 3D to an enemy creature.  If that creature is not
     // destroyed, deal 1D to a friendly creature.
@@ -31,4 +30,4 @@ class BombArang extends Card {
 
 BombArang.id = 'bomb-arang';
 
-module.exports = BombArang;
+export default BombArang;

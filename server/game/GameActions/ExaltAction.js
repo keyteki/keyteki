@@ -1,6 +1,5 @@
-const { EVENTS } = require('../Events/types');
-const AddTokenAction = require('./AddTokenAction');
-
+import { EVENTS } from '../Events/types.js';
+import AddTokenAction from './AddTokenAction.js';
 class ExaltAction extends AddTokenAction {
     setDefaultProperties() {
         this.amount = 1;
@@ -26,4 +25,4 @@ class ExaltAction extends AddTokenAction {
     }
 }
 
-module.exports = ExaltAction;
+export default ExaltAction;

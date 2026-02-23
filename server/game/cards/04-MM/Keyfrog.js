@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class Keyfrog extends Card {
     // Destroyed: Forge a key at current cost.
     setupCardAbilities(ability) {
@@ -11,4 +10,4 @@ class Keyfrog extends Card {
 
 Keyfrog.id = 'keyfrog';
 
-module.exports = Keyfrog;
+export default Keyfrog;

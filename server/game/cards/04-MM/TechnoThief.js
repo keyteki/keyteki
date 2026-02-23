@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class TechnoThief extends Card {
     // Elusive. (The first time this creature is attacked each turn, no damage is dealt.)
     // Reap: Discard a card from your hand. If you do, draw a card.
@@ -19,4 +18,4 @@ class TechnoThief extends Card {
 
 TechnoThief.id = 'techno-thief';
 
-module.exports = TechnoThief;
+export default TechnoThief;

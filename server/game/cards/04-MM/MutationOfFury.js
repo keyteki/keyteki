@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class MutationOfFury extends Card {
     // Play: Until the start of your next turn, a creature gains assault 3 and the Mutant trait.
     setupCardAbilities(ability) {
@@ -21,4 +20,4 @@ class MutationOfFury extends Card {
 
 MutationOfFury.id = 'mutation-of-fury';
 
-module.exports = MutationOfFury;
+export default MutationOfFury;

@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class HardSimpson extends Card {
     // Elusive. (The first time this creature is attacked each turn, no damage is dealt.)
     // (T) After Hard Simpson is dealt damage, steal 1A. If the tide is low, your opponent steals 1A instead. (Hard Simpson must survive this damage.)
@@ -18,4 +17,4 @@ class HardSimpson extends Card {
 
 HardSimpson.id = 'hard-simpson';
 
-module.exports = HardSimpson;
+export default HardSimpson;

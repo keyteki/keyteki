@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class FOFTransponder extends Card {
     // This creature gains, "Destroyed: Make a token creature. Attach
     // FOF Transponder to that creature."
@@ -21,4 +20,4 @@ class FOFTransponder extends Card {
 
 FOFTransponder.id = 'fof-transponder';
 
-module.exports = FOFTransponder;
+export default FOFTransponder;

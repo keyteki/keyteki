@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class CaptainNoBeard extends Card {
     // Each of Captain No-Beard’s neighbors gains taunt.
     // Reap: Capture 1A.
@@ -20,4 +19,4 @@ class CaptainNoBeard extends Card {
 
 CaptainNoBeard.id = 'captain-no-beard';
 
-module.exports = CaptainNoBeard;
+export default CaptainNoBeard;

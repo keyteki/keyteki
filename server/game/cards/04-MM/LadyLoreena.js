@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class LadyLoreena extends Card {
     // Taunt.
     // Lady Loreenas taunt also applies to its neighbors neighbors.
@@ -16,4 +15,4 @@ class LadyLoreena extends Card {
 
 LadyLoreena.id = 'lady-loreena';
 
-module.exports = LadyLoreena;
+export default LadyLoreena;

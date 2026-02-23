@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class SoulLock extends Card {
     // Your opponent cannot use cards that match the house of any faceup card under Soul Lock.
     // Action: Discard all cards under Soul Lock. Put an enemy creature faceup under Soul Lock.
@@ -54,4 +53,4 @@ class SoulLock extends Card {
 
 SoulLock.id = 'soul-lock';
 
-module.exports = SoulLock;
+export default SoulLock;

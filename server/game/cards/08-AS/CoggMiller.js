@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class CoggMiller extends Card {
     // After Fight: You may destroy an artifact. If you do, its owner
     // archives a random card from their hand.
@@ -22,4 +21,4 @@ class CoggMiller extends Card {
 
 CoggMiller.id = 'cogg-miller';
 
-module.exports = CoggMiller;
+export default CoggMiller;

@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class Begone extends Card {
     // Play: Choose one: destroy each Dis creature, or gain 1A.
     setupCardAbilities(ability) {
@@ -19,4 +18,4 @@ class Begone extends Card {
 
 Begone.id = 'begone';
 
-module.exports = Begone;
+export default Begone;

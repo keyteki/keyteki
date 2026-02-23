@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class CropCircles extends Card {
     // Play: A non-Mars creature captures 1A from its own side. You may purge
     // any number of cards from your archives. The same creature captures an
@@ -38,4 +37,4 @@ class CropCircles extends Card {
 
 CropCircles.id = 'crop-circles';
 
-module.exports = CropCircles;
+export default CropCircles;

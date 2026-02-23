@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class PhaseShift extends Card {
     // Play: You may play one non-Logos card this turn.
     setupCardAbilities(ability) {
@@ -14,4 +13,4 @@ class PhaseShift extends Card {
 
 PhaseShift.id = 'phase-shift';
 
-module.exports = PhaseShift;
+export default PhaseShift;

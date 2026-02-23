@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class Wellstring extends Card {
     // After Fight/After Reap: Deal 3D to a creature.
     setupCardAbilities(ability) {
@@ -15,4 +14,4 @@ class Wellstring extends Card {
 
 Wellstring.id = 'wellstring';
 
-module.exports = Wellstring;
+export default Wellstring;

@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class AdministratorPelith extends Card {
     // After Reap: You may move a friendly Sanctum creature anywhere in your battleline.
     setupCardAbilities(ability) {
@@ -21,4 +20,4 @@ class AdministratorPelith extends Card {
 
 AdministratorPelith.id = 'administrator-pelith';
 
-module.exports = AdministratorPelith;
+export default AdministratorPelith;

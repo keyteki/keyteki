@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class SubtleChain extends Card {
     // Play: Your opponent discards a random card from their hand.
     setupCardAbilities(ability) {
@@ -11,4 +10,4 @@ class SubtleChain extends Card {
 
 SubtleChain.id = 'subtle-chain';
 
-module.exports = SubtleChain;
+export default SubtleChain;

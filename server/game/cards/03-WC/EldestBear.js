@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class EldestBear extends Card {
     // Assault 3.
     // While Eldest Bear is in the center of your battleline, it gains, "Before Fight: Gain 2."
@@ -16,4 +15,4 @@ class EldestBear extends Card {
 
 EldestBear.id = 'eldest-bear';
 
-module.exports = EldestBear;
+export default EldestBear;

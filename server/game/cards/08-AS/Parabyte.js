@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class Parabyte extends Card {
     // Your opponent’s keys cost +1A for each A on friendly creatures.
     // Play/After Reap: A friendly creature captures 1A.
@@ -26,4 +25,4 @@ class Parabyte extends Card {
 
 Parabyte.id = 'parabyte';
 
-module.exports = Parabyte;
+export default Parabyte;

@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class ReclaimedByNature extends Card {
     // Play: Purge an artifact. Resolve its bonus icons as if you had played it.
     setupCardAbilities(ability) {
@@ -20,4 +19,4 @@ class ReclaimedByNature extends Card {
 
 ReclaimedByNature.id = 'reclaimed-by-nature';
 
-module.exports = ReclaimedByNature;
+export default ReclaimedByNature;

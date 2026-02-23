@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class InkyGloom extends Card {
     // Play: Your opponent cannot use creatures to reap on their next turn.
     setupCardAbilities(ability) {
@@ -18,4 +17,4 @@ class InkyGloom extends Card {
 
 InkyGloom.id = 'inky-gloom';
 
-module.exports = InkyGloom;
+export default InkyGloom;

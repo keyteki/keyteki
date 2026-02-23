@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class CatchAndRelease extends Card {
     // Play: Return each creature to its owner`s hand. Each player
     // discards random cards from their hand until they have 6 or
@@ -26,4 +25,4 @@ class CatchAndRelease extends Card {
 
 CatchAndRelease.id = 'catch-and-release';
 
-module.exports = CatchAndRelease;
+export default CatchAndRelease;

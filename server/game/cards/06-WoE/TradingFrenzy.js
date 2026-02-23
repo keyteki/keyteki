@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class TradingFrenzy extends Card {
     // Play: A friendly creature and an enemy creature each capture 3
     // Aember from their opponent.
@@ -31,4 +30,4 @@ class TradingFrenzy extends Card {
 
 TradingFrenzy.id = 'trading-frenzy';
 
-module.exports = TradingFrenzy;
+export default TradingFrenzy;

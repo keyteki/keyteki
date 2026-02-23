@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class GalacticTariff extends Card {
     // This creature gains, "After Fight/After Reap: Capture 1A from your own side."
     setupCardAbilities(ability) {
@@ -16,4 +15,4 @@ class GalacticTariff extends Card {
 
 GalacticTariff.id = 'galactic-tariff';
 
-module.exports = GalacticTariff;
+export default GalacticTariff;

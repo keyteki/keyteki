@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class EnsignElSamra extends Card {
     // Enhance RRR.
     // Action: Reveal a card from your hand. Resolve its bonus icons as if you had played it.
@@ -18,4 +17,4 @@ class EnsignElSamra extends Card {
 
 EnsignElSamra.id = 'ensign-el-samra';
 
-module.exports = EnsignElSamra;
+export default EnsignElSamra;

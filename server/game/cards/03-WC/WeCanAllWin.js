@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class WeCanAllWin extends Card {
     // Play: Each players keys cost 2A until the end of your next turn.
     setupCardAbilities(ability) {
@@ -15,4 +14,4 @@ class WeCanAllWin extends Card {
 
 WeCanAllWin.id = 'we-can-all-win';
 
-module.exports = WeCanAllWin;
+export default WeCanAllWin;

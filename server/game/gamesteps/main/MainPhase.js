@@ -1,6 +1,5 @@
-const Phase = require('../phase.js');
-const ActionWindow = require('./actionwindow.js');
-
+import Phase from '../phase.js';
+import ActionWindow from './actionwindow.js';
 class MainPhase extends Phase {
     constructor(game) {
         super(game, 'main');
@@ -8,4 +7,4 @@ class MainPhase extends Phase {
     }
 }
 
-module.exports = MainPhase;
+export default MainPhase;

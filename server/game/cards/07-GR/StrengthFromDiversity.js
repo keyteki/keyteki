@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class StrengthFromDiversity extends Card {
     // Play: Each friendly non-Star Alliance creature captures 1.
     setupCardAbilities(ability) {
@@ -14,4 +13,4 @@ class StrengthFromDiversity extends Card {
 
 StrengthFromDiversity.id = 'strength-from-diversity';
 
-module.exports = StrengthFromDiversity;
+export default StrengthFromDiversity;

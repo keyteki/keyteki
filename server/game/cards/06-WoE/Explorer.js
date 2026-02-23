@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class Explorer extends Card {
     //Explorer: After Reap: Look at the top card of your deck. You may discard it.
     setupCardAbilities(ability) {
@@ -26,4 +25,4 @@ class Explorer extends Card {
 
 Explorer.id = 'explorer';
 
-module.exports = Explorer;
+export default Explorer;

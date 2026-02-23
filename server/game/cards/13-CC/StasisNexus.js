@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class StasisNexus extends Card {
     // Action: Purge Stasis Nexus. If you do, forge a key at +6 current cost, reduced by 1 for each stunned creature.
     setupCardAbilities(ability) {
@@ -19,4 +18,4 @@ class StasisNexus extends Card {
 
 StasisNexus.id = 'stasis-nexus';
 
-module.exports = StasisNexus;
+export default StasisNexus;

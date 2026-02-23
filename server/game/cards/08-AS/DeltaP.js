@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class DeltaP extends Card {
     // Play: Destroy an enemy creature. If your opponent controls more
     // creatures than you, repeat this effect.
@@ -24,4 +23,4 @@ class DeltaP extends Card {
 
 DeltaP.id = 'delta-p';
 
-module.exports = DeltaP;
+export default DeltaP;

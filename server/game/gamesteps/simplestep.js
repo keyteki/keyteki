@@ -1,5 +1,4 @@
-const BaseStep = require('./basestep.js');
-
+import BaseStep from './basestep.js';
 class SimpleStep extends BaseStep {
     constructor(game, continueFunc) {
         super(game);
@@ -15,4 +14,4 @@ class SimpleStep extends BaseStep {
     }
 }
 
-module.exports = SimpleStep;
+export default SimpleStep;

@@ -1,5 +1,4 @@
-const GiganticCard = require('../../GiganticCard.js');
-
+import GiganticCard from '../../GiganticCard.js';
 class Deusillus extends GiganticCard {
     // (Play only with the other half of Deusillus.)
     // Play: Capture all of your opponents A. Deal 5D to an enemy creature.
@@ -64,4 +63,4 @@ class Deusillus extends GiganticCard {
 
 Deusillus.id = 'deusillus';
 
-module.exports = Deusillus;
+export default Deusillus;

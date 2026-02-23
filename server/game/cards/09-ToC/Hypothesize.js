@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class Hypothesize extends Card {
     // Play: Make a token creature. If there are three or more
     // friendly Logos cards in play, archive Hypothesize.
@@ -51,4 +50,4 @@ class Hypothesize extends Card {
 
 Hypothesize.id = 'hypothesize';
 
-module.exports = Hypothesize;
+export default Hypothesize;

@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class Rotgrub extends Card {
     // Play: Your opponent loses 1A.
     // Reap: Archive Rotgrub.
@@ -15,4 +14,4 @@ class Rotgrub extends Card {
 
 Rotgrub.id = 'rotgrub';
 
-module.exports = Rotgrub;
+export default Rotgrub;

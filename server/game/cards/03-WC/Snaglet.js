@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class Snaglet extends Card {
     // Elusive.
     // Action: Choose a house. If your opponent chooses that house as their active house on their next turn, steal 2A.
@@ -27,4 +26,4 @@ class Snaglet extends Card {
 
 Snaglet.id = 'snaglet';
 
-module.exports = Snaglet;
+export default Snaglet;

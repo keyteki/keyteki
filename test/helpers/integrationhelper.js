@@ -1,11 +1,8 @@
-const _ = require('underscore');
-
-require('./objectformatters.js');
-
-const DeckBuilder = require('./deckbuilder.js');
-const GameFlowWrapper = require('./gameflowwrapper.js');
-const { checkAllMessages } = require('./messagehelper.js');
-
+import _ from 'underscore';
+import './objectformatters.js';
+import DeckBuilder from './deckbuilder.js';
+import GameFlowWrapper from './gameflowwrapper.js';
+import { checkAllMessages } from './messagehelper.js';
 const deckBuilder = new DeckBuilder();
 
 // Pre-build cards dictionary once (used by GameFlowWrapper)

@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class MightClub extends Card {
     //Action: Ready and enrage a creature.
     setupCardAbilities(ability) {
@@ -18,4 +17,4 @@ class MightClub extends Card {
 
 MightClub.id = 'might-club';
 
-module.exports = MightClub;
+export default MightClub;

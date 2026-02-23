@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class CrewmanJorg extends Card {
     // Enhance PT. (These icons have already been added to cards in your deck.)
     // Action: If Crewman Jrg has no Star Alliance neighbors, steal 1A.
@@ -16,4 +15,4 @@ class CrewmanJorg extends Card {
 
 CrewmanJorg.id = 'crewman-jörg';
 
-module.exports = CrewmanJorg;
+export default CrewmanJorg;

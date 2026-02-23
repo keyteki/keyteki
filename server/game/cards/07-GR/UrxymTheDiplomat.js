@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class UrxymTheDiplomat extends Card {
     // After Reap: Lose all your A. Destroy an enemy non-Mars creature
     // for each A lost this way.
@@ -30,4 +29,4 @@ class UrxymTheDiplomat extends Card {
 
 UrxymTheDiplomat.id = 'urxym-the-diplomat';
 
-module.exports = UrxymTheDiplomat;
+export default UrxymTheDiplomat;

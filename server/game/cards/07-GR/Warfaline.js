@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class Warfaline extends Card {
     // Play/After Fight: Shuffle the top 5 cards of a discard pile
     // into their owner’s deck.
@@ -44,4 +43,4 @@ class Warfaline extends Card {
 
 Warfaline.id = 'warfaline';
 
-module.exports = Warfaline;
+export default Warfaline;

@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class UniversalWelcome extends Card {
     // Play: Take control of the enemy creature in the center of your
     // opponent’s battleline.
@@ -20,4 +19,4 @@ class UniversalWelcome extends Card {
 
 UniversalWelcome.id = 'universal-welcome';
 
-module.exports = UniversalWelcome;
+export default UniversalWelcome;

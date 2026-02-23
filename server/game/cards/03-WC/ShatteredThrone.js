@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class ShatteredThrone extends Card {
     // After a creature is used to fight, it captures 1A.
     setupCardAbilities(ability) {
@@ -20,4 +19,4 @@ class ShatteredThrone extends Card {
 
 ShatteredThrone.id = 'shattered-throne';
 
-module.exports = ShatteredThrone;
+export default ShatteredThrone;

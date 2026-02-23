@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class Hologrammophone extends Card {
     // Action: Ward a creature.
     setupCardAbilities(ability) {
@@ -14,4 +13,4 @@ class Hologrammophone extends Card {
 
 Hologrammophone.id = 'hologrammophone';
 
-module.exports = Hologrammophone;
+export default Hologrammophone;

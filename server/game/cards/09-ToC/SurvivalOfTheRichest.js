@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class SurvivalOfTheRichest extends Card {
     // Play: Make a token creature. If you have more A than your opponent,
     // archive Survival of the Richest.
@@ -23,4 +22,4 @@ class SurvivalOfTheRichest extends Card {
 
 SurvivalOfTheRichest.id = 'survival-of-the-richest';
 
-module.exports = SurvivalOfTheRichest;
+export default SurvivalOfTheRichest;

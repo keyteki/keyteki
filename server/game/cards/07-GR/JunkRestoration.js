@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class JunkRestoration extends Card {
     // Play: Discard the top 3 cards of your deck. You may put a card
     // discarded this way into your hand.
@@ -31,4 +30,4 @@ class JunkRestoration extends Card {
 
 JunkRestoration.id = 'junk-restoration';
 
-module.exports = JunkRestoration;
+export default JunkRestoration;

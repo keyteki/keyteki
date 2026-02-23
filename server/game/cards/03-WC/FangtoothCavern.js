@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class FangtoothCavern extends Card {
     // At the end of your turn, destroy the least powerful creature.
     setupCardAbilities(ability) {
@@ -21,4 +20,4 @@ class FangtoothCavern extends Card {
 
 FangtoothCavern.id = 'fangtooth-cavern';
 
-module.exports = FangtoothCavern;
+export default FangtoothCavern;

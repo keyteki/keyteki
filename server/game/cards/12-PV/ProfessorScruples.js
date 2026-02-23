@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class ProfessorScruples extends Card {
     // After Reap: Discard a card. Draw 3 cards.
     // Fate: Purge each upgrade in play.
@@ -25,4 +24,4 @@ class ProfessorScruples extends Card {
 
 ProfessorScruples.id = 'professor-scruples';
 
-module.exports = ProfessorScruples;
+export default ProfessorScruples;

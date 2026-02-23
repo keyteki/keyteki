@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class MutagenicSerum extends Card {
     // Omni: Destroy Mutagenic Serum. You may use friendly Mutant creatures this turn.
     setupCardAbilities(ability) {
@@ -18,4 +17,4 @@ class MutagenicSerum extends Card {
 
 MutagenicSerum.id = 'mutagenic-serum';
 
-module.exports = MutagenicSerum;
+export default MutagenicSerum;

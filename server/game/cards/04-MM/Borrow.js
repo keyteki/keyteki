@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class Borrow extends Card {
     // Play: Take control of an enemy artifact. While under your control, it belongs to house Shadows. (Instead of its original house.)
     setupCardAbilities(ability) {
@@ -31,4 +30,4 @@ class Borrow extends Card {
 
 Borrow.id = 'borrow';
 
-module.exports = Borrow;
+export default Borrow;

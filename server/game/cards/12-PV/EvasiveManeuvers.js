@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class EvasiveManeuvers extends Card {
     // Play: For the remainder of the turn, friendly creatures cannot be dealt damage.
     // Fate: Deal 2 to each friendly creature
@@ -24,4 +23,4 @@ class EvasiveManeuvers extends Card {
 
 EvasiveManeuvers.id = 'evasive-maneuvers';
 
-module.exports = EvasiveManeuvers;
+export default EvasiveManeuvers;

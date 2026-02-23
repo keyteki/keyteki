@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class GezdrutyoTheArcane extends Card {
     //Action: Steal 2A. Flip Gĕzdrutyŏ the Arcane facedown (it becomes a token creature).
     setupCardAbilities(ability) {
@@ -15,4 +14,4 @@ class GezdrutyoTheArcane extends Card {
 
 GezdrutyoTheArcane.id = 'gĕzdrutyŏ-the-arcane';
 
-module.exports = GezdrutyoTheArcane;
+export default GezdrutyoTheArcane;

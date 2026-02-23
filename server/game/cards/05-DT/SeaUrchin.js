@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class SeaUrchin extends Card {
     // Poison.  (Any damage dealt by this creature’s power during a fight destroys the damaged creature.)
     // (T) Play: Capture 1A. If the tide is high, steal 1A instead.
@@ -18,4 +17,4 @@ class SeaUrchin extends Card {
 
 SeaUrchin.id = 'sea-urchin';
 
-module.exports = SeaUrchin;
+export default SeaUrchin;

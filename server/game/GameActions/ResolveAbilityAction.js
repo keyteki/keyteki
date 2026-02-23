@@ -1,8 +1,7 @@
-const CardAction = require('./CardGameAction');
-const AbilityResolver = require('../gamesteps/abilityresolver.js');
-const SimpleStep = require('../gamesteps/simplestep.js');
-const { EVENTS } = require('../Events/types');
-
+import CardAction from './CardGameAction.js';
+import AbilityResolver from '../gamesteps/abilityresolver.js';
+import SimpleStep from '../gamesteps/simplestep.js';
+import { EVENTS } from '../Events/types.js';
 class NoCostsAbilityResolver extends AbilityResolver {
     initialise() {
         this.pipeline.initialise([
@@ -85,4 +84,4 @@ class ResolveAbilityAction extends CardAction {
     }
 }
 
-module.exports = ResolveAbilityAction;
+export default ResolveAbilityAction;

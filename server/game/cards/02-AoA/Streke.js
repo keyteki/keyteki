@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class Streke extends Card {
     // Elusive.(The first time this creature is attacked each turn, no damage is dealt.)
     // While Streke is not on a flank, your opponent refills their hand to 1less cardduring their draw cards step.
@@ -14,4 +13,4 @@ class Streke extends Card {
 
 Streke.id = 'streke';
 
-module.exports = Streke;
+export default Streke;

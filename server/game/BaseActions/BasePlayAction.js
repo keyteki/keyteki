@@ -1,8 +1,7 @@
-const AbilityContext = require('../AbilityContext');
-const BaseAbility = require('../baseability.js');
-const Costs = require('../costs.js');
-const { EVENTS } = require('../Events/types');
-
+import AbilityContext from '../AbilityContext.js';
+import BaseAbility from '../baseability.js';
+import Costs from '../costs.js';
+import { EVENTS } from '../Events/types.js';
 class BasePlayAction extends BaseAbility {
     constructor(card, target) {
         let properties = { cost: Costs.play() };
@@ -95,4 +94,4 @@ class BasePlayAction extends BaseAbility {
     }
 }
 
-module.exports = BasePlayAction;
+export default BasePlayAction;

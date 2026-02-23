@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class PersistenceHunting extends Card {
     // Play: Choose a house. Exhaust each enemy creature of the chosen house.
     setupCardAbilities(ability) {
@@ -18,4 +17,4 @@ class PersistenceHunting extends Card {
 
 PersistenceHunting.id = 'persistence-hunting';
 
-module.exports = PersistenceHunting;
+export default PersistenceHunting;

@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class GateWarden extends Card {
     // While you control a token creature, enemy creatures cannot
     // reap.
@@ -21,4 +20,4 @@ class GateWarden extends Card {
 
 GateWarden.id = 'gate-warden';
 
-module.exports = GateWarden;
+export default GateWarden;

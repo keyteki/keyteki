@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class Atrocity extends Card {
     // At the start of your opponent's turn, that player discards
     // the top card of their deck. They must choose the discarded card's
@@ -45,4 +44,4 @@ class Atrocity extends Card {
 
 Atrocity.id = 'atrocity';
 
-module.exports = Atrocity;
+export default Atrocity;

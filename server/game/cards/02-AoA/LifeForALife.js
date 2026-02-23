@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class LifeForALife extends Card {
     // Play: Destroy a friendly creature. If you do, deal 6D to a creature.
     setupCardAbilities(ability) {
@@ -23,4 +22,4 @@ class LifeForALife extends Card {
 
 LifeForALife.id = 'life-for-a-life';
 
-module.exports = LifeForALife;
+export default LifeForALife;

@@ -1,5 +1,4 @@
-const GiganticCard = require('../../GiganticCard.js');
-
+import GiganticCard from '../../GiganticCard.js';
 class CadetAllison extends GiganticCard {
     // (Play only with the other half of Cadet Allison.)
     // Play/After Reap: Discard a random card from your hand. If you do, the
@@ -37,4 +36,4 @@ class CadetAllison extends GiganticCard {
 
 CadetAllison.id = 'cadet-allison';
 
-module.exports = CadetAllison;
+export default CadetAllison;

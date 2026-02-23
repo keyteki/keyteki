@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class LookWhatIFound extends Card {
     // Omega.
     // Play: Return 1 card of each type (action, artifact, creature, upgrade) from your discard pile to your hand.
@@ -39,4 +38,4 @@ class LookWhatIFound extends Card {
 
 LookWhatIFound.id = 'look-what-i-found';
 
-module.exports = LookWhatIFound;
+export default LookWhatIFound;

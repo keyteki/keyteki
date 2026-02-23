@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class Bryozoarch extends Card {
     // When your opponent plays an action card, instead of resolving its play effect, destroy the creature on your left flank.
     setupCardAbilities(ability) {
@@ -36,4 +35,4 @@ class Bryozoarch extends Card {
 
 Bryozoarch.id = 'bryozoarch';
 
-module.exports = Bryozoarch;
+export default Bryozoarch;

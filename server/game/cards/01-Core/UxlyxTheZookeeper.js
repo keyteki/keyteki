@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class UxlyxTheZookeeper extends Card {
     // Elusive. (The first time this creature is attacked each turn, no damage is dealt.)
     // Reap: Put an enemy creature into your archives. If that creature leaves your archives, it is put into its owners hand instead.
@@ -16,4 +15,4 @@ class UxlyxTheZookeeper extends Card {
 
 UxlyxTheZookeeper.id = 'uxlyx-the-zookeeper';
 
-module.exports = UxlyxTheZookeeper;
+export default UxlyxTheZookeeper;

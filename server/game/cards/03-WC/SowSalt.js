@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class SowSalt extends Card {
     // Alpha.
     // Play: Until the start of your next turn, creatures cannot reap.
@@ -17,4 +16,4 @@ class SowSalt extends Card {
 
 SowSalt.id = 'sow-salt';
 
-module.exports = SowSalt;
+export default SowSalt;

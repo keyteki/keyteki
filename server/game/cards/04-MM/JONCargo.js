@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class JONCargo extends Card {
     // Reap: Discard the top card of your deck and reveal your hand. Archive each card that shares a house with the discarded card.
     setupCardAbilities(ability) {
@@ -25,4 +24,4 @@ class JONCargo extends Card {
 
 JONCargo.id = 'jon-cargo';
 
-module.exports = JONCargo;
+export default JONCargo;

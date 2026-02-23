@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class Cannon extends Card {
     // Action: Deal 2<D> to a creature.
     setupCardAbilities(ability) {
@@ -14,4 +13,4 @@ class Cannon extends Card {
 
 Cannon.id = 'cannon';
 
-module.exports = Cannon;
+export default Cannon;

@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class MagdaTheRat extends Card {
     // Elusive. (The first time this creature is attacked each turn, no damage is dealt.)
     // Play: Steal 2<A>.
@@ -25,4 +24,4 @@ class MagdaTheRat extends Card {
 
 MagdaTheRat.id = 'magda-the-rat';
 
-module.exports = MagdaTheRat;
+export default MagdaTheRat;

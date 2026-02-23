@@ -1,22 +1,22 @@
-const express = require('express');
+import express from 'express';
+import { fileURLToPath } from 'url';
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 const app = express();
-const bodyParser = require('body-parser');
-const ConfigService = require('./services/ConfigService');
-const passport = require('passport');
-const logger = require('./log.js');
-const api = require('./api');
-const fs = require('fs');
-const path = require('path');
-const http = require('http');
-
-const passportJwt = require('passport-jwt');
-const Sentry = require('@sentry/node');
-
+import bodyParser from 'body-parser';
+import ConfigService from './services/ConfigService.js';
+import passport from 'passport';
+import logger from './log.js';
+import * as api from './api/index.js';
+import fs from 'fs';
+import path from 'path';
+import http from 'http';
+import passportJwt from 'passport-jwt';
+import * as Sentry from '@sentry/node';
 const JwtStrategy = passportJwt.Strategy;
 const ExtractJwt = passportJwt.ExtractJwt;
 
-const UserService = require('./services/UserService.js');
-
+import UserService from './services/UserService.js';
 class Server {
     constructor(isDeveloping) {
         this.configService = new ConfigService();
@@ -133,4 +133,4 @@ class Server {
     }
 }
 
-module.exports = Server;
+export default Server;

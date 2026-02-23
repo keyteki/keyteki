@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class ForcedRetirement extends Card {
     //Play: Destroy a creature. If you do, its controller gains 1A.
     setupCardAbilities(ability) {
@@ -20,4 +19,4 @@ class ForcedRetirement extends Card {
 
 ForcedRetirement.id = 'forced-retirement';
 
-module.exports = ForcedRetirement;
+export default ForcedRetirement;

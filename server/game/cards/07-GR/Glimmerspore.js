@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class Glimmerspore extends Card {
     // Play: Put an artifact from play into your archives. If you are
     // not the owner of that card and it leaves your archives, put it
@@ -19,4 +18,4 @@ class Glimmerspore extends Card {
 
 Glimmerspore.id = 'glimmerspore';
 
-module.exports = Glimmerspore;
+export default Glimmerspore;

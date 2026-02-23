@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class Paragon extends Card {
     // If there is a Mutant creature in play, Paragon enters play enraged.
     setupCardAbilities(ability) {
@@ -13,4 +12,4 @@ class Paragon extends Card {
 
 Paragon.id = 'paragon';
 
-module.exports = Paragon;
+export default Paragon;

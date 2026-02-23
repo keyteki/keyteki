@@ -1,7 +1,6 @@
-const { EVENTS } = require('../Events/types');
-const PlayerAction = require('./PlayerAction');
-const _ = require('underscore');
-
+import { EVENTS } from '../Events/types.js';
+import PlayerAction from './PlayerAction.js';
+import _ from 'underscore';
 /**
  * DiscardRandomCardsToAmountAction - Discards random cards from a player's hand
  * until they have at most `amount` cards remaining. The active player chooses
@@ -158,4 +157,4 @@ class DiscardRandomCardsToAmountAction extends PlayerAction {
     }
 }
 
-module.exports = DiscardRandomCardsToAmountAction;
+export default DiscardRandomCardsToAmountAction;

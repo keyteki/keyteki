@@ -31,6 +31,8 @@ function getUserWithDefaultsSet(user) {
     return userToReturn;
 }
 
-module.exports = {
-    getUserWithDefaultsSet: getUserWithDefaultsSet
+export { getUserWithDefaultsSet };
+
+export default {
+    getUserWithDefaultsSet
 };

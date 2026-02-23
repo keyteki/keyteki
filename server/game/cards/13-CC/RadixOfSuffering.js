@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class RadixOfSuffering extends Card {
     // Action: Your opponent loses 1A. If your opponent has no A, draw 1 card.
     setupCardAbilities(ability) {
@@ -19,4 +18,4 @@ class RadixOfSuffering extends Card {
 
 RadixOfSuffering.id = 'radix-of-suffering';
 
-module.exports = RadixOfSuffering;
+export default RadixOfSuffering;

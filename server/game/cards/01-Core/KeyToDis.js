@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class KeyToDis extends Card {
     // Omni: Sacrifice Key to Dis. Destroy each creature.
     setupCardAbilities(ability) {
@@ -14,4 +13,4 @@ class KeyToDis extends Card {
 
 KeyToDis.id = 'key-to-dis';
 
-module.exports = KeyToDis;
+export default KeyToDis;

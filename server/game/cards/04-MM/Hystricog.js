@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class Hystricog extends Card {
     // Enhance DDD. (These icons have already been added to cards in your deck.)
     // Action: Destroy a damaged creature.
@@ -16,4 +15,4 @@ class Hystricog extends Card {
 
 Hystricog.id = 'hystricog';
 
-module.exports = Hystricog;
+export default Hystricog;

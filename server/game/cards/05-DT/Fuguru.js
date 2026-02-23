@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class Fuguru extends Card {
     // Poison.
     // Your opponent refills their hand to 1 less card during their “draw cards” step.
@@ -13,4 +12,4 @@ class Fuguru extends Card {
 
 Fuguru.id = 'fuguru';
 
-module.exports = Fuguru;
+export default Fuguru;

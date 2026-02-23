@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class EpicQuest extends Card {
     // Play: Archive each friendly Knight creature in play.
     // Omni: If you have played 7or more Sanctum cards this turn, sacrifice Epic Quest and forge a key at no cost.
@@ -29,4 +28,4 @@ class EpicQuest extends Card {
 
 EpicQuest.id = 'epic-quest';
 
-module.exports = EpicQuest;
+export default EpicQuest;

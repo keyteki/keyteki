@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class CursedLoot extends Card {
     // Treachery.
     // After you play a card, discard a random card from your hand. If you have no cards in your hand, destroy Cursed Loot.
@@ -23,4 +22,4 @@ class CursedLoot extends Card {
 
 CursedLoot.id = 'cursed-loot';
 
-module.exports = CursedLoot;
+export default CursedLoot;

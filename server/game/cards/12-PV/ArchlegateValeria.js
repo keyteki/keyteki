@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class ArchlegateValeria extends Card {
     // Enhance .
     // Before Fight: Exalt an enemy creature for each of Archlegate Valeria's Saurian neighbors.
@@ -22,4 +21,4 @@ class ArchlegateValeria extends Card {
 
 ArchlegateValeria.id = 'archlegate-valeria';
 
-module.exports = ArchlegateValeria;
+export default ArchlegateValeria;

@@ -2,6 +2,7 @@
     "name": "keyteki",
     "version": "2.0.0",
     "description": "A Keyforge Card Game Server",
+    "type": "module",
     "main": "index.js",
     "engines": {
         "node": ">=22.12.0 <25"
@@ -69,8 +70,6 @@
         "cookie-parser": "^1.4.5",
         "core-js": "^3.6.4",
         "emoji-js": "^3.5.0",
-        "eslint-config-prettier": "^6.11.0",
-        "eslint-plugin-prettier": "^3.1.3",
         "event-source-polyfill": "^1.0.12",
         "express": "^4.19.2",
         "fabric": "^5.5.2",
@@ -138,7 +137,9 @@
         "body-parser": "^1.18.2",
         "command-line-args": "^6.0.1",
         "ejs": "^3.1.10",
-        "eslint": "^7.1.0",
+        "eslint": "^8.57.1",
+        "eslint-config-prettier": "^8.10.2",
+        "eslint-plugin-prettier": "^4.2.5",
         "eslint-plugin-react": "^7.20.0",
         "eslint-plugin-react-hooks": "^4.0.4",
         "handlebars": "^4.7.6",

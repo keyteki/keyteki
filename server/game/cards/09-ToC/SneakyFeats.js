@@ -1,6 +1,5 @@
-const Card = require('../../Card.js');
-const EventRegistrar = require('../../eventregistrar.js');
-
+import Card from '../../Card.js';
+import EventRegistrar from '../../eventregistrar.js';
 class SneakyFeats extends Card {
     // Play: Make a token creature. If you have stolen at least 1A this turn,
     // archive Sneaky Feats.
@@ -37,4 +36,4 @@ class SneakyFeats extends Card {
 
 SneakyFeats.id = 'sneaky-feats';
 
-module.exports = SneakyFeats;
+export default SneakyFeats;

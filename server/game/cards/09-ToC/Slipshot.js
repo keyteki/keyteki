@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class Slipshot extends Card {
     // After a neighbor of Slipshot is destroyed, ready Slipshot.
     // Play: Make a token creature.
@@ -21,4 +20,4 @@ class Slipshot extends Card {
 
 Slipshot.id = 'slipshot';
 
-module.exports = Slipshot;
+export default Slipshot;

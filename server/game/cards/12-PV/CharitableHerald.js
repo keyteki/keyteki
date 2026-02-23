@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class CharitableHerald extends Card {
     // Play/After Reap: Ward a creature.
     // Fate: Remove each ward from each friendly creature.
@@ -22,4 +21,4 @@ class CharitableHerald extends Card {
 
 CharitableHerald.id = 'charitable-herald';
 
-module.exports = CharitableHerald;
+export default CharitableHerald;

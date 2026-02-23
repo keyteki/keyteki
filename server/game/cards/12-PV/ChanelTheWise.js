@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class ChanelTheWise extends Card {
     // Each other friendly creature gets +3 power.
     // Scrap: Give a friendly creature five +1 power counters.
@@ -21,4 +20,4 @@ class ChanelTheWise extends Card {
 
 ChanelTheWise.id = 'chanel-the-wise';
 
-module.exports = ChanelTheWise;
+export default ChanelTheWise;

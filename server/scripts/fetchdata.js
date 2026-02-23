@@ -1,13 +1,14 @@
 /*eslint no-console:0 */
-const commandLineArgs = require('command-line-args');
-const path = require('path');
-
-const CardImport = require('./fetchdata/CardImport');
-const KeyforgeImageSource = require('./fetchdata/KeyforgeImageSource');
-const JsonCardSource = require('./fetchdata/JsonCardSource');
-const NoImageSource = require('./fetchdata/NoImageSource');
-const db = require('../db');
-
+import commandLineArgs from 'command-line-args';
+import path from 'path';
+import CardImport from './fetchdata/CardImport.js';
+import KeyforgeImageSource from './fetchdata/KeyforgeImageSource.js';
+import JsonCardSource from './fetchdata/JsonCardSource.js';
+import NoImageSource from './fetchdata/NoImageSource.js';
+import db from '../db/index.js';
+import { fileURLToPath } from 'url';
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 //
 // Sample Commands
 //

@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class CarloPhantom extends Card {
     // Elusive. Skirmish.
     // Each time you play an artifact, steal 1<A>.
@@ -16,4 +15,4 @@ class CarloPhantom extends Card {
 
 CarloPhantom.id = 'carlo-phantom';
 
-module.exports = CarloPhantom;
+export default CarloPhantom;

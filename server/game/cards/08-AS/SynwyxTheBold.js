@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class SynwyxTheBold extends Card {
     // After Fight: An enemy creature captures 2A from its own side.
     setupCardAbilities(ability) {
@@ -18,4 +17,4 @@ class SynwyxTheBold extends Card {
 
 SynwyxTheBold.id = 'synwyx-the-bold';
 
-module.exports = SynwyxTheBold;
+export default SynwyxTheBold;

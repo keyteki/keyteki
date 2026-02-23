@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class AlmsmasterEvilTwin extends Card {
     // Deploy.
     // Each of Almsmaster's neighbors gains, "Destroyed: Steal 1A."
@@ -15,4 +14,4 @@ class AlmsmasterEvilTwin extends Card {
 
 AlmsmasterEvilTwin.id = 'almsmaster-evil-twin';
 
-module.exports = AlmsmasterEvilTwin;
+export default AlmsmasterEvilTwin;

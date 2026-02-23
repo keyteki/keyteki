@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class GreedyReprisal extends Card {
     // Play: For each A in your opponent's pool, destroy a creature.
     // Fate: Deal 2 to a friendly creature for each point of armor on enemy creatures.
@@ -31,4 +30,4 @@ class GreedyReprisal extends Card {
 
 GreedyReprisal.id = 'greedy-reprisal';
 
-module.exports = GreedyReprisal;
+export default GreedyReprisal;

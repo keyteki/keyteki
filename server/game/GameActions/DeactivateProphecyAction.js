@@ -1,6 +1,5 @@
-const { EVENTS } = require('../Events/types');
-const PlayerAction = require('./PlayerAction');
-
+import { EVENTS } from '../Events/types.js';
+import PlayerAction from './PlayerAction.js';
 class DeactivateProphecyAction extends PlayerAction {
     setDefaultProperties() {
         this.prophecyCard = null;
@@ -47,4 +46,4 @@ class DeactivateProphecyAction extends PlayerAction {
     }
 }
 
-module.exports = DeactivateProphecyAction;
+export default DeactivateProphecyAction;

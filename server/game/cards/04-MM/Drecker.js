@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class Drecker extends Card {
     // Damage dealt to Dreckers neighbors during fights is also dealt to Drecker.
     // Reap: Steal 1A.
@@ -30,4 +29,4 @@ class Drecker extends Card {
 
 Drecker.id = 'drecker';
 
-module.exports = Drecker;
+export default Drecker;

@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class SaurianEgg extends Card {
     // Saurian Egg cannot fight or reap.
     // Omni: Discard the top 2 cards of your deck. If you discard any Saurian creatures this way, put them into play ready, give them three +1 power counters, and destroy Saurian Egg.
@@ -74,4 +73,4 @@ class SaurianEgg extends Card {
 
 SaurianEgg.id = 'saurian-egg';
 
-module.exports = SaurianEgg;
+export default SaurianEgg;

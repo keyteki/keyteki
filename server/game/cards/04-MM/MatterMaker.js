@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class MatterMaker extends Card {
     // You may play upgrades as if they belonged to the active house.
     setupCardAbilities(ability) {
@@ -12,4 +11,4 @@ class MatterMaker extends Card {
 
 MatterMaker.id = 'matter-maker';
 
-module.exports = MatterMaker;
+export default MatterMaker;

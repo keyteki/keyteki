@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class BrokenAxeOutpost extends Card {
     // Action: Put a friendly creature on the bottom of its owners deck. If you do, deal 6 to an enemy creature.
     setupCardAbilities(ability) {
@@ -23,4 +22,4 @@ class BrokenAxeOutpost extends Card {
 
 BrokenAxeOutpost.id = 'broken-axe-outpost';
 
-module.exports = BrokenAxeOutpost;
+export default BrokenAxeOutpost;

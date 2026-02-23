@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class ConcussiveTransfer extends Card {
     // Play: Deal 3 to a creature. Redistribute all damage on
     // creatures among all creatures.
@@ -39,4 +38,4 @@ class ConcussiveTransfer extends Card {
 
 ConcussiveTransfer.id = 'concussive-transfer';
 
-module.exports = ConcussiveTransfer;
+export default ConcussiveTransfer;

@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class VowOfBlood extends Card {
     // Enhance . (These icons have already been added to cards in your deck.)
     // Play: Deal 2 to each damaged enemy creature.
@@ -18,4 +17,4 @@ class VowOfBlood extends Card {
 
 VowOfBlood.id = 'vow-of-blood';
 
-module.exports = VowOfBlood;
+export default VowOfBlood;

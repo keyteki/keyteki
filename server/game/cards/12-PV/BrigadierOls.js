@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class BrigadierOls extends Card {
     // Enhance .
     // Brigadier Ols gets +2 armor for each of its Sanctum neighbors.
@@ -14,4 +13,4 @@ class BrigadierOls extends Card {
 
 BrigadierOls.id = 'brigadier-ols';
 
-module.exports = BrigadierOls;
+export default BrigadierOls;

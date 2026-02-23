@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class BadPenny extends Card {
     // Destroyed: Return Bad Penny to your hand.
     setupCardAbilities(ability) {
@@ -11,4 +10,4 @@ class BadPenny extends Card {
 
 BadPenny.id = 'bad-penny';
 
-module.exports = BadPenny;
+export default BadPenny;

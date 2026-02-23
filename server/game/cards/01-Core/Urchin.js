@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class Urchin extends Card {
     // Elusive. (The first time this creature is attacked each turn, no damage is dealt.)
     // Play: Steal 1<A>.
@@ -12,4 +11,4 @@ class Urchin extends Card {
 
 Urchin.id = 'urchin';
 
-module.exports = Urchin;
+export default Urchin;

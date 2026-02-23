@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class EchoReflector extends Card {
     //This creature gains, "Your opponent's keys cost +3 A."
     setupCardAbilities(ability) {
@@ -14,4 +13,4 @@ class EchoReflector extends Card {
 
 EchoReflector.id = 'echo-reflector';
 
-module.exports = EchoReflector;
+export default EchoReflector;

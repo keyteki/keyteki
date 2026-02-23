@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class ArmageddonCloak extends Card {
     // This creature gains hazardous 2 and, Destroyed: Fully heal this creature and destroy Armageddon Cloak instead.
     setupCardAbilities(ability) {
@@ -31,4 +30,4 @@ class ArmageddonCloak extends Card {
 
 ArmageddonCloak.id = 'armageddon-cloak';
 
-module.exports = ArmageddonCloak;
+export default ArmageddonCloak;

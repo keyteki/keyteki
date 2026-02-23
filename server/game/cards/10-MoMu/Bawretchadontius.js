@@ -1,5 +1,4 @@
-const GiganticCard = require('../../GiganticCard.js');
-
+import GiganticCard from '../../GiganticCard.js';
 class Bawretchadontius extends GiganticCard {
     // (Play only with the other half of Bawretchadontius.)
     // Each friendly creature with A on it gains, ”After Reap: Deal 4D to a
@@ -49,4 +48,4 @@ class Bawretchadontius extends GiganticCard {
 
 Bawretchadontius.id = 'bawretchadontius';
 
-module.exports = Bawretchadontius;
+export default Bawretchadontius;

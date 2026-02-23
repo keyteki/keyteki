@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class Touchstone extends Card {
     // After Reap: If you are haunted, draw 2 cards. Otherwise, discard the
     // top 2 cards of your deck.
@@ -23,4 +22,4 @@ class Touchstone extends Card {
 
 Touchstone.id = 'touchstone';
 
-module.exports = Touchstone;
+export default Touchstone;

@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class WildBounty extends Card {
     // Enhance AA.
     // Play: The next time you play a card this turn, resolve each of its bonus icons an additional time.
@@ -31,4 +30,4 @@ class WildBounty extends Card {
 
 WildBounty.id = 'wild-bounty';
 
-module.exports = WildBounty;
+export default WildBounty;

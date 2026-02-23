@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class MightyLance extends Card {
     // Play: Deal 3D to a creature and 3D to a neighbor of that creature.
     setupCardAbilities(ability) {
@@ -25,4 +24,4 @@ class MightyLance extends Card {
 
 MightyLance.id = 'mighty-lance';
 
-module.exports = MightyLance;
+export default MightyLance;

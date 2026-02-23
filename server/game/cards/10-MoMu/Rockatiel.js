@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class Rockatiel extends Card {
     // Play/After Reap: Choose up to 2 creatures. Shuffle each chosen
     // creature into its owner’s deck.
@@ -21,4 +20,4 @@ class Rockatiel extends Card {
 
 Rockatiel.id = 'rockatiel';
 
-module.exports = Rockatiel;
+export default Rockatiel;

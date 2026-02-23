@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class WhistlingDarts extends Card {
     // Play: Deal 1D to each enemy creature.
     setupCardAbilities(ability) {
@@ -17,4 +16,4 @@ class WhistlingDarts extends Card {
 
 WhistlingDarts.id = 'whistling-darts';
 
-module.exports = WhistlingDarts;
+export default WhistlingDarts;

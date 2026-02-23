@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class Kharisma extends Card {
     // After Reap: Return another friendly creature to its owner's
     // hand. If you do, make a token creature.
@@ -21,4 +20,4 @@ class Kharisma extends Card {
 
 Kharisma.id = 'kharisma';
 
-module.exports = Kharisma;
+export default Kharisma;

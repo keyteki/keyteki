@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class EmpBlast extends Card {
     // Play: Each Mars creature and each Robot creature is stunned. Each artifact is destroyed.
     setupCardAbilities(ability) {
@@ -21,4 +20,4 @@ class EmpBlast extends Card {
 
 EmpBlast.id = 'emp-blast';
 
-module.exports = EmpBlast;
+export default EmpBlast;

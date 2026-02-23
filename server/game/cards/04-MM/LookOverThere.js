@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class LookOverThere extends Card {
     // Play: Deal 2D to a creature. If it is not destroyed, steal 1A.
     setupCardAbilities(ability) {
@@ -24,4 +23,4 @@ class LookOverThere extends Card {
 
 LookOverThere.id = 'look-over-there';
 
-module.exports = LookOverThere;
+export default LookOverThere;

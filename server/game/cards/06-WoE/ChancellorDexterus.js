@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class ChancellorDexterus extends Card {
     // After Reap: You may exalt Chancellor Dexterus's right
     // neighbor. If you do, that creature belongs to house Saurian for
@@ -28,4 +27,4 @@ class ChancellorDexterus extends Card {
 
 ChancellorDexterus.id = 'chancellor-dexterus';
 
-module.exports = ChancellorDexterus;
+export default ChancellorDexterus;

@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class BannerOfBattle extends Card {
     // Each friendly creature gets +1 power.
     setupCardAbilities(ability) {
@@ -12,4 +11,4 @@ class BannerOfBattle extends Card {
 
 BannerOfBattle.id = 'banner-of-battle';
 
-module.exports = BannerOfBattle;
+export default BannerOfBattle;

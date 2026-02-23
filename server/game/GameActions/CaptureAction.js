@@ -1,6 +1,5 @@
-const { EVENTS } = require('../Events/types');
-const CardAction = require('./CardGameAction');
-
+import { EVENTS } from '../Events/types.js';
+import CardAction from './CardGameAction.js';
 class CaptureAction extends CardAction {
     setDefaultProperties() {
         this.amount = 1;
@@ -73,4 +72,4 @@ class CaptureAction extends CardAction {
     }
 }
 
-module.exports = CaptureAction;
+export default CaptureAction;

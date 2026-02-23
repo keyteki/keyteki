@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class PhoticRaider extends Card {
     // Play: Capture 2A.
     // (T) While the tide is high, Photic Raider gets +4 power.
@@ -17,4 +16,4 @@ class PhoticRaider extends Card {
 
 PhoticRaider.id = 'photic-raider';
 
-module.exports = PhoticRaider;
+export default PhoticRaider;

@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class CowardsEnd extends Card {
     // Play: Destroy each undamaged creature. Gain 3chains.
     setupCardAbilities(ability) {
@@ -17,4 +16,4 @@ class CowardsEnd extends Card {
 
 CowardsEnd.id = 'coward-s-end';
 
-module.exports = CowardsEnd;
+export default CowardsEnd;

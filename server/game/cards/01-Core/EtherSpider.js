@@ -1,7 +1,6 @@
-const Card = require('../../Card.js');
-const { EVENTS } = require('../../Events/types');
-const Event = require('../../Events/Event');
-
+import Card from '../../Card.js';
+import { EVENTS } from '../../Events/types.js';
+import Event from '../../Events/Event.js';
 class EtherSpider extends Card {
     // Ether Spider deals no damage when fighting.
     // Each <A> that would be added to your opponent's pool is captured by Ether Spider instead.
@@ -48,4 +47,4 @@ class EtherSpider extends Card {
 
 EtherSpider.id = 'ether-spider';
 
-module.exports = EtherSpider;
+export default EtherSpider;

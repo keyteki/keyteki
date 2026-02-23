@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class BrokenIntent extends Card {
     // Play: Choose one:
     // Each player discards their archives.
@@ -31,4 +30,4 @@ class BrokenIntent extends Card {
 
 BrokenIntent.id = 'broken-intent';
 
-module.exports = BrokenIntent;
+export default BrokenIntent;

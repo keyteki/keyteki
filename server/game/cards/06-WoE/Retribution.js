@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class Retribution extends Card {
     // Play: If there are more enemy creatures than friendly creatues, destroy an enemy creature
     setupCardAbilities(ability) {
@@ -19,4 +18,4 @@ class Retribution extends Card {
 
 Retribution.id = 'retribution';
 
-module.exports = Retribution;
+export default Retribution;

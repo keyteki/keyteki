@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class MindBullets extends Card {
     // Play: Deal 1D to each creature for each card you have played this turn (including this one).
     setupCardAbilities(ability) {
@@ -14,4 +13,4 @@ class MindBullets extends Card {
 
 MindBullets.id = 'mind-bullets';
 
-module.exports = MindBullets;
+export default MindBullets;

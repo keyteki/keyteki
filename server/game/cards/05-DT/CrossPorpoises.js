@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class CrossPorpoises extends Card {
     // (T) Play: Raise the tide. Enrage 2 enemy creatures.
     setupCardAbilities(ability) {
@@ -18,4 +17,4 @@ class CrossPorpoises extends Card {
 
 CrossPorpoises.id = 'cross-porpoises';
 
-module.exports = CrossPorpoises;
+export default CrossPorpoises;

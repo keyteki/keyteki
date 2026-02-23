@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class RedSkies extends Card {
     // Play: Move a friendly Skyborn creature to a flank and ready
     // it. If a red key is forged, repeat the preceding effect.
@@ -40,4 +39,4 @@ class RedSkies extends Card {
 
 RedSkies.id = 'red-skies';
 
-module.exports = RedSkies;
+export default RedSkies;

@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class OlPaddy extends Card {
     // (T) Reap: Discard the bottom card of your deck, or the bottom 3 cards instead if the tide is high. Play each creature discarded this way, one at a time.
     setupCardAbilities(ability) {
@@ -21,4 +20,4 @@ class OlPaddy extends Card {
 
 OlPaddy.id = 'ol--paddy';
 
-module.exports = OlPaddy;
+export default OlPaddy;

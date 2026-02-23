@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class AbondTheArmorsmith extends Card {
     // Other friendly creatures get +1armor.
     // Action: For the remainder of the turn, other friendly creatures get +1armor.
@@ -21,4 +20,4 @@ class AbondTheArmorsmith extends Card {
 
 AbondTheArmorsmith.id = 'abond-the-armorsmith';
 
-module.exports = AbondTheArmorsmith;
+export default AbondTheArmorsmith;

@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class TheCommonCold extends Card {
     // Play: Deal 1D to each creature. You may destroy all Mars creatures.
     setupCardAbilities(ability) {
@@ -22,4 +21,4 @@ class TheCommonCold extends Card {
 
 TheCommonCold.id = 'the-common-cold';
 
-module.exports = TheCommonCold;
+export default TheCommonCold;

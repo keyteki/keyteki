@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class Recycler extends Card {
     // After Reap: Discard the top 3 cards of your deck. For each
     // creature discarded this way, make a token creature.
@@ -32,4 +31,4 @@ class Recycler extends Card {
 
 Recycler.id = 'recycler';
 
-module.exports = Recycler;
+export default Recycler;

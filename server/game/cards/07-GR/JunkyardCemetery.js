@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class JunkyardCemetery extends Card {
     // While there is a combined total of 10 or more cards between
     // your purged cards and discard pile, you are haunted.
@@ -22,4 +21,4 @@ class JunkyardCemetery extends Card {
 
 JunkyardCemetery.id = 'junkyard-cemetery';
 
-module.exports = JunkyardCemetery;
+export default JunkyardCemetery;

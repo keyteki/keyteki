@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class HunterOrHunted extends Card {
     // Play: Ward a creature, or move a ward from a creature to another creature.
     setupCardAbilities(ability) {
@@ -49,4 +48,4 @@ class HunterOrHunted extends Card {
 
 HunterOrHunted.id = 'hunter-or-hunted';
 
-module.exports = HunterOrHunted;
+export default HunterOrHunted;

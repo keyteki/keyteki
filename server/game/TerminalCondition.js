@@ -58,4 +58,4 @@ class TerminalCondition {
     }
 }
 
-module.exports = TerminalCondition;
+export default TerminalCondition;

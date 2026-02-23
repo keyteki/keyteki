@@ -13,4 +13,4 @@ class SelectChoice {
     }
 }
 
-module.exports = SelectChoice;
+export default SelectChoice;

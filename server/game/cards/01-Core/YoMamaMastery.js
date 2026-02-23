@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class YoMamaMastery extends Card {
     // This creature gains taunt.
     // Play: Fully heal this creature.
@@ -19,4 +18,4 @@ class YoMamaMastery extends Card {
 
 YoMamaMastery.id = 'yo-mama-mastery';
 
-module.exports = YoMamaMastery;
+export default YoMamaMastery;

@@ -1,22 +1,20 @@
-const bcrypt = require('bcrypt');
-const passport = require('passport');
-const jwt = require('jsonwebtoken');
-const crypto = require('crypto');
-const moment = require('moment');
-const _ = require('underscore');
-const sendgrid = require('@sendgrid/mail');
-const fs = require('fs');
-const path = require('path');
-const { fabric } = require('fabric');
-
-const logger = require('../log.js');
-const { wrapAsync } = require('../util.js');
-const UserService = require('../services/UserService');
-const ConfigService = require('../services/ConfigService');
-const BanlistService = require('../services/BanlistService');
-const PatreonService = require('../services/PatreonService');
-const util = require('../util.js');
-
+import bcrypt from 'bcrypt';
+import passport from 'passport';
+import jwt from 'jsonwebtoken';
+import crypto from 'crypto';
+import moment from 'moment';
+import _ from 'underscore';
+import sendgrid from '@sendgrid/mail';
+import fs from 'fs';
+import path from 'path';
+import { fabric } from 'fabric';
+import logger from '../log.js';
+import { wrapAsync } from '../util.js';
+import UserService from '../services/UserService.js';
+import ConfigService from '../services/ConfigService.js';
+import BanlistService from '../services/BanlistService.js';
+import PatreonService from '../services/PatreonService.js';
+import util from '../util.js';
 let configService = new ConfigService();
 let userService;
 let banlistService;
@@ -238,7 +236,7 @@ async function processCustomBackground(newUser, user) {
     return fileName;
 }
 
-module.exports.init = function (server, options) {
+export const init = function (server, options) {
     userService = options.userService || new UserService(options.configService);
     banlistService = new BanlistService(options.db, configService);
     patreonService = new PatreonService(

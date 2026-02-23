@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class GreyWarden extends Card {
     // Deploy.
     // After Fight/After Reap: Ready a neighboring Sanctum creature.
@@ -18,4 +17,4 @@ class GreyWarden extends Card {
 
 GreyWarden.id = 'grey-warden';
 
-module.exports = GreyWarden;
+export default GreyWarden;

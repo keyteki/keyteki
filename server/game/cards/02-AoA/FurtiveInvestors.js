@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class FurtiveInvestors extends Card {
     // Play: If your opponent has more A than you, gain 1A for each key your opponent has forged.
     setupCardAbilities(ability) {
@@ -15,4 +14,4 @@ class FurtiveInvestors extends Card {
 
 FurtiveInvestors.id = 'furtive-investors';
 
-module.exports = FurtiveInvestors;
+export default FurtiveInvestors;

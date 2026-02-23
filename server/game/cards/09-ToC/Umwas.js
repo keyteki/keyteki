@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class Umwas extends Card {
     // Play: Make a token creature. Give each friendly token creature
     // a +1 power counter.
@@ -19,4 +18,4 @@ class Umwas extends Card {
 
 Umwas.id = 'umwas';
 
-module.exports = Umwas;
+export default Umwas;

@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class Murkens extends Card {
     // Play: Choose a random card in your opponents archives or the top card of your opponents deck. Play that card as if it were yours.
     setupCardAbilities(ability) {
@@ -28,4 +27,4 @@ class Murkens extends Card {
 
 Murkens.id = 'murkens';
 
-module.exports = Murkens;
+export default Murkens;

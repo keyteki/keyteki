@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class OzmoMartianologist extends Card {
     // Elusive. (The first time this creature is attacked each turn, no damage is dealt.)
     // Fight/Reap: Heal 3damage from a Mars creature or stun a Mars creature.
@@ -35,4 +34,4 @@ class OzmoMartianologist extends Card {
 
 OzmoMartianologist.id = 'ozmo-martianologist';
 
-module.exports = OzmoMartianologist;
+export default OzmoMartianologist;

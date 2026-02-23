@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class LambentMycelium extends Card {
     // After another creature enters play, put two +1 power counters on Lambent Mycelium.
     // Fate: Until the end of your turn, the most powerful enemy creatures gain taunt.
@@ -30,4 +29,4 @@ class LambentMycelium extends Card {
 
 LambentMycelium.id = 'lambent-mycelium';
 
-module.exports = LambentMycelium;
+export default LambentMycelium;

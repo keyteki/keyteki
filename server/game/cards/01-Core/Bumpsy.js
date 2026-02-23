@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class Bumpsy extends Card {
     // Play: Your opponent loses 1<A>.
     setupCardAbilities(ability) {
@@ -11,4 +10,4 @@ class Bumpsy extends Card {
 
 Bumpsy.id = 'bumpsy';
 
-module.exports = Bumpsy;
+export default Bumpsy;

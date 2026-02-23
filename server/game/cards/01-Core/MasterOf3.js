@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class MasterOf3 extends Card {
     // Reap: You may destroy a creature with 3 power.
     setupCardAbilities(ability) {
@@ -16,4 +15,4 @@ class MasterOf3 extends Card {
 
 MasterOf3.id = 'master-of-3';
 
-module.exports = MasterOf3;
+export default MasterOf3;

@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class TechnoBeast extends Card {
     // Skirmish. (When you use this creature to fight, it is dealt no damage in return.)
     // Reap: Discard a card from your hand. If you do, draw a card.
@@ -19,4 +18,4 @@ class TechnoBeast extends Card {
 
 TechnoBeast.id = 'techno-beast';
 
-module.exports = TechnoBeast;
+export default TechnoBeast;

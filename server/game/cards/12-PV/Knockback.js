@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 function discard(deck) {
     const index = deck.findIndex((card) => card.type === 'creature');
     if (index > -1) {
@@ -29,4 +28,4 @@ class Knockback extends Card {
 
 Knockback.id = 'knockback';
 
-module.exports = Knockback;
+export default Knockback;

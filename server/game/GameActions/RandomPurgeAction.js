@@ -1,7 +1,6 @@
-const { EVENTS } = require('../Events/types');
-const PlayerAction = require('./PlayerAction');
-const _ = require('underscore');
-
+import { EVENTS } from '../Events/types.js';
+import PlayerAction from './PlayerAction.js';
+import _ from 'underscore';
 class RandomPurgeAction extends PlayerAction {
     setDefaultProperties() {
         this.amount = 1;
@@ -41,4 +40,4 @@ class RandomPurgeAction extends PlayerAction {
     }
 }
 
-module.exports = RandomPurgeAction;
+export default RandomPurgeAction;

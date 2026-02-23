@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class FogMurmook extends Card {
     // While Fog Murmook is not on a flank, keys cost –1 amber.
     setupCardAbilities(ability) {
@@ -13,4 +12,4 @@ class FogMurmook extends Card {
 
 FogMurmook.id = 'fog-murmook';
 
-module.exports = FogMurmook;
+export default FogMurmook;

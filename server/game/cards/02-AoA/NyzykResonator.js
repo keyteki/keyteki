@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class NyzykResonator extends Card {
     // For each neighbor Nyzyk Resonator has, your opponents keys cost +2A.
     setupCardAbilities(ability) {
@@ -14,4 +13,4 @@ class NyzykResonator extends Card {
 
 NyzykResonator.id = 'nyzyk-resonator';
 
-module.exports = NyzykResonator;
+export default NyzykResonator;

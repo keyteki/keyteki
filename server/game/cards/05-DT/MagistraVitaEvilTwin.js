@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class MagistraVitaEvilTwin extends Card {
     // Play/Fight: You may exalt a friendly non-Saurian creature. If you do, fight with it.
     setupCardAbilities(ability) {
@@ -21,4 +20,4 @@ class MagistraVitaEvilTwin extends Card {
 
 MagistraVitaEvilTwin.id = 'magistra-vita-evil-twin';
 
-module.exports = MagistraVitaEvilTwin;
+export default MagistraVitaEvilTwin;

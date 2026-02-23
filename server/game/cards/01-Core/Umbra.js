@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class Umbra extends Card {
     // Skirmish. (When you use this creature to fight, it is dealt no damage in return.)
     // Fight: Steal 1A.
@@ -12,4 +11,4 @@ class Umbra extends Card {
 
 Umbra.id = 'umbra';
 
-module.exports = Umbra;
+export default Umbra;

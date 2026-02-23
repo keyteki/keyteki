@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class SeabringerKekoa extends Card {
     // Taunt. (This creature’s neighbors cannot be attacked unless they have taunt.)
     // (T) Destroyed: Raise the tide.
@@ -12,4 +11,4 @@ class SeabringerKekoa extends Card {
 
 SeabringerKekoa.id = 'seabringer-kekoa';
 
-module.exports = SeabringerKekoa;
+export default SeabringerKekoa;

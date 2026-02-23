@@ -1,10 +1,8 @@
-const _ = require('underscore');
-
-const BaseStep = require('./basestep.js');
-const TriggeredAbilityWindowTitles = require('./triggeredabilitywindowtitles.js');
-const Optional = require('../optional.js');
-const { EVENTS } = require('../Events/types.js');
-
+import _ from 'underscore';
+import BaseStep from './basestep.js';
+import TriggeredAbilityWindowTitles from './triggeredabilitywindowtitles.js';
+import Optional from '../optional.js';
+import { EVENTS } from '../Events/types.js';
 class ForcedTriggeredAbilityWindow extends BaseStep {
     constructor(game, abilityType, window, eventsToExclude = []) {
         super(game);
@@ -452,4 +450,4 @@ class ForcedTriggeredAbilityWindow extends BaseStep {
     }
 }
 
-module.exports = ForcedTriggeredAbilityWindow;
+export default ForcedTriggeredAbilityWindow;

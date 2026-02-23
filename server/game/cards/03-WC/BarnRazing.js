@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class BarnRazing extends Card {
     // Play: For the remainder of the turn, your opponent loses 1A each time a friendly creature fights.
     setupCardAbilities(ability) {
@@ -21,4 +20,4 @@ class BarnRazing extends Card {
 
 BarnRazing.id = 'barn-razing';
 
-module.exports = BarnRazing;
+export default BarnRazing;

@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class DaemoThief extends Card {
     // Elusive. (The first time this creature is attacked each turn, no damage is dealt.)
     // Destroyed: Steal 1A.
@@ -12,4 +11,4 @@ class DaemoThief extends Card {
 
 DaemoThief.id = 'dæmo-thief';
 
-module.exports = DaemoThief;
+export default DaemoThief;

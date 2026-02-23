@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class Swindle extends Card {
     // Alpha. (You can only play this card before doing anything else this step.)
     // Omega. (After you play this card,
@@ -14,4 +13,4 @@ class Swindle extends Card {
 
 Swindle.id = 'swindle';
 
-module.exports = Swindle;
+export default Swindle;

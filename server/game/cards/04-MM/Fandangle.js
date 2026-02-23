@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class Fandangle extends Card {
     // While you have 4A or more, your non-Untamed creatures enter play ready.
     setupCardAbilities(ability) {
@@ -21,4 +20,4 @@ class Fandangle extends Card {
 
 Fandangle.id = 'fandangle';
 
-module.exports = Fandangle;
+export default Fandangle;

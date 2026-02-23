@@ -1,6 +1,5 @@
-const Card = require('../../Card.js');
-const { DiscardCardAction } = require('../../GameActions/index.js');
-
+import Card from '../../Card.js';
+import { DiscardCardAction } from '../../GameActions/index.js';
 class KaupeEvilTwin extends Card {
     // You cannot play more than 1 card of each type each turn.
     // Fight/Reap: Discard any number of cards from your hand. For each card discarded this way, deal 2D to an enemy creature.
@@ -67,4 +66,4 @@ class KaupeEvilTwin extends Card {
 
 KaupeEvilTwin.id = 'kaupe-evil-twin';
 
-module.exports = KaupeEvilTwin;
+export default KaupeEvilTwin;

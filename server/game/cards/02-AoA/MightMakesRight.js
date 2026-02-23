@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class MightMakesRight extends Card {
     // Play: You may sacrifice any number of creatures with total power of 25or more. If you do, forge a key at no cost.
     setupCardAbilities(ability) {
@@ -31,4 +30,4 @@ class MightMakesRight extends Card {
 
 MightMakesRight.id = 'might-makes-right';
 
-module.exports = MightMakesRight;
+export default MightMakesRight;

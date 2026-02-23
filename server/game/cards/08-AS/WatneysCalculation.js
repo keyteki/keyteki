@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class WatneysCalculation extends Card {
     // Play: If your opponent has more A than you, destroy an enemy creature.
     setupCardAbilities(ability) {
@@ -17,4 +16,4 @@ class WatneysCalculation extends Card {
 
 WatneysCalculation.id = 'watney-s-calculation';
 
-module.exports = WatneysCalculation;
+export default WatneysCalculation;

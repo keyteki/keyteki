@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class ScramblerStorm extends Card {
     // Play: Your opponent cannot play action cards on their next turn.
     setupCardAbilities(ability) {
@@ -21,4 +20,4 @@ class ScramblerStorm extends Card {
 
 ScramblerStorm.id = 'scrambler-storm';
 
-module.exports = ScramblerStorm;
+export default ScramblerStorm;

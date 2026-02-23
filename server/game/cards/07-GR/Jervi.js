@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class Jervi extends Card {
     // After Reap: Search your deck for a card and put it into your hand.
     //
@@ -27,4 +26,4 @@ class Jervi extends Card {
 
 Jervi.id = 'jervi';
 
-module.exports = Jervi;
+export default Jervi;

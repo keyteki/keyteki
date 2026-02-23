@@ -1,12 +1,10 @@
-const moment = require('moment');
-const crypto = require('crypto');
-const EventEmitter = require('events');
-
-const logger = require('../log');
-const User = require('../models/User');
-const db = require('../db');
-const { expand } = require('../Array');
-
+import moment from 'moment';
+import crypto from 'crypto';
+import EventEmitter from 'events';
+import logger from '../log.js';
+import User from '../models/User.js';
+import db from '../db/index.js';
+import { expand } from '../Array.js';
 class UserService extends EventEmitter {
     constructor(configService) {
         super();
@@ -770,4 +768,4 @@ class UserService extends EventEmitter {
     }
 }
 
-module.exports = UserService;
+export default UserService;

@@ -1,5 +1,4 @@
-const GiganticCard = require('../../GiganticCard.js');
-
+import GiganticCard from '../../GiganticCard.js';
 class SirsColossus extends GiganticCard {
     // (Play only with the other half of Sirs Colossus.)
     // Play: Capture all your opponent’s A, distributed
@@ -39,4 +38,4 @@ class SirsColossus extends GiganticCard {
 
 SirsColossus.id = 'sirs-colossus';
 
-module.exports = SirsColossus;
+export default SirsColossus;

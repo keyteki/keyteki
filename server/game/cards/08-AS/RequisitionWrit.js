@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class RequisitionWrit extends Card {
     // This creature gains, “After Reap: Pay your opponent 1A. If you
     // do, take control of an enemy creature."
@@ -29,4 +28,4 @@ class RequisitionWrit extends Card {
 
 RequisitionWrit.id = 'requisition-writ';
 
-module.exports = RequisitionWrit;
+export default RequisitionWrit;

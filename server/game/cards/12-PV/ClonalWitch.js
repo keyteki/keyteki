@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class ClonalWitch extends Card {
     // Elusive.
     // After Reap: Choose a house. Destroy each creature of the chosen house.
@@ -36,4 +35,4 @@ class ClonalWitch extends Card {
 
 ClonalWitch.id = 'clonal-witch';
 
-module.exports = ClonalWitch;
+export default ClonalWitch;

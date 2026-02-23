@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class BringLow extends Card {
     // Enhance . (These icons have already been added to cards in your deck.)
     // Play: Capture all but 5 of your opponents , distributed among any number of friendly creatures.
@@ -26,4 +25,4 @@ class BringLow extends Card {
 
 BringLow.id = 'bring-low';
 
-module.exports = BringLow;
+export default BringLow;

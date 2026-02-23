@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class StirringGrave extends Card {
     // Play: Archive a creature from your discard pile.
     setupCardAbilities(ability) {
@@ -16,4 +15,4 @@ class StirringGrave extends Card {
 
 StirringGrave.id = 'stirring-grave';
 
-module.exports = StirringGrave;
+export default StirringGrave;

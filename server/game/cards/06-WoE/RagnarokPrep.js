@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class RagnarokPrep extends Card {
     // Play: Make a token creature. Then, if you control more creatures than your opponent, your opponent loses 2A.
     setupCardAbilities(ability) {
@@ -26,4 +25,4 @@ class RagnarokPrep extends Card {
 
 RagnarokPrep.id = 'ragnarok-prep';
 
-module.exports = RagnarokPrep;
+export default RagnarokPrep;

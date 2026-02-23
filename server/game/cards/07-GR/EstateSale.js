@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class EstateSale extends Card {
     // Play: Purge a non-creature card from your discard pile. If you
     // do, gain 2A.
@@ -20,4 +19,4 @@ class EstateSale extends Card {
 
 EstateSale.id = 'estate-sale';
 
-module.exports = EstateSale;
+export default EstateSale;

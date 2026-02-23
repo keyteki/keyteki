@@ -1,5 +1,4 @@
-const Card = require('../../Card.js');
-
+import Card from '../../Card.js';
 class RelegatedRelics extends Card {
     // Play: Shuffle each artifact into its owner's deck.
     // Fate: Purge each artifact.
@@ -22,4 +21,4 @@ class RelegatedRelics extends Card {
 
 RelegatedRelics.id = 'relegated-relics';
 
-module.exports = RelegatedRelics;
+export default RelegatedRelics;

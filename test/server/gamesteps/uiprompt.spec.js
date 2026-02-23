@@ -1,5 +1,4 @@
-const UiPrompt = require('../../../server/game/gamesteps/uiprompt.js');
-
+import UiPrompt from '../../../server/game/gamesteps/uiprompt.js';
 describe('the UiPrompt', function () {
     beforeEach(function () {
         this.player1 = {

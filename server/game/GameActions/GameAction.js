@@ -1,6 +1,5 @@
-const Event = require('../Events/Event.js');
-const { EVENTS } = require('../Events/types.js');
-
+import Event from '../Events/Event.js';
+import { EVENTS } from '../Events/types.js';
 class GameAction {
     constructor(propertyFactory = {}) {
         this.reset();
@@ -141,4 +140,4 @@ class GameAction {
     }
 }
 
-module.exports = GameAction;
+export default GameAction;
