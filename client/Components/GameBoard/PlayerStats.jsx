@@ -160,8 +160,10 @@ const PlayerStats = ({
 
     const writeChatToClipboard = (event) => {
         event.preventDefault();
-        let messagePanel = document.getElementsByClassName('messages panel')[0];
+        const messagePanel =
+            document.querySelector('.chat-scroll .messages') || document.querySelector('.messages');
         if (!messagePanel) {
+            toast.danger('Could not find game chat to copy.');
             return;
         }
         if (!navigator.clipboard || !navigator.clipboard.writeText) {
@@ -307,8 +309,8 @@ const PlayerStats = ({
                         </a>
                     </div>
                     <div className='state'>
-                        <a href='#' className='pr-1 pl-1'>
-                            <Icon icon={faCopy} onClick={writeChatToClipboard}></Icon>
+                        <a href='#' className='pr-1 pl-1' onClick={writeChatToClipboard}>
+                            <Icon icon={faCopy}></Icon>
                         </a>
                     </div>
                     {showManualMode && (
