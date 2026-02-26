@@ -293,7 +293,9 @@ this.interrupt({
 
 ### scrap()
 
-"Scrap:" abilities trigger when the card is discarded from the active player's hand (not from play) during their turn.
+"Scrap:" abilities trigger when the card is discarded from the active player's hand (not from play) during their turn. This includes both voluntary discards (using the "scrap" action) and forced discards (from bonus icons, card effects, etc.).
+
+**Note:** Don't confuse scrap abilities with other ability types. Cards like Helper Bot have Play abilities, not Scrap abilities. Always check the actual card text in the JSON data to verify a card's ability type.
 
 ```javascript
 // Scrap: Deal 3 damage to a creature.

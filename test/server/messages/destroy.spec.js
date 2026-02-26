@@ -67,7 +67,7 @@ describe('Destroy Messages', function () {
             expect(this.player1).isReadyToTakeAction();
             expect(this).toHaveAllChatMessagesBe([
                 'player1 plays Punch',
-                "player1 gains an amber due to Punch's bonus icon",
+                "player1 uses Punch's amber bonus icon to gain 1 amber",
                 'player1 uses Punch to deal 3 damage to Ember Imp',
                 'Ember Imp is destroyed'
             ]);

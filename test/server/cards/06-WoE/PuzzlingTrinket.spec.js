@@ -24,7 +24,7 @@ describe('Puzzling Trinket', function () {
         // Amber -> amber
         it('should ask to replace amber icon with other 3 options', function () {
             this.player1.play(this.vowOfBlood);
-            expect(this.player1).toHavePrompt('How do you wish to resolve this amber icon?');
+            expect(this.player1).toHavePrompt('How do you wish to resolve this amber bonus icon?');
             expect(this.player1).toHavePromptButton('amber');
             expect(this.player1).toHavePromptButton('capture');
             expect(this.player1).toHavePromptButton('damage');
