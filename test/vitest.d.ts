@@ -1,5 +1,3 @@
-/// <reference types="vitest/globals" />
-
 export {};
 
 type VitestDescribe = typeof import('vitest')['describe'];
