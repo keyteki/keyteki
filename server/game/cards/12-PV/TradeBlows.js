@@ -1,29 +1,29 @@
 const Card = require('../../Card.js');
 
 class TradeBlows extends Card {
-    // Play: Deal 1 to an enemy creature. If that creature is not destroyed, you may deal 1 to a friendly creature to repeat this effect.
+    // Play: Deal 1 to a friendly creature and 1 to an enemy creature. If that enemy creature is not destroyed, you may repeat this effect.
     setupCardAbilities(ability) {
         this.play({
-            target: {
-                cardType: 'creature',
-                controller: 'opponent',
-                gameAction: ability.actions.dealDamage({ amount: 1 })
-            },
-            then: (preThenContext) => ({
-                alwaysTriggers: true,
-                condition: () =>
-                    preThenContext.target && preThenContext.target.location === 'play area',
-                target: {
-                    optional: true,
+            targets: {
+                friendly: {
                     cardType: 'creature',
                     controller: 'self',
                     gameAction: ability.actions.dealDamage({ amount: 1 })
                 },
-                message: '{0} uses {1} to deal 1 damage to {3}',
-                messageArgs: (context) => [context.target],
-                then: {
-                    gameAction: ability.actions.resolveAbility({ ability: preThenContext.ability })
+                enemy: {
+                    cardType: 'creature',
+                    controller: 'opponent',
+                    gameAction: ability.actions.dealDamage({ amount: 1 })
                 }
+            },
+            effect: 'deal 1 damage to {1}',
+            effectArgs: (context) => [Object.values(context.targets)],
+            then: (context) => ({
+                alwaysTriggers: true,
+                condition: () =>
+                    context.targets.enemy && context.targets.enemy.location === 'play area',
+                may: 'repeat this effect',
+                gameAction: ability.actions.resolveAbility({ ability: context.ability })
             })
         });
     }

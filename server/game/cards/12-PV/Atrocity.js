@@ -1,44 +1,46 @@
 const Card = require('../../Card.js');
 
 class Atrocity extends Card {
-    // At the start of your opponent's turn, that player discards
+    // Play: At the start of your opponent's next turn, that player discards
     // the top card of their deck. They must choose the discarded card's
-    // house as their active house this turn. Deal 1 damage to Atrocity.
+    // house as their active house this turn.
     setupCardAbilities(ability) {
-        this.reaction({
-            when: {
-                onTurnStart: (_, context) =>
-                    context.source.controller.opponent === context.game.activePlayer
-            },
-            gameAction: [
-                ability.actions.discard((context) => ({
+        this.play({
+            condition: (context) => !!context.player.opponent,
+            effect: "force {1} to discard and choose that card's house next turn",
+            effectArgs: (context) => context.player.opponent,
+            effectAlert: true,
+            gameAction: ability.actions.duringOpponentNextTurn({
+                when: {
+                    onTurnStart: () => true
+                },
+                multipleTrigger: false,
+                gameAction: ability.actions.discard((context) => ({
                     target: context.source.controller.opponent
                         ? context.source.controller.opponent.deck.slice(0, 1)
                         : []
                 })),
-                ability.actions.dealDamage((context) => ({
-                    amount: 1,
-                    target: context.source
-                }))
-            ],
-            effect: 'discard {1} from their deck and deal 1 damage to {0}',
-            effectArgs: (context) => [
-                context.source.controller.opponent &&
-                context.source.controller.opponent.deck.length > 0
-                    ? context.source.controller.opponent.deck.slice(0, 1)
-                    : 'nothing'
-            ],
-            then: {
-                alwaysTriggers: true,
-                gameAction: ability.actions.untilPlayerTurnEnd((context) => ({
-                    targetController: 'opponent',
-                    effect: ability.effects.restrictHouseChoice(
-                        context.preThenEvents.length > 1 && context.preThenEvents[0].card
-                            ? context.preThenEvents[0].card.getHouses()
-                            : []
-                    )
-                }))
-            }
+                message: '{0} uses {1} to discard {3} from the top of their deck',
+                messageArgs: (context) => [
+                    context.source.controller,
+                    context.source,
+                    context.source.controller.opponent &&
+                    context.source.controller.opponent.deck.length > 0
+                        ? context.source.controller.opponent.deck[0]
+                        : 'nothing'
+                ],
+                then: {
+                    alwaysTriggers: true,
+                    gameAction: ability.actions.untilPlayerTurnEnd((context) => ({
+                        targetController: 'opponent',
+                        effect: ability.effects.restrictHouseChoice(
+                            context.preThenEvents.length > 0 && context.preThenEvents[0].card
+                                ? context.preThenEvents[0].card.getHouses()
+                                : []
+                        )
+                    }))
+                }
+            })
         });
     }
 }
