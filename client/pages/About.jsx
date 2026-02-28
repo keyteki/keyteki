@@ -1,6 +1,6 @@
 import React from 'react';
 import { Trans, useTranslation } from 'react-i18next';
-import { Col } from 'react-bootstrap';
+import { Button } from '@heroui/react';
 
 import Panel from '../Components/Site/Panel';
 import Link from '../Components/Navigation/Link';
@@ -9,16 +9,21 @@ const About = () => {
     const { t } = useTranslation();
 
     return (
-        <Col className='full-height' xs='12'>
+        <div className='min-h-full w-full'>
             <Panel title={t('About The Crucible Online - Help and information')}>
-                <a
-                    className='btn btn-danger float-right'
-                    target='_blank'
-                    rel='noopener noreferrer'
-                    href='https://github.com/keyteki/keyteki/issues'
+                <Button
+                    className='mb-2 ml-auto block w-fit'
+                    variant='primary'
+                    onPress={() =>
+                        window.open(
+                            'https://github.com/keyteki/keyteki/issues',
+                            '_blank',
+                            'noopener,noreferrer'
+                        )
+                    }
                 >
                     <Trans>Report Problems</Trans>
-                </a>
+                </Button>
                 <Trans i18nKey='about.whatisthis'>
                     <h3>What is this?</h3>
 
@@ -155,7 +160,7 @@ const About = () => {
                     </p>
                 </Trans>
             </Panel>
-        </Col>
+        </div>
     );
 };
 

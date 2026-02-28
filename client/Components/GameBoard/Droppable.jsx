@@ -4,8 +4,6 @@ import classNames from 'classnames';
 
 import { ItemTypes } from '../../constants';
 
-import './Droppable.scss';
-
 const validTargets = {
     hand: ['play area', 'discard', 'deck', 'archives', 'purged'],
     'play area': ['discard', 'hand', 'deck', 'archives', 'purged'],

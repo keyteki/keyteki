@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
-
+import { Button } from '@heroui/react';
 import { Trans } from 'react-i18next';
-import { Button } from 'react-bootstrap';
 
 /**
  * @typedef ConfirmedButtonProps
@@ -36,14 +35,14 @@ const ConfirmButton = ({ children, onClick }) => {
 
     return (
         <>
-            <Button variant='primary' onClick={handleClick}>
+            <Button size='sm' variant='tertiary' onPress={handleClick}>
                 {btnText}
             </Button>
-            {showConfirm && (
-                <Button variant='danger' onClick={handleConfirmClick}>
+            {showConfirm ? (
+                <Button size='sm' variant='danger' onPress={handleConfirmClick}>
                     <Trans>Confirm</Trans>
                 </Button>
-            )}
+            ) : null}
         </>
     );
 };

@@ -13,7 +13,7 @@ class RiggedLottery extends Card {
                 })),
                 ability.actions.discard((context) => ({
                     target:
-                        context.player.opponent.deck.length > 0
+                        context.player.opponent && context.player.opponent.deck.length > 0
                             ? context.player.opponent.deck.slice(
                                   0,
                                   Math.min(5, context.player.opponent.deck.length)
@@ -30,7 +30,7 @@ class RiggedLottery extends Card {
                           )
                         : [];
                 let theirCards =
-                    preThenContext.player.opponent.deck.length > 0
+                    preThenContext.player.opponent && preThenContext.player.opponent.deck.length > 0
                         ? preThenContext.player.opponent.deck.slice(
                               0,
                               Math.min(5, preThenContext.player.opponent.deck.length)
@@ -52,10 +52,15 @@ class RiggedLottery extends Card {
                             amount: myCards.filter((card) => card.hasHouse('shadows')).length,
                             target: preThenContext.player
                         }),
-                        ability.actions.gainAmber({
-                            amount: theirCards.filter((card) => card.hasHouse('shadows')).length,
-                            target: preThenContext.player.opponent
-                        })
+                        ...(preThenContext.player.opponent
+                            ? [
+                                  ability.actions.gainAmber({
+                                      amount: theirCards.filter((card) => card.hasHouse('shadows'))
+                                          .length,
+                                      target: preThenContext.player.opponent
+                                  })
+                              ]
+                            : [])
                     ]
                 };
             }

@@ -1,9 +1,7 @@
 import React from 'react';
 import { Trans } from 'react-i18next';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import Icon from '../Icon';
 import { faTimes, faCheck } from '@fortawesome/free-solid-svg-icons';
-
-import './DeckStatusSummary.scss';
 
 const DeckStatusSummary = ({ status }) => {
     let { flagged, verified, noUnreleasedCards, basicRules } = status;
@@ -21,7 +19,7 @@ const DeckStatusSummary = ({ status }) => {
         <ul className='deck-status-summary'>
             {items.map((item, index) => (
                 <li className={item.value ? 'valid' : 'invalid'} key={index}>
-                    <FontAwesomeIcon icon={item.value ? faCheck : faTimes} />
+                    <Icon icon={item.value ? faCheck : faTimes} />
                     &nbsp;<Trans>{item.title}</Trans>
                 </li>
             ))}

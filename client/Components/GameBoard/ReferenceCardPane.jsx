@@ -34,11 +34,11 @@ const ReferenceCardPane = ({
         const img = getCardImage(i18n.language, player.tokenCard.image);
         return (
             <img
-                className='img-fluid normal reference-card'
+                className='normal reference-card block h-auto max-w-full'
                 src={img}
                 onMouseOver={() => {
                     onMouseOver({
-                        image: <img src={img} className='card-zoom normal' />,
+                        image: <img src={img} className='block h-full w-full' />,
                         size: 'normal'
                     });
                 }}
@@ -73,11 +73,13 @@ const ReferenceCardPane = ({
                                 isController &&
                                 (card.canActivateProphecy || currentGame.manualMode);
                             const isActive = card.activeProphecy;
-                            const className = `img-fluid normal reference-card prophecy-card ${
-                                isActive ? 'active' : 'inactive'
-                            } ${isClickable ? 'clickable' : ''} ${
-                                !isActive && card.canActivateProphecy ? 'can-activate' : ''
-                            }`;
+                            const isAvailable = !isActive && Boolean(card.canActivateProphecy);
+                            const isUnavailable = !isActive && !card.canActivateProphecy;
+                            const className = `normal reference-card prophecy-card block h-auto max-w-full ${
+                                isActive ? 'active' : isAvailable ? 'available' : 'inactive'
+                            } ${isClickable ? 'is-clickable cursor-pointer' : ''} ${
+                                isAvailable ? 'can-activate' : ''
+                            } ${isUnavailable ? 'unavailable' : ''}`;
 
                             return (
                                 <div key={card.uuid} className='prophecy-card-container'>
@@ -108,7 +110,10 @@ const ReferenceCardPane = ({
                                         onMouseOver={() => {
                                             onMouseOver({
                                                 image: card.facedown ? (
-                                                    <img src={img} className='card-zoom normal' />
+                                                    <img
+                                                        src={img}
+                                                        className='block h-full w-full'
+                                                    />
                                                 ) : (
                                                     <CardImage
                                                         card={{ ...card, location: 'zoom' }}
@@ -136,44 +141,58 @@ const ReferenceCardPane = ({
                                     {isActive &&
                                         card.childCards &&
                                         card.childCards.length > 0 &&
-                                        card.childCards.map((childCard, childIndex) => (
-                                            <div
-                                                key={`${card.uuid}-child-${childIndex}`}
-                                                className='child-card-under-prophecy'
-                                                style={{
-                                                    top: `${35 + childIndex * 4}px`,
-                                                    left: `${childIndex * 2}px`
-                                                }}
-                                                onMouseOver={() => {
-                                                    if (isController) {
-                                                        onMouseOver({
-                                                            image: (
-                                                                <CardImage
-                                                                    card={{
-                                                                        ...childCard,
-                                                                        location: 'zoom'
-                                                                    }}
-                                                                />
-                                                            ),
-                                                            size: 'normal'
-                                                        });
+                                        card.childCards.map((childCard, childIndex) => {
+                                            const canRevealChildCard = isController && !spectating;
+
+                                            return (
+                                                <div
+                                                    key={`${card.uuid}-child-${childIndex}`}
+                                                    className={`child-card-under-prophecy ${
+                                                        canRevealChildCard ? 'is-interactive' : ''
+                                                    }`}
+                                                    style={{
+                                                        top: `${35 + childIndex * 4}px`,
+                                                        left: `${childIndex * 2}px`
+                                                    }}
+                                                    onMouseOver={
+                                                        canRevealChildCard
+                                                            ? () => {
+                                                                  const hoverCard = {
+                                                                      ...childCard,
+                                                                      facedown: false,
+                                                                      location: 'zoom'
+                                                                  };
+                                                                  onMouseOver({
+                                                                      image: (
+                                                                          <CardImage
+                                                                              card={hoverCard}
+                                                                          />
+                                                                      ),
+                                                                      size: 'normal'
+                                                                  });
+                                                              }
+                                                            : undefined
                                                     }
-                                                }}
-                                                onMouseOut={onMouseOut}
-                                                title={
-                                                    isController
-                                                        ? t(`${childCard.name}`)
-                                                        : 'Face-down card'
-                                                }
-                                            >
-                                                <CardBack
-                                                    deck={player.deckData}
-                                                    showDeckName={showDeckName(!spectating)}
-                                                    zoom={false}
-                                                    size={cardSize}
-                                                />
-                                            </div>
-                                        ))}
+                                                    onMouseOut={
+                                                        canRevealChildCard ? onMouseOut : undefined
+                                                    }
+                                                    title={
+                                                        canRevealChildCard
+                                                            ? t(`${childCard.name}`)
+                                                            : 'Face-down card'
+                                                    }
+                                                >
+                                                    <CardBack
+                                                        className='h-full w-full'
+                                                        imageClassName='block h-full w-full'
+                                                        deck={player.deckData}
+                                                        showDeckName={showDeckName(!spectating)}
+                                                        zoom={false}
+                                                        size={cardSize}
+                                                    />
+                                                </div>
+                                            );
+                                        })}
                                 </div>
                             );
                         })}
@@ -192,20 +211,28 @@ const ReferenceCardPane = ({
         const img = Constants.TideImages.card[locale] ?? Constants.TideImages.card['en'];
 
         return (
-            <img
-                onClick={onClickTide}
-                className={`img-fluid normal reference-card tide-card tide-${thisPlayer.stats.tide}
-                    ${thisPlayer.activeHouse && thisPlayer.canRaiseTide ? 'can-raise-tide' : ''}`}
-                src={img}
-                onMouseOver={() => {
-                    onMouseOver({
-                        image: <img src={img} className='card-zoom normal' />,
-                        size: `tide-${thisPlayer.stats.tide}`
-                    });
-                }}
-                onMouseOut={onMouseOut}
-                title={t(`${thisPlayer.stats.tide}-tide`)}
-            />
+            <div className='tide-card-slot'>
+                <img
+                    onClick={onClickTide}
+                    className={`normal reference-card tide-card block h-auto max-w-full tide-${
+                        thisPlayer.stats.tide
+                    }
+                        ${
+                            thisPlayer.activeHouse && thisPlayer.canRaiseTide
+                                ? 'can-raise-tide'
+                                : ''
+                        }`}
+                    src={img}
+                    onMouseOver={() => {
+                        onMouseOver({
+                            image: <img src={img} className='block h-full w-full' />,
+                            size: `tide-${thisPlayer.stats.tide}`
+                        });
+                    }}
+                    onMouseOut={onMouseOut}
+                    title={t(`${thisPlayer.stats.tide}-tide`)}
+                />
+            </div>
         );
     };
 
@@ -223,14 +250,16 @@ const ReferenceCardPane = ({
     return (
         <div className='reference-card-pane'>
             {otherPlayer && (
-                <>
+                <div className='reference-player reference-player--opponent'>
                     {renderToken(otherPlayer)}
                     {renderProphecies(otherPlayer)}
-                </>
+                </div>
             )}
             {renderTide()}
-            {renderToken(thisPlayer)}
-            {renderProphecies(thisPlayer)}
+            <div className='reference-player reference-player--self'>
+                {renderToken(thisPlayer)}
+                {renderProphecies(thisPlayer)}
+            </div>
         </div>
     );
 };

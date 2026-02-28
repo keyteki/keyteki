@@ -1,9 +1,10 @@
-const socketio = require('socket.io');
+const { Server } = require('socket.io');
 const jwt = require('jsonwebtoken');
 const Sentry = require('@sentry/node');
 const http = require('http');
 const https = require('https');
 const fs = require('fs');
+const { URL } = require('url');
 const jsondiffpatch = require('jsondiffpatch').create({
     objectHash: (obj, index) => {
         return obj.uuid || obj.name || obj.id || obj._id || '$$index:' + index;
@@ -84,7 +85,29 @@ class GameServer {
 
         const corsOrigin = this.configService.getValueForSection('gameNode', 'origin');
         if (corsOrigin) {
-            options.origins = corsOrigin;
+            options.cors = { origin: corsOrigin, credentials: true };
+        } else if (this.configService.getValue('env') !== 'production') {
+            // In local/dev environments the lobby and game node commonly run on different ports.
+            // Allow localhost/127.0.0.1 origins so Socket.IO polling responses include CORS headers.
+            options.cors = {
+                origin: (origin, callback) => {
+                    if (!origin) {
+                        callback(null, true);
+                        return;
+                    }
+
+                    try {
+                        const parsedOrigin = new URL(origin);
+                        const host = parsedOrigin.hostname.toLowerCase();
+                        const isLocalHost = host === 'localhost' || host === '127.0.0.1';
+
+                        callback(null, isLocalHost);
+                    } catch (err) {
+                        callback(null, false);
+                    }
+                },
+                credentials: true
+            };
         }
 
         logger.info(
@@ -93,7 +116,7 @@ class GameServer {
             }/socket.io`
         );
 
-        this.io = socketio(server, options);
+        this.io = new Server(server, options);
         this.io.use(this.handshake.bind(this));
 
         this.io.on('connection', this.onConnection.bind(this));
@@ -256,18 +279,15 @@ class GameServer {
      * @param {() => void} next
      */
     handshake(socket, next) {
-        if (socket.handshake.query.token && socket.handshake.query.token !== 'undefined') {
-            jwt.verify(
-                socket.handshake.query.token,
-                this.configService.getValue('secret'),
-                function (err, user) {
-                    if (err) {
-                        return;
-                    }
-
-                    socket.request.user = user;
+        const token = socket.handshake.auth?.token || socket.handshake.query?.token;
+        if (token && token !== 'undefined') {
+            jwt.verify(token, this.configService.getValue('secret'), function (err, user) {
+                if (err) {
+                    return;
                 }
-            );
+
+                socket.request.user = user;
+            });
         }
 
         next();

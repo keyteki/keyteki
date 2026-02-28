@@ -6,8 +6,6 @@ import Card from './Card';
 import PlayerRow from './PlayerRow';
 import Droppable from './Droppable';
 
-import './PlayerBoard.scss';
-
 const PlayerBoard = (props) => {
     const rows = useMemo(() => {
         const cardsInPlay = props.cardsInPlay || [];
@@ -44,6 +42,7 @@ const PlayerBoard = (props) => {
     const className = classNames('player-board', {
         'our-side': props.rowDirection === 'default',
         player: props.isMe,
+        'has-dense-row': rows.some((row) => row.cards.length >= 6),
         'board-high-tide': props.tide === 'high',
         'board-low-tide': props.tide === 'low'
     });
@@ -71,6 +70,8 @@ const PlayerBoard = (props) => {
                                 onMouseOut={props.onMouseOut}
                                 onMouseOver={props.onMouseOver}
                                 size={props.user.settings.cardSize}
+                                hasActiveHouse={props.hasActiveHouse}
+                                isMe={props.isMe}
                                 source='play area'
                             />
                         ))}
@@ -83,11 +84,14 @@ const PlayerBoard = (props) => {
                     cardSize={props.cardSize}
                     hand={props.hand}
                     isMe={props.isMe}
+                    isSpectating={props.isSpectating}
                     manualMode={props.manualMode}
                     onCardClick={props.onCardClick}
                     onDragDrop={props.onDragDrop}
                     onMouseOut={props.onMouseOut}
                     onMouseOver={props.onMouseOver}
+                    isActivePlayer={props.isMe && props.activePlayer}
+                    hasActiveHouse={props.hasActiveHouse}
                 />
             )}
         </div>
@@ -97,12 +101,14 @@ const PlayerBoard = (props) => {
 PlayerBoard.displayName = 'PlayerBoard';
 PlayerBoard.propTypes = {
     cardsInPlay: PropTypes.array,
+    hasActiveHouse: PropTypes.bool,
     manualMode: PropTypes.bool,
     isSpectating: PropTypes.bool,
     onCardClick: PropTypes.func,
     onMenuItemClick: PropTypes.func,
     onMouseOut: PropTypes.func,
     onMouseOver: PropTypes.func,
+    activePlayer: PropTypes.bool,
     rowDirection: PropTypes.oneOf(['default', 'reverse']),
     tide: PropTypes.string,
     user: PropTypes.object

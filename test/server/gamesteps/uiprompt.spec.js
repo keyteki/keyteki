@@ -57,6 +57,17 @@ describe('the UiPrompt', function () {
                 expect(this.player1.setPrompt).toHaveBeenCalledWith(this.waitingPrompt);
             });
 
+            it('should assign unique uuids to each prompt control', function () {
+                this.prompt.activePrompt.mockReturnValue({
+                    controls: [{ type: 'targeting' }, { type: 'targeting' }]
+                });
+
+                this.prompt.continue();
+
+                const prompt = this.player2.setPrompt.mock.calls[0][0];
+                expect(prompt.controls[0].uuid).not.toBe(prompt.controls[1].uuid);
+            });
+
             it('should return false', function () {
                 expect(this.prompt.continue()).toBe(false);
             });

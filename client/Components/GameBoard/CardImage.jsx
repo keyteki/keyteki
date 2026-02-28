@@ -1,12 +1,10 @@
-import React, { useCallback, useEffect, useRef } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 import * as fabricModule from 'fabric';
 
 const fabric = fabricModule.fabric ?? fabricModule.default ?? fabricModule;
 import { buildCard } from '../../archonMaker';
-
-import './CardImage.scss';
 
 /**
  * @typedef CardImageProps
@@ -27,6 +25,31 @@ const CardImage = ({ card, cardBack, size, halfSize, onMouseOver, onMouseOut }) 
             : true;
     const fabricRef = useRef(null);
     const renderIdRef = useRef(0);
+    const enhancementSignature = Array.isArray(card?.enhancements)
+        ? card.enhancements.join('|')
+        : '';
+    const [imageSrc, setImageSrc] = useState('');
+    const renderScale =
+        typeof window !== 'undefined' && (window.devicePixelRatio || 1) < 1.5 ? 2 : 1;
+    const imageExtension = halfSize ? 'jpg' : 'png';
+    const languageSegment = i18n.language === 'en' ? '' : `${i18n.language}/`;
+    const imageName = card?.image ? card.image.replace(/\*/g, '_') : '';
+    const localizedImageUrl = `/img/cards/${
+        halfSize ? 'halfSize/' : ''
+    }${languageSegment}${imageName}.${imageExtension}`;
+    const englishImageUrl = `/img/cards/${
+        halfSize ? 'halfSize/' : ''
+    }${imageName}.${imageExtension}`;
+    const shouldRenderCanvas =
+        Boolean(card?.maverick) ||
+        Boolean(card?.anomaly) ||
+        (Array.isArray(card?.enhancements) && card.enhancements.length > 0) ||
+        card?.location === 'play area' ||
+        card?.location === 'zoom';
+
+    useEffect(() => {
+        setImageSrc(localizedImageUrl);
+    }, [localizedImageUrl]);
     const setCanvasRef = useCallback((node) => {
         if (!node) {
             if (fabricRef.current) {
@@ -55,10 +78,6 @@ const CardImage = ({ card, cardBack, size, halfSize, onMouseOver, onMouseOut }) 
         const renderId = ++renderIdRef.current;
         canvas.clear();
 
-        const url = `/img/cards/${halfSize ? 'halfSize/' : ''}${
-            i18n.language === 'en' ? '' : i18n.language
-        }/${card.image.replace(/\*/g, '_')}.${halfSize ? 'jpg' : 'png'}`;
-
         (async () => {
             try {
                 await buildCard(canvas, {
@@ -66,7 +85,8 @@ const CardImage = ({ card, cardBack, size, halfSize, onMouseOver, onMouseOut }) 
                     size,
                     halfSize,
                     showAccolades,
-                    url
+                    renderScale,
+                    url: localizedImageUrl
                 });
             } catch {
                 // ignore
@@ -78,6 +98,7 @@ const CardImage = ({ card, cardBack, size, halfSize, onMouseOver, onMouseOut }) 
         })();
     }, [
         card?.id,
+        enhancementSignature,
         card?.location,
         card?.modifiedPower,
         card?.tokens && card.tokens.amber,
@@ -112,11 +133,42 @@ const CardImage = ({ card, cardBack, size, halfSize, onMouseOver, onMouseOut }) 
         size,
         halfSize,
         showAccolades,
+        renderScale,
+        localizedImageUrl,
         i18n.language
     ]);
 
     if (card?.facedown) {
         return cardBack || <div />;
+    }
+
+    if (!shouldRenderCanvas) {
+        return (
+            <img
+                src={imageSrc}
+                onError={() => {
+                    if (imageSrc !== englishImageUrl) {
+                        setImageSrc(englishImageUrl);
+                    }
+                }}
+                onMouseOver={
+                    onMouseOver
+                        ? () =>
+                              onMouseOver({
+                                  image: (
+                                      <CardImage
+                                          card={{ ...card, location: 'zoom' }}
+                                          cardBack={cardBack}
+                                      />
+                                  ),
+                                  size: 'normal'
+                              })
+                        : undefined
+                }
+                onMouseOut={onMouseOut}
+                className='block h-full w-full'
+            />
+        );
     }
 
     return (
@@ -136,7 +188,7 @@ const CardImage = ({ card, cardBack, size, halfSize, onMouseOver, onMouseOut }) 
                     : null
             }
             onMouseOut={onMouseOut}
-            className='h-100 w-100'
+            className='block h-full w-full'
             ref={setCanvasRef}
         />
     );

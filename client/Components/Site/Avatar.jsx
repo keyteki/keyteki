@@ -1,7 +1,5 @@
 import React from 'react';
-import classNames from 'classnames';
-
-import './Avatar.scss';
+import { Avatar as HeroAvatar } from '@heroui/react';
 
 /**
  * @typedef AvatarProps
@@ -14,15 +12,15 @@ import './Avatar.scss';
  * @param {AvatarProps} props
  */
 const Avatar = ({ float, imgPath }) => {
-    const className = classNames('gravatar', {
-        'pull-left': float
-    });
+    const className = `gravatar size-8 shrink-0 align-middle mr-1.5${float ? ' float-left' : ''}`;
+    const imageSrc = imgPath ? `/img/avatar/${imgPath}.png` : undefined;
 
-    if (!imgPath) {
-        return null;
-    }
-
-    return <img className={className} src={`/img/avatar/${imgPath}.png`} alt='' />;
+    return (
+        <HeroAvatar className={className} size='sm'>
+            {imageSrc && <HeroAvatar.Image alt='' src={imageSrc} />}
+            <HeroAvatar.Fallback>?</HeroAvatar.Fallback>
+        </HeroAvatar>
+    );
 };
 
 export default Avatar;

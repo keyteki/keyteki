@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
+import { toast } from '@heroui/react';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { Col } from 'react-bootstrap';
 
 import Login from '../Components/Login';
 import Panel from '../Components/Site/Panel';
@@ -25,15 +25,13 @@ const LoginContainer = () => {
 
     useEffect(() => {
         if (isSuccess) {
-            const timeoutId = setTimeout(() => {
-                reset();
-                dispatch(lobbyConnectRequested());
-                dispatch(lobbyAuthenticateRequested());
-                navigate('/');
-            }, 500);
-            return () => clearTimeout(timeoutId);
+            toast.success(t('Login successful'));
+            reset();
+            dispatch(lobbyConnectRequested());
+            dispatch(lobbyAuthenticateRequested());
+            navigate('/');
         }
-    }, [dispatch, isSuccess, navigate, reset]);
+    }, [dispatch, isSuccess, navigate, reset, t]);
 
     const apiState = loginState.isUninitialized
         ? null
@@ -41,19 +39,19 @@ const LoginContainer = () => {
               loading: loginState.isLoading,
               success: isSuccess,
               message: isSuccess
-                  ? t('Login successful, redirecting you to the home page')
+                  ? t('Login successful')
                   : loginState.error?.status === 401
                   ? t('Invalid username/password')
                   : loginState.error?.data?.message
           };
 
     return (
-        <Col lg={{ span: 8, offset: 2 }}>
+        <div className='mx-auto w-full max-w-2xl'>
             <Panel title={t('Login')}>
                 <ApiStatus state={apiState} onClose={() => loginState.reset()} />
                 <Login onSubmit={(values) => loginAccount(values)} />
             </Panel>
-        </Col>
+        </div>
     );
 };
 

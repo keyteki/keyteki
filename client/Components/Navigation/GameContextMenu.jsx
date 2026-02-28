@@ -1,13 +1,10 @@
-import React from 'react';
-import { Nav } from 'react-bootstrap';
+import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { useTranslation, Trans } from 'react-i18next';
+import { useTranslation } from 'react-i18next';
+import { Button } from '@heroui/react';
 import { gameCloseRequested, gameSendMessage } from '../../redux/socketActions';
-import { useState } from 'react';
 
-import './GameContextMenu.scss';
-
-const GameContextMenu = () => {
+const GameContextMenu = ({ mobile = false }) => {
     const currentGame = useSelector((state) => state.lobby.currentGame);
     const user = useSelector((state) => state.account.user);
     const { t } = useTranslation();
@@ -15,6 +12,10 @@ const GameContextMenu = () => {
     const [showPopup, setShowPopup] = useState(false);
 
     const isSpectating = !currentGame?.players[user?.username];
+
+    const itemClass = mobile
+        ? 'inline-flex h-9 w-full items-center rounded-md px-3 text-left text-sm font-medium text-foreground transition hover:bg-surface-secondary/55 hover:text-foreground'
+        : 'inline-flex h-9 items-center rounded-md px-3 text-sm font-medium text-muted transition hover:bg-surface-secondary/55 hover:text-foreground lg:h-12';
 
     const isGameActive = () => {
         if (!currentGame || !user) {
@@ -30,7 +31,7 @@ const GameContextMenu = () => {
             thisPlayer = Object.values(currentGame.players)[0];
         }
 
-        let otherPlayer = Object.values(currentGame.players).find((player) => {
+        const otherPlayer = Object.values(currentGame.players).find((player) => {
             return player.name !== thisPlayer.name;
         });
 
@@ -71,39 +72,47 @@ const GameContextMenu = () => {
         return null;
     }
 
-    const spectators = currentGame.spectators.map((spectator) => {
-        return <li key={spectator.id}>{spectator.name}</li>;
-    });
-    let spectatorPopup = <ul className='spectators-popup mt-5 absolute-panel'>{spectators}</ul>;
-
     return (
-        <>
-            <li
-                onMouseOver={() => setShowPopup(true)}
-                onMouseOut={() => setShowPopup(false)}
-                className='navbar-item'
+        <div className={mobile ? 'grid gap-1' : 'flex items-center gap-1'}>
+            <div
+                className='relative'
+                onMouseEnter={() => !mobile && setShowPopup(true)}
+                onMouseLeave={() => !mobile && setShowPopup(false)}
             >
-                <span>{t('{{users}} spectators', { users: currentGame.spectators.length })}</span>
-            </li>
-            {showPopup && spectatorPopup}
-            {!isSpectating && (
-                <li className='navbar-item'>
-                    <Nav.Link
-                        onClick={() => dispatch(gameSendMessage('concede'))}
-                        className='navbar-item interactable'
+                <Button
+                    variant='light'
+                    className={itemClass}
+                    onPress={() => mobile && setShowPopup((open) => !open)}
+                >
+                    {t('{{users}} spectators', { users: currentGame.spectators.length })}
+                </Button>
+                {showPopup && (
+                    <ul
+                        className={
+                            mobile
+                                ? 'mt-1 rounded-md border border-border/70 bg-overlay/95 px-3 py-2 text-xs text-foreground'
+                                : 'absolute left-0 top-full z-50 mt-1 min-w-30 rounded-md border border-border/70 bg-overlay/95 px-3 py-2 text-xs text-foreground'
+                        }
                     >
-                        <span>
-                            <Trans>Concede</Trans>
-                        </span>
-                    </Nav.Link>
-                </li>
+                        {currentGame.spectators.map((spectator) => (
+                            <li key={spectator.id}>{spectator.name}</li>
+                        ))}
+                    </ul>
+                )}
+            </div>
+            {!isSpectating && (
+                <Button
+                    variant='light'
+                    className={itemClass}
+                    onPress={() => dispatch(gameSendMessage('concede'))}
+                >
+                    {t('Concede')}
+                </Button>
             )}
-            <li className='navbar-item'>
-                <Nav.Link onClick={onLeaveClick} className='navbar-item interactable'>
-                    <Trans>Leave Game</Trans>
-                </Nav.Link>
-            </li>
-        </>
+            <Button variant='light' className={itemClass} onPress={onLeaveClick}>
+                {t('Leave Game')}
+            </Button>
+        </div>
     );
 };
 

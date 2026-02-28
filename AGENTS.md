@@ -38,6 +38,7 @@ Keyteki is an open-source implementation of the KeyForge card game. KeyForge is 
 -   No summary chatter: Skip phrases like "Here is the code," "Sure, I can do that," or "Let me know if you need more help."
 -   Focus on the diff: Focus output on the specific lines to be changed.
 -   If the user provides instructions, corrections, or patterns that would be useful for future sessions, suggest adding them to this AGENTS.md file.
+-   Validation cadence: Do not run lint/format checks after every small change. Run them only when explicitly asked, when making large/multi-file changes, or when preparing for a check-in/commit.
 
 ### When to Ask for Clarification
 

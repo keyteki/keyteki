@@ -28,9 +28,7 @@ const Keys = ({ keys, manualMode }) => {
             return (
                 <img
                     className={
-                        keys[colour] && KeyImages[colour].forged
-                            ? 'forged-key'
-                            : 'unforged-key' + ' img-fluid'
+                        keys[colour] && KeyImages[colour].forged ? 'forged-key' : 'unforged-key'
                     }
                     key={`key ${colour}`}
                     src={keys[colour] ? KeyImages[colour].forged : KeyImages[colour].unforged}

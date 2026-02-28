@@ -1,26 +1,119 @@
-const request = require('request');
+function isPrivateIpv4(hostname) {
+    if (!/^\d{1,3}(\.\d{1,3}){3}$/.test(hostname)) {
+        return false;
+    }
 
-function httpRequest(url, options = {}) {
-    return new Promise((resolve, reject) => {
-        request(url, options, (err, res, body) => {
-            if (err) {
-                if (res) {
-                    err.statusCode = res.statusCode;
-                }
+    const parts = hostname.split('.').map((part) => Number(part));
+    if (parts.some((part) => Number.isNaN(part) || part < 0 || part > 255)) {
+        return true;
+    }
 
-                return reject(err);
+    const [a, b] = parts;
+
+    return (
+        a === 10 ||
+        a === 127 ||
+        (a === 169 && b === 254) ||
+        (a === 172 && b >= 16 && b <= 31) ||
+        (a === 192 && b === 168) ||
+        a === 0
+    );
+}
+
+function isLocalOrPrivateHost(hostname) {
+    const normalized = String(hostname || '').toLowerCase();
+
+    if (
+        normalized === 'localhost' ||
+        normalized === '::1' ||
+        normalized === '[::1]' ||
+        normalized.endsWith('.localhost')
+    ) {
+        return true;
+    }
+
+    return isPrivateIpv4(normalized);
+}
+
+function getValidatedRequestUrl(rawUrl, allowedHosts) {
+    let parsed;
+    try {
+        parsed = new URL(rawUrl);
+    } catch (err) {
+        throw new Error('Invalid request url');
+    }
+
+    if (parsed.protocol !== 'http:' && parsed.protocol !== 'https:') {
+        throw new Error('Unsupported protocol');
+    }
+
+    const hostname = parsed.hostname.toLowerCase();
+    if (isLocalOrPrivateHost(hostname)) {
+        throw new Error('Blocked request host');
+    }
+
+    if (allowedHosts && allowedHosts.length > 0) {
+        const normalizedAllowedHosts = allowedHosts.map((host) => String(host).toLowerCase());
+        if (!normalizedAllowedHosts.includes(hostname)) {
+            throw new Error('Request host not allowed');
+        }
+    }
+
+    return parsed.toString();
+}
+
+async function httpRequest(url, options = {}) {
+    const {
+        method = 'GET',
+        headers: inputHeaders = {},
+        body,
+        form,
+        json = false,
+        encoding,
+        allowedHosts = []
+    } = options;
+
+    const headers = { ...inputHeaders };
+    const requestUrl = getValidatedRequestUrl(url, allowedHosts);
+    let requestBody;
+
+    if (form) {
+        requestBody = new URLSearchParams(form).toString();
+        if (!headers['Content-Type'] && !headers['content-type']) {
+            headers['Content-Type'] = 'application/x-www-form-urlencoded';
+        }
+    } else if (body !== undefined) {
+        if (json && typeof body === 'object' && !Buffer.isBuffer(body)) {
+            requestBody = JSON.stringify(body);
+            if (!headers['Content-Type'] && !headers['content-type']) {
+                headers['Content-Type'] = 'application/json';
             }
+        } else {
+            requestBody = body;
+        }
+    }
 
-            if (res.statusCode !== 200) {
-                let err = new Error('Request failed');
-                err.statusCode = res.statusCode;
-
-                return reject(err);
-            }
-
-            resolve(body);
-        });
+    let response = await fetch(requestUrl, {
+        method,
+        headers,
+        body: requestBody
     });
+
+    if (response.status !== 200) {
+        let error = new Error('Request failed');
+        error.statusCode = response.status;
+        throw error;
+    }
+
+    if (encoding === null) {
+        return Buffer.from(await response.arrayBuffer());
+    }
+
+    if (json) {
+        return response.json();
+    }
+
+    return response.text();
 }
 
 function wrapAsync(fn) {

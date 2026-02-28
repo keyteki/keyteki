@@ -1,8 +1,8 @@
 import React from 'react';
-import { useTranslation, Trans } from 'react-i18next';
-import { Col, Form, Button, Row } from 'react-bootstrap';
 import { Formik } from 'formik';
 import * as yup from 'yup';
+import { Button, Input, Label } from '@heroui/react';
+import { useTranslation, Trans } from 'react-i18next';
 
 import Link from '../Components/Navigation/Link';
 
@@ -39,58 +39,66 @@ const Login = (props) => {
     return (
         <Formik validationSchema={schema} onSubmit={props.onSubmit} initialValues={initialValues}>
             {(formProps) => (
-                <Form
+                <form
                     onSubmit={(event) => {
                         event.preventDefault();
                         formProps.handleSubmit(event);
                     }}
+                    className='space-y-3'
                 >
-                    <Row>
-                        <Form.Group as={Col} lg='6' controlId='formGridUsername'>
-                            <Form.Label>{t('Username')}</Form.Label>
-                            <Form.Control
-                                name='username'
-                                type='text'
-                                placeholder={t('Enter your username')}
-                                value={formProps.values.username}
-                                onChange={formProps.handleChange}
-                                onBlur={formProps.handleBlur}
-                                isInvalid={
-                                    formProps.touched.username && !!formProps.errors.username
-                                }
-                            />
-                            <Form.Control.Feedback type='invalid'>
+                    <div>
+                        <Label className='sr-only' htmlFor='username'>
+                            {t('Username')}
+                        </Label>
+                        <Input
+                            id='username'
+                            name='username'
+                            type='text'
+                            placeholder={t('Username')}
+                            value={formProps.values.username}
+                            onChange={formProps.handleChange}
+                            onBlur={formProps.handleBlur}
+                            variant='tertiary'
+                            className='w-full'
+                        />
+                        {formProps.touched.username && formProps.errors.username ? (
+                            <div className='mt-1 text-sm text-red-300'>
                                 {formProps.errors.username}
-                            </Form.Control.Feedback>
-                        </Form.Group>
-                        <Form.Group as={Col} controlId='formGridPassword'>
-                            <Form.Label>{t('Password')}</Form.Label>
-                            <Form.Control
-                                name='password'
-                                type='password'
-                                placeholder={t('Enter your password')}
-                                value={formProps.values.password}
-                                onChange={formProps.handleChange}
-                                onBlur={formProps.handleBlur}
-                                isInvalid={
-                                    formProps.touched.password && !!formProps.errors.password
-                                }
-                            />
-                            <Form.Control.Feedback type='invalid'>
+                            </div>
+                        ) : null}
+                    </div>
+                    <div>
+                        <Label className='sr-only' htmlFor='password'>
+                            {t('Password')}
+                        </Label>
+                        <Input
+                            id='password'
+                            name='password'
+                            type='password'
+                            placeholder={t('Password')}
+                            value={formProps.values.password}
+                            onChange={formProps.handleChange}
+                            onBlur={formProps.handleBlur}
+                            variant='tertiary'
+                            className='w-full'
+                        />
+                        {formProps.touched.password && formProps.errors.password ? (
+                            <div className='mt-1 text-sm text-red-300'>
                                 {formProps.errors.password}
-                            </Form.Control.Feedback>
-                        </Form.Group>
-                    </Row>
-                    <Link href='/forgot'>
+                            </div>
+                        ) : null}
+                    </div>
+
+                    <Link href='/forgot' className='block text-link hover:text-accent'>
                         <Trans>Forgotten your password?</Trans>
                     </Link>
 
-                    <div className='text-center'>
-                        <Button variant='primary' type='submit'>
+                    <div className='pt-1'>
+                        <Button type='submit' variant='primary'>
                             {t('Login')}
                         </Button>
                     </div>
-                </Form>
+                </form>
             )}
         </Formik>
     );
