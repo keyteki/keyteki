@@ -575,13 +575,16 @@ pre {
   border-radius: 10px;
 }
 .game-card.selectable {
-  box-shadow: 0 0 0 2px rgba(64, 201, 255, 0.7), 0 0 10px 1px rgba(214.1807228916, 174.8192771084, 174.8192771084, 0.9);
+  box-shadow: 0 0 0 1px rgba(109, 216, 137, 0.75), 0 0 0 2px rgba(0, 0, 0, 0.18), 0 0 6px 0 rgba(109, 216, 137, 0.2);
 }
 .game-card.selectable.controlled {
-  box-shadow: 0 0 1px 2px #ffdf14, 0 0 0 2px rgba(64, 201, 255, 0.7), 0 0 10px 1px rgba(214.1807228916, 174.8192771084, 174.8192771084, 0.9);
+  box-shadow: 0 0 1px 2px #ffdf14, 0 0 0 1px rgba(109, 216, 137, 0.75), 0 0 0 2px rgba(0, 0, 0, 0.18),
+    0 0 6px 0 rgba(109, 216, 137, 0.2);
 }
 .game-card.selectable:hover {
-  transform: scale(1.04);
+  transform: translateY(-1px) scale(1.01);
+  box-shadow: 0 0 0 1px rgba(109, 216, 137, 0.8), 0 0 0 2px rgba(0, 0, 0, 0.25),
+    0 0 8px 1px rgba(109, 216, 137, 0.38);
 }
 .game-card.unselectable {
   filter: grayscale(100%) brightness(70%);
@@ -604,10 +607,36 @@ pre {
   box-shadow: 0 0 1px 2px green;
 }
 .game-card.selected {
-  box-shadow: 0 0 1px 4px #009648;
+  box-shadow: 0 0 0 3px #0f6b38, 0 0 0 6px rgba(0, 150, 72, 0.45), 0 0 0 8px rgba(0, 0, 0, 0.35),
+    0 0 16px 4px rgba(0, 150, 72, 0.7);
+  transform: translateY(-2px) scale(1.02);
+  filter: drop-shadow(0 0 6px rgba(0, 150, 72, 0.55));
 }
 .game-card.selected.controlled {
-  box-shadow: 0 0 1px 2px #ffdf14, 0 0 1px 4px #009648;
+  box-shadow: 0 0 1px 2px #ffdf14, 0 0 0 3px #0f6b38, 0 0 0 6px rgba(0, 150, 72, 0.45),
+    0 0 0 8px rgba(0, 0, 0, 0.35), 0 0 16px 4px rgba(0, 150, 72, 0.7);
+  transform: translateY(-2px) scale(1.02);
+  filter: drop-shadow(0 0 6px rgba(0, 150, 72, 0.55));
+}
+.game-card.selected::after {
+  content: '✓';
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  width: 16px;
+  height: 16px;
+  border-radius: 999px;
+  background: #0f6b38;
+  color: #f1f8f1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  line-height: 1;
+  font-weight: 700;
+  box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.6), inset 0 0 0 1px rgba(255, 255, 255, 0.35);
+  z-index: 3;
+  pointer-events: none;
 }
 .game-card.new {
   box-shadow: 0 0 1px 2px #0dcaf0;
@@ -623,10 +652,14 @@ pre {
   box-shadow: 0 0 8px rgba(0, 0, 0, 0.32), inset 0 0 0 1px rgba(255, 255, 255, 0.07);
 }
 .game-card.horizontal.selected {
-  box-shadow: 0 0 1px 4px #009648, 0 0 8px rgba(0, 0, 0, 0.32), inset 0 0 0 1px rgba(255, 255, 255, 0.07);
+  box-shadow: 0 0 1px 3px #0f6b38, 0 0 0 6px rgba(0, 150, 72, 0.45), 0 0 0 8px rgba(0, 0, 0, 0.35),
+    0 0 12px 3px rgba(0, 150, 72, 0.6), 0 0 8px rgba(0, 0, 0, 0.32),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.07);
 }
 .game-card.horizontal.selected.controlled {
-  box-shadow: 0 0 1px 2px #ffdf14, 0 0 1px 4px #009648, 0 0 8px rgba(0, 0, 0, 0.32), inset 0 0 0 1px rgba(255, 255, 255, 0.07);
+  box-shadow: 0 0 1px 2px #ffdf14, 0 0 1px 3px #0f6b38, 0 0 0 6px rgba(0, 150, 72, 0.45),
+    0 0 0 8px rgba(0, 0, 0, 0.35), 0 0 12px 3px rgba(0, 150, 72, 0.6), 0 0 8px rgba(0, 0, 0, 0.32),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.07);
 }
 
 .game-board.high-density .game-card {

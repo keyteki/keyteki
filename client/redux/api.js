@@ -3,6 +3,38 @@ import { TAG_TYPES } from './apiTags';
 import { setAuthTokens, authActions } from './slices/authSlice';
 import { lobbyAuthenticateRequested } from './socketActions';
 
+const getRefreshTokenFromStorage = () => {
+    if (typeof localStorage === 'undefined') {
+        return undefined;
+    }
+
+    const storedToken = localStorage.getItem('refreshToken');
+    if (!storedToken) {
+        return undefined;
+    }
+
+    try {
+        return JSON.parse(storedToken);
+    } catch (_error) {
+        return undefined;
+    }
+};
+
+const isUnauthorizedError = (error = {}) => {
+    const rawStatus = [error.status, error.originalStatus, error.data?.status]
+        .filter((entry) => entry !== undefined && entry !== null)
+        .find((entry) => String(entry) === '401');
+
+    return Boolean(
+        rawStatus ||
+            error.status === 401 ||
+            error.originalStatus === 401 ||
+            error.data?.status === 401 ||
+            error.message === 'Unauthorized' ||
+            error.data?.message === 'Unauthorized'
+    );
+};
+
 const NEWS_LIST_ID = 'LIST';
 const DECKS_LIST_ID = 'LIST';
 const BANLIST_ID = 'LIST';
@@ -38,12 +70,13 @@ const baseQuery = fetchBaseQuery({
 
 const baseQueryWithReauth = async (args, api, extraOptions) => {
     let result = await baseQuery(args, api, extraOptions);
-    const errorStatus = result.error?.status;
-    const originalStatus = result.error?.originalStatus;
-    const isUnauthorized = errorStatus === 401 || originalStatus === 401;
-    if (result.error && isUnauthorized) {
-        const refreshToken = api.getState()?.auth?.refreshToken;
+    if (result.error && isUnauthorizedError(result.error)) {
+        const refreshToken = api.getState()?.auth?.refreshToken || getRefreshTokenFromStorage();
         if (!refreshToken) {
+            return result;
+        }
+
+        if (args.url === '/account/token') {
             return result;
         }
 

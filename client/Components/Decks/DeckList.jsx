@@ -27,6 +27,7 @@ import { Constants } from '../../constants';
  */
 const DeckList = ({
     deckFilter,
+    hideActionButtons = false,
     onDeckSelected,
     onDeleteDecks,
     onImportDeck,
@@ -217,8 +218,44 @@ const DeckList = ({
         return baseColumns;
     }, [selectedDeck, standaloneDecks, t]);
 
+    const filteredDecks = useMemo(() => {
+        const localDecks = Array.isArray(decks) ? decks : [];
+
+        if (shouldUseRemoteDecks) {
+            return localDecks;
+        }
+
+        const filters = activeFilters || [];
+        if (filters.length === 0) {
+            return localDecks;
+        }
+
+        return localDecks.filter((deck) =>
+            filters.every((filter) => {
+                if (filter.name === 'expansion') {
+                    return (
+                        Array.isArray(filter.value) &&
+                        filter.value.map(String).includes(String(deck.expansion))
+                    );
+                }
+
+                if (filter.name === 'isAlliance') {
+                    return Boolean(deck.isAlliance) === Boolean(filter.value);
+                }
+
+                if (filter.name === 'name') {
+                    const deckName = (deck.name || '').toLowerCase();
+                    const expected = String(filter.value || '').toLowerCase();
+                    return deckName.includes(expected);
+                }
+
+                return true;
+            })
+        );
+    }, [activeFilters, decks, shouldUseRemoteDecks]);
+
     const tableButtons = useMemo(() => {
-        if (standaloneDecks) {
+        if (standaloneDecks || hideActionButtons) {
             return [];
         }
 
@@ -249,6 +286,7 @@ const DeckList = ({
         onImportDeck,
         onNavigateAllianceDeck,
         selectedDeckCount,
+        hideActionButtons,
         standaloneDecks,
         t
     ]);
@@ -285,7 +323,7 @@ const DeckList = ({
                     buttons={tableButtons}
                     fillHeight
                     columns={columns}
-                    data={decks}
+                    data={filteredDecks}
                     dataLoadFn={useDecksQuery}
                     dataLoadArg={
                         shouldUseRemoteDecks

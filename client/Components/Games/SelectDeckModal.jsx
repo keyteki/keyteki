@@ -26,6 +26,7 @@ const SelectDeckModal = ({
                     <HeroModal.Body>
                         <DeckList
                             deckFilter={deckFilter}
+                            hideActionButtons
                             onDeckSelected={onDeckSelected}
                             expansions={expansions}
                         />
@@ -34,7 +35,12 @@ const SelectDeckModal = ({
                                 <h4 className='ml-4'>
                                     <Trans>Or choose a standalone deck</Trans>:
                                 </h4>
-                                <DeckList standaloneDecks onDeckSelected={onDeckSelected} />
+                                <DeckList
+                                    standaloneDecks
+                                    deckFilter={deckFilter}
+                                    hideActionButtons
+                                    onDeckSelected={onDeckSelected}
+                                />
                             </div>
                         ) : null}
                     </HeroModal.Body>

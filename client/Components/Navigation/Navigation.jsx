@@ -15,7 +15,8 @@ import Link from './Link';
 
 import HeaderIcon from '../../assets/img/main_header_logo.png';
 import HeaderIconLight from '../../assets/img/main_header_logo_light.png';
-import SmallHeaderIcon from '../../assets/img/header_icon.png';
+import SmallHeaderIcon from '../../assets/img/tco_white.svg';
+import SmallHeaderLight from '../../assets/img/tco_black.svg';
 
 /**
  * @typedef { import('../../menus').MenuItem } MenuItem
@@ -89,6 +90,19 @@ const Navigation = (props) => {
         '!inline-flex !h-9 !min-w-0 !items-center !gap-1.5 !rounded-md !bg-transparent !px-4 !text-sm !font-medium !text-amber-600 dark:!text-amber-300 transition hover:!bg-surface-secondary/55 hover:!text-amber-700 dark:hover:!text-amber-200 lg:!h-12';
     const navDropdownActiveClass =
         '!bg-[color:color-mix(in_oklab,var(--brand)_18%,var(--surface))] !text-[color:color-mix(in_oklab,var(--brand)_82%,black)] dark:!bg-accent/24 dark:!text-amber-100 !ring-1 !ring-[color:color-mix(in_oklab,var(--brand)_42%,transparent)]';
+
+    const headerImageKey = `${currentGame?.started ? 'inGame' : 'noGame'}-${
+        isLightTheme ? 'light' : 'dark'
+    }`;
+
+    const headerImages = {
+        'inGame-light': SmallHeaderLight,
+        'inGame-dark': SmallHeaderIcon,
+        'noGame-light': HeaderIconLight,
+        'noGame-dark': HeaderIcon
+    };
+
+    const headerImage = headerImages[headerImageKey];
 
     const isPathActive = (path) => {
         if (!path) {
@@ -237,7 +251,11 @@ const Navigation = (props) => {
                 <div className='flex w-full items-center justify-between lg:hidden'>
                     <div className='w-10' />
                     <Link href='/' className='inline-flex h-full items-center'>
-                        <img src={SmallHeaderIcon} height='32' alt='TCO Logo' />
+                        <img
+                            src={isLightTheme ? SmallHeaderLight : SmallHeaderIcon}
+                            height='32'
+                            alt='TCO Logo'
+                        />
                     </Link>
                     <HeroButton
                         className='!h-8 !min-w-10 !px-2'
@@ -254,17 +272,7 @@ const Navigation = (props) => {
                         {renderMenuItems(LeftMenu)}
                     </div>
                     <Link href='/' className='inline-flex h-full items-center px-2'>
-                        <img
-                            src={
-                                currentGame?.started
-                                    ? SmallHeaderIcon
-                                    : isLightTheme
-                                    ? HeaderIconLight
-                                    : HeaderIcon
-                            }
-                            className='h-8 w-80 object-contain'
-                            alt='TCO Logo'
-                        />
+                        <img src={headerImage} className='h-8 w-80 object-contain' alt='TCO Logo' />
                     </Link>
                     <div className='flex h-full min-w-0 flex-1 items-center justify-end gap-1 whitespace-nowrap'>
                         <GameContextMenu />
