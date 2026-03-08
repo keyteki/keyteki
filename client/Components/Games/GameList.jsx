@@ -18,16 +18,6 @@ import AdaptiveIcon from '../../assets/img/adaptive.png';
 import AllianceIcon from '../../assets/img/alliance.png';
 import UnchainedIcon from '../../assets/img/601.png';
 
-const formatIconEntries = [
-    ['showHand', { src: ShowHandIcon, title: 'Show hands to spectators' }],
-    ['useGameTimeLimit', { src: TimeLimitIcon, title: 'Time limit used' }],
-    ['sealed', { src: SealedIcon, title: 'Sealed game format' }],
-    ['alliance', { src: AllianceIcon, title: 'Alliance game format', noInvert: true }],
-    ['reversal', { src: ReversalIcon, title: 'Reversal game format' }],
-    ['adaptive-bo1', { src: AdaptiveIcon, title: 'Adaptive (Best of 1) game format' }],
-    ['unchained', { src: UnchainedIcon, title: 'Unchained game format' }]
-];
-
 const typeBadgeClass = {
     beginner:
         'bg-emerald-500/12 text-emerald-700 border-emerald-500/28 dark:bg-emerald-600/25 dark:text-emerald-300 dark:border-emerald-500/40',
@@ -35,6 +25,55 @@ const typeBadgeClass = {
     competitive:
         'bg-[color:color-mix(in_oklab,var(--brand)_12%,white)] text-[color:color-mix(in_oklab,var(--brand)_85%,black)] border-[color:color-mix(in_oklab,var(--brand)_35%,transparent)] dark:bg-rose-600/20 dark:text-rose-300 dark:border-rose-500/40'
 };
+
+const gameFormatIcons = [
+    ['sealed', { src: SealedIcon, title: 'Sealed game format', noInvert: false }],
+    ['alliance', { src: AllianceIcon, title: 'Alliance game format', noInvert: true }],
+    ['reversal', { src: ReversalIcon, title: 'Reversal game format', noInvert: false }],
+    [
+        'adaptive-bo1',
+        { src: AdaptiveIcon, title: 'Adaptive (Best of 1) game format', noInvert: false }
+    ],
+    ['unchained', { src: UnchainedIcon, title: 'Unchained game format', noInvert: false }]
+];
+
+const gameFormatStyles = {
+    normal: {
+        pillClass: 'bg-surface/55 text-foreground/85 border-border/70',
+        iconClass: 'invert-[0.72]'
+    },
+    sealed: {
+        pillClass:
+            'bg-amber-500/12 text-amber-700 border-amber-500/35 dark:bg-amber-600/20 dark:text-amber-200 dark:border-amber-500/40',
+        iconClass: 'brightness-[0.93] contrast-[1.2]'
+    },
+    alliance: {
+        pillClass:
+            'bg-emerald-500/12 text-emerald-700 border-emerald-500/35 dark:bg-emerald-600/22 dark:text-emerald-200 dark:border-emerald-500/42',
+        iconClass: 'brightness-[0.95]'
+    },
+    reversal: {
+        pillClass:
+            'bg-sky-500/10 text-sky-700 border-sky-500/30 dark:bg-sky-500/22 dark:text-sky-200 dark:border-sky-500/38',
+        iconClass: 'brightness-[1.03] saturate-[1.15]'
+    },
+    'adaptive-bo1': {
+        pillClass:
+            'bg-rose-500/10 text-rose-700 border-rose-500/32 dark:bg-rose-500/22 dark:text-rose-200 dark:border-rose-500/38',
+        iconClass: 'brightness-[1.05] saturate-[1.1]'
+    },
+    unchained: {
+        pillClass:
+            'bg-cyan-500/10 text-cyan-700 border-cyan-500/30 dark:bg-cyan-500/22 dark:text-cyan-200 dark:border-cyan-500/36',
+        iconClass: 'brightness-[1.01] saturate-[1.08]'
+    }
+};
+
+const gameFormatIconMap = Object.fromEntries(gameFormatIcons);
+const statusIcons = [
+    ['showHand', { src: ShowHandIcon, title: 'Show hands to spectators' }],
+    ['useGameTimeLimit', { src: TimeLimitIcon, title: 'Time limit used' }]
+];
 
 const GameList = ({ gameFilter = {}, games = [], onJoinOrWatchClick }) => {
     const dispatch = useDispatch();
@@ -163,6 +202,9 @@ const GameList = ({ gameFilter = {}, games = [], onJoinOrWatchClick }) => {
                             const elapsed = moment.utc(elapsedMs).format('HH:mm');
                             const players = Object.values(game.players || {});
                             const iconClass = 'h-5 w-5 object-contain invert-[0.9]';
+                            const formatStyle =
+                                gameFormatStyles[game.gameFormat] || gameFormatStyles.normal;
+                            const formatMeta = gameFormatIconMap[game.gameFormat];
                             const rowTone =
                                 game.node && isAdmin
                                     ? 'bg-surface-secondary/52'
@@ -183,8 +225,22 @@ const GameList = ({ gameFilter = {}, games = [], onJoinOrWatchClick }) => {
                                                 <span className='text-xs text-muted'>
                                                     [{elapsed}]
                                                 </span>
-                                                <span className='rounded-sm border border-border/70 bg-overlay/80 px-1.5 py-0.5 text-xs uppercase tracking-wide text-muted'>
-                                                    {game.gameFormat}
+                                                <span
+                                                    className={`inline-flex items-center gap-1 rounded-sm border px-1.5 py-0.5 text-xs font-medium uppercase tracking-wide ${formatStyle.pillClass}`}
+                                                >
+                                                    {formatMeta ? (
+                                                        <img
+                                                            src={formatMeta.src}
+                                                            className={`h-4 w-4 object-contain ${
+                                                                formatMeta.noInvert
+                                                                    ? ''
+                                                                    : formatStyle.iconClass
+                                                            }`}
+                                                            alt={t(formatMeta.title)}
+                                                            title={t(formatMeta.title)}
+                                                        />
+                                                    ) : null}
+                                                    {t(game.gameFormat)}
                                                 </span>
                                                 {game.gamePrivate && isAdmin ? (
                                                     <span className='rounded-sm border border-border/70 bg-overlay/80 px-1.5 py-0.5 text-xs uppercase tracking-wide text-muted'>
@@ -275,22 +331,6 @@ const GameList = ({ gameFilter = {}, games = [], onJoinOrWatchClick }) => {
 
                                     <div className='mt-2 flex flex-wrap items-center justify-between gap-2'>
                                         <div className='flex items-center gap-1.5 text-foreground'>
-                                            {game.showHand && (
-                                                <img
-                                                    src={ShowHandIcon}
-                                                    className={iconClass}
-                                                    alt={t('Show hands to spectators')}
-                                                    title={t('Show hands to spectators')}
-                                                />
-                                            )}
-                                            {game.useGameTimeLimit && (
-                                                <img
-                                                    src={TimeLimitIcon}
-                                                    className={iconClass}
-                                                    alt={t('Time limit used')}
-                                                    title={t('Time limit used')}
-                                                />
-                                            )}
                                             {game.needsPassword ? (
                                                 <Icon
                                                     icon={faLock}
@@ -298,12 +338,8 @@ const GameList = ({ gameFilter = {}, games = [], onJoinOrWatchClick }) => {
                                                     title={t('Password protected')}
                                                 />
                                             ) : null}
-                                            {formatIconEntries.map(([key, icon]) => {
-                                                if (
-                                                    key === 'showHand' ||
-                                                    key === 'useGameTimeLimit' ||
-                                                    game.gameFormat !== key
-                                                ) {
+                                            {statusIcons.map(([key, icon]) => {
+                                                if (!game[key]) {
                                                     return null;
                                                 }
 
