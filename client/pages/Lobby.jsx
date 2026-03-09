@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { toast } from '@heroui/react';
 import { Trans, useTranslation } from 'react-i18next';
@@ -16,13 +16,11 @@ import 'react-responsive-carousel/lib/styles/carousel.min.css';
 
 const Lobby = () => {
     const dispatch = useDispatch();
-    const { bannerNotice, lobbyError, messages, motd, users } = useSelector((state) => ({
-        bannerNotice: state.lobby.bannerNotice,
-        lobbyError: state.lobby.lobbyError,
-        messages: state.lobby.messages,
-        motd: state.lobby.motd,
-        users: state.lobby.users
-    }));
+    const bannerNotice = useSelector((state) => state.lobby.bannerNotice);
+    const lobbyError = useSelector((state) => state.lobby.lobbyError);
+    const messages = useSelector((state) => state.lobby.messages);
+    const motd = useSelector((state) => state.lobby.motd);
+    const users = useSelector((state) => state.lobby.users);
     const user = useSelector((state) => state.account.user);
     const { data: newsResponse, isLoading: isNewsLoading } = useGetNewsQuery({ limit: 3 });
     const news = newsResponse?.news || [];
@@ -34,16 +32,21 @@ const Lobby = () => {
     const inputRef = useRef(null);
     const [removeLobbyMessage] = useRemoveLobbyMessageMutation();
 
-    if (!popupError && lobbyError) {
-        setPopupError(true);
+    useEffect(() => {
+        if (!lobbyError || popupError) {
+            return;
+        }
 
+        setPopupError(true);
         toast.danger(t('New users are limited from chatting in the lobby, try again later'));
 
-        setTimeout(() => {
+        const timeout = setTimeout(() => {
             dispatch(lobbyActions.clearChatStatus());
             setPopupError(false);
         }, 5000);
-    }
+
+        return () => clearTimeout(timeout);
+    }, [dispatch, lobbyError, popupError, t]);
 
     const sendMessage = () => {
         if (message === '') {

@@ -22,12 +22,15 @@ const DecksComponent = () => {
     const [deleteError, setDeleteError] = useState(null);
     const [isDeleting, setIsDeleting] = useState(false);
     const [deleteDecks] = useDeleteDecksMutation();
-    const apiState = useSelector((state) =>
-        state.cards.deckDeleted ? { success: true, message: t('Deck deleted successfully') } : null
+    const isDeckDeleted = useSelector((state) => state.cards.deckDeleted);
+    const apiState = useMemo(
+        () =>
+            isDeckDeleted
+                ? { success: true, message: t('Deck deleted successfully') }
+                : null,
+        [isDeckDeleted, t]
     );
-    const { selectedDeck } = useSelector((state) => ({
-        selectedDeck: state.cards.selectedDeck
-    }));
+    const selectedDeck = useSelector((state) => state.cards.selectedDeck);
     const selectedDeckCount = selectedDecks.length;
     const selectedRowIds = useMemo(
         () => selectedDecks.map((deck) => String(deck.id)),
@@ -62,10 +65,12 @@ const DecksComponent = () => {
     };
 
     React.useEffect(() => {
-        if (apiState?.success) {
-            setSelectedDecks([]);
+        if (!isDeckDeleted) {
+            return;
         }
-    }, [apiState]);
+
+            setSelectedDecks([]);
+    }, [isDeckDeleted]);
 
     return (
         <div className='flex h-[calc(100dvh-65px)] flex-col overflow-hidden'>

@@ -31,11 +31,9 @@ const Application = () => {
     const [cannotLoad, setCannotLoad] = useState(false);
     const prevWindowBlurred = useRef(null);
 
-    const { currentGame, user, windowBlurred } = useSelector((state) => ({
-        currentGame: state.lobby.currentGame,
-        user: state.account.user,
-        windowBlurred: state.lobby.windowBlurred
-    }));
+    const currentGame = useSelector((state) => state.lobby.currentGame);
+    const user = useSelector((state) => state.account.user);
+    const windowBlurred = useSelector((state) => state.lobby.windowBlurred);
 
     const backgrounds = useMemo(() => {
         const values = { blank: BlankBg };

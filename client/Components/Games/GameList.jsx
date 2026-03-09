@@ -78,11 +78,9 @@ const statusIcons = [
 const GameList = ({ gameFilter = {}, games = [], onJoinOrWatchClick }) => {
     const dispatch = useDispatch();
     const { t } = useTranslation();
-    const { currentGame, socket, user } = useSelector((state) => ({
-        currentGame: state.lobby.currentGame,
-        socket: state.lobby.socket,
-        user: state.account.user
-    }));
+    const currentGame = useSelector((state) => state.lobby.currentGame);
+    const socket = useSelector((state) => state.lobby.socket);
+    const user = useSelector((state) => state.account.user);
 
     const canWatch = useCallback(
         (game) => !currentGame && (game.allowSpectators || user?.permissions?.canManageGames),

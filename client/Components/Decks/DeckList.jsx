@@ -61,14 +61,14 @@ const DeckList = ({
     );
     const nameFilterValue = useRef('');
 
-    const { decks, selectedDeck } = useSelector((state) => ({
-        decks: standaloneDecks ? state.cards.standaloneDecks : state.cards.decks,
-        selectedDeck: standaloneDecks ? null : state.cards.selectedDeck
-    }));
-    const { authToken, refreshToken } = useSelector((state) => ({
-        authToken: state.auth.token,
-        refreshToken: state.auth.refreshToken
-    }));
+    const decks = useSelector((state) =>
+        standaloneDecks ? state.cards.standaloneDecks : state.cards.decks
+    );
+    const selectedDeck = useSelector((state) =>
+        standaloneDecks ? null : state.cards.selectedDeck
+    );
+    const authToken = useSelector((state) => state.auth.token);
+    const refreshToken = useSelector((state) => state.auth.refreshToken);
     const hasAuth = Boolean(authToken || refreshToken);
     const shouldUseRemoteDecks = !standaloneDecks && hasAuth;
     const useDecksQuery = (queryArgs) =>
@@ -83,10 +83,22 @@ const DeckList = ({
                 filters.push({ name: 'name', value: nameValue });
             }
 
-            if (expansionValues) {
+            const selectedExpansionValues = Array.isArray(expansionValues)
+                ? expansionValues.map((expansion) => expansion.value)
+                : [];
+            const allExpansionValues = Array.isArray(expansions)
+                ? expansions.map((expansion) => expansion.value)
+                : [];
+            const hasPartialExpansionFilter =
+                selectedExpansionValues.length > 0 &&
+                selectedExpansionValues.length < allExpansionValues.length;
+            const hasNoExpansionSelection =
+                Array.isArray(expansionValues) && expansionValues.length === 0;
+
+            if (hasPartialExpansionFilter || hasNoExpansionSelection) {
                 filters.push({
                     name: 'expansion',
-                    value: expansionValues.map((expansion) => expansion.value)
+                    value: selectedExpansionValues
                 });
             }
 
@@ -96,7 +108,7 @@ const DeckList = ({
 
             return filters;
         },
-        [deckFilter, normalizeFilterEntry]
+        [deckFilter, expansions, normalizeFilterEntry]
     );
 
     const updateFilters = useMemo(

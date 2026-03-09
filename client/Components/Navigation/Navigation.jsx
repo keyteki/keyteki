@@ -38,25 +38,14 @@ const Navigation = (props) => {
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
     const [openDropdownKey, setOpenDropdownKey] = useState('');
     const [isLightTheme, setIsLightTheme] = useState(false);
-    const {
-        gameConnected,
-        gameConnecting,
-        gameResponse,
-        games,
-        currentGame,
-        lobbyResponse,
-        lobbySocketConnected,
-        lobbySocketConnecting
-    } = useSelector((state) => ({
-        gameConnected: state.games.connected,
-        gameConnecting: state.games.connecting,
-        gameResponse: state.games.responseTime,
-        games: state.lobby.games,
-        currentGame: state.lobby.currentGame,
-        lobbyResponse: state.lobby.responseTime,
-        lobbySocketConnected: state.lobby.connected,
-        lobbySocketConnecting: state.lobby.connecting
-    }));
+    const gameConnected = useSelector((state) => state.games.connected);
+    const gameConnecting = useSelector((state) => state.games.connecting);
+    const gameResponse = useSelector((state) => state.games.responseTime);
+    const games = useSelector((state) => state.lobby.games);
+    const currentGame = useSelector((state) => state.lobby.currentGame);
+    const lobbyResponse = useSelector((state) => state.lobby.responseTime);
+    const lobbySocketConnected = useSelector((state) => state.lobby.connected);
+    const lobbySocketConnecting = useSelector((state) => state.lobby.connecting);
 
     useEffect(() => {
         setMobileMenuOpen(false);

@@ -56,9 +56,7 @@ const AllianceBuilderPage = () => {
                   : saveState.error?.data?.message
           };
 
-    const { dbDecks } = useSelector((state) => ({
-        dbDecks: state.cards.decks
-    }));
+    const dbDecks = useSelector((state) => state.cards.decks);
 
     const [selectedExpansion, setSelectedExpansion] = useState();
     const [selectedHouses, setSelectedHouses] = useState([null, null, null]);

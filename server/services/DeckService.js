@@ -375,7 +375,11 @@ class DeckService {
 
         for (let filterObject of filterOptions || []) {
             if (filterObject.name === 'expansion') {
-                if (!filterObject.value || filterObject.value.length === 0) {
+                if (!filterObject.value) {
+                    continue;
+                }
+                if (filterObject.value.length === 0) {
+                    filter += 'AND 1 = 0 ';
                     continue;
                 }
                 filter += `AND ${this.mapColumn(filterObject.name)} IN ${expand(

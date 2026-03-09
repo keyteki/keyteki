@@ -17,9 +17,7 @@ const BanlistAdmin = () => {
     const { isLoading } = useGetBanlistQuery();
     const [addBanlist, addState] = useAddBanlistMutation();
     const [deleteBanlist, deleteState] = useDeleteBanlistMutation();
-    const { banlist } = useSelector((state) => ({
-        banlist: state.admin.banlist
-    }));
+    const banlist = useSelector((state) => state.admin.banlist);
 
     useEffect(() => {
         if (!addState.isSuccess) {

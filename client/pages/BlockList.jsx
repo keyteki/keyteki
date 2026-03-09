@@ -19,9 +19,7 @@ import { userActions } from '../redux/slices/userSlice';
 import { lobbyAuthenticateRequested } from '../redux/socketActions';
 
 const BlockList = () => {
-    const { user } = useSelector((state) => ({
-        user: state.account.user
-    }));
+    const user = useSelector((state) => state.account.user);
     const dispatch = useDispatch();
     const { t } = useTranslation();
     const blockList = useSelector((state) => state.user.blockList);

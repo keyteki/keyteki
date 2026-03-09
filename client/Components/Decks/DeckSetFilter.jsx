@@ -27,6 +27,13 @@ const DeckSetFilter = ({ expansions = [], selectedExpansions = [], onChange, lab
         (value) => selectedExpansions.some((expansion) => expansion.value === value),
         [selectedExpansions]
     );
+    const allSetsSelected =
+        expansions.length > 0 && selectedExpansions.length === expansions.length;
+    const triggerLabel = allSetsSelected
+        ? t('All sets')
+        : selectedExpansions.length > 0
+            ? `${t('Sets')}: ${selectedExpansions.length} ${t('selected')}`
+            : t('No sets selected');
 
     const toggleSet = useCallback(
         (expansion, isSelected) => {
@@ -79,11 +86,7 @@ const DeckSetFilter = ({ expansions = [], selectedExpansions = [], onChange, lab
                         className='w-full justify-between'
                         variant='tertiary'
                     >
-                        <span className='truncate text-left'>
-                            {selectedExpansions.length > 0
-                                ? `${t('Sets')}: ${selectedExpansions.length} ${t('selected')}`
-                                : t('All sets')}
-                        </span>
+                        <span className='truncate text-left'>{triggerLabel}</span>
                         <Icon className='text-muted' icon={isOpen ? faChevronUp : faChevronDown} />
                     </Button>
                 </Popover.Trigger>

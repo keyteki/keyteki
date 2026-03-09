@@ -30,11 +30,9 @@ function showNotification(notification) {
 const PendingGame = () => {
     const currentGame = useSelector((state) => state.lobby.currentGame);
     const user = useSelector((state) => state.account.user);
-    const { connecting, gameError, gameHost } = useSelector((state) => ({
-        connecting: state.games.connecting,
-        gameError: state.lobby.gameError,
-        gameHost: state.games.gameHost
-    }));
+    const connecting = useSelector((state) => state.games.connecting);
+    const gameError = useSelector((state) => state.lobby.gameError);
+    const gameHost = useSelector((state) => state.games.gameHost);
     const notification = useRef();
     const [waiting, setWaiting] = useState(false);
     const [showModal, setShowModal] = useState(false);
