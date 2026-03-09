@@ -31,11 +31,9 @@ export const GameBoard = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const { t, i18n } = useTranslation();
-    const { cards, currentGame, user } = useSelector((state) => ({
-        cards: state.cards.cards,
-        currentGame: state.lobby.currentGame,
-        user: state.account.user
-    }));
+    const cards = useSelector((state) => state.cards.cards);
+    const currentGame = useSelector((state) => state.lobby.currentGame);
+    const user = useSelector((state) => state.account.user);
     const [cardToZoom, setCardToZoom] = useState(null);
     const [showMessages, setShowMessages] = useState(true);
     const [lastMessageCount, setLastMessageCount] = useState(0);

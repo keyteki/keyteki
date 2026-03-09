@@ -59,13 +59,11 @@ Form.Control = ({ as, className = '', children, ...props }) =>
 Form.Control.displayName = 'TournamentLobbyFormControl';
 
 const TournamentLobby = () => {
-    const { tournaments, matches, message, participants, success } = useSelector((state) => ({
-        matches: state.challonge.matches,
-        message: state.challonge.message,
-        success: state.challonge.success,
-        participants: state.challonge.participants,
-        tournaments: state.challonge.tournaments
-    }));
+    const tournaments = useSelector((state) => state.challonge.tournaments);
+    const matches = useSelector((state) => state.challonge.matches);
+    const message = useSelector((state) => state.challonge.message);
+    const participants = useSelector((state) => state.challonge.participants);
+    const success = useSelector((state) => state.challonge.success);
     const games = useSelector((state) => state.lobby.games);
     const navigate = useNavigate();
     const [tournament, setTournament] = useState();

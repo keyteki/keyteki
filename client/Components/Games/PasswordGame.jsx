@@ -9,11 +9,9 @@ import { lobbySendMessage } from '../../redux/socketActions';
 
 const PasswordGame = () => {
     const { t } = useTranslation();
-    const { passwordError, passwordJoinType, passwordGame } = useSelector((state) => ({
-        passwordError: state.lobby.passwordError,
-        passwordGame: state.lobby.passwordGame,
-        passwordJoinType: state.lobby.passwordJoinType
-    }));
+    const passwordError = useSelector((state) => state.lobby.passwordError);
+    const passwordGame = useSelector((state) => state.lobby.passwordGame);
+    const passwordJoinType = useSelector((state) => state.lobby.passwordJoinType);
     const [password, setPassword] = useState('');
     const dispatch = useDispatch();
 
