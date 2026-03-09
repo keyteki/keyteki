@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useState, useLayoutEffect } from 'react';
+import React, { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react';
 import moment from 'moment';
 import Icon from '../Icon';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
@@ -49,7 +49,7 @@ const LobbyChat = ({
     const shouldAutoFollowRef = useRef(true);
     const [isPinnedToBottom, setIsPinnedToBottom] = useState(true);
 
-    const isNearBottom = () => {
+    const isNearBottom = useCallback(() => {
         if (!messageRef.current) {
             return true;
         }
@@ -59,37 +59,43 @@ const LobbyChat = ({
             messageList.scrollHeight - messageList.scrollTop - messageList.clientHeight;
 
         return distanceFromBottom <= 80;
-    };
+    }, []);
 
-    const syncPinnedState = (nextPinned) => {
+    const syncPinnedState = useCallback((nextPinned) => {
         shouldAutoFollowRef.current = nextPinned;
         setIsPinnedToBottom((currentPinned) =>
             currentPinned === nextPinned ? currentPinned : nextPinned
         );
-    };
+    }, []);
 
-    const scrollToBottom = (forcePin = false) => {
-        if (!messageRef.current) {
-            return;
-        }
+    const scrollToBottom = useCallback(
+        (forcePin = false) => {
+            if (!messageRef.current) {
+                return;
+            }
 
-        const messageList = messageRef.current;
-        messageList.scrollTop = messageList.scrollHeight - messageList.clientHeight;
+            const messageList = messageRef.current;
+            messageList.scrollTop = messageList.scrollHeight - messageList.clientHeight;
 
-        if (forcePin) {
-            syncPinnedState(true);
-        }
-    };
+            if (forcePin) {
+                syncPinnedState(true);
+            }
+        },
+        [syncPinnedState]
+    );
 
-    const scheduleScrollToBottom = (forcePin = false) => {
-        // Wait for layout/paint so scrollHeight is accurate after message render.
-        requestAnimationFrame(() => {
+    const scheduleScrollToBottom = useCallback(
+        (forcePin = false) => {
+            // Wait for layout/paint so scrollHeight is accurate after message render.
             requestAnimationFrame(() => {
-                scrollToBottom(forcePin);
-                setTimeout(() => scrollToBottom(forcePin), 0);
+                requestAnimationFrame(() => {
+                    scrollToBottom(forcePin);
+                    setTimeout(() => scrollToBottom(forcePin), 0);
+                });
             });
-        });
-    };
+        },
+        [scrollToBottom]
+    );
 
     useLayoutEffect(() => {
         if (!shouldAutoFollowRef.current && !isNearBottom()) {
@@ -97,11 +103,11 @@ const LobbyChat = ({
         }
 
         scheduleScrollToBottom();
-    }, [messages]);
+    }, [isNearBottom, messages, scheduleScrollToBottom]);
 
     useEffect(() => {
         scheduleScrollToBottom(true);
-    }, []);
+    }, [scheduleScrollToBottom]);
 
     useEffect(() => {
         if (!messageContentRef.current) {
@@ -118,7 +124,7 @@ const LobbyChat = ({
         return () => {
             resizeObserverRef.current?.disconnect();
         };
-    }, []);
+    }, [scheduleScrollToBottom]);
 
     useEffect(() => {
         if (!messageContentRef.current) {
@@ -140,7 +146,7 @@ const LobbyChat = ({
         return () => {
             mutationObserver.disconnect();
         };
-    }, []);
+    }, [scheduleScrollToBottom]);
 
     useEffect(() => {
         const onWindowResize = () => {
@@ -162,7 +168,7 @@ const LobbyChat = ({
             window.removeEventListener('focus', onVisibilityOrFocus);
             document.removeEventListener('visibilitychange', onVisibilityOrFocus);
         };
-    }, []);
+    }, [scheduleScrollToBottom]);
 
     const onScroll = () => {
         syncPinnedState(isNearBottom());

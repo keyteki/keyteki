@@ -184,7 +184,6 @@ function ReactTable({
     emptyContent,
     isError: localIsError = false,
     isLoading: localIsLoading = false,
-    isStriped = true,
     onPageChanged,
     onPageSizeChanged,
     onRefresh,
@@ -308,10 +307,13 @@ function ReactTable({
         }
 
         const direction = sortDescriptor?.direction === 'descending' ? -1 : 1;
-        return [...rows].sort((left, right) => compareSortValues(
-            getColumnValue(sortColumn, left),
-            getColumnValue(sortColumn, right)
-        ) * direction);
+        return [...rows].sort(
+            (left, right) =>
+                compareSortValues(
+                    getColumnValue(sortColumn, left),
+                    getColumnValue(sortColumn, right)
+                ) * direction
+        );
     }, [columnById, columnFilters, remote, sortDescriptor, tableRows]);
 
     const totalCount = remote ? response?.totalCount || 0 : normalizedRows.length;
@@ -373,7 +375,9 @@ function ReactTable({
         return items;
     }, [page, pageCount]);
     const pageSizeKey = String(pageSize);
-    const headerCollectionKey = `${sortDescriptor?.column || 'none'}:${sortDescriptor?.direction || 'none'}:${Object.keys(columnFilters).sort().join(',')}`;
+    const headerCollectionKey = `${sortDescriptor?.column || 'none'}:${
+        sortDescriptor?.direction || 'none'
+    }:${Object.keys(columnFilters).sort().join(',')}`;
     const setFilter = (columnId, value) => {
         setPage(0);
         setColumnFilters((previous) => {
@@ -468,7 +472,9 @@ function ReactTable({
 
             <Table
                 aria-label='Data table'
-                className={`${fillHeight ? 'flex min-h-0 flex-1 flex-col overflow-hidden' : ''} rounded-lg border border-[color:var(--table-border)] bg-[var(--surface)] dark:border-zinc-700/60 dark:bg-black/35 ${tableClassName}`}
+                className={`${
+                    fillHeight ? 'flex min-h-0 flex-1 flex-col overflow-hidden' : ''
+                } rounded-lg border border-[color:var(--table-border)] bg-[var(--surface)] dark:border-zinc-700/60 dark:bg-black/35 ${tableClassName}`}
             >
                 <Table.ScrollContainer className={fillHeight ? 'min-h-0 flex-1 overflow-auto' : ''}>
                     <Table.Content
@@ -491,9 +497,10 @@ function ReactTable({
                                 return;
                             }
 
-                            const next = nextKeys === 'all'
-                                ? new Set(pageRows.map((row) => row.__reactTableId))
-                                : new Set(nextKeys || []);
+                            const next =
+                                nextKeys === 'all'
+                                    ? new Set(pageRows.map((row) => row.__reactTableId))
+                                    : new Set(nextKeys || []);
                             const selectionChanged = !areSetEqual(selectedKeys, next);
 
                             if (!isControlledSelection) {
@@ -530,110 +537,127 @@ function ReactTable({
                             ) : null}
                             <Table.Collection key={headerCollectionKey} items={normalizedColumns}>
                                 {(column) => {
-                                const headerClassName = column.meta?.className || '';
-                                const isCenterAligned = headerClassName.includes('text-center');
-                                const isRightAligned = headerClassName.includes('text-right');
-                                const columnId = column.id;
-                                const isDataColumn = Boolean(column.accessorKey || column.accessorFn);
-                                const isGroupingFilter = Boolean(column.meta?.groupingFilter);
-                                const canFilter =
-                                    Boolean(column.enableColumnFilter) !== false &&
-                                    (isDataColumn || isGroupingFilter) &&
-                                    column.meta?.hideFilter !== true;
-                                const canSort =
-                                    column.meta?.sortable !== false &&
-                                    isDataColumn;
-                                const isSortedColumn = sortDescriptor?.column === columnId;
-                                const sortIcon = !isSortedColumn
-                                    ? null
-                                    : sortDescriptor.direction === 'descending'
+                                    const headerClassName = column.meta?.className || '';
+                                    const isCenterAligned = headerClassName.includes('text-center');
+                                    const isRightAligned = headerClassName.includes('text-right');
+                                    const columnId = column.id;
+                                    const isDataColumn = Boolean(
+                                        column.accessorKey || column.accessorFn
+                                    );
+                                    const isGroupingFilter = Boolean(column.meta?.groupingFilter);
+                                    const canFilter =
+                                        Boolean(column.enableColumnFilter) !== false &&
+                                        (isDataColumn || isGroupingFilter) &&
+                                        column.meta?.hideFilter !== true;
+                                    const canSort = column.meta?.sortable !== false && isDataColumn;
+                                    const isSortedColumn = sortDescriptor?.column === columnId;
+                                    const sortIcon = !isSortedColumn
+                                        ? null
+                                        : sortDescriptor.direction === 'descending'
                                         ? faArrowDownWideShort
                                         : faArrowUpShortWide;
 
-                                return (
-                                    <Table.Column
-                                        key={columnId}
-                                        allowsSorting={canSort}
-                                        className={headerClassName}
-                                        isRowHeader={column.isRowHeader}
-                                        style={{
-                                            width: column.meta?.colWidth,
-                                            textAlign: isRightAligned ? 'right' : isCenterAligned ? 'center' : 'left'
-                                        }}
-                                    >
-                                        <div className='flex items-center gap-1'>
-                                            <span className='truncate'>{toHeaderNode(column.header, { column })}</span>
-                                            {canSort ? (
-                                                <span
-                                                    aria-hidden='true'
-                                                    className={`inline-flex text-xs ${
-                                                        isSortedColumn
-                                                            ? 'text-[color:var(--brand)]'
-                                                            : 'text-foreground/40'
-                                                    }`}
-                                                >
-                                                    {sortIcon ? <Icon icon={sortIcon} /> : ' '}
+                                    return (
+                                        <Table.Column
+                                            key={columnId}
+                                            allowsSorting={canSort}
+                                            className={headerClassName}
+                                            isRowHeader={column.isRowHeader}
+                                            style={{
+                                                width: column.meta?.colWidth,
+                                                textAlign: isRightAligned
+                                                    ? 'right'
+                                                    : isCenterAligned
+                                                    ? 'center'
+                                                    : 'left'
+                                            }}
+                                        >
+                                            <div className='flex items-center gap-1'>
+                                                <span className='truncate'>
+                                                    {toHeaderNode(column.header, { column })}
                                                 </span>
-                                            ) : null}
-                                            {canFilter ? (
-                                                <Popover
-                                                    isOpen={filterOpen[columnId]}
-                                                    onOpenChange={(open) => {
-                                                        setFilterOpen((previous) => ({
-                                                            ...previous,
-                                                            [columnId]: open
-                                                        }));
-                                                    }}
-                                                >
-                                                    <Popover.Trigger>
-                                                        <button
-                                                            type='button'
-                                                            className={`rounded px-1 py-0.5 text-xs ${
-                                                                columnFilters[columnId]
-                                                                    ? 'text-[color:var(--brand)]'
-                                                                    : 'text-foreground/70 dark:text-zinc-300'
-                                                            }`}
-                                                        >
-                                                            <Icon icon={faFilter} />
-                                                        </button>
-                                                    </Popover.Trigger>
-                                                    <Popover.Content offset={12}>
-                                                        <Popover.Dialog>
-                                                            {isGroupingFilter ? (
-                                                                column.meta.groupingFilter(
-                                                                    () => {
-                                                                        setFilterOpen((previous) => ({
-                                                                            ...previous,
-                                                                            [columnId]:
-                                                                                !previous[columnId]
-                                                                        }));
-                                                                    },
-                                                                    column,
-                                                                    allRows
-                                                                )
-                                                            ) : (
-                                                                <Input
-                                                                    autoFocus
-                                                                    className='select-text min-w-[13rem]'
-                                                                    placeholder='Filter'
-                                                                    size='sm'
-                                                                    variant='tertiary'
-                                                                    value={columnFilters[columnId] || ''}
-                                                                    onPointerDown={(event) => {
-                                                                        event.stopPropagation();
-                                                                    }}
-                                                                    onChange={(event) => {
-                                                                        setFilter(columnId, event.target.value);
-                                                                    }}
-                                                                />
-                                                            )}
-                                                        </Popover.Dialog>
-                                                    </Popover.Content>
-                                                </Popover>
-                                            ) : null}
-                                        </div>
-                                    </Table.Column>
-                                );
+                                                {canSort ? (
+                                                    <span
+                                                        aria-hidden='true'
+                                                        className={`inline-flex text-xs ${
+                                                            isSortedColumn
+                                                                ? 'text-[color:var(--brand)]'
+                                                                : 'text-foreground/40'
+                                                        }`}
+                                                    >
+                                                        {sortIcon ? <Icon icon={sortIcon} /> : ' '}
+                                                    </span>
+                                                ) : null}
+                                                {canFilter ? (
+                                                    <Popover
+                                                        isOpen={filterOpen[columnId]}
+                                                        onOpenChange={(open) => {
+                                                            setFilterOpen((previous) => ({
+                                                                ...previous,
+                                                                [columnId]: open
+                                                            }));
+                                                        }}
+                                                    >
+                                                        <Popover.Trigger>
+                                                            <button
+                                                                type='button'
+                                                                className={`rounded px-1 py-0.5 text-xs ${
+                                                                    columnFilters[columnId]
+                                                                        ? 'text-[color:var(--brand)]'
+                                                                        : 'text-foreground/70 dark:text-zinc-300'
+                                                                }`}
+                                                            >
+                                                                <Icon icon={faFilter} />
+                                                            </button>
+                                                        </Popover.Trigger>
+                                                        <Popover.Content offset={12}>
+                                                            <Popover.Dialog>
+                                                                {isGroupingFilter ? (
+                                                                    column.meta.groupingFilter(
+                                                                        () => {
+                                                                            setFilterOpen(
+                                                                                (previous) => ({
+                                                                                    ...previous,
+                                                                                    [columnId]:
+                                                                                        !previous[
+                                                                                            columnId
+                                                                                        ]
+                                                                                })
+                                                                            );
+                                                                        },
+                                                                        column,
+                                                                        allRows
+                                                                    )
+                                                                ) : (
+                                                                    <Input
+                                                                        autoFocus
+                                                                        className='select-text min-w-[13rem]'
+                                                                        placeholder='Filter'
+                                                                        size='sm'
+                                                                        variant='tertiary'
+                                                                        value={
+                                                                            columnFilters[
+                                                                                columnId
+                                                                            ] || ''
+                                                                        }
+                                                                        onPointerDown={(event) => {
+                                                                            event.stopPropagation();
+                                                                        }}
+                                                                        onChange={(event) => {
+                                                                            setFilter(
+                                                                                columnId,
+                                                                                event.target.value
+                                                                            );
+                                                                        }}
+                                                                    />
+                                                                )}
+                                                            </Popover.Dialog>
+                                                        </Popover.Content>
+                                                    </Popover>
+                                                ) : null}
+                                            </div>
+                                        </Table.Column>
+                                    );
                                 }}
                             </Table.Collection>
                         </Table.Header>
@@ -641,7 +665,9 @@ function ReactTable({
                             items={tableItems}
                             renderEmptyState={() =>
                                 emptyContent || (
-                                    <AlertPanel type='info'>{'There is no data to display'}</AlertPanel>
+                                    <AlertPanel type='info'>
+                                        {'There is no data to display'}
+                                    </AlertPanel>
                                 )
                             }
                         >
@@ -652,8 +678,10 @@ function ReactTable({
                                         id={item.__reactTableId}
                                         key={item.__reactTableId}
                                         className={`${
-                                        getRowClassName ? getRowClassName(toLegacyRow(rowData)) : ''
-                                    }`}
+                                            getRowClassName
+                                                ? getRowClassName(toLegacyRow(rowData))
+                                                : ''
+                                        }`}
                                     >
                                         {showSelection ? (
                                             <Table.Cell className='w-12 text-center'>
@@ -672,7 +700,9 @@ function ReactTable({
                                                 <Table.Cell
                                                     className={column.meta?.className || ''}
                                                     key={column.id}
-                                                    onClick={() => onRowClick?.(toLegacyRow(rowData))}
+                                                    onClick={() =>
+                                                        onRowClick?.(toLegacyRow(rowData))
+                                                    }
                                                 >
                                                     {toCellNode(column, rowData)}
                                                 </Table.Cell>
@@ -684,44 +714,44 @@ function ReactTable({
                         </Table.Body>
                     </Table.Content>
                 </Table.ScrollContainer>
-                </Table>
+            </Table>
 
-                <div className='mt-2 flex shrink-0 items-center gap-2'>
+            <div className='mt-2 flex shrink-0 items-center gap-2'>
                 <div className='min-w-0 flex-1 overflow-x-auto'>
-                <Pagination size='sm' className='inline-flex min-w-max flex-none text-sm'>
-                    <Pagination.Content className='gap-1'>
-                        <Pagination.Item>
-                            <Pagination.Previous
-                                isDisabled={current <= 1}
-                                onPress={() => updatePage(Math.max(0, current - 2))}
-                            >
-                                <Pagination.PreviousIcon />
-                            </Pagination.Previous>
-                        </Pagination.Item>
-                        {paginationItems.map((item) => (
-                            item.type === 'ellipsis' ? (
-                                <Pagination.Ellipsis key={item.key} />
-                            ) : (
-                                <Pagination.Item key={`page-${item.value}`}>
-                                    <Pagination.Link
-                                        isActive={item.value === current}
-                                        onPress={() => updatePage(item.value - 1, false)}
-                                    >
-                                        {item.value}
-                                    </Pagination.Link>
-                                </Pagination.Item>
-                            )
-                        ))}
-                        <Pagination.Item>
-                            <Pagination.Next
-                                isDisabled={current >= pageCount}
-                                onPress={() => updatePage(Math.min(pageCount - 1, current))}
-                            >
-                                <Pagination.NextIcon />
-                            </Pagination.Next>
-                        </Pagination.Item>
-                    </Pagination.Content>
-                </Pagination>
+                    <Pagination size='sm' className='inline-flex min-w-max flex-none text-sm'>
+                        <Pagination.Content className='gap-1'>
+                            <Pagination.Item>
+                                <Pagination.Previous
+                                    isDisabled={current <= 1}
+                                    onPress={() => updatePage(Math.max(0, current - 2))}
+                                >
+                                    <Pagination.PreviousIcon />
+                                </Pagination.Previous>
+                            </Pagination.Item>
+                            {paginationItems.map((item) =>
+                                item.type === 'ellipsis' ? (
+                                    <Pagination.Ellipsis key={item.key} />
+                                ) : (
+                                    <Pagination.Item key={`page-${item.value}`}>
+                                        <Pagination.Link
+                                            isActive={item.value === current}
+                                            onPress={() => updatePage(item.value - 1, false)}
+                                        >
+                                            {item.value}
+                                        </Pagination.Link>
+                                    </Pagination.Item>
+                                )
+                            )}
+                            <Pagination.Item>
+                                <Pagination.Next
+                                    isDisabled={current >= pageCount}
+                                    onPress={() => updatePage(Math.min(pageCount - 1, current))}
+                                >
+                                    <Pagination.NextIcon />
+                                </Pagination.Next>
+                            </Pagination.Item>
+                        </Pagination.Content>
+                    </Pagination>
                 </div>
                 <div className='flex flex-none items-center gap-2 whitespace-nowrap'>
                     <Select

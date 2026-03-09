@@ -24,10 +24,7 @@ const DecksComponent = () => {
     const [deleteDecks] = useDeleteDecksMutation();
     const isDeckDeleted = useSelector((state) => state.cards.deckDeleted);
     const apiState = useMemo(
-        () =>
-            isDeckDeleted
-                ? { success: true, message: t('Deck deleted successfully') }
-                : null,
+        () => (isDeckDeleted ? { success: true, message: t('Deck deleted successfully') } : null),
         [isDeckDeleted, t]
     );
     const selectedDeck = useSelector((state) => state.cards.selectedDeck);
@@ -69,7 +66,7 @@ const DecksComponent = () => {
             return;
         }
 
-            setSelectedDecks([]);
+        setSelectedDecks([]);
     }, [isDeckDeleted]);
 
     return (

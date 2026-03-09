@@ -32,8 +32,8 @@ const DeckSetFilter = ({ expansions = [], selectedExpansions = [], onChange, lab
     const triggerLabel = allSetsSelected
         ? t('All sets')
         : selectedExpansions.length > 0
-            ? `${t('Sets')}: ${selectedExpansions.length} ${t('selected')}`
-            : t('No sets selected');
+        ? `${t('Sets')}: ${selectedExpansions.length} ${t('selected')}`
+        : t('No sets selected');
 
     const toggleSet = useCallback(
         (expansion, isSelected) => {
