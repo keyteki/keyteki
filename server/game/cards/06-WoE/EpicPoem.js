@@ -16,7 +16,7 @@ class EpicPoem extends Card {
                 ])
             },
             effect: 'exalt {0} and gain {1} amber',
-            effectArgs: (context) => [context.target.amber + 1]
+            effectArgs: (context) => [context.target ? context.target.amber + 1 : 0]
         });
     }
 }
