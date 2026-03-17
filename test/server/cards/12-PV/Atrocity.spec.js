@@ -54,4 +54,31 @@ describe('Atrocity', function () {
             expect(this.player2).isReadyToTakeAction();
         });
     });
+
+    describe('Atrocity played via Be Our Geist', function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'geistoid',
+                    hand: ['be-our-geist']
+                },
+                player2: {
+                    discard: new Array(9).fill('poke').concat(['atrocity', 'ancient-bear'])
+                }
+            });
+        });
+
+        it('should discard from the correct deck when played by opponent', function () {
+            this.player2.moveCard(this.ancientBear, 'deck');
+            this.player1.play(this.beOurGeist);
+            this.player1.clickCard(this.atrocity);
+            expect(this.atrocity.location).toBe('play area');
+            expect(this.player1.player.creaturesInPlay).toContain(this.atrocity);
+            this.player1.endTurn();
+            expect(this.ancientBear.location).toBe('discard');
+            expect(this.player2).toHavePromptButton('untamed');
+            this.player2.clickPrompt('untamed');
+            expect(this.player2).isReadyToTakeAction();
+        });
+    });
 });
