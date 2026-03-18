@@ -140,7 +140,7 @@ describe('Ward Messages', function () {
             expect(this.player1).isReadyToTakeAction();
             expect(this).toHaveAllChatMessagesBe([
                 'player1 plays Hoist Operations',
-                "player1 gains an amber due to Hoist Operations's bonus icon",
+                "player1 uses Hoist Operations's amber bonus icon to gain 1 amber",
                 'player1 uses Hoist Operations to archive Dextre',
                 'player2 uses Dextre to remove its ward token'
             ]);

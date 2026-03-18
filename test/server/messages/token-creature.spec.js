@@ -15,7 +15,6 @@ describe('Token Creature Messages', function () {
             expect(this.player1).isReadyToTakeAction();
             expect(this).toHaveAllChatMessagesBe([
                 'player1 plays Tourist Trap',
-                'player1 plays Tourist Trap',
                 'player1 uses Tourist Trap to make a token creature'
             ]);
         });

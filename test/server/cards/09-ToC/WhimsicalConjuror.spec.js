@@ -20,12 +20,12 @@ describe('Whimsical Conjuror', function () {
 
         it('should allow making a token creature instead of resolving amber', function () {
             this.player1.play(this.dustPixie);
-            expect(this.player1).toHavePrompt('How do you wish to resolve this amber icon?');
+            expect(this.player1).toHavePrompt('How do you wish to resolve this amber bonus icon?');
             expect(this.player1).toHavePromptButton('amber');
-            expect(this.player1).toHavePromptButton('token');
-            this.player1.clickPrompt('token');
+            expect(this.player1).toHavePromptButton('Token Creature');
+            this.player1.clickPrompt('Token Creature');
             this.player1.clickPrompt('Right');
-            this.player1.clickPrompt('token');
+            this.player1.clickPrompt('Token Creature');
             this.player1.clickPrompt('Right');
             expect(this.niffleBrute1.location).toBe('play area');
             expect(this.niffleBrute2.location).toBe('play area');
