@@ -8,7 +8,7 @@ describe('Temporal Purge', function () {
                     amber: 1,
                     inPlay: [
                         'stealthster',
-                        'scholar:helper-bot',
+                        'scholar:collector-boren',
                         'senator-shrix',
                         'scholar:foggify'
                     ],
@@ -46,7 +46,7 @@ describe('Temporal Purge', function () {
 
             expect(p1c0.name).toBe('Stealthster');
             expect(p1c0.location).toBe('play area');
-            expect(p1c1.name).toBe('Helper Bot');
+            expect(p1c1.name).toBe('Collector Boren');
             expect(p1c1.location).toBe('play area');
             expect(p1c2.name).toBe('Senator Shrix');
             expect(p1c2.location).toBe('play area');
@@ -59,6 +59,32 @@ describe('Temporal Purge', function () {
             expect(p2c1.location).toBe('play area');
             expect(p2c2.name).toBe('Malison');
             expect(p2c2.location).toBe('play area');
+        });
+
+        /**
+         * Regression test for https://github.com/keyteki/keyteki/issues/3529
+         */
+        it('should remove after reap effects the token had', function () {
+            let collectorBoren = this.player1.inPlay[1];
+            expect(collectorBoren.name).toBe('Scholar');
+
+            this.player1.play(this.temporalPurge);
+
+            expect(collectorBoren.name).toBe('Collector Boren');
+            expect(collectorBoren.location).toBe('play area');
+
+            // Temporal Purge flipped our Scholar over to its Collector Boren
+            // side, so it should no longer have any abilities from Scholar.
+
+            expect(this.player1.hand.length).toBe(0);
+            expect(this.player1.amber).toBe(2);
+
+            this.player1.reap(collectorBoren);
+
+            // Scholar’s After Reap effect is to draw a card. We want to assert
+            // that we gained an æmber from the reap but did _not_ draw a card.
+            expect(this.player1.hand.length).toBe(0);
+            expect(this.player1.amber).toBe(3);
         });
 
         /**
