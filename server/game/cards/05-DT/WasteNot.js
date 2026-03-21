@@ -13,12 +13,23 @@ class WasteNot extends Card {
             then: {
                 alwaysTriggers: true,
                 message: '{0} uses {1} to draw {3} cards',
-                messageArgs: (context) =>
-                    Math.ceil(context.preThenEvents[0].clone.modifiedPower * 0.5),
-                gameAction: ability.actions.draw((context) => ({
-                    target: context.player,
-                    amount: Math.ceil(context.preThenEvents[0].clone.modifiedPower * 0.5)
-                }))
+                messageArgs: (context) => {
+                    const power =
+                        context.preThenEvents.length > 0 && context.preThenEvents[0].clone
+                            ? context.preThenEvents[0].clone.modifiedPower
+                            : 0;
+                    return Math.ceil(power * 0.5);
+                },
+                gameAction: ability.actions.draw((context) => {
+                    const power =
+                        context.preThenEvents.length > 0 && context.preThenEvents[0].clone
+                            ? context.preThenEvents[0].clone.modifiedPower
+                            : 0;
+                    return {
+                        target: context.player,
+                        amount: Math.ceil(power * 0.5)
+                    };
+                })
             }
         });
     }
