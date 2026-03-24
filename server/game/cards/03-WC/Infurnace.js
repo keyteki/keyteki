@@ -18,7 +18,7 @@ class Infurnace extends Card {
                 cards: {
                     dependsOn: 'select',
                     mode: 'upTo',
-                    numCards: 5,
+                    numCards: 2,
                     cardCondition: (card, context) =>
                         !!context.selects.select && context.selects.select.choice === 'Mine'
                             ? card.owner === context.player
