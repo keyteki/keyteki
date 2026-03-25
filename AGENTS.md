@@ -63,3 +63,29 @@ Ask the user before proceeding when:
 
 -   **Archon Arcana** (<https://archonarcana.com>) - Community wiki with rules, glossary, and card rulings. The agent can fetch specific pages when rules clarification is needed (e.g., `https://archonarcana.com/Capture`, `https://archonarcana.com/Ward`). Individual card pages may also have useful commentary and rulings (e.g., `https://archonarcana.com/Deusillus`).
 
+## Cursor Cloud specific instructions
+
+### Services overview
+
+| Service | How to start | Port |
+|---|---|---|
+| PostgreSQL + Redis | `sudo dockerd &>/dev/null & sleep 3 && sudo docker compose up -d redis postgres` | Postgres: `54320`, Redis: `6379` |
+| Lobby server | `NODE_APP_INSTANCE=node npm run dev:lobby` | `4000` (includes Vite HMR) |
+| Game node | `NODE_APP_INSTANCE=node npm run dev:gamenode` | `9500` |
+
+### Running the app locally
+
+1. Docker must be running (`sudo dockerd` if not already started).
+2. Start databases: `sudo docker compose up -d redis postgres`.
+3. On first run, import card data: `NODE_APP_INSTANCE=node npm run fetchdata -- --no-images` (duplicate-key errors are expected and harmless).
+4. Start lobby + game node in separate terminals (see table above).
+5. Open `http://localhost:4000`. Test accounts: `test0`, `test1`, `admin` (password: `password`).
+
+### Non-obvious caveats
+
+- The `NODE_APP_INSTANCE=node` env var selects `config/default-node.json5` which points at `localhost:54320` (docker-mapped Postgres) and `localhost:6379` (Redis). Without it, the default config expects Docker-internal hostnames.
+- The game node's `--inspect` flag will fail with "address already in use" when the lobby is already using port 9229. This is harmless — the game node still starts correctly.
+- Tests (`npm test`) are pure game-logic tests and do **not** require Postgres, Redis, or any running server.
+- Lint: `npm run lint`. Tests: `npm test`. See [docs/local-development.md](docs/local-development.md) for full reference.
+- The `keyteki-json-data` git submodule must be initialized (`git submodule update --init`) before running `npm run fetchdata` or tests.
+
