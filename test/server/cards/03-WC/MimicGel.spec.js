@@ -869,4 +869,154 @@ describe('Mimic Gel', function () {
             expect(this.player1).isReadyToTakeAction();
         });
     });
+
+    describe('Mimic Gel copying creature affected by Spectral Tunneler', function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'logos',
+                    inPlay: ['daughter', 'dextre', 'spectral-tunneler'],
+                    hand: ['mimic-gel', 'batdrone']
+                },
+                player2: {}
+            });
+        });
+
+        it('should not copy lasting effects from Spectral Tunneler', function () {
+            // Use Spectral Tunneler on Dextre (middle creature)
+            this.player1.useAction(this.spectralTunneler);
+            this.player1.clickCard(this.dextre);
+            expect(this.dextre.isOnFlank()).toBe(true);
+
+            // Mimic Gel copies Dextre
+            this.player1.clickCard(this.mimicGel);
+            this.player1.clickPrompt('Play this creature');
+            this.player1.clickCard(this.dextre);
+            this.player1.clickPrompt('Right');
+            this.player1.playCreature(this.batdrone);
+
+            // Mimic Gel should NOT be considered a flank creature
+            // and should NOT have the reap: draw ability from Spectral Tunneler
+            expect(this.mimicGel.location).toBe('play area');
+            expect(this.mimicGel.name).toBe('Mimic Gel as Dextre');
+            expect(this.mimicGel.isOnFlank()).toBe(false);
+            this.mimicGel.ready();
+            this.mimicGel.reap();
+            expect(this.player1.hand.length).toBe(0);
+            expect(this.player1).isReadyToTakeAction();
+        });
+    });
+
+    describe('Mimic Gel copying Effigy of Melerukh', function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'logos',
+                    inPlay: ['effigy-of-melerukh', 'batdrone'],
+                    hand: ['mimic-gel']
+                },
+                player2: {
+                    inPlay: ['gub']
+                }
+            });
+            // Give Effigy 5 awakening counters so it transforms on next enemy reap
+            this.effigyOfMelerukh.tokens.awakening = 5;
+        });
+
+        it('should copy awakened Effigy as 100/100 with blank text box indefinitely', function () {
+            // Trigger Effigy's transformation by having enemy reap
+            this.player1.endTurn();
+            this.player2.clickPrompt('dis');
+            this.player2.reap(this.gub);
+            this.player2.clickPrompt('Right');
+            expect(this.effigyOfMelerukh.tokens.awakening).toBe(6);
+            expect(this.effigyOfMelerukh.type).toBe('creature');
+            expect(this.effigyOfMelerukh.power).toBe(100);
+            expect(this.effigyOfMelerukh.armor).toBe(100);
+            this.player2.endTurn();
+
+            // Mimic Gel copies the awakened Effigy
+            this.player1.clickPrompt('logos');
+            this.player1.playCreature(this.mimicGel);
+            this.player1.clickCard(this.effigyOfMelerukh);
+            this.player1.clickPrompt('Right');
+
+            expect(this.mimicGel.location).toBe('play area');
+            expect(this.mimicGel.name).toBe('Mimic Gel as Effigy of Melerukh');
+            expect(this.mimicGel.type).toBe('creature');
+            expect(this.mimicGel.power).toBe(100);
+            expect(this.mimicGel.armor).toBe(100);
+
+            // End turn - Mimic Gel should still be a 100/100 creature
+            this.player1.endTurn();
+            this.player2.clickPrompt('dis');
+            expect(this.mimicGel.type).toBe('creature');
+            expect(this.mimicGel.power).toBe(100);
+            expect(this.mimicGel.armor).toBe(100);
+            expect(this.player2).isReadyToTakeAction();
+        });
+    });
+
+    describe('Mimic Gel copying Auto-Legionary', function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'logos',
+                    inPlay: ['auto-legionary'],
+                    hand: ['mimic-gel']
+                },
+                player2: {
+                    inPlay: ['lamindra']
+                }
+            });
+        });
+
+        it('should remain a 5 power creature indefinitely after copying creature-mode Auto-Legionary', function () {
+            // Auto-Legionary uses action to become a creature
+            this.player1.makeMaverick(this.autoLegionary, 'logos');
+            this.player1.useAction(this.autoLegionary);
+            expect(this.autoLegionary.type).toBe('creature');
+            expect(this.autoLegionary.power).toBe(5);
+            this.player1.clickPrompt('Right');
+
+            // Mimic Gel copies Auto-Legionary while it's a creature
+            this.player1.play(this.mimicGel);
+            this.player1.clickCard(this.autoLegionary);
+            this.player1.clickPrompt('Right');
+            expect(this.player1).isReadyToTakeAction();
+            expect(this.mimicGel.location).toBe('play area');
+            expect(this.mimicGel.type).toBe('creature');
+            expect(this.mimicGel.power).toBe(5);
+            expect(this.mimicGel.name).toBe('Mimic Gel as Auto-Legionary');
+
+            // End turn - Mimic Gel should still be a 5 power creature
+            this.player1.endTurn();
+            this.player2.clickPrompt('sanctum');
+            expect(this.mimicGel.type).toBe('creature');
+            expect(this.mimicGel.power).toBe(5);
+            this.player2.endTurn();
+            this.player1.clickPrompt('logos');
+            expect(this.mimicGel.type).toBe('creature');
+            expect(this.mimicGel.power).toBe(5);
+
+            // Use the AL action ability on Mimic Gel - should still remain a creature
+            this.player1.useAction(this.mimicGel);
+            this.player1.clickPrompt('Left');
+            expect(this.mimicGel.type).toBe('creature');
+            expect(this.mimicGel.power).toBe(5);
+
+            // End another turn - still a creature
+            this.player1.endTurn();
+            this.player2.clickPrompt('sanctum');
+            expect(this.mimicGel.type).toBe('creature');
+            expect(this.mimicGel.power).toBe(5);
+            this.player2.endTurn();
+            this.player1.clickPrompt('logos');
+            expect(this.mimicGel.type).toBe('creature');
+            expect(this.mimicGel.power).toBe(5);
+            expect(this.player1).isReadyToTakeAction();
+        });
+    });
+
+    // TODO: Pale start
 });
