@@ -9,7 +9,8 @@ class HardSimpsonEvilTwin extends Card {
                 cardType: 'creature',
                 cardCondition: (card) => card.damage,
                 gameAction: ability.actions.capture((context) => ({
-                    player: context.target.controller
+                    player: context.target.controller,
+                    allowNoAmber: true
                 }))
             }
         });
