@@ -19,7 +19,7 @@ describe('Alpha Messages', function () {
             expect(this.player1).isReadyToTakeAction();
             expect(this).toHaveAllChatMessagesBe([
                 'player1 plays Wild Wormhole',
-                "player1 gains an amber due to Wild Wormhole's bonus icon",
+                "player1 uses Wild Wormhole's amber bonus icon to gain 1 amber",
                 'player1 uses Wild Wormhole to play Eureka!',
                 'player1 is unable to play Eureka! and returns it to deck'
             ]);

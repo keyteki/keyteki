@@ -33,8 +33,8 @@ describe('Play Messages', function () {
             expect(this.player1).isReadyToTakeAction();
             expect(this).toHaveAllChatMessagesBe([
                 'player1 plays Dust Pixie',
-                "player1 gains an amber due to Dust Pixie's bonus icon",
-                "player1 gains an amber due to Dust Pixie's bonus icon"
+                "player1 uses Dust Pixie's amber bonus icon to gain 1 amber",
+                "player1 uses Dust Pixie's amber bonus icon to gain 1 amber"
             ]);
         });
     });
@@ -52,11 +52,8 @@ describe('Play Messages', function () {
 
         it('should log correct message when playing an artifact', function () {
             this.player1.play(this.libraryOfBabble);
+            expect(this).toHaveAllChatMessagesBe(['player1 plays Library of Babble']);
             expect(this.player1).isReadyToTakeAction();
-            expect(this).toHaveAllChatMessagesBe([
-                'player1 plays Library of Babble',
-                'player1 plays Library of Babble'
-            ]);
         });
     });
 
@@ -77,7 +74,7 @@ describe('Play Messages', function () {
             expect(this.player1).isReadyToTakeAction();
             expect(this).toHaveAllChatMessagesBe([
                 'player1 plays Silent Dagger attaching it to Silvertooth',
-                "player1 gains an amber due to Silent Dagger's bonus icon"
+                "player1 uses Silent Dagger's amber bonus icon to gain 1 amber"
             ]);
         });
     });
@@ -101,7 +98,7 @@ describe('Play Messages', function () {
             expect(this.player1).isReadyToTakeAction();
             expect(this).toHaveAllChatMessagesBe([
                 'player1 plays Punch',
-                "player1 gains an amber due to Punch's bonus icon",
+                "player1 uses Punch's amber bonus icon to gain 1 amber",
                 'player1 uses Punch to deal 3 damage to Troll'
             ]);
         });
@@ -145,8 +142,7 @@ describe('Play Messages', function () {
             expect(this.player1).isReadyToTakeAction();
             expect(this).toHaveAllChatMessagesBe([
                 'player1 plays Ceaseforge',
-                'player1 plays Ceaseforge',
-                "player1 gains an amber due to Ceaseforge's bonus icon",
+                "player1 uses Ceaseforge's amber bonus icon to gain 1 amber",
                 'player1 uses Ceaseforge to place 2 time on Ceaseforge'
             ]);
         });

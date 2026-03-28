@@ -19,8 +19,7 @@ describe('Put Into Play Messages', function () {
             expect(this.player1).isReadyToTakeAction();
             expect(this).toHaveAllChatMessagesBe([
                 'player1 uses Swap Widget to return Mindwarper to their hand',
-                'player1 puts Yxili Marauder into play using Swap Widget, and readies it',
-                'player1 plays Yxili Marauder'
+                'player1 puts Yxili Marauder into play using Swap Widget, and readies it'
             ]);
         });
     });
@@ -45,8 +44,45 @@ describe('Put Into Play Messages', function () {
             expect(this).toHaveAllChatMessagesBe([
                 'player1 uses Governor Gridelk to make Governor Gridelk fight Flaxia',
                 'Flaxia is destroyed',
-                'player1 uses Governor Gridelk to put Flaxia into play',
-                'player1 plays Flaxia'
+                'player1 uses Governor Gridelk to put Flaxia into play'
+            ]);
+            expect(this.player1).isReadyToTakeAction();
+        });
+    });
+
+    describe('put multiple creatures into play', function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'brobnar',
+                    hand: ['final-refrain'],
+                    discard: ['troll', 'headhunter']
+                },
+                player2: {
+                    inPlay: ['ember-imp']
+                }
+            });
+        });
+
+        it('should log correct message when putting multiple creatures into play from discard', function () {
+            this.player1.play(this.finalRefrain);
+            // sequentialPutIntoPlay prompts for creature order
+            this.player1.clickCard(this.troll);
+            this.player1.clickPrompt('Left');
+            // Headhunter is put into play automatically (only one left)
+            // Choose creature to fight with, then target
+            this.player1.clickCard(this.troll);
+            this.player1.clickCard(this.emberImp);
+            this.player1.clickCard(this.headhunter);
+            this.player1.clickCard(this.emberImp);
+            expect(this).toHaveAllChatMessagesBe([
+                'player1 plays Final Refrain',
+                'player1 uses Final Refrain to do several things',
+                'player1 uses Final Refrain to put Troll and Headhunter into play ready, fight with each one, and destroy each one',
+                'player1 uses Troll to make Troll fight Ember Imp',
+                'Ember Imp is destroyed',
+                'Troll is destroyed',
+                'Headhunter is destroyed'
             ]);
         });
     });

@@ -29,6 +29,7 @@ npm test -- test/server/cards/<Set>/<CardName>.spec.js 2>&1 | tail -5
 
 -   Tests should be added to a new `<CardName>.spec.js` file for the card under `test/server/cards/<Set>/<CardName>.spec.js` that corresponds to the card being tested.
     -   Example: [BadOmen.spec.js](server/cards/12-PV/BadOmen.spec.js).
+-   **Never create test files outside the `test/` directory** (e.g., in `/tmp/`). The test framework only recognizes files within the project's test directory structure, and external files will not work with the setup helpers.
 -   New tests should follow the patterns of existing tests, e.g. no imports.
 -   Tests should be auto-run after being written, to ensure they pass.
 -   If more log data is needed to debug a test, you can set `DEBUG_TEST=1` in the environment before running the test.
@@ -38,6 +39,7 @@ npm test -- test/server/cards/<Set>/<CardName>.spec.js 2>&1 | tail -5
 -   Test setup in `beforeEach` functions should have a minimal configuration - don't set player aember if its not needed and don't add extra cards that aren't used by tests.
 -   When adding cards for tests, be careful that the card's abilities don't interfere with the card being tested. In particular, be aware of elusive, taunt, and abilities that affect neighbors.
 -   When setting up a test, the `this.setupTest()` function should not be run multiple times. For example in a `describe()` block nested in another `describe()` block, the inner block should not call `this.setupTest()` again - the second setupTest will not be run. Instead, set up the describe block without nesting.
+-   **Always verify card abilities in the JSON data before writing tests.** Don't assume a card has a particular ability type based on its name - check the actual `"text"` field in `keyteki-json-data/packs/`. For example, Helper Bot has a Play ability (`"Play: ..."`), not a Scrap ability. Brillix Ponder has a Scrap ability (`"Scrap: Draw a card."`). The ability type determines when and how effects trigger.
 
 ## Modifying Existing Tests
 
