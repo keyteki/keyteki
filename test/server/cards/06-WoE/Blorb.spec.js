@@ -22,6 +22,19 @@ describe('Blorb', function () {
             expect(this.player1).not.toHavePrompt('Reap with this Creature');
         });
 
+        it('should evaluate the destroyed ability without a selected target', function () {
+            const destroyedAbility = this.blorb.abilities.reactions.find(
+                (ability) => ability.properties.destroyed
+            );
+            const context = destroyedAbility.createContext(this.player1.player);
+            let gameActions;
+
+            expect(() => {
+                gameActions = destroyedAbility.getGameActions(context);
+            }).not.toThrow();
+            expect(gameActions).toEqual([]);
+        });
+
         it('bring back Blorb Hive when destroyed', function () {
             this.player1.fightWith(this.blorb, this.umbra);
             this.player1.clickCard(this.blorbHive);
