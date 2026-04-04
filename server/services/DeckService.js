@@ -7,15 +7,14 @@ const BonusOrder = Constants.Houses.concat(['amber', 'capture', 'damage', 'draw'
 
 const allianceRestrictedRules = {
     befuddle: { expansions: [600] },
-    chronus: { expansions: [479, 609, 874] },
     ghostform: { expansions: [452, 600] },
-    hallafest: { expansions: [600, 609, 737], maxQuantity: 1 },
     'heart-of-the-forest': { expansions: [435] },
     infurnace: { expansions: [452, 479, 874] },
     jervi: { expansions: [700] },
     'key-abduction': { expansions: [341, 435, 609, 700], maxQuantity: 1 },
     'legionary-trainer': { expansions: [600] },
-    'stealth-mode': { expansions: [452, 609, 737] },
+    reiteration: { expansions: [886] },
+    'strategic-feint': { expansions: [886] },
     'united-action': { expansions: [452, 496] },
     'winds-of-death': { expansions: [600, 609] }
 };
