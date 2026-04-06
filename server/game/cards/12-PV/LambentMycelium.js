@@ -13,17 +13,16 @@ class LambentMycelium extends Card {
         });
 
         this.fate({
-            target: {
-                controller: 'self',
-                cardType: 'creature',
-                mode: 'mostStat',
-                cardStat: (card) => card.power,
-                gameAction: ability.actions.cardLastingEffect({
-                    effect: ability.effects.addKeyword({ taunt: 1 })
-                })
-            },
-            effect: 'give {1} taunt for the remainder of the turn',
-            effectArgs: (context) => [context.target]
+            gameAction: ability.actions.cardLastingEffect((context) => {
+                const enemyCreatures = context.player.creaturesInPlay;
+                const highestPower = Math.max(...enemyCreatures.map((card) => card.power));
+
+                return {
+                    effect: ability.effects.addKeyword({ taunt: 1 }),
+                    target: enemyCreatures.filter((card) => card.power === highestPower)
+                };
+            }),
+            effect: 'give taunt to each most powerful enemy creature for the remainder of the turn'
         });
     }
 }
