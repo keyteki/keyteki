@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import classNames from 'classnames';
 import { Trans, useTranslation } from 'react-i18next';
@@ -35,6 +35,32 @@ export const GameBoard = () => {
     const cards = useSelector((state) => state.cards.cards);
     const currentGame = useSelector((state) => state.lobby.currentGame);
     const user = useSelector((state) => state.account.user);
+    const [boardGame, setBoardGame] = useState(currentGame);
+    const frozenRef = useRef(false);
+    const currentGameRef = useRef(currentGame);
+    currentGameRef.current = currentGame;
+
+    useLayoutEffect(() => {
+        if (!currentGame) {
+            return;
+        }
+
+        if (frozenRef.current) {
+            return;
+        }
+
+        if (currentGame.animations?.length > 0) {
+            frozenRef.current = true;
+        } else {
+            setBoardGame(currentGame);
+        }
+    }, [currentGame]);
+
+    const handleAnimationsComplete = useCallback(() => {
+        frozenRef.current = false;
+        setBoardGame(currentGameRef.current);
+    }, []);
+
     const [cardToZoom, setCardToZoom] = useState(null);
     const [showMessages, setShowMessages] = useState(true);
     const [lastMessageCount, setLastMessageCount] = useState(0);
@@ -83,9 +109,9 @@ export const GameBoard = () => {
         );
     }
 
-    let thisPlayer = currentGame.players[user.username];
+    let thisPlayer = boardGame.players[user.username];
     if (!thisPlayer) {
-        thisPlayer = Object.values(currentGame.players)[0];
+        thisPlayer = Object.values(boardGame.players)[0];
     }
 
     if (!thisPlayer) {
@@ -96,7 +122,7 @@ export const GameBoard = () => {
         );
     }
 
-    let otherPlayer = Object.values(currentGame.players).find((player) => {
+    let otherPlayer = Object.values(boardGame.players).find((player) => {
         return player.name !== thisPlayer.name;
     });
 
@@ -365,7 +391,11 @@ export const GameBoard = () => {
                     </div>
                 </div>
             </div>
-            <GameAnimations animations={currentGame.animations} thisPlayerName={thisPlayer.name} />
+            <GameAnimations
+                animations={currentGame.animations}
+                thisPlayerName={thisPlayer.name}
+                onAnimationsComplete={handleAnimationsComplete}
+            />
             <PlayerStats
                 activeHouse={thisPlayer.activeHouse}
                 activePlayer={thisPlayer.activePlayer}

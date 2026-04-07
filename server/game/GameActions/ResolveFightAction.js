@@ -149,6 +149,15 @@ class ResolveFightAction extends CardGameAction {
             }
 
             if (damageEvent) {
+                context.game.animations.push({
+                    id: context.game.animationCounter++,
+                    type: 'fight',
+                    attackerUuid: event.attacker.uuid,
+                    defenderUuid: event.attackerTarget.uuid,
+                    damage: attackerAmount,
+                    player: context.player.name
+                });
+
                 event.card.isFighting = true;
                 event.attacker.isFighting = true;
                 context.game.checkGameState(true);

@@ -1,11 +1,14 @@
-import React, { useLayoutEffect, useRef, useState } from 'react';
+import React, { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { AnimatePresence, motion } from 'motion/react';
 import AmberImage from '../../assets/img/amber.png';
 
 const ANIMATION_DURATION = 0.8;
 
+const FIGHT_DURATION = 0.6;
+
 const AnimationType = Object.freeze({
-    Reap: 'reap'
+    Reap: 'reap',
+    Fight: 'fight'
 });
 
 const getPlayerSide = (anim, thisPlayerName) => {
@@ -40,17 +43,81 @@ const resolveReapAnimation = (anim, thisPlayerName) => {
     };
 };
 
+const resolveFightAnimation = (anim) => {
+    const attackerRect = getCardRect(anim.attackerUuid);
+    const defenderRect = getCardRect(anim.defenderUuid);
+
+    if (!attackerRect || !defenderRect) {
+        return null;
+    }
+
+    return {
+        id: anim.id,
+        type: AnimationType.Fight,
+        startX: attackerRect.left + attackerRect.width / 2,
+        startY: attackerRect.top + attackerRect.height / 2,
+        endX: defenderRect.left + defenderRect.width / 2,
+        endY: defenderRect.top + defenderRect.height / 2,
+        damage: anim.damage
+    };
+};
+
 const resolveAnimation = (anim, thisPlayerName) => {
     switch (anim.type) {
         case AnimationType.Reap:
             return resolveReapAnimation(anim, thisPlayerName);
+        case AnimationType.Fight:
+            return resolveFightAnimation(anim);
         default:
             return null;
     }
 };
 
+const FightArrow = ({ anim, onComplete }) => {
+    const dx = anim.endX - anim.startX;
+    const dy = anim.endY - anim.startY;
+    const angle = Math.atan2(dy, dx);
+
+    // Shorten the arrow so it doesn't overlap the card centers
+    const margin = 30;
+    const sx = anim.startX + Math.cos(angle) * margin;
+    const sy = anim.startY + Math.sin(angle) * margin;
+    const ex = anim.endX - Math.cos(angle) * margin;
+    const ey = anim.endY - Math.sin(angle) * margin;
+
+    const arrowSize = 12;
+    const arrowAngle = Math.PI / 6;
+    const arrow1X = ex - arrowSize * Math.cos(angle - arrowAngle);
+    const arrow1Y = ey - arrowSize * Math.sin(angle - arrowAngle);
+    const arrow2X = ex - arrowSize * Math.cos(angle + arrowAngle);
+    const arrow2Y = ey - arrowSize * Math.sin(angle + arrowAngle);
+
+    return (
+        <motion.div
+            className='fight-arrow-overlay'
+            initial={{ opacity: 1 }}
+            animate={{ opacity: [1, 1, 0] }}
+            transition={{ duration: FIGHT_DURATION, times: [0, 0.7, 1] }}
+            onAnimationComplete={onComplete}
+        >
+            <svg className='fight-arrow-svg' xmlns='http://www.w3.org/2000/svg'>
+                <line x1={sx} y1={sy} x2={ex} y2={ey} className='fight-arrow-line' />
+                <polyline
+                    points={`${arrow1X},${arrow1Y} ${ex},${ey} ${arrow2X},${arrow2Y}`}
+                    className='fight-arrow-head'
+                />
+                <text x={anim.endX} y={anim.endY - 20} className='fight-damage-text'>
+                    {anim.damage}
+                </text>
+            </svg>
+        </motion.div>
+    );
+};
+
 const renderAnimation = (anim, onComplete) => {
     switch (anim.type) {
+        case AnimationType.Fight:
+            return <FightArrow key={anim.id} anim={anim} onComplete={onComplete} />;
         case AnimationType.Reap:
             return (
                 <motion.div
@@ -112,9 +179,10 @@ const resolveNewAnimations = (animations, processedIds, thisPlayerName) => {
     return resolved;
 };
 
-const GameAnimations = ({ animations, thisPlayerName }) => {
+const GameAnimations = ({ animations, thisPlayerName, onAnimationsComplete }) => {
     const [activeAnimations, setActiveAnimations] = useState([]);
     const processedIdsRef = useRef(new Set());
+    const animatingRef = useRef(false);
 
     useLayoutEffect(() => {
         if (!animations || animations.length === 0) {
@@ -130,9 +198,17 @@ const GameAnimations = ({ animations, thisPlayerName }) => {
         );
 
         if (newAnimations.length > 0) {
+            animatingRef.current = true;
             setActiveAnimations((prev) => [...prev, ...newAnimations]);
         }
     }, [animations, thisPlayerName]);
+
+    useEffect(() => {
+        if (animatingRef.current && activeAnimations.length === 0) {
+            animatingRef.current = false;
+            onAnimationsComplete?.();
+        }
+    }, [activeAnimations, onAnimationsComplete]);
 
     return (
         <div className='game-animations-overlay'>
