@@ -80,11 +80,7 @@ const PlayerStats = ({
 
     const getButton = (stat, name, statToSet = stat) => {
         return (
-            <div
-                className='state'
-                title={t(name)}
-                {...(stat === 'amber' && { 'data-stat': 'amber', 'data-player-side': side })}
-            >
+            <div className='state' title={t(name)} data-stat={stat} data-player-side={side}>
                 {showControls ? (
                     <a
                         href='#'
