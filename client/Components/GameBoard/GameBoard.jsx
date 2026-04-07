@@ -7,7 +7,7 @@ import { useNavigate } from 'react-router-dom';
 import ActivePlayerPrompt from './ActivePlayerPrompt';
 import CardBack from '../Decks/CardBack';
 import CardZoom from './CardZoom';
-import GameAnimations from './GameAnimations';
+import GameAnimations from './Animations';
 import GameChat from './GameChat';
 import GameConfigurationModal from './GameConfigurationModal';
 import PlayerBoard from './PlayerBoard';
