@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import classNames from 'classnames';
 import { Trans, useTranslation } from 'react-i18next';
@@ -15,6 +15,7 @@ import PlayerStats from './PlayerStats';
 import ReferenceCardPane from './ReferenceCardPane';
 import TimeLimitClock from './TimeLimitClock';
 import { gameSendMessage } from '../../redux/socketActions';
+import { lobbyActions, selectBoardGame } from '../../redux/slices/lobbySlice';
 import { canShowDeckName, getMatchRecord, isSpectating, normalizePlayer } from './gameboardUtils';
 
 const hasDenseRow = (player) => {
@@ -34,32 +35,12 @@ export const GameBoard = () => {
     const { t, i18n } = useTranslation();
     const cards = useSelector((state) => state.cards.cards);
     const currentGame = useSelector((state) => state.lobby.currentGame);
+    const boardGame = useSelector(selectBoardGame);
     const user = useSelector((state) => state.account.user);
-    const [boardGame, setBoardGame] = useState(currentGame);
-    const frozenRef = useRef(false);
-    const currentGameRef = useRef(currentGame);
-    currentGameRef.current = currentGame;
-
-    useLayoutEffect(() => {
-        if (!currentGame) {
-            return;
-        }
-
-        if (frozenRef.current) {
-            return;
-        }
-
-        if (currentGame.animations?.length > 0) {
-            frozenRef.current = true;
-        } else {
-            setBoardGame(currentGame);
-        }
-    }, [currentGame]);
 
     const handleAnimationsComplete = useCallback(() => {
-        frozenRef.current = false;
-        setBoardGame(currentGameRef.current);
-    }, []);
+        dispatch(lobbyActions.animationsComplete());
+    }, [dispatch]);
 
     const [cardToZoom, setCardToZoom] = useState(null);
     const [showMessages, setShowMessages] = useState(true);
