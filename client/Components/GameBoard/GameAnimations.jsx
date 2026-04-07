@@ -1,7 +1,8 @@
-import React, { useEffect, useLayoutEffect, useRef, useState } from 'react';
+import React, { useLayoutEffect, useRef, useState } from 'react';
+import { AnimatePresence, motion } from 'motion/react';
 import AmberImage from '../../assets/img/amber.png';
 
-const ANIMATION_DURATION = 800;
+const ANIMATION_DURATION = 0.8;
 
 const AnimationType = Object.freeze({
     Reap: 'reap'
@@ -48,36 +49,39 @@ const resolveAnimation = (anim, thisPlayerName) => {
     }
 };
 
-const renderAnimation = (anim) => {
+const renderAnimation = (anim, onComplete) => {
     switch (anim.type) {
         case AnimationType.Reap:
             return (
-                <div
+                <motion.div
                     key={anim.id}
                     className='reap-amber-animation'
-                    style={{
-                        '--start-x': `${anim.startX}px`,
-                        '--start-y': `${anim.startY}px`,
-                        '--end-x': `${anim.endX}px`,
-                        '--end-y': `${anim.endY}px`,
-                        animationDuration: `${ANIMATION_DURATION}ms`
+                    initial={{
+                        left: anim.startX,
+                        top: anim.startY,
+                        opacity: 0,
+                        scale: 0.3
                     }}
+                    animate={{
+                        left: [anim.startX, anim.startX, anim.startX, anim.endX],
+                        top: [anim.startY, anim.startY, anim.startY, anim.endY],
+                        opacity: [0, 1, 1, 0],
+                        scale: [0.3, 1.3, 1, 0.5]
+                    }}
+                    transition={{
+                        duration: ANIMATION_DURATION,
+                        ease: 'easeOut',
+                        times: [0, 0.2, 0.4, 1]
+                    }}
+                    exit={{ opacity: 0 }}
+                    onAnimationComplete={onComplete}
                 >
                     <img src={AmberImage} alt='amber' className='reap-amber-icon' />
-                </div>
+                </motion.div>
             );
         default:
             return null;
     }
-};
-
-const scheduleCleanup = (newAnimations, setActiveAnimations, timeoutsRef) => {
-    const ids = newAnimations.map((a) => a.id);
-    const timeoutId = setTimeout(() => {
-        setActiveAnimations((prev) => prev.filter((a) => !ids.includes(a.id)));
-        timeoutsRef.current = timeoutsRef.current.filter((t) => t !== timeoutId);
-    }, ANIMATION_DURATION);
-    timeoutsRef.current.push(timeoutId);
 };
 
 const pruneProcessedIds = (processedIds, animations) => {
@@ -111,15 +115,6 @@ const resolveNewAnimations = (animations, processedIds, thisPlayerName) => {
 const GameAnimations = ({ animations, thisPlayerName }) => {
     const [activeAnimations, setActiveAnimations] = useState([]);
     const processedIdsRef = useRef(new Set());
-    const timeoutsRef = useRef([]);
-
-    useEffect(() => {
-        return () => {
-            for (const t of timeoutsRef.current) {
-                clearTimeout(t);
-            }
-        };
-    }, []);
 
     useLayoutEffect(() => {
         if (!animations || animations.length === 0) {
@@ -136,17 +131,18 @@ const GameAnimations = ({ animations, thisPlayerName }) => {
 
         if (newAnimations.length > 0) {
             setActiveAnimations((prev) => [...prev, ...newAnimations]);
-            scheduleCleanup(newAnimations, setActiveAnimations, timeoutsRef);
         }
     }, [animations, thisPlayerName]);
 
-    if (activeAnimations.length === 0) {
-        return null;
-    }
-
     return (
         <div className='game-animations-overlay'>
-            {activeAnimations.map((anim) => renderAnimation(anim))}
+            <AnimatePresence>
+                {activeAnimations.map((anim) =>
+                    renderAnimation(anim, () =>
+                        setActiveAnimations((prev) => prev.filter((a) => a.id !== anim.id))
+                    )
+                )}
+            </AnimatePresence>
         </div>
     );
 };
