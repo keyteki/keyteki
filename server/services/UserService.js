@@ -164,7 +164,7 @@ class UserService extends EventEmitter {
         let query =
             'UPDATE "Users" SET "Username" = $1, "Email" = $2, "Verified" = $3, "Disabled" = $4, "Settings_Avatar" = $5, ' +
             '"Settings_CardSize" = $6, "Settings_Background" = $7, "Settings_OrderAbilities" = $8, "Settings_ConfirmOneClick" = $9, "Settings_UseHalfSizedCards" = $10, ' +
-            '"Settings_ShowAccolades" = $11, "PatreonToken" = $12, "Settings_CustomBackground" = $13 WHERE "Id" = $14';
+            '"Settings_ShowAccolades" = $11, "Settings_EnableGameAnimations" = $12, "PatreonToken" = $13, "Settings_CustomBackground" = $14 WHERE "Id" = $15';
 
         try {
             await db.queryTran(client, query, [
@@ -180,6 +180,9 @@ class UserService extends EventEmitter {
                 user.settings.optionSettings.useHalfSizedCards,
                 user.settings.optionSettings.showAccolades !== undefined
                     ? user.settings.optionSettings.showAccolades
+                    : true,
+                user.settings.optionSettings.enableGameAnimations !== undefined
+                    ? user.settings.optionSettings.enableGameAnimations
                     : true,
                 user.patreon ? JSON.stringify(user.patreon) : null,
                 user.settings.customBackground,
@@ -629,6 +632,10 @@ class UserService extends EventEmitter {
                     showAccolades:
                         dbUser.Settings_ShowAccolades !== undefined
                             ? dbUser.Settings_ShowAccolades
+                            : true,
+                    enableGameAnimations:
+                        dbUser.Settings_EnableGameAnimations !== undefined
+                            ? dbUser.Settings_EnableGameAnimations
                             : true
                 }
             },

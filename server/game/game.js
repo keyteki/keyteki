@@ -789,6 +789,10 @@ class Game extends EventEmitter {
      * @returns {undefined}
      */
     toggleOptionSetting(playerName, settingName, toggle) {
+        if (settingName === 'enableGameAnimations') {
+            this.animations = [];
+        }
+
         let player = this.getPlayerByName(playerName);
         if (!player) {
             return;
@@ -1557,7 +1561,10 @@ class Game extends EventEmitter {
 
             return {
                 adaptive: this.adaptive,
-                animations: this.animations,
+                animations:
+                    activePlayer.optionSettings?.enableGameAnimations ?? true
+                        ? this.animations
+                        : [],
                 cancelPromptUsed: this.cancelPromptUsed,
                 challonge: this.challonge,
                 gameFormat: this.gameFormat,
