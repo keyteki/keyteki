@@ -5,12 +5,14 @@ const getPlayerSide = (anim, thisPlayerName) => {
 };
 
 const getCardRect = (cardUuid) => {
-    const el = document.querySelector(`[data-uuid="${cardUuid}"]`);
+    const el = document.querySelector(`[data-uuid="${CSS.escape(cardUuid)}"]`);
     return el ? el.getBoundingClientRect() : null;
 };
 
 const getStatRect = (stat, side) => {
-    const el = document.querySelector(`[data-stat="${stat}"][data-player-side="${side}"]`);
+    const el = document.querySelector(
+        `[data-stat="${CSS.escape(stat)}"][data-player-side="${CSS.escape(side)}"]`
+    );
     return el ? el.getBoundingClientRect() : null;
 };
 
@@ -47,7 +49,8 @@ const resolveFightAnimation = (anim) => {
         startY: attackerRect.top + attackerRect.height / 2,
         endX: defenderRect.left + defenderRect.width / 2,
         endY: defenderRect.top + defenderRect.height / 2,
-        damage: anim.damage
+        damage: anim.damage,
+        counterDamage: anim.counterDamage
     };
 };
 

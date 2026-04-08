@@ -18,8 +18,8 @@ const renderAnimation = (anim, onComplete) => {
 
 const GameAnimations = ({ animations, thisPlayerName, onAnimationsComplete }) => {
     const [activeAnimations, setActiveAnimations] = useState([]);
+    const [isAnimating, setIsAnimating] = useState(false);
     const processedIdsRef = useRef(new Set());
-    const animatingRef = useRef(false);
 
     useLayoutEffect(() => {
         if (!animations || animations.length === 0) {
@@ -35,17 +35,17 @@ const GameAnimations = ({ animations, thisPlayerName, onAnimationsComplete }) =>
         );
 
         if (newAnimations.length > 0) {
-            animatingRef.current = true;
+            setIsAnimating(true);
             setActiveAnimations((prev) => [...prev, ...newAnimations]);
         }
     }, [animations, thisPlayerName]);
 
     useEffect(() => {
-        if (animatingRef.current && activeAnimations.length === 0) {
-            animatingRef.current = false;
+        if (isAnimating && activeAnimations.length === 0) {
+            setIsAnimating(false);
             onAnimationsComplete?.();
         }
-    }, [activeAnimations, onAnimationsComplete]);
+    }, [activeAnimations, isAnimating, onAnimationsComplete]);
 
     return (
         <div className='game-animations-overlay'>

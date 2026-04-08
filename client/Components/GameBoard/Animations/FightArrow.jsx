@@ -136,7 +136,7 @@ const FightArrow = ({ anim, onComplete }) => {
                     transition={{ delay: FIGHT_DURATION * 0.4, duration: 0.3, ease: 'easeOut' }}
                 />
 
-                {/* Damage text */}
+                {/* Damage text (attacker → defender) */}
                 <motion.text
                     x={ex}
                     y={ey - 15}
@@ -147,6 +147,24 @@ const FightArrow = ({ anim, onComplete }) => {
                 >
                     {anim.damage}
                 </motion.text>
+
+                {/* Counter-damage text (defender → attacker) */}
+                {anim.counterDamage > 0 && (
+                    <motion.text
+                        x={sx}
+                        y={sy - 15}
+                        className='fight-damage-text fight-counter-damage-text'
+                        initial={{ opacity: 0, scale: 0.3 }}
+                        animate={{ opacity: 1, scale: [0.3, 1.4, 1] }}
+                        transition={{
+                            delay: FIGHT_DURATION * 0.2,
+                            duration: 0.1,
+                            ease: 'backOut'
+                        }}
+                    >
+                        {anim.counterDamage}
+                    </motion.text>
+                )}
             </svg>
         </motion.div>
     );
