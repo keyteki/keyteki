@@ -101,10 +101,9 @@ export const resolveNewAnimations = (animations, processedIds, thisPlayerName) =
             continue;
         }
 
-        processedIds.add(anim.id);
-
         const result = resolveAnimation(anim, thisPlayerName);
         if (result) {
+            processedIds.add(anim.id);
             resolved.push(result);
         }
     }

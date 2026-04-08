@@ -57,6 +57,21 @@ const GameAnimations = ({ animations, thisPlayerName, onAnimationsComplete }) =>
         }
     }, [activeAnimations, isAnimating, onAnimationsComplete]);
 
+    // Safety timeout: unfreeze the board if animations get stuck
+    useEffect(() => {
+        if (!isAnimating) {
+            return;
+        }
+
+        const timer = setTimeout(() => {
+            setActiveAnimations([]);
+            setIsAnimating(false);
+            onAnimationsComplete();
+        }, 5000);
+
+        return () => clearTimeout(timer);
+    }, [isAnimating, onAnimationsComplete]);
+
     return (
         <div className='game-animations-overlay'>
             <AnimatePresence>
