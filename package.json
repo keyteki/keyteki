@@ -140,7 +140,7 @@
         "eslint": "^7.1.0",
         "eslint-plugin-react": "^7.20.0",
         "eslint-plugin-react-hooks": "^4.0.4",
-        "handlebars": "^4.7.6",
+        "handlebars": "^4.7.9",
         "nodemon": "^3.1.13",
         "nunjucks": "^3.2.2",
         "pegjs": "^0.10.0",
