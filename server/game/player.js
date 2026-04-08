@@ -1187,6 +1187,12 @@ class Player extends GameObject {
 
         this.keys[key] = true;
         this.keysForgedThisRound.push(key);
+        this.game.animations.push({
+            id: this.game.animationCounter++,
+            type: 'forge',
+            keyColor: key,
+            player: this.name
+        });
         this.game.addMessage('{0} forges the {1}, paying {2} amber', this, `forgedkey${key}`, cost);
     }
 

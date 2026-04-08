@@ -4,8 +4,11 @@ export const FIGHT_DURATION = 0.7;
 
 export const DAMAGE_DURATION = 0.6;
 
+export const FORGE_DURATION = 2.0;
+
 export const AnimationType = Object.freeze({
     Reap: 'reap',
     Fight: 'fight',
-    Damage: 'damage'
+    Damage: 'damage',
+    Forge: 'forge'
 });

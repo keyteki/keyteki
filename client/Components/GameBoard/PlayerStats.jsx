@@ -272,7 +272,7 @@ const PlayerStats = ({
         <div className={statsClass}>
             <div className='state'>
                 {playerAvatar}
-                <Keys keys={stats.keys} manualMode={manualMode} />
+                <Keys keys={stats.keys} manualMode={manualMode} side={side} />
                 {getButton('amber', t('Amber'))}
                 {getButton('chains', t('Chains'))}
                 {getKeyCost()}

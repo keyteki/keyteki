@@ -4,6 +4,7 @@ import { AnimationType } from './constants';
 import { pruneProcessedIds, resolveNewAnimations } from './animationResolvers';
 import DamageAnimation from './DamageAnimation';
 import FightArrow from './FightArrow';
+import ForgeAnimation from './ForgeAnimation';
 import ReapAnimation from './ReapAnimation';
 
 const renderAnimation = (anim, onComplete) => {
@@ -14,6 +15,8 @@ const renderAnimation = (anim, onComplete) => {
             return <ReapAnimation key={anim.id} anim={anim} onComplete={onComplete} />;
         case AnimationType.Damage:
             return <DamageAnimation key={anim.id} anim={anim} onComplete={onComplete} />;
+        case AnimationType.Forge:
+            return <ForgeAnimation key={anim.id} anim={anim} onComplete={onComplete} />;
         default:
             return null;
     }

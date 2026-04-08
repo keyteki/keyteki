@@ -12,7 +12,7 @@ for (const colour of KeyColours) {
     };
 }
 
-const Keys = ({ keys, manualMode }) => {
+const Keys = ({ keys, manualMode, side }) => {
     const { t } = useTranslation();
     const dispatch = useDispatch();
 
@@ -31,6 +31,8 @@ const Keys = ({ keys, manualMode }) => {
                         keys[colour] && KeyImages[colour].forged ? 'forged-key' : 'unforged-key'
                     }
                     key={`key ${colour}`}
+                    data-key-color={colour}
+                    data-player-side={side}
                     src={keys[colour] ? KeyImages[colour].forged : KeyImages[colour].unforged}
                     onClick={() => {
                         if (manualMode) {

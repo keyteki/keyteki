@@ -71,6 +71,45 @@ const resolveDamageAnimation = (anim) => {
     };
 };
 
+const getKeyRect = (keyColor, side) => {
+    const el = document.querySelector(
+        `[data-key-color="${CSS.escape(keyColor)}"][data-player-side="${CSS.escape(side)}"]`
+    );
+    return el ? el.getBoundingClientRect() : null;
+};
+
+const getPlayAreaCenter = () => {
+    const el = document.querySelector('.play-area');
+    if (!el) {
+        return null;
+    }
+    const rect = el.getBoundingClientRect();
+    return { x: rect.left + rect.width / 2, y: rect.top + rect.height / 2 };
+};
+
+const resolveForgeAnimation = (anim, thisPlayerName) => {
+    const side = getPlayerSide(anim, thisPlayerName);
+    const amberRect = getStatRect('amber', side);
+    const keyRect = getKeyRect(anim.keyColor, side);
+    const center = getPlayAreaCenter();
+
+    if (!amberRect || !keyRect || !center) {
+        return null;
+    }
+
+    return {
+        id: anim.id,
+        type: AnimationType.Forge,
+        amberX: amberRect.left + amberRect.width / 2,
+        amberY: amberRect.top + amberRect.height / 2,
+        centerX: center.x,
+        centerY: center.y,
+        keyX: keyRect.left + keyRect.width / 2,
+        keyY: keyRect.top + keyRect.height / 2,
+        keyColor: anim.keyColor
+    };
+};
+
 const resolveAnimation = (anim, thisPlayerName) => {
     switch (anim.type) {
         case AnimationType.Reap:
@@ -79,6 +118,8 @@ const resolveAnimation = (anim, thisPlayerName) => {
             return resolveFightAnimation(anim);
         case AnimationType.Damage:
             return resolveDamageAnimation(anim);
+        case AnimationType.Forge:
+            return resolveForgeAnimation(anim, thisPlayerName);
         default:
             return null;
     }

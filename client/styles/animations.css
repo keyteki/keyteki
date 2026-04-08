@@ -106,3 +106,67 @@
     drop-shadow(0 0 6px rgba(150, 150, 150, 0.6))
     drop-shadow(0 2px 1px rgba(0, 0, 0, 0.4));
 }
+
+/* Forge animation */
+
+.forge-animation-overlay {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+}
+
+.forge-amber-particle {
+  position: fixed;
+  transform: translate(-50%, -50%);
+}
+
+.forge-amber-icon {
+  width: 20px;
+  height: 20px;
+  filter: drop-shadow(0 0 6px rgba(255, 191, 0, 0.9)) drop-shadow(0 0 12px rgba(255, 160, 0, 0.6));
+}
+
+.forge-spark {
+  position: fixed;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  filter: blur(1px);
+}
+
+.forge-glow-ring {
+  position: fixed;
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.forge-glow-red {
+  background: radial-gradient(circle, rgba(255, 50, 50, 0.4) 0%, rgba(255, 50, 50, 0) 70%);
+  box-shadow: 0 0 40px rgba(255, 50, 50, 0.5);
+}
+
+.forge-glow-blue {
+  background: radial-gradient(circle, rgba(50, 120, 255, 0.4) 0%, rgba(50, 120, 255, 0) 70%);
+  box-shadow: 0 0 40px rgba(50, 120, 255, 0.5);
+}
+
+.forge-glow-yellow {
+  background: radial-gradient(circle, rgba(255, 210, 50, 0.4) 0%, rgba(255, 210, 50, 0) 70%);
+  box-shadow: 0 0 40px rgba(255, 210, 50, 0.5);
+}
+
+.forge-key-center {
+  position: fixed;
+  transform: translate(-50%, -50%);
+}
+
+.forge-key-image {
+  width: 80px;
+  height: auto;
+  filter:
+    drop-shadow(0 0 12px rgba(255, 255, 255, 0.6))
+    drop-shadow(0 0 24px rgba(255, 200, 50, 0.4));
+}
