@@ -161,6 +161,16 @@ class DealDamageAction extends CardGameAction {
             let amountApplied = damageDealtEvent.amount - armorUsed;
             damageDealtEvent.amountApplied = amountApplied;
 
+            let damageAnim = {
+                id: context.game.animationCounter++,
+                type: 'damage',
+                cardUuid: damageDealtEvent.card.uuid,
+                amount: amountApplied,
+                armorUsed: armorUsed,
+                fromFight: !!damageDealtEvent.fightEvent
+            };
+            context.game.animations.push(damageAnim);
+
             let damageAppliedParams = {
                 card: damageDealtEvent.card,
                 context: damageDealtEvent.context,

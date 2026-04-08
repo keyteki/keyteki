@@ -59,6 +59,11 @@ class ChatCommands {
                 args = args.slice(1);
 
                 break;
+            case 'play':
+                location = 'play area';
+                args = args.slice(1);
+
+                break;
         }
 
         let cardName = args.slice(1).join(' ').toLowerCase();

@@ -18,7 +18,8 @@ const getStatRect = (stat, side) => {
 
 const resolveReapAnimation = (anim, thisPlayerName) => {
     const cardRect = getCardRect(anim.cardUuid);
-    const amberRect = getStatRect('amber', getPlayerSide(anim, thisPlayerName));
+    const side = getPlayerSide(anim, thisPlayerName);
+    const amberRect = getStatRect('amber', side);
 
     if (!cardRect || !amberRect) {
         return null;
@@ -48,9 +49,25 @@ const resolveFightAnimation = (anim) => {
         startX: attackerRect.left + attackerRect.width / 2,
         startY: attackerRect.top + attackerRect.height / 2,
         endX: defenderRect.left + defenderRect.width / 2,
-        endY: defenderRect.top + defenderRect.height / 2,
-        damage: anim.damage,
-        counterDamage: anim.counterDamage
+        endY: defenderRect.top + defenderRect.height / 2
+    };
+};
+
+const resolveDamageAnimation = (anim) => {
+    const cardRect = getCardRect(anim.cardUuid);
+
+    if (!cardRect) {
+        return null;
+    }
+
+    return {
+        id: anim.id,
+        type: AnimationType.Damage,
+        x: cardRect.left + cardRect.width / 2,
+        y: cardRect.top + cardRect.height / 3,
+        amount: anim.amount,
+        armorUsed: anim.armorUsed,
+        fromFight: anim.fromFight
     };
 };
 
@@ -60,6 +77,8 @@ const resolveAnimation = (anim, thisPlayerName) => {
             return resolveReapAnimation(anim, thisPlayerName);
         case AnimationType.Fight:
             return resolveFightAnimation(anim);
+        case AnimationType.Damage:
+            return resolveDamageAnimation(anim);
         default:
             return null;
     }

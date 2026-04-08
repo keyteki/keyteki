@@ -92,7 +92,6 @@ class ResolveFightAction extends CardGameAction {
                 damageSource: event.attacker,
                 ignoreArmor: event.attacker.ignores('armor')
             };
-            let counterDamage = 0;
 
             if (
                 !event.card.getKeywordValue('elusive') ||
@@ -108,7 +107,6 @@ class ResolveFightAction extends CardGameAction {
                     damageEvent = context.game.actions
                         .dealDamage(defenderParams)
                         .getEvent(event.defenderTarget, context);
-                    counterDamage = defenderAmount;
                 }
 
                 if (event.attacker.checkRestrictions('dealFightDamage')) {
@@ -156,8 +154,6 @@ class ResolveFightAction extends CardGameAction {
                 type: 'fight',
                 attackerUuid: event.attacker.uuid,
                 defenderUuid: event.attackerTarget.uuid,
-                damage: damageEvent ? attackerAmount : 0,
-                counterDamage: counterDamage,
                 player: context.player.name
             });
 
