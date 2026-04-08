@@ -14,9 +14,9 @@ class Blorb extends Card {
                 cardType: 'artifact',
                 cardCondition: (card) => card.name === 'Blorb Hive',
                 location: 'discard',
-                gameAction: ability.actions.returnToHand((context) => ({
-                    location: context.target.location
-                }))
+                gameAction: ability.actions.returnToHand({
+                    location: 'discard'
+                })
             }
         });
     }
