@@ -1,6 +1,26 @@
 import React from 'react';
 import { motion } from 'motion/react';
-import { FIGHT_DURATION } from './constants';
+import { FIGHT_DURATION, AnimationType } from './constants';
+import { getCardRect } from './domHelpers';
+import { registerAnimation } from './registry';
+
+export const resolveFightAnimation = (anim) => {
+    const attackerRect = getCardRect(anim.attackerUuid);
+    const defenderRect = getCardRect(anim.defenderUuid);
+
+    if (!attackerRect || !defenderRect) {
+        return null;
+    }
+
+    return {
+        id: anim.id,
+        type: AnimationType.Fight,
+        startX: attackerRect.left + attackerRect.width / 2,
+        startY: attackerRect.top + attackerRect.height / 2,
+        endX: defenderRect.left + defenderRect.width / 2,
+        endY: defenderRect.top + defenderRect.height / 2
+    };
+};
 
 const FightArrow = ({ anim, onComplete }) => {
     const dx = anim.endX - anim.startX;
@@ -139,5 +159,10 @@ const FightArrow = ({ anim, onComplete }) => {
         </motion.div>
     );
 };
+
+registerAnimation(AnimationType.Fight, {
+    component: FightArrow,
+    resolver: resolveFightAnimation
+});
 
 export default FightArrow;

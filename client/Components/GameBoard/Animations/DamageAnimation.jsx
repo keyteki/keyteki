@@ -1,7 +1,27 @@
 import React from 'react';
 import { motion } from 'motion/react';
-import { DAMAGE_DURATION, FIGHT_DURATION } from './constants';
+import { DAMAGE_DURATION, FIGHT_DURATION, AnimationType } from './constants';
+import { getCardRect } from './domHelpers';
+import { registerAnimation } from './registry';
 import damageToken from '../../../assets/img/damage.png';
+
+export const resolveDamageAnimation = (anim) => {
+    const cardRect = getCardRect(anim.cardUuid);
+
+    if (!cardRect) {
+        return null;
+    }
+
+    return {
+        id: anim.id,
+        type: AnimationType.Damage,
+        x: cardRect.left + cardRect.width / 2,
+        y: cardRect.top + cardRect.height / 3,
+        amount: anim.amount,
+        armorUsed: anim.armorUsed,
+        fromFight: anim.fromFight
+    };
+};
 
 const FIGHT_DELAY = FIGHT_DURATION * 0.4;
 
@@ -45,5 +65,10 @@ const DamageAnimation = ({ anim, onComplete }) => {
         </motion.div>
     );
 };
+
+registerAnimation(AnimationType.Damage, {
+    component: DamageAnimation,
+    resolver: resolveDamageAnimation
+});
 
 export default DamageAnimation;

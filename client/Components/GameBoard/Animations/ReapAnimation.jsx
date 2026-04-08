@@ -1,7 +1,28 @@
 import React from 'react';
 import { motion } from 'motion/react';
 import AmberImage from '../../../assets/img/amber.png';
-import { ANIMATION_DURATION } from './constants';
+import { ANIMATION_DURATION, AnimationType } from './constants';
+import { getCardRect, getPlayerSide, getStatRect } from './domHelpers';
+import { registerAnimation } from './registry';
+
+export const resolveReapAnimation = (anim, thisPlayerName) => {
+    const cardRect = getCardRect(anim.cardUuid);
+    const side = getPlayerSide(anim, thisPlayerName);
+    const amberRect = getStatRect('amber', side);
+
+    if (!cardRect || !amberRect) {
+        return null;
+    }
+
+    return {
+        id: anim.id,
+        type: AnimationType.Reap,
+        startX: cardRect.left + cardRect.width / 2,
+        startY: cardRect.top + cardRect.height / 3,
+        endX: amberRect.left + amberRect.width / 2,
+        endY: amberRect.top + amberRect.height / 2
+    };
+};
 
 const ReapAnimation = ({ anim, onComplete }) => {
     return (
@@ -31,5 +52,10 @@ const ReapAnimation = ({ anim, onComplete }) => {
         </motion.div>
     );
 };
+
+registerAnimation(AnimationType.Reap, {
+    component: ReapAnimation,
+    resolver: resolveReapAnimation
+});
 
 export default ReapAnimation;

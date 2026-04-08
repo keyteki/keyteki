@@ -1,25 +1,14 @@
 import React, { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { AnimatePresence } from 'motion/react';
-import { AnimationType } from './constants';
 import { pruneProcessedIds, resolveNewAnimations } from './animationResolvers';
-import DamageAnimation from './DamageAnimation';
-import FightArrow from './FightArrow';
-import ForgeAnimation from './ForgeAnimation';
-import ReapAnimation from './ReapAnimation';
+import { getComponent } from './registry';
 
 const renderAnimation = (anim, onComplete) => {
-    switch (anim.type) {
-        case AnimationType.Fight:
-            return <FightArrow key={anim.id} anim={anim} onComplete={onComplete} />;
-        case AnimationType.Reap:
-            return <ReapAnimation key={anim.id} anim={anim} onComplete={onComplete} />;
-        case AnimationType.Damage:
-            return <DamageAnimation key={anim.id} anim={anim} onComplete={onComplete} />;
-        case AnimationType.Forge:
-            return <ForgeAnimation key={anim.id} anim={anim} onComplete={onComplete} />;
-        default:
-            return null;
+    const Component = getComponent(anim.type);
+    if (!Component) {
+        return null;
     }
+    return <Component key={anim.id} anim={anim} onComplete={onComplete} />;
 };
 
 const GameAnimations = ({ animations, thisPlayerName, onAnimationsComplete }) => {

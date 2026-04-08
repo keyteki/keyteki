@@ -1,7 +1,32 @@
 import React, { useCallback, useRef, useState } from 'react';
 import { motion } from 'motion/react';
 import AmberImage from '../../../assets/img/amber.png';
-import { FORGE_DURATION } from './constants';
+import { FORGE_DURATION, AnimationType } from './constants';
+import { getKeyRect, getPlayAreaCenter, getPlayerSide, getStatRect } from './domHelpers';
+import { registerAnimation } from './registry';
+
+export const resolveForgeAnimation = (anim, thisPlayerName) => {
+    const side = getPlayerSide(anim, thisPlayerName);
+    const amberRect = getStatRect('amber', side);
+    const keyRect = getKeyRect(anim.keyColor, side);
+    const center = getPlayAreaCenter();
+
+    if (!amberRect || !keyRect || !center) {
+        return null;
+    }
+
+    return {
+        id: anim.id,
+        type: AnimationType.Forge,
+        amberX: amberRect.left + amberRect.width / 2,
+        amberY: amberRect.top + amberRect.height / 2,
+        centerX: center.x,
+        centerY: center.y,
+        keyX: keyRect.left + keyRect.width / 2,
+        keyY: keyRect.top + keyRect.height / 2,
+        keyColor: anim.keyColor
+    };
+};
 
 const PARTICLE_COUNT = 5;
 
@@ -187,5 +212,10 @@ const ForgeAnimation = ({ anim, onComplete }) => {
         </motion.div>
     );
 };
+
+registerAnimation(AnimationType.Forge, {
+    component: ForgeAnimation,
+    resolver: resolveForgeAnimation
+});
 
 export default ForgeAnimation;
