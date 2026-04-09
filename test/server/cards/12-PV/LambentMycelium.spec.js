@@ -44,23 +44,44 @@ describe('Lambent Mycelium', function () {
             expect(this.player1).isReadyToTakeAction();
         });
 
-        it('should give taunt to most powerful enemy creature when fate is triggered', function () {
+        it('should give taunt to each tied most powerful enemy creature when fate is triggered', function () {
             this.player1.activateProphecy(this.overreach, this.lambentMycelium);
             this.player1.endTurn();
             this.player2.clickPrompt('brobnar');
             this.player2.reap(this.krump);
-            expect(this.player2).toBeAbleToSelect(this.cpoZytar);
-            expect(this.player2).toBeAbleToSelect(this.darkHarbinger);
-            expect(this.player2).not.toBeAbleToSelect(this.dustPixie);
-            expect(this.player2).not.toBeAbleToSelect(this.krump);
-            expect(this.player2).not.toBeAbleToSelect(this.culfTheQuiet);
-            this.player2.clickCard(this.cpoZytar);
             this.player2.clickCard(this.culfTheQuiet);
             this.player2.clickPrompt('Fight with this creature');
             expect(this.player2).toBeAbleToSelect(this.cpoZytar);
-            expect(this.player2).not.toBeAbleToSelect(this.darkHarbinger);
+            expect(this.player2).toBeAbleToSelect(this.darkHarbinger);
             expect(this.player2).not.toBeAbleToSelect(this.dustPixie);
             this.player2.clickCard(this.cpoZytar);
+            expect(this.player2).isReadyToTakeAction();
+        });
+
+        it('should dynamically update taunt if the most powerful enemy creature changes mid-turn', function () {
+            this.player1.moveCard(this.darkHarbinger, 'discard');
+            this.player1.moveCard(this.dewFaerie, 'play area');
+            this.player2.moveCard(this.troll, 'play area');
+            this.cpoZytar.damage = this.cpoZytar.power - 1;
+
+            this.player1.activateProphecy(this.overreach, this.lambentMycelium);
+            this.player1.endTurn();
+            this.player2.clickPrompt('brobnar');
+            this.player2.reap(this.krump);
+
+            this.player2.clickCard(this.culfTheQuiet);
+            this.player2.clickPrompt('Fight with this creature');
+            expect(this.player2).toBeAbleToSelect(this.cpoZytar);
+            expect(this.player2).not.toBeAbleToSelect(this.dewFaerie);
+            expect(this.player2).not.toBeAbleToSelect(this.dustPixie);
+            this.player2.clickCard(this.cpoZytar);
+            expect(this.cpoZytar.location).toBe('discard');
+
+            this.player2.clickCard(this.troll);
+            this.player2.clickPrompt('Fight with this creature');
+            expect(this.player2).toBeAbleToSelect(this.dewFaerie);
+            expect(this.player2).not.toBeAbleToSelect(this.dustPixie);
+            this.player2.clickCard(this.dewFaerie);
             expect(this.player2).isReadyToTakeAction();
         });
 
@@ -69,7 +90,6 @@ describe('Lambent Mycelium', function () {
             this.player1.endTurn();
             this.player2.clickPrompt('brobnar');
             this.player2.reap(this.krump);
-            this.player2.clickCard(this.cpoZytar);
             this.player2.endTurn();
             this.player1.clickPrompt('untamed');
             this.player1.endTurn();
