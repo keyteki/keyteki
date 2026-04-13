@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import classNames from 'classnames';
 import { Trans, useTranslation } from 'react-i18next';
@@ -7,6 +7,7 @@ import { useNavigate } from 'react-router-dom';
 import ActivePlayerPrompt from './ActivePlayerPrompt';
 import CardBack from '../Decks/CardBack';
 import CardZoom from './CardZoom';
+import GameAnimations from './Animations';
 import GameChat from './GameChat';
 import GameConfigurationModal from './GameConfigurationModal';
 import PlayerBoard from './PlayerBoard';
@@ -14,6 +15,7 @@ import PlayerStats from './PlayerStats';
 import ReferenceCardPane from './ReferenceCardPane';
 import TimeLimitClock from './TimeLimitClock';
 import { gameSendMessage } from '../../redux/socketActions';
+import { lobbyActions, selectBoardGame } from '../../redux/slices/lobbySlice';
 import { canShowDeckName, getMatchRecord, isSpectating, normalizePlayer } from './gameboardUtils';
 
 const hasDenseRow = (player) => {
@@ -33,7 +35,13 @@ export const GameBoard = () => {
     const { t, i18n } = useTranslation();
     const cards = useSelector((state) => state.cards.cards);
     const currentGame = useSelector((state) => state.lobby.currentGame);
+    const boardGame = useSelector(selectBoardGame);
     const user = useSelector((state) => state.account.user);
+
+    const handleAnimationsComplete = useCallback(() => {
+        dispatch(lobbyActions.animationsComplete());
+    }, [dispatch]);
+
     const [cardToZoom, setCardToZoom] = useState(null);
     const [showMessages, setShowMessages] = useState(true);
     const [lastMessageCount, setLastMessageCount] = useState(0);
@@ -82,9 +90,9 @@ export const GameBoard = () => {
         );
     }
 
-    let thisPlayer = currentGame.players[user.username];
+    let thisPlayer = boardGame.players[user.username];
     if (!thisPlayer) {
-        thisPlayer = Object.values(currentGame.players)[0];
+        thisPlayer = Object.values(boardGame.players)[0];
     }
 
     if (!thisPlayer) {
@@ -95,7 +103,7 @@ export const GameBoard = () => {
         );
     }
 
-    let otherPlayer = Object.values(currentGame.players).find((player) => {
+    let otherPlayer = Object.values(boardGame.players).find((player) => {
         return player.name !== thisPlayer.name;
     });
 
@@ -364,6 +372,11 @@ export const GameBoard = () => {
                     </div>
                 </div>
             </div>
+            <GameAnimations
+                animations={currentGame.animations}
+                thisPlayerName={thisPlayer.name}
+                onAnimationsComplete={handleAnimationsComplete}
+            />
             <PlayerStats
                 activeHouse={thisPlayer.activeHouse}
                 activePlayer={thisPlayer.activePlayer}

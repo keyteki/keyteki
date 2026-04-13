@@ -25,6 +25,7 @@ CREATE TABLE public."Users"
     "ActivationTokenExpiry" timestamp without time zone,
     "RegisterIp" text COLLATE pg_catalog."default",
     "Settings_ShowAccolades" boolean DEFAULT true,
+    "Settings_EnableGameAnimations" boolean DEFAULT true,
     CONSTRAINT "PK_Users" PRIMARY KEY ("Id")
 )
 

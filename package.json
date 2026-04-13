@@ -84,6 +84,7 @@
         "lodash.debounce": "^4.0.8",
         "moment": "^2.29.4",
         "monk": "^7.1.2",
+        "motion": "^12.38.0",
         "node-noop": "^1.0.0",
         "passport": "^0.7.0",
         "passport-jwt": "^4.0.0",

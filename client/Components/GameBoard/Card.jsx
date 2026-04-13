@@ -233,7 +233,7 @@ const Card = ({
             </div>
         ) : null;
         return (
-            <div className='card-frame' ref={drag}>
+            <div className='card-frame' ref={drag} data-uuid={card.uuid}>
                 {getDragFrame(image)}
                 {getCardOrdering()}
                 <div

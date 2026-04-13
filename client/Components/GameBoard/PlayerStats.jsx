@@ -80,7 +80,7 @@ const PlayerStats = ({
 
     const getButton = (stat, name, statToSet = stat) => {
         return (
-            <div className='state' title={t(name)}>
+            <div className='state' title={t(name)} data-stat={stat} data-player-side={side}>
                 {showControls ? (
                     <a
                         href='#'
@@ -272,7 +272,7 @@ const PlayerStats = ({
         <div className={statsClass}>
             <div className='state'>
                 {playerAvatar}
-                <Keys keys={stats.keys} manualMode={manualMode} />
+                <Keys keys={stats.keys} manualMode={manualMode} side={side} />
                 {getButton('amber', t('Amber'))}
                 {getButton('chains', t('Chains'))}
                 {getKeyCost()}
