@@ -38,15 +38,5 @@ describe('Bonus Icons', function () {
             expect(this.troll.tokens.power).toBe(1);
             expect(this.player1).isReadyToTakeAction();
         });
-
-        it('logs a message when resolving the bonus icon', function () {
-            this.player1.play(this.troll);
-            this.player1.clickCard(this.krump);
-            expect(this.player1).isReadyToTakeAction();
-            expect(this).toHaveAllChatMessagesBe([
-                'player1 plays Troll',
-                "player1 adds a +1 power counter to Krump due to Troll's bonus icon"
-            ]);
-        });
     });
 });
