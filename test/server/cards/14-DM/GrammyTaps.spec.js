@@ -17,12 +17,14 @@ describe('Grammy Taps', function () {
             expect(this.grammyTaps.exhausted).toBe(true);
             expect(this.troll.hasKeyword('elusive')).toBe(true);
             expect(this.krump.hasKeyword('elusive')).toBe(true);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('do not gain elusive while Grammy Taps is ready', function () {
             expect(this.grammyTaps.exhausted).toBe(false);
             expect(this.troll.hasKeyword('elusive')).toBe(false);
             expect(this.krump.hasKeyword('elusive')).toBe(false);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('lose elusive after Grammy Taps readies at the end of turn', function () {
@@ -35,12 +37,14 @@ describe('Grammy Taps', function () {
             expect(this.grammyTaps.exhausted).toBe(false);
             expect(this.troll.hasKeyword('elusive')).toBe(false);
             expect(this.krump.hasKeyword('elusive')).toBe(false);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('does not affect non-neighbors', function () {
             this.player1.reap(this.grammyTaps);
             expect(this.alaka.hasKeyword('elusive')).toBe(false);
             expect(this.bumpsy.hasKeyword('elusive')).toBe(false);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 
