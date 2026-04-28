@@ -499,6 +499,7 @@
     "Yellow": "สีเหลือง",
     "Destroy {{card}} or Discard a Logos Card": "ทำลาย {{card}} หรือทิ้งการ์ดโลโก้",
     "Choose a creature to damage due to bonus icon": "เลือกสิ่งมีชีวิตที่จะสร้างความเสียหายเนื่องจากไอคอนโบนัส",
+    "Choose a creature to add a +1 power counter to due to bonus icon": "เลือกสิ่งมีชีวิตที่จะเพิ่มเคาน์เตอร์พลัง +1 เนื่องจากไอคอนโบนัส",
     "Choose a creature to capture amber due to bonus icon": "เลือกสิ่งมีชีวิตที่จะจับอำพันเนื่องจากไอคอนโบนัส",
     "Choose a card to discard due to bonus icon": "เลือกการ์ดที่จะทิ้งเนื่องจากไอคอนโบนัส",
     "Choose a creature to capture amber": "เลือกสิ่งมีชีวิตเพื่อจับแอมเบอร์",
