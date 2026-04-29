@@ -1,0 +1,36 @@
+describe('Ditch the Loot', function () {
+    describe("Ditch the Loot's ability", function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'shadows',
+                    hand: ['ditch-the-loot'],
+                    inPlay: ['urchin', 'hobnobber']
+                },
+                player2: {
+                    inPlay: ['troll']
+                }
+            });
+        });
+
+        it('moves all amber from one creature to another', function () {
+            this.urchin.amber = 3;
+            this.player1.play(this.ditchTheLoot);
+            this.player1.clickCard(this.urchin);
+            this.player1.clickCard(this.hobnobber);
+            expect(this.urchin.amber).toBe(0);
+            expect(this.hobnobber.amber).toBe(3);
+            expect(this.player1).isReadyToTakeAction();
+        });
+
+        it('can move amber to an enemy creature', function () {
+            this.urchin.amber = 2;
+            this.player1.play(this.ditchTheLoot);
+            this.player1.clickCard(this.urchin);
+            this.player1.clickCard(this.troll);
+            expect(this.urchin.amber).toBe(0);
+            expect(this.troll.amber).toBe(2);
+            expect(this.player1).isReadyToTakeAction();
+        });
+    });
+});
