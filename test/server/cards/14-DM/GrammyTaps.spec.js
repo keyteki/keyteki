@@ -37,7 +37,8 @@ describe('Grammy Taps', function () {
             expect(this.grammyTaps.exhausted).toBe(false);
             expect(this.troll.hasKeyword('elusive')).toBe(false);
             expect(this.krump.hasKeyword('elusive')).toBe(false);
-            expect(this.player1).isReadyToTakeAction();
+            this.player2.clickPrompt('brobnar');
+            expect(this.player2).isReadyToTakeAction();
         });
 
         it('does not affect non-neighbors', function () {

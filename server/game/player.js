@@ -865,7 +865,23 @@ class Player extends GameObject {
             (total, source) => total + this.getAmberValueFromSource(source),
             0
         );
-        return this.amber + alternativeSources >= this.getCurrentKeyCost() + modifier;
+        return (
+            this.amber + alternativeSources + this.getMaxAmberFromOpponentPool() >=
+            this.getCurrentKeyCost() + modifier
+        );
+    }
+
+    getMaxAmberFromOpponentPool() {
+        if (!this.opponent) {
+            return 0;
+        }
+        const effects = this.cardsInPlay.flatMap((card) =>
+            card.getEffects('forgeAmberFromOpponentPool')
+        );
+        if (effects.length === 0) {
+            return 0;
+        }
+        return Math.min(Math.max(...effects), this.opponent.amber);
     }
 
     getCurrentKeyCost() {
@@ -883,16 +899,33 @@ class Player extends GameObject {
             (total, source) => total + this.getAmberValueFromSource(source),
             0
         );
-        // Track pending selections - sources are consumed only when key is forged
-        const pendingSelections = { tokens: [], cards: [] };
-        this.chooseAmberSource(
-            amberSources,
-            totalAvailable,
-            cost,
-            cost,
-            keyColor,
-            pendingSelections
-        );
+        const maxFromPool = Math.min(this.getMaxAmberFromOpponentPool(), cost);
+        const minFromPool = Math.max(0, cost - this.amber - totalAvailable);
+        const proceed = (fromOpponentPool) => {
+            const pendingSelections = {
+                tokens: [],
+                cards: [],
+                opponentPoolAmber: fromOpponentPool
+            };
+            this.chooseAmberSource(
+                amberSources,
+                totalAvailable,
+                cost - fromOpponentPool,
+                cost,
+                keyColor,
+                pendingSelections
+            );
+        };
+        if (maxFromPool > 0 && minFromPool < maxFromPool) {
+            this.game.promptWithHandlerMenu(this, {
+                activePromptTitle: "How much amber do you want to take from your opponent's pool?",
+                source: 'Forge a key',
+                choices: _.range(minFromPool, maxFromPool + 1).map(String),
+                choiceHandler: (choice) => proceed(parseInt(choice, 10))
+            });
+        } else {
+            proceed(maxFromPool);
+        }
         return cost;
     }
 
@@ -1162,6 +1195,17 @@ class Player extends GameObject {
     }
 
     finalizeForge(key, modifiedCost, cost, pendingSelections) {
+        // Consume amber from opponent's pool (eg. Honorable Abagnale)
+        if (pendingSelections.opponentPoolAmber > 0 && this.opponent) {
+            this.opponent.modifyAmber(-pendingSelections.opponentPoolAmber);
+            this.game.addMessage(
+                "{0} spends {1} amber from {2}'s pool to forge a key",
+                this,
+                pendingSelections.opponentPoolAmber,
+                this.opponent
+            );
+        }
+
         // Consume pending token selections
         for (const tokenSelection of pendingSelections.tokens) {
             tokenSelection.source.removeToken('amber', tokenSelection.amount);
