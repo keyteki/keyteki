@@ -27,22 +27,22 @@ describe('Thunk', function () {
             expect(this.player1).toBeAbleToSelect(this.emberImp);
             expect(this.player1).not.toBeAbleToSelect(this.urchin);
             this.player1.clickCard(this.krump);
-            expect(this.krump.tokens.damage).toBe(2);
+            expect(this.krump.damage).toBe(2);
             expect(this.krump.exhausted).toBe(true);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should destroy each exhausted creature when fate is triggered', function () {
             this.player1.activateProphecy(this.overreach, this.thunk);
             this.player1.endTurn();
             this.player2.clickPrompt('brobnar');
-            this.urchin.exhausted = true;
+            this.urchin.exhaust();
             this.player2.reap(this.krump);
             expect(this.krump.location).toBe('discard');
             expect(this.emberImp.location).toBe('play area');
             expect(this.urchin.location).toBe('discard');
             expect(this.thunk.location).toBe('discard');
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player2).isReadyToTakeAction();
         });
     });
 });

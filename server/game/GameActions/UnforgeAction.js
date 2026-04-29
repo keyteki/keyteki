@@ -1,3 +1,4 @@
+const { EVENTS } = require('../Events/types');
 const PlayerAction = require('./PlayerAction');
 
 class UnforgeAction extends PlayerAction {
@@ -16,8 +17,10 @@ class UnforgeAction extends PlayerAction {
     }
 
     getEvent(player, context) {
-        return super.createEvent('onUnforgeKey', { player, choices: this.choices, context }, () =>
-            player.unforgeKey(this.choices)
+        return super.createEvent(
+            EVENTS.onUnforgeKey,
+            { player, choices: this.choices, context },
+            () => player.unforgeKey(this.choices)
         );
     }
 }

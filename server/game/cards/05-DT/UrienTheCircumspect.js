@@ -5,7 +5,7 @@ class UrienTheCircumspect extends Card {
     setupCardAbilities(ability) {
         this.reap({
             gameAction: ability.actions.gainAmber((context) => ({
-                amount: context.source.tokens.armor
+                amount: context.source.armor
             }))
         });
     }

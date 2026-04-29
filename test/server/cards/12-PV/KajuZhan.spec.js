@@ -21,7 +21,7 @@ describe('Kaju Zhan', function () {
         it('should ignore attacker armor while attacking', function () {
             this.player1.playUpgrade(this.blastShielding, this.kajuZhan);
             this.player1.fightWith(this.kajuZhan, this.groupthinkTank);
-            expect(this.kajuZhan.tokens.damage).toBe(4);
+            expect(this.kajuZhan.damage).toBe(4);
         });
 
         it('should ignore taunt while attacking', function () {
@@ -37,7 +37,7 @@ describe('Kaju Zhan', function () {
             this.player1.clickCard(this.emberImp);
             expect(this.emberImp.location).toBe('deck');
             expect(this.player2.player.deck[0]).toBe(this.emberImp);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

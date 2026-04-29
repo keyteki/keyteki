@@ -2,6 +2,7 @@ const _ = require('underscore');
 
 const CardAbility = require('./CardAbility.js');
 const TriggeredAbilityContext = require('./TriggeredAbilityContext.js');
+const { EVENTS } = require('./Events/types.js');
 
 /**
  * Represents a reaction/interrupt ability provided by card text.
@@ -54,7 +55,7 @@ class TriggeredAbility extends CardAbility {
         if (
             this.useEventPlayer ||
             (!this.isLastingAbilityTrigger &&
-                event.name === 'onCardPlayed' &&
+                event.name === EVENTS.onCardPlayed &&
                 this.card.type === 'action')
         ) {
             player = event.player;
@@ -67,11 +68,15 @@ class TriggeredAbility extends CardAbility {
         }
 
         let context = this.createContext(player, event);
-        // console.log(event.name, this.card.name, this.card.reactions.includes(this), this.isLastingAbilityTrigger,
-        //     this.isTriggeredByEvent(event, context), this.meetsRequirements(context));
         if (this.card.reactions.includes(this) || this.isLastingAbilityTrigger) {
-            if (this.isTriggeredByEvent(event, context) && this.meetsRequirements(context) === '') {
-                window.addChoice(context);
+            if (this.isTriggeredByEvent(event, context)) {
+                if (this.meetsRequirements(context, []) === '') {
+                    // If the ability meets requirements then add it as a choice
+                    window.addChoice(context);
+                } else if (this.properties.destroyed || this.properties.play) {
+                    // For destroyed and play abilities, add the ability as a deferred choice. If any events meet requirements, then all deferred choices will be offered since resolving a choice may change game state.
+                    window.addDeferredChoice(context);
+                }
             }
         }
     }
@@ -93,9 +98,9 @@ class TriggeredAbility extends CardAbility {
             return false;
         } else if (this.properties.play || this.properties.fight || this.properties.reap) {
             if (
-                (event.name === 'onCardPlayed' && !this.isPlay()) ||
-                (event.name === 'onFight' && !this.isFight()) ||
-                (event.name === 'onReap' && !this.isReap())
+                (event.name === EVENTS.onCardPlayed && !this.isPlay()) ||
+                (event.name === EVENTS.onFight && !this.isFight()) ||
+                (event.name === EVENTS.onReap && !this.isReap())
             ) {
                 return false;
             }

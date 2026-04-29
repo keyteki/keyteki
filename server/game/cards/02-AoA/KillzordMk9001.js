@@ -1,7 +1,7 @@
 const Card = require('../../Card.js');
 
 class KillzordMk9001 extends Card {
-    // This creature gets +2armor and +2power.
+    // This creature gets +2 armor and +2 power.
     // This creature gains skirmish and, Fight: Gain 1chain.
     setupCardAbilities(ability) {
         this.whileAttached({

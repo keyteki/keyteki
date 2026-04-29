@@ -6,7 +6,7 @@ class TreasureIsland extends Card {
     // You may spend A on Treasure Island as if it were in your pool.
     setupCardAbilities(ability) {
         this.persistentEffect({
-            effect: ability.effects.keyAmber()
+            effect: ability.effects.forgeAmberSource('controller', 'onCard')
         });
 
         this.persistentEffect({

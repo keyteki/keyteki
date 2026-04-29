@@ -4,8 +4,7 @@ class TheyreEverywhere extends Card {
     // Play: Deal 2D to each enemy flank creature. Deal 1D to each enemy creature not on a flank.
     setupCardAbilities(ability) {
         this.play({
-            effect:
-                'deal 2 damage to enemy flank creatures, and 1 damage to enemy creatutes not on a flank',
+            effect: 'deal 2 damage to enemy flank creatures, and 1 damage to enemy creatutes not on a flank',
             gameAction: [
                 ability.actions.dealDamage((context) => ({
                     amount: 2,

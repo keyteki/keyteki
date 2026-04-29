@@ -23,7 +23,7 @@ describe("Pendra's Box", function () {
             expect(this.player1).not.toBeAbleToSelect(this.charette);
             this.player1.clickCard(this.troll);
             expect(this.troll.location).toBe * 'purged';
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

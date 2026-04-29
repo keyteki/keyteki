@@ -40,7 +40,7 @@ describe('Practical Methods', function () {
             this.player1.clickCard(this.troll);
             expect(this.gub.location).toBe('discard');
             expect(this.troll.location).toBe('discard');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

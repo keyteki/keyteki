@@ -20,21 +20,21 @@ describe('Mogg', function () {
                 }
             });
 
-            this.pelf.tokens.power = 2;
+            this.pelf.powerCounters = 2;
         });
 
         it('should deal 4 damage to each creature with power 5 or higher when played', function () {
             this.player1.playCreature(this.mogg);
-            expect(this.krump.tokens.damage).toBe(4);
-            expect(this.troll.tokens.damage).toBe(4);
-            expect(this.pelf.tokens.damage).toBe(4);
+            expect(this.krump.damage).toBe(4);
+            expect(this.troll.damage).toBe(4);
+            expect(this.pelf.damage).toBe(4);
             expect(this.urchin.location).toBe('play area');
-            expect(this.urchin.tokens.damage).toBeUndefined();
+            expect(this.urchin.damage).toBe(0);
             expect(this.mogg.location).toBe('play area');
-            expect(this.mogg.tokens.damage).toBeUndefined();
+            expect(this.mogg.damage).toBe(0);
             expect(this.emberImp.location).toBe('play area');
-            expect(this.emberImp.tokens.damage).toBeUndefined();
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.emberImp.damage).toBe(0);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should stun each friendly creature with power 5 or higher when fate is triggered', function () {
@@ -48,7 +48,7 @@ describe('Mogg', function () {
             expect(this.emberImp.stunned).toBe(false);
             expect(this.troll.stunned).toBe(false);
             expect(this.mogg.location).toBe('discard');
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player2).isReadyToTakeAction();
         });
     });
 });

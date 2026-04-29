@@ -34,7 +34,7 @@ describe('Inevitable Decay', function () {
             expect(this.player1.player.creaturesInPlay[0]).toBe(this.minion3);
             expect(this.player1.player.creaturesInPlay[1]).toBe(this.minion2);
             expect(this.player1.player.creaturesInPlay[2]).toBe(this.minion1);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

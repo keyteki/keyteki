@@ -15,7 +15,7 @@ describe('Patronage', function () {
         });
 
         it('should be able to select a creature without amber', function () {
-            this.redlock.tokens.amber = 2;
+            this.redlock.amber = 2;
             this.player1.play(this.patronage);
             expect(this.player1).toBeAbleToSelect(this.senatorShrix);
             expect(this.player1).toBeAbleToSelect(this.redlock);
@@ -26,7 +26,7 @@ describe('Patronage', function () {
 
         describe('Select a creature with 1A on it', function () {
             beforeEach(function () {
-                this.senatorShrix.tokens.amber = 1;
+                this.senatorShrix.amber = 1;
                 this.player1.play(this.patronage);
                 this.player1.clickCard(this.senatorShrix);
             });
@@ -46,7 +46,7 @@ describe('Patronage', function () {
 
         describe('Select a creature with more than 1A on it', function () {
             beforeEach(function () {
-                this.redlock.tokens.amber = 7;
+                this.redlock.amber = 7;
                 this.player1.play(this.patronage);
                 this.player1.clickCard(this.redlock);
             });

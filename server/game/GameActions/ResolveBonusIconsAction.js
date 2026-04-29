@@ -1,3 +1,4 @@
+const { EVENTS } = require('../Events/types');
 const CardGameAction = require('./CardGameAction');
 
 class ResolveBonusIconsAction extends CardGameAction {
@@ -133,7 +134,7 @@ class ResolveBonusIconsAction extends CardGameAction {
 
     getEvent(card, context) {
         return super.createEvent(
-            'onResolveBonusIcons',
+            EVENTS.onResolveBonusIcons,
             { card: card, context: context },
             (event) => {
                 for (let icon of event.card.bonusIcons) {
@@ -141,9 +142,8 @@ class ResolveBonusIconsAction extends CardGameAction {
 
                     for (let rc = 0; rc < resolveCount; ++rc) {
                         let choices = [icon];
-                        let mayResolveBonusIconsAsEffects = context.player.getEffects(
-                            'mayResolveBonusIconsAs'
-                        );
+                        let mayResolveBonusIconsAsEffects =
+                            context.player.getEffects('mayResolveBonusIconsAs');
 
                         if (mayResolveBonusIconsAsEffects) {
                             let noIconAdded = false;
@@ -170,8 +170,8 @@ class ResolveBonusIconsAction extends CardGameAction {
                                 activePromptTitle:
                                     'How do you wish to resolve this ' + icon + ' icon?',
                                 choices: choices,
-                                handlers: choices.map((choice) => () =>
-                                    this.resolveIcon(context, event, choice)
+                                handlers: choices.map(
+                                    (choice) => () => this.resolveIcon(context, event, choice)
                                 ),
                                 context: context,
                                 source: card

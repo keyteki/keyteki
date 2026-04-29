@@ -69,8 +69,7 @@ describe('Snaglet', function () {
                     inPlay: ['troll']
                 }
             });
-            this.tachyonManifold.maverick = 'dis';
-            this.tachyonManifold.printedHouse = 'dis';
+            this.player1.makeMaverick(this.tachyonManifold, 'dis');
             this.player1.useAction(this.tachyonManifold);
         });
 
@@ -83,7 +82,7 @@ describe('Snaglet', function () {
             this.player2.clickPrompt('brobnar');
             expect(this.player1.amber).toBe(2);
             expect(this.player2.amber).toBe(0);
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player2).isReadyToTakeAction();
         });
     });
 });

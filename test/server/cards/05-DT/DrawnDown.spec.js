@@ -4,59 +4,106 @@ describe('Drawn Down', function () {
             this.setupTest({
                 player1: {
                     house: 'unfathomable',
-                    amber: 1,
-                    hand: ['drawn-down', 'timetraveller', 'bot-bookton'],
-                    inPlay: []
+                    hand: ['drawn-down']
                 },
                 player2: {
-                    amber: 1,
-                    hand: ['gub', 'krump', 'dust-pixie'],
-                    inPlay: []
+                    hand: ['gub', 'krump', 'dust-pixie', 'flaxia']
                 }
             });
-
-            this.player2.moveCard(this.gub, 'deck');
-            this.player2.moveCard(this.krump, 'deck');
-            this.player2.moveCard(this.dustPixie, 'deck');
         });
 
-        it('should not prompt for cards is deck is empty', function () {
+        it('should fizzle when opponent deck is empty', function () {
             this.player2.player.deck = [];
             this.player1.play(this.drawnDown);
-            this.player1.endTurn();
+
+            expect(this.drawnDown.location).toBe('discard');
+            expect(this.player1).isReadyToTakeAction();
         });
 
-        it('should prompt for a single card if deck has only 1 card', function () {
-            this.player2.player.deck = [this.gub];
+        it('should only discard when opponent deck has 1 card', function () {
+            this.player2.player.deck = [];
+            this.player2.moveCard(this.gub, 'deck');
             this.player1.play(this.drawnDown);
+
             expect(this.player1).toHavePromptCardButton(this.gub);
-            this.player1.clickPrompt('gub');
+            this.player1.clickPrompt('Gub');
+
             expect(this.gub.location).toBe('discard');
-            this.player1.endTurn();
+            expect(this.drawnDown.location).toBe('discard');
+            expect(this.player1).isReadyToTakeAction();
         });
 
-        it('should prompt to discard one and move one to the bottom', function () {
+        it('should discard one and move one to bottom when opponent deck has 2 cards', function () {
+            this.player2.player.deck = [];
+            this.player2.moveCard(this.gub, 'deck');
+            this.player2.moveCard(this.krump, 'deck');
             this.player1.play(this.drawnDown);
 
-            // the discard prompt
             expect(this.player1).toHavePromptCardButton(this.gub);
             expect(this.player1).toHavePromptCardButton(this.krump);
-            expect(this.player1).toHavePromptCardButton(this.dustPixie);
-            this.player1.clickPrompt(this.gub.name);
-
-            // the move to bottom prompt
-            expect(this.player1).toHavePromptCardButton(this.krump);
-            expect(this.player1).toHavePromptCardButton(this.dustPixie);
-            this.player1.clickPrompt(this.krump.name);
-
-            this.player1.endTurn();
+            this.player1.clickPrompt('Gub');
+            this.player1.clickPrompt('Krump');
 
             expect(this.gub.location).toBe('discard');
             expect(this.krump.location).toBe('deck');
-            expect(this.dustPixie.location).toBe('deck');
-
-            expect(this.player2.deck[0]).toBe(this.dustPixie);
             expect(this.player2.deck[this.player2.deck.length - 1]).toBe(this.krump);
+            expect(this.drawnDown.location).toBe('discard');
+            expect(this.player1).isReadyToTakeAction();
+        });
+
+        it('should discard one, move one to bottom, and leave one on top when opponent deck has 3 cards', function () {
+            this.player2.player.deck = [];
+            this.player2.moveCard(this.gub, 'deck');
+            this.player2.moveCard(this.krump, 'deck');
+            this.player2.moveCard(this.dustPixie, 'deck');
+            this.player1.play(this.drawnDown);
+
+            expect(this.player1).toHavePromptCardButton(this.gub);
+            expect(this.player1).toHavePromptCardButton(this.krump);
+            expect(this.player1).toHavePromptCardButton(this.dustPixie);
+            this.player1.clickPrompt('Gub');
+
+            expect(this.player1).toHavePromptCardButton(this.krump);
+            expect(this.player1).toHavePromptCardButton(this.dustPixie);
+            this.player1.clickPrompt('Krump');
+
+            expect(this.gub.location).toBe('discard');
+            expect(this.krump.location).toBe('deck');
+            expect(this.player2.deck[this.player2.deck.length - 1]).toBe(this.krump);
+            expect(this.dustPixie.location).toBe('deck');
+            expect(this.player2.deck[0]).toBe(this.dustPixie);
+            expect(this.drawnDown.location).toBe('discard');
+            expect(this.player1).isReadyToTakeAction();
+        });
+
+        it('should only affect top 3 cards when opponent deck has 4 cards', function () {
+            this.player2.player.deck = [];
+            this.player2.moveCard(this.flaxia, 'deck');
+            this.player2.moveCard(this.gub, 'deck');
+            this.player2.moveCard(this.krump, 'deck');
+            this.player2.moveCard(this.dustPixie, 'deck');
+            this.player1.play(this.drawnDown);
+
+            expect(this.player1).toHavePromptCardButton(this.gub);
+            expect(this.player1).toHavePromptCardButton(this.krump);
+            expect(this.player1).toHavePromptCardButton(this.dustPixie);
+            expect(this.player1).not.toHavePromptCardButton(this.flaxia);
+            this.player1.clickPrompt('Gub');
+
+            expect(this.player1).toHavePromptCardButton(this.krump);
+            expect(this.player1).toHavePromptCardButton(this.dustPixie);
+            expect(this.player1).not.toHavePromptCardButton(this.flaxia);
+            this.player1.clickPrompt('Krump');
+
+            expect(this.gub.location).toBe('discard');
+            expect(this.krump.location).toBe('deck');
+            expect(this.player2.deck[this.player2.deck.length - 1]).toBe(this.krump);
+            expect(this.dustPixie.location).toBe('deck');
+            expect(this.player2.deck[0]).toBe(this.dustPixie);
+            expect(this.flaxia.location).toBe('deck');
+            expect(this.player2.deck[1]).toBe(this.flaxia);
+            expect(this.drawnDown.location).toBe('discard');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

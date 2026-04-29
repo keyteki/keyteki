@@ -13,7 +13,7 @@ class KaterinaTheSummoner extends Card {
         // Destroyed: Make a token creature for each A on Katerina the Summoner
         this.destroyed({
             gameAction: ability.actions.makeTokenCreature((context) => ({
-                amount: context.source.tokens.amber ?? 0
+                amount: context.source.amber
             }))
         });
     }

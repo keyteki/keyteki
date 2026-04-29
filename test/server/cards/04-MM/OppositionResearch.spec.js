@@ -27,7 +27,7 @@ describe('Opposition Research', function () {
             expect(this.player2).not.toHavePromptButton('Reap with this creature');
             expect(this.player2).toHavePromptButton('Fight with this creature');
             this.player2.clickPrompt('Cancel');
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player2).isReadyToTakeAction();
         });
 
         it('should last for one turn only', function () {
@@ -41,7 +41,7 @@ describe('Opposition Research', function () {
             expect(this.player2).toHavePromptButton('Reap with this creature');
             expect(this.player2).toHavePromptButton('Fight with this creature');
             this.player2.clickPrompt('Cancel');
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player2).isReadyToTakeAction();
         });
     });
 
@@ -60,8 +60,7 @@ describe('Opposition Research', function () {
                     hand: []
                 }
             });
-            this.tachyonManifold.maverick = 'logos';
-            this.tachyonManifold.printedHouse = 'logos';
+            this.player1.makeMaverick(this.tachyonManifold, 'logos');
             this.player1.useAction(this.tachyonManifold);
         });
 
@@ -75,7 +74,7 @@ describe('Opposition Research', function () {
             expect(this.player2).not.toHavePromptButton('Reap with this creature');
             expect(this.player2).toHavePromptButton('Fight with this creature');
             this.player2.clickPrompt('Cancel');
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player2).isReadyToTakeAction();
         });
     });
 });

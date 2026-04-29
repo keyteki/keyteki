@@ -1,7 +1,7 @@
 const Card = require('../../Card.js');
 
 class ShardOfStrength extends Card {
-    // Action: Give a friendly creature a +1power counter for each friendly Shard.
+    // Action: Give a friendly creature a +1 power counter for each friendly Shard.
     setupCardAbilities(ability) {
         this.action({
             target: {

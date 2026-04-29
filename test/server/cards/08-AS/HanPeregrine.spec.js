@@ -11,15 +11,15 @@ describe('Han Peregrine', function () {
                 }
             });
 
-            this.troll.tokens.damage = 3;
-            this.charette.tokens.damage = 1;
+            this.troll.damage = 3;
+            this.charette.damage = 1;
         });
 
         it('should be optional', function () {
             this.player1.reap(this.hanPeregrine);
             this.player1.clickPrompt('Done');
             expect(this.hanPeregrine.amber).toBe(0);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should only work for damaged creatures', function () {
@@ -32,9 +32,9 @@ describe('Han Peregrine', function () {
             expect(this.player1).not.toBeAbleToSelect(this.umbra);
             this.player1.clickCard(this.troll);
             this.player1.clickPrompt('Right');
-            expect(this.troll.tokens.damage).toBe(undefined);
+            expect(this.troll.damage).toBe(0);
             expect(this.player1.player.creaturesInPlay[2]).toBe(this.troll);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should only work for enemy creatures', function () {
@@ -42,9 +42,9 @@ describe('Han Peregrine', function () {
             this.player1.clickCard(this.hanPeregrine);
             this.player1.clickCard(this.charette);
             this.player1.clickPrompt('Left');
-            expect(this.charette.tokens.damage).toBe(undefined);
+            expect(this.charette.damage).toBe(0);
             expect(this.player2.player.creaturesInPlay[0]).toBe(this.charette);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

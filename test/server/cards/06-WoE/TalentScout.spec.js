@@ -14,7 +14,9 @@ describe('Talent Scout', function () {
                         'selwyn-the-fence',
                         'ring-of-invisibility',
                         'bumpsy',
-                        'too-much-to-protect'
+                        'too-much-to-protect',
+                        'boosted-b4-rry',
+                        'boosted-b4-rry2'
                     ]
                 }
             });
@@ -35,11 +37,13 @@ describe('Talent Scout', function () {
         it('still reveals hand when there are no creatures', function () {
             this.selwynTheFence.location = 'discard';
             this.bumpsy.location = 'discard';
+            this.boostedB4Rry.location = 'discard';
+            this.boostedB4Rry2.location = 'discard';
 
             this.player1.playCreature(this.talentScout);
             expect(this.player1.amber).toBe(3);
             expect(this.player2.amber).toBe(2);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
             expect(this.player1.player.cardsInPlay).not.toContain(this.talentScout);
             expect(this.player2.player.cardsInPlay).toContain(this.talentScout);
             expect(this).toHaveRecentChatMessage('Talent Scout reveals Too Much to Protect', 2);
@@ -61,6 +65,16 @@ describe('Talent Scout', function () {
             expect(this.talentScout.location).toBe('deck');
             this.player1.endTurn();
             expect(this.talentScout.location).toBe('hand');
+        });
+
+        it('cannot play gigantics', function () {
+            this.player1.playCreature(this.talentScout);
+            expect(this.player1).toBeAbleToSelect(this.boostedB4Rry);
+            expect(this.player1).toBeAbleToSelect(this.boostedB4Rry2);
+            this.player1.clickCard(this.boostedB4Rry); // fizzles
+            expect(this.boostedB4Rry.location).toBe('hand');
+            expect(this.boostedB4Rry2.location).toBe('hand');
+            expect(this.talentScout.location).toBe('play area');
         });
 
         describe("after ability resolved, on opponent's turn", function () {
@@ -87,6 +101,56 @@ describe('Talent Scout', function () {
 
                 expect(this.player2.amber).toBe(initialAmber + 1);
             });
+        });
+    });
+
+    describe("Talent Scout's ability with Quixxle Stone", function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'ekwidon',
+                    hand: ['talent-scout']
+                },
+                player2: {
+                    inPlay: ['quixxle-stone', 'troll'],
+                    hand: ['talent-scout', 'bumpsy']
+                }
+            });
+
+            this.talentScout1 = this.player1.player.hand[0];
+            this.talentScout2 = this.player2.player.hand[0];
+        });
+
+        it('should allow player1 to play off of Talent Scout when opponent has more creatures', function () {
+            this.player1.playCreature(this.talentScout1);
+            expect(this.player1.player.cardsInPlay).toContain(this.talentScout1);
+            this.player1.clickCard(this.bumpsy);
+            this.player1.clickPrompt('Right'); // Bumpsy
+            this.player1.clickPrompt('Right'); // Talent Scout
+            expect(this.player1.player.cardsInPlay).not.toContain(this.talentScout1);
+            expect(this.player1.player.cardsInPlay).toContain(this.bumpsy);
+            expect(this.player2.player.cardsInPlay).toContain(this.talentScout1);
+            expect(this.player2.player.cardsInPlay).not.toContain(this.bumpsy);
+            expect(this.player1).isReadyToTakeAction();
+        });
+
+        it('should not allow player1 to play off of Talent Scout when opponent has fewer creatures', function () {
+            this.player1.playCreature(this.talentScout1);
+            expect(this.player1.player.cardsInPlay).toContain(this.talentScout1);
+            this.player1.clickCard(this.talentScout2);
+            this.player1.clickPrompt('Right'); // Talent Scout 2
+            expect(this.player1.player.cardsInPlay).toContain(this.talentScout1);
+            // Bumpsy is autoselected and fizzles to play. Now give control of
+            // Talent Scouts to player2 in reverse order.
+            this.player1.clickPrompt('Right'); // Talent Scout 2
+            this.player1.clickPrompt('Right'); // Talent Scout 1
+            expect(this.player1.player.cardsInPlay).not.toContain(this.talentScout1);
+            expect(this.player1.player.cardsInPlay).not.toContain(this.talentScout2);
+            expect(this.player1.player.cardsInPlay).not.toContain(this.bumpsy);
+            expect(this.player2.player.cardsInPlay).toContain(this.talentScout1);
+            expect(this.player2.player.cardsInPlay).toContain(this.talentScout2);
+            expect(this.player2.player.cardsInPlay).not.toContain(this.bumpsy);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

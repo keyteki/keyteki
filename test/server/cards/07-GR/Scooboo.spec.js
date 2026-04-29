@@ -70,7 +70,7 @@ describe('Scooboo', function () {
             this.player2.play(this.punctuatedEquilibrium);
             expect(this.player1.player.discard.length).toBe(7);
             expect(this.player1.player.hand.length).toBe(6);
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player2).isReadyToTakeAction();
         });
     });
 });

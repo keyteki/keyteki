@@ -13,8 +13,7 @@ describe('Lancet', function () {
                 }
             });
 
-            this.lancet.printedHouse = 'dis';
-            this.lancet.maverick = 'dis';
+            this.player1.makeMaverick(this.lancet, 'dis');
         });
 
         it('should give each friendly creature a fight ability to capture 1', function () {
@@ -24,7 +23,7 @@ describe('Lancet', function () {
             this.player1.fightWith(this.lancet, this.lamindra);
             expect(this.gub.amber).toBe(1);
             expect(this.player2.amber).toBe(1);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

@@ -19,11 +19,11 @@ describe('Ragatha', function () {
             expect(this.player2.player.creaturesInPlay).toContain(this.ragatha);
             this.player2.moveCard(this.dustPixie, 'play area');
             this.player1.reap(this.corrosiveMonk);
-            expect(this.ancientBear.tokens.damage).toBe(3);
-            expect(this.researchSmoko.tokens.damage).toBeUndefined();
+            expect(this.ancientBear.damage).toBe(3);
+            expect(this.researchSmoko.damage).toBe(0);
             expect(this.researchSmoko.location).toBe('play area');
             expect(this.dustPixie.location).toBe('discard');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

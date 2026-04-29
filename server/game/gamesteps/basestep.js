@@ -1,4 +1,7 @@
 class BaseStep {
+    /**
+     * @param {import('../game')} game
+     */
     constructor(game) {
         this.game = game;
     }

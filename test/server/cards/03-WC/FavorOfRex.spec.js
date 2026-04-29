@@ -15,7 +15,7 @@ describe('Favor of Rex', function () {
         it('should not prompt for creature', function () {
             this.player1.play(this.favorOfRex);
             expect(this.player1).not.toHavePrompt('Choose a creature');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 
@@ -42,9 +42,9 @@ describe('Favor of Rex', function () {
             this.player1.clickCard(this.witchOfTheWilds);
             expect(this.player1.amber).toBe(11);
             expect(this.player2.amber).toBe(4);
-            expect(this.chotaHazri.tokens.power).toBeUndefined();
+            expect(this.chotaHazri.powerCounters).toBe(0);
             expect(this.charette.amber).toBe(0);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should duplicate play effect of a friendly creature', function () {
@@ -100,10 +100,10 @@ describe('Favor of Rex', function () {
             this.player1.play(this.favorOfRex);
             expect(this.player1).toHavePrompt('Choose a creature');
             this.player1.clickCard(this.bumblebird);
-            expect(this.witchOfTheWilds.tokens.power).toBe(2);
-            expect(this.chotaHazri.tokens.power).toBe(2);
-            expect(this.bumblebird.tokens.power).toBeUndefined();
-            expect(this.flaxia.tokens.power).toBeUndefined();
+            expect(this.witchOfTheWilds.powerCounters).toBe(2);
+            expect(this.chotaHazri.powerCounters).toBe(2);
+            expect(this.bumblebird.powerCounters).toBe(0);
+            expect(this.flaxia.powerCounters).toBe(0);
         });
     });
 });

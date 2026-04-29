@@ -20,7 +20,7 @@ describe('Survival of the Richest', function () {
             this.player1.play(this.survivalOfTheRichest);
             expect(this.niffleBrute1.location).toBe('play area');
             expect(this.survivalOfTheRichest.location).toBe('discard');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should make a token creature on play and archive if you have more amber than opponent', function () {
@@ -28,7 +28,7 @@ describe('Survival of the Richest', function () {
             this.player1.play(this.survivalOfTheRichest);
             expect(this.niffleBrute1.location).toBe('play area');
             expect(this.survivalOfTheRichest.location).toBe('archives');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

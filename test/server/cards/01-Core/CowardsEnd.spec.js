@@ -14,14 +14,14 @@ describe('Cowards End', function () {
         });
 
         it('should destroy all creatures that are not damaged', function () {
-            this.dodger.tokens.damage = 1;
-            this.krump.tokens.damage = 1;
+            this.dodger.damage = 1;
+            this.krump.damage = 1;
             this.player1.play(this.cowardSEnd);
             expect(this.dodger.location).toBe('play area');
             expect(this.silvertooth.location).toBe('discard');
             expect(this.krump.location).toBe('play area');
             expect(this.urchin.location).toBe('discard');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

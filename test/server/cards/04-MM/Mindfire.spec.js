@@ -29,7 +29,7 @@ describe('Mindfire', function () {
             expect(this.player2.amber).toBe(6);
         });
 
-        it("should steal 1A due to card's amber bonus", function () {
+        it("should steal 1 amber due to card's amber bonus", function () {
             this.player2.moveCard(this.lamindra, 'discard');
             this.player1.play(this.mindfire);
             expect(this.mabTheMad.location).toBe('discard');
@@ -37,13 +37,13 @@ describe('Mindfire', function () {
             expect(this.player2.amber).toBe(5);
         });
 
-        it("should steal 3A due to card's enhancements", function () {
-            this.lamindra.enhancements = ['amber', 'draw', 'draw'];
+        it("should steal 4 amber due to card's enhancements", function () {
+            this.lamindra.enhancements = ['mars', 'amber', 'draw', 'draw'];
             this.player2.moveCard(this.mabTheMad, 'discard');
             this.player1.play(this.mindfire);
             expect(this.lamindra.location).toBe('discard');
-            expect(this.player1.amber).toBe(6);
-            expect(this.player2.amber).toBe(3);
+            expect(this.player1.amber).toBe(7);
+            expect(this.player2.amber).toBe(2);
         });
     });
 });

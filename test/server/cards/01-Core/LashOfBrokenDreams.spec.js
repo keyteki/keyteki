@@ -77,8 +77,7 @@ describe('Lash of Broken Dreams', function () {
                     hand: []
                 }
             });
-            this.tachyonManifold.maverick = 'dis';
-            this.tachyonManifold.printedHouse = 'dis';
+            this.player1.makeMaverick(this.tachyonManifold, 'dis');
             this.player1.useAction(this.tachyonManifold);
         });
 
@@ -95,7 +94,7 @@ describe('Lash of Broken Dreams', function () {
             expect(this.player2.player.getCurrentKeyCost()).toBe(9);
             expect(this.player1.amber).toBe(0);
             expect(this.player2.amber).toBe(0);
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player2).isReadyToTakeAction();
         });
     });
 });

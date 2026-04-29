@@ -21,7 +21,7 @@ describe('Request Donations', function () {
             this.player1.play(this.requestDonations);
             this.player1.clickPrompt('Left');
             expect(this.brammo.name).toBe('Disciple');
-            expect(this.brammo.tokens.amber).toBe(2);
+            expect(this.brammo.amber).toBe(2);
             this.player1.endTurn();
         });
 

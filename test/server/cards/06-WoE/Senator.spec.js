@@ -23,7 +23,7 @@ describe('Senator', function () {
             it('opponent should forge a key paying 7A', function () {
                 this.player2.amber = 7;
                 this.player1.endTurn();
-                this.player2.clickPrompt('red');
+                this.player2.forgeKey('Red');
                 expect(this.player2.amber).toBe(0);
             });
 
@@ -38,7 +38,7 @@ describe('Senator', function () {
                 it('should forge a key paying 7A', function () {
                     this.player2.amber = 6;
                     this.player1.endTurn();
-                    this.player2.clickPrompt('red');
+                    this.player2.forgeKey('Red');
                     expect(this.player2.amber).toBe(0);
                 });
             });
@@ -61,8 +61,7 @@ describe('Senator', function () {
                     hand: []
                 }
             });
-            this.tachyonManifold.maverick = 'saurian';
-            this.tachyonManifold.printedHouse = 'saurian';
+            this.player1.makeMaverick(this.tachyonManifold, 'saurian');
             this.player1.useAction(this.tachyonManifold);
         });
 
@@ -75,7 +74,7 @@ describe('Senator', function () {
             this.player2.clickPrompt('untamed');
             expect(this.player2.player.getCurrentKeyCost()).toBe(7);
             expect(this.player2.player.getForgedKeys()).toBe(0);
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player2).isReadyToTakeAction();
         });
     });
 });

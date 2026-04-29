@@ -27,7 +27,7 @@ describe('Crimson Dax', function () {
             expect(this.player1).not.toBeAbleToSelect(this.thunderdell);
             expect(this.player1).not.toBeAbleToSelect(this.brikkNastee);
             this.player1.clickCard(this.drXyloxxzlphrex);
-            expect(this.drXyloxxzlphrex.tokens.power).toBe(3);
+            expect(this.drXyloxxzlphrex.powerCounters).toBe(3);
         });
 
         it('should allow the player to select 0 cards', function () {
@@ -35,7 +35,7 @@ describe('Crimson Dax', function () {
             expect(this.player1).toHavePrompt('Crimson Dax');
             expect(this.player1.currentButtons).toContain('Done');
             this.player1.clickPrompt('Done');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

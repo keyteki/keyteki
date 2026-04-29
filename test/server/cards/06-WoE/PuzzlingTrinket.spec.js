@@ -18,7 +18,7 @@ describe('Puzzling Trinket', function () {
 
         it('should not trigger if no bonus', function () {
             this.player1.play(this.pelf);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         // Amber -> amber
@@ -40,7 +40,7 @@ describe('Puzzling Trinket', function () {
             this.player1.clickCard(this.antiquitiesDealer);
             expect(this.player1.amber).toBe(0);
             expect(this.player2.amber).toBe(1);
-            expect(this.antiquitiesDealer.tokens.amber).toBe(1);
+            expect(this.antiquitiesDealer.amber).toBe(1);
         });
 
         // Amber -> draw
@@ -59,7 +59,7 @@ describe('Puzzling Trinket', function () {
             this.player1.clickCard(this.troll);
             expect(this.player1.amber).toBe(0);
             expect(this.player2.amber).toBe(2);
-            expect(this.troll.tokens.damage).toBe(3); // dmg + vow of blood
+            expect(this.troll.damage).toBe(3); // dmg + vow of blood
         });
 
         it('should not replace other icons', function () {
@@ -69,9 +69,9 @@ describe('Puzzling Trinket', function () {
             this.player1.clickPrompt('draw');
             this.player1.clickCard(this.troll);
             expect(this.player1.amber).toBe(0);
-            expect(this.troll.tokens.damage).toBe(2);
+            expect(this.troll.damage).toBe(2);
             expect(this.player1.hand.length).toBe(3);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

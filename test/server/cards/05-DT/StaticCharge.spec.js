@@ -20,10 +20,10 @@ describe('Static Charge', function () {
             });
 
             it('2 damage done to neighbors', function () {
-                expect(this.troll.tokens.damage).toBe(2);
-                expect(this.badPenny.tokens.damage).toBeUndefined();
-                expect(this.headhunter.tokens.damage).toBe(2);
-                expect(this.eyegor.tokens.damage).toBeUndefined();
+                expect(this.troll.damage).toBe(2);
+                expect(this.badPenny.damage).toBe(0);
+                expect(this.headhunter.damage).toBe(2);
+                expect(this.eyegor.damage).toBe(0);
             });
 
             describe('on creatures controllers opponents turn', function () {
@@ -33,10 +33,10 @@ describe('Static Charge', function () {
                 });
 
                 it('0 damage done', function () {
-                    expect(this.troll.tokens.damage).toBe(2);
-                    expect(this.badPenny.tokens.damage).toBeUndefined();
-                    expect(this.headhunter.tokens.damage).toBe(2);
-                    expect(this.eyegor.tokens.damage).toBeUndefined();
+                    expect(this.troll.damage).toBe(2);
+                    expect(this.badPenny.damage).toBe(0);
+                    expect(this.headhunter.damage).toBe(2);
+                    expect(this.eyegor.damage).toBe(0);
                 });
             });
         });
@@ -64,8 +64,8 @@ describe('Static Charge', function () {
             });
 
             it('should steal 1 amber', function () {
-                expect(this.troll.tokens.damage).toBeUndefined();
-                expect(this.eyegor.tokens.damage).toBeUndefined();
+                expect(this.troll.damage).toBe(0);
+                expect(this.eyegor.damage).toBe(0);
                 expect(this.player1.amber).toBe(5);
                 expect(this.player2.amber).toBe(3);
                 this.player2.clickPrompt('shadows');

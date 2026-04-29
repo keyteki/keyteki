@@ -22,8 +22,8 @@ describe('First Officer Frane', function () {
             this.player1.clickCard(this.firstOfficerFrane);
             expect(this.player2.amber).toBe(1);
             expect(this.player1.amber).toBe(0);
-            expect(this.firstOfficerFrane.tokens.amber).toBe(1);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.firstOfficerFrane.amber).toBe(1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should not capture an amber when the opponent has 0', function () {
@@ -31,8 +31,8 @@ describe('First Officer Frane', function () {
             this.player1.play(this.firstOfficerFrane);
             expect(this.player2.amber).toBe(0);
             expect(this.player1.amber).toBe(0);
-            expect(this.firstOfficerFrane.tokens.amber).toBe(undefined);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.firstOfficerFrane.amber).toBe(0);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
     describe("First Officer Frane's ability", function () {
@@ -56,8 +56,8 @@ describe('First Officer Frane', function () {
             this.player1.clickCard(this.firstOfficerFrane);
             expect(this.player2.amber).toBe(1);
             expect(this.player1.amber).toBe(1);
-            expect(this.firstOfficerFrane.tokens.amber).toBe(1);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.firstOfficerFrane.amber).toBe(1);
+            expect(this.player1).isReadyToTakeAction();
         });
         it('should allow a friendly creature to capture 1 amber when it fights', function () {
             this.player1.fightWith(this.firstOfficerFrane, this.dustPixie);
@@ -67,8 +67,8 @@ describe('First Officer Frane', function () {
             this.player1.clickCard(this.firstOfficerFrane);
             expect(this.player2.amber).toBe(1);
             expect(this.player1.amber).toBe(0);
-            expect(this.firstOfficerFrane.tokens.amber).toBe(1);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.firstOfficerFrane.amber).toBe(1);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

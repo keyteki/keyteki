@@ -35,7 +35,7 @@ describe('Orbital Bombardment', function () {
         it('should allow the player to select 0 cards', function () {
             expect(this.player1.currentButtons).toContain('Done');
             this.player1.clickPrompt('Done');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should deal the correct amount of damage', function () {
@@ -63,9 +63,9 @@ describe('Orbital Bombardment', function () {
             expect(this.player1).toBeAbleToSelect(this.troll);
             expect(this.player1).toBeAbleToSelect(this.snufflegator);
             this.player1.clickCard(this.snufflegator);
-            expect(this.troll.tokens.damage).toBe(4);
-            expect(this.snufflegator.tokens.damage).toBe(2);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.troll.damage).toBe(4);
+            expect(this.snufflegator.damage).toBe(2);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

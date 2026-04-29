@@ -21,7 +21,7 @@ describe('Brigadier Ols', function () {
             this.player1.moveCard(this.emberImp, 'discard');
             this.player1.playCreature(this.francus);
             expect(this.brigadierOls.armor).toBe(4);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

@@ -1,7 +1,7 @@
 const Card = require('../../Card.js');
 
 class KingOfTheCrag extends Card {
-    // Each enemy Brobnar creature gets 2power.
+    // Each enemy Brobnar creature gets -2 power.
     setupCardAbilities(ability) {
         this.persistentEffect({
             targetController: 'opponent',

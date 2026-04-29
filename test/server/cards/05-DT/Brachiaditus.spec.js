@@ -8,9 +8,9 @@ describe('Brachiaditus', function () {
                     inPlay: ['helper-bot', 'titan-mechanic', 'bad-penny', 'urchin']
                 }
             });
-            this.helperBot.tokens.amber = 4;
-            this.badPenny.tokens.amber = 1;
-            this.urchin.tokens.amber = 1;
+            this.helperBot.amber = 4;
+            this.badPenny.amber = 1;
+            this.urchin.amber = 1;
         });
 
         describe('next to two creatures', function () {

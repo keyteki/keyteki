@@ -12,9 +12,9 @@ describe('Gamma Blaster', function () {
                 }
             });
 
-            this.brashGrabber.tokens.amber = 1;
-            this.grabberJammer.tokens.amber = 1;
-            this.botBookton.tokens.amber = 1;
+            this.brashGrabber.amber = 1;
+            this.grabberJammer.amber = 1;
+            this.botBookton.amber = 1;
         });
 
         it('should allow you to destroy enemy creatures with amber on them', function () {
@@ -40,7 +40,7 @@ describe('Gamma Blaster', function () {
             expect(this.player2).toBeAbleToSelect(this.grabberJammer);
             this.player2.clickCard(this.brashGrabber);
             expect(this.brashGrabber.location).toBe('discard');
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player2).isReadyToTakeAction();
         });
     });
 });

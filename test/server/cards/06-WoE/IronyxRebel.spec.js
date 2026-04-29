@@ -28,8 +28,8 @@ describe('Ironyx Rebel', function () {
         });
 
         it('should not ready non-mars neighbors', function () {
-            this.chelonia.exhausted = true;
-            this.flaxia.exhausted = true;
+            this.chelonia.exhaust();
+            this.flaxia.exhaust();
             this.player1.playCreature(this.ironyxRebel, true, true);
             this.player1.clickCard(this.flaxia);
             expect(this.chelonia.exhausted).toBe(true);

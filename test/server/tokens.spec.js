@@ -32,7 +32,7 @@ describe('Token', function () {
             this.player1.player.deck = [];
             this.player1.play(this.hireOn);
             expect(this.player1.player.creaturesInPlay.length).toBe(0);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should lose token abilities after destroyed', function () {
@@ -61,6 +61,60 @@ describe('Token', function () {
             this.player1.clickCard(token);
             expect(token.location).toBe('discard');
             expect(this.player1.hand.length).toBe(handSize - 1);
+        });
+    });
+});
+
+describe('ToC token creature armor', function () {
+    const tocTokenCreatures = [
+        ['catena-fiend', 0],
+        ['facet', 0],
+        ['snare', 0],
+        ['thrall', 0],
+        ['minion', 0],
+        ['phantasm', 1],
+        ['wrecker', 0],
+        ['æmberologist', 0],
+        ['alpha-gamma', 0],
+        ['chronicler', 0],
+        ['savant', 0],
+        ['spydrone', 0],
+        ['zealot', 0],
+        ['guardian', 2],
+        ['paragon', 1],
+        ['sentinel', 0],
+        ['stooge', 0],
+        ['cleaner', 0],
+        ['prowler', 0],
+        ['yardbird', 0],
+        ['wrangler', 0],
+        ['aerialist', 0],
+        ['corsair', 0],
+        ['marketeer', 0],
+        ['niffle-brute', 0],
+        ['briar-instar', 0],
+        ['steppe-wolf', 0],
+        ['twilight-pixie', 0]
+    ];
+
+    tocTokenCreatures.forEach(([tokenId, expectedArmor]) => {
+        describe(tokenId, function () {
+            beforeEach(function () {
+                this.setupTest({
+                    player1: {
+                        token: tokenId
+                    },
+                    player2: {}
+                });
+            });
+
+            it('should have the correct printed armor when made', function () {
+                const tokenCreature = this.player1.makeTokenCreature();
+
+                expect(tokenCreature.isToken()).toBe(true);
+                expect(tokenCreature.armor).toBe(expectedArmor);
+                expect(tokenCreature.armorTotal).toBe(expectedArmor);
+            });
         });
     });
 });

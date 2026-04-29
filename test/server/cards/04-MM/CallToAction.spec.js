@@ -19,12 +19,12 @@ describe('Call to Action', function () {
                 }
             });
 
-            this.brobnarAmbassador.exhausted = true;
-            this.brammo.exhausted = true;
-            this.francus.exhausted = true;
-            this.gatekeeper.exhausted = true;
-            this.dumaTheMartyr.exhausted = true;
-            this.bulwark.exhausted = true;
+            this.brobnarAmbassador.exhaust();
+            this.brammo.exhaust();
+            this.francus.exhaust();
+            this.gatekeeper.exhaust();
+            this.dumaTheMartyr.exhaust();
+            this.bulwark.exhaust();
         });
 
         it('should ready all friendly knights', function () {

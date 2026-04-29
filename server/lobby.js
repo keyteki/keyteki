@@ -1,4 +1,4 @@
-const socketio = require('socket.io');
+const { Server } = require('socket.io');
 const Socket = require('./socket.js');
 const jwt = require('jsonwebtoken');
 const _ = require('underscore');
@@ -37,8 +37,12 @@ class Lobby {
 
         this.userService.on('onBlocklistChanged', this.onBlocklistChanged.bind(this));
 
-        this.io = options.io || socketio(server, { perMessageDeflate: false });
-        this.io.set('heartbeat timeout', 30000);
+        this.io =
+            options.io ||
+            new Server(server, {
+                perMessageDeflate: false,
+                pingTimeout: 30000
+            });
         this.io.use(this.handshake.bind(this));
         this.io.on('connection', this.onConnection.bind(this));
 
@@ -151,48 +155,57 @@ class Lobby {
     }
 
     handshake(ioSocket, next) {
-        if (ioSocket.handshake.query.token && ioSocket.handshake.query.token !== 'undefined') {
-            jwt.verify(
-                ioSocket.handshake.query.token,
-                this.configService.getValue('secret'),
-                (err, user) => {
-                    if (err) {
-                        ioSocket.emit('authfailed');
-                        return;
-                    }
-
-                    this.userService
-                        .getUserById(user.id)
-                        .then((dbUser) => {
-                            let socket = this.sockets[ioSocket.id];
-                            if (!socket) {
-                                logger.error(
-                                    'Tried to authenticate socket for %s but could not find it',
-                                    dbUser.username
-                                );
-                                return;
-                            }
-
-                            if (dbUser.disabled) {
-                                ioSocket.disconnect();
-                                return;
-                            }
-
-                            ioSocket.request.user = dbUser.getWireSafeDetails();
-                            socket.user = dbUser;
-                            this.users[dbUser.username] = socket.user;
-                            this.socketsByName[dbUser.username] = socket;
-
-                            this.doPostAuth(socket);
-                        })
-                        .catch((err) => {
-                            logger.error(err);
-                        });
+        const token = ioSocket.handshake.auth?.token || ioSocket.handshake.query?.token;
+        if (token && token !== 'undefined') {
+            jwt.verify(token, this.configService.getValue('secret'), (err, user) => {
+                if (err) {
+                    ioSocket.emit('authfailed');
+                    return;
                 }
-            );
+
+                this.userService
+                    .getUserById(user.id)
+                    .then((dbUser) => {
+                        let socket = this.sockets[ioSocket.id];
+                        if (!socket) {
+                            logger.error(
+                                'Tried to authenticate socket for %s but could not find it',
+                                dbUser?.username || user?.username || user?.id
+                            );
+                            return;
+                        }
+
+                        if (!dbUser) {
+                            logger.error(
+                                'Tried to authenticate socket for %s but user lookup returned no result',
+                                user?.username || user?.id
+                            );
+                            ioSocket.emit('authfailed');
+                            ioSocket.disconnect();
+                            return;
+                        }
+
+                        if (dbUser.disabled) {
+                            ioSocket.disconnect();
+                            return;
+                        }
+
+                        ioSocket.request.user = dbUser.getWireSafeDetails();
+                        socket.user = dbUser;
+                        this.users[dbUser.username] = socket.user;
+                        this.socketsByName[dbUser.username] = socket;
+
+                        this.doPostAuth(socket);
+                    })
+                    .catch((err) => {
+                        logger.error(err);
+                    });
+            });
         }
 
-        if ((process.env.VERSION || 'Local build') !== ioSocket.handshake.query.version) {
+        const serverVersion = process.env.VERSION;
+        const clientVersion = ioSocket.handshake.auth?.version || ioSocket.handshake.query?.version;
+        if (serverVersion && clientVersion && serverVersion !== clientVersion) {
             ioSocket.emit(
                 'banner',
                 'Your client version is out of date, please refresh or clear your cache to get the latest version'
@@ -326,10 +339,16 @@ class Lobby {
     }
 
     sendFilteredMessages(socket) {
-        this.messageService.getLastMessagesForUser(socket.user).then((messages) => {
-            let messagesToSend = this.filterMessages(messages, socket);
-            socket.send('lobbymessages', messagesToSend.reverse());
-        });
+        this.messageService
+            .getLastMessagesForUser(socket.user)
+            .then((messages) => {
+                let messagesToSend = this.filterMessages(messages, socket);
+                socket.send('lobbymessages', messagesToSend.reverse());
+            })
+            .catch((err) => {
+                logger.error('Unable to send lobby messages', err);
+                socket.send('lobbymessages', []);
+            });
     }
 
     filterMessages(messages, socket) {
@@ -427,6 +446,16 @@ class Lobby {
         this.userService
             .getUserById(user.id)
             .then((dbUser) => {
+                if (!dbUser) {
+                    logger.error(
+                        'Tried to authenticate socket for %s but user lookup returned no result',
+                        user?.username || user?.id
+                    );
+                    socket.send('authfailed');
+                    socket.disconnect();
+                    return;
+                }
+
                 this.users[dbUser.username] = dbUser;
                 this.socketsByName[dbUser.username] = socket;
 
@@ -949,8 +978,21 @@ class Lobby {
         this.sendGameState(newGame);
         this.broadcastGameMessage('newgame', newGame);
 
+        const ownerDeck =
+            owner.deck || (oldGame.players || []).find((x) => x.name === owner.name)?.deck;
+
+        if (!ownerDeck || !ownerDeck.id) {
+            logger.error(`Tried to rematch but ${owner.name} has no deck selected`);
+            return;
+        }
+
         let promises = [
-            this.onSelectDeck(socket, newGame.id, owner.deck.id, owner.deck.isStandalone)
+            this.onSelectDeck(
+                socket,
+                newGame.id,
+                ownerDeck.id,
+                ownerDeck.isStandalone || ownerDeck.is_standalone
+            )
         ];
 
         for (let player of Object.values(game.getPlayers()).filter(
@@ -965,9 +1007,22 @@ class Lobby {
                 continue;
             }
 
+            const playerDeck =
+                player.deck || (oldGame.players || []).find((x) => x.name === player.name)?.deck;
+
+            if (!playerDeck || !playerDeck.id) {
+                logger.warn(`Tried to rematch but ${player.name} has no deck selected`);
+                continue;
+            }
+
             newGame.join(socket.id, player.user);
             promises.push(
-                this.onSelectDeck(socket, newGame.id, player.deck.id, player.deck.isStandalone)
+                this.onSelectDeck(
+                    socket,
+                    newGame.id,
+                    playerDeck.id,
+                    playerDeck.isStandalone || playerDeck.is_standalone
+                )
             );
         }
 
@@ -1051,6 +1106,21 @@ class Lobby {
         socket.joinChannel(newGame.id);
         this.sendGameState(newGame);
         this.broadcastGameMessage('newgame', newGame);
+
+        const ownerDeck =
+            owner.deck || (oldGame.players || []).find((x) => x.name === owner.name)?.deck;
+
+        if (!ownerDeck || !ownerDeck.id) {
+            logger.error(`Tried to rematch with new decks but ${owner.name} has no deck selected`);
+            return;
+        }
+
+        this.onSelectDeck(
+            socket,
+            newGame.id,
+            ownerDeck.id,
+            ownerDeck.isStandalone || ownerDeck.is_standalone
+        );
 
         for (let player of Object.values(game.getPlayers()).filter(
             (player) => player.name !== owner.username

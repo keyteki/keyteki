@@ -20,13 +20,13 @@ describe('Feats of Strength', function () {
             this.player1.play(this.featsOfStrength);
             this.player1.fightWith(this.bumpsy, this.ganymedeArchivist);
             this.player1.clickPrompt('Right');
-            expect(this.bumpsy.tokens.damage).toBe(3);
+            expect(this.bumpsy.damage).toBe(3);
             expect(this.ganymedeArchivist.location).toBe('discard');
             expect(this.player1.player.creaturesInPlay.length).toBe(2);
             this.player1.play(this.punch);
             this.player1.clickCard(this.batdrone);
             expect(this.player1.player.creaturesInPlay.length).toBe(2);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should stack', function () {

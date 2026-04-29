@@ -34,9 +34,9 @@ describe('The Mysticeti', function () {
                 this.player1.useAction(this.theMysticeti);
                 expect(this.player1).not.toBeAbleToSelect(this.theMysticeti);
                 expect(this.player1).not.toBeAbleToSelect(this.murkens);
-                expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+                expect(this.player1).isReadyToTakeAction();
                 expect(this.theMysticeti.type).toBe('artifact');
-                expect(this.theMysticeti.tokens.power).toBeUndefined();
+                expect(this.theMysticeti.powerCounters).toBe(0);
             });
         });
 
@@ -67,9 +67,9 @@ describe('The Mysticeti', function () {
 
                 this.player1.clickPrompt('Done');
 
-                expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+                expect(this.player1).isReadyToTakeAction();
                 expect(this.theMysticeti.type).toBe('artifact');
-                expect(this.theMysticeti.tokens.power).toBeUndefined();
+                expect(this.theMysticeti.powerCounters).toBe(0);
             });
         });
 
@@ -87,9 +87,9 @@ describe('The Mysticeti', function () {
                 this.player1.clickCard(this.dustPixie);
                 this.player1.clickPrompt('Done');
 
-                expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+                expect(this.player1).isReadyToTakeAction();
                 expect(this.theMysticeti.type).toBe('artifact');
-                expect(this.theMysticeti.tokens.power).toBeUndefined();
+                expect(this.theMysticeti.powerCounters).toBe(0);
             });
 
             it('should be able to choose non-exhausted creatures and move it to battleline', function () {
@@ -112,9 +112,9 @@ describe('The Mysticeti', function () {
                 this.player1.clickCard(this.bumblebird);
                 this.player1.clickPrompt('Left');
 
-                expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+                expect(this.player1).isReadyToTakeAction();
                 expect(this.theMysticeti.type).toBe('creature');
-                expect(this.theMysticeti.tokens.power).toBe(6);
+                expect(this.theMysticeti.powerCounters).toBe(6);
                 expect(this.theMysticeti.hasKeyword('taunt')).toBe(true);
             });
         });
@@ -138,9 +138,9 @@ describe('The Mysticeti', function () {
                 this.player1.clickCard(this.dustPixie);
                 this.player1.clickPrompt('Left');
 
-                expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+                expect(this.player1).isReadyToTakeAction();
                 expect(this.theMysticeti.type).toBe('creature');
-                expect(this.theMysticeti.tokens.power).toBe(12);
+                expect(this.theMysticeti.powerCounters).toBe(12);
                 expect(this.theMysticeti.hasKeyword('taunt')).toBe(true);
             });
         });
@@ -158,7 +158,7 @@ describe('The Mysticeti', function () {
                 this.player2.clickCard(this.tantadlin);
                 this.player2.clickPrompt('Done');
                 expect(this.tantadlin.exhausted).toBe(true);
-                expect(this.theMysticeti.tokens.power).toBe(3);
+                expect(this.theMysticeti.powerCounters).toBe(3);
                 expect(this.theMysticeti.controller).toBe(this.player1.player);
                 expect(this.theMysticeti.exhausted).toBe(true);
                 expect(this.theMysticeti.type).toBe('artifact');

@@ -13,7 +13,8 @@ describe('Vapor Imp', function () {
                         'dust-pixie',
                         'the-circle-of-life',
                         'ritual-of-balance',
-                        'way-of-the-wolf'
+                        'way-of-the-wolf',
+                        'wild-wormhole'
                     ]
                 }
             });
@@ -23,7 +24,7 @@ describe('Vapor Imp', function () {
             this.player1.reap(this.vaporImp);
             expect(this.player1.player.hand.length).toBe(3);
             expect(this.player1.player.discard.length).toBe(1);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('prevents opponents from playing creatures', function () {
@@ -60,7 +61,7 @@ describe('Vapor Imp', function () {
             this.player1.endTurn();
             this.player2.clickPrompt('untamed');
             this.player2.playCreature(this.dustPixie);
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player2).isReadyToTakeAction();
         });
 
         it('prevents opponents from playing actions', function () {
@@ -99,7 +100,7 @@ describe('Vapor Imp', function () {
             this.player1.endTurn();
             this.player2.clickPrompt('untamed');
             this.player2.play(this.theCircleOfLife);
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player2).isReadyToTakeAction();
         });
 
         it('prevents opponents from playing artifacts', function () {
@@ -136,7 +137,7 @@ describe('Vapor Imp', function () {
             this.player1.endTurn();
             this.player2.clickPrompt('untamed');
             this.player2.play(this.ritualOfBalance);
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player2).isReadyToTakeAction();
         });
 
         it('prevents opponents from playing upgrades', function () {
@@ -173,7 +174,40 @@ describe('Vapor Imp', function () {
             this.player1.endTurn();
             this.player2.clickPrompt('untamed');
             this.player2.playUpgrade(this.wayOfTheWolf, this.flaxia);
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player2).isReadyToTakeAction();
+        });
+
+        it('prevents wild wormhole from playing creatures', function () {
+            this.player1.scrap(this.wretchedDoll);
+            this.player1.scrap(this.markOfDis);
+            this.player1.scrap(this.painmail);
+            this.player1.reap(this.vaporImp);
+            expect(this.gub.location).toBe('discard');
+            this.player1.endTurn();
+
+            // Player 2 cannot play creatures next turn
+            this.player2.clickPrompt('logos');
+            this.player2.moveCard(this.dustPixie, 'deck');
+            this.player2.play(this.wildWormhole);
+            expect(this.dustPixie.location).toBe('deck');
+            expect(this.player2).isReadyToTakeAction();
+        });
+
+        it('allows wild wormhole to play creatures when artifact selected', function () {
+            this.player1.scrap(this.gub);
+            this.player1.scrap(this.markOfDis);
+            this.player1.scrap(this.painmail);
+            this.player1.reap(this.vaporImp);
+            expect(this.wretchedDoll.location).toBe('discard');
+            this.player1.endTurn();
+
+            // Player 2 can play creatures next turn
+            this.player2.clickPrompt('logos');
+            this.player2.moveCard(this.dustPixie, 'deck');
+            this.player2.play(this.wildWormhole);
+            this.player2.clickPrompt('Right');
+            expect(this.dustPixie.location).toBe('play area');
+            expect(this.player2).isReadyToTakeAction();
         });
     });
 
@@ -192,8 +226,7 @@ describe('Vapor Imp', function () {
                     hand: ['fogbank']
                 }
             });
-            this.tachyonManifold.maverick = 'dis';
-            this.tachyonManifold.printedHouse = 'dis';
+            this.player1.makeMaverick(this.tachyonManifold, 'dis');
             this.player1.useAction(this.tachyonManifold);
         });
 
@@ -203,11 +236,11 @@ describe('Vapor Imp', function () {
             this.player1.clickPrompt('dis');
             this.player1.endTurn();
             this.player2.clickPrompt('untamed');
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player2).isReadyToTakeAction();
             this.player2.clickCard(this.fogbank);
             expect(this.player2).not.toHavePrompt('Play this action');
             this.player2.clickPrompt('Cancel');
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player2).isReadyToTakeAction();
         });
     });
 });

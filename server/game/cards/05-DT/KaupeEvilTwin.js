@@ -1,4 +1,5 @@
 const Card = require('../../Card.js');
+const { DiscardCardAction } = require('../../GameActions/index.js');
 
 class KaupeEvilTwin extends Card {
     // You cannot play more than 1 card of each type each turn.
@@ -15,7 +16,8 @@ class KaupeEvilTwin extends Card {
             then: {
                 gameAction: ability.actions.allocateDamage((context) => ({
                     controller: 'opponent',
-                    numSteps: context.preThenEvents.length || 0,
+                    numSteps: DiscardCardAction.collectDiscardedCards(context.preThenEvents || [])
+                        .length,
                     damageStep: 2
                 }))
             }

@@ -28,7 +28,7 @@ describe('Professor Scruples', function () {
             this.player1.clickCard(this.poke);
             expect(this.poke.location).toBe('discard');
             expect(this.player1.hand.length).toBe(4); // 1 remaining + 3 drawn
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should purge all upgrades when fate is triggered', function () {
@@ -41,7 +41,7 @@ describe('Professor Scruples', function () {
             expect(this.rocketBoots.location).toBe('purged');
             expect(this.bonerotVenom.location).toBe('discard');
             expect(this.professorScruples.location).toBe('discard');
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player2).isReadyToTakeAction();
         });
     });
 });

@@ -6,8 +6,7 @@ class TheBodySnatchers extends Card {
     // your opponent instead.”
     setupCardAbilities(ability) {
         this.play({
-            effect:
-                "give each enemy creature 'Destroyed: Fully heal this creature and give control of it to your opponent instead' for the remainder of the turn",
+            effect: "give each enemy creature 'Destroyed: Fully heal this creature and give control of it to your opponent instead' for the remainder of the turn",
             gameAction: ability.actions.untilPlayerTurnEnd({
                 targetController: 'opponent',
                 match: (card) => card.type === 'creature',

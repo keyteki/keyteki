@@ -1,3 +1,4 @@
+const { EVENTS } = require('../Events/types');
 const PlayerAction = require('./PlayerAction');
 
 class FulfillProphecyAction extends PlayerAction {
@@ -31,7 +32,7 @@ class FulfillProphecyAction extends PlayerAction {
 
     getEvent(player, context) {
         return super.createEvent(
-            'onFulfillProphecy',
+            EVENTS.onFulfillProphecy,
             { player: player, card: this.card, context: context },
             () => {
                 this.card.controller.deactivateProphecy(this.card);

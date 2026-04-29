@@ -17,7 +17,7 @@ describe('Fogbank', function () {
 
         it('own creatures should be able to fight', function () {
             this.player1.fightWith(this.niffleApe, this.emberImp);
-            expect(this.niffleApe.tokens.damage).toBe(2);
+            expect(this.niffleApe.damage).toBe(2);
             expect(this.emberImp.location).toBe('discard');
         });
 
@@ -57,8 +57,7 @@ describe('Fogbank', function () {
                     hand: []
                 }
             });
-            this.tachyonManifold.maverick = 'untamed';
-            this.tachyonManifold.printedHouse = 'untamed';
+            this.player1.makeMaverick(this.tachyonManifold, 'untamed');
             this.player1.useAction(this.tachyonManifold);
         });
 
@@ -72,7 +71,7 @@ describe('Fogbank', function () {
             expect(this.player2).not.toHavePromptButton('Fight with this creature');
             expect(this.player2).toHavePromptButton('Reap with this creature');
             this.player2.clickPrompt('Reap with this creature');
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player2).isReadyToTakeAction();
         });
     });
 });

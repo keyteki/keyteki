@@ -49,29 +49,29 @@ describe('Tormax', function () {
             expect(this.player1.player.hand.length).toBe(0);
             expect(this.player2.player.hand.length).toBe(4);
             expect(this.player2.player.purged.length).toBe(2);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should discard hand and purge 2 opponent cards on reap', function () {
             this.player1.playCreature(this.tormax);
-            this.tormax.exhausted = false;
+            this.tormax.ready();
             this.player1.moveCard(this.gub, 'hand');
             this.player1.reap(this.tormax);
             expect(this.player1.player.hand.length).toBe(0);
             expect(this.player2.player.hand.length).toBe(2);
             expect(this.player2.player.purged.length).toBe(4);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should discard hand and purge 2 opponent cards on fight', function () {
             this.player1.playCreature(this.tormax);
-            this.tormax.exhausted = false;
+            this.tormax.ready();
             this.player1.moveCard(this.gub, 'hand');
             this.player1.fightWith(this.tormax, this.lamindra);
             expect(this.player1.player.hand.length).toBe(0);
             expect(this.player2.player.hand.length).toBe(2);
             expect(this.player2.player.purged.length).toBe(4);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

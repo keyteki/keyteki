@@ -20,14 +20,14 @@ describe('Ace Jonavan', function () {
         it('should capture one on play', function () {
             expect(this.aceJonavan.amber).toBe(1);
             expect(this.player2.amber).toBe(11);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should increase cost for each amber on it, for both players', function () {
             this.player1.endTurn();
 
             // Forge for 7.
-            this.player2.clickPrompt('Yellow');
+            this.player2.forgeKey('Yellow');
             expect(this.player2.player.keys.yellow).toBe(true);
             expect(this.player2.player.amber).toBe(4);
 
@@ -36,7 +36,7 @@ describe('Ace Jonavan', function () {
             this.player2.endTurn();
 
             // Forge for 8.
-            this.player1.clickPrompt('Yellow');
+            this.player1.forgeKey('Yellow');
             expect(this.player1.player.keys.yellow).toBe(true);
             expect(this.player1.player.amber).toBe(1);
         });

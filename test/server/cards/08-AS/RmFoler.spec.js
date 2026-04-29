@@ -23,7 +23,7 @@ describe('Rm-Foler', function () {
             expect(this.krump.location).toBe('discard');
             expect(this.rmFoler.location).toBe('play area');
             expect(this.player1.player.hand.length).toBe(handLen + 1);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('does not draw if nothing is destroyed', function () {
@@ -32,10 +32,10 @@ describe('Rm-Foler', function () {
             this.player1.reap(this.rmFoler);
             this.player1.clickCard(this.krump);
             expect(this.krump.location).toBe('play area');
-            expect(this.krump.tokens.ward).toBe(undefined);
+            expect(this.krump.warded).toBe(false);
             expect(this.rmFoler.location).toBe('play area');
             expect(this.player1.player.hand.length).toBe(handLen);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

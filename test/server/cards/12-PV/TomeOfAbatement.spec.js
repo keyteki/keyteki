@@ -40,7 +40,7 @@ describe('Tome of Abatement', function () {
             this.player2.clickPrompt('staralliance');
             this.player2.playUpgrade(this.cloakingDongle, this.macisAsp);
             expect(this.macisAsp.hasKeyword('elusive')).toBe(false);
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player2).isReadyToTakeAction();
         });
     });
 });

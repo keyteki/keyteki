@@ -60,11 +60,11 @@ describe('MaruckTheMarked', function () {
             this.player1.clickPrompt('dis');
             this.player1.play(this.redHotArmor);
 
-            expect(this.maruckTheMarked.armor).toBe(1);
+            expect(this.maruckTheMarked.armorTotal).toBe(1);
             expect(this.maruckTheMarked.armorUsed).toBe(1);
 
-            expect(this.maruckTheMarked.tokens.damage).toBe(1);
-            expect(this.maruckTheMarked.hasToken('amber')).toBe(false);
+            expect(this.maruckTheMarked.damage).toBe(1);
+            expect(this.maruckTheMarked.amber).toBe(0);
         });
     });
 });

@@ -15,7 +15,7 @@ describe('Nizak, the Forgotten', function () {
         });
 
         it('should take no damage', function () {
-            expect(this.nizakTheForgotten.tokens.damage).toBe(undefined);
+            expect(this.nizakTheForgotten.damage).toBe(0);
         });
 
         it('should return the destroyed creature to its owners hand', function () {

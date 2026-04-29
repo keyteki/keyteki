@@ -1,3 +1,4 @@
+const { EVENTS } = require('../Events/types');
 const PlayerAction = require('./PlayerAction');
 
 class TransferAmberAction extends PlayerAction {
@@ -26,7 +27,7 @@ class TransferAmberAction extends PlayerAction {
             player: player,
             amount: Math.min(this.amount, player.amber)
         };
-        return super.createEvent('onTransferAmber', params, (event) => {
+        return super.createEvent(EVENTS.onTransferAmber, params, (event) => {
             event.player.modifyAmber(-event.amount);
             context.game.actions
                 .gainAmber({ amount: event.amount })

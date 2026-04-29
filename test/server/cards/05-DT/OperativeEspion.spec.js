@@ -73,7 +73,7 @@ describe('OperativeEspion', function () {
                 expect(this.lamindra.location).toBe('discard');
                 expect(this.seabringerKekoa.location).toBe('discard');
                 expect(this.player2.isTideHigh()).toBe(true);
-                expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+                expect(this.player1).isReadyToTakeAction();
                 expect(this.player2).toHavePrompt('Waiting for opponent');
             });
         });

@@ -1,3 +1,4 @@
+const { EVENTS } = require('../Events/types');
 const PlayerAction = require('./PlayerAction');
 
 class SearchAction extends PlayerAction {
@@ -35,7 +36,7 @@ class SearchAction extends PlayerAction {
 
     getEvent(player, context) {
         return super.createEvent(
-            'onSearch',
+            EVENTS.onSearch,
             { player: player, context: context, location: this.location },
             (event) => {
                 context.game.promptForSelect(context.game.activePlayer, {

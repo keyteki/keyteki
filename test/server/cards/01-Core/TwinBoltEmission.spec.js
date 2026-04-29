@@ -24,7 +24,7 @@ describe('Twin Bolt Emission', function () {
             this.player1.clickCard(this.docBookton);
             this.player1.clickPrompt('Done');
             expect(this.inkaTheSpider.location).toBe('discard');
-            expect(this.docBookton.tokens.damage).toBe(2);
+            expect(this.docBookton.damage).toBe(2);
         });
 
         it('should only deal damage to a single target if there is only one creature on the board', function () {
@@ -40,7 +40,7 @@ describe('Twin Bolt Emission', function () {
             expect(this.player1).not.toHavePromptButton('Done');
             this.player1.clickCard(this.dextre);
             this.player1.clickPrompt('Done');
-            expect(this.dextre.tokens.damage).toBe(2);
+            expect(this.dextre.damage).toBe(2);
         });
 
         it('should not resolve if there are no creatures in play', function () {
@@ -48,7 +48,7 @@ describe('Twin Bolt Emission', function () {
             expect(this.inkaTheSpider.location).toBe('discard');
             expect(this.docBookton.location).toBe('discard');
             this.player1.play(this.twinBoltEmission);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
             expect(this.player1.amber).toBe(1);
         });
     });

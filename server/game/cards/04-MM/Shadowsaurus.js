@@ -8,8 +8,8 @@ class Shadowsaurus extends Card {
             effectArgs: (context) => [
                 context.target,
                 context.target.controller,
-                context.target.tokens.amber ? ' and take control of ' : '',
-                context.target.tokens.amber ? context.target : null
+                context.target.amber ? ' and take control of ' : '',
+                context.target.amber ? context.target : null
             ],
             target: {
                 cardType: 'creature',
@@ -21,11 +21,11 @@ class Shadowsaurus extends Card {
                     })),
                     ability.actions.cardLastingEffect((context) => ({
                         duration: 'lastingEffect',
-                        target: context.target.tokens.amber ? context.target : [],
+                        target: context.target.amber ? context.target : [],
                         effect: ability.effects.takeControl(context.player)
                     })),
                     ability.actions.cardLastingEffect((context) => ({
-                        target: context.target.tokens.amber ? context.target : [],
+                        target: context.target.amber ? context.target : [],
                         duration: 'lastingEffect',
                         condition: (context) => context.target.controller === context.player,
                         effect: ability.effects.changeHouse('shadows')

@@ -52,7 +52,7 @@ describe('Tomwa of the Glow', function () {
         describe('when the tide is high', function () {
             beforeEach(function () {
                 this.player1.raiseTide();
-                this.murkens.exhausted = true;
+                this.murkens.exhaust();
             });
 
             it('should exhaust a friendly creature and draw a card for each exhausted enemy creature', function () {
@@ -60,7 +60,7 @@ describe('Tomwa of the Glow', function () {
                 this.player1.clickCard(this.tomwaOfTheGlowEvilTwin);
                 expect(this.tomwaOfTheGlowEvilTwin.exhausted).toBe(true);
                 expect(this.player1.player.hand.length).toBe(5);
-                expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+                expect(this.player1).isReadyToTakeAction();
             });
 
             it('should exhaust an enemy creature and draw a card for each exhausted enemy creature', function () {
@@ -68,7 +68,7 @@ describe('Tomwa of the Glow', function () {
                 this.player1.clickCard(this.lamindra);
                 expect(this.lamindra.exhausted).toBe(true);
                 expect(this.player1.player.hand.length).toBe(6);
-                expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+                expect(this.player1).isReadyToTakeAction();
             });
         });
     });

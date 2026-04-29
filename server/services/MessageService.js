@@ -28,18 +28,30 @@ class MessageService extends EventEmitter {
 
         try {
             messages = await db.query(
-                'SELECT m.*, u."Username" AS "Poster", r."Name" AS "Role", ud."Username" AS "DeletedBy", u."Settings_Avatar" AS "Avatar" FROM "Messages" m ' +
+                'SELECT m.*, u."Username" AS "Poster", u."Disabled" AS "PosterDisabled", role."Name" AS "Role", ud."Username" AS "DeletedBy", u."Settings_Avatar" AS "Avatar" FROM "Messages" m ' +
                     'JOIN "Users" u ON u."Id" = m."PosterId" ' +
-                    'LEFT JOIN "UserRoles" ur ON ur."UserId" = u."Id" ' +
-                    'LEFT JOIN "Roles" r ON r."Id" = ur."RoleId" ' +
+                    'LEFT JOIN LATERAL ( ' +
+                    '    SELECT r."Name" ' +
+                    '    FROM "UserRoles" ur ' +
+                    '    JOIN "Roles" r ON r."Id" = ur."RoleId" ' +
+                    '    WHERE ur."UserId" = u."Id" ' +
+                    "      AND r.\"Name\" IN ('Admin', 'Supporter', 'Contributor', 'TournamentWinner', 'PreviousTournamentWinner') " +
+                    '    ORDER BY CASE r."Name" ' +
+                    "        WHEN 'Admin' THEN 1 " +
+                    "        WHEN 'TournamentWinner' THEN 2 " +
+                    "        WHEN 'PreviousTournamentWinner' THEN 3 " +
+                    "        WHEN 'Contributor' THEN 4 " +
+                    "        WHEN 'Supporter' THEN 5 " +
+                    '        ELSE 6 END ' +
+                    '    LIMIT 1 ' +
+                    ') role ON true ' +
                     'LEFT JOIN "Users" ud ON ud."Id" = m."DeletedById" ' +
-                    "WHERE r.\"Name\" IS NULL OR r.\"Name\" IN ('Admin', 'Supporter', 'Contributor', 'TournamentWinner', 'PreviousTournamentWinner') " +
                     'ORDER BY "PostedTime" DESC ' +
                     'LIMIT 100'
             );
         } catch (err) {
             logger.error('Unable to fetch messages', err);
-            throw new Error('Unable to fetch messages');
+            return [];
         }
 
         return messages.map((m) => this.mapMessage(m, user));
@@ -104,6 +116,7 @@ class MessageService extends EventEmitter {
     }
 
     mapMessage(message, user) {
+        const isPosterDisabled = !!message.PosterDisabled;
         let retMessage = {
             id: message.Id,
             message:
@@ -113,10 +126,10 @@ class MessageService extends EventEmitter {
             deleted: !!message.Deleted,
             time: message.PostedTime,
             user: {
-                avatar: message.Avatar,
-                username: message.Poster,
-                name: message.Poster,
-                role: this.mapRole(message.Role)
+                avatar: isPosterDisabled ? null : message.Avatar,
+                username: isPosterDisabled ? 'Deleted user' : message.Poster,
+                name: isPosterDisabled ? 'Deleted user' : message.Poster,
+                role: isPosterDisabled ? undefined : this.mapRole(message.Role)
             }
         };
 

@@ -15,7 +15,7 @@ class Badgemagus extends Card {
                 ])
             },
             then: (preThenContext) => ({
-                alwaysTrigger: true,
+                alwaysTriggers: true,
                 gameAction: ability.actions.sequential([
                     ability.actions.ready({
                         target: preThenContext.cardStateWhenInitiated.clonedNeighbors.filter(

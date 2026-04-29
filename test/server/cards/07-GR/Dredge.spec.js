@@ -26,13 +26,13 @@ describe('Dredge', function () {
             expect(this.player1).not.toBeAbleToSelect(this.pourTal);
             expect(this.player1).not.toBeAbleToSelect(this.poke);
             this.player1.clickCard(this.flaxia);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
             expect(this.flaxia.location).toBe('deck');
             expect(this.player1.player.deck[0]).toBe(this.flaxia);
             this.player1.reap(this.skullbackCrab);
             expect(this.player1).not.toBeAbleToSelect(this.flaxia);
             this.player1.clickCard(this.fullMoon);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
             expect(this.fullMoon.location).toBe('deck');
             expect(this.player1.player.deck[0]).toBe(this.fullMoon);
             expect(this.player1.player.deck[1]).toBe(this.flaxia);
@@ -46,7 +46,7 @@ describe('Dredge', function () {
             this.player1.reap(this.bubbles);
             this.player1.clickCard(this.dredge);
             this.player1.reap(this.skullbackCrab);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

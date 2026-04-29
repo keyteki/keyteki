@@ -1,3 +1,4 @@
+const { EVENTS } = require('../Events/types');
 const CardGameAction = require('./CardGameAction');
 
 class ReduceArmorAction extends CardGameAction {
@@ -18,7 +19,7 @@ class ReduceArmorAction extends CardGameAction {
 
     getEvent(card, context, amount = this.amount || this.amountForCard(card, context)) {
         return super.createEvent(
-            'onReduceArmor',
+            EVENTS.onReduceArmor,
             { card: card, context: context, amount: amount },
             (event) => {
                 let amount = event.amount;
@@ -27,7 +28,7 @@ class ReduceArmorAction extends CardGameAction {
                     return;
                 }
 
-                const currentArmor = event.card.tokens.armor || 0;
+                const currentArmor = event.card.armor || 0;
                 if (currentArmor > 0) {
                     if (amount > currentArmor) {
                         amount = currentArmor;

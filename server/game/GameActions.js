@@ -40,7 +40,7 @@ const Actions = {
     attach: (propertyFactory) => new GameActions.AttachAction(propertyFactory), // upgrade
     capture: (propertyFactory) => new GameActions.CaptureAction(propertyFactory),
     cardLastingEffect: (propertyFactory) =>
-        new GameActions.CardLastingEffectAction(propertyFactory), // duration = 'untilPlayerTurnEnd', effect, targetLocation, condition, until
+        new GameActions.CardLastingEffectAction(propertyFactory), // duration = 'untilPlayerTurnEnd', effect, allowedLocations, condition, until
     clearGrowthTokens: (propertyFactory) =>
         new GameActions.RemoveTokenAction(propertyFactory, 'growth'),
     clearGloryCounters: (propertyFactory) =>
@@ -117,6 +117,10 @@ const Actions = {
     archiveAtRandom: (propertyFactory) => new GameActions.RandomArchiveAction(propertyFactory), // amount = 1
     chosenDiscard: (propertyFactory) => new GameActions.ChosenDiscardAction(propertyFactory), // amount = 1
     discardAtRandom: (propertyFactory) => new GameActions.RandomDiscardAction(propertyFactory), // amount = 1, location = hand
+    discardRandomCardsToAmount: (propertyFactory) =>
+        new GameActions.DiscardRandomCardsToAmountAction(propertyFactory), // amount = hand size
+    discardEntireLocation: (propertyFactory) =>
+        new GameActions.DiscardEntireLocationAction(propertyFactory), // discards entire hand or archives
     discardTopOfDeck: (propertyFactory) => new GameActions.DiscardTopOfDeckAction(propertyFactory), // amount = 1
     makeTokenCreature: (propertyFactory) =>
         new GameActions.MakeTokenCreatureAction(propertyFactory), // amount = 1, cards = null, cardLocation = 'deck'
@@ -162,6 +166,8 @@ const Actions = {
     sequentialForEach: (propertyFactory) =>
         new GameActions.SequentialForEachAction(propertyFactory),
     sequentialFight: (propertyFactory) => new GameActions.SequentialFightAction(propertyFactory),
+    sequentialPairedChoices: (propertyFactory) =>
+        new GameActions.SequentialPairedChoicesAction(propertyFactory),
     sequentialPlay: (propertyFactory) => new GameActions.SequentialPlayAction(propertyFactory),
     sequentialPutIntoPlay: (propertyFactory) =>
         new GameActions.SequentialPutIntoPlayAction(propertyFactory),

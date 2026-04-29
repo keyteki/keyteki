@@ -30,7 +30,7 @@ describe('Estate Sale', function () {
             expect(this.fullMoon.location).toBe('purged');
             expect(this.player1.amber).toBe(3);
             expect(this.player2.amber).toBe(1);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('can purge an upgrade from discard and gain 2', function () {
@@ -39,7 +39,7 @@ describe('Estate Sale', function () {
             expect(this.freelancer.location).toBe('purged');
             expect(this.player1.amber).toBe(3);
             expect(this.player2.amber).toBe(1);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('can purge an artifact from discard and gain 2', function () {
@@ -48,7 +48,7 @@ describe('Estate Sale', function () {
             expect(this.sandhopper.location).toBe('purged');
             expect(this.player1.amber).toBe(3);
             expect(this.player2.amber).toBe(1);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('does nothing with no non-creatures', function () {
@@ -58,7 +58,7 @@ describe('Estate Sale', function () {
             this.player1.play(this.estateSale);
             expect(this.player1.amber).toBe(1);
             expect(this.player2.amber).toBe(1);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

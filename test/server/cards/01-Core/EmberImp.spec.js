@@ -22,7 +22,7 @@ describe('Ember Imp', function () {
             this.player1.clickPrompt('Cancel');
             this.player1.fightWith(this.bulleteye, this.emberImp);
             this.player1.play(this.dodger);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

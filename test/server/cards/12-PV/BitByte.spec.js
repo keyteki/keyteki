@@ -22,11 +22,11 @@ describe('Bit Byte', function () {
 
         it('should archive the creature it fights', function () {
             this.player1.playCreature(this.bitByte);
-            this.bitByte.exhausted = false;
+            this.bitByte.ready();
             this.player1.fightWith(this.bitByte, this.flaxia);
             expect(this.flaxia.location).toBe('archives');
             expect(this.player2.player.archives).toContain(this.flaxia);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should archive the bottom card of opponents deck when fate is triggered', function () {
@@ -39,7 +39,7 @@ describe('Bit Byte', function () {
             this.player2.reap(this.flaxia);
             expect(this.drainingTouch.location).toBe('archives');
             expect(this.searine.location).toBe('deck');
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player2).isReadyToTakeAction();
         });
     });
 });

@@ -20,7 +20,7 @@ describe('Watch Your Step', function () {
             this.player1.endTurn();
             this.player2.clickPrompt('logos');
             expect(this.player1.player.creaturesInPlay.length).toBe(0);
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player2).isReadyToTakeAction();
         });
 
         it('should not make tokens if the opponent does follow instructions and deck is empty', function () {
@@ -30,7 +30,7 @@ describe('Watch Your Step', function () {
             this.player1.player.deck = [];
             this.player2.clickPrompt('logos');
             expect(this.player1.player.creaturesInPlay.length).toBe(0);
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player2).isReadyToTakeAction();
         });
 
         it('should gain make 2 ready tokens if the opponent does not follow instructions', function () {
@@ -43,6 +43,24 @@ describe('Watch Your Step', function () {
             expect(this.player1.player.creaturesInPlay.length).toBe(2);
             expect(this.player1.player.creaturesInPlay[0].exhausted).toBe(false);
             expect(this.player1.player.creaturesInPlay[1].exhausted).toBe(false);
+        });
+
+        it("should make tokens if the opponent does not follow instructions and opponent's deck is empty", function () {
+            this.player2.player.deck = [];
+            expect(this.player1.player.deck.length).not.toBe(0);
+            expect(this.player2.player.deck.length).toBe(0);
+            this.player1.play(this.watchYourStep);
+            this.player1.clickPrompt('logos');
+            this.player1.endTurn();
+            this.player2.clickPrompt('brobnar');
+            this.player2.clickPrompt('Right');
+            expect(this.player1.player.creaturesInPlay.length).toBe(2);
+            expect(this.player2.player.creaturesInPlay.length).toBe(3);
+            expect(this.player1.player.creaturesInPlay[0].exhausted).toBe(false);
+            expect(this.player1.player.creaturesInPlay[1].exhausted).toBe(false);
+            expect(this.player1.player.creaturesInPlay[0].name).toBe('Grumpus');
+            expect(this.player1.player.creaturesInPlay[1].name).toBe('Grumpus');
+            expect(this.player2).isReadyToTakeAction();
         });
     });
 
@@ -62,8 +80,7 @@ describe('Watch Your Step', function () {
                     hand: []
                 }
             });
-            this.tachyonManifold.maverick = 'unfathomable';
-            this.tachyonManifold.printedHouse = 'unfathomable';
+            this.player1.makeMaverick(this.tachyonManifold, 'unfathomable');
             this.player1.useAction(this.tachyonManifold);
         });
 
@@ -75,7 +92,7 @@ describe('Watch Your Step', function () {
             this.player1.endTurn();
             this.player2.clickPrompt('untamed');
             this.player2.clickPrompt('Right');
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player2).isReadyToTakeAction();
         });
     });
 });

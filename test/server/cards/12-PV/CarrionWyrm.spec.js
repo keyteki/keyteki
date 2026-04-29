@@ -18,7 +18,7 @@ describe('Carrion Wyrm', function () {
             expect(this.player1).toBeAbleToSelect(this.krump);
             this.player1.clickCard(this.troll);
             expect(this.troll.location).toBe('discard');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should put an enemy creature on top of deck when scrapped', function () {
@@ -30,7 +30,7 @@ describe('Carrion Wyrm', function () {
             expect(this.krump.location).toBe('play area');
             expect(this.troll.location).toBe('deck');
             expect(this.player2.player.deck[0]).toBe(this.troll);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

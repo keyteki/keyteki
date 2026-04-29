@@ -43,14 +43,14 @@ describe('Friendly Guide', function () {
 
         it('should only work on neighboring creatures', function () {
             this.player1.reap(this.rustgnawer);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should not work for opponent after a swap', function () {
             this.player1.endTurn();
             this.player2.clickPrompt('ekwidon');
             this.player2.fightWith(this.shĭzyokŭSwopper, this.niffleApe);
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player2).isReadyToTakeAction();
         });
 
         it('should allow use on action ability that removes from play', function () {
@@ -67,6 +67,40 @@ describe('Friendly Guide', function () {
             expect(this.player1).toHavePrompt('Triggered Abilities');
             this.player1.clickCard(this.friendlyGuide);
             this.player1.clickPrompt('Reap with this creature');
+        });
+    });
+
+    describe("Friendly Guide's ability", function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'untamed',
+                    inPlay: ['friendly-guide', 'aquilia-lone-hero']
+                },
+                player2: {
+                    inPlay: ['dextre']
+                }
+            });
+        });
+
+        it('should trigger when neighbor uses omni ability even if condition is not met', function () {
+            this.player1.useOmni(this.aquiliaLoneHero);
+            this.player1.clickCard(this.friendlyGuide);
+            expect(this.player1).toHavePromptButton('Reap with this creature');
+            expect(this.player1).toHavePromptButton('Fight with this creature');
+            this.player1.clickPrompt('Reap with this creature');
+            expect(this.player1).isReadyToTakeAction();
+        });
+
+        it('should trigger when stunned neighbor uses omni ability', function () {
+            this.aquiliaLoneHero.stun();
+            this.player1.clickCard(this.aquiliaLoneHero);
+            this.player1.clickPrompt("Remove this creature's stun");
+            this.player1.clickCard(this.friendlyGuide);
+            expect(this.player1).toHavePromptButton('Reap with this creature');
+            expect(this.player1).toHavePromptButton('Fight with this creature');
+            this.player1.clickPrompt('Reap with this creature');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

@@ -21,17 +21,17 @@ describe('Signal Faerie', function () {
             this.player1.playCreature(this.signalFaerie);
             this.player1.clickPrompt('Right');
             expect(this.niffleBrute1.location).toBe('play area');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should make a token creature on reap', function () {
             this.player1.playCreature(this.signalFaerie);
             this.player1.clickPrompt('Right');
-            this.signalFaerie.exhausted = false;
+            this.signalFaerie.ready();
             this.player1.reap(this.signalFaerie);
             this.player1.clickPrompt('Right');
             expect(this.niffleBrute2.location).toBe('play area');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

@@ -28,21 +28,21 @@ describe('Bondsman Belvan', function () {
             this.player1.fightWith(this.bondsmanBelvan, this.urchin);
             this.player1.clickPrompt(this.huntingWitch.name);
             expect(this.huntingWitch.location).toBe('discard');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should look at and discard top card after reap', function () {
             this.player1.reap(this.bondsmanBelvan);
             this.player1.clickPrompt(this.huntingWitch.name);
             expect(this.huntingWitch.location).toBe('discard');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should be optional to discard', function () {
             this.player1.reap(this.bondsmanBelvan);
             this.player1.clickPrompt('Leave on top of deck');
             expect(this.huntingWitch.location).toBe('deck');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should give control of a friendly artifact when fate is triggered', function () {
@@ -59,7 +59,7 @@ describe('Bondsman Belvan', function () {
             this.player2.endTurn();
             this.player1.clickPrompt('shadows');
             expect(this.autocannon.controller).toBe(this.player1.player);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

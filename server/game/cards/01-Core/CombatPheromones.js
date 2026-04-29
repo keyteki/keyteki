@@ -9,8 +9,16 @@ class CombatPheromones extends Card {
                 numCards: 2,
                 controller: 'self',
                 cardCondition: (card) => card.hasHouse('mars'),
-                gameAction: ability.actions.untilPlayerTurnEnd((context) => ({
-                    effect: ability.effects.canUse((card) => context.target.includes(card))
+                gameAction: ability.actions.sequentialForEach((context) => ({
+                    forEach: context.target,
+                    action: (targetCard) =>
+                        ability.actions.lastingEffect({
+                            until: {
+                                onTurnEnd: () => true,
+                                onCardLeavesPlay: (event) => event.card === targetCard
+                            },
+                            effect: ability.effects.canUse((card) => card === targetCard)
+                        })
                 }))
             },
             effect: 'sacrifice {1} and allow them to use {0} this turn',

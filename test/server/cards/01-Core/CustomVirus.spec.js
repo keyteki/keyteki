@@ -22,13 +22,13 @@ describe('Custom Virus', function () {
         });
 
         it('should be optional', function () {
-            this.player1.useAction(this.customVirus, true);
+            this.player1.useOmni(this.customVirus);
             this.player1.clickPrompt('Done');
             this.player1.endTurn();
         });
 
         it('should be able to purge a card from hand, but not destroy if no creatures with same trait', function () {
-            this.player1.useAction(this.customVirus, true);
+            this.player1.useOmni(this.customVirus);
             expect(this.player1).toBeAbleToSelect(this.etherSpider);
             expect(this.player1).toBeAbleToSelect(this.collectorWorm);
             expect(this.player1).toBeAbleToSelect(this.groggins);
@@ -46,7 +46,7 @@ describe('Custom Virus', function () {
         });
 
         it('should be able to purge a card from hand and destroy creatures with same trait', function () {
-            this.player1.useAction(this.customVirus, true);
+            this.player1.useOmni(this.customVirus);
             expect(this.player1).toBeAbleToSelect(this.etherSpider);
             expect(this.player1).toBeAbleToSelect(this.collectorWorm);
             expect(this.player1).toBeAbleToSelect(this.groggins);
@@ -67,7 +67,7 @@ describe('Custom Virus', function () {
             this.player1.moveCard(this.etherSpider, 'discard');
             this.player1.moveCard(this.collectorWorm, 'discard');
             this.player1.moveCard(this.groggins, 'discard');
-            this.player1.useAction(this.customVirus, true);
+            this.player1.useOmni(this.customVirus);
             expect(this.zorg.location).toBe('play area');
             expect(this.mightyTiger.location).toBe('play area');
             expect(this.huntingWitch.location).toBe('play area');

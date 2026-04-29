@@ -1,12 +1,16 @@
 const AllPlayerPrompt = require('./allplayerprompt');
 
 class RematchPrompt extends AllPlayerPrompt {
-    constructor(game, requestingPlayer) {
+    /**
+     * @param {boolean} swap If true, request is for a rematch with swapped
+     * decks from how they were this game.
+     */
+    constructor(game, requestingPlayer, swap = false) {
         super(game);
 
         this.requestingPlayer = requestingPlayer;
         this.completedPlayers = new Set([requestingPlayer]);
-        this.swap = game.swap;
+        this.swap = swap;
         this.cancelled = false;
     }
 
@@ -58,7 +62,7 @@ class RematchPrompt extends AllPlayerPrompt {
             return;
         }
 
-        this.game.rematch();
+        this.game.rematch(this.swap);
         this.game.addAlert(
             'danger',
             '{0} uses /rematch to reset the game and start a rematch',

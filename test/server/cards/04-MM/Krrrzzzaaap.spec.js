@@ -16,6 +16,7 @@ describe('Krrrzzzaaap', function () {
         it('should destroy all non mutant creatures and gain 1 chain', function () {
             this.player1.play(this.krrrzzzaaap);
 
+            this.player1.clickCard('Keyfrog');
             expect(this.dextre.location).toBe('deck');
             expect(this.professorTerato.location).toBe('play area');
             expect(this.player1.chains).toBe(1);

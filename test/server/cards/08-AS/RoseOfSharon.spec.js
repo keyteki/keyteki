@@ -24,11 +24,11 @@ describe('Rose of Sharon', function () {
             expect(this.player1).not.toBeAbleToSelect(this.roseOfSharon);
             expect(this.player1).toBeAbleToSelect(this.troll);
             this.player1.clickCard(this.troll);
-            expect(this.troll.tokens.damage).toBe(4);
-            expect(this.flaxia.tokens.damage).toBe(undefined);
-            expect(this.roseOfSharon.tokens.damage).toBe(undefined);
+            expect(this.troll.damage).toBe(4);
+            expect(this.flaxia.damage).toBe(0);
+            expect(this.roseOfSharon.damage).toBe(0);
             expect(this.flaxia.location).toBe('play area');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should repeat if red key is forged', function () {
@@ -46,10 +46,10 @@ describe('Rose of Sharon', function () {
             expect(this.player1).not.toBeAbleToSelect(this.roseOfSharon);
             expect(this.player1).toBeAbleToSelect(this.troll);
             this.player1.clickCard(this.troll);
-            expect(this.troll.tokens.damage).toBe(6);
-            expect(this.huntingWitch.tokens.damage).toBe(undefined);
+            expect(this.troll.damage).toBe(6);
+            expect(this.huntingWitch.damage).toBe(0);
             expect(this.huntingWitch.location).toBe('play area');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

@@ -57,8 +57,7 @@ describe('Screeyan', function () {
                     hand: ['umbra', 'troll']
                 }
             });
-            this.tachyonManifold.maverick = 'ekwidon';
-            this.tachyonManifold.printedHouse = 'ekwidon';
+            this.player1.makeMaverick(this.tachyonManifold, 'ekwidon');
             this.player1.useAction(this.tachyonManifold);
             this.player2.moveCard(this.umbra, 'deck');
             this.player2.moveCard(this.troll, 'deck');
@@ -72,7 +71,7 @@ describe('Screeyan', function () {
             expect(this.player2).not.toHavePromptButton('shadows');
             expect(this.player2).not.toHavePromptButton('brobnar');
             this.player2.clickPrompt('untamed');
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player2).isReadyToTakeAction();
         });
     });
 });

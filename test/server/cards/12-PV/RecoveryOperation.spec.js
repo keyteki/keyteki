@@ -43,7 +43,7 @@ describe('Recovery Operation', function () {
             expect(this.player1.deck[1]).toBe(this.unchartedLands);
             expect(this.player1.deck[2]).toBe(this.krump);
             expect(this.player1.discard.length).toBe(1);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should discard bottom 3 cards and allow putting none on top', function () {
@@ -55,7 +55,7 @@ describe('Recovery Operation', function () {
             expect(this.krump.location).toBe('discard');
             expect(this.anger.location).toBe('discard');
             expect(this.unchartedLands.location).toBe('discard');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

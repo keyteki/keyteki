@@ -1,3 +1,4 @@
+const { EVENTS } = require('../Events/types');
 const CardGameAction = require('./CardGameAction');
 
 class AddTokenAction extends CardGameAction {
@@ -42,7 +43,7 @@ class AddTokenAction extends CardGameAction {
 
     getEvent(card, context) {
         return super.createEvent(
-            'onAddToken',
+            EVENTS.onAddToken,
             { card: card, context: context, amount: this.amount },
             () =>
                 card.addToken(

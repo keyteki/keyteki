@@ -27,7 +27,7 @@ describe('Ortannu The Chained', function () {
         it('should return no card from discard', function () {
             this.player1.reap(this.ortannuTheChained);
             expect(this.player1.amber).toBe(1);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should return all bindings from discard and apply the 2D for each returned card', function () {
@@ -48,11 +48,11 @@ describe('Ortannu The Chained', function () {
             expect(this.player1).toBeAbleToSelect(this.zorg);
             this.player1.clickCard(this.zorg);
             this.player1.clickCard(this.troll);
-            expect(this.zorg.tokens.damage).toBe(4);
-            expect(this.troll.tokens.damage).toBe(4);
-            expect(this.alaka.tokens.damage).toBe(2);
-            expect(this.brammo.tokens.damage).toBeUndefined();
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.zorg.damage).toBe(4);
+            expect(this.troll.damage).toBe(4);
+            expect(this.alaka.damage).toBe(2);
+            expect(this.brammo.damage).toBe(0);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should allow dealing damage to same creature', function () {
@@ -63,30 +63,30 @@ describe('Ortannu The Chained', function () {
             expect(this.player1.amber).toBe(1);
             this.player1.clickCard(this.troll);
             this.player1.clickCard(this.troll);
-            expect(this.zorg.tokens.damage).toBe(4);
-            expect(this.troll.tokens.damage).toBe(4);
+            expect(this.zorg.damage).toBe(4);
+            expect(this.troll.damage).toBe(4);
             expect(this.alaka.location).toBe('discard');
-            expect(this.brammo.tokens.damage).toBeUndefined();
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.brammo.damage).toBe(0);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should remove ward cards simultanously', function () {
             this.player1.moveCard(this.ortannusBinding1, 'discard');
             this.player1.moveCard(this.ortannusBinding2, 'discard');
             this.player1.moveCard(this.ortannusBinding3, 'archives');
-            this.troll.tokens.ward = 1;
-            this.zorg.tokens.ward = 1;
+            this.troll.ward();
+            this.zorg.ward();
             this.player1.reap(this.ortannuTheChained);
             expect(this.player1.amber).toBe(1);
             this.player1.clickCard(this.zorg);
             this.player1.clickCard(this.troll);
-            expect(this.zorg.tokens.ward).toBeUndefined();
-            expect(this.zorg.tokens.damage).toBeUndefined();
-            expect(this.troll.tokens.ward).toBeUndefined();
-            expect(this.troll.tokens.damage).toBeUndefined();
-            expect(this.alaka.tokens.damage).toBe(2);
-            expect(this.brammo.tokens.damage).toBeUndefined();
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.zorg.warded).toBe(false);
+            expect(this.zorg.damage).toBe(0);
+            expect(this.troll.warded).toBe(false);
+            expect(this.troll.damage).toBe(0);
+            expect(this.alaka.damage).toBe(2);
+            expect(this.brammo.damage).toBe(0);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

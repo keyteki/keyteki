@@ -19,7 +19,7 @@ describe('Titan Sentry', function () {
             expect(this.player1.player.archives.length).toBe(1);
             expect(this.player2.player.hand.length).toBe(2);
             expect(this.player2.player.archives.length).toBe(0);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should cause a random card from opponent hand to be archived on play', function () {
@@ -29,20 +29,20 @@ describe('Titan Sentry', function () {
             expect(this.player1.player.archives.length).toBe(0);
             expect(this.player2.player.hand.length).toBe(1);
             expect(this.player2.player.archives.length).toBe(1);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should cause a random card from own hand to be archived on reap', function () {
             this.player1.play(this.titanSentry);
             this.player1.clickPrompt('Mine');
-            this.titanSentry.exhausted = false;
+            this.titanSentry.ready();
             this.player1.reap(this.titanSentry);
             this.player1.clickPrompt('Mine');
             expect(this.player1.player.hand.length).toBe(0);
             expect(this.player1.player.archives.length).toBe(2);
             expect(this.player2.player.hand.length).toBe(2);
             expect(this.player2.player.archives.length).toBe(0);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should prevent both players from taking archives', function () {
@@ -51,10 +51,10 @@ describe('Titan Sentry', function () {
             this.player1.moveCard(this.charette, 'archives');
             this.player1.endTurn();
             this.player2.clickPrompt('dis');
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player2).isReadyToTakeAction();
             this.player2.endTurn();
             this.player1.clickPrompt('logos');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

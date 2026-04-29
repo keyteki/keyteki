@@ -29,21 +29,21 @@ describe('Charitable Herald', function () {
             expect(this.player1).toBeAbleToSelect(this.searine);
             this.player1.clickCard(this.emberImp);
             expect(this.emberImp.warded).toBe(true);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should ward a creature after reaping', function () {
             this.player1.moveCard(this.charitableHerald, 'play area');
-            this.charitableHerald.exhausted = false;
+            this.charitableHerald.ready();
             this.player1.reap(this.charitableHerald);
             this.player1.clickCard(this.yurk);
             expect(this.yurk.warded).toBe(true);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should remove all wards from friendly creatures when fate is triggered', function () {
-            this.emberImp.tokens.ward = 1;
-            this.flaxia.tokens.ward = 1;
+            this.emberImp.ward();
+            this.flaxia.ward();
             this.player1.activateProphecy(this.overreach, this.charitableHerald);
             this.player1.endTurn();
             this.player2.clickPrompt('untamed');
@@ -51,7 +51,7 @@ describe('Charitable Herald', function () {
             expect(this.emberImp.warded).toBe(true);
             expect(this.flaxia.warded).toBe(false);
             expect(this.charitableHerald.location).toBe('discard');
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player2).isReadyToTakeAction();
         });
     });
 });

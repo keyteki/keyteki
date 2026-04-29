@@ -63,7 +63,7 @@ describe("Rakuzel's Chant", function () {
                 expect(this.flaxia.exhausted).toBe(true);
                 expect(this.gub.exhausted).toBe(true);
                 expect(this.krump.exhausted).toBe(true);
-                expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+                expect(this.player1).isReadyToTakeAction();
             });
         });
 

@@ -5,12 +5,13 @@ describe('Doppelganger', function () {
                 player1: {
                     amber: 1,
                     house: 'geistoid',
+                    token: 'prowler',
                     hand: ['touchstone'],
-                    inPlay: ['umbra', 'doppelganger', 'hunting-witch'],
+                    inPlay: ['prowler:bulleteye', 'umbra', 'doppelganger', 'hunting-witch'],
                     discard: ['doppelganger']
                 },
                 player2: {
-                    amber: 2,
+                    amber: 3,
                     inPlay: ['troll']
                 }
             });
@@ -27,11 +28,11 @@ describe('Doppelganger', function () {
             this.player1.clickCard(this.umbra);
             this.player1.clickPrompt('geistoid');
             this.player1.fightWith(this.doppelganger, this.troll);
-            expect(this.troll.tokens.damage).toBe(3);
+            expect(this.troll.damage).toBe(3);
             expect(this.doppelganger.location).toBe('play area');
-            expect(this.doppelganger.tokens.damage).toBe(undefined);
+            expect(this.doppelganger.damage).toBe(0);
             expect(this.player1.amber).toBe(2);
-            expect(this.player2.amber).toBe(1);
+            expect(this.player2.amber).toBe(2);
             this.player1.endTurn();
             this.player2.clickPrompt('brobnar');
             this.player2.endTurn();
@@ -41,7 +42,7 @@ describe('Doppelganger', function () {
             this.player1.clickPrompt('geistoid');
             this.player1.fightWith(this.doppelganger, this.troll);
             expect(this.doppelganger.location).toBe('discard');
-            expect(this.troll.tokens.damage).toBe(6);
+            expect(this.troll.damage).toBe(6);
         });
 
         it('should gain a static ability at the beginning of the turn', function () {
@@ -69,6 +70,30 @@ describe('Doppelganger', function () {
             this.player1.clickCard(this.doppelganger2);
             this.player1.clickPrompt('Done');
             this.player1.clickPrompt('geistoid');
+        });
+
+        it('should gain the token creature’s abilities, not the face-up side’s abilities', function () {
+            // Get rid of Umbra so that Prowler is a neighbor
+            this.player1.moveCard(this.umbra, 'discard');
+
+            // This Prowler has a Bulleteye on the other side
+            this.player1.clickCard(this.prowler);
+
+            this.player1.clickPrompt('geistoid');
+
+            expect(this.player1.amber).toBe(1);
+            expect(this.player2.amber).toBe(3);
+
+            this.player1.reap(this.doppelganger);
+
+            // +1 from reap, +1 from Prowler steal
+            expect(this.player1.amber).toBe(3);
+            // -1 from Prowler steal
+            expect(this.player2.amber).toBe(2);
+
+            // Doppelganger should _not_ be prompting for Bulleteye’s After Reap
+            // of destroying a flank creature.
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

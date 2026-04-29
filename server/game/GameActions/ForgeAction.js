@@ -1,3 +1,4 @@
+const { EVENTS } = require('../Events/types');
 const PlayerAction = require('./PlayerAction');
 
 class ForgeAction extends PlayerAction {
@@ -9,7 +10,7 @@ class ForgeAction extends PlayerAction {
     setup() {
         super.setup();
         this.name = 'forgeKey';
-        if (this.keyColor !== '') {
+        if (this.keyColor) {
             this.effectMsg = 'forge the ' + this.keyColor + ' key';
         } else {
             this.effectMsg = 'forge a key';
@@ -34,7 +35,7 @@ class ForgeAction extends PlayerAction {
 
     getEvent(player, context) {
         return super.createEvent(
-            'onForgeKey',
+            EVENTS.onForgeKey,
             { player: player, modifier: this.getModifier(player), context: context },
             (event) => {
                 event.amberSpent = event.player.forgeKey(event.modifier, this.keyColor);

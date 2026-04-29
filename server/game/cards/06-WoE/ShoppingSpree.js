@@ -5,18 +5,14 @@ class ShoppingSpree extends Card {
     // this way.
     setupCardAbilities(ability) {
         this.play({
-            gameAction: ability.actions.discard((context) => ({
-                target: context.player.hand
+            gameAction: ability.actions.discardEntireLocation((context) => ({
+                location: 'hand',
+                target: context.player
             })),
             then: {
-                gameAction: ability.actions.draw((context) => {
-                    const events = context.preThenEvents || [];
-                    const cards = events.flatMap((e) =>
-                        (Array.isArray(e.cards) ? e.cards : []).concat(e.card ? [e.card] : [])
-                    );
-                    const amount = cards.length || events.length;
-                    return { amount };
-                })
+                gameAction: ability.actions.draw((context) => ({
+                    amount: context.preThenCards.length
+                }))
             }
         });
     }

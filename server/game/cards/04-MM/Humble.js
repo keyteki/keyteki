@@ -5,7 +5,7 @@ class Humble extends Card {
     setupCardAbilities(ability) {
         this.play({
             effect: 'to exhaust {0} and move {1} amber from {0} to common supply',
-            effectArgs: (context) => [context.target.tokens.amber || 0],
+            effectArgs: (context) => [context.target.amber],
             target: {
                 controller: 'any',
                 cardType: 'creature',

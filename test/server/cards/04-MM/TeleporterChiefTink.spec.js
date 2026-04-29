@@ -41,7 +41,7 @@ describe('teleporter-chief-tink', function () {
             this.player1.moveCard(this.troll, 'deck');
             this.player1.moveCard(this.umbra, 'deck');
             this.player1.useAction(this.teleporterChiefTink);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

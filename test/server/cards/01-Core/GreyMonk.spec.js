@@ -20,7 +20,7 @@ describe('Grey Monk', function () {
 
         it('should heal two damage after reap', function () {
             this.player1.fightWith(this.bulwark, this.angwish);
-            expect(this.bulwark.tokens.damage).toBe(3);
+            expect(this.bulwark.damage).toBe(3);
             this.player1.reap(this.greyMonk);
             expect(this.player1).toBeAbleToSelect(this.greyMonk);
             expect(this.player1).toBeAbleToSelect(this.bulwark);
@@ -28,7 +28,7 @@ describe('Grey Monk', function () {
             expect(this.player1).toBeAbleToSelect(this.collectorWorm);
             expect(this.player1).toBeAbleToSelect(this.angwish);
             this.player1.clickCard(this.bulwark);
-            expect(this.bulwark.tokens.damage).toBe(1);
+            expect(this.bulwark.damage).toBe(1);
         });
     });
 });

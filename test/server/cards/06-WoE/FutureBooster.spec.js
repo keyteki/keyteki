@@ -14,27 +14,27 @@ describe('Future Booster', function () {
         });
 
         it('should allow keeping the top card of the deck there', function () {
-            this.player1.useAction(this.futureBooster, true);
+            this.player1.useOmni(this.futureBooster);
             expect(this.player1).toHavePromptCardButton(this.batdrone);
             expect(this.player1).toHavePromptButton('Leave on top of deck');
             this.player1.clickPrompt('Leave on top of deck');
             expect(this.player1.deck[0]).toBe(this.batdrone);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should allow moving the card to the bottom', function () {
-            this.player1.useAction(this.futureBooster, true);
+            this.player1.useOmni(this.futureBooster);
             this.player1.clickPrompt('batdrone');
             expect(this.player1.player.deck[this.player1.player.deck.length - 1]).toBe(
                 this.batdrone
             );
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should do nothing with an empty deck', function () {
             this.player1.player.deck = [];
-            this.player1.useAction(this.futureBooster, true);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            this.player1.useOmni(this.futureBooster);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

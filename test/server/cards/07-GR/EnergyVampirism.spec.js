@@ -46,10 +46,10 @@ describe('Energy Vampirism', function () {
             this.player1.clickCard(this.cpoZytar);
             this.player1.clickCard(this.cpoZytar);
             this.player1.clickCard(this.charette);
-            expect(this.charette.tokens.damage).toBe(1);
-            expect(this.cpoZytar.tokens.damage).toBe(1);
-            expect(this.flaxia.tokens.damage).toBe(undefined);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.charette.damage).toBe(1);
+            expect(this.cpoZytar.damage).toBe(1);
+            expect(this.flaxia.damage).toBe(0);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

@@ -41,7 +41,7 @@ describe('Clap of Thunder', function () {
             this.player1.clickCard(this.troll);
             expect(this.troll.exhausted).toBe(false);
             expect(this.troll.enraged).toBe(true);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('can enrage enemy creature', function () {
@@ -49,7 +49,7 @@ describe('Clap of Thunder', function () {
             this.player1.clickCard(this.narp);
             expect(this.narp.exhausted).toBe(false);
             expect(this.narp.enraged).toBe(true);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should still ready and enrage when no creature destroyed', function () {
@@ -58,7 +58,7 @@ describe('Clap of Thunder', function () {
             this.player1.clickCard(this.troll);
             expect(this.troll.exhausted).toBe(false);
             expect(this.troll.enraged).toBe(true);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

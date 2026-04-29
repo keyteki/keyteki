@@ -30,7 +30,7 @@ describe('Wasteful Regret', function () {
             expect(this.player2.amber).toBe(2);
             expect(this.rowdySkald.amber).toBe(2);
             expect(this.parasiticArachnoid.location).toBe('discard');
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player2).isReadyToTakeAction();
         });
 
         it('should fulfill once when opponent discards multiple cards', function () {
@@ -38,13 +38,15 @@ describe('Wasteful Regret', function () {
             this.player1.endTurn();
             this.player2.clickPrompt('brobnar');
             this.player2.play(this.recklessness);
+            expect(this.player2).toHavePrompt('Choose which player discards first');
+            this.player2.clickPrompt('Me');
             this.player2.clickCard(this.wastefulRegret);
             this.player2.clickCard(this.mindfire); // which discard triggers it?
             this.player2.clickCard(this.rowdySkald);
             expect(this.player2.amber).toBe(3);
             expect(this.rowdySkald.amber).toBe(2);
             expect(this.parasiticArachnoid.location).toBe('discard');
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player2).isReadyToTakeAction();
         });
 
         it('should not trigger when opponent discards card from your hand', function () {
@@ -54,7 +56,7 @@ describe('Wasteful Regret', function () {
             this.player2.play(this.mindfire);
             expect(this.player1.player.hand.length).toBe(5);
             expect(this.parasiticArachnoid.location).toBe('under');
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player2).isReadyToTakeAction();
         });
     });
 });

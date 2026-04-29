@@ -8,7 +8,7 @@ describe('Suspendamander', function () {
                     inPlay: ['suspendamander']
                 },
                 player2: {
-                    hand: ['too-much-to-protect', 'the-circle-of-life', 'umbra'],
+                    hand: ['too-much-to-protect', 'the-circle-of-life', 'umbra', 'wild-wormhole'],
                     inPlay: ['lamindra']
                 }
             });
@@ -45,7 +45,7 @@ describe('Suspendamander', function () {
             this.player1.endTurn();
             this.player2.clickPrompt('shadows');
             this.player2.play(this.tooMuchToProtect);
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player2).isReadyToTakeAction();
         });
 
         it('should not prevent opponent from other card types', function () {
@@ -54,7 +54,7 @@ describe('Suspendamander', function () {
             this.player1.endTurn();
             this.player2.clickPrompt('shadows');
             this.player2.playCreature(this.umbra);
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player2).isReadyToTakeAction();
         });
 
         it('should not prevent opponent from playing actions of a different house', function () {
@@ -63,7 +63,30 @@ describe('Suspendamander', function () {
             this.player1.endTurn();
             this.player2.clickPrompt('untamed');
             this.player2.play(this.theCircleOfLife);
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player2).isReadyToTakeAction();
+        });
+
+        it('should not prevent opponent from using wild wormhole to play creatures of the chosen house', function () {
+            this.player1.fightWith(this.suspendamander, this.lamindra);
+            this.player1.clickPrompt('shadows');
+            this.player1.endTurn();
+            this.player2.clickPrompt('logos');
+            this.player2.moveCard(this.umbra, 'deck');
+            this.player2.play(this.wildWormhole);
+            this.player2.clickPrompt('Right');
+            expect(this.umbra.location).toBe('play area');
+            expect(this.player2).isReadyToTakeAction();
+        });
+
+        it('should  prevent opponent from using wild wormhole to play actions of the chosen house', function () {
+            this.player1.fightWith(this.suspendamander, this.lamindra);
+            this.player1.clickPrompt('shadows');
+            this.player1.endTurn();
+            this.player2.clickPrompt('logos');
+            this.player2.moveCard(this.tooMuchToProtect, 'deck');
+            this.player2.play(this.wildWormhole);
+            expect(this.tooMuchToProtect.location).toBe('deck');
+            expect(this.player2).isReadyToTakeAction();
         });
     });
 
@@ -82,8 +105,7 @@ describe('Suspendamander', function () {
                     hand: ['fogbank']
                 }
             });
-            this.tachyonManifold.maverick = 'dis';
-            this.tachyonManifold.printedHouse = 'dis';
+            this.player1.makeMaverick(this.tachyonManifold, 'dis');
             this.player1.useAction(this.tachyonManifold);
         });
 
@@ -94,11 +116,11 @@ describe('Suspendamander', function () {
             this.player1.clickPrompt('dis');
             this.player1.endTurn();
             this.player2.clickPrompt('untamed');
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player2).isReadyToTakeAction();
             this.player2.clickCard(this.fogbank);
             expect(this.player2).not.toHavePrompt('Play this action');
             this.player2.clickPrompt('Cancel');
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player2).isReadyToTakeAction();
         });
     });
 });

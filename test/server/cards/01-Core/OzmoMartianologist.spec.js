@@ -15,12 +15,12 @@ describe('Ozmo Martianologist', function () {
 
         it('after reap should not show any prompt when there are not mars in play', function () {
             this.player1.reap(this.ozmoMartianologist);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('after fight should not show any prompt when there are not mars in play', function () {
             this.player1.fightWith(this.ozmoMartianologist, this.lamindra);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 
@@ -37,8 +37,8 @@ describe('Ozmo Martianologist', function () {
                 }
             });
 
-            this.zorg.tokens.damage = 4;
-            this.etherSpider.tokens.damage = 4;
+            this.zorg.damage = 4;
+            this.etherSpider.damage = 4;
         });
 
         describe('after reap', function () {
@@ -72,8 +72,8 @@ describe('Ozmo Martianologist', function () {
                     });
 
                     it('should heal 3 damage', function () {
-                        expect(this.zorg.tokens.damage).toBe(1);
-                        expect(this.etherSpider.tokens.damage).toBe(4);
+                        expect(this.zorg.damage).toBe(1);
+                        expect(this.etherSpider.damage).toBe(4);
                     });
                 });
             });
@@ -135,8 +135,8 @@ describe('Ozmo Martianologist', function () {
                     });
 
                     it('should heal 3 damage', function () {
-                        expect(this.zorg.tokens.damage).toBe(1);
-                        expect(this.etherSpider.tokens.damage).toBe(4);
+                        expect(this.zorg.damage).toBe(1);
+                        expect(this.etherSpider.damage).toBe(4);
                     });
                 });
             });

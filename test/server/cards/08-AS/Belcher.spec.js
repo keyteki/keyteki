@@ -31,13 +31,13 @@ describe('Belcher', function () {
             expect(this.player1).toBeAbleToSelect(this.krump);
             expect(this.player1).not.toBeAbleToSelect(this.troll);
             this.player1.clickCard(this.krump);
-            expect(this.krump.tokens.damage).toBe(5);
+            expect(this.krump.damage).toBe(5);
             expect(this.urchin.location).toBe('deck');
             expect(this.anger.location).toBe('discard');
             expect(this.bloodOfTitans.location).toBe('discard');
             expect(this.theWarchest.location).toBe('discard');
             expect(this.gangerChieftain.location).toBe('discard');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('does not work with no creatures in the deck', function () {
@@ -50,7 +50,7 @@ describe('Belcher', function () {
             expect(this.bloodOfTitans.location).toBe('discard');
             expect(this.theWarchest.location).toBe('discard');
             expect(this.player1.player.deck.length).toBe(0);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

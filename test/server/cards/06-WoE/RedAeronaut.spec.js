@@ -29,7 +29,7 @@ describe('Red Aeronaut', function () {
             this.player1.moveCard(this.nautilixian, 'hand');
             this.player1.playCreature(this.nautilixian);
             this.player1.playCreature(this.redAeronaut);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should allow the search to fail', function () {
@@ -42,7 +42,7 @@ describe('Red Aeronaut', function () {
             this.player1.playCreature(this.redAeronaut);
             this.player1.clickCard(this.nautilixian);
             this.player1.clickPrompt('Left');
-            this.redAeronaut.exhausted = false;
+            this.redAeronaut.ready();
             expect(this.nautilixian.power).toBe(6);
             this.player1.useAction(this.redAeronaut);
             this.player1.clickCard(this.nautilixian);

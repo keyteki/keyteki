@@ -1,177 +1,183 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import moment from 'moment';
+import { Formik } from 'formik';
+import * as yup from 'yup';
+import { Button, Input, Label, toast } from '@heroui/react';
 
-import Form from '../Components/Form/Form';
 import Panel from '../Components/Site/Panel';
 import ApiStatus from '../Components/Site/ApiStatus';
-import * as actions from '../redux/actions';
-import { Col } from 'react-bootstrap';
+import ReactTable from '../Components/Table/ReactTable';
+import { useAddBanlistMutation, useDeleteBanlistMutation, useGetBanlistQuery } from '../redux/api';
+import { adminActions } from '../redux/slices/adminSlice';
 
-class BanlistAdmin extends React.Component {
-    constructor(props) {
-        super(props);
+const BanlistAdmin = () => {
+    const dispatch = useDispatch();
+    const [currentRequest, setCurrentRequest] = useState('REQUEST_BANLIST');
+    const { isLoading } = useGetBanlistQuery();
+    const [addBanlist, addState] = useAddBanlistMutation();
+    const [deleteBanlist, deleteState] = useDeleteBanlistMutation();
+    const banlist = useSelector((state) => state.admin.banlist);
 
-        this.state = {
-            ip: '',
-            currentRequest: 'REQUEST_BANLIST'
-        };
-
-        this.onAddBanlistClick = this.onAddBanlistClick.bind(this);
-    }
-
-    componentDidMount() {
-        this.props.loadBanlist();
-    }
-
-    // eslint-disable-next-line camelcase
-    UNSAFE_componentWillReceiveProps(props) {
-        let clearStatus = false;
-        if (props.banListAdded) {
-            clearStatus = true;
-            this.setState({ successMessage: 'Banlist item added successfully.' });
+    useEffect(() => {
+        if (!addState.isSuccess) {
+            return;
         }
 
-        if (props.banListDeleted) {
-            clearStatus = true;
-            this.setState({ successMessage: 'Banlist item deleted successfully.' });
+        toast.success('Banlist item added successfully.');
+        addState.reset();
+        dispatch(adminActions.clearBanlistStatus());
+    }, [addState, dispatch]);
+
+    useEffect(() => {
+        if (!deleteState.isSuccess) {
+            return;
         }
 
-        if (clearStatus) {
-            setTimeout(() => {
-                this.props.clearBanlistStatus();
-                this.setState({ successMessage: undefined });
-            }, 5000);
-        }
-    }
+        toast.success('Banlist item deleted successfully.');
+        deleteState.reset();
+        dispatch(adminActions.clearBanlistStatus());
+    }, [deleteState, dispatch]);
 
-    onIpTextChange(event) {
-        this.setState({ ip: event.target.value });
-    }
+    const onAddBanlistClick = useCallback(
+        (state) => {
+            setCurrentRequest('ADD_BANLIST');
+            addBanlist(state.ip);
+        },
+        [addBanlist]
+    );
 
-    onAddBanlistClick(state) {
-        this.setState({ currentRequest: 'ADD_BANLIST' });
-        this.props.addBanlist(state.ip);
-    }
+    const onDeleteClick = useCallback(
+        (id) => {
+            setCurrentRequest('DELETE_BANLIST');
+            deleteBanlist(id);
+        },
+        [deleteBanlist]
+    );
 
-    onDeleteClick(id) {
-        this.setState({ currentRequest: 'DELETE_BANLIST' });
-        this.props.deleteBanlist(id);
-    }
-
-    render() {
-        if (this.props.apiState && this.props.apiState.loading) {
-            return 'Loading banlist, please wait...';
-        }
-
-        let statusBar;
-
-        switch (this.state.currentRequest) {
-            case 'REQUEST_BANLIST':
-                statusBar = (
-                    <ApiStatus
-                        apiState={this.props.apiState}
-                        successMessage={this.state.successMessage}
-                    />
-                );
-                break;
+    const statusBar = useMemo(() => {
+        switch (currentRequest) {
             case 'ADD_BANLIST':
-                statusBar = (
+                return (
                     <ApiStatus
-                        apiState={this.props.apiAddState}
-                        successMessage={this.state.successMessage}
+                        state={
+                            addState.isUninitialized
+                                ? null
+                                : {
+                                      loading: addState.isLoading,
+                                      success: false,
+                                      message: addState.error?.data?.message
+                                  }
+                        }
                     />
                 );
-                break;
             case 'DELETE_BANLIST':
-                statusBar = (
+                return (
                     <ApiStatus
-                        apiState={this.props.apiDeleteState}
-                        successMessage={this.state.successMessage}
+                        state={
+                            deleteState.isUninitialized
+                                ? null
+                                : {
+                                      loading: deleteState.isLoading,
+                                      success: false,
+                                      message: deleteState.error?.data?.message
+                                  }
+                        }
                     />
                 );
-                break;
+            case 'REQUEST_BANLIST':
+            default:
+                return <ApiStatus state={isLoading ? { loading: true } : null} />;
         }
+    }, [addState, currentRequest, deleteState, isLoading]);
 
-        let renderedBanlist = this.props.banlist.map((entry) => {
-            return (
-                <tr key={entry.id}>
-                    <td>{entry.ip}</td>
-                    <td>{moment(entry.added).format('YYYY-MM-DD')}</td>
-                    <td>{entry.user}</td>
-                    <td>
-                        <button
-                            type='button'
-                            className='btn btn-danger'
-                            onClick={this.onDeleteClick.bind(this, entry.id)}
-                        >
-                            Delete{' '}
-                            {this.props.apiDeleteState && this.props.apiDeleteState.loading && (
-                                <span className='spinner button-spinner' />
-                            )}
-                        </button>
-                    </td>
-                </tr>
-            );
-        });
-
-        return (
-            <Col>
-                {statusBar}
-                <Panel title='Banlist administration'>
-                    <table className='table table-striped'>
-                        <thead>
-                            <tr>
-                                <th className='col-sm-2'>Ip</th>
-                                <th className='col-sm-2'>Added</th>
-                                <th className='col-sm-3'>Added By</th>
-                                <th className='col-sm-2'>Action</th>
-                            </tr>
-                        </thead>
-                        <tbody>{renderedBanlist}</tbody>
-                    </table>
-                </Panel>
-                <Panel title='Add new ip'>
-                    <Form
-                        name='banlistAdmin'
-                        apiLoading={this.props.apiAddState && this.props.apiAddState.loading}
-                        buttonClass='col-sm-offset-2 col-sm-4'
-                        buttonText='Add'
-                        onSubmit={this.onAddBanlistClick}
-                    />
-                </Panel>
-            </Col>
-        );
+    if (isLoading) {
+        return 'Loading banlist, please wait...';
     }
-}
 
-BanlistAdmin.displayName = 'BanlistAdmin';
-BanlistAdmin.propTypes = {
-    addBanlist: PropTypes.func,
-    apiAddState: PropTypes.object,
-    apiDeleteState: PropTypes.object,
-    apiState: PropTypes.object,
-    banListAdded: PropTypes.bool,
-    banListDeleted: PropTypes.bool,
-    banlist: PropTypes.array,
-    clearBanlistStatus: PropTypes.func,
-    deleteBanlist: PropTypes.func,
-    loadBanlist: PropTypes.func,
-    successMessage: PropTypes.string
+    const columns = [
+        { accessorKey: 'ip', header: 'Ip' },
+        {
+            accessorKey: 'added',
+            header: 'Added',
+            cell: ({ row }) => moment(row.original.added).format('YYYY-MM-DD')
+        },
+        { accessorKey: 'user', header: 'Added By' },
+        {
+            id: 'action',
+            header: 'Action',
+            cell: ({ row }) => (
+                <Button
+                    type='button'
+                    size='sm'
+                    variant='danger'
+                    onClick={() => onDeleteClick(row.original.id)}
+                >
+                    Delete
+                </Button>
+            )
+        }
+    ];
+    const schema = yup.object({
+        ip: yup.string().required('Please enter the Ip address')
+    });
+    const initialValues = { ip: '' };
+
+    return (
+        <div>
+            {statusBar}
+            <Panel title='Banlist administration'>
+                <ReactTable columns={columns} data={banlist} disableSelection isStriped={false} />
+            </Panel>
+            <Panel title='Add new ip'>
+                <Formik
+                    validationSchema={schema}
+                    onSubmit={onAddBanlistClick}
+                    initialValues={initialValues}
+                >
+                    {(formProps) => (
+                        <form onSubmit={formProps.handleSubmit} className='space-y-3'>
+                            <div className='grid gap-1 md:grid-cols-12 md:items-start md:gap-2'>
+                                <Label
+                                    htmlFor='ip'
+                                    className='block text-sm text-zinc-100 md:col-span-2 md:pt-2 md:text-right'
+                                >
+                                    Add ip address
+                                </Label>
+                                <div className='md:col-span-4'>
+                                    <Input
+                                        id='ip'
+                                        name='ip'
+                                        value={formProps.values.ip}
+                                        onChange={formProps.handleChange}
+                                        onBlur={formProps.handleBlur}
+                                        placeholder='Enter Ip'
+                                        variant='tertiary'
+                                    />
+                                    {formProps.touched.ip && formProps.errors.ip ? (
+                                        <div className='mt-1 text-xs text-red-300'>
+                                            {formProps.errors.ip}
+                                        </div>
+                                    ) : null}
+                                </div>
+                            </div>
+                            <div className='md:ml-[16.666667%] md:w-1/3'>
+                                <Button
+                                    type='submit'
+                                    variant='primary'
+                                    isPending={addState.isLoading}
+                                >
+                                    Add
+                                </Button>
+                            </div>
+                        </form>
+                    )}
+                </Formik>
+            </Panel>
+        </div>
+    );
 };
 
-function mapStateToProps(state) {
-    return {
-        apiAddState: state.api.ADD_BANLIST,
-        apiDeleteState: state.api.DELETE_BANLIST,
-        apiState: state.api.REQUEST_BANLIST,
-        banlistAdded: state.admin.banlistAdded,
-        banlistDeleted: state.admin.banlistDeleted,
-        banlist: state.admin.banlist,
-        loadBanlist: state.admin.loadBanlist,
-        loading: state.api.loading
-    };
-}
+BanlistAdmin.displayName = 'BanlistAdmin';
 
-export default connect(mapStateToProps, actions)(BanlistAdmin);
+export default BanlistAdmin;

@@ -3,11 +3,13 @@ const _ = require('underscore');
 const BaseStep = require('./basestep.js');
 const TriggeredAbilityWindowTitles = require('./triggeredabilitywindowtitles.js');
 const Optional = require('../optional.js');
+const { EVENTS } = require('../Events/types.js');
 
 class ForcedTriggeredAbilityWindow extends BaseStep {
     constructor(game, abilityType, window, eventsToExclude = []) {
         super(game);
         this.choices = [];
+        this.deferredChoices = [];
         this.eventWindow = window;
         this.eventsToExclude = eventsToExclude;
         this.abilityType = abilityType;
@@ -53,7 +55,33 @@ class ForcedTriggeredAbilityWindow extends BaseStep {
         }
     }
 
+    addDeferredChoice(context) {
+        // Deferred choices are abilities whose meetsRequirements condition
+        // initially fails but might pass if another ability changes the game state first.
+        // They are only added to choices if there are other valid choices.
+        if (
+            !this.resolvedAbilities.some(
+                (resolved) =>
+                    resolved.ability === context.ability && resolved.event === context.event
+            ) &&
+            !this.deferredChoices.some(
+                (deferred) =>
+                    deferred.ability === context.ability && deferred.event === context.event
+            )
+        ) {
+            this.deferredChoices.push(context);
+        }
+    }
+
     filterChoices() {
+        // If there are valid choices and deferred choices, add the deferred ones
+        // so the player can choose the order. The deferred abilities' conditions
+        // might pass after another ability changes the game state.
+        if (this.choices.length > 0 && this.deferredChoices.length > 0) {
+            this.choices = this.choices.concat(this.deferredChoices);
+            this.deferredChoices = [];
+        }
+
         if (this.choices.length === 0 || this.pressedDone) {
             return true;
         }
@@ -236,21 +264,21 @@ class ForcedTriggeredAbilityWindow extends BaseStep {
         const event = context.event;
         const ability = context.ability;
         if (event) {
-            if (event.name === 'onCardPlayed' && !ability.properties.play) {
+            if (event.name === EVENTS.onCardPlayed && !ability.properties.play) {
                 return ability.properties.reap
                     ? ' (reap)'
                     : ability.properties.fight
                     ? ' (fight)'
                     : '';
             }
-            if (event.name === 'onFight' && !ability.properties.fight) {
+            if (event.name === EVENTS.onFight && !ability.properties.fight) {
                 return ability.properties.reap
                     ? ' (reap)'
                     : ability.properties.play
                     ? ' (play)'
                     : '';
             }
-            if (event.name === 'onReap' && !ability.properties.reap) {
+            if (event.name === EVENTS.onReap && !ability.properties.reap) {
                 return ability.properties.fight
                     ? ' (fight)'
                     : ability.properties.play
@@ -280,7 +308,7 @@ class ForcedTriggeredAbilityWindow extends BaseStep {
         let generatingEffectSource = this.game.getEffectSource(context);
         if (generatingEffectSource) {
             return {
-                key: generatingEffectSource.name + eventToAppend,
+                key: generatingEffectSource.uuid + eventToAppend,
                 text: '{{card}}' + eventToAppend,
                 card: generatingEffectSource,
                 values: { card: generatingEffectSource.name }
@@ -307,10 +335,11 @@ class ForcedTriggeredAbilityWindow extends BaseStep {
         }
 
         // This card has multiple abilities which can be used in this window - prompt the player to pick one
-        let handlers = menuChoices.map((button) => () =>
-            this.promptBetweenEventCards(
-                choices.filter((context) => this.getAbilityButton(context).key === button.key)
-            )
+        let handlers = menuChoices.map(
+            (button) => () =>
+                this.promptBetweenEventCards(
+                    choices.filter((context) => this.getAbilityButton(context).key === button.key)
+                )
         );
 
         if (this.noOptionalChoices) {

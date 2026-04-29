@@ -1,3 +1,4 @@
+const { EVENTS } = require('../Events/types');
 const CardListSelector = require('./CardListSelector');
 const GameAction = require('./GameAction');
 
@@ -7,6 +8,7 @@ class SequentialPutIntoPlayAction extends GameAction {
         this.ready = false;
         this.forEach = [];
         this.controller = null;
+        this.numPlayAllowances = 1;
     }
 
     setup() {
@@ -30,7 +32,8 @@ class SequentialPutIntoPlayAction extends GameAction {
     queueActionSteps(context, element) {
         let action = context.game.actions.putIntoPlay({
             controller: this.controller,
-            ready: this.ready
+            ready: this.ready,
+            numPlayAllowances: this.numPlayAllowances
         });
 
         context.game.queueSimpleStep(() => {
@@ -74,7 +77,7 @@ class SequentialPutIntoPlayAction extends GameAction {
 
     getEventArray(context) {
         return [
-            super.createEvent('unnamedEvent', {}, () => {
+            super.createEvent(EVENTS.unnamedEvent, {}, () => {
                 this.filterAndApplyAction(context, this.forEach);
             })
         ];

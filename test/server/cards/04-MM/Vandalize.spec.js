@@ -55,7 +55,7 @@ describe('Vandalize', function () {
                     });
 
                     it('should have correct prompt', function () {
-                        expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+                        expect(this.player1).isReadyToTakeAction();
                     });
                 });
             });
@@ -88,7 +88,7 @@ describe('Vandalize', function () {
                 });
 
                 it('should have correct prompt', function () {
-                    expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+                    expect(this.player1).isReadyToTakeAction();
                 });
             });
         });
@@ -117,7 +117,7 @@ describe('Vandalize', function () {
                 });
 
                 it('should have correct prompt', function () {
-                    expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+                    expect(this.player1).isReadyToTakeAction();
                 });
             });
         });
@@ -135,7 +135,7 @@ describe('Vandalize', function () {
             });
 
             it('should have correct prompt', function () {
-                expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+                expect(this.player1).isReadyToTakeAction();
             });
         });
     });

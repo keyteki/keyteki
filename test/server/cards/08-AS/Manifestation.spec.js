@@ -21,7 +21,7 @@ describe('Manifestation', function () {
 
         it('does nothing if no one is haunted', function () {
             this.player1.play(this.manifestation);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('resolves amber bonus icons of a card in a haunted discard pile', function () {
@@ -33,7 +33,7 @@ describe('Manifestation', function () {
             this.player1.clickCard(this.dustPixie);
             expect(this.player1.amber).toBe(4);
             expect(this.player2.amber).toBe(2);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('resolves other bonus icons of a card in a haunted discard pile', function () {
@@ -45,7 +45,7 @@ describe('Manifestation', function () {
             expect(this.player1.amber).toBe(3);
             expect(this.player2.amber).toBe(1);
             expect(this.echofly.amber).toBe(1);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

@@ -26,8 +26,8 @@ describe('Deepwood Druid', function () {
             expect(this.player1).not.toBeAbleToSelect(this.brainEater);
             expect(this.player1).not.toBeAbleToSelect(this.rustgnawer);
             this.player1.clickCard(this.silvertooth);
-            expect(this.silvertooth.tokens.damage).toBe(undefined);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.silvertooth.damage).toBe(0);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
     describe("Deepwood Druid's ability", function () {
@@ -56,8 +56,8 @@ describe('Deepwood Druid', function () {
             expect(this.player1).not.toBeAbleToSelect(this.mother);
             expect(this.player1).not.toBeAbleToSelect(this.brainEater);
             this.player1.clickCard(this.rustgnawer);
-            expect(this.rustgnawer.tokens.damage).toBe(undefined);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.rustgnawer.damage).toBe(0);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

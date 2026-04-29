@@ -1,8 +1,10 @@
+const { EVENTS } = require('../Events/types');
 const CardGameAction = require('./CardGameAction');
 
 class MakeTokenCreatureAction extends CardGameAction {
     setDefaultProperties() {
         this.amount = 1;
+        this.deploy = false;
         this.deployIndex = undefined;
         this.player = null;
     }
@@ -41,14 +43,14 @@ class MakeTokenCreatureAction extends CardGameAction {
 
     getEvent(card, context) {
         return super.createEvent(
-            'onMakeToken',
+            EVENTS.onMakeToken,
             { card, context, player: this.targetPlayer(context) },
             (event) => {
                 context.game.actions
                     .sequential([
                         context.game.actions.cardLastingEffect({
                             target: card,
-                            targetLocation: card.location,
+                            allowedLocations: 'any',
                             duration: 'lastingEffect',
                             effect: [
                                 context.game.effects.flipToken(),
@@ -58,6 +60,7 @@ class MakeTokenCreatureAction extends CardGameAction {
                         }),
                         context.game.actions.putIntoPlay({
                             target: card,
+                            deploy: this.deploy,
                             deployIndex: this.deployIndex,
                             promptSource: event.player.tokenCard
                         })

@@ -1,17 +1,20 @@
 const AbilityContext = require('../AbilityContext');
 const BaseAbility = require('../baseability.js');
 const Costs = require('../costs.js');
+const { EVENTS } = require('../Events/types');
 
 class RemoveStun extends BaseAbility {
     constructor(card) {
         super({ cost: [Costs.use(), Costs.exhaust()] });
         this.card = card;
+        this.abilityType = 'action';
         this.title = "Remove this creature's stun";
         this.printedAbility = false;
         this.omni = false;
+        this.unstun = true;
     }
 
-    meetsRequirements(context = this.createContext(), ignoredRequirements = []) {
+    meetsRequirements(context = this.createContext(), ignoredRequirements) {
         if (
             !this.card.checkRestrictions('use', context) ||
             !context.player.checkRestrictions('use', context)
@@ -26,7 +29,7 @@ class RemoveStun extends BaseAbility {
             return 'stunned';
         }
 
-        return super.meetsRequirements(context);
+        return super.meetsRequirements(context, ignoredRequirements);
     }
 
     createContext(player = this.card.controller) {
@@ -44,9 +47,9 @@ class RemoveStun extends BaseAbility {
             context.player,
             context.source
         );
-        context.game.raiseEvent('onRemoveStun', { card: this.card, context: context }, () => {
+        context.game.raiseEvent(EVENTS.onRemoveStun, { card: this.card, context: context }, () => {
             context.source.unstun();
-            context.game.raiseEvent('onUseCard', {
+            context.game.raiseEvent(EVENTS.onUseCard, {
                 card: this.card,
                 context: context,
                 unstun: true

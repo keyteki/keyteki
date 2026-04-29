@@ -32,7 +32,7 @@ describe('It Only Gets Worse', function () {
             expect(this.player1.amber).toBe(0);
             expect(this.player2.amber).toBe(3);
             expect(this.troll.amber).toBe(2);
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player2).isReadyToTakeAction();
         });
 
         it('should not fulfill when opponent steals amber during your turn', function () {
@@ -44,7 +44,7 @@ describe('It Only Gets Worse', function () {
             expect(this.player1.amber).toBe(1);
             expect(this.player2.amber).toBe(5);
             expect(this.parasiticArachnoid.location).toBe('under');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

@@ -38,7 +38,7 @@ describe('Cladogenesis', function () {
             expect(this.urchin.location).toBe('hand');
             expect(this.player1.player.hand.length).toBe(6);
             expect(this.player2.player.hand.length).toBe(6);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should handle empty deck', function () {

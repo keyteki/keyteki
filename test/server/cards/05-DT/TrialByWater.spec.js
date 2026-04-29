@@ -61,8 +61,7 @@ describe('Trial by Water', function () {
                     inPlay: []
                 }
             });
-            this.tachyonManifold.maverick = 'sanctum';
-            this.tachyonManifold.printedHouse = 'sanctum';
+            this.player1.makeMaverick(this.tachyonManifold, 'sanctum');
             this.player1.useAction(this.tachyonManifold);
         });
 
@@ -72,7 +71,7 @@ describe('Trial by Water', function () {
             this.player1.endTurn();
             this.player1.clickPrompt('sanctum');
             expect(this.player1).toBeAbleToRaiseTide();
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

@@ -1,7 +1,7 @@
 const Card = require('../../Card.js');
 
 class PanpacaAnga extends Card {
-    // Creatures to the right of Panpaca, Anga in the battleline get +2power.
+    // Creatures to the right of Panpaca, Anga in the battleline get +2 power.
     setupCardAbilities(ability) {
         this.persistentEffect({
             match: (card, context) =>

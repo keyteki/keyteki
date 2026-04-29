@@ -19,7 +19,7 @@ describe('Ilxid Avenger', function () {
         it('gets power counters on play', function () {
             this.player1.playCreature(this.ilxidAvenger);
             expect(this.ilxidAvenger.power).toBe(5);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('gets power counters on fight', function () {
@@ -30,7 +30,7 @@ describe('Ilxid Avenger', function () {
             this.player1.clickPrompt('mars');
             this.player1.fightWith(this.ilxidAvenger, this.dustPixie);
             expect(this.ilxidAvenger.power).toBe(7);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('gives out power counters on scrap', function () {
@@ -43,7 +43,7 @@ describe('Ilxid Avenger', function () {
             this.player1.clickCard(this.echofly); // Ilxid itself counts
             expect(this.echofly.power).toBe(4);
             expect(this.johnSmyth.power).toBe(3);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

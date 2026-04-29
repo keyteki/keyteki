@@ -19,7 +19,7 @@ describe('Rotfeast', function () {
             this.player1.play(this.theCommonCold);
             this.player1.clickPrompt('Autoresolve');
             this.player1.clickPrompt('Yes');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
             expect(this.player1.amber).toBe(7);
         });
 
@@ -27,7 +27,7 @@ describe('Rotfeast', function () {
             this.player1.play(this.rotfeast);
             this.player1.fightWith(this.dustPixie, this.umbra);
             this.player1.clickPrompt('Autoresolve');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
             expect(this.player1.amber).toBe(4);
         });
     });

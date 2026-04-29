@@ -84,8 +84,7 @@ describe('Rhetor Gallim', function () {
                     inPlay: []
                 }
             });
-            this.tachyonManifold.maverick = 'saurian';
-            this.tachyonManifold.printedHouse = 'saurian';
+            this.player1.makeMaverick(this.tachyonManifold, 'saurian');
             this.player1.useAction(this.tachyonManifold);
         });
 
@@ -99,7 +98,7 @@ describe('Rhetor Gallim', function () {
             this.player2.clickPrompt('untamed');
             expect(this.player1.player.getCurrentKeyCost()).toBe(6);
             expect(this.player2.player.getCurrentKeyCost()).toBe(9);
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player2).isReadyToTakeAction();
         });
     });
 });

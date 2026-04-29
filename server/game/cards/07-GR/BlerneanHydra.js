@@ -5,9 +5,9 @@ class BlerneanHydra extends Card {
     // where X is the amount of damage on Blernean Hydra.
     setupCardAbilities(ability) {
         this.persistentEffect({
-            condition: (context) => context.source.tokens.damage > 0,
+            condition: (context) => context.source.damage > 0,
             effect: ability.effects.addKeyword((_, context) => ({
-                'splash-attack': context.source.tokens.damage
+                'splash-attack': context.source.damage
             }))
         });
     }

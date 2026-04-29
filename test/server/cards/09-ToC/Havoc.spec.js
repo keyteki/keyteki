@@ -21,7 +21,7 @@ describe('Havoc', function () {
             this.player1.clickPrompt('Left');
             expect(this.toad1.location).toBe('play area');
             expect(this.player1.player.creaturesInPlay[0]).toBe(this.toad1);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

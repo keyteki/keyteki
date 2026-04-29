@@ -19,11 +19,11 @@ describe('Trading Frenzy', function () {
             this.player1.play(this.tradingFrenzy);
             this.player1.clickCard(this.pelf);
             this.player1.clickCard(this.bumpsy);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
             expect(this.player1.amber).toBe(2);
             expect(this.player2.amber).toBe(0);
-            expect(this.pelf.tokens.amber).toBe(3);
-            expect(this.bumpsy.tokens.amber).toBe(3);
+            expect(this.pelf.amber).toBe(3);
+            expect(this.bumpsy.amber).toBe(3);
         });
 
         it('should not capture if no opponent creature', function () {
@@ -32,7 +32,7 @@ describe('Trading Frenzy', function () {
             this.player1.clickCard(this.pelf);
             expect(this.player1.amber).toBe(5);
             expect(this.player2.amber).toBe(0);
-            expect(this.pelf.tokens.amber).toBe(3);
+            expect(this.pelf.amber).toBe(3);
         });
 
         it('should not capture if no opponent amber', function () {
@@ -41,7 +41,7 @@ describe('Trading Frenzy', function () {
             this.player1.clickCard(this.bumpsy);
             expect(this.player1.amber).toBe(2);
             expect(this.player2.amber).toBe(0);
-            expect(this.bumpsy.tokens.amber).toBe(3);
+            expect(this.bumpsy.amber).toBe(3);
         });
     });
 });

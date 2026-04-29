@@ -20,7 +20,7 @@ describe('Darklamp', function () {
             this.player1.playCreature(this.darklamp);
             expect(this.darklamp.amber).toBe(1);
             expect(this.player2.amber).toBe(2);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('makes friendly creatures with amber on them elusive', function () {
@@ -28,10 +28,10 @@ describe('Darklamp', function () {
             this.player1.endTurn();
             this.player2.clickPrompt('unfathomable');
             this.player2.fightWith(this.thingFromTheDeep, this.charette);
-            expect(this.thingFromTheDeep.tokens.damage).toBe(undefined);
-            expect(this.charette.tokens.damage).toBe(undefined);
+            expect(this.thingFromTheDeep.damage).toBe(0);
+            expect(this.charette.damage).toBe(0);
             expect(this.charette.location).toBe('play area');
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player2).isReadyToTakeAction();
         });
 
         it('does not affect friendly creatures without amber on them', function () {
@@ -39,18 +39,18 @@ describe('Darklamp', function () {
             this.player1.endTurn();
             this.player2.clickPrompt('unfathomable');
             this.player2.fightWith(this.thingFromTheDeep, this.echofly);
-            expect(this.thingFromTheDeep.tokens.damage).toBe(2);
+            expect(this.thingFromTheDeep.damage).toBe(2);
             expect(this.echofly.location).toBe('discard');
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player2).isReadyToTakeAction();
         });
 
         it('does not affect enemy creatures', function () {
             this.thingFromTheDeep.amber = 1;
             this.player1.playCreature(this.darklamp);
             this.player1.fightWith(this.echofly, this.thingFromTheDeep);
-            expect(this.thingFromTheDeep.tokens.damage).toBe(2);
+            expect(this.thingFromTheDeep.damage).toBe(2);
             expect(this.echofly.location).toBe('discard');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

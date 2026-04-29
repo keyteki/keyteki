@@ -2,6 +2,9 @@ const BaseStep = require('./basestep.js');
 const GamePipeline = require('../gamepipeline.js');
 
 class BaseStepWithPipeline extends BaseStep {
+    /**
+     * @param {import('../game')} game
+     */
     constructor(game) {
         super(game);
         this.pipeline = new GamePipeline();

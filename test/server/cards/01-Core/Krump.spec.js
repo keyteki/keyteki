@@ -16,7 +16,7 @@ describe('Krump', function () {
         it('should cause the controller of a creature it attacks to lose an amber when it lives and the opponent dies', function () {
             this.player1.fightWith(this.krump, this.docBookton);
             expect(this.docBookton.location).toBe('discard');
-            expect(this.krump.tokens.damage).toBe(5);
+            expect(this.krump.damage).toBe(5);
             expect(this.player2.amber).toBe(2);
             this.player1.endTurn();
         });
@@ -24,7 +24,7 @@ describe('Krump', function () {
         it('should cause the controller of a creature it attacks to lose an amber when it lives and the opponent has a destroyed effect', function () {
             this.player1.fightWith(this.krump, this.badPenny);
             expect(this.badPenny.location).toBe('hand');
-            expect(this.krump.tokens.damage).toBe(1);
+            expect(this.krump.damage).toBe(1);
             expect(this.player2.amber).toBe(2);
             this.player1.endTurn();
         });
@@ -34,7 +34,7 @@ describe('Krump', function () {
             this.player1.fightWith(this.krump, this.docBookton);
             expect(this.docBookton.location).toBe('play area');
             expect(this.docBookton.warded).toBe(false);
-            expect(this.krump.tokens.damage).toBe(5);
+            expect(this.krump.damage).toBe(5);
             expect(this.player2.amber).toBe(3);
             this.player1.endTurn();
         });
@@ -52,7 +52,7 @@ describe('Krump', function () {
             this.player2.clickPrompt('logos');
             this.player2.fightWith(this.docBookton, this.krump);
             expect(this.docBookton.location).toBe('discard');
-            expect(this.krump.tokens.damage).toBe(5);
+            expect(this.krump.damage).toBe(5);
             expect(this.player2.amber).toBe(2);
             this.player2.endTurn();
         });

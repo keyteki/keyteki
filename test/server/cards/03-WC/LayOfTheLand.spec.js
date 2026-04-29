@@ -54,7 +54,7 @@ describe('Lay of the land', function () {
                     });
 
                     it('should have correct prompt', function () {
-                        expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+                        expect(this.player1).isReadyToTakeAction();
                     });
                 });
             });
@@ -85,7 +85,7 @@ describe('Lay of the land', function () {
                 });
 
                 it('should have correct prompt', function () {
-                    expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+                    expect(this.player1).isReadyToTakeAction();
                 });
             });
         });
@@ -103,7 +103,7 @@ describe('Lay of the land', function () {
             });
 
             it('should have correct prompt', function () {
-                expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+                expect(this.player1).isReadyToTakeAction();
             });
         });
         describe('Play Lay of the Land with 0 cards in deck', function () {
@@ -120,7 +120,7 @@ describe('Lay of the land', function () {
             });
 
             it('should have correct prompt', function () {
-                expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+                expect(this.player1).isReadyToTakeAction();
             });
         });
     });

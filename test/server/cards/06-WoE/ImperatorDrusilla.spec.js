@@ -24,7 +24,7 @@ describe('Imperator Drusilla', function () {
             expect(this.oratorHissaro.location).toBe('discard');
             expect(this.aquiliaLoneHero.location).toBe('play area');
             expect(this.imperatorDrusilla.location).toBe('play area');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('gets splash-attack 4 when there are more enemies', function () {
@@ -40,7 +40,7 @@ describe('Imperator Drusilla', function () {
             expect(this.murkens.location).toBe('discard');
             expect(this.umbra.location).toBe('discard');
             expect(this.bumpsy.location).toBe('play area');
-            expect(this.bumpsy.tokens.damage).toBe(4);
+            expect(this.bumpsy.damage).toBe(4);
         });
 
         it('gets no splash-attack when there are not more enemies', function () {
@@ -56,7 +56,7 @@ describe('Imperator Drusilla', function () {
             this.player1.fightWith(this.imperatorDrusilla, this.umbra);
             expect(this.umbra.location).toBe('discard');
             expect(this.bumpsy.location).toBe('play area');
-            expect(this.bumpsy.tokens.damage).toBe(undefined);
+            expect(this.bumpsy.damage).toBe(0);
         });
     });
 });

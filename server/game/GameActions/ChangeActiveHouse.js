@@ -1,3 +1,4 @@
+const { EVENTS } = require('../Events/types');
 const GameAction = require('./GameAction');
 
 class ChangeActiveHouseAction extends GameAction {
@@ -46,7 +47,7 @@ class ChangeActiveHouseAction extends GameAction {
 
     getEventArray(context) {
         return [
-            super.createEvent('unnamedEvent', { house: this.house }, () => {
+            super.createEvent(EVENTS.unnamedEvent, { house: this.house }, () => {
                 if (this.player) {
                     this.player.activeHouse = this.house;
                 } else {

@@ -27,7 +27,7 @@ describe('Martian Revolution', function () {
         });
 
         it('should not make a token creature for warded creatures', function () {
-            this.rotgrub.tokens.ward = 1;
+            this.rotgrub.ward();
             this.player1.play(this.martianRevolution);
             expect(this.emberImp.location).toBe('discard');
             expect(this.rotgrub.location).toBe('play area');

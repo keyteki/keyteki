@@ -1,7 +1,7 @@
 const Card = require('../../Card.js');
 
 class HaedrothsWall extends Card {
-    // Each friendly flank creature gets +2power.
+    // Each friendly flank creature gets +2 power.
     setupCardAbilities(ability) {
         this.persistentEffect({
             targetController: 'current',

@@ -22,7 +22,7 @@ describe('The Vaultkeeper', function () {
 
         it('should allow amber to be captured or lost', function () {
             this.player1.play(this.dextre);
-            expect(this.dextre.tokens.amber).toBe(1);
+            expect(this.dextre.amber).toBe(1);
             expect(this.player2.amber).toBe(3);
             this.player1.play(this.bumpsy);
             expect(this.player2.amber).toBe(2);

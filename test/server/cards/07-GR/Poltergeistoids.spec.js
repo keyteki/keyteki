@@ -42,7 +42,7 @@ describe('Poltergeistoids', function () {
             expect(this.charette.location).toBe('play area');
             expect(this.charette.amber).toBe(3);
             expect(this.player2.amber).toBe(1);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('attaches to played creature and makes it geistoid', function () {
@@ -59,7 +59,7 @@ describe('Poltergeistoids', function () {
             this.player1.clickPrompt('geistoid');
             this.player1.reap(this.charette);
             expect(this.player1.amber).toBe(2);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('plays a purged artifact on play', function () {
@@ -70,7 +70,7 @@ describe('Poltergeistoids', function () {
             expect(this.player1).toBeAbleToSelect(this.ritualOfBalance);
             this.player1.clickCard(this.ritualOfBalance);
             expect(this.ritualOfBalance.location).toBe('play area');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('attaches to played artifact and makes it geistoid', function () {
@@ -88,7 +88,7 @@ describe('Poltergeistoids', function () {
             this.player1.useAction(this.ritualOfBalance);
             expect(this.player1.amber).toBe(2);
             expect(this.player2.amber).toBe(5);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('card stays in play when upgrade is gone, but no longer geistoid', function () {
@@ -106,7 +106,7 @@ describe('Poltergeistoids', function () {
             this.player1.clickPrompt('dis');
             this.player1.reap(this.charette);
             expect(this.player1.amber).toBe(2);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

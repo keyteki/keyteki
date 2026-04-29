@@ -47,7 +47,7 @@ describe('Portalmonster', function () {
         it('does not archive on destroy if not haunted', function () {
             this.player1.fightWith(this.portalmonster, this.thingFromTheDeep);
             expect(this.portalmonster.location).toBe('discard');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('archives on destroy if haunted', function () {
@@ -55,7 +55,7 @@ describe('Portalmonster', function () {
             this.player1.play(this.dimensionDoor);
             this.player1.fightWith(this.portalmonster, this.thingFromTheDeep);
             expect(this.portalmonster.location).toBe('archives');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

@@ -23,7 +23,7 @@ describe('Connectome Transfer', function () {
             expect(this.archimedes.location).toBe('play area');
             expect(this.lamindra.location).toBe('archives');
             expect(this.player2.player.archives).toContain(this.lamindra);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('archives creatures in owner archives', function () {
@@ -41,7 +41,7 @@ describe('Connectome Transfer', function () {
             expect(this.player2.player.archives).toContain(this.lamindra);
             expect(this.scowlyCaper.location).toBe('archives');
             expect(this.player2.player.archives).toContain(this.scowlyCaper);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

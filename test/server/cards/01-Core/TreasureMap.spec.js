@@ -16,7 +16,7 @@ describe('Treasure Map', function () {
         it('should make the player gain 3 amber if no actions have been played, and prevent further actions', function () {
             this.player1.play(this.treasureMap);
             expect(this.player1.amber).toBe(4);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
             this.player1.clickCard(this.miasma);
             expect(this.player1).toHavePrompt('Miasma');
             expect(this.player1).not.toHavePromptButton('Play this action');
@@ -28,7 +28,7 @@ describe('Treasure Map', function () {
             expect(this.player2.amber).toBe(1);
             this.player1.play(this.treasureMap);
             expect(this.player1.amber).toBe(2);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
             this.player1.clickCard(this.miasma);
             expect(this.player1).toHavePrompt('Miasma');
             expect(this.player1).not.toHavePromptButton('Play this action');

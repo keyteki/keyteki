@@ -1,3 +1,4 @@
+const { EVENTS } = require('../../Events/types.js');
 const Phase = require('../phase.js');
 const SimpleStep = require('../simplestep.js');
 
@@ -27,7 +28,7 @@ class HousePhase extends Phase {
                         house.text
                     );
                     this.game.raiseEvent(
-                        'onChooseActiveHouse',
+                        EVENTS.onChooseActiveHouse,
                         { player: this.game.activePlayer, house: house.text },
                         () => (this.game.activePlayer.activeHouse = house.text)
                     );
@@ -76,12 +77,12 @@ class HousePhase extends Phase {
                                 theyOwn
                             );
                             for (let card of this.game.activePlayer.archives) {
-                                if (oppCannotLeave && card.owner !== this.game.activeplayer) {
+                                if (oppCannotLeave && card.owner !== this.game.activePlayer) {
                                     continue;
                                 }
                                 this.game.activePlayer.moveCard(card, 'hand');
                             }
-                            this.game.raiseEvent('onArchivesAddedToHand', {
+                            this.game.raiseEvent(EVENTS.onArchivesAddedToHand, {
                                 player: this.game.activePlayer
                             });
                             return true;
@@ -95,13 +96,13 @@ class HousePhase extends Phase {
                                 theyOwn
                             );
                             for (let card of cardParam) {
-                                if (oppCannotLeave && card.owner !== this.game.activeplayer) {
+                                if (oppCannotLeave && card.owner !== this.game.activePlayer) {
                                     continue;
                                 }
                                 this.game.activePlayer.moveCard(card, 'hand');
                             }
                             if (this.game.activePlayer.archives.length === 0) {
-                                this.game.raiseEvent('onArchivesAddedToHand', {
+                                this.game.raiseEvent(EVENTS.onArchivesAddedToHand, {
                                     player: this.game.activePlayer
                                 });
                             }
@@ -128,7 +129,7 @@ class HousePhase extends Phase {
                                 }
                                 this.game.activePlayer.moveCard(card, 'hand');
                             }
-                            this.game.raiseEvent('onArchivesAddedToHand', {
+                            this.game.raiseEvent(EVENTS.onArchivesAddedToHand, {
                                 player: this.game.activePlayer
                             });
                         },

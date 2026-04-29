@@ -27,9 +27,9 @@ describe('Little Niff', function () {
 
         it('should steal if fighting with neighbor of Little Niff', function () {
             this.player1.fightWith(this.knucklesBolton, this.lamindra);
-            expect(this.knucklesBolton.tokens.damage).toBe(1);
-            expect(this.gamgee.tokens.damage).toBe(1);
-            expect(this.littleNiff.tokens.damage).toBe(1);
+            expect(this.knucklesBolton.damage).toBe(1);
+            expect(this.gamgee.damage).toBe(1);
+            expect(this.littleNiff.damage).toBe(1);
             expect(this.player1.amber).toBe(1);
             expect(this.player2.amber).toBe(2);
         });
@@ -37,9 +37,9 @@ describe('Little Niff', function () {
         it('should steal 1A if destroyed during fight', function () {
             this.player1.fightWith(this.badPenny, this.ancientBear);
             expect(this.badPenny.location).toBe('hand');
-            expect(this.ancientBear.tokens.damage).toBe(1);
-            expect(this.knucklesBolton.tokens.damage).toBe(1);
-            expect(this.littleNiff.tokens.damage).toBe(1);
+            expect(this.ancientBear.damage).toBe(1);
+            expect(this.knucklesBolton.damage).toBe(1);
+            expect(this.littleNiff.damage).toBe(1);
             expect(this.player1.amber).toBe(1);
             expect(this.player2.amber).toBe(2);
         });
@@ -47,20 +47,20 @@ describe('Little Niff', function () {
         it('should steal 1A if destroyed due to hazardous', function () {
             this.player1.fightWith(this.knucklesBolton, this.briarGrubbling);
             expect(this.knucklesBolton.location).toBe('discard');
-            expect(this.briarGrubbling.tokens.damage).toBeUndefined();
-            expect(this.gamgee.tokens.damage).toBe(1);
-            expect(this.littleNiff.tokens.damage).toBe(1);
+            expect(this.briarGrubbling.damage).toBe(0);
+            expect(this.gamgee.damage).toBe(1);
+            expect(this.littleNiff.damage).toBe(1);
             expect(this.player1.amber).toBe(1);
             expect(this.player2.amber).toBe(2);
         });
 
         it('should cause fight damage if destroyed due to steal effect', function () {
-            this.knucklesBolton.tokens.damage = 2;
+            this.knucklesBolton.damage = 2;
             this.player1.fightWith(this.knucklesBolton, this.ancientBear);
             expect(this.knucklesBolton.location).toBe('discard');
-            expect(this.ancientBear.tokens.damage).toBe(3);
-            expect(this.gamgee.tokens.damage).toBe(1);
-            expect(this.littleNiff.tokens.damage).toBe(1);
+            expect(this.ancientBear.damage).toBe(3);
+            expect(this.gamgee.damage).toBe(1);
+            expect(this.littleNiff.damage).toBe(1);
             expect(this.player1.amber).toBe(1);
             expect(this.player2.amber).toBe(2);
         });

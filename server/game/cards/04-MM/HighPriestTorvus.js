@@ -16,9 +16,11 @@ class HighPriestTorvus extends Card {
                     effectArgs: (context) => context.event.card,
                     multipleTrigger: false,
                     gameAction: ability.actions.cardLastingEffect((context) => ({
-                        targetLocation: 'any',
+                        // We don’t know where the action card will be played from, so
+                        // we allow any location.
+                        allowedLocations: 'any',
                         target: context.event.card,
-                        effect: ability.effects.actionCardLocationAfterPlay('hand')
+                        effect: ability.effects.cardLocationAfterPlay('hand')
                     }))
                 }))
             }

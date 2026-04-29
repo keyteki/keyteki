@@ -34,7 +34,7 @@ describe("Ol' Paddy", function () {
                 });
 
                 it('should not play any creature', function () {
-                    expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+                    expect(this.player1).isReadyToTakeAction();
                 });
             });
 
@@ -45,7 +45,7 @@ describe("Ol' Paddy", function () {
                 });
 
                 it('should not play any creature', function () {
-                    expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+                    expect(this.player1).isReadyToTakeAction();
                 });
             });
         });
@@ -66,7 +66,7 @@ describe("Ol' Paddy", function () {
                 });
 
                 it('should not prompt to put a card in play', function () {
-                    expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+                    expect(this.player1).isReadyToTakeAction();
                 });
             });
 
@@ -81,7 +81,7 @@ describe("Ol' Paddy", function () {
                 });
 
                 it('should not prompt to put a card in play', function () {
-                    expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+                    expect(this.player1).isReadyToTakeAction();
                 });
             });
         });
@@ -103,7 +103,7 @@ describe("Ol' Paddy", function () {
                     this.player1.clickCard(this.lamindra);
                     expect(this.musthicMurmook.location).toBe('play area');
                     expect(this.lamindra.location).toBe('discard');
-                    expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+                    expect(this.player1).isReadyToTakeAction();
                 });
             });
 
@@ -123,7 +123,7 @@ describe("Ol' Paddy", function () {
                     this.player1.clickCard(this.lamindra);
                     expect(this.lamindra.location).toBe('discard');
                     expect(this.musthicMurmook.location).toBe('play area');
-                    expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+                    expect(this.player1).isReadyToTakeAction();
                 });
             });
         });
@@ -151,7 +151,7 @@ describe("Ol' Paddy", function () {
                     expect(this.umbra.location).toBe('deck');
                     expect(this.foggify.location).toBe('deck');
                     expect(this.dustPixie.location).toBe('deck');
-                    expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+                    expect(this.player1).isReadyToTakeAction();
                 });
             });
 

@@ -19,15 +19,15 @@ describe('Nameless Horror', function () {
         it('should not give skirmish when not haunted', function () {
             this.player1.fightWith(this.namelessHorror, this.troll);
             expect(this.namelessHorror.location).toBe('discard');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should give skirmish when haunted', function () {
             this.player1.play(this.cloneHome);
             this.player1.fightWith(this.namelessHorror, this.troll);
             expect(this.namelessHorror.location).toBe('play area');
-            expect(this.namelessHorror.tokens.damage).toBeUndefined();
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.namelessHorror.damage).toBe(0);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         describe('elusive is', function () {
@@ -39,15 +39,15 @@ describe('Nameless Horror', function () {
             it('not given when not haunted', function () {
                 this.player2.fightWith(this.troll, this.namelessHorror);
                 expect(this.namelessHorror.location).toBe('discard');
-                expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+                expect(this.player2).isReadyToTakeAction();
             });
 
             it('given when haunted', function () {
                 this.player2.fightWith(this.groggins, this.tunk);
                 this.player2.fightWith(this.troll, this.namelessHorror);
                 expect(this.namelessHorror.location).toBe('play area');
-                expect(this.namelessHorror.tokens.damage).toBeUndefined();
-                expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+                expect(this.namelessHorror.damage).toBe(0);
+                expect(this.player2).isReadyToTakeAction();
             });
         });
     });

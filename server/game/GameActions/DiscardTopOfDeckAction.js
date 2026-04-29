@@ -1,3 +1,4 @@
+const { EVENTS } = require('../Events/types');
 const PlayerAction = require('./PlayerAction');
 
 class DiscardTopOfDeckAction extends PlayerAction {
@@ -20,7 +21,7 @@ class DiscardTopOfDeckAction extends PlayerAction {
 
     getEvent(player, context) {
         let amount = Math.min(this.amount, player.deck.length);
-        return super.createEvent('unnamedEvent', { player, context, amount }, (event) => {
+        return super.createEvent(EVENTS.unnamedEvent, { player, context, amount }, (event) => {
             let cards = player.deck.slice(0, event.amount);
             context.game.actions.discard({ chatMessage: false }).resolve(cards, context);
         });

@@ -89,19 +89,23 @@ describe('Groundbreaking Discovery', function () {
             expect(this.groundbreakingDiscovery.location).toBe('discard');
         });
 
-        it('when just Dr. Verokter, Rooftop Laboratory are in play, and Reckless Experimentation is on an enemy creature, should do nothing', function () {
+        // Issue #3415: Upgrades played on enemy creatures are controlled by the player who played them
+        it('when Dr. Verokter, Rooftop Laboratory are in play, and Reckless Experimentation is on an enemy creature, KABUMMMM', function () {
             this.player1.play(this.drVerokter);
             this.player1.play(this.rooftopLaboratory);
             this.player1.playUpgrade(this.recklessExperimentation, this.snufflegator);
             this.player1.play(this.groundbreakingDiscovery);
-            this.player1.endTurn();
-            expect(this.drVerokter.location).toBe('play area');
-            expect(this.rooftopLaboratory.location).toBe('play area');
-            expect(this.lamindra.location).toBe('play area');
-            expect(this.anomalyExploiter.location).toBe('play area');
-            expect(this.snufflegator.location).toBe('play area');
-            expect(this.animator.location).toBe('play area');
-            expect(this.groundbreakingDiscovery.location).toBe('discard');
+            expect(this.player2.player.keys.red).toBe(false);
+            expect(this.player2.player.keys.blue).toBe(false);
+            expect(this.player2.player.keys.yellow).toBe(false);
+            expect(this.drVerokter.location).toBe('discard');
+            expect(this.rooftopLaboratory.location).toBe('discard');
+            expect(this.lamindra.location).toBe('discard');
+            expect(this.anomalyExploiter.location).toBe('discard');
+            expect(this.snufflegator.location).toBe('discard');
+            expect(this.animator.location).toBe('discard');
+            expect(this.recklessExperimentation.location).toBe('discard');
+            expect(this.groundbreakingDiscovery.location).toBe('purged');
         });
 
         it('when just Dr. Verokter, Rooftop Laboratory and Reckless Experimentation are in play, KABUMMMM', function () {

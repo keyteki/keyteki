@@ -30,7 +30,7 @@ describe('Make It So', function () {
 
             it('should not draw it, but keep it in the deck', function () {
                 expect(this.player1.player.deck[0]).toBe(this.lamindra);
-                expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+                expect(this.player1).isReadyToTakeAction();
             });
         });
 
@@ -54,7 +54,7 @@ describe('Make It So', function () {
                 it('should keep the next card in the deck', function () {
                     expect(this.stealthMode.location).toBe('hand');
                     expect(this.player1.player.deck[0]).toBe(this.lamindra);
-                    expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+                    expect(this.player1).isReadyToTakeAction();
                 });
             });
         });
@@ -77,7 +77,7 @@ describe('Make It So', function () {
                 expect(this.stealthMode.location).toBe('hand');
                 this.player1.clickPrompt('staralliance');
                 expect(this.player1.player.deck[0]).toBe(this.lamindra);
-                expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+                expect(this.player1).isReadyToTakeAction();
             });
         });
 
@@ -95,7 +95,7 @@ describe('Make It So', function () {
                 expect(this.sensorChiefGarcia.location).toBe('hand');
                 this.player1.clickPrompt('shadows');
                 expect(this.player1.player.deck[0]).toBe(this.transporterPlatform);
-                expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+                expect(this.player1).isReadyToTakeAction();
             });
         });
     });

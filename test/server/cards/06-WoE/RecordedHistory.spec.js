@@ -21,7 +21,7 @@ describe('Recorded History', function () {
             this.player1.play(this.recordedHistory);
             this.player1.clickPrompt('Done');
             expect(this.player1.player.archives.length).toBe(0);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should allow for archiving one card', function () {
@@ -40,7 +40,7 @@ describe('Recorded History', function () {
             expect(this.helmsmanSpears.location).toBe('archives');
             expect(this.layOfTheLand.location).toBe('hand');
             expect(this.player1.player.archives.length).toBe(1);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should allow for archiving two cards', function () {
@@ -59,7 +59,7 @@ describe('Recorded History', function () {
             expect(this.labwork.location).toBe('archives');
             expect(this.batdrone.location).toBe('hand');
             expect(this.player1.player.archives.length).toBe(2);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should allow for archiving three cards', function () {
@@ -72,7 +72,7 @@ describe('Recorded History', function () {
             expect(this.labwork.location).toBe('archives');
             expect(this.pelf.location).toBe('archives');
             expect(this.player1.player.archives.length).toBe(3);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

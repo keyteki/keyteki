@@ -79,8 +79,7 @@ describe('Nerotaurus', function () {
                     hand: []
                 }
             });
-            this.tachyonManifold.maverick = 'saurian';
-            this.tachyonManifold.printedHouse = 'saurian';
+            this.player1.makeMaverick(this.tachyonManifold, 'saurian');
             this.player1.useAction(this.tachyonManifold);
         });
 
@@ -94,7 +93,7 @@ describe('Nerotaurus', function () {
             expect(this.player2).not.toHavePromptButton('Fight with this creature');
             expect(this.player2).toHavePromptButton('Reap with this creature');
             this.player2.clickPrompt('Reap with this creature');
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player2).isReadyToTakeAction();
         });
     });
 });

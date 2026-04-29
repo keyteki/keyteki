@@ -58,11 +58,11 @@ describe('Exotic Pivot', function () {
             this.player2.endTurn();
             this.player1.clickPrompt('logos');
             this.player1.playCreature(this.batdrone);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
             this.player1.endTurn();
             this.player2.clickPrompt('untamed');
             this.player2.playCreature(this.toad);
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player2).isReadyToTakeAction();
         });
     });
 });

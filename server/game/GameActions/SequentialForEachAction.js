@@ -1,3 +1,4 @@
+const { EVENTS } = require('../Events/types');
 const GameAction = require('./GameAction');
 
 class SequentialForEachAction extends GameAction {
@@ -26,7 +27,7 @@ class SequentialForEachAction extends GameAction {
 
     getEventArray(context) {
         return [
-            super.createEvent('unnamedEvent', {}, () => {
+            super.createEvent(EVENTS.unnamedEvent, {}, () => {
                 if (this.forEach.length > 0) {
                     for (let element of this.forEach) {
                         let action = this.action;
@@ -38,16 +39,30 @@ class SequentialForEachAction extends GameAction {
                             action.setDefaultTarget(() => element);
                             action.preEventHandler(context);
                         });
-                        context.game.queueSimpleStep(() =>
-                            context.game.openEventWindow(action.getEventArray(context))
-                        );
+                        context.game.queueSimpleStep(() => {
+                            if (this.message) {
+                                context.game.addMessage(
+                                    this.message,
+                                    context.player,
+                                    context.source
+                                );
+                            }
+                            context.game.openEventWindow(action.getEventArray(context));
+                        });
                     }
                 } else {
                     for (let i = 0; i < this.num; i++) {
                         context.game.queueSimpleStep(() => this.action.preEventHandler(context));
-                        context.game.queueSimpleStep(() =>
-                            context.game.openEventWindow(this.action.getEventArray(context))
-                        );
+                        context.game.queueSimpleStep(() => {
+                            if (this.message) {
+                                context.game.addMessage(
+                                    this.message,
+                                    context.player,
+                                    context.source
+                                );
+                            }
+                            context.game.openEventWindow(this.action.getEventArray(context));
+                        });
                     }
                 }
             })

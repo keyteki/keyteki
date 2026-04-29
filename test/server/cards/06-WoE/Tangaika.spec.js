@@ -31,7 +31,7 @@ describe('Tangaika', function () {
 
         it('should be playable with at least 4 cultists', function () {
             this.player1.playCreature(this.tangaika);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should not be playable without 4 cultists', function () {
@@ -52,7 +52,7 @@ describe('Tangaika', function () {
 
             this.player1.fightWith(this.tangaika, this.batdrone);
             expect(this.player1.amber).toBe(4);
-            expect(this.kelifiDragon.tokens.damage).toBe(5);
+            expect(this.kelifiDragon.damage).toBe(5);
         });
     });
 });

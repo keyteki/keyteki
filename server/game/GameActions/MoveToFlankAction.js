@@ -1,3 +1,4 @@
+const { EVENTS } = require('../Events/types');
 const CardGameAction = require('./CardGameAction');
 
 class MoveToFlankAction extends CardGameAction {
@@ -38,7 +39,7 @@ class MoveToFlankAction extends CardGameAction {
     }
 
     getEvent(card, context) {
-        return super.createEvent('onMoveToFlank', { card: card, context: context }, () => {
+        return super.createEvent(EVENTS.onMoveToFlank, { card: card, context: context }, () => {
             let cardIndex = card.controller.cardsInPlay.indexOf(card);
             if (this.left) {
                 card.controller.cardsInPlay.splice(cardIndex, 1);

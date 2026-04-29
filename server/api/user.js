@@ -86,7 +86,7 @@ module.exports.init = function (server) {
 
                 return res.send({
                     success: false,
-                    message: 'An error occured saving the user.  Please try again later.'
+                    message: 'An error occurred saving the user.  Please try again later.'
                 });
             }
 
@@ -110,7 +110,7 @@ module.exports.init = function (server) {
 
                 return res.send({
                     success: false,
-                    message: 'An error occured saving the user.  Please try again later.'
+                    message: 'An error occurred saving the user.  Please try again later.'
                 });
             }
 

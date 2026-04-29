@@ -24,7 +24,7 @@ describe('Auto-Autopsy 2.1', function () {
             this.player1.play(this.autoAutopsy21);
             this.player1.clickPrompt('Left');
             expect(this.alphaGamma1.location).toBe('play area');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should destroy a friendly creature and gain amber on omni', function () {
@@ -34,7 +34,7 @@ describe('Auto-Autopsy 2.1', function () {
             this.player2.clickPrompt('brobnar');
             this.player2.endTurn();
             this.player1.clickPrompt('untamed');
-            this.player1.useAction(this.autoAutopsy21, true);
+            this.player1.useOmni(this.autoAutopsy21);
             expect(this.player1).toBeAbleToSelect(this.flaxia);
             expect(this.player1).toBeAbleToSelect(this.helperBot);
             expect(this.player1).toBeAbleToSelect(this.alphaGamma1);
@@ -42,7 +42,7 @@ describe('Auto-Autopsy 2.1', function () {
             this.player1.clickCard(this.helperBot);
             expect(this.player1.amber).toBe(3);
             expect(this.helperBot.location).toBe('discard');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

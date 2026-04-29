@@ -19,7 +19,7 @@ describe('Psychic Haze', function () {
             expect(this.johnSmyth.enraged).toBe(false);
             expect(this.tunk.enraged).toBe(true);
             expect(this.gub.enraged).toBe(true);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('disallows enraged enemy creatures from attacking friendly Mars creatures', function () {
@@ -32,7 +32,7 @@ describe('Psychic Haze', function () {
             expect(this.player2).not.toBeAbleToSelect(this.johnSmyth);
             this.player2.clickCard(this.echofly);
             expect(this.gub.location).toBe('discard');
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player2).isReadyToTakeAction();
         });
 
         it('allows unenraged enemy creatures to attack friendly Mars creatures', function () {
@@ -46,18 +46,18 @@ describe('Psychic Haze', function () {
             expect(this.player2).toBeAbleToSelect(this.echofly);
             expect(this.player2).toBeAbleToSelect(this.johnSmyth);
             this.player2.clickCard(this.johnSmyth);
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player2).isReadyToTakeAction();
         });
 
         it('does not affect friendly enraged Mars creatures', function () {
-            this.johnSmyth.enraged = true;
+            this.johnSmyth.enrage;
             this.player1.clickCard(this.johnSmyth);
             this.player1.clickPrompt('Fight with this creature');
             expect(this.player1).toBeAbleToSelect(this.tunk);
             expect(this.player1).toBeAbleToSelect(this.gub);
             this.player1.clickCard(this.tunk);
             expect(this.johnSmyth.location).toBe('discard');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

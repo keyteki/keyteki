@@ -2,18 +2,18 @@ import i18n from 'i18next';
 import LanguageDetector from 'i18next-browser-languagedetector';
 import { initReactI18next } from 'react-i18next';
 
-import localeDe from '../public/locales/de.json';
-import localeEn from '../public/locales/en.json';
-import localeEs from '../public/locales/es.json';
-import localeFr from '../public/locales/fr.json';
-import localeIt from '../public/locales/it.json';
-import localeKo from '../public/locales/ko.json';
-import localePt from '../public/locales/pt.json';
-import localePl from '../public/locales/pl.json';
-import localeTh from '../public/locales/th.json';
-import localeZhHans from '../public/locales/zhhans.json';
-import localeZhHant from '../public/locales/zhhant.json';
-import localeVi from '../public/locales/vi.json';
+import localeDe from './locales/de.json';
+import localeEn from './locales/en.json';
+import localeEs from './locales/es.json';
+import localeFr from './locales/fr.json';
+import localeIt from './locales/it.json';
+import localeKo from './locales/ko.json';
+import localePt from './locales/pt.json';
+import localePl from './locales/pl.json';
+import localeTh from './locales/th.json';
+import localeZhHans from './locales/zhhans.json';
+import localeZhHant from './locales/zhhant.json';
+import localeVi from './locales/vi.json';
 
 const resources = {
     de: {

@@ -1,3 +1,4 @@
+const { EVENTS } = require('../Events/types');
 const CardGameAction = require('./CardGameAction');
 
 class MoveOnBattlelineAction extends CardGameAction {
@@ -61,7 +62,7 @@ class MoveOnBattlelineAction extends CardGameAction {
 
     getEvent(card, context) {
         return super.createEvent(
-            'onCardMovedInBattleline',
+            EVENTS.onCardMovedInBattleline,
             { card: card, context: context },
             () => {
                 let player = card.controller;

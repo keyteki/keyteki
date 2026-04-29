@@ -22,16 +22,16 @@ describe('Mind Your Elders', function () {
             expect(this.player1).toBeAbleToSelect(this.johnSmyth);
             this.player1.clickCard(this.zorg);
             expect(this.player2.amber).toBe(0);
-            expect(this.zorg.tokens.amber).toBe(3);
+            expect(this.zorg.amber).toBe(3);
         });
 
         it('should not capture amber when there are not more friendly Mars creatures', function () {
             this.player2.amber = 3;
             this.player2.moveCard(this.zorg, 'discard');
             this.player1.play(this.mindYourElders);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
             expect(this.player2.amber).toBe(3);
-            expect(this.zorg.tokens.amber).toBeUndefined();
+            expect(this.zorg.amber).toBe(0);
         });
 
         it('should only count Mars creatures when determining if there are more friendly Mars creatures', function () {
@@ -46,16 +46,16 @@ describe('Mind Your Elders', function () {
             expect(this.player1).not.toBeAbleToSelect(this.troll);
             this.player1.clickCard(this.zorg);
             expect(this.player2.amber).toBe(0);
-            expect(this.zorg.tokens.amber).toBe(3);
+            expect(this.zorg.amber).toBe(3);
         });
 
         it('should not capture amber when there are equal numbers of Mars creatures', function () {
             this.player2.amber = 3;
             this.player1.moveCard(this.johnSmyth, 'discard');
             this.player1.play(this.mindYourElders);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
             expect(this.player2.amber).toBe(3);
-            expect(this.zorg.tokens.amber).toBeUndefined();
+            expect(this.zorg.amber).toBe(0);
         });
     });
 });

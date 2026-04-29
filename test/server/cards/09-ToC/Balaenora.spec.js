@@ -18,7 +18,7 @@ describe('Balaenora', function () {
             this.player1.clickCard(this.balaenora);
             expect(this.player1).not.toHavePromptButton('Play this creature');
             this.player1.clickPrompt('Cancel');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should be playable if opponent has at least 7 amber, and should capture it all', function () {
@@ -26,18 +26,18 @@ describe('Balaenora', function () {
             this.player1.playCreature(this.balaenora);
             expect(this.balaenora.amber).toBe(7);
             expect(this.player2.amber).toBe(0);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should give control on fight', function () {
             this.player2.amber = 7;
             this.player1.playCreature(this.balaenora);
-            this.balaenora.exhausted = false;
+            this.balaenora.ready();
             this.player1.fightWith(this.balaenora, this.lamindra);
             this.player1.clickPrompt('Right');
             expect(this.balaenora.controller).toBe(this.player2.player);
             expect(this.player2.player.creaturesInPlay).toContain(this.balaenora);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

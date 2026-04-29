@@ -24,7 +24,7 @@ describe('Floomf', function () {
             expect(this.player1).toBeAbleToSelect(this.niffleQueen);
 
             this.player1.clickCard(this.niffleQueen);
-            expect(this.niffleQueen.tokens.power).toBe(2);
+            expect(this.niffleQueen.powerCounters).toBe(2);
         });
     });
 });

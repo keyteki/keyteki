@@ -1,3 +1,4 @@
+const { EVENTS } = require('../Events/types');
 const GameAction = require('./GameAction');
 
 class AddEventToWindowAction extends GameAction {
@@ -14,7 +15,7 @@ class AddEventToWindowAction extends GameAction {
     getEventArray() {
         return [
             super.createEvent(
-                'unnamedEvent',
+                EVENTS.unnamedEvent,
                 { targetEvent: this.targetEvent, eventToAdd: this.eventToAdd },
                 (event) => {
                     event.targetEvent.addChildEvent(event.eventToAdd);

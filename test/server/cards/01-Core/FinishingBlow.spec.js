@@ -23,7 +23,7 @@ describe('Finishing Blow', function () {
             expect(this.yantzeeGang.location).toBe('discard');
             expect(this.player1.amber).toBe(2);
             expect(this.player2.amber).toBe(1);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should not steal when there are no damaged creates', function () {
@@ -32,7 +32,7 @@ describe('Finishing Blow', function () {
             expect(this.silvertooth.location).toBe('play area');
             expect(this.player1.amber).toBe(1);
             expect(this.player2.amber).toBe(2);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

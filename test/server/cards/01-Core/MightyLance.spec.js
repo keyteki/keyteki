@@ -14,7 +14,7 @@ describe('Mighty Lance', function () {
 
         it('should not prompt for creature when there are no creatures in play', function () {
             this.player1.play(this.mightyLance);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 
@@ -39,8 +39,8 @@ describe('Mighty Lance', function () {
             expect(this.player1).toBeAbleToSelect(this.titanMechanic);
             expect(this.player1).toBeAbleToSelect(this.troll);
             this.player1.clickCard(this.troll);
-            expect(this.troll.tokens.damage).toBe(3);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.troll.damage).toBe(3);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 
@@ -71,9 +71,9 @@ describe('Mighty Lance', function () {
             expect(this.player1).toBeAbleToSelect(this.lamindra);
             expect(this.player1).toBeAbleToSelect(this.krump);
             this.player1.clickCard(this.krump);
-            expect(this.troll.tokens.damage).toBe(3);
-            expect(this.krump.tokens.damage).toBe(3);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.troll.damage).toBe(3);
+            expect(this.krump.damage).toBe(3);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

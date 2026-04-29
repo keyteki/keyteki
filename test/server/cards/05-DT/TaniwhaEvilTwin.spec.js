@@ -18,12 +18,12 @@ describe('Taniwha Evil Twin', function () {
 
         it('should not prompt if no creatures in discard, after fight', function () {
             this.player1.fightWith(this.taniwhaEvilTwin, this.lamindra);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should not prompt if no creatures in discard, after reap', function () {
             this.player1.fightWith(this.taniwhaEvilTwin, this.lamindra);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should place a creature from discard pile at the top of the deck, after fight', function () {
@@ -37,7 +37,7 @@ describe('Taniwha Evil Twin', function () {
             expect(this.player1).not.toBeAbleToSelect(this.gamgee);
             this.player1.clickCard(this.shooler);
             expect(this.player1.player.deck[0]).toBe(this.shooler);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should place a creature from discard pile at the top of the deck, after reap', function () {
@@ -51,7 +51,7 @@ describe('Taniwha Evil Twin', function () {
             expect(this.player1).not.toBeAbleToSelect(this.gamgee);
             this.player1.clickCard(this.shooler);
             expect(this.player1.player.deck[0]).toBe(this.shooler);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

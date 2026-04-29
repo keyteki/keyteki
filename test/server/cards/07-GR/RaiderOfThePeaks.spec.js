@@ -32,7 +32,7 @@ describe('Raider of the Peaks', function () {
             expect(this.pressGang.location).toBe('deck');
             expect(this.fullMoon.location).toBe('discard');
             this.player1.clickPrompt('brobnar');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('makes self with the highest power creature discard the top of their deck', function () {
@@ -47,7 +47,7 @@ describe('Raider of the Peaks', function () {
             expect(this.pressGang.location).toBe('discard');
             expect(this.fullMoon.location).toBe('deck');
             this.player1.clickPrompt('brobnar');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('allows a choice between highest power on a tie', function () {
@@ -63,7 +63,7 @@ describe('Raider of the Peaks', function () {
             expect(this.pressGang.location).toBe('deck');
             expect(this.fullMoon.location).toBe('discard');
             this.player1.clickPrompt('brobnar');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

@@ -21,7 +21,7 @@ describe('Dark Influence', function () {
             this.player1.clickPrompt('Mine');
             expect(this.fandangle.location).toBe('discard');
             expect(this.player1.amber).toBe(4); // pip + effect
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should discard top card of opponent deck and gain amber if it is a Mutant creature', function () {
@@ -30,7 +30,7 @@ describe('Dark Influence', function () {
             this.player1.clickPrompt("Opponent's");
             expect(this.darkMinion.location).toBe('discard');
             expect(this.player1.amber).toBe(4); // pip + effect
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should not gain amber if discarded card is not a Mutant creature', function () {
@@ -39,7 +39,7 @@ describe('Dark Influence', function () {
             this.player1.clickPrompt('Mine');
             expect(this.yurk.location).toBe('discard');
             expect(this.player1.amber).toBe(3); // pip
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

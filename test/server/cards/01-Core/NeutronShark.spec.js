@@ -39,7 +39,7 @@ describe('Neutron Shark', function () {
             expect(this.dextre.location).toBe('discard');
             expect(this.batdrone.location).toBe('discard');
             expect(this.libraryOfBabble.location).toBe('discard');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should resolve the ability again if the top card is not logos', function () {
@@ -79,7 +79,7 @@ describe('Neutron Shark', function () {
             this.player1.clickCard(this.gormOfOmm);
             expect(this.gormOfOmm.location).toBe('discard');
             expect(this.dextre.location).toBe('discard');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should repeat even if only one card was destroyed', function () {
@@ -112,7 +112,7 @@ describe('Neutron Shark', function () {
             expect(this.emberImp.location).toBe('discard');
             expect(this.neutronShark.location).toBe('discard');
             expect(this.umbra.location).toBe('discard');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 

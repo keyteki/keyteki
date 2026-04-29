@@ -13,7 +13,7 @@ describe('The Red Death', function () {
                     inPlay: ['troll', 'groggins', 'groke']
                 }
             });
-            this.theRedDeath.exhausted = true;
+            this.theRedDeath.exhaust();
             this.player1.chains = 36;
         });
 
@@ -27,7 +27,7 @@ describe('The Red Death', function () {
             this.player1.play(this.marsFirst);
             this.player1.clickCard(this.theRedDeath);
             expect(this.theRedDeath.exhausted).toBe(true);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('ready at end of turn if haunted', function () {
@@ -45,7 +45,7 @@ describe('The Red Death', function () {
             this.player1.clickCard(this.troll);
             expect(this.player1.amber).toBe(3);
             expect(this.player1.player.hand.length).toBe(1);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

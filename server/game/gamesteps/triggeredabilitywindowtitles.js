@@ -1,11 +1,12 @@
 const _ = require('underscore');
+const { EVENTS } = require('../Events/types');
 
 const EventToTitleFunc = {
     onCardAbilityInitiated: (event) => 'the effects of ' + event.card.name,
     onCardDestroyed: (event) => event.card.name + ' being destroyed',
     onCardLeavesPlay: (event) =>
         event.card.name +
-        (event.triggeringEvent && event.triggeringEvent.name === 'onCardDestroyed'
+        (event.triggeringEvent && event.triggeringEvent.name === EVENTS.onCardDestroyed
             ? ' being destroyed'
             : ' leaving play'),
     onCharacterEntersPlay: (event) => event.card.name + ' entering play',

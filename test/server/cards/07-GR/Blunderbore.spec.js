@@ -20,7 +20,7 @@ describe('Blunderbore', function () {
             this.player1.fightWith(this.blunderbore, this.cpoZytar);
             expect(this.player2.amber).toBe(2);
             expect(this.player1.amber).toBe(1);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('causes opponent to lose 2 after fight if not haunted', function () {
@@ -28,7 +28,7 @@ describe('Blunderbore', function () {
             this.player1.fightWith(this.blunderbore, this.cpoZytar);
             expect(this.player2.amber).toBe(1);
             expect(this.player1.amber).toBe(1);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

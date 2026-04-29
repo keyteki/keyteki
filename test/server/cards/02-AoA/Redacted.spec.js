@@ -40,7 +40,7 @@ describe('[Redacted]', function () {
 
         it('should add 4th amber, forge and sacrifice when select logos house', function () {
             this.player1.play(this['[redacted]']);
-            this['[redacted]'].tokens.amber = 2;
+            this['[redacted]'].amber = 2;
             this.player1.endTurn();
             this.player2.clickPrompt('brobnar');
             this.player2.endTurn();
@@ -54,7 +54,7 @@ describe('[Redacted]', function () {
             expect(this['[redacted]'].location).toBe('discard');
             expect(this.player1.amber).toBe(5);
             expect(this.player1.player.getForgedKeys()).toBe(1);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

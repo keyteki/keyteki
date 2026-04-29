@@ -47,19 +47,19 @@ describe('Ascendant Hester', function () {
             expect(this.ascendantHester.amber).toBe(1);
             expect(this.lamindra.amber).toBe(1);
             expect(this.player2.amber).toBe(3);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should capture 1 on each other friendly creature on fight', function () {
             this.player1.playCreature(this.ascendantHester);
-            this.ascendantHester.exhausted = false;
+            this.ascendantHester.ready();
             this.player1.fightWith(this.ascendantHester, this.lamindra);
             expect(this.raidingKnight.amber).toBe(3);
             expect(this.scrivenerFavian.amber).toBe(2);
             expect(this.ascendantHester.amber).toBe(2);
             expect(this.lamindra.amber).toBe(1);
             expect(this.player2.amber).toBe(0);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should give +2 armor for each amber on other friendly creatures', function () {
@@ -68,7 +68,7 @@ describe('Ascendant Hester', function () {
             expect(this.scrivenerFavian.armor).toBe(2);
             expect(this.ascendantHester.armor).toBe(0);
             expect(this.lamindra.armor).toBe(0);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

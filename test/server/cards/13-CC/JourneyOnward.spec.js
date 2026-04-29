@@ -16,7 +16,7 @@ describe('Journey Onward', function () {
         });
 
         it('should target a friendly Skyborn creature and give it After Fight ability', function () {
-            this.aeroOFore.exhausted = true;
+            this.aeroOFore.exhaust();
             this.player1.play(this.journeyOnward);
             expect(this.player1).toBeAbleToSelect(this.aeroOFore);
             expect(this.player1).toBeAbleToSelect(this.buxBastian);
@@ -25,7 +25,7 @@ describe('Journey Onward', function () {
             this.player1.clickCard(this.lamindra);
             expect(this.player1.amber).toBe(2);
             expect(this.player2.amber).toBe(2);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should not give the ability to other creatures', function () {
@@ -37,7 +37,7 @@ describe('Journey Onward', function () {
             this.player1.fightWith(this.buxBastian, this.tantadlin);
             expect(this.player1.amber).toBe(2);
             expect(this.player2.amber).toBe(2);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should lose the ability after the turn ends', function () {

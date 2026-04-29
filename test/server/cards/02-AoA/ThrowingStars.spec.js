@@ -31,7 +31,7 @@ describe('Throwing Stars', function () {
 
         describe('and a target with ward is selected and one creature is destroyed', function () {
             beforeEach(function () {
-                this.odoacThePatrician.tokens.ward = 1;
+                this.odoacThePatrician.ward();
                 this.player1.play(this.throwingStars);
                 this.player1.clickCard(this.badPenny);
                 this.player1.clickCard(this.odoacThePatrician);
@@ -70,6 +70,29 @@ describe('Throwing Stars', function () {
             expect(this.lamindra.location).toBe('play area');
             expect(this.armageddonCloak.location).toBe('discard');
             expect(this.player2.amber).toBe(0);
+        });
+    });
+
+    describe('Throwing Stars with Gub', function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'shadows',
+                    hand: ['throwing-stars'],
+                    inPlay: ['dark-minion', 'gub', 'rotgrub']
+                },
+                player2: {}
+            });
+        });
+
+        it('should not gain amber for Gub', function () {
+            this.player1.play(this.throwingStars);
+            this.player1.clickCard(this.darkMinion);
+            this.player1.clickCard(this.gub);
+            this.player1.clickCard(this.rotgrub);
+            this.player1.clickPrompt('done');
+            expect(this.player1.amber).toBe(2);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

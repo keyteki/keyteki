@@ -20,7 +20,7 @@ describe('Labwork', function () {
             expect(this.player1).toBeAbleToSelect(this.phaseShift);
             this.player1.clickCard(this.virtuousWorks);
             expect(this.virtuousWorks.location).toBe('archives');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it("should not trigger if the player's hand is empty", function () {
@@ -29,7 +29,7 @@ describe('Labwork', function () {
             expect(this.player1.amber).toBe(3);
             this.player1.play(this.labwork);
             expect(this.player1.amber).toBe(4);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

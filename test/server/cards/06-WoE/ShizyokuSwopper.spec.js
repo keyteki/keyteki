@@ -19,7 +19,7 @@ describe('Shĭzyokŭ Swopper', function () {
             expect(this.player1.player.cardsInPlay).not.toContain(this.shĭzyokŭSwopper);
             expect(this.player1.player.cardsInPlay).toContain(this.mother);
             expect(this.player2.player.cardsInPlay).not.toContain(this.mother);
-            expect(this.mother.tokens.damage).toBe(1);
+            expect(this.mother.damage).toBe(1);
         });
 
         it('should not swap with the defender, if the defender was destroyed.', function () {

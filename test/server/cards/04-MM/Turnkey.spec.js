@@ -20,7 +20,7 @@ describe('Turnkey', function () {
             expect(this.player2.player.keys.red).toBe(false);
             expect(this.player2.player.keys.blue).toBe(false);
             expect(this.player2.player.keys.yellow).toBe(false);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it("should unforge an opponent's key when they have one", function () {
@@ -30,7 +30,7 @@ describe('Turnkey', function () {
             expect(this.player2.player.keys.red).toBe(false);
             expect(this.player2.player.keys.blue).toBe(false);
             expect(this.player2.player.keys.yellow).toBe(false);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it("should unforge an opponent's key when they have two", function () {
@@ -41,12 +41,12 @@ describe('Turnkey', function () {
             expect(this.player1).toHavePromptButton('Red');
             expect(this.player1).toHavePromptButton('Blue');
             expect(this.player1).not.toHavePromptButton('Yellow');
-            this.player1.clickPrompt('Blue');
+            this.player1.unforgeKey('Blue');
 
             expect(this.player2.player.keys.red).toBe(true);
             expect(this.player2.player.keys.blue).toBe(false);
             expect(this.player2.player.keys.yellow).toBe(false);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
             expect(this.player2.amber).toBe(0);
         });
 
@@ -54,7 +54,7 @@ describe('Turnkey', function () {
             this.player2.player.keys = { red: true, blue: true, yellow: false };
 
             this.player1.play(this.turnkey);
-            this.player1.clickPrompt('Blue');
+            this.player1.unforgeKey('Blue');
             this.player1.play(this.gongoozle);
             this.player1.clickCard(this.turnkey);
 
@@ -63,12 +63,12 @@ describe('Turnkey', function () {
             expect(this.player1).not.toHavePromptButton('Red');
             expect(this.player1).toHavePromptButton('Blue');
             expect(this.player1).toHavePromptButton('Yellow');
-            this.player1.clickPrompt('Yellow');
+            this.player1.forgeKey('Yellow');
 
             expect(this.player2.player.keys.red).toBe(true);
             expect(this.player2.player.keys.blue).toBe(false);
             expect(this.player2.player.keys.yellow).toBe(true);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
             expect(this.player2.amber).toBe(0);
         });
 
@@ -76,7 +76,7 @@ describe('Turnkey', function () {
             this.player2.player.keys = { red: true, blue: true, yellow: false };
 
             this.player1.play(this.turnkey);
-            this.player1.clickPrompt('Blue');
+            this.player1.unforgeKey('Blue');
             this.player1.endTurn();
 
             this.player2.clickPrompt('brobnar');
@@ -87,12 +87,12 @@ describe('Turnkey', function () {
             expect(this.player2).not.toHavePromptButton('Red');
             expect(this.player2).toHavePromptButton('Blue');
             expect(this.player2).toHavePromptButton('Yellow');
-            this.player2.clickPrompt('Yellow');
+            this.player2.forgeKey('Yellow');
 
             expect(this.player2.player.keys.red).toBe(true);
             expect(this.player2.player.keys.blue).toBe(false);
             expect(this.player2.player.keys.yellow).toBe(true);
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player2).isReadyToTakeAction();
             expect(this.player2.amber).toBe(0);
         });
 
@@ -100,12 +100,12 @@ describe('Turnkey', function () {
             this.player2.player.keys = { red: true, blue: true, yellow: false };
 
             this.player1.play(this.turnkey);
-            this.player1.clickPrompt('Blue');
+            this.player1.unforgeKey('Blue');
             this.player1.play(this.theEvilEye);
             this.player1.endTurn();
 
             this.player2.clickPrompt('brobnar');
-            expect(this.player2.player.getCurrentKeyCost, 9);
+            expect(this.player2.player.getCurrentKeyCost()).toBe(9);
             this.player2.fightWith(this.bumpsy, this.turnkey);
 
             //Odd wording, because your opponent is the one who actually gets the key.
@@ -113,13 +113,88 @@ describe('Turnkey', function () {
             expect(this.player2).not.toHavePromptButton('Red');
             expect(this.player2).toHavePromptButton('Blue');
             expect(this.player2).toHavePromptButton('Yellow');
-            this.player2.clickPrompt('Yellow');
+            this.player2.forgeKey('Yellow');
 
             expect(this.player2.player.keys.red).toBe(true);
             expect(this.player2.player.keys.blue).toBe(false);
             expect(this.player2.player.keys.yellow).toBe(true);
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player2).isReadyToTakeAction();
             expect(this.player2.amber).toBe(0);
+        });
+    });
+
+    describe("Turnkey's ability", function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'dis',
+                    token: 'facet',
+                    hand: ['turnkey', 'gĕzdrutyŏ-the-arcane', 'gateway-to-dis'],
+                    inPlay: ['creed-of-nurture']
+                },
+                player2: {}
+            });
+        });
+
+        it('should still work if flipped into a token creature', function () {
+            this.player2.player.keys = { red: true, blue: true, yellow: false };
+            this.player1.play(this.turnkey);
+            this.player1.unforgeKey('Blue');
+            expect(this.player2.player.getForgedKeys()).toBe(1);
+            this.turnkey.ready();
+
+            // Flip Turnkey - this does not remove Turnkey from play
+            this.player1.useOmni(this.creedOfNurture);
+            this.player1.clickCard(this.gĕzdrutyŏTheArcane);
+            this.player1.clickCard(this.turnkey);
+            this.player1.useAction(this.turnkey); // Steal 2 and flip with Gĕzdrutyŏ's action
+            expect(this.turnkey.isToken()).toBe(true);
+            expect(this.turnkey.name).toBe('Facet');
+            expect(this.player2.player.getForgedKeys()).toBe(1);
+
+            // Destroy the Facet:Turnkey - now Turnkey is considered to be leaving play
+            this.player1.play(this.gatewayToDis);
+            expect(this.turnkey.location).toBe('discard');
+            expect(this.player1).toHavePrompt('Which key would you like to forge?');
+            this.player1.forgeKey('Yellow');
+            expect(this.player2.player.keys.red).toBe(true);
+            expect(this.player2.player.keys.blue).toBe(false);
+            expect(this.player2.player.keys.yellow).toBe(true);
+        });
+    });
+
+    describe("Turnkey's ability", function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'dis',
+                    hand: ['turnkey', 'gĕzdrutyŏ-the-arcane'],
+                    inPlay: ['creed-of-nurture']
+                },
+                player2: {
+                    inPlay: ['troll']
+                }
+            });
+        });
+
+        it('should still work if flipped and discarded', function () {
+            this.player2.player.keys = { red: true, blue: true, yellow: false };
+            this.player1.play(this.turnkey);
+            this.player1.unforgeKey('Blue');
+            expect(this.player2.player.getForgedKeys()).toBe(1);
+            this.turnkey.ready();
+
+            // Flip Turnkey - without a token creature this removes Turnkey from play
+            this.player1.useOmni(this.creedOfNurture);
+            this.player1.clickCard(this.gĕzdrutyŏTheArcane);
+            this.player1.clickCard(this.turnkey);
+            this.player1.useAction(this.turnkey); // Steal 2 and flip with Gĕzdrutyŏ's action
+            expect(this.turnkey.location).toBe('discard');
+            expect(this.player1).toHavePrompt('Which key would you like to forge?');
+            this.player1.forgeKey('Yellow');
+            expect(this.player2.player.keys.red).toBe(true);
+            expect(this.player2.player.keys.blue).toBe(false);
+            expect(this.player2.player.keys.yellow).toBe(true);
         });
     });
 });

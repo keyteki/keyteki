@@ -25,7 +25,7 @@ describe('Murkens', function () {
             this.player1.play(this.murkens);
             expect(this.player1).not.toHavePromptButton('Top of deck');
             expect(this.player1).not.toHavePromptButton('Random card from archives');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('when deck is empty, still provide option, and allow playing archived card', function () {
@@ -84,6 +84,59 @@ describe('Murkens', function () {
                 expect(this.krump.location).toBe('play area');
                 expect(this.krump.controller).toBe(this.player1.player);
             }
+        });
+    });
+
+    describe('Murkens with Kaupe', function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'shadows',
+                    hand: ['murkens']
+                },
+                player2: {
+                    inPlay: ['kaupe'],
+                    discard: ['shield-u-later']
+                }
+            });
+        });
+
+        it('should allow playing Shield-U-Later as upgrade when Kaupe prevents creatures', function () {
+            this.player2.moveCard(this.shieldULater, 'deck');
+            this.player1.playCreature(this.murkens);
+            this.player1.clickPrompt('Top of deck');
+            expect(this.player1).toHavePrompt('Choose a creature to attach this upgrade to');
+            this.player1.clickCard(this.murkens);
+            expect(this.shieldULater.parent).toBe(this.murkens);
+            expect(this.shieldULater.location).toBe('play area');
+            expect(this.player1).isReadyToTakeAction();
+        });
+    });
+
+    describe('Murkens with Kaupe and Chronophage', function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'shadows',
+                    hand: ['murkens']
+                },
+                player2: {
+                    inPlay: ['kaupe', 'chronophage'],
+                    discard: ['shield-u-later']
+                }
+            });
+        });
+
+        it('should allow playing Shield-U-Later as upgrade when Kaupe prevents creatures and Chronophage is out', function () {
+            this.player2.moveCard(this.shieldULater, 'deck');
+            this.player1.playCreature(this.murkens);
+            this.player1.clickPrompt('Top of deck');
+            expect(this.player1).toHavePrompt('Choose a creature to attach this upgrade to');
+            this.player1.clickCard(this.murkens);
+            expect(this.shieldULater.parent).toBe(this.murkens);
+            expect(this.shieldULater.location).toBe('play area');
+            this.player2.clickPrompt('logos');
+            expect(this.player2).isReadyToTakeAction();
         });
     });
 });

@@ -23,7 +23,7 @@ describe('Harmonic Ritual', function () {
 
             it('should not gain any amber', function () {
                 expect(this.player1.amber).toBe(2);
-                expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+                expect(this.player1).isReadyToTakeAction();
             });
         });
 
@@ -52,7 +52,7 @@ describe('Harmonic Ritual', function () {
 
                 it('should not gain any amber', function () {
                     expect(this.player1.amber).toBe(2);
-                    expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+                    expect(this.player1).isReadyToTakeAction();
                 });
             });
 
@@ -63,7 +63,7 @@ describe('Harmonic Ritual', function () {
 
                 it('should not gain any amber', function () {
                     expect(this.player1.amber).toBe(2);
-                    expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+                    expect(this.player1).isReadyToTakeAction();
                 });
             });
 
@@ -74,7 +74,7 @@ describe('Harmonic Ritual', function () {
 
                 it('should gain 1 amber', function () {
                     expect(this.player1.amber).toBe(3);
-                    expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+                    expect(this.player1).isReadyToTakeAction();
                 });
             });
 
@@ -85,7 +85,7 @@ describe('Harmonic Ritual', function () {
 
                 it('should gain 2 ambers', function () {
                     expect(this.player1.amber).toBe(5);
-                    expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+                    expect(this.player1).isReadyToTakeAction();
                 });
             });
         });

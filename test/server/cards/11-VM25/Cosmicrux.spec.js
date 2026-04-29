@@ -13,31 +13,31 @@ describe('Cosmicrux', function () {
         });
 
         it('should deal 1 damage to a creature when it readies', function () {
-            this.troll.exhausted = true;
+            this.troll.exhaust();
             this.player1.endTurn();
-            expect(this.troll.tokens.damage).toBe(1);
-            expect(this.cosmicrux.tokens.damage).toBe(undefined);
-            expect(this.charette.tokens.damage).toBe(undefined);
+            expect(this.troll.damage).toBe(1);
+            expect(this.cosmicrux.damage).toBe(0);
+            expect(this.charette.damage).toBe(0);
         });
 
         it('should deal 1 damage to opponent creature when it readies', function () {
-            this.charette.exhausted = true;
+            this.charette.exhaust();
             this.player1.endTurn();
             this.player2.clickPrompt('Dis');
             this.player2.endTurn();
-            expect(this.troll.tokens.damage).toBe(undefined);
-            expect(this.cosmicrux.tokens.damage).toBe(undefined);
-            expect(this.charette.tokens.damage).toBe(1);
+            expect(this.troll.damage).toBe(0);
+            expect(this.cosmicrux.damage).toBe(0);
+            expect(this.charette.damage).toBe(1);
         });
 
         it('should deal 1 damage to multiple creatures when they ready', function () {
-            this.troll.exhausted = true;
-            this.cosmicrux.exhausted = true;
+            this.troll.exhaust();
+            this.cosmicrux.exhaust();
             this.player1.endTurn();
             this.player1.clickCard(this.cosmicrux);
-            expect(this.troll.tokens.damage).toBe(1);
-            expect(this.cosmicrux.tokens.damage).toBe(1);
-            expect(this.charette.tokens.damage).toBe(undefined);
+            expect(this.troll.damage).toBe(1);
+            expect(this.cosmicrux.damage).toBe(1);
+            expect(this.charette.damage).toBe(0);
         });
     });
 });

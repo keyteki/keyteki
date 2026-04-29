@@ -13,8 +13,7 @@ describe('Icarus 2.0', function () {
                 }
             });
 
-            this.icarus20.printedHouse = 'logos';
-            this.icarus20.maverick = 'logos';
+            this.player1.makeMaverick(this.icarus20, 'logos');
         });
 
         it('should give friendly creatures an action to draw a card', function () {

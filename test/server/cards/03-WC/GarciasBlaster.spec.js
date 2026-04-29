@@ -16,7 +16,7 @@ describe('Garcia’s Blaster', function () {
 
         it('should steal 1 amber when attached to the associated officer', function () {
             this.player1.playUpgrade(this.garciaSBlaster, this.sensorChiefGarcia);
-            expect(this.sensorChiefGarcia.hasToken('amber')).toBe(false);
+            expect(this.sensorChiefGarcia.amber).toBe(0);
             expect(this.player1.amber).toBe(2);
             expect(this.player2.amber).toBe(1);
         });
@@ -34,7 +34,7 @@ describe('Garcia’s Blaster', function () {
             expect(this.player1).toHavePrompt('Triggered Abilities');
             expect(this.player1).toHavePromptButton('Done');
             this.player1.clickPrompt('Done');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('reap ability should allow dealing 2 damages to a creature', function () {
@@ -54,7 +54,7 @@ describe('Garcia’s Blaster', function () {
             expect(this.player1).toBeAbleToSelect(this.lamindra);
             expect(this.player1).toBeAbleToSelect(this.krump);
             this.player1.clickCard(this.krump);
-            expect(this.krump.tokens.damage).toBe(2);
+            expect(this.krump.damage).toBe(2);
         });
 
         it('fight ability should allow dealing 2 damages to a creature', function () {
@@ -74,7 +74,7 @@ describe('Garcia’s Blaster', function () {
             expect(this.player1).toBeAbleToSelect(this.lamindra);
             expect(this.player1).toBeAbleToSelect(this.krump);
             this.player1.clickCard(this.krump);
-            expect(this.krump.tokens.damage).toBe(2);
+            expect(this.krump.damage).toBe(2);
         });
 
         it('reap ability should allow moving the upgrade to the appropriate officer', function () {
@@ -153,7 +153,7 @@ describe('Garcia’s Blaster', function () {
             expect(this.player1).toBeAbleToSelect(this.lamindra);
             expect(this.player1).toBeAbleToSelect(this.krump);
             this.player1.clickCard(this.krump);
-            expect(this.krump.tokens.damage).toBe(2);
+            expect(this.krump.damage).toBe(2);
         });
 
         it('reap ability should allow moving to associated officer even when it is not in play', function () {
@@ -165,7 +165,7 @@ describe('Garcia’s Blaster', function () {
             expect(this.player1).toHavePromptButton('Deal 2 damage');
             expect(this.player1).toHavePromptButton('Move Garcia’s Blaster');
             this.player1.clickPrompt('Move Garcia’s Blaster');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('fight ability should default to deal damage when officer is not in play', function () {
@@ -182,7 +182,7 @@ describe('Garcia’s Blaster', function () {
             expect(this.player1).toBeAbleToSelect(this.lamindra);
             expect(this.player1).toBeAbleToSelect(this.krump);
             this.player1.clickCard(this.krump);
-            expect(this.krump.tokens.damage).toBe(2);
+            expect(this.krump.damage).toBe(2);
         });
     });
 
@@ -212,7 +212,7 @@ describe('Garcia’s Blaster', function () {
             this.player1.clickPrompt('Garcia’s Blaster');
             this.player1.clickPrompt('Move Garcia’s Blaster');
             // There are no valid targets.
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
             expect(this.sensorChiefGarcia1.upgrades).toContain(this.garciaSBlaster);
 
             expect(this.player1.amber).toBe(3);

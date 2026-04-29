@@ -56,7 +56,7 @@ describe('Throium Plasmate', function () {
                     });
 
                     it('should be dealt 2 damage to the creature for each of its neighbors sharing a house', function () {
-                        expect(this.troll.tokens.damage).toBe(undefined);
+                        expect(this.troll.damage).toBe(0);
                     });
                 });
 
@@ -72,7 +72,7 @@ describe('Throium Plasmate', function () {
                     });
 
                     it('should be dealt 2 damage to the creature for each of its neighbors sharing a house', function () {
-                        expect(this.troll.tokens.damage).toBe(2);
+                        expect(this.troll.damage).toBe(2);
                     });
                 });
             });

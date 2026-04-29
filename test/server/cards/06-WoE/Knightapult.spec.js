@@ -5,8 +5,9 @@ describe('Knightapult', function () {
                 player1: {
                     house: 'sanctum',
                     amber: 3,
+                    token: 'cleric',
                     inPlay: ['chelonia', 'flaxia', 'knightapult'],
-                    hand: ['holdfast', 'berinon']
+                    hand: ['holdfast', 'berinon', 'gorm-of-omm', 'exo-shell-system']
                 },
                 player2: {
                     inPlay: ['troll', 'gub']
@@ -36,6 +37,7 @@ describe('Knightapult', function () {
                 expect(this.holdfast.exhausted).toBe(false);
             });
         });
+
         describe('should cause the 2nd next creature played', function () {
             beforeEach(function () {
                 this.player1.play(this.holdfast);
@@ -54,6 +56,46 @@ describe('Knightapult', function () {
                 this.player1.clickPrompt('Left');
 
                 expect(this.berinon.exhausted).toBe(true);
+            });
+        });
+
+        describe('should not cause artifacts played', function () {
+            beforeEach(function () {
+                this.player1.clickCard(this.gormOfOmm);
+                this.player1.clickPrompt('Play this artifact');
+            });
+
+            it('to be ready', function () {
+                expect(this.gormOfOmm.exhausted).toBe(true);
+            });
+
+            it('should ready token creatures created by playing artifacts', function () {
+                this.player1.makeMaverick(this.exoShellSystem, 'sanctum');
+                this.player1.clickCard(this.exoShellSystem);
+                this.player1.clickPrompt('Play this artifact');
+                this.player1.clickPrompt('Left');
+                expect(this.exoShellSystem.exhausted).toBe(true);
+                let tokenCreature = this.player1.inPlay[0];
+                expect(tokenCreature.isToken()).toBe(true);
+                expect(tokenCreature.exhausted).toBe(false);
+                this.player1.clickCard(this.holdfast);
+                this.player1.clickPrompt('Play this creature');
+                this.player1.clickPrompt('Right');
+                expect(this.holdfast.exhausted).toBe(true);
+            });
+        });
+
+        describe('should not affect the next turn', function () {
+            it('the next creature to not be ready', function () {
+                this.player1.endTurn();
+                this.player2.clickPrompt('brobnar');
+                this.player2.endTurn();
+                this.player1.clickPrompt('sanctum');
+
+                this.player1.clickCard(this.holdfast);
+                this.player1.clickPrompt('Play this creature');
+                this.player1.clickPrompt('Left');
+                expect(this.holdfast.exhausted).toBe(true);
             });
         });
     });
@@ -83,7 +125,7 @@ describe('Knightapult', function () {
 
             it('should place the replacement where Gebuk was, with no prompt', function () {
                 expect(this.player1.inPlay[1]).toBe(this.sequis);
-                expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+                expect(this.player1).isReadyToTakeAction();
                 expect(this.player1).not.toHavePrompt(
                     'Which flank do you want to place this creature on?'
                 );
@@ -196,7 +238,7 @@ describe('Knightapult', function () {
                 this.player1.clickPrompt('sanctum');
 
                 this.player1.useAction(this.knightapult);
-                this.player1.useAction(this.trojanSauropod, true);
+                this.player1.useOmni(this.trojanSauropod);
             });
 
             it('should not give deploy to incoming enemy creatures', function () {
@@ -245,7 +287,7 @@ describe('Knightapult', function () {
                     }
                 });
 
-                this.kamalani.tokens.damage = 2;
+                this.kamalani.damage = 2;
                 this.player1.useAction(this.knightapult);
                 this.player1.play(this.hammerGram);
                 this.player1.clickCard(this.kamalani);

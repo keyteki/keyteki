@@ -24,7 +24,7 @@ describe('Three Sheets to the Wind', function () {
             expect(this.player2.player.deck.length).toBe(deckLen - 2);
             expect(this.player2.player.purged.length).toBe(1);
             expect(this.player2.player.discard.length).toBe(1);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should work even with no deck or discard', function () {
@@ -35,7 +35,7 @@ describe('Three Sheets to the Wind', function () {
             expect(this.player2.player.deck.length).toBe(0);
             expect(this.player2.player.purged.length).toBe(0);
             expect(this.player2.player.discard.length).toBe(1);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

@@ -30,7 +30,7 @@ describe('Ghost Tree', function () {
             this.player2.clickPrompt('brobnar');
             this.player2.fightWith(this.troll, this.ghostTree);
             expect(this.troll.location).toBe('play area');
-            expect(this.troll.tokens.damage).toBe(undefined);
+            expect(this.troll.damage).toBe(0);
         });
 
         it('discards 5 cards from deck on scrap', function () {

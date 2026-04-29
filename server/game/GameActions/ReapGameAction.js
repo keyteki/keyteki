@@ -1,3 +1,4 @@
+const { EVENTS } = require('../Events/types');
 const CardGameAction = require('./CardGameAction');
 
 class ReapGameAction extends CardGameAction {
@@ -11,7 +12,7 @@ class ReapGameAction extends CardGameAction {
         let reapAction = card.stunned ? card.getRemoveStunAction() : card.getReapAction();
         let newContext = reapAction.createContext(context.player);
         newContext.ignoreHouse = true;
-        if (reapAction.meetsRequirements(newContext, ['stunned'])) {
+        if (reapAction.meetsRequirements(newContext, ['exhausted', 'stunned'])) {
             return false;
         }
         return card.checkRestrictions('use', context) && super.canAffect(card, context);
@@ -20,6 +21,10 @@ class ReapGameAction extends CardGameAction {
     checkEventCondition(event) {
         if (event.card.stunned) {
             return true;
+        }
+        // Even if ignoreExhausted is set for targeting, the creature must be ready to actually reap
+        if (event.card.exhausted) {
+            return false;
         }
         let reapAction = event.card.getReapAction();
         let newContext = reapAction.createContext(event.context.player);
@@ -31,12 +36,10 @@ class ReapGameAction extends CardGameAction {
     }
 
     getEvent(card, context) {
-        return super.createEvent('unnamedEvent', { card, context }, () => {
+        return super.createEvent(EVENTS.unnamedEvent, { card, context }, () => {
             let newContext;
             if (card.stunned) {
-                let removeStunAction = card
-                    .getActions()
-                    .find((action) => action.title === "Remove this creature's stun");
+                let removeStunAction = card.getActions().find((action) => action.unstun);
                 newContext = removeStunAction.createContext(context.player);
             } else {
                 let reapAction = card.getReapAction();

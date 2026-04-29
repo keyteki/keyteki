@@ -23,7 +23,7 @@ describe('Guji Dinosaur Hunter', function () {
             expect(this.player1).toBeAbleToSelect(this.gujiDinosaurHunter);
             this.player1.clickCard(this.krump);
             expect(this.krump.location).toBe('play area');
-            expect(this.krump.tokens.damage).toBe(2);
+            expect(this.krump.damage).toBe(2);
         });
         it('should deal 6 damage with its action ability to a dino', function () {
             this.player1.clickCard(this.gujiDinosaurHunter);

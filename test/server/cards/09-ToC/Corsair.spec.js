@@ -20,19 +20,19 @@ describe('Corsair', function () {
         it('should do nothing without red key forged', function () {
             this.player1.fightWith(this.corsair1, this.troll);
             expect(this.corsair1.location).toBe('discard');
-            expect(this.troll.tokens.damage).toBe(2);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.troll.damage).toBe(2);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should give skirmish and +1 power with red key', function () {
             this.player1.player.keys = { red: true, blue: false, yellow: false };
             this.player1.fightWith(this.corsair1, this.troll);
             expect(this.corsair1.location).toBe('play area');
-            expect(this.troll.tokens.damage).toBe(3);
+            expect(this.troll.damage).toBe(3);
             this.player1.fightWith(this.buxBastian, this.troll);
             expect(this.buxBastian.location).toBe('discard');
-            expect(this.troll.tokens.damage).toBe(6);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.troll.damage).toBe(6);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

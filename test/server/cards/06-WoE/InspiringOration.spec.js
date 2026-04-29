@@ -22,7 +22,7 @@ describe('Inspiring Oration', function () {
             this.player1.clickPrompt('Right');
             expect(this.player1.player.creaturesInPlay.length).toBe(2);
             expect(this.player1.player.creaturesInPlay[1].name).toBe('Grumpus');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('makes a token creature for each amber', function () {
@@ -35,7 +35,7 @@ describe('Inspiring Oration', function () {
             expect(this.player1.player.creaturesInPlay.length).toBe(3);
             expect(this.player1.player.creaturesInPlay[1].name).toBe('Grumpus');
             expect(this.player1.player.creaturesInPlay[2].name).toBe('Grumpus');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

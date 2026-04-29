@@ -1,3 +1,4 @@
+const { EVENTS } = require('../Events/types');
 const CardListSelector = require('./CardListSelector');
 const GameAction = require('./GameAction');
 
@@ -66,7 +67,7 @@ class SequentialFightAction extends GameAction {
 
     getEventArray(context) {
         return [
-            super.createEvent('unnamedEvent', {}, () => {
+            super.createEvent(EVENTS.unnamedEvent, {}, () => {
                 this.filterAndApplyAction(context, this.forEach);
             })
         ];

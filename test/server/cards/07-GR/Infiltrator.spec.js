@@ -13,28 +13,28 @@ describe('Infiltrator', function () {
                 }
             });
             this.player1.playCreature(this.infiltrator);
-            this.infiltrator.exhausted = false;
+            this.infiltrator.ready();
         });
 
         it('enters play under opponent control', function () {
             expect(this.player2.player.creaturesInPlay).toContain(this.infiltrator);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('can be used with any house', function () {
             this.player1.endTurn();
             this.player2.clickPrompt('dis');
             this.player2.reap(this.infiltrator);
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player2).isReadyToTakeAction();
         });
 
         it('has skirmish', function () {
             this.player1.endTurn();
             this.player2.clickPrompt('dis');
             this.player2.fightWith(this.infiltrator, this.flaxia);
-            expect(this.infiltrator.tokens.damage).toBe(undefined);
+            expect(this.infiltrator.damage).toBe(0);
             expect(this.flaxia.location).toBe('discard');
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player2).isReadyToTakeAction();
         });
 
         it('destroys its neighbors at the end of the turn', function () {

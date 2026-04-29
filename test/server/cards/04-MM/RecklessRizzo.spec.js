@@ -59,8 +59,7 @@ describe('Reckless Rizzo', function () {
                     inPlay: ['teliga']
                 }
             });
-            this.tachyonManifold.maverick = 'shadows';
-            this.tachyonManifold.printedHouse = 'shadows';
+            this.player1.makeMaverick(this.tachyonManifold, 'shadows');
             this.player1.useAction(this.tachyonManifold);
         });
 
@@ -70,7 +69,7 @@ describe('Reckless Rizzo', function () {
             this.player1.endTurn();
             this.player1.clickPrompt('shadows');
             expect(this.recklessRizzo.getKeywordValue('elusive')).toBe(1);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

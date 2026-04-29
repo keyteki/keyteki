@@ -16,6 +16,7 @@ const ResolveFightAction = require('./GameActions/ResolveFightAction');
 const ResolveReapAction = require('./GameActions/ResolveReapAction');
 const ReturnToHandFromDiscardAction = require('./BaseActions/ReturnToHandFromDiscardAction');
 const RemoveStun = require('./BaseActions/RemoveStun');
+const { EVENTS } = require('./Events/types.js');
 
 class Card extends EffectSource {
     constructor(owner, cardData) {
@@ -71,11 +72,10 @@ class Card extends EffectSource {
         this.clonedNeighbors = null;
         this.clonedPurgedCards = null;
 
-        this.printedPower = cardData.power;
-        this.printedArmor = cardData.armor;
+        this.powerPrinted = cardData.power;
+        this.armorPrinted = cardData.armor;
         this.armorUsed = 0;
         this.exhausted = false;
-        this.stunned = false;
         this.moribund = false;
         this.isFighting = false;
         this.activeProphecy = false;
@@ -336,15 +336,18 @@ class Card extends EffectSource {
                     onCardDestroyed: (event, context) =>
                         event.card === context.source &&
                         event.card.type === 'creature' &&
-                        context.source.warded,
+                        context.source.warded &&
+                        !event.isRedirected,
                     onCardPurged: (event, context) =>
                         event.card === context.source &&
                         event.card.type === 'creature' &&
-                        context.source.warded,
+                        context.source.warded &&
+                        !event.isRedirected,
                     onCardLeavesPlay: (event, context) =>
                         event.card === context.source &&
                         event.card.type === 'creature' &&
-                        context.source.warded
+                        context.source.warded &&
+                        !event.isRedirected
                 },
                 autoResolve: true,
                 effect: 'remove its ward token',
@@ -367,7 +370,8 @@ class Card extends EffectSource {
                 match: this,
                 effect: [
                     ability.effects.cardCannot('damage'),
-                    ability.effects.cardCannot('destroy')
+                    ability.effects.cardCannot('destroy'),
+                    ability.effects.cardCannot('sacrifice')
                 ]
             })
         );
@@ -470,7 +474,7 @@ class Card extends EffectSource {
                     when: {
                         onCardLeavesPlay: (event, context) =>
                             event.triggeringEvent &&
-                            event.triggeringEvent.name === 'onCardDestroyed' &&
+                            event.triggeringEvent.name === EVENTS.onCardDestroyed &&
                             event.card === context.source
                     },
                     destroyed: true
@@ -687,12 +691,11 @@ class Card extends EffectSource {
     onLeavesPlay() {
         if (this.type === 'creature' && this.hasToken('amber') && this.controller.opponent) {
             this.game.actions
-                .gainAmber({ amount: this.tokens.amber })
+                .gainAmber({ amount: this.amber })
                 .resolve(this.controller.opponent, this.game.getFrameworkContext());
         }
 
         this.exhausted = false;
-        this.stunned = false;
         this.moribund = false;
         this.new = false;
         this.tokens = {};
@@ -786,9 +789,20 @@ class Card extends EffectSource {
         }
 
         if (originalLocation !== targetLocation) {
-            this.updateAbilityEvents(originalLocation, targetLocation);
+            // We want to update effects first, then unregister/re-register
+            // events. This ordering is important for _e.g._ token creatures,
+            // since we need to remove the tokenizing `CopyCard` effect first
+            // (which will happen when updateEffects clears out all lasting
+            // effects), then register any reactions for the card in its new
+            // location.
+            //
+            // If the order is reversed, updateAbilityEvents would try to
+            // register any of the _token’s_ reactions for the new location,
+            // even if the tokenness is about to go away.
             this.updateEffects(originalLocation, targetLocation);
-            this.game.emitEvent('onCardMoved', {
+            this.updateAbilityEvents(originalLocation, targetLocation);
+
+            this.game.emitEvent(EVENTS.onCardMoved, {
                 card: this,
                 originalLocation: originalLocation,
                 newLocation: targetLocation
@@ -858,6 +872,11 @@ class Card extends EffectSource {
         this.tokens[type] += number;
     }
 
+    setToken(type, number) {
+        this.tokens[type] = number;
+        this.game?.checkGameState(true);
+    }
+
     hasToken(type) {
         return !!this.tokens[type];
     }
@@ -917,9 +936,20 @@ class Card extends EffectSource {
             return 0;
         }
 
+        // For gigantic creatures with a composed part, get keywords from the bottom card
+        // This allows the top half to share keywords with the bottom half when in play
+        let baseValue = 0;
+        if (this.gigantic && this.composedPart) {
+            let copyEffect = this.mostRecentEffect('copyCard');
+            let baseKeywords = copyEffect
+                ? copyEffect.printedKeywords
+                : this.getBottomCard().printedKeywords;
+            baseValue = baseKeywords[keyword] || 0;
+        }
+
         return this.getEffects('addKeyword').reduce(
             (total, keywords) => total + (keywords[keyword] ? keywords[keyword] : 0),
-            0
+            baseValue
         );
     }
 
@@ -940,28 +970,18 @@ class Card extends EffectSource {
         clone.parent = this.parent;
         clone.clonedNeighbors = this.neighbors;
         clone.traits = this.getTraits();
-        clone.modifiedPower = this.getPower();
+        clone.modifiedPower = this.power;
         return clone;
     }
 
     get power() {
-        return this.getPower();
-    }
-
-    getPower(printed = false) {
-        const printedPower = this.getBottomCard().printedPower;
-
-        if (printed) {
-            return printedPower;
-        }
-
         if (this.anyEffect('setPower')) {
             return this.mostRecentEffect('setPower');
         }
 
         const copyEffect = this.mostRecentEffect('copyCard');
 
-        const basePower = copyEffect ? copyEffect.printedPower : printedPower;
+        const basePower = copyEffect ? copyEffect.powerPrinted : this.getBottomCard().powerPrinted;
         return (
             basePower +
             this.sumEffects('modifyPower') +
@@ -969,23 +989,21 @@ class Card extends EffectSource {
         );
     }
 
-    get armor() {
-        return this.getArmor();
+    get powerForPlayRestriction() {
+        return this.power;
     }
 
-    getArmor(printed = false) {
-        const printedArmor = this.getBottomCard().printedArmor;
+    get armor() {
+        return this.hasToken('armor') ? this.tokens.armor : 0;
+    }
 
-        if (printed) {
-            return printedArmor;
-        }
-
+    get armorTotal() {
         if (this.anyEffect('setArmor')) {
             return this.mostRecentEffect('setArmor');
         }
 
         const copyEffect = this.mostRecentEffect('copyCard');
-        const baseArmor = copyEffect ? copyEffect.printedArmor : printedArmor;
+        const baseArmor = copyEffect ? copyEffect.armorPrinted : this.getBottomCard().armorPrinted;
         return baseArmor + this.sumEffects('modifyArmor');
     }
 
@@ -994,7 +1012,23 @@ class Card extends EffectSource {
     }
 
     set amber(amber) {
-        this.tokens.amber = amber;
+        this.setToken('amber', amber);
+    }
+
+    get damage() {
+        return this.hasToken('damage') ? this.tokens.damage : 0;
+    }
+
+    set damage(damage) {
+        this.setToken('damage', damage);
+    }
+
+    get powerCounters() {
+        return this.hasToken('power') ? this.tokens.power : 0;
+    }
+
+    set powerCounters(power) {
+        this.setToken('power', power);
     }
 
     get enraged() {
@@ -1011,12 +1045,23 @@ class Card extends EffectSource {
         this.clearToken('enrage');
     }
 
+    get stunned() {
+        // v18-2 only refers to creatures when describing how stun affects
+        // cards. _E.g._ “While a creature is stunned, it cannot
+        // fight, reap, or use Action: or Omni: abilities.”
+        //
+        // See: https://github.com/keyteki/keyteki/issues/4673
+        return this.getType() === 'creature' && this.hasToken('stun');
+    }
+
     stun() {
-        this.stunned = true;
+        if (!this.hasToken('stun')) {
+            this.addToken('stun');
+        }
     }
 
     unstun() {
-        this.stunned = false;
+        this.clearToken('stun');
     }
 
     get warded() {
@@ -1127,12 +1172,11 @@ class Card extends EffectSource {
         actions = actions.filter((action) => {
             let context = action.createContext(player);
             context.ignoreHouse = ignoreHouse;
-            return !action.meetsRequirements(context);
+            return !action.meetsRequirements(context, []);
         });
-        let canFight =
-            actions.findIndex((action) => action.title === 'Fight with this creature') >= 0;
+        let canFight = actions.findIndex((action) => action.fight) >= 0;
         if (this.getEffects('mustFightIfAble').length > 0 && canFight) {
-            actions = actions.filter((action) => action.title === 'Fight with this creature');
+            actions = actions.filter((action) => action.fight);
         }
         return actions;
     }
@@ -1366,9 +1410,9 @@ class Card extends EffectSource {
             printedHouse: tokenCardOrThis.printedHouse,
             maverick: tokenCardOrThis.maverick,
             cardPrintedAmber: tokenCardOrThis.cardPrintedAmber,
-            printedPower: tokenCardOrThis.printedPower,
-            printedArmor: tokenCardOrThis.printedArmor,
-            modifiedPower: this.getPower(),
+            powerPrinted: tokenCardOrThis.powerPrinted,
+            armorPrinted: tokenCardOrThis.armorPrinted,
+            modifiedPower: this.power,
             stunned: this.stunned,
             taunt: this.getType() === 'creature' && !!this.getKeywordValue('taunt'),
             tokens: this.tokens,
@@ -1381,7 +1425,8 @@ class Card extends EffectSource {
             isToken: !!tokenCard,
             activeProphecy: this.activeProphecy,
             canActivateProphecy:
-                this.type === 'prophecy' ? this.controller.canActivateProphecy(this) : false
+                this.type === 'prophecy' ? this.controller.canActivateProphecy(this) : false,
+            accolades: (this.owner.deckData.accolades || []).filter((a) => a.shown)
         };
 
         if (tokenCard && isController) {
@@ -1395,8 +1440,8 @@ class Card extends EffectSource {
                 printedHouse: this.printedHouse,
                 maverick: this.maverick,
                 cardPrintedAmber: this.cardPrintedAmber,
-                printedPower: this.printedPower,
-                printedArmor: this.printedArmor,
+                powerPrinted: this.powerPrinted,
+                armorPrinted: this.armorPrinted,
                 type: this.printedType,
                 gigantic: this.gigantic,
                 uuid: this.uuid

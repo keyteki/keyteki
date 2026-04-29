@@ -35,7 +35,7 @@ describe('Barter and Games', function () {
             expect(this.player1.discard.length).toBe(3);
             expect(this.player2.hand.length).toBe(1);
             expect(this.player2.discard.length).toBe(4);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should reveal a card from each archive', function () {
@@ -54,7 +54,7 @@ describe('Barter and Games', function () {
             expect(this.player1.discard.length).toBe(2);
             expect(this.player2.hand.length).toBe(2);
             expect(this.player2.discard.length).toBe(2);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should work with no cards in hand', function () {
@@ -73,7 +73,7 @@ describe('Barter and Games', function () {
             expect(this.player1.discard.length).toBe(2);
             expect(this.player2.hand.length).toBe(1);
             expect(this.player2.discard.length).toBe(3);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should work with no cards in hand going second', function () {
@@ -92,13 +92,13 @@ describe('Barter and Games', function () {
             expect(this.player1.discard.length).toBe(2);
             expect(this.player2.hand.length).toBe(1);
             expect(this.player2.discard.length).toBe(3);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should work with opponent cards in your archive', function () {
             this.player1.endTurn();
             this.player2.clickPrompt('mars');
-            this.sandwyrm.tokens.damage = 1;
+            this.sandwyrm.damage = 1;
             this.player2.moveCard(this.suspendedAnimation, 'hand');
             this.player2.play(this.suspendedAnimation);
             this.player2.clickCard(this.sandwyrm);
@@ -118,7 +118,7 @@ describe('Barter and Games', function () {
             expect(this.huntingWitch.location).toBe('play area');
             expect(this.player1.discard.length).toBe(3);
             expect(this.player2.archives.length).toBe(0);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

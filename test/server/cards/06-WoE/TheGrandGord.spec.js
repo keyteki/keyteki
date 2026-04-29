@@ -21,7 +21,7 @@ describe('The Grand Gord', function () {
             this.player2.clickPrompt('Right');
             expect(this.player2.player.creaturesInPlay.length).toBe(2);
             this.player2.clickPrompt('brobnar');
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player2).isReadyToTakeAction();
         });
 
         it('should make a token creature for being tied for having biggest creature', function () {
@@ -32,7 +32,7 @@ describe('The Grand Gord', function () {
             this.player2.clickPrompt('Right');
             expect(this.player2.player.creaturesInPlay.length).toBe(2);
             this.player2.clickPrompt('brobnar');
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player2).isReadyToTakeAction();
         });
 
         it('should not make a token creature for not having biggest creature', function () {
@@ -42,7 +42,7 @@ describe('The Grand Gord', function () {
 
             this.player2.clickPrompt('brobnar');
             expect(this.player2.player.creaturesInPlay.length).toBe(1);
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player2).isReadyToTakeAction();
         });
     });
 });

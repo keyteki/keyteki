@@ -16,7 +16,7 @@ describe('Scrambler Storm', function () {
             this.player1.play(this.scramblerStorm);
             this.player1.endTurn();
             this.player2.clickPrompt('sanctum');
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player2).isReadyToTakeAction();
             this.player2.clickCard(this.virtuousWorks);
             expect(this.player2).not.toHavePrompt('Play this action');
             this.player2.clickPrompt('Cancel');
@@ -44,8 +44,7 @@ describe('Scrambler Storm', function () {
                     hand: ['necromorph', 'azuretooth', 'banish']
                 }
             });
-            this.tachyonManifold.maverick = 'logos';
-            this.tachyonManifold.printedHouse = 'logos';
+            this.player1.makeMaverick(this.tachyonManifold, 'logos');
             this.player1.useAction(this.tachyonManifold);
         });
 
@@ -58,7 +57,7 @@ describe('Scrambler Storm', function () {
             this.player2.clickCard(this.banish);
             expect(this.player2).not.toHavePrompt('Play this action');
             this.player2.clickPrompt('Cancel');
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player2).isReadyToTakeAction();
         });
     });
 });

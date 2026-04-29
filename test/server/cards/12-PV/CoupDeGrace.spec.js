@@ -30,7 +30,7 @@ describe('Coup de Grâce', function () {
             expect(this.krump.location).toBe('discard');
             expect(this.xenosBloodshadow.location).toBe('play area');
             expect(this.dustPixie.location).toBe('play area');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should deal 4 damage to each friendly creature when fate is triggered', function () {
@@ -38,14 +38,14 @@ describe('Coup de Grâce', function () {
             this.player1.endTurn();
             this.player2.clickPrompt('brobnar');
             this.player2.reap(this.krump);
-            expect(this.krump.tokens.damage).toBe(4);
+            expect(this.krump.damage).toBe(4);
             expect(this.dustPixie.location).toBe('discard');
             expect(this.coupDeGrâce.location).toBe('discard');
             expect(this.charette.location).toBe('play area');
             expect(this.xenosBloodshadow.location).toBe('play area');
-            expect(this.charette.tokens.damage).toBeUndefined();
-            expect(this.xenosBloodshadow.tokens.damage).toBeUndefined();
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.charette.damage).toBe(0);
+            expect(this.xenosBloodshadow.damage).toBe(0);
+            expect(this.player2).isReadyToTakeAction();
         });
     });
 });

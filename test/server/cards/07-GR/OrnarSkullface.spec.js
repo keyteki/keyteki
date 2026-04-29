@@ -18,9 +18,9 @@ describe('Ornar Skullface', function () {
             expect(this.player1).toBeAbleToSelect(this.troll);
             expect(this.player1).toBeAbleToSelect(this.flaxia);
             this.player1.clickCard(this.flaxia);
-            expect(this.flaxia.tokens.damage).toBe(3);
-            expect(this.troll.tokens.damage).toBe(undefined);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.flaxia.damage).toBe(3);
+            expect(this.troll.damage).toBe(0);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

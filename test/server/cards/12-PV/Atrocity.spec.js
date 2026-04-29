@@ -4,7 +4,7 @@ describe('Atrocity', function () {
             this.setupTest({
                 player1: {
                     house: 'dis',
-                    inPlay: ['atrocity']
+                    hand: ['atrocity']
                 },
                 player2: {
                     amber: 4,
@@ -13,36 +13,72 @@ describe('Atrocity', function () {
             });
         });
 
-        it('should discard top card and force house choice', function () {
-            this.player2.moveCard(this.ancientBear, 'discard');
+        it('should discard top card and force house choice on next turn', function () {
+            this.player2.moveCard(this.ancientBear, 'deck');
+            this.player1.playCreature(this.atrocity);
             this.player1.endTurn();
             expect(this.player2).toHavePromptButton('untamed');
             expect(this.player2).not.toHavePromptButton('dis');
             expect(this.player2).not.toHavePromptButton('brobnar');
             this.player2.clickPrompt('untamed');
             expect(this.ancientBear.location).toBe('discard');
-            expect(this.atrocity.tokens.damage).toBe(1);
+            expect(this.atrocity.damage).toBe(0);
+            expect(this.player2).isReadyToTakeAction();
         });
 
-        it('should not trigger if opponent has no deck', function () {
+        it('should not restrict house if opponent has no deck', function () {
             this.player2.player.deck = [];
+            this.player1.playCreature(this.atrocity);
             this.player1.endTurn();
             expect(this.player2).toHavePromptButton('untamed');
             expect(this.player2).toHavePromptButton('dis');
             expect(this.player2).toHavePromptButton('brobnar');
-            expect(this.atrocity.tokens.damage).toBe(1);
+            expect(this.atrocity.damage).toBe(0);
             this.player2.clickPrompt('untamed');
+            expect(this.player2).isReadyToTakeAction();
         });
 
-        it('should trigger when Atrocity dies from the damage', function () {
-            this.atrocity.tokens.damage = 2;
-            this.player2.moveCard(this.ancientBear, 'discard');
+        it('should only trigger once (on the next turn)', function () {
+            this.player2.moveCard(this.ancientBear, 'deck');
+            this.player1.playCreature(this.atrocity);
+            this.player1.endTurn();
+            this.player2.clickPrompt('untamed');
+            expect(this.ancientBear.location).toBe('discard');
+            this.player2.endTurn();
+            this.player1.clickPrompt('dis');
             this.player1.endTurn();
             expect(this.player2).toHavePromptButton('untamed');
-            expect(this.player2).not.toHavePromptButton('dis');
-            expect(this.player2).not.toHavePromptButton('brobnar');
-            expect(this.atrocity.location).toBe('discard');
+            expect(this.player2).toHavePromptButton('dis');
+            expect(this.player2).toHavePromptButton('brobnar');
             this.player2.clickPrompt('untamed');
+            expect(this.player2).isReadyToTakeAction();
+        });
+    });
+
+    describe('Atrocity played via Be Our Geist', function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'geistoid',
+                    hand: ['be-our-geist']
+                },
+                player2: {
+                    discard: new Array(9).fill('poke').concat(['atrocity', 'ancient-bear'])
+                }
+            });
+        });
+
+        it('should discard from the correct deck when played by opponent', function () {
+            this.player2.moveCard(this.ancientBear, 'deck');
+            this.player1.play(this.beOurGeist);
+            this.player1.clickCard(this.atrocity);
+            expect(this.atrocity.location).toBe('play area');
+            expect(this.player1.player.creaturesInPlay).toContain(this.atrocity);
+            this.player1.endTurn();
+            expect(this.ancientBear.location).toBe('discard');
+            expect(this.player2).toHavePromptButton('untamed');
+            this.player2.clickPrompt('untamed');
+            expect(this.player2).isReadyToTakeAction();
         });
     });
 });

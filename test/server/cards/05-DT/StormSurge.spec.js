@@ -97,8 +97,7 @@ describe('Storm Surge', function () {
                     hand: []
                 }
             });
-            this.tachyonManifold.maverick = 'unfathomable';
-            this.tachyonManifold.printedHouse = 'unfathomable';
+            this.player1.makeMaverick(this.tachyonManifold, 'unfathomable');
             this.player1.useAction(this.tachyonManifold);
         });
 
@@ -112,7 +111,7 @@ describe('Storm Surge', function () {
             this.player2.endTurn();
             this.player1.clickPrompt('unfathomable');
             expect(this.emberImp.exhausted).toBe(true);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

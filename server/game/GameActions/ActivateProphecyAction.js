@@ -1,3 +1,4 @@
+const { EVENTS } = require('../Events/types');
 const PlayerAction = require('./PlayerAction');
 
 class ActivateProphecyAction extends PlayerAction {
@@ -27,7 +28,7 @@ class ActivateProphecyAction extends PlayerAction {
     }
 
     getEvent(player, context) {
-        return super.createEvent('onActivateProphecy', { player, context }, (event) => {
+        return super.createEvent(EVENTS.onActivateProphecy, { player, context }, (event) => {
             if (event.player.activateProphecy(context, this.prophecyCard)) {
                 if (this.cardFromHand) {
                     context.game.actions

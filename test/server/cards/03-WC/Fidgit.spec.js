@@ -27,7 +27,7 @@ describe('Fidgit', function () {
             this.player1.reap(this.fidgit);
             expect(this.player1).not.toHavePromptButton('Top of deck');
             expect(this.player1).not.toHavePromptButton('Random card from archives');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('when deck is empty, still provide option, and allow playing archived card', function () {
@@ -102,7 +102,7 @@ describe('Fidgit', function () {
             this.player1.clickPrompt('Top of deck');
 
             expect(this.theWarchest.location).toBe('discard');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('when archives is selected, discards a random creature card from archives', function () {
@@ -164,7 +164,7 @@ describe('Fidgit', function () {
             expect(this.mother.location).toBe('archives');
             this.player2.endTurn();
             this.player1.clickPrompt('shadows');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
             expect(this.player2.archives.length).toBe(1);
             this.player1.clickCard(this.fidgit);
             expect(this.player1).toHavePrompt('Choose an ability:');
@@ -173,6 +173,37 @@ describe('Fidgit', function () {
             this.player1.clickPrompt('Random card from archives');
             expect(this.mother.location).toBe('hand');
             expect(this.player1.amber).toBe(1);
+        });
+    });
+
+    describe("Fidgit's ability with Vapor Imp", function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'dis',
+                    inPlay: ['bosun-creen', 'vapor-imp'],
+                    hand: ['dust-imp'],
+                    discard: ['seeker-missiles']
+                },
+                player2: {
+                    house: 'shadows',
+                    inPlay: ['fidgit']
+                }
+            });
+        });
+
+        it('should be able to play non-creature cards', function () {
+            this.player1.reap(this.vaporImp);
+            this.player1.endTurn();
+            this.player2.clickPrompt('shadows');
+            this.player1.moveCard(this.seekerMissiles, 'deck');
+            this.player2.reap(this.fidgit);
+            expect(this.player2).toHavePrompt('Fidgit');
+            this.player2.clickPrompt('Top of deck');
+            expect(this.player2).toHavePrompt('Seeker Missiles');
+            this.player2.clickCard(this.bosunCreen);
+            expect(this.bosunCreen.damage).toBe(2);
+            expect(this.player2).isReadyToTakeAction();
         });
     });
 });

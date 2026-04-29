@@ -1,3 +1,4 @@
+const { EVENTS } = require('../Events/types');
 const CardGameAction = require('./CardGameAction');
 
 class ReturnAmberAction extends CardGameAction {
@@ -45,7 +46,7 @@ class ReturnAmberAction extends CardGameAction {
             amount: this.all ? card.amber : Math.min(this.amount, card.amber),
             recipient: this.recipientForCard(card)
         };
-        return super.createEvent('onReturnAmber', params, (event) => {
+        return super.createEvent(EVENTS.onReturnAmber, params, (event) => {
             event.card.removeToken('amber', event.amount);
             context.game.actions
                 .gainAmber({

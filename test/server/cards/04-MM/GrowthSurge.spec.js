@@ -15,7 +15,7 @@ describe('Growth Surge', function () {
         it('should not prompt for creature when there are no creatures in play', function () {
             this.player1.play(this.growthSurge);
             expect(this.player1.amber).toBe(1);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 
@@ -41,8 +41,8 @@ describe('Growth Surge', function () {
             expect(this.player1).toBeAbleToSelect(this.titanMechanic);
             expect(this.player1).toBeAbleToSelect(this.troll);
             this.player1.clickCard(this.troll);
-            expect(this.troll.tokens.power).toBe(3);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.troll.powerCounters).toBe(3);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 
@@ -69,9 +69,9 @@ describe('Growth Surge', function () {
             expect(this.player1).toBeAbleToSelect(this.krump);
             expect(this.player1).toBeAbleToSelect(this.troll);
             this.player1.clickCard(this.troll);
-            expect(this.troll.tokens.power).toBe(3);
-            expect(this.krump.tokens.power).toBe(2);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.troll.powerCounters).toBe(3);
+            expect(this.krump.powerCounters).toBe(2);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 
@@ -102,12 +102,12 @@ describe('Growth Surge', function () {
             expect(this.player1).not.toBeAbleToSelect(this.krump);
             expect(this.player1).not.toBeAbleToSelect(this.redlock);
             this.player1.clickCard(this.troll);
-            expect(this.troll.tokens.power).toBe(3);
-            expect(this.groggins.tokens.power).toBe(2);
-            expect(this.krump.tokens.power).toBe(1);
-            expect(this.redlock.tokens.power).toBeUndefined();
-            expect(this.lamindra.tokens.power).toBeUndefined();
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.troll.powerCounters).toBe(3);
+            expect(this.groggins.powerCounters).toBe(2);
+            expect(this.krump.powerCounters).toBe(1);
+            expect(this.redlock.powerCounters).toBe(0);
+            expect(this.lamindra.powerCounters).toBe(0);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it("should be able to select the Spectral Tunneler's target and a neighbor with no other neighbor", function () {
@@ -130,12 +130,12 @@ describe('Growth Surge', function () {
             expect(this.player1).not.toBeAbleToSelect(this.groggins);
             expect(this.player1).not.toBeAbleToSelect(this.redlock);
             this.player1.clickCard(this.troll);
-            expect(this.groggins.tokens.power).toBe(3);
-            expect(this.troll.tokens.power).toBe(2);
-            expect(this.krump.tokens.power).toBeUndefined();
-            expect(this.redlock.tokens.power).toBeUndefined();
-            expect(this.lamindra.tokens.power).toBeUndefined();
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.groggins.powerCounters).toBe(3);
+            expect(this.troll.powerCounters).toBe(2);
+            expect(this.krump.powerCounters).toBe(0);
+            expect(this.redlock.powerCounters).toBe(0);
+            expect(this.lamindra.powerCounters).toBe(0);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it("should be able to select the Spectral Tunneler's target and a neighbor with another neighbor ", function () {
@@ -158,12 +158,12 @@ describe('Growth Surge', function () {
             expect(this.player1).not.toBeAbleToSelect(this.groggins);
             expect(this.player1).not.toBeAbleToSelect(this.redlock);
             this.player1.clickCard(this.krump);
-            expect(this.groggins.tokens.power).toBe(3);
-            expect(this.krump.tokens.power).toBe(2);
-            expect(this.redlock.tokens.power).toBe(1);
-            expect(this.troll.tokens.power).toBeUndefined();
-            expect(this.lamindra.tokens.power).toBeUndefined();
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.groggins.powerCounters).toBe(3);
+            expect(this.krump.powerCounters).toBe(2);
+            expect(this.redlock.powerCounters).toBe(1);
+            expect(this.troll.powerCounters).toBe(0);
+            expect(this.lamindra.powerCounters).toBe(0);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

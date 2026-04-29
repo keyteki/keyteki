@@ -1,3 +1,4 @@
+const { EVENTS } = require('../Events/types');
 const CardGameAction = require('./CardGameAction');
 
 class ReturnToHandAction extends CardGameAction {
@@ -25,7 +26,7 @@ class ReturnToHandAction extends CardGameAction {
     }
 
     getEvent(card, context) {
-        let eventName = card.location === 'play area' ? 'onCardLeavesPlay' : 'onMoveCard';
+        let eventName = card.location === 'play area' ? EVENTS.onCardLeavesPlay : EVENTS.onMoveCard;
 
         return super.createEvent(
             eventName,

@@ -33,7 +33,7 @@ describe('Paraguardian', function () {
             expect(this.player1).toHavePromptButton('Done');
             this.player1.clickPrompt('Done');
 
-            expect(this.paraguardian.hasToken('amber')).toBe(false);
+            expect(this.paraguardian.amber).toBe(0);
             expect(this.paraguardian.warded).toBe(false);
             expect(this.shooler.warded).toBe(false);
             expect(this.gub.warded).toBe(false);

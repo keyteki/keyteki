@@ -23,9 +23,9 @@ describe('Sacred Duty', function () {
         it('should give creature +2 power and ready it', function () {
             this.player1.reap(this.zealot1);
             this.player1.playUpgrade(this.sacredDuty, this.zealot1);
-            expect(this.zealot1.getPower()).toBe(3);
+            expect(this.zealot1.power).toBe(3);
             expect(this.zealot1.exhausted).toBe(false);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should give creature the ability to make a token on fight', function () {
@@ -34,7 +34,7 @@ describe('Sacred Duty', function () {
             this.player1.clickPrompt('Right');
             expect(this.player1.player.creaturesInPlay.length).toBe(2);
             expect(this.zealot2.location).toBe('play area');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

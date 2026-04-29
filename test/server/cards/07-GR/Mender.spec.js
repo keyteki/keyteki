@@ -15,11 +15,11 @@ describe('Mender', function () {
                 }
             });
             this.kerwollop2 = this.player2.hand[1];
-            this.chronophage.tokens.damage = 2;
-            this.flaxia.tokens.damage = 2;
-            this.batdrone.tokens.damage = 1;
-            this.thingFromTheDeep.tokens.damage = 10;
-            this.awayTeam.tokens.damage = 3;
+            this.chronophage.damage = 2;
+            this.flaxia.damage = 2;
+            this.batdrone.damage = 1;
+            this.thingFromTheDeep.damage = 10;
+            this.awayTeam.damage = 3;
         });
 
         it('purges a card from a discard on play', function () {
@@ -34,25 +34,25 @@ describe('Mender', function () {
             expect(this.player1).not.toBeAbleToSelect(this.awayTeam);
             this.player1.clickCard(this.crushingDeep);
             expect(this.crushingDeep.location).toBe('purged');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('heals and wards all robot creatures on play', function () {
             this.player1.playCreature(this.mender);
             this.player1.clickCard(this.crushingDeep);
-            expect(this.mender.tokens.damage).toBe(undefined);
+            expect(this.mender.damage).toBe(0);
             expect(this.mender.warded).toBe(true);
-            expect(this.chronophage.tokens.damage).toBe(undefined);
+            expect(this.chronophage.damage).toBe(0);
             expect(this.chronophage.warded).toBe(true);
-            expect(this.flaxia.tokens.damage).toBe(2);
+            expect(this.flaxia.damage).toBe(2);
             expect(this.flaxia.warded).toBe(false);
-            expect(this.batdrone.tokens.damage).toBe(undefined);
+            expect(this.batdrone.damage).toBe(0);
             expect(this.batdrone.warded).toBe(true);
-            expect(this.thingFromTheDeep.tokens.damage).toBe(10);
+            expect(this.thingFromTheDeep.damage).toBe(10);
             expect(this.thingFromTheDeep.warded).toBe(false);
-            expect(this.awayTeam.tokens.damage).toBe(undefined);
+            expect(this.awayTeam.damage).toBe(0);
             expect(this.awayTeam.warded).toBe(true);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('also works on reap', function () {
@@ -67,18 +67,18 @@ describe('Mender', function () {
             this.player1.reap(this.mender);
             this.player1.clickCard(this.crushingDeep);
             expect(this.crushingDeep.location).toBe('purged');
-            expect(this.mender.tokens.damage).toBe(undefined);
+            expect(this.mender.damage).toBe(0);
             expect(this.mender.warded).toBe(true);
-            expect(this.chronophage.tokens.damage).toBe(undefined);
+            expect(this.chronophage.damage).toBe(0);
             expect(this.chronophage.warded).toBe(true);
             expect(this.flaxia.location).toBe('discard');
-            expect(this.batdrone.tokens.damage).toBe(undefined);
+            expect(this.batdrone.damage).toBe(0);
             expect(this.batdrone.warded).toBe(true);
-            expect(this.thingFromTheDeep.tokens.damage).toBe(12);
+            expect(this.thingFromTheDeep.damage).toBe(12);
             expect(this.thingFromTheDeep.warded).toBe(false);
-            expect(this.awayTeam.tokens.damage).toBe(undefined);
+            expect(this.awayTeam.damage).toBe(0);
             expect(this.awayTeam.warded).toBe(true);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

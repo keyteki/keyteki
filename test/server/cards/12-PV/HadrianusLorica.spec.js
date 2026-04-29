@@ -16,28 +16,28 @@ describe('Hadrianus Lorica', function () {
         });
 
         it('should give +3 armor to creatures with amber', function () {
-            this.raidingKnight.tokens.amber = 2;
+            this.raidingKnight.amber = 2;
             this.player1.play(this.hadrianusLorica);
             this.player1.clickPrompt('Done');
             expect(this.raidingKnight.armor).toBe(5);
             expect(this.almsmaster.armor).toBe(1);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should allow optional exalt when played', function () {
             this.player1.play(this.hadrianusLorica);
             this.player1.clickCard(this.hadrianusLorica);
-            expect(this.hadrianusLorica.tokens.amber).toBe(1);
+            expect(this.hadrianusLorica.amber).toBe(1);
             expect(this.hadrianusLorica.armor).toBe(3);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should not require exalt when played', function () {
             this.player1.play(this.hadrianusLorica);
             this.player1.clickPrompt('Done');
-            expect(this.hadrianusLorica.tokens.amber).toBeUndefined();
+            expect(this.hadrianusLorica.amber).toBe(0);
             expect(this.hadrianusLorica.armor).toBe(0);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

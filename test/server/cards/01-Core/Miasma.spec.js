@@ -65,8 +65,7 @@ describe('Miasma', function () {
                     hand: []
                 }
             });
-            this.tachyonManifold.maverick = 'shadows';
-            this.tachyonManifold.printedHouse = 'shadows';
+            this.player1.makeMaverick(this.tachyonManifold, 'shadows');
             this.player1.useAction(this.tachyonManifold);
         });
 
@@ -80,7 +79,7 @@ describe('Miasma', function () {
             expect(this.player2.player.keys.red).toBe(false);
             expect(this.player2.player.keys.blue).toBe(false);
             expect(this.player2.player.keys.yellow).toBe(false);
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player2).isReadyToTakeAction();
         });
     });
 });

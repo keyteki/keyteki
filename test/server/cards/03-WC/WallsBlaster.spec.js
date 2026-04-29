@@ -13,7 +13,7 @@ describe('Walls’ Blaster', function () {
                 }
             });
 
-            this.techivorePulpate.tokens.damage = 2;
+            this.techivorePulpate.damage = 2;
         });
 
         it('should allow stunning creatures when attached to the associated officer', function () {
@@ -50,7 +50,7 @@ describe('Walls’ Blaster', function () {
 
         it('should not prompt for stunning when attached to the non associated officer', function () {
             this.player1.playUpgrade(this.wallsBlaster, this.techivorePulpate);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('reap ability should allow choosing for an action and cancel', function () {
@@ -60,7 +60,7 @@ describe('Walls’ Blaster', function () {
             expect(this.player1).toHavePrompt('Triggered Abilities');
             expect(this.player1).toHavePromptButton('Done');
             this.player1.clickPrompt('Done');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('reap ability should allow dealing 2 damages to a creature', function () {
@@ -80,7 +80,7 @@ describe('Walls’ Blaster', function () {
             expect(this.player1).toBeAbleToSelect(this.lamindra);
             expect(this.player1).toBeAbleToSelect(this.krump);
             this.player1.clickCard(this.krump);
-            expect(this.krump.tokens.damage).toBe(2);
+            expect(this.krump.damage).toBe(2);
         });
 
         it('fight ability should allow dealing 2 damages to a creature', function () {
@@ -100,7 +100,7 @@ describe('Walls’ Blaster', function () {
             expect(this.player1).toBeAbleToSelect(this.lamindra);
             expect(this.player1).toBeAbleToSelect(this.krump);
             this.player1.clickCard(this.krump);
-            expect(this.krump.tokens.damage).toBe(2);
+            expect(this.krump.damage).toBe(2);
         });
 
         it('reap ability should allow moving the upgrade to the appropriate officer', function () {
@@ -181,7 +181,7 @@ describe('Walls’ Blaster', function () {
             expect(this.player1).toBeAbleToSelect(this.lamindra);
             expect(this.player1).toBeAbleToSelect(this.krump);
             this.player1.clickCard(this.krump);
-            expect(this.krump.tokens.damage).toBe(2);
+            expect(this.krump.damage).toBe(2);
         });
 
         it('reap ability should allow moving to associated officer even when it is not in play', function () {
@@ -193,7 +193,7 @@ describe('Walls’ Blaster', function () {
             expect(this.player1).toHavePromptButton('Deal 2 damage');
             expect(this.player1).toHavePromptButton('Move Walls’ Blaster');
             this.player1.clickPrompt('Move Walls’ Blaster');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('fight ability should default to deal damage when officer is not in play', function () {
@@ -210,7 +210,7 @@ describe('Walls’ Blaster', function () {
             expect(this.player1).toBeAbleToSelect(this.lamindra);
             expect(this.player1).toBeAbleToSelect(this.krump);
             this.player1.clickCard(this.krump);
-            expect(this.krump.tokens.damage).toBe(2);
+            expect(this.krump.damage).toBe(2);
         });
     });
 
@@ -228,7 +228,7 @@ describe('Walls’ Blaster', function () {
                 }
             });
 
-            this.techivorePulpate.tokens.damage = 2;
+            this.techivorePulpate.damage = 2;
             this.chiefEngineerWalls1 = this.player1.player.creaturesInPlay[1];
             this.chiefEngineerWalls2 = this.player1.player.creaturesInPlay[2];
         });
@@ -237,12 +237,16 @@ describe('Walls’ Blaster', function () {
             this.player1.playUpgrade(this.wallsBlaster, this.chiefEngineerWalls1);
             this.player1.clickCard(this.techivorePulpate);
             this.player1.reap(this.chiefEngineerWalls1);
-            this.player1.clickCard(this.chiefEngineerWalls1);
+            expect(this.player1).toHavePrompt('Triggered Abilities');
 
+            // Resolve Walls' Blaster's ability
+            this.player1.clickCard(this.chiefEngineerWalls1);
+            this.player1.clickPrompt('Walls’ Blaster');
             this.player1.clickPrompt('Move Walls’ Blaster');
-            // There are no valid targets.
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            // Walls' Blaster is already on Walls so moving fizzles
             expect(this.chiefEngineerWalls1.upgrades).toContain(this.wallsBlaster);
+
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

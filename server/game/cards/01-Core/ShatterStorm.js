@@ -12,7 +12,14 @@ class ShatterStorm extends Card {
             then: (context) => ({
                 gameAction: ability.actions.loseAmber({
                     amount: 3 * context.player.amber
-                })
+                }),
+                message: '{0} uses {1} to make {3} lose {4} amber',
+                messageArgs: (context) => [
+                    context.player.opponent,
+                    context.preThenEvent.amount * 3 <= context.player.opponent.amber
+                        ? context.preThenEvent.amount * 3
+                        : context.player.opponent.amber
+                ]
             })
         });
     }

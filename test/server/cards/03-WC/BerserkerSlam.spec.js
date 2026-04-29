@@ -58,7 +58,7 @@ describe('Berserker Slam', function () {
             this.player1.clickCard(this.troll);
             expect(this.player1.amber).toBe(5);
             expect(this.player2.amber).toBe(4);
-            expect(this.troll.tokens.damage).toBe(4);
+            expect(this.troll.damage).toBe(4);
         });
 
         it('doesnt lose opponents amber if doesnt destroy opponents flank creature', function () {
@@ -67,7 +67,7 @@ describe('Berserker Slam', function () {
             this.player1.clickCard(this.dodger);
             expect(this.player1.amber).toBe(5);
             expect(this.player2.amber).toBe(4);
-            expect(this.dodger.tokens.damage).toBe(4);
+            expect(this.dodger.damage).toBe(4);
         });
 
         it('should remove amber from controller and not owner', function () {

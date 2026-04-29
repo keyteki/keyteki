@@ -18,14 +18,14 @@ describe('Stalwart', function () {
             this.player1.clickCard(this.charette);
             this.player1.clickPrompt('Right');
             expect(this.player1.player.creaturesInPlay[1]).toBe(this.stalwart);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should be optional', function () {
             this.player1.fightWith(this.stalwart, this.lamindra);
             this.player1.clickPrompt('Done');
             expect(this.player1.player.creaturesInPlay[0]).toBe(this.stalwart);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

@@ -38,7 +38,7 @@ describe('Elenya the Charming', function () {
             expect(this.player1.player.cardsInPlay).not.toContain(this.groke);
             expect(this.player2.player.cardsInPlay).toContain(this.groke);
             this.player2.clickPrompt('ekwidon');
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player2).isReadyToTakeAction();
         });
     });
 });

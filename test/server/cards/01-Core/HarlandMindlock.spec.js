@@ -53,7 +53,7 @@ describe('Harland Mindlock', function () {
             this.player1.clickCard(this.dextre);
             expect(this.player1.amber).toBe(2);
             expect(this.player2.amber).toBe(0);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

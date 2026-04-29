@@ -1,3 +1,4 @@
+const { EVENTS } = require('../Events/types');
 const CardGameAction = require('./CardGameAction');
 
 class HealAction extends CardGameAction {
@@ -28,10 +29,10 @@ class HealAction extends CardGameAction {
     }
 
     getEvent(card, context) {
-        let amount = Math.min(card.tokens.damage || 0, this.amount);
-        return super.createEvent('onHeal', { amount, card, context }, (event) => {
+        let amount = Math.min(card.damage || 0, this.amount);
+        return super.createEvent(EVENTS.onHeal, { amount, card, context }, (event) => {
             if (this.fully) {
-                event.amount = card.tokens.damage;
+                event.amount = card.damage;
                 card.removeToken('damage');
             } else if (this.upTo && event.amount > 0) {
                 context.game.promptWithHandlerMenu(context.player, {

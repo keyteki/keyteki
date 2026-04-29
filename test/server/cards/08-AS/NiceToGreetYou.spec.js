@@ -15,8 +15,8 @@ describe('Nice to Greet You', function () {
         });
 
         it('should ready each mars creature', function () {
-            this.troll.exhausted = true;
-            this.blypyp.exhausted = true;
+            this.troll.exhaust();
+            this.blypyp.exhaust();
             this.player1.playCreature(this.myxTheTallminded);
             this.player1.playCreature(this.mindwarper);
             this.player1.play(this.niceToGreetYou);
@@ -24,7 +24,7 @@ describe('Nice to Greet You', function () {
             expect(this.blypyp.exhausted).toBe(false);
             expect(this.myxTheTallminded.exhausted).toBe(false);
             expect(this.mindwarper.exhausted).toBe(false);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

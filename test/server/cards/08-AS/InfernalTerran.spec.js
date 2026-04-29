@@ -30,18 +30,18 @@ describe('Infernal Terran', function () {
             expect(this.dewFaerie.location).toBe('discard');
             expect(this.player1.amber).toBe(2);
             expect(this.player2.amber).toBe(3);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should discard a card and steal an amber on reap', function () {
             this.player1.playCreature(this.infernalTerran);
             this.player1.clickCard(this.dewFaerie);
-            this.infernalTerran.exhausted = false;
+            this.infernalTerran.ready();
             this.player1.reap(this.infernalTerran);
             this.player1.clickCard(this.dustPixie);
             expect(this.player1.amber).toBe(4);
             expect(this.player2.amber).toBe(2);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should steal an amber when hand is empty', function () {
@@ -52,31 +52,47 @@ describe('Infernal Terran', function () {
             this.player1.playCreature(this.infernalTerran);
             expect(this.player1.amber).toBe(2);
             expect(this.player2.amber).toBe(3);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should discard hand and steal amber on scrap', function () {
             this.player1.scrap(this.infernalTerran);
+            expect(this.player1).toBeAbleToSelect(this.emberImp);
+            expect(this.player1).toBeAbleToSelect(this.dewFaerie);
+            expect(this.player1).toBeAbleToSelect(this.dustPixie);
+            expect(this.player1).toBeAbleToSelect(this.controlTheWeak);
+            this.player1.clickCard(this.controlTheWeak);
+            expect(this.player1).toBeAbleToSelect(this.emberImp);
+            expect(this.player1).toBeAbleToSelect(this.dewFaerie);
+            expect(this.player1).toBeAbleToSelect(this.dustPixie);
+            expect(this.player1).not.toBeAbleToSelect(this.controlTheWeak);
+            this.player1.clickCard(this.emberImp);
+            expect(this.player1).not.toBeAbleToSelect(this.emberImp);
+            expect(this.player1).toBeAbleToSelect(this.dewFaerie);
+            expect(this.player1).toBeAbleToSelect(this.dustPixie);
+            expect(this.player1).not.toBeAbleToSelect(this.controlTheWeak);
+            this.player1.clickCard(this.dustPixie);
             expect(this.emberImp.location).toBe('discard');
             expect(this.dewFaerie.location).toBe('discard');
             expect(this.dustPixie.location).toBe('discard');
             expect(this.controlTheWeak.location).toBe('discard');
             expect(this.player1.amber).toBe(4);
             expect(this.player2.amber).toBe(1);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should discard hand and steal amber on scrap when there is another scrap ability', function () {
             this.player1.moveCard(this.carrionWyrm, 'hand');
             this.player1.scrap(this.infernalTerran);
-            this.player1.clickCard(this.carrionWyrm);
+            this.player1.clickPrompt('Autoresolve');
+            expect(this.carrionWyrm.location).toBe('discard');
             expect(this.emberImp.location).toBe('discard');
             expect(this.dewFaerie.location).toBe('discard');
             expect(this.dustPixie.location).toBe('discard');
             expect(this.controlTheWeak.location).toBe('discard');
             expect(this.player1.amber).toBe(4);
             expect(this.player2.amber).toBe(1);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

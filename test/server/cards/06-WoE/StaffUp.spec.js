@@ -62,8 +62,8 @@ describe('Staff Up', function () {
             expect(this.player1.player.creaturesInPlay.length).toBe(3);
             expect(this.player1.player.creaturesInPlay[0].name).toBe('Grumpus');
             expect(this.player1.amber).toBe(1);
-            expect(this.etherSpider.tokens.amber).toBe(undefined);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.etherSpider.amber).toBe(0);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should let the active player choose with multiple effets (Ether Spider)', function () {
@@ -75,10 +75,10 @@ describe('Staff Up', function () {
             this.player1.play(this.staffUp);
             this.player1.reap(this.antiquitiesDealer);
             this.player1.clickCard(this.etherSpider);
-            expect(this.etherSpider.tokens.amber).toBe(1);
+            expect(this.etherSpider.amber).toBe(1);
             expect(this.player1.player.creaturesInPlay.length).toBe(2);
             expect(this.player1.amber).toBe(1);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should not cause tokens to be made when losing amber', function () {
@@ -86,7 +86,7 @@ describe('Staff Up', function () {
             this.player1.playUpgrade(this.insurancePolicy, this.antiquitiesDealer);
             expect(this.player1.player.creaturesInPlay.length).toBe(2);
             expect(this.player1.amber).toBe(0);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

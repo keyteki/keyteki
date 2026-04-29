@@ -27,22 +27,22 @@ describe('Dissonant Chord', function () {
             expect(this.emberImp.location).toBe('discard');
             expect(this.troll.stunned).toBe(true);
             expect(this.flaxia.stunned).toBe(true);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should not stun neighbors when not destroying a creature', function () {
             this.player1.play(this.dissonantChord);
             this.player1.clickCard(this.troll);
             expect(this.troll.location).toBe('play area');
-            expect(this.troll.tokens.damage).toBe(3);
+            expect(this.troll.damage).toBe(3);
             expect(this.emberImp.stunned).toBe(false);
             expect(this.flaxia.stunned).toBe(false);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should stun friendly creatures with amber when fate is triggered', function () {
-            this.emberImp.tokens.amber = 2;
-            this.yurk.tokens.amber = 1;
+            this.emberImp.amber = 2;
+            this.yurk.amber = 1;
             this.player1.activateProphecy(this.overreach, this.dissonantChord);
             this.player1.endTurn();
             this.player2.clickPrompt('untamed');
@@ -52,7 +52,7 @@ describe('Dissonant Chord', function () {
             expect(this.troll.stunned).toBe(false);
             expect(this.flaxia.stunned).toBe(false);
             expect(this.dissonantChord.location).toBe('discard');
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player2).isReadyToTakeAction();
         });
     });
 });

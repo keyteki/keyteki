@@ -38,7 +38,7 @@ describe('Greedy Reprisal', function () {
             expect(this.krump.location).toBe('discard');
             expect(this.flaxia.location).toBe('discard');
             expect(this.searine.location).toBe('discard');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should deal 2 damage to a friendly creature for each point of armor on enemy creatures', function () {
@@ -55,11 +55,11 @@ describe('Greedy Reprisal', function () {
             this.player2.clickCard(this.krump);
             this.player2.clickCard(this.flaxia);
             this.player2.clickCard(this.searine);
-            expect(this.krump.tokens.damage).toBe(2);
-            expect(this.flaxia.tokens.damage).toBe(2);
-            expect(this.searine.tokens.damage).toBe(2);
+            expect(this.krump.damage).toBe(2);
+            expect(this.flaxia.damage).toBe(2);
+            expect(this.searine.damage).toBe(2);
             expect(this.greedyReprisal.location).toBe('discard');
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player2).isReadyToTakeAction();
         });
     });
 });

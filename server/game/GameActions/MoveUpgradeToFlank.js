@@ -1,3 +1,4 @@
+const { EVENTS } = require('../Events/types');
 const CardGameAction = require('./CardGameAction');
 
 class MoveUpgradeToFlankAction extends CardGameAction {
@@ -43,21 +44,25 @@ class MoveUpgradeToFlankAction extends CardGameAction {
     }
 
     getEvent(card, context) {
-        return super.createEvent('onMoveToFlank', { card: card, context: context }, (event) => {
-            if (this.controller) {
-                // TODO this is arguable as the card does not state it gives control
-                event.card.setDefaultController(this.controller);
-            }
+        return super.createEvent(
+            EVENTS.onMoveToFlank,
+            { card: card, context: context },
+            (event) => {
+                if (this.controller) {
+                    // TODO this is arguable as the card does not state it gives control
+                    event.card.setDefaultController(this.controller);
+                }
 
-            event.card.parent.removeAttachment(event.card);
-            event.card.parent = null;
+                event.card.parent.removeAttachment(event.card);
+                event.card.parent = null;
 
-            if (this.left) {
-                card.controller.cardsInPlay.unshift(card);
-            } else {
-                card.controller.cardsInPlay.push(card);
+                if (this.left) {
+                    card.controller.cardsInPlay.unshift(card);
+                } else {
+                    card.controller.cardsInPlay.push(card);
+                }
             }
-        });
+        );
     }
 }
 

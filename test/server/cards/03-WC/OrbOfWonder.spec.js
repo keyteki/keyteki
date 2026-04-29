@@ -20,7 +20,7 @@ describe('Orb of Wonder', function () {
         });
 
         it('should sacrifice the artifact and select a card from deck', function () {
-            this.player1.useAction(this.orbOfWonder, true);
+            this.player1.useOmni(this.orbOfWonder);
             expect(this.orbOfWonder.location).toBe('discard');
             expect(this.player1).toHavePrompt('Orb of Wonder');
             expect(this.player1).toBeAbleToSelect(this.murkens);

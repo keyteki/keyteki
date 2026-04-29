@@ -34,8 +34,6 @@ const Effects = {
     ],
 
     // Card effects
-    actionCardLocationAfterPlay: (location) =>
-        EffectBuilder.card.static('actionCardLocationAfterPlay', location),
     addHouse: (house) => EffectBuilder.card.static('addHouse', house),
     addKeyword: (keyword) => EffectBuilder.card.flexible('addKeyword', keyword),
     addTrait: (trait) => EffectBuilder.card.static('addTrait', trait),
@@ -48,6 +46,8 @@ const Effects = {
     canAttachToArtifacts: () => EffectBuilder.card.static('canAttachToArtifacts'),
     cardCannot: (type, condition) =>
         EffectBuilder.card.static('abilityRestrictions', new CannotRestriction(type, condition)),
+    cardLocationAfterPlay: (location) =>
+        EffectBuilder.card.static('cardLocationAfterPlay', location),
     changeHouse: (house) => EffectBuilder.card.static('changeHouse', house),
     changeType: (type) => EffectBuilder.card.static('changeType', type),
     consideredAsFlank: () => EffectBuilder.card.static('consideredAsFlank'),
@@ -69,10 +69,9 @@ const Effects = {
     gainAbility: (type, properties) =>
         EffectBuilder.card.static('gainAbility', new GainAbility(type, properties)),
     fightAbilitiesAddReap: () => EffectBuilder.card.static('fightAbilitiesAddReap'),
+    forgeAmberSource: (player, sourceType) =>
+        EffectBuilder.card.static('forgeAmberSource', { player, sourceType }),
     ignores: (trait) => EffectBuilder.card.static('ignores', trait),
-    keyAmber: () => EffectBuilder.card.static('keyAmber'),
-    keyAmberOpponent: () => EffectBuilder.card.static('keyAmberOpponent'),
-    isAmberInPool: () => EffectBuilder.card.static('isAmberInPool'),
     limitFightDamage: (amount) => EffectBuilder.card.flexible('limitFightDamage', amount),
     modifyArmor: (amount) => EffectBuilder.card.flexible('modifyArmor', amount),
     modifyBonusIcons: (icons) => EffectBuilder.card.flexible('modifyBonusIcons', icons),
@@ -163,8 +162,6 @@ const Effects = {
     restrictHouseChoice: (house) => EffectBuilder.player.static('restrictHouseChoice', house),
     stealFromPool: () => EffectBuilder.player.static('stealFromPool'),
     captureFromPool: () => EffectBuilder.player.static('captureFromPool'),
-    captureMoreFromPool: (amount) => EffectBuilder.player.static('captureMoreFromPool', amount),
-    exaltMoreFromPool: (amount) => EffectBuilder.player.static('exaltMoreFromPool', amount),
     stopHouseChoice: (house) => EffectBuilder.player.flexible('stopHouseChoice', house),
     skipStep: (step) => EffectBuilder.player.static('skipStep', step),
     opponentCardsCannotLeaveArchives: (card) =>
@@ -174,7 +171,8 @@ const Effects = {
     canForgeSecondKeyDuringKeyPhase: () =>
         EffectBuilder.player.static('canForgeSecondKeyDuringKeyPhase'),
     cannotForgeMoreThan2KeysInATurn: () =>
-        EffectBuilder.player.static('cannotForgeMoreThan2KeysInATurn')
+        EffectBuilder.player.static('cannotForgeMoreThan2KeysInATurn'),
+    redirectForgeAmber: () => EffectBuilder.player.static('redirectForgeAmber')
 };
 
 module.exports = Effects;

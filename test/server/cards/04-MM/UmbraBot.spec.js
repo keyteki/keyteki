@@ -27,7 +27,7 @@ describe('Umbra-Bot', function () {
             this.player1.moveCard(this.soulkeeper, 'deck');
             this.player1.reap(this.umbraBot);
             expect(this.player1.amber).toBe(1);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
             this.player1.clickCard(this.soulkeeper);
             expect(this.soulkeeper.location).toBe('deck');
             expect(this.player1.hand.length).toBe(0);

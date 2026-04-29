@@ -28,14 +28,14 @@ describe('Reaver', function () {
             expect(this.player1).toBeAbleToSelect(this.aStrongFeeling);
             this.player1.clickCard(this.boiler);
             expect(this.boiler.location).toBe('discard');
-            expect(this.thingFromTheDeep.tokens.damage).toBe(1); // boiler scrap
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.thingFromTheDeep.damage).toBe(1); // boiler scrap
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('does nothing when there is no amber to move', function () {
             this.player1.reap(this.reaver);
             this.player1.clickCard(this.reaver);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

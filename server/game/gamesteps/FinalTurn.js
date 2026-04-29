@@ -1,0 +1,53 @@
+const { EVENTS } = require('../Events/types.js');
+const BaseStep = require('./basestep.js');
+const SimpleStep = require('./simplestep.js');
+const KeyPhase = require('./key/KeyPhase.js');
+
+/**
+ * FinalTurn handles the final partial turn after time is called.
+ * Per tiebreaker rules:
+ * 1. Player1 completes their turn
+ * 2. Player2 takes a full turn
+ * 3. Player1 takes a final turn until the end of their "Forge a Key" step
+ * 4. Tiebreakers are evaluated
+ */
+class FinalTurn extends BaseStep {
+    /**
+     * @param {import('../game')} game
+     */
+    constructor(game) {
+        super(game);
+        this.started = false;
+    }
+
+    continue() {
+        if (!this.started) {
+            this.started = true;
+            this.startFinalTurn();
+        }
+        return true; // Step is complete
+    }
+
+    startFinalTurn() {
+        this.game.addAlert(
+            'info',
+            'Time has been called. {0} takes their final turn until their "Forge a Key" step has been completed.',
+            this.game.activePlayer
+        );
+
+        this.game.raiseEvent(EVENTS.onTurnStart, { player: this.game.activePlayer });
+        this.game.activePlayer.beginRound();
+
+        // Queue KeyPhase and then the tiebreaker check
+        this.game.queueStep(new KeyPhase(this.game));
+        this.game.queueStep(new SimpleStep(this.game, () => this.endFinalTurn()));
+    }
+
+    endFinalTurn() {
+        this.game.addAlert('endofturn', 'Final turn has ended');
+        this.game.finalTurnCompleted = true;
+        this.game.checkWinCondition();
+    }
+}
+
+module.exports = FinalTurn;

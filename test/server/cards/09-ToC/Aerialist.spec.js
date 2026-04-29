@@ -21,7 +21,7 @@ describe('Aerialist', function () {
             expect(this.player1.amber).toBe(2);
             expect(this.player2.amber).toBe(2);
             expect(this.aerialist1.amber).toBe(0);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should capture 1 with the yellow key forged', function () {
@@ -33,7 +33,7 @@ describe('Aerialist', function () {
             this.player1.reap(this.buxBastian);
             expect(this.player2.amber).toBe(1);
             expect(this.buxBastian.amber).toBe(0);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

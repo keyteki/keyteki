@@ -22,7 +22,7 @@ describe('Cyber-Clone', function () {
             expect(this.cyberClone.getTraits()).toContain('mutant');
             expect(this.cyberClone.getEffects('addKeyword').length).toBe(0);
             expect(this.cyberClone.getEffects('removeKeyword').length).toBe(0);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 
@@ -66,7 +66,7 @@ describe('Cyber-Clone', function () {
             expect(this.cyberClone.getTraits()).toContain('experiment');
             expect(this.cyberClone.getEffects('addKeyword').length).toBe(0);
             expect(this.cyberClone.getEffects('removeKeyword').length).toBe(0);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should not consider omega effect of cloned card', function () {
@@ -79,15 +79,15 @@ describe('Cyber-Clone', function () {
             expect(this.cyberClone.getTraits()).toContain('mutant');
             expect(this.cyberClone.getTraits()).toContain('human');
             expect(this.cyberClone.getTraits()).toContain('witch');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should prevent purge with ward, but still gain its power and armor', function () {
-            this.groupthinkTank.tokens.ward = 1;
+            this.groupthinkTank.ward();
             this.player1.play(this.cyberClone);
             this.player1.clickCard(this.groupthinkTank);
             expect(this.groupthinkTank.location).toBe('play area');
-            expect(this.groupthinkTank.tokens.ward).toBeUndefined();
+            expect(this.groupthinkTank.warded).toBe(false);
             expect(this.cyberClone.power).toBe(4);
             expect(this.cyberClone.armor).toBe(3);
             expect(this.cyberClone.getTraits().length).toBe(3);
@@ -96,7 +96,7 @@ describe('Cyber-Clone', function () {
             expect(this.cyberClone.getTraits()).toContain('experiment');
             expect(this.cyberClone.getEffects('addKeyword').length).toBe(0);
             expect(this.cyberClone.getEffects('removeKeyword').length).toBe(0);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should purge and clone Mimic Gel, but destroy itself right after due to power 0', function () {
@@ -108,7 +108,7 @@ describe('Cyber-Clone', function () {
             this.player1.clickCard(this.mimicGel);
             expect(this.mimicGel.location).toBe('purged');
             expect(this.cyberClone.location).toBe('discard');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should clone printed power, armor and keywords', function () {
@@ -123,7 +123,7 @@ describe('Cyber-Clone', function () {
             expect(this.cyberClone.getTraits()).toContain('witch');
             expect(this.cyberClone.getEffects('addKeyword').length).toBe(4);
             expect(this.cyberClone.getEffects('removeKeyword').length).toBe(0);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should not clone removed keywords', function () {
@@ -140,7 +140,7 @@ describe('Cyber-Clone', function () {
             expect(this.cyberClone.getTraits()).toContain('thief');
             expect(this.cyberClone.getEffects('addKeyword').length).toBe(1);
             expect(this.cyberClone.getEffects('removeKeyword').length).toBe(0);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 

@@ -38,7 +38,7 @@ describe('Prof. Emeritus Kering', function () {
                     this.player1.clickCard(this.archimedes);
                     this.player1.clickPrompt('Fight with this creature');
                     this.player1.clickCard(this.gub);
-                    expect(this.archimedes.tokens.damage).toBe(1);
+                    expect(this.archimedes.damage).toBe(1);
                     expect(this.gub.location).toBe('discard');
                     this.player1.endTurn();
                 });
@@ -67,7 +67,7 @@ describe('Prof. Emeritus Kering', function () {
                     this.player1.clickCard(this.archimedes);
                     this.player1.clickPrompt('Fight with this creature');
                     this.player1.clickCard(this.gub);
-                    expect(this.archimedes.tokens.damage).toBe(1);
+                    expect(this.archimedes.damage).toBe(1);
                     expect(this.gub.location).toBe('discard');
                     this.player1.endTurn();
                 });
@@ -101,7 +101,7 @@ describe('Prof. Emeritus Kering', function () {
                     this.player1.clickCard(this.archimedes);
                     this.player1.clickPrompt('Fight with this creature');
                     this.player1.clickCard(this.gub);
-                    expect(this.archimedes.tokens.damage).toBe(1);
+                    expect(this.archimedes.damage).toBe(1);
                     expect(this.gub.location).toBe('discard');
                     this.player1.endTurn();
                 });
@@ -125,7 +125,7 @@ describe('Prof. Emeritus Kering', function () {
                     this.player1.clickPrompt('Fight with this creature');
                     this.player1.clickCard(this.gub);
                     expect(this.player1.amber).toBe(2);
-                    expect(this.dextre.tokens.damage).toBe(1);
+                    expect(this.dextre.damage).toBe(1);
                     expect(this.gub.location).toBe('discard');
                     this.player1.endTurn();
                 });
@@ -136,7 +136,7 @@ describe('Prof. Emeritus Kering', function () {
                     this.player1.clickCard(this.gub);
                     this.player1.clickPrompt('Reap with this creature');
                     expect(this.player1.amber).toBe(2);
-                    expect(this.archimedes.tokens.damage).toBe(1);
+                    expect(this.archimedes.damage).toBe(1);
                     expect(this.gub.location).toBe('discard');
                     this.player1.endTurn();
                 });
@@ -183,7 +183,7 @@ describe('Prof. Emeritus Kering', function () {
                     this.player1.clickCard(this.archimedes);
                     this.player1.clickPrompt('Fight with this creature');
                     this.player1.clickCard(this.gub);
-                    expect(this.archimedes.tokens.damage).toBe(1);
+                    expect(this.archimedes.damage).toBe(1);
                     expect(this.gub.location).toBe('discard');
                     this.player1.endTurn();
                 });
@@ -211,7 +211,7 @@ describe('Prof. Emeritus Kering', function () {
                     this.player1.clickCard(this.archimedes);
                     this.player1.clickPrompt('Fight with this creature');
                     this.player1.clickCard(this.gub);
-                    expect(this.archimedes.tokens.damage).toBe(1);
+                    expect(this.archimedes.damage).toBe(1);
                     expect(this.gub.location).toBe('discard');
                     this.player1.endTurn();
                 });
@@ -246,7 +246,7 @@ describe('Prof. Emeritus Kering', function () {
                     this.player1.clickCard(this.archimedes);
                     this.player1.clickPrompt('Fight with this creature');
                     this.player1.clickCard(this.gub);
-                    expect(this.archimedes.tokens.damage).toBe(1);
+                    expect(this.archimedes.damage).toBe(1);
                     expect(this.gub.location).toBe('discard');
                     this.player1.endTurn();
                 });
@@ -269,7 +269,7 @@ describe('Prof. Emeritus Kering', function () {
                     this.player1.clickPrompt('Fight with this creature');
                     this.player1.clickCard(this.gub);
                     expect(this.player1.amber).toBe(3);
-                    expect(this.dextre.tokens.damage).toBe(1);
+                    expect(this.dextre.damage).toBe(1);
                     expect(this.gub.location).toBe('discard');
                     this.player1.endTurn();
                 });
@@ -280,7 +280,7 @@ describe('Prof. Emeritus Kering', function () {
                     this.player1.clickCard(this.gub);
                     this.player1.clickPrompt('Reap with this creature');
                     expect(this.player1.amber).toBe(3);
-                    expect(this.archimedes.tokens.damage).toBe(1);
+                    expect(this.archimedes.damage).toBe(1);
                     expect(this.gub.location).toBe('discard');
                     this.player1.endTurn();
                 });
@@ -327,7 +327,7 @@ describe('Prof. Emeritus Kering', function () {
                     this.player1.clickCard(this.archimedes);
                     this.player1.clickPrompt('Fight with this creature');
                     this.player1.clickCard(this.gub);
-                    expect(this.archimedes.tokens.damage).toBe(1);
+                    expect(this.archimedes.damage).toBe(1);
                     expect(this.gub.location).toBe('discard');
                     this.player1.endTurn();
                 });
@@ -355,7 +355,7 @@ describe('Prof. Emeritus Kering', function () {
                     this.player1.clickCard(this.archimedes);
                     this.player1.clickPrompt('Fight with this creature');
                     this.player1.clickCard(this.gub);
-                    expect(this.archimedes.tokens.damage).toBe(1);
+                    expect(this.archimedes.damage).toBe(1);
                     expect(this.gub.location).toBe('discard');
                     this.player1.endTurn();
                 });
@@ -390,7 +390,7 @@ describe('Prof. Emeritus Kering', function () {
                     this.player1.clickCard(this.archimedes);
                     this.player1.clickPrompt('Fight with this creature');
                     this.player1.clickCard(this.gub);
-                    expect(this.archimedes.tokens.damage).toBe(1);
+                    expect(this.archimedes.damage).toBe(1);
                     expect(this.gub.location).toBe('discard');
                     this.player1.endTurn();
                 });
@@ -413,7 +413,7 @@ describe('Prof. Emeritus Kering', function () {
                     this.player1.clickPrompt('Fight with this creature');
                     this.player1.clickCard(this.gub);
                     expect(this.player1.amber).toBe(2);
-                    expect(this.dextre.tokens.damage).toBe(1);
+                    expect(this.dextre.damage).toBe(1);
                     expect(this.gub.location).toBe('discard');
                     this.player1.endTurn();
                 });
@@ -424,7 +424,7 @@ describe('Prof. Emeritus Kering', function () {
                     this.player1.clickCard(this.gub);
                     this.player1.clickPrompt('Reap with this creature');
                     expect(this.player1.amber).toBe(2);
-                    expect(this.archimedes.tokens.damage).toBe(1);
+                    expect(this.archimedes.damage).toBe(1);
                     expect(this.gub.location).toBe('discard');
                     this.player1.endTurn();
                 });

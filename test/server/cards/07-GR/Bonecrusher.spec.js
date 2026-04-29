@@ -25,7 +25,7 @@ describe('Bonecrusher', function () {
             expect(this.huntingWitch.location).toBe('discard');
             expect(this.foozle.location).toBe('play area');
             expect(this.cpoZytar.location).toBe('play area');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

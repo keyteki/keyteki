@@ -10,6 +10,7 @@ class EchoingDeathknell extends Card {
                 target: context.game.creaturesInPlay
             })),
             then: (preThenContext) => ({
+                alwaysTriggers: true, // Allows repeat even if ward cancels some damage
                 condition: (context) =>
                     context.preThenEvents.some(
                         (event) =>

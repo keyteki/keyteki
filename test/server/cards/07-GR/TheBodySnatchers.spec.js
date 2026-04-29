@@ -20,7 +20,7 @@ describe('The Body Snatchers', function () {
             expect(this.dustPixie.location).toBe('play area');
             expect(this.player1.player.creaturesInPlay).toContain(this.dustPixie);
             expect(this.dustPixie.exhausted).toBe(false);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('heals the destroyed enemy creatures', function () {
@@ -31,10 +31,10 @@ describe('The Body Snatchers', function () {
             this.player1.clickCard(this.thingFromTheDeep);
             this.player1.clickPrompt('Right');
             expect(this.thingFromTheDeep.location).toBe('play area');
-            expect(this.thingFromTheDeep.tokens.damage).toBeUndefined();
+            expect(this.thingFromTheDeep.damage).toBe(0);
             expect(this.player1.player.creaturesInPlay).toContain(this.thingFromTheDeep);
             expect(this.thingFromTheDeep.exhausted).toBe(false);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('only lasts for a turn', function () {
@@ -43,7 +43,7 @@ describe('The Body Snatchers', function () {
             this.player2.clickPrompt('untamed');
             this.player2.fightWith(this.dustPixie, this.tunk);
             expect(this.dustPixie.location).toBe('discard');
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player2).isReadyToTakeAction();
         });
 
         it('only affects creatures', function () {
@@ -53,10 +53,10 @@ describe('The Body Snatchers', function () {
             this.player1.clickCard(this.thingFromTheDeep);
             this.player1.clickPrompt('Left');
             expect(this.thingFromTheDeep.location).toBe('play area');
-            expect(this.thingFromTheDeep.tokens.damage).toBeUndefined();
+            expect(this.thingFromTheDeep.damage).toBe(0);
             expect(this.player1.player.creaturesInPlay).toContain(this.thingFromTheDeep);
             expect(this.ritualOfBalance.location).toBe('discard');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

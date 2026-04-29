@@ -31,7 +31,7 @@ describe('Kirby’s Blaster', function () {
             expect(this.player1).toHavePrompt('Triggered Abilities');
             expect(this.player1).toHavePromptButton('Done');
             this.player1.clickPrompt('Done');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('reap ability should allow dealing 2 damages to a creature', function () {
@@ -51,7 +51,7 @@ describe('Kirby’s Blaster', function () {
             expect(this.player1).toBeAbleToSelect(this.lamindra);
             expect(this.player1).toBeAbleToSelect(this.krump);
             this.player1.clickCard(this.krump);
-            expect(this.krump.tokens.damage).toBe(2);
+            expect(this.krump.damage).toBe(2);
         });
 
         it('fight ability should allow dealing 2 damages to a creature', function () {
@@ -71,7 +71,7 @@ describe('Kirby’s Blaster', function () {
             expect(this.player1).toBeAbleToSelect(this.lamindra);
             expect(this.player1).toBeAbleToSelect(this.krump);
             this.player1.clickCard(this.krump);
-            expect(this.krump.tokens.damage).toBe(2);
+            expect(this.krump.damage).toBe(2);
         });
 
         it('reap ability should allow moving the upgrade to the appropriate officer', function () {
@@ -148,7 +148,7 @@ describe('Kirby’s Blaster', function () {
             expect(this.player1).toBeAbleToSelect(this.lamindra);
             expect(this.player1).toBeAbleToSelect(this.krump);
             this.player1.clickCard(this.krump);
-            expect(this.krump.tokens.damage).toBe(2);
+            expect(this.krump.damage).toBe(2);
         });
 
         it('reap ability should allow moving to associated officer even when it is not in play', function () {
@@ -160,7 +160,7 @@ describe('Kirby’s Blaster', function () {
             expect(this.player1).toHavePromptButton('Deal 2 damage');
             expect(this.player1).toHavePromptButton('Move Kirby’s Blaster');
             this.player1.clickPrompt('Move Kirby’s Blaster');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('fight ability should default to deal damage when officer is not in play', function () {
@@ -177,7 +177,7 @@ describe('Kirby’s Blaster', function () {
             expect(this.player1).toBeAbleToSelect(this.lamindra);
             expect(this.player1).toBeAbleToSelect(this.krump);
             this.player1.clickCard(this.krump);
-            expect(this.krump.tokens.damage).toBe(2);
+            expect(this.krump.damage).toBe(2);
         });
     });
 
@@ -207,7 +207,7 @@ describe('Kirby’s Blaster', function () {
             this.player1.clickPrompt('Kirby’s Blaster');
             this.player1.clickPrompt('Move Kirby’s Blaster');
             // There are no valid targets.
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
             expect(this.comOfficerKirby1.upgrades).toContain(this.kirbySBlaster);
         });
     });

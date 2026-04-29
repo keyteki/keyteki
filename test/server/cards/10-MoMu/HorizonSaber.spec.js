@@ -57,14 +57,14 @@ describe('Horizon Saber', function () {
             expect(shuffled.length).toBe(2);
             expect(shuffled[0]).toBe(this.player1.player);
             expect(shuffled[1]).toBe(this.player1.player);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should search for a card and archive, and shuffle discard into deck, on reap', function () {
             this.player1.playCreature(this.horizonSaber);
             this.player1.clickCard(this.poke);
             this.player1.clickPrompt('Done');
-            this.horizonSaber.exhausted = false;
+            this.horizonSaber.ready();
             let shuffled = [];
             this.player1.player.game.on(
                 'onDeckShuffled',
@@ -81,14 +81,14 @@ describe('Horizon Saber', function () {
             expect(shuffled.length).toBe(2);
             expect(shuffled[0]).toBe(this.player1.player);
             expect(shuffled[1]).toBe(this.player1.player);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should search for a card and archive, and shuffle discard into deck, on fight', function () {
             this.player1.playCreature(this.horizonSaber);
             this.player1.clickCard(this.poke);
             this.player1.clickPrompt('Done');
-            this.horizonSaber.exhausted = false;
+            this.horizonSaber.ready();
             let shuffled = [];
             this.player1.player.game.on(
                 'onDeckShuffled',
@@ -105,7 +105,7 @@ describe('Horizon Saber', function () {
             expect(shuffled.length).toBe(2);
             expect(shuffled[0]).toBe(this.player1.player);
             expect(shuffled[1]).toBe(this.player1.player);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

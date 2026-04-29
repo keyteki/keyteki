@@ -23,14 +23,14 @@ describe('Berinon', function () {
 
         it('should be enraged after playing a mutant creature', function () {
             this.player1.play(this.bullWark);
-            expect(this.berinon.tokens.enrage).toBe(1);
-            expect(this.bullWark.tokens.enrage).toBeUndefined();
+            expect(this.berinon.enraged).toBe(true);
+            expect(this.bullWark.enraged).toBe(false);
         });
 
         it('should not be enraged after playing a non-mutant creature', function () {
             this.player1.play(this.bulwark);
-            expect(this.berinon.tokens.enrage).toBeUndefined();
-            expect(this.bulwark.tokens.enrage).toBeUndefined();
+            expect(this.berinon.enraged).toBe(false);
+            expect(this.bulwark.enraged).toBe(false);
         });
 
         describe("during opponent's turn", function () {
@@ -41,14 +41,14 @@ describe('Berinon', function () {
 
             it('should be enraged after opponent plays a mutant creature', function () {
                 this.player2.play(this.munchling);
-                expect(this.berinon.tokens.enrage).toBe(1);
-                expect(this.munchling.tokens.enrage).toBeUndefined();
+                expect(this.berinon.enraged).toBe(true);
+                expect(this.munchling.enraged).toBe(false);
             });
 
             it('should not be enraged after opponent plays a non-mutant creature', function () {
                 this.player2.play(this.dextre);
-                expect(this.berinon.tokens.enrage).toBeUndefined();
-                expect(this.dextre.tokens.enrage).toBeUndefined();
+                expect(this.berinon.enraged).toBe(false);
+                expect(this.dextre.enraged).toBe(false);
             });
         });
     });

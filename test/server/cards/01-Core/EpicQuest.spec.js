@@ -30,10 +30,10 @@ describe('Epic Quest', function () {
             this.player1.play(this.protectrix);
             this.player1.play(this.gormOfOmm);
             expect(this.player1.amber).toBe(4);
-            this.player1.useAction(this.epicQuest, true);
+            this.player1.useOmni(this.epicQuest);
             expect(this.epicQuest.location).toBe('play area');
             expect(this.epicQuest.exhausted).toBe(true);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should forge a key if played 7 sanctum cards', function () {
@@ -45,12 +45,12 @@ describe('Epic Quest', function () {
             this.player1.play(this.gormOfOmm);
             this.player1.play(this.roundTable);
             expect(this.player1.amber).toBe(5);
-            this.player1.useAction(this.epicQuest, true);
+            this.player1.useOmni(this.epicQuest);
             this.player1.forgeKey('red');
             expect(this.player1.amber).toBe(5);
             expect(this.player1.player.getForgedKeys()).toBe(1);
             expect(this.epicQuest.location).toBe('discard');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should forge a key if played 7 sanctum cards, after opponent used the artifact', function () {
@@ -75,13 +75,13 @@ describe('Epic Quest', function () {
             this.player1.play(this.roundTable);
             expect(this.player1.amber).toBe(5);
 
-            this.player1.useAction(this.epicQuest, true);
+            this.player1.useOmni(this.epicQuest);
             this.player1.forgeKey('red');
             expect(this.player1.amber).toBe(5);
             expect(this.player1.player.getForgedKeys()).toBe(1);
             expect(this.player2.player.getForgedKeys()).toBe(0);
             expect(this.epicQuest.location).toBe('discard');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

@@ -26,7 +26,7 @@ describe('Redeemer Amara', function () {
             this.player1.clickPrompt('Left');
             this.player1.clickPrompt('Left');
             expect(this.player1.player.creaturesInPlay.length).toBe(5);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should work on opponent turn', function () {
@@ -35,7 +35,7 @@ describe('Redeemer Amara', function () {
             this.player2.fightWith(this.oldBruno, this.charette);
             this.player2.clickPrompt('Left');
             expect(this.player1.player.creaturesInPlay.length).toBe(5);
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player2).isReadyToTakeAction();
         });
     });
 });

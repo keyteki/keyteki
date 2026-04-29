@@ -6,8 +6,7 @@ class ComOfficerKirby extends Card {
         this.play({
             fight: true,
             reap: true,
-            effect:
-                'allow them to play one non staralliance artifact, upgrade, or action​ card this turn',
+            effect: 'allow them to play one non staralliance artifact, upgrade, or action​ card this turn',
             gameAction: ability.actions.untilPlayerTurnEnd({
                 effect: ability.effects.canPlayNonHouse({
                     house: 'staralliance',

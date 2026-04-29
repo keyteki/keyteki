@@ -26,7 +26,7 @@ describe('Thermal Depletion', function () {
             this.player2.clickPrompt('Ready and reap');
             this.player2.clickCard(this.dustPixie);
             expect(this.player2.amber).toBe(2); // no amber from reap since the creature couldn't ready
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player2).isReadyToTakeAction();
             this.player2.endTurn();
             this.player1.clickPrompt('brobnar');
             expect(this.troll.exhausted).toBe(true);
@@ -54,8 +54,7 @@ describe('Thermal Depletion', function () {
                     inPlay: ['teliga']
                 }
             });
-            this.tachyonManifold.maverick = 'brobnar';
-            this.tachyonManifold.printedHouse = 'brobnar';
+            this.player1.makeMaverick(this.tachyonManifold, 'brobnar');
             this.player1.useAction(this.tachyonManifold);
         });
 
@@ -68,7 +67,7 @@ describe('Thermal Depletion', function () {
             this.player1.endTurn();
             expect(this.troll.exhausted).toBe(false);
             this.player2.clickPrompt('untamed');
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player2).isReadyToTakeAction();
         });
     });
 });

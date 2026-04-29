@@ -19,7 +19,7 @@ describe('In Here Somewhere...', function () {
             this.player1.play(this['inHereSomewhere…']);
             expect(this.player1.deck.length).toBe(p1deck - Math.min(5, p1deck));
             expect(this.player1.discard.length).toBe(10 + Math.min(5, p1deck));
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('archives 2 cards from discard if haunted', function () {
@@ -35,7 +35,7 @@ describe('In Here Somewhere...', function () {
             expect(this.shadys.location).toBe('archives');
             expect(this.purseAPhone.location).toBe('archives');
             expect(this.player1.discard.length).toBe(9);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

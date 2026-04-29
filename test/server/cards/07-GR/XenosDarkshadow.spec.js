@@ -19,7 +19,7 @@ describe('Xenos Darkshadow', function () {
             this.player1.player.discard = [];
             this.player1.playCreature(this.xenosDarkshadow);
             expect(this.xenosDarkshadow.location).toBe('discard');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('has power equal to the discard length', function () {
@@ -43,33 +43,33 @@ describe('Xenos Darkshadow', function () {
 
             it('has assault equal to the discard length', function () {
                 this.player1.fightWith(this.xenosDarkshadow, this.thingFromTheDeep);
-                expect(this.thingFromTheDeep.tokens.damage).toBe(18);
+                expect(this.thingFromTheDeep.damage).toBe(18);
             });
 
             it('has hazardous equal to the discard length', function () {
                 this.player1.endTurn();
                 this.player2.clickPrompt('unfathomable');
                 this.player2.fightWith(this.thingFromTheDeep, this.xenosDarkshadow);
-                expect(this.thingFromTheDeep.tokens.damage).toBe(18);
+                expect(this.thingFromTheDeep.damage).toBe(18);
             });
 
             it('has splash-attack equal to the discard length', function () {
                 this.player1.fightWith(this.xenosDarkshadow, this.thingFromTheDeep);
-                expect(this.kelifiDragon.tokens.damage).toBe(9);
+                expect(this.kelifiDragon.damage).toBe(9);
                 expect(this.troll.location).toBe('discard');
             });
 
             it('does not archive on destroy if not haunted', function () {
                 this.player1.fightWith(this.xenosDarkshadow, this.thingFromTheDeep);
                 expect(this.xenosDarkshadow.location).toBe('discard');
-                expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+                expect(this.player1).isReadyToTakeAction();
             });
 
             it('archives on destroy if haunted', function () {
                 this.player1.play(this.stormSurge);
                 this.player1.fightWith(this.xenosDarkshadow, this.thingFromTheDeep);
                 expect(this.xenosDarkshadow.location).toBe('archives');
-                expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+                expect(this.player1).isReadyToTakeAction();
             });
         });
     });

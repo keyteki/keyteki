@@ -2,7 +2,7 @@ const Card = require('../../Card.js');
 const EventRegistrar = require('../../eventregistrar.js');
 
 class Lifeweb extends Card {
-    // Play: If your opponent played 3or more creatures on their previous turn, steal 2A.
+    // Play: If your opponent played 3 or more creatures on their previous turn, steal 2A.
     setupCardAbilities(ability) {
         this.creaturesPlayed = {};
         this.creaturesPlayed[this.owner.uuid] = [];
@@ -11,7 +11,7 @@ class Lifeweb extends Card {
         }
 
         this.tracker = new EventRegistrar(this.game, this);
-        this.tracker.register(['onCardPlayed', 'onCardAttached', 'onPhaseStarted']);
+        this.tracker.register(['onCardPlayed', 'onCardAttached', 'onTurnStart']);
 
         this.play({
             condition: (context) =>
@@ -35,10 +35,8 @@ class Lifeweb extends Card {
         );
     }
 
-    onPhaseStarted(event) {
-        if (event.phase === 'main') {
-            this.creaturesPlayed[this.game.activePlayer.uuid] = [];
-        }
+    onTurnStart() {
+        this.creaturesPlayed[this.game.activePlayer.uuid] = [];
     }
 }
 

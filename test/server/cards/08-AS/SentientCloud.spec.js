@@ -14,8 +14,7 @@ describe('Sentient Cloud', function () {
                 }
             });
 
-            this.sentientCloud.printedHouse = 'mars';
-            this.sentientCloud.maverick = 'mars';
+            this.player1.makeMaverick(this.sentientCloud, 'mars');
         });
 
         it('should give highest-powered friendly creatures a fight ability to gain 2', function () {
@@ -29,7 +28,7 @@ describe('Sentient Cloud', function () {
             this.player2.clickPrompt('brobnar');
             this.player2.fightWith(this.culfTheQuiet, this.blypyp);
             expect(this.player2.amber).toBe(3);
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player2).isReadyToTakeAction();
         });
 
         it('should not break when there are no friendly creature', function () {
@@ -40,7 +39,7 @@ describe('Sentient Cloud', function () {
             this.player2.clickPrompt('logos');
             this.player2.playCreature(this.deAnimator);
             this.player2.clickCard(this.sentientCloud);
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player2).isReadyToTakeAction();
         });
     });
 });

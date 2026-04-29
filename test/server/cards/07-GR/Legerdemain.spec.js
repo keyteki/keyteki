@@ -14,8 +14,8 @@ describe('Legerdemain', function () {
                 }
             });
 
-            this.flaxia.tokens.damage = 1;
-            this.krump.tokens.damage = 1;
+            this.flaxia.damage = 1;
+            this.krump.damage = 1;
         });
 
         it('should return a friendly damaged creture to hand to gain one', function () {
@@ -30,7 +30,7 @@ describe('Legerdemain', function () {
             expect(this.player1.player.hand).toContain(this.flaxia);
             expect(this.gub.location).toBe('play area');
             expect(this.krump.location).toBe('play area');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should return an enemy damaged creture to hand to gain one', function () {
@@ -42,7 +42,7 @@ describe('Legerdemain', function () {
             expect(this.player2.player.hand).toContain(this.krump);
             expect(this.gub.location).toBe('play area');
             expect(this.flaxia.location).toBe('play area');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should work on swapped creatures', function () {
@@ -60,11 +60,11 @@ describe('Legerdemain', function () {
             expect(this.player1.player.hand).toContain(this.flaxia);
             expect(this.gub.location).toBe('play area');
             expect(this.krump.location).toBe('play area');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should not grant amber for warded creatures', function () {
-            this.krump.tokens.ward = 1;
+            this.krump.ward();
             this.player1.play(this.legerdemain);
             expect(this.player1).toBeAbleToSelect(this.flaxia);
             expect(this.player1).not.toBeAbleToSelect(this.gub);
@@ -75,8 +75,8 @@ describe('Legerdemain', function () {
             expect(this.flaxia.location).toBe('play area');
             expect(this.gub.location).toBe('play area');
             expect(this.krump.location).toBe('play area');
-            expect(this.krump.tokens.ward).toBe(undefined);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.krump.warded).toBe(false);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

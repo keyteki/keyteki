@@ -15,21 +15,21 @@ describe('Loyalty Implants', function () {
         });
 
         it('allows using Mars creatures on an off-house turn', function () {
-            this.player1.useAction(this.loyaltyImplants, true);
+            this.player1.useOmni(this.loyaltyImplants);
             expect(this.loyaltyImplants.location).toBe('discard');
             this.player1.reap(this.flaxia);
             this.player1.reap(this.ironyxRebel);
             this.player1.fightWith(this.tunk, this.dustPixie);
             expect(this.player1.amber).toBe(3);
             expect(this.dustPixie.location).toBe('discard');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('does not allow playing Mars cards on an off-house turn', function () {
-            this.player1.useAction(this.loyaltyImplants, true);
+            this.player1.useOmni(this.loyaltyImplants);
             this.player1.clickCard(this.cloneHome);
             expect(this.cloneHome.location).toBe('hand');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

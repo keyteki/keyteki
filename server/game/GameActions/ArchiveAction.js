@@ -1,3 +1,4 @@
+const { EVENTS } = require('../Events/types');
 const CardGameAction = require('./CardGameAction');
 
 class ArchiveAction extends CardGameAction {
@@ -23,14 +24,14 @@ class ArchiveAction extends CardGameAction {
     }
 
     getEvent(card, context) {
-        return super.createEvent('onCardArchived', { card: card, context: context }, () => {
+        return super.createEvent(EVENTS.onCardArchived, { card: card, context: context }, () => {
             let player = this.owner
                 ? card.owner
                 : this.opponent
                 ? context.player.opponent
                 : context.player;
             if (card.location === 'play area') {
-                context.game.raiseEvent('onCardLeavesPlay', { card, context }, () =>
+                context.game.raiseEvent(EVENTS.onCardLeavesPlay, { card, context }, () =>
                     player.moveCard(card, 'archives')
                 );
             } else {

@@ -49,8 +49,7 @@ describe('Allusions of Grandeur', function () {
                     hand: []
                 }
             });
-            this.tachyonManifold.maverick = 'unfathomable';
-            this.tachyonManifold.printedHouse = 'unfathomable';
+            this.player1.makeMaverick(this.tachyonManifold, 'unfathomable');
             this.player1.useAction(this.tachyonManifold);
         });
 
@@ -62,7 +61,7 @@ describe('Allusions of Grandeur', function () {
             this.player1.endTurn();
             this.player2.clickPrompt('untamed');
             expect(this.player1.amber).toBe(4);
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player2).isReadyToTakeAction();
         });
     });
 });

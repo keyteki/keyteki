@@ -1,3 +1,4 @@
+const { EVENTS } = require('../Events/types');
 const CardGameAction = require('./CardGameAction');
 
 class PlaceUnderAction extends CardGameAction {
@@ -34,6 +35,14 @@ class PlaceUnderAction extends CardGameAction {
             card.clearDependentCards();
             card.onLeavesPlay();
         }
+
+        // Split the composed halves of a gigantic creature
+        if (card.gigantic && card.composedPart) {
+            this.placeUnder(card.composedPart);
+            card.composedPart = null;
+            card.image = card.id;
+        }
+
         card.controller = this.parent.controller;
         card.parent = this.parent;
         card.moveTo(this.isGraft ? 'grafted' : 'under');
@@ -44,11 +53,11 @@ class PlaceUnderAction extends CardGameAction {
 
     getEvent(card, context) {
         return super.createEvent(
-            this.isGraft ? 'onCardGrafted' : 'onPlaceUnder',
+            this.isGraft ? EVENTS.onCardGrafted : EVENTS.onPlaceUnder,
             { card, context },
             () => {
                 if (card.location === 'play area') {
-                    context.game.raiseEvent('onCardLeavesPlay', { card, context }, () =>
+                    context.game.raiseEvent(EVENTS.onCardLeavesPlay, { card, context }, () =>
                         this.placeUnder(card)
                     );
                 } else {

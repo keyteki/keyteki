@@ -20,7 +20,7 @@ describe('Memorialize the Fallen', function () {
             this.player1.play(this.memorializeTheFallen);
             expect(this.player1.amber).toBe(3);
             expect(this.player2.amber).toBe(2);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('works when you have more creatures than amber', function () {
@@ -28,7 +28,7 @@ describe('Memorialize the Fallen', function () {
             this.player1.play(this.memorializeTheFallen);
             expect(this.player1.amber).toBe(0);
             expect(this.player2.amber).toBe(2);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

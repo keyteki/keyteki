@@ -21,7 +21,7 @@ describe('Rock-Hurling Giant', function () {
             this.player1.clickCard(this.rockHurlingGiant);
             expect(this.player1).toHavePrompt('Rock-Hurling Giant');
             this.player1.clickCard(this.valdr);
-            expect(this.valdr.tokens.damage).toBe(4);
+            expect(this.valdr.damage).toBe(4);
             this.player1.clickCard(this.lootTheBodies);
             this.player1.clickPrompt('Discard this card');
             this.player1.clickCard(this.rockHurlingGiant);
@@ -49,7 +49,7 @@ describe('Rock-Hurling Giant', function () {
             this.player2.clickPrompt('dis');
             this.player2.play(this.mindBarb);
             expect(this.player1.hand.length).toBe(1);
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player2).isReadyToTakeAction();
         });
     });
 });

@@ -16,9 +16,9 @@ describe('Quantum Compass', function () {
         });
 
         it('should have an omni ability to archive the top of your deck', function () {
-            this.player1.useAction(this.quantumCompass, true);
+            this.player1.useOmni(this.quantumCompass);
             expect(this.helperBot.location).toBe('archives');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

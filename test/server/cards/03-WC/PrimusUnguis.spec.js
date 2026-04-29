@@ -23,9 +23,9 @@ describe('Primus Unguis', function () {
             expect(this.questorJarta.power).toBe(3);
             expect(this.troll.power).toBe(8);
 
-            this.primusUnguis.tokens.amber = 3;
-            this.questorJarta.tokens.amber = 2;
-            this.troll.tokens.amber = 1;
+            this.primusUnguis.amber = 3;
+            this.questorJarta.amber = 2;
+            this.troll.amber = 1;
 
             this.player1.reap(this.primusUnguis);
             expect(this.primusUnguis.amber).toBe(4);

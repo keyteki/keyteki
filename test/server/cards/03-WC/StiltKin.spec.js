@@ -19,14 +19,14 @@ describe('stilt-kin', function () {
             expect(this.player1).toHavePrompt('Choose a creature to attack');
             expect(this.player1).toBeAbleToSelect(this.troll);
             this.player1.clickCard(this.troll);
-            expect(this.troll.tokens.damage).toBe(2);
-            expect(this.stiltKin.hasToken('damage')).toBe(false);
+            expect(this.troll.damage).toBe(2);
+            expect(this.stiltKin.damage).toBe(0);
         });
 
         it('should not ready and fights when non-giant is played adjacent', function () {
             this.player1.reap(this.stiltKin);
             this.player1.play(this.littleRapscal);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

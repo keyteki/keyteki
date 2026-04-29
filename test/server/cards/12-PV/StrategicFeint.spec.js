@@ -31,8 +31,8 @@ describe('Strategic Feint', function () {
             this.player1.clickCard(this.krump);
             this.player1.clickCard(this.pelf);
             this.player1.clickPrompt('Done');
-            expect(this.krump.tokens.damage).toBe(1);
-            expect(this.pelf.tokens.damage).toBe(1);
+            expect(this.krump.damage).toBe(1);
+            expect(this.pelf.damage).toBe(1);
             expect(this.krump.exhausted).toBe(true);
             expect(this.pelf.exhausted).toBe(true);
         });
@@ -52,13 +52,13 @@ describe('Strategic Feint', function () {
             this.player2.play(this.anger);
             this.player2.clickCard(this.krump);
             this.player2.clickCard(this.emberImp);
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player2).isReadyToTakeAction();
             this.player2.endTurn();
             this.player1.clickPrompt('staralliance');
             this.player1.endTurn();
             this.player2.clickPrompt('brobnar');
             this.player2.playCreature(this.brammo);
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player2).isReadyToTakeAction();
         });
     });
 });

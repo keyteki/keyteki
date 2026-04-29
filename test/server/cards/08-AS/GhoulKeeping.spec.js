@@ -22,7 +22,7 @@ describe('Ghoul-keeping', function () {
             expect(this.player1).not.toBeAbleToSelect(this.touchstone);
             this.player1.clickCard(this.echofly);
             expect(this.echofly.exhausted).toBe(false);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

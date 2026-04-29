@@ -19,10 +19,10 @@ describe('Azrael', function () {
             expect(this.player1).toHavePromptButton('Fight with this creature');
             this.player1.clickPrompt('Fight with this creature');
             this.player1.clickCard(this.ancientBear);
-            expect(this.ancientBear.tokens.damage).toBe(2);
+            expect(this.ancientBear.damage).toBe(2);
             this.player1.fightWith(this.troll, this.dustPixie);
             expect(this.dustPixie.location).toBe('discard');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

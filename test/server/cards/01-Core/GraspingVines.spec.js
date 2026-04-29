@@ -21,7 +21,7 @@ describe('Grasping Vines', function () {
             expect(this.player1).toBeAbleToSelect(this.gormOfOmm);
             this.player1.clickPrompt('Done');
             expect(this.player1.amber).toBe(1);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should return chosen artifacts to hand', function () {
@@ -29,7 +29,7 @@ describe('Grasping Vines', function () {
             this.player1.clickCard(this.gormOfOmm);
             this.player1.clickPrompt('Done');
             expect(this.player1.amber).toBe(1);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
             expect(this.dominatorBauble.location).toBe('hand');
             expect(this.gormOfOmm.location).toBe('hand');
         });

@@ -50,8 +50,7 @@ describe('Sow Salt', function () {
                     inPlay: ['teliga']
                 }
             });
-            this.tachyonManifold.maverick = 'saurian';
-            this.tachyonManifold.printedHouse = 'saurian';
+            this.player1.makeMaverick(this.tachyonManifold, 'saurian');
         });
 
         it("should not affect opponent's next turn", function () {
@@ -63,7 +62,7 @@ describe('Sow Salt', function () {
             this.player2.clickPrompt('untamed');
             this.player2.reap(this.teliga);
             expect(this.player2.amber).toBe(1);
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player2).isReadyToTakeAction();
         });
     });
 });

@@ -29,9 +29,9 @@ describe('Fling', function () {
             this.player1.clickCard(this.thingFromTheDeep);
             expect(this.cpoZytar.location).toBe('discard');
             expect(this.dustPixie.location).toBe('discard');
-            expect(this.thingFromTheDeep.tokens.damage).toBe(4);
-            expect(this.flaxia.tokens.damage).toBe(3);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.thingFromTheDeep.damage).toBe(4);
+            expect(this.flaxia.damage).toBe(3);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('uses the creatures modified power', function () {
@@ -42,9 +42,9 @@ describe('Fling', function () {
             expect(this.bloodOfTitans.location).toBe('discard');
             expect(this.troll.location).toBe('discard');
             expect(this.dustPixie.location).toBe('discard');
-            expect(this.thingFromTheDeep.tokens.damage).toBe(13);
-            expect(this.flaxia.tokens.damage).toBe(3);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.thingFromTheDeep.damage).toBe(13);
+            expect(this.flaxia.damage).toBe(3);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

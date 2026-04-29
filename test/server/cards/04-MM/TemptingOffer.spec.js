@@ -25,13 +25,13 @@ describe('Tempting Offer', function () {
         });
 
         it("should fail to return a warded enemy creature to opponent's hand and opponent should not gain 1A", function () {
-            this.lamindra.tokens.ward = 1;
+            this.lamindra.ward();
             this.player1.play(this.temptingOffer);
             expect(this.player1).toBeAbleToSelect(this.lamindra);
             expect(this.player1).not.toBeAbleToSelect(this.recklessRizzo);
             this.player1.clickCard(this.lamindra);
             expect(this.lamindra.location).toBe('play area');
-            expect(this.lamindra.tokens.ward).toBeUndefined();
+            expect(this.lamindra.warded).toBe(false);
             expect(this.player2.amber).toBe(3);
         });
 
@@ -40,7 +40,7 @@ describe('Tempting Offer', function () {
             this.player1.play(this.temptingOffer);
             expect(this.player1).not.toBeAbleToSelect(this.lamindra);
             expect(this.player1).not.toBeAbleToSelect(this.recklessRizzo);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
             expect(this.lamindra.location).toBe('discard');
             expect(this.player2.amber).toBe(3);
         });

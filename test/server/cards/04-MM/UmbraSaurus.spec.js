@@ -16,7 +16,7 @@ describe('Umbra-Saurus', function () {
             this.player1.play(this.umbraSaurus);
             this.player1.clickPrompt('Done');
             expect(this.umbraSaurus.amber).toBe(0);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should deal 3D if exalted', function () {
@@ -24,7 +24,7 @@ describe('Umbra-Saurus', function () {
             this.player1.clickCard(this.umbraSaurus);
             this.player1.clickCard(this.troll);
             expect(this.umbraSaurus.amber).toBe(1);
-            expect(this.troll.tokens.damage).toBe(3);
+            expect(this.troll.damage).toBe(3);
         });
     });
 });

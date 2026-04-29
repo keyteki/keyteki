@@ -4,8 +4,8 @@ describe('The Archivist', function () {
             this.setupTest({
                 player1: {
                     house: 'logos',
-                    inPlay: ['ancient-bear'],
-                    hand: ['archimedes', 'the-archivist', 'causal-loop'],
+                    inPlay: ['blypyp'],
+                    hand: ['archimedes', 'the-archivist', 'causal-loop', 'memrox-the-red'],
                     archives: ['dextre', 'lamindra', 'experimental-therapy', 'borrow']
                 },
                 player2: {
@@ -102,16 +102,17 @@ describe('The Archivist', function () {
                 );
                 this.player2.clickPrompt('No');
                 this.player2.endTurn();
-                this.player1.clickPrompt('logos');
             });
 
             it('should offer to choose cards', function () {
+                this.player1.clickPrompt('logos');
                 expect(this.player1).toHavePrompt(
                     'Do you wish to take cards in archives into your hand?'
                 );
             });
 
             it('should have an option to decline', function () {
+                this.player1.clickPrompt('logos');
                 expect(this.player1).toHavePromptButton('Done');
                 this.player1.clickPrompt('Done');
 
@@ -124,6 +125,7 @@ describe('The Archivist', function () {
             });
 
             it('should have an All Cards button', function () {
+                this.player1.clickPrompt('logos');
                 expect(this.player1).toHavePromptButton('All Cards');
                 this.player1.clickPrompt('All Cards');
 
@@ -134,12 +136,49 @@ describe('The Archivist', function () {
                 expect(this.experimentalTherapy.location).toBe('hand');
                 expect(this.borrow.location).toBe('hand');
                 expect(this.archimedes.location).toBe('hand');
-                expect(this.ancientBear.location).toBe('play area');
+                expect(this.blypyp.location).toBe('play area');
 
                 this.player1.endTurn();
             });
 
+            it('will not take opponent’s cards if Memrox is in play', function () {
+                // Move player 2’s Shooler into Player 1’s archives
+                this.player1.moveCard(this.shooler, 'archives');
+
+                this.player1.clickPrompt('mars');
+                // Allowed to choose Shooler now…
+                expect(this.player1).toBeAbleToSelect(this.shooler);
+                this.player1.clickPrompt('Done');
+
+                this.player1.playCreature(this.memroxTheRed);
+                this.player1.endTurn();
+
+                this.player2.clickPrompt('dis');
+                this.player2.clickPrompt('No');
+                this.player2.endTurn();
+
+                this.player1.clickPrompt('logos');
+                expect(this.player1).toHavePrompt(
+                    'Do you wish to take cards in archives into your hand?'
+                );
+                expect(this.player1).toBeAbleToSelect(this.theArchivist);
+                // Now Schooler is not selectable because Memrox is out.
+                expect(this.player1).not.toBeAbleToSelect(this.shooler);
+
+                // Should move everything to hand but the Shooler.
+                this.player1.clickPrompt('All Cards');
+                expect(this.theArchivist.location).toBe('hand');
+                expect(this.causalLoop.location).toBe('hand');
+                expect(this.dextre.location).toBe('hand');
+                expect(this.lamindra.location).toBe('hand');
+                expect(this.experimentalTherapy.location).toBe('hand');
+                expect(this.borrow.location).toBe('hand');
+                expect(this.archimedes.location).toBe('hand');
+                expect(this.shooler.location).toBe('archives');
+            });
+
             it('should be able to select a few cards', function () {
+                this.player1.clickPrompt('logos');
                 expect(this.player1).toBeAbleToSelect(this.theArchivist);
                 expect(this.player1).toBeAbleToSelect(this.causalLoop);
                 expect(this.player1).toBeAbleToSelect(this.dextre);
@@ -147,13 +186,14 @@ describe('The Archivist', function () {
                 expect(this.player1).toBeAbleToSelect(this.experimentalTherapy);
                 expect(this.player1).toBeAbleToSelect(this.borrow);
 
-                expect(this.player1).not.toBeAbleToSelect(this.ancientBear);
+                expect(this.player1).not.toBeAbleToSelect(this.blypyp);
                 expect(this.player1).not.toBeAbleToSelect(this.archimedes);
                 expect(this.player1).not.toBeAbleToSelect(this.gub);
                 expect(this.player1).not.toBeAbleToSelect(this.shooler);
             });
 
             it('should move only selected cards to hand', function () {
+                this.player1.clickPrompt('logos');
                 this.player1.clickCard(this.theArchivist);
                 this.player1.clickCard(this.causalLoop);
                 this.player1.clickCard(this.dextre);
@@ -167,7 +207,7 @@ describe('The Archivist', function () {
                 expect(this.experimentalTherapy.location).toBe('hand');
                 expect(this.borrow.location).toBe('archives');
                 expect(this.archimedes.location).toBe('hand');
-                expect(this.ancientBear.location).toBe('play area');
+                expect(this.blypyp.location).toBe('play area');
             });
         });
     });

@@ -12,7 +12,7 @@ class Recruit extends Card {
         }
 
         this.tracker = new EventRegistrar(this.game, this);
-        this.tracker.register(['onExalt', 'onPhaseStarted']);
+        this.tracker.register(['onExalt', 'onTurnStart']);
 
         this.play({
             gameAction: ability.actions.sequential([
@@ -38,12 +38,10 @@ class Recruit extends Card {
         }
     }
 
-    onPhaseStarted(event) {
-        if (event.phase === 'main') {
-            this.creaturesExalted[this.game.activePlayer.uuid] = 0;
-            if (this.game.activePlayer.opponent) {
-                this.creaturesExalted[this.game.activePlayer.opponent.uuid] = 0;
-            }
+    onTurnStart() {
+        this.creaturesExalted[this.game.activePlayer.uuid] = 0;
+        if (this.game.activePlayer.opponent) {
+            this.creaturesExalted[this.game.activePlayer.opponent.uuid] = 0;
         }
     }
 }

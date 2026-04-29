@@ -18,10 +18,10 @@ describe('Senator Quintina', function () {
         it('exalts a creature after is reaps', function () {
             this.player1.reap(this.citizenShrix);
             this.player1.clickCard(this.citizenShrix);
-            expect(this.citizenShrix.tokens.amber).toBe(2);
+            expect(this.citizenShrix.amber).toBe(2);
 
             this.player1.reap(this.senatorQuintina);
-            expect(this.senatorQuintina.tokens.amber).toBe(1);
+            expect(this.senatorQuintina.amber).toBe(1);
         });
 
         it("exalts an opponent's creature after it reaps", function () {
@@ -30,7 +30,7 @@ describe('Senator Quintina', function () {
             this.player2.reap(this.troll);
             this.player2.clickCard(this.troll);
 
-            expect(this.troll.tokens.amber).toBe(1);
+            expect(this.troll.amber).toBe(1);
         });
     });
 });

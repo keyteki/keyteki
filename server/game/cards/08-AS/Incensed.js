@@ -5,8 +5,7 @@ class Incensed extends Card {
     // gains, “After Fight: Gain 1A.”
     setupCardAbilities(ability) {
         this.play({
-            effect:
-                "give each friendly creature 'After Fight: Gain 1 amber' for the remainder of the turn",
+            effect: "give each friendly creature 'After Fight: Gain 1 amber' for the remainder of the turn",
             gameAction: ability.actions.untilPlayerTurnEnd({
                 match: (card) => card.type === 'creature',
                 effect: ability.effects.gainAbility('fight', {

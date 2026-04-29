@@ -1,4 +1,5 @@
 const Card = require('../../Card.js');
+const { EVENTS } = require('../../Events/types.js');
 
 class MercurialWormhole extends Card {
     // Play: Play the top card of your deck. That card's house becomes your active house.
@@ -11,7 +12,7 @@ class MercurialWormhole extends Card {
             then: {
                 condition: (context) =>
                     context.preThenEvents.length > 0 &&
-                    context.preThenEvents[0].name === 'playCardEvent' &&
+                    context.preThenEvents[0].name === EVENTS.playCardEvent &&
                     !context.preThenEvents[0].illegalTarget,
                 target: {
                     mode: 'house',

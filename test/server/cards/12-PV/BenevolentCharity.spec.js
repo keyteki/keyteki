@@ -20,21 +20,21 @@ describe('Benevolent Charity', function () {
                 }
             });
 
-            this.emberImp.tokens.amber = 2;
-            this.yurk.tokens.amber = 1;
-            this.searine.tokens.amber = 1;
+            this.emberImp.amber = 2;
+            this.yurk.amber = 1;
+            this.searine.amber = 1;
         });
 
         it('should move all amber from friendly creatures to common supply', function () {
-            this.emberImp.tokens.amber = 2;
-            this.yurk.tokens.amber = 1;
+            this.emberImp.amber = 2;
+            this.yurk.amber = 1;
             this.player1.play(this.benevolentCharity);
             expect(this.emberImp.amber).toBe(0);
             expect(this.yurk.amber).toBe(0);
             expect(this.searine.amber).toBe(1);
             expect(this.player1.amber).toBe(2);
             expect(this.player2.amber).toBe(4);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should make enemy creatures with amber capture 1 amber when fate is triggered', function () {
@@ -47,7 +47,7 @@ describe('Benevolent Charity', function () {
             expect(this.searine.amber).toBe(1);
             expect(this.player2.amber).toBe(3);
             expect(this.benevolentCharity.location).toBe('discard');
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player2).isReadyToTakeAction();
         });
     });
 });

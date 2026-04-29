@@ -1,3 +1,4 @@
+const { EVENTS } = require('../Events/types.js');
 const BaseStepWithPipeline = require('./basestepwithpipeline.js');
 const SimpleStep = require('./simplestep.js');
 
@@ -92,7 +93,7 @@ class AbilityResolver extends BaseStepWithPipeline {
             return;
         }
 
-        this.game.raiseEvent('onAbilityInitiated', {
+        this.game.raiseEvent(EVENTS.onAbilityInitiated, {
             context: this.context,
             noGameStateCheck: true
         });
@@ -113,7 +114,7 @@ class AbilityResolver extends BaseStepWithPipeline {
             return;
         }
 
-        this.game.raiseEvent('onAbilityResolved', { context: this.context });
+        this.game.raiseEvent(EVENTS.onAbilityResolved, { context: this.context });
     }
 }
 

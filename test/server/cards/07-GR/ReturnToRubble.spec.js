@@ -26,7 +26,7 @@ describe('Return to Rubble', function () {
             expect(this.flaxia.location).toBe('play area');
             expect(this.charette.location).toBe('play area');
             expect(this.cpoZytar.location).toBe('play area');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('destroys each creature if shuffling 10 cards', function () {
@@ -43,7 +43,7 @@ describe('Return to Rubble', function () {
             expect(this.charette.location).toBe('discard');
             expect(this.cpoZytar.location).toBe('discard');
             expect(this.aStrongFeeling.location).toBe('deck');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('only shuffles 10 cards', function () {
@@ -62,7 +62,7 @@ describe('Return to Rubble', function () {
             expect(this.cpoZytar.location).toBe('discard');
             expect(this.aStrongFeeling.location).toBe('deck');
             expect(this.replicativeGrowth.location).toBe('deck');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

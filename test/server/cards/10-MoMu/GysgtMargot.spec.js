@@ -20,14 +20,14 @@ describe('Gysgt Margot', function () {
             expect(this.player1).not.toBeAbleToSelect(this.gysgtMargot);
             expect(this.player1).not.toBeAbleToSelect(this.flaxia);
             this.player1.clickCard(this.fandangle);
-            expect(this.fandangle.tokens.damage).toBe(2);
+            expect(this.fandangle.damage).toBe(2);
             expect(this.player1).not.toBeAbleToSelect(this.fandangle);
             expect(this.player1).not.toBeAbleToSelect(this.lamindra);
             expect(this.player1).toBeAbleToSelect(this.gysgtMargot);
             expect(this.player1).toBeAbleToSelect(this.flaxia);
             this.player1.clickCard(this.flaxia);
             expect(this.flaxia.warded).toBe(true);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should deal 2 damage and ward on fight', function () {
@@ -37,14 +37,14 @@ describe('Gysgt Margot', function () {
             expect(this.player1).not.toBeAbleToSelect(this.gysgtMargot);
             expect(this.player1).not.toBeAbleToSelect(this.flaxia);
             this.player1.clickCard(this.fandangle);
-            expect(this.fandangle.tokens.damage).toBe(2);
+            expect(this.fandangle.damage).toBe(2);
             expect(this.player1).not.toBeAbleToSelect(this.fandangle);
             expect(this.player1).not.toBeAbleToSelect(this.lamindra);
             expect(this.player1).toBeAbleToSelect(this.gysgtMargot);
             expect(this.player1).toBeAbleToSelect(this.flaxia);
             this.player1.clickCard(this.flaxia);
             expect(this.flaxia.warded).toBe(true);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should still ward if no enemy creatures', function () {
@@ -55,7 +55,7 @@ describe('Gysgt Margot', function () {
             expect(this.player1).toBeAbleToSelect(this.flaxia);
             this.player1.clickCard(this.flaxia);
             expect(this.flaxia.warded).toBe(true);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

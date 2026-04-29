@@ -25,7 +25,7 @@ describe('Hungry Hippogriff', function () {
             this.player1.fightWith(this.hungryHippogriff, this.troll);
             expect(this.player1.amber).toBe(3);
             expect(this.player2.amber).toBe(3);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should not give enemy creatures a destroyed ability', function () {
@@ -34,7 +34,7 @@ describe('Hungry Hippogriff', function () {
             this.player2.fightWith(this.krump, this.hungryHippogriff);
             expect(this.player1.amber).toBe(3);
             expect(this.player2.amber).toBe(1);
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player2).isReadyToTakeAction();
         });
     });
 });

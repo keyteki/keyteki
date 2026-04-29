@@ -1,50 +1,33 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 
-import './TimeLimitClock.scss';
+const TimeLimitClock = (props) => {
+    const [timeLeft, setTimeLeft] = useState();
 
-class TimeLimitClock extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            timer: undefined,
-            timeLeft: undefined
-        };
-    }
-
-    componentDidMount() {
-        this.updateProps(this.props);
-    }
-
-    // eslint-disable-next-line camelcase
-    UNSAFE_componentWillReceiveProps(props) {
-        this.updateProps(props);
-    }
-
-    updateProps(props) {
-        if (props.timeLimitStarted && !this.state.timer) {
-            let timer = setInterval(() => {
-                let endTime = moment(this.props.timeLimitStartedAt).add(
-                    this.props.timeLimit,
-                    'minutes'
-                );
-                let time = moment.utc(endTime.diff(moment())).format('mm:ss');
-                this.setState({ timeLeft: time });
-            }, 1000);
-
-            this.setState({ timer: timer });
+    useEffect(() => {
+        if (!props.timeLimitStarted) {
+            setTimeLeft(undefined);
+            return;
         }
-    }
 
-    render() {
-        return (
-            <div className='time-limit-clock card bg-dark border-primary'>
-                <h1>{this.state.timeLeft}</h1>
-            </div>
-        );
-    }
-}
+        const tick = () => {
+            const endTime = moment(props.timeLimitStartedAt).add(props.timeLimit, 'minutes');
+            setTimeLeft(moment.utc(endTime.diff(moment())).format('mm:ss'));
+        };
+
+        tick();
+        const timer = setInterval(tick, 1000);
+
+        return () => clearInterval(timer);
+    }, [props.timeLimit, props.timeLimitStarted, props.timeLimitStartedAt]);
+
+    return (
+        <div className='mt-[-6px] rounded-sm border border-border/75 bg-surface-secondary/75 px-2 pt-1 font-["Orbitron",sans-serif] font-medium text-foreground'>
+            <h1 className='ml-[23%] w-28 text-[2rem]'>{timeLeft}</h1>
+        </div>
+    );
+};
 
 TimeLimitClock.displayName = 'TimeLimitClock';
 TimeLimitClock.propTypes = {

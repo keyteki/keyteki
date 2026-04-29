@@ -30,7 +30,7 @@ describe("Stenter's Formula", function () {
             expect(this.ancientBear.warded).toBe(false);
             expect(this.dustPixie.warded).toBe(false);
             expect(this.player1.player.hand.length).toBe(1); // Drew 1 card
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should allow selecting fewer than 3 creatures', function () {

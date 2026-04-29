@@ -20,7 +20,9 @@ class Titanarpon extends Card {
             },
             gameAction: ability.actions.cardLastingEffect((context) => ({
                 target: context.event.card,
-                targetLocation: 'any',
+                // We don’t know where the creature will be played from, so
+                // we allow any location.
+                allowedLocations: 'any',
                 effect: ability.effects.entersPlayReady()
             }))
         });

@@ -1,5 +1,5 @@
 const passport = require('passport');
-const uuid = require('uuid');
+const { randomUUID } = require('node:crypto');
 
 const ConfigService = require('../services/ConfigService');
 const DeckService = require('../services/DeckService.js');
@@ -102,18 +102,13 @@ module.exports.init = function (server) {
             }
 
             let deck = Object.assign({}, { uuid: req.body.uuid, username: req.user.username });
-            let savedDeck;
+            let createResult;
 
             try {
-                savedDeck = await deckService.create(req.user, deck);
+                createResult = await deckService.create(req.user, deck);
             } catch (error) {
-                return res.send({
-                    success: false,
-                    message: error.message
-                });
-            }
+                logger.error('Failed to import deck', error);
 
-            if (!savedDeck) {
                 return res.send({
                     success: false,
                     message:
@@ -121,7 +116,17 @@ module.exports.init = function (server) {
                 });
             }
 
-            res.send({ success: true, deck: savedDeck });
+            if (!createResult || !createResult.success) {
+                return res.send({
+                    success: false,
+                    message:
+                        createResult && createResult.message
+                            ? createResult.message
+                            : 'An error occurred importing your deck.  Please check the Url or try again later.'
+                });
+            }
+
+            res.send({ success: true, deck: createResult.deck });
         })
     );
 
@@ -141,10 +146,11 @@ module.exports.init = function (server) {
                 {},
                 {
                     name: req.body.name,
-                    uuid: uuid.v1(),
+                    uuid: randomUUID(),
                     username: req.user.username,
                     pods: req.body.pods,
                     tokenCard: req.body.token,
+                    tokenSourceDeck: req.body.tokenSourceDeck,
                     prophecySourceDeck: req.body.prophecySourceDeck
                 }
             );
@@ -193,6 +199,43 @@ module.exports.init = function (server) {
     );
 
     server.post(
+        '/api/decks/bulk-delete',
+        passport.authenticate('jwt', { session: false }),
+        wrapAsync(async function (req, res) {
+            const deckIds = Array.isArray(req.body.deckIds)
+                ? req.body.deckIds.map((id) => parseInt(id, 10)).filter((id) => !isNaN(id))
+                : [];
+
+            if (deckIds.length === 0) {
+                return res.status(400).send({
+                    success: false,
+                    message: 'deckIds must be a non-empty array'
+                });
+            }
+
+            const ownershipCheck = await deckService.checkDeckOwnershipForUser(
+                req.user.id,
+                deckIds
+            );
+            if (!ownershipCheck.allExist) {
+                return res.status(404).send({ success: false, message: 'No such deck' });
+            }
+
+            if (!ownershipCheck.allOwned) {
+                return res.status(401).send({ message: 'Unauthorized' });
+            }
+
+            await deckService.deleteMany(deckIds);
+
+            res.send({
+                success: true,
+                message: 'Decks deleted successfully',
+                deckIds: deckIds
+            });
+        })
+    );
+
+    server.post(
         '/api/decks/:id/verify',
         passport.authenticate('jwt', { session: false }),
         wrapAsync(async function (req, res) {
@@ -217,7 +260,7 @@ module.exports.init = function (server) {
     );
 
     server.post(
-        '/api/decks/:id/prophecy-assignments',
+        '/api/decks/:id/refresh-accolades',
         passport.authenticate('jwt', { session: false }),
         wrapAsync(async function (req, res) {
             let id = req.params.id;
@@ -232,18 +275,45 @@ module.exports.init = function (server) {
                 return res.status(401).send({ message: 'Unauthorized' });
             }
 
-            if (!req.body.assignments) {
-                return res.send({ success: false, message: 'assignments must be specified' });
+            try {
+                const accolades = await deckService.refreshAccolades(id, req.user);
+                res.send({ success: true, accolades: accolades });
+            } catch (error) {
+                logger.error('Failed to refresh accolades', error);
+                return res.send({
+                    success: false,
+                    message: error.message || 'Failed to refresh accolades'
+                });
+            }
+        })
+    );
+
+    server.post(
+        '/api/decks/:id/accolades/:accoladeId/shown',
+        passport.authenticate('jwt', { session: false }),
+        wrapAsync(async function (req, res) {
+            let id = req.params.id;
+            let accoladeId = req.params.accoladeId;
+            let shown = req.body.shown === true;
+
+            let deck = await deckService.getById(id);
+
+            if (!deck) {
+                return res.status(404).send({ success: false, message: 'No such deck' });
+            }
+
+            if (deck.username !== req.user.username) {
+                return res.status(401).send({ message: 'Unauthorized' });
             }
 
             try {
-                await deckService.updateProphecyAssignments(id, req.body.assignments);
-                res.send({ success: true, message: 'Prophecy assignments saved successfully' });
+                await deckService.updateAccoladeShown(id, accoladeId, shown, req.user);
+                res.send({ success: true });
             } catch (error) {
-                logger.error('Failed to save prophecy assignments', error);
+                logger.error('Failed to update accolade shown status', error);
                 return res.send({
                     success: false,
-                    message: 'Failed to save prophecy assignments'
+                    message: error.message || 'Failed to update accolade shown status'
                 });
             }
         })

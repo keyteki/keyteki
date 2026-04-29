@@ -33,7 +33,7 @@ describe("Feldar's Plan", function () {
             this.player2.play(this.krump);
             expect(this.player1.amber).toBe(4);
             expect(this.player2.amber).toBe(1);
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player2).isReadyToTakeAction();
         });
     });
 
@@ -52,8 +52,7 @@ describe("Feldar's Plan", function () {
                     hand: ['dew-faerie']
                 }
             });
-            this.tachyonManifold.maverick = 'shadows';
-            this.tachyonManifold.printedHouse = 'shadows';
+            this.player1.makeMaverick(this.tachyonManifold, 'shadows');
             this.player1.useAction(this.tachyonManifold);
         });
 
@@ -63,11 +62,11 @@ describe("Feldar's Plan", function () {
             this.player1.clickPrompt('shadows');
             this.player1.endTurn();
             this.player2.clickPrompt('untamed');
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player2).isReadyToTakeAction();
             this.player2.play(this.dewFaerie);
             expect(this.player1.amber).toBe(2);
             expect(this.player2.amber).toBe(0);
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player2).isReadyToTakeAction();
         });
     });
 });

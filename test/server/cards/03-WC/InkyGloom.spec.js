@@ -51,8 +51,7 @@ describe('Inky Gloom', function () {
                     inPlay: ['hunting-witch']
                 }
             });
-            this.tachyonManifold.maverick = 'shadows';
-            this.tachyonManifold.printedHouse = 'shadows';
+            this.player1.makeMaverick(this.tachyonManifold, 'shadows');
             this.player1.useAction(this.tachyonManifold);
         });
 
@@ -67,7 +66,7 @@ describe('Inky Gloom', function () {
             expect(this.player2).not.toHavePromptButton('Reap with this creature');
             expect(this.player2).toHavePromptButton('Fight with this creature');
             this.player2.clickPrompt('Cancel');
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player2).isReadyToTakeAction();
         });
     });
 });

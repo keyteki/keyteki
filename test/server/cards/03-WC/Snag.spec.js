@@ -93,8 +93,7 @@ describe('Snag', function () {
                     inPlay: ['batdrone', 'shaffles', 'dust-pixie']
                 }
             });
-            this.tachyonManifold.maverick = 'dis';
-            this.tachyonManifold.printedHouse = 'dis';
+            this.player1.makeMaverick(this.tachyonManifold, 'dis');
             this.player1.useAction(this.tachyonManifold);
         });
 
@@ -107,7 +106,7 @@ describe('Snag', function () {
             expect(this.player2).not.toHavePromptButton('dis');
             expect(this.player2).not.toHavePromptButton('untamed');
             this.player2.clickPrompt('logos');
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player2).isReadyToTakeAction();
         });
     });
 });

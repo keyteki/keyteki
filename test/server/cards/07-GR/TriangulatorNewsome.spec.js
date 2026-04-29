@@ -10,10 +10,10 @@ describe('Triangulator Newsome', function () {
                     discard: new Array(9).fill('poke') // not yet haunted
                 }
             });
-            this.medicIngram.tokens.amber = 3;
-            this.triangulatorNewsome.tokens.amber = 1;
-            this.cpoZytar.tokens.amber = 2;
-            this.batdrone.tokens.amber = 10;
+            this.medicIngram.amber = 3;
+            this.triangulatorNewsome.amber = 1;
+            this.cpoZytar.amber = 2;
+            this.batdrone.amber = 10;
         });
 
         it('does nothing when not haunted', function () {
@@ -23,7 +23,7 @@ describe('Triangulator Newsome', function () {
             expect(this.cpoZytar.amber).toBe(2);
             expect(this.batdrone.amber).toBe(10);
             expect(this.player1.amber).toBe(2);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('moves amber from neighbors to your pool when haunted', function () {
@@ -34,7 +34,7 @@ describe('Triangulator Newsome', function () {
             expect(this.cpoZytar.amber).toBe(0);
             expect(this.batdrone.amber).toBe(10);
             expect(this.player1.amber).toBe(8);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

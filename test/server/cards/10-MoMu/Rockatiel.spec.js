@@ -33,7 +33,7 @@ describe('Rockatiel', function () {
             expect(shuffled.length).toBe(2);
             expect(shuffled).toContain(this.player1.player);
             expect(shuffled).toContain(this.player2.player);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should shuffle two creatures in on reap', function () {
@@ -46,7 +46,7 @@ describe('Rockatiel', function () {
                 'onDeckShuffled',
                 (event) => (shuffled = shuffled.concat(event.player))
             );
-            this.rockatiel.exhausted = false;
+            this.rockatiel.ready();
             this.player1.reap(this.rockatiel);
             expect(this.player1).toBeAbleToSelect(this.lamindra);
             expect(this.player1).toBeAbleToSelect(this.rockatiel);
@@ -58,7 +58,7 @@ describe('Rockatiel', function () {
             expect(shuffled.length).toBe(2);
             expect(shuffled).toContain(this.player1.player);
             expect(shuffled).toContain(this.player2.player);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should allow shuffling in fewer than 2 creatures', function () {
@@ -77,7 +77,7 @@ describe('Rockatiel', function () {
             expect(this.fandangle.location).toBe('deck');
             expect(shuffled.length).toBe(1);
             expect(shuffled).toContain(this.player2.player);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

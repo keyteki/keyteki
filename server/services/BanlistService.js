@@ -17,7 +17,7 @@ class UserService {
         } catch (err) {
             logger.error('Error fetching banlist', err);
 
-            throw new Error('Error occured fetching banlist');
+            throw new Error('Error occurred fetching banlist');
         }
 
         return banList.map((be) => this.mapBanList(be));
@@ -43,7 +43,7 @@ class UserService {
         } catch (err) {
             logger.error('Error fetching banlist entry', err);
 
-            throw new Error('Error occured fetching banlist entry');
+            throw new Error('Error occurred fetching banlist entry');
         }
 
         if (!entry || entry.length === 0) {
@@ -65,7 +65,7 @@ class UserService {
         } catch (err) {
             logger.error(`Error adding banlist entry ${entry}`, err);
 
-            throw new Error('Error occured adding banlist entry');
+            throw new Error('Error occurred adding banlist entry');
         }
 
         return {
@@ -73,6 +73,24 @@ class UserService {
             ip: entry.ip,
             added: added
         };
+    }
+
+    async deleteBanlistEntry(id) {
+        let res;
+
+        try {
+            res = await db.query('DELETE FROM "BanList" WHERE "Id" = $1 RETURNING "Id"', [id]);
+        } catch (err) {
+            logger.error(`Error deleting banlist entry ${id}`, err);
+
+            throw new Error('Error occurred deleting banlist entry');
+        }
+
+        if (!res || res.length === 0) {
+            return undefined;
+        }
+
+        return { id: res[0].Id ?? res[0] };
     }
 }
 

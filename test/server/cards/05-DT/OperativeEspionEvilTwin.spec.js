@@ -30,7 +30,7 @@ describe('Operative Espion Evil Twin', function () {
                 expect(this.player1).toBeAbleToSelect(this.troll);
                 expect(this.player1).toBeAbleToSelect(this.groggins);
                 this.player1.clickCard(this.troll);
-                expect(this.troll.tokens.damage).toBe(3);
+                expect(this.troll.damage).toBe(3);
             });
         });
 
@@ -51,7 +51,7 @@ describe('Operative Espion Evil Twin', function () {
                 expect(this.player2).toBeAbleToSelect(this.troll);
                 expect(this.player2).toBeAbleToSelect(this.groggins);
                 this.player2.clickCard(this.rocketeerTryska);
-                expect(this.rocketeerTryska.tokens.damage).toBe(3);
+                expect(this.rocketeerTryska.damage).toBe(3);
             });
         });
 
@@ -66,7 +66,7 @@ describe('Operative Espion Evil Twin', function () {
                 expect(this.lamindra.location).toBe('discard');
                 expect(this.seabringerKekoa.location).toBe('discard');
                 expect(this.player2.isTideHigh()).toBe(true);
-                expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+                expect(this.player1).isReadyToTakeAction();
                 expect(this.player2).toHavePrompt('Waiting for opponent');
             });
         });

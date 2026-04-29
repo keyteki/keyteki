@@ -5,8 +5,7 @@ class ContractExecution extends Card {
     // creature, deal 2D to a creature.
     setupCardAbilities(ability) {
         this.play({
-            effect:
-                'deal 2 damage to a creature after playing a creature for the remainder of the turn',
+            effect: 'deal 2 damage to a creature after playing a creature for the remainder of the turn',
             gameAction: ability.actions.untilPlayerTurnEnd((context) => ({
                 when: {
                     onCardPlayed: (event) =>

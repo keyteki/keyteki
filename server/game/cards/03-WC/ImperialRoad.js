@@ -11,7 +11,7 @@ class ImperialRoad extends Card {
                 cardCondition: (card) => card.hasHouse('saurian'),
                 gameAction: ability.actions.sequential([
                     ability.actions.cardLastingEffect({
-                        targetLocation: 'any',
+                        allowedLocations: 'any',
                         effect: ability.effects.entersPlayStunned()
                     }),
                     ability.actions.playCard()

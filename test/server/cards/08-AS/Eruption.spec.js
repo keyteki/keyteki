@@ -19,12 +19,12 @@ describe('Eruption', function () {
             expect(this.eruption.amber).toBe(3);
             expect(this.player1.amber).toBe(1);
             expect(this.player2.amber).toBe(2);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should move one amber to your pool on fight', function () {
             this.player1.playCreature(this.eruption);
-            this.eruption.exhausted = false;
+            this.eruption.ready();
             this.player1.fightWith(this.eruption, this.lamindra);
             expect(this.eruption.amber).toBe(2);
             expect(this.player1.amber).toBe(2);

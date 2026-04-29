@@ -3,8 +3,6 @@ import PropTypes from 'prop-types';
 
 import Card from './Card';
 
-import './CardTiledList.scss';
-
 function CardTiledList(props) {
     let cardList =
         props.cards &&
@@ -22,6 +20,9 @@ function CardTiledList(props) {
                     onTouchMove={props.onTouchMove}
                     orientation='vertical'
                     size={props.size}
+                    hasActiveHouse={props.hasActiveHouse}
+                    isMe={props.isMe}
+                    isSpectating={props.isSpectating}
                     source={props.source}
                 />
             );
@@ -34,8 +35,12 @@ function CardTiledList(props) {
 
     return (
         <div className='card-list'>
-            {title && <div className='card-list-title'>{title}</div>}
-            <div className='card-list-cards'>{cardList}</div>
+            {title && (
+                <div className='mb-1 rounded-sm border border-border/60 bg-surface-secondary/55 text-center text-foreground'>
+                    {title}
+                </div>
+            )}
+            <div className='flex flex-wrap content-start items-start justify-start'>{cardList}</div>
         </div>
     );
 }
@@ -48,6 +53,9 @@ CardTiledList.propTypes = {
     onCardMouseOut: PropTypes.func,
     onCardMouseOver: PropTypes.func,
     onTouchMove: PropTypes.func,
+    hasActiveHouse: PropTypes.bool,
+    isMe: PropTypes.bool,
+    isSpectating: PropTypes.bool,
     size: PropTypes.string,
     source: PropTypes.string,
     title: PropTypes.string,

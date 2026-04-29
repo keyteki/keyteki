@@ -20,9 +20,9 @@ describe('Booby Trap', function () {
             expect(this.player1).not.toBeAbleToSelect(this.bumpsy);
             expect(this.player1).not.toBeAbleToSelect(this.troll);
             this.player1.clickCard(this.krump);
-            expect(this.krump.tokens.damage).toBe(4);
-            expect(this.bumpsy.tokens.damage).toBe(2);
-            expect(this.troll.tokens.damage).toBe(2);
+            expect(this.krump.damage).toBe(4);
+            expect(this.bumpsy.damage).toBe(2);
+            expect(this.troll.damage).toBe(2);
         });
 
         it('should work when target has only one neighbor', function () {
@@ -33,8 +33,8 @@ describe('Booby Trap', function () {
             expect(this.player1).not.toBeAbleToSelect(this.krump);
             expect(this.player1).not.toBeAbleToSelect(this.bumpsy);
             this.player1.clickCard(this.krump);
-            expect(this.krump.tokens.damage).toBe(undefined);
-            expect(this.bumpsy.tokens.damage).toBe(undefined);
+            expect(this.krump.damage).toBe(0);
+            expect(this.bumpsy.damage).toBe(0);
         });
     });
 });

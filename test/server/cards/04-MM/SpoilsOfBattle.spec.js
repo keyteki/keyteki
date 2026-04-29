@@ -33,28 +33,28 @@ describe('spoils-of-battle', function () {
             this.player1.clickCard(this.urchin);
 
             // at this point urchin should have captured 2
-            expect(this.urchin.tokens.amber).toBe(2);
+            expect(this.urchin.amber).toBe(2);
             expect(this.player2.amber).toBe(4);
 
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should capture on other creatures that have amber without a prompt when there are fewer creatures than ameber', function () {
-            this.mother.tokens.amber = 1;
-            this.nexus.tokens.amber = 1;
+            this.mother.amber = 1;
+            this.nexus.amber = 1;
 
             this.player1.play(this.spoilsOfBattle);
             this.player1.clickCard(this.urchin);
 
-            expect(this.urchin.tokens.amber).toBe(2);
-            expect(this.nexus.tokens.amber).toBe(2);
-            expect(this.mother.tokens.amber).toBe(2);
+            expect(this.urchin.amber).toBe(2);
+            expect(this.nexus.amber).toBe(2);
+            expect(this.mother.amber).toBe(2);
 
             // note, it is 4 because spoil of battle has amber bonus
             expect(this.player1.amber).toBe(4);
             expect(this.player2.amber).toBe(3);
 
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should prompt the player to pick creatures when there is insufficient amber', function () {
@@ -62,13 +62,13 @@ describe('spoils-of-battle', function () {
             this.player2.amber = 3;
 
             // put amber on all the creatures
-            this.mother.tokens.amber = 1;
-            this.batdrone.tokens.amber = 1;
-            this.zorg.tokens.amber = 1;
-            this.urchin.tokens.amber = 1;
-            this.nexus.tokens.amber = 1;
-            this.dextre.tokens.amber = 1;
-            this.dodger.tokens.amber = 1;
+            this.mother.amber = 1;
+            this.batdrone.amber = 1;
+            this.zorg.amber = 1;
+            this.urchin.amber = 1;
+            this.nexus.amber = 1;
+            this.dextre.amber = 1;
+            this.dodger.amber = 1;
 
             // play spoils of battle
             this.player1.play(this.spoilsOfBattle);
@@ -103,17 +103,17 @@ describe('spoils-of-battle', function () {
             this.player1.clickPrompt('Done');
 
             // confirm final values
-            expect(this.urchin.tokens.amber).toBe(2);
-            expect(this.dodger.tokens.amber).toBe(2);
-            expect(this.dextre.tokens.amber).toBe(2);
-            expect(this.mother.tokens.amber).toBe(2);
-            expect(this.batdrone.tokens.amber).toBe(2);
+            expect(this.urchin.amber).toBe(2);
+            expect(this.dodger.amber).toBe(2);
+            expect(this.dextre.amber).toBe(2);
+            expect(this.mother.amber).toBe(2);
+            expect(this.batdrone.amber).toBe(2);
 
             // no amber for either player
             expect(this.player1.amber).toBe(0);
             expect(this.player2.amber).toBe(0);
 
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

@@ -18,7 +18,7 @@ describe('Radix of Suffering', function () {
             expect(this.player2.amber).toBe(2);
             expect(this.player1.amber).toBe(1);
             expect(this.player1.player.hand.length).toBe(0);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should draw 1 card when opponent has no amber', function () {
@@ -27,7 +27,7 @@ describe('Radix of Suffering', function () {
             expect(this.player2.amber).toBe(0);
             expect(this.player1.amber).toBe(1);
             expect(this.player1.player.hand.length).toBe(1);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should work correctly when opponent has exactly 1 amber', function () {
@@ -36,7 +36,7 @@ describe('Radix of Suffering', function () {
             expect(this.player2.amber).toBe(0);
             expect(this.player1.amber).toBe(1);
             expect(this.player1.player.hand.length).toBe(1);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

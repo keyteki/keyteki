@@ -30,7 +30,7 @@ describe('The Cards Will Tell', function () {
             expect(this.player2.amber).toBe(3);
             expect(this.troll.amber).toBe(2);
             expect(this.parasiticArachnoid.location).toBe('discard');
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player2).isReadyToTakeAction();
         });
 
         it('should not fulfill when opponent draws during draw step', function () {

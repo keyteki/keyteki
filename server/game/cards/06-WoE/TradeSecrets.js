@@ -1,4 +1,5 @@
 const Card = require('../../Card.js');
+const { DiscardCardAction } = require('../../GameActions/index.js');
 
 class TradeSecrets extends Card {
     // Play: Discard any number of Ekwidon cards from your hand. Steal
@@ -14,10 +15,11 @@ class TradeSecrets extends Card {
                 gameAction: ability.actions.discard()
             },
             then: (preThenContext) => ({
-                gameAction: ability.actions.steal({
+                gameAction: ability.actions.steal((context) => ({
                     target: preThenContext.player.opponent,
-                    amount: preThenContext.target.length
-                })
+                    amount: DiscardCardAction.collectDiscardedCards(context.preThenEvents || [])
+                        .length
+                }))
             })
         });
     }

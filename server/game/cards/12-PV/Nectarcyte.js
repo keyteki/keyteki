@@ -16,7 +16,7 @@ class Nectarcyte extends Card {
                     options: (context) =>
                         [
                             ...Array.from(
-                                { length: context.source.tokens.power + 1 },
+                                { length: context.source.powerCounters + 1 },
                                 (v, k) => k
                             ).keys()
                         ].map((option) => ({ name: option, value: option }))

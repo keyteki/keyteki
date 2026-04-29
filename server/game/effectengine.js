@@ -95,12 +95,24 @@ class EffectEngine {
     }
 
     onTurnEnd() {
-        // Save another turn which is a 'for remainder of turn' effect
-        const anotherTurn = this.game.activePlayer.anyEffect('anotherTurn');
+        // Check for another turn effects which are normally removed with 'for remainder of turn' effects
+        const anotherTurnEffects = this.effects.filter(
+            (effect) =>
+                effect.effectController === this.game.activePlayer &&
+                effect.effect.type === 'anotherTurn'
+        );
+        const anotherTurn = anotherTurnEffects.length > 0;
+
+        // Let the first 'another turn' effect to be removed with 'for remainder of turn' effects
+        anotherTurnEffects
+            .slice(0, 1)
+            .forEach((effect) => (effect.duration = 'untilPlayerTurnEnd'));
+        // Save the rest for consecutive turns
+        anotherTurnEffects.slice(1).forEach((effect) => (effect.duration = 'consecutiveTurn'));
 
         // Remove 'for remainder of turn' effects
         let effectsRemoved = this.unapplyAndRemove((effect) =>
-            ['untilPlayerTurnEnd', 'untilPlayerTurnEnd'].includes(effect.duration)
+            ['untilPlayerTurnEnd'].includes(effect.duration)
         );
 
         // Remove 'until end of your next turn' effects for the player whose turn is ending

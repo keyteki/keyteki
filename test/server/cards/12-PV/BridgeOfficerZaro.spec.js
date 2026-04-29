@@ -13,9 +13,9 @@ describe('Bridge Officer Zaro', function () {
                 }
             });
 
-            this.medicIngram.exhausted = true;
-            this.cpoZytar.exhausted = true;
-            this.emberImp.exhausted = true;
+            this.medicIngram.exhaust();
+            this.cpoZytar.exhaust();
+            this.emberImp.exhaust();
         });
 
         it('should capture 3 amber and ready a friendly non-Alien creature after fight', function () {
@@ -28,7 +28,7 @@ describe('Bridge Officer Zaro', function () {
             expect(this.player1).not.toBeAbleToSelect(this.urchin);
             this.player1.clickCard(this.medicIngram);
             expect(this.medicIngram.exhausted).toBe(false);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should not ready an Alien creature if you do not capture 3', function () {
@@ -36,7 +36,7 @@ describe('Bridge Officer Zaro', function () {
             this.player1.fightWith(this.bridgeOfficerZaro, this.urchin);
             expect(this.player2.amber).toBe(0);
             expect(this.bridgeOfficerZaro.amber).toBe(2);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

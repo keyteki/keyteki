@@ -20,7 +20,7 @@ describe('Beware the Ides', function () {
 
         it('should not prompt for any card if no card is in center of battleline', function () {
             this.player1.play(this.bewareTheIdes);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should allow selecting a friendly card in center of battle line', function () {
@@ -30,7 +30,7 @@ describe('Beware the Ides', function () {
             this.player1.play(this.terrordactyl);
             this.player1.play(this.bewareTheIdes);
 
-            this.deusillus.tokens.power = 4;
+            this.deusillus.powerCounters = 4;
 
             expect(this.player1).toBeAbleToSelect(this.deusillus);
             expect(this.player1).not.toBeAbleToSelect(this.galeatops);
@@ -38,8 +38,8 @@ describe('Beware the Ides', function () {
             expect(this.player1).not.toBeAbleToSelect(this.troll);
             expect(this.player1).not.toBeAbleToSelect(this.lamindra);
             this.player1.clickCard(this.deusillus);
-            expect(this.deusillus.tokens.damage).toBe(23);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.deusillus.damage).toBe(23);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should allow selecting an enemy card in center of battle line', function () {
@@ -50,7 +50,7 @@ describe('Beware the Ides', function () {
             expect(this.player1).toBeAbleToSelect(this.troll);
             this.player1.clickCard(this.troll);
             expect(this.troll.location).toBe('discard');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

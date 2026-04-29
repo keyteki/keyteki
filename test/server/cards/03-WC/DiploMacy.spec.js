@@ -48,8 +48,7 @@ describe('Diplo-Macy', function () {
                     inPlay: ['philophosaurus']
                 }
             });
-            this.tachyonManifold.maverick = 'saurian';
-            this.tachyonManifold.printedHouse = 'saurian';
+            this.player1.makeMaverick(this.tachyonManifold, 'saurian');
         });
 
         it("should not affect opponent's next turn", function () {
@@ -61,7 +60,7 @@ describe('Diplo-Macy', function () {
             this.player2.clickPrompt('saurian');
             this.player2.fightWith(this.philophosaurus, this.lamindra);
             expect(this.philophosaurus.amber).toBe(0);
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player2).isReadyToTakeAction();
         });
     });
 });

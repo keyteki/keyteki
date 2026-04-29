@@ -21,19 +21,18 @@ describe('Bottomless Depths', function () {
             expect(this.bottomlessDepths.childCards.length).toBe(1);
             expect(this.bottomlessDepths.childCards).toContain(this.crushingDeep);
             expect(this.player1.player.discard.length).toBe(0);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('works on opponent turn', function () {
             this.player1.endTurn();
             this.player2.clickPrompt('untamed');
             this.player2.play(this.punctuatedEquilibrium);
-            this.player2.clickPrompt('Autoresolve');
             expect(this.crushingDeep.location).toBe('under');
             expect(this.bottomlessDepths.childCards.length).toBe(6);
             expect(this.bottomlessDepths.childCards).toContain(this.crushingDeep);
             expect(this.player1.player.discard.length).toBe(0);
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player2).isReadyToTakeAction();
         });
     });
 });

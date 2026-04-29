@@ -20,10 +20,10 @@ describe('Tribune Pompitus', function () {
             expect(this.troll.power).toBe(8);
             expect(this.krump.power).toBe(6);
 
-            this.tribunePompitus.tokens.amber = 1;
-            this.questorJarta.tokens.amber = 2;
-            this.senatorShrix.tokens.amber = 3;
-            this.troll.tokens.amber = 4;
+            this.tribunePompitus.amber = 1;
+            this.questorJarta.amber = 2;
+            this.senatorShrix.amber = 3;
+            this.troll.amber = 4;
 
             this.player1.reap(this.tribunePompitus);
 
@@ -39,7 +39,7 @@ describe('Tribune Pompitus', function () {
             expect(this.player1).toHavePrompt('Any interrupts?');
             this.player1.clickPrompt('Done');
             expect(this.tribunePompitus.location).toBe('discard');
-            expect(this.krump.tokens.damage).toBe(4);
+            expect(this.krump.damage).toBe(4);
         });
 
         it('should give an option to exalt itself before fight', function () {
@@ -47,7 +47,7 @@ describe('Tribune Pompitus', function () {
             expect(this.player1).toHavePrompt('Any interrupts?');
             this.player1.clickCard(this.tribunePompitus);
             expect(this.tribunePompitus.power).toBe(6);
-            expect(this.tribunePompitus.tokens.damage).toBe(4);
+            expect(this.tribunePompitus.damage).toBe(4);
             expect(this.krump.location).toBe('discard');
         });
     });

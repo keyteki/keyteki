@@ -26,7 +26,7 @@ describe('Senator Shrix', function () {
             });
 
             it('should exalt shrix', function () {
-                expect(this.senatorShrix.tokens.amber).toBe(1);
+                expect(this.senatorShrix.amber).toBe(1);
             });
 
             describe('and then shrix reaps', function () {
@@ -47,7 +47,7 @@ describe('Senator Shrix', function () {
                     });
 
                     it('should exalt shrix', function () {
-                        expect(this.senatorShrix.tokens.amber).toBe(2);
+                        expect(this.senatorShrix.amber).toBe(2);
                     });
                 });
 
@@ -57,7 +57,7 @@ describe('Senator Shrix', function () {
                     });
 
                     it('should not exalt shrix', function () {
-                        expect(this.senatorShrix.tokens.amber).toBe(1);
+                        expect(this.senatorShrix.amber).toBe(1);
                     });
                 });
             });
@@ -72,6 +72,10 @@ describe('Senator Shrix', function () {
 
                 it('should prompt the forge key prompt', function () {
                     expect(this.player1).toHavePrompt('Which key would you like to forge?');
+                    this.player1.forgeKey('Red');
+                    expect(this.senatorShrix.amber).toBe(0);
+                    this.player1.clickPrompt('saurian');
+                    expect(this.player1).isReadyToTakeAction();
                 });
             });
         });
@@ -82,7 +86,7 @@ describe('Senator Shrix', function () {
             });
 
             it('should not exalt shrix', function () {
-                expect(this.senatorShrix.tokens.amber).toBe(undefined);
+                expect(this.senatorShrix.amber).toBe(0);
             });
         });
     });

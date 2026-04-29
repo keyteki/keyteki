@@ -43,7 +43,7 @@ describe('Blorb Hive', function () {
         });
 
         it('should destroy a friendly creature to create two blorbs', function () {
-            this.player1.useAction(this.blorbHive, true);
+            this.player1.useOmni(this.blorbHive);
             expect(this.player1).toBeAbleToSelect(this.pelf);
             expect(this.player1).not.toBeAbleToSelect(this.umbra);
             this.player1.clickCard(this.pelf);
@@ -53,7 +53,7 @@ describe('Blorb Hive', function () {
             expect(this.player1.player.creaturesInPlay[0].name).toBe('Blorb');
             expect(this.player1.player.creaturesInPlay[1].name).toBe('Blorb');
             expect(this.player1.player.getForgedKeys()).toBe(0);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should forge a key if there are at least 10 blorbs', function () {
@@ -65,20 +65,20 @@ describe('Blorb Hive', function () {
             this.player1.makeTokenCreature();
             this.player1.makeTokenCreature();
             this.player1.makeTokenCreature();
-            this.player1.useAction(this.blorbHive, true);
+            this.player1.useOmni(this.blorbHive);
             this.player1.clickCard(this.pelf);
             this.player1.clickPrompt('Right');
             this.player1.clickPrompt('Right');
 
             // Only 9, no key yet.
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
 
             this.player1.endTurn();
             this.player2.clickPrompt('shadows');
             this.player2.endTurn();
             this.player1.clickPrompt('brobnar');
 
-            this.player1.useAction(this.blorbHive, true);
+            this.player1.useOmni(this.blorbHive);
             this.player1.clickCard(this.player1.player.creaturesInPlay[0]);
             this.player1.clickPrompt('Right');
             this.player1.clickPrompt('Right');
@@ -86,7 +86,7 @@ describe('Blorb Hive', function () {
             expect(this.player1.amber).toBe(5);
             expect(this.player1.player.getForgedKeys()).toBe(1);
             expect(this.blorbHive.location).toBe('discard');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should not let opponent make blorbs with no blorb token', function () {
@@ -94,7 +94,7 @@ describe('Blorb Hive', function () {
             this.player2.clickPrompt('shadows');
             this.player2.playCreature(this.sneklifter, true);
             this.player2.clickCard(this.blorbHive);
-            this.player2.useAction(this.blorbHive, true);
+            this.player2.useOmni(this.blorbHive);
             expect(this.player2).toBeAbleToSelect(this.umbra);
             expect(this.player2).toBeAbleToSelect(this.sneklifter);
             expect(this.player2).not.toBeAbleToSelect(this.pelf);
@@ -102,7 +102,7 @@ describe('Blorb Hive', function () {
             expect(this.umbra.location).toBe('discard');
             expect(this.player2.player.creaturesInPlay.length).toBe(1);
             expect(this.player2.player.getForgedKeys()).toBe(0);
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player2).isReadyToTakeAction();
         });
     });
 });

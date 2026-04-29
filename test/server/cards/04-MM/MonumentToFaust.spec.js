@@ -77,8 +77,7 @@ describe('Monument to Faust', function () {
                     hand: []
                 }
             });
-            this.tachyonManifold.maverick = 'saurian';
-            this.tachyonManifold.printedHouse = 'saurian';
+            this.player1.makeMaverick(this.tachyonManifold, 'saurian');
             this.player1.useAction(this.tachyonManifold);
         });
 
@@ -95,7 +94,7 @@ describe('Monument to Faust', function () {
             expect(this.player2.player.getCurrentKeyCost()).toBe(7);
             expect(this.player1.amber).toBe(0);
             expect(this.player2.amber).toBe(0);
-            expect(this.player2).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player2).isReadyToTakeAction();
         });
     });
 });

@@ -15,9 +15,9 @@ describe('Physaloha', function () {
 
         it('should not ready damaged creatures', function () {
             this.player1.fightWith(this.vulka, this.charette);
-            expect(this.quixoTheAdventurer.tokens.damage).toBe(1);
-            expect(this.batdrone.tokens.damage).toBe(1);
-            expect(this.vulka.tokens.damage).toBe(4);
+            expect(this.quixoTheAdventurer.damage).toBe(1);
+            expect(this.batdrone.damage).toBe(1);
+            expect(this.vulka.damage).toBe(4);
             this.player1.endTurn();
             expect(this.vulka.exhausted).toBe(true);
             expect(this.physaloha.exhausted).toBe(false);

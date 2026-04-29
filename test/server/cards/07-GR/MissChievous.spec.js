@@ -32,7 +32,7 @@ describe('Miss Chievous', function () {
             expect(this.keyToDis.location).toBe('discard');
             expect(this.initiation.location).toBe('discard');
             expect(this.dustPixie.location).toBe('discard');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('discards top 2 cards for opponent when a friendly Geistoid enters play and player has no deck', function () {
@@ -41,7 +41,7 @@ describe('Miss Chievous', function () {
             this.player1.playCreature(this.echofly);
             expect(this.initiation.location).toBe('discard');
             expect(this.dustPixie.location).toBe('discard');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('discards top 2 cards for player when a friendly Geistoid enters play and opponent has no deck', function () {
@@ -49,7 +49,7 @@ describe('Miss Chievous', function () {
             this.player1.playCreature(this.echofly);
             expect(this.gub.location).toBe('discard');
             expect(this.keyToDis.location).toBe('discard');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('triggers for self', function () {
@@ -59,7 +59,7 @@ describe('Miss Chievous', function () {
             expect(this.keyToDis.location).toBe('discard');
             expect(this.initiation.location).toBe('discard');
             expect(this.dustPixie.location).toBe('discard');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('treachery creatures will not trigger', function () {
@@ -76,7 +76,34 @@ describe('Miss Chievous', function () {
             expect(this.charette.location).toBe('play area');
             expect(this.charette.amber).toBe(3);
             expect(this.player2.amber).toBe(1);
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
+        });
+    });
+
+    describe("Miss Chievous's ability with Gebuk", function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'dis',
+                    hand: ['gateway-to-dis'],
+                    inPlay: ['gebuk'],
+                    discard: ['miss-chievous', 'flaxia', 'gub']
+                },
+                player2: {}
+            });
+        });
+
+        it('triggers when Gebuk puts Miss Chievous into play', function () {
+            this.player1.moveCard(this.gub, 'deck');
+            this.player1.moveCard(this.flaxia, 'deck');
+            this.player1.moveCard(this.missChievous, 'deck'); // Miss Chievous on top
+            this.player1.play(this.gatewayToDis); // Destroys Gebuk
+            // Gebuk destroyed: discards Miss Chievous, puts her into play after Gebuk leaves
+            // Miss Chievous triggers for herself entering play, discards top 2 from each deck
+            expect(this.gebuk.location).toBe('discard');
+            expect(this.missChievous.location).toBe('play area');
+            expect(this.flaxia.location).toBe('discard'); // discarded by Miss Chievous
+            expect(this.gub.location).toBe('discard'); // discarded by Miss Chievous
         });
     });
 });

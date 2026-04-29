@@ -17,18 +17,18 @@ describe('Brothers in Battle', function () {
             this.player1.play(this.brothersInBattle);
             expect(this.player1).toHavePrompt('Brothers in Battle');
             this.player1.clickPrompt('logos');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
             this.player1.clickCard(this.batdrone);
             expect(this.player1).toHavePromptButton('Fight with this creature');
             this.player1.clickPrompt('Fight with this creature');
             this.player1.clickCard(this.cpoZytar);
-            expect(this.cpoZytar.tokens.damage).toBe(1);
+            expect(this.cpoZytar.damage).toBe(1);
         });
 
         it('should not allow non-chosen house creatures to fight', function () {
             this.player1.play(this.brothersInBattle);
             this.player1.clickPrompt('logos');
-            expect(this.player1).toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).isReadyToTakeAction();
             expect(this.player1).not.toBeAbleToSelect(this.bulleteye);
             this.player1.clickCard(this.bulleteye);
             expect(this.player1).not.toHavePromptButton('Fight with this creature');
