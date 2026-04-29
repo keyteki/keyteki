@@ -934,14 +934,16 @@ class Player extends GameObject {
                 return;
             }
             const { card, max } = opponentPoolSources[index];
+            const budgetRemaining = Math.max(0, maxFromPool - takenSoFar);
             const opponentRemaining = this.opponent.amber - takenSoFar;
-            const sourceMax = Math.min(max, opponentRemaining);
+            const sourceMax = Math.min(max, opponentRemaining, budgetRemaining);
             const remainingSourcesMax = opponentPoolSources
                 .slice(index + 1)
                 .reduce((sum, entry) => sum + entry.max, 0);
             const otherSourcesMaxAvailable = Math.min(
                 remainingSourcesMax,
-                Math.max(0, opponentRemaining - sourceMax)
+                Math.max(0, opponentRemaining - sourceMax),
+                Math.max(0, budgetRemaining - sourceMax)
             );
             const stillNeeded = Math.max(0, minFromPool - takenSoFar);
             const sourceMin = Math.max(0, stillNeeded - otherSourcesMaxAvailable);
