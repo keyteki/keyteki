@@ -37,6 +37,22 @@ describe('CaughtYouNapping', function () {
             expect(this.player1).isReadyToTakeAction();
         });
 
+        it('still steals when overwhelmed but every enemy creature is already exhausted', function () {
+            this.bumpsy.exhaust();
+            this.krump.exhaust();
+            this.troll.exhaust();
+            this.player1.play(this.caughtYouNapping1);
+            expect(this.player1).toHavePrompt('Choose a creature');
+            this.player1.clickCard(this.bumpsy);
+            expect(this.bumpsy.exhausted).toBe(true);
+            expect(this.krump.exhausted).toBe(true);
+            expect(this.troll.exhausted).toBe(true);
+            // 1 starting + 1 bonus aember + 3 stolen (1 per exhausted enemy creature)
+            expect(this.player1.amber).toBe(5);
+            expect(this.player2.amber).toBe(0);
+            expect(this.player1).isReadyToTakeAction();
+        });
+
         it('does not exhaust but still steals when not overwhelmed', function () {
             this.bumpsy.exhaust();
             this.player2.moveCard(this.krump, 'hand');
