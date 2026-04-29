@@ -1,0 +1,31 @@
+const Card = require('../../Card.js');
+
+class EmpoweredZark extends Card {
+    // After Fight: Empowered Zark captures 2A. If there are 3 or more A on Empowered Zark,
+    // you may move 3A from Empowered Zark to the common supply and ready each non-Agent Mars creature.
+    setupCardAbilities(ability) {
+        this.fight({
+            gameAction: ability.actions.capture({ amount: 2 }),
+            then: (preThenContext) => ({
+                alwaysTriggers: true,
+                may: 'move 3 amber from {1} to the common supply and ready each non-Agent Mars creature',
+                condition: () => preThenContext.source.amber >= 3,
+                gameAction: ability.actions.sequential([
+                    ability.actions.removeAmber({
+                        target: preThenContext.source,
+                        amount: 3
+                    }),
+                    ability.actions.ready((context) => ({
+                        target: context.player.creaturesInPlay.filter(
+                            (card) => card.hasHouse('mars') && !card.hasTrait('agent')
+                        )
+                    }))
+                ])
+            })
+        });
+    }
+}
+
+EmpoweredZark.id = 'empowered-zark';
+
+module.exports = EmpoweredZark;
