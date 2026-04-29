@@ -37,7 +37,8 @@ describe('Grammy Taps', function () {
             expect(this.grammyTaps.exhausted).toBe(false);
             expect(this.troll.hasKeyword('elusive')).toBe(false);
             expect(this.krump.hasKeyword('elusive')).toBe(false);
-            expect(this.player1).isReadyToTakeAction();
+            this.player2.clickPrompt('brobnar');
+            expect(this.player2).isReadyToTakeAction();
         });
 
         it('does not affect non-neighbors', function () {
@@ -68,6 +69,8 @@ describe('Grammy Taps', function () {
             expect(this.player1).toHavePrompt('Select entrenched creatures to ready');
             this.player1.clickPrompt('done');
             expect(this.grammyTaps.exhausted).toBe(true);
+            this.player2.clickPrompt('brobnar');
+            expect(this.player2).isReadyToTakeAction();
         });
 
         it('readies Grammy Taps when selected', function () {
@@ -75,6 +78,8 @@ describe('Grammy Taps', function () {
             this.player1.clickCard(this.grammyTaps);
             this.player1.clickPrompt('done');
             expect(this.grammyTaps.exhausted).toBe(false);
+            this.player2.clickPrompt('brobnar');
+            expect(this.player2).isReadyToTakeAction();
         });
     });
 });
