@@ -81,7 +81,8 @@ describe('Vaelra Whisperfang', function () {
             this.player2.play(this.talentScout);
             this.player2.clickCard(this.talentScout);
             this.player2.clickCard(this.troll);
-            this.player2.clickPrompt('Left');
+            this.player2.clickPrompt('Left'); // troll
+            this.player2.clickPrompt('Left'); // talent scout
             expect(this.troll.location).toBe('play area');
             expect(this.troll.damage).toBe(2);
             expect(this.talentScout.location).toBe('discard');
