@@ -71,8 +71,7 @@ const Effects = {
     fightAbilitiesAddReap: () => EffectBuilder.card.static('fightAbilitiesAddReap'),
     forgeAmberSource: (player, sourceType) =>
         EffectBuilder.card.static('forgeAmberSource', { player, sourceType }),
-    forgeAmberFromOpponentPool: (max) =>
-        EffectBuilder.card.flexible('forgeAmberFromOpponentPool', max),
+    forgeWithOpponentsAmber: (max) => EffectBuilder.card.flexible('forgeWithOpponentsAmber', max),
     ignores: (trait) => EffectBuilder.card.static('ignores', trait),
     limitFightDamage: (amount) => EffectBuilder.card.flexible('limitFightDamage', amount),
     modifyArmor: (amount) => EffectBuilder.card.flexible('modifyArmor', amount),

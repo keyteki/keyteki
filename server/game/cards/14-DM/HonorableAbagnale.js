@@ -2,10 +2,10 @@ const Card = require('../../Card.js');
 
 class HonorableAbagnale extends Card {
     // Elusive.
-    // You may spend up to 3 from your opponent's pool when forging keys.
+    // You may spend up to 3A from your opponent's pool when forging keys.
     setupCardAbilities(ability) {
         this.persistentEffect({
-            effect: ability.effects.forgeAmberFromOpponentPool(3)
+            effect: ability.effects.forgeWithOpponentsAmber(3)
         });
     }
 }

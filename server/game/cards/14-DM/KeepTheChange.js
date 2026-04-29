@@ -1,14 +1,20 @@
 const Card = require('../../Card.js');
 
 class KeepTheChange extends Card {
-    // Play: Pay your opponent up to 6. For each paid this way, draw a card.
+    // Play: Pay your opponent up to 6A. For each A paid this way, draw a card.
     setupCardAbilities(ability) {
         this.play({
             condition: (context) => !!context.player.opponent,
             target: {
                 mode: 'select',
                 activePromptTitle: 'How much amber would you like to pay your opponent?',
-                choices: this.buildAmountChoices()
+                choices: (() => {
+                    const choices = { 0: () => true };
+                    for (let amount = 1; amount <= 6; amount++) {
+                        choices[String(amount)] = (context) => context.player.amber >= amount;
+                    }
+                    return choices;
+                })()
             },
             effect: 'pay {1} {2} amber and draw {2} cards',
             effectArgs: (context) => [context.player.opponent, parseInt(context.select)],
@@ -23,14 +29,6 @@ class KeepTheChange extends Card {
                 }))
             ]
         });
-    }
-
-    buildAmountChoices() {
-        const choices = { 0: () => true };
-        for (let amount = 1; amount <= 6; amount++) {
-            choices[String(amount)] = (context) => context.player.amber >= amount;
-        }
-        return choices;
     }
 }
 

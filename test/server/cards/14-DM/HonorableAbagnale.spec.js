@@ -14,12 +14,9 @@ describe('Honorable Abagnale', function () {
         });
 
         it('lets player forge a key by spending up to 3 from opponent pool', function () {
-            // 4 own + up to 3 from opponent (=5 available) >= 6
             this.player1.endTurn();
             this.player2.clickPrompt('shadows');
             this.player2.endTurn();
-            // Now player1's key phase: prompted for amount from opponent pool.
-            // Must forge if able: minimum is 2 (so 4 + 2 = 6 cost), max is 3.
             expect(this.player1).toHavePrompt(
                 "How much amber do you want to take from your opponent's pool?"
             );
@@ -27,6 +24,7 @@ describe('Honorable Abagnale', function () {
             expect(this.player1).not.toHavePromptButton('1');
             expect(this.player1).toHavePromptButton('2');
             expect(this.player1).toHavePromptButton('3');
+            expect(this.player1).not.toHavePromptButton('4');
             this.player1.clickPrompt('3');
             this.player1.forgeKey('Red');
             this.player1.clickPrompt('shadows');
@@ -37,7 +35,6 @@ describe('Honorable Abagnale', function () {
         });
 
         it('player can choose to take less than the maximum from opponent pool', function () {
-            // 4 own + 2 from opponent = 6 (exactly cost)
             this.player1.endTurn();
             this.player2.clickPrompt('shadows');
             this.player2.endTurn();
@@ -53,8 +50,10 @@ describe('Honorable Abagnale', function () {
         it('cannot forge if combined amber is still less than cost', function () {
             this.player1.amber = 2;
             this.player2.amber = 1;
-            // 2 + min(3,1)=1 = 3 < 6
-            expect(this.player1.player.canForgeKey()).toBe(false);
+            this.player1.endTurn();
+            this.player2.clickPrompt('shadows');
+            this.player2.endTurn();
+            this.player1.clickPrompt('shadows');
             expect(this.player1).isReadyToTakeAction();
         });
 
@@ -64,14 +63,12 @@ describe('Honorable Abagnale', function () {
             this.player1.endTurn();
             this.player2.clickPrompt('shadows');
             this.player2.endTurn();
-            // Pool has only 1 amber and player can pay full cost themselves (6),
-            // so the choice prompt covers 0..1.
             expect(this.player1).toHavePromptButton('0');
             expect(this.player1).toHavePromptButton('1');
+            expect(this.player1).not.toHavePromptButton('2');
             this.player1.clickPrompt('1');
             this.player1.forgeKey('Red');
             this.player1.clickPrompt('shadows');
-            // Cost 6: opponent pool covers 1, player covers 5
             expect(this.player1.amber).toBe(1);
             expect(this.player2.amber).toBe(0);
             expect(this.player1).isReadyToTakeAction();
@@ -79,7 +76,6 @@ describe('Honorable Abagnale', function () {
 
         it('does not take from opponent pool without Abagnale in play', function () {
             this.player1.moveCard(this.honorableAbagnale, 'discard');
-            // 4 own + 0 from opponent < 6
             expect(this.player1.player.canForgeKey()).toBe(false);
             expect(this.player1).isReadyToTakeAction();
         });
@@ -105,7 +101,6 @@ describe('Honorable Abagnale', function () {
             this.player1.endTurn();
             this.player2.clickPrompt('shadows');
             this.player2.endTurn();
-            // Cost 6: 4 own + 2 on Shrix + up to 3 from pool. Min from pool is now 0.
             expect(this.player1).toHavePrompt(
                 "How much amber do you want to take from your opponent's pool?"
             );
@@ -122,7 +117,6 @@ describe('Honorable Abagnale', function () {
             this.player1.clickPrompt('0');
             this.player1.forgeKey('Red');
             this.player1.clickPrompt('shadows');
-            // Player paid 4 own + 2 from Shrix = 6
             expect(this.player1.player.keys.red).toBe(true);
             expect(this.player1.amber).toBe(0);
             expect(this.senatorShrix.amber).toBe(0);
@@ -145,23 +139,89 @@ describe('Honorable Abagnale', function () {
             });
         });
 
-        it('does not stack: maximum from opponent pool stays at 3', function () {
+        it('stacks: maximum from opponent pool becomes 6 (3 per Abagnale)', function () {
+            this.player1.endTurn();
+            this.player2.clickPrompt('shadows');
+            this.player2.endTurn();
+            // 4 own + need 2 more. Each Abagnale prompts 0..3 but combined min is 2.
+            expect(this.player1).toHavePrompt(
+                "How much amber do you want to take from your opponent's pool?"
+            );
+            // First Abagnale: max 3, other Abagnale can also cover up to 3
+            expect(this.player1).toHavePromptButton('0');
+            expect(this.player1).toHavePromptButton('1');
+            expect(this.player1).toHavePromptButton('2');
+            expect(this.player1).toHavePromptButton('3');
+            expect(this.player1).not.toHavePromptButton('4');
+            this.player1.clickPrompt('1');
+
+            // Second Abagnale: still need 1 from pool
+            expect(this.player1).toHavePrompt(
+                "How much amber do you want to take from your opponent's pool?"
+            );
+            expect(this.player1).not.toHavePromptButton('0');
+            expect(this.player1).toHavePromptButton('1');
+            expect(this.player1).toHavePromptButton('2');
+            expect(this.player1).toHavePromptButton('3');
+            expect(this.player1).not.toHavePromptButton('4');
+            this.player1.clickPrompt('1');
+            this.player1.forgeKey('Red');
+            this.player1.clickPrompt('shadows');
+            expect(this.player1.amber).toBe(0);
+            expect(this.player2.amber).toBe(3);
+            expect(this.player1).isReadyToTakeAction();
+        });
+
+        it('forces 3 from each Abagnale when 6 are needed and opponent has 6', function () {
+            this.setupTest({
+                player1: {
+                    house: 'shadows',
+                    amber: 0,
+                    inPlay: ['honorable-abagnale', 'honorable-abagnale']
+                },
+                player2: {
+                    amber: 12
+                }
+            });
+            this.player1.endTurn();
+            this.player2.forgeKey('Red');
+            this.player2.clickPrompt('shadows');
+            this.player2.endTurn();
+            this.player1.forgeKey('Red');
+            this.player1.clickPrompt('shadows');
+            expect(this.player1.player.keys.red).toBe(true);
+            expect(this.player1.amber).toBe(0);
+            expect(this.player2.amber).toBe(0);
+            expect(this.player1).isReadyToTakeAction();
+        });
+
+        it('allows 0 or 1 per Abagnale when no extra amber is required and opponent has 1', function () {
+            this.setupTest({
+                player1: {
+                    house: 'shadows',
+                    amber: 6,
+                    inPlay: ['honorable-abagnale', 'honorable-abagnale']
+                },
+                player2: {
+                    amber: 1
+                }
+            });
             this.player1.endTurn();
             this.player2.clickPrompt('shadows');
             this.player2.endTurn();
             expect(this.player1).toHavePrompt(
                 "How much amber do you want to take from your opponent's pool?"
             );
-            expect(this.player1).toHavePromptButton('2');
-            expect(this.player1).toHavePromptButton('3');
-            expect(this.player1).not.toHavePromptButton('4');
-            expect(this.player1).not.toHavePromptButton('5');
-            expect(this.player1).not.toHavePromptButton('6');
-            this.player1.clickPrompt('3');
+            expect(this.player1).toHavePromptButton('0');
+            expect(this.player1).toHavePromptButton('1');
+            expect(this.player1).not.toHavePromptButton('2');
+            this.player1.clickPrompt('1');
+            // Second Abagnale: opponent now has 0, no prompt, auto-takes 0.
             this.player1.forgeKey('Red');
             this.player1.clickPrompt('shadows');
+            expect(this.player1.player.keys.red).toBe(true);
             expect(this.player1.amber).toBe(1);
-            expect(this.player2.amber).toBe(2);
+            expect(this.player2.amber).toBe(0);
             expect(this.player1).isReadyToTakeAction();
         });
     });

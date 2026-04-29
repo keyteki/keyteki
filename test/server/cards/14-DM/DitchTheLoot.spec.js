@@ -11,10 +11,10 @@ describe('Ditch the Loot', function () {
                     inPlay: ['troll']
                 }
             });
+            this.urchin.amber = 3;
         });
 
         it('moves all amber from one creature to another', function () {
-            this.urchin.amber = 3;
             this.player1.play(this.ditchTheLoot);
             this.player1.clickCard(this.urchin);
             this.player1.clickCard(this.hobnobber);
@@ -24,12 +24,11 @@ describe('Ditch the Loot', function () {
         });
 
         it('can move amber to an enemy creature', function () {
-            this.urchin.amber = 2;
             this.player1.play(this.ditchTheLoot);
             this.player1.clickCard(this.urchin);
             this.player1.clickCard(this.troll);
             expect(this.urchin.amber).toBe(0);
-            expect(this.troll.amber).toBe(2);
+            expect(this.troll.amber).toBe(3);
             expect(this.player1).isReadyToTakeAction();
         });
     });

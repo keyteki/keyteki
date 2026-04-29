@@ -1,7 +1,7 @@
 const Card = require('../../Card.js');
 
 class PincherMalloy extends Card {
-    // Play: If your opponent has more amber than you, steal 2.
+    // Play: If your opponent has more amber than you, steal 2A.
     setupCardAbilities(ability) {
         this.play({
             condition: (context) =>

@@ -4,7 +4,7 @@ class BlankCheck extends Card {
     // Play: Each player shuffles their archives and discard pile into their deck.
     // Discard the top 5 cards of your opponent's deck. Play the top card of their deck as if it were yours.
     setupCardAbilities(ability) {
-        const myShuffle = (context) =>
+        const playerShuffle = (context) =>
             ability.actions.returnToDeck({
                 shuffle: true,
                 shuffleDiscardIntoDeck: true,
@@ -23,8 +23,8 @@ class BlankCheck extends Card {
                 activePromptTitle:
                     'Choose which player shuffles their archives and discard pile first',
                 choices: {
-                    Me: [myShuffle(context), opponentShuffle(context)],
-                    Opponent: [opponentShuffle(context), myShuffle(context)]
+                    Me: [playerShuffle(context), opponentShuffle(context)],
+                    Opponent: [opponentShuffle(context), playerShuffle(context)]
                 }
             })),
             then: {

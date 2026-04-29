@@ -875,13 +875,15 @@ class Player extends GameObject {
         if (!this.opponent) {
             return 0;
         }
-        const effects = this.cardsInPlay.flatMap((card) =>
-            card.getEffects('forgeAmberFromOpponentPool')
+        const totalCap = this.cardsInPlay.reduce(
+            (sum, card) =>
+                sum +
+                card
+                    .getEffects('forgeWithOpponentsAmber')
+                    .reduce((max, value) => Math.max(max, value), 0),
+            0
         );
-        if (effects.length === 0) {
-            return 0;
-        }
-        return Math.min(Math.max(...effects), this.opponent.amber);
+        return Math.min(totalCap, this.opponent.amber);
     }
 
     getCurrentKeyCost() {
@@ -899,6 +901,16 @@ class Player extends GameObject {
             (total, source) => total + this.getAmberValueFromSource(source),
             0
         );
+        const opponentPoolSources = this.opponent
+            ? this.cardsInPlay
+                  .map((card) => ({
+                      card,
+                      max: card
+                          .getEffects('forgeWithOpponentsAmber')
+                          .reduce((max, value) => Math.max(max, value), 0)
+                  }))
+                  .filter((entry) => entry.max > 0)
+            : [];
         const maxFromPool = Math.min(this.getMaxAmberFromOpponentPool(), cost);
         const minFromPool = Math.max(0, cost - this.amber - totalAvailable);
         const proceed = (fromOpponentPool) => {
@@ -916,15 +928,39 @@ class Player extends GameObject {
                 pendingSelections
             );
         };
-        if (maxFromPool > 0 && minFromPool < maxFromPool) {
+        const promptForOpponentPoolSource = (index, takenSoFar) => {
+            if (index >= opponentPoolSources.length) {
+                proceed(takenSoFar);
+                return;
+            }
+            const { card, max } = opponentPoolSources[index];
+            const opponentRemaining = this.opponent.amber - takenSoFar;
+            const sourceMax = Math.min(max, opponentRemaining);
+            const remainingSourcesMax = opponentPoolSources
+                .slice(index + 1)
+                .reduce((sum, entry) => sum + entry.max, 0);
+            const otherSourcesMaxAvailable = Math.min(
+                remainingSourcesMax,
+                Math.max(0, opponentRemaining - sourceMax)
+            );
+            const stillNeeded = Math.max(0, minFromPool - takenSoFar);
+            const sourceMin = Math.max(0, stillNeeded - otherSourcesMaxAvailable);
+            if (sourceMax === 0 || sourceMin === sourceMax) {
+                promptForOpponentPoolSource(index + 1, takenSoFar + sourceMax);
+                return;
+            }
             this.game.promptWithHandlerMenu(this, {
                 activePromptTitle: "How much amber do you want to take from your opponent's pool?",
-                source: 'Forge a key',
-                choices: _.range(minFromPool, maxFromPool + 1).map(String),
-                choiceHandler: (choice) => proceed(parseInt(choice, 10))
+                source: card,
+                choices: _.range(sourceMin, sourceMax + 1).map(String),
+                choiceHandler: (choice) =>
+                    promptForOpponentPoolSource(index + 1, takenSoFar + parseInt(choice, 10))
             });
+        };
+        if (maxFromPool > 0) {
+            promptForOpponentPoolSource(0, 0);
         } else {
-            proceed(maxFromPool);
+            proceed(0);
         }
         return cost;
     }

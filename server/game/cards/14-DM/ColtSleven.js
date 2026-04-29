@@ -7,7 +7,7 @@ class ColtSleven extends Card {
             gameAction: ability.actions.allocateDamage((context) => ({
                 amount: 1,
                 numSteps: context.game.creaturesInPlay.reduce(
-                    (sum, card) => sum + (card.tokens.power || 0),
+                    (sum, card) => sum + card.powerCounters,
                     0
                 )
             }))
