@@ -5,10 +5,10 @@ describe('Bonus Icons', function () {
                 player1: {
                     house: 'brobnar',
                     hand: ['troll'],
-                    inPlay: ['krump']
+                    inPlay: ['krump', 'bumpsy']
                 },
                 player2: {
-                    inPlay: ['lamindra']
+                    inPlay: ['lamindra', 'urchin']
                 }
             });
 
@@ -20,6 +20,11 @@ describe('Bonus Icons', function () {
             expect(this.player1).toHavePrompt(
                 'Choose a creature to add a +1 power counter to due to bonus icon'
             );
+            expect(this.player1).toBeAbleToSelect(this.troll);
+            expect(this.player1).toBeAbleToSelect(this.krump);
+            expect(this.player1).toBeAbleToSelect(this.bumpsy);
+            expect(this.player1).toBeAbleToSelect(this.lamindra);
+            expect(this.player1).toBeAbleToSelect(this.urchin);
             this.player1.clickCard(this.krump);
             expect(this.krump.tokens.power).toBe(1);
             expect(this.player1).isReadyToTakeAction();

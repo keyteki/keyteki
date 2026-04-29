@@ -1,7 +1,7 @@
 const Card = require('../../Card.js');
 
 class CaughtYouNapping extends Card {
-    // Play: If you are overwhelmed, exhaust an enemy creature. Steal 1 for each exhausted enemy creature.
+    // Play: If you are overwhelmed, exhaust an enemy creature. Steal 1A for each exhausted enemy creature.
     setupCardAbilities(ability) {
         const exhaustedEnemyCount = (context) =>
             context.player.opponent
