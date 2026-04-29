@@ -8,7 +8,7 @@ describe('Rein and Cycle', function () {
                     hand: ['rein-and-cycle']
                 },
                 player2: {
-                    inPlay: ['troll']
+                    inPlay: ['troll', 'key-to-dis']
                 }
             });
         });
@@ -22,12 +22,30 @@ describe('Rein and Cycle', function () {
             expect(this.player1).isReadyToTakeAction();
         });
 
+        it('pays opponent 1 then takes control of an enemy artifact', function () {
+            this.player1.play(this.reinAndCycle);
+            this.player1.clickCard(this.keyToDis);
+            expect(this.keyToDis.controller).toBe(this.player1.player);
+            expect(this.player2.amber).toBe(1);
+            expect(this.player1.amber).toBe(0);
+            expect(this.player1).isReadyToTakeAction();
+        });
+
         it('does not take control if controller has no amber to pay', function () {
             this.player1.amber = 0;
             this.player1.play(this.reinAndCycle);
             expect(this.troll.controller).toBe(this.player2.player);
             expect(this.player2.amber).toBe(0);
             expect(this.player1.amber).toBe(0);
+            expect(this.player1).isReadyToTakeAction();
+        });
+
+        it('still pays opponent 1 even if there are no enemy creatures or artifacts to take', function () {
+            this.player2.moveCard(this.troll, 'discard');
+            this.player2.moveCard(this.keyToDis, 'discard');
+            this.player1.play(this.reinAndCycle);
+            expect(this.player1.amber).toBe(0);
+            expect(this.player2.amber).toBe(1);
             expect(this.player1).isReadyToTakeAction();
         });
     });
@@ -49,7 +67,7 @@ describe('Rein and Cycle', function () {
                     house: 'shadows',
                     amber: 0,
                     hand: ['ghostly-hand', 'rein-and-cycle'],
-                    inPlay: ['urchin', 'troll']
+                    inPlay: ['troll']
                 }
             });
         });
@@ -58,22 +76,14 @@ describe('Rein and Cycle', function () {
             this.player1.activateProphecy(this.treatEachActionAsYourLast, this.parasiticArachnoid);
             this.player1.endTurn();
             this.player2.clickPrompt('shadows');
-            // First action so the rein and cycle counts as the second
             this.player2.play(this.ghostlyHand);
-            // Play rein and cycle (2nd action this turn): both prophecy reaction
-            // and rein and cycle's play effect queue. Active player resolves the
-            // prophecy first, capturing player2's last amber.
             this.player2.play(this.reinAndCycle);
-            // Resolve the prophecy reaction before Rein and Cycle's effect.
             this.player2.clickCard(this.treatEachActionAsYourLast);
-            // Parasitic Arachnoid's fate captures 2 from player2's pool to a friendly creature.
-            this.player2.clickCard(this.urchin);
-            // Player2 had 2 amber from Ghostly Hand bonus icons; capture removed both.
-            expect(this.urchin.amber).toBe(2);
-            expect(this.player2.amber).toBe(0);
-            // Rein and Cycle's transfer can no longer pay → does nothing.
-            expect(this.troll.controller).toBe(this.player2.player);
+            this.player2.clickCard(this.troll);
+            expect(this.troll.amber).toBe(2);
             expect(this.player1.amber).toBe(0);
+            expect(this.player2.amber).toBe(0);
+            expect(this.troll.controller).toBe(this.player2.player);
             expect(this.player2).isReadyToTakeAction();
         });
     });

@@ -54,9 +54,7 @@ describe('Vaelra Whisperfang', function () {
             this.player1.endTurn();
             this.player2.clickPrompt('redemption');
             this.player2.play(this.ragatha);
-            // Treachery: ragatha enters under player1's control
             expect(this.ragatha.controller).toBe(this.player1.player);
-            // Still damaged by Vaelra since "opponent played" triggered
             expect(this.ragatha.damage).toBe(2);
             expect(this.player2).isReadyToTakeAction();
         });
@@ -77,22 +75,15 @@ describe('Vaelra Whisperfang', function () {
             });
         });
 
-        // TODO: This test reflects the user's expected behavior, but the engine currently
-        // does not damage Talent Scout after it switches controllers. Marked xit until
-        // the underlying interaction is investigated.
-        it.skip("triggers in player-chosen order; Talent Scout first plays the opponent's creature (also damaged) then Vaelra hits Talent Scout (now opponent's)", function () {
+        it("triggers in player-chosen order; Talent Scout first plays the opponent's creature then Vaelra hits Talent Scout (now opponent's)", function () {
             this.player1.endTurn();
             this.player2.clickPrompt('ekwidon');
             this.player2.play(this.talentScout);
-            // Player2 chooses to resolve Talent Scout's play effect before Vaelra's reaction.
             this.player2.clickCard(this.talentScout);
             this.player2.clickCard(this.troll);
-            this.player2.clickPrompt('Left'); // troll flank
-            // Vaelra reaction fires on troll play (auto-resolves)
+            this.player2.clickPrompt('Left');
             expect(this.troll.location).toBe('play area');
             expect(this.troll.damage).toBe(2);
-            // Talent Scout switches sides (taken by player1)
-            // Original Vaelra reaction fires on Talent Scout
             expect(this.talentScout.location).toBe('discard');
             expect(this.player2).isReadyToTakeAction();
         });
@@ -101,9 +92,7 @@ describe('Vaelra Whisperfang', function () {
             this.player1.endTurn();
             this.player2.clickPrompt('ekwidon');
             this.player2.play(this.talentScout);
-            // Resolve Vaelra's reaction first → 2 damage destroys Talent Scout (power 2).
             this.player2.clickCard(this.vaelraWhisperfang);
-            // Talent Scout is destroyed and its play effect does not run; troll stays in hand.
             expect(this.talentScout.location).toBe('discard');
             expect(this.troll.location).toBe('hand');
             expect(this.player2).isReadyToTakeAction();
