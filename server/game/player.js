@@ -156,6 +156,19 @@ class Player extends GameObject {
         return this.cardsInPlay.filter((card) => card.type === 'creature');
     }
 
+    /**
+     * Returns true if this player is overwhelmed, i.e. their opponent has more
+     * creatures in play than they do.
+     * @returns {boolean}
+     */
+    isOverwhelmed() {
+        if (!this.opponent) {
+            return false;
+        }
+
+        return this.opponent.creaturesInPlay.length > this.creaturesInPlay.length;
+    }
+
     get activeProphecies() {
         return this.prophecyCards.filter((card) => card.activeProphecy);
     }
