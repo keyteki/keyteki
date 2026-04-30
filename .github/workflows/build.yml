@@ -62,7 +62,7 @@ jobs:
             - run: npm test
     package:
         name: Push Package
-        if: ${{ github.repository == 'keyteki/keyteki' && (github.ref_name == 'master') && (github.event_name == 'push' || github.event_name == 'workflow_dispatch') }}
+        if: ${{ github.repository == 'keyteki/keyteki' && (github.ref_name == 'master' || github.ref_name == 'pack/dm') && (github.event_name == 'push' || github.event_name == 'workflow_dispatch') }}
         runs-on: ubuntu-latest
         needs: 'build'
         steps:
@@ -92,6 +92,16 @@ jobs:
               uses: gittools/actions/gitversion/execute@v0.9.14
               with:
                   additionalArguments: /overrideconfig mode=Mainline
+            - name: Determine image tags
+              id: tags
+              run: |
+                  if [ "${{ github.ref_name }}" = "pack/dm" ]; then
+                    echo "lobby=cryogen/keyteki-lobby:dev,cryogen/keyteki-lobby:${{ steps.determine_version.outputs.semVer }}" >> $GITHUB_OUTPUT
+                    echo "node=cryogen/keyteki-node:dev,cryogen/keyteki-node:${{ steps.determine_version.outputs.semVer }}" >> $GITHUB_OUTPUT
+                  else
+                    echo "lobby=cryogen/keyteki-lobby:latest,cryogen/keyteki-lobby:${{ steps.determine_version.outputs.semVer }}" >> $GITHUB_OUTPUT
+                    echo "node=cryogen/keyteki-node:latest,cryogen/keyteki-node:${{ steps.determine_version.outputs.semVer }}" >> $GITHUB_OUTPUT
+                  fi
             - name: Build and push lobby
               uses: docker/build-push-action@v3
               with:
@@ -102,7 +112,7 @@ jobs:
                       SENTRY_DSN=${{ secrets.SENTRY_DSN }}
                       SENTRY_AUTH_TOKEN=${{ secrets.SENTRY_AUTH_TOKEN }}
                   push: true
-                  tags: cryogen/keyteki-lobby:latest, cryogen/keyteki-lobby:${{ steps.determine_version.outputs.semVer }}
+                  tags: ${{ steps.tags.outputs.lobby }}
             - name: Build and push node
               uses: docker/build-push-action@v3
               with:
@@ -110,4 +120,4 @@ jobs:
                       "VERSION=${{ steps.determine_version.outputs.semVer }}"
                   push: true
                   file: server/gamenode/Dockerfile
-                  tags: cryogen/keyteki-node:latest, cryogen/keyteki-node:${{ steps.determine_version.outputs.semVer }}
+                  tags: ${{ steps.tags.outputs.node }}
