@@ -70,9 +70,8 @@ describe('GoldenDagger', function () {
         it('credits amber to the original owner even when the creature has changed control', function () {
             this.player1.play(this.evenSwap);
             this.player1.clickCard(this.urchin);
-            this.player1.clickCard(this.snufflegator);
-            this.player1.clickPrompt('Done');
             this.player1.clickPrompt('Left');
+            this.player1.clickCard(this.snufflegator);
             this.player1.clickPrompt('Left');
             this.player1.clickCard(this.flaxia);
             this.player1.clickCard(this.exeldonYash);

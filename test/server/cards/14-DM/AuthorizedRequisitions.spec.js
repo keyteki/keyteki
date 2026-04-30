@@ -9,7 +9,8 @@ describe('AuthorizedRequisitions', function () {
                     deck: ['mack-the-knife', 'troll']
                 },
                 player2: {
-                    amber: 3
+                    amber: 3,
+                    inPlay: ['troll']
                 }
             });
         });
@@ -17,6 +18,8 @@ describe('AuthorizedRequisitions', function () {
         it('captures 2 amber on a friendly creature and draws a card', function () {
             const handSizeBefore = this.player1.hand.length;
             this.player1.play(this.authorizedRequisitions);
+            expect(this.player1).toBeAbleToSelect(this.exeldonYash);
+            expect(this.player1).not.toBeAbleToSelect(this.troll);
             this.player1.clickCard(this.exeldonYash);
             expect(this.exeldonYash.amber).toBe(2);
             expect(this.player2.amber).toBe(1);

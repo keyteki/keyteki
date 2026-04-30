@@ -15,7 +15,7 @@ describe('BypassBurglar', function () {
         it('grants steal/self-damage action to neighbors when exhausted', function () {
             this.player1.reap(this.bypassBurglar);
             this.player1.useAction(this.exeldonYash);
-            expect(this.player1.amber).toBe(2); // 1 reap + 1 stolen
+            expect(this.player1.amber).toBe(2);
             expect(this.player2.amber).toBe(2);
             expect(this.exeldonYash.damage).toBe(1);
             expect(this.player1).isReadyToTakeAction();
@@ -24,14 +24,13 @@ describe('BypassBurglar', function () {
         it('right neighbor also gains the action', function () {
             this.player1.reap(this.bypassBurglar);
             this.player1.useAction(this.krisperRuld);
-            expect(this.player1.amber).toBe(2); // 1 reap + 1 stolen
-            // Krisper Ruld has 1 armor, absorbs the 1 damage
+            expect(this.player1.amber).toBe(2);
             expect(this.krisperRuld.damage).toBe(0);
+            expect(this.krisperRuld.armor).toBe(0);
             expect(this.player1).isReadyToTakeAction();
         });
 
         it('does not grant the action when ready', function () {
-            // Bypass Burglar is ready by default
             this.player1.clickCard(this.exeldonYash);
             expect(this.player1).not.toHavePromptButton("Use this card's Action ability");
             this.player1.clickPrompt('Cancel');

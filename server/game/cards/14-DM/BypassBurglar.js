@@ -15,8 +15,7 @@ class BypassBurglar extends Card {
                         target: context.source
                     }))
                 ]),
-                effect: 'steal 1 amber and deal 1 damage to {0}',
-                effectArgs: (context) => [context.source]
+                effect: 'steal 1 amber and deal 1 damage to itself'
             })
         });
     }
