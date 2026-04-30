@@ -5,7 +5,7 @@ class ArbiterVyynx extends Card {
     setupCardAbilities(ability) {
         this.reap({
             target: {
-                activePromptTitle: 'Choose a friendly non-Mars creature',
+                activePromptTitle: 'Choose a friendly creature',
                 cardType: 'creature',
                 controller: 'self',
                 cardCondition: (card) => !card.hasHouse('mars'),

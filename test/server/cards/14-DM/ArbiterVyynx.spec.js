@@ -99,7 +99,7 @@ describe('Arbiter Vyynx', function () {
 
         it('still requires destroying a friendly non-Mars creature', function () {
             this.player1.reap(this.arbiterVyynx);
-            expect(this.player1).toHavePrompt('Choose a friendly non-Mars creature');
+            expect(this.player1).toHavePrompt('Choose a friendly creature');
             this.player1.clickCard(this.urchin);
             expect(this.urchin.location).toBe('discard');
             expect(this.player1).isReadyToTakeAction();

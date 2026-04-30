@@ -4,6 +4,7 @@ class ProductiveTrash extends Card {
     // Play: You may discard a non-Mars card. If you do, a friendly creature captures 1A for each bonus icon on the discarded card.
     setupCardAbilities(ability) {
         this.play({
+            effect: 'discard a non-Mars card and capture amber for each bonus icon',
             handler: (context) => {
                 const promptCapture = (remaining) => {
                     if (remaining <= 0) {
@@ -11,7 +12,7 @@ class ProductiveTrash extends Card {
                     }
                     context.game.promptForSelect(context.player, {
                         source: context.source,
-                        activePromptTitle: `Choose a friendly creature to capture 1A (${remaining} remaining)`,
+                        activePromptTitle: 'Choose a friendly creature',
                         cardType: 'creature',
                         controller: 'self',
                         gameAction: ability.actions.capture({ amount: 1 }),
@@ -25,7 +26,7 @@ class ProductiveTrash extends Card {
 
                 context.game.promptForSelect(context.player, {
                     source: context.source,
-                    activePromptTitle: 'Choose a non-Mars card to discard',
+                    activePromptTitle: 'Choose a card',
                     optional: true,
                     location: 'hand',
                     controller: 'self',

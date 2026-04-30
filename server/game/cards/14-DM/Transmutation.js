@@ -13,8 +13,7 @@ class Transmutation extends Card {
                 alwaysTriggers: true,
                 target: {
                     optional: true,
-                    activePromptTitle:
-                        'Choose a friendly creature to remove +1 power counters from',
+                    activePromptTitle: 'Choose a friendly creature',
                     cardType: 'creature',
                     controller: 'self',
                     cardCondition: (card) => card.tokens.power > 0,
