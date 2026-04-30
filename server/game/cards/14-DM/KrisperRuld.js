@@ -5,7 +5,6 @@ class KrisperRuld extends Card {
     setupCardAbilities(ability) {
         this.fight({
             target: {
-                activePromptTitle: 'Choose an enemy artifact',
                 cardType: 'artifact',
                 controller: 'opponent',
                 gameAction: ability.actions.cardLastingEffect((context) => ({

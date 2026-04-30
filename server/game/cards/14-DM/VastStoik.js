@@ -21,6 +21,6 @@ class VastStoik extends Card {
     }
 }
 
-VastStoik.id = 'vast-stoik';
+VastStoik.id = 'văst-stŏik';
 
 module.exports = VastStoik;

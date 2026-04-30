@@ -4,7 +4,7 @@ describe('GoldenDagger', function () {
             this.setupTest({
                 player1: {
                     house: 'ekwidon',
-                    inPlay: ['golden-dagger']
+                    inPlay: ['golden-dagger', 'lamindra']
                 },
                 player2: {
                     inPlay: ['troll', 'urchin']
@@ -30,23 +30,11 @@ describe('GoldenDagger', function () {
             expect(this.player1.amber).toBe(1);
             expect(this.player1).isReadyToTakeAction();
         });
-    });
-
-    describe('Golden Dagger destroying a friendly creature', function () {
-        beforeEach(function () {
-            this.setupTest({
-                player1: {
-                    house: 'ekwidon',
-                    inPlay: ['golden-dagger', 'urchin']
-                },
-                player2: {}
-            });
-        });
 
         it('gains 1 amber for the friendly owner', function () {
             this.player1.reap(this.goldenDagger);
-            this.player1.clickCard(this.urchin);
-            expect(this.urchin.location).toBe('discard');
+            this.player1.clickCard(this.lamindra);
+            expect(this.lamindra.location).toBe('discard');
             expect(this.player1.amber).toBe(2); // 1 from reap + 1 from owner gain
             expect(this.player2.amber).toBe(0);
             expect(this.player1).isReadyToTakeAction();
@@ -74,16 +62,14 @@ describe('GoldenDagger', function () {
             this.player1.clickCard(this.snufflegator);
             this.player1.clickPrompt('Left');
             this.player1.clickCard(this.flaxia);
-            this.player1.clickCard(this.exeldonYash);
-            this.player1.clickPrompt('Done');
             this.player1.clickPrompt('Left');
+            this.player1.clickCard(this.exeldonYash);
             this.player1.clickPrompt('Left');
             expect(this.urchin.controller).toBe(this.player2.player);
             this.player1.reap(this.goldenDagger);
             this.player1.clickCard(this.urchin);
             expect(this.urchin.location).toBe('discard');
-            // owner is still player1, so player1 gains the amber
-            expect(this.player1.amber).toBe(3); // 1 even-swap bonus + 1 reap + 1 owner gain
+            expect(this.player1.amber).toBe(3);
             expect(this.player2.amber).toBe(0);
             expect(this.player1).isReadyToTakeAction();
         });

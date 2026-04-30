@@ -10,7 +10,6 @@ class ExeldonYash extends Card {
                 alwaysTriggers: true,
                 target: {
                     optional: true,
-                    activePromptTitle: 'You may discard a card to move 1 amber to your pool',
                     location: 'hand',
                     controller: 'self',
                     gameAction: ability.actions.discard()

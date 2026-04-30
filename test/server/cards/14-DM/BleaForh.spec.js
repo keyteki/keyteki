@@ -4,7 +4,7 @@ describe('BleaForh', function () {
             this.setupTest({
                 player1: {
                     house: 'ekwidon',
-                    inPlay: ['blea-forh', 'exeldon-yash', 'troll']
+                    inPlay: ['bleă-fŏrh', 'exeldon-yash', 'troll']
                 },
                 player2: {
                     inPlay: ['urchin']
@@ -13,7 +13,7 @@ describe('BleaForh', function () {
         });
 
         it('can target an undamaged creature and auto-resolves with no exalt', function () {
-            this.player1.fightWith(this.bleaForh, this.urchin);
+            this.player1.fightWith(this.bleăFŏrh, this.urchin);
             expect(this.player1).toBeAbleToSelect(this.exeldonYash);
             this.player1.clickCard(this.exeldonYash);
             expect(this.exeldonYash.damage).toBe(0);
@@ -23,7 +23,7 @@ describe('BleaForh', function () {
 
         it('heals 1 damage and exalts once', function () {
             this.exeldonYash.damage = 1;
-            this.player1.fightWith(this.bleaForh, this.urchin);
+            this.player1.fightWith(this.bleăFŏrh, this.urchin);
             this.player1.clickCard(this.exeldonYash);
             expect(this.player1).toHavePromptButton('0');
             expect(this.player1).toHavePromptButton('1');
@@ -36,7 +36,7 @@ describe('BleaForh', function () {
 
         it('heals 2 damage and exalts twice', function () {
             this.exeldonYash.damage = 2;
-            this.player1.fightWith(this.bleaForh, this.urchin);
+            this.player1.fightWith(this.bleăFŏrh, this.urchin);
             this.player1.clickCard(this.exeldonYash);
             expect(this.player1).toHavePromptButton('0');
             expect(this.player1).toHavePromptButton('1');
@@ -50,7 +50,7 @@ describe('BleaForh', function () {
 
         it('can heal 0 from a damaged creature', function () {
             this.exeldonYash.damage = 2;
-            this.player1.fightWith(this.bleaForh, this.urchin);
+            this.player1.fightWith(this.bleăFŏrh, this.urchin);
             this.player1.clickCard(this.exeldonYash);
             expect(this.player1).toHavePromptButton('0');
             expect(this.player1).toHavePromptButton('1');
@@ -64,7 +64,7 @@ describe('BleaForh', function () {
 
         it('can heal 1 from a creature with 3 damage and exalt once', function () {
             this.troll.damage = 3;
-            this.player1.fightWith(this.bleaForh, this.urchin);
+            this.player1.fightWith(this.bleăFŏrh, this.urchin);
             this.player1.clickCard(this.troll);
             expect(this.player1).toHavePromptButton('0');
             expect(this.player1).toHavePromptButton('1');
@@ -78,7 +78,7 @@ describe('BleaForh', function () {
 
         it('can heal 2 from a creature with 3 damage and exalt twice', function () {
             this.troll.damage = 3;
-            this.player1.fightWith(this.bleaForh, this.urchin);
+            this.player1.fightWith(this.bleăFŏrh, this.urchin);
             this.player1.clickCard(this.troll);
             expect(this.player1).toHavePromptButton('0');
             expect(this.player1).toHavePromptButton('1');

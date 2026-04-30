@@ -22,6 +22,6 @@ class OoniLars extends Card {
     }
 }
 
-OoniLars.id = 'ooni-lars';
+OoniLars.id = 'oŏni-lars';
 
 module.exports = OoniLars;

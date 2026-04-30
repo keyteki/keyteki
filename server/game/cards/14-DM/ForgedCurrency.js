@@ -8,7 +8,7 @@ class ForgedCurrency extends Card {
     setupCardAbilities(ability) {
         this.play({
             effect: 'move all +1 power counters and amber from friendly creatures to the common supply',
-            gameAction: [
+            gameAction: ability.actions.jointAction([
                 ability.actions.removePowerCounter((context) => ({
                     target: context.player.creaturesInPlay.filter((c) => c.hasToken('power')),
                     all: true
@@ -17,7 +17,7 @@ class ForgedCurrency extends Card {
                     target: context.player.creaturesInPlay.filter((c) => c.hasToken('amber')),
                     all: true
                 }))
-            ],
+            ]),
             then: {
                 alwaysTriggers: true,
                 gameAction: ability.actions.forgeKey((preThenContext) => ({

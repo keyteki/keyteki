@@ -4,7 +4,7 @@ describe('ConradFisique', function () {
             this.setupTest({
                 player1: {
                     house: 'ekwidon',
-                    hand: ['conrad-fisique'],
+                    hand: ['cŏnrăd-fisiquĕ'],
                     inPlay: ['exeldon-yash']
                 },
                 player2: {
@@ -15,8 +15,8 @@ describe('ConradFisique', function () {
         });
 
         it('moves all +1 power counters from one creature to another', function () {
-            this.player1.play(this.conradFisique);
-            this.player1.clickCard(this.conradFisique);
+            this.player1.play(this.cŏnrădFisiquĕ);
+            this.player1.clickCard(this.cŏnrădFisiquĕ);
             this.player1.clickCard(this.exeldonYash);
             this.player1.clickCard(this.troll);
             expect(this.exeldonYash.powerCounters).toBe(0);
@@ -25,7 +25,7 @@ describe('ConradFisique', function () {
         });
 
         it('skips effect if player declines', function () {
-            this.player1.play(this.conradFisique);
+            this.player1.play(this.cŏnrădFisiquĕ);
             this.player1.clickPrompt('Done');
             expect(this.exeldonYash.powerCounters).toBe(2);
             expect(this.troll.powerCounters).toBe(0);
@@ -38,7 +38,7 @@ describe('ConradFisique', function () {
             this.setupTest({
                 player1: {
                     house: 'ekwidon',
-                    hand: ['conrad-fisique'],
+                    hand: ['cŏnrăd-fisiquĕ'],
                     inPlay: ['exeldon-yash', 'urchin', 'phoenix-heart']
                 },
                 player2: {}
@@ -52,8 +52,8 @@ describe('ConradFisique', function () {
         });
 
         it('moves counters simultaneously so destination survives Phoenix Heart damage', function () {
-            this.player1.play(this.conradFisique);
-            this.player1.clickCard(this.conradFisique);
+            this.player1.play(this.cŏnrădFisiquĕ);
+            this.player1.clickCard(this.cŏnrădFisiquĕ);
             this.player1.clickCard(this.exeldonYash);
             this.player1.clickCard(this.urchin);
             // Exeldon Yash is destroyed by losing its power counters; Phoenix Heart

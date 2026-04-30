@@ -8,8 +8,6 @@ class FiatTranscoder extends Card {
                 target: context.player
             })),
             then: {
-                alwaysTriggers: true,
-                condition: (context) => context.preThenEvent && !context.preThenEvent.cancelled,
                 target: {
                     cardType: 'creature',
                     controller: 'opponent',

@@ -11,10 +11,10 @@ describe('HotBunk', function () {
                     inPlay: ['troll']
                 }
             });
-            this.troll.exhausted = true;
         });
 
         it('exhausts a creature, then readies a creature', function () {
+            this.troll.exhausted = true;
             this.player1.play(this.hotBunk);
             expect(this.player1).toHavePrompt('Choose a creature');
             this.player1.clickCard(this.exeldonYash);
@@ -25,8 +25,16 @@ describe('HotBunk', function () {
             expect(this.player1).isReadyToTakeAction();
         });
 
-        it('can ready a friendly creature that was just exhausted', function () {
-            this.exeldonYash.exhausted = false;
+        it('exhausts an exhausted creature, and does not ready a creature', function () {
+            this.troll.exhausted = true;
+            this.player1.play(this.hotBunk);
+            expect(this.player1).toHavePrompt('Choose a creature');
+            this.player1.clickCard(this.troll);
+            expect(this.troll.exhausted).toBe(true);
+            expect(this.player1).isReadyToTakeAction();
+        });
+
+        it('can ready a creature that was just exhausted', function () {
             this.player1.play(this.hotBunk);
             this.player1.clickCard(this.exeldonYash);
             expect(this.exeldonYash.exhausted).toBe(true);
@@ -52,9 +60,6 @@ describe('HotBunk', function () {
 
         it('does not ready a creature when no creature can be exhausted', function () {
             this.player1.play(this.hotBunk);
-            // Sariel prevents player2's creatures from exhausting while it is
-            // not their turn, so targeting sariel does not exhaust it and the
-            // ready step is skipped.
             this.player1.clickCard(this.sarielTheSteadfast);
             expect(this.sarielTheSteadfast.exhausted).toBe(false);
             expect(this.troll.exhausted).toBe(true);

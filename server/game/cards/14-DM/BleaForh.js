@@ -13,7 +13,6 @@ class BleaForh extends Card {
                 amount: {
                     dependsOn: 'creature',
                     mode: 'select',
-                    activePromptTitle: 'Choose how much damage to heal',
                     choices: {
                         0: () => true,
                         1: (context) =>
@@ -24,7 +23,10 @@ class BleaForh extends Card {
                 }
             },
             effect: 'heal {1} for {2} damage',
-            effectArgs: (context) => [context.targets.creature, context.selects.amount.choice],
+            effectArgs: (context) => [
+                context.targets.creature,
+                context.selects && context.selects.amount ? context.selects.amount.choice : 0
+            ],
             gameAction: [
                 ability.actions.heal((context) => ({
                     target: context.targets.creature,
@@ -45,6 +47,6 @@ class BleaForh extends Card {
     }
 }
 
-BleaForh.id = 'blea-forh';
+BleaForh.id = 'bleă-fŏrh';
 
 module.exports = BleaForh;

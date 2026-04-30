@@ -18,22 +18,41 @@ class TheGoldenQueen extends GiganticCard {
             effect: ability.effects.modifyHandSize(1)
         });
 
+        const playerDiscard = (context) =>
+            ability.actions.discardAtRandom({ target: context.player });
+        const opponentDiscard = (context) =>
+            ability.actions.discardAtRandom({ target: context.player.opponent });
+
         this.fight({
             reap: true,
-            gameAction: ability.actions.discardAtRandom((context) => ({
-                target: [context.player, context.player.opponent].filter((p) => !!p)
-            })),
-            then: (preThenContext) => {
-                const cards = (preThenContext.preThenEvents || []).reduce(
-                    (acc, e) => acc.concat(e.cards || []),
-                    []
-                );
-                const nonEkwidon = cards.filter((c) => !c.hasHouse('ekwidon')).length;
+            gameAction: ability.actions.chooseAction((context) => {
+                if (!context.player.opponent) {
+                    return { choices: { Me: [playerDiscard(context)] } };
+                }
+                if (!context.player.optionSettings.orderForcedAbilities) {
+                    return {
+                        choices: { Me: [playerDiscard(context), opponentDiscard(context)] }
+                    };
+                }
                 return {
-                    alwaysTriggers: true,
-                    gameAction: ability.actions.gainAmber({ amount: nonEkwidon })
+                    activePromptTitle: 'Choose which player discards first',
+                    choices: {
+                        Me: [playerDiscard(context), opponentDiscard(context)],
+                        Opponent: [opponentDiscard(context), playerDiscard(context)]
+                    }
                 };
-            }
+            }),
+            then: () => ({
+                alwaysTriggers: true,
+                gameAction: ability.actions.gainAmber((context) => {
+                    const cards = (context.preThenEvents || []).reduce(
+                        (acc, e) => acc.concat(e.cards || []),
+                        []
+                    );
+                    const nonEkwidon = cards.filter((c) => !c.hasHouse('ekwidon')).length;
+                    return { amount: nonEkwidon };
+                })
+            })
         });
     }
 }

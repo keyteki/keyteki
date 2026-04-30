@@ -4,10 +4,9 @@ class EvenSwap extends Card {
     // Play: Give control of two friendly creatures to your opponent, one at a
     // time. If you do, take control of two enemy creatures, one at a time.
     setupCardAbilities(ability) {
-        const giveTarget = (titleSuffix) => ({
+        const giveTarget = () => ({
             mode: 'exactly',
             numCards: (context) => (context.player.creaturesInPlay.length >= 1 ? 1 : 0),
-            activePromptTitle: `Choose ${titleSuffix} friendly creature to give to your opponent`,
             cardType: 'creature',
             controller: 'self',
             gameAction: ability.actions.cardLastingEffect((context) => ({
@@ -16,12 +15,29 @@ class EvenSwap extends Card {
             }))
         });
 
+        const takeTarget = () => ({
+            mode: 'exactly',
+            numCards: (context) =>
+                context.player.opponent && context.player.opponent.creaturesInPlay.length >= 1
+                    ? 1
+                    : 0,
+            cardType: 'creature',
+            controller: 'opponent',
+            gameAction: ability.actions.cardLastingEffect((context) => ({
+                duration: 'lastingEffect',
+                effect: ability.effects.takeControl(context.player)
+            }))
+        });
+
         this.play({
             target: giveTarget('a'),
-            effect: 'give control of friendly creatures to their opponent',
+            effect: 'give control of {0} to {1}',
+            effectArgs: (context) => context.player.opponent,
             then: (firstCtx) => ({
                 alwaysTriggers: true,
                 target: giveTarget('another'),
+                message: '{0} uses {1} to give control of {2} to {3}',
+                messageArgs: (context) => context.player.opponent,
                 then: (secondCtx) => {
                     const gaveFirst = !!firstCtx.target;
                     const gaveSecond = !!secondCtx.target;
@@ -30,17 +46,13 @@ class EvenSwap extends Card {
                     }
                     return {
                         alwaysTriggers: true,
-                        target: {
-                            mode: 'upTo',
-                            numCards: 2,
-                            activePromptTitle: 'Choose enemy creatures to take',
-                            cardType: 'creature',
-                            controller: 'opponent',
-                            gameAction: ability.actions.cardLastingEffect((context) => ({
-                                duration: 'lastingEffect',
-                                effect: ability.effects.takeControl(context.player)
-                            }))
-                        }
+                        target: takeTarget('an'),
+                        message: '{0} uses {1} to take control of {2}',
+                        then: () => ({
+                            alwaysTriggers: true,
+                            target: takeTarget('another'),
+                            message: '{0} uses {1} to take control of {2}'
+                        })
                     };
                 }
             })

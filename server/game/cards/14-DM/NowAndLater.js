@@ -6,7 +6,6 @@ class NowAndLater extends Card {
     setupCardAbilities(ability) {
         this.play({
             target: {
-                activePromptTitle: "Choose a creature to return to its owner's hand",
                 cardType: 'creature',
                 gameAction: ability.actions.returnToHand()
             },
@@ -22,7 +21,6 @@ class NowAndLater extends Card {
                     alwaysTriggers: true,
                     condition: (context) => context.player.isOverwhelmed(),
                     target: {
-                        activePromptTitle: "Choose a creature to return to its owner's hand",
                         cardType: 'creature',
                         gameAction: ability.actions.returnToHand()
                     },
