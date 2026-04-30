@@ -5,14 +5,12 @@ class Klyyhnug extends Card {
     // If you do, archive a card.
     setupCardAbilities(ability) {
         this.reap({
-            may: 'remove each +1 power counter from a creature',
             target: {
+                optional: true,
                 cardType: 'creature',
-                cardCondition: (card) => card.tokens.power > 0,
                 gameAction: ability.actions.removePowerCounter({ all: true })
             },
             then: {
-                alwaysTriggers: true,
                 target: {
                     location: 'hand',
                     controller: 'self',

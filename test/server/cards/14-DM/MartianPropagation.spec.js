@@ -4,8 +4,8 @@ describe('Martian Propagation', function () {
             this.setupTest({
                 player1: {
                     house: 'mars',
-                    hand: ['martian-propagation', 'urchin', 'troll', 'bumpsy', 'autocannon'],
-                    inPlay: ['john-smyth', 'iyxrenu-the-clever']
+                    hand: ['martian-propagation'],
+                    inPlay: ['john-smyth', 'urchin', 'autocannon']
                 },
                 player2: {
                     inPlay: ['krump']
@@ -17,9 +17,9 @@ describe('Martian Propagation', function () {
             const handSize = this.player1.player.hand.length;
             this.player1.play(this.martianPropagation);
             expect(this.johnSmyth.location).toBe('discard');
-            expect(this.iyxrenuTheClever.location).toBe('discard');
+            expect(this.urchin.location).toBe('discard');
+            expect(this.autocannon.location).toBe('play area');
             expect(this.krump.location).toBe('play area');
-            // hand was 4 (after playing martian-propagation), drew 4
             expect(this.player1.player.hand.length).toBe(handSize - 1 + 4);
             expect(this.player1).isReadyToTakeAction();
         });
@@ -28,11 +28,10 @@ describe('Martian Propagation', function () {
             this.johnSmyth.tokens.ward = 1;
             const handSize = this.player1.player.hand.length;
             this.player1.play(this.martianPropagation);
-            // John Smyth was warded; ward removed, John still in play
             expect(this.johnSmyth.location).toBe('play area');
-            expect(this.johnSmyth.tokens.ward || 0).toBe(0);
-            expect(this.iyxrenuTheClever.location).toBe('discard');
-            // Only 1 friendly destroyed → drew 2
+            expect(this.johnSmyth.warded).toBe(false);
+            expect(this.urchin.location).toBe('discard');
+            expect(this.autocannon.location).toBe('play area');
             expect(this.player1.player.hand.length).toBe(handSize - 1 + 2);
             expect(this.player1).isReadyToTakeAction();
         });

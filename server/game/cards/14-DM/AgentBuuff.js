@@ -10,17 +10,19 @@ class AgentBuuff extends Card {
                 activePromptTitle: 'Choose a friendly creature',
                 cardType: 'creature',
                 controller: 'self',
-                cardCondition: (_, context) => context.player.isOverwhelmed(),
-                gameAction: ability.actions.addPowerCounter({ amount: 3 })
+                cardCondition: (_, context) => context.player.isOverwhelmed()
             },
-            then: {
-                alwaysTriggers: true,
-                condition: (context) => !context.player.isOverwhelmed(),
-                gameAction: ability.actions.addPowerCounter((context) => ({
+            gameAction: ability.actions.conditional((context) => ({
+                condition: () => context.player.isOverwhelmed(),
+                trueGameAction: ability.actions.addPowerCounter({
+                    target: context.target,
+                    amount: 3
+                }),
+                falseGameAction: ability.actions.addPowerCounter({
                     target: context.player.creaturesInPlay,
                     amount: 1
-                }))
-            }
+                })
+            }))
         });
     }
 }

@@ -14,21 +14,40 @@ describe('Klyyhnug', function () {
         });
 
         it('removes power counters and archives a card', function () {
-            this.troll.tokens.power = 2;
+            this.troll.powerCounters = 2;
             this.player1.reap(this.klyyhnug);
             this.player1.clickCard(this.troll);
-            this.player1.clickPrompt('Yes');
             expect(this.troll.powerCounters).toBe(0);
             this.player1.clickCard(this.urchin);
             expect(this.urchin.location).toBe('archives');
             expect(this.player1).isReadyToTakeAction();
         });
 
-        it('skips archive if no counters were removed', function () {
+        it('skips the ability when Done is clicked', function () {
             this.player1.reap(this.klyyhnug);
-            this.player1.clickPrompt('No');
+            this.player1.clickPrompt('Done');
             expect(this.urchin.location).toBe('hand');
             expect(this.player1.amber).toBe(1);
+            expect(this.player1).isReadyToTakeAction();
+        });
+
+        it('can target a creature with no power counters but does not archive', function () {
+            this.player1.reap(this.klyyhnug);
+            expect(this.player1).toBeAbleToSelect(this.troll);
+            this.player1.clickCard(this.troll);
+            expect(this.troll.powerCounters).toBe(0);
+            expect(this.urchin.location).toBe('hand');
+            expect(this.player1).isReadyToTakeAction();
+        });
+
+        it('can target itself', function () {
+            this.klyyhnug.powerCounters = 2;
+            this.player1.reap(this.klyyhnug);
+            expect(this.player1).toBeAbleToSelect(this.klyyhnug);
+            this.player1.clickCard(this.klyyhnug);
+            expect(this.klyyhnug.powerCounters).toBe(0);
+            this.player1.clickCard(this.urchin);
+            expect(this.urchin.location).toBe('archives');
             expect(this.player1).isReadyToTakeAction();
         });
     });

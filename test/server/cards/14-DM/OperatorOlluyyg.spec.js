@@ -14,15 +14,19 @@ describe('Operator Olluyyg', function () {
             this.player1.reap(this.operatorOlluyyg);
             expect(this.operatorOlluyyg.exhausted).toBe(true);
             expect(this.player2.player.getCurrentKeyCost()).toBe(9);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it("does not increase opponent's key cost while ready", function () {
             expect(this.player2.player.getCurrentKeyCost()).toBe(6);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('does not affect own key cost', function () {
+            expect(this.player1.player.getCurrentKeyCost()).toBe(6);
             this.player1.reap(this.operatorOlluyyg);
             expect(this.player1.player.getCurrentKeyCost()).toBe(6);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

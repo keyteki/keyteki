@@ -10,16 +10,14 @@ class EdificeForMars extends Card {
                 cardCondition: (card) => !card.hasHouse('mars'),
                 gameAction: ability.actions.destroy()
             },
-            then: (preThenContext) => ({
-                alwaysTriggers: true,
-                condition: () => preThenContext.target.location === 'discard',
+            then: {
                 target: {
                     optional: true,
                     activePromptTitle: 'Choose a friendly card to ready',
                     controller: 'self',
                     gameAction: ability.actions.ready()
                 }
-            })
+            }
         });
     }
 }

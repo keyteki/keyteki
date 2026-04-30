@@ -19,21 +19,21 @@ class Transmutation extends Card {
                     controller: 'self',
                     cardCondition: (card) => card.tokens.power > 0,
                     gameAction: ability.actions.removePowerCounter((context) => ({
-                        amount: context.target.tokens.power,
+                        amount: context.target ? context.target.tokens.power : 0,
                         upTo: true
                     }))
                 },
-                then: (preThenContext) => ({
+                then: {
                     alwaysTriggers: true,
-                    condition: () =>
-                        preThenContext.preThenEvent &&
-                        preThenContext.preThenEvent.amount > 0 &&
-                        preThenContext.preThenEvent.card,
-                    gameAction: ability.actions.capture({
-                        amount: preThenContext.preThenEvent.amount,
-                        target: preThenContext.preThenEvent.card
-                    })
-                })
+                    condition: (context) =>
+                        context.preThenEvent &&
+                        context.preThenEvent.amount > 0 &&
+                        context.preThenEvent.card,
+                    gameAction: ability.actions.capture((context) => ({
+                        amount: context.preThenEvent ? context.preThenEvent.amount : 0,
+                        target: context.preThenEvent ? context.preThenEvent.card : undefined
+                    }))
+                }
             }
         });
     }

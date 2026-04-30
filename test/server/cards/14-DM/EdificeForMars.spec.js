@@ -14,7 +14,7 @@ describe('Edifice for Mars', function () {
         });
 
         it('can target an enemy non-Mars artifact', function () {
-            this.urchin.exhausted = true;
+            this.urchin.exhaust();
             this.player1.play(this.edificeForMars);
             expect(this.player1).toBeAbleToSelect(this.libraryOfBabble);
             expect(this.player1).toBeAbleToSelect(this.lifeward);
@@ -26,13 +26,33 @@ describe('Edifice for Mars', function () {
         });
 
         it('can target a friendly non-Mars artifact', function () {
-            this.urchin.exhausted = true;
+            this.urchin.exhaust();
             this.player1.play(this.edificeForMars);
             expect(this.player1).toBeAbleToSelect(this.lifeward);
             this.player1.clickCard(this.lifeward);
             expect(this.lifeward.location).toBe('discard');
             this.player1.clickCard(this.urchin);
             expect(this.urchin.exhausted).toBe(false);
+            expect(this.player1).isReadyToTakeAction();
+        });
+    });
+
+    describe('Edifice for Mars with no targetable artifacts', function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'mars',
+                    hand: ['edifice-for-mars'],
+                    inPlay: ['urchin']
+                },
+                player2: {}
+            });
+        });
+
+        it('does not ready a friendly card when no non-Mars artifact exists', function () {
+            this.urchin.exhaust();
+            this.player1.play(this.edificeForMars);
+            expect(this.urchin.exhausted).toBe(true);
             expect(this.player1).isReadyToTakeAction();
         });
     });

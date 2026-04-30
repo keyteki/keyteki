@@ -6,6 +6,9 @@ describe('Emperor Memrox', function () {
                     house: 'mars',
                     inPlay: ['emperor-memrox'],
                     hand: ['urchin', 'troll']
+                },
+                player2: {
+                    archives: ['krump', 'bumpsy']
                 }
             });
         });
@@ -14,51 +17,70 @@ describe('Emperor Memrox', function () {
             this.player1.reap(this.emperorMemrox);
             this.player1.clickCard(this.urchin);
             expect(this.urchin.location).toBe('archives');
-            // 1 from reap + 1 from archive count (1 in archives)
+            expect(this.krump.location).toBe('archives');
             expect(this.player1.amber).toBe(2);
             expect(this.player1).isReadyToTakeAction();
         });
-    });
-
-    describe("Emperor Memrox's reap with a card already archived", function () {
-        beforeEach(function () {
-            this.setupTest({
-                player1: {
-                    house: 'mars',
-                    inPlay: ['emperor-memrox'],
-                    archives: ['bumpsy'],
-                    hand: ['urchin']
-                }
-            });
-        });
 
         it('gains 1 reap + 2 amber for the two archived cards', function () {
+            this.player1.moveCard(this.troll, 'archives');
             this.player1.reap(this.emperorMemrox);
             this.player1.clickCard(this.urchin);
             expect(this.urchin.location).toBe('archives');
-            // 1 from reap + 2 from archive count (bumpsy + urchin)
             expect(this.player1.amber).toBe(3);
+            expect(this.player1).isReadyToTakeAction();
+        });
+
+        it('gains only the reap amber when no cards are in hand to archive', function () {
+            for (const card of this.player1.player.hand.slice()) {
+                this.player1.moveCard(card, 'discard');
+            }
+            this.player1.reap(this.emperorMemrox);
+            expect(this.player1.player.archives.length).toBe(0);
+            expect(this.player1.amber).toBe(1);
             expect(this.player1).isReadyToTakeAction();
         });
     });
 
-    describe("Emperor Memrox's reap with empty hand", function () {
+    describe("Emperor Memrox's invulnerable in center", function () {
         beforeEach(function () {
             this.setupTest({
                 player1: {
                     house: 'mars',
-                    inPlay: ['emperor-memrox'],
-                    hand: []
+                    inPlay: ['emperor-memrox']
+                },
+                player2: {
+                    inPlay: ['troll']
                 }
             });
         });
 
-        it('gains only the reap amber when no cards are in hand to archive', function () {
-            this.player1.reap(this.emperorMemrox);
-            expect(this.player1.player.archives.length).toBe(0);
-            // 1 from reap + 0 archived
-            expect(this.player1.amber).toBe(1);
-            expect(this.player1).isReadyToTakeAction();
+        it('is invulnerable while alone in the battleline (in center)', function () {
+            expect(this.emperorMemrox.isInCenter()).toBe(true);
+            expect(this.emperorMemrox.hasKeyword('invulnerable')).toBe(true);
+            this.player1.fightWith(this.emperorMemrox, this.troll);
+            expect(this.emperorMemrox.location).toBe('play area');
+            expect(this.emperorMemrox.tokens.damage || 0).toBe(0);
+            expect(this.troll.tokens.damage).toBe(this.emperorMemrox.power);
+        });
+    });
+
+    describe('Emperor Memrox not in the center', function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'mars',
+                    inPlay: ['emperor-memrox', 'urchin']
+                },
+                player2: {
+                    inPlay: ['troll']
+                }
+            });
+        });
+
+        it('is not invulnerable when not in the center of an even battleline', function () {
+            expect(this.emperorMemrox.isInCenter()).toBe(false);
+            expect(this.emperorMemrox.hasKeyword('invulnerable')).toBe(false);
         });
     });
 });

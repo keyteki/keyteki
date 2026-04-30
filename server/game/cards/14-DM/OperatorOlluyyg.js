@@ -6,7 +6,7 @@ class OperatorOlluyyg extends Card {
     setupCardAbilities(ability) {
         this.persistentEffect({
             targetController: 'opponent',
-            effect: ability.effects.modifyKeyCost((player, context) =>
+            effect: ability.effects.modifyKeyCost((_, context) =>
                 context.source.exhausted ? 3 : 0
             )
         });

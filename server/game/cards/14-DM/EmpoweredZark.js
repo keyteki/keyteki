@@ -16,7 +16,7 @@ class EmpoweredZark extends Card {
                         amount: 3
                     }),
                     ability.actions.ready((context) => ({
-                        target: context.player.creaturesInPlay.filter(
+                        target: context.game.creaturesInPlay.filter(
                             (card) => card.hasHouse('mars') && !card.hasTrait('agent')
                         )
                     }))
