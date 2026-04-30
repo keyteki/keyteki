@@ -942,8 +942,8 @@ class Player extends GameObject {
                 .reduce((sum, entry) => sum + entry.max, 0);
             const otherSourcesMaxAvailable = Math.min(
                 remainingSourcesMax,
-                Math.max(0, opponentRemaining - sourceMax),
-                Math.max(0, budgetRemaining - sourceMax)
+                opponentRemaining,
+                budgetRemaining
             );
             const stillNeeded = Math.max(0, minFromPool - takenSoFar);
             const sourceMin = Math.max(0, stillNeeded - otherSourcesMaxAvailable);
