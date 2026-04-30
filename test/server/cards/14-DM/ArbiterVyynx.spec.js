@@ -29,7 +29,7 @@ describe('Arbiter Vyynx', function () {
             this.player1.reap(this.arbiterVyynx);
             this.player1.clickCard(this.urchin);
             expect(this.urchin.location).toBe('discard');
-            expect(this.player1).toHavePrompt('Choose an enemy creature');
+            expect(this.player1).toHavePrompt('Choose a creature');
             expect(this.player1).not.toBeAbleToSelect(this.arbiterVyynx);
             expect(this.player1).not.toBeAbleToSelect(this.johnSmyth);
             expect(this.player1).toBeAbleToSelect(this.troll);
@@ -58,7 +58,7 @@ describe('Arbiter Vyynx', function () {
             this.player1.reap(this.arbiterVyynx);
             this.player1.clickCard(this.badPenny);
             expect(this.badPenny.location).toBe('hand');
-            expect(this.player1).toHavePrompt('Choose an enemy creature');
+            expect(this.player1).toHavePrompt('Choose a creature');
             this.player1.clickCard(this.troll);
             this.player1.clickPrompt('Left');
             expect(this.troll.controller).toBe(this.player1.player);
@@ -99,7 +99,7 @@ describe('Arbiter Vyynx', function () {
 
         it('still requires destroying a friendly non-Mars creature', function () {
             this.player1.reap(this.arbiterVyynx);
-            expect(this.player1).toHavePrompt('Choose a friendly creature');
+            expect(this.player1).toHavePrompt('Choose a creature');
             this.player1.clickCard(this.urchin);
             expect(this.urchin.location).toBe('discard');
             expect(this.player1).isReadyToTakeAction();
@@ -127,7 +127,7 @@ describe('Arbiter Vyynx', function () {
             expect(this.player1).not.toBeAbleToSelect(this.troll);
             this.player1.clickCard(this.arbiterVyynx);
             expect(this.arbiterVyynx.location).toBe('discard');
-            expect(this.player1).toHavePrompt('Choose an enemy creature');
+            expect(this.player1).toHavePrompt('Choose a creature');
             this.player1.clickCard(this.troll);
             this.player1.clickPrompt('Left');
             expect(this.troll.controller).toBe(this.player1.player);

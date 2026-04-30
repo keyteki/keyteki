@@ -14,7 +14,7 @@ describe('Agent Buuff', function () {
 
         it('gives a friendly creature three +1 power counters when overwhelmed', function () {
             this.player1.reap(this.agentBuuff);
-            expect(this.player1).toHavePrompt('Choose a friendly creature');
+            expect(this.player1).toHavePrompt('Choose a creature');
             expect(this.player1).toBeAbleToSelect(this.agentBuuff);
             expect(this.player1).toBeAbleToSelect(this.johnSmyth);
             expect(this.player1).not.toBeAbleToSelect(this.troll);

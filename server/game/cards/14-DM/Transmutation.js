@@ -5,7 +5,6 @@ class Transmutation extends Card {
     setupCardAbilities(ability) {
         this.play({
             target: {
-                activePromptTitle: 'Choose a creature',
                 cardType: 'creature',
                 gameAction: ability.actions.addPowerCounter({ amount: 2 })
             },
@@ -13,7 +12,6 @@ class Transmutation extends Card {
                 alwaysTriggers: true,
                 target: {
                     optional: true,
-                    activePromptTitle: 'Choose a friendly creature',
                     cardType: 'creature',
                     controller: 'self',
                     cardCondition: (card) => card.tokens.power > 0,

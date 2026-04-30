@@ -7,7 +7,6 @@ class AgentBuuff extends Card {
         this.reap({
             alwaysTriggers: true,
             target: {
-                activePromptTitle: 'Choose a friendly creature',
                 cardType: 'creature',
                 controller: 'self',
                 cardCondition: (_, context) => context.player.isOverwhelmed()

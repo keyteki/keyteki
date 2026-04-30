@@ -5,13 +5,11 @@ class ZzyszzSCompactor extends Card {
     setupCardAbilities(ability) {
         this.action({
             target: {
-                activePromptTitle: 'Choose a creature',
                 cardType: 'creature',
                 gameAction: ability.actions.returnToDeck({ bottom: true })
             },
             then: {
                 target: {
-                    activePromptTitle: 'Choose a creature',
                     cardType: 'creature',
                     gameAction: ability.actions.addPowerCounter({ amount: 2 })
                 }

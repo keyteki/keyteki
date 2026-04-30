@@ -5,7 +5,6 @@ class ArbiterVyynx extends Card {
     setupCardAbilities(ability) {
         this.reap({
             target: {
-                activePromptTitle: 'Choose a friendly creature',
                 cardType: 'creature',
                 controller: 'self',
                 cardCondition: (card) => !card.hasHouse('mars'),
@@ -13,7 +12,6 @@ class ArbiterVyynx extends Card {
             },
             then: {
                 target: {
-                    activePromptTitle: 'Choose an enemy creature',
                     cardType: 'creature',
                     controller: 'opponent',
                     gameAction: ability.actions.cardLastingEffect((context) => ({

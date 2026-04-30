@@ -6,7 +6,6 @@ class ReplacementTarg extends Card {
     setupCardAbilities(ability) {
         this.play({
             target: {
-                activePromptTitle: 'Choose a creature',
                 cardType: 'creature',
                 controller: 'self',
                 cardCondition: (card, context) =>

@@ -18,7 +18,7 @@ describe('Digital Manipulation', function () {
         it('captures 1 onto a chosen enemy creature', function () {
             this.player1.play(this.digitalManipulation);
             expect(this.urchin.location).toBe('discard');
-            expect(this.player1).toHavePrompt('Choose an enemy creature');
+            expect(this.player1).toHavePrompt('Choose a creature');
             expect(this.player1).toBeAbleToSelect(this.troll);
             expect(this.player1).toBeAbleToSelect(this.bumpsy);
             this.player1.clickCard(this.troll);

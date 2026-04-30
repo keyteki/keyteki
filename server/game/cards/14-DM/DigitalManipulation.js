@@ -16,7 +16,6 @@ class DigitalManipulation extends Card {
                     context.preThenEvent.card &&
                     !context.preThenEvent.card.hasHouse('mars'),
                 target: {
-                    activePromptTitle: 'Choose an enemy creature',
                     cardType: 'creature',
                     controller: 'opponent',
                     gameAction: ability.actions.capture({ amount: 1 })

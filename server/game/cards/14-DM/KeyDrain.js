@@ -17,7 +17,6 @@ class KeyDrain extends Card {
 
                     context.game.promptForSelect(context.player, {
                         source: context.source,
-                        activePromptTitle: 'Choose a card to discard, or click Done',
                         optional: true,
                         location: 'hand',
                         controller: 'self',

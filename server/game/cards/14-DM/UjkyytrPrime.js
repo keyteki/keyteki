@@ -8,7 +8,6 @@ class UjkyytrPrime extends Card {
             reap: true,
             alwaysTriggers: true,
             target: {
-                activePromptTitle: 'Choose a creature',
                 cardType: 'creature',
                 cardCondition: (card, context) =>
                     !context.player.isOverwhelmed() || card.controller !== context.player,

@@ -12,7 +12,6 @@ class ProductiveTrash extends Card {
                     }
                     context.game.promptForSelect(context.player, {
                         source: context.source,
-                        activePromptTitle: 'Choose a friendly creature',
                         cardType: 'creature',
                         controller: 'self',
                         gameAction: ability.actions.capture({ amount: 1 }),
@@ -26,7 +25,6 @@ class ProductiveTrash extends Card {
 
                 context.game.promptForSelect(context.player, {
                     source: context.source,
-                    activePromptTitle: 'Choose a card',
                     optional: true,
                     location: 'hand',
                     controller: 'self',

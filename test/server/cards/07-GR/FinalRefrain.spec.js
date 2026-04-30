@@ -112,7 +112,6 @@ describe('Final Refrain', function () {
             this.player1.clickCard(this.batdrone);
             this.player1.clickCard(this.helmsmanSpears);
             this.player1.clickCard(this.dewFaerie);
-            this.player1.clickPrompt('Done'); // spears effect
             this.player1.clickCard(this.medicIngram);
             this.player1.clickCard(this.dewFaerie);
             this.player1.clickCard(this.medicIngram); // ward ingram
@@ -142,7 +141,6 @@ describe('Final Refrain', function () {
             this.player1.clickCard(this.batdrone);
             this.player1.clickCard(this.helmsmanSpears);
             this.player1.clickCard(this.dewFaerie);
-            this.player1.clickPrompt('Done'); // spears effect
             this.player1.clickCard(this.medicIngram);
             this.player1.clickCard(this.dewFaerie);
             this.player1.clickCard(this.medicIngram); // ward ingram
