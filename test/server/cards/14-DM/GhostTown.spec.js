@@ -17,6 +17,8 @@ describe('Ghost Town', function () {
             expect(this.player1).toBeAbleToSelect(this.troll);
             this.player1.clickCard(this.troll);
             expect(this.troll.location).toBe('discard');
+            expect(this.player1.player.discard.length).toBe(1);
+            expect(this.player1.player.archives.length).toBe(0);
             expect(this.player1).isReadyToTakeAction();
         });
 
@@ -29,6 +31,8 @@ describe('Ghost Town', function () {
             expect(this.player1).toBeAbleToSelect(this.troll);
             this.player1.clickCard(this.troll);
             expect(this.troll.location).toBe('archives');
+            expect(this.player1.player.archives.length).toBe(1);
+            expect(this.player1.player.discard.length).toBe(10);
             expect(this.player1).isReadyToTakeAction();
         });
     });
@@ -42,14 +46,13 @@ describe('Ghost Town', function () {
                 },
                 player2: {}
             });
-            for (const card of [...this.player1.player.hand]) {
-                this.player1.moveCard(card, 'discard');
-            }
         });
 
         it('does nothing when hand is empty', function () {
             this.player1.useAction(this.ghostTown);
             expect(this.ghostTown.exhausted).toBe(true);
+            expect(this.player1.player.discard.length).toBe(0);
+            expect(this.player1.player.archives.length).toBe(0);
             expect(this.player1).isReadyToTakeAction();
         });
     });

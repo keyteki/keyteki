@@ -8,12 +8,13 @@ describe('Apoptosis', function () {
                     inPlay: ['echofly'],
                     discard: ['troll']
                 },
-                player2: {}
+                player2: {
+                    amber: 2
+                }
             });
         });
 
         it('purges a card from discard then a friendly creature captures 2', function () {
-            this.player2.amber = 2;
             this.player1.play(this.apoptosis);
             expect(this.player1).toBeAbleToSelect(this.troll);
             this.player1.clickCard(this.troll);
@@ -34,13 +35,14 @@ describe('Apoptosis', function () {
                     hand: ['apoptosis'],
                     inPlay: ['echofly']
                 },
-                player2: {}
+                player2: {
+                    amber: 2
+                }
             });
         });
 
         it('does not capture when discard is empty', function () {
             this.player1.play(this.apoptosis);
-            // No discard targets - capture should not occur
             expect(this.echofly.amber).toBeFalsy();
             expect(this.player1).isReadyToTakeAction();
         });

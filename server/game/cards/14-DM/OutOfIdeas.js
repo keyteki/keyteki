@@ -11,11 +11,8 @@ class OutOfIdeas extends Card {
                     context.player.discard.length > 0 ? [context.player.discard[0]] : []
                 )
             })),
-            effect: 'shuffle {1} and the top card of {2} discard pile into their deck',
-            effectArgs: (context) => [
-                context.source,
-                context.player.discard.length > 0 ? context.player.discard[0] : 'nothing'
-            ]
+            effect: "shuffle {1} and the top card of {2}'s discard pile into their owner's deck",
+            effectArgs: (context) => [context.source, context.player]
         });
     }
 }
