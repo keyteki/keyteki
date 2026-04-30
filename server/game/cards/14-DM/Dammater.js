@@ -8,7 +8,6 @@ class Dammater extends Card {
             then: {
                 alwaysTriggers: true,
                 target: {
-                    activePromptTitle: 'Choose 2 cards to discard',
                     location: 'hand',
                     controller: 'self',
                     mode: 'exactly',
@@ -18,7 +17,6 @@ class Dammater extends Card {
                 then: {
                     alwaysTriggers: true,
                     target: {
-                        activePromptTitle: 'Choose a card to archive',
                         location: 'hand',
                         controller: 'self',
                         gameAction: ability.actions.archive()

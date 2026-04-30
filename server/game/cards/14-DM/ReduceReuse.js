@@ -5,6 +5,7 @@ class ReduceReuse extends Card {
     // creature to its owner's hand.
     setupCardAbilities(ability) {
         this.play({
+            preferActionPromptMessage: true,
             gameAction: ability.actions.conditional({
                 condition: (context) => context.player.isHaunted(),
                 trueGameAction: ability.actions.dealDamage((context) => ({
@@ -22,13 +23,7 @@ class ReduceReuse extends Card {
                         messageArgs: (cards) => [context.player, context.source.name, cards]
                     }
                 }))
-            }),
-            effect: '{1}',
-            effectArgs: (context) => [
-                context.player.isHaunted()
-                    ? 'deal 5 damage to a creature'
-                    : "return a creature to its owner's hand"
-            ]
+            })
         });
     }
 }

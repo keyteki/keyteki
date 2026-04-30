@@ -13,10 +13,9 @@ describe('Techno-Shade', function () {
         });
 
         it('shuffles a card from opponent hand into deck on reap', function () {
-            const handBefore = this.player2.player.hand.length;
             const deckBefore = this.player2.player.deck.length;
             this.player1.reap(this.technoShade);
-            expect(this.player2.player.hand.length).toBe(handBefore - 1);
+            expect(this.player2.player.hand.length).toBe(0);
             expect(this.player2.player.deck.length).toBe(deckBefore + 1);
             expect(this.troll.location).toBe('deck');
             expect(this.player1).isReadyToTakeAction();
@@ -27,7 +26,9 @@ describe('Techno-Shade', function () {
                 this.player2.moveCard(card, 'discard');
             }
             const deckBefore = this.player2.player.deck.length;
+            expect(this.player2.player.hand.length).toBe(0);
             this.player1.reap(this.technoShade);
+            expect(this.player2.player.hand.length).toBe(0);
             expect(this.player2.player.deck.length).toBe(deckBefore);
             expect(this.player1).isReadyToTakeAction();
         });

@@ -13,6 +13,7 @@ class HammerSmythe extends Card {
                 alwaysTriggers: true,
                 condition: (context) =>
                     !!context.preThenEvent.destroyEvent &&
+                    context.preThenEvent.destroyEvent.destroyedByDamageDealt &&
                     context.preThenEvent.destroyEvent.resolved,
                 target: {
                     cardType: 'creature',

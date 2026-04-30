@@ -13,9 +13,8 @@ describe('Phantasm Cloak', function () {
 
         it('does not gain bonus amber on reap when not haunted', function () {
             this.player1.playUpgrade(this.phantasmCloak, this.echofly);
-            const startAmber = this.player1.amber;
             this.player1.reap(this.echofly);
-            expect(this.player1.amber).toBe(startAmber + 1);
+            expect(this.player1.amber).toBe(2);
             expect(this.player1).isReadyToTakeAction();
         });
 
@@ -24,9 +23,8 @@ describe('Phantasm Cloak', function () {
                 this.player1.moveCard(this.player1.player.deck[0], 'discard');
             }
             this.player1.playUpgrade(this.phantasmCloak, this.echofly);
-            const startAmber = this.player1.amber;
             this.player1.reap(this.echofly);
-            expect(this.player1.amber).toBe(startAmber + 1 + 2);
+            expect(this.player1.amber).toBe(4);
             expect(this.player1).isReadyToTakeAction();
         });
     });

@@ -10,10 +10,10 @@ class VarghastsVengeance extends Card {
             target: {
                 mode: 'card-name'
             },
-            effect: 'prevent cards named {1} from being played or used',
+            effect: 'prevent cards named {1} from being played or used until the start of their next turn',
             effectArgs: (context) => [context.cardName],
             gameAction: [
-                ability.actions.duringOpponentNextTurn((context) => ({
+                ability.actions.untilPlayerNextTurnStart((context) => ({
                     targetController: 'any',
                     effect: [
                         ability.effects.playerCannot(
@@ -22,7 +22,7 @@ class VarghastsVengeance extends Card {
                         ),
                         ability.effects.cardCannot(
                             'use',
-                            (effectContext) => effectContext.target.name === context.cardName
+                            (innerContext) => innerContext.source.name === context.cardName
                         )
                     ]
                 })),
@@ -31,22 +31,25 @@ class VarghastsVengeance extends Card {
         });
 
         this.scrap({
-            condition: (context) =>
-                !!context.player.opponent && context.player.opponent.discard.length > 0,
-            target: {
-                location: 'discard',
-                controller: 'opponent',
-                gameAction: ability.actions.purge()
-            },
+            condition: (context) => !!context.player.opponent,
+            effect: "purge a card from {1}'s discard pile and have them shuffle their discard pile into their deck",
+            effectArgs: (context) => [context.player.opponent],
+            gameAction: ability.actions.conditional((context) => ({
+                condition: context.player.opponent.discard.length > 0,
+                trueGameAction: ability.actions.purge({
+                    promptForSelect: {
+                        location: 'discard',
+                        controller: 'opponent'
+                    }
+                })
+            })),
             then: {
                 alwaysTriggers: true,
                 gameAction: ability.actions.returnToDeck((context) => ({
                     shuffle: true,
                     shufflePlayer: context.player.opponent,
                     target: context.player.opponent ? context.player.opponent.discard : []
-                })),
-                message: '{0} uses {1} to have {2} shuffle their discard pile into their deck',
-                messageArgs: (context) => [context.player, context.source, context.player.opponent]
+                }))
             }
         });
     }

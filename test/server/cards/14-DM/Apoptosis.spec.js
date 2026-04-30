@@ -43,7 +43,7 @@ describe('Apoptosis', function () {
 
         it('does not capture when discard is empty', function () {
             this.player1.play(this.apoptosis);
-            expect(this.echofly.amber).toBeFalsy();
+            expect(this.echofly.amber).toBe(0);
             expect(this.player1).isReadyToTakeAction();
         });
     });
