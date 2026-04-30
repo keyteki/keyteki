@@ -6,7 +6,6 @@ class DitchTheLoot extends Card {
         this.play({
             target: {
                 cardType: 'creature',
-                cardCondition: (card) => card.amber > 0,
                 gameAction: ability.actions.removeAmber({ all: true })
             },
             then: (preThenContext) => ({

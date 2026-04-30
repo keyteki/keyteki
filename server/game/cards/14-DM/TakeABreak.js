@@ -9,8 +9,7 @@ class TakeABreak extends Card {
                 cardType: 'creature',
                 controller: 'opponent',
                 numCards: 1,
-                cardStat: (card) => card.power,
-                cardCondition: (card) => !card.exhausted || card.neighbors.some((n) => !n.exhausted)
+                cardStat: (card) => card.power
             },
             gameAction: ability.actions.exhaust((context) => ({
                 target: context.target

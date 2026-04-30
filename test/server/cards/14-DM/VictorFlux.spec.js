@@ -164,4 +164,53 @@ describe('Victor Flux', function () {
             expect(this.player2).isReadyToTakeAction();
         });
     });
+
+    describe('Victor Flux with creatures playable as upgrades', function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'shadows',
+                    inPlay: ['victor-flux'],
+                    discard: ['urchin', 'phoenix-heart']
+                },
+                player2: {
+                    house: 'staralliance',
+                    inPlay: ['dust-pixie'],
+                    hand: ['pupgrade']
+                }
+            });
+        });
+
+        it('still allows a creature playable as an upgrade to be played as an upgrade after purging a creature', function () {
+            this.player1.reap(this.victorFlux);
+            this.player1.clickCard(this.urchin);
+            expect(this.urchin.location).toBe('purged');
+            this.player1.endTurn();
+            this.player2.clickPrompt('staralliance');
+            this.player2.clickCard(this.pupgrade);
+            expect(this.player2).not.toHavePromptButton('Play this creature');
+            expect(this.player2).toHavePromptButton('Play this upgrade');
+            this.player2.clickPrompt('Play this upgrade');
+            this.player2.clickCard(this.dustPixie);
+            expect(this.pupgrade.location).toBe('play area');
+            expect(this.pupgrade.parent).toBe(this.dustPixie);
+            expect(this.player2).isReadyToTakeAction();
+        });
+
+        it('allows playing such a creature as a creature after purging an upgrade, but not as an upgrade', function () {
+            this.player1.reap(this.victorFlux);
+            this.player1.clickCard(this.phoenixHeart);
+            expect(this.phoenixHeart.location).toBe('purged');
+            this.player1.endTurn();
+            this.player2.clickPrompt('staralliance');
+            this.player2.clickCard(this.pupgrade);
+            expect(this.player2).toHavePromptButton('Play this creature');
+            expect(this.player2).not.toHavePromptButton('Play this upgrade');
+            this.player2.clickPrompt('Play this creature');
+            this.player2.clickPrompt('Right');
+            expect(this.pupgrade.location).toBe('play area');
+            expect(this.pupgrade.type).toBe('creature');
+            expect(this.player2).isReadyToTakeAction();
+        });
+    });
 });

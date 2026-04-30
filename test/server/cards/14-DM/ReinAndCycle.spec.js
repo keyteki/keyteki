@@ -48,6 +48,18 @@ describe('Rein and Cycle', function () {
             expect(this.player2.amber).toBe(1);
             expect(this.player1).isReadyToTakeAction();
         });
+
+        it('retains control of the taken creature after the turn ends', function () {
+            this.player1.play(this.reinAndCycle);
+            this.player1.clickCard(this.troll);
+            expect(this.troll.controller).toBe(this.player1.player);
+            this.player1.endTurn();
+            this.player2.clickPrompt('brobnar');
+            expect(this.troll.controller).toBe(this.player1.player);
+            this.player2.endTurn();
+            this.player1.clickPrompt('shadows');
+            expect(this.troll.controller).toBe(this.player1.player);
+        });
     });
 
     describe('Rein and Cycle ordering with Treat Each Action as Your Last', function () {

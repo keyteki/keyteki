@@ -22,8 +22,7 @@ class VictorFlux extends Card {
                         targetController: 'opponent',
                         effect: ability.effects.playerCannot(
                             'play',
-                            (sourceContext) =>
-                                purgedType && sourceContext.source.type === purgedType
+                            (innerContext) => purgedType && innerContext.source.type === purgedType
                         )
                     })
                 };

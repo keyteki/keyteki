@@ -952,7 +952,7 @@ class Player extends GameObject {
                 return;
             }
             this.game.promptWithHandlerMenu(this, {
-                activePromptTitle: "How much amber do you want to take from your opponent's pool?",
+                activePromptTitle: "How much amber do you want to spend from your opponent's pool?",
                 source: card,
                 choices: _.range(sourceMin, sourceMax + 1).map(String),
                 choiceHandler: (choice) =>

@@ -37,5 +37,18 @@ describe('Take a Break', function () {
             expect(this.urchin.exhausted).toBe(true);
             expect(this.player1).isReadyToTakeAction();
         });
+
+        it('can select an already-exhausted creature', function () {
+            this.urchin.exhausted = true;
+            this.troll.exhausted = true;
+            this.krump.exhausted = true;
+            this.player1.play(this.takeABreak);
+            expect(this.player1).toBeAbleToSelect(this.urchin);
+            this.player1.clickCard(this.urchin);
+            expect(this.troll.exhausted).toBe(true);
+            expect(this.urchin.exhausted).toBe(true);
+            expect(this.krump.exhausted).toBe(true);
+            expect(this.player1).isReadyToTakeAction();
+        });
     });
 });

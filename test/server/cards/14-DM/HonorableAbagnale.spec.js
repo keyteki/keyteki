@@ -18,7 +18,7 @@ describe('Honorable Abagnale', function () {
             this.player2.clickPrompt('shadows');
             this.player2.endTurn();
             expect(this.player1).toHavePrompt(
-                "How much amber do you want to take from your opponent's pool?"
+                "How much amber do you want to spend from your opponent's pool?"
             );
             expect(this.player1).not.toHavePromptButton('0');
             expect(this.player1).not.toHavePromptButton('1');
@@ -102,15 +102,24 @@ describe('Honorable Abagnale', function () {
             this.player2.clickPrompt('shadows');
             this.player2.endTurn();
             expect(this.player1).toHavePrompt(
-                "How much amber do you want to take from your opponent's pool?"
+                "How much amber do you want to spend from your opponent's pool?"
             );
             expect(this.player1).toHavePromptButton('0');
             expect(this.player1).toHavePromptButton('1');
             expect(this.player1).toHavePromptButton('2');
             expect(this.player1).toHavePromptButton('3');
+            expect(this.player1).not.toHavePromptButton('4');
+            this.player1.clickPrompt('1');
+            expect(this.player1).not.toHavePromptButton('0');
+            expect(this.player1).toHavePromptButton(1);
+            expect(this.player1).toHavePromptButton(2);
+            this.player1.clickPrompt('2');
+            this.player1.forgeKey('Red');
+            this.player1.clickPrompt('shadows');
+            expect(this.player1).isReadyToTakeAction();
         });
 
-        it('takes 0 from opponent when the rest is covered by Senator Shrix', function () {
+        it('allows taking 0 from opponent when the rest is covered by Senator Shrix', function () {
             this.player1.endTurn();
             this.player2.clickPrompt('shadows');
             this.player2.endTurn();
@@ -145,7 +154,7 @@ describe('Honorable Abagnale', function () {
             this.player2.endTurn();
             // 4 own + need 2 more. Each Abagnale prompts 0..3 but combined min is 2.
             expect(this.player1).toHavePrompt(
-                "How much amber do you want to take from your opponent's pool?"
+                "How much amber do you want to spend from your opponent's pool?"
             );
             // First Abagnale: max 3, other Abagnale can also cover up to 3
             expect(this.player1).toHavePromptButton('0');
@@ -157,7 +166,7 @@ describe('Honorable Abagnale', function () {
 
             // Second Abagnale: still need 1 from pool
             expect(this.player1).toHavePrompt(
-                "How much amber do you want to take from your opponent's pool?"
+                "How much amber do you want to spend from your opponent's pool?"
             );
             expect(this.player1).not.toHavePromptButton('0');
             expect(this.player1).toHavePromptButton('1');
@@ -210,7 +219,7 @@ describe('Honorable Abagnale', function () {
             this.player2.clickPrompt('shadows');
             this.player2.endTurn();
             expect(this.player1).toHavePrompt(
-                "How much amber do you want to take from your opponent's pool?"
+                "How much amber do you want to spend from your opponent's pool?"
             );
             expect(this.player1).toHavePromptButton('0');
             expect(this.player1).toHavePromptButton('1');

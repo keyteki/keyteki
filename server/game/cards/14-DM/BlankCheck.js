@@ -18,27 +18,38 @@ class BlankCheck extends Card {
                 target: context.player.opponent.archives.concat(context.player.opponent.discard)
             });
         this.play({
-            condition: (context) => !!context.player.opponent,
-            gameAction: ability.actions.chooseAction((context) => ({
-                activePromptTitle:
-                    'Choose which player shuffles their archives and discard pile first',
-                choices: {
-                    Me: [playerShuffle(context), opponentShuffle(context)],
-                    Opponent: [opponentShuffle(context), playerShuffle(context)]
-                }
+            gameAction: ability.actions.conditional((context) => ({
+                condition: !!context.player.opponent,
+                trueGameAction: context.player.optionSettings.orderForcedAbilities
+                    ? ability.actions.chooseAction({
+                          activePromptTitle:
+                              'Choose which player shuffles their archives and discard pile first',
+                          choices: {
+                              Me: [playerShuffle(context), opponentShuffle(context)],
+                              Opponent: [opponentShuffle(context), playerShuffle(context)]
+                          }
+                      })
+                    : ability.actions.sequential([
+                          playerShuffle(context),
+                          opponentShuffle(context)
+                      ]),
+                falseGameAction: playerShuffle(context)
             })),
-            then: {
-                alwaysTriggers: true,
-                gameAction: ability.actions.sequential([
-                    ability.actions.discard((context) => ({
-                        target: context.player.opponent.deck.slice(0, 5)
-                    })),
-                    ability.actions.playCard((context) => ({
-                        revealOnIllegalTarget: true,
-                        target: context.player.opponent.deck[0]
-                    }))
-                ])
-            }
+            then: (preThenContext) =>
+                preThenContext.player.opponent
+                    ? {
+                          alwaysTriggers: true,
+                          gameAction: ability.actions.sequential([
+                              ability.actions.discard((context) => ({
+                                  target: context.player.opponent.deck.slice(0, 5)
+                              })),
+                              ability.actions.playCard((context) => ({
+                                  revealOnIllegalTarget: true,
+                                  target: context.player.opponent.deck[0]
+                              }))
+                          ])
+                      }
+                    : null
         });
     }
 }

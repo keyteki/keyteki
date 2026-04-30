@@ -31,5 +31,12 @@ describe('Ditch the Loot', function () {
             expect(this.troll.amber).toBe(3);
             expect(this.player1).isReadyToTakeAction();
         });
+
+        it('can target creatures with no amber on them', function () {
+            this.player1.play(this.ditchTheLoot);
+            expect(this.player1).toBeAbleToSelect(this.urchin);
+            expect(this.player1).toBeAbleToSelect(this.hobnobber);
+            expect(this.player1).toBeAbleToSelect(this.troll);
+        });
     });
 });

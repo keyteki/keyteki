@@ -50,6 +50,22 @@ describe('Blank Check', function () {
             expect(this.player1).isReadyToTakeAction();
         });
 
+        it('skips the prompt and assumes player goes first when orderForcedAbilities is disabled', function () {
+            this.player1.player.optionSettings.orderForcedAbilities = false;
+            this.player1.play(this.blankCheck);
+            expect(this.player1).not.toHavePrompt(
+                'Choose which player shuffles their archives and discard pile first'
+            );
+            expect(this.player1.player.archives.length).toBe(0);
+            expect(this.player2.player.archives.length).toBe(0);
+            expect(this.player1.player.discard.length).toBe(1);
+            expect(this.player2.player.discard.length).toBe(5);
+            expect(this.umbra.location).toBe('deck');
+            expect(this.dodger.location).toBe('deck');
+            expect(this.player1.player.cardsInPlay.length).toBeGreaterThanOrEqual(1);
+            expect(this.player1).isReadyToTakeAction();
+        });
+
         it('plays nothing if opponent deck runs out (empty deck and no archives/discard)', function () {
             for (const card of [
                 ...this.player2.player.archives,
