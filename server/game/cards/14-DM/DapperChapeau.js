@@ -12,53 +12,24 @@ class DapperChapeau extends Card {
                     cardType: 'creature',
                     gameAction: ability.actions.dealDamage({ amount: 4 })
                 },
-                then: (preThenContext) => {
-                    const targetCard = preThenContext.target;
-                    return {
-                        alwaysTriggers: true,
-                        gameAction: ability.actions.conditional({
-                            // Damage destroyed the target -> return DC to hand.
-                            condition: (context) =>
-                                !!(
-                                    context.preThenEvent &&
-                                    context.preThenEvent.destroyEvent &&
-                                    context.preThenEvent.destroyEvent.destroyedByDamageDealt &&
-                                    context.preThenEvent.destroyEvent.resolved
-                                ),
-                            trueGameAction: ability.actions.returnToHand({
-                                target: upgrade,
-                                location: ['play area', 'discard']
-                            }),
-                            falseGameAction: ability.actions.conditional({
-                                // Both target and host are still alive ->
-                                // attach DC to the target.
-                                condition: () =>
-                                    upgrade.location === 'play area' &&
-                                    !!targetCard &&
-                                    targetCard.location === 'play area',
-                                trueGameAction: ability.actions.attach({
-                                    target: targetCard,
-                                    upgrade: upgrade
-                                }),
-                                falseGameAction: ability.actions.conditional({
-                                    // Host died as collateral but target
-                                    // survived -> return DC to hand from
-                                    // discard. Otherwise (target also gone)
-                                    // DC stays in the discard.
-                                    condition: () =>
-                                        upgrade.location === 'discard' &&
-                                        !!targetCard &&
-                                        targetCard.location === 'play area',
-                                    trueGameAction: ability.actions.returnToHand({
-                                        target: upgrade,
-                                        location: ['play area', 'discard']
-                                    }),
-                                    falseGameAction: []
-                                })
-                            })
+                then: (preThenContext) => ({
+                    alwaysTriggers: true,
+                    gameAction: ability.actions.conditional({
+                        condition: (context) =>
+                            upgrade.location === 'play area' &&
+                            !!(
+                                context.preThenEvent &&
+                                context.preThenEvent.destroyEvent &&
+                                context.preThenEvent.destroyEvent.destroyedByDamageDealt &&
+                                context.preThenEvent.destroyEvent.resolved
+                            ),
+                        trueGameAction: ability.actions.returnToHand({ target: upgrade }),
+                        falseGameAction: ability.actions.attach({
+                            target: preThenContext.target,
+                            upgrade: upgrade
                         })
-                    };
-                }
+                    })
+                })
             })
         });
     }
