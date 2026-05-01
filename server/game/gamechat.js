@@ -110,11 +110,17 @@ class GameChat {
                         returnedFraments.push(String(arg.name || 'unknown'));
                     } else if (arg && typeof arg === 'object' && !Array.isArray(arg)) {
                         // Last-ditch guard for any other unexpected object
-                        // arg.  Pushing the raw object risks rendering as
-                        // "[object Object]" on the client and embedding
-                        // unintended data in the gamestate, so always reduce
-                        // it to a short string summary.
-                        returnedFraments.push(this.summarizeUnknownArg(arg));
+                        // arg.  Recognised fragment shapes (those with an
+                        // `argType` or a nested `message` produced by
+                        // formatArray) are passed through.  Anything else is
+                        // reduced to a short string summary so it can't render
+                        // as "[object Object]" on the client or embed
+                        // unintended data in the gamestate.
+                        if (typeof arg.argType === 'string' || arg.message !== undefined) {
+                            returnedFraments.push(arg);
+                        } else {
+                            returnedFraments.push(this.summarizeUnknownArg(arg));
+                        }
                     } else {
                         returnedFraments.push(arg);
                     }

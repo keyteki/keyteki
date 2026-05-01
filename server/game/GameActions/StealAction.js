@@ -46,25 +46,12 @@ class StealAction extends PlayerAction {
 
         if (sources.length > 0) {
             const controllers = [...new Set(sources.map((source) => source.controller))];
-            // Bonus icons are not "dealt by" any card, so when steal is being
-            // attempted via a bonus icon (a framework context whose source is
-            // not a Card), avoid embedding the framework EffectSource in chat
-            // and use a generic phrasing instead.
-            const sourceIsCard = context.source && context.source.type !== undefined;
-            if (sourceIsCard) {
-                context.game.addMessage(
-                    '{0} uses {1} to prevent {2} from stealing amber',
-                    controllers,
-                    sources,
-                    context.source
-                );
-            } else {
-                context.game.addMessage(
-                    '{0} uses {1} to prevent amber from being stolen',
-                    controllers,
-                    sources
-                );
-            }
+            context.game.addMessage(
+                '{0} uses {1} to prevent {2} from stealing amber',
+                controllers,
+                sources,
+                context.source
+            );
         }
     }
 
