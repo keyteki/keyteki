@@ -124,7 +124,7 @@ function wrapAsync(fn) {
     };
 }
 
-function detectBinary(state, path = '', results = []) {
+function detectBinary(state, path = '', results = [], ancestors = new WeakSet()) {
     const allowedTypes = ['Array', 'Boolean', 'Date', 'Number', 'Object', 'String'];
 
     if (!state) {
@@ -137,14 +137,26 @@ function detectBinary(state, path = '', results = []) {
         results.push({ path: path, type: type });
     }
 
+    if (type === 'Object' || type === 'Array') {
+        if (ancestors.has(state)) {
+            results.push({ path: path, type: 'Circular' });
+            return results;
+        }
+        ancestors.add(state);
+    }
+
     if (type === 'Object') {
         for (let key in state) {
-            detectBinary(state[key], `${path}.${key}`, results);
+            detectBinary(state[key], `${path}.${key}`, results, ancestors);
         }
     } else if (type === 'Array') {
         for (let i = 0; i < state.length; ++i) {
-            detectBinary(state[i], `${path}[${i}]`, results);
+            detectBinary(state[i], `${path}[${i}]`, results, ancestors);
         }
+    }
+
+    if (type === 'Object' || type === 'Array') {
+        ancestors.delete(state);
     }
 
     return results;
