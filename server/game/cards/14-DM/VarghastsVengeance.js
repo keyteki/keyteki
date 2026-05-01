@@ -32,19 +32,22 @@ class VarghastsVengeance extends Card {
 
         this.scrap({
             condition: (context) => !!context.player.opponent,
-            effect: "purge a card from {1}'s discard pile and have them shuffle their discard pile into their deck",
-            effectArgs: (context) => [context.player.opponent],
+            preferActionPromptMessage: true,
             gameAction: ability.actions.conditional((context) => ({
                 condition: context.player.opponent.discard.length > 0,
                 trueGameAction: ability.actions.purge({
                     promptForSelect: {
                         location: 'discard',
-                        controller: 'opponent'
+                        controller: 'opponent',
+                        message: '{0} uses {1} to purge {2}',
+                        messageArgs: (cards) => [context.player, context.source, cards]
                     }
                 })
             })),
             then: {
                 alwaysTriggers: true,
+                message: '{0} uses {1} to have {3} shuffle their discard pile into their deck',
+                messageArgs: (context) => [context.player.opponent],
                 gameAction: ability.actions.returnToDeck((context) => ({
                     shuffle: true,
                     shufflePlayer: context.player.opponent,

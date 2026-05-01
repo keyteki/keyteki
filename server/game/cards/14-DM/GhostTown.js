@@ -4,29 +4,24 @@ class GhostTown extends Card {
     // Action: If you are haunted, archive a card. Otherwise, discard a card.
     setupCardAbilities(ability) {
         this.action({
-            gameAction: ability.actions.conditional({
-                condition: (context) => context.player.isHaunted(),
-                trueGameAction: ability.actions.archive((context) => ({
+            preferActionPromptMessage: true,
+            gameAction: ability.actions.conditional((context) => ({
+                condition: context.player.isHaunted(),
+                trueGameAction: ability.actions.archive({
                     promptForSelect: {
                         location: 'hand',
                         controller: 'self',
-                        message: '{0} uses {1} to archive {2}',
-                        messageArgs: (cards) => [context.player, context.source.name, cards]
+                        message: '{0} uses {1} to archive a card',
+                        messageArgs: [context.player, context.source]
                     }
-                })),
-                falseGameAction: ability.actions.discard((context) => ({
+                }),
+                falseGameAction: ability.actions.discard({
                     promptForSelect: {
                         location: 'hand',
-                        controller: 'self',
-                        message: '{0} uses {1} to discard {2}',
-                        messageArgs: (cards) => [context.player, context.source.name, cards]
+                        controller: 'self'
                     }
-                }))
-            }),
-            effect: '{1}',
-            effectArgs: (context) => [
-                context.player.isHaunted() ? 'archive a card' : 'discard a card'
-            ]
+                })
+            }))
         });
     }
 }

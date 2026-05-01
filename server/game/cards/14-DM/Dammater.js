@@ -16,6 +16,8 @@ class Dammater extends Card {
                 },
                 then: {
                     alwaysTriggers: true,
+                    message: '{0} uses {1} to archive a card',
+                    messageArgs: (context) => [context.player, context.source],
                     target: {
                         location: 'hand',
                         controller: 'self',
