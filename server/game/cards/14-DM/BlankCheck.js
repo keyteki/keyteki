@@ -35,21 +35,21 @@ class BlankCheck extends Card {
                       ]),
                 falseGameAction: playerShuffle(context)
             })),
-            then: (preThenContext) =>
-                preThenContext.player.opponent
-                    ? {
-                          alwaysTriggers: true,
-                          gameAction: ability.actions.sequential([
-                              ability.actions.discard((context) => ({
-                                  target: context.player.opponent.deck.slice(0, 5)
-                              })),
-                              ability.actions.playCard((context) => ({
-                                  revealOnIllegalTarget: true,
-                                  target: context.player.opponent.deck[0]
-                              }))
-                          ])
-                      }
-                    : null
+            then: () => ({
+                alwaysTriggers: true,
+                gameAction: ability.actions.conditional((context) => ({
+                    condition: !!context.player.opponent,
+                    trueGameAction: ability.actions.sequential([
+                        ability.actions.discard((context) => ({
+                            target: context.player.opponent.deck.slice(0, 5)
+                        })),
+                        ability.actions.playCard((context) => ({
+                            revealOnIllegalTarget: true,
+                            target: context.player.opponent.deck[0]
+                        }))
+                    ])
+                }))
+            })
         });
     }
 }
