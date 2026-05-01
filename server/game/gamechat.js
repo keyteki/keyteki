@@ -103,21 +103,18 @@ class GameChat {
                         // Defense-in-depth: any non-Card GameObject (e.g. a
                         // framework EffectSource) carries back-references to
                         // the game graph and would create circular structures
-                        // when serialized.  Replace with a safe summary so a
-                        // mis-passed source can't break the game state diff.
-                        returnedFraments.push({
-                            argType: 'gameObject',
-                            name: arg.name
-                        });
+                        // when serialized.  The client message renderer only
+                        // handles card/player fragments specially, so emit a
+                        // plain string fallback rather than an unrecognised
+                        // fragment shape that would render as "[object Object]".
+                        returnedFraments.push(String(arg.name || 'unknown'));
                     } else if (arg && typeof arg === 'object' && !Array.isArray(arg)) {
                         // Last-ditch guard for any other unexpected object
-                        // arg: only embed it if it's safely JSON-serializable.
-                        try {
-                            JSON.stringify(arg);
-                            returnedFraments.push(arg);
-                        } catch (e) {
-                            returnedFraments.push(String(arg));
-                        }
+                        // arg.  Pushing the raw object risks rendering as
+                        // "[object Object]" on the client and embedding
+                        // unintended data in the gamestate, so always reduce
+                        // it to a short string summary.
+                        returnedFraments.push(this.summarizeUnknownArg(arg));
                     } else {
                         returnedFraments.push(arg);
                     }
@@ -151,6 +148,21 @@ class GameChat {
         }
 
         return { message: this.formatMessage(format, array) };
+    }
+
+    /**
+     * Reduce an unexpected object argument to a short, safe string summary so
+     * it can be rendered by the client without showing "[object Object]" and
+     * without embedding arbitrary or potentially circular data in the
+     * gamestate.
+     */
+    summarizeUnknownArg(arg) {
+        if (arg && typeof arg.name === 'string') {
+            return arg.name;
+        }
+
+        const ctor = arg && arg.constructor && arg.constructor.name;
+        return ctor ? `[${ctor}]` : '[unknown]';
     }
 }
 

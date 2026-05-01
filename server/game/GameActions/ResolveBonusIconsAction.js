@@ -34,7 +34,10 @@ class ResolveBonusIconsAction extends CardGameAction {
                 if (context.player.opponent && context.player.opponent.amber > 0) {
                     context.game.actions
                         .steal()
-                        .resolve(context.player.opponent, context.copy({ source: event.card }));
+                        .resolve(
+                            context.player.opponent,
+                            context.game.getFrameworkContext(context.player)
+                        );
                     context.game.addMessage(
                         "{0} steals an amber due to {1}'s bonus icon",
                         context.player,
