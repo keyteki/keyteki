@@ -9,13 +9,14 @@ class VastStoik extends Card {
             target: {
                 activePromptTitle: 'Choose a creature',
                 cardType: 'creature',
-                gameAction: ability.actions.conditional((context) => ({
-                    condition: context.target && context.target.hasToken('amber'),
-                    trueGameAction: ability.actions.sequential([
-                        ability.actions.removeAmber({ target: context.target }),
-                        ability.actions.draw({ target: context.player })
-                    ])
-                }))
+                gameAction: ability.actions.removeAmber()
+            },
+            then: {
+                condition: (context) =>
+                    !!context.preThenEvent &&
+                    !context.preThenEvent.cancelled &&
+                    context.preThenEvent.amount > 0,
+                gameAction: ability.actions.draw()
             }
         });
     }

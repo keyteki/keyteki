@@ -30,12 +30,12 @@ class EvenSwap extends Card {
         });
 
         this.play({
-            target: giveTarget('a'),
+            target: giveTarget(),
             effect: 'give control of {0} to {1}',
             effectArgs: (context) => context.player.opponent,
             then: (firstCtx) => ({
                 alwaysTriggers: true,
-                target: giveTarget('another'),
+                target: giveTarget(),
                 message: '{0} uses {1} to give control of {2} to {3}',
                 messageArgs: (context) => context.player.opponent,
                 then: (secondCtx) => {
@@ -46,11 +46,11 @@ class EvenSwap extends Card {
                     }
                     return {
                         alwaysTriggers: true,
-                        target: takeTarget('an'),
+                        target: takeTarget(),
                         message: '{0} uses {1} to take control of {2}',
                         then: () => ({
                             alwaysTriggers: true,
-                            target: takeTarget('another'),
+                            target: takeTarget(),
                             message: '{0} uses {1} to take control of {2}'
                         })
                     };

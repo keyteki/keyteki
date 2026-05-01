@@ -31,6 +31,19 @@ describe('ConradFisique', function () {
             expect(this.troll.powerCounters).toBe(0);
             expect(this.player1).isReadyToTakeAction();
         });
+
+        it('can select a creature with no power counters as the source', function () {
+            this.exeldonYash.powerCounters = 0;
+            this.player1.play(this.cŏnrădFisiquĕ);
+            this.player1.clickCard(this.cŏnrădFisiquĕ);
+            expect(this.player1).toBeAbleToSelect(this.exeldonYash);
+            expect(this.player1).toBeAbleToSelect(this.troll);
+            this.player1.clickCard(this.exeldonYash);
+            this.player1.clickCard(this.troll);
+            expect(this.exeldonYash.powerCounters).toBe(0);
+            expect(this.troll.powerCounters).toBe(0);
+            expect(this.player1).isReadyToTakeAction();
+        });
     });
 
     describe("Conrad Fisique's simultaneous power counter movement", function () {

@@ -9,6 +9,8 @@ class NowAndLater extends Card {
                 cardType: 'creature',
                 gameAction: ability.actions.returnToHand()
             },
+            message: "{0} uses {1} to return {2} to its owner's hand",
+            messageArgs: (context) => [context.player, context.source, context.target || 'nothing'],
             then: {
                 alwaysTriggers: true,
                 target: {
@@ -17,6 +19,7 @@ class NowAndLater extends Card {
                     controller: 'self',
                     gameAction: ability.actions.archive()
                 },
+                message: '{0} uses {1} to archive a card',
                 then: {
                     alwaysTriggers: true,
                     condition: (context) => context.player.isOverwhelmed(),
@@ -24,6 +27,8 @@ class NowAndLater extends Card {
                         cardType: 'creature',
                         gameAction: ability.actions.returnToHand()
                     },
+                    message: "{0} uses {1} to return {2} to its owner's hand",
+                    messageArgs: (context) => [context.target || 'nothing'],
                     then: {
                         alwaysTriggers: true,
                         target: {
@@ -31,7 +36,8 @@ class NowAndLater extends Card {
                             location: 'hand',
                             controller: 'self',
                             gameAction: ability.actions.archive()
-                        }
+                        },
+                        message: '{0} uses {1} to archive a card'
                     }
                 }
             }

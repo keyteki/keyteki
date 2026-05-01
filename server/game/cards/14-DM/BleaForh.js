@@ -5,44 +5,33 @@ class BleaForh extends Card {
     // healed this way, exalt that creature.
     setupCardAbilities(ability) {
         this.fight({
-            targets: {
-                creature: {
-                    activePromptTitle: 'Choose a creature to heal',
-                    cardType: 'creature'
-                },
-                amount: {
-                    dependsOn: 'creature',
-                    mode: 'select',
-                    choices: {
-                        0: () => true,
-                        1: (context) =>
-                            context.targets.creature && context.targets.creature.damage >= 1,
-                        2: (context) =>
-                            context.targets.creature && context.targets.creature.damage >= 2
-                    }
-                }
+            target: {
+                activePromptTitle: 'Choose a creature to heal',
+                cardType: 'creature',
+                gameAction: ability.actions.heal({ amount: 2, upTo: true })
             },
-            effect: 'heal {1} for {2} damage',
-            effectArgs: (context) => [
-                context.targets.creature,
-                context.selects && context.selects.amount ? context.selects.amount.choice : 0
-            ],
-            gameAction: [
-                ability.actions.heal((context) => ({
-                    target: context.targets.creature,
-                    amount:
-                        context.selects && context.selects.amount
-                            ? parseInt(context.selects.amount.choice)
-                            : 0
-                })),
-                ability.actions.exalt((context) => ({
-                    target: context.targets.creature,
-                    amount:
-                        context.selects && context.selects.amount
-                            ? parseInt(context.selects.amount.choice)
-                            : 0
+            preferActionPromptMessage: true,
+            then: (preThenContext) => ({
+                condition: (context) =>
+                    (context.preThenEvents || []).some(
+                        (event) => !event.cancelled && event.amount > 0
+                    ),
+                message: '{0} uses {1} to exalt {3} with {4} amber',
+                messageArgs: (context) => [
+                    preThenContext.target,
+                    (context.preThenEvents || []).reduce(
+                        (sum, event) => sum + (event.cancelled ? 0 : event.amount || 0),
+                        0
+                    )
+                ],
+                gameAction: ability.actions.exalt((context) => ({
+                    target: preThenContext.target,
+                    amount: (context.preThenEvents || []).reduce(
+                        (sum, event) => sum + (event.cancelled ? 0 : event.amount || 0),
+                        0
+                    )
                 }))
-            ]
+            })
         });
     }
 }

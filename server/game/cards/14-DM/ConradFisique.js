@@ -10,7 +10,6 @@ class ConradFisique extends Card {
             targets: {
                 source: {
                     cardType: 'creature',
-                    cardCondition: (card) => card.hasToken('power'),
                     gameAction: ability.actions.removePowerCounter({ all: true })
                 },
                 dest: {
@@ -23,6 +22,16 @@ class ConradFisique extends Card {
                             : 0
                     }))
                 }
+            },
+            effect: 'move {1} +1 power {2} from {3}{4}',
+            effectArgs: (context) => {
+                const amount = (context.targets.source && context.targets.source.tokens.power) || 0;
+                return [
+                    amount,
+                    amount === 1 ? 'counter' : 'counters',
+                    context.targets.source,
+                    context.targets.dest ? ' to ' + context.targets.dest.name : ''
+                ];
             }
         });
     }

@@ -7,7 +7,18 @@ class ForgedCurrency extends Card {
     // supply this way (to a minimum of 6).
     setupCardAbilities(ability) {
         this.play({
-            effect: 'move all +1 power counters and amber from friendly creatures to the common supply',
+            effect: 'move {1} +1 power {2} and {3} amber from friendly creatures to the common supply',
+            effectArgs: (context) => {
+                const power = context.player.creaturesInPlay.reduce(
+                    (sum, c) => sum + (c.tokens.power || 0),
+                    0
+                );
+                const amber = context.player.creaturesInPlay.reduce(
+                    (sum, c) => sum + (c.tokens.amber || 0),
+                    0
+                );
+                return [power, power === 1 ? 'counter' : 'counters', amber];
+            },
             gameAction: ability.actions.jointAction([
                 ability.actions.removePowerCounter((context) => ({
                     target: context.player.creaturesInPlay.filter((c) => c.hasToken('power')),
