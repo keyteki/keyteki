@@ -1,6 +1,7 @@
 const { randomUUID } = require('node:crypto');
 
 const Card = require('./Card.js');
+const GameObject = require('./GameObject.js');
 const Spectator = require('./spectator.js');
 const Player = require('./player.js');
 
@@ -98,6 +99,25 @@ class GameChat {
                             argType: 'nonAvatarPlayer',
                             role: arg.user.role
                         });
+                    } else if (arg instanceof GameObject) {
+                        // Defense-in-depth: any non-Card GameObject (e.g. a
+                        // framework EffectSource) carries back-references to
+                        // the game graph and would create circular structures
+                        // when serialized.  Replace with a safe summary so a
+                        // mis-passed source can't break the game state diff.
+                        returnedFraments.push({
+                            argType: 'gameObject',
+                            name: arg.name
+                        });
+                    } else if (arg && typeof arg === 'object' && !Array.isArray(arg)) {
+                        // Last-ditch guard for any other unexpected object
+                        // arg: only embed it if it's safely JSON-serializable.
+                        try {
+                            JSON.stringify(arg);
+                            returnedFraments.push(arg);
+                        } catch (e) {
+                            returnedFraments.push(String(arg));
+                        }
                     } else {
                         returnedFraments.push(arg);
                     }

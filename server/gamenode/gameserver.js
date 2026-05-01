@@ -161,31 +161,48 @@ class GameServer {
     handleError(game, e) {
         logger.error(e);
 
-        let gameState = game.getState();
         let debugData = {};
 
-        if (e.message.includes('Maximum call stack')) {
-            debugData.badSerializaton = detectBinary(gameState);
-        } else {
-            debugData.game = gameState;
-            debugData.game.players = undefined;
+        try {
+            let gameState = game.getState();
 
-            debugData.messages = game.getPlainTextLog();
-            debugData.game.messages = undefined;
+            // Always run the cycle-safe diagnostic so we capture circular
+            // references regardless of the error type.
+            debugData.badSerialization = detectBinary(gameState);
 
-            for (const player of game.getPlayers()) {
-                debugData[player.name] = player.getState(player);
+            if (!e || !e.message || !e.message.includes('Maximum call stack')) {
+                debugData.game = gameState;
+                debugData.game.players = undefined;
+
+                debugData.messages = game.getPlainTextLog();
+                debugData.game.messages = undefined;
+
+                for (const player of game.getPlayers()) {
+                    debugData[player.name] = player.getState(player);
+                }
             }
+        } catch (diagErr) {
+            logger.error('Failed to gather debug data for error report', diagErr);
+            debugData.diagnosticError = diagErr && diagErr.message;
         }
 
-        Sentry.withScope((scope) => {
-            scope.setExtra('extra', debugData);
-            Sentry.captureException(e);
-        });
-        if (game) {
-            game.addMessage(
-                'A Server error has occurred processing your game state, apologies.  Your game may now be in an inconsistent state, or you may be able to continue.  The error has been logged.'
-            );
+        try {
+            Sentry.withScope((scope) => {
+                scope.setExtra('extra', debugData);
+                Sentry.captureException(e);
+            });
+        } catch (sentryErr) {
+            logger.error('Sentry reporting failed', sentryErr);
+        }
+
+        try {
+            if (game) {
+                game.addMessage(
+                    'A Server error has occurred processing your game state, apologies.  Your game may now be in an inconsistent state, or you may be able to continue.  The error has been logged.'
+                );
+            }
+        } catch (msgErr) {
+            logger.error('Failed to add error message to game chat', msgErr);
         }
     }
 
@@ -230,9 +247,17 @@ class GameServer {
         try {
             func();
         } catch (e) {
-            this.handleError(game, e);
+            try {
+                this.handleError(game, e);
+            } catch (handlerErr) {
+                logger.error('handleError itself threw', handlerErr);
+            }
 
-            this.sendGameState(game);
+            try {
+                this.sendGameState(game);
+            } catch (sendErr) {
+                logger.error('sendGameState threw during error recovery', sendErr);
+            }
         }
     }
 
@@ -260,17 +285,67 @@ class GameServer {
                 continue;
             }
 
-            let state = game.getState(player.name);
+            try {
+                let state = game.getState(player.name);
 
-            let stateToSend = state;
+                let stateToSend = state;
 
-            if (game.jsonForUsers[player.name]) {
-                stateToSend = jsondiffpatch.diff(game.jsonForUsers[player.name], state);
+                if (game.jsonForUsers[player.name]) {
+                    stateToSend = jsondiffpatch.diff(game.jsonForUsers[player.name], state);
+                }
+
+                player.socket.send('gamestate', stateToSend);
+
+                game.jsonForUsers[player.name] = jsondiffpatch.clone(state);
+            } catch (e) {
+                this.reportSendGameStateFailure(game, player, e);
             }
+        }
+    }
 
-            player.socket.send('gamestate', stateToSend);
+    /**
+     * Reports a failure to send game state for a single player to Sentry without
+     * crashing the server.  Runs a cycle-safe diagnostic to identify the
+     * offending field path so the underlying bug can be fixed.
+     *
+     * @param {import("../game/game")} game
+     * @param {import("../game/player")} player
+     * @param {Error} e
+     */
+    reportSendGameStateFailure(game, player, e) {
+        logger.error(
+            `Failed to send game state to ${player && player.name} in game ${game && game.id}`,
+            e
+        );
 
-            game.jsonForUsers[player.name] = jsondiffpatch.clone(state);
+        let badSerialization;
+        try {
+            const rawState = game.getState(player.name);
+            badSerialization = detectBinary(rawState);
+        } catch (diagErr) {
+            logger.error('detectBinary failed while diagnosing send failure', diagErr);
+        }
+
+        try {
+            Sentry.withScope((scope) => {
+                scope.setExtra('gameId', game && game.id);
+                scope.setExtra('player', player && player.name);
+                scope.setExtra('badSerialization', badSerialization);
+                Sentry.captureException(e);
+            });
+        } catch (sentryErr) {
+            logger.error('Sentry reporting failed', sentryErr);
+        }
+
+        try {
+            if (game) {
+                game.addMessage(
+                    'A server error occurred while sending the game state to {0}. The error has been logged.',
+                    player
+                );
+            }
+        } catch (msgErr) {
+            logger.error('Failed to add error message to game chat', msgErr);
         }
     }
 
