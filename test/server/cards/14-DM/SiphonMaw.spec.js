@@ -41,5 +41,23 @@ describe('Siphon Maw', function () {
             expect(this.player2.amber).toBe(3);
             expect(this.player1).isReadyToTakeAction();
         });
+
+        it('counts a draw bonus icon', function () {
+            this.troll.enhancements = ['draw'];
+            this.player1.reap(this.siphonMaw);
+            this.player1.clickPrompt('Mine');
+            expect(this.troll.location).toBe('discard');
+            expect(this.player2.amber).toBe(4);
+            expect(this.player1).isReadyToTakeAction();
+        });
+
+        it('counts a house icon enhancement like mars', function () {
+            this.troll.enhancements = ['mars', 'amber'];
+            this.player1.reap(this.siphonMaw);
+            this.player1.clickPrompt('Mine');
+            expect(this.troll.location).toBe('discard');
+            expect(this.player2.amber).toBe(3);
+            expect(this.player1).isReadyToTakeAction();
+        });
     });
 });

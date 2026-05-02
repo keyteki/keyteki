@@ -4,7 +4,7 @@ describe('Priestess Leilani', function () {
             this.setupTest({
                 player1: {
                     house: 'unfathomable',
-                    inPlay: ['priestess-leilani', 'urchin']
+                    inPlay: ['priestess-leilani', 'urchin', 'squallmaster', 'hemogrith']
                 },
                 player2: {
                     inPlay: ['troll', 'krump']
@@ -14,17 +14,22 @@ describe('Priestess Leilani', function () {
 
         it('exhausts an enemy creature and readies a non-Priest friendly creature', function () {
             this.urchin.exhaust();
+            this.squallmaster.exhaust();
             this.player1.reap(this.priestessLeilani);
             expect(this.player1).toBeAbleToSelect(this.troll);
             expect(this.player1).toBeAbleToSelect(this.krump);
             expect(this.player1).not.toBeAbleToSelect(this.urchin);
             expect(this.player1).not.toBeAbleToSelect(this.priestessLeilani);
+            expect(this.player1).not.toBeAbleToSelect(this.squallmaster);
             this.player1.clickCard(this.troll);
             expect(this.troll.exhausted).toBe(true);
             expect(this.player1).toBeAbleToSelect(this.urchin);
+            expect(this.player1).toBeAbleToSelect(this.hemogrith);
             expect(this.player1).not.toBeAbleToSelect(this.priestessLeilani);
+            expect(this.player1).not.toBeAbleToSelect(this.squallmaster);
             this.player1.clickCard(this.urchin);
             expect(this.urchin.exhausted).toBe(false);
+            expect(this.squallmaster.exhausted).toBe(true);
             expect(this.player1).isReadyToTakeAction();
         });
 

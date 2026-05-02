@@ -43,5 +43,18 @@ describe('Sand In Your Eye', function () {
             expect(this.player1.hand.length).toBe(1);
             expect(this.player1).isReadyToTakeAction();
         });
+
+        it('can target an already exhausted creature', function () {
+            this.troll.exhaust();
+            this.player1.play(this.sandInYourEye);
+            expect(this.player1).toBeAbleToSelect(this.troll);
+            this.player1.clickCard(this.troll);
+            expect(this.urchin.location).toBe('play area');
+            expect(this.troll.location).toBe('discard');
+            expect(this.krump.location).toBe('play area');
+            expect(this.bumpsy.location).toBe('play area');
+            expect(this.player1.hand.length).toBe(1);
+            expect(this.player1).isReadyToTakeAction();
+        });
     });
 });

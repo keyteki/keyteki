@@ -6,7 +6,7 @@ class Kaipo extends Card {
     setupCardAbilities(ability) {
         this.interrupt({
             when: {
-                onTurnEnd: (event, context) => context.player === this.game.activePlayer
+                onTurnEnd: (_, context) => context.player === this.game.activePlayer
             },
             gameAction: ability.actions.heal((context) => ({
                 fully: true,

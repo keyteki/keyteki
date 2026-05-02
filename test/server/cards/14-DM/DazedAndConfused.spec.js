@@ -16,10 +16,14 @@ describe('Dazed and Confused', function () {
         it('exhausts a creature and its neighbors, then stuns up to 2 exhausted creatures', function () {
             this.player1.play(this.dazedAndConfused);
             this.player1.clickCard(this.urchin);
+            expect(this.silvertooth.exhausted).toBe(false);
+            expect(this.lamindra.exhausted).toBe(false);
             expect(this.troll.exhausted).toBe(true);
             expect(this.urchin.exhausted).toBe(true);
             expect(this.bumpsy.exhausted).toBe(true);
             expect(this.krump.exhausted).toBe(false);
+            expect(this.player1).not.toBeAbleToSelect(this.silvertooth);
+            expect(this.player1).not.toBeAbleToSelect(this.lamindra);
             expect(this.player1).toBeAbleToSelect(this.troll);
             expect(this.player1).toBeAbleToSelect(this.urchin);
             expect(this.player1).toBeAbleToSelect(this.bumpsy);
@@ -27,9 +31,12 @@ describe('Dazed and Confused', function () {
             this.player1.clickCard(this.troll);
             this.player1.clickCard(this.bumpsy);
             this.player1.clickPrompt('Done');
+            expect(this.silvertooth.stunned).toBe(false);
+            expect(this.lamindra.stunned).toBe(false);
             expect(this.troll.stunned).toBe(true);
             expect(this.urchin.stunned).toBe(false);
             expect(this.bumpsy.stunned).toBe(true);
+            expect(this.krump.stunned).toBe(false);
             expect(this.player1).isReadyToTakeAction();
         });
 

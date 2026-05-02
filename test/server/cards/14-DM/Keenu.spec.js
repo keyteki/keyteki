@@ -8,7 +8,7 @@ describe('Keenu', function () {
                     inPlay: ['urchin']
                 },
                 player2: {
-                    inPlay: ['troll', 'bumpsy', 'krump']
+                    inPlay: ['troll', 'bumpsy', 'krump', 'snufflegator']
                 }
             });
         });
@@ -19,23 +19,29 @@ describe('Keenu', function () {
             expect(this.player1).toBeAbleToSelect(this.troll);
             expect(this.player1).toBeAbleToSelect(this.bumpsy);
             expect(this.player1).toBeAbleToSelect(this.krump);
-            this.player1.clickCard(this.bumpsy);
-            expect(this.troll.exhausted).toBe(true);
+            expect(this.player1).toBeAbleToSelect(this.snufflegator);
+            this.player1.clickCard(this.krump);
+            expect(this.urchin.exhausted).toBe(false);
+            expect(this.troll.exhausted).toBe(false);
             expect(this.bumpsy.exhausted).toBe(true);
             expect(this.krump.exhausted).toBe(true);
-            expect(this.urchin.exhausted).toBe(false);
+            expect(this.snufflegator.exhausted).toBe(true);
             expect(this.player1).isReadyToTakeAction();
         });
 
-        it('cannot target a creature with +1 power counters', function () {
+        it('cannot target a creature with +1 power counters and leaves its counters intact', function () {
             this.bumpsy.powerCounters = 1;
             this.player1.play(this.keenu);
             expect(this.player1).not.toBeAbleToSelect(this.bumpsy);
             expect(this.player1).toBeAbleToSelect(this.troll);
             expect(this.player1).toBeAbleToSelect(this.krump);
+            expect(this.player1).toBeAbleToSelect(this.snufflegator);
             this.player1.clickCard(this.troll);
             expect(this.troll.exhausted).toBe(true);
             expect(this.bumpsy.exhausted).toBe(true);
+            expect(this.bumpsy.powerCounters).toBe(1);
+            expect(this.krump.exhausted).toBe(false);
+            expect(this.snufflegator.exhausted).toBe(false);
             expect(this.player1).isReadyToTakeAction();
         });
     });
