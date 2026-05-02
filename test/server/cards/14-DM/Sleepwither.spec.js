@@ -9,7 +9,7 @@ describe('Sleepwither', function () {
                     inPlay: ['caspart']
                 },
                 player2: {
-                    inPlay: ['troll']
+                    inPlay: ['troll', 'noxious-ionox']
                 }
             });
         });
@@ -20,6 +20,15 @@ describe('Sleepwither', function () {
             this.player1.clickCard(this.caspart);
             expect(this.caspart.location).toBe('discard');
             // 0 + 2
+            expect(this.player1.amber).toBe(2);
+            expect(this.player1).isReadyToTakeAction();
+        });
+
+        it('can target an enemy Ouboros creature', function () {
+            this.player1.play(this.sleepwither);
+            expect(this.player1).toBeAbleToSelect(this.noxiousIonox);
+            this.player1.clickCard(this.noxiousIonox);
+            expect(this.noxiousIonox.location).toBe('discard');
             expect(this.player1.amber).toBe(2);
             expect(this.player1).isReadyToTakeAction();
         });

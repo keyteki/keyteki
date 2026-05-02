@@ -5,23 +5,14 @@ class GlitteringHorde extends Card {
     setupCardAbilities(ability) {
         this.play({
             gameAction: ability.actions.steal((context) => {
-                const colors = new Set();
-                if (context.player.opponent) {
+                const colors = context.game.getPlayers().reduce((colors, player) => {
                     for (const key of ['red', 'blue', 'yellow']) {
-                        if (context.player.keys[key]) {
-                            colors.add(key);
-                        }
-                        if (context.player.opponent.keys[key]) {
+                        if (player.keys[key]) {
                             colors.add(key);
                         }
                     }
-                } else {
-                    for (const key of ['red', 'blue', 'yellow']) {
-                        if (context.player.keys[key]) {
-                            colors.add(key);
-                        }
-                    }
-                }
+                    return colors;
+                }, new Set());
                 return { amount: colors.size };
             }),
             effect: 'steal an amount of amber equal to forged key colors'

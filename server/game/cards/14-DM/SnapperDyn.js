@@ -9,18 +9,11 @@ class SnapperDyn extends Card {
                 onTurnEnd: (_, context) =>
                     context.player === this.game.activePlayer && context.source.exhausted
             },
-            target: {
-                cardType: 'creature',
+            gameAction: ability.actions.allocateDamage((context) => ({
                 controller: 'opponent',
-                gameAction: ability.actions.dealDamage((context) => ({
-                    amount: context.player.opponent ? context.player.opponent.amber : 0
-                }))
-            },
-            effect: 'deal {2} damage to {1}',
-            effectArgs: (context) => [
-                context.target,
-                context.player.opponent ? context.player.opponent.amber : 0
-            ]
+                numSteps: context.player.opponent ? context.player.opponent.amber : 0
+            })),
+            effect: 'deal 1 damage to an enemy creature for each amber in their opponent\u2019s pool'
         });
     }
 }

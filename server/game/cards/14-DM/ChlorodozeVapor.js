@@ -15,7 +15,7 @@ class ChlorodozeVapor extends Card {
                         (event) => event.destroyEvent && event.destroyEvent.destroyedByDamageDealt
                     ),
                 target: {
-                    mode: 'upTo',
+                    mode: 'exactly',
                     numCards: (context) =>
                         context.preThenEvents.filter(
                             (event) =>
@@ -25,7 +25,8 @@ class ChlorodozeVapor extends Card {
                     controller: 'any',
                     gameAction: ability.actions.exhaust()
                 },
-                effect: 'exhaust {1}'
+                message: '{0} uses {1} to exhaust {3}',
+                messageArgs: (context) => [context.target]
             }
         });
     }

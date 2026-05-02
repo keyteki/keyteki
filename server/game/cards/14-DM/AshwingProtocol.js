@@ -5,8 +5,7 @@ class AshwingProtocol extends Card {
     setupCardAbilities(ability) {
         this.play({
             condition: (context) => context.player.isOverwhelmed(),
-            gameAction: ability.actions.draw({ amount: 3 }),
-            effect: 'draw 3 cards'
+            gameAction: ability.actions.draw({ amount: 3 })
         });
     }
 }

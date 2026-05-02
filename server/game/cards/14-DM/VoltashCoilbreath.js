@@ -8,10 +8,10 @@ class VoltashCoilbreath extends Card {
             target: {
                 cardType: 'artifact',
                 controller: 'opponent',
-                gameAction: [
+                gameAction: ability.actions.sequential([
                     ability.actions.use({ ignoreHouse: true }),
                     ability.actions.returnToDeck({ bottom: true })
-                ]
+                ])
             },
             effect: 'use {0} and put it on the bottom of its owner\u2019s deck'
         });

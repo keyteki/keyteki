@@ -8,19 +8,22 @@ describe('Snapper Dyn', function () {
                 },
                 player2: {
                     amber: 3,
-                    inPlay: ['troll']
+                    inPlay: ['troll', 'umbra']
                 }
             });
         });
 
-        it('deals damage = opp amber to enemy creature at end of turn if exhausted', function () {
+        it('allocates 1 damage per opponent amber at end of turn if exhausted', function () {
             this.snapperDyn.exhaust();
             this.player1.endTurn();
             this.player1.clickPrompt('Done');
-            expect(this.player1).toHavePrompt('Choose a creature');
+            expect(this.player1).toBeAbleToSelect(this.troll);
+            expect(this.player1).toBeAbleToSelect(this.umbra);
             this.player1.clickCard(this.troll);
-            // troll has 8 power, 3 dmg -> 3 damage tokens
-            expect(this.troll.tokens.damage).toBe(3);
+            this.player1.clickCard(this.umbra);
+            this.player1.clickCard(this.umbra);
+            expect(this.troll.tokens.damage).toBe(1);
+            expect(this.umbra.location).toBe('discard');
             this.player2.clickPrompt('brobnar');
             expect(this.player2).isReadyToTakeAction();
         });
@@ -28,6 +31,7 @@ describe('Snapper Dyn', function () {
         it('does nothing if not exhausted', function () {
             this.player1.endTurn();
             expect(this.troll.tokens.damage).toBeUndefined();
+            expect(this.umbra.tokens.damage).toBeUndefined();
             this.player2.clickPrompt('brobnar');
             expect(this.player2).isReadyToTakeAction();
         });

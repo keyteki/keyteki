@@ -9,7 +9,7 @@ class Caspart extends Card {
                     context.player === this.game.activePlayer && context.source.exhausted
             },
             target: {
-                mode: 'upTo',
+                mode: 'exactly',
                 numCards: 2,
                 cardType: 'creature',
                 controller: 'any',
