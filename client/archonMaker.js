@@ -78,7 +78,13 @@ const gigantic2s = [
     'j43g3r-v2',
     'titanic-bumblebird2',
     'ascendant-hester2',
-    'horizon-saber2'
+    'horizon-saber2',
+    'the-golden-queen2',
+    'gigantor2',
+    'monster-zero2',
+    'kulsha2',
+    'zomok2',
+    'hydrogan2'
 ];
 
 const skybeasts = [

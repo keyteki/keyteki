@@ -12,6 +12,7 @@ INSERT INTO public."Houses" ("Id", "Code", "Name") VALUES (11, 'ekwidon', 'Ekwid
 INSERT INTO public."Houses" ("Id", "Code", "Name") VALUES (12, 'geistoid', 'Geistoid');
 INSERT INTO public."Houses" ("Id", "Code", "Name") VALUES (13, 'skyborn', 'Skyborn');
 INSERT INTO public."Houses" ("Id", "Code", "Name") VALUES (14, 'redemption', 'Redemption');
+INSERT INTO public."Houses" ("Id", "Code", "Name") VALUES (15, 'ouboros', 'Ouboros');
 -- Leave these last
 INSERT INTO public."Houses" ("Id", "Code", "Name") VALUES (997, 'archonpower', 'Archon Power');
 INSERT INTO public."Houses" ("Id", "Code", "Name") VALUES (998, 'prophecy', 'Prophecy');
@@ -21,7 +22,7 @@ INSERT INTO public."Houses" ("Id", "Code", "Name") VALUES (999, 'thetide', 'The 
 -- Name: Houses_Id_seq; Type: SEQUENCE SET; Schema: public; Owner: keyteki
 --
 
-SELECT pg_catalog.setval('public."Houses_Id_seq"', 9, true);
+SELECT pg_catalog.setval('public."Houses_Id_seq"', 15, true);
 
 INSERT INTO public."Expansions" ("Id", "ExpansionId", "Code", "Name") VALUES (1, 453, 'WC', 'Worlds Collide (Anomoly)');
 INSERT INTO public."Expansions" ("Id", "ExpansionId", "Code", "Name") VALUES (2, 452, 'WC', 'Worlds Collide');
@@ -41,12 +42,13 @@ INSERT INTO public."Expansions" ("Id", "ExpansionId", "Code", "Name") VALUES (15
 INSERT INTO public."Expansions" ("Id", "ExpansionId", "Code", "Name") VALUES (16, 939, 'VM2025', 'Vault Masters 2025');
 INSERT INTO public."Expansions" ("Id", "ExpansionId", "Code", "Name") VALUES (17, 886, 'PV', 'Prophetic Visions');
 INSERT INTO public."Expansions" ("Id", "ExpansionId", "Code", "Name") VALUES (18, 918, 'CC', 'Crucible Clash');
+INSERT INTO public."Expansions" ("Id", "ExpansionId", "Code", "Name") VALUES (19, 928, 'DM', 'Draconian Measures');
 
 --
 -- Name: Expansions_Id_seq; Type: SEQUENCE SET; Schema: public; Owner: keyteki
 --
 
-SELECT pg_catalog.setval('public."Expansions_Id_seq"', 4, true);
+SELECT pg_catalog.setval('public."Expansions_Id_seq"', 19, true);
 
 INSERT INTO public."Roles" ("Id", "Name") VALUES (1, 'UserManager');
 INSERT INTO public."Roles" ("Id", "Name") VALUES (2, 'BanListManager');
