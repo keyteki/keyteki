@@ -1,0 +1,159 @@
+name: Auto Deploy to Development
+on:
+    workflow_run:
+        workflows: ['Build, test and package']
+        branches: ['pack/dm']
+        types: [completed]
+
+jobs:
+    deploy-lobby:
+        name: Deploy Lobby to Development
+        if: ${{ github.event.workflow_run.conclusion == 'success' }}
+        runs-on: self-hosted
+        environment: Development
+        steps:
+            - name: Checkout repo
+              uses: actions/checkout@v3
+              with:
+                  ref: ${{ github.event.workflow_run.head_sha }}
+
+            - name: Deploy Lobby
+              run: |
+                  NAMESPACE="keyteki-development"
+                  ENV_SUBDOMAIN="dev"
+                  APP_NAME="The Crucible Online"
+                  DEPLOY_TIME=$(date +%s)
+
+                  cat > /tmp/lobby-secrets.yaml <<EOF
+                  nodeConfig:
+                    env: "production"
+                    appName: "$APP_NAME"
+                    sentryDsn: "${{ secrets.SENTRY_DSN }}"
+                    captchaKey: "${{ secrets.CAPTCHA_KEY }}"
+                    minLobbyChatTime: 3600
+                    cookieLifetime: 604800000
+                    redisKeyPrefix: "keyteki:dev"
+                    redisUrl: "${{ secrets.REDIS_URL }}"
+                    secret: "${{ secrets.SECRET }}"
+                    emailKey: "${{ secrets.EMAIL_KEY }}"
+                    emailBlockKey: "${{ secrets.EMAIL_BLOCK_KEY }}"
+                    port: 80
+                    hmacSecret: "${{ secrets.HMAC }}"
+                    requireActivation: false
+                    patreonCallbackUrl: "${{ secrets.PATREON_CALLBACK_URL }}"
+                    patreonClientId: "${{ secrets.PATREON_CLIENT_ID }}"
+                    patreonSecret: "${{ secrets.PATREON_SECRET }}"
+                    dbUser: "${{ secrets.DB_USER }}"
+                    dbHost: "postgres.shared-services.svc.cluster.local"
+                    dbDatabase: "${{ secrets.DB_NAME }}"
+                    dbPassword: "${{ secrets.DB_PASSWORD }}"
+                    dbPort: ${{ secrets.DB_PORT }}
+                    lobby:
+                      lowerDeckThreshold: 5
+                      middleDeckThreshold: 20
+                      upperDeckThreshold: 50
+                      port: 80
+                      emailKey: "${{ secrets.EMAIL_KEY }}"
+                      hmacSecret: "${{ secrets.HMAC }}"
+                      requireActivation: false
+                      patreonCallbackUrl: "${{ vars.PATREON_CALLBACK_URL }}"
+                      patreonClientId: "${{ secrets.PATREON_CLIENTID }}"
+                      patreonSecret: "${{ secrets.PATREON_SECRET }}"
+                  EOF
+
+                  helm upgrade --install keyteki-lobby ./infrastructure/lobby \
+                    --set namespace=$NAMESPACE \
+                    --set environment=$ENV_SUBDOMAIN \
+                    --set deployTime=$DEPLOY_TIME \
+                    --set image.tag=dev \
+                    -f /tmp/lobby-secrets.yaml \
+                    -f ./infrastructure/lobby/values.development.yaml \
+                    -n $NAMESPACE
+
+                  rm /tmp/lobby-secrets.yaml
+
+                  kubectl rollout status deployment/keyteki-lobby -n $NAMESPACE
+
+    deploy-node:
+        name: Deploy Game Nodes to Development
+        if: ${{ github.event.workflow_run.conclusion == 'success' }}
+        runs-on: self-hosted
+        environment: Development
+        needs: deploy-lobby
+        steps:
+            - name: Checkout repo
+              uses: actions/checkout@v3
+              with:
+                  ref: ${{ github.event.workflow_run.head_sha }}
+
+            - name: Deploy Game Nodes
+              run: |
+                  NAMESPACE="keyteki-development"
+                  ENV_SUBDOMAIN="dev"
+                  REPLICAS=1
+                  SCALE_INCREMENT=1
+                  DEPLOY_TIME=$(date +%s)
+
+                  cat > /tmp/node-secrets.yaml <<EOF
+                  nodeConfig:
+                    env: "production"
+                    sentryDsn: "${{ secrets.SENTRY_DSN }}"
+                    redisKeyPrefix: "keyteki:dev"
+                    redisUrl: "${{ secrets.REDIS_URL }}"
+                    gameNode:
+                      host: null
+                      socketioPort: 80
+                    secret: "${{ secrets.SECRET }}"
+                  EOF
+
+                  helm upgrade --install game-node ./infrastructure/node \
+                    --set namespace=$NAMESPACE \
+                    --set replicaCount=$REPLICAS \
+                    --set updatePartition=$REPLICAS \
+                    --set environment=$ENV_SUBDOMAIN \
+                    --set deployTime=$DEPLOY_TIME \
+                    --set image.tag=dev \
+                    -f /tmp/node-secrets.yaml \
+                    -n $NAMESPACE
+
+                  NEW_REPLICAS=$((REPLICAS + SCALE_INCREMENT))
+                  kubectl scale statefulset node -n $NAMESPACE --replicas=$NEW_REPLICAS
+
+                  for i in $(seq $REPLICAS $((NEW_REPLICAS - 1))); do
+                    NEW_POD="node-$i"
+                    kubectl wait --for=condition=ready pod/$NEW_POD -n $NAMESPACE --timeout=30m
+                  done
+
+                  OLD_PODS=$(kubectl get pods -n $NAMESPACE -l app=game-node -o jsonpath='{.items[*].metadata.name}' | tr ' ' '\n' | sort | head -n $REPLICAS)
+
+                  for POD in $OLD_PODS; do
+                    kubectl exec -n $NAMESPACE $POD -- /bin/sh -c "kill -TERM \$(pidof node)" || true
+                  done
+
+                  for POD in $OLD_PODS; do
+                    ATTEMPTS=0
+                    while [ $ATTEMPTS -lt 540 ]; do
+                      GAMES=$(kubectl exec -n $NAMESPACE $POD -- wget -q -O- http://localhost:9000/health/games 2>/dev/null || echo "error")
+                      if [ "$GAMES" = "error" ] || [ "$GAMES" = "0" ]; then
+                        break
+                      fi
+                      ATTEMPTS=$((ATTEMPTS + 1))
+                      sleep 10
+                    done
+                  done
+
+                  helm upgrade --install game-node ./infrastructure/node \
+                    --set namespace=$NAMESPACE \
+                    --set replicaCount=$NEW_REPLICAS \
+                    --set updatePartition=0 \
+                    --set environment=$ENV_SUBDOMAIN \
+                    --set deployTime=$DEPLOY_TIME \
+                    --set image.tag=dev \
+                    -f /tmp/node-secrets.yaml \
+                    -n $NAMESPACE
+
+                  kubectl rollout status statefulset/node -n $NAMESPACE --timeout=30m
+
+                  rm /tmp/node-secrets.yaml
+
+                  kubectl scale statefulset node -n $NAMESPACE --replicas=$REPLICAS

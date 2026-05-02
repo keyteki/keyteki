@@ -17,6 +17,7 @@ export const Constants = {
         'geistoid',
         'logos',
         'mars',
+        'ouboros',
         'redemption',
         'sanctum',
         'saurian',
@@ -33,6 +34,7 @@ export const Constants = {
         'Geistoid',
         'Logos',
         'Mars',
+        'Ouboros',
         'Redemption',
         'Sanctum',
         'Saurian',
@@ -159,6 +161,13 @@ export const Constants = {
         {
             value: '918',
             label: 'CC',
+            tideRequired: false,
+            tokenRequired: false,
+            prophecySupported: false
+        },
+        {
+            value: '928',
+            label: 'DM',
             tideRequired: false,
             tokenRequired: false,
             prophecySupported: false
