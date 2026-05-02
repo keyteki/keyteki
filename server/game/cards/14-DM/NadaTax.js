@@ -11,7 +11,7 @@ class NadaTax extends Card {
                 condition: (context) =>
                     context.preThenEvent.cards.length > 0 &&
                     context.preThenEvent.cards[0].bonusIcons.length > 0,
-                message: '{0} uses {1} to make {2} lose {3} amber',
+                message: '{0} uses {1} to make {3} lose {4} amber',
                 messageArgs: (context) => [
                     context.player.opponent,
                     context.preThenEvent.cards[0].bonusIcons.length

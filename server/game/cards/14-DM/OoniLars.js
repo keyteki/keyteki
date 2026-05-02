@@ -15,7 +15,7 @@ class OoniLars extends Card {
                     targetController: 'opponent',
                     effect: ability.effects.modifyKeyCost(4)
                 }),
-                message: "{0} uses {1} to increase {2}'s key cost by 4 during their next turn",
+                message: "{0} uses {1} to increase {3}'s key cost by 4 during their next turn",
                 messageArgs: (context) => [context.player.opponent]
             }
         });

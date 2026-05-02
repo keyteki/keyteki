@@ -14,7 +14,7 @@ class GoldenDagger extends Card {
                     context.preThenEvent.destroyEvent &&
                     context.preThenEvent.destroyEvent.destroyedByDamageDealt &&
                     context.preThenEvent.destroyEvent.resolved,
-                message: '{0} uses {1} to make {2} gain 1 amber',
+                message: '{0} uses {1} to make {3} gain 1 amber',
                 messageArgs: (context) => [context.preThenEvent.card.owner],
                 gameAction: ability.actions.gainAmber((context) => ({
                     target: context.preThenEvent.card.owner
