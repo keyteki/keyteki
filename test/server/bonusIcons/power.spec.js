@@ -26,21 +26,21 @@ describe('Bonus Icons', function () {
             expect(this.player1).toBeAbleToSelect(this.lamindra);
             expect(this.player1).toBeAbleToSelect(this.urchin);
             this.player1.clickCard(this.krump);
-            expect(this.krump.tokens.power).toBe(1);
+            expect(this.krump.powerCounters).toBe(1);
             expect(this.player1).isReadyToTakeAction();
         });
 
         it('can target an enemy creature', function () {
             this.player1.play(this.troll);
             this.player1.clickCard(this.lamindra);
-            expect(this.lamindra.tokens.power).toBe(1);
+            expect(this.lamindra.powerCounters).toBe(1);
             expect(this.player1).isReadyToTakeAction();
         });
 
         it('can target the played creature itself', function () {
             this.player1.play(this.troll);
             this.player1.clickCard(this.troll);
-            expect(this.troll.tokens.power).toBe(1);
+            expect(this.troll.powerCounters).toBe(1);
             expect(this.player1).isReadyToTakeAction();
         });
     });
