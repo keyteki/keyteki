@@ -198,7 +198,8 @@ export const Constants = {
         capture: imageUrl('enhancements/capture.png'),
         draw: imageUrl('enhancements/draw.png'),
         damage: imageUrl('enhancements/damage.png'),
-        discard: imageUrl('enhancements/discard.png')
+        discard: imageUrl('enhancements/discard.png'),
+        power: imageUrl('enhancements/power.png')
     },
     TideImages: {
         neutral: imageUrl('tide/tide-neutral.png'),

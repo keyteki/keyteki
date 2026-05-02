@@ -13,6 +13,7 @@ import CaptureImage from '../../assets/img/enhancements/captureui.png';
 import DrawImage from '../../assets/img/enhancements/drawui.png';
 import DamageImage from '../../assets/img/enhancements/damageui.png';
 import DiscardImage from '../../assets/img/enhancements/discardui.png';
+import PowerImage from '../../assets/img/enhancements/powerui.png';
 
 const DeckSummary = ({ deck }) => {
     const { t, i18n } = useTranslation();
@@ -199,6 +200,10 @@ const DeckSummary = ({ deck }) => {
                             <div className='deck-enhancement inline-flex items-center'>
                                 <img src={DiscardImage} className='deck-img-enhancement' />
                                 <span className='pl-1'>{enhancements.discard || 0}</span>
+                            </div>
+                            <div className='deck-enhancement inline-flex items-center'>
+                                <img src={PowerImage} className='deck-img-enhancement' />
+                                <span className='pl-1'>{enhancements.power || 0}</span>
                             </div>
                         </div>
                     ) : null}
