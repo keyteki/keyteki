@@ -19,13 +19,45 @@ describe('Gilded Burden', function () {
             this.player2.player.keys.red = true;
             this.player2.player.keys.blue = true;
             this.player1.play(this.gildedBurden);
-            expect(this.player1).toHavePrompt('Choose 2 creatures');
+            expect(this.player1).toHavePrompt('Choose an enemy creature to capture 2 amber on');
+            expect(this.player1).not.toBeAbleToSelect(this.gildedBurden);
             this.player1.clickCard(this.troll);
             this.player1.clickCard(this.bumpsy);
-            this.player1.clickPrompt('Done');
             expect(this.troll.tokens.amber).toBe(2);
             expect(this.bumpsy.tokens.amber).toBe(2);
             expect(this.player2.amber).toBe(1);
+            const logs = this.getChatLogs(10);
+            expect(logs).toContain('player1 uses Gilded Burden to have Troll capture 2 amber');
+            expect(logs).toContain('player1 uses Gilded Burden to have Bumpsy capture 2 amber');
+            expect(this.player1).isReadyToTakeAction();
+        });
+
+        it('logs the actual amount captured when there is not enough amber', function () {
+            this.player2.amber = 3;
+            this.player2.player.keys.red = true;
+            this.player2.player.keys.blue = true;
+            this.player1.play(this.gildedBurden);
+            this.player1.clickCard(this.troll);
+            this.player1.clickCard(this.bumpsy);
+            expect(this.troll.tokens.amber).toBe(2);
+            expect(this.bumpsy.tokens.amber).toBe(1);
+            expect(this.player2.amber).toBe(0);
+            const logs = this.getChatLogs(10);
+            expect(logs).toContain('player1 uses Gilded Burden to have Troll capture 2 amber');
+            expect(logs).toContain('player1 uses Gilded Burden to have Bumpsy capture 1 amber');
+            expect(this.player1).isReadyToTakeAction();
+        });
+
+        it('can choose the same creature more than once', function () {
+            this.player2.player.keys.red = true;
+            this.player2.player.keys.blue = true;
+            this.player1.play(this.gildedBurden);
+            this.player1.clickCard(this.troll);
+            this.player1.clickCard(this.troll);
+            expect(this.troll.tokens.amber).toBe(4);
+            expect(this.player2.amber).toBe(1);
+            const logs = this.getChatLogs(10);
+            expect(logs).toContain('player1 uses Gilded Burden to have Troll capture 4 amber');
             expect(this.player1).isReadyToTakeAction();
         });
 

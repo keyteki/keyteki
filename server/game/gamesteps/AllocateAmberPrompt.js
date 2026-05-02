@@ -14,6 +14,7 @@ class AllocateAmberPrompt extends UiPrompt {
         this.properties = properties;
         this.context = properties.context;
         this.selector = properties.selector;
+        this.amberStep = properties.amberStep || 1;
         this.cardAmber = {};
         this.totalAllocated = 0;
     }
@@ -72,10 +73,10 @@ class AllocateAmberPrompt extends UiPrompt {
         if (!this.cardAmber[card.uuid]) {
             this.cardAmber[card.uuid] = 0;
         }
-        this.cardAmber[card.uuid] += 1;
+        this.cardAmber[card.uuid] += this.amberStep;
         this.totalAllocated += 1;
 
-        if (this.totalAllocated >= this.properties.numAmber) {
+        if (this.totalAllocated >= this.properties.numSteps) {
             this.properties.onSelect(this.cardAmber);
             this.complete();
         }

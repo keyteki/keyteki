@@ -6,18 +6,14 @@ class GildedBurden extends Card {
         this.play({
             condition: (context) =>
                 context.player.opponent && context.player.opponent.getForgedKeys() > 0,
-            target: {
-                mode: 'upTo',
-                numCards: (context) =>
-                    context.player.opponent ? context.player.opponent.getForgedKeys() : 0,
-                cardType: 'creature',
+            effect: 'have an enemy creature capture 2 amber from its own side for each forged key their opponent has',
+            gameAction: ability.actions.allocateCapture((context) => ({
+                amberStep: 2,
+                numSteps: context.player.opponent ? context.player.opponent.getForgedKeys() : 0,
                 controller: 'opponent',
-                gameAction: ability.actions.capture((context) => ({
-                    amount: 2,
-                    player: context.player.opponent
-                }))
-            },
-            effect: 'have {1} capture 2 amber from its own side'
+                player: context.player.opponent,
+                menuTitle: 'Choose an enemy creature to capture 2 amber on'
+            }))
         });
     }
 }
