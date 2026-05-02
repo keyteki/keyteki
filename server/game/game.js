@@ -1409,6 +1409,10 @@ class Game extends EventEmitter {
         return length === 1 ? '1 key' : `${length} keys`;
     }
 
+    isKeyForged(color) {
+        return this.getPlayers().some((player) => player.keys[color]);
+    }
+
     get cardsInPlay() {
         return this.getPlayers().reduce((array, player) => array.concat(player.cardsInPlay), []);
     }

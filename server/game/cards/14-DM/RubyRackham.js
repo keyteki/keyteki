@@ -6,11 +6,7 @@ class RubyRackham extends Card {
     setupCardAbilities(ability) {
         this.fight({
             gameAction: ability.actions.dealDamage((context) => ({
-                amount:
-                    context.player.keys.red ||
-                    (context.player.opponent && context.player.opponent.keys.red)
-                        ? 4
-                        : 1,
+                amount: context.game.isKeyForged('red') ? 4 : 1,
                 target: context.player.opponent
                     ? context.player.opponent.creaturesInPlay.filter((card) => card.isOnFlank())
                     : []

@@ -11,9 +11,7 @@ class GiltEmGood extends Card {
             })),
             then: (preThenContext) => ({
                 alwaysTriggers: true,
-                condition: () =>
-                    preThenContext.player.keys.yellow ||
-                    (preThenContext.player.opponent && preThenContext.player.opponent.keys.yellow),
+                condition: () => preThenContext.game.isKeyForged('yellow'),
                 gameAction: ability.actions.capture((context) => ({
                     amount: 1,
                     target: context.player.creaturesInPlay.filter((card) => card.isOnFlank())

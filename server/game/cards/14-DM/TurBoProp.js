@@ -5,11 +5,7 @@ class TurBoProp extends Card {
     setupCardAbilities(ability) {
         this.reap({
             gameAction: ability.actions.draw((context) => ({
-                amount:
-                    context.player.keys.blue ||
-                    (context.player.opponent && context.player.opponent.keys.blue)
-                        ? 2
-                        : 1
+                amount: context.game.isKeyForged('blue') ? 2 : 1
             }))
         });
     }

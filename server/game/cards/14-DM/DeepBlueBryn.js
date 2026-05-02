@@ -7,9 +7,7 @@ class DeepBlueBryn extends Card {
             gameAction: ability.actions.steal({ amount: 1 }),
             then: (preThenContext) => ({
                 alwaysTriggers: true,
-                condition: () =>
-                    preThenContext.player.keys.blue ||
-                    (preThenContext.player.opponent && preThenContext.player.opponent.keys.blue),
+                condition: () => preThenContext.game.isKeyForged('blue'),
                 gameAction: ability.actions.ward((context) => ({
                     target: context.source
                 }))
