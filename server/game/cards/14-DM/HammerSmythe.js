@@ -9,7 +9,7 @@ class HammerSmythe extends Card {
                 cardType: 'creature',
                 gameAction: ability.actions.dealDamage({ amount: 2 })
             },
-            then: (preThenContext) => ({
+            then: () => ({
                 alwaysTriggers: true,
                 condition: (context) =>
                     !!context.preThenEvent.destroyEvent &&
@@ -20,8 +20,7 @@ class HammerSmythe extends Card {
                     controller: 'self',
                     gameAction: ability.actions.addPowerCounter({ amount: 2 })
                 },
-                effect: 'give two +1 power counters to {0}',
-                effectArgs: () => [preThenContext.target]
+                message: '{0} uses {1} to give two +1 power counters to {2}'
             })
         });
     }
