@@ -22,10 +22,7 @@ describe('Dreamcall', function () {
             expect(this.player1).not.toBeAbleToSelect(this.troll);
             this.player1.clickCard(this.bumpsy);
             expect(this.player1).not.toBeAbleToSelect(this.troll);
-            // TODO: verify this
-            // expect(this.player1).not.toBeAbleToSelect(this.bumpsy);
             this.player1.clickCard(this.krump);
-            this.player1.clickPrompt('Done');
             expect(this.bumpsy.exhausted).toBe(true);
             expect(this.krump.exhausted).toBe(true);
             expect(this.player1.hand.length).toBe(2);
@@ -55,12 +52,106 @@ describe('Dreamcall', function () {
             expect(this.player1).toBeAbleToSelect(this.troll);
             this.player1.clickCard(this.lamindra);
             this.player1.clickCard(this.troll);
-            this.player1.clickPrompt('Done');
             expect(this.lamindra.exhausted).toBe(true);
             expect(this.troll.exhausted).toBe(true);
             expect(this.bumpsy.exhausted).toBe(false);
             expect(this.krump.exhausted).toBe(false);
             expect(this.player1.hand.length).toBe(2);
+            expect(this.player1).isReadyToTakeAction();
+        });
+
+        it('requires exhausting at least one additional creature per copy in discard', function () {
+            this.player1.player.discard.pop();
+            this.player1.play(this.dreamcall);
+            this.player1.clickCard(this.troll);
+            expect(this.troll.exhausted).toBe(true);
+            expect(this.player1).toHavePrompt('Choose another creature to exhaust');
+            this.player1.clickCard(this.bumpsy);
+            expect(this.bumpsy.exhausted).toBe(true);
+            expect(this.krump.exhausted).toBe(false);
+            expect(this.player1.hand.length).toBe(1);
+            expect(this.player1).isReadyToTakeAction();
+        });
+    });
+
+    describe('Dreamcall ordering', function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'unfathomable',
+                    hand: ['dreamcall', 'weak-link'],
+                    discard: ['dreamcall', 'dreamcall'],
+                    deck: ['urchin', 'urchin'],
+                    inPlay: ['lamindra']
+                },
+                player2: {
+                    amber: 12,
+                    hand: ['prince-bufo'],
+                    inPlay: ['bumpsy', 'krump', 'troll'],
+                    prophecies: [
+                        'the-cards-will-tell',
+                        'overreach',
+                        'fate-laughs-at-your-plans',
+                        'expect-the-unexpected'
+                    ]
+                }
+            });
+        });
+
+        it('completes all exhausts before drawing so prophecy fate sees the raised key cost', function () {
+            this.player1.endTurn();
+            this.player2.forgeKey('Red');
+            this.player2.clickPrompt('brobnar');
+            this.player2.activateProphecy(this.theCardsWillTell, this.princeBufo);
+            this.player2.endTurn();
+            this.player1.clickPrompt('unfathomable');
+            this.player1.playUpgrade(this.weakLink, this.troll);
+            this.player1.play(this.dreamcall);
+            this.player1.clickCard(this.bumpsy);
+            expect(this.bumpsy.exhausted).toBe(true);
+            expect(this.krump.exhausted).toBe(false);
+            expect(this.troll.exhausted).toBe(false);
+            this.player1.clickCard(this.krump);
+            expect(this.bumpsy.exhausted).toBe(true);
+            expect(this.krump.exhausted).toBe(true);
+            expect(this.troll.exhausted).toBe(false);
+            this.player1.clickCard(this.troll);
+            expect(this.player1).not.toHavePrompt('Which key would you like to forge?');
+            expect(this.troll.exhausted).toBe(true);
+            expect(this.player2.player.getCurrentKeyCost()).toBe(12);
+            expect(this.princeBufo.location).toBe('discard');
+            expect(this.player2.amber).toBe(6);
+            expect(this.player2.getForgedKeys()).toBe(1);
+            expect(this.player1).isReadyToTakeAction();
+        });
+    });
+
+    describe('Dreamcall with 3 copies in discard', function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'unfathomable',
+                    hand: ['dreamcall'],
+                    discard: ['dreamcall', 'dreamcall', 'dreamcall'],
+                    deck: ['urchin', 'urchin', 'urchin', 'urchin']
+                },
+                player2: {
+                    inPlay: ['troll', 'bumpsy', 'krump']
+                }
+            });
+        });
+
+        it('can pick the same additional creature for each subsequent exhaust', function () {
+            this.player1.play(this.dreamcall);
+            this.player1.clickCard(this.troll);
+            expect(this.troll.exhausted).toBe(true);
+            this.player1.clickCard(this.bumpsy);
+            expect(this.bumpsy.exhausted).toBe(true);
+            expect(this.player1).toBeAbleToSelect(this.bumpsy);
+            this.player1.clickCard(this.bumpsy);
+            this.player1.clickCard(this.bumpsy);
+            expect(this.krump.exhausted).toBe(false);
+            expect(this.player1.hand.length).toBe(3);
             expect(this.player1).isReadyToTakeAction();
         });
     });
