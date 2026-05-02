@@ -12,12 +12,12 @@ class DrasticMeasures extends Card {
                 controller: 'self',
                 gameAction: ability.actions.purge()
             },
-            then: (preThenContext) => ({
+            then: {
                 alwaysTriggers: true,
-                gameAction: ability.actions.gainAmber({
-                    amount: preThenContext.target ? preThenContext.target.length : 0
-                })
-            })
+                gameAction: ability.actions.gainAmber((context) => ({
+                    amount: (context.preThenEvents || []).filter((event) => !event.cancelled).length
+                }))
+            }
         });
     }
 }
