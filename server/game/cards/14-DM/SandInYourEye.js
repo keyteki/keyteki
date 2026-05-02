@@ -10,14 +10,15 @@ class SandInYourEye extends Card {
             },
             then: {
                 alwaysTriggers: true,
-                gameAction: [
-                    ability.actions.draw((context) => ({
-                        amount: context.game.creaturesInPlay.filter((card) => card.exhausted).length
-                    })),
-                    ability.actions.destroy((context) => ({
+                gameAction: ability.actions.draw((context) => ({
+                    amount: context.game.creaturesInPlay.filter((card) => card.exhausted).length
+                })),
+                then: {
+                    alwaysTriggers: true,
+                    gameAction: ability.actions.destroy((context) => ({
                         target: context.game.creaturesInPlay.filter((card) => card.exhausted)
                     }))
-                ]
+                }
             }
         });
     }

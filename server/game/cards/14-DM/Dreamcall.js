@@ -20,21 +20,19 @@ class Dreamcall extends Card {
                     alwaysTriggers: true,
                     gameAction: ability.actions.sequentialForEach({
                         num: copies,
-                        action: ability.actions.exhaust({
-                            promptForSelect: {
-                                cardType: 'creature',
-                                cardCondition: (card) => card !== preThenContext.target,
-                                activePromptTitle: 'Choose another creature to exhaust'
-                            }
-                        })
-                    }),
-                    then: {
-                        alwaysTriggers: true,
-                        gameAction: ability.actions.draw((context) => ({
-                            target: context.player,
-                            amount: copies
-                        }))
-                    }
+                        action: ability.actions.sequential([
+                            ability.actions.exhaust({
+                                promptForSelect: {
+                                    cardType: 'creature',
+                                    cardCondition: (card) => card !== preThenContext.target,
+                                    activePromptTitle: 'Choose another creature to exhaust'
+                                }
+                            }),
+                            ability.actions.draw((context) => ({
+                                target: context.player
+                            }))
+                        ])
+                    })
                 };
             }
         });

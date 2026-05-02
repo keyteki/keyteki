@@ -15,7 +15,7 @@ class DazedAndConfused extends Card {
                 target: {
                     cardType: 'creature',
                     cardCondition: (card) => card.exhausted,
-                    mode: 'upTo',
+                    mode: 'exactly',
                     numCards: 2,
                     gameAction: ability.actions.stun()
                 }

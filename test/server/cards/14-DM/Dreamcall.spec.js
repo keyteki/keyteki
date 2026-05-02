@@ -98,7 +98,7 @@ describe('Dreamcall', function () {
             });
         });
 
-        it('completes all exhausts before drawing so prophecy fate sees the raised key cost', function () {
+        it('draws before the second additional exhaust so prophecy fate sees the lower key cost', function () {
             this.player1.endTurn();
             this.player2.forgeKey('Red');
             this.player2.clickPrompt('brobnar');
@@ -115,13 +115,14 @@ describe('Dreamcall', function () {
             expect(this.bumpsy.exhausted).toBe(true);
             expect(this.krump.exhausted).toBe(true);
             expect(this.troll.exhausted).toBe(false);
-            this.player1.clickCard(this.troll);
-            expect(this.player1).not.toHavePrompt('Which key would you like to forge?');
-            expect(this.troll.exhausted).toBe(true);
-            expect(this.player2.player.getCurrentKeyCost()).toBe(12);
+            expect(this.player2.player.getCurrentKeyCost()).toBe(6);
+            expect(this.player1).toHavePrompt('Which key would you like to forge?');
+            this.player1.clickPrompt('Blue');
             expect(this.princeBufo.location).toBe('discard');
-            expect(this.player2.amber).toBe(6);
-            expect(this.player2.getForgedKeys()).toBe(1);
+            expect(this.player2.amber).toBe(0);
+            expect(this.player2.getForgedKeys()).toBe(2);
+            this.player1.clickCard(this.troll);
+            expect(this.troll.exhausted).toBe(true);
             expect(this.player1).isReadyToTakeAction();
         });
     });

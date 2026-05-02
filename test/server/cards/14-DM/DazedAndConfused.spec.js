@@ -13,7 +13,7 @@ describe('Dazed and Confused', function () {
             });
         });
 
-        it('exhausts a creature and its neighbors, then stuns up to 2 exhausted creatures', function () {
+        it('exhausts a creature and its neighbors, then stuns 2 exhausted creatures', function () {
             this.player1.play(this.dazedAndConfused);
             this.player1.clickCard(this.urchin);
             expect(this.silvertooth.exhausted).toBe(false);
@@ -85,6 +85,55 @@ describe('Dazed and Confused', function () {
             expect(this.silvertooth.stunned).toBe(true);
             expect(this.urchin.stunned).toBe(true);
             expect(this.troll.stunned).toBe(false);
+            expect(this.player1).isReadyToTakeAction();
+        });
+    });
+
+    describe("Dazed and Confused's ability with limited creatures", function () {
+        it('forces you to stun 2 creatures if one friendly and one enemy creature are exhausted', function () {
+            this.setupTest({
+                player1: {
+                    house: 'unfathomable',
+                    hand: ['dazed-and-confused'],
+                    inPlay: ['silvertooth']
+                },
+                player2: {
+                    inPlay: ['troll']
+                }
+            });
+
+            this.silvertooth.exhaust();
+            this.player1.play(this.dazedAndConfused);
+            this.player1.clickCard(this.troll);
+            expect(this.silvertooth.exhausted).toBe(true);
+            expect(this.troll.exhausted).toBe(true);
+            this.player1.clickCard(this.troll);
+            expect(this.player1).not.toHavePrompt('Done');
+            expect(this.player1).toBeAbleToSelect(this.silvertooth);
+            this.player1.clickCard(this.silvertooth);
+            this.player1.clickPrompt('Done');
+            expect(this.silvertooth.stunned).toBe(true);
+            expect(this.troll.stunned).toBe(true);
+            expect(this.player1).isReadyToTakeAction();
+        });
+
+        it('lets you stun only one creature if there is only one creature total', function () {
+            this.setupTest({
+                player1: {
+                    house: 'unfathomable',
+                    hand: ['dazed-and-confused']
+                },
+                player2: {
+                    inPlay: ['troll']
+                }
+            });
+
+            this.player1.play(this.dazedAndConfused);
+            this.player1.clickCard(this.troll);
+            expect(this.troll.exhausted).toBe(true);
+            this.player1.clickCard(this.troll);
+            this.player1.clickPrompt('Done');
+            expect(this.troll.stunned).toBe(true);
             expect(this.player1).isReadyToTakeAction();
         });
     });
