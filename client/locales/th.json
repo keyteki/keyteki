@@ -392,6 +392,7 @@
     "{{card}} (play)": "{{card}} (เล่น)",
     "{{card}} (reap)": "{{card}} (เก็บเกี่ยว)",
     "How much amber do you want to use from {{card}}?": "คุณต้องการใช้อำพันตั้งแต่ {{card}} เท่าใด",
+    "How much amber would you like to pay your opponent?": "คุณต้องการจ่ายอำพันให้คู่ต่อสู้เท่าใด",
     "Do you wish to repeat this effect?": "คุณต้องการทำซ้ำเอฟเฟกต์นี้หรือไม่?",
     "Do you wish to move this creature to a flank?": "คุณต้องการที่จะย้ายสิ่งมีชีวิตนี้ไปด้านข้างหรือไม่?",
     "Do you wish to forge a key?": "คุณต้องการปลอมกุญแจหรือไม่?",

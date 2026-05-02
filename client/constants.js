@@ -164,6 +164,13 @@ export const Constants = {
             tideRequired: false,
             tokenRequired: false,
             prophecySupported: false
+        },
+        {
+            value: '928',
+            label: 'DM',
+            tideRequired: false,
+            tokenRequired: false,
+            prophecySupported: false
         }
     ],
     CardTypes: [
