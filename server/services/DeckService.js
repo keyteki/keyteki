@@ -1287,7 +1287,9 @@ class DeckService {
 
         let anomalies = {
             'ecto-charge': { anomalySet: 600, house: 'geistoid' },
+            ignitus: { anomalySet: 939, house: 'ouboros' },
             'near-future-lens': { anomalySet: 600, house: 'staralliance' },
+            'nizak-the-forgotten': { anomalySet: 453, house: 'ouboros' },
             'orb-of-wonder': { anomalySet: 453, house: 'sanctum' },
             'the-grim-reaper': { anomalySet: 453, house: 'geistoid' },
             'the-red-baron': { anomalySet: 453, house: 'skyborn' },
@@ -1385,7 +1387,8 @@ class DeckService {
             }
 
             if (anomalies[id] && anomalies[id].anomalySet !== card.expansion) {
-                // anomaly cards' real house
+                // Former anomaly cards use their printed house in regular sets.
+                delete retCard.anomaly;
                 retCard.house = anomalies[id].house;
                 retCard.image = `${retCard.id}-${retCard.house}`;
             }

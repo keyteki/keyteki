@@ -120,6 +120,10 @@ class CardImport {
                 'citizen-shrix': true,
                 'even-ivan': true,
                 'odd-clawde': true
+            },
+            928: {
+                ignitus: true,
+                'nizak-the-forgotten': true
             }
         };
 
